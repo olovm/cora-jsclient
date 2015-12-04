@@ -72,6 +72,7 @@
 	</properties>
 
 	<build>
+<!--
 		<plugins>
 			<plugin>
 				<groupId>com.kelveden</groupId>
@@ -102,5 +103,6 @@
 				</executions>
 			</plugin>
 		</plugins>
+-->
 	</build>
 </project>
