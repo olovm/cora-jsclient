@@ -1,0 +1,106 @@
+<!--
+  ~ Copyright 2015 Uppsala University Library
+  ~
+  ~ This file is part of Cora.
+  ~
+  ~     Cora is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     Cora is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>se.uu.ub.cora</groupId>
+		<artifactId>cora-parent</artifactId>
+		<version>0.3-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>jsclient</artifactId>
+	<version>0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>JS Client</name>
+
+	<scm>
+		<connection>scm:git:https://git.epc.ub.uu.se/epc/jsclient.git</connection>
+		<developerConnection>scm:git:https://git.epc.ub.uu.se/epc/jsclient.git</developerConnection>
+		<url>https://git.epc.ub.uu.se/epc/jsclient.git</url>
+	</scm>
+
+	<repositories>
+		<repository>
+			<id>epc-release</id>
+			<name>EPC Nexus Release Repository</name>
+			<url>http://epc.ub.uu.se/nexus/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>epc-snapshot</id>
+			<name>EPC Nexus Snapshot Repository</name>
+			<url>http://epc.ub.uu.se/nexus/content/groups/public-snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<updatePolicy>daily</updatePolicy>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<properties>
+		<sonar.language>js</sonar.language>
+		<sonar.sources>src/main/script</sonar.sources>
+		<sonar.tests>src/test/script</sonar.tests>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.kelveden</groupId>
+				<artifactId>maven-karma-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<configFile>karma.conf.js</configFile>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>pl.allegro</groupId>
+				<artifactId>grunt-maven-plugin</artifactId>
+				<version>1.5.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>npm</goal>
+							<goal>grunt</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
