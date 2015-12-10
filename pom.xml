@@ -68,7 +68,11 @@
 	<properties>
 		<sonar.language>js</sonar.language>
 		<sonar.sources>src/main/script</sonar.sources>
-		<sonar.tests>src/test/script</sonar.tests>
+		<sonar.tests>src/test/script/</sonar.tests>
+		<sonar.exclusions>lib/**</sonar.exclusions>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.javascript.jstest.reportsPath>target/surefire-reports</sonar.javascript.jstest.reportsPath>
+		<sonar.javascript.lcov.reportPath>target/karma-coverage/PhantomJS 1.9.8 (Linux 0.0.0)/lcov.info</sonar.javascript.lcov.reportPath>
 	</properties>
 
 	<build>
@@ -90,6 +94,11 @@
 					<groupId>pl.allegro</groupId>
 					<artifactId>grunt-maven-plugin</artifactId>
 					<version>1.5.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.7</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -126,15 +135,14 @@
 			</build>
 		</profile>
 		<profile>
-			<id>teamcity</id>
+			<id>sonar</id>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>com.kelveden</groupId>
 						<artifactId>maven-karma-plugin</artifactId>
 						<configuration>
-							<configFile>karma.conf.js</configFile>
-							<browsers>PhantomJS</browsers>
+							<configFile>sonar-karma.conf.js</configFile>
 						</configuration>
 					</plugin>
 				</plugins>
