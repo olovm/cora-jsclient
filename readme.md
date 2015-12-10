@@ -6,6 +6,6 @@ sudo npm install -g karma phantomjs karma-phantomjs-launcher karma-chrome-launch
 
 Javascript files can be minimized with grunt:
 
-sudo npm install -g grunt
+sudo npm install -g grunt-cli
 
 

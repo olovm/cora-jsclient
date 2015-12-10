@@ -93,6 +93,21 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>pl.allegro</groupId>
+				<artifactId>grunt-maven-plugin</artifactId>
+				<version>1.5.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>npm</goal>
+							<goal>grunt</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 	<profiles>
@@ -121,26 +136,6 @@
 							<configFile>karma.conf.js</configFile>
 							<browsers>PhantomJS</browsers>
 						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>grunt</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>pl.allegro</groupId>
-						<artifactId>grunt-maven-plugin</artifactId>
-						<version>1.5.1</version>
-						<executions>
-							<execution>
-								<goals>
-									<goal>npm</goal>
-									<goal>grunt</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
