@@ -19,7 +19,6 @@
  */
 
 function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
-//	var that = this;
 	var metadataId = metadataIdIn;
 	var metadataProvider = metadataProviderIn;
 	var pubSub = pubSubIn;
@@ -98,19 +97,19 @@ function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
 		var canRepeat = canChildReferenceRepeat(childReference);
 		for (var i3 = 0, len3 = repeatMin; i3 < len3; i3++) {
 			var childContainer = recursivelyCreateDataContainerForElementWithId(ref);
-			if(canRepeat){
-				childContainer['repeatId']=""+i3;
+			if (canRepeat) {
+				childContainer['repeatId'] = "" + i3;
 			}
 			childList.push(childContainer);
 		}
 	}
-	function canChildReferenceRepeat(childReference){
-		return getFirstAtomicValueByNameInData(childReference, 'repeatMax')>1;
+	function canChildReferenceRepeat(childReference) {
+		return getFirstAtomicValueByNameInData(childReference, 'repeatMax') > 1;
 	}
-	function getFirstAtomicValueByNameInData(dataStructure, name){
+	function getFirstAtomicValueByNameInData(dataStructure, name) {
 		return getFirstChildByNameInData(dataStructure, name).value;
 	}
-	
+
 	function hasAttributes(metadataElement) {
 		if (dataStructureContainsChild(metadataElement, 'attributeReferences')) {
 			return true;
@@ -138,7 +137,7 @@ function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
 		var children = dataStructure.children;
 		for (var i = 0; i < children.length; i++) {
 			var child = children[i];
-			if (child.name===name) {
+			if (child.name === name) {
 				return true;
 			}
 		}
@@ -148,20 +147,21 @@ function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
 	this.getPubSub = function() {
 		// priviledged
 		return pubSub;
-	}
+	};
 
 	this.getMetadataId = function() {
 		// priviledged
 		this.getPubSub();
 		return metadataId;
-	}
+	};
+
 	this.getData = function() {
 		return dataContainer;
-	}
+	};
 
 	this.setValue = function(path, value) {
 		tryToSetValueInContainerListUsingPath(dataContainer.children, path, value);
-	}
+	};
 
 	function tryToSetValueInContainerListUsingPath(dataContainer, path, value) {
 		try {
@@ -169,13 +169,12 @@ function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
 		} catch (e) {
 			throw new Error("path(" + JSON.stringify(path) + ") not found in dataContainers");
 		}
-
 	}
+
 	function setValueInContainerListUsingPath(dataContainers, path, value) {
 		// TODO: split findContainerAndAtomicPath into two functions
 		var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainers, path);
 		var containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
-		var atomicPath = foundContainerAndAtomicPath.path;
 		containerSpecifiedByPath["value"] = value;
 	}
 
@@ -195,7 +194,6 @@ function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
 	}
 
 	function findContainerByPathInCurrentLevel(dataContainers, path) {
-		var container = {};
 		var foundContainers = findContainersSpecifiedByNameInDataAndAttributes(dataContainers, path);
 		if (isPathSpecifyingARepeatingContainer(path)) {
 			return foundContainers[getFirstChildByNameInData(path, "repeatId").value];
@@ -212,10 +210,10 @@ function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
 			var container = containers[i];
 			if (containerIsSpecifiedByNameInDataAndAttributes(container, path)) {
 				if (isPathSpecifyingARepeatingContainer(path)) {
-					foundContainers[container.repeatId]=container;
-				}else {
-					foundContainers.push(container); 
-				} 
+					foundContainers[container.repeatId] = container;
+				} else {
+					foundContainers.push(container);
+				}
 			}
 		}
 		return foundContainers;
@@ -227,15 +225,10 @@ function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
 	}
 
 	function containerIsSpecifiedByNameInData(container, path) {
-		return container.name===getFirstChildByNameInData(path, "nameInData").value;
+		return container.name === getFirstChildByNameInData(path, "nameInData").value;
 	}
-	// TODO: change data format so that id is specified (possibly together with
-	// attribute) instead of having a level that only defines the id
-	// {"id":"someId", "attributes":{"anAttribute":"aFinalValue"},"children":[]}
-	// and for the atomic values as above but with "value" /"values" instead of
-	// children (needs some more thought)
+
 	function containerIsSpecifiedByAttributes(container, path) {
-		var attributesOk = true;
 		if (containerAndPathHasAttributes(container, path)) {
 			return containerHasSameAttributesAsPath(container, path);
 		}
@@ -250,12 +243,10 @@ function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
 	}
 
 	function containerAndPathDoesNotHaveAttributes(container, path) {
-		return pathDoesNotHaveAttributes(path)
-				&& containerDoesNotHaveAttributes(container);
+		return pathDoesNotHaveAttributes(path) && containerDoesNotHaveAttributes(container);
 	}
 
 	function containerHasSameAttributesAsPath(container, path) {
-		var nameInData = getFirstAtomicValueByNameInData(path, "nameInData");
 		var containerAttributes = container.attributes;
 		var pathAttributes = getFirstChildByNameInData(path, "attributes").children;
 		return containerHasAllPathAttributes(containerAttributes, pathAttributes)
@@ -279,48 +270,53 @@ function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
 		for (var i2 = 0; i2 < containerAttributeKeys.length; i2++) {
 			var containerAttributeKey = containerAttributeKeys[i2];
 			var containerAttributeValue = containerAttributes[containerAttributeKey];
-			var attributeFound = false;
-			if (pathAttributesDoesNotHaveNameAndValue(pathAttributes,containerAttributeKey,
+			if (pathAttributesDoesNotHaveNameAndValue(pathAttributes, containerAttributeKey,
 					containerAttributeValue)) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	function pathAttributesDoesNotHaveNameAndValue(pathAttributes, name, value){
+
+	function pathAttributesDoesNotHaveNameAndValue(pathAttributes, name, value) {
 		return !pathAttributesHasNameAndValue(pathAttributes, name, value);
 	}
-function pathAttributesHasNameAndValue(pathAttributes, name, value){
-	for (var i2 = 0; i2 < pathAttributes.length; i2++) {
-		var pathAttribute = pathAttributes[i2];
-		var pathAttributeKey = getFirstAtomicValueByNameInData(pathAttribute, "attributeName");
-		var pathAttributeValue = getFirstAtomicValueByNameInData(pathAttribute, "attributeValue");
-		if (pathAttributeKey === name && pathAttributeValue===value) {
-			return true;
+	function pathAttributesHasNameAndValue(pathAttributes, name, value) {
+		for (var i2 = 0; i2 < pathAttributes.length; i2++) {
+			var pathAttribute = pathAttributes[i2];
+			var pathAttributeKey = getFirstAtomicValueByNameInData(pathAttribute, "attributeName");
+			var pathAttributeValue = getFirstAtomicValueByNameInData(pathAttribute,
+					"attributeValue");
+			if (pathAttributeKey === name && pathAttributeValue === value) {
+				return true;
+			}
 		}
+		return false;
+
 	}
-	return false;
-	
-}
+
 	function pathHasAttributes(path) {
 		return dataStructureContainsChild(path, "attributes");
 	}
+
 	function pathDoesNotHaveAttributes(path) {
 		return !pathHasAttributes(path);
 	}
+
 	function containerHasAttributes(container) {
 		return container.attributes !== undefined;
 	}
+
 	function containerDoesNotHaveAttributes(container) {
 		return !containerHasAttributes(container);
 	}
+
 	function isPathSpecifyingARepeatingContainer(path) {
 		return dataStructureContainsChild(path, "repeatId");
 	}
-	
+
 	function listContainsOneElement(list) {
-		return list.length == 1;
+		return list.length === 1;
 	}
 
 	function pathSpecifiesMoreLevels(path) {
@@ -330,7 +326,7 @@ function pathAttributesHasNameAndValue(pathAttributes, name, value){
 	this.addRepeat = function(jsonPath, metadataIdIn) {
 		var containerList = dataContainer["data"];
 		tryToAddRepeatInContainerListUsingPath(containerList, jsonPath, metadataIdIn);
-	}
+	};
 
 	function tryToAddRepeatInContainerListUsingPath(dataContainers, path, metadataIdIn) {
 		try {
