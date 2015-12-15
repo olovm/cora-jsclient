@@ -301,7 +301,7 @@ function createAttributeWithNameAndValue(attributeName, attributeValue){
 	        }
 }
 
-QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildOneAttribute", function() {
+QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildTwoAttributes", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildTwoAttributes", this.metadataProvider,
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
