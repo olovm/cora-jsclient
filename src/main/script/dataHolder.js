@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.DataHolder = function DataHolder(metadataIdIn, metadataProviderIn, pubSubIn) {
+	cora.DataHolder = function (metadataIdIn, metadataProviderIn, pubSubIn) {
 		var metadataId = metadataIdIn;
 		var metadataProvider = metadataProviderIn;
 		var pubSub = pubSubIn;
@@ -87,7 +87,7 @@ var CORA = (function(cora) {
 			var childList = [];
 			// loop children to current group
 			var childReferences = getFirstChildByNameInData(metadataElement, 'childReferences');
-			childReferences.children.forEach(function(childReference, index, array) {
+			childReferences.children.forEach(function(childReference) {
 				childList = childList.concat(createChild(childReference));
 			});
 			return childList;
@@ -126,7 +126,7 @@ var CORA = (function(cora) {
 			var attributeContainer = {};
 			var attributeReferences = getFirstChildByNameInData(metadataElement,
 					'attributeReferences');
-			attributeReferences.children.forEach(function(attributeReference, index, array) {
+			attributeReferences.children.forEach(function(attributeReference) {
 				var ref = attributeReference.value;
 				var attribute = getMetadataById(ref);
 				var attributeNameInData = getFirstAtomicValueByNameInData(attribute, 'nameInData');
@@ -141,7 +141,7 @@ var CORA = (function(cora) {
 
 		function dataStructureContainsChild(dataStructure, name) {
 			var children = dataStructure.children;
-			return children.some(function(child, index, array) {
+			return children.some(function(child) {
 				return child.name === name;
 			});
 		}
@@ -210,7 +210,7 @@ var CORA = (function(cora) {
 		function findContainersSpecifiedByNameInDataAndAttributes(containers, path) {
 			var foundContainers = [];
 
-			containers.forEach(function(container, index, array) {
+			containers.forEach(function(container) {
 				if (containerIsSpecifiedByNameInDataAndAttributes(container, path)) {
 					if (isPathSpecifyingARepeatingContainer(path)) {
 						foundContainers[container.repeatId] = container;
@@ -258,7 +258,7 @@ var CORA = (function(cora) {
 		}
 
 		function containerHasAllPathAttributes(containerAttributes, pathAttributes) {
-			return pathAttributes.every(function(pathAttribute, index, array) {
+			return pathAttributes.every(function(pathAttribute) {
 				var pathAttributeKey = getFirstAtomicValueByNameInData(pathAttribute,
 						"attributeName");
 				var pathAttributeValue = getFirstAtomicValueByNameInData(pathAttribute,
@@ -269,7 +269,7 @@ var CORA = (function(cora) {
 
 		function pathHasAllContainerAttributes(containerAttributes, pathAttributes) {
 			var containerAttributeKeys = Object.keys(containerAttributes);
-			return containerAttributeKeys.every(function(containerAttributeKey, index, array) {
+			return containerAttributeKeys.every(function(containerAttributeKey) {
 				var containerAttributeValue = containerAttributes[containerAttributeKey];
 				return pathAttributesHasNameAndValue(pathAttributes, containerAttributeKey,
 						containerAttributeValue);
@@ -277,7 +277,7 @@ var CORA = (function(cora) {
 		}
 
 		function pathAttributesHasNameAndValue(pathAttributes, name, value) {
-			return pathAttributes.some(function(pathAttribute, index, array) {
+			return pathAttributes.some(function(pathAttribute) {
 				var pathAttributeKey = getFirstAtomicValueByNameInData(pathAttribute,
 						"attributeName");
 				var pathAttributeValue = getFirstAtomicValueByNameInData(pathAttribute,
