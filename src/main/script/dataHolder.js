@@ -314,9 +314,9 @@ var CORA = (function(cora) {
 			return dataStructureContainsChild(path, "linkedPath");
 		}
 
-		this.addRepeat = function(jsonPath, metadataIdIn) {
+		this.addRepeat = function(parentPath, metadataIdToAdd) {
 			var containerList = dataContainer.data;
-			tryToAddRepeatInContainerListUsingPath(containerList, jsonPath, metadataIdIn);
+			tryToAddRepeatInContainerListUsingPath(containerList, parentPath, metadataIdToAdd);
 		};
 
 		function tryToAddRepeatInContainerListUsingPath(dataContainers, path, metadataIdIn) {
@@ -327,11 +327,11 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function addRepeatInContainerListUsingPath(dataContainers, path, metadataIdIn) {
-			var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainers, path);
+		function addRepeatInContainerListUsingPath(dataContainers, parentPath, metadataIdToAdd) {
+			var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainers, parentPath);
 			var containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
 			var atomicPath = foundContainerAndAtomicPath.path;
-			var newRepeat = recursivelyCreateDataContainerForElementWithId(metadataIdIn);
+			var newRepeat = recursivelyCreateDataContainerForElementWithId(metadataIdToAdd);
 			containerSpecifiedByPath[atomicPath.id].children.push(newRepeat);
 		}
 	};

@@ -214,8 +214,8 @@ QUnit.test("client.DataHolder.testSetValueTwoChildren", function() {
 QUnit.test("client.DataHolder.testSetValueOneChildMinRepeatThree", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeatingMinRepeatThree",
 			this.metadataProvider, this.pubSub);
-					dataHolder.setValue(
-					createLinkedPathWithNameInDataAndRepeatId("textVariableId","2")
+	var path = createLinkedPathWithNameInDataAndRepeatId("textVariableId","2")
+					dataHolder.setValue(path
 							, 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()), 
 			'{\"name"\:\"groupIdOneTextChildRepeatingMinRepeatThree\",'
@@ -438,18 +438,59 @@ QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildTwoAttributesPathH
 			+ ',\"anOtherAttribute\":\"aOtherFinalValue\"'
 			+'}' + '}]}');
 });
-/*
+
+
 QUnit.test("client.DataHolder.testAddRepeatOneChildMinRepeatThree", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeatingMinRepeatThree",
 			this.metadataProvider, this.pubSub);
-	dataHolder.addRepeat({
-		"id" : "groupIdOneTextChildRepeatingMinRepeatThree"
-	}, 'textVariableId');
-	deepEqual('{\"data\":[{\"groupIdOneTextChildRepeatingMinRepeatThree\":{\"children\":['
-			+ '{\"textVariableId\":\"\"}' + ',{\"textVariableId\":\"\"}'
-			+ ',{\"textVariableId\":\"\"},{\"textVariableId\":\"\"}]}}]}', JSON
-			.stringify(dataHolder.getData()));
+//	var path = createLinkedPathWithNameInData();
+//	console.log("EMPTY PATH:"+JSON.stringify(path));
+	var path = {};
+	dataHolder.addRepeat(path, "textVariableid", "repeatId");
+//			{
+//		"id" : "groupIdOneTextChildRepeatingMinRepeatThree"
+//	}, 'textVariableId');
+//	deepEqual('{\"data\":[{\"groupIdOneTextChildRepeatingMinRepeatThree\":{\"children\":['
+//			+ '{\"textVariableId\":\"\"}' + ',{\"textVariableId\":\"\"}'
+//			+ ',{\"textVariableId\":\"\"},{\"textVariableId\":\"\"}]}}]}', JSON
+//			.stringify(dataHolder.getData()));
+	deepEqual(JSON.stringify(dataHolder.getData()), 
+			'{\"name"\:\"groupIdOneTextChildRepeatingMinRepeatThree\",'
+			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"},'+
+			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"1\"},'+
+			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"2\"},'+
+			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"repeatId\"}'+']}');
 });
+/*
+
+QUnit.test("client.DataHolder.testCreatedOneChildMinRepeatThree", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeatingMinRepeatThree",
+			this.metadataProvider, this.pubSub);
+	deepEqual(JSON.stringify(dataHolder.getData()), 
+			'{\"name"\:\"groupIdOneTextChildRepeatingMinRepeatThree\",'
+			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"},'+
+			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"1\"},'+
+			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"2\"}'+']}');
+});
+QUnit.test("client.DataHolder.testCreatedOneChildGroupMinRepeatThree", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeatingMinRepeatThree",
+			this.metadataProvider, this.pubSub);
+	deepEqual(JSON.stringify(dataHolder.getData()),
+			'{\"name"\:\"groupIdOneChildGroupRepeatingMinRepeatThree\",'
+			+ '\"children\":['+
+			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"0\"},'+
+			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"1\"},'+
+			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"2\"}'+
+			']}');
+});
+
+
+
+
+
+
+
+
 QUnit.test("client.DataHolder.testAddRepeatOneGroupChildMinRepeatThree", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeatingMinRepeatThree",
 			this.metadataProvider, this.pubSub);
