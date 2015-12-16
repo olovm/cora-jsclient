@@ -31,7 +31,7 @@ QUnit.begin(function (args) {
 });
 // end workaround qunit does not report number of tests
 
-QUnit.module("DataHolder", {
+QUnit.module("CORA.DataHolder", {
 	setup : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubStub();
@@ -40,59 +40,69 @@ QUnit.module("DataHolder", {
 	}
 });
 
-QUnit.test("client.DataHolder.init", function() {
+QUnit.test("testInit", function() {
 	var dataHolder = new CORA.DataHolder("recordTypeOnlyMetadataIdChild", this.metadataProvider,
 			this.pubSub);
 	deepEqual("recordTypeOnlyMetadataIdChild", dataHolder.getMetadataId());
 	ok(dataHolder.getPubSub());
 }); 
 
-QUnit.test("client.DataHolder.testCreatedBroken", function() {
+QUnit.test("testCreateBroken", function() {
 	throws(function() {
 		new CORA.DataHolder("brokenMetadataNoNameInData", this.metadataProvider, this.pubSub)
 	}, "TypeError");
 }); 
 
-QUnit.test("client.DataHolder.testCreatedOneChild", function() {
+QUnit.test("testCreateOneChild", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name"\:\"groupIdOneTextChild\",'
 			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}]}');
 });
 
-QUnit.test("client.DataHolder.testCreatedGroupInGroupOneChild", function() {
+QUnit.test("testCreateGroupInGroupOneChild", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChild", this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name"\:\"groupInGroupOneTextChild\",'
 			+ '\"children\":[{\"name"\:\"groupIdOneTextChild\",'
 			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}]}]}');
 });
 
-QUnit.test("client.DataHolder.testCreatedTwoChild", function() {
+QUnit.test("testCreateTwoChild", function() {
 	var dataHolder = new CORA.DataHolder("groupIdTwoTextChild", this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name"\:\"groupIdTwoTextChild\",'
 			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"},'+
 			'{\"name\":\"textVariableId2\",\"value\":\"\"}]}');
 });
-QUnit.test("client.DataHolder.testCreatedOneChildMinRepeatThree", function() {
-	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeatingMinRepeatThree",
+
+QUnit.test("testCreateOneChildRepeat3to3", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat3to3",
 			this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()), 
-			'{\"name"\:\"groupIdOneTextChildRepeatingMinRepeatThree\",'
+			'{\"name"\:\"groupIdOneTextChildRepeat3to3\",'
 			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"},'+
 			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"1\"},'+
 			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"2\"}'+']}');
 });
-QUnit.test("client.DataHolder.testCreatedOneChildGroupMinRepeatThree", function() {
-	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeatingMinRepeatThree",
+QUnit.test("testCreateOneChildRepeat1toX", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat1toX",
+			this.metadataProvider, this.pubSub);
+	deepEqual(JSON.stringify(dataHolder.getData()), 
+			'{\"name"\:\"groupIdOneTextChildRepeat1toX\",'
+			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"}'
+			+']}');
+});
+
+QUnit.test("testCreateOneChildGroupRepeat3to3", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeat3to3",
 			this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupIdOneChildGroupRepeatingMinRepeatThree\",'
+			'{\"name"\:\"groupIdOneChildGroupRepeat3to3\",'
 			+ '\"children\":['+
 			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"0\"},'+
 			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"1\"},'+
 			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"2\"}'+
 			']}');
 });
-QUnit.test("client.DataHolder.testCreatedOneChildOneAttribute", function() {
+QUnit.test("testCreateOneChildOneAttribute", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildOneAttribute", this.metadataProvider,
 			this.pubSub); 
 	deepEqual(JSON.stringify(dataHolder.getData()),
@@ -100,17 +110,8 @@ QUnit.test("client.DataHolder.testCreatedOneChildOneAttribute", function() {
 			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
 			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}');
 });
-QUnit.test("client.DataHolder.testCreatedGroupInGroupOneTextChildOneAttribute", function() {
-	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildOneAttribute", this.metadataProvider,
-			this.pubSub); 
-	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
-});
 
-QUnit.test("client.DataHolder.testCreatedOneChildTwoAttributes", function() {
+QUnit.test("testCreateOneChildTwoAttributes", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildTwoAttributes", this.metadataProvider,
 			this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
@@ -120,7 +121,18 @@ QUnit.test("client.DataHolder.testCreatedOneChildTwoAttributes", function() {
 			+ ',\"anOtherAttribute\":\"aOtherFinalValue\"'
 			+'}' + '}');
 });
-QUnit.test("client.DataHolder.testCreatedGroupInGroupOneTextChildTwoAttributes", function() {
+
+QUnit.test("testCreateGroupInGroupOneTextChildOneAttribute", function() {
+	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildOneAttribute", this.metadataProvider,
+			this.pubSub); 
+	deepEqual(JSON.stringify(dataHolder.getData()),
+			'{\"name"\:\"groupInGroupOneTextChildOneAttribute\",'
+			+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
+			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
+			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
+});
+
+QUnit.test("testCreateGroupInGroupOneTextChildTwoAttributes", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildTwoAttributes", this.metadataProvider,
 			this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
@@ -131,7 +143,18 @@ QUnit.test("client.DataHolder.testCreatedGroupInGroupOneTextChildTwoAttributes",
 			+ ',\"anOtherAttribute\":\"aOtherFinalValue\"'
 			+'}' + '}]}');
 });
-QUnit.test("client.DataHolder.testCreatedOneChildOOOLLLLDDDD", function() {
+
+QUnit.test("testCreateGroupInGroupOneTextChildRepeat1to3OneAttribute", function() {
+	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildRepeat1to3OneAttribute", this.metadataProvider,
+			this.pubSub); 
+	deepEqual(JSON.stringify(dataHolder.getData()),
+			'{\"name"\:\"groupInGroupOneTextChildRepeat1to3OneAttribute\",'
+			+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
+			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
+			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"},"repeatId":"0"' + '}]}');
+});
+
+QUnit.test("testCreateOneChildOOOLLLLDDDD", function() {
 	var dataHolder = new CORA.DataHolder("recordTypeOnlyMetadataIdChild", this.metadataProvider,
 			this.pubSub);
 	deepEqual(JSON
@@ -139,7 +162,7 @@ QUnit.test("client.DataHolder.testCreatedOneChildOOOLLLLDDDD", function() {
 			'{\"name\":\"recordTypeOnlyMetadataIdChild\",\"children\":['+
 			'{\"name\":\"metadataId\",\"value\":\"\"}]}');
 });
-QUnit.test("client.DataHolder.testCreatedTwoChildren", function() {
+QUnit.test("testCreateTwoChildren", function() {
 	var dataHolder = new CORA.DataHolder("recordTypeOnlyMetadataIdPresentationViewIdChild",
 			this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
@@ -147,7 +170,7 @@ QUnit.test("client.DataHolder.testCreatedTwoChildren", function() {
 					+ '{\"name\":\"metadataId\",\"value\":\"\"},'
 					+ '{\"name\":\"presentationViewId\",\"value\":\"\"}]}');
 });
-QUnit.test("client.DataHolder.testCreatedMoreChildren", function() {
+QUnit.test("testCreateMoreChildren", function() {
 	var dataHolder = new CORA.DataHolder("recordType", this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
 			'{\"name\":\"recordType\",\"children\":['
@@ -164,7 +187,7 @@ QUnit.test("client.DataHolder.testCreatedMoreChildren", function() {
 			+ '{\"name\":\"permissionKey\",\"value\":\"\"},'
 			+ '{\"name\":\"selfPresentationViewId\",\"value\":\"\"}]}');
 });
-QUnit.test("client.DataHolder.testCreatedWithAttribute", function() {
+QUnit.test("testCreateWithAttribute", function() {
 	var dataHolder = new CORA.DataHolder("metadata", this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
 			'{\"name\":\"metadata\",\"children\":['
@@ -172,7 +195,7 @@ QUnit.test("client.DataHolder.testCreatedWithAttribute", function() {
 			+ '{\"name\":\"nameInData\",\"value\":\"\"},'
 			+ '{\"name\":\"textId\",\"value\":\"\"},'
 			+ '{\"name\":\"defTextId\",\"value\":\"\"},'
-			+ '{\"name\":\"attributeReferences\",\"children\":[{\"name\":\"ref\",\"value\":\"\"}]},'
+			+ '{\"name\":\"attributeReferences\",\"children\":[{\"name\":\"ref\",\"value\":\"\","repeatId":"0"}]},'
 			+ '{\"name\":\"childReferences\",\"children\":[{\"name\":\"childReference\",'
 			+'\"children\":[{\"name\":\"ref\",\"value\":\"\"},'
 			+'{\"name\":\"repeatMin\",\"value\":\"\"},'
@@ -182,11 +205,11 @@ QUnit.test("client.DataHolder.testCreatedWithAttribute", function() {
 			+'{\"name\":\"secretKey\",\"value\":\"\"},'
 			+'{\"name\":\"readOnly\",\"value\":\"\"},'
 			+'{\"name\":\"readOnlyKey\",\"value\":\"\"}'
-			+']}]}],'
+			+'],"repeatId":"0"}]}],'
 			+'\"attributes\":{\"recordTypeTypeCollectionVar\":\"aFinalValue\"}}');
 });
 
-QUnit.test("client.DataHolder.testSetValueOneChild", function() {
+QUnit.test("testSetValueOneChild", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider, this.pubSub);
 	dataHolder.setValue(createLinkedPathWithNameInData("textVariableId"), 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name\":\"groupIdOneTextChild\",'
@@ -203,7 +226,7 @@ function createLinkedPathWithNameInData(nameInData){
 	} 
 }
 
-QUnit.test("client.DataHolder.testSetValueTwoChildren", function() {
+QUnit.test("testSetValueTwoChildren", function() {
 	var dataHolder = new CORA.DataHolder("groupIdTwoTextChild", this.metadataProvider, this.pubSub);
 	dataHolder.setValue(createLinkedPathWithNameInData("textVariableId2"), 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name\":\"groupIdTwoTextChild\",'
@@ -211,14 +234,14 @@ QUnit.test("client.DataHolder.testSetValueTwoChildren", function() {
 			+ '{\"name\":\"textVariableId2\",\"value\":\"A Value\"}]}');
 });
 
-QUnit.test("client.DataHolder.testSetValueOneChildMinRepeatThree", function() {
-	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeatingMinRepeatThree",
+QUnit.test("testSetValueOneChildRepeat3to3", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat3to3",
 			this.metadataProvider, this.pubSub);
 	var path = createLinkedPathWithNameInDataAndRepeatId("textVariableId","2")
 					dataHolder.setValue(path
 							, 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()), 
-			'{\"name"\:\"groupIdOneTextChildRepeatingMinRepeatThree\",'
+			'{\"name"\:\"groupIdOneTextChildRepeat3to3\",'
 			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"},'+
 			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"1\"},'+
 			'{\"name\":\"textVariableId\",\"value\":\"A Value\",\"repeatId\":\"2\"}'+']}');
@@ -235,15 +258,26 @@ function createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId){
 		} ]
 	}
 }
-QUnit.test("client.DataHolder.testSetValueOneGroupChildMinRepeatThree", function() {
-	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeatingMinRepeatThree",
+QUnit.test("testSetValueOneChildRepeat1toX", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat1toX",
+			this.metadataProvider, this.pubSub);
+	var path = createLinkedPathWithNameInDataAndRepeatId("textVariableId","0")
+	dataHolder.setValue(path
+			, 'A Value');
+	deepEqual(JSON.stringify(dataHolder.getData()), 
+			'{\"name"\:\"groupIdOneTextChildRepeat1toX\",'
+			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"A Value\",\"repeatId\":\"0\"}'
+			+']}');
+});
+QUnit.test("testSetValueOneGroupChildRepeat3to3", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeat3to3",
 			this.metadataProvider, this.pubSub);
 	var path = createLinkedPathWithNameInDataAndRepeatId("groupIdOneTextChild", "1");
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	dataHolder.setValue(path
 	, 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupIdOneChildGroupRepeatingMinRepeatThree\",'
+			'{\"name"\:\"groupIdOneChildGroupRepeat3to3\",'
 			+ '\"children\":['+
 			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"0\"},'+
 			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"A Value\"}],\"repeatId\":\"1\"},'+
@@ -251,7 +285,7 @@ QUnit.test("client.DataHolder.testSetValueOneGroupChildMinRepeatThree", function
 			']}');
 });
 
-QUnit.test("client.DataHolder.testSetValueOneChildOneAttribute", function() {
+QUnit.test("testSetValueOneChildOneAttribute", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildOneAttribute", this.metadataProvider,
 			this.pubSub);
 	dataHolder.setValue(createLinkedPathWithNameInData("textVariableId"), 'A Value');
@@ -261,7 +295,19 @@ QUnit.test("client.DataHolder.testSetValueOneChildOneAttribute", function() {
 					+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}');
 });
 
-QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildOneAttribute", function() {
+QUnit.test("testSetValueOneChildTwoAttributes", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneTextChildTwoAttributes", this.metadataProvider,
+			this.pubSub);
+	dataHolder.setValue(createLinkedPathWithNameInData("textVariableId"), 'A Value');
+	deepEqual(JSON.stringify(dataHolder.getData()),
+			'{\"name"\:\"groupIdOneTextChildTwoAttributes\",'
+			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"A Value\"}]'
+			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"'
+			+ ',\"anOtherAttribute\":\"aOtherFinalValue\"'
+			+'}' + '}');
+});
+
+QUnit.test("testSetValueGroupInGroupOneChildOneAttribute", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildOneAttribute", this.metadataProvider,
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
@@ -285,7 +331,7 @@ function createAttributes(){
 }
 
 function createAttributeWithNameAndValue(attributeName, attributeValue){
-	return {
+	return { 
 	          "name": "attribute",
 	          "repeatId": "1",
 	          "children": [ 
@@ -301,7 +347,7 @@ function createAttributeWithNameAndValue(attributeName, attributeValue){
 	        }
 }
 
-QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildTwoAttributes", function() {
+QUnit.test("testSetValueGroupInGroupOneChildTwoAttributes", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildTwoAttributes", this.metadataProvider,
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
@@ -321,7 +367,23 @@ QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildTwoAttributes", fu
 					+ ',\"anOtherAttribute\":\"aOtherFinalValue\"' + '}' + '}]}');
 });
 
-QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildAttributeInPathNoAttributeInDataShouldNotSetValue", function() {
+QUnit.test("testSetValueGroupInGroupOneChildRepeat1to3OneAttribute", function() {
+	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildRepeat1to3OneAttribute", this.metadataProvider,
+			this.pubSub);
+	var path = createLinkedPathWithNameInDataAndRepeatId("groupIdOneTextChildOneAttribute","0");
+	var attributes = createAttributes();
+	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
+	path.children.push(attributes);
+	path.children.push(createLinkedPathWithNameInData("textVariableId"));
+	dataHolder.setValue(path, 'A Value');
+	deepEqual(JSON.stringify(dataHolder.getData()),
+			'{\"name"\:\"groupInGroupOneTextChildRepeat1to3OneAttribute\",'
+					+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
+					+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"A Value\"}]'
+					+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"},"repeatId":"0"' + '}]}');
+});
+
+QUnit.test("testSetValueGroupInGroupOneChildAttributeInPathNoAttributeInDataShouldNotSetValue", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChild", this.metadataProvider,
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChild");
@@ -338,7 +400,7 @@ QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildAttributeInPathNoA
 			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}]}]}');
 });
 
-QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildOneAttributeNoAttributeInPathShouldNotSetValue", function() {
+QUnit.test("testSetValueGroupInGroupOneChildOneAttributeNoAttributeInPathShouldNotSetValue", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildOneAttribute", this.metadataProvider,
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChild");
@@ -357,7 +419,7 @@ dataHolder.setValue(path
 			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
 });
 
-QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildOneAttributeWrongAttributeNameInPathShouldNotSetValue", function() {
+QUnit.test("testSetValueGroupInGroupOneChildOneAttributeWrongAttributeNameInPathShouldNotSetValue", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildOneAttribute", this.metadataProvider,
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
@@ -376,7 +438,7 @@ QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildOneAttributeWrongA
 			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
 			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
 });
-QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildOneAttributeWrongAttributeValueInPathShouldNotSetValue", function() {
+QUnit.test("testSetValueGroupInGroupOneChildOneAttributeWrongAttributeValueInPathShouldNotSetValue", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildOneAttribute", this.metadataProvider,
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
@@ -396,7 +458,7 @@ QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildOneAttributeWrongA
 			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
 });
 
-QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildOneAttributeOneAttributeToManyInPathShouldNotSetValue", function() {
+QUnit.test("testSetValueGroupInGroupOneChildOneAttributeOneAttributeToManyInPathShouldNotSetValue", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildOneAttribute", this.metadataProvider,
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
@@ -418,7 +480,7 @@ QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildOneAttributeOneAtt
 });
 
 
-QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildTwoAttributesPathHasOnlyOneAttributeShouldNotSetValue", function() {
+QUnit.test("testSetValueGroupInGroupOneChildTwoAttributesPathHasOnlyOneAttributeShouldNotSetValue", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildTwoAttributes", this.metadataProvider,
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
@@ -440,58 +502,75 @@ QUnit.test("client.DataHolder.testSetValueGroupInGroupOneChildTwoAttributesPathH
 });
 
 
-QUnit.test("client.DataHolder.testAddRepeatOneChildMinRepeatThree", function() {
-	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeatingMinRepeatThree",
+QUnit.test("testAddRepeatOneChildRepeat3to3", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat3to3",
 			this.metadataProvider, this.pubSub);
-//	var path = createLinkedPathWithNameInData();
-//	console.log("EMPTY PATH:"+JSON.stringify(path));
 	var path = {};
-	dataHolder.addRepeat(path, "textVariableid", "repeatId");
-//			{
-//		"id" : "groupIdOneTextChildRepeatingMinRepeatThree"
-//	}, 'textVariableId');
-//	deepEqual('{\"data\":[{\"groupIdOneTextChildRepeatingMinRepeatThree\":{\"children\":['
-//			+ '{\"textVariableId\":\"\"}' + ',{\"textVariableId\":\"\"}'
-//			+ ',{\"textVariableId\":\"\"},{\"textVariableId\":\"\"}]}}]}', JSON
-//			.stringify(dataHolder.getData()));
+	dataHolder.addRepeat(path, "textVariableId", "repeatId");
 	deepEqual(JSON.stringify(dataHolder.getData()), 
-			'{\"name"\:\"groupIdOneTextChildRepeatingMinRepeatThree\",'
+			'{\"name"\:\"groupIdOneTextChildRepeat3to3\",'
 			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"},'+
 			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"1\"},'+
 			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"2\"},'+
 			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"repeatId\"}'+']}');
 });
-/*
 
-QUnit.test("client.DataHolder.testCreatedOneChildMinRepeatThree", function() {
-	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeatingMinRepeatThree",
+
+QUnit.test("testAddRepeatOneChildRepeat1toX", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat1toX",
 			this.metadataProvider, this.pubSub);
+	var path = {};
+	dataHolder.addRepeat(path, "textVariableId", "repeatId");
 	deepEqual(JSON.stringify(dataHolder.getData()), 
-			'{\"name"\:\"groupIdOneTextChildRepeatingMinRepeatThree\",'
+			'{\"name"\:\"groupIdOneTextChildRepeat1toX\",'
 			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"},'+
-			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"1\"},'+
-			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"2\"}'+']}');
+			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"repeatId\"}'+']}');
 });
-QUnit.test("client.DataHolder.testCreatedOneChildGroupMinRepeatThree", function() {
-	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeatingMinRepeatThree",
+
+QUnit.test("testAddRepeatGroupIdOneChildGroupRepeat3to3", 
+		function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeat3to3",
 			this.metadataProvider, this.pubSub);
+	var path = {};
+	dataHolder.addRepeat(path, "groupIdOneTextChild", "repeatId");
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupIdOneChildGroupRepeatingMinRepeatThree\",'
+			'{\"name"\:\"groupIdOneChildGroupRepeat3to3\",'
 			+ '\"children\":['+
 			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"0\"},'+
 			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"1\"},'+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"2\"}'+
+			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"2\"},'+
+			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"repeatId\"}'+
 			']}');
+});
+QUnit.test("testAddRepeatGroupInGroupOneChildRepeat1to3OneAttribute", 
+		function() {
+	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildRepeat1to3OneAttribute",
+			this.metadataProvider, this.pubSub);
+//	var path = createLinkedPathWithNameInDataAndRepeatId("groupIdOneTextChildOneAttribute","0");
+//	var attributes = createAttributes();
+//	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
+//	path.children.push(attributes);
+//	path.children.push(createLinkedPathWithNameInData("textVariableId"));
+	var path = {};
+	dataHolder.addRepeat(path, "groupIdOneTextChildOneAttribute", "repeatId"); 
+
+	deepEqual(JSON.stringify(dataHolder.getData()),
+			'{\"name"\:\"groupInGroupOneTextChildRepeat1to3OneAttribute\",'
+			+ '\"children\":['+
+			'{\"name"\:\"groupIdOneTextChildOneAttribute\",'
+			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
+			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"},"repeatId":"0"},'
+			+'{\"name"\:\"groupIdOneTextChildOneAttribute\",'
+			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
+			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"},"repeatId":"repeatId"}'
++ ']}');
 });
 
 
+//TODO: add tests for: groupInGroupInGroupOneTextChildRepeat1to3OneAttribute, OneChildRepeat0to1
+/*
 
-
-
-
-
-
-QUnit.test("client.DataHolder.testAddRepeatOneGroupChildMinRepeatThree", function() {
+QUnit.test("testAddRepeatOneGroupChildMinRepeatThree", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeatingMinRepeatThree",
 			this.metadataProvider, this.pubSub);
 	dataHolder.addRepeat({
@@ -506,7 +585,7 @@ QUnit.test("client.DataHolder.testAddRepeatOneGroupChildMinRepeatThree", functio
 });
 QUnit
 		.test(
-				"client.DataHolder.testAddRepeatOneGroupChildMinRepeatThreeChild",
+				"CORA.DataHolder.testAddRepeatOneGroupChildMinRepeatThreeChild",
 				function() {
 					var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeatingMinRepeatThree",
 							this.metadataProvider, this.pubSub);

@@ -108,7 +108,12 @@ var CORA = (function(cora) {
 			return outList;
 		}
 		function canChildReferenceRepeat(childReference) {
-			return getFirstAtomicValueByNameInData(childReference, 'repeatMax') > 1;
+			
+			var repeatMax = getFirstAtomicValueByNameInData(childReference, 'repeatMax');
+			if("X"===repeatMax){
+				return true;
+			}
+			return repeatMax > 1;
 		}
 		function getFirstAtomicValueByNameInData(dataStructure, name) {
 			return getFirstChildByNameInData(dataStructure, name).value;
@@ -169,7 +174,7 @@ var CORA = (function(cora) {
 			try {
 				setValueInContainerListUsingPath(dataContainerPart, path, value);
 			} catch (e) {
-				throw new Error("path(" + JSON.stringify(path) + ") not found in dataContainers");
+				throw new Error("path(" + JSON.stringify(path) + ") not found in dataContainers:"+e);
 			}
 		}
 
@@ -314,25 +319,29 @@ var CORA = (function(cora) {
 			return dataStructureContainsChild(path, "linkedPath");
 		}
 
-		this.addRepeat = function(parentPath, metadataIdToAdd) {
-			var containerList = dataContainer.data;
-			tryToAddRepeatInContainerListUsingPath(containerList, parentPath, metadataIdToAdd);
+		this.addRepeat = function(parentPath, metadataIdToAdd, repeatId) {
+			tryToAddRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
 		};
 
-		function tryToAddRepeatInContainerListUsingPath(dataContainers, path, metadataIdIn) {
+		function tryToAddRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
 			try {
-				addRepeatInContainerListUsingPath(dataContainers, path, metadataIdIn);
+				addRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
 			} catch (e) {
-				throw new Error("path(" + JSON.stringify(path) + ") not found in dataContainers");
+				throw new Error("path(" + JSON.stringify(parentPath) + ") not found in dataContainers:"+e);
 			}
 		}
 
-		function addRepeatInContainerListUsingPath(dataContainers, parentPath, metadataIdToAdd) {
-			var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainers, parentPath);
-			var containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
-			var atomicPath = foundContainerAndAtomicPath.path;
+		function addRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
+			var containerSpecifiedByPath = dataContainer; 
+			if(parentPath.nameInData !== undefined){
+				var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainer, parentPath);
+				containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
+			}
+//			var atomicPath = foundContainerAndAtomicPath.path;
 			var newRepeat = recursivelyCreateDataContainerForElementWithId(metadataIdToAdd);
-			containerSpecifiedByPath[atomicPath.id].children.push(newRepeat);
+//			containerSpecifiedByPath[atomicPath.id].children.push(newRepeat);
+			newRepeat.repeatId = repeatId;
+			containerSpecifiedByPath.children.push(newRepeat);
 		}
 	};
 	return cora;
