@@ -215,6 +215,7 @@ var CORA = (function(cora) {
 		function findContainersSpecifiedByNameInDataAndAttributes(containers, path) {
 			var foundContainers = [];
 
+			console.log("containers:"+JSON.stringify(containers));
 			containers.forEach(function(container) {
 				if (containerIsSpecifiedByNameInDataAndAttributes(container, path)) {
 					if (isPathSpecifyingARepeatingContainer(path)) {
@@ -332,10 +333,14 @@ var CORA = (function(cora) {
 		}
 
 		function addRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
+			console.log("addRepeatInContainerListUsingPath:"+JSON.stringify(parentPath));
 			var containerSpecifiedByPath = dataContainer; 
-			if(parentPath.nameInData !== undefined){
-				var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainer, parentPath);
+			if(parentPath.children !== undefined){
+				console.log("addRepeatInContainerListUsingPath2:"+JSON.stringify(parentPath));
+				var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainer.children,
+						parentPath);
 				containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
+				console.log("foundContainerAndAtomicPath:"+JSON.stringify(foundContainerAndAtomicPath));
 			}
 //			var atomicPath = foundContainerAndAtomicPath.path;
 			var newRepeat = recursivelyCreateDataContainerForElementWithId(metadataIdToAdd);

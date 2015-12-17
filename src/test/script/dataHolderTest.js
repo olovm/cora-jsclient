@@ -55,39 +55,47 @@ QUnit.test("testCreateBroken", function() {
 
 QUnit.test("testCreateOneChild", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider, this.pubSub);
-	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name"\:\"groupIdOneTextChild\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}]}');
+	deepEqual(JSON.stringify(dataHolder.getData()), '{"name":"groupIdOneTextChild",'
+			+ '"children":[{"name":"textVariableId","value":""}]}');
 });
 
 QUnit.test("testCreateGroupInGroupOneChild", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChild", this.metadataProvider, this.pubSub);
-	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name"\:\"groupInGroupOneTextChild\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChild\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}]}]}');
+	deepEqual(JSON.stringify(dataHolder.getData()), '{"name":"groupInGroupOneTextChild",'
+			+ '"children":[{"name":"groupIdOneTextChild",'
+			+ '"children":[{"name":"textVariableId","value":""}]}]}');
 });
 
 QUnit.test("testCreateTwoChild", function() {
 	var dataHolder = new CORA.DataHolder("groupIdTwoTextChild", this.metadataProvider, this.pubSub);
-	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name"\:\"groupIdTwoTextChild\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"},'+
-			'{\"name\":\"textVariableId2\",\"value\":\"\"}]}');
+	deepEqual(JSON.stringify(dataHolder.getData()), '{"name":"groupIdTwoTextChild",'
+			+ '"children":[{"name":"textVariableId","value":""},'+
+			'{"name":"textVariableId2","value":""}]}');
+});
+
+QUnit.test("testCreateOneChildRepeat0to1", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat0to1",
+			this.metadataProvider, this.pubSub);
+	deepEqual(JSON.stringify(dataHolder.getData()), 
+			'{"name":"groupIdOneTextChildRepeat0to1",'
+			+ '"children":['+']}');
 });
 
 QUnit.test("testCreateOneChildRepeat3to3", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat3to3",
 			this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()), 
-			'{\"name"\:\"groupIdOneTextChildRepeat3to3\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"},'+
-			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"1\"},'+
-			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"2\"}'+']}');
+			'{"name":"groupIdOneTextChildRepeat3to3",'
+			+ '"children":[{"name":"textVariableId","value":"","repeatId":"0"},'+
+			'{"name":"textVariableId","value":"","repeatId":"1"},'+
+			'{"name":"textVariableId","value":"","repeatId":"2"}'+']}');
 });
 QUnit.test("testCreateOneChildRepeat1toX", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat1toX",
 			this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()), 
-			'{\"name"\:\"groupIdOneTextChildRepeat1toX\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"}'
+			'{"name":"groupIdOneTextChildRepeat1toX",'
+			+ '"children":[{"name":"textVariableId","value":"","repeatId":"0"}'
 			+']}');
 });
 
@@ -95,30 +103,30 @@ QUnit.test("testCreateOneChildGroupRepeat3to3", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeat3to3",
 			this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupIdOneChildGroupRepeat3to3\",'
-			+ '\"children\":['+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"0\"},'+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"1\"},'+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"2\"}'+
+			'{"name":"groupIdOneChildGroupRepeat3to3",'
+			+ '"children":['+
+			'{"name":"groupIdOneTextChild","children":[{"name":"textVariableId","value":""}],"repeatId":"0"},'+
+			'{"name":"groupIdOneTextChild","children":[{"name":"textVariableId","value":""}],"repeatId":"1"},'+
+			'{"name":"groupIdOneTextChild","children":[{"name":"textVariableId","value":""}],"repeatId":"2"}'+
 			']}');
 });
 QUnit.test("testCreateOneChildOneAttribute", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildOneAttribute", this.metadataProvider,
 			this.pubSub); 
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}');
+			'{"name":"groupIdOneTextChildOneAttribute",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"}' + '}');
 });
 
 QUnit.test("testCreateOneChildTwoAttributes", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildTwoAttributes", this.metadataProvider,
 			this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupIdOneTextChildTwoAttributes\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"'
-			+ ',\"anOtherAttribute\":\"aOtherFinalValue\"'
+			'{"name":"groupIdOneTextChildTwoAttributes",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"'
+			+ ',"anOtherAttribute":"aOtherFinalValue"'
 			+'}' + '}');
 });
 
@@ -126,21 +134,21 @@ QUnit.test("testCreateGroupInGroupOneTextChildOneAttribute", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildOneAttribute", this.metadataProvider,
 			this.pubSub); 
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
+			'{"name":"groupInGroupOneTextChildOneAttribute",'
+			+ '"children":[{"name":"groupIdOneTextChildOneAttribute",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"}' + '}]}');
 });
 
 QUnit.test("testCreateGroupInGroupOneTextChildTwoAttributes", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildTwoAttributes", this.metadataProvider,
 			this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildTwoAttributes\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChildTwoAttributes\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"'
-			+ ',\"anOtherAttribute\":\"aOtherFinalValue\"'
+			'{"name":"groupInGroupOneTextChildTwoAttributes",'
+			+ '"children":[{"name":"groupIdOneTextChildTwoAttributes",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"'
+			+ ',"anOtherAttribute":"aOtherFinalValue"'
 			+'}' + '}]}');
 });
 
@@ -148,10 +156,20 @@ QUnit.test("testCreateGroupInGroupOneTextChildRepeat1to3OneAttribute", function(
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildRepeat1to3OneAttribute", this.metadataProvider,
 			this.pubSub); 
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildRepeat1to3OneAttribute\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"},"repeatId":"0"' + '}]}');
+			'{"name":"groupInGroupOneTextChildRepeat1to3OneAttribute",'
+			+ '"children":[{"name":"groupIdOneTextChildOneAttribute",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"},"repeatId":"0"' + '}]}');
+});
+
+QUnit.test("testCreateTextVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup", function() {
+	var dataHolder = new CORA.DataHolder("textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup", this.metadataProvider,
+			this.pubSub); 
+	deepEqual(JSON.stringify(dataHolder.getData()),
+			'{"name":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",'
+			+ '"children":[{"name":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup",'
+			+ '"children":[]'
+			+ ',"repeatId":"0"' + '}]}');
 });
 
 QUnit.test("testCreateOneChildOOOLLLLDDDD", function() {
@@ -159,61 +177,61 @@ QUnit.test("testCreateOneChildOOOLLLLDDDD", function() {
 			this.pubSub);
 	deepEqual(JSON
 			.stringify(dataHolder.getData()),
-			'{\"name\":\"recordTypeOnlyMetadataIdChild\",\"children\":['+
-			'{\"name\":\"metadataId\",\"value\":\"\"}]}');
+			'{"name":"recordTypeOnlyMetadataIdChild","children":['+
+			'{"name":"metadataId","value":""}]}');
 });
 QUnit.test("testCreateTwoChildren", function() {
 	var dataHolder = new CORA.DataHolder("recordTypeOnlyMetadataIdPresentationViewIdChild",
 			this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name\":\"recordTypeOnlyMetadataIdPresentationViewIdChild\",\"children\":['
-					+ '{\"name\":\"metadataId\",\"value\":\"\"},'
-					+ '{\"name\":\"presentationViewId\",\"value\":\"\"}]}');
+			'{"name":"recordTypeOnlyMetadataIdPresentationViewIdChild","children":['
+					+ '{"name":"metadataId","value":""},'
+					+ '{"name":"presentationViewId","value":""}]}');
 });
 QUnit.test("testCreateMoreChildren", function() {
 	var dataHolder = new CORA.DataHolder("recordType", this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name\":\"recordType\",\"children\":['
-			+ '{\"name\":\"metadataId\",\"value\":\"\"},'
-			+ '{\"name\":\"recordInfo\",\"children\":[{\"name\":\"id\",\"value\":\"\"}]},'
-			+ '{\"name\":\"presentationViewId\",\"value\":\"\"},'
-			+ '{\"name\":\"presentationFormId\",\"value\":\"\"},'
-			+ '{\"name\":\"newMetadataId\",\"value\":\"\"},'
-			+ '{\"name\":\"newPresentationFormId\",\"value\":\"\"},'
-			+ '{\"name\":\"listPresentationViewId\",\"value\":\"\"},'
-			+ '{\"name\":\"searchMetadataId\",\"value\":\"\"},'
-			+ '{\"name\":\"searchPresentationFormId\",\"value\":\"\"},'
-			+ '{\"name\":\"userSuppliedId\",\"value\":\"\"},'
-			+ '{\"name\":\"permissionKey\",\"value\":\"\"},'
-			+ '{\"name\":\"selfPresentationViewId\",\"value\":\"\"}]}');
+			'{"name":"recordType","children":['
+			+ '{"name":"metadataId","value":""},'
+			+ '{"name":"recordInfo","children":[{"name":"id","value":""}]},'
+			+ '{"name":"presentationViewId","value":""},'
+			+ '{"name":"presentationFormId","value":""},'
+			+ '{"name":"newMetadataId","value":""},'
+			+ '{"name":"newPresentationFormId","value":""},'
+			+ '{"name":"listPresentationViewId","value":""},'
+			+ '{"name":"searchMetadataId","value":""},'
+			+ '{"name":"searchPresentationFormId","value":""},'
+			+ '{"name":"userSuppliedId","value":""},'
+			+ '{"name":"permissionKey","value":""},'
+			+ '{"name":"selfPresentationViewId","value":""}]}');
 });
 QUnit.test("testCreateWithAttribute", function() {
 	var dataHolder = new CORA.DataHolder("metadata", this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name\":\"metadata\",\"children\":['
-			+ '{\"name\":\"recordInfo\",\"children\":[{\"name\":\"id\",\"value\":\"\"}]},'
-			+ '{\"name\":\"nameInData\",\"value\":\"\"},'
-			+ '{\"name\":\"textId\",\"value\":\"\"},'
-			+ '{\"name\":\"defTextId\",\"value\":\"\"},'
-			+ '{\"name\":\"attributeReferences\",\"children\":[{\"name\":\"ref\",\"value\":\"\","repeatId":"0"}]},'
-			+ '{\"name\":\"childReferences\",\"children\":[{\"name\":\"childReference\",'
-			+'\"children\":[{\"name\":\"ref\",\"value\":\"\"},'
-			+'{\"name\":\"repeatMin\",\"value\":\"\"},'
-			+'{\"name\":\"repeatMinKey\",\"value\":\"\"},'
-			+'{\"name\":\"repeatMax\",\"value\":\"\"},'
-			+'{\"name\":\"secret\",\"value\":\"\"},'
-			+'{\"name\":\"secretKey\",\"value\":\"\"},'
-			+'{\"name\":\"readOnly\",\"value\":\"\"},'
-			+'{\"name\":\"readOnlyKey\",\"value\":\"\"}'
+			'{"name":"metadata","children":['
+			+ '{"name":"recordInfo","children":[{"name":"id","value":""}]},'
+			+ '{"name":"nameInData","value":""},'
+			+ '{"name":"textId","value":""},'
+			+ '{"name":"defTextId","value":""},'
+			+ '{"name":"attributeReferences","children":[{"name":"ref","value":"","repeatId":"0"}]},'
+			+ '{"name":"childReferences","children":[{"name":"childReference",'
+			+'"children":[{"name":"ref","value":""},'
+			+'{"name":"repeatMin","value":""},'
+			+'{"name":"repeatMinKey","value":""},'
+			+'{"name":"repeatMax","value":""},'
+			+'{"name":"secret","value":""},'
+			+'{"name":"secretKey","value":""},'
+			+'{"name":"readOnly","value":""},'
+			+'{"name":"readOnlyKey","value":""}'
 			+'],"repeatId":"0"}]}],'
-			+'\"attributes\":{\"recordTypeTypeCollectionVar\":\"aFinalValue\"}}');
+			+'"attributes":{"recordTypeTypeCollectionVar":"aFinalValue"}}');
 });
 
 QUnit.test("testSetValueOneChild", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider, this.pubSub);
 	dataHolder.setValue(createLinkedPathWithNameInData("textVariableId"), 'A Value');
-	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name\":\"groupIdOneTextChild\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"A Value\"}]}');
+	deepEqual(JSON.stringify(dataHolder.getData()), '{"name":"groupIdOneTextChild",'
+			+ '"children":[{"name":"textVariableId","value":"A Value"}]}');
 });
 
 function createLinkedPathWithNameInData(nameInData){
@@ -229,9 +247,9 @@ function createLinkedPathWithNameInData(nameInData){
 QUnit.test("testSetValueTwoChildren", function() {
 	var dataHolder = new CORA.DataHolder("groupIdTwoTextChild", this.metadataProvider, this.pubSub);
 	dataHolder.setValue(createLinkedPathWithNameInData("textVariableId2"), 'A Value');
-	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name\":\"groupIdTwoTextChild\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"},'
-			+ '{\"name\":\"textVariableId2\",\"value\":\"A Value\"}]}');
+	deepEqual(JSON.stringify(dataHolder.getData()), '{"name":"groupIdTwoTextChild",'
+			+ '"children":[{"name":"textVariableId","value":""},'
+			+ '{"name":"textVariableId2","value":"A Value"}]}');
 });
 
 QUnit.test("testSetValueOneChildRepeat3to3", function() {
@@ -241,10 +259,10 @@ QUnit.test("testSetValueOneChildRepeat3to3", function() {
 					dataHolder.setValue(path
 							, 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()), 
-			'{\"name"\:\"groupIdOneTextChildRepeat3to3\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"},'+
-			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"1\"},'+
-			'{\"name\":\"textVariableId\",\"value\":\"A Value\",\"repeatId\":\"2\"}'+']}');
+			'{"name":"groupIdOneTextChildRepeat3to3",'
+			+ '"children":[{"name":"textVariableId","value":"","repeatId":"0"},'+
+			'{"name":"textVariableId","value":"","repeatId":"1"},'+
+			'{"name":"textVariableId","value":"A Value","repeatId":"2"}'+']}');
 });
 function createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId){
 	return {
@@ -265,8 +283,8 @@ QUnit.test("testSetValueOneChildRepeat1toX", function() {
 	dataHolder.setValue(path
 			, 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()), 
-			'{\"name"\:\"groupIdOneTextChildRepeat1toX\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"A Value\",\"repeatId\":\"0\"}'
+			'{"name":"groupIdOneTextChildRepeat1toX",'
+			+ '"children":[{"name":"textVariableId","value":"A Value","repeatId":"0"}'
 			+']}');
 });
 QUnit.test("testSetValueOneGroupChildRepeat3to3", function() {
@@ -277,11 +295,11 @@ QUnit.test("testSetValueOneGroupChildRepeat3to3", function() {
 	dataHolder.setValue(path
 	, 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupIdOneChildGroupRepeat3to3\",'
-			+ '\"children\":['+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"0\"},'+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"A Value\"}],\"repeatId\":\"1\"},'+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"2\"}'+
+			'{"name":"groupIdOneChildGroupRepeat3to3",'
+			+ '"children":['+
+			'{"name":"groupIdOneTextChild","children":[{"name":"textVariableId","value":""}],"repeatId":"0"},'+
+			'{"name":"groupIdOneTextChild","children":[{"name":"textVariableId","value":"A Value"}],"repeatId":"1"},'+
+			'{"name":"groupIdOneTextChild","children":[{"name":"textVariableId","value":""}],"repeatId":"2"}'+
 			']}');
 });
 
@@ -290,9 +308,9 @@ QUnit.test("testSetValueOneChildOneAttribute", function() {
 			this.pubSub);
 	dataHolder.setValue(createLinkedPathWithNameInData("textVariableId"), 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-					+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"A Value\"}]'
-					+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}');
+			'{"name":"groupIdOneTextChildOneAttribute",'
+					+ '"children":[{"name":"textVariableId","value":"A Value"}]'
+					+ ',"attributes":{"anAttribute":"aFinalValue"}' + '}');
 });
 
 QUnit.test("testSetValueOneChildTwoAttributes", function() {
@@ -300,10 +318,10 @@ QUnit.test("testSetValueOneChildTwoAttributes", function() {
 			this.pubSub);
 	dataHolder.setValue(createLinkedPathWithNameInData("textVariableId"), 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupIdOneTextChildTwoAttributes\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"A Value\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"'
-			+ ',\"anOtherAttribute\":\"aOtherFinalValue\"'
+			'{"name":"groupIdOneTextChildTwoAttributes",'
+			+ '"children":[{"name":"textVariableId","value":"A Value"}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"'
+			+ ',"anOtherAttribute":"aOtherFinalValue"'
 			+'}' + '}');
 });
 
@@ -317,10 +335,10 @@ QUnit.test("testSetValueGroupInGroupOneChildOneAttribute", function() {
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	dataHolder.setValue(path, 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildOneAttribute\",'
-					+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-					+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"A Value\"}]'
-					+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
+			'{"name":"groupInGroupOneTextChildOneAttribute",'
+					+ '"children":[{"name":"groupIdOneTextChildOneAttribute",'
+					+ '"children":[{"name":"textVariableId","value":"A Value"}]'
+					+ ',"attributes":{"anAttribute":"aFinalValue"}' + '}]}');
 });
 
 function createAttributes(){
@@ -360,11 +378,11 @@ QUnit.test("testSetValueGroupInGroupOneChildTwoAttributes", function() {
 
 	dataHolder.setValue(path, 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildTwoAttributes\",'
-					+ '\"children\":[{\"name"\:\"groupIdOneTextChildTwoAttributes\",'
-					+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"A Value\"}]'
-					+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"'
-					+ ',\"anOtherAttribute\":\"aOtherFinalValue\"' + '}' + '}]}');
+			'{"name":"groupInGroupOneTextChildTwoAttributes",'
+					+ '"children":[{"name":"groupIdOneTextChildTwoAttributes",'
+					+ '"children":[{"name":"textVariableId","value":"A Value"}]'
+					+ ',"attributes":{"anAttribute":"aFinalValue"'
+					+ ',"anOtherAttribute":"aOtherFinalValue"' + '}' + '}]}');
 });
 
 QUnit.test("testSetValueGroupInGroupOneChildRepeat1to3OneAttribute", function() {
@@ -377,10 +395,10 @@ QUnit.test("testSetValueGroupInGroupOneChildRepeat1to3OneAttribute", function() 
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	dataHolder.setValue(path, 'A Value');
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildRepeat1to3OneAttribute\",'
-					+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-					+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"A Value\"}]'
-					+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"},"repeatId":"0"' + '}]}');
+			'{"name":"groupInGroupOneTextChildRepeat1to3OneAttribute",'
+					+ '"children":[{"name":"groupIdOneTextChildOneAttribute",'
+					+ '"children":[{"name":"textVariableId","value":"A Value"}]'
+					+ ',"attributes":{"anAttribute":"aFinalValue"},"repeatId":"0"' + '}]}');
 });
 
 QUnit.test("testSetValueGroupInGroupOneChildAttributeInPathNoAttributeInDataShouldNotSetValue", function() {
@@ -395,9 +413,9 @@ QUnit.test("testSetValueGroupInGroupOneChildAttributeInPathNoAttributeInDataShou
 	dataHolder.setValue(path
 			, 'A Value');
 	}, "Error");
-	deepEqual(JSON.stringify(dataHolder.getData()), '{\"name"\:\"groupInGroupOneTextChild\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChild\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}]}]}');
+	deepEqual(JSON.stringify(dataHolder.getData()), '{"name":"groupInGroupOneTextChild",'
+			+ '"children":[{"name":"groupIdOneTextChild",'
+			+ '"children":[{"name":"textVariableId","value":""}]}]}');
 });
 
 QUnit.test("testSetValueGroupInGroupOneChildOneAttributeNoAttributeInPathShouldNotSetValue", function() {
@@ -413,10 +431,10 @@ dataHolder.setValue(path
 		, 'A Value');
 	}, "Error");
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
+			'{"name":"groupInGroupOneTextChildOneAttribute",'
+			+ '"children":[{"name":"groupIdOneTextChildOneAttribute",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"}' + '}]}');
 });
 
 QUnit.test("testSetValueGroupInGroupOneChildOneAttributeWrongAttributeNameInPathShouldNotSetValue", function() {
@@ -433,10 +451,10 @@ QUnit.test("testSetValueGroupInGroupOneChildOneAttributeWrongAttributeNameInPath
 			, 'A Value');
 	}, "Error");
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
+			'{"name":"groupInGroupOneTextChildOneAttribute",'
+			+ '"children":[{"name":"groupIdOneTextChildOneAttribute",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"}' + '}]}');
 });
 QUnit.test("testSetValueGroupInGroupOneChildOneAttributeWrongAttributeValueInPathShouldNotSetValue", function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildOneAttribute", this.metadataProvider,
@@ -452,10 +470,10 @@ QUnit.test("testSetValueGroupInGroupOneChildOneAttributeWrongAttributeValueInPat
 				, 'A Value');
 	}, "Error");
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
+			'{"name":"groupInGroupOneTextChildOneAttribute",'
+			+ '"children":[{"name":"groupIdOneTextChildOneAttribute",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"}' + '}]}');
 });
 
 QUnit.test("testSetValueGroupInGroupOneChildOneAttributeOneAttributeToManyInPathShouldNotSetValue", function() {
@@ -473,10 +491,10 @@ QUnit.test("testSetValueGroupInGroupOneChildOneAttributeOneAttributeToManyInPath
 				, 'A Value');
 	}, "Error");
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"}' + '}]}');
+			'{"name":"groupInGroupOneTextChildOneAttribute",'
+			+ '"children":[{"name":"groupIdOneTextChildOneAttribute",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"}' + '}]}');
 });
 
 
@@ -493,14 +511,24 @@ QUnit.test("testSetValueGroupInGroupOneChildTwoAttributesPathHasOnlyOneAttribute
 		dataHolder.setValue(path, 'A Value');
 	}, "Error");
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildTwoAttributes\",'
-			+ '\"children\":[{\"name"\:\"groupIdOneTextChildTwoAttributes\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"'
-			+ ',\"anOtherAttribute\":\"aOtherFinalValue\"'
+			'{"name":"groupInGroupOneTextChildTwoAttributes",'
+			+ '"children":[{"name":"groupIdOneTextChildTwoAttributes",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"'
+			+ ',"anOtherAttribute":"aOtherFinalValue"'
 			+'}' + '}]}');
 });
 
+QUnit.test("testAddRepeatOneChildRepeat0to1", function() {
+	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat0to1",
+			this.metadataProvider, this.pubSub);
+	var path = {};
+	dataHolder.addRepeat(path, "textVariableId", "repeatId");
+	deepEqual(JSON.stringify(dataHolder.getData()), 
+			'{"name":"groupIdOneTextChildRepeat0to1",'
+			+ '"children":['+
+			'{"name":"textVariableId","value":"","repeatId":"repeatId"}'+']}');
+});
 
 QUnit.test("testAddRepeatOneChildRepeat3to3", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat3to3",
@@ -508,13 +536,12 @@ QUnit.test("testAddRepeatOneChildRepeat3to3", function() {
 	var path = {};
 	dataHolder.addRepeat(path, "textVariableId", "repeatId");
 	deepEqual(JSON.stringify(dataHolder.getData()), 
-			'{\"name"\:\"groupIdOneTextChildRepeat3to3\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"},'+
-			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"1\"},'+
-			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"2\"},'+
-			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"repeatId\"}'+']}');
+			'{"name":"groupIdOneTextChildRepeat3to3",'
+			+ '"children":[{"name":"textVariableId","value":"","repeatId":"0"},'+
+			'{"name":"textVariableId","value":"","repeatId":"1"},'+
+			'{"name":"textVariableId","value":"","repeatId":"2"},'+
+			'{"name":"textVariableId","value":"","repeatId":"repeatId"}'+']}');
 });
-
 
 QUnit.test("testAddRepeatOneChildRepeat1toX", function() {
 	var dataHolder = new CORA.DataHolder("groupIdOneTextChildRepeat1toX",
@@ -522,9 +549,9 @@ QUnit.test("testAddRepeatOneChildRepeat1toX", function() {
 	var path = {};
 	dataHolder.addRepeat(path, "textVariableId", "repeatId");
 	deepEqual(JSON.stringify(dataHolder.getData()), 
-			'{\"name"\:\"groupIdOneTextChildRepeat1toX\",'
-			+ '\"children\":[{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"0\"},'+
-			'{\"name\":\"textVariableId\",\"value\":\"\",\"repeatId\":\"repeatId\"}'+']}');
+			'{"name":"groupIdOneTextChildRepeat1toX",'
+			+ '"children":[{"name":"textVariableId","value":"","repeatId":"0"},'+
+			'{"name":"textVariableId","value":"","repeatId":"repeatId"}'+']}');
 });
 
 QUnit.test("testAddRepeatGroupIdOneChildGroupRepeat3to3", 
@@ -534,55 +561,59 @@ QUnit.test("testAddRepeatGroupIdOneChildGroupRepeat3to3",
 	var path = {};
 	dataHolder.addRepeat(path, "groupIdOneTextChild", "repeatId");
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupIdOneChildGroupRepeat3to3\",'
-			+ '\"children\":['+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"0\"},'+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"1\"},'+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"2\"},'+
-			'{\"name\":\"groupIdOneTextChild\",\"children\":[{\"name\":\"textVariableId\",\"value\":\"\"}],\"repeatId\":\"repeatId\"}'+
+			'{"name":"groupIdOneChildGroupRepeat3to3",'
+			+ '"children":['+
+			'{"name":"groupIdOneTextChild","children":[{"name":"textVariableId","value":""}],"repeatId":"0"},'+
+			'{"name":"groupIdOneTextChild","children":[{"name":"textVariableId","value":""}],"repeatId":"1"},'+
+			'{"name":"groupIdOneTextChild","children":[{"name":"textVariableId","value":""}],"repeatId":"2"},'+
+			'{"name":"groupIdOneTextChild","children":[{"name":"textVariableId","value":""}],"repeatId":"repeatId"}'+
 			']}');
 });
 QUnit.test("testAddRepeatGroupInGroupOneChildRepeat1to3OneAttribute", 
 		function() {
 	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChildRepeat1to3OneAttribute",
 			this.metadataProvider, this.pubSub);
-//	var path = createLinkedPathWithNameInDataAndRepeatId("groupIdOneTextChildOneAttribute","0");
-//	var attributes = createAttributes();
-//	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
-//	path.children.push(attributes);
-//	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	var path = {};
 	dataHolder.addRepeat(path, "groupIdOneTextChildOneAttribute", "repeatId"); 
 
 	deepEqual(JSON.stringify(dataHolder.getData()),
-			'{\"name"\:\"groupInGroupOneTextChildRepeat1to3OneAttribute\",'
-			+ '\"children\":['+
-			'{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"},"repeatId":"0"},'
-			+'{\"name"\:\"groupIdOneTextChildOneAttribute\",'
-			+ '\"children\":[{\"name"\:\"textVariableId\",\"value"\:\"\"}]'
-			+ ',\"attributes\":{\"anAttribute\":\"aFinalValue\"},"repeatId":"repeatId"}'
+			'{"name":"groupInGroupOneTextChildRepeat1to3OneAttribute",'
+			+ '"children":['+
+			'{"name":"groupIdOneTextChildOneAttribute",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"},"repeatId":"0"},'
+			+'{"name":"groupIdOneTextChildOneAttribute",'
+			+ '"children":[{"name":"textVariableId","value":""}]'
+			+ ',"attributes":{"anAttribute":"aFinalValue"},"repeatId":"repeatId"}'
 + ']}');
 });
 
-
+//textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup
+//textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup
+//textVarRepeat1to3InGroupOneAttribute
+//textVar
+QUnit.test("testAddRepeatTextVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup", 
+		function() {
+			var dataHolder = new CORA.DataHolder(
+					"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",
+					this.metadataProvider, this.pubSub);
+			var path = createLinkedPathWithNameInDataAndRepeatId(
+					"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup", "0");
+			dataHolder.addRepeat(path, "textVarRepeat1to3InGroupOneAttribute", "repeatId");
+	
+			deepEqual(
+					JSON.stringify(dataHolder.getData()),
+					'{"name":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",'
+							+ '"children":[{"name":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup",'
+							+ '"children":[{"name":"textVarRepeat1to3InGroupOneAttribute",'
+							+ '"children":[{"name":"textVar","value":"","repeatId":"0"}],'
+							+ '"attributes":{"anAttribute":"aFinalValue"}'
+							+ ',"repeatId":"repeatId"' + '}]' + ',"repeatId":"0"' + '}]}');
+});
+//textVarOneAttributeRepeat1to3InGroupRepeat0to2InGroupRepeat1to3InGroup
 //TODO: add tests for: groupInGroupInGroupOneTextChildRepeat1to3OneAttribute, OneChildRepeat0to1
 /*
 
-QUnit.test("testAddRepeatOneGroupChildMinRepeatThree", function() {
-	var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeatingMinRepeatThree",
-			this.metadataProvider, this.pubSub);
-	dataHolder.addRepeat({
-		"id" : "groupIdOneChildGroupRepeatingMinRepeatThree"
-	}, 'groupIdOneTextChild');
-	deepEqual('{\"data\":[{\"groupIdOneChildGroupRepeatingMinRepeatThree\":{\"children\":['
-			+ '{\"groupIdOneTextChild\":{\"children\":[{\"textVariableId\":\"\"}]}}'
-			+ ',{\"groupIdOneTextChild\":{\"children\":[{\"textVariableId\":\"\"}]}}'
-			+ ',{\"groupIdOneTextChild\":{\"children\":[{\"textVariableId\":\"\"}]}}'
-			+ ',{\"groupIdOneTextChild\":{\"children\":[{\"textVariableId\":\"\"}]}}' + ']}}]}',
-			JSON.stringify(dataHolder.getData()));
-});
 QUnit
 		.test(
 				"CORA.DataHolder.testAddRepeatOneGroupChildMinRepeatThreeChild",
@@ -597,10 +628,10 @@ QUnit
 						}
 					}, 'textVariableId');
 					deepEqual(
-							'{\"data\":[{\"groupIdOneChildGroupRepeatingMinRepeatThree\":{\"children\":['
-									+ '{\"groupIdOneTextChild\":{\"children\":[{\"textVariableId\":\"\"}]}}'
-									+ ',{\"groupIdOneTextChild\":{\"children\":[{\"textVariableId\":\"\"},{\"textVariableId\":\"\"}]}}'
-									+ ',{\"groupIdOneTextChild\":{\"children\":[{\"textVariableId\":\"\"}]}}'
+							'{"data":[{"groupIdOneChildGroupRepeatingMinRepeatThree":{"children":['
+									+ '{"groupIdOneTextChild":{"children":[{"textVariableId":""}]}}'
+									+ ',{"groupIdOneTextChild":{"children":[{"textVariableId":""},{"textVariableId":""}]}}'
+									+ ',{"groupIdOneTextChild":{"children":[{"textVariableId":""}]}}'
 									+ ']}}]}', JSON.stringify(dataHolder.getData()));
 				});
 */
