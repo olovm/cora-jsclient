@@ -108,7 +108,6 @@ var CORA = (function(cora) {
 			return outList;
 		}
 		function canChildReferenceRepeat(childReference) {
-			
 			var repeatMax = getFirstAtomicValueByNameInData(childReference, 'repeatMax');
 			if("X"===repeatMax){
 				return true;
@@ -331,7 +330,7 @@ var CORA = (function(cora) {
 		}
 
 		function addRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
-			var containerSpecifiedByPath = dataContainer; 
+			var containerSpecifiedByPath = dataContainer;
 			if(parentPath.children !== undefined){
 				var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainer.children,
 						parentPath);
