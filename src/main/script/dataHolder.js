@@ -58,7 +58,8 @@ var CORA = (function(cora) {
 
 		function addContainerContenceFromElement(dataContainerPart, metadataElement) {
 			if (isGroup(metadataElement)) {
-				return addGroupParts(dataContainerPart, metadataElement);
+				addGroupParts(dataContainerPart, metadataElement);
+				return dataContainerPart;
 			}
 
 			// it is a variable
@@ -80,7 +81,6 @@ var CORA = (function(cora) {
 			if (hasAttributes(metadataElement)) {
 				dataContainerPart.attributes = createAttributesContainer(metadataElement);
 			}
-			return dataContainerPart;
 		}
 
 		function createChildList(metadataElement) {
@@ -108,7 +108,11 @@ var CORA = (function(cora) {
 			return outList;
 		}
 		function canChildReferenceRepeat(childReference) {
-			return getFirstAtomicValueByNameInData(childReference, 'repeatMax') > 1;
+			var repeatMax = getFirstAtomicValueByNameInData(childReference, 'repeatMax');
+			if("X"===repeatMax){
+				return true;
+			}
+			return repeatMax > 1;
 		}
 		function getFirstAtomicValueByNameInData(dataStructure, name) {
 			return getFirstChildByNameInData(dataStructure, name).value;
@@ -169,7 +173,7 @@ var CORA = (function(cora) {
 			try {
 				setValueInContainerListUsingPath(dataContainerPart, path, value);
 			} catch (e) {
-				throw new Error("path(" + JSON.stringify(path) + ") not found in dataContainers");
+				throw new Error("path(" + JSON.stringify(path) + ") not found in dataContainers:"+e);
 			}
 		}
 
@@ -204,12 +208,11 @@ var CORA = (function(cora) {
 			if (listContainsOneElement(foundContainers)) {
 				return foundContainers[0];
 			}
-			throw new Error("path(" + path.id + ") not found dataContainers");
+			throw new Error("path(" + JSON.stringify(path) + ") not found dataContainers");
 		}
 
 		function findContainersSpecifiedByNameInDataAndAttributes(containers, path) {
 			var foundContainers = [];
-
 			containers.forEach(function(container) {
 				if (containerIsSpecifiedByNameInDataAndAttributes(container, path)) {
 					if (isPathSpecifyingARepeatingContainer(path)) {
@@ -314,25 +317,28 @@ var CORA = (function(cora) {
 			return dataStructureContainsChild(path, "linkedPath");
 		}
 
-		this.addRepeat = function(jsonPath, metadataIdIn) {
-			var containerList = dataContainer.data;
-			tryToAddRepeatInContainerListUsingPath(containerList, jsonPath, metadataIdIn);
+		this.addRepeat = function(parentPath, metadataIdToAdd, repeatId) {
+			tryToAddRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
 		};
 
-		function tryToAddRepeatInContainerListUsingPath(dataContainers, path, metadataIdIn) {
+		function tryToAddRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
 			try {
-				addRepeatInContainerListUsingPath(dataContainers, path, metadataIdIn);
+				addRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
 			} catch (e) {
-				throw new Error("path(" + JSON.stringify(path) + ") not found in dataContainers");
+				throw new Error("path(" + JSON.stringify(parentPath) + ") not found in dataContainers:"+e);
 			}
 		}
 
-		function addRepeatInContainerListUsingPath(dataContainers, path, metadataIdIn) {
-			var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainers, path);
-			var containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
-			var atomicPath = foundContainerAndAtomicPath.path;
-			var newRepeat = recursivelyCreateDataContainerForElementWithId(metadataIdIn);
-			containerSpecifiedByPath[atomicPath.id].children.push(newRepeat);
+		function addRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
+			var containerSpecifiedByPath = dataContainer;
+			if(parentPath.children !== undefined){
+				var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainer.children,
+						parentPath);
+				containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
+			}
+			var newRepeat = recursivelyCreateDataContainerForElementWithId(metadataIdToAdd);
+			newRepeat.repeatId = repeatId;
+			containerSpecifiedByPath.children.push(newRepeat);
 		}
 	};
 	return cora;
