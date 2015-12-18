@@ -58,7 +58,8 @@ var CORA = (function(cora) {
 
 		function addContainerContenceFromElement(dataContainerPart, metadataElement) {
 			if (isGroup(metadataElement)) {
-				return addGroupParts(dataContainerPart, metadataElement);
+				addGroupParts(dataContainerPart, metadataElement);
+				return dataContainerPart;
 			}
 
 			// it is a variable
@@ -80,7 +81,6 @@ var CORA = (function(cora) {
 			if (hasAttributes(metadataElement)) {
 				dataContainerPart.attributes = createAttributesContainer(metadataElement);
 			}
-			return dataContainerPart;
 		}
 
 		function createChildList(metadataElement) {
@@ -209,13 +209,11 @@ var CORA = (function(cora) {
 			if (listContainsOneElement(foundContainers)) {
 				return foundContainers[0];
 			}
-			throw new Error("path(" + path.id + ") not found dataContainers");
+			throw new Error("path(" + JSON.stringify(path) + ") not found dataContainers");
 		}
 
 		function findContainersSpecifiedByNameInDataAndAttributes(containers, path) {
 			var foundContainers = [];
-
-			console.log("containers:"+JSON.stringify(containers));
 			containers.forEach(function(container) {
 				if (containerIsSpecifiedByNameInDataAndAttributes(container, path)) {
 					if (isPathSpecifyingARepeatingContainer(path)) {
@@ -333,18 +331,13 @@ var CORA = (function(cora) {
 		}
 
 		function addRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
-			console.log("addRepeatInContainerListUsingPath:"+JSON.stringify(parentPath));
 			var containerSpecifiedByPath = dataContainer; 
 			if(parentPath.children !== undefined){
-				console.log("addRepeatInContainerListUsingPath2:"+JSON.stringify(parentPath));
 				var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainer.children,
 						parentPath);
 				containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
-				console.log("foundContainerAndAtomicPath:"+JSON.stringify(foundContainerAndAtomicPath));
 			}
-//			var atomicPath = foundContainerAndAtomicPath.path;
 			var newRepeat = recursivelyCreateDataContainerForElementWithId(metadataIdToAdd);
-//			containerSpecifiedByPath[atomicPath.id].children.push(newRepeat);
 			newRepeat.repeatId = repeatId;
 			containerSpecifiedByPath.children.push(newRepeat);
 		}

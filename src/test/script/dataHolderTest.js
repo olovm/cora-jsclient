@@ -49,7 +49,7 @@ QUnit.test("testInit", function() {
 
 QUnit.test("testCreateBroken", function() {
 	throws(function() {
-		new CORA.DataHolder("brokenMetadataNoNameInData", this.metadataProvider, this.pubSub)
+		new CORA.DataHolder("brokenMetadataNoNameInData", this.metadataProvider, this.pubSub);
 	}, "TypeError");
 }); 
 
@@ -465,7 +465,6 @@ QUnit.test("testSetValueGroupInGroupOneChildOneAttributeWrongAttributeValueInPat
 	path.children.push(attributes);
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	throws(function() {
-		
 		dataHolder.setValue(path
 				, 'A Value');
 	}, "Error");
@@ -610,28 +609,51 @@ QUnit.test("testAddRepeatTextVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRe
 							+ '"attributes":{"anAttribute":"aFinalValue"}'
 							+ ',"repeatId":"repeatId"' + '}]' + ',"repeatId":"0"' + '}]}');
 });
-//textVarOneAttributeRepeat1to3InGroupRepeat0to2InGroupRepeat1to3InGroup
-//TODO: add tests for: groupInGroupInGroupOneTextChildRepeat1to3OneAttribute, OneChildRepeat0to1
-/*
+QUnit.test("testAddRepeatTextVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup2", 
+		function() {
+	var dataHolder = new CORA.DataHolder(
+			"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",
+			this.metadataProvider, this.pubSub);
+	var path = createLinkedPathWithNameInDataAndRepeatId(
+			"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup", "0");
+	dataHolder.addRepeat(path, "textVarRepeat1to3InGroupOneAttribute", "repeatId");
+	
+	var path2 = createLinkedPathWithNameInDataAndRepeatId("textVarRepeat1to3InGroupOneAttribute",
+			"repeatId"); 
+	var attributes = createAttributes();
+	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
+	path2.children.push(attributes);
+	path.children.push(path2);
+	dataHolder.addRepeat(path, "textVar", "one");
+	 
+	
+	deepEqual(
+			JSON.stringify(dataHolder.getData()),
+			'{"name":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",'
+			+ '"children":[{"name":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup",'
+			+ '"children":[{"name":"textVarRepeat1to3InGroupOneAttribute",'
+			+ '"children":[{"name":"textVar","value":"","repeatId":"0"},'
+			+'{"name":"textVar","value":"","repeatId":"one"}],'
+			+ '"attributes":{"anAttribute":"aFinalValue"}'
+			+ ',"repeatId":"repeatId"' + '}]' + ',"repeatId":"0"' + '}]}');
+});
 
-QUnit
-		.test(
-				"CORA.DataHolder.testAddRepeatOneGroupChildMinRepeatThreeChild",
-				function() {
-					var dataHolder = new CORA.DataHolder("groupIdOneChildGroupRepeatingMinRepeatThree",
-							this.metadataProvider, this.pubSub);
-					dataHolder.addRepeat({
-						"id" : "groupIdOneChildGroupRepeatingMinRepeatThree",
-						"forChild" : {
-							"id" : "groupIdOneTextChild",
-							"repeatNo" : 1
-						}
-					}, 'textVariableId');
-					deepEqual(
-							'{"data":[{"groupIdOneChildGroupRepeatingMinRepeatThree":{"children":['
-									+ '{"groupIdOneTextChild":{"children":[{"textVariableId":""}]}}'
-									+ ',{"groupIdOneTextChild":{"children":[{"textVariableId":""},{"textVariableId":""}]}}'
-									+ ',{"groupIdOneTextChild":{"children":[{"textVariableId":""}]}}'
-									+ ']}}]}', JSON.stringify(dataHolder.getData()));
-				});
-*/
+QUnit.test("testAddRepeatTextVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroupWrongNameInDataInPathNothingShouldBeAdded", 
+		function() {
+	
+	var dataHolder = new CORA.DataHolder(
+			"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",
+			this.metadataProvider, this.pubSub);
+	var path = createLinkedPathWithNameInDataAndRepeatId(
+			"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupWRONG", "0");
+	throws(function() {
+		dataHolder.addRepeat(path, "textVarRepeat1to3InGroupOneAttribute", "repeatId");
+	}, "Error");
+	
+	deepEqual(
+			JSON.stringify(dataHolder.getData()),
+			'{"name":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",'
+			+ '"children":[{"name":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup",'
+			+ '"children":[]' + ',"repeatId":"0"' + '}]}');
+});
+
