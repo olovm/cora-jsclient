@@ -59,13 +59,6 @@ QUnit.test("testCreateOneChild", function() {
 			+ '"children":[{"name":"textVariableId","value":""}]}');
 });
 
-QUnit.test("testCreateGroupInGroupOneChild", function() {
-	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChild", this.metadataProvider, this.pubSub);
-	deepEqual(JSON.stringify(dataHolder.getData()), '{"name":"groupInGroupOneTextChild",'
-			+ '"children":[{"name":"groupIdOneTextChild",'
-			+ '"children":[{"name":"textVariableId","value":""}]}]}');
-});
-
 QUnit.test("testCreateTwoChild", function() {
 	var dataHolder = new CORA.DataHolder("groupIdTwoTextChild", this.metadataProvider, this.pubSub);
 	deepEqual(JSON.stringify(dataHolder.getData()), '{"name":"groupIdTwoTextChild",'
@@ -128,6 +121,13 @@ QUnit.test("testCreateOneChildTwoAttributes", function() {
 			+ ',"attributes":{"anAttribute":"aFinalValue"'
 			+ ',"anOtherAttribute":"aOtherFinalValue"'
 			+'}' + '}');
+});
+
+QUnit.test("testCreateGroupInGroupOneChild", function() {
+	var dataHolder = new CORA.DataHolder("groupInGroupOneTextChild", this.metadataProvider, this.pubSub);
+	deepEqual(JSON.stringify(dataHolder.getData()), '{"name":"groupInGroupOneTextChild",'
+			+ '"children":[{"name":"groupIdOneTextChild",'
+			+ '"children":[{"name":"textVariableId","value":""}]}]}');
 });
 
 QUnit.test("testCreateGroupInGroupOneTextChildOneAttribute", function() {
