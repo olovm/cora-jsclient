@@ -24,36 +24,37 @@ var CORA = (function(cora) {
 		var topLevelData = dataIn;
 		var metadataProvider = metadataProviderIn;
 		var pubSub = pubSubIn;
-		var hasInitialData = dataIn !== undefined;
 
-		var topLevelMetadataElement = getMetadataById(topLevelMetadataId);
-		var topLevelChildReferences = getFirstChildByNameInData(topLevelMetadataElement,
-				'childReferences');
-		var topLevelPath = {};
-		initializeFirstLevelChildren(topLevelChildReferences, topLevelPath, topLevelData);
+		initializeFirstLevel();
 
-		function initializeFirstLevelChildren(childReferences, path, data) {
-			// childReferences.children.forEach(initializeFirstLevelChild,
-			// path);
+		function initializeFirstLevel() {
+			var topLevelMetadataElement = getMetadataById(topLevelMetadataId);
+			var topLevelChildReferences = getFirstChildByNameInData(topLevelMetadataElement,
+					'childReferences');
+			var topLevelPath = {};
+			initializeNextLevelChildren(topLevelChildReferences, topLevelPath, topLevelData);
+		}
+
+		function initializeNextLevelChildren(childReferences, path, data) {
 			childReferences.children.forEach(function(childReference) {
-				initializeFirstLevelChild(childReference, path, data);
+				initializeNextLevelChild(childReference, path, data);
 			});
 		}
 
-		function initializeFirstLevelChild(childReference, path, data) {
+		function initializeNextLevelChild(childReference, path, data) {
+			var hasData = data !== undefined;
 			var ref = getFirstAtomicValueByNameInData(childReference, 'ref');
 			var metadataElement = getMetadataById(ref);
 			var nameInData = getFirstAtomicValueByNameInData(metadataElement, "nameInData");
 
 			var generatedRepeatId = 0;
-			if (hasInitialData) {
+			if (hasData) {
 				generatedRepeatId = calculateMaxRepeatIdFromData(data, nameInData);
 			}
 			if (shouldRepeat(childReference)) {
 				var repeatMin = getFirstAtomicValueByNameInData(childReference, "repeatMin");
-				if (hasInitialData) {
-					var noOfData = dataStructureContainsNoOfChildrenWithNameInData(data,
-							nameInData);
+				if (hasData) {
+					var noOfData = dataStructureContainsNoOfChildrenWithNameInData(data, nameInData);
 					if (noOfData > repeatMin) {
 						repeatMin = noOfData;
 					}
@@ -61,9 +62,8 @@ var CORA = (function(cora) {
 				for (var i = 0; i < repeatMin; i++) {
 					var dataChild = undefined;
 					var repeatId = String(i);
-					if (hasInitialData
-							&& dataStructureContainsChildWithNameInDataAndIndex(data,
-									nameInData, i)) {
+					if (hasData
+							&& dataStructureContainsChildWithNameInDataAndIndex(data, nameInData, i)) {
 						dataChild = getChildByNameInDataAndIndex(data, nameInData, i);
 						repeatId = dataChild.repeatId;
 					} else {
@@ -73,10 +73,13 @@ var CORA = (function(cora) {
 					recursivelyInitializeForMetadataWithId(ref, path, dataChild, repeatId);
 				}
 			} else {
-				if (hasInitialData) {
+
+				if (hasData && dataStructureContainsChildWithNameInData(data, nameInData)) {
 					var dataChild = getFirstChildByNameInData(data, nameInData);
+					recursivelyInitializeForMetadataWithId(ref, path, dataChild);
+				}else{
+					recursivelyInitializeForMetadataWithId(ref, path, undefined);
 				}
-				recursivelyInitializeForMetadataWithId(ref, path, dataChild);
 			}
 		}
 
@@ -160,7 +163,7 @@ var CORA = (function(cora) {
 			}
 			return false;
 		}
-		function dataStructureContainsChild(dataStructure, name) {
+		function dataStructureContainsChildWithNameInData(dataStructure, name) {
 			var children = dataStructure.children;
 			return children.some(function(child) {
 				return child.name === name;
@@ -168,13 +171,7 @@ var CORA = (function(cora) {
 		}
 
 		function recursivelyInitializeForMetadataWithId(metadataId, path, data, repeatId) {
-			console.log("metadataIdmetadataIdmetadataIdmetadataId:" + metadataId);
 			var metadataElement = getMetadataById(metadataId);
-			//			var attributes = undefined;
-			//			if(hasAttributes(metadataElement)){
-			//				attributes = createAttributesContainer(metadataElement);
-			//				path.attributes = attributes;
-			//			}
 			if (isGroup(metadataElement)) {
 				recursivelyInitializeGroup(metadataId, path, data, repeatId);
 			} else {
@@ -187,7 +184,7 @@ var CORA = (function(cora) {
 		}
 
 		function hasAttributes(metadataElement) {
-			if (dataStructureContainsChild(metadataElement, 'attributeReferences')) {
+			if (dataStructureContainsChildWithNameInData(metadataElement, 'attributeReferences')) {
 				return true;
 			}
 			return false;
@@ -225,7 +222,7 @@ var CORA = (function(cora) {
 				} ]
 			};
 		}
-		
+
 		function isGroup(metadataElement) {
 			var type = metadataElement.attributes.type;
 			if (type === "group" || type === "childGroup") {
@@ -261,9 +258,8 @@ var CORA = (function(cora) {
 			if (repeatId !== undefined) {
 				childPathPart = createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId);
 			}
-			var attributes = undefined;
+			var attributes;
 			if (hasAttributes(metadataElement)) {
-				//				attributes = createAttributesContainer(metadataElement);
 				attributes = createAttributes(metadataElement);
 				childPathPart.children.push(attributes);
 			}
@@ -275,7 +271,7 @@ var CORA = (function(cora) {
 
 			var nextLevelChildReferences = getFirstChildByNameInData(metadataElement,
 					'childReferences');
-			initializeFirstLevelChildren(nextLevelChildReferences, nextLevelPath, data);
+			initializeNextLevelChildren(nextLevelChildReferences, nextLevelPath, data);
 		}
 
 		function initializeVariable(metadataId, path, data, repeatId) {
@@ -302,34 +298,25 @@ var CORA = (function(cora) {
 				if (repeatId !== undefined) {
 					childPath = createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId);
 				}
-				console.log("hasAttributeshasAttributeshas:" + JSON.stringify(metadataElement));
 				if (hasAttributes(metadataElement)) {
-					console.log("hasAttributeshasAttributeshasAttributeshasAttributes");
 					var attributes = createAttributes(metadataElement);
 					childPath.children.push(attributes);
 				}
-				
-				
+
 				var nextLevelPath = JSON.parse(JSON.stringify(path));
 
 				var childPathPart = createLinkedPathWithNameInData(nameInData);
 				if (repeatId !== undefined) {
 					childPathPart = createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId);
 				}
-				var attributes = undefined;
-//				if (hasAttributes(metadataElement)) {
-//					//				attributes = createAttributesContainer(metadataElement);
-//					attributes = createAttributes(metadataElement);
-//					childPathPart.children.push(attributes);
-//				}
 				if (nextLevelPath.name !== undefined) {
-//					nextLevelPath.children.push(childPathPart);
+					// nextLevelPath.children.push(childPathPart);
 					var lowestPath = findLowestPath(nextLevelPath);
 					lowestPath.children.push(childPathPart);
 				} else {
 					nextLevelPath = childPathPart;
 				}
-				
+
 				var message = {
 					"data" : data.value,
 					"path" : nextLevelPath
@@ -337,12 +324,12 @@ var CORA = (function(cora) {
 				pubSub.publish("setValue", message);
 			}
 		}
-function findLowestPath(path){
-	if(dataStructureContainsNoOfChildrenWithNameInData(path, "linkedPath")){
-		return findLowestPath(getFirstChildByNameInData(path, "linkedPath"));
-	}
-	return path;
-}
+		function findLowestPath(path) {
+			if (dataStructureContainsNoOfChildrenWithNameInData(path, "linkedPath")) {
+				return findLowestPath(getFirstChildByNameInData(path, "linkedPath"));
+			}
+			return path;
+		}
 		function createLinkedPathWithNameInData(nameInData) {
 			return {
 				"name" : "linkedPath",
