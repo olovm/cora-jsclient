@@ -329,7 +329,7 @@ QUnit.test("testSetValueGroupInGroupOneChildOneAttribute", function() {
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
 	var attributes = createAttributes();
-	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute", "aFinalValue"));
 	path.children.push(attributes);
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	dataHolder.setValue(path, 'A Value');
@@ -347,10 +347,10 @@ function createAttributes(){
 	    };
 }
 
-function createAttributeWithNameAndValue(attributeName, attributeValue){
+function createAttributeWithNameAndValueAndRepeatId(attributeName, attributeValue, repeatId){
 	return { 
 	          "name": "attribute",
-	          "repeatId": "1",
+	          "repeatId": repeatId || "1",
 	          "children": [ 
 	            {
 	              "name": "attributeName",
@@ -369,9 +369,9 @@ QUnit.test("testSetValueGroupInGroupOneChildTwoAttributes", function() {
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
 	var attributes = createAttributes();
-	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute", "aFinalValue"));
 	attributes.children
-			.push(createAttributeWithNameAndValue("anOtherAttribute", "aOtherFinalValue"));
+			.push(createAttributeWithNameAndValueAndRepeatId("anOtherAttribute", "aOtherFinalValue"));
 	path.children.push(attributes);
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 
@@ -389,7 +389,7 @@ QUnit.test("testSetValueGroupInGroupOneChildRepeat1to3OneAttribute", function() 
 			this.pubSub);
 	var path = createLinkedPathWithNameInDataAndRepeatId("groupIdOneTextChildOneAttribute","0");
 	var attributes = createAttributes();
-	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute", "aFinalValue"));
 	path.children.push(attributes);
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	dataHolder.setValue(path, 'A Value');
@@ -405,7 +405,7 @@ QUnit.test("testSetValueGroupInGroupOneChildAttributeInPathNoAttributeInDataShou
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChild");
 	var attributes = createAttributes();
-	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute", "aFinalValue"));
 	path.children.push(attributes);
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	throws(function() {
@@ -441,7 +441,7 @@ QUnit.test("testSetValueGroupInGroupOneChildOneAttributeWrongAttributeNameInPath
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
 	var attributes = createAttributes();
-	attributes.children.push(createAttributeWithNameAndValue("anAttributeWRONGName", "aFinalValue"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttributeWRONGName", "aFinalValue"));
 	path.children.push(attributes);
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	throws(function() {
@@ -460,7 +460,7 @@ QUnit.test("testSetValueGroupInGroupOneChildOneAttributeWrongAttributeValueInPat
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
 	var attributes = createAttributes();
-	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalWRONGValue"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute", "aFinalWRONGValue"));
 	path.children.push(attributes);
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	throws(function() {
@@ -479,8 +479,8 @@ QUnit.test("testSetValueGroupInGroupOneChildOneAttributeOneAttributeToManyInPath
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
 	var attributes = createAttributes();
-	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
-	attributes.children.push(createAttributeWithNameAndValue("anOtherAttribute", "aFinalValue"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute", "aFinalValue"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anOtherAttribute", "aFinalValue"));
 	path.children.push(attributes);
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	throws(function() {
@@ -501,7 +501,7 @@ QUnit.test("testSetValueGroupInGroupOneChildTwoAttributesPathHasOnlyOneAttribute
 			this.pubSub);
 	var path = createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
 	var attributes = createAttributes();
-	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute", "aFinalValue"));
 	path.children.push(attributes);
 	path.children.push(createLinkedPathWithNameInData("textVariableId"));
 	throws(function() {
@@ -620,7 +620,7 @@ QUnit.test("testAddRepeatTextVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRe
 	var path2 = createLinkedPathWithNameInDataAndRepeatId("textVarRepeat1to3InGroupOneAttribute",
 			"repeatId"); 
 	var attributes = createAttributes();
-	attributes.children.push(createAttributeWithNameAndValue("anAttribute", "aFinalValue"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute", "aFinalValue"));
 	path2.children.push(attributes);
 	path.children.push(path2);
 	dataHolder.addRepeat(path, "textVar", "one");

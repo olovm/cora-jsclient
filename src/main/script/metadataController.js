@@ -67,7 +67,7 @@ var CORA = (function(cora) {
 				}
 				for (var i = 0; i < repeatMin; i++) {
 					var dataChild = undefined;
-					var repeatId = String(i);
+					var repeatId;
 					if (hasData && data.containsChildWithNameInDataAndIndex(nameInData, i)) {
 						dataChild = data.getChildByNameInDataAndIndex(nameInData, i);
 						repeatId = dataChild.repeatId;
@@ -119,38 +119,6 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function createAttributes(metadataElement) {
-			var attributes = {
-				"name" : "attributes",
-				"children" : []
-			};
-			var attributeReferences = metadataElement.getFirstChildByNameInData(
-					'attributeReferences');
-			attributeReferences.children.forEach(function(attributeReference) {
-				var ref = attributeReference.value;
-				var attribute = getMetadataById(ref);
-				var attributeNameInData = attribute.getFirstAtomicValueByNameInData('nameInData');
-				var finalValue = attribute.getFirstAtomicValueByNameInData('finalValue');
-
-				attributes.children.push(createAttributeWithNameAndValue(attributeNameInData,
-						finalValue));
-			});
-			return attributes;
-		}
-
-		function createAttributeWithNameAndValue(attributeName, attributeValue) {
-			return {
-				"name" : "attribute",
-				"repeatId" : "1",
-				"children" : [ {
-					"name" : "attributeName",
-					"value" : attributeName
-				}, {
-					"name" : "attributeValue",
-					"value" : attributeValue
-				} ]
-			};
-		}
 
 		function isGroup(metadataElement) {
 			var type = metadataElement.attributes.type;
@@ -214,7 +182,41 @@ var CORA = (function(cora) {
 			}
 			return false;
 		}
+		
+		function createAttributes(metadataElement) {
+			var attributes = {
+				"name" : "attributes",
+				"children" : []
+			};
+			var attributeReferences = metadataElement.getFirstChildByNameInData(
+					'attributeReferences');
+			var attributeNo = 1;
+			attributeReferences.children.forEach(function(attributeReference) {
+				var ref = attributeReference.value;
+				var attribute = getMetadataById(ref);
+				var attributeNameInData = attribute.getFirstAtomicValueByNameInData('nameInData');
+				var finalValue = attribute.getFirstAtomicValueByNameInData('finalValue');
 
+				attributes.children.push(createAttributeWithNameAndValueAndRepeatId(attributeNameInData,
+						finalValue, String(attributeNo)));
+				attributeNo++;
+			});
+			return attributes;
+		}
+
+		function createAttributeWithNameAndValueAndRepeatId(attributeName, attributeValue, repeatId) {
+			return {
+				"name" : "attribute",
+				"repeatId" : repeatId,
+				"children" : [ {
+					"name" : "attributeName",
+					"value" : attributeName
+				}, {
+					"name" : "attributeValue",
+					"value" : attributeValue
+				} ]
+			};
+		}
 
 		function initializeVariable(metadataId, path, data, repeatId) {
 			var addMessage;
