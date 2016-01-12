@@ -482,7 +482,7 @@ QUnit.test("testInitTextVarRepeat1to1InGroupOneAttributeInGroupWithWrongData", f
 //	deepEqual(JSON.stringify(messages[2]), '{"type":"setValue","message":{"data":"A Value2",'
 //			+ '"path":' + JSON.stringify(path2) + '}}');
 	//TODO: reEnable this test
-//	equal(messages.length, 2);
+	equal(messages.length, 2);
 });
 
 QUnit.test("testInitTextVarRepeat1to1InGroupTwoAttributeInGroup", function() {

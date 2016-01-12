@@ -81,7 +81,7 @@ QUnit.module("CORA.CoraData",
 //					               this.fourthChild2 ]
 					"children" : [ this.firstChild2]
 				};
-				this.coraData2 = new CORA.CoraData(this.groupInGroupOneTextChildOneAttribute);
+				this.coraDataWithAttribute = new CORA.CoraData(this.groupInGroupOneTextChildOneAttribute);
 
 			},
 			afterEach : function() {
@@ -148,7 +148,7 @@ QUnit.test("testContainsChildWithNameInDataAndAttribute", function(assert) {
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
 			"aFinalValue"));
 
-	assert.ok(this.coraData2.containsChildWithNameInDataAndAttributes(
+	assert.ok(this.coraDataWithAttribute.containsChildWithNameInDataAndAttributes(
 			"groupIdOneTextChildOneAttribute", attributes));
 });
 
@@ -157,7 +157,7 @@ QUnit.test("testContainsChildWithNameInDataAndAttributeWrongAttributeName", func
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttributeNOT",
 	"aFinalValue"));
 	
-	assert.notOk(this.coraData2.containsChildWithNameInDataAndAttributes(
+	assert.notOk(this.coraDataWithAttribute.containsChildWithNameInDataAndAttributes(
 			"groupIdOneTextChildOneAttribute", attributes));
 });
 QUnit.test("testContainsChildWithNameInDataAndAttributeWrongAttributeValue", function(assert) {
@@ -165,7 +165,7 @@ QUnit.test("testContainsChildWithNameInDataAndAttributeWrongAttributeValue", fun
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
 	"aFinalValueNot"));
 	
-	assert.notOk(this.coraData2.containsChildWithNameInDataAndAttributes(
+	assert.notOk(this.coraDataWithAttribute.containsChildWithNameInDataAndAttributes(
 			"groupIdOneTextChildOneAttribute", attributes));
 });
 
@@ -176,21 +176,21 @@ QUnit.test("testContainsChildWithNameInDataAndAttributeOneAttributeToMany", func
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute2",
 	"aFinalValue"));
 	
-	assert.notOk(this.coraData2.containsChildWithNameInDataAndAttributes(
+	assert.notOk(this.coraDataWithAttribute.containsChildWithNameInDataAndAttributes(
 			"groupIdOneTextChildOneAttribute", attributes));
 });
 
 QUnit.test("testContainsChildWithNameInDataAndAttributeNoAttributes", function(assert) {
 	var attributes = createAttributes();
 	
-	assert.notOk(this.coraData2.containsChildWithNameInDataAndAttributes(
+	assert.notOk(this.coraDataWithAttribute.containsChildWithNameInDataAndAttributes(
 			"groupIdOneTextChildOneAttribute", attributes));
 });
 
 QUnit.test("testContainsChildWithNameInDataAndAttributeNoAttributesHolder", function(assert) {
 	var attributes;
 	
-	assert.notOk(this.coraData2.containsChildWithNameInDataAndAttributes(
+	assert.notOk(this.coraDataWithAttribute.containsChildWithNameInDataAndAttributes(
 			"groupIdOneTextChildOneAttribute", attributes));
 });
 
@@ -223,35 +223,35 @@ QUnit.test("testGetFirstChildByNameInDataAndAttribute", function(assert) {
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
 			"aFinalValue"));
 
-	var firstChildFound = this.coraData2.getFirstChildByNameInDataAndAttributes(
+	var firstChildFound = this.coraDataWithAttribute.getFirstChildByNameInDataAndAttributes(
 			"groupIdOneTextChildOneAttribute", attributes);
 	assert.deepEqual(JSON.stringify(firstChildFound), JSON.stringify(this.firstChild2));
 });
 
-QUnit.test("testgetFirstChildByNameInDataAndAttributeWrongAttributeName", function(assert) {
+QUnit.test("testGetFirstChildByNameInDataAndAttributeWrongAttributeName", function(assert) {
 	var attributes = createAttributes();
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttributeNOT",
 	"aFinalValue"));
 	
 	assert.throws(function() {
-		this.coraData2.getFirstChildByNameInDataAndAttributes(
+		this.coraDataWithAttribute.getFirstChildByNameInDataAndAttributes(
 			"groupIdOneTextChildOneAttribute", attributes);
 	}, "Error");
 });
 
-QUnit.test("testgetFirstChildByNameInDataAndAttributeWrongAttributeValue", function(assert) {
+QUnit.test("testGetFirstChildByNameInDataAndAttributeWrongAttributeValue", function(assert) {
 	var attributes = createAttributes();
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
 	"aFinalValueNOT"));
 	
 	assert.throws(function() {
-		this.coraData2.getFirstChildByNameInDataAndAttributes(
+		this.coraDataWithAttribute.getFirstChildByNameInDataAndAttributes(
 				"groupIdOneTextChildOneAttribute", attributes);
 	}, "Error");
 });
 
 
-QUnit.test("testgetFirstChildByNameInDataAndAttributeOneAttributeToMany", function(assert) {
+QUnit.test("testGetFirstChildByNameInDataAndAttributeOneAttributeToMany", function(assert) {
 	var attributes = createAttributes();
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
 	"aFinalValueNOT"));
@@ -259,7 +259,7 @@ QUnit.test("testgetFirstChildByNameInDataAndAttributeOneAttributeToMany", functi
 	"aFinalValue"));
 	
 	assert.throws(function() {
-		this.coraData.getFirstChildByNameInDataAndAttributes(
+		this.coraDataWithAttribute.getFirstChildByNameInDataAndAttributes(
 				"groupIdOneTextChildOneAttribute", attributes);
 	}, "Error");
 });
@@ -268,7 +268,7 @@ QUnit.test("testgetFirstChildByNameInDataAndAttributeNoAttributes", function(ass
 	var attributes = createAttributes();
 	
 	assert.throws(function() {
-		this.coraData2.getFirstChildByNameInDataAndAttributes(
+		this.coraDataWithAttribute.getFirstChildByNameInDataAndAttributes(
 				"groupIdOneTextChildOneAttribute", attributes);
 	}, "Error");
 });
@@ -279,9 +279,17 @@ QUnit.test("testGetFirstChildByNameInDataAndAttributeButNoAttributeInMetadata", 
 			"aFinalValue"));
 
 	assert.throws(function() {
-		this.coraData2.getFirstChildByNameInDataAndAttributes(
+		this.coraData.getFirstChildByNameInDataAndAttributes(
 				"textVariableId", attributes);
 	}, "Error");
+});
+
+
+QUnit.test("testGetFirstChildByNameInDataAndAttributeNoAttributeInMetadataEmptyAttributesHolder", function(assert) {
+	var attributes = createAttributes();
+	var firstChildFound = this.coraData.getFirstChildByNameInDataAndAttributes(
+			"textVariableId", attributes);
+	assert.deepEqual(JSON.stringify(firstChildFound), JSON.stringify(this.firstChild));
 });
 
 QUnit.test("testContainsChildWithNameInDataAndIndex", function(assert) {

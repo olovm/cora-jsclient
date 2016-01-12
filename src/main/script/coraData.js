@@ -94,7 +94,8 @@ var CORA = (function(cora) {
 			if (foundContainers.length > 0) {
 				return foundContainers[0];
 			}
-			throw new Error("path(" + JSON.stringify(path) + ") not found coreData");
+			throw new Error("nameInData(" + nameInData + ") and attributes ("
+					+ JSON.stringify(attributes) + ") not found in coraData");
 		};
 		function findContainersSpecifiedByNameInDataAndAttributes(nameInData, attributes) {
 			var foundContainers = [];
@@ -137,7 +138,7 @@ var CORA = (function(cora) {
 		}
 
 		function containerAndPathDoesNotHaveAttributes(container, attributes) {
-			return attributesConatainsNoAttributes(attributes) 
+			return attributesConatainsNoAttributes(attributes)
 					&& containerDoesNotHaveAttributes(container);
 		}
 
@@ -205,7 +206,7 @@ var CORA = (function(cora) {
 			if (attributes.children !== undefined && attributes.children.length === 0) {
 				return false;
 			}
-			return true; 
+			return true;
 		}
 
 		function containerHasAttributes(container) {

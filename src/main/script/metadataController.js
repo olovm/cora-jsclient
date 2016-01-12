@@ -31,7 +31,7 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData('childReferences');
 			var topLevelPath = {};
 			topLevelChildReferences.children.forEach(function(childReference) {
-				new CORA.MetadataChildInitializer(childReference, topLevelPath, topLevelData, 
+				CORA.MetadataChildInitializer(childReference, topLevelPath, topLevelData,
 						metadataProviderIn, pubSubIn);
 			});
 		}
