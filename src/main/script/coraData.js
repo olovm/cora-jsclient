@@ -244,7 +244,6 @@ var CORA = (function(cora) {
 					found++;
 				}
 			}
-
 			throw new Error("name(" + nameInData + ") with index (" + index
 					+ ") not found in children to dataStructure");
 		};

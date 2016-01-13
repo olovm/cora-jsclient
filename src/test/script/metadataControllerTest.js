@@ -473,15 +473,6 @@ QUnit.test("testInitTextVarRepeat1to1InGroupOneAttributeInGroupWithWrongData", f
 	deepEqual(JSON.stringify(messages[1]), '{"type":"add","message":{'
 			+ '"metadataId":"textVariableId","path":' + JSON.stringify(path) + '}}');
 	
-//	var path2 = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
-//	var attributes = createAttributes();
-//	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
-//	"aFinalValue"));
-//	path2.children.push(attributes);
-//	path2.children.push(createLinkedPathWithNameInData("textVariableId"));
-//	deepEqual(JSON.stringify(messages[2]), '{"type":"setValue","message":{"data":"A Value2",'
-//			+ '"path":' + JSON.stringify(path2) + '}}');
-	//TODO: reEnable this test
 	equal(messages.length, 2);
 });
 
@@ -629,7 +620,247 @@ QUnit.test("testInitTextVarRepeat1to3InGroupOneAttribute"
 			+ '"path":' + JSON.stringify(path3) + '}}');
 });
 
+QUnit.test("testInitTextVarRepeat1to3InGroupOneAttribute"
+		+ "Repeat0to2InGroupRepeat1to3InGroupWithData", function() {
+			var data = {
+					"name" : "textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",
+					"children" : [ {
+						"name" : "textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup",
+						"repeatId":"one0",
+						"children" : [ {
+							"name" : "textVarRepeat1to3InGroupOneAttribute",
+							"repeatId":"one1",
+							"children" : [ {
+								"name" : "textVar",
+								"value" : "A Value3",
+								"repeatId":"one2"
+							} ],
+							"attributes" : {
+								"anAttribute" : "aFinalValue"
+							}
+						} ]
+					} ]
+			};
+			
+			var metadataController = new CORA.MetadataController(
+					"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup", data,
+					this.metadataProvider, this.pubSub);
+			var messages = this.pubSub.getMessages();
+			deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
+					+ '"metadataId":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup"'
+					+ ',"path":{},"repeatId":"one0"}}');
+			
+			var path = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup");
+			path.children.push({"name":"repeatId","value":"one0"});
+			deepEqual(JSON.stringify(messages[1]), '{"type":"add","message":{'
+					+ '"metadataId":"textVarRepeat1to3InGroupOneAttribute","path":' + JSON.stringify(path)
+					+ ',"repeatId":"one1"}}');
+			
+			var path2 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup");
+			path2.children.push({"name":"repeatId","value":"one0"});
+			var path22 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
+			path2.children.push(path22);
+			path22.children.push({"name":"repeatId","value":"one1"});
+			var attributes = createAttributes();
+			attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+					"aFinalValue", "1"));
+			path22.children.push(attributes);
+			deepEqual(JSON.stringify(messages[2]), '{"type":"add","message":{'
+					+ '"metadataId":"textVar","path":' + JSON.stringify(path2)
+					+ ',"repeatId":"one2"}}');
+			
+			var path3 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup");
+			path3.children.push({"name":"repeatId","value":"one0"});
+			var path32 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
+			path3.children.push(path32);
+			path32.children.push({"name":"repeatId","value":"one1"});
+			var attributes = createAttributes();
+			attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+					"aFinalValue", "1"));
+			path32.children.push(attributes);
+			
+			var path33 = createLinkedPathWithNameInData("textVar");
+			path32.children.push(path33);
+			path33.children.push({"name":"repeatId","value":"one2"});
+			
+			deepEqual(JSON.stringify(messages[3]), '{"type":"setValue","message":{"data":"A Value3",'
+					+ '"path":' + JSON.stringify(path3) + '}}');
+			equal(messages.length, 4);
+		});
+
+QUnit.test("testInitTextVarRepeat1to3InGroupOneAttribute"
+		+ "Repeat0to2InGroupRepeat1to3InGroupWithData2", function() {
+			var data = {
+					  "name": "textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",
+					  "children": [
+					    {
+					      "name": "textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup",
+					      "repeatId": "one0",
+					      "children": [
+					        {
+					          "name": "textVarRepeat1to3InGroupOneAttribute",
+					          "repeatId": "one1",
+					          "children": [
+					            {
+					              "name": "textVar",
+					              "value": "A Value3",
+					              "repeatId": "one2"
+					            }
+					          ],
+					          "attributes": {
+					            "anAttribute": "aFinalValue"
+					          }
+					        }
+					      ]
+					    },
+					    {
+					      "name": "textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup",
+					      "repeatId": "one0_2",
+					      "children": [
+					        {
+					          "name": "textVarRepeat1to3InGroupOneAttribute",
+					          "repeatId": "one1",
+					          "children": [
+					            {
+					              "name": "textVar",
+					              "value": "A Value3",
+					              "repeatId": "one2"
+					            }
+					          ],
+					          "attributes": {
+					            "anAttribute": "aFinalValue"
+					          }
+					        }
+					      ]
+					    }
+					  ]
+					};
+			
+			var metadataController = new CORA.MetadataController(
+					"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup", data,
+					this.metadataProvider, this.pubSub);
+			var messages = this.pubSub.getMessages();
+			deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
+					+ '"metadataId":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup"'
+					+ ',"path":{},"repeatId":"one0"}}');
+			
+			var path = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup");
+			path.children.push({"name":"repeatId","value":"one0"});
+			deepEqual(JSON.stringify(messages[1]), '{"type":"add","message":{'
+					+ '"metadataId":"textVarRepeat1to3InGroupOneAttribute","path":' + JSON.stringify(path)
+					+ ',"repeatId":"one1"}}');
+			
+			var path2 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup");
+			path2.children.push({"name":"repeatId","value":"one0"});
+			var path22 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
+			path2.children.push(path22);
+			path22.children.push({"name":"repeatId","value":"one1"});
+			var attributes = createAttributes();
+			attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+					"aFinalValue", "1"));
+			path22.children.push(attributes);
+			deepEqual(JSON.stringify(messages[2]), '{"type":"add","message":{'
+					+ '"metadataId":"textVar","path":' + JSON.stringify(path2)
+					+ ',"repeatId":"one2"}}');
+			
+			var path3 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup");
+			path3.children.push({"name":"repeatId","value":"one0"});
+			var path32 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
+			path3.children.push(path32);
+			path32.children.push({"name":"repeatId","value":"one1"});
+			var attributes = createAttributes();
+			attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+					"aFinalValue", "1"));
+			path32.children.push(attributes);
+			
+			var path33 = createLinkedPathWithNameInData("textVar");
+			path32.children.push(path33);
+			path33.children.push({"name":"repeatId","value":"one2"});
+			
+			deepEqual(JSON.stringify(messages[3]), '{"type":"setValue","message":{"data":"A Value3",'
+					+ '"path":' + JSON.stringify(path3) + '}}');
+			
+			
+			
+			deepEqual(JSON.stringify(messages[4]), '{"type":"add","message":{'
+					+ '"metadataId":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup"'
+					+ ',"path":{},"repeatId":"one0_2"}}');
+			
+			var path = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup");
+			path.children.push({"name":"repeatId","value":"one0_2"});
+			deepEqual(JSON.stringify(messages[5]), '{"type":"add","message":{'
+					+ '"metadataId":"textVarRepeat1to3InGroupOneAttribute","path":' + JSON.stringify(path)
+					+ ',"repeatId":"one1"}}');
+			
+			var path2 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup");
+			path2.children.push({"name":"repeatId","value":"one0_2"});
+			var path22 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
+			path2.children.push(path22);
+			path22.children.push({"name":"repeatId","value":"one1"});
+			var attributes = createAttributes();
+			attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+					"aFinalValue", "1"));
+			path22.children.push(attributes);
+			deepEqual(JSON.stringify(messages[6]), '{"type":"add","message":{'
+					+ '"metadataId":"textVar","path":' + JSON.stringify(path2)
+					+ ',"repeatId":"one2"}}');
+			
+			var path3 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup");
+			path3.children.push({"name":"repeatId","value":"one0_2"});
+			var path32 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
+			path3.children.push(path32);
+			path32.children.push({"name":"repeatId","value":"one1"});
+			var attributes = createAttributes();
+			attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+					"aFinalValue", "1"));
+			path32.children.push(attributes);
+			
+			var path33 = createLinkedPathWithNameInData("textVar");
+			path32.children.push(path33);
+			path33.children.push({"name":"repeatId","value":"one2"});
+			
+			deepEqual(JSON.stringify(messages[7]), '{"type":"setValue","message":{"data":"A Value3",'
+					+ '"path":' + JSON.stringify(path3) + '}}');
+			
+			equal(messages.length, 8);
+		});
+
+QUnit.test("testInitTextVarRepeat1to3InGroupOneAttribute"
+		+ "Repeat0to2InGroupRepeat1to3InGroupWithData3", function() {
+			var data = {
+					"name" : "textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",
+					"children" : [  ]
+			};
+			
+			var metadataController = new CORA.MetadataController(
+					"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup", data,
+					this.metadataProvider, this.pubSub);
+			var messages = this.pubSub.getMessages();
+			deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
+					+ '"metadataId":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup"'
+					+ ',"path":{},"repeatId":"0"}}');
+			
+			equal(messages.length, 1);
+		});
+
 //TODO: add test with same name in data but different attributes.....
+//group2InGroupOneTextChildRepeat1to3OneAttribute
+
+
+QUnit.test("testInitTextVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
+		function() {
+			var metadataController = new CORA.MetadataController(
+					"textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
+					undefined, this.metadataProvider, this.pubSub);
+			var messages = this.pubSub.getMessages();
+//			deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
+//					+ '"metadataId":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup"'
+//					+ ',"path":{},"repeatId":"0"}}');
+			equal(messages.length, 0);
+		});
+
+
+
 
 // QUnit.test("testAddRepeatTextVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",
 // function() {
