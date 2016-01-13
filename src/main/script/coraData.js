@@ -79,6 +79,15 @@ var CORA = (function(cora) {
 			}
 			return false;
 		};
+		this.getChildrenByNameInDataAndAttributes = function(nameInData, attributes) {
+			var foundContainers = findContainersSpecifiedByNameInDataAndAttributes(nameInData,
+					attributes);
+			if (foundContainers.length > 0) {
+				return foundContainers;
+			}
+			throw new Error("nameInData(" + nameInData + ") and attributes ("
+					+ JSON.stringify(attributes) + ") not found in coraData");
+		};
 		this.getFirstChildByNameInDataAndAttributes = function(nameInData, attributes) {
 			var foundContainers = findContainersSpecifiedByNameInDataAndAttributes(nameInData,
 					attributes);

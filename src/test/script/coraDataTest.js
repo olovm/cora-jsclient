@@ -292,6 +292,16 @@ QUnit.test("testGetFirstChildByNameInDataAndAttributeNoAttributeInMetadataEmptyA
 	assert.deepEqual(JSON.stringify(firstChildFound), JSON.stringify(this.firstChild));
 });
 
+QUnit.test("testGetChildrenByNameInDataAndAttribute", function(assert) {
+	var attributes = createAttributes();
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+			"aFinalValue"));
+
+	var children = this.coraDataWithAttribute.getChildrenByNameInDataAndAttributes(
+			"groupIdOneTextChildOneAttribute", attributes);
+	assert.deepEqual(JSON.stringify(children), JSON.stringify([this.firstChild2]));
+});
+
 QUnit.test("testContainsChildWithNameInDataAndIndex", function(assert) {
 	assert.ok(this.coraData.containsChildWithNameInDataAndIndex("textVariableId", 0));
 });
