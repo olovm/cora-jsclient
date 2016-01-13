@@ -1,6 +1,6 @@
 /*
  * Copyright 2015 Olov McKie
- * Copyright 2015 Uppsala University Library
+ * Copyright 2015, 2016 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -27,16 +27,16 @@ var CORA = (function(cora) {
 
 		function createMainDataContainerWithChildrenAndAttributes() {
 			// private
-			return recursivelyCreateDataContainerForElementWithId(metadataId);
+			return createDataContainerForElementWithId(metadataId);
 		}
 
-		function recursivelyCreateDataContainerForElementWithId(id) {
+		function createDataContainerForElementWithId(id) {
 			var metadataElement = getMetadataById(id);
 			var nameInData = getFirstChildByNameInData(metadataElement, 'nameInData');
 			var dataContainerPart = {};
 			dataContainerPart.name = nameInData.value;
 
-			addContainerContenceFromElement(dataContainerPart, metadataElement);
+			addContainerContentFromElement(dataContainerPart, metadataElement);
 			return dataContainerPart;
 		}
 
@@ -56,7 +56,7 @@ var CORA = (function(cora) {
 			throw new Error("name(" + name + ") not found in children to dataStructure");
 		}
 
-		function addContainerContenceFromElement(dataContainerPart, metadataElement) {
+		function addContainerContentFromElement(dataContainerPart, metadataElement) {
 			if (isGroup(metadataElement)) {
 				addGroupParts(dataContainerPart, metadataElement);
 				return dataContainerPart;
@@ -76,8 +76,9 @@ var CORA = (function(cora) {
 		}
 
 		function addGroupParts(dataContainerPart, metadataElement) {
-			dataContainerPart.children = createChildList(metadataElement);
-
+//			dataContainerPart.children = createChildList(metadataElement);
+			dataContainerPart.children = []
+			
 			if (hasAttributes(metadataElement)) {
 				dataContainerPart.attributes = createAttributesContainer(metadataElement);
 			}
@@ -99,7 +100,7 @@ var CORA = (function(cora) {
 			var repeatMin = getFirstAtomicValueByNameInData(childReference, 'repeatMin');
 			var canRepeat = canChildReferenceRepeat(childReference);
 			for (var i3 = 0; i3 < repeatMin; i3++) {
-				var childContainer = recursivelyCreateDataContainerForElementWithId(ref);
+				var childContainer = createDataContainerForElementWithId(ref);
 				if (canRepeat) {
 					childContainer.repeatId = String(i3);
 				}
@@ -317,26 +318,26 @@ var CORA = (function(cora) {
 			return dataStructureContainsChild(path, "linkedPath");
 		}
 
-		this.addRepeat = function(parentPath, metadataIdToAdd, repeatId) {
-			tryToAddRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
+		this.addChild = function(parentPath, metadataIdToAdd, repeatId) {
+			tryToAddChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
 		};
 
-		function tryToAddRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
+		function tryToAddChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
 			try {
-				addRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
+				addChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
 			} catch (e) {
 				throw new Error("path(" + JSON.stringify(parentPath) + ") not found in dataContainers:"+e);
 			}
 		}
 
-		function addRepeatInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
+		function addChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
 			var containerSpecifiedByPath = dataContainer;
 			if(parentPath.children !== undefined){
 				var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainer.children,
 						parentPath);
 				containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
 			}
-			var newRepeat = recursivelyCreateDataContainerForElementWithId(metadataIdToAdd);
+			var newRepeat = createDataContainerForElementWithId(metadataIdToAdd);
 			newRepeat.repeatId = repeatId;
 			containerSpecifiedByPath.children.push(newRepeat);
 		}
