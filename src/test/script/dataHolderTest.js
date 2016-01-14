@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Olov McKie
+ * Copyright 2015, 2016 Olov McKie
  * Copyright 2015, 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -89,6 +89,16 @@ QUnit.test("testAddChildToGroupIdOneTextChild",
 					+ '"children":[' + '{"name":"textVariableId","value":""}' + ']}');
 		});
 
+QUnit.test("testAddChildToGroupIdOneTextChildWrongNameInData",
+		function(assert) {
+			var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider,
+					this.pubSub);
+			var path = {};
+			throws(function() {
+				dataHolder.addChild(path, "textVariableIdNOT");
+			}, "Error");
+		});
+
 QUnit.test("testSetValueGroupIdOneTextChild",
 		function(assert) {
 			var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider,
@@ -97,6 +107,18 @@ QUnit.test("testSetValueGroupIdOneTextChild",
 			dataHolder.setValue(createLinkedPathWithNameInData("textVariableId"), 'A Value');
 			assert.deepEqual(JSON.stringify(dataHolder.getData()), '{"name":"groupIdOneTextChild",'
 					+ '"children":[{"name":"textVariableId","value":"A Value"}]}');
+		});
+
+QUnit.test("testSetValueGroupIdOneTextChildWrongNameInData",
+		function(assert) {
+			var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider,
+					this.pubSub);
+			dataHolder.addChild({}, "textVariableId");
+			throws(
+					function() {
+						dataHolder.setValue(createLinkedPathWithNameInData("textVariableIdNOT"),
+								'A Value');
+					}, "Error");
 		});
 
 QUnit.test("testAddChildTwiceToGroupIdOneTextChild",
@@ -193,7 +215,7 @@ QUnit.test("testSetValueToSecondLevel",
 					+ '{"name":"textVariableId","value":"Value 2"}' + ']}' + ']}');
 		});
 
-QUnit.test("testAddFourDifferentChildrenOneWithAttributeToTopLevel",
+QUnit.test("testAddFourDifferentChildrenSomeWithAttributeToTopLevel",
 		function(assert) {
 			var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider,
 					this.pubSub);
@@ -232,6 +254,226 @@ QUnit.test("testAddFourDifferentChildrenOneWithAttributeToTopLevel",
 
 			assert.deepEqual(JSON.stringify(dataHolder.getData()), JSON.stringify(expected));
 		});
+
+QUnit.test("testAddChildMissingAttributes",
+		function(assert) {
+			var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider,
+					this.pubSub);
+			var path = {};
+			dataHolder.addChild(path, "groupIdOneTextChildTwoAttributes");
+
+			var path2 = createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
+			throws(function() {
+				dataHolder.addChild(path2, "textVariableId");
+			}, "Error");
+		});
+
+function addFourDifferentChildrenSomeWithAttributeAndChildrenToThem(dataHolder) {
+	var path = {};
+	dataHolder.addChild(path, "groupIdOneTextChildTwoAttributes");
+	dataHolder.addChild(path, "textVarRepeat1to3InGroupOtherAttribute");
+	dataHolder.addChild(path, "textVarRepeat1to3InGroupOneAttribute");
+	dataHolder.addChild(path, "textVariableId");
+
+	var attributes = createAttributes();
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+			"aFinalValue", "1"));
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anOtherAttribute",
+			"aOtherFinalValue", "2"));
+	var path2 = createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
+	path2.children.push(attributes);
+	dataHolder.addChild(path2, "textVariableId");
+
+	var attributes2 = createAttributes();
+	attributes2.children.push(createAttributeWithNameAndValueAndRepeatId("anOtherAttribute",
+			"aOtherFinalValue", "2"));
+	var path3 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
+	path3.children.push(attributes2);
+	dataHolder.addChild(path3, "textVariableId");
+
+	var attributes3 = createAttributes();
+	attributes3.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+			"aFinalValue", "1"));
+	var path4 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
+	path4.children.push(attributes3);
+	dataHolder.addChild(path4, "textVariableId");
+}
+
+QUnit.test("testAddFourDifferentChildrenSomeWithAttributeAndChildrenToThem",
+		function(assert) {
+			var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider,
+					this.pubSub);
+			addFourDifferentChildrenSomeWithAttributeAndChildrenToThem(dataHolder);
+
+			var expected = {
+				"name" : "groupIdOneTextChild",
+				"children" : [ {
+					"name" : "groupIdOneTextChildTwoAttributes",
+					"children" : [ {
+						"name" : "textVariableId",
+						"value" : ""
+					} ],
+					"attributes" : {
+						"anAttribute" : "aFinalValue",
+						"anOtherAttribute" : "aOtherFinalValue"
+					}
+				}, {
+					"name" : "textVarRepeat1to3InGroupOneAttribute",
+					"children" : [ {
+						"name" : "textVariableId",
+						"value" : ""
+					} ],
+					"attributes" : {
+						"anOtherAttribute" : "aOtherFinalValue"
+					}
+				}, {
+					"name" : "textVarRepeat1to3InGroupOneAttribute",
+					"children" : [ {
+						"name" : "textVariableId",
+						"value" : ""
+					} ],
+					"attributes" : {
+						"anAttribute" : "aFinalValue"
+					}
+				}, {
+					"name" : "textVariableId",
+					"value" : ""
+				} ]
+			};
+
+			assert.deepEqual(JSON.stringify(dataHolder.getData()), JSON.stringify(expected));
+		});
+
+QUnit.test("testSetValueFourDifferentChildrenSomeWithAttributeAndChildrenToThem",
+		function(assert) {
+			var dataHolder = new CORA.DataHolder("groupIdOneTextChild", this.metadataProvider,
+					this.pubSub);
+			addFourDifferentChildrenSomeWithAttributeAndChildrenToThem(dataHolder);
+
+			var attributes = createAttributes();
+			attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+					"aFinalValue", "1"));
+			attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anOtherAttribute",
+					"aOtherFinalValue", "2"));
+			var path = createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
+			path.children.push(attributes);
+			path.children.push(createLinkedPathWithNameInData("textVariableId"));
+			dataHolder.setValue(path, "value 1");
+
+			var attributes2 = createAttributes();
+			attributes2.children.push(createAttributeWithNameAndValueAndRepeatId(
+					"anOtherAttribute", "aOtherFinalValue", "1"));
+			var path2 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
+			path2.children.push(attributes2);
+			path2.children.push(createLinkedPathWithNameInData("textVariableId"));
+			dataHolder.setValue(path2, "value 2");
+
+			var attributes3 = createAttributes();
+			attributes3.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+					"aFinalValue", "1"));
+			var path3 = createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
+			path3.children.push(attributes3);
+			path3.children.push(createLinkedPathWithNameInData("textVariableId"));
+			dataHolder.setValue(path3, "value 3");
+
+			var path4 = createLinkedPathWithNameInData("textVariableId");
+			dataHolder.setValue(path4, "value 4");
+
+			var expected = {
+				"name" : "groupIdOneTextChild",
+				"children" : [ {
+					"name" : "groupIdOneTextChildTwoAttributes",
+					"children" : [ {
+						"name" : "textVariableId",
+						"value" : "value 1"
+					} ],
+					"attributes" : {
+						"anAttribute" : "aFinalValue",
+						"anOtherAttribute" : "aOtherFinalValue"
+					}
+				}, {
+					"name" : "textVarRepeat1to3InGroupOneAttribute",
+					"children" : [ {
+						"name" : "textVariableId",
+						"value" : "value 2"
+					} ],
+					"attributes" : {
+						"anOtherAttribute" : "aOtherFinalValue"
+					}
+				}, {
+					"name" : "textVarRepeat1to3InGroupOneAttribute",
+					"children" : [ {
+						"name" : "textVariableId",
+						"value" : "value 3"
+					} ],
+					"attributes" : {
+						"anAttribute" : "aFinalValue"
+					}
+				}, {
+					"name" : "textVariableId",
+					"value" : "value 4"
+				} ]
+			};
+
+			assert.deepEqual(JSON.stringify(dataHolder.getData()), JSON.stringify(expected));
+		});
+
+//TODO: add tests with repeatId
+
+
+// QUnit.test("testSetValueFourDifferentChildrenSomeWithAttributeToTopLevel",
+// function(assert) {
+// var dataHolder = new CORA.DataHolder("groupIdOneTextChild",
+// this.metadataProvider,
+// this.pubSub);
+// var path = {};
+// dataHolder.addChild(path, "groupIdOneTextChildTwoAttributes");
+// dataHolder.addChild(path, "textVarRepeat1to3InGroupOtherAttribute");
+// dataHolder.addChild(path, "textVarRepeat1to3InGroupOneAttribute");
+// dataHolder.addChild(path, "textVariableId");
+//	
+// var attributes = createAttributes();
+// attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+// "aFinalValue"));
+// attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anOtherAttribute",
+// "aOtherFinalValue"));
+// var path2 =
+// createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
+// path2.children.push(attributes);
+// path2.children.push(createLinkedPathWithNameInData("textVariableId"));
+// dataHolder.setValue(path2, 'Value 2');
+//	
+//	
+// var expected = {
+// "name" : "groupIdOneTextChild",
+// "children" : [ {
+// "name" : "groupIdOneTextChildTwoAttributes",
+// "children" : [],
+// "attributes" : {
+// "anAttribute" : "aFinalValue",
+// "anOtherAttribute" : "aOtherFinalValue"
+// }
+// }, {
+// "name" : "textVarRepeat1to3InGroupOneAttribute",
+// "children" : [],
+// "attributes" : {
+// "anOtherAttribute" : "aOtherFinalValue"
+// }
+// }, {
+// "name" : "textVarRepeat1to3InGroupOneAttribute",
+// "children" : [],
+// "attributes" : {
+// "anAttribute" : "aFinalValue"
+// }
+// }, {
+// "name" : "textVariableId",
+// "value" : ""
+// } ]
+// };
+//	
+// assert.deepEqual(JSON.stringify(dataHolder.getData()),
+// JSON.stringify(expected));
+// });
 
 // textVarRepeat1to3InGroupOtherAttribute
 // textVarRepeat1to3InGroupOneAttribute

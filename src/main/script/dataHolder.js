@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Olov McKie
+ * Copyright 2015, 2016 Olov McKie
  * Copyright 2015, 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -32,16 +32,19 @@ var CORA = (function(cora) {
 
 		function createDataContainerForElementWithId(id) {
 			var metadataElement = getMetadataById(id);
-			var nameInData = getFirstChildByNameInData(metadataElement, 'nameInData');
+//			var nameInData = getFirstChildByNameInData(metadataElement, 'nameInData');
+			var nameInData = metadataElement.getFirstAtomicValueByNameInData('nameInData');
 			var dataContainerPart = {};
-			dataContainerPart.name = nameInData.value;
+//			dataContainerPart.name = nameInData.value;
+			dataContainerPart.name = nameInData;
 
 			addContainerContentFromElement(dataContainerPart, metadataElement);
 			return dataContainerPart;
 		}
 
 		function getMetadataById(id) {
-			return metadataProvider.getMetadataById(id);
+//			return metadataProvider.getMetadataById(id);
+				return new CORA.CoraData(metadataProvider.getMetadataById(id));
 		}
 
 		function getFirstChildByNameInData(dataStructure, name) {
@@ -68,7 +71,7 @@ var CORA = (function(cora) {
 		}
 
 		function isGroup(metadataElement) {
-			var type = metadataElement.attributes.type;
+			var type = metadataElement.getData().attributes.type;
 			if (type === "group" || type === "childGroup") {
 				return true;
 			}
@@ -77,65 +80,65 @@ var CORA = (function(cora) {
 
 		function addGroupParts(dataContainerPart, metadataElement) {
 //			dataContainerPart.children = createChildList(metadataElement);
-			dataContainerPart.children = []
+			dataContainerPart.children = [];
 			
-			if (hasAttributes(metadataElement)) {
+//			if (hasAttributes(metadataElement)) {
+			if (metadataElement.containsChildWithNameInData("attributeReferences")) {
 				dataContainerPart.attributes = createAttributesContainer(metadataElement);
 			}
 		}
 
-		function createChildList(metadataElement) {
-			var childList = [];
-			// loop children to current group
-			var childReferences = getFirstChildByNameInData(metadataElement, 'childReferences');
-			childReferences.children.forEach(function(childReference) {
-				childList = childList.concat(createChild(childReference));
-			});
-			return childList;
-		}
+//		function createChildList(metadataElement) {
+//			var childList = [];
+//			// loop children to current group
+//			var childReferences = getFirstChildByNameInData(metadataElement, 'childReferences');
+//			childReferences.children.forEach(function(childReference) {
+//				childList = childList.concat(createChild(childReference));
+//			});
+//			return childList;
+//		}
+//
+//		function createChild(childReference) {
+//			var outList = [];
+//			var ref = getFirstAtomicValueByNameInData(childReference, 'ref');
+//			var repeatMin = getFirstAtomicValueByNameInData(childReference, 'repeatMin');
+//			var canRepeat = canChildReferenceRepeat(childReference);
+//			for (var i3 = 0; i3 < repeatMin; i3++) {
+//				var childContainer = createDataContainerForElementWithId(ref);
+//				if (canRepeat) {
+//					childContainer.repeatId = String(i3);
+//				}
+//				outList.push(childContainer);
+//			}
+//			return outList;
+//		}
+//		function canChildReferenceRepeat(childReference) {
+//			var repeatMax = getFirstAtomicValueByNameInData(childReference, 'repeatMax');
+//			if("X"===repeatMax){
+//				return true;
+//			}
+//			return repeatMax > 1;
+//		}
+//		function getFirstAtomicValueByNameInData(dataStructure, name) {
+//			return getFirstChildByNameInData(dataStructure, name).value;
+//		}
 
-		function createChild(childReference) {
-			var outList = [];
-			var ref = getFirstAtomicValueByNameInData(childReference, 'ref');
-			var repeatMin = getFirstAtomicValueByNameInData(childReference, 'repeatMin');
-			var canRepeat = canChildReferenceRepeat(childReference);
-			for (var i3 = 0; i3 < repeatMin; i3++) {
-				var childContainer = createDataContainerForElementWithId(ref);
-				if (canRepeat) {
-					childContainer.repeatId = String(i3);
-				}
-				outList.push(childContainer);
-			}
-			return outList;
-		}
-		function canChildReferenceRepeat(childReference) {
-			var repeatMax = getFirstAtomicValueByNameInData(childReference, 'repeatMax');
-			if("X"===repeatMax){
-				return true;
-			}
-			return repeatMax > 1;
-		}
-		function getFirstAtomicValueByNameInData(dataStructure, name) {
-			return getFirstChildByNameInData(dataStructure, name).value;
-		}
-
-		function hasAttributes(metadataElement) {
-			if (dataStructureContainsChild(metadataElement, 'attributeReferences')) {
-				return true;
-			}
-			return false;
-		}
+//		function hasAttributes(metadataElement) {
+//			if (dataStructureContainsChild(metadataElement, 'attributeReferences')) {
+//				return true;
+//			}
+//			return false;
+//		}
 
 		function createAttributesContainer(metadataElement) {
-			// create attribute attributeContainer
 			var attributeContainer = {};
-			var attributeReferences = getFirstChildByNameInData(metadataElement,
+			var attributeReferences = metadataElement.getFirstChildByNameInData(
 					'attributeReferences');
 			attributeReferences.children.forEach(function(attributeReference) {
 				var ref = attributeReference.value;
 				var attribute = getMetadataById(ref);
-				var attributeNameInData = getFirstAtomicValueByNameInData(attribute, 'nameInData');
-				var finalValue = getFirstAtomicValueByNameInData(attribute, 'finalValue');
+				var attributeNameInData = attribute.getFirstAtomicValueByNameInData('nameInData');
+				var finalValue = attribute.getFirstAtomicValueByNameInData('finalValue');
 
 				attributeContainer[attributeNameInData] = finalValue;
 
@@ -169,7 +172,7 @@ var CORA = (function(cora) {
 		this.setValue = function(path, value) {
 			tryToSetValueInContainerListUsingPath(dataContainer.children, path, value);
 		};
-
+ 
 		function tryToSetValueInContainerListUsingPath(dataContainerPart, path, value) {
 			try {
 				setValueInContainerListUsingPath(dataContainerPart, path, value);
@@ -203,7 +206,7 @@ var CORA = (function(cora) {
 		function findContainerByPathInCurrentLevel(dataContainers, path) {
 			var foundContainers = findContainersSpecifiedByNameInDataAndAttributes(dataContainers,
 					path);
-			if (isPathSpecifyingARepeatingContainer(path)) {
+			if (isPathSpecifyingARepeatingContainer(path)) { 
 				return foundContainers[getFirstChildByNameInData(path, "repeatId").value];
 			}
 			if (listContainsOneElement(foundContainers)) {
@@ -262,10 +265,11 @@ var CORA = (function(cora) {
 		}
 
 		function containerHasAllPathAttributes(containerAttributes, pathAttributes) {
-			return pathAttributes.every(function(pathAttribute) {
-				var pathAttributeKey = getFirstAtomicValueByNameInData(pathAttribute,
+			return pathAttributes.every(function(pathAttrib) {
+				var pathAttribute = new CORA.CoraData(pathAttrib);
+				var pathAttributeKey = pathAttribute.getFirstAtomicValueByNameInData(
 						"attributeName");
-				var pathAttributeValue = getFirstAtomicValueByNameInData(pathAttribute,
+				var pathAttributeValue = pathAttribute.getFirstAtomicValueByNameInData(
 						"attributeValue");
 				return containerAttributes[pathAttributeKey] === pathAttributeValue;
 			});
@@ -281,11 +285,12 @@ var CORA = (function(cora) {
 		}
 
 		function pathAttributesHasNameAndValue(pathAttributes, name, value) {
-			return pathAttributes.some(function(pathAttribute) {
-				var pathAttributeKey = getFirstAtomicValueByNameInData(pathAttribute,
-						"attributeName");
-				var pathAttributeValue = getFirstAtomicValueByNameInData(pathAttribute,
-						"attributeValue");
+			return pathAttributes.some(function(pathAttrib) {
+				var pathAttribute = new CORA.CoraData(pathAttrib);
+				var pathAttributeKey = pathAttribute.getFirstAtomicValueByNameInData(
+				"attributeName");
+				var pathAttributeValue = pathAttribute.getFirstAtomicValueByNameInData(
+				"attributeValue");
 				return pathAttributeKey === name && pathAttributeValue === value;
 			});
 		}
