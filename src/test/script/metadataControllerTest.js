@@ -20,11 +20,11 @@
 "use strict";
 
 QUnit.module("CORA.MetadataController", {
-	setup : function() {
+	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubSpy();
 	},
-	teardown : function() {
+	afterEach : function() {
 	}
 });
 

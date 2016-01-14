@@ -19,11 +19,11 @@
 "use strict";
 
 QUnit.module("CORA.DataCreatorFactory", {
-	setup : function() {
+	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubStub();
 	},
-	teardown : function() {
+	afterEach : function() {
 	}
 });
 
