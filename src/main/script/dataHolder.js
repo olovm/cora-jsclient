@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.DataHolder = function (metadataIdIn, metadataProviderIn, pubSubIn) {
+	cora.DataHolder = function(metadataIdIn, metadataProviderIn, pubSubIn) {
 		var metadataId = metadataIdIn;
 		var metadataProvider = metadataProviderIn;
 		var pubSub = pubSubIn;
@@ -32,10 +32,8 @@ var CORA = (function(cora) {
 
 		function createDataContainerForElementWithId(id) {
 			var metadataElement = getMetadataById(id);
-//			var nameInData = getFirstChildByNameInData(metadataElement, 'nameInData');
 			var nameInData = metadataElement.getFirstAtomicValueByNameInData('nameInData');
 			var dataContainerPart = {};
-//			dataContainerPart.name = nameInData.value;
 			dataContainerPart.name = nameInData;
 
 			addContainerContentFromElement(dataContainerPart, metadataElement);
@@ -43,8 +41,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-//			return metadataProvider.getMetadataById(id);
-				return new CORA.CoraData(metadataProvider.getMetadataById(id));
+			return new CORA.CoraData(metadataProvider.getMetadataById(id));
 		}
 
 		function getFirstChildByNameInData(dataStructure, name) {
@@ -55,7 +52,6 @@ var CORA = (function(cora) {
 					return child;
 				}
 			}
-
 			throw new Error("name(" + name + ") not found in children to dataStructure");
 		}
 
@@ -79,61 +75,17 @@ var CORA = (function(cora) {
 		}
 
 		function addGroupParts(dataContainerPart, metadataElement) {
-//			dataContainerPart.children = createChildList(metadataElement);
 			dataContainerPart.children = [];
-			
-//			if (hasAttributes(metadataElement)) {
+
 			if (metadataElement.containsChildWithNameInData("attributeReferences")) {
 				dataContainerPart.attributes = createAttributesContainer(metadataElement);
 			}
 		}
 
-//		function createChildList(metadataElement) {
-//			var childList = [];
-//			// loop children to current group
-//			var childReferences = getFirstChildByNameInData(metadataElement, 'childReferences');
-//			childReferences.children.forEach(function(childReference) {
-//				childList = childList.concat(createChild(childReference));
-//			});
-//			return childList;
-//		}
-//
-//		function createChild(childReference) {
-//			var outList = [];
-//			var ref = getFirstAtomicValueByNameInData(childReference, 'ref');
-//			var repeatMin = getFirstAtomicValueByNameInData(childReference, 'repeatMin');
-//			var canRepeat = canChildReferenceRepeat(childReference);
-//			for (var i3 = 0; i3 < repeatMin; i3++) {
-//				var childContainer = createDataContainerForElementWithId(ref);
-//				if (canRepeat) {
-//					childContainer.repeatId = String(i3);
-//				}
-//				outList.push(childContainer);
-//			}
-//			return outList;
-//		}
-//		function canChildReferenceRepeat(childReference) {
-//			var repeatMax = getFirstAtomicValueByNameInData(childReference, 'repeatMax');
-//			if("X"===repeatMax){
-//				return true;
-//			}
-//			return repeatMax > 1;
-//		}
-//		function getFirstAtomicValueByNameInData(dataStructure, name) {
-//			return getFirstChildByNameInData(dataStructure, name).value;
-//		}
-
-//		function hasAttributes(metadataElement) {
-//			if (dataStructureContainsChild(metadataElement, 'attributeReferences')) {
-//				return true;
-//			}
-//			return false;
-//		}
-
 		function createAttributesContainer(metadataElement) {
 			var attributeContainer = {};
-			var attributeReferences = metadataElement.getFirstChildByNameInData(
-					'attributeReferences');
+			var attributeReferences = metadataElement
+					.getFirstChildByNameInData('attributeReferences');
 			attributeReferences.children.forEach(function(attributeReference) {
 				var ref = attributeReference.value;
 				var attribute = getMetadataById(ref);
@@ -170,20 +122,16 @@ var CORA = (function(cora) {
 		};
 
 		this.setValue = function(path, value) {
-			tryToSetValueInContainerListUsingPath(dataContainer.children, path, value);
-		};
- 
-		function tryToSetValueInContainerListUsingPath(dataContainerPart, path, value) {
 			try {
-				setValueInContainerListUsingPath(dataContainerPart, path, value);
+				setValueInContainerListUsingPath(path, value);
 			} catch (e) {
-				throw new Error("path(" + JSON.stringify(path) + ") not found in dataContainers:"+e);
+				throw new Error("path(" + JSON.stringify(path) + ") not found in dataHolder:" + e);
 			}
-		}
+		};
 
-		function setValueInContainerListUsingPath(dataContainers, path, value) {
+		function setValueInContainerListUsingPath(path, value) {
 			// TODO: split findContainerAndAtomicPath into two functions
-			var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainers, path);
+			var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainer, path);
 			var containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
 			containerSpecifiedByPath.value = value;
 		}
@@ -192,9 +140,8 @@ var CORA = (function(cora) {
 			var container = findContainerByPathInCurrentLevel(dataContainers, path);
 
 			if (pathSpecifiesMoreLevels(path)) {
-				var containerChildren = container.children;
 				var childPath = getFirstChildByNameInData(path, "linkedPath");
-				return findContainerAndAtomicPath(containerChildren, childPath);
+				return findContainerAndAtomicPath(container, childPath);
 			}
 
 			var returnObj = {};
@@ -204,115 +151,29 @@ var CORA = (function(cora) {
 		}
 
 		function findContainerByPathInCurrentLevel(dataContainers, path) {
-			var foundContainers = findContainersSpecifiedByNameInDataAndAttributes(dataContainers,
-					path);
-			if (isPathSpecifyingARepeatingContainer(path)) { 
-				return foundContainers[getFirstChildByNameInData(path, "repeatId").value];
+			if (dataStructureContainsChild(path, "nameInData")) {
+				var nameInData = getFirstChildByNameInData(path, "nameInData").value
 			}
-			if (listContainsOneElement(foundContainers)) {
-				return foundContainers[0];
+			if (dataStructureContainsChild(path, "attributes")) {
+				var attributes = getFirstChildByNameInData(path, "attributes");
+			}
+			var cdataContainers = new CORA.CoraData(dataContainers);
+			var foundContainers2 = [];
+			if (cdataContainers.containsChildWithNameInDataAndAttributes(nameInData, attributes)) {
+				foundContainers2 = cdataContainers.getChildrenByNameInDataAndAttributes(nameInData,
+						attributes);
+			}
+
+			if (dataStructureContainsChild(path, "repeatId")) {
+				var repeatId = getFirstChildByNameInData(path, "repeatId").value;
+				return foundContainers2.find(function(container) {
+					return container.repeatId === repeatId;
+				});
+			}
+			if (listContainsOneElement(foundContainers2)) {
+				return foundContainers2[0];
 			}
 			throw new Error("path(" + JSON.stringify(path) + ") not found dataContainers");
-		}
-
-		function findContainersSpecifiedByNameInDataAndAttributes(containers, path) {
-			var foundContainers = [];
-			containers.forEach(function(container) {
-				if (containerIsSpecifiedByNameInDataAndAttributes(container, path)) {
-					if (isPathSpecifyingARepeatingContainer(path)) {
-						foundContainers[container.repeatId] = container;
-					} else {
-						foundContainers.push(container);
-					}
-				}
-			});
-
-			return foundContainers;
-		}
-
-		function containerIsSpecifiedByNameInDataAndAttributes(container, path) {
-			return containerIsSpecifiedByNameInData(container, path)
-					&& containerIsSpecifiedByAttributes(container, path);
-		}
-
-		function containerIsSpecifiedByNameInData(container, path) {
-			return container.name === getFirstChildByNameInData(path, "nameInData").value;
-		}
-
-		function containerIsSpecifiedByAttributes(container, path) {
-			if (containerAndPathHasAttributes(container, path)) {
-				return containerHasSameAttributesAsPath(container, path);
-			}
-			if (containerAndPathDoesNotHaveAttributes(container, path)) {
-				return true;
-			}
-			return false;
-		}
-
-		function containerAndPathHasAttributes(container, path) {
-			return pathHasAttributes(path) && containerHasAttributes(container);
-		}
-
-		function containerAndPathDoesNotHaveAttributes(container, path) {
-			return pathDoesNotHaveAttributes(path) && containerDoesNotHaveAttributes(container);
-		}
-
-		function containerHasSameAttributesAsPath(container, path) {
-			var containerAttributes = container.attributes;
-			var pathAttributes = getFirstChildByNameInData(path, "attributes").children;
-			return containerHasAllPathAttributes(containerAttributes, pathAttributes)
-					&& pathHasAllContainerAttributes(containerAttributes, pathAttributes);
-		}
-
-		function containerHasAllPathAttributes(containerAttributes, pathAttributes) {
-			return pathAttributes.every(function(pathAttrib) {
-				var pathAttribute = new CORA.CoraData(pathAttrib);
-				var pathAttributeKey = pathAttribute.getFirstAtomicValueByNameInData(
-						"attributeName");
-				var pathAttributeValue = pathAttribute.getFirstAtomicValueByNameInData(
-						"attributeValue");
-				return containerAttributes[pathAttributeKey] === pathAttributeValue;
-			});
-		}
-
-		function pathHasAllContainerAttributes(containerAttributes, pathAttributes) {
-			var containerAttributeKeys = Object.keys(containerAttributes);
-			return containerAttributeKeys.every(function(containerAttributeKey) {
-				var containerAttributeValue = containerAttributes[containerAttributeKey];
-				return pathAttributesHasNameAndValue(pathAttributes, containerAttributeKey,
-						containerAttributeValue);
-			});
-		}
-
-		function pathAttributesHasNameAndValue(pathAttributes, name, value) {
-			return pathAttributes.some(function(pathAttrib) {
-				var pathAttribute = new CORA.CoraData(pathAttrib);
-				var pathAttributeKey = pathAttribute.getFirstAtomicValueByNameInData(
-				"attributeName");
-				var pathAttributeValue = pathAttribute.getFirstAtomicValueByNameInData(
-				"attributeValue");
-				return pathAttributeKey === name && pathAttributeValue === value;
-			});
-		}
-
-		function pathHasAttributes(path) {
-			return dataStructureContainsChild(path, "attributes");
-		}
-
-		function pathDoesNotHaveAttributes(path) {
-			return !pathHasAttributes(path);
-		}
-
-		function containerHasAttributes(container) {
-			return container.attributes !== undefined;
-		}
-
-		function containerDoesNotHaveAttributes(container) {
-			return !containerHasAttributes(container);
-		}
-
-		function isPathSpecifyingARepeatingContainer(path) {
-			return dataStructureContainsChild(path, "repeatId");
 		}
 
 		function listContainsOneElement(list) {
@@ -331,14 +192,15 @@ var CORA = (function(cora) {
 			try {
 				addChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
 			} catch (e) {
-				throw new Error("path(" + JSON.stringify(parentPath) + ") not found in dataContainers:"+e);
+				throw new Error("path(" + JSON.stringify(parentPath)
+						+ ") not found in dataContainers:" + e);
 			}
 		}
 
 		function addChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
 			var containerSpecifiedByPath = dataContainer;
-			if(parentPath.children !== undefined){
-				var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainer.children,
+			if (parentPath.children !== undefined) {
+				var foundContainerAndAtomicPath = findContainerAndAtomicPath(dataContainer,
 						parentPath);
 				containerSpecifiedByPath = foundContainerAndAtomicPath.dataContainer;
 			}
