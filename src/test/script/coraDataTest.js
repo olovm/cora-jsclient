@@ -16,7 +16,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 "use strict";
+
+//begin workaround qunit does not report number of tests
+var testCount = 0;
+var qunitTest = QUnit.test;
+QUnit.test = window.test = function() {
+	testCount += 1;
+	qunitTest.apply(this, arguments);
+};
+QUnit.begin(function(args) {
+	args.totalTests = testCount;
+});
+//end workaround qunit does not report number of tests
 
 QUnit.module("CORA.CoraData", {
 	beforeEach : function() {

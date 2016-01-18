@@ -19,18 +19,6 @@
  */
 "use strict";
 
-// begin workaround qunit does not report number of tests
-var testCount = 0;
-var qunitTest = QUnit.test;
-QUnit.test = window.test = function() {
-	testCount += 1;
-	qunitTest.apply(this, arguments);
-};
-QUnit.begin(function(args) {
-	args.totalTests = testCount;
-});
-// end workaround qunit does not report number of tests
-
 QUnit.assert.stringifyEqual = function(actual, expected, message) {
 	QUnit.assert.deepEqual(JSON.stringify(actual), JSON.stringify(expected), message);
 }
