@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Olov McKie
+ * Copyright 2015, 2016 Olov McKie
  * Copyright 2015 Uppsala University Library
  *
  * This file is part of Cora.
@@ -380,6 +380,63 @@ function MetadataProviderStub() {
 					createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
 							"textVar", "1","1","3") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [
+					              
+					              createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+					            		  "textVarRepeat1to3InGroupOneAttribute", "1", "0", "2") ,
+				createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+						"textVarRepeat1to3InGroupOtherAttribute", "1", "0", "2") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat1to1InGroup") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [
+					              
+					              createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+					            		  "textVarRepeat1to3InGroupOneAttribute", "1", "1", "1") ,
+					            		  createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+					            				  "textVarRepeat1to3InGroupOtherAttribute", "1", "1", "1") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "textVarRepeat1to3InGroupOtherAttribute") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [  {
+					"name" : "attributeReferences",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "anOtherAttribute",
+						"repeatId" : "1"
+					} ]
+				
+				}, {
+					"name" : "childReferences",
+					"children" : [
+					              
+					              createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+					            		  "textVar", "1","1","3") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("textVarRepeat1to3InGroupOneAttribute"))
 			};
 		}
 		if (idToGet === "textVar") {
