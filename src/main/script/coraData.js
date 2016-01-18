@@ -221,6 +221,21 @@ var CORA = (function(cora) {
 		this.getAtomicValueByNameInDataAndIndex = function(name, index) {
 			return this.getChildByNameInDataAndIndex(name, index).value;
 		};
+
+		this.containsChildWithNameInDataAndRepeatId = function(nameInData, repeatId) {
+			var filter = new createNameInDataAndRepeatIdFilter(nameInData, repeatId);
+			return children.some(filter);
+		};
+
+		function createNameInDataAndRepeatIdFilter(nameInDataIn, repeatId) {
+			var filter = createNameInDataFilter(nameInDataIn);
+			return function(child) {
+				if (filter(child) && child.repeatId === repeatId) {
+					return true;
+				}
+				return false;
+			};
+		}
 	};
 	return cora;
 }(CORA || {}));
