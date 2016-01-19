@@ -116,23 +116,31 @@ QUnit.module("CORA.CoraData", {
 			}
 		};
 		this.thirdChild3 = {
-				"name" : "groupIdOneTextChild",
-				"children" : [ {
-					"name" : "textVariableId",
-					"value" : "A Value1"
-				} ],
-				"repeatId" : "one"
+			"name" : "groupIdOneTextChild",
+			"children" : [ {
+				"name" : "textVariableId",
+				"value" : "A Value1"
+			} ],
+			"repeatId" : "one"
 		};
 		this.fourthChild3 = {
-				"name" : "groupIdOneTextChild",
-				"children" : [ {
-					"name" : "textVariableId",
-					"value" : "A Value1"
-				} ]
+			"name" : "groupIdOneTextChild",
+			"children" : [ {
+				"name" : "textVariableId",
+				"value" : "A Value1"
+			} ]
+		};
+		this.fifthChild3 = {
+			"name" : "groupIdOneTextChildOther",
+			"children" : [ {
+				"name" : "textVariableId",
+				"value" : "A Value1"
+			} ]
 		};
 		this.groupInGroupOneTextChildAllTypes = {
 			"name" : "topGroupAll",
-			"children" : [ this.firstChild3, this.secondChild3, this.thirdChild3, this.fourthChild3 ]
+			"children" : [ this.firstChild3, this.secondChild3, this.thirdChild3,
+					this.fourthChild3, this.fifthChild3 ]
 		};
 		this.coraDataWithAllTypes = new CORA.CoraData(this.groupInGroupOneTextChildAllTypes);
 
@@ -212,6 +220,7 @@ QUnit.test("testContainsChildWithNameInDataAndAttributeWrongAttributeName", func
 	assert.notOk(this.coraDataWithAttribute.containsChildWithNameInDataAndAttributes(
 			"groupIdOneTextChildOneAttribute", attributes));
 });
+
 QUnit.test("testContainsChildWithNameInDataAndAttributeWrongAttributeValue", function(assert) {
 	var attributes = createAttributes();
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
@@ -325,6 +334,15 @@ QUnit.test("testgetFirstChildByNameInDataAndAttributeNoAttributes", function(ass
 	}, "Error");
 });
 
+QUnit.test("testgetChildrenByNameInDataAndAttributeNoAttributes", function(assert) {
+	var attributes = createAttributes();
+
+	assert.throws(function() {
+		this.coraDataWithAttribute.getChildrenByNameInDataAndAttributes(
+				"groupIdOneTextChildOneAttribute", attributes);
+	}, "Error");
+});
+
 QUnit.test("testGetFirstChildByNameInDataAndAttributeButNoAttributeInMetadata", function(assert) {
 	var attributes = createAttributes();
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
@@ -417,19 +435,6 @@ QUnit.test("testGetChildByNameInDataAndRepeatIdNotFound2", function(assert) {
 	}, "Error");
 });
 
-//coraDataWithAllTypes
-//groupInGroupOneTextChildAllTypes
-//this.firstChild3 = {
-//		"name" : "groupIdOneTextChild",
-//		"children" : [ {
-//			"name" : "textVariableId",
-//			"value" : "A Value1"
-//		} ],
-//		"attributes" : {
-//			"anAttribute" : "aFinalValue"
-//		},
-//		"repeatId" : "one"
-//	};
 QUnit.test("testContainsChildAllTypes", function(assert) {
 	var attributes = createAttributes();
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
@@ -438,16 +443,43 @@ QUnit.test("testContainsChildAllTypes", function(assert) {
 			"groupIdOneTextChild", attributes, "one"));
 });
 
-// QUnit.test("testGetChildrenByNameInDataAndAttributesAndRepeatId",
-// function(assert) {
-// var attributes = createAttributes();
-// attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
-// "aFinalValue"));
-//
-// var children =
-// this.coraDataWithAttribute2.getChildrenByNameInDataAndAttributesAndRepeatId(
-// "groupIdOneTextChildOneAttribute", attributes);
-// assert.deepEqual(JSON.stringify(children),
-// JSON.stringify([this.firstChild2]));
-// assert.stringifyEqual(dataHolder.getData(), expected);
-// });
+QUnit.test("testContainsChildAllTypesWrongRepeatId", function(assert) {
+	var attributes = createAttributes();
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+			"aFinalValue"));
+	assert.notOk(this.coraDataWithAllTypes.containsChildWithNameInDataAndAttributesAndRepeatId(
+			"groupIdOneTextChild", attributes, "oneNOT"));
+});
+
+QUnit.test("testContainsChildAllTypesWrongAttribute", function(assert) {
+	var attributes = createAttributes();
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+			"aFinalValueNOT"));
+	assert.notOk(this.coraDataWithAllTypes.containsChildWithNameInDataAndAttributesAndRepeatId(
+			"groupIdOneTextChild", attributes, "one"));
+});
+
+QUnit.test("testContainsChildAllTypesWrongNameInData", function(assert) {
+	var attributes = createAttributes();
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+			"aFinalValue"));
+	assert.notOk(this.coraDataWithAllTypes.containsChildWithNameInDataAndAttributesAndRepeatId(
+			"groupIdOneTextChildNOT", attributes, "one"));
+});
+
+QUnit.test("testContainsChildAllTypesNotUsingRepeatId", function(assert) {
+	var attributes = createAttributes();
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+			"aFinalValue"));
+	assert.ok(this.coraDataWithAllTypes.containsChildWithNameInDataAndAttributes(
+			"groupIdOneTextChild", attributes));
+});
+
+QUnit.test("testContainsChildAllTypesNotUsingAttributes", function(assert) {
+	assert.ok(this.coraDataWithAllTypes.containsChildWithNameInDataAndRepeatId(
+			"groupIdOneTextChild", "one"));
+});
+
+QUnit.test("testContainsChildAllTypesOnlyNameInData", function(assert) {
+	assert.ok(this.coraDataWithAllTypes.containsChildWithNameInData("groupIdOneTextChild"));
+});
