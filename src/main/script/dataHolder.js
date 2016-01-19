@@ -94,7 +94,6 @@ var CORA = (function(cora) {
 
 		this.getMetadataId = function() {
 			// priviledged
-			this.getPubSub();
 			return metadataId;
 		};
 

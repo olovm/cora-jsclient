@@ -22,16 +22,34 @@ QUnit.module("CORA.Presentation", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubStub();
-//		this.newDataHolder = function(metadataId) {
-//			return new CORA.DataHolder(metadataId, this.metadataProvider, this.pubSub);
-//		}
+		this.newPresentation = function(presentationId) {
+			return new CORA.Presentation(presentationId, this.metadataProvider, this.pubSub);
+		}
 	},
 	afterEach : function() {
 	}
 });
 
-//QUnit.test("testInit", function(assert) {
-//	var dataHolder = this.newDataHolder("recordTypeOnlyMetadataIdChild");
-//	assert.deepEqual("recordTypeOnlyMetadataIdChild", dataHolder.getMetadataId());
-//	assert.ok(dataHolder.getPubSub());
-//});
+QUnit.test("testInit", function(assert) {
+	var presentation = this.newPresentation("pgGroupIdOneTextChild");
+	assert.deepEqual("pgGroupIdOneTextChild", presentation.getPresentationId());
+	assert.ok(presentation.getPubSub());
+});
+
+QUnit.test("testCreateOneChild", function(assert) {
+	var presentation = this.newPresentation("pgGroupIdOneTextChild");
+	var expected = "<div></div>";
+	var view = presentation.getView();
+	view.height = "10px";
+	view.width = "10px";
+	
+	var qunitFixture = document.createElement("div");
+	qunitFixture.id = "qunit-fixture";
+	document.body.appendChild(qunitFixture);
+//	document.getElementById("qunit-fixture");
+	qunitFixture.appendChild(view);
+	console.log("outerHTML:" + view.outerHTML);
+	console.log("visible:" + view.offsetHeight); 
+	console.log("qunit-fixture:" + qunitFixture);
+	assert.deepEqual(view.outerHTML, expected);
+});

@@ -22,6 +22,28 @@ var CORA = (function(cora) {
 		var presentationId = presentationIdIn;
 		var metadataProvider = metadataProviderIn;
 		var pubSub = pubSubIn;
+		
+		var view = createBaseView();
+		
+		function createBaseView(){
+			var view = document.createElement("div");
+			return view;
+		}
+		
+		
+		this.getPresentationId = function() {
+			return presentationId;
+		};
+		
+		this.getPubSub = function() {
+			return pubSub;
+		};
+		
+		this.getView = function() {
+			return view;
+		};
+		
+		
 	};
 	return cora;
 }(CORA || {}));
