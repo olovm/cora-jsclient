@@ -131,23 +131,13 @@ var CORA = (function(cora) {
 			if (path.containsChildWithNameInData("attributes")) {
 				var attributes = path.getFirstChildByNameInData("attributes");
 			}
-			var cdataContainers = new CORA.CoraData(dataContainers);
-			var foundContainers = [];
-			if (cdataContainers.containsChildWithNameInDataAndAttributes(nameInData, attributes)) {
-				foundContainers = cdataContainers.getChildrenByNameInDataAndAttributes(nameInData,
-						attributes);
-			}
-
 			if (path.containsChildWithNameInData("repeatId")) {
 				var repeatId = path.getFirstAtomicValueByNameInData("repeatId");
-				return foundContainers.find(function(container) {
-					return container.repeatId === repeatId;
-				});
 			}
-			if (listContainsOneElement(foundContainers)) {
-				return foundContainers[0];
-			}
-			throw new Error("path(" + JSON.stringify(path.getData()) + ") not found dataContainers");
+			var cdataContainers = new CORA.CoraData(dataContainers);
+
+			return cdataContainers.getFirstChildByNameInDataAndAttributesAndRepeatId(nameInData,
+					attributes, repeatId);
 		}
 
 		function listContainsOneElement(list) {

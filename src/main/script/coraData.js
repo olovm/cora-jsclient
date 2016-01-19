@@ -272,6 +272,19 @@ var CORA = (function(cora) {
 				return false;
 			};
 		}
+
+		this.getFirstChildByNameInDataAndAttributesAndRepeatId = function(nameInData, attributes,
+				repeatId) {
+			var filter = createNameInDataAndAttributesAndRepeatIdFilter(nameInData, attributes,
+					repeatId);
+			var foundChild = children.find(filter);
+			if (foundChild !== undefined) {
+				return foundChild;
+			}
+			throw new Error("name(" + nameInData + ") with attributes ("
+					+ JSON.stringify(attributes) + ") and repeatId (" + repeatId
+					+ ") not found in children to coraData");
+		};
 	};
 	return cora;
 }(CORA || {}));

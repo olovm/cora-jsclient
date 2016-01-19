@@ -483,3 +483,24 @@ QUnit.test("testContainsChildAllTypesNotUsingAttributes", function(assert) {
 QUnit.test("testContainsChildAllTypesOnlyNameInData", function(assert) {
 	assert.ok(this.coraDataWithAllTypes.containsChildWithNameInData("groupIdOneTextChild"));
 });
+
+QUnit.test("testGetFirstChildByNameInDataAndAttributesAndRepeatId", function(assert) {
+	var attributes = createAttributes();
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+			"aFinalValue"));
+	var firstChildFound = this.coraDataWithAllTypes
+			.getFirstChildByNameInDataAndAttributesAndRepeatId("groupIdOneTextChild", attributes,
+					"one");
+	assert.stringifyEqual(firstChildFound, this.firstChild3);
+});
+
+QUnit.test("testGetFirstChildByNameInDataAndAttributesAndRepeatIdWrongSomething", function(assert) {
+	var attributes = createAttributes();
+	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
+			"aFinalValue"));
+
+	assert.throws(function() {
+		this.coraDataWithAllTypes.getFirstChildByNameInDataAndAttributesAndRepeatId(
+				"groupIdOneTextChild", attributes, "oneNOT");
+	}, "Error");
+});
