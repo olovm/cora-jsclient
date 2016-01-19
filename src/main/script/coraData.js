@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Olov McKie
+ * Copyright 2015, 2016 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -190,7 +190,7 @@ var CORA = (function(cora) {
 		}
 
 		this.containsChildWithNameInDataAndIndex = function(nameInData, index) {
-			var filter = new createNameInDataAndIndexFilter(nameInData, index);
+			var filter = createNameInDataAndIndexFilter(nameInData, index);
 			return children.some(filter);
 		};
 
@@ -209,7 +209,7 @@ var CORA = (function(cora) {
 		}
 
 		this.getChildByNameInDataAndIndex = function(nameInData, index) {
-			var filter = new createNameInDataAndIndexFilter(nameInData, index);
+			var filter = createNameInDataAndIndexFilter(nameInData, index);
 			var foundChild = children.find(filter);
 			if (foundChild !== undefined) {
 				return foundChild;
@@ -223,14 +223,50 @@ var CORA = (function(cora) {
 		};
 
 		this.containsChildWithNameInDataAndRepeatId = function(nameInData, repeatId) {
-			var filter = new createNameInDataAndRepeatIdFilter(nameInData, repeatId);
+			var filter = createNameInDataAndRepeatIdFilter(nameInData, repeatId);
 			return children.some(filter);
 		};
 
 		function createNameInDataAndRepeatIdFilter(nameInDataIn, repeatId) {
 			var filter = createNameInDataFilter(nameInDataIn);
+			var repeatIdFilter = createRepeatIdFilter(repeatId);
 			return function(child) {
-				if (filter(child) && child.repeatId === repeatId) {
+				if (filter(child) && repeatIdFilter(child)) {
+					return true;
+				}
+				return false;
+			};
+		}
+
+		function createRepeatIdFilter(repeatId) {
+			return function(child) {
+				return child.repeatId === repeatId;
+			};
+		}
+
+		this.getFirstChildByNameInDataAndRepeatId = function(nameInData, repeatId) {
+			var filter = createNameInDataAndRepeatIdFilter(nameInData, repeatId);
+			var foundChild = children.find(filter);
+			if (foundChild !== undefined) {
+				return foundChild;
+			}
+			throw new Error("name(" + nameInData + ") with repeatId (" + repeatId
+					+ ") not found in children to coraData");
+		};
+
+		this.containsChildWithNameInDataAndAttributesAndRepeatId = function(nameInData, attributes,
+				repeatId) {
+			var filter = createNameInDataAndAttributesAndRepeatIdFilter(nameInData, attributes,
+					repeatId);
+			return children.some(filter);
+		};
+
+		function createNameInDataAndAttributesAndRepeatIdFilter(nameInDataIn, attributes, repeatId) {
+			var filter = createNameInDataFilter(nameInDataIn);
+			var attributesFilter = createAttributesFilter(attributes);
+			var repeatIdFilter = createRepeatIdFilter(repeatId);
+			return function(child) {
+				if (filter(child) && attributesFilter(child) && repeatIdFilter(child)) {
 					return true;
 				}
 				return false;
