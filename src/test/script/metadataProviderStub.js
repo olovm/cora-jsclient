@@ -1059,12 +1059,11 @@ function MetadataProviderStub() {
 				}
 			};
 		}
-		throw new Error("Id(" + idToGet + ") not found in stub");
-	}
 
-	this.getPresentationById = function(idToGet) {
+		// presentation
+
 		switch (idToGet) {
-		case "pgTextVariableId":
+		case "pVarTextVariableId":
 			return {
 				"name" : "presentation",
 				"attributes" : {
@@ -1074,7 +1073,7 @@ function MetadataProviderStub() {
 					"name" : "recordInfo",
 					"children" : [ {
 						"name" : "id",
-						"value" : "pgTextVariableId"
+						"value" : "pVarTextVariableId"
 					} ]
 				}, {
 					"name" : "presentationOf",
@@ -1088,31 +1087,27 @@ function MetadataProviderStub() {
 
 		case "pgGroupIdOneTextChild":
 			return {
-				"presentation" : {
-					"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-						"id" : "pgGroupIdOneTextChild"
-					}, {
-						"presentationOf" : "groupIdOneTextChild"
-					}, {
-						"childReferences" : {
-							"children" : [ {
-								"childReference" : {
-									"children" : [ {
-										"presentationOf" : "textVariableId"
-									}, {
-										"ref" : "pgTextVariableId"
-									}, {
-										"name" : "default",
-										"value" : "ref"
-									} ]
-								}
-							} ]
-						}
-					} ]),
-					"attributes" : {
-						"type" : "refGroup"
-					}
-				}
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdOneTextChild"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableId"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
 			};
 			break;
 
@@ -1174,7 +1169,123 @@ function MetadataProviderStub() {
 			throw new Error("Id(" + idToGet + ") not found in stub");
 			break;
 		}
+
+		// throw new Error("Id(" + idToGet + ") not found in stub");
 	}
+
+	// this.getPresentationById = function(idToGet) {
+	// switch (idToGet) {
+	// case "pgTextVariableId":
+	// return {
+	// "name" : "presentation",
+	// "attributes" : {
+	// "type" : "pVar"
+	// },
+	// "children" : [ {
+	// "name" : "recordInfo",
+	// "children" : [ {
+	// "name" : "id",
+	// "value" : "pgTextVariableId"
+	// } ]
+	// }, {
+	// "name" : "presentationOf",
+	// "value" : "textVariableId"
+	// }, {
+	// "name" : "mode",
+	// "value" : "input"
+	// } ]
+	// };
+	// break;
+	//
+	// case "pgGroupIdOneTextChild":
+	// return {
+	// "presentation" : {
+	// "children" : [ createRecordInfoJson(idToGet) ].concat([ {
+	// "id" : "pgGroupIdOneTextChild"
+	// }, {
+	// "presentationOf" : "groupIdOneTextChild"
+	// }, {
+	// "childReferences" : {
+	// "children" : [ {
+	// "childReference" : {
+	// "children" : [ {
+	// "presentationOf" : "textVariableId"
+	// }, {
+	// "ref" : "pgTextVariableId"
+	// }, {
+	// "name" : "default",
+	// "value" : "ref"
+	// } ]
+	// }
+	// } ]
+	// }
+	// } ]),
+	// "attributes" : {
+	// "type" : "refGroup"
+	// }
+	// }
+	// };
+	// break;
+	//
+	// case "asdfasdfsad":
+	// return {
+	// "name" : "presentation",
+	// "attributes" : {
+	// "type" : "pGroup"
+	// },
+	// "children" : [ {
+	// "name" : "recordInfo",
+	// "children" : [ {
+	// "name" : "id",
+	// "value" : "myPGroup"
+	// } ]
+	// }, {
+	// "name" : "presentationOf",
+	// "value" : "myGroup"
+	// }, {
+	// "name" : "childReferences",
+	// "children" : [ {
+	// "name" : "childReference",
+	// "repeatId" : "1",
+	// "children" : [ {
+	// "name" : "ref",
+	// "value" : "myHeadlineText"
+	// }, {
+	// "name" : "default",
+	// "value" : "ref"
+	// } ]
+	// }, {
+	// "name" : "childReference",
+	// "repeatId" : "2",
+	// "children" : [ {
+	// "name" : "ref",
+	// "value" : "myChildPVar"
+	// }, {
+	// "name" : "default",
+	// "value" : "ref"
+	// } ]
+	// }, {
+	// "name" : "childReference",
+	// "repeatId" : "3",
+	// "children" : [ {
+	// "name" : "ref",
+	// "value" : "myChildPGroup"
+	// }, {
+	// "name" : "refMinimized",
+	// "value" : "myChildMinPGroup"
+	// }, {
+	// "name" : "default",
+	// "value" : "refMinimized"
+	// } ]
+	// } ]
+	// } ]
+	// };
+	// break;
+	// default:
+	// throw new Error("Id(" + idToGet + ") not found in stub");
+	// break;
+	// }
+	// }
 
 	this.getTextById = function() {
 		return {

@@ -35,24 +35,55 @@ QUnit.test("testInit", function(assert) {
 	var presentation = this.newPresentation("pgGroupIdOneTextChild");
 	assert.deepEqual("pgGroupIdOneTextChild", presentation.getPresentationId());
 	assert.ok(presentation.getPubSub());
+	
+	assert.deepEqual("pgGroupIdOneTextChild", presentation.test());
 });
 
 QUnit.test("testCreateOneChild", function(assert) {
 	var presentation = this.newPresentation("pgGroupIdOneTextChild");
-//	var expected = "<div></div>";
-//	var expected = '<div style="height: 10px; width: 10px;"></div>';
-	var expected = '<div class="presentation"></div>';
+//	var expected = '<div class="presentation pgGroupIdOneTextChild"></div>';
+	var expectedClassName = 'presentation pgGroupIdOneTextChild';
 	var view = presentation.getView();
-//	view.style.height = "10px";
-//	view.style.width = "10px";
 	
-//	var qunitFixture = document.getElementById("qunit-fixture");
-//	qunitFixture.appendChild(view);
 	this.fixture.appendChild(view);
-	console.log("outerHTML:" + view.outerHTML);
-	console.log("visible:" + view.offsetHeight); 
-//	console.log("qunit-fixture:" + qunitFixture);
-	console.log("qunit-fixture:" + this.fixture);
-	assert.deepEqual(view.outerHTML, expected);
-//	assert.deepEqual(qunitFixture.outerHTML, expected);
+	assert.ok(view.offsetHeight > 0, "presentation view should be visible");
+	assert.deepEqual(view.className, expectedClassName);
+	
+	assert.ok(view.childNodes.length === 1, "pgGroupIdOneTextChild, should have one child");
+	
+	var childRefHolder = view.firstChild;
+	assert.ok(childRefHolder.childNodes.length === 1, "childRefHolder, should have one child");
+	
+	
+	var pVar = childRefHolder.firstChild;
+	assert.deepEqual(pVar.className, "pVar pVarTextVariableId");
+	
+//	console.log("firstChild: " +childRefHolder.outerHTML);
+	
 });
+
+QUnit.test("testAddOneChild", function(assert) {
+	var presentation = this.newPresentation("pgGroupIdOneTextChild");
+	var expectedClassName = 'presentation pgGroupIdOneTextChild';
+	var view = presentation.getView();
+	this.fixture.appendChild(view);
+	
+	var childRefHolder = view.firstChild;
+	var pVar = childRefHolder.firstChild;
+	
+//	console.log("pVar: " +pVar.outerHTML);
+//	console.log("pVar: " +pVar.modelObject);
+	pVar.modelObject.add();
+	assert.ok(pVar.childNodes.length === 1, "pVar, should have one child");
+	var span = pVar.firstChild;
+	var input = span.firstChild;
+	assert.equal(input.value, "");
+	
+	input.modelObject.setValue("A Value");
+	assert.equal(input.value, "A Value");
+	
+	
+//	console.log("firstChild: " +childRefHolder.outerHTML);
+	
+});
+
