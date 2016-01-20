@@ -27,6 +27,7 @@ var CORA = (function(cora) {
 		
 		function createBaseView(){
 			var view = document.createElement("div");
+			view.className = "presentation";
 			return view;
 		}
 		

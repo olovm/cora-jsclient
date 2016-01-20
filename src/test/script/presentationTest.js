@@ -20,6 +20,7 @@
 
 QUnit.module("CORA.Presentation", {
 	beforeEach : function() {
+		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubStub();
 		this.newPresentation = function(presentationId) {
@@ -38,18 +39,20 @@ QUnit.test("testInit", function(assert) {
 
 QUnit.test("testCreateOneChild", function(assert) {
 	var presentation = this.newPresentation("pgGroupIdOneTextChild");
-	var expected = "<div></div>";
+//	var expected = "<div></div>";
+//	var expected = '<div style="height: 10px; width: 10px;"></div>';
+	var expected = '<div class="presentation"></div>';
 	var view = presentation.getView();
-	view.height = "10px";
-	view.width = "10px";
+//	view.style.height = "10px";
+//	view.style.width = "10px";
 	
-	var qunitFixture = document.createElement("div");
-	qunitFixture.id = "qunit-fixture";
-	document.body.appendChild(qunitFixture);
-//	document.getElementById("qunit-fixture");
-	qunitFixture.appendChild(view);
+//	var qunitFixture = document.getElementById("qunit-fixture");
+//	qunitFixture.appendChild(view);
+	this.fixture.appendChild(view);
 	console.log("outerHTML:" + view.outerHTML);
 	console.log("visible:" + view.offsetHeight); 
-	console.log("qunit-fixture:" + qunitFixture);
+//	console.log("qunit-fixture:" + qunitFixture);
+	console.log("qunit-fixture:" + this.fixture);
 	assert.deepEqual(view.outerHTML, expected);
+//	assert.deepEqual(qunitFixture.outerHTML, expected);
 });
