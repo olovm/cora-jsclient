@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -22,44 +23,72 @@ var CORA = (function(cora) {
 	cora.PubSub = function() {
 		var arbiter = Arbiter.create();
 		this.subscribe = function(type, path, context, functionToCall) {
-			arbiter.subscribe(this.convertPathToMsg(path)+type, null, context, functionToCall);
-		}
+			arbiter.subscribe(this.convertPathToMsg(path) + type, null, context, functionToCall);
+		};
+		
 		this.publish = function(type, data) {
-			arbiter.publish(this.convertPathToMsg(data.path)+type, data);
-		}
+			//TODO: think about if we should have an other function where we can use a preconverted
+			//path to not have to reconvert it for every publish....
+			arbiter.publish(this.convertPathToMsg(data.path) + type, data);
+		};
 
 		this.convertPathToMsg = function(path) {
-			return convertPathToMsg2(path, "root");
-			// return JSON.stringify(path);
-		}
-		function convertPathToMsg2(path, msgPart) {
+			return convertAndAddPathToMsg(path, "root");
+		};
+
+		function convertAndAddPathToMsg(path, msgPart) {
 			var cPath = new CORA.CoraData(path);
-			var msgPart2 = msgPart + "/";
-			if (path.children !== undefined && cPath.containsChildWithNameInData("nameInData")) {
-				msgPart2 += cPath.getFirstAtomicValueByNameInData("nameInData");
-
-				if (cPath.containsChildWithNameInData("attributes")) {
-					var attributes = cPath.getFirstChildByNameInData("attributes").children;
-					attributes.forEach(function(attribute) {
-						var cAttribute = new CORA.CoraData(attribute);
-						msgPart2 += '#' + cAttribute.getFirstAtomicValueByNameInData("attributeName");
-						msgPart2 += ':' + cAttribute.getFirstAtomicValueByNameInData("attributeValue");
-					});
-				}
-
-				if (cPath.containsChildWithNameInData("repeatId")) {
-					msgPart2 += '.' + cPath.getFirstAtomicValueByNameInData("repeatId");
-				}
-				
-				if (cPath.containsChildWithNameInData("linkedPath")) {
-					return convertPathToMsg2(cPath.getFirstChildByNameInData("linkedPath"), msgPart2);
-				}else{
-					msgPart2+=  "/";
-				}
+			var extendedMsgPart = msgPart + "/";
+			if (pathHasAtLeastOneLevel(cPath)) {
+				extendedMsgPart += recursivelyConvertPathToMsg(cPath);
 			}
-			return msgPart2;
+			return extendedMsgPart;
+		}
+		
+		function pathHasAtLeastOneLevel(cPath) {
+			return cPath.getData().children !== undefined
+					&& cPath.containsChildWithNameInData("nameInData");
+		}
+		
+		function recursivelyConvertPathToMsg(cPath) {
+			var msgPart = "";
+			msgPart += cPath.getFirstAtomicValueByNameInData("nameInData");
+			msgPart += convertPathAttributes(cPath);
+			msgPart += convertRepeatId(cPath);
+
+			if (pathHasMoreLevels(cPath)) {
+				return convertAndAddPathToMsg(cPath.getFirstChildByNameInData("linkedPath"),
+						msgPart);
+			}
+			msgPart += "/";
+			return msgPart;
+		}
+		
+		function pathHasMoreLevels(cPath) {
+			return cPath.containsChildWithNameInData("linkedPath");
+		}
+		
+		function convertPathAttributes(cPath) {
+			var msgAttribPart = "";
+			if (cPath.containsChildWithNameInData("attributes")) {
+				var attributes = cPath.getFirstChildByNameInData("attributes").children;
+				attributes.forEach(function(attribute) {
+					var cAttribute = new CORA.CoraData(attribute);
+					msgAttribPart += '#'
+							+ cAttribute.getFirstAtomicValueByNameInData("attributeName");
+					msgAttribPart += ':'
+							+ cAttribute.getFirstAtomicValueByNameInData("attributeValue");
+				});
+			}
+			return msgAttribPart;
+		}
+		
+		function convertRepeatId(cPath) {
+			if (cPath.containsChildWithNameInData("repeatId")) {
+				return '.' + cPath.getFirstAtomicValueByNameInData("repeatId");
+			}
+			return "";
 		}
 	};
-
 	return cora;
 }(CORA || {}));

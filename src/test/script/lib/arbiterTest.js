@@ -55,9 +55,9 @@ QUnit.test("testInit", function(assert) {
 	this.arbiter.subscribe(
 			'someName.attribName:attribValue.one/*',
 			function(data, msg) {
-				console.log("path/setValue: "+msg +' : ' + JSON.stringify(data));
+//				console.log("path/setValue: "+msg +' : ' + JSON.stringify(data));
 			})
-			this.arbiter.publish('someName.attribName:attribValue.one/setValue', createLinkedPathWithNameInData("someName"));
-	this.arbiter.publish('someName.attribName:attribValue.one/add', createLinkedPathWithNameInData("someName"));
+			this.arbiter.publish('someName#attribName:attribValue.one/setValue', createLinkedPathWithNameInData("someName"));
+	this.arbiter.publish('someName#attribName:attribValue.one/add', createLinkedPathWithNameInData("someName"));
 	assert.ok(true);
 });
