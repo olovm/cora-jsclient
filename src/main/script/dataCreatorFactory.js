@@ -19,16 +19,16 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.DataCreatorFactory = function (metadataIdIn, metadataProviderIn) {
+	cora.DataCreatorFactory = function(metadataIdIn, metadataProviderIn) {
 		var metadataId = metadataIdIn;
 		var metadataProvider = metadataProviderIn;
 		var dataContainer = createMainDataContainerWithChildrenAndAttributes();
 
 		function createMainDataContainerWithChildrenAndAttributes() {
 			// private
-//			return recursivelyCreateDataContainerForElementWithId(metadataId);
+			// return
+			// recursivelyCreateDataContainerForElementWithId(metadataId);
 		}
-		
 	};
 	return cora;
 }(CORA || {}));
