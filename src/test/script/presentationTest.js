@@ -35,8 +35,6 @@ QUnit.test("testInit", function(assert) {
 	var presentation = this.newPresentation("pgGroupIdOneTextChild");
 	assert.deepEqual("pgGroupIdOneTextChild", presentation.getPresentationId());
 	assert.ok(presentation.getPubSub());
-	
-	assert.deepEqual("pgGroupIdOneTextChild", presentation.test());
 });
 
 QUnit.test("testCreateOneChild", function(assert) {
@@ -64,7 +62,6 @@ QUnit.test("testCreateOneChild", function(assert) {
 
 QUnit.test("testAddOneChild", function(assert) {
 	var presentation = this.newPresentation("pgGroupIdOneTextChild");
-	var expectedClassName = 'presentation pgGroupIdOneTextChild';
 	var view = presentation.getView();
 	this.fixture.appendChild(view);
 	
