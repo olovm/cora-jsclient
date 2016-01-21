@@ -1,7 +1,7 @@
 /*
  * Copyright 2016 Uppsala University Library
  * Copyright 2016 Olov McKie
- * 
+ *
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -20,9 +20,6 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.PVar = function(parentPath, cParentMetadata, cPresentation, metadataProvider, pubSub) {
-		// var presentationMetadata = getMetadataById(presentationId);
-		// var metadataElement = getMetadataById(presentationMetadata
-		// .getFirstAtomicValueByNameInData("presentationOf"));
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = new CORA.CoraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
@@ -33,9 +30,9 @@ var CORA = (function(cora) {
 		view.modelObject = this;
 
 		function createBaseView() {
-			var view = document.createElement("span");
-			view.className = "pVar " + presentationId;
-			return view;
+			var viewNew = document.createElement("span");
+			viewNew.className = "pVar " + presentationId;
+			return viewNew;
 		}
 
 		function getMetadataById(id) {
@@ -59,11 +56,10 @@ var CORA = (function(cora) {
 				return childPath;
 			}
 			var lowestPath = getLowestPath(pathCopy);
-			// console.log("here2");
 			lowestPath.children.push(childPath);
 			return pathCopy;
 		}
-		
+
 		function createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId) {
 			var path = {
 				"name" : "linkedPath",
@@ -79,7 +75,7 @@ var CORA = (function(cora) {
 				});
 			}
 		}
-		
+
 		function getLowestPath(path) {
 			var cPath = new CORA.CoraData(path);
 			if (cPath.containsChildWithNameInData("linkedPath")) {

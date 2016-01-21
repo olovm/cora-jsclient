@@ -1,7 +1,7 @@
 /*
  * Copyright 2016 Uppsala University Library
  * Copyright 2016 Olov McKie
- * 
+ *
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -30,11 +30,11 @@ var CORA = (function(cora) {
 			return view;
 		}
 		function createInput(variableFunction) {
-			var input = document.createElement("input");
-			input.type = "text";
-			input.id = "id";
-			input.modelObject = variableFunction;
-			return input;
+			var inputNew = document.createElement("input");
+			inputNew.type = "text";
+			inputNew.id = "id";
+			inputNew.modelObject = variableFunction;
+			return inputNew;
 		}
 
 		this.getView = function() {

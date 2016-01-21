@@ -139,9 +139,9 @@ var CORA = (function(cora) {
 			return getFirstChildByNameInData(dataStructure, name).value;
 		}
 		function getFirstChildByNameInData(dataStructure, nameInData) {
-			var children = dataStructure.children;
+			var dataStructureChildren = dataStructure.children;
 			var filter = createNameInDataFilter(nameInData);
-			var foundChild = children.find(filter);
+			var foundChild = dataStructureChildren.find(filter);
 			if (foundChild !== undefined) {
 				return foundChild;
 			}
