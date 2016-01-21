@@ -24,8 +24,10 @@ var CORA = (function(cora) {
 		var presentationId = new CORA.CoraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
+		var cMetadataElement = getMetadataById(metadataId);
+		var nameInData = cMetadataElement.name;
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
-
+		
 		var view = createBaseView();
 		view.modelObject = this;
 
@@ -51,7 +53,7 @@ var CORA = (function(cora) {
 
 		function calculatePathForNewVar(repeatId) {
 			var pathCopy = JSON.parse(JSON.stringify(parentPath));
-			var childPath = createLinkedPathWithNameInDataAndRepeatId();
+			var childPath = createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId);
 			if (pathCopy.children === undefined) {
 				return childPath;
 			}

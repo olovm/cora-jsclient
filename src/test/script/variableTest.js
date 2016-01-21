@@ -41,16 +41,24 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
-QUnit.test("testInit", function(assert) {
+QUnit.test("testInitInput", function(assert) {
 	var variable = this.variableFactory.factor({},"","input");
 	var view = variable.getView();
 	this.fixture.appendChild(view);
 	var htmlInputTag = view.firstChild;
 
 	assert.equal(htmlInputTag.value, "");
+	
+	var subscriptions = this.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 1);
+	assert.deepEqual(subscriptions[0].type, "setValue");
+	assert.deepEqual(subscriptions[0].path, {});
+	assert.deepEqual(subscriptions[0].context, variable);
+	assert.ok(subscriptions[0].functionToCall!==undefined);
+	
 });
 
-QUnit.test("testSetValue", function(assert) {
+QUnit.test("testSetValueInput", function(assert) {
 	var variable = this.variableFactory.factor({},"","input");
 	var view = variable.getView();
 	this.fixture.appendChild(view);
@@ -59,3 +67,24 @@ QUnit.test("testSetValue", function(assert) {
 	variable.setValue("A Value");
 	assert.equal(htmlInputTag.value, "A Value");
 });
+
+QUnit.test("testInitOutput", function(assert) {
+	var variable = this.variableFactory.factor({},"","output");
+	var view = variable.getView();
+	this.fixture.appendChild(view);
+	var htmlOutputSpan = view.firstChild;
+	
+	assert.equal(htmlOutputSpan.nodeName, "SPAN");
+	assert.equal(htmlOutputSpan.innerHTML, "");
+});
+
+QUnit.test("testSetValueOutput", function(assert) {
+	var variable = this.variableFactory.factor({},"","output");
+	var view = variable.getView();
+	this.fixture.appendChild(view);
+	var htmlOutputSpan = view.firstChild;
+	
+	variable.setValue("A Value");
+	assert.equal(htmlOutputSpan.innerHTML, "A Value");
+});
+

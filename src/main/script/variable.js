@@ -21,20 +21,32 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.Variable = function(newPath, metadataId, mode, metadataProvider, pubSub) {
-		var view = createBaseView(this);
-		var input = createInput(this);
-		view.appendChild(input);
+		var view = createBaseView();
+		var htmlTag = createHtmlTag(this, mode);
+		view.appendChild(htmlTag);
+		pubSub.subscribe("setValue", newPath, this, handleMsg);
 
-		function createBaseView(variableFunction) {
+		function createBaseView() {
 			var view = document.createElement("span");
 			return view;
 		}
+		function createHtmlTag(variableFunction, viewMode) {
+			if (viewMode === "input") {
+				return createInput(variableFunction);
+			}
+			return createOutput(variableFunction);
+		}
+
 		function createInput(variableFunction) {
 			var inputNew = document.createElement("input");
 			inputNew.type = "text";
-			inputNew.id = "id";
 			inputNew.modelObject = variableFunction;
 			return inputNew;
+		}
+		function createOutput(variableFunction) {
+			var outputNew = document.createElement("span");
+			outputNew.modelObject = variableFunction;
+			return outputNew;
 		}
 
 		this.getView = function() {
@@ -42,8 +54,15 @@ var CORA = (function(cora) {
 		};
 
 		this.setValue = function(value) {
-			input.value = value;
+			if(mode==="input"){
+				htmlTag.value = value;
+			}else{
+				htmlTag.textContent = value;
+			}
 		};
+		function handleMsg(dataFromMsg, msg){
+			this.setValue(dataFromMsg.data);
+		}
 	};
 	return cora;
 }(CORA || {}));

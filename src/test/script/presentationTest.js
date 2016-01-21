@@ -22,7 +22,7 @@ QUnit.module("CORA.Presentation", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = new PubSubStub();
+		this.pubSub = new PubSubSpy();
 		this.newPresentation = function(presentationId) {
 			return new CORA.Presentation(presentationId, this.metadataProvider, this.pubSub);
 		}

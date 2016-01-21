@@ -19,11 +19,28 @@
 
 function PubSubSpy() {
 	var messages = [];
-	
-	this.publish = function(type, message){
-		messages.push({"type":type, "message":message});
+	var subscriptions = [];
+
+	this.publish = function(type, message) {
+		messages.push({
+			"type" : type,
+			"message" : message
+		});
 	};
-	this.getMessages = function(){
+	this.getMessages = function() {
 		return messages;
 	};
+
+	this.subscribe = function(type, path, context, functionToCall) {
+		subscriptions.push({
+			"type" : type,
+			"path" : path,
+			"context" : context,
+			"functionToCall" : functionToCall
+		});
+	}
+
+	this.getSubscriptions = function() {
+		return subscriptions;
+	}
 }
