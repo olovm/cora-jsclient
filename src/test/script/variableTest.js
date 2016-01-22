@@ -33,7 +33,7 @@ QUnit.module("CORA.Variable", {
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.VariableFactory = function(metadataProvider, pubSub) {
-		
+
 		this.factor = function(path, metadataId, mode) {
 			return new CORA.Variable(path, metadataId, mode, metadataProvider, pubSub);
 		};
@@ -42,49 +42,48 @@ var CORATEST = (function(coraTest) {
 }(CORATEST || {}));
 
 QUnit.test("testInitInput", function(assert) {
-	var variable = this.variableFactory.factor({},"","input");
+	var variable = this.variableFactory.factor({}, "textVariableId", "input");
 	var view = variable.getView();
 	this.fixture.appendChild(view);
 	var htmlInputTag = view.firstChild;
 
 	assert.equal(htmlInputTag.value, "");
-	
+
 	var subscriptions = this.pubSub.getSubscriptions();
 	assert.deepEqual(subscriptions.length, 1);
 	assert.deepEqual(subscriptions[0].type, "setValue");
 	assert.deepEqual(subscriptions[0].path, {});
 	assert.deepEqual(subscriptions[0].context, variable);
-	assert.ok(subscriptions[0].functionToCall!==undefined);
-	
+	assert.ok(subscriptions[0].functionToCall !== undefined);
+
 });
 
 QUnit.test("testSetValueInput", function(assert) {
-	var variable = this.variableFactory.factor({},"","input");
+	var variable = this.variableFactory.factor({}, "textVariableId", "input");
 	var view = variable.getView();
 	this.fixture.appendChild(view);
 	var htmlInputTag = view.firstChild;
-	
+
 	variable.setValue("A Value");
 	assert.equal(htmlInputTag.value, "A Value");
 });
 
 QUnit.test("testInitOutput", function(assert) {
-	var variable = this.variableFactory.factor({},"","output");
+	var variable = this.variableFactory.factor({}, "textVariableId", "output");
 	var view = variable.getView();
 	this.fixture.appendChild(view);
 	var htmlOutputSpan = view.firstChild;
-	
+
 	assert.equal(htmlOutputSpan.nodeName, "SPAN");
 	assert.equal(htmlOutputSpan.innerHTML, "");
 });
 
 QUnit.test("testSetValueOutput", function(assert) {
-	var variable = this.variableFactory.factor({},"","output");
+	var variable = this.variableFactory.factor({}, "textVariableId", "output");
 	var view = variable.getView();
 	this.fixture.appendChild(view);
 	var htmlOutputSpan = view.firstChild;
-	
+
 	variable.setValue("A Value");
 	assert.equal(htmlOutputSpan.innerHTML, "A Value");
 });
-

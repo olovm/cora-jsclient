@@ -27,8 +27,6 @@ var CORA = (function(cora) {
 		};
 		
 		this.publish = function(type, data) {
-			//TODO: think about if we should have an other function where we can use a preconverted
-			//path to not have to reconvert it for every publish....
 			arbiter.publish(this.convertPathToMsg(data.path) + type, data);
 		};
 
