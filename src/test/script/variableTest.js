@@ -28,7 +28,7 @@ var CORATEST = (function(coraTest) {
 				"mode" : mode,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
-				"textProvider":textProvider
+				"textProvider" : textProvider
 			};
 			var variable = CORA.variable(spec);
 			var view = variable.getView();
@@ -66,21 +66,39 @@ QUnit.module("CORA.Variable", {
 	}
 });
 
+
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.testVariableSubscription = function(attachedVariable, assert) {
+		var subscriptions = attachedVariable.pubSub.getSubscriptions();
+		assert.deepEqual(subscriptions.length, 1);
+
+		var firstSubsription = subscriptions[0];
+		assert.strictEqual(firstSubsription.type, "setValue");
+		assert.deepEqual(firstSubsription.path, {});
+		var variable = attachedVariable.variable;
+		assert.ok(firstSubsription.functionToCall === variable.handleMsg);
+	};
+	
+	coraTest.testVariableMetadata = function(attachedVariable, assert) {
+		var variable = attachedVariable.variable;
+		assert.strictEqual(variable.getText(), "Exempel textvariabel");
+		assert.strictEqual(variable.getDefText(), "Detta är en exempeldefinition "
+				+ "för en textvariabel.");
+		assert.strictEqual(variable.getRegEx(), "(^[0-9A-Za-z]{2,50}$)");
+	};
+	return coraTest;
+}(CORATEST || {}));
+
 QUnit.test("testInitInput", function(assert) {
 	var attachedVariable = this.attachedVariableFactory.factor({}, "textVariableId", "input");
-	var variable = attachedVariable.variable;
 	assert.ok(attachedVariable.view !== undefined);
 	var valueView = attachedVariable.valueView;
-
+	assert.equal(valueView.nodeName, "INPUT");
 	assert.equal(valueView.value, "");
 
-	var subscriptions = this.pubSub.getSubscriptions();
-	assert.deepEqual(subscriptions.length, 1);
-
-	var firstSubsription = subscriptions[0];
-	assert.deepEqual(firstSubsription.type, "setValue");
-	assert.deepEqual(firstSubsription.path, {});
-	assert.ok(firstSubsription.functionToCall === variable.handleMsg);
+	CORATEST.testVariableSubscription(attachedVariable, assert);
+	CORATEST.testVariableMetadata(attachedVariable, assert);
 });
 
 QUnit.test("testSetValueInput", function(assert) {
@@ -91,9 +109,13 @@ QUnit.test("testSetValueInput", function(assert) {
 
 QUnit.test("testInitOutput", function(assert) {
 	var attachedVariable = this.attachedVariableFactory.factor({}, "textVariableId", "output");
+	assert.ok(attachedVariable.view !== undefined);
 	var valueView = attachedVariable.valueView;
 	assert.equal(valueView.nodeName, "SPAN");
 	assert.equal(valueView.innerHTML, "");
+
+	CORATEST.testVariableSubscription(attachedVariable, assert);
+	CORATEST.testVariableMetadata(attachedVariable, assert);
 });
 
 QUnit.test("testSetValueOutput", function(assert) {

@@ -1,8 +1,8 @@
 /*
 Arbiter.js
-	by Matt Kruse 
+	by Matt Kruse
 	http://ArbiterJS.com - See site for documentation
-	
+
 	This work is in the public domain and may be used in any way, for any purpose, without restriction.
  */
 var Arbiter = (function() {
@@ -24,8 +24,8 @@ var Arbiter = (function() {
 					return null;
 				}
 				messages = arguments[0];
-				func = arguments[arguments.length - 1]; // Function is always
-				// last argument
+				// Function is always last argument
+				func = arguments[arguments.length - 1];
 				if (arguments.length > 2) {
 					options = arguments[1] || {};
 				}
@@ -36,7 +36,7 @@ var Arbiter = (function() {
 				if (options.priority) {
 					priority = options.priority;
 				}
-				if (typeof messages == "string") {
+				if (typeof messages === "string") {
 					messages = messages.split(/[,\s]+/);
 				}
 				for (var i = 0; i < messages.length; i++) {
@@ -67,7 +67,7 @@ var Arbiter = (function() {
 					subscription_list.push(subscription);
 					// Sort the list by priority
 					subscription_list = subscription_list.sort(function(a, b) {
-						return (a.p > b.p ? -1 : a.p == b.p ? 0 : 1);
+						return a.p > b.p ? -1 : a.p === b.p ? 0 : 1;
 					});
 					// Put it back in after sorting
 					if (wildcard) {
@@ -78,8 +78,7 @@ var Arbiter = (function() {
 					return_ids.push(id);
 
 					// Check to see if there are any persistent messages that
-					// need
-					// to be fired immediately
+					// need to be fired immediately
 					if (!options.persist && persistent_messages[msg]) {
 						persisted_subscription_list = persistent_messages[msg];
 						for (var j = 0; j < persisted_subscription_list.length; j++) {
@@ -104,7 +103,7 @@ var Arbiter = (function() {
 				options = options || {};
 				// Look through wildcard subscriptions to find any that apply
 				for (wildcard_msg in wildcard_subscriptions) {
-					if (msg.indexOf(wildcard_msg) == 0) {
+					if (msg.indexOf(wildcard_msg) === 0) {
 						subscription_list = subscription_list
 								.concat(wildcard_subscriptions[wildcard_msg]);
 					}
@@ -115,16 +114,17 @@ var Arbiter = (function() {
 					}
 					persistent_messages[msg].push(data);
 				}
-				if (subscription_list.length == 0) {
+				if (subscription_list.length === 0) {
 					return overall_result;
 				}
-				if (typeof options.cancelable == "boolean") {
+				if (typeof options.cancelable === "boolean") {
 					cancelable = options.cancelable;
 				}
 				for (var i = 0; i < subscription_list.length; i++) {
 					subscriber = subscription_list[i];
 					if (subscriber.unsubscribed) {
-						continue; // Ignore unsubscribed listeners
+						// Ignore unsubscribed listeners
+						continue;
 					}
 					try {
 						// Publisher OR subscriber may request async

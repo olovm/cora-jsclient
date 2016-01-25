@@ -20,33 +20,16 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	/**
-	 * <pre>
-	 * 	 function constructor(spec){
-	 * 	 	let {member} = spec, 
-	 * 	 		{other} = other_contstructor(spec),
-	 * 	 		method = function (){
-	 * 	 			//member, other, method, spec
-	 * 	 		};
-	 * 	 	return Object.freeze({
-	 * 	 		method, 
-	 * 	 		other,
-	 * 	 	});
-	 * 	 }
-	 * 	
-	 * </pre>
-	 */
-	
-
 	cora.variable = function(spec) {
 		// TODO: handle the following:
 		/**
 		 * <ol>
-		 * <li>possibility to show description and definition for a variable</li>
 		 * <li>first level of input control (regExp etc)</li>
-		 * <li>telling metadataController (or similar) that a value has been changed by the user</li>
-		 * <li>original value (to be able to indicate what values have changed, since last load and
-		 * possibly revert them (add type (original, changed), to setValue information?))</li>
+		 * <li>telling metadataController (or similar) that a value has been
+		 * changed by the user</li>
+		 * <li>original value (to be able to indicate what values have changed,
+		 * since last load and possibly revert them (add type (original,
+		 * changed), to setValue information?))</li>
 		 * <li></li>
 		 * <li></li>
 		 * </ol>
@@ -61,21 +44,20 @@ var CORA = (function(cora) {
 		var view = createBaseView();
 		var valueView = createValueView(mode);
 		view.appendChild(valueView);
-		// pubSub.subscribe("setValue", newPath, this, handleMsg);
 		pubSub.subscribe("setValue", newPath, undefined, handleMsg);
 
 		var cMetadataElement = getMetadataById(metadataId);
 		// textId, defTextId, regEx (all in children)
 		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
 		var text = textProvider.getTranslation(textId);
-		console.log("text: " + text);
 
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
+		var defText = textProvider.getTranslation(defTextId);
+
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 
 		function createBaseView() {
-			var view = document.createElement("span");
-			return view;
+			return document.createElement("span");
 		}
 		function createValueView(viewMode) {
 			if (viewMode === "input") {
@@ -90,7 +72,7 @@ var CORA = (function(cora) {
 			valueView = inputNew;
 			return inputNew;
 		}
-		
+
 		function createOutput() {
 			var outputNew = document.createElement("span");
 			valueView = outputNew;
@@ -109,8 +91,7 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function handleMsg(dataFromMsg, msg) {
-//			console.log("handleMsg: " + JSON.stringify(dataFromMsg));
+		function handleMsg(dataFromMsg) {
 			setValue(dataFromMsg.data);
 		}
 
@@ -118,12 +99,37 @@ var CORA = (function(cora) {
 			return new CORA.CoraData(metadataProvider.getMetadataById(id));
 		}
 
+		function getText() {
+			return text;
+		}
+
+		function getDefText() {
+			return defText;
+		}
+
+		function getRegEx() {
+			return regEx;
+		}
+		
+		function onBlur(){
+			//check against regEx
+			//update view (remove/add error/warning)
+			//tell metadataController, new value
+			
+		}
+		
 		var out = Object.freeze({
 			getView : getView,
 			setValue : setValue,
-			handleMsg : handleMsg
+			handleMsg : handleMsg,
+			getText : getText,
+			getDefText : getDefText,
+			getRegEx : getRegEx
 		});
-		valueView.modelObject = out;
+		view.modelObject = out;
+		if (mode === "input") {
+			valueView.onBlur = onBlur;
+		}
 		return out;
 	};
 	return cora;

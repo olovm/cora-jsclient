@@ -19,23 +19,6 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	/**
-	 * <pre>
-	 * 	 function constructor(spec){
-	 * 	 	let {member} = spec, 
-	 * 	 		{other} = other_contstructor(spec),
-	 * 	 		method = function (){
-	 * 	 			//member, other, method, spec
-	 * 	 		};
-	 * 	 	return Object.freeze({
-	 * 	 		method, 
-	 * 	 		other,
-	 * 	 	});
-	 * 	 }
-	 * 	
-	 * </pre>
-	 */
-
 	cora.textProvider = function(spec) {
 		var metadataProvider = spec.metadataProvider;
 		var lang = spec.lang;
@@ -67,32 +50,18 @@ var CORA = (function(cora) {
 					} ]
 				} ]
 			};
-			var compactAttributes1 = [ {
-				"name" : "type",
-				"value" : "default"
-			}, {
-				"name" : "lang",
-				"value" : "se"
-			} ];
-			var compactAttributes2 = [ {
-				"type" : "default",
-				"lang" : "se"
-			} ];
-			var textElement = cTextElement.getFirstChildByNameInDataAndAttributes("textPart",
+			var textPart = cTextElement.getFirstChildByNameInDataAndAttributes("textPart",
 					attributes);
-			var cTextElement = new CORA.CoraData(textElement);
-			var text = cTextElement.getFirstAtomicValueByNameInData("text");
-
-//			console.log("text: " + JSON.stringify(textElement));
-//			console.log("text: " + text);
+			var cTextPart = new CORA.CoraData(textPart);
+			var text = cTextPart.getFirstAtomicValueByNameInData("text");
 
 			return text;
 		}
-		
+
 		function getMetadataById(id) {
 			return new CORA.CoraData(metadataProvider.getMetadataById(id));
 		}
-		
+
 		return Object.freeze({
 			getTranslation : getTranslation
 		});

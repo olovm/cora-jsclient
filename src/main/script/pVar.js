@@ -53,7 +53,7 @@ var CORA = (function(cora) {
 
 		function add(repeatId) {
 			var newPath = calculatePathForNewVar(repeatId);
-			var spec = {
+			var varSpec = {
 				"newPath" : newPath,
 				"metadataId" : metadataId,
 				"mode" : mode,
@@ -61,7 +61,7 @@ var CORA = (function(cora) {
 				"pubSub" : pubSub,
 				"textProvider":textProvider
 			};
-			var variable = CORA.variable(spec);
+			var variable = CORA.variable(varSpec);
 			view.appendChild(variable.getView());
 		}
 
@@ -76,18 +76,18 @@ var CORA = (function(cora) {
 			return pathCopy;
 		}
 
-		function createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId) {
+		function createLinkedPathWithNameInDataAndRepeatId(nameInDataForPath, repeatIdForPath) {
 			var path = {
 				"name" : "linkedPath",
 				"children" : [ {
 					"name" : "nameInData",
-					"value" : nameInData
+					"value" : nameInDataForPath
 				} ]
 			};
-			if (repeatId !== undefined) {
+			if (repeatIdForPath !== undefined) {
 				path.children.push({
 					"name" : "repeatId",
-					"value" : repeatId
+					"value" : repeatIdForPath
 				});
 			}
 		}

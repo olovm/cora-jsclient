@@ -22,7 +22,7 @@ var CORA = (function(cora) {
 		var presentationId = spec.presentationId;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
-		
+
 		var presentationMetadata = getMetadataById(presentationId);
 		var cMetadataElement = getMetadataById(presentationMetadata
 				.getFirstAtomicValueByNameInData("presentationOf"));
@@ -69,14 +69,14 @@ var CORA = (function(cora) {
 				var type = cPresentationChild.getData().attributes.type;
 				if (type === "pVar") {
 					// pVar
-					var spec = {
-							"parentPath":path,
-							"cParentMetadata": cMetadataElement,
-							"cPresentation":cPresentationChild,
-							"metadataProvider" : metadataProvider,
-							"pubSub" : pubSub
-						};
-					var pVar = CORA.pVar(spec);
+					var pVarSpec = {
+						"parentPath" : path,
+						"cParentMetadata" : cMetadataElement,
+						"cPresentation" : cPresentationChild,
+						"metadataProvider" : metadataProvider,
+						"pubSub" : pubSub
+					};
+					var pVar = CORA.pVar(pVarSpec);
 					childView.appendChild(pVar.getView());
 				} else if (type === "pGroup") {
 					// pGroup
@@ -92,7 +92,7 @@ var CORA = (function(cora) {
 				return childView;
 			}
 		}
-		
+
 		function getMetadataById(id) {
 			return new CORA.CoraData(metadataProvider.getMetadataById(id));
 		}
@@ -108,11 +108,11 @@ var CORA = (function(cora) {
 		function getView() {
 			return view;
 		}
-		
+
 		return Object.freeze({
-			getPresentationId:getPresentationId,
-			getPubSub:getPubSub,
-			getView:getView
+			getPresentationId : getPresentationId,
+			getPubSub : getPubSub,
+			getView : getView
 		});
 
 	};

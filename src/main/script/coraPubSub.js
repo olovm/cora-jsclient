@@ -25,7 +25,7 @@ var CORA = (function(cora) {
 		this.subscribe = function(type, path, context, functionToCall) {
 			arbiter.subscribe(this.convertPathToMsg(path) + type, null, context, functionToCall);
 		};
-		
+
 		this.publish = function(type, data) {
 			arbiter.publish(this.convertPathToMsg(data.path) + type, data);
 		};
@@ -42,12 +42,12 @@ var CORA = (function(cora) {
 			}
 			return extendedMsgPart;
 		}
-		
+
 		function pathHasAtLeastOneLevel(cPath) {
 			return cPath.getData().children !== undefined
 					&& cPath.containsChildWithNameInData("nameInData");
 		}
-		
+
 		function recursivelyConvertPathToMsg(cPath) {
 			var msgPart = "";
 			msgPart += cPath.getFirstAtomicValueByNameInData("nameInData");
@@ -61,11 +61,11 @@ var CORA = (function(cora) {
 			msgPart += "/";
 			return msgPart;
 		}
-		
+
 		function pathHasMoreLevels(cPath) {
 			return cPath.containsChildWithNameInData("linkedPath");
 		}
-		
+
 		function convertPathAttributes(cPath) {
 			var msgAttribPart = "";
 			if (cPath.containsChildWithNameInData("attributes")) {
@@ -80,7 +80,7 @@ var CORA = (function(cora) {
 			}
 			return msgAttribPart;
 		}
-		
+
 		function convertRepeatId(cPath) {
 			if (cPath.containsChildWithNameInData("repeatId")) {
 				return '.' + cPath.getFirstAtomicValueByNameInData("repeatId");
