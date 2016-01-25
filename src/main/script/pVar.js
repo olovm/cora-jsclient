@@ -27,7 +27,7 @@ var CORA = (function(cora) {
 		var cMetadataElement = getMetadataById(metadataId);
 		var nameInData = cMetadataElement.name;
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
-		
+
 		var view = createBaseView();
 		view.modelObject = this;
 
@@ -47,7 +47,16 @@ var CORA = (function(cora) {
 
 		this.add = function(repeatId) {
 			var newPath = calculatePathForNewVar(repeatId);
-			var variable = new CORA.Variable(newPath, metadataId, mode, metadataProvider, pubSub);
+			// var variable = new CORA.Variable(newPath, metadataId, mode, metadataProvider,
+			// pubSub);
+			var spec = {
+				"newPath" : newPath,
+				"metadataId" : metadataId,
+				"mode" : mode,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub
+			};
+			var variable = CORA.variable(spec);
 			view.appendChild(variable.getView());
 		};
 

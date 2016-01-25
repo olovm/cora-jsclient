@@ -1165,6 +1165,38 @@ function MetadataProviderStub() {
 				} ]
 			};
 			break;
+		case "textVariableIdText":
+			return {
+				"name" : "text",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "my2Text"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "default",
+						"lang" : "sv"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "Min andra text på svenska"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "alternative",
+						"lang" : "en"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "My second text in english"
+					} ]
+				} ]
+			};
+			break;
 		default:
 			throw new Error("Id(" + idToGet + ") not found in stub");
 			break;

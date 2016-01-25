@@ -76,8 +76,8 @@ QUnit.test("testAddOneChild", function(assert) {
 	var input = span.firstChild;
 	assert.equal(input.value, "");
 	
-	input.modelObject.setValue("A Value");
-	assert.equal(input.value, "A Value");
+	input.modelObject.setValue("A Value2");
+	assert.equal(input.value, "A Value2");
 	
 	
 //	console.log("firstChild: " +childRefHolder.outerHTML);

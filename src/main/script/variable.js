@@ -20,7 +20,25 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.Variable = function(newPath, metadataId, mode, metadataProvider, pubSub) {
+	/**
+	 * <pre>
+	 * 	 function constructor(spec){
+	 * 	 	let {member} = spec, 
+	 * 	 		{other} = other_contstructor(spec),
+	 * 	 		method = function (){
+	 * 	 			//member, other, method, spec
+	 * 	 		};
+	 * 	 	return Object.freeze({
+	 * 	 		method, 
+	 * 	 		other,
+	 * 	 	});
+	 * 	 }
+	 * 	
+	 * </pre>
+	 */
+	
+
+	cora.variable = function(spec) {
 		// TODO: handle the following:
 		/**
 		 * <ol>
@@ -30,61 +48,121 @@ var CORA = (function(cora) {
 		 * <li>original value (to be able to indicate what values have changed, since last load and
 		 * possibly revert them (add type (original, changed), to setValue information?))</li>
 		 * <li></li>
+		 * <li></li>
 		 * </ol>
 		 */
+		var newPath = spec.newPath;
+		var metadataId = spec.metadataId;
+		var mode = spec.mode;
+		var metadataProvider = spec.metadataProvider;
+		var pubSub = spec.pubSub;
 
 		var view = createBaseView();
-		var htmlTag = createHtmlTag(this, mode);
+		var htmlTag = createHtmlTag(mode);
 		view.appendChild(htmlTag);
-		pubSub.subscribe("setValue", newPath, this, handleMsg);
-		
+		// pubSub.subscribe("setValue", newPath, this, handleMsg);
+		pubSub.subscribe("setValue", newPath, undefined, handleMsg);
+
 		var cMetadataElement = getMetadataById(metadataId);
-//		textId, defTextId, regEx (all in children)
+		// textId, defTextId, regEx (all in children)
 		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
+		var cTextElement = getMetadataById(textId);
+		var attributes = {
+			"name" : "attributes",
+			"children" : [ {
+				"name" : "attribute",
+				"repeatId" : "1",
+				"children" : [ {
+					"name" : "attributeName",
+					"value" : "type"
+				}, {
+					"name" : "attributeValue",
+					"value" : "default"
+				} ]
+			}, {
+				"name" : "attribute",
+				"repeatId" : "1",
+				"children" : [ {
+					"name" : "attributeName",
+					"value" : "lang"
+				}, {
+					"name" : "attributeValue",
+					"value" : "sv"
+				} ]
+			} ]
+		};
+		var compactAttributes1 = [ {
+			"name" : "type",
+			"value" : "default"
+		}, {
+			"name" : "lang",
+			"value" : "se"
+		} ];
+		var compactAttributes2 = [ {
+			"type" : "default",
+			"lang" : "se"
+		} ];
+		var textElement = cTextElement.getFirstChildByNameInDataAndAttributes("textPart",
+				attributes);
+		var cTextElement = new CORA.CoraData(textElement);
+		var text = cTextElement.getFirstAtomicValueByNameInData("text");
+
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
+
+		var htmlTag;
 
 		function createBaseView() {
 			var view = document.createElement("span");
 			return view;
 		}
-		function createHtmlTag(variableFunction, viewMode) {
+		function createHtmlTag(viewMode) {
 			if (viewMode === "input") {
-				return createInput(variableFunction);
+				return createInput();
 			}
-			return createOutput(variableFunction);
+			return createOutput();
 		}
 
-		function createInput(variableFunction) {
+		function createInput() {
 			var inputNew = document.createElement("input");
 			inputNew.type = "text";
-			inputNew.modelObject = variableFunction;
+			htmlTag = inputNew;
 			return inputNew;
 		}
-		function createOutput(variableFunction) {
+		function createOutput() {
 			var outputNew = document.createElement("span");
-			outputNew.modelObject = variableFunction;
+			htmlTag = outputNew;
 			return outputNew;
 		}
 
-		this.getView = function() {
+		function getView() {
 			return view;
-		};
+		}
 
-		this.setValue = function(value) {
+		function setValue(value) {
 			if (mode === "input") {
 				htmlTag.value = value;
 			} else {
 				htmlTag.textContent = value;
 			}
-		};
-		function handleMsg(dataFromMsg, msg) {
-			this.setValue(dataFromMsg.data);
 		}
-		
+
+		function handleMsg(dataFromMsg, msg) {
+			console.log("handleMsg: " + JSON.stringify(dataFromMsg));
+			setValue(dataFromMsg.data);
+		}
+
 		function getMetadataById(id) {
 			return new CORA.CoraData(metadataProvider.getMetadataById(id));
 		}
+
+		var out = Object.freeze({
+			getView : getView,
+			setValue : setValue,
+			handleMsg : handleMsg
+		});
+		htmlTag.modelObject = out;
+		return out;
 	};
 	return cora;
 }(CORA || {}));
