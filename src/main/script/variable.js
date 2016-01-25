@@ -56,67 +56,28 @@ var CORA = (function(cora) {
 		var mode = spec.mode;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
+		var textProvider = spec.textProvider;
 
 		var view = createBaseView();
-		var htmlTag = createHtmlTag(mode);
-		view.appendChild(htmlTag);
+		var valueView = createValueView(mode);
+		view.appendChild(valueView);
 		// pubSub.subscribe("setValue", newPath, this, handleMsg);
 		pubSub.subscribe("setValue", newPath, undefined, handleMsg);
 
 		var cMetadataElement = getMetadataById(metadataId);
 		// textId, defTextId, regEx (all in children)
 		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
-		var cTextElement = getMetadataById(textId);
-		var attributes = {
-			"name" : "attributes",
-			"children" : [ {
-				"name" : "attribute",
-				"repeatId" : "1",
-				"children" : [ {
-					"name" : "attributeName",
-					"value" : "type"
-				}, {
-					"name" : "attributeValue",
-					"value" : "default"
-				} ]
-			}, {
-				"name" : "attribute",
-				"repeatId" : "1",
-				"children" : [ {
-					"name" : "attributeName",
-					"value" : "lang"
-				}, {
-					"name" : "attributeValue",
-					"value" : "sv"
-				} ]
-			} ]
-		};
-		var compactAttributes1 = [ {
-			"name" : "type",
-			"value" : "default"
-		}, {
-			"name" : "lang",
-			"value" : "se"
-		} ];
-		var compactAttributes2 = [ {
-			"type" : "default",
-			"lang" : "se"
-		} ];
-		var textElement = cTextElement.getFirstChildByNameInDataAndAttributes("textPart",
-				attributes);
-		var cTextElement = new CORA.CoraData(textElement);
-		var text = cTextElement.getFirstAtomicValueByNameInData("text");
+		var text = textProvider.getTranslation(textId);
+		console.log("text: " + text);
 
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
-
-		var htmlTag;
 
 		function createBaseView() {
 			var view = document.createElement("span");
 			return view;
 		}
-		function createHtmlTag(viewMode) {
+		function createValueView(viewMode) {
 			if (viewMode === "input") {
 				return createInput();
 			}
@@ -126,12 +87,13 @@ var CORA = (function(cora) {
 		function createInput() {
 			var inputNew = document.createElement("input");
 			inputNew.type = "text";
-			htmlTag = inputNew;
+			valueView = inputNew;
 			return inputNew;
 		}
+		
 		function createOutput() {
 			var outputNew = document.createElement("span");
-			htmlTag = outputNew;
+			valueView = outputNew;
 			return outputNew;
 		}
 
@@ -141,14 +103,14 @@ var CORA = (function(cora) {
 
 		function setValue(value) {
 			if (mode === "input") {
-				htmlTag.value = value;
+				valueView.value = value;
 			} else {
-				htmlTag.textContent = value;
+				valueView.textContent = value;
 			}
 		}
 
 		function handleMsg(dataFromMsg, msg) {
-			console.log("handleMsg: " + JSON.stringify(dataFromMsg));
+//			console.log("handleMsg: " + JSON.stringify(dataFromMsg));
 			setValue(dataFromMsg.data);
 		}
 
@@ -161,7 +123,7 @@ var CORA = (function(cora) {
 			setValue : setValue,
 			handleMsg : handleMsg
 		});
-		htmlTag.modelObject = out;
+		valueView.modelObject = out;
 		return out;
 	};
 	return cora;

@@ -1182,7 +1182,7 @@ function MetadataProviderStub() {
 					},
 					"children" : [ {
 						"name" : "text",
-						"value" : "Min andra text på svenska"
+						"value" : "Exempel textvariabel"
 					} ]
 				}, {
 					"name" : "textPart",
@@ -1192,11 +1192,43 @@ function MetadataProviderStub() {
 					},
 					"children" : [ {
 						"name" : "text",
-						"value" : "My second text in english"
+						"value" : "Example text variable"
 					} ]
 				} ]
 			};
 			break;
+		case "textVariableIdDefText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "my2Text"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "Detta är en exempeldefinition för en textvariabel."
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "alternative",
+					"lang" : "en"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "This is an example definition for a text variable."
+				} ]
+			} ]
+		};
+		break;
 		default:
 			throw new Error("Id(" + idToGet + ") not found in stub");
 			break;

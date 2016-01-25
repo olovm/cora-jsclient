@@ -83,8 +83,8 @@ var CORA = (function(cora) {
 			var cTextElement = new CORA.CoraData(textElement);
 			var text = cTextElement.getFirstAtomicValueByNameInData("text");
 
-			console.log("text: " + JSON.stringify(textElement));
-			console.log("text: " + text);
+//			console.log("text: " + JSON.stringify(textElement));
+//			console.log("text: " + text);
 
 			return text;
 		}

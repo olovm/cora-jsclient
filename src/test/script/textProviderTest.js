@@ -51,5 +51,5 @@ QUnit.test("testInit", function(assert) {
 QUnit.test("testGetTranslation", function(assert) {
 	var textProvider = this.textProviderFactory.factor("sv");
 	var translation = textProvider.getTranslation("textVariableIdText");
-	assert.deepEqual(translation, "Min andra text på svenska");
+	assert.deepEqual(translation, "Exempel textvariabel");
 });
