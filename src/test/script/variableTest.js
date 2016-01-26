@@ -99,12 +99,50 @@ QUnit.test("testInitInput", function(assert) {
 
 	CORATEST.testVariableSubscription(attachedVariable, assert);
 	CORATEST.testVariableMetadata(attachedVariable, assert);
+	
+	assert.equal(attachedVariable.variable.getState(), "ok");
+	
 });
 
 QUnit.test("testSetValueInput", function(assert) {
 	var attachedVariable = this.attachedVariableFactory.factor({}, "textVariableId", "input");
 	attachedVariable.variable.setValue("A Value");
 	assert.equal(attachedVariable.valueView.value, "A Value");
+});
+
+QUnit.test("testValueViewHasOnBlurHandler", function(assert) {
+	var attachedVariable = this.attachedVariableFactory.factor({}, "textVariableId", "input");
+	assert.ok(attachedVariable.valueView.onBlur===attachedVariable.variable.onBlur);
+});
+
+QUnit.test("testChangedValueEmpty", function(assert) {
+	var attachedVariable = this.attachedVariableFactory.factor({}, "textVariableId", "input");
+	attachedVariable.valueView.onBlur();
+	assert.equal(attachedVariable.variable.getState(), "ok");
+});
+
+QUnit.test("testChangedValueEmpty", function(assert) {
+	var attachedVariable = this.attachedVariableFactory.factor({}, "textVariableId", "input");
+	attachedVariable.valueView.value = "";
+	attachedVariable.valueView.onBlur();
+	assert.equal(attachedVariable.variable.getState(), "ok");
+	assert.equal(attachedVariable.view.className, "");
+});
+
+QUnit.test("testChangedValueOk", function(assert) {
+	var attachedVariable = this.attachedVariableFactory.factor({}, "textVariableId", "input");
+	attachedVariable.valueView.value = "hej";
+	attachedVariable.valueView.onBlur();
+	assert.equal(attachedVariable.variable.getState(), "ok");
+	assert.equal(attachedVariable.view.className, "");
+});
+
+QUnit.test("testChangedValueError", function(assert) {
+	var attachedVariable = this.attachedVariableFactory.factor({}, "textVariableId", "input");
+	attachedVariable.valueView.value = "hej####/(&/%&/¤/";
+	attachedVariable.valueView.onBlur();
+	assert.equal(attachedVariable.variable.getState(), "error");
+	assert.ok(new RegExp("^(.\s)?error(\s.)?$").test(attachedVariable.view.className));
 });
 
 QUnit.test("testInitOutput", function(assert) {

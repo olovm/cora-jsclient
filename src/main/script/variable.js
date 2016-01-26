@@ -25,11 +25,9 @@ var CORA = (function(cora) {
 		/**
 		 * <ol>
 		 * <li>first level of input control (regExp etc)</li>
-		 * <li>telling metadataController (or similar) that a value has been
-		 * changed by the user</li>
-		 * <li>original value (to be able to indicate what values have changed,
-		 * since last load and possibly revert them (add type (original,
-		 * changed), to setValue information?))</li>
+		 * <li>telling metadataController (or similar) that a value has been changed by the user</li>
+		 * <li>original value (to be able to indicate what values have changed, since last load and
+		 * possibly revert them (add type (original, changed), to setValue information?))</li>
 		 * <li></li>
 		 * <li></li>
 		 * </ol>
@@ -44,6 +42,7 @@ var CORA = (function(cora) {
 		var view = createBaseView();
 		var valueView = createValueView(mode);
 		view.appendChild(valueView);
+		var state = "ok";
 		pubSub.subscribe("setValue", newPath, undefined, handleMsg);
 
 		var cMetadataElement = getMetadataById(metadataId);
@@ -110,21 +109,42 @@ var CORA = (function(cora) {
 		function getRegEx() {
 			return regEx;
 		}
-		
-		function onBlur(){
-			//check against regEx
-			//update view (remove/add error/warning)
-			//tell metadataController, new value
-			
+
+		function onBlur() {
+			checkRegEx();
+			updateView();
+			// tell metadataController, new value
+		}
+		function checkRegEx(){
+			var value = valueView.value;
+			if(value.length ===0 || new RegExp(regEx).test(value)){
+				state = "ok";
+			}else{
+				state = "error";
+			}
 		}
 		
+		function updateView(){
+			var className = "";
+			if(state==="error"){
+				className+="error";
+			}
+			view.className = className;
+		}
+
+		function getState() {
+			return state;
+		}
+
 		var out = Object.freeze({
 			getView : getView,
 			setValue : setValue,
 			handleMsg : handleMsg,
 			getText : getText,
 			getDefText : getDefText,
-			getRegEx : getRegEx
+			getRegEx : getRegEx,
+			getState : getState,
+			onBlur : onBlur
 		});
 		view.modelObject = out;
 		if (mode === "input") {
