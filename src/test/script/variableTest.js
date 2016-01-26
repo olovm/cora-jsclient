@@ -66,7 +66,6 @@ QUnit.module("CORA.Variable", {
 	}
 });
 
-
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.testVariableSubscription = function(attachedVariable, assert) {
@@ -79,7 +78,7 @@ var CORATEST = (function(coraTest) {
 		var variable = attachedVariable.variable;
 		assert.ok(firstSubsription.functionToCall === variable.handleMsg);
 	};
-	
+
 	coraTest.testVariableMetadata = function(attachedVariable, assert) {
 		var variable = attachedVariable.variable;
 		assert.strictEqual(variable.getText(), "Exempel textvariabel");
@@ -99,9 +98,8 @@ QUnit.test("testInitInput", function(assert) {
 
 	CORATEST.testVariableSubscription(attachedVariable, assert);
 	CORATEST.testVariableMetadata(attachedVariable, assert);
-	
+
 	assert.equal(attachedVariable.variable.getState(), "ok");
-	
 });
 
 QUnit.test("testSetValueInput", function(assert) {
@@ -112,7 +110,7 @@ QUnit.test("testSetValueInput", function(assert) {
 
 QUnit.test("testValueViewHasOnBlurHandler", function(assert) {
 	var attachedVariable = this.attachedVariableFactory.factor({}, "textVariableId", "input");
-	assert.ok(attachedVariable.valueView.onBlur===attachedVariable.variable.onBlur);
+	assert.ok(attachedVariable.valueView.onBlur === attachedVariable.variable.onBlur);
 });
 
 QUnit.test("testChangedValueEmpty", function(assert) {
@@ -142,7 +140,7 @@ QUnit.test("testChangedValueError", function(assert) {
 	attachedVariable.valueView.value = "hej####/(&/%&/¤/";
 	attachedVariable.valueView.onBlur();
 	assert.equal(attachedVariable.variable.getState(), "error");
-	assert.ok(new RegExp("^(.\s)?error(\s.)?$").test(attachedVariable.view.className));
+	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedVariable.view.className));
 });
 
 QUnit.test("testInitOutput", function(assert) {

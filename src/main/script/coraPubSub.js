@@ -22,6 +22,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.PubSub = function() {
 		var arbiter = Arbiter.create();
+		
 		this.subscribe = function(type, path, context, functionToCall) {
 			arbiter.subscribe(this.convertPathToMsg(path) + type, null, context, functionToCall);
 		};
