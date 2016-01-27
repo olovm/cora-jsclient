@@ -66,6 +66,7 @@ QUnit.module("CORA.pVar", {
 	afterEach : function() {
 	}
 });
+
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.testVariableSubscription = function(attachedPVar, assert) {
@@ -115,19 +116,19 @@ QUnit.test("testSetValueInput", function(assert) {
 
 QUnit.test("testValueViewHasOnBlurHandler", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
-	assert.ok(attachedPVar.valueView.onBlur === attachedPVar.pVar.onBlur);
+	assert.ok(attachedPVar.valueView.onblur === attachedPVar.pVar.onBlur);
 });
 
 QUnit.test("testChangedValueEmpty", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
-	attachedPVar.valueView.onBlur();
+	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
 });
 
 QUnit.test("testChangedValueEmpty", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	attachedPVar.valueView.value = "";
-	attachedPVar.valueView.onBlur();
+	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
 	assert.equal(attachedPVar.view.className, "");
 });
@@ -135,7 +136,7 @@ QUnit.test("testChangedValueEmpty", function(assert) {
 QUnit.test("testChangedValueOk", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	attachedPVar.valueView.value = "hej";
-	attachedPVar.valueView.onBlur();
+	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
 	assert.equal(attachedPVar.view.className, "");
 });
@@ -143,7 +144,7 @@ QUnit.test("testChangedValueOk", function(assert) {
 QUnit.test("testChangedValueError", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	attachedPVar.valueView.value = "hej####/(&/%&/¤/";
-	attachedPVar.valueView.onBlur();
+	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "error");
 	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedPVar.view.className));
 });

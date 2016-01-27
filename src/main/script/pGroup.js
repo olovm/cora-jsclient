@@ -60,7 +60,8 @@ var CORA = (function(cora) {
 				// TODO: get right text from textData
 //				childView.appendChild(document.createTextElement("A text"));
 				// childView.appendChild(te);
-				return document.createTextElement("A text");
+				
+				return document.createTextNode(textProvider.getTranslation(presRef));
 			} else {
 				// presentation
 				var presentationOf = cPresentationChild

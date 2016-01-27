@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>JSClient</title>
+<link rel="stylesheet" type="text/css" href="src/main/css/presentation.css" />
+
+
 <script type="text/javascript" src="src/main/script/lib/arbiter.js"></script>
 <script type="text/javascript" src="src/main/script/lib/polyfillES6.js"></script>
 
@@ -46,6 +49,7 @@
 				"pubSub" : pubSub,
 				"textProvider" : textProvider
 			};
+		var presentation = CORA.presentation(spec);
 		var metadataId = "groupIdOneTextChild";
 		var specDataHolder = {
 				"metadataId":metadataId,
@@ -53,7 +57,6 @@
 				"pubSub":pubSub
 		};
 		var dataHolder = CORA.dataHolder(specDataHolder);
-		var presentation = CORA.presentation(spec);
 		
 		var specMetadataController= {
 				"metadataId" : metadataId,
@@ -66,11 +69,6 @@
 		var view = presentation.getView();
 		
 		place.appendChild(view);
-		var pGroupView = view.firstChild;
-		var childRefHandler = pGroupView.firstChild;
-
-		var pVarView = childRefHandler.firstChild;
-		var input = pVarView.firstChild;
 		
 		var path2 = {
 			"name" : "linkedPath",
@@ -91,7 +89,7 @@
 		var pubSub = CORA.pubSub();
 		
 		var spec = {
-				"presentationId" : "pgGroupIdOneTextChild",
+				"presentationId" : "pgGroupIdOneTextOneTextChild",
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider
@@ -116,11 +114,6 @@
 		var view = presentation.getView();
 		
 		place.appendChild(view);
-		var pGroupView = view.firstChild;
-		var childRefHandler = pGroupView.firstChild;
-
-		var pVarView = childRefHandler.firstChild;
-		var input = pVarView.firstChild;
 		
 		var path2 = {
 			"name" : "linkedPath",
@@ -131,7 +124,7 @@
 		};
 		var data2 = {
 			"path" : path2,
-			"data" : "a Value"
+			"data" : "aValue"
 		};
 		pubSub.publish("setValue", data2);
 	}
@@ -145,7 +138,7 @@
 		style="background-color: yellow; min-height: 20px; min-width: 40px;"></div>
 	<h2>JSClient 2</h2>
 	<div id="client2"
-		style="background-color: green; min-height: 20px; min-width: 40px;"></div>
+		style="background-color: rgb(170, 223, 248); min-height: 20px; min-width: 40px;"></div>
 </body>
 </html>
 

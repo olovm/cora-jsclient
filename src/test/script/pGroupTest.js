@@ -75,14 +75,23 @@ QUnit.test("testInitOneChild", function(assert) {
 
 	var expectedClassName = 'presentation pgGroupIdOneTextChild';
 	var pGroup = attachedPGroup.pGroup;
-//console.log(view);
-//console.log(view.childNodes.length);
 	assert.ok(view.childNodes.length === 1, "pgGroupIdOneTextChild, should have one child");
 
 	var childRefHandler = view.firstChild;
-//	assert.ok(childRefHandler.childNodes.length === 1, "childRefHandler, should have one child");
 	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
+});
 
-//	var pVarView = childRefHolder.firstChild;
-//	assert.deepEqual(pVarView.className, "pChildRefHandler pVarTextVariableId");
+QUnit.test("testInitOneTextOneChild", function(assert) {
+	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextOneTextChild");
+	var view = attachedPGroup.view;
+	
+	var expectedClassName = 'presentation pgGroupIdOneTextChild';
+	var pGroup = attachedPGroup.pGroup;
+	assert.ok(view.childNodes.length === 2, "pgGroupIdOneTextOneTextChild, should have two children");
+	
+	var text = view.childNodes[0];
+	assert.deepEqual(text.textContent, "En rubrik");
+
+	var childRefHandler = view.childNodes[1];
+	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
 });

@@ -31,6 +31,10 @@ var CORATEST = (function(coraTest) {
 				return "Detta är en exempeldefinition för en textvariabel.";
 				// This is an example definition for a text variable.
 				break;
+			case "aHeadlineText":
+				return "En rubrik";
+				// A headline
+				break;
 			default:
 				throw new Error("Id(" + textId + ") not found in stub");
 				break;

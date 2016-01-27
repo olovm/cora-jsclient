@@ -1084,28 +1084,28 @@ function MetadataProviderStub() {
 				} ]
 			};
 			break;
-			
+
 		case "pVarTextVariableIdOutput":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pVar"
-			},
-			"children" : [ {
-				"name" : "recordInfo",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
 				"children" : [ {
-					"name" : "id",
-					"value" : "pVarTextVariableId"
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "pVarTextVariableId"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "textVariableId"
+				}, {
+					"name" : "mode",
+					"value" : "output"
 				} ]
-			}, {
-				"name" : "presentationOf",
-				"value" : "textVariableId"
-			}, {
-				"name" : "mode",
-				"value" : "output"
-			} ]
-		};
-		break;
+			};
+			break;
 
 		case "pgGroupIdOneTextChild":
 			return {
@@ -1134,30 +1134,64 @@ function MetadataProviderStub() {
 			break;
 		case "pgGroupIdOneTextChildOutput":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pGroup"
-			},
-			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-				"name" : "presentationOf",
-				"value" : "groupIdOneTextChild"
-			}, {
-				"name" : "childReferences",
-				"children" : [ {
-					"name" : "childReference",
-					"repeatId" : "1",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdOneTextChild"
+				}, {
+					"name" : "childReferences",
 					"children" : [ {
-						"name" : "ref",
-						"value" : "pVarTextVariableIdOutput"
-					}, {
-						"name" : "default",
-						"value" : "ref"
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableIdOutput"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
 					} ]
-				} ]
-			} ])
-		};
-		break;
-
+				} ])
+			};
+			break;
+		case "pgGroupIdOneTextOneTextChild":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdOneTextChild"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "aHeadlineText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableId"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
+			break;
 		case "asdfasdfsad":
 			return {
 				"name" : "presentation",
@@ -1246,12 +1280,44 @@ function MetadataProviderStub() {
 			break;
 		case "textVariableIdDefText":
 			return {
+				"name" : "text",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "my2Text"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "default",
+						"lang" : "sv"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "Detta är en exempeldefinition för en textvariabel."
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "alternative",
+						"lang" : "en"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "This is an example definition for a text variable."
+					} ]
+				} ]
+			};
+			break;
+		case "aHeadlineText":
+			return {
 			"name" : "text",
 			"children" : [ {
 				"name" : "recordInfo",
 				"children" : [ {
 					"name" : "id",
-					"value" : "my2Text"
+					"value" : "aHeadlineText"
 				} ]
 			}, {
 				"name" : "textPart",
@@ -1261,7 +1327,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "text",
-					"value" : "Detta är en exempeldefinition för en textvariabel."
+					"value" : "En rubrik"
 				} ]
 			}, {
 				"name" : "textPart",
@@ -1271,7 +1337,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "text",
-					"value" : "This is an example definition for a text variable."
+					"value" : "A headline"
 				} ]
 			} ]
 		};

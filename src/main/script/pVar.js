@@ -19,6 +19,17 @@
  */
 var CORA = (function(cora) {
 	"use strict";
+	// TODO: handle the following:
+	/**
+	 * <ol>
+	 * <li>first level of input control (regExp etc)</li>
+	 * <li>telling metadataController (or similar) that a value has been changed by the user</li>
+	 * <li>original value (to be able to indicate what values have changed, since last load and
+	 * possibly revert them (add type (original, changed), to setValue information?))</li>
+	 * <li></li>
+	 * <li></li>
+	 * </ol>
+	 */
 	cora.pVar = function(spec) {
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
@@ -145,79 +156,9 @@ var CORA = (function(cora) {
 		});
 		view.modelObject = out;
 		if (mode === "input") {
-			valueView.onBlur = onBlur;
+			valueView.onblur = onBlur;
 		}
 		return out;
-//		
-//		function createBaseView() {
-//			var viewNew = document.createElement("span");
-//			viewNew.className = "pVar " + presentationId;
-//			return viewNew;
-//		}
-//
-//		function getMetadataById(id) {
-//			return new CORA.CoraData(metadataProvider.getMetadataById(id));
-//		}
-//
-//		function getView() {
-//			return view;
-//		}
-//
-//		function add(repeatId) {
-//			var newPath = calculatePathForNewVar(repeatId);
-//			var varSpec = {
-//				"newPath" : newPath,
-//				"metadataId" : metadataId,
-//				"mode" : mode,
-//				"metadataProvider" : metadataProvider,
-//				"pubSub" : pubSub,
-//				"textProvider":textProvider
-//			};
-//			var variable = CORA.variable(varSpec);
-//			view.appendChild(variable.getView());
-//		}
-//
-//		function calculatePathForNewVar(repeatId) {
-//			var pathCopy = JSON.parse(JSON.stringify(parentPath));
-//			var childPath = createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId);
-//			if (pathCopy.children === undefined) {
-//				return childPath;
-//			}
-//			var lowestPath = getLowestPath(pathCopy);
-//			lowestPath.children.push(childPath);
-//			return pathCopy;
-//		}
-//
-//		function createLinkedPathWithNameInDataAndRepeatId(nameInDataForPath, repeatIdForPath) {
-//			var path = {
-//				"name" : "linkedPath",
-//				"children" : [ {
-//					"name" : "nameInData",
-//					"value" : nameInDataForPath
-//				} ]
-//			};
-//			if (repeatIdForPath !== undefined) {
-//				path.children.push({
-//					"name" : "repeatId",
-//					"value" : repeatIdForPath
-//				});
-//			}
-//		}
-//
-//		function getLowestPath(path) {
-//			var cPath = new CORA.CoraData(path);
-//			if (cPath.containsChildWithNameInData("linkedPath")) {
-//				return getLowestPath(cPath.getFirstChildWithNameInData("linkedPath"));
-//			}
-//			return path;
-//		}
-//
-//		var out = Object.freeze({
-//			getView : getView,
-//			add : add
-//		});
-//		view.modelObject = out;
-//		return out;
 	};
 	return cora;
 }(CORA || {}));
