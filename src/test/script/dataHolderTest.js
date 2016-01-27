@@ -28,7 +28,12 @@ QUnit.module("CORA.DataHolder", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubSpy();
 		this.newDataHolder = function(metadataId) {
-			return  CORA.dataHolder(metadataId, this.metadataProvider, this.pubSub);
+			var spec = {
+					"metadataId":metadataId,
+					"metadataProvider":this.metadataProvider,
+					"pubSub":this.pubSub
+			};
+			return  CORA.dataHolder(spec);
 		}
 	},
 	afterEach : function() {

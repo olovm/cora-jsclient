@@ -19,15 +19,14 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.dataHolder = function(metadataIdIn, metadataProviderIn, pubSubIn) {
-		var metadataId = metadataIdIn;
-		var metadataProvider = metadataProviderIn;
-		var pubSub = pubSubIn;
+	cora.dataHolder = function(spec) {
+		var metadataId = spec.metadataId;
+		var metadataProvider = spec.metadataProvider;
+		var pubSub = spec.pubSub;
 		var dataContainer = createMainDataContainerWithChildrenAndAttributes();
 		pubSub.subscribe("*", {}, undefined, handleMsg);
 
 		function createMainDataContainerWithChildrenAndAttributes() {
-			// private
 			return createDataContainerForElementWithId(metadataId);
 		}
 
@@ -88,11 +87,7 @@ var CORA = (function(cora) {
 			return attributeContainer;
 		}
 		function handleMsg(dataFromMsg, msg) {
-			console.log("dataHolder dataFromMsg:" + JSON.stringify(dataFromMsg));
-			// setValue(dataFromMsg.data);
 			if (msg.endsWith("add")) {
-				// this.addChild = function(parentPath, metadataIdToAdd,
-				// repeatId) {
 				addChild(dataFromMsg.path, dataFromMsg.metadataId, dataFromMsg.repeatId);
 			} else {
 				setValue(dataFromMsg.path, dataFromMsg.data);
@@ -100,12 +95,10 @@ var CORA = (function(cora) {
 
 		}
 		function getPubSub() {
-			// priviledged
 			return pubSub;
 		}
 
 		function getMetadataId() {
-			// priviledged
 			return metadataId;
 		}
 
@@ -162,7 +155,6 @@ var CORA = (function(cora) {
 		function addChild(parentPath, metadataIdToAdd, repeatId) {
 			tryToAddChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
 		}
-		
 
 		function tryToAddChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
 			try {
@@ -185,6 +177,7 @@ var CORA = (function(cora) {
 			}
 			containerSpecifiedByPath.children.push(newRepeat);
 		}
+		
 		return Object.freeze({
 			handleMsg : handleMsg,
 			getPubSub : getPubSub,

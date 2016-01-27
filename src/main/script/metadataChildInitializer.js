@@ -20,7 +20,7 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.MetadataChildInitializer = function(childReferenceIn, path, dataIn, metadataProvider,
+	cora.metadataChildInitializer = function(childReferenceIn, path, dataIn, metadataProvider,
 			pubSub) {
 
 		var childReference = new CORA.CoraData(childReferenceIn);

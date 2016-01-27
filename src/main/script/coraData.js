@@ -24,11 +24,11 @@ var CORA = (function(cora) {
 		var data = dataIn;
 		var children = data && data.children;
 
-		this.getData = function() {
+		function getData() {
 			return data;
 		};
 
-		this.containsChildWithNameInData = function(nameInData) {
+		function containsChildWithNameInData(nameInData) {
 			var filter = createNameInDataFilter(nameInData);
 			return children.some(filter);
 		};
@@ -39,21 +39,21 @@ var CORA = (function(cora) {
 			};
 		}
 
-		this.getFirstChildByNameInData = function(nameInData) {
-			return getFirstChildByNameInData(data, nameInData);
+		function getFirstChildByNameInData(nameInData) {
+			return getFirstChildFromDataByNameInData(data, nameInData);
 		};
 
-		this.getFirstAtomicValueByNameInData = function(name) {
-			return this.getFirstChildByNameInData(name).value;
+		function getFirstAtomicValueByNameInData(name) {
+			return getFirstChildByNameInData(name).value;
 		};
 
-		this.getNoOfChildrenWithNameInData = function(nameInData) {
+		function getNoOfChildrenWithNameInData(nameInData) {
 			var filter = createNameInDataFilter(nameInData);
 			var childrenWithNameInData = children.filter(filter);
 			return childrenWithNameInData.length;
 		};
 
-		this.containsChildWithNameInDataAndAttributes = function(nameInData, attributes) {
+		function containsChildWithNameInDataAndAttributes(nameInData, attributes) {
 			var filter = createNameInDataAndAttributesFilter(nameInData, attributes);
 			return children.some(filter);
 		};
@@ -76,7 +76,7 @@ var CORA = (function(cora) {
 			};
 		}
 
-		this.getChildrenByNameInDataAndAttributes = function(nameInData, attributes) {
+		function getChildrenByNameInDataAndAttributes(nameInData, attributes) {
 			var foundContainers = findContainersSpecifiedByNameInDataAndAttributes(nameInData,
 					attributes);
 			if (foundContainers.length > 0) {
@@ -85,7 +85,7 @@ var CORA = (function(cora) {
 			throw new Error("nameInData(" + nameInData + ") and attributes ("
 					+ JSON.stringify(attributes) + ") not found in coraData");
 		};
-		this.getFirstChildByNameInDataAndAttributes = function(nameInData, attributes) {
+		function getFirstChildByNameInDataAndAttributes(nameInData, attributes) {
 			var filter = createNameInDataAndAttributesFilter(nameInData, attributes);
 			var foundChild = children.find(filter);
 			if (foundChild !== undefined) {
@@ -97,7 +97,7 @@ var CORA = (function(cora) {
 
 		function findContainersSpecifiedByNameInDataAndAttributes(nameInData, attributes) {
 			var filter = createNameInDataAndAttributesFilter(nameInData, attributes);
-			return children.filter(filter);
+			return children.filter(filter); 
 		}
 
 		function containerIsSpecifiedByAttributes(container, attributes) {
@@ -111,7 +111,7 @@ var CORA = (function(cora) {
 		}
 
 		function containerAndPathHasAttributes(container, attributes) {
-			return attributesConatainsAttributes(attributes) && containerHasAttributes(container);
+			return attributesContainsAttributes(attributes) && containerHasAttributes(container);
 		}
 
 		function containerAndPathDoesNotHaveAttributes(container, attributes) {
@@ -128,17 +128,18 @@ var CORA = (function(cora) {
 
 		function containerHasAllPathAttributes(containerAttributes, pathAttributes) {
 			return pathAttributes.every(function(pathAttribute) {
-				var pathAttributeKey = getFirstAtomicValueByNameInData(pathAttribute,
+				var pathAttributeKey = getFirstAtomicValueFromDataByNameInData(pathAttribute,
 						"attributeName");
-				var pathAttributeValue = getFirstAtomicValueByNameInData(pathAttribute,
+				var pathAttributeValue = getFirstAtomicValueFromDataByNameInData(pathAttribute,
 						"attributeValue");
 				return containerAttributes[pathAttributeKey] === pathAttributeValue;
 			});
 		}
-		function getFirstAtomicValueByNameInData(dataStructure, name) {
-			return getFirstChildByNameInData(dataStructure, name).value;
+		function getFirstAtomicValueFromDataByNameInData(dataStructure, name) {
+			return getFirstChildFromDataByNameInData(dataStructure, name).value;
 		}
-		function getFirstChildByNameInData(dataStructure, nameInData) {
+		
+		function getFirstChildFromDataByNameInData(dataStructure, nameInData) {
 			var dataStructureChildren = dataStructure.children;
 			var filter = createNameInDataFilter(nameInData);
 			var foundChild = dataStructureChildren.find(filter);
@@ -159,19 +160,19 @@ var CORA = (function(cora) {
 
 		function pathAttributesHasNameAndValue(pathAttributes, name, value) {
 			return pathAttributes.some(function(pathAttribute) {
-				var pathAttributeKey = getFirstAtomicValueByNameInData(pathAttribute,
+				var pathAttributeKey = getFirstAtomicValueFromDataByNameInData(pathAttribute,
 						"attributeName");
-				var pathAttributeValue = getFirstAtomicValueByNameInData(pathAttribute,
+				var pathAttributeValue = getFirstAtomicValueFromDataByNameInData(pathAttribute,
 						"attributeValue");
 				return pathAttributeKey === name && pathAttributeValue === value;
 			});
 		}
 
 		function attributesConatainsNoAttributes(attributes) {
-			return !attributesConatainsAttributes(attributes);
+			return !attributesContainsAttributes(attributes);
 		}
 
-		function attributesConatainsAttributes(attributes) {
+		function attributesContainsAttributes(attributes) {
 			if (attributes === undefined) {
 				return false;
 			}
@@ -189,7 +190,7 @@ var CORA = (function(cora) {
 			return !containerHasAttributes(container);
 		}
 
-		this.containsChildWithNameInDataAndIndex = function(nameInData, index) {
+		function containsChildWithNameInDataAndIndex(nameInData, index) {
 			var filter = createNameInDataAndIndexFilter(nameInData, index);
 			return children.some(filter);
 		};
@@ -208,7 +209,7 @@ var CORA = (function(cora) {
 			};
 		}
 
-		this.getChildByNameInDataAndIndex = function(nameInData, index) {
+		function getChildByNameInDataAndIndex(nameInData, index) {
 			var filter = createNameInDataAndIndexFilter(nameInData, index);
 			var foundChild = children.find(filter);
 			if (foundChild !== undefined) {
@@ -218,11 +219,11 @@ var CORA = (function(cora) {
 					+ ") not found in children to coraData");
 		};
 
-		this.getAtomicValueByNameInDataAndIndex = function(name, index) {
-			return this.getChildByNameInDataAndIndex(name, index).value;
+		function getAtomicValueByNameInDataAndIndex(name, index) {
+			return getChildByNameInDataAndIndex(name, index).value;
 		};
 
-		this.containsChildWithNameInDataAndRepeatId = function(nameInData, repeatId) {
+		function containsChildWithNameInDataAndRepeatId(nameInData, repeatId) {
 			var filter = createNameInDataAndRepeatIdFilter(nameInData, repeatId);
 			return children.some(filter);
 		};
@@ -244,7 +245,7 @@ var CORA = (function(cora) {
 			};
 		}
 
-		this.getFirstChildByNameInDataAndRepeatId = function(nameInData, repeatId) {
+		function getFirstChildByNameInDataAndRepeatId(nameInData, repeatId) {
 			var filter = createNameInDataAndRepeatIdFilter(nameInData, repeatId);
 			var foundChild = children.find(filter);
 			if (foundChild !== undefined) {
@@ -254,7 +255,7 @@ var CORA = (function(cora) {
 					+ ") not found in children to coraData");
 		};
 
-		this.containsChildWithNameInDataAndAttributesAndRepeatId = function(nameInData, attributes,
+		function containsChildWithNameInDataAndAttributesAndRepeatId(nameInData, attributes,
 				repeatId) {
 			var filter = createNameInDataAndAttributesAndRepeatIdFilter(nameInData, attributes,
 					repeatId);
@@ -273,7 +274,7 @@ var CORA = (function(cora) {
 			};
 		}
 
-		this.getFirstChildByNameInDataAndAttributesAndRepeatId = function(nameInData, attributes,
+		function getFirstChildByNameInDataAndAttributesAndRepeatId(nameInData, attributes,
 				repeatId) {
 			var filter = createNameInDataAndAttributesAndRepeatIdFilter(nameInData, attributes,
 					repeatId);
@@ -285,6 +286,25 @@ var CORA = (function(cora) {
 					+ JSON.stringify(attributes) + ") and repeatId (" + repeatId
 					+ ") not found in children to coraData");
 		};
+		return Object.freeze({
+			getData:getData,
+			containsChildWithNameInData:containsChildWithNameInData,
+			getFirstChildByNameInData:getFirstChildByNameInData,
+			getFirstAtomicValueByNameInData:getFirstAtomicValueByNameInData,
+			getNoOfChildrenWithNameInData:getNoOfChildrenWithNameInData,
+			containsChildWithNameInDataAndAttributes:containsChildWithNameInDataAndAttributes,
+			getChildrenByNameInDataAndAttributes:getChildrenByNameInDataAndAttributes,
+			getFirstChildByNameInDataAndAttributes:getFirstChildByNameInDataAndAttributes,
+			containsChildWithNameInDataAndIndex:containsChildWithNameInDataAndIndex,
+			getChildByNameInDataAndIndex:getChildByNameInDataAndIndex,
+			getAtomicValueByNameInDataAndIndex:getAtomicValueByNameInDataAndIndex,
+			containsChildWithNameInDataAndRepeatId:containsChildWithNameInDataAndRepeatId,
+			getFirstChildByNameInDataAndRepeatId:getFirstChildByNameInDataAndRepeatId,
+			containsChildWithNameInDataAndAttributesAndRepeatId:containsChildWithNameInDataAndAttributesAndRepeatId,
+			getFirstChildByNameInDataAndAttributesAndRepeatId:getFirstChildByNameInDataAndAttributesAndRepeatId
+		});
 	};
+	
+	
 	return cora;
 }(CORA || {}));

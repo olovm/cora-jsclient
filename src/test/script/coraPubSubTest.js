@@ -21,7 +21,7 @@
 
 QUnit.module("CORA.PubSub", {
 	beforeEach : function() {
-		this.pubSub = new CORA.PubSub();
+		this.pubSub = CORA.pubSub();
 		this.messages = [];
 		this.toCall = function(data, msg) {
 			this.messages.push({

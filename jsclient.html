@@ -9,7 +9,7 @@
 <script type="text/javascript" src="src/main/script/coraData.js"></script>
 <script type="text/javascript" src="src/main/script/coraPubSub.js"></script>
 <!-- <script type="text/javascript" src="src/main/script/dataCreatorFactory.js"></script> -->
-<!-- <script type="text/javascript" src="src/main/script/dataHolder.js"></script> -->
+<script type="text/javascript" src="src/main/script/dataHolder.js"></script>
 <script type="text/javascript"
 	src="src/main/script/metadataChildInitializer.js"></script>
 <script type="text/javascript"
@@ -35,83 +35,105 @@
 		client1(metadataProvider, textProvider);
 		client2(metadataProvider, textProvider);
 	}
+	
 	function client1(metadataProvider, textProvider) {
 		var place = document.getElementById("client1");
-		var pubSub = new CORA.PubSub();
-		var path = {
+		var pubSub = CORA.pubSub();
+		
+		var spec = {
+				"presentationId" : "pgGroupIdOneTextChildOutput",
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider
+			};
+		var metadataId = "groupIdOneTextChild";
+		var specDataHolder = {
+				"metadataId":metadataId,
+				"metadataProvider":metadataProvider,
+				"pubSub":pubSub
+		};
+		var dataHolder = CORA.dataHolder(specDataHolder);
+		var presentation = CORA.presentation(spec);
+		
+		var specMetadataController= {
+				"metadataId" : metadataId,
+				"data" : undefined,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub
+			};
+		var metadataController = CORA.metadataController(specMetadataController);
+
+		var view = presentation.getView();
+		
+		place.appendChild(view);
+		var pGroupView = view.firstChild;
+		var childRefHandler = pGroupView.firstChild;
+
+		var pVarView = childRefHandler.firstChild;
+		var input = pVarView.firstChild;
+		
+		var path2 = {
 			"name" : "linkedPath",
 			"children" : [ {
 				"name" : "nameInData",
-				"value" : "testVar"
+				"value" : "textVariableId"
 			} ]
 		};
-		
-		var cPVarPresentation = new CORA.CoraData(metadataProvider
-				.getMetadataById("pVarTextVariableIdOutput"));
-		var spec = {
-			"path" : path,
-			"cPresentation" : cPVarPresentation,
-			"metadataProvider" : metadataProvider,
-			"pubSub" : pubSub,
-			"textProvider" : textProvider
+		var data2 = {
+			"path" : path2,
+			"data" : "a Value"
 		};
-		var pVar = CORA.pVar(spec);
-		var view = pVar.getView();
-		
-		place.appendChild(view);
-		var valueView = view.firstChild;
-
-		pVar.setValue("A Value");
-
-		var type = "setValue";
-		var data = {
-			"data" : "A new value",
-			"path" : path
-		};
-		pubSub.publish(type, data);
+		pubSub.publish("setValue", data2);
 	}
+	
 	function client2(metadataProvider, textProvider) {
 		var place = document.getElementById("client2");
-		var pubSub = new CORA.PubSub();
-		var path = {
+		var pubSub = CORA.pubSub();
+		
+		var spec = {
+				"presentationId" : "pgGroupIdOneTextChild",
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider
+			};
+		var metadataId = "groupIdOneTextChild";
+		var specDataHolder = {
+				"metadataId":metadataId,
+				"metadataProvider":metadataProvider,
+				"pubSub":pubSub
+		};
+		var dataHolder = CORA.dataHolder(specDataHolder);
+		var presentation = CORA.presentation(spec);
+		
+		var specMetadataController= {
+				"metadataId" : metadataId,
+				"data" : undefined,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub
+			};
+		var metadataController = CORA.metadataController(specMetadataController);
+
+		var view = presentation.getView();
+		
+		place.appendChild(view);
+		var pGroupView = view.firstChild;
+		var childRefHandler = pGroupView.firstChild;
+
+		var pVarView = childRefHandler.firstChild;
+		var input = pVarView.firstChild;
+		
+		var path2 = {
 			"name" : "linkedPath",
 			"children" : [ {
 				"name" : "nameInData",
-				"value" : "testVar"
+				"value" : "textVariableId"
 			} ]
 		};
-// 		var spec = {
-// 			"newPath" : path,
-// 			"metadataId" : "textVariableId",
-// 			"mode" : "input",
-// 			"metadataProvider" : metadataProvider,
-// 			"pubSub" : pubSub,
-// 			"textProvider" : textProvider
-// 		};
-// 		var variable = CORA.variable(spec);
-// 		var view = variable.getView();
-		var cPVarPresentation = new CORA.CoraData(metadataProvider
-				.getMetadataById("pVarTextVariableId"));
-		var spec = {
-			"path" : path,
-			"cPresentation" : cPVarPresentation,
-			"metadataProvider" : metadataProvider,
-			"pubSub" : pubSub,
-			"textProvider" : textProvider
+		var data2 = {
+			"path" : path2,
+			"data" : "a Value"
 		};
-		var pVar = CORA.pVar(spec);
-		var view = pVar.getView();
-		place.appendChild(view);
-		var valueView = view.firstChild;
-
-		pVar.setValue("A Value");
-
-		var type = "setValue";
-		var data = {
-			"data" : "A new value",
-			"path" : path
-		};
-		pubSub.publish(type, data);
+		pubSub.publish("setValue", data2);
 	}
 
 </script>

@@ -158,7 +158,7 @@ var CORA = (function(cora) {
 			var nextLevelChildReferences = metadataElement
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
-				CORA.MetadataChildInitializer(childReference, nextLevelPath, data,
+				CORA.metadataChildInitializer(childReference, nextLevelPath, data,
 						metadataProvider, pubSub);
 			});
 		}

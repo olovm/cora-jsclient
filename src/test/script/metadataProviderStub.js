@@ -1132,6 +1132,31 @@ function MetadataProviderStub() {
 				} ])
 			};
 			break;
+		case "pgGroupIdOneTextChildOutput":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "groupIdOneTextChild"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pVarTextVariableIdOutput"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				} ]
+			} ])
+		};
+		break;
 
 		case "asdfasdfsad":
 			return {

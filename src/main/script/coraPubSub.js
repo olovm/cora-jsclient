@@ -20,18 +20,18 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.PubSub = function() {
+	cora.pubSub = function() {
 		var arbiter = Arbiter.create();
 		
-		this.subscribe = function(type, path, context, functionToCall) {
-			arbiter.subscribe(this.convertPathToMsg(path) + type, null, context, functionToCall);
+		function subscribe (type, path, context, functionToCall) {
+			arbiter.subscribe(convertPathToMsg(path) + type, null, context, functionToCall);
 		};
 
-		this.publish = function(type, data) {
-			arbiter.publish(this.convertPathToMsg(data.path) + type, data);
+		function publish (type, data) {
+			arbiter.publish(convertPathToMsg(data.path) + type, data);
 		};
 
-		this.convertPathToMsg = function(path) {
+		function convertPathToMsg(path) {
 			return convertAndAddPathToMsg(path, "root");
 		};
 
@@ -88,6 +88,11 @@ var CORA = (function(cora) {
 			}
 			return "";
 		}
+		return Object.freeze({
+			subscribe : subscribe,
+			publish : publish,
+			convertPathToMsg : convertPathToMsg
+		});
 	};
 	return cora;
 }(CORA || {}));

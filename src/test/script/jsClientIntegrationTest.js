@@ -21,7 +21,7 @@ QUnit.module("CORA.JsClientIntegration", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = new CORA.PubSub();
+		this.pubSub = CORA.pubSub();
 		this.textProvider = CORATEST.textProviderStub();
 	},
 	afterEach : function() {
@@ -117,16 +117,27 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataController", fu
 		"pubSub" : this.pubSub,
 		"textProvider" : this.textProvider
 	};
-	this.pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
-		console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
-		console.log("msg: " + msg);
-	});
+//	this.pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
+//		console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
+//		console.log("msg: " + msg);
+//	});
 
 	var metadataId = "groupIdOneTextChild";
-	var dataHolder = CORA.dataHolder(metadataId, this.metadataProvider, this.pubSub);
+	var specDataHolder = {
+			"metadataId":metadataId,
+			"metadataProvider":this.metadataProvider,
+			"pubSub":this.pubSub
+	};
+	var dataHolder = CORA.dataHolder(specDataHolder);
 	var presentation = CORA.presentation(spec);
-	var metadataController = new CORA.MetadataController(metadataId, undefined,
-			this.metadataProvider, this.pubSub);
+	
+	var specMetadataController= {
+			"metadataId" : metadataId,
+			"data" : undefined,
+			"metadataProvider" : this.metadataProvider,
+			"pubSub" : this.pubSub
+		};
+	var metadataController = CORA.metadataController(specMetadataController);
 
 	var view = presentation.getView();
 	this.fixture.appendChild(view);
