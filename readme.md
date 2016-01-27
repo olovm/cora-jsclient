@@ -1,4 +1,6 @@
-jsclient is the js client for Cora.
+**jsclient is the js client for Cora.**
+
+**Node.js**
 
 We are using node for testing, installed with:
 
@@ -12,4 +14,11 @@ Javascript files can be minimized with grunt:
 
 sudo npm install -g grunt-cli
 
+**FitNesse**
+
+Install SlimJS: sudo npm install -g slimjs
+
+Update node: sudo npm install -g n && sudo n stable
+
+Start FitNesse with mvn -P wiki verify
 
