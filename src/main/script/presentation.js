@@ -24,15 +24,11 @@ var CORA = (function(cora) {
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
 
-		var cPresentationMetadata = getMetadataById(presentationId);
-		var cMetadataElement = getMetadataById(cPresentationMetadata
-				.getFirstAtomicValueByNameInData("presentationOf"));
-
 		var view = createBaseView();
 
 		function createBaseView() {
 			var viewNew = createBaseViewHolder();
-			viewNew.appendChild(createViewForTopPGroup(cPresentationMetadata));
+			viewNew.appendChild(createViewForTopPGroup());
 			return viewNew;
 		}
 
@@ -42,7 +38,7 @@ var CORA = (function(cora) {
 			return newView;
 		}
 
-		function createViewForTopPGroup(cPresentationChild) {
+		function createViewForTopPGroup() {
 			var groupSpec = {
 				"presentationId" : presentationId,
 				"metadataProvider" : metadataProvider,

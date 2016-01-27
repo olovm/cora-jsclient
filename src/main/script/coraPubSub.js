@@ -22,18 +22,18 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.pubSub = function() {
 		var arbiter = Arbiter.create();
-		
-		function subscribe (type, path, context, functionToCall) {
-			arbiter.subscribe(convertPathToMsg(path) + type, null, context, functionToCall);
-		};
 
-		function publish (type, data) {
+		function subscribe(type, path, context, functionToCall) {
+			arbiter.subscribe(convertPathToMsg(path) + type, null, context, functionToCall);
+		}
+
+		function publish(type, data) {
 			arbiter.publish(convertPathToMsg(data.path) + type, data);
-		};
+		}
 
 		function convertPathToMsg(path) {
 			return convertAndAddPathToMsg(path, "root");
-		};
+		}
 
 		function convertAndAddPathToMsg(path, msgPart) {
 			var cPath = new CORA.CoraData(path);

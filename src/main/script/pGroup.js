@@ -51,39 +51,17 @@ var CORA = (function(cora) {
 			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
 			var cPresentationChild = getMetadataById(presRef);
 
-			// if text or not
-
 			var childView = document.createElement("span");
 			childView.className = "pGroup " + presRef;
 
 			if (cPresentationChild.getData().name === "text") {
-				// TODO: get right text from textData
-//				childView.appendChild(document.createTextElement("A text"));
-				// childView.appendChild(te);
-				
 				return document.createTextNode(textProvider.getTranslation(presRef));
 			} else {
 				// presentation
-				var presentationOf = cPresentationChild
-						.getFirstAtomicValueByNameInData("presentationOf");
-				// TODO: createListner for path and
-				// presentationOf(metadataId)
-
 				var path = {};
 
 				var type = cPresentationChild.getData().attributes.type;
 				if (type === "pVar") {
-					// pVar
-					// var pVarSpec = {
-					// "parentPath" : path,
-					// "cParentMetadata" : cMetadataElement,
-					// "cPresentation" : cPresentationChild,
-					// "metadataProvider" : metadataProvider,
-					// "pubSub" : pubSub
-					// };
-					// var pVar = CORA.pVar(pVarSpec);
-					// childView.appendChild(pVar.getView());
-
 					var spec = {
 						"parentPath" : path,
 						"cParentMetadata" : cMetadataElement,
@@ -94,7 +72,6 @@ var CORA = (function(cora) {
 					};
 					var pChildRefHandler = CORA.pChildRefHandler(spec);
 					return pChildRefHandler.getView();
-//					childView.appendChild(pChildRefHandler.getView());
 
 				} else if (type === "pGroup") {
 					// pGroup
