@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JSClient</title>
+<script type="text/javascript" src="src/main/script/lib/arbiter.js"></script>
+<script type="text/javascript" src="src/main/script/lib/polyfillES6.js"></script>
+
+<script type="text/javascript" src="src/main/script/coraData.js"></script>
+<script type="text/javascript" src="src/main/script/coraPubSub.js"></script>
+<!-- <script type="text/javascript" src="src/main/script/dataCreatorFactory.js"></script> -->
+<!-- <script type="text/javascript" src="src/main/script/dataHolder.js"></script> -->
+<script type="text/javascript"
+	src="src/main/script/metadataChildInitializer.js"></script>
+<script type="text/javascript"
+	src="src/main/script/metadataController.js"></script>
+<script type="text/javascript"
+	src="src/main/script/metadataRepeatInitializer.js"></script>
+<script type="text/javascript" src="src/main/script/pChildRefHandler.js"></script>
+<script type="text/javascript" src="src/main/script/pGroup.js"></script>
+<script type="text/javascript" src="src/main/script/presentation.js"></script>
+<script type="text/javascript" src="src/main/script/pVar.js"></script>
+<script type="text/javascript" src="src/main/script/textProvider.js"></script>
+<script type="text/javascript" src="src/main/script/variable.js"></script>
+
+<script type="text/javascript"
+	src="src/test/script/metadataProviderStub.js"></script>
+<script type="text/javascript" src="src/test/script/textProviderStub.js"></script>
+
+<script type="text/javascript">
+	window.onload = start;
+	function start(){
+		var metadataProvider = new MetadataProviderStub();
+		var textProvider = CORATEST.textProviderStub();
+		client1(metadataProvider, textProvider);
+		client2(metadataProvider, textProvider);
+	}
+	function client1(metadataProvider, textProvider) {
+		var place = document.getElementById("client1");
+		var pubSub = new CORA.PubSub();
+		var path = {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "testVar"
+			} ]
+		};
+		var spec = {
+			"newPath" : path,
+			"metadataId" : "textVariableId",
+			"mode" : "output",
+			"metadataProvider" : metadataProvider,
+			"pubSub" : pubSub,
+			"textProvider" : textProvider
+		};
+		var variable = CORA.variable(spec);
+		var view = variable.getView();
+		place.appendChild(view);
+		var valueView = view.firstChild;
+
+		variable.setValue("A Value");
+
+		var type = "setValue";
+		var data = {
+			"data" : "A new value",
+			"path" : path
+		};
+		pubSub.publish(type, data);
+	}
+	function client2(metadataProvider, textProvider) {
+		var place = document.getElementById("client2");
+		var pubSub = new CORA.PubSub();
+		var path = {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "testVar"
+			} ]
+		};
+		var spec = {
+			"newPath" : path,
+			"metadataId" : "textVariableId",
+			"mode" : "input",
+			"metadataProvider" : metadataProvider,
+			"pubSub" : pubSub,
+			"textProvider" : textProvider
+		};
+		var variable = CORA.variable(spec);
+		var view = variable.getView();
+		place.appendChild(view);
+		var valueView = view.firstChild;
+
+		variable.setValue("A Value");
+
+		var type = "setValue";
+		var data = {
+			"data" : "A new value",
+			"path" : path
+		};
+		pubSub.publish(type, data);
+	}
+
+</script>
+</head>
+<body>
+	<h1>JSClient</h1>
+	<h2>JSClient 1</h2>
+	<div id="client1"
+		style="background-color: yellow; min-height: 20px; min-width: 40px;"></div>
+	<h2>JSClient 2</h2>
+	<div id="client2"
+		style="background-color: green; min-height: 20px; min-width: 40px;"></div>
+</body>
+</html>
+
