@@ -1084,6 +1084,28 @@ function MetadataProviderStub() {
 				} ]
 			};
 			break;
+			
+		case "pVarTextVariableIdOutput":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pVar"
+			},
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "pVarTextVariableId"
+				} ]
+			}, {
+				"name" : "presentationOf",
+				"value" : "textVariableId"
+			}, {
+				"name" : "mode",
+				"value" : "output"
+			} ]
+		};
+		break;
 
 		case "pgGroupIdOneTextChild":
 			return {

@@ -27,17 +27,40 @@ var CORA = (function(cora) {
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
 
-		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-		var presentationId = new CORA.CoraData(recordInfo).getFirstAtomicValueByNameInData("id");
-
+		var presentationId = findPresentationId(cPresentation);
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
-		var nameInData = cMetadataElement.name;
+		
+		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
+
+		
+		var cParentMetadataChildRef = findParentMetadataChildRef(cParentMetadata);
+		var repeatMin = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMin");
+		var repeatMax = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMax");
+//		console.log("repeatMin: " + repeatMin);
+//		console.log("repeatMax: " + repeatMax);
+		var isRepeating = repeatMax > 1;
 
 		var view = createBaseView();
 		pubSub.subscribe("add", parentPath, undefined, handleMsg);
 
+		
+		function findPresentationId(cPresentation){
+			var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
+			return new CORA.CoraData(recordInfo).getFirstAtomicValueByNameInData("id");
+		}
+
+		function findParentMetadataChildRef(cParentMetadata){
+			var parentMetadataChildRef = cParentMetadata.getFirstChildByNameInData("childReferences").children
+			.find(function(metadataChildRef) {
+				var cMetadataChildRef = new CORA.CoraData(metadataChildRef);
+				return cMetadataChildRef.getFirstAtomicValueByNameInData("ref") === metadataId;
+			});
+//			console.log("parentMetadataChildRef: " + JSON.stringify(parentMetadataChildRef));
+			return new CORA.CoraData(parentMetadataChildRef);
+		}
+		
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			viewNew.className = "pChildRefHandler " + presentationId;
@@ -52,27 +75,32 @@ var CORA = (function(cora) {
 			return view;
 		}
 		function handleMsg(dataFromMsg, msg) {
-			console.log("msg:" + msg + " dataFromMsg:" + JSON.stringify(dataFromMsg));
+//			console.log("msg:" + msg + " dataFromMsg:" + JSON.stringify(dataFromMsg));
 			// setValue(dataFromMsg.data);
 			// TODO: see how we can add metadataId to subscribe so we only get
 			// add messages for this childRef
 			// TODO: add
-
-			add(dataFromMsg.repeatId);
+			if (metadataId === dataFromMsg.metadataId) {
+				add(dataFromMsg.repeatId);
+			}
 		}
 		function add(repeatId) {
 			var newPath = calculatePathForNewElement(repeatId);
+//			console.log("newPath:"+JSON.stringify(newPath));
+//			console.log("nameInData:"+nameInData);
 			var varSpec = {
-				"newPath" : newPath,
-				"metadataId" : metadataId,
-				"mode" : mode,
+				"path" : newPath,
+//				"metadataId" : metadataId,
+//				"mode" : mode,
+				"cPresentation" : cPresentation,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider
 			};
 			// TODO: handle different type of elements
-			var variable = CORA.variable(varSpec);
-			view.appendChild(variable.getView());
+//			var variable = CORA.variable(varSpec);
+			var pVar = CORA.pVar(varSpec);
+			view.appendChild(pVar.getView());
 		}
 
 		function calculatePathForNewElement(repeatId) {
@@ -100,6 +128,7 @@ var CORA = (function(cora) {
 					"value" : repeatIdForPath
 				});
 			}
+			return path;
 		}
 
 		function getLowestPath(path) {
@@ -113,7 +142,8 @@ var CORA = (function(cora) {
 		var out = Object.freeze({
 			getView : getView,
 			add : add,
-			handleMsg : handleMsg
+			handleMsg : handleMsg,
+			isRepeating : isRepeating
 		});
 		view.modelObject = out;
 		return out;

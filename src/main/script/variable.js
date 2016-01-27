@@ -20,7 +20,7 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.variable = function(spec) {
+	cora.variableOLD = function(spec) {
 		// TODO: handle the following:
 		/**
 		 * <ol>
@@ -56,7 +56,9 @@ var CORA = (function(cora) {
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 
 		function createBaseView() {
-			return document.createElement("span");
+			var viewNew = document.createElement("span");
+//			viewNew.className = "pVar " + presentationId;
+			return viewNew;
 		}
 		function createValueView(viewMode) {
 			if (viewMode === "input") {

@@ -25,7 +25,7 @@ var CORATEST = (function(coraTest) {
 				"presentationId" : presentationId,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
-				"textProvider": textProvider
+				"textProvider" : textProvider
 			};
 			var pGroup = CORA.pGroup(spec);
 
@@ -54,46 +54,35 @@ QUnit.module("CORA.pGroup", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
-		this.newAttachedPGroup = CORATEST.attachedPGroupFactory(this.metadataProvider,
-				this.pubSub, this.textProvider, this.fixture);
+		this.newAttachedPGroup = CORATEST.attachedPGroupFactory(this.metadataProvider, this.pubSub,
+				this.textProvider, this.fixture);
 	},
 	afterEach : function() {
 	}
 });
 
-
-
 QUnit.test("testInit", function(assert) {
 	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
-//	var pGroup = attachedPGroup.pGroup;
-//	assert.strictEqual(presentation.getPresentationId(),"pgGroupIdOneTextChild");
-//	assert.ok(presentation.getPubSub());
 	var view = attachedPGroup.view;
 	assert.ok(view.offsetHeight > 0, "pGroup view should be visible");
 	var expectedClassName = 'pGroup pgGroupIdOneTextChild';
 	assert.deepEqual(view.className, expectedClassName);
-	
-
 });
 
-//QUnit.test("testInitOneChild", function(assert) {
-//	var attachedPresentation = this.newAttachedPresentation.factor("pgGroupIdOneTextChild");
-//	var expectedClassName = 'presentation pgGroupIdOneTextChild';
-//	var presentation = attachedPresentation.presentation;
-//	var view = presentation.getView();
-//
-//	this.fixture.appendChild(view);
-//	assert.ok(view.offsetHeight > 0, "presentation view should be visible");
-//	assert.deepEqual(view.className, expectedClassName);
-//
-//	assert.ok(view.childNodes.length === 1, "pgGroupIdOneTextChild, should have one child");
-//
-//	var childRefHolder = view.firstChild;
-//	assert.ok(childRefHolder.childNodes.length === 1, "childRefHolder, should have one child");
-//
+QUnit.test("testInitOneChild", function(assert) {
+	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
+	var view = attachedPGroup.view;
+
+	var expectedClassName = 'presentation pgGroupIdOneTextChild';
+	var pGroup = attachedPGroup.pGroup;
+//console.log(view);
+//console.log(view.childNodes.length);
+	assert.ok(view.childNodes.length === 1, "pgGroupIdOneTextChild, should have one child");
+
+	var childRefHandler = view.firstChild;
+//	assert.ok(childRefHandler.childNodes.length === 1, "childRefHandler, should have one child");
+	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
+
 //	var pVarView = childRefHolder.firstChild;
-//	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId");
-//
-//	// console.log("firstChild: " +childRefHolder.outerHTML);
-//
-//});
+//	assert.deepEqual(pVarView.className, "pChildRefHandler pVarTextVariableId");
+});

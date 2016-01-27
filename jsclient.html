@@ -45,20 +45,23 @@
 				"value" : "testVar"
 			} ]
 		};
+		
+		var cPVarPresentation = new CORA.CoraData(metadataProvider
+				.getMetadataById("pVarTextVariableIdOutput"));
 		var spec = {
-			"newPath" : path,
-			"metadataId" : "textVariableId",
-			"mode" : "output",
+			"path" : path,
+			"cPresentation" : cPVarPresentation,
 			"metadataProvider" : metadataProvider,
 			"pubSub" : pubSub,
 			"textProvider" : textProvider
 		};
-		var variable = CORA.variable(spec);
-		var view = variable.getView();
+		var pVar = CORA.pVar(spec);
+		var view = pVar.getView();
+		
 		place.appendChild(view);
 		var valueView = view.firstChild;
 
-		variable.setValue("A Value");
+		pVar.setValue("A Value");
 
 		var type = "setValue";
 		var data = {
@@ -77,20 +80,31 @@
 				"value" : "testVar"
 			} ]
 		};
+// 		var spec = {
+// 			"newPath" : path,
+// 			"metadataId" : "textVariableId",
+// 			"mode" : "input",
+// 			"metadataProvider" : metadataProvider,
+// 			"pubSub" : pubSub,
+// 			"textProvider" : textProvider
+// 		};
+// 		var variable = CORA.variable(spec);
+// 		var view = variable.getView();
+		var cPVarPresentation = new CORA.CoraData(metadataProvider
+				.getMetadataById("pVarTextVariableId"));
 		var spec = {
-			"newPath" : path,
-			"metadataId" : "textVariableId",
-			"mode" : "input",
+			"path" : path,
+			"cPresentation" : cPVarPresentation,
 			"metadataProvider" : metadataProvider,
 			"pubSub" : pubSub,
 			"textProvider" : textProvider
 		};
-		var variable = CORA.variable(spec);
-		var view = variable.getView();
+		var pVar = CORA.pVar(spec);
+		var view = pVar.getView();
 		place.appendChild(view);
 		var valueView = view.firstChild;
 
-		variable.setValue("A Value");
+		pVar.setValue("A Value");
 
 		var type = "setValue";
 		var data = {

@@ -22,20 +22,22 @@ var CORA = (function(cora) {
 		var presentationId = spec.presentationId;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
+		var textProvider = spec.textProvider;
 
-		var presentationMetadata = getMetadataById(presentationId);
-		var cMetadataElement = getMetadataById(presentationMetadata
+		var cPresentationMetadata = getMetadataById(presentationId);
+		var cMetadataElement = getMetadataById(cPresentationMetadata
 				.getFirstAtomicValueByNameInData("presentationOf"));
 
 		var view = createBaseView();
 
 		function createBaseView() {
 			var viewNew = createBaseViewHolder();
-			var presentationChildren = presentationMetadata
-					.getFirstChildByNameInData("childReferences").children;
-			presentationChildren.forEach(function(presentationChildRef) {
-				viewNew.appendChild(createViewForChild(presentationChildRef));
-			});
+//			var presentationChildren = cPresentationMetadata
+//					.getFirstChildByNameInData("childReferences").children;
+//			presentationChildren.forEach(function(presentationChildRef) {
+//				viewNew.appendChild(createViewForChild(presentationChildRef));
+//			});
+			viewNew.appendChild(createViewForTopPGroup(cPresentationMetadata));
 			return viewNew;
 		}
 
@@ -45,6 +47,41 @@ var CORA = (function(cora) {
 			return newView;
 		}
 
+		function createViewForTopPGroup(cPresentationChild) {
+			// if text or not
+			
+			if (cPresentationChild.getData().name === "presentation") {
+				// presentation
+//				var presentationOf = cPresentationChild
+//				.getFirstAtomicValueByNameInData("presentationOf");
+				// TODO: createListner for path and
+				// presentationOf(metadataId)
+				
+				var path = {};
+				
+				var type = cPresentationChild.getData().attributes.type;
+			 if (type === "pGroup") {
+					// pGroup
+				 var groupSpec = {
+							"presentationId" : presentationId,
+							"metadataProvider" : metadataProvider,
+							"pubSub" : pubSub,
+							"textProvider" : textProvider
+						};
+//				 var groupSpec = {
+//							"newPath" : {},
+//							"metadataId" : metadataId,
+//							"metadataProvider" : metadataProvider,
+//							"pubSub" : pubSub,
+//							"textProvider" : textProvider
+//						};
+						// TODO: handle different type of elements
+						var pGroup = CORA.pGroup(groupSpec);
+						return pGroup.getView();
+				}
+			}
+			//TODO: throw error if not presentation and pGroup as top presentation
+		}
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = new CORA.CoraData(presentationChildRef);
 			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");

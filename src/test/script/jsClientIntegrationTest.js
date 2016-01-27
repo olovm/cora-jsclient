@@ -28,8 +28,7 @@ QUnit.module("CORA.JsClientIntegration", {
 	}
 });
 
-
-QUnit.test("testIntegrateCoraPubSub", function(assert) {
+QUnit.test("testIntegrateCoraPubSubPVar", function(assert) {
 	var path = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -37,20 +36,22 @@ QUnit.test("testIntegrateCoraPubSub", function(assert) {
 			"value" : "testVar"
 		} ]
 	};
+
+	var cPVarPresentation = new CORA.CoraData(this.metadataProvider
+			.getMetadataById("pVarTextVariableIdOutput"));
 	var spec = {
-		"newPath" : path,
-		"metadataId" : "textVariableId",
-		"mode" : "output",
+		"path" : path,
+		"cPresentation" : cPVarPresentation,
 		"metadataProvider" : this.metadataProvider,
 		"pubSub" : this.pubSub,
-		"textProvider": this.textProvider
+		"textProvider" : this.textProvider
 	};
-	var variable = CORA.variable(spec);
-	var view = variable.getView();
+	var pVar = CORA.pVar(spec);
+	var view = pVar.getView();
 	this.fixture.appendChild(view);
 	var valueView = view.firstChild;
 
-	variable.setValue("A Value");
+	pVar.setValue("A Value");
 	assert.equal(valueView.innerHTML, "A Value");
 
 	var type = "setValue";
@@ -61,4 +62,103 @@ QUnit.test("testIntegrateCoraPubSub", function(assert) {
 	this.pubSub.publish(type, data);
 
 	assert.equal(valueView.innerHTML, "A new value");
+});
+
+QUnit.test("testIntegrateCoraPubSubPresentation", function(assert) {
+	var spec = {
+		"presentationId" : "pgGroupIdOneTextChild",
+		"metadataProvider" : this.metadataProvider,
+		"pubSub" : this.pubSub,
+		"textProvider" : this.textProvider
+	};
+	var presentation = CORA.presentation(spec);
+
+	var view = presentation.getView();
+	this.fixture.appendChild(view);
+
+	var pGroupView = view.firstChild;
+	var childRefHandler = pGroupView.firstChild;
+	assert
+			.ok(childRefHandler.childNodes.length === 0,
+					"childRefHandler, should have zero children");
+	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
+
+	var path = {};
+	var data = {
+		"metadataId" : "textVariableId",
+		"path" : path
+	};
+	this.pubSub.publish("add", data);
+
+	assert.ok(childRefHandler.childNodes.length === 1, "childRefHandler, should have one child");
+	var pVarView = childRefHandler.firstChild;
+	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId");
+	var input = pVarView.firstChild;
+	assert.deepEqual(input.value, "");
+
+	var path2 = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		} ]
+	};
+	var data2 = {
+		"path" : path2,
+		"data" : "a Value"
+	};
+	this.pubSub.publish("setValue", data2);
+	assert.deepEqual(input.value, "a Value");
+});
+QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataController", function(assert) {
+	var spec = {
+		"presentationId" : "pgGroupIdOneTextChild",
+		"metadataProvider" : this.metadataProvider,
+		"pubSub" : this.pubSub,
+		"textProvider" : this.textProvider
+	};
+	this.pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
+		console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
+		console.log("msg: " + msg);
+	});
+
+	var metadataId = "groupIdOneTextChild";
+	var dataHolder = CORA.dataHolder(metadataId, this.metadataProvider, this.pubSub);
+	var presentation = CORA.presentation(spec);
+	var metadataController = new CORA.MetadataController(metadataId, undefined,
+			this.metadataProvider, this.pubSub);
+
+	var view = presentation.getView();
+	this.fixture.appendChild(view);
+
+	var pGroupView = view.firstChild;
+	var childRefHandler = pGroupView.firstChild;
+
+	var pVarView = childRefHandler.firstChild;
+	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId");
+	var input = pVarView.firstChild;
+	assert.deepEqual(input.value, "");
+
+	var path2 = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		} ]
+	};
+	var data2 = {
+		"path" : path2,
+		"data" : "a Value"
+	};
+	this.pubSub.publish("setValue", data2);
+	assert.deepEqual(input.value, "a Value");
+
+	assert.deepEqual(dataHolder.getData(), {
+		"children" : [ {
+			"name" : "textVariableId",
+			"value" : "a Value"
+		} ],
+		"name" : "groupIdOneTextChild"
+	});
+
 });

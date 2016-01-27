@@ -22,6 +22,7 @@ var CORA = (function(cora) {
 		var presentationId = spec.presentationId;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
+		var textProvider = spec.textProvider;
 
 		var presentationMetadata = getMetadataById(presentationId);
 		var cMetadataElement = getMetadataById(presentationMetadata
@@ -49,24 +50,17 @@ var CORA = (function(cora) {
 			var cPresentationChildRef = new CORA.CoraData(presentationChildRef);
 			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
 			var cPresentationChild = getMetadataById(presRef);
-			
-			
-			//repeating or not
-			var repeating = false;
-			if(repeating){
-				
-			}
-			
-			
-			
+
 			// if text or not
-				
+
 			var childView = document.createElement("span");
-			childView.className = "childRefHolder " + presRef;
+			childView.className = "pGroup " + presRef;
 
 			if (cPresentationChild.getData().name === "text") {
 				// TODO: get right text from textData
-				childView.appendChild(document.createTextElement("A text"));
+//				childView.appendChild(document.createTextElement("A text"));
+				// childView.appendChild(te);
+				return document.createTextElement("A text");
 			} else {
 				// presentation
 				var presentationOf = cPresentationChild
@@ -79,15 +73,28 @@ var CORA = (function(cora) {
 				var type = cPresentationChild.getData().attributes.type;
 				if (type === "pVar") {
 					// pVar
-					var pVarSpec = {
+					// var pVarSpec = {
+					// "parentPath" : path,
+					// "cParentMetadata" : cMetadataElement,
+					// "cPresentation" : cPresentationChild,
+					// "metadataProvider" : metadataProvider,
+					// "pubSub" : pubSub
+					// };
+					// var pVar = CORA.pVar(pVarSpec);
+					// childView.appendChild(pVar.getView());
+
+					var spec = {
 						"parentPath" : path,
 						"cParentMetadata" : cMetadataElement,
 						"cPresentation" : cPresentationChild,
 						"metadataProvider" : metadataProvider,
-						"pubSub" : pubSub
+						"pubSub" : pubSub,
+						"textProvider" : textProvider
 					};
-					var pVar = CORA.pVar(pVarSpec);
-					childView.appendChild(pVar.getView());
+					var pChildRefHandler = CORA.pChildRefHandler(spec);
+					return pChildRefHandler.getView();
+//					childView.appendChild(pChildRefHandler.getView());
+
 				} else if (type === "pGroup") {
 					// pGroup
 				} else {

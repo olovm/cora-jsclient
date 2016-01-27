@@ -26,9 +26,9 @@ QUnit.assert.stringifyEqual = function(actual, expected, message) {
 QUnit.module("CORA.DataHolder", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = new PubSubStub();
+		this.pubSub = new PubSubSpy();
 		this.newDataHolder = function(metadataId) {
-			return new CORA.DataHolder(metadataId, this.metadataProvider, this.pubSub);
+			return  CORA.dataHolder(metadataId, this.metadataProvider, this.pubSub);
 		}
 	},
 	afterEach : function() {
@@ -39,6 +39,15 @@ QUnit.test("testInit", function(assert) {
 	var dataHolder = this.newDataHolder("recordTypeOnlyMetadataIdChild");
 	assert.deepEqual("recordTypeOnlyMetadataIdChild", dataHolder.getMetadataId());
 	assert.ok(dataHolder.getPubSub());
+	
+	//subscription
+	var subscriptions = this.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 1);
+
+	var firstSubscription = subscriptions[0];
+	assert.strictEqual(firstSubscription.type, "*");
+	assert.deepEqual(firstSubscription.path, {});
+//	assert.ok(firstSubsription.functionToCall === dataHolder.handleMsg);
 });
 
 // QUnit.test("testCreateBroken", function() {

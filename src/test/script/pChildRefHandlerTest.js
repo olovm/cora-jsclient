@@ -70,10 +70,14 @@ QUnit.module("CORA.pChildRefHandler", {
 QUnit.test("testInit", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	
+	assert.ok(childRefHandler.isRepeating===false);
+	
 	var view = attachedPChildRefHandler.view;
 	assert.deepEqual(view.className, "pChildRefHandler pVarTextVariableId");
 	assert.deepEqual(view.nodeName, "SPAN");
-	assert.ok(view.modelObject === attachedPChildRefHandler.pChildRefHandler,
+	assert.ok(view.modelObject === childRefHandler,
 			"modelObject should be a pointer to the javascript object instance");
 	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have no children");
 	
@@ -85,16 +89,19 @@ QUnit.test("testInit", function(assert) {
 	var firstSubsription = subscriptions[0];
 	assert.strictEqual(firstSubsription.type, "add");
 	assert.deepEqual(firstSubsription.path, {});
-	var pChildRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var pChildRefHandler = childRefHandler;
 	assert.ok(firstSubsription.functionToCall === pChildRefHandler.handleMsg);
 });
 
 QUnit.test("testAddOneChild", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
-	attachedPChildRefHandler.pChildRefHandler.add();
 	var view = attachedPChildRefHandler.view;
+	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have zero children");
+	
+	attachedPChildRefHandler.pChildRefHandler.add();
+	
 	assert.ok(view.childNodes.length === 1, "pChildRefHandler, should have one child");
 	var variableView = view.firstChild;
-	assert.strictEqual(variableView.className, "");
+	assert.strictEqual(variableView.className, "pVar pVarTextVariableId");
 });

@@ -24,7 +24,8 @@ var CORATEST = (function(coraTest) {
 			var spec = {
 				"presentationId" : presentationId,
 				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub
+				"pubSub" : pubSub,
+				"textProvider":textProvider
 			};
 			var presentation = CORA.presentation(spec);
 
@@ -35,6 +36,7 @@ var CORATEST = (function(coraTest) {
 				fixture : fixture,
 				metadataProvider : metadataProvider,
 				pubSub : pubSub,
+				textProvider:textProvider,
 				view : view
 			};
 
@@ -69,21 +71,24 @@ QUnit.test("testInit", function(assert) {
 
 QUnit.test("testInitOneChild", function(assert) {
 	var attachedPresentation = this.newAttachedPresentation.factor("pgGroupIdOneTextChild");
-	var expectedClassName = 'presentation pgGroupIdOneTextChild';
 	var presentation = attachedPresentation.presentation;
 	var view = presentation.getView();
 
-	this.fixture.appendChild(view);
 	assert.ok(view.offsetHeight > 0, "presentation view should be visible");
-	assert.deepEqual(view.className, expectedClassName);
+	
+	assert.deepEqual(view.className, 'presentation pgGroupIdOneTextChild');
 
-	assert.ok(view.childNodes.length === 1, "pgGroupIdOneTextChild, should have one child");
-
+	assert.ok(view.childNodes.length === 1, "presentation, should have one child");
+	
+	var pGroupHolder = view.firstChild;
+	assert.ok(pGroupHolder.childNodes.length === 1, "pGroup, should have one child");
+	assert.deepEqual(pGroupHolder.className, 'pGroup pgGroupIdOneTextChild');
+	
 	var childRefHolder = view.firstChild;
 	assert.ok(childRefHolder.childNodes.length === 1, "childRefHolder, should have one child");
 
 	var pVarView = childRefHolder.firstChild;
-	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId");
+	assert.deepEqual(pVarView.className, "pChildRefHandler pVarTextVariableId");
 
 	// console.log("firstChild: " +childRefHolder.outerHTML);
 

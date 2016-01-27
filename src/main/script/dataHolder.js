@@ -19,11 +19,12 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.DataHolder = function(metadataIdIn, metadataProviderIn, pubSubIn) {
+	cora.dataHolder = function(metadataIdIn, metadataProviderIn, pubSubIn) {
 		var metadataId = metadataIdIn;
 		var metadataProvider = metadataProviderIn;
 		var pubSub = pubSubIn;
 		var dataContainer = createMainDataContainerWithChildrenAndAttributes();
+		pubSub.subscribe("*", {}, undefined, handleMsg);
 
 		function createMainDataContainerWithChildrenAndAttributes() {
 			// private
@@ -86,29 +87,40 @@ var CORA = (function(cora) {
 
 			return attributeContainer;
 		}
+		function handleMsg(dataFromMsg, msg) {
+			console.log("dataHolder dataFromMsg:" + JSON.stringify(dataFromMsg));
+			// setValue(dataFromMsg.data);
+			if (msg.endsWith("add")) {
+				// this.addChild = function(parentPath, metadataIdToAdd,
+				// repeatId) {
+				addChild(dataFromMsg.path, dataFromMsg.metadataId, dataFromMsg.repeatId);
+			} else {
+				setValue(dataFromMsg.path, dataFromMsg.data);
+			}
 
-		this.getPubSub = function() {
+		}
+		function getPubSub() {
 			// priviledged
 			return pubSub;
-		};
+		}
 
-		this.getMetadataId = function() {
+		function getMetadataId() {
 			// priviledged
 			return metadataId;
-		};
+		}
 
-		this.getData = function() {
+		function getData() {
 			return dataContainer;
-		};
+		}
 
-		this.setValue = function(path, value) {
+		function setValue(path, value) {
 			try {
 				setValueInContainerListUsingPath(path, value);
 			} catch (e) {
 				throw new Error("path(" + JSON.stringify(path) + ") not found in dataHolder:" + e);
 			}
-		};
-
+		}
+		
 		function setValueInContainerListUsingPath(path, value) {
 			var foundContainer = findContainer(dataContainer, path);
 			foundContainer.value = value;
@@ -147,9 +159,10 @@ var CORA = (function(cora) {
 			return path.containsChildWithNameInData("linkedPath");
 		}
 
-		this.addChild = function(parentPath, metadataIdToAdd, repeatId) {
+		function addChild(parentPath, metadataIdToAdd, repeatId) {
 			tryToAddChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
-		};
+		}
+		
 
 		function tryToAddChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId) {
 			try {
@@ -167,9 +180,19 @@ var CORA = (function(cora) {
 				containerSpecifiedByPath = foundContainer;
 			}
 			var newRepeat = createDataContainerForElementWithId(metadataIdToAdd);
-			newRepeat.repeatId = repeatId;
+			if(repeatId!==undefined){
+				newRepeat.repeatId = repeatId;
+			}
 			containerSpecifiedByPath.children.push(newRepeat);
 		}
+		return Object.freeze({
+			handleMsg : handleMsg,
+			getPubSub : getPubSub,
+			getMetadataId : getMetadataId,
+			getData : getData,
+			setValue : setValue,
+			addChild : addChild
+		});
 	};
 	return cora;
 }(CORA || {}));
