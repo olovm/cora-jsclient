@@ -1,0 +1,74 @@
+!define TEST_SYSTEM {slim}
+!define COMMAND_PATTERN {slimjs %p}
+
+!path src/main/script/
+!path src/test/fixtures/slimjs
+!path src/main/script/lib
+!path src/test/script/
+!path src/test/script/lib
+!path src/test/fixtures
+
+Examples from: https://github.com/noamtcohen/SlimJS
+
+!3 Cora
+| import |
+| coraFixtures|
+| aCoraNameSpace|
+|coraData|
+
+| CORAFIXTURES.coraData |
+| trams | getStuff? |
+| Bob | Hi! Bob |
+
+
+
+
+!3 Say Hi
+| import |
+| hi |
+
+| Hi |
+| echo | sayHi? |
+| Bob | Hi! Bob |
+
+!3 Asynchronous
+| import |
+| child_process |
+
+| script | child_process |
+| check | exec | node -v | v5.4.1 |
+
+!3 Namespace
+| import |
+| division |
+
+| eg.Division |
+| numerator | denominator | quotient? |
+| 10 | 2 | $result= |
+| $result | 10 | 0.5 |
+| 12.6 | 3 | 4.2 |
+| 100 | 4 | 25 |
+
+!3 Name Conversion
+| import |
+| conversion |
+
+| should I buy milk |
+| cash in wallet | credit card | pints of milk remaining | go to store? |
+| 0 | no | 0 | no |
+| 10 | no | 0 | yes |
+| 0 | yes | 0 | yes |
+| 10 | yes | 0 | yes |
+| 0 | no | 1 | no |
+| 10 | no | 1 | no |
+| 0 | yes | 1 | no |
+| 10 | yes | 1 | no |
+
+!3 JSON
+| import |
+| json |
+
+| Json |
+| json | X and Y ? |
+| {x:1,y:2} | 3 |
+| {x:'Bar', y:' Baz'} | Bar Baz |
