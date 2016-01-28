@@ -1,6 +1,5 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -18,32 +17,35 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var CORA = (function(cora) {
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.Variable = function(newPath, metadataId, mode, metadataProvider, pubSub) {
-		var view = createBaseView(this);
-		var input = createInput(this);
-		view.appendChild(input);
+	coraTest.textProviderStub = function() {
 
-		function createBaseView(variableFunction) {
-			var view = document.createElement("span");
-			return view;
+		function getTranslation(textId) {
+			switch (textId) {
+			case "textVariableIdText":
+				return "Exempel textvariabel";
+				// "Example text variable"
+				break;
+			case "textVariableIdDefText":
+				return "Detta är en exempeldefinition för en textvariabel.";
+				// This is an example definition for a text variable.
+				break;
+			case "aHeadlineText":
+				return "En rubrik";
+				// A headline
+				break;
+			default:
+				throw new Error("Id(" + textId + ") not found in stub");
+				break;
+			}
+
+			return text;
 		}
-		function createInput(variableFunction) {
-			var inputNew = document.createElement("input");
-			inputNew.type = "text";
-			inputNew.id = "id";
-			inputNew.modelObject = variableFunction;
-			return inputNew;
-		}
 
-		this.getView = function() {
-			return view;
-		};
-
-		this.setValue = function(value) {
-			input.value = value;
-		};
+		return Object.freeze({
+			getTranslation : getTranslation
+		});
 	};
-	return cora;
-}(CORA || {}));
+	return coraTest;
+}(CORATEST || {}));

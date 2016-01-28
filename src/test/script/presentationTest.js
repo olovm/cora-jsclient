@@ -17,70 +17,79 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.attachedPresentationFactory = function(metadataProvider, pubSub, textProvider, fixture) {
+		var factor = function(presentationId) {
+			var spec = {
+				"presentationId" : presentationId,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider":textProvider
+			};
+			var presentation = CORA.presentation(spec);
+
+			var view = presentation.getView();
+			fixture.appendChild(view);
+			return {
+				presentation : presentation,
+				fixture : fixture,
+				metadataProvider : metadataProvider,
+				pubSub : pubSub,
+				textProvider:textProvider,
+				view : view
+			};
+
+		};
+		return Object.freeze({
+			factor : factor
+		});
+	};
+
+	return coraTest;
+}(CORATEST || {}));
 
 QUnit.module("CORA.Presentation", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = new PubSubStub();
-		this.newPresentation = function(presentationId) {
-			return new CORA.Presentation(presentationId, this.metadataProvider, this.pubSub);
-		}
+		this.pubSub = new PubSubSpy();
+		this.textProvider = CORATEST.textProviderStub();
+		this.newAttachedPresentation = CORATEST.attachedPresentationFactory(this.metadataProvider,
+				this.pubSub, this.textProvider, this.fixture);
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("testInit", function(assert) {
-	var presentation = this.newPresentation("pgGroupIdOneTextChild");
-	assert.deepEqual("pgGroupIdOneTextChild", presentation.getPresentationId());
+	var attachedPresentation = this.newAttachedPresentation.factor("pgGroupIdOneTextChild");
+	var presentation = attachedPresentation.presentation;
+	assert.strictEqual(presentation.getPresentationId(),"pgGroupIdOneTextChild");
 	assert.ok(presentation.getPubSub());
 });
 
-QUnit.test("testCreateOneChild", function(assert) {
-	var presentation = this.newPresentation("pgGroupIdOneTextChild");
-//	var expected = '<div class="presentation pgGroupIdOneTextChild"></div>';
-	var expectedClassName = 'presentation pgGroupIdOneTextChild';
+QUnit.test("testInitOneChild", function(assert) {
+	var attachedPresentation = this.newAttachedPresentation.factor("pgGroupIdOneTextChild");
+	var presentation = attachedPresentation.presentation;
 	var view = presentation.getView();
-	
-	this.fixture.appendChild(view);
+
 	assert.ok(view.offsetHeight > 0, "presentation view should be visible");
-	assert.deepEqual(view.className, expectedClassName);
 	
-	assert.ok(view.childNodes.length === 1, "pgGroupIdOneTextChild, should have one child");
+	assert.deepEqual(view.className, 'presentation pgGroupIdOneTextChild');
+
+	assert.ok(view.childNodes.length === 1, "presentation, should have one child");
+	
+	var pGroupHolder = view.firstChild;
+	assert.ok(pGroupHolder.childNodes.length === 1, "pGroup, should have one child");
+	assert.deepEqual(pGroupHolder.className, 'pGroup pgGroupIdOneTextChild');
 	
 	var childRefHolder = view.firstChild;
 	assert.ok(childRefHolder.childNodes.length === 1, "childRefHolder, should have one child");
-	
-	
-	var pVar = childRefHolder.firstChild;
-	assert.deepEqual(pVar.className, "pVar pVarTextVariableId");
-	
-//	console.log("firstChild: " +childRefHolder.outerHTML);
-	
-});
 
-QUnit.test("testAddOneChild", function(assert) {
-	var presentation = this.newPresentation("pgGroupIdOneTextChild");
-	var view = presentation.getView();
-	this.fixture.appendChild(view);
-	
-	var childRefHolder = view.firstChild;
-	var pVar = childRefHolder.firstChild;
-	
-//	console.log("pVar: " +pVar.outerHTML);
-//	console.log("pVar: " +pVar.modelObject);
-	pVar.modelObject.add();
-	assert.ok(pVar.childNodes.length === 1, "pVar, should have one child");
-	var span = pVar.firstChild;
-	var input = span.firstChild;
-	assert.equal(input.value, "");
-	
-	input.modelObject.setValue("A Value");
-	assert.equal(input.value, "A Value");
-	
-	
-//	console.log("firstChild: " +childRefHolder.outerHTML);
-	
-});
+	var pVarView = childRefHolder.firstChild;
+	assert.deepEqual(pVarView.className, "pChildRefHandler pVarTextVariableId");
 
+	// console.log("firstChild: " +childRefHolder.outerHTML);
+
+});

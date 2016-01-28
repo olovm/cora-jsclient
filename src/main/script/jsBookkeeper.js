@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Olov McKie
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -16,19 +16,19 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 var CORA = (function(cora) {
 	"use strict";
-	cora.DataCreatorFactory = function(metadataIdIn, metadataProviderIn) {
-		var metadataId = metadataIdIn;
-		var metadataProvider = metadataProviderIn;
-		var dataContainer = createMainDataContainerWithChildrenAndAttributes();
+	cora.jsBookkeeper = function(spec) {
+		var pubSub = spec.pubSub;
 
-		function createMainDataContainerWithChildrenAndAttributes() {
-			// private
-			// return
-			// recursivelyCreateDataContainerForElementWithId(metadataId);
+		function setValue(data) {
+			pubSub.publish("setValue", data);
 		}
+
+		return Object.freeze({
+			setValue : setValue
+		});
+
 	};
 	return cora;
 }(CORA || {}));

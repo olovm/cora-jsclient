@@ -31,7 +31,7 @@ QUnit.begin(function(args) {
 });
 // end workaround qunit does not report number of tests
 
-QUnit.module("CORA.CoraData", {
+QUnit.module("CORA.coraData", {
 	beforeEach : function() {
 		this.firstChild = {
 			"name" : "textVariableId",
@@ -47,7 +47,7 @@ QUnit.module("CORA.CoraData", {
 			"name" : "groupIdOneTextChild",
 			"children" : [ this.firstChild, this.secondChild ]
 		};
-		this.coraData = new CORA.CoraData(this.dataOneLevel);
+		this.coraData = CORA.coraData(this.dataOneLevel);
 
 		this.firstChild2 = {
 			"name" : "groupIdOneTextChildOneAttribute",
@@ -92,7 +92,7 @@ QUnit.module("CORA.CoraData", {
 			"name" : "groupInGroupOneTextChildOneAttribute",
 			"children" : [ this.firstChild2 ]
 		};
-		this.coraDataWithAttribute = new CORA.CoraData(this.groupInGroupOneTextChildOneAttribute);
+		this.coraDataWithAttribute = CORA.coraData(this.groupInGroupOneTextChildOneAttribute);
 
 		this.firstChild3 = {
 			"name" : "groupIdOneTextChild",
@@ -142,7 +142,7 @@ QUnit.module("CORA.CoraData", {
 			"children" : [ this.firstChild3, this.secondChild3, this.thirdChild3,
 					this.fourthChild3, this.fifthChild3 ]
 		};
-		this.coraDataWithAllTypes = new CORA.CoraData(this.groupInGroupOneTextChildAllTypes);
+		this.coraDataWithAllTypes = CORA.coraData(this.groupInGroupOneTextChildAllTypes);
 
 	},
 	afterEach : function() {
@@ -198,7 +198,7 @@ QUnit.test("testGetNoOfChildrenWithNameInDataOne", function(assert) {
 			"repeatId" : "1"
 		} ]
 	};
-	var coraData = new CORA.CoraData(data);
+	var coraData = CORA.coraData(data);
 	var noFound = coraData.getNoOfChildrenWithNameInData("textVariableId");
 	assert.deepEqual(noFound, 1);
 });

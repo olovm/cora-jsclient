@@ -18,38 +18,56 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.presentation = function(spec) {
+	cora.pGroup = function(spec) {
+		var path = spec.path;
 		var presentationId = spec.presentationId;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
 		var jsBookkeeper = spec.jsBookkeeper;
 
+		var presentationMetadata = getMetadataById(presentationId);
+		var cMetadataElement = getMetadataById(presentationMetadata
+				.getFirstAtomicValueByNameInData("presentationOf"));
+
 		var view = createBaseView();
 
 		function createBaseView() {
 			var viewNew = createBaseViewHolder();
-			viewNew.appendChild(createViewForTopPGroup());
+			var presentationChildren = presentationMetadata
+					.getFirstChildByNameInData("childReferences").children;
+			presentationChildren.forEach(function(presentationChildRef) {
+				viewNew.appendChild(createViewForChild(presentationChildRef));
+			});
 			return viewNew;
 		}
 
 		function createBaseViewHolder() {
 			var newView = document.createElement("div");
-			newView.className = "presentation " + presentationId;
+			newView.className = "pGroup " + presentationId;
 			return newView;
 		}
 
-		function createViewForTopPGroup() {
-			var groupSpec = {
-				"path" : {},
-				"presentationId" : presentationId,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper
-			};
-			var pGroup = CORA.pGroup(groupSpec);
-			return pGroup.getView();
+		function createViewForChild(presentationChildRef) {
+			var cPresentationChildRef = CORA.coraData(presentationChildRef);
+			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
+			var cPresentationChild = getMetadataById(presRef);
+
+			if (cPresentationChild.getData().name === "text") {
+				return document.createTextNode(textProvider.getTranslation(presRef));
+			} else {
+				var childRefHandlerSpec = {
+					"parentPath" : path,
+					"cParentMetadata" : cMetadataElement,
+					"cPresentation" : cPresentationChild,
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"jsBookkeeper" : jsBookkeeper
+				};
+				var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
+				return pChildRefHandler.getView();
+			}
 		}
 
 		function getMetadataById(id) {

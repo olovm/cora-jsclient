@@ -20,11 +20,11 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.MetadataChildInitializer = function(childReferenceIn, path, dataIn, metadataProvider,
+	cora.metadataChildInitializer = function(childReferenceIn, path, dataIn, metadataProvider,
 			pubSub) {
 
-		var childReference = new CORA.CoraData(childReferenceIn);
-		var data = new CORA.CoraData(dataIn);
+		var childReference = CORA.coraData(childReferenceIn);
+		var data = CORA.coraData(dataIn);
 
 		var ref = childReference.getFirstAtomicValueByNameInData('ref');
 		var nameInData = getNameInDataForMetadataId(ref);
@@ -189,7 +189,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
 		function hasData() {

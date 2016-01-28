@@ -19,9 +19,9 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.MetadataController = function(metadataIdIn, dataIn, metadataProviderIn, pubSubIn) {
-		var topLevelMetadataId = metadataIdIn;
-		var topLevelData = dataIn;
+	cora.metadataController = function(spec) {
+		var topLevelMetadataId = spec.metadataId;
+		var topLevelData = spec.data;
 
 		initializeFirstLevel();
 
@@ -31,14 +31,16 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData('childReferences');
 			var topLevelPath = {};
 			topLevelChildReferences.children.forEach(function(childReference) {
-				CORA.MetadataChildInitializer(childReference, topLevelPath, topLevelData,
-						metadataProviderIn, pubSubIn);
+				CORA.metadataChildInitializer(childReference, topLevelPath, topLevelData,
+						spec.metadataProvider, spec.pubSub);
 			});
 		}
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(metadataProviderIn.getMetadataById(id));
+			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}
+		return Object.freeze({
+		});
 	};
 	return cora;
 }(CORA || {}));

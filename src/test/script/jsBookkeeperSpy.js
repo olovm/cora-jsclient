@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Olov McKie
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -16,19 +16,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.jsBookkeeperSpy = function() {
+		var dataArray = [];
 
-QUnit.module("CORA.DataCreatorFactory", {
-	beforeEach : function() {
-		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = new PubSubStub();
-	},
-	afterEach : function() {
-	}
-});
-
-QUnit.test("testInit", function() {
-	var dataCreatorFactory = new CORA.DataCreatorFactory("recordTypeOnlyMetadataIdChild",
-			this.metadataProvider);
-	ok(dataCreatorFactory !== undefined);
-});
+		function setValue(data) {
+			dataArray.push(data);
+		}
+		;
+		function getDataArray() {
+			return dataArray;
+		}
+		;
+		return Object.freeze({
+			setValue : setValue,
+			getDataArray : getDataArray
+		});
+	};
+	return coraTest;
+}(CORATEST || {}));

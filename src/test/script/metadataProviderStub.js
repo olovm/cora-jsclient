@@ -89,7 +89,7 @@ function MetadataProviderStub() {
 				"name" : "metadata",
 				"children" : [ {
 					"name" : "regEx",
-					"value" : "(^[0-9A-Za-z]{2,50}$)"
+					"value" : "^[0-9A-Öa-ö\\s!*.]{2,50}$"
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
 				"attributes" : {
 					"type" : "textVariable"
@@ -1085,6 +1085,28 @@ function MetadataProviderStub() {
 			};
 			break;
 
+		case "pVarTextVariableIdOutput":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "pVarTextVariableId"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "textVariableId"
+				}, {
+					"name" : "mode",
+					"value" : "output"
+				} ]
+			};
+			break;
+
 		case "pgGroupIdOneTextChild":
 			return {
 				"name" : "presentation",
@@ -1110,7 +1132,111 @@ function MetadataProviderStub() {
 				} ])
 			};
 			break;
-
+		case "pgGroupIdOneTextChildOutput":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdOneTextChild"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableIdOutput"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
+			break;
+		case "pgGroupIdOneTextOneTextChild":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdOneTextChild"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "aHeadlineText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableId"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
+			break;
+		case "pgGroupIdOneTextTwoTextChildren":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "groupIdOneTextChild"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "aHeadlineText"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				}, {
+					"name" : "childReference",
+					"repeatId" : "2",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pVarTextVariableId"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				}, {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pVarTextVariableIdOutput"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				} ]
+			} ])
+		};
+		break;
 		case "asdfasdfsad":
 			return {
 				"name" : "presentation",
@@ -1161,6 +1287,102 @@ function MetadataProviderStub() {
 							"name" : "default",
 							"value" : "refMinimized"
 						} ]
+					} ]
+				} ]
+			};
+			break;
+		case "textVariableIdText":
+			return {
+				"name" : "text",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "my2Text"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "default",
+						"lang" : "sv"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "Exempel textvariabel"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "alternative",
+						"lang" : "en"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "Example text variable"
+					} ]
+				} ]
+			};
+			break;
+		case "textVariableIdDefText":
+			return {
+				"name" : "text",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "my2Text"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "default",
+						"lang" : "sv"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "Detta är en exempeldefinition för en textvariabel."
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "alternative",
+						"lang" : "en"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "This is an example definition for a text variable."
+					} ]
+				} ]
+			};
+			break;
+		case "aHeadlineText":
+			return {
+				"name" : "text",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "aHeadlineText"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "default",
+						"lang" : "sv"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "En rubrik"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "alternative",
+						"lang" : "en"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "A headline"
 					} ]
 				} ]
 			};

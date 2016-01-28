@@ -19,70 +19,139 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.PVar = function(parentPath, cParentMetadata, cPresentation, metadataProvider, pubSub) {
+	cora.pVar = function(spec) {
+		var path = spec.path;
+		var cPresentation = spec.cPresentation;
+		var metadataProvider = spec.metadataProvider;
+		var pubSub = spec.pubSub;
+		var textProvider = spec.textProvider;
+		var jsBookkeeper = spec.jsBookkeeper;
+
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-		var presentationId = new CORA.CoraData(recordInfo).getFirstAtomicValueByNameInData("id");
+		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
+		var cMetadataElement = getMetadataById(metadataId);
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 
 		var view = createBaseView();
-		view.modelObject = this;
+		var valueView = createValueView(mode);
+		view.appendChild(valueView);
+		var state = "ok";
+		pubSub.subscribe("setValue", path, undefined, handleMsg);
+
+		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
+		var text = textProvider.getTranslation(textId);
+
+		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
+		var defText = textProvider.getTranslation(defTextId);
+
+		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			viewNew.className = "pVar " + presentationId;
 			return viewNew;
 		}
+		function createValueView(viewMode) {
+			if (viewMode === "input") {
+				return createInput();
+			}
+			return createOutput();
+		}
+
+		function createInput() {
+			var inputNew = document.createElement("input");
+			inputNew.type = "text";
+			valueView = inputNew;
+			return inputNew;
+		}
+
+		function createOutput() {
+			var outputNew = document.createElement("span");
+			valueView = outputNew;
+			return outputNew;
+		}
+
+		function getView() {
+			return view;
+		}
+
+		function setValue(value) {
+			if (mode === "input") {
+				valueView.value = value;
+			} else {
+				valueView.textContent = value;
+			}
+		}
+
+		function handleMsg(dataFromMsg) {
+			setValue(dataFromMsg.data);
+		}
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
-		this.getView = function() {
-			return view;
-		};
+		function getText() {
+			return text;
+		}
 
-		this.add = function(repeatId) {
-			var newPath = calculatePathForNewVar(repeatId);
-			var variable = new CORA.Variable(newPath, metadataId, mode, metadataProvider, pubSub);
-			view.appendChild(variable.getView());
-		};
+		function getDefText() {
+			return defText;
+		}
 
-		function calculatePathForNewVar(repeatId) {
-			var pathCopy = JSON.parse(JSON.stringify(parentPath));
-			var childPath = createLinkedPathWithNameInDataAndRepeatId();
-			if (pathCopy.children === undefined) {
-				return childPath;
+		function getRegEx() {
+			return regEx;
+		}
+
+		function onBlur() {
+			checkRegEx();
+			updateView();
+			if (state === "ok") {
+				var data = {
+					"data" : valueView.value,
+					"path" : path
+				};
+				jsBookkeeper.setValue(data);
 			}
-			var lowestPath = getLowestPath(pathCopy);
-			lowestPath.children.push(childPath);
-			return pathCopy;
 		}
-
-		function createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId) {
-			var path = {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : nameInData
-				} ]
-			};
-			if (repeatId !== undefined) {
-				path.children.push({
-					"name" : "repeatId",
-					"value" : repeatId
-				});
+		function checkRegEx() {
+			var value = valueView.value;
+			if (value.length === 0 || new RegExp(regEx).test(value)) {
+				state = "ok";
+			} else {
+				state = "error";
 			}
 		}
 
-		function getLowestPath(path) {
-			var cPath = new CORA.CoraData(path);
-			if (cPath.containsChildWithNameInData("linkedPath")) {
-				return getLowestPath(cPath.getFirstChildWithNameInData("linkedPath"));
+		function updateView() {
+			var className = "";
+			if (state === "error") {
+				className += "error";
 			}
-			return path;
+			view.className = className;
 		}
+
+		function getState() {
+			return state;
+		}
+
+		var out = Object.freeze({
+			getView : getView,
+			setValue : setValue,
+			handleMsg : handleMsg,
+			getText : getText,
+			getDefText : getDefText,
+			getRegEx : getRegEx,
+			getState : getState,
+			onBlur : onBlur
+		});
+		view.modelObject = out;
+		if (mode === "input") {
+			valueView.onblur = onBlur;
+		}
+		return out;
 	};
 	return cora;
 }(CORA || {}));
