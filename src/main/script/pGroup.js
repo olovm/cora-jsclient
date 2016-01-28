@@ -23,6 +23,7 @@ var CORA = (function(cora) {
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
+		var jsBookkeeper = spec.jsBookkeeper;
 
 		var presentationMetadata = getMetadataById(presentationId);
 		var cMetadataElement = getMetadataById(presentationMetadata
@@ -68,7 +69,8 @@ var CORA = (function(cora) {
 						"cPresentation" : cPresentationChild,
 						"metadataProvider" : metadataProvider,
 						"pubSub" : pubSub,
-						"textProvider" : textProvider
+						"textProvider" : textProvider,
+						"jsBookkeeper": jsBookkeeper
 					};
 					var pChildRefHandler = CORA.pChildRefHandler(spec);
 					return pChildRefHandler.getView();

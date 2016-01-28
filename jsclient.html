@@ -13,6 +13,7 @@
 <script type="text/javascript" src="src/main/script/coraPubSub.js"></script>
 <!-- <script type="text/javascript" src="src/main/script/dataCreatorFactory.js"></script> -->
 <script type="text/javascript" src="src/main/script/dataHolder.js"></script>
+<script type="text/javascript" src="src/main/script/jsBookkeeper.js"></script>
 <script type="text/javascript"
 	src="src/main/script/metadataChildInitializer.js"></script>
 <script type="text/javascript"
@@ -87,21 +88,29 @@
 	function client2(metadataProvider, textProvider) {
 		var place = document.getElementById("client2");
 		var pubSub = CORA.pubSub();
+		var metadataId = "groupIdOneTextChild";
+		var specJSBookkeeper = {
+				"metadataId" : metadataId,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider
+		};
+		var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
 		
 		var spec = {
 				"presentationId" : "pgGroupIdOneTextOneTextChild",
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
-				"textProvider" : textProvider
+				"textProvider" : textProvider,
+				"jsBookkeeper": jsBookkeeper
 			};
-		var metadataId = "groupIdOneTextChild";
+		var presentation = CORA.presentation(spec);
 		var specDataHolder = {
 				"metadataId":metadataId,
 				"metadataProvider":metadataProvider,
 				"pubSub":pubSub
 		};
 		var dataHolder = CORA.dataHolder(specDataHolder);
-		var presentation = CORA.presentation(spec);
 		
 		var specMetadataController= {
 				"metadataId" : metadataId,

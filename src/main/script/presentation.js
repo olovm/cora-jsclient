@@ -23,6 +23,7 @@ var CORA = (function(cora) {
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
+		var jsBookkeeper = spec.jsBookkeeper;
 
 		var view = createBaseView();
 
@@ -43,7 +44,8 @@ var CORA = (function(cora) {
 				"presentationId" : presentationId,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
-				"textProvider" : textProvider
+				"textProvider" : textProvider,
+				"jsBookkeeper": jsBookkeeper
 			};
 			var pGroup = CORA.pGroup(groupSpec);
 			return pGroup.getView();

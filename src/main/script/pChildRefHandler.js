@@ -26,6 +26,7 @@ var CORA = (function(cora) {
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
+		var jsBookkeeper = spec.jsBookkeeper;
 
 		var presentationId = findPresentationId(cPresentation);
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
@@ -47,12 +48,11 @@ var CORA = (function(cora) {
 		}
 
 		function findParentMetadataChildRef(cMetadata) {
-			var parentMetadataChildRef = cMetadata
-					.getFirstChildByNameInData("childReferences").children.find(function(
-					metadataChildRef) {
-				var cMetadataChildRef = new CORA.CoraData(metadataChildRef);
-				return cMetadataChildRef.getFirstAtomicValueByNameInData("ref") === metadataId;
-			});
+			var parentMetadataChildRef = cMetadata.getFirstChildByNameInData("childReferences").children
+					.find(function(metadataChildRef) {
+						var cMetadataChildRef = new CORA.CoraData(metadataChildRef);
+						return cMetadataChildRef.getFirstAtomicValueByNameInData("ref") === metadataId;
+					});
 			return new CORA.CoraData(parentMetadataChildRef);
 		}
 
@@ -81,7 +81,8 @@ var CORA = (function(cora) {
 				"cPresentation" : cPresentation,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
-				"textProvider" : textProvider
+				"textProvider" : textProvider,
+				"jsBookkeeper": jsBookkeeper
 			};
 			// TODO: handle different type of elements
 			var pVar = CORA.pVar(varSpec);

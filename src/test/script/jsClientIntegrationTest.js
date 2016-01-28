@@ -16,7 +16,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict"
+"use strict";
 QUnit.module("CORA.JsClientIntegration", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
@@ -111,32 +111,42 @@ QUnit.test("testIntegrateCoraPubSubPresentation", function(assert) {
 	assert.deepEqual(input.value, "a Value");
 });
 QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataController", function(assert) {
+	var specJSBookkeeper = {
+			"metadataId" : metadataId,
+			"metadataProvider" : this.metadataProvider,
+			"pubSub" : this.pubSub,
+			"textProvider" : this.textProvider
+	};
+	var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
+
 	var spec = {
 		"presentationId" : "pgGroupIdOneTextChild",
 		"metadataProvider" : this.metadataProvider,
 		"pubSub" : this.pubSub,
-		"textProvider" : this.textProvider
+		"textProvider" : this.textProvider,
+		"jsBookkeeper": jsBookkeeper
 	};
-//	this.pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
-//		console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
-//		console.log("msg: " + msg);
-//	});
+	var presentation = CORA.presentation(spec);
+	// this.pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
+	// console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
+	// console.log("msg: " + msg);
+	// });
 
 	var metadataId = "groupIdOneTextChild";
 	var specDataHolder = {
-			"metadataId":metadataId,
-			"metadataProvider":this.metadataProvider,
-			"pubSub":this.pubSub
+		"metadataId" : metadataId,
+		"metadataProvider" : this.metadataProvider,
+		"pubSub" : this.pubSub
 	};
 	var dataHolder = CORA.dataHolder(specDataHolder);
-	var presentation = CORA.presentation(spec);
-	
-	var specMetadataController= {
-			"metadataId" : metadataId,
-			"data" : undefined,
-			"metadataProvider" : this.metadataProvider,
-			"pubSub" : this.pubSub
-		};
+
+
+	var specMetadataController = {
+		"metadataId" : metadataId,
+		"data" : undefined,
+		"metadataProvider" : this.metadataProvider,
+		"pubSub" : this.pubSub
+	};
 	var metadataController = CORA.metadataController(specMetadataController);
 
 	var view = presentation.getView();

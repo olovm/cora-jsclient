@@ -36,6 +36,7 @@ var CORA = (function(cora) {
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
+		var jsBookkeeper = spec.jsBookkeeper;
 
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = new CORA.CoraData(recordInfo).getFirstAtomicValueByNameInData("id");
@@ -121,21 +122,28 @@ var CORA = (function(cora) {
 		function onBlur() {
 			checkRegEx();
 			updateView();
-			//TODO: tell metadataController, new value
+			// TODO: tell metadataController, new value
+			if (state === "ok") {
+				var data = {
+					"data" : valueView.value,
+					"path" : path
+				};
+				jsBookkeeper.setValue(data);
+			}
 		}
-		function checkRegEx(){
+		function checkRegEx() {
 			var value = valueView.value;
-			if(value.length ===0 || new RegExp(regEx).test(value)){
+			if (value.length === 0 || new RegExp(regEx).test(value)) {
 				state = "ok";
-			}else{
+			} else {
 				state = "error";
 			}
 		}
-		
-		function updateView(){
+
+		function updateView() {
 			var className = "";
-			if(state==="error"){
-				className+="error";
+			if (state === "error") {
+				className += "error";
 			}
 			view.className = className;
 		}

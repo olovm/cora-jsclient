@@ -20,7 +20,8 @@
 "use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.attachedPVarFactory = function(metadataProvider, pubSub, textProvider, fixture) {
+	coraTest.attachedPVarFactory = function(metadataProvider, pubSub, textProvider, jsBookkeeper,
+			fixture) {
 		var factor = function(path, pVarPresentationId) {
 			var cPVarPresentation = new CORA.CoraData(metadataProvider
 					.getMetadataById(pVarPresentationId));
@@ -30,7 +31,8 @@ var CORATEST = (function(coraTest) {
 				"cPresentation" : cPVarPresentation,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
-				"textProvider" : textProvider
+				"textProvider" : textProvider,
+				"jsBookkeeper" : jsBookkeeper
 			};
 			var pVar = CORA.pVar(spec);
 			var view = pVar.getView();
@@ -42,6 +44,8 @@ var CORATEST = (function(coraTest) {
 				valueView : valueView,
 				metadataProvider : metadataProvider,
 				pubSub : pubSub,
+				textProvider : textProvider,
+				jsBookkeeper : jsBookkeeper,
 				view : view
 			};
 
@@ -60,8 +64,9 @@ QUnit.module("CORA.pVar", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
+		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 		this.pVarFactory = CORATEST.attachedPVarFactory(this.metadataProvider, this.pubSub,
-				this.textProvider, this.fixture);
+				this.textProvider, this.jsBookkeeper, this.fixture);
 	},
 	afterEach : function() {
 	}
@@ -87,6 +92,16 @@ var CORATEST = (function(coraTest) {
 				+ "för en textvariabel.");
 		assert.strictEqual(pVar.getRegEx(), "(^[0-9A-Za-z]{2,50}$)");
 	};
+	
+	coraTest.testJSBookkeeperNoCall = function(jsBookkeeper, assert){
+		var dataArray = jsBookkeeper.getDataArray();
+		assert.strictEqual(dataArray.length, 0);
+	};
+	coraTest.testJSBookkeeperOneCallWithValue = function(jsBookkeeper, value, assert){
+		var dataArray = jsBookkeeper.getDataArray();
+		assert.strictEqual(dataArray.length, 1);
+		assert.strictEqual(dataArray[0].data, value);
+	};
 	return coraTest;
 }(CORATEST || {}));
 
@@ -106,6 +121,8 @@ QUnit.test("testInit", function(assert) {
 	CORATEST.testVariableMetadata(attachedPVar, assert);
 
 	assert.equal(attachedPVar.pVar.getState(), "ok");
+
+	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
 QUnit.test("testSetValueInput", function(assert) {
@@ -123,6 +140,8 @@ QUnit.test("testChangedValueEmpty", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
+
+	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "", assert);
 });
 
 QUnit.test("testChangedValueEmpty", function(assert) {
@@ -131,6 +150,7 @@ QUnit.test("testChangedValueEmpty", function(assert) {
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
 	assert.equal(attachedPVar.view.className, "");
+	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "", assert);
 });
 
 QUnit.test("testChangedValueOk", function(assert) {
@@ -139,6 +159,7 @@ QUnit.test("testChangedValueOk", function(assert) {
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
 	assert.equal(attachedPVar.view.className, "");
+	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej", assert);
 });
 
 QUnit.test("testChangedValueError", function(assert) {
@@ -147,6 +168,7 @@ QUnit.test("testChangedValueError", function(assert) {
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "error");
 	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedPVar.view.className));
+	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
 QUnit.test("testInitOutput", function(assert) {
