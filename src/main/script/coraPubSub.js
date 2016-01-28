@@ -36,7 +36,7 @@ var CORA = (function(cora) {
 		}
 
 		function convertAndAddPathToMsg(path, msgPart) {
-			var cPath = new CORA.CoraData(path);
+			var cPath = CORA.coraData(path);
 			var extendedMsgPart = msgPart + "/";
 			if (pathHasAtLeastOneLevel(cPath)) {
 				extendedMsgPart += recursivelyConvertPathToMsg(cPath);
@@ -72,7 +72,7 @@ var CORA = (function(cora) {
 			if (cPath.containsChildWithNameInData("attributes")) {
 				var attributes = cPath.getFirstChildByNameInData("attributes").children;
 				attributes.forEach(function(attribute) {
-					var cAttribute = new CORA.CoraData(attribute);
+					var cAttribute = CORA.coraData(attribute);
 					msgAttribPart += '#'
 							+ cAttribute.getFirstAtomicValueByNameInData("attributeName");
 					msgAttribPart += ':'

@@ -89,7 +89,7 @@ function MetadataProviderStub() {
 				"name" : "metadata",
 				"children" : [ {
 					"name" : "regEx",
-					"value" : "(^[0-9A-Za-z]{2,50}$)"
+					"value" : "^[0-9A-Öa-ö\\s!*.]{2,50}$"
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
 				"attributes" : {
 					"type" : "textVariable"
@@ -1192,6 +1192,51 @@ function MetadataProviderStub() {
 				} ])
 			};
 			break;
+		case "pgGroupIdOneTextTwoTextChildren":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "groupIdOneTextChild"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "aHeadlineText"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				}, {
+					"name" : "childReference",
+					"repeatId" : "2",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pVarTextVariableId"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				}, {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pVarTextVariableIdOutput"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				} ]
+			} ])
+		};
+		break;
 		case "asdfasdfsad":
 			return {
 				"name" : "presentation",
@@ -1312,36 +1357,36 @@ function MetadataProviderStub() {
 			break;
 		case "aHeadlineText":
 			return {
-			"name" : "text",
-			"children" : [ {
-				"name" : "recordInfo",
+				"name" : "text",
 				"children" : [ {
-					"name" : "id",
-					"value" : "aHeadlineText"
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "aHeadlineText"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "default",
+						"lang" : "sv"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "En rubrik"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "alternative",
+						"lang" : "en"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "A headline"
+					} ]
 				} ]
-			}, {
-				"name" : "textPart",
-				"attributes" : {
-					"type" : "default",
-					"lang" : "sv"
-				},
-				"children" : [ {
-					"name" : "text",
-					"value" : "En rubrik"
-				} ]
-			}, {
-				"name" : "textPart",
-				"attributes" : {
-					"type" : "alternative",
-					"lang" : "en"
-				},
-				"children" : [ {
-					"name" : "text",
-					"value" : "A headline"
-				} ]
-			} ]
-		};
-		break;
+			};
+			break;
 		default:
 			throw new Error("Id(" + idToGet + ") not found in stub");
 			break;

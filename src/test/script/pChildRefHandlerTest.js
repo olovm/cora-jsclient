@@ -22,9 +22,9 @@ var CORATEST = (function(coraTest) {
 	coraTest.attachedPChildRefHandlerFactory = function(metadataProvider, pubSub, textProvider,
 			fixture) {
 		var factor = function(path, parentMetadataId, presentationId) {
-			var cParentMetadata = new CORA.CoraData(metadataProvider
+			var cParentMetadata = CORA.coraData(metadataProvider
 					.getMetadataById(parentMetadataId));
-			var cPresentation = new CORA.CoraData(metadataProvider.getMetadataById(presentationId));
+			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
 
 			var spec = {
 				"parentPath" : path,

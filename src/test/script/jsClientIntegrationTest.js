@@ -37,7 +37,7 @@ QUnit.test("testIntegrateCoraPubSubPVar", function(assert) {
 		} ]
 	};
 
-	var cPVarPresentation = new CORA.CoraData(this.metadataProvider
+	var cPVarPresentation = CORA.coraData(this.metadataProvider
 			.getMetadataById("pVarTextVariableIdOutput"));
 	var spec = {
 		"path" : path,

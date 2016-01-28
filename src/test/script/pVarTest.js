@@ -23,12 +23,12 @@ var CORATEST = (function(coraTest) {
 	coraTest.attachedPVarFactory = function(metadataProvider, pubSub, textProvider, jsBookkeeper,
 			fixture) {
 		var factor = function(path, pVarPresentationId) {
-			var cPVarPresentation = new CORA.CoraData(metadataProvider
+			var cPVarPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(pVarPresentationId));
 
 			var spec = {
 				"path" : path,
-				"cPresentation" : cPVarPresentation,
+				"cPresentation" : cPVarPresentation, 
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
@@ -90,14 +90,14 @@ var CORATEST = (function(coraTest) {
 		assert.strictEqual(pVar.getText(), "Exempel textvariabel");
 		assert.strictEqual(pVar.getDefText(), "Detta är en exempeldefinition "
 				+ "för en textvariabel.");
-		assert.strictEqual(pVar.getRegEx(), "(^[0-9A-Za-z]{2,50}$)");
+		assert.strictEqual(pVar.getRegEx(), "^[0-9A-Öa-ö\\s!*.]{2,50}$");
 	};
-	
-	coraTest.testJSBookkeeperNoCall = function(jsBookkeeper, assert){
+
+	coraTest.testJSBookkeeperNoCall = function(jsBookkeeper, assert) {
 		var dataArray = jsBookkeeper.getDataArray();
 		assert.strictEqual(dataArray.length, 0);
 	};
-	coraTest.testJSBookkeeperOneCallWithValue = function(jsBookkeeper, value, assert){
+	coraTest.testJSBookkeeperOneCallWithValue = function(jsBookkeeper, value, assert) {
 		var dataArray = jsBookkeeper.getDataArray();
 		assert.strictEqual(dataArray.length, 1);
 		assert.strictEqual(dataArray[0].data, value);

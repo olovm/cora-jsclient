@@ -37,7 +37,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(spec.metadataProvider.getMetadataById(id));
+			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}
 		return Object.freeze({
 		});

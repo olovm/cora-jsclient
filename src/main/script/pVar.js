@@ -19,17 +19,6 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	// TODO: handle the following:
-	/**
-	 * <ol>
-	 * <li>first level of input control (regExp etc)</li>
-	 * <li>telling metadataController (or similar) that a value has been changed by the user</li>
-	 * <li>original value (to be able to indicate what values have changed, since last load and
-	 * possibly revert them (add type (original, changed), to setValue information?))</li>
-	 * <li></li>
-	 * <li></li>
-	 * </ol>
-	 */
 	cora.pVar = function(spec) {
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
@@ -39,11 +28,10 @@ var CORA = (function(cora) {
 		var jsBookkeeper = spec.jsBookkeeper;
 
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-		var presentationId = new CORA.CoraData(recordInfo).getFirstAtomicValueByNameInData("id");
+		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
-		var nameInData = cMetadataElement.name;
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 
 		var view = createBaseView();
@@ -52,8 +40,6 @@ var CORA = (function(cora) {
 		var state = "ok";
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
 
-		var cMetadataElement = getMetadataById(metadataId);
-		// textId, defTextId, regEx (all in children)
 		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
 		var text = textProvider.getTranslation(textId);
 
@@ -104,7 +90,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
 		function getText() {
@@ -122,7 +108,6 @@ var CORA = (function(cora) {
 		function onBlur() {
 			checkRegEx();
 			updateView();
-			// TODO: tell metadataController, new value
 			if (state === "ok") {
 				var data = {
 					"data" : valueView.value,

@@ -52,14 +52,14 @@ var CORA = (function(cora) {
 			};
 			var textPart = cTextElement.getFirstChildByNameInDataAndAttributes("textPart",
 					attributes);
-			var cTextPart = new CORA.CoraData(textPart);
+			var cTextPart = CORA.coraData(textPart);
 			var text = cTextPart.getFirstAtomicValueByNameInData("text");
 
 			return text;
 		}
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
 		return Object.freeze({

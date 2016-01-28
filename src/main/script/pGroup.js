@@ -19,6 +19,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pGroup = function(spec) {
+		var path = spec.path;
 		var presentationId = spec.presentationId;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
@@ -48,50 +49,29 @@ var CORA = (function(cora) {
 		}
 
 		function createViewForChild(presentationChildRef) {
-			var cPresentationChildRef = new CORA.CoraData(presentationChildRef);
+			var cPresentationChildRef = CORA.coraData(presentationChildRef);
 			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
 			var cPresentationChild = getMetadataById(presRef);
-
-			var childView = document.createElement("span");
-			childView.className = "pGroup " + presRef;
 
 			if (cPresentationChild.getData().name === "text") {
 				return document.createTextNode(textProvider.getTranslation(presRef));
 			} else {
-				// presentation
-				var path = {};
-
-				var type = cPresentationChild.getData().attributes.type;
-				if (type === "pVar") {
-					var spec = {
-						"parentPath" : path,
-						"cParentMetadata" : cMetadataElement,
-						"cPresentation" : cPresentationChild,
-						"metadataProvider" : metadataProvider,
-						"pubSub" : pubSub,
-						"textProvider" : textProvider,
-						"jsBookkeeper": jsBookkeeper
-					};
-					var pChildRefHandler = CORA.pChildRefHandler(spec);
-					return pChildRefHandler.getView();
-
-				} else if (type === "pGroup") {
-					// pGroup
-				} else {
-					// container
-					var containerType = cPresentationChild.getData().attributes.repeat;
-					if (containerType === "children") {
-						// surroundingContainer
-					} else {
-						// repeatingContainer
-					}
-				}
-				return childView;
+				var childRefHandlerSpec = {
+					"parentPath" : path,
+					"cParentMetadata" : cMetadataElement,
+					"cPresentation" : cPresentationChild,
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"jsBookkeeper" : jsBookkeeper
+				};
+				var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
+				return pChildRefHandler.getView();
 			}
 		}
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
 		function getPresentationId() {

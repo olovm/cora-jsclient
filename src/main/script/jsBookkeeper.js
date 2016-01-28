@@ -19,16 +19,11 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.jsBookkeeper = function(spec) {
-		var metadataId = spec.metadataId;
-		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
-		var textProvider = spec.textProvider;
-
 
 		function setValue(data) {
 			pubSub.publish("setValue", data);
 		}
-
 
 		return Object.freeze({
 			setValue : setValue

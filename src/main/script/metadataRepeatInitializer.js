@@ -25,7 +25,7 @@ var CORA = (function(cora) {
 		initalizeRepeat();
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
 		function initalizeRepeat() {
@@ -142,7 +142,7 @@ var CORA = (function(cora) {
 		}
 
 		function findLowestPath(pathToSearch) {
-			var coraPath = new CORA.CoraData(pathToSearch);
+			var coraPath = CORA.coraData(pathToSearch);
 			if (coraPath.containsChildWithNameInData("linkedPath")) {
 				return findLowestPath(coraPath.getFirstChildByNameInData("linkedPath"));
 			}

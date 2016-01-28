@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>JSClient</title>
-<link rel="stylesheet" type="text/css" href="src/main/css/presentation.css" />
+<link rel="stylesheet" type="text/css"
+	href="src/main/css/presentation.css" />
 
 
 <script type="text/javascript" src="src/main/script/lib/arbiter.js"></script>
@@ -33,44 +34,44 @@
 
 <script type="text/javascript">
 	window.onload = start;
-	function start(){
+	function start() {
 		var metadataProvider = new MetadataProviderStub();
 		var textProvider = CORATEST.textProviderStub();
 		client1(metadataProvider, textProvider);
 		client2(metadataProvider, textProvider);
 	}
-	
+
 	function client1(metadataProvider, textProvider) {
 		var place = document.getElementById("client1");
 		var pubSub = CORA.pubSub();
-		
+
 		var spec = {
-				"presentationId" : "pgGroupIdOneTextChildOutput",
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider
-			};
+			"presentationId" : "pgGroupIdOneTextChildOutput",
+			"metadataProvider" : metadataProvider,
+			"pubSub" : pubSub,
+			"textProvider" : textProvider
+		};
 		var presentation = CORA.presentation(spec);
 		var metadataId = "groupIdOneTextChild";
 		var specDataHolder = {
-				"metadataId":metadataId,
-				"metadataProvider":metadataProvider,
-				"pubSub":pubSub
+			"metadataId" : metadataId,
+			"metadataProvider" : metadataProvider,
+			"pubSub" : pubSub
 		};
 		var dataHolder = CORA.dataHolder(specDataHolder);
-		
-		var specMetadataController= {
-				"metadataId" : metadataId,
-				"data" : undefined,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub
-			};
+
+		var specMetadataController = {
+			"metadataId" : metadataId,
+			"data" : undefined,
+			"metadataProvider" : metadataProvider,
+			"pubSub" : pubSub
+		};
 		var metadataController = CORA.metadataController(specMetadataController);
 
 		var view = presentation.getView();
-		
+
 		place.appendChild(view);
-		
+
 		var path2 = {
 			"name" : "linkedPath",
 			"children" : [ {
@@ -84,46 +85,55 @@
 		};
 		pubSub.publish("setValue", data2);
 	}
-	
+
 	function client2(metadataProvider, textProvider) {
 		var place = document.getElementById("client2");
 		var pubSub = CORA.pubSub();
 		var metadataId = "groupIdOneTextChild";
 		var specJSBookkeeper = {
-				"metadataId" : metadataId,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider
+			"metadataId" : metadataId,
+			"metadataProvider" : metadataProvider,
+			"pubSub" : pubSub,
+			"textProvider" : textProvider
 		};
 		var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
-		
+
 		var spec = {
-				"presentationId" : "pgGroupIdOneTextOneTextChild",
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper": jsBookkeeper
-			};
+			// 				"presentationId" : "pgGroupIdOneTextOneTextChild",
+			"presentationId" : "pgGroupIdOneTextTwoTextChildren",
+			"metadataProvider" : metadataProvider,
+			"pubSub" : pubSub,
+			"textProvider" : textProvider,
+			"jsBookkeeper" : jsBookkeeper
+		};
 		var presentation = CORA.presentation(spec);
+		var view = presentation.getView();
+		place.appendChild(view);
+
 		var specDataHolder = {
-				"metadataId":metadataId,
-				"metadataProvider":metadataProvider,
-				"pubSub":pubSub
+			"metadataId" : metadataId,
+			"metadataProvider" : metadataProvider,
+			"pubSub" : pubSub
 		};
 		var dataHolder = CORA.dataHolder(specDataHolder);
-		
-		var specMetadataController= {
-				"metadataId" : metadataId,
-				"data" : undefined,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub
+	
+		var data = {
+				"name" : "groupIdOneTextChild",
+				"children" : [ {
+					"name" : "textVariableId",
+					"value" : "A Value!"
+				} ]
 			};
+
+		
+		var specMetadataController = {
+			"metadataId" : metadataId,
+			"data" : data,
+			"metadataProvider" : metadataProvider,
+			"pubSub" : pubSub
+		};
 		var metadataController = CORA.metadataController(specMetadataController);
 
-		var view = presentation.getView();
-		
-		place.appendChild(view);
-		
 		var path2 = {
 			"name" : "linkedPath",
 			"children" : [ {
@@ -133,11 +143,10 @@
 		};
 		var data2 = {
 			"path" : path2,
-			"data" : "aValue"
+			"data" : "aValue1"
 		};
-		pubSub.publish("setValue", data2);
+// 		pubSub.publish("setValue", data2);
 	}
-
 </script>
 </head>
 <body>

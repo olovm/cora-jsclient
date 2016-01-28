@@ -35,7 +35,6 @@ var CORA = (function(cora) {
 		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 
 		var cParentMetadataChildRef = findParentMetadataChildRef(cParentMetadata);
-		var repeatMin = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMax");
 		var isRepeating = repeatMax > 1;
 
@@ -44,16 +43,16 @@ var CORA = (function(cora) {
 
 		function findPresentationId(cPresentationToSearch) {
 			var recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
-			return new CORA.CoraData(recordInfo).getFirstAtomicValueByNameInData("id");
+			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
 
 		function findParentMetadataChildRef(cMetadata) {
 			var parentMetadataChildRef = cMetadata.getFirstChildByNameInData("childReferences").children
 					.find(function(metadataChildRef) {
-						var cMetadataChildRef = new CORA.CoraData(metadataChildRef);
+						var cMetadataChildRef = CORA.coraData(metadataChildRef);
 						return cMetadataChildRef.getFirstAtomicValueByNameInData("ref") === metadataId;
 					});
-			return new CORA.CoraData(parentMetadataChildRef);
+			return CORA.coraData(parentMetadataChildRef);
 		}
 
 		function createBaseView() {
@@ -63,7 +62,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
 		function getView() {
@@ -84,7 +83,6 @@ var CORA = (function(cora) {
 				"textProvider" : textProvider,
 				"jsBookkeeper": jsBookkeeper
 			};
-			// TODO: handle different type of elements
 			var pVar = CORA.pVar(varSpec);
 			view.appendChild(pVar.getView());
 		}
@@ -118,7 +116,7 @@ var CORA = (function(cora) {
 		}
 
 		function getLowestPath(path) {
-			var cPath = new CORA.CoraData(path);
+			var cPath = CORA.coraData(path);
 			if (cPath.containsChildWithNameInData("linkedPath")) {
 				return getLowestPath(cPath.getFirstChildWithNameInData("linkedPath"));
 			}

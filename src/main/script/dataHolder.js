@@ -41,7 +41,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
 		function addContainerContentFromElement(dataContainerPart, metadataElement) {
@@ -113,14 +113,14 @@ var CORA = (function(cora) {
 				throw new Error("path(" + JSON.stringify(path) + ") not found in dataHolder:" + e);
 			}
 		}
-		
+
 		function setValueInContainerListUsingPath(path, value) {
 			var foundContainer = findContainer(dataContainer, path);
 			foundContainer.value = value;
 		}
 
 		function findContainer(dataContainers, path) {
-			var cpath = new CORA.CoraData(path);
+			var cpath = CORA.coraData(path);
 			var container = findContainerByPathInCurrentLevel(dataContainers, cpath);
 
 			if (pathSpecifiesMoreLevels(cpath)) {
@@ -138,7 +138,7 @@ var CORA = (function(cora) {
 			if (path.containsChildWithNameInData("repeatId")) {
 				var repeatId = path.getFirstAtomicValueByNameInData("repeatId");
 			}
-			var cdataContainers = new CORA.CoraData(dataContainers);
+			var cdataContainers = CORA.coraData(dataContainers);
 
 			return cdataContainers.getFirstChildByNameInDataAndAttributesAndRepeatId(nameInData,
 					attributes, repeatId);
@@ -172,12 +172,12 @@ var CORA = (function(cora) {
 				containerSpecifiedByPath = foundContainer;
 			}
 			var newRepeat = createDataContainerForElementWithId(metadataIdToAdd);
-			if(repeatId!==undefined){
+			if (repeatId !== undefined) {
 				newRepeat.repeatId = repeatId;
 			}
 			containerSpecifiedByPath.children.push(newRepeat);
 		}
-		
+
 		return Object.freeze({
 			handleMsg : handleMsg,
 			getPubSub : getPubSub,

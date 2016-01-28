@@ -41,18 +41,19 @@ var CORA = (function(cora) {
 
 		function createViewForTopPGroup() {
 			var groupSpec = {
+				"path" : {},
 				"presentationId" : presentationId,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
-				"jsBookkeeper": jsBookkeeper
+				"jsBookkeeper" : jsBookkeeper
 			};
 			var pGroup = CORA.pGroup(groupSpec);
 			return pGroup.getView();
 		}
 
 		function getMetadataById(id) {
-			return new CORA.CoraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
 		function getPresentationId() {

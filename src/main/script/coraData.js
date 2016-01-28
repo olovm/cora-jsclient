@@ -20,7 +20,7 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.CoraData = function(dataIn) {
+	cora.coraData = function(dataIn) {
 		var data = dataIn;
 		var children = data && data.children;
 
