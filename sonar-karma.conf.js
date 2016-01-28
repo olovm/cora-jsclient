@@ -40,7 +40,7 @@ module.exports = function (config) {
             'src/test/script/lib/*.js',
             'src/main/css/*.css'
         ],
-        
+
         // list of files to exclude
         exclude: [],
 

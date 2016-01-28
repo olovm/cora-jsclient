@@ -22,8 +22,7 @@ var CORATEST = (function(coraTest) {
 	coraTest.attachedPChildRefHandlerFactory = function(metadataProvider, pubSub, textProvider,
 			fixture) {
 		var factor = function(path, parentMetadataId, presentationId) {
-			var cParentMetadata = CORA.coraData(metadataProvider
-					.getMetadataById(parentMetadataId));
+			var cParentMetadata = CORA.coraData(metadataProvider.getMetadataById(parentMetadataId));
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
 
 			var spec = {
@@ -71,26 +70,24 @@ QUnit.test("testInit", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
-	
-	assert.ok(childRefHandler.isRepeating===false);
-	
+
+	assert.ok(childRefHandler.isRepeating === false);
+
 	var view = attachedPChildRefHandler.view;
 	assert.deepEqual(view.className, "pChildRefHandler pVarTextVariableId");
 	assert.deepEqual(view.nodeName, "SPAN");
 	assert.ok(view.modelObject === childRefHandler,
 			"modelObject should be a pointer to the javascript object instance");
 	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have no children");
-	
-	
-	//subscription
+
+	// subscription
 	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
 	assert.deepEqual(subscriptions.length, 1);
 
 	var firstSubsription = subscriptions[0];
 	assert.strictEqual(firstSubsription.type, "add");
 	assert.deepEqual(firstSubsription.path, {});
-	var pChildRefHandler = childRefHandler;
-	assert.ok(firstSubsription.functionToCall === pChildRefHandler.handleMsg);
+	assert.ok(firstSubsription.functionToCall === childRefHandler.handleMsg);
 });
 
 QUnit.test("testAddOneChild", function(assert) {
@@ -98,10 +95,70 @@ QUnit.test("testAddOneChild", function(assert) {
 			"groupIdOneTextChild", "pVarTextVariableId");
 	var view = attachedPChildRefHandler.view;
 	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have zero children");
-	
+
 	attachedPChildRefHandler.pChildRefHandler.add();
-	
+
 	assert.ok(view.childNodes.length === 1, "pChildRefHandler, should have one child");
 	var variableView = view.firstChild;
 	assert.strictEqual(variableView.className, "pVar pVarTextVariableId");
+});
+
+QUnit.test("testAddOneChildWithRepeatId", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have zero children");
+
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+
+	assert.ok(view.childNodes.length === 1, "pChildRefHandler, should have one child");
+	var variableView = view.firstChild;
+	assert.strictEqual(variableView.className, "pVar pVarTextVariableId");
+
+	// subscription
+	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 2);
+
+	var firstSubsription = subscriptions[1];
+	assert.strictEqual(firstSubsription.type, "setValue");
+	var path = {
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		}, {
+			"name" : "repeatId",
+			"value" : "one"
+		} ],
+		"name" : "linkedPath"
+	};
+	assert.deepEqual(firstSubsription.path, path);
+
+});
+
+QUnit.test("testHandleMessageRightMetadataId", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have zero children");
+
+	attachedPChildRefHandler.pChildRefHandler.handleMsg({
+		"metadataId" : "textVariableId"
+	});
+
+	assert.ok(view.childNodes.length === 1, "pChildRefHandler, should have one child");
+	var variableView = view.firstChild;
+	assert.strictEqual(variableView.className, "pVar pVarTextVariableId");
+});
+
+QUnit.test("testHandleMessageNotRightMetadataId", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have zero children");
+
+	attachedPChildRefHandler.pChildRefHandler.handleMsg({
+		"metadataId" : "textVariableIdNOT"
+	});
+
+	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have zero children");
 });
