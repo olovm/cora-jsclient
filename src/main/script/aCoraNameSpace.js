@@ -1,4 +1,5 @@
 /*
+ * Copyright 2016 Uppsala University Library
  * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
@@ -16,19 +17,4 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
-	"use strict";
-	cora.jsBookkeeper = function(spec) {
-		var pubSub = spec.pubSub;
-
-		function setValue(data) {
-			pubSub.publish("setValue", data);
-		}
-
-		return Object.freeze({
-			setValue : setValue
-		});
-
-	};
-	return cora;
-}(CORA));
+var CORA = {};

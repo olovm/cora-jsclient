@@ -134,6 +134,100 @@ QUnit.test("testAddOneChildWithRepeatId", function(assert) {
 	assert.deepEqual(firstSubsription.path, path);
 
 });
+QUnit.test("testAddOneChildWithOneLevelPath", function(assert) {
+	var path = {
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		} ],
+		"name" : "linkedPath"
+	};
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor(path,
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have zero children");
+
+	attachedPChildRefHandler.pChildRefHandler.add();
+
+	assert.ok(view.childNodes.length === 1, "pChildRefHandler, should have one child");
+	var variableView = view.firstChild;
+	assert.strictEqual(variableView.className, "pVar pVarTextVariableId");
+
+	// subscription
+	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 2);
+
+	var firstSubsription = subscriptions[1];
+	assert.strictEqual(firstSubsription.type, "setValue");
+	var childPath = {
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		}, {
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			} ],
+			"name" : "linkedPath"
+		} ],
+		"name" : "linkedPath"
+	};
+	assert.deepEqual(firstSubsription.path, childPath);
+
+});
+QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
+	var path = {
+		"children" : [ {
+			"name" : "nameInData1",
+			"value" : "textVariableId"
+		}, {
+			"children" : [ {
+				"name" : "nameInData2",
+				"value" : "textVariableId"
+			} ],
+			"name" : "linkedPath"
+		} ],
+		"name" : "linkedPath"
+	};
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor(path,
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have zero children");
+
+	attachedPChildRefHandler.pChildRefHandler.add();
+
+	assert.ok(view.childNodes.length === 1, "pChildRefHandler, should have one child");
+	var variableView = view.firstChild;
+	assert.strictEqual(variableView.className, "pVar pVarTextVariableId");
+
+	// subscription
+	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 2);
+
+	var firstSubsription = subscriptions[1];
+	assert.strictEqual(firstSubsription.type, "setValue");
+	var childPath = {
+		"children" : [ {
+			"name" : "nameInData1",
+			"value" : "textVariableId"
+		}, {
+			"children" : [ {
+				"name" : "nameInData2",
+				"value" : "textVariableId"
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVariableId"
+				} ]
+			} ],
+			"name" : "linkedPath"
+		} ],
+		"name" : "linkedPath"
+	};
+	assert.deepEqual(firstSubsription.path, childPath);
+
+});
 
 QUnit.test("testHandleMessageRightMetadataId", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},

@@ -43,4 +43,4 @@ var CORA = (function(cora) {
 		});
 	};
 	return cora;
-}(CORA || {}));
+}(CORA));

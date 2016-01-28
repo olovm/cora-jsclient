@@ -120,7 +120,7 @@ var CORA = (function(cora) {
 		function getLowestPath(path) {
 			var cPath = CORA.coraData(path);
 			if (cPath.containsChildWithNameInData("linkedPath")) {
-				return getLowestPath(cPath.getFirstChildWithNameInData("linkedPath"));
+				return getLowestPath(cPath.getFirstChildByNameInData("linkedPath"));
 			}
 			return path;
 		}
@@ -135,4 +135,4 @@ var CORA = (function(cora) {
 		return out;
 	};
 	return cora;
-}(CORA || {}));
+}(CORA));

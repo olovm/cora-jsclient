@@ -154,4 +154,4 @@ var CORA = (function(cora) {
 		return out;
 	};
 	return cora;
-}(CORA || {}));
+}(CORA));
