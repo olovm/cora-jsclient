@@ -144,10 +144,6 @@ var CORA = (function(cora) {
 					attributes, repeatId);
 		}
 
-		function listContainsOneElement(list) {
-			return list.length === 1;
-		}
-
 		function pathSpecifiesMoreLevels(path) {
 			return path.containsChildWithNameInData("linkedPath");
 		}

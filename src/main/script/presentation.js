@@ -52,10 +52,6 @@ var CORA = (function(cora) {
 			return pGroup.getView();
 		}
 
-		function getMetadataById(id) {
-			return CORA.coraData(metadataProvider.getMetadataById(id));
-		}
-
 		function getPresentationId() {
 			return presentationId;
 		}

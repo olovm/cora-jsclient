@@ -74,21 +74,11 @@ var CORA = (function(cora) {
 			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
-		function getPresentationId() {
-			return presentationId;
-		}
-
-		function getPubSub() {
-			return pubSub;
-		}
-
 		function getView() {
 			return view;
 		}
 
 		return Object.freeze({
-			getPresentationId : getPresentationId,
-			getPubSub : getPubSub,
 			getView : getView
 		});
 
