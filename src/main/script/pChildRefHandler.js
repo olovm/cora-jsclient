@@ -68,13 +68,13 @@ var CORA = (function(cora) {
 		function getView() {
 			return view;
 		}
-		
+
 		function handleMsg(dataFromMsg) {
 			if (metadataId === dataFromMsg.metadataId) {
 				add(dataFromMsg.repeatId);
 			}
 		}
-		
+
 		function add(repeatId) {
 			var newPath = calculatePathForNewElement(repeatId);
 			var varSpec = {
@@ -83,7 +83,7 @@ var CORA = (function(cora) {
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
-				"jsBookkeeper": jsBookkeeper
+				"jsBookkeeper" : jsBookkeeper
 			};
 			var pVar = CORA.pVar(varSpec);
 			view.appendChild(pVar.getView());
