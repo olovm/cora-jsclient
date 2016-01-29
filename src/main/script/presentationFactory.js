@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -19,31 +20,49 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.presentationFactory = function(spec) {
-		var pubSub = spec.pubSub;
+		var self;
 
-		function add(repeatId) {
-			var newPath = calculatePathForNewElement(repeatId);
-			var varSpec = {
-				"path" : newPath,
-				"cPresentation" : cPresentation,
-				//have in
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper
-			};
-			//TODO: make pGroup or.... pVar
-			var pVar = CORA.pVar(varSpec);
-			view.appendChild(pVar.getView());
+		function factor(path, cPresentation) {
+			var type = cPresentation.getData().attributes.type;
+			if (type === "pVar") {
+				var varSpec = {
+					"path" : path,
+					"cPresentation" : cPresentation,
+					"metadataProvider" : spec.metadataProvider,
+					"pubSub" : spec.pubSub,
+					"textProvider" : spec.textProvider,
+					"jsBookkeeper" : spec.jsBookkeeper
+				};
+				return CORA.pVar(varSpec);
+			} else if (type === "pGroup") {
+				var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
+				var presentationId = CORA.coraData(recordInfo)
+						.getFirstAtomicValueByNameInData("id");
+				var groupSpec = {
+					"path" : path,
+					"presentationId" : presentationId,
+					"metadataProvider" : spec.metadataProvider,
+					"pubSub" : spec.pubSub,
+					"textProvider" : spec.textProvider,
+					"jsBookkeeper" : spec.jsBookkeeper,
+					"presentationFactory" : self
+				};
+				return CORA.pGroup(groupSpec);
+			} else {
+				// container
+				var containerType = cPresentation.getData().attributes.repeat;
+				if (containerType === "children") {
+					// surroundingContainer
+				} else {
+					// repeatingContainer
+				}
+			}
 		}
-		
-		function factor(data) {
-			
-		}
-		
-		return Object.freeze({
+		var out = Object.freeze({
 			factor : factor
 		});
+		self = out;
+		return out;
 
 	};
 	return cora;

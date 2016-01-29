@@ -1293,7 +1293,42 @@ function MetadataProviderStub() {
 				} ])
 			};
 			break;
-			
+//			groupInGroupOneTextChild
+		case "pgGroupInGroupIdOneTextOneTextChild":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "groupInGroupOneTextChild"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "aHeadlineText"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				}, {
+					"name" : "childReference",
+					"repeatId" : "2",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pgGroupIdOneTextOneTextChild"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				} ]
+			} ])
+		};
+		break;
 		case "pgGroupIdOneTextOneTextChildTwoAttributes":
 			return {
 				"name" : "presentation",

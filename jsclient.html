@@ -24,6 +24,7 @@
 <script type="text/javascript" src="src/main/script/pChildRefHandler.js"></script>
 <script type="text/javascript" src="src/main/script/pGroup.js"></script>
 <script type="text/javascript" src="src/main/script/presentation.js"></script>
+<script type="text/javascript" src="src/main/script/presentationFactory.js"></script>
 <script type="text/javascript" src="src/main/script/pVar.js"></script>
 <script type="text/javascript" src="src/main/script/textProvider.js"></script>
 <script type="text/javascript" src="src/main/script/variable.js"></script>
@@ -33,45 +34,104 @@
 <script type="text/javascript" src="src/test/script/textProviderStub.js"></script>
 
 <script type="text/javascript">
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.dependenciesFactory = function(metadataProvider, pubSub, textProvider) {
+		var factor = function(metadataId, presentationId, data) {
+			var specJSBookkeeper = {
+				"metadataId" : metadataId,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider
+			};
+			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
+
+			var specPresentationFactory = {
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider,
+				"jsBookkeeper" : jsBookkeeper
+			};
+			var presentationFactory = CORA.presentationFactory(specPresentationFactory);
+
+			var spec = {
+				"presentationId" : presentationId,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider,
+				"jsBookkeeper" : jsBookkeeper,
+				"presentationFactory" : presentationFactory
+			};
+			var presentation = CORA.presentation(spec);
+
+			var specDataHolder = {
+				"metadataId" : metadataId,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub
+			};
+			var dataHolder = CORA.dataHolder(specDataHolder);
+			// // log all messages
+//			pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
+//				console.log("msg: " + msg);
+//				console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
+//			});
+			var specMetadataController = {
+				"metadataId" : metadataId,
+				"data" : data,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub
+			};
+			var metadataController = CORA.metadataController(specMetadataController);
+
+			return Object.freeze({
+				jsBookkeeper : jsBookkeeper,
+				presentationFactory : presentationFactory,
+				presentation : presentation,
+				dataHolder : dataHolder,
+				metadataController : metadataController
+			});
+		};
+		return Object.freeze({
+			factor : factor
+		});
+	};
+
+	return coraTest;
+}(CORATEST || {}));
+
 	window.onload = start;
 	function start() {
 		var metadataProvider = new MetadataProviderStub();
 		var textProvider = CORATEST.textProviderStub();
 		client1(metadataProvider, textProvider);
 		client2(metadataProvider, textProvider);
+		client3(metadataProvider, textProvider);
 	}
 
 	function client1(metadataProvider, textProvider) {
 		var place = document.getElementById("client1");
 		var pubSub = CORA.pubSub();
-
-		var spec = {
-			"presentationId" : "pgGroupIdOneTextChildOutput",
-			"metadataProvider" : metadataProvider,
-			"pubSub" : pubSub,
-			"textProvider" : textProvider
-		};
-		var presentation = CORA.presentation(spec);
+		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
+				textProvider);
 		var metadataId = "groupIdOneTextChild";
-		var specDataHolder = {
-			"metadataId" : metadataId,
-			"metadataProvider" : metadataProvider,
-			"pubSub" : pubSub
-		};
-		var dataHolder = CORA.dataHolder(specDataHolder);
-
-		var specMetadataController = {
-			"metadataId" : metadataId,
-			"data" : undefined,
-			"metadataProvider" : metadataProvider,
-			"pubSub" : pubSub
-		};
-		var metadataController = CORA.metadataController(specMetadataController);
-
-		var view = presentation.getView();
-
+		var presentationId = "pgGroupIdOneTextChildOutput";
+		
+// 		var data = {
+// 				"name" : "groupIdOneTextChild",
+// 				"children" : [ {
+// 					"name" : "textVariableId",
+// 					"value" : "A Value!"
+// 				} ]
+// 			};
+		
+		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
+		
+		
+		var view = dependencies.presentation.getView();
 		place.appendChild(view);
 
+		
+		
 		var path2 = {
 			"name" : "linkedPath",
 			"children" : [ {
@@ -89,63 +149,64 @@
 	function client2(metadataProvider, textProvider) {
 		var place = document.getElementById("client2");
 		var pubSub = CORA.pubSub();
+		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
+				textProvider);
 		var metadataId = "groupIdOneTextChild";
-		var specJSBookkeeper = {
-			"metadataId" : metadataId,
-			"metadataProvider" : metadataProvider,
-			"pubSub" : pubSub,
-			"textProvider" : textProvider
-		};
-		var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
-
-		var spec = {
-			// 				"presentationId" : "pgGroupIdOneTextOneTextChild",
-			"presentationId" : "pgGroupIdOneTextTwoTextChildren",
-			"metadataProvider" : metadataProvider,
-			"pubSub" : pubSub,
-			"textProvider" : textProvider,
-			"jsBookkeeper" : jsBookkeeper
-		};
-		var presentation = CORA.presentation(spec);
-		var view = presentation.getView();
-		place.appendChild(view);
-
-		var specDataHolder = {
-			"metadataId" : metadataId,
-			"metadataProvider" : metadataProvider,
-			"pubSub" : pubSub
-		};
-		var dataHolder = CORA.dataHolder(specDataHolder);
-	
+		var presentationId = "pgGroupIdOneTextTwoTextChildren";
+		
 		var data = {
 				"name" : "groupIdOneTextChild",
 				"children" : [ {
 					"name" : "textVariableId",
-					"value" : "A Value!"
+					"value" : "A different value!"
 				} ]
 			};
-
 		
-		var specMetadataController = {
-			"metadataId" : metadataId,
-			"data" : data,
-			"metadataProvider" : metadataProvider,
-			"pubSub" : pubSub
-		};
-		var metadataController = CORA.metadataController(specMetadataController);
+		var dependencies = dependenciesFactory.factor(metadataId, presentationId, data);
+		
+		
+		var view = dependencies.presentation.getView();
+		place.appendChild(view);
+
 
 		var path2 = {
-			"name" : "linkedPath",
-			"children" : [ {
-				"name" : "nameInData",
-				"value" : "textVariableId"
-			} ]
-		};
-		var data2 = {
-			"path" : path2,
-			"data" : "aValue1"
-		};
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVariableId"
+				} ]
+			};
+			var data2 = {
+				"path" : path2,
+				"data" : "aValue1"
+			};
+		
 // 		pubSub.publish("setValue", data2);
+	}
+	
+	function client3(metadataProvider, textProvider) {
+		var place = document.getElementById("client3");
+		var pubSub = CORA.pubSub();
+		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
+				textProvider);
+		var metadataId = "groupInGroupOneTextChild";
+		var presentationId = "pgGroupInGroupIdOneTextOneTextChild";
+		
+		var data = {
+				"name" : "groupInGroupOneTextChild",
+				"children" : [ {
+					"name" : "groupIdOneTextChild",
+					"children" : [ {
+						"name" : "textVariableId",
+						"value" : "A Value2"
+					} ]
+				} ]
+			};
+		
+		var dependencies = dependenciesFactory.factor(metadataId, presentationId, data);
+		
+		var view = dependencies.presentation.getView();
+		place.appendChild(view);
 	}
 </script>
 </head>
@@ -157,6 +218,9 @@
 	<h2>JSClient 2</h2>
 	<div id="client2"
 		style="background-color: rgb(170, 223, 248); min-height: 20px; min-width: 40px;"></div>
+	<h2>JSClient 3</h2>
+	<div id="client3"
+		style="background-color: rgb(158, 231, 55); min-height: 20px; min-width: 40px;"></div>
 </body>
 </html>
 

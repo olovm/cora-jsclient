@@ -25,8 +25,6 @@ var CORA = (function(cora) {
 		var cPresentation = spec.cPresentation;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
-		var textProvider = spec.textProvider;
-		var jsBookkeeper = spec.jsBookkeeper;
 		var presentationFactory = spec.presentationFactory;
 
 		var presentationId = findPresentationId(cPresentation);
@@ -78,17 +76,8 @@ var CORA = (function(cora) {
 
 		function add(repeatId) {
 			var newPath = calculatePathForNewElement(repeatId);
-			var varSpec = {
-				"path" : newPath,
-				"cPresentation" : cPresentation,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper
-			};
-			//TODO: make pGroup or.... pVar
-			var pVar = CORA.pVar(varSpec);
-			view.appendChild(pVar.getView());
+			var presentation = presentationFactory.factor(newPath, cPresentation);
+			view.appendChild(presentation.getView());
 		}
 
 		function calculatePathForNewElement(repeatId) {

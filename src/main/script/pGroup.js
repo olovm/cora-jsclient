@@ -25,6 +25,7 @@ var CORA = (function(cora) {
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
 		var jsBookkeeper = spec.jsBookkeeper;
+		var presentationFactory = spec.presentationFactory;
 
 		var presentationMetadata = getMetadataById(presentationId);
 		var cMetadataElement = getMetadataById(presentationMetadata
@@ -63,7 +64,8 @@ var CORA = (function(cora) {
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper
+				"jsBookkeeper" : jsBookkeeper,
+				"presentationFactory" : presentationFactory
 			};
 			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
 			return pChildRefHandler.getView();
@@ -78,6 +80,7 @@ var CORA = (function(cora) {
 		}
 
 		return Object.freeze({
+			"type" : "pGroup",
 			getView : getView
 		});
 

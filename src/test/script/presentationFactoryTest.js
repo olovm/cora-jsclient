@@ -20,14 +20,8 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.presentationFactoryFactory = function(metadataProvider, pubSub, textProvider) {
-		var factor = function(metadataId) {
-			var spec = {
-				"metadataId" : metadataId,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider
-			};
-			var jsBookkeeper = CORA.jsBookkeeper(spec);
+		var factor = function() {
+			var jsBookkeeper = CORATEST.jsBookkeeperSpy();
 			var specPresentationFactory = {
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
@@ -50,38 +44,24 @@ QUnit.module("CORA.presentationFactory", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
-//		var spec = {
-//			"metadataId" : metadataId,
-//			"metadataProvider" : metadataProvider,
-//			"pubSub" : pubSub,
-//			"textProvider" : textProvider
-//		};
-//		var jsBookkeeper = CORA.jsBookkeeper(spec);
-//		this.dependencies = {
-//			"metadataprovider" : new MetadataProviderStub(),
-//			"pubSub" : new PubSubSpy(),
-//			"textProvider" : CORATEST.textProviderStub(),
-//			"jsBookkeeper" : CORATEST.jsBookkeeperFactory(this.metadataProvider, this.pubSub,
-//					this.textProvider)
-//		};
-		this.newPresentationFactory = CORATEST.presentationFactoryFactory(this.metadataProvider,
+		this.newPresentationFactoryFactory = CORATEST.presentationFactoryFactory(this.metadataProvider,
 				this.pubSub, this.textProvider);
+		this.newPresentationFactory = this.newPresentationFactoryFactory.factor();
 	},
 	afterEach : function() {
 	}
 });
 
-QUnit.test("testSetValue", function(assert) {
-	var presentationFactory = this.newPresentationFactory.factor("groupIdOneTextChild");
-//	var data = {
-//		"data" : "a Value",
-//		"path" : {}
-//	};
-//	jsBookkeeper.setValue(data);
-//	var messages = this.pubSub.getMessages();
-//	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"setValue","message":{"data":"a Value",'
-//			+ '"path":{}}}');
-//
-//	assert.equal(messages.length, 1);
-	assert.ok(true);
+QUnit.test("testFactorPVar", function(assert) {
+	var presentationIdToFactor = "pVarTextVariableId";
+	var cPresentation = CORA.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
+	var pVar = this.newPresentationFactory.factor({},cPresentation);
+	assert.strictEqual(pVar.type, "pVar"); 
+});
+
+QUnit.test("testFactorPGroup", function(assert) {
+	var presentationIdToFactor = "pgGroupIdOneTextChild";
+	var cPresentation = CORA.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
+	var pGroup = this.newPresentationFactory.factor({},cPresentation);
+	assert.strictEqual(pGroup.type, "pGroup"); 
 });
