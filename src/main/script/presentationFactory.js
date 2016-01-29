@@ -34,7 +34,7 @@ var CORA = (function(cora) {
 					"jsBookkeeper" : spec.jsBookkeeper
 				};
 				return CORA.pVar(varSpec);
-			} else if (type === "pGroup") {
+			} else {
 				var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 				var presentationId = CORA.coraData(recordInfo)
 						.getFirstAtomicValueByNameInData("id");
@@ -48,14 +48,6 @@ var CORA = (function(cora) {
 					"presentationFactory" : self
 				};
 				return CORA.pGroup(groupSpec);
-			} else {
-				// container
-				var containerType = cPresentation.getData().attributes.repeat;
-				if (containerType === "children") {
-					// surroundingContainer
-				} else {
-					// repeatingContainer
-				}
 			}
 		}
 		var out = Object.freeze({
