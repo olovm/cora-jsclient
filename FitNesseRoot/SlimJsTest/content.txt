@@ -19,7 +19,7 @@ Examples from: https://github.com/noamtcohen/SlimJS
 |child_process|
 
 |script|child_process      |
-|check |exec|node -v|v5.4.1|
+|check |exec|node -v||
 
 !3 Namespace
 
