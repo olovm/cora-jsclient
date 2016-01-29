@@ -107,6 +107,7 @@ var CORATEST = (function(coraTest) {
 
 QUnit.test("testInit", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	assert.strictEqual(attachedPVar.pVar.type, "pVar");
 	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,

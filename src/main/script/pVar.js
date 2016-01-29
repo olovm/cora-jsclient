@@ -138,6 +138,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
+			"type":"pVar",
 			getView : getView,
 			setValue : setValue,
 			handleMsg : handleMsg,

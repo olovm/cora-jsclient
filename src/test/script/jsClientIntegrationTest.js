@@ -17,12 +17,82 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
+
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.dependenciesFactory = function(metadataProvider, pubSub, textProvider) {
+		var factor = function(metadataId, presentationId) {
+			var specJSBookkeeper = {
+				"metadataId" : metadataId,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider
+			};
+			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
+
+			var specPresentationFactory = {
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider,
+				"jsBookkeeper" : jsBookkeeper
+			};
+			var presentationFactory = CORA.presentationFactory(specPresentationFactory);
+
+			var spec = {
+				"presentationId" : presentationId,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider,
+				"jsBookkeeper" : jsBookkeeper,
+				"presentationFactory" : presentationFactory
+			};
+			var presentation = CORA.presentation(spec);
+
+			var specDataHolder = {
+				"metadataId" : metadataId,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub
+			};
+			var dataHolder = CORA.dataHolder(specDataHolder);
+			// // log all messages
+//			pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
+//				console.log("msg: " + msg);
+//				console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
+//			});
+			var specMetadataController = {
+				"metadataId" : metadataId,
+				"data" : undefined,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub
+			};
+			var metadataController = CORA.metadataController(specMetadataController);
+
+			return Object.freeze({
+				jsBookkeeper : jsBookkeeper,
+				presentationFactory : presentationFactory,
+				presentation : presentation,
+				dataHolder : dataHolder,
+				metadataController : metadataController
+			});
+		};
+		return Object.freeze({
+			factor : factor
+		});
+	};
+
+	return coraTest;
+}(CORATEST || {}));
+
+
 QUnit.module("CORA.JsClientIntegration", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORA.pubSub();
 		this.textProvider = CORATEST.textProviderStub();
+
+		this.dependenciesFactory = CORATEST.dependenciesFactory(this.metadataProvider, this.pubSub,
+				this.textProvider);
 	},
 	afterEach : function() {
 	}
@@ -64,90 +134,13 @@ QUnit.test("testIntegrateCoraPubSubPVar", function(assert) {
 	assert.equal(valueView.innerHTML, "A new value");
 });
 
-QUnit.test("testIntegrateCoraPubSubPresentation", function(assert) {
-	var spec = {
-		"presentationId" : "pgGroupIdOneTextChild",
-		"metadataProvider" : this.metadataProvider,
-		"pubSub" : this.pubSub,
-		"textProvider" : this.textProvider
-	};
-	var presentation = CORA.presentation(spec);
-
-	var view = presentation.getView();
-	this.fixture.appendChild(view);
-
-	var pGroupView = view.firstChild;
-	var childRefHandler = pGroupView.firstChild;
-	assert
-			.ok(childRefHandler.childNodes.length === 0,
-					"childRefHandler, should have zero children");
-	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
-
-	var path = {};
-	var data = {
-		"metadataId" : "textVariableId",
-		"path" : path
-	};
-	this.pubSub.publish("add", data);
-
-	assert.ok(childRefHandler.childNodes.length === 1, "childRefHandler, should have one child");
-	var pVarView = childRefHandler.firstChild;
-	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId");
-	var input = pVarView.firstChild;
-	assert.deepEqual(input.value, "");
-
-	var path2 = {
-		"name" : "linkedPath",
-		"children" : [ {
-			"name" : "nameInData",
-			"value" : "textVariableId"
-		} ]
-	};
-	var data2 = {
-		"path" : path2,
-		"data" : "a Value"
-	};
-	this.pubSub.publish("setValue", data2);
-	assert.deepEqual(input.value, "a Value");
-});
 QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataController", function(assert) {
-	var specJSBookkeeper = {
-			"metadataId" : metadataId,
-			"metadataProvider" : this.metadataProvider,
-			"pubSub" : this.pubSub,
-			"textProvider" : this.textProvider
-	};
-	var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
-
-	var spec = {
-		"presentationId" : "pgGroupIdOneTextChild",
-		"metadataProvider" : this.metadataProvider,
-		"pubSub" : this.pubSub,
-		"textProvider" : this.textProvider,
-		"jsBookkeeper": jsBookkeeper
-	};
-	var presentation = CORA.presentation(spec);
-	// this.pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
-	// console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
-	// console.log("msg: " + msg);
-	// });
-
 	var metadataId = "groupIdOneTextChild";
-	var specDataHolder = {
-		"metadataId" : metadataId,
-		"metadataProvider" : this.metadataProvider,
-		"pubSub" : this.pubSub
-	};
-	var dataHolder = CORA.dataHolder(specDataHolder);
+	var presentationId = "pgGroupIdOneTextChild";
 
-
-	var specMetadataController = {
-		"metadataId" : metadataId,
-		"data" : undefined,
-		"metadataProvider" : this.metadataProvider,
-		"pubSub" : this.pubSub
-	};
-	var metadataController = CORA.metadataController(specMetadataController);
+	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId);
+	var presentation = dependencies.presentation;
+	var dataHolder = dependencies.dataHolder;
 
 	var view = presentation.getView();
 	this.fixture.appendChild(view);
@@ -181,5 +174,62 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataController", fu
 		} ],
 		"name" : "groupIdOneTextChild"
 	});
+});
+QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerTwoLevels", function(
+		assert) {
+	var metadataId = "groupInGroupOneTextChild";
+	var presentationId = "pgGroupInGroupIdOneTextOneTextChild";
 
+	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId);
+	var presentation = dependencies.presentation;
+	var dataHolder = dependencies.dataHolder;
+
+	var view = presentation.getView();
+	this.fixture.appendChild(view);
+
+	var topPGroupView = view.firstChild;
+
+	var headline = topPGroupView.firstChild;
+
+	var childRefHandler1 = topPGroupView.childNodes[1];
+
+	var pGroupView = childRefHandler1.childNodes[0];
+	var headline2 = pGroupView.firstChild;
+	var childRefHandler2 = pGroupView.childNodes[1];
+
+	var pVarView = childRefHandler2.firstChild;
+	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId");
+	var input = pVarView.firstChild;
+	assert.deepEqual(input.value, "");
+
+	var path2 = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "groupIdOneTextChild"
+		}, {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			} ]
+		} ]
+	};
+	var data2 = {
+		"path" : path2,
+		"data" : "a Value one level down"
+	};
+	this.pubSub.publish("setValue", data2);
+	assert.deepEqual(input.value, "a Value one level down");
+
+	assert.deepEqual(dataHolder.getData(), {
+		"children" : [ {
+			"children" : [ {
+				"name" : "textVariableId",
+				"value" : "a Value one level down"
+			} ],
+			"name" : "groupIdOneTextChild"
+		} ],
+		"name" : "groupInGroupOneTextChild"
+	});
 });
