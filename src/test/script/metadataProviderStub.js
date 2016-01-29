@@ -33,8 +33,8 @@ function MetadataProviderStub() {
 		return {
 			"name" : "recordInfo",
 			"children" : [ {
-				"name" : id,
-				"value" : "textPartGroup"
+				"name" : "id",
+				"value" : id
 			}, {
 				"name" : "type",
 				"value" : "metadataGroup"
@@ -1237,6 +1237,99 @@ function MetadataProviderStub() {
 			} ])
 		};
 		break;
+		case "pVarTextVariableId2":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "pVarTextVariableId2"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "textVariableId2"
+				}, {
+					"name" : "mode",
+					"value" : "input"
+				} ]
+			};
+			break;
+		case "pgGroupIdTwoTextChild":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdTwoTextChild"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableId"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					},{
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableId2"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
+			break;
+			
+		case "pgGroupIdOneTextOneTextChildTwoAttributes":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdOneTextChildTwoAttributes"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "aHeadlineText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableId"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
+			break;
+			
 		case "asdfasdfsad":
 			return {
 				"name" : "presentation",

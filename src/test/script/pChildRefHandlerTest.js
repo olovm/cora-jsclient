@@ -228,6 +228,51 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 	assert.deepEqual(firstSubsription.path, childPath);
 
 });
+//groupInGroupOneTextChild
+//groupIdOneTextChildTwoAttributes
+//use this to make sure path contains attributes...
+
+//QUnit.test("testAddChildWithAttributesInPath", function (assert) {
+//	var path = {};
+//	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor(path,
+//			"groupInGroupOneTextChildTwoAttributes", "pgGroupIdOneTextOneTextChildTwoAttributes");
+//	var view = attachedPChildRefHandler.view;
+//	assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have zero children");
+//	
+//	attachedPChildRefHandler.pChildRefHandler.add();
+//	
+//	assert.ok(view.childNodes.length === 1, "pChildRefHandler, should have one child");
+//	var variableView = view.firstChild;
+//	assert.strictEqual(variableView.className, "pVar pVarTextVariableId");
+//	
+//	// subscription
+//	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
+//	assert.deepEqual(subscriptions.length, 2);
+//	
+//	var firstSubsription = subscriptions[1];
+//	assert.strictEqual(firstSubsription.type, "setValue");
+//	var childPath = {
+//			"children" : [ {
+//				"name" : "nameInData1",
+//				"value" : "textVariableId"
+//			}, {
+//				"children" : [ {
+//					"name" : "nameInData2",
+//					"value" : "textVariableId"
+//				}, {
+//					"name" : "linkedPath",
+//					"children" : [ {
+//						"name" : "nameInData",
+//						"value" : "textVariableId"
+//					} ]
+//				} ],
+//				"name" : "linkedPath"
+//			} ],
+//			"name" : "linkedPath"
+//	};
+//	assert.deepEqual(firstSubsription.path, childPath);
+//	
+//});
 
 QUnit.test("testHandleMessageRightMetadataId", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},

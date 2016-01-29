@@ -55,19 +55,18 @@ var CORA = (function(cora) {
 
 			if (cPresentationChild.getData().name === "text") {
 				return document.createTextNode(textProvider.getTranslation(presRef));
-			} else {
-				var childRefHandlerSpec = {
-					"parentPath" : path,
-					"cParentMetadata" : cMetadataElement,
-					"cPresentation" : cPresentationChild,
-					"metadataProvider" : metadataProvider,
-					"pubSub" : pubSub,
-					"textProvider" : textProvider,
-					"jsBookkeeper" : jsBookkeeper
-				};
-				var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
-				return pChildRefHandler.getView();
 			}
+			var childRefHandlerSpec = {
+				"parentPath" : path,
+				"cParentMetadata" : cMetadataElement,
+				"cPresentation" : cPresentationChild,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider,
+				"jsBookkeeper" : jsBookkeeper
+			};
+			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
+			return pChildRefHandler.getView();
 		}
 
 		function getMetadataById(id) {

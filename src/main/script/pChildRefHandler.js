@@ -27,6 +27,7 @@ var CORA = (function(cora) {
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
 		var jsBookkeeper = spec.jsBookkeeper;
+		var presentationFactory = spec.presentationFactory;
 
 		var presentationId = findPresentationId(cPresentation);
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
@@ -85,6 +86,7 @@ var CORA = (function(cora) {
 				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper
 			};
+			//TODO: make pGroup or.... pVar
 			var pVar = CORA.pVar(varSpec);
 			view.appendChild(pVar.getView());
 		}
