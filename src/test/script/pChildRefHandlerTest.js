@@ -314,6 +314,28 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 	assert.deepEqual(this.presentationFactory.getPath(), childPath);
 });
 
+//groupIdOneTextChildRepeat1to3
+//pgGroupIdOneTextTwoTextChildrenRepeat1to3
+QUnit.test("testHiddenAddButton", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	var view = attachedPChildRefHandler.view;
+	var buttonView = view.childNodes[1];
+	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
+	
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+	attachedPChildRefHandler.pChildRefHandler.add("two");
+	attachedPChildRefHandler.pChildRefHandler.add("three");
+
+	assert.strictEqual(childrenView.childNodes.length, 3);
+	assert.ok(buttonView.offsetHeight === 0, "buttonView should be hidden");
+
+});
+
 // groupInGroupOneTextChild
 // groupIdOneTextChildTwoAttributes
 // use this to make sure path contains attributes...

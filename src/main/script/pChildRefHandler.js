@@ -48,7 +48,9 @@ var CORA = (function(cora) {
 			var addButton = createAddButton();
 			buttonView.appendChild(addButton);
 		}
-
+		
+		var noOfRepeating = 0;
+		
 		pubSub.subscribe("add", parentPath, undefined, handleMsg);
 
 		function findPresentationId(cPresentationToSearch) {
@@ -124,6 +126,16 @@ var CORA = (function(cora) {
 			var newPath = calculatePathForNewElement(repeatId);
 			var presentation = presentationFactory.factor(newPath, cPresentation);
 			childrenView.appendChild(presentation.getView());
+			noOfRepeating++;
+			updateView();
+		}
+		function updateView(){
+//			console.log("noOfRepeating:"+noOfRepeating);
+//			console.log("repeatMax:"+repeatMax);
+			if(isRepeating && noOfRepeating === Number(repeatMax)){
+//				console.log("HIDE");
+				buttonView.style.display = "none";
+			}
 		}
 
 		function calculatePathForNewElement(repeatId) {
