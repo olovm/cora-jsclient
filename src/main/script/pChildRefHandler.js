@@ -34,13 +34,15 @@ var CORA = (function(cora) {
 		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 
 		var cParentMetadataChildRef = findParentMetadataChildRef(cParentMetadata);
+		var repeatMin = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMax");
 		var isRepeating = calculateIsRepeating();
+		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
 		var view = createBaseView();
 		var childrenView = createChildrenView();
 		view.appendChild(childrenView);
-		if (isRepeating) {
+		if (isRepeating && !isStaticNoOfChildren) {
 			var buttonView = createButtonView();
 			view.appendChild(buttonView);
 			var addButton = createAddButton();
@@ -65,6 +67,13 @@ var CORA = (function(cora) {
 
 		function calculateIsRepeating() {
 			if (repeatMax > 1 || repeatMax === "X") {
+				return true;
+			}
+			return false;
+		}
+		
+		function calculateIsStaticNoOfChildren() {
+			if (repeatMax === repeatMin) {
 				return true;
 			}
 			return false;
@@ -166,10 +175,11 @@ var CORA = (function(cora) {
 			add : add,
 			handleMsg : handleMsg,
 			isRepeating : isRepeating,
+			isStaticNoOfChildren : isStaticNoOfChildren,
 			sendAdd : sendAdd
 		});
 		view.modelObject = out;
-		if (isRepeating) {
+		if (isRepeating && !isStaticNoOfChildren) {
 			addButton.onclick = sendAdd;
 		}
 		return out;

@@ -96,6 +96,7 @@ QUnit.test("testInit", function(assert) {
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 
 	assert.ok(childRefHandler.isRepeating === false);
+	assert.ok(childRefHandler.isStaticNoOfChildren === true);
 
 	var view = attachedPChildRefHandler.view;
 	assert.deepEqual(view.className, "pChildRefHandler pVarTextVariableId");
@@ -114,12 +115,13 @@ QUnit.test("testInit", function(assert) {
 	assert.deepEqual(firstSubsription.path, {});
 	assert.ok(firstSubsription.functionToCall === childRefHandler.handleMsg);
 });
-QUnit.test("testInitRepeating", function(assert) {
+QUnit.test("testInitRepeatingVariableNoOfChildren", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat1toX", "pVarTextVariableId");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 
 	assert.ok(childRefHandler.isRepeating === true);
+	assert.ok(childRefHandler.isStaticNoOfChildren === false);
 
 	var view = attachedPChildRefHandler.view;
 	assert.deepEqual(view.className, "pChildRefHandler pVarTextVariableId");
@@ -137,6 +139,32 @@ QUnit.test("testInitRepeating", function(assert) {
 	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
 	assert.deepEqual(subscriptions.length, 1);
 
+	var firstSubsription = subscriptions[0];
+	assert.strictEqual(firstSubsription.type, "add");
+	assert.deepEqual(firstSubsription.path, {});
+	assert.ok(firstSubsription.functionToCall === childRefHandler.handleMsg);
+});
+
+QUnit.test("testInitRepeatingStaticNoOfChildren", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChildRepeat3to3", "pVarTextVariableId");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	
+	assert.ok(childRefHandler.isRepeating === true);
+	assert.ok(childRefHandler.isStaticNoOfChildren === true);
+	
+	var view = attachedPChildRefHandler.view;
+	assert.deepEqual(view.className, "pChildRefHandler pVarTextVariableId");
+	assert.deepEqual(view.nodeName, "SPAN");
+	assert.ok(view.modelObject === childRefHandler,
+	"modelObject should be a pointer to the javascript object instance");
+	assert.strictEqual(view.childNodes.length, 1);
+	assert.strictEqual(view.childNodes[0].className, "childrenView");
+	
+	// subscription
+	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 1);
+	
 	var firstSubsription = subscriptions[0];
 	assert.strictEqual(firstSubsription.type, "add");
 	assert.deepEqual(firstSubsription.path, {});
