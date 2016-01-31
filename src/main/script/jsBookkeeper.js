@@ -21,14 +21,30 @@ var CORA = (function(cora) {
 	cora.jsBookkeeper = function(spec) {
 		var pubSub = spec.pubSub;
 
+		var repeatId = 0;
+		
 		function setValue(data) {
 			pubSub.publish("setValue", data);
 		}
 
-		return Object.freeze({
-			setValue : setValue
-		});
 
+		// function sendAdd() {
+		// var data = {
+		// "metadataId" : metadataId,
+		// "path" : parentPath
+		// };
+		// spec.jsBookkeeper.add(data);
+		// }
+		function add(data) {
+			data.repeatId = new String(repeatId);
+			repeatId ++;
+			pubSub.publish("add", data);
+		}
+
+		return Object.freeze({
+			setValue : setValue,
+			add : add
+		});
 	};
 	return cora;
 }(CORA));

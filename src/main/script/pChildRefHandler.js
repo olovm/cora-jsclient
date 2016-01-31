@@ -35,9 +35,16 @@ var CORA = (function(cora) {
 
 		var cParentMetadataChildRef = findParentMetadataChildRef(cParentMetadata);
 		var repeatMax = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMax");
-		var isRepeating = repeatMax > 1;
+		var isRepeating = calculateIsRepeating();
 
 		var view = createBaseView();
+		var childrenView = createChildrenView();
+		view.appendChild(childrenView);
+		var buttonView = createButtonView();
+		view.appendChild(buttonView);
+		var addButton = createAddButton();
+		buttonView.appendChild(addButton);
+
 		pubSub.subscribe("add", parentPath, undefined, handleMsg);
 
 		function findPresentationId(cPresentationToSearch) {
@@ -54,10 +61,38 @@ var CORA = (function(cora) {
 			return CORA.coraData(parentMetadataChildRef);
 		}
 
+		function calculateIsRepeating() {
+			if (repeatMax > 1 || repeatMax === "X") {
+				return true;
+			}
+			return false;
+		}
+
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			viewNew.className = "pChildRefHandler " + presentationId;
+
 			return viewNew;
+		}
+
+		function createChildrenView() {
+			var childrenViewNew = document.createElement("span");
+			childrenViewNew.className = "childrenView";
+			return childrenViewNew;
+		}
+
+		function createButtonView() {
+			var buttonViewNew = document.createElement("span");
+			buttonViewNew.className = "buttonView";
+
+			return buttonViewNew;
+		}
+
+		function createAddButton() {
+			var button = document.createElement("input");
+		    button.type = "button";
+		    button.value = "ADD";
+			return button;
 		}
 
 		function getMetadataById(id) {
@@ -77,7 +112,7 @@ var CORA = (function(cora) {
 		function add(repeatId) {
 			var newPath = calculatePathForNewElement(repeatId);
 			var presentation = presentationFactory.factor(newPath, cPresentation);
-			view.appendChild(presentation.getView());
+			childrenView.appendChild(presentation.getView());
 		}
 
 		function calculatePathForNewElement(repeatId) {
@@ -116,13 +151,23 @@ var CORA = (function(cora) {
 			return path;
 		}
 
+		function sendAdd() {
+			var data = {
+				"metadataId" : metadataId,
+				"path" : parentPath
+			};
+			spec.jsBookkeeper.add(data);
+		}
+
 		var out = Object.freeze({
 			getView : getView,
 			add : add,
 			handleMsg : handleMsg,
-			isRepeating : isRepeating
+			isRepeating : isRepeating,
+			sendAdd : sendAdd
 		});
 		view.modelObject = out;
+		addButton.onclick = sendAdd;
 		return out;
 	};
 	return cora;
