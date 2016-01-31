@@ -40,10 +40,12 @@ var CORA = (function(cora) {
 		var view = createBaseView();
 		var childrenView = createChildrenView();
 		view.appendChild(childrenView);
-		var buttonView = createButtonView();
-		view.appendChild(buttonView);
-		var addButton = createAddButton();
-		buttonView.appendChild(addButton);
+		if (isRepeating) {
+			var buttonView = createButtonView();
+			view.appendChild(buttonView);
+			var addButton = createAddButton();
+			buttonView.appendChild(addButton);
+		}
 
 		pubSub.subscribe("add", parentPath, undefined, handleMsg);
 
@@ -90,8 +92,8 @@ var CORA = (function(cora) {
 
 		function createAddButton() {
 			var button = document.createElement("input");
-		    button.type = "button";
-		    button.value = "ADD";
+			button.type = "button";
+			button.value = "ADD";
 			return button;
 		}
 
@@ -167,7 +169,9 @@ var CORA = (function(cora) {
 			sendAdd : sendAdd
 		});
 		view.modelObject = out;
-		addButton.onclick = sendAdd;
+		if (isRepeating) {
+			addButton.onclick = sendAdd;
+		}
 		return out;
 	};
 	return cora;

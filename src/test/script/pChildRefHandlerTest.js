@@ -102,9 +102,8 @@ QUnit.test("testInit", function(assert) {
 	assert.deepEqual(view.nodeName, "SPAN");
 	assert.ok(view.modelObject === childRefHandler,
 			"modelObject should be a pointer to the javascript object instance");
-	assert.strictEqual(view.childNodes.length, 2);
+	assert.strictEqual(view.childNodes.length, 1);
 	assert.strictEqual(view.childNodes[0].className, "childrenView");
-	assert.strictEqual(view.childNodes[1].className, "buttonView");
 
 	// subscription
 	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
@@ -146,7 +145,7 @@ QUnit.test("testInitRepeating", function(assert) {
 
 QUnit.test("testAddButton", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-			"groupIdOneTextChild", "pVarTextVariableId");
+			"groupIdOneTextChildRepeat1toX", "pVarTextVariableId");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
