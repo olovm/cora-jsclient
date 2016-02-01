@@ -22,22 +22,14 @@ var CORA = (function(cora) {
 		var pubSub = spec.pubSub;
 
 		var repeatId = 0;
-		
+
 		function setValue(data) {
 			pubSub.publish("setValue", data);
 		}
 
-
-		// function sendAdd() {
-		// var data = {
-		// "metadataId" : metadataId,
-		// "path" : parentPath
-		// };
-		// spec.jsBookkeeper.add(data);
-		// }
 		function add(data) {
-			data.repeatId = new String(repeatId);
-			repeatId ++;
+			data.repeatId = String(repeatId);
+			repeatId++;
 			pubSub.publish("add", data);
 		}
 

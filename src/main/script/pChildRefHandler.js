@@ -26,7 +26,7 @@ var CORA = (function(cora) {
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
 		var presentationFactory = spec.presentationFactory;
- 
+
 		var presentationId = findPresentationId(cPresentation);
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
