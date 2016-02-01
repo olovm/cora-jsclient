@@ -33,9 +33,14 @@ var CORA = (function(cora) {
 			pubSub.publish("add", data);
 		}
 
+		function remove(data) {
+			pubSub.publish("remove", data);
+		}
+
 		return Object.freeze({
 			setValue : setValue,
-			add : add
+			add : add,
+			remove : remove
 		});
 	};
 	return cora;

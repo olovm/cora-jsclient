@@ -127,14 +127,52 @@ var CORA = (function(cora) {
 
 		function add(repeatId) {
 			var newPath = calculatePathForNewElement(repeatId);
+			// repeating element
+			var repeatingElement = document.createElement("span");
+			repeatingElement.remove = function() {
+				childrenView.removeChild(repeatingElement);
+				childRemoved();
+			};
+			pubSub.subscribe("remove", newPath, undefined, repeatingElement.remove);
+			repeatingElement.className = "repeatingElement";
+
+			// repeating buttonview
+			var repeatingButtonView = document.createElement("span");
+			repeatingButtonView.className = "buttonView";
+			repeatingElement.appendChild(repeatingButtonView);
+			childrenView.appendChild(repeatingElement);
+
+			if (showAddButton()) {
+				// remove button
+				var removeButton = document.createElement("span");
+				removeButton.className = "removeButton";
+				repeatingButtonView.appendChild(removeButton);
+				removeButton.onclick = function() {
+					var data = {
+						"type" : "remove",
+						"path" : newPath
+					};
+					spec.jsBookkeeper.remove(data);
+				};
+			}
 			var presentation = presentationFactory.factor(newPath, cPresentation);
-			childrenView.appendChild(presentation.getView());
+			repeatingElement.insertBefore(presentation.getView(), repeatingButtonView);
+
 			noOfRepeating++;
 			updateView();
 		}
+		function childRemoved() {
+			noOfRepeating--;
+			updateView();
+		}
 		function updateView() {
-			if (isRepeating && noOfRepeating === Number(repeatMax)) {
-				buttonView.style.display = "none";
+			if (showAddButton()) {
+				if (noOfRepeating === Number(repeatMax)) {
+					buttonView.styleOriginal = buttonView.style.display;
+					buttonView.style.display = "none";
+				} else {
+					buttonView.style.display = buttonView.styleOriginal;
+				}
 			}
 		}
 
@@ -189,7 +227,8 @@ var CORA = (function(cora) {
 			handleMsg : handleMsg,
 			isRepeating : isRepeating,
 			isStaticNoOfChildren : isStaticNoOfChildren,
-			sendAdd : sendAdd
+			sendAdd : sendAdd,
+			childRemoved : childRemoved
 		});
 		view.modelObject = out;
 		if (showAddButton()) {
