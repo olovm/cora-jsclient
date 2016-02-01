@@ -26,9 +26,9 @@
     </formats>
     <fileSets>
         <fileSet>
-            <directory>${project.build.directory}/../FitNesseRoot</directory>
+            <directory>${project.build.directory}/../FitNesseRoot/JsClient</directory>
             <excludes>
-                <exclude>*.zip</exclude>
+                <exclude>**/*.zip</exclude>
             </excludes>
         </fileSet>
         <fileSet>
@@ -38,6 +38,10 @@
         </fileSet>
         <fileSet>
             <directory>src</directory>
+            <excludes>
+                <exclude>main/assembly/</exclude>
+                <exclude>main/webapp/</exclude>
+            </excludes>
         </fileSet>
     </fileSets>
 </assembly>

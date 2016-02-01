@@ -20,18 +20,36 @@
 module.exports = function (grunt)
 {
     grunt.initConfig({
-        uglify: {
-            core: {
-                files: [{
-                    expand: true,
-                    src: 'src/main/script/*.js',
-                    dest: "target/classes",
-                    ext: '.min.js'
-                }]
+        copy: {
+            main: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'src/main/script',
+                        src: '**',
+                        dest: 'target/classes/script',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'src/main/css',
+                        src: '**',
+                        dest: 'target/classes/css',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'src/main/webapp',
+                        src: '**',
+                        dest: 'target/classes',
+                        filter: 'isFile'
+                    }
+                ]
             }
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.registerTask('default', ['uglify']);
+    grunt.loadNpmTasks('grunt-contrib-copy');
+
+    grunt.registerTask('default', ['copy']);
 };
