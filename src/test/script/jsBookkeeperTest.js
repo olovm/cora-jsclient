@@ -37,7 +37,7 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
-QUnit.module("CORA.pGroup", {
+QUnit.module("CORA.jsBookkeeper", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubSpy();
@@ -57,10 +57,35 @@ QUnit.test("testSetValue", function(assert) {
 	};
 	jsBookkeeper.setValue(data);
 	var messages = this.pubSub.getMessages();
-	// assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
-	// + '"metadataId":"textVariableId","path":{}}}');
-	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"setValue","message":{"data":"a Value",'
-			+ '"path":{}}}');
 
-	assert.equal(messages.length, 1); 
+	var expectedMessage = {
+		"type" : "setValue",
+		"message" : {
+			"data" : "a Value",
+			"path" : {}
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedMessage);
+	assert.equal(messages.length, 1);
+});
+
+QUnit.test("testAdd", function(assert) {
+	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild");
+	var data = {
+		"metadataId" : "aMetadataId",
+		"path" : {}
+	};
+	jsBookkeeper.add(data);
+	var messages = this.pubSub.getMessages();
+	var expectedMessage = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "aMetadataId",
+			"path" : {},
+			"repeatId" : "0"
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedMessage);
+
+	assert.equal(messages.length, 1);
 });

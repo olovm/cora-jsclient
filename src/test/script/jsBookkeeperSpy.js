@@ -20,18 +20,29 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.jsBookkeeperSpy = function() {
 		var dataArray = [];
+		var addDataArray = [];
 
 		function setValue(data) {
 			dataArray.push(data);
 		}
-		;
+
 		function getDataArray() {
 			return dataArray;
 		}
-		;
+		
+		function add(data){
+			addDataArray.push(data);
+		}
+		
+		function getAddDataArray() {
+			return addDataArray;
+		}
+		
 		return Object.freeze({
 			setValue : setValue,
-			getDataArray : getDataArray
+			getDataArray : getDataArray,
+			add:add,
+			getAddDataArray : getAddDataArray
 		});
 	};
 	return coraTest;

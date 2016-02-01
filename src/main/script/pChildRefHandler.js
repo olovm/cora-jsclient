@@ -31,13 +31,25 @@ var CORA = (function(cora) {
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
 
-		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
-
 		var cParentMetadataChildRef = findParentMetadataChildRef(cParentMetadata);
+		var repeatMin = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMax");
-		var isRepeating = repeatMax > 1;
+		var isRepeating = calculateIsRepeating();
+		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
 		var view = createBaseView();
+		var childrenView = createChildrenView();
+		view.appendChild(childrenView);
+		var buttonView;
+		var addButton;
+		if (showAddButton()) {
+			buttonView = createButtonView();
+			view.appendChild(buttonView);
+			addButton = createAddButton();
+			buttonView.appendChild(addButton);
+		}
+		var noOfRepeating = 0;
+
 		pubSub.subscribe("add", parentPath, undefined, handleMsg);
 
 		function findPresentationId(cPresentationToSearch) {
@@ -54,10 +66,49 @@ var CORA = (function(cora) {
 			return CORA.coraData(parentMetadataChildRef);
 		}
 
+		function calculateIsRepeating() {
+			if (repeatMax > 1 || repeatMax === "X") {
+				return true;
+			}
+			return false;
+		}
+
+		function calculateIsStaticNoOfChildren() {
+			if (repeatMax === repeatMin) {
+				return true;
+			}
+			return false;
+		}
+
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			viewNew.className = "pChildRefHandler " + presentationId;
+
 			return viewNew;
+		}
+
+		function createChildrenView() {
+			var childrenViewNew = document.createElement("span");
+			childrenViewNew.className = "childrenView";
+			return childrenViewNew;
+		}
+
+		function showAddButton() {
+			return isRepeating && !isStaticNoOfChildren;
+		}
+
+		function createButtonView() {
+			var buttonViewNew = document.createElement("span");
+			buttonViewNew.className = "buttonView";
+
+			return buttonViewNew;
+		}
+
+		function createAddButton() {
+			var button = document.createElement("input");
+			button.type = "button";
+			button.value = "ADD";
+			return button;
 		}
 
 		function getMetadataById(id) {
@@ -77,10 +128,18 @@ var CORA = (function(cora) {
 		function add(repeatId) {
 			var newPath = calculatePathForNewElement(repeatId);
 			var presentation = presentationFactory.factor(newPath, cPresentation);
-			view.appendChild(presentation.getView());
+			childrenView.appendChild(presentation.getView());
+			noOfRepeating++;
+			updateView();
+		}
+		function updateView() {
+			if (isRepeating && noOfRepeating === Number(repeatMax)) {
+				buttonView.style.display = "none";
+			}
 		}
 
 		function calculatePathForNewElement(repeatId) {
+			var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 			var pathCopy = JSON.parse(JSON.stringify(parentPath));
 			var childPath = createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId);
 			if (pathCopy.children === undefined) {
@@ -116,13 +175,26 @@ var CORA = (function(cora) {
 			return path;
 		}
 
+		function sendAdd() {
+			var data = {
+				"metadataId" : metadataId,
+				"path" : parentPath
+			};
+			spec.jsBookkeeper.add(data);
+		}
+
 		var out = Object.freeze({
 			getView : getView,
 			add : add,
 			handleMsg : handleMsg,
-			isRepeating : isRepeating
+			isRepeating : isRepeating,
+			isStaticNoOfChildren : isStaticNoOfChildren,
+			sendAdd : sendAdd
 		});
 		view.modelObject = out;
+		if (showAddButton()) {
+			addButton.onclick = sendAdd;
+		}
 		return out;
 	};
 	return cora;
