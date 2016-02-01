@@ -13,3 +13,30 @@
 /* 	height: 131px; */
 /* 	width: 131px; */
 /* } */
+
+
+.removeButton {
+	cursor: pointer;
+}
+
+.removeButton::before {
+  background: url("../images/icons2.svg") no-repeat scroll -32px -16px ;
+  content: "";
+  height: 16px;
+  width: 16px;
+  opacity: 1;
+  position: absolute;
+  transition: opacity 0.5s ease 0s;
+  z-index: 100;
+}
+.removeButton::after {
+  background: url("../images/icons2.svg") no-repeat scroll -32px 0px;
+  content: "";
+  height: 16px;
+  width: 16px;
+  position: absolute;
+  opacity: 1;
+}
+.removeButton:hover::before {
+  opacity: 0;
+}
