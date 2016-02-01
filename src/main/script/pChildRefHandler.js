@@ -26,12 +26,10 @@ var CORA = (function(cora) {
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
 		var presentationFactory = spec.presentationFactory;
-
+ 
 		var presentationId = findPresentationId(cPresentation);
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
-
-		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 
 		var cParentMetadataChildRef = findParentMetadataChildRef(cParentMetadata);
 		var repeatMin = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMin");
@@ -42,15 +40,16 @@ var CORA = (function(cora) {
 		var view = createBaseView();
 		var childrenView = createChildrenView();
 		view.appendChild(childrenView);
-		if (isRepeating && !isStaticNoOfChildren) {
-			var buttonView = createButtonView();
+		var buttonView;
+		var addButton;
+		if (showAddButton()) {
+			buttonView = createButtonView();
 			view.appendChild(buttonView);
-			var addButton = createAddButton();
+			addButton = createAddButton();
 			buttonView.appendChild(addButton);
 		}
-		
 		var noOfRepeating = 0;
-		
+
 		pubSub.subscribe("add", parentPath, undefined, handleMsg);
 
 		function findPresentationId(cPresentationToSearch) {
@@ -73,7 +72,7 @@ var CORA = (function(cora) {
 			}
 			return false;
 		}
-		
+
 		function calculateIsStaticNoOfChildren() {
 			if (repeatMax === repeatMin) {
 				return true;
@@ -92,6 +91,10 @@ var CORA = (function(cora) {
 			var childrenViewNew = document.createElement("span");
 			childrenViewNew.className = "childrenView";
 			return childrenViewNew;
+		}
+
+		function showAddButton() {
+			return isRepeating && !isStaticNoOfChildren;
 		}
 
 		function createButtonView() {
@@ -129,16 +132,14 @@ var CORA = (function(cora) {
 			noOfRepeating++;
 			updateView();
 		}
-		function updateView(){
-//			console.log("noOfRepeating:"+noOfRepeating);
-//			console.log("repeatMax:"+repeatMax);
-			if(isRepeating && noOfRepeating === Number(repeatMax)){
-//				console.log("HIDE");
+		function updateView() {
+			if (isRepeating && noOfRepeating === Number(repeatMax)) {
 				buttonView.style.display = "none";
 			}
 		}
 
 		function calculatePathForNewElement(repeatId) {
+			var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 			var pathCopy = JSON.parse(JSON.stringify(parentPath));
 			var childPath = createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId);
 			if (pathCopy.children === undefined) {
@@ -191,7 +192,7 @@ var CORA = (function(cora) {
 			sendAdd : sendAdd
 		});
 		view.modelObject = out;
-		if (isRepeating && !isStaticNoOfChildren) {
+		if (showAddButton()) {
 			addButton.onclick = sendAdd;
 		}
 		return out;
