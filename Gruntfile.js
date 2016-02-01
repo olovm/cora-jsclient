@@ -32,6 +32,13 @@ module.exports = function (grunt)
                     },
                     {
                         expand: true,
+                        cwd: 'src/test/script',
+                        src: '**',
+                        dest: 'target/classes/test/script',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
                         cwd: 'src/main/css',
                         src: '**',
                         dest: 'target/classes/css',

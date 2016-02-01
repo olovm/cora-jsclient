@@ -3,3 +3,6 @@
 /node_modules/
 /.project
 /target/
+/target-grunt/
+/test_results/
+*.iml
