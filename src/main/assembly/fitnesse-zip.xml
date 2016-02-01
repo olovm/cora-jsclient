@@ -32,11 +32,6 @@
             </excludes>
         </fileSet>
         <fileSet>
-            <includes>
-                <include>pom.xml</include>
-            </includes>
-        </fileSet>
-        <fileSet>
             <directory>src</directory>
             <excludes>
                 <exclude>main/assembly/</exclude>
