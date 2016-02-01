@@ -148,7 +148,7 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataController", fu
 	var pGroupView = view.firstChild;
 	var childRefHandler = pGroupView.firstChild;
 
-	var pVarView = childRefHandler.firstChild;
+	var pVarView = childRefHandler.firstChild.firstChild;
 	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId");
 	var input = pVarView.firstChild;
 	assert.deepEqual(input.value, "");
@@ -185,6 +185,7 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerTwoLe
 	var dataHolder = dependencies.dataHolder;
 
 	var view = presentation.getView();
+//	console.log(view);
 	this.fixture.appendChild(view);
 
 	var topPGroupView = view.firstChild;
@@ -193,11 +194,11 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerTwoLe
 
 	var childRefHandler1 = topPGroupView.childNodes[1];
 
-	var pGroupView = childRefHandler1.childNodes[0];
+	var pGroupView = childRefHandler1.childNodes[0].firstChild;
 	var headline2 = pGroupView.firstChild;
 	var childRefHandler2 = pGroupView.childNodes[1];
 
-	var pVarView = childRefHandler2.firstChild;
+	var pVarView = childRefHandler2.firstChild.firstChild;
 	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId");
 	var input = pVarView.firstChild;
 	assert.deepEqual(input.value, "");
