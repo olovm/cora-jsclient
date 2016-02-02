@@ -69,7 +69,7 @@
         <sonar.language>js</sonar.language>
         <sonar.sources>src/main/webapp/script</sonar.sources>
         <sonar.tests>src/test/script/</sonar.tests>
-        <sonar.exclusions>lib/**</sonar.exclusions>
+        <sonar.exclusions>src/main/webapp/script/lib/**</sonar.exclusions>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.javascript.jstest.reportsPath>target/surefire-reports</sonar.javascript.jstest.reportsPath>
         <sonar.javascript.lcov.reportPath>target/karma-coverage/PhantomJS 1.9.8 (Linux 0.0.0)/lcov.info</sonar.javascript.lcov.reportPath>
