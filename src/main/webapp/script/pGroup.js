@@ -54,13 +54,25 @@ var CORA = (function(cora) {
 			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
 			var cPresentationChild = getMetadataById(presRef);
 
+			console.log("cPresentationChild:"+JSON.stringify(cPresentationChild.getData()));
 			if (cPresentationChild.getData().name === "text") {
 				return document.createTextNode(textProvider.getTranslation(presRef));
+			}else if("children" ===cPresentationChild.getData().attributes.repeat){
+				console.log("children");
+//				var repeat = cPresentationChild.getData().attributes.repeat;
+//				if (repeat === "this") {
+//				var presentation = presentationFactory.factor(newPath, cPresentation,
+//						cParentPresentation);
+				//should create a new surroundingContainer
+				var presentation = presentationFactory.factor(path, cPresentationChild,
+						presentationMetadata);
+				return presentation.getView();
 			}
 			var childRefHandlerSpec = {
 				"parentPath" : path,
 				"cParentMetadata" : cMetadataElement,
 				"cPresentation" : cPresentationChild,
+				"cParentPresentation" : presentationMetadata,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,

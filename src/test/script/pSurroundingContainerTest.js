@@ -19,14 +19,17 @@
 "use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.attachedPSurroundingContainerFactory = function(metadataProvider, pubSub, textProvider,
-			presentationFactory, jsBookkeeper, fixture) {
-		var factor = function(path, pSurroundingContainerId) {
+	coraTest.attachedPSurroundingContainerFactory = function(metadataProvider, pubSub,
+			textProvider, presentationFactory, jsBookkeeper, fixture) {
+		var factor = function(path, pSurroundingContainerId, presentationParentId) {
 			var cPSurroundingContainer = CORA.coraData(metadataProvider
 					.getMetadataById(pSurroundingContainerId));
+			var cParentPresentation = CORA.coraData(metadataProvider
+					.getMetadataById(presentationParentId));
 			var spec = {
 				"path" : path,
 				"cPresentation" : cPSurroundingContainer,
+				"cParentPresentation" : cParentPresentation,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
@@ -74,24 +77,37 @@ QUnit.module("CORA.pSurroundingContainer", {
 	}
 });
 
-QUnit.test("testInit",
-		function(assert) {
-			var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
-					"pTextVariableIdRContainer");
-			assert.strictEqual(attachedPSurroundingContainer.pSurroundingContainer.type,
-					"pSurroundingContainer");
-			assert.deepEqual(attachedPSurroundingContainer.view.className, "pSurroundingContainer "
-					+ "pTextVariableIdRContainer");
-			var view = attachedPSurroundingContainer.view;
-			assert.ok(view.modelObject === attachedPSurroundingContainer.pSurroundingContainer,
-					"modelObject should be a pointer to the javascript object instance");
-			assert.strictEqual(view.childNodes.length, 3);
+QUnit.test("testInit", function(assert) {
 
-			assert.strictEqual(view.childNodes[0].textContent, "En rubrik");
+	// groupIdTwoTextChildRepeat1to5
+	// pgGroupIdTwoTextChildSurrounding2TextPGroup
+	// "pTextVariablePlus2SContainer":
 
-			var cPresentation = this.presentationFactory.getCPresentation();
-			var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
+	// case "pgGroupIdTwoTextChildSurrounding2TextPGroup":
+//	pgGroupIdTwoTextChildSurrounding2TextPGroup
 
-			var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
-			assert.strictEqual(presentationId, "pVarTextVariableId");
-		});
+	var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
+			"pTextVariablePlus2SContainer", "pgGroupIdTwoTextChildSurrounding2TextPGroup");
+	assert.strictEqual(attachedPSurroundingContainer.pSurroundingContainer.type,
+			"pSurroundingContainer");
+	assert.deepEqual(attachedPSurroundingContainer.view.className, "pSurroundingContainer "
+			+ "pTextVariablePlus2SContainer");
+	var view = attachedPSurroundingContainer.view;
+	assert.ok(view.modelObject === attachedPSurroundingContainer.pSurroundingContainer,
+			"modelObject should be a pointer to the javascript object instance");
+	assert.strictEqual(view.childNodes.length, 3);
+
+	assert.strictEqual(view.childNodes[0].textContent, "En rubrik");
+
+	var childRefHandler = view.childNodes[1];
+	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
+	
+	var childRefHandler = view.childNodes[2];
+	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId2");
+
+	// var cPresentation = this.presentationFactory.getCPresentation();
+	// var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
+	//
+	// var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+	// assert.strictEqual(presentationId, "pVarTextVariableId");
+});

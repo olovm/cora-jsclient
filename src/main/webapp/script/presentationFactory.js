@@ -22,7 +22,7 @@ var CORA = (function(cora) {
 	cora.presentationFactory = function(spec) {
 		var self;
 
-		function factor(path, cPresentation) {
+		function factor(path, cPresentation, cParentPresentation) {
 			var type = cPresentation.getData().attributes.type;
 			if (type === "pVar") {
 				var varSpec = {
@@ -33,6 +33,7 @@ var CORA = (function(cora) {
 					"textProvider" : spec.textProvider,
 					"jsBookkeeper" : spec.jsBookkeeper
 				};
+				console.log("factory");
 				return CORA.pVar(varSpec);
 			} else if (type === "pGroup") {
 				var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
@@ -49,16 +50,31 @@ var CORA = (function(cora) {
 				};
 				return CORA.pGroup(groupSpec);
 			} else {
-				var pRepeatingContainerSpec = {
+				var repeat = cPresentation.getData().attributes.repeat;
+				if (repeat === "this") {
+
+					var pRepeatingContainerSpec = {
+						"path" : path,
+						"cPresentation" : cPresentation,
+						"metadataProvider" : spec.metadataProvider,
+						"pubSub" : spec.pubSub,
+						"textProvider" : spec.textProvider,
+						"jsBookkeeper" : spec.jsBookkeeper,
+						"presentationFactory" : self
+					};
+					return CORA.pRepeatingContainer(pRepeatingContainerSpec);
+				}
+				var pSurroundingContainerSpec = {
 					"path" : path,
 					"cPresentation" : cPresentation,
+					"cParentPresentation" : cParentPresentation,
 					"metadataProvider" : spec.metadataProvider,
 					"pubSub" : spec.pubSub,
 					"textProvider" : spec.textProvider,
 					"jsBookkeeper" : spec.jsBookkeeper,
 					"presentationFactory" : self
 				};
-				return CORA.pRepeatingContainer(pRepeatingContainerSpec);
+				return CORA.pSurroundingContainer(pSurroundingContainerSpec);
 			}
 		}
 

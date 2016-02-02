@@ -26,7 +26,6 @@ var CORA = (function(cora) {
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
 		var jsBookkeeper = spec.jsBookkeeper;
-
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
@@ -44,6 +43,7 @@ var CORA = (function(cora) {
 		var text = textProvider.getTranslation(textId);
 
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
+		console.log("pVar:"+defTextId);
 		var defText = textProvider.getTranslation(defTextId);
 
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");

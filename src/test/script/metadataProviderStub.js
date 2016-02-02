@@ -151,6 +151,22 @@ function MetadataProviderStub() {
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
+		if (idToGet === "groupIdTwoTextChildRepeat1to5") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [
+							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+									"textVariableId", "1", "1", "5"),
+							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+									"textVariableId2", "1", "1", "5") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
 		if (idToGet === "groupIdOneTextChildRepeat1toX") {
 			return {
 				"name" : "metadata",
@@ -1600,6 +1616,108 @@ function MetadataProviderStub() {
 							"value" : "ref"
 						} ]
 					} ]
+				} ])
+			};
+			break;
+		// groupIdTwoTextChild
+		// pgGroupIdTwoTextChild
+		case "pTextVariablePlus2SContainer":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "container",
+					"repeat" : "children"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "pTextVariablePlus2SContainer"
+					} ]
+				}, {
+					"name" : "presentationsOf",
+					"children" : [ {
+						"repeatId" : "1",
+						"name" : "presentationOf",
+						"value" : "textVariableId"
+					}, {
+						"repeatId" : "2",
+						"name" : "presentationOf",
+						"value" : "textVariableId2"
+					} ]
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "aHeadlineText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableId"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "3",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableId2"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ]
+			};
+			break;
+		// groupIdTwoTextChildRepeat1to5
+		// "pTextVariablePlus2SContainer":
+
+		case "pgGroupIdTwoTextChildSurrounding2TextPGroup":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdTwoTextChildRepeat1to5"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pTextVariablePlus2SContainer"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}
+					// , {
+					// "name" : "childReference",
+					// "repeatId" : "2",
+					// "children" : [ {
+					// "name" : "ref",
+					// "value" : "pVarTextVariableId2"
+					// }, {
+					// "name" : "default",
+					// "value" : "ref"
+					// } ]
+					// }
+					]
 				} ])
 			};
 			break;

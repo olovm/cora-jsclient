@@ -21,13 +21,18 @@ var CORA = (function(cora) {
 	cora.pSurroundingContainer = function(spec) {
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
+		var cParentPresentation = spec.cParentPresentation;
 		var metadataProvider = spec.metadataProvider;
+		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
+		var jsBookkeeper = spec.jsBookkeeper;
 		var presentationFactory = spec.presentationFactory;
 
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+		var cMetadataElement = getMetadataById(cParentPresentation
+				.getFirstAtomicValueByNameInData("presentationOf"));
 		var view = createBaseView();
 
 		function createBaseView() {
@@ -50,8 +55,21 @@ var CORA = (function(cora) {
 			if (cPresentationChild.getData().name === "text") {
 				return document.createTextNode(textProvider.getTranslation(presRef));
 			}
-			var presentation = presentationFactory.factor(path, cPresentationChild);
-			return presentation.getView();
+//			 console.log("cPresentationChild:"+JSON.stringify(cPresentationChild.getData()))
+			var childRefHandlerSpec = {
+				"parentPath" : path,
+				"cParentMetadata" : cMetadataElement,
+				"cPresentation" : cPresentationChild,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider,
+				"jsBookkeeper" : jsBookkeeper,
+				"presentationFactory" : presentationFactory
+			};
+			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
+			return pChildRefHandler.getView();
+			// var presentation = presentationFactory.factor(path, cPresentationChild);
+			// return presentation.getView();
 		}
 		function getMetadataById(id) {
 			return CORA.coraData(metadataProvider.getMetadataById(id));

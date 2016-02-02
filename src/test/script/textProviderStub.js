@@ -31,6 +31,14 @@ var CORATEST = (function(coraTest) {
 				return "Detta är en exempeldefinition för en textvariabel.";
 				// This is an example definition for a text variable.
 				break;
+			case "textVariableId2Text":
+				return "Exempel textvariabel";
+				// "Example text variable"
+				break;
+			case "textVariableId2DefText":
+				return "Detta är en exempeldefinition för en textvariabel.";
+				// This is an example definition for a text variable.
+				break;
 			case "aHeadlineText":
 				return "En rubrik";
 				// A headline
