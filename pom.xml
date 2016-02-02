@@ -67,7 +67,7 @@
 
     <properties>
         <sonar.language>js</sonar.language>
-        <sonar.sources>src/main/script</sonar.sources>
+        <sonar.sources>src/main/webapp/script</sonar.sources>
         <sonar.tests>src/test/script/</sonar.tests>
         <sonar.exclusions>lib/**</sonar.exclusions>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
