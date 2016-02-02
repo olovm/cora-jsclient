@@ -29,14 +29,33 @@
   transition: opacity 0.5s ease 0s;
   z-index: 100;
 }
+.removeButton:hover::before {
+  opacity: 0;
+}
 .removeButton::after {
   background: url("../images/icons2.svg") no-repeat scroll -32px 0px;
   content: "";
   height: 16px;
   width: 16px;
   position: absolute;
+  opacity: 0;
+}
+.removeButton:hover::after {
   opacity: 1;
 }
-.removeButton:hover::before {
-  opacity: 0;
+.removeButton::before, .removeButton::after {
+	top: 3px;
+	right: 2px;
+}
+.repeatingElement{
+	display: block;
+}
+.buttonView {
+	min-width: 20px;
+	min-height: 20px;
+	position: relative;
+	display: inline-block;
+}
+.pVar{
+	min-width: 30px;
 }

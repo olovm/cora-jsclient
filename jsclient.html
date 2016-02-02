@@ -234,7 +234,14 @@ var CORATEST = (function(coraTest) {
 		
 		var view = dependencies.presentation.getView();
 		place.appendChild(view);
-
+		
+		view.dataHolder = dependencies.dataHolder;
+		
+		function showData(){
+			var clientData = document.getElementById("client4Data");
+			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
+		}
+		document.getElementById("client4DataButton").onclick = showData;
 
 		var path2 = {
 				"name" : "linkedPath",
@@ -265,7 +272,11 @@ var CORATEST = (function(coraTest) {
 		style="background-color: rgb(158, 231, 55); min-height: 20px; min-width: 40px;"></div>
 	<h2>JSClient 4</h2>
 	<div id="client4"
-		style="background-color: rgb(248, 191, 91); min-height: 20px; min-width: 40px;"></div>
+		style="background-color: rgb(248, 191, 91); min-height: 20px; min-width: 40px;">
+		
+		</div>
+		<div id="client4Data"></div>
+		<input id="client4DataButton" type="button" value="Show data"></input>
 </body>
 </html>
 

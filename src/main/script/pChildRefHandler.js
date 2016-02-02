@@ -161,10 +161,12 @@ var CORA = (function(cora) {
 			noOfRepeating++;
 			updateView();
 		}
+		
 		function childRemoved() {
 			noOfRepeating--;
 			updateView();
 		}
+		
 		function updateView() {
 			if (showAddButton()) {
 				if (noOfRepeating === Number(repeatMax)) {
