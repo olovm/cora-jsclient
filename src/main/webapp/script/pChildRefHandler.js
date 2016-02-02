@@ -136,7 +136,6 @@ var CORA = (function(cora) {
 			var repeatingElementView = repeatingElement.getView();
 			noOfRepeating++;
 			childrenView.appendChild(repeatingElementView);
-
 			var presentation = presentationFactory.factor(newPath, cPresentation);
 			repeatingElement.addPresentation(presentation);
 

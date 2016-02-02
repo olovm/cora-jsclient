@@ -65,3 +65,10 @@ QUnit.test("testFactorPGroup", function(assert) {
 	var pGroup = this.newPresentationFactory.factor({},cPresentation);
 	assert.strictEqual(pGroup.type, "pGroup"); 
 });
+
+QUnit.test("testFactorPRepeatingContainer", function(assert) {
+	var presentationIdToFactor = "pTextVariableIdRContainer";
+	var cPresentation = CORA.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
+	var pGroup = this.newPresentationFactory.factor({},cPresentation);
+	assert.strictEqual(pGroup.type, "pRepeatingContainer"); 
+});

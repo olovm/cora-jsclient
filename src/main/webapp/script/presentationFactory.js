@@ -34,7 +34,7 @@ var CORA = (function(cora) {
 					"jsBookkeeper" : spec.jsBookkeeper
 				};
 				return CORA.pVar(varSpec);
-			} else {
+			} else if (type === "pGroup") {
 				var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 				var presentationId = CORA.coraData(recordInfo)
 						.getFirstAtomicValueByNameInData("id");
@@ -48,8 +48,20 @@ var CORA = (function(cora) {
 					"presentationFactory" : self
 				};
 				return CORA.pGroup(groupSpec);
+			} else {
+				var pRepeatingContainerSpec = {
+					"path" : path,
+					"cPresentation" : cPresentation,
+					"metadataProvider" : spec.metadataProvider,
+					"pubSub" : spec.pubSub,
+					"textProvider" : spec.textProvider,
+					"jsBookkeeper" : spec.jsBookkeeper,
+					"presentationFactory" : self
+				};
+				return CORA.pRepeatingContainer(pRepeatingContainerSpec);
 			}
 		}
+
 		var out = Object.freeze({
 			factor : factor
 		});

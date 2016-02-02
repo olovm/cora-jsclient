@@ -20,8 +20,10 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.presentationFactorySpy = function() {
 		var path;
-		function factor(pathIn, cPresentation) {
+		var cPresentation;
+		function factor(pathIn, cPresentationIn) {
 			path = pathIn;
+			cPresentation = cPresentationIn;
 			return {
 				"getView" : function() {
 					return document.createElement("span");
@@ -32,10 +34,14 @@ var CORATEST = (function(coraTest) {
 		function getPath(){
 			return path;
 		}
+		function getCPresentation(){
+			return cPresentation;
+		}
 		
 		return Object.freeze({
 			factor : factor,
-			getPath:getPath
+			getPath:getPath,
+			getCPresentation: getCPresentation
 		});
 	};
 	return coraTest;
