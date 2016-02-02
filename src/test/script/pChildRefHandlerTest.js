@@ -352,7 +352,7 @@ QUnit.test("testRepeatingElement", function(assert) {
 	};
 	assert.deepEqual(firstSubsription.path, path);
 //	var pVar = attachedPVar.pVar;
-	assert.ok(firstSubsription.functionToCall === repeatingElement.remove);
+//	assert.ok(firstSubsription.functionToCall === repeatingElement.remove);
 
 });
 QUnit.test("testRepeatingElementRemoveButton", function(assert) {
@@ -440,6 +440,7 @@ QUnit.test("testHideRemoveButtonWhenMaxRepeat", function(assert) {
 	assert.strictEqual(childrenView.childNodes.length, 3);
 	assert.ok(buttonView.offsetHeight === 0, "buttonView should be hidden");
 });
+
 QUnit.test("testShowRemoveButtonWhenBelowMaxRepeat", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
@@ -457,12 +458,10 @@ QUnit.test("testShowRemoveButtonWhenBelowMaxRepeat", function(assert) {
 	assert.strictEqual(childrenView.childNodes.length, 3);
 	assert.ok(buttonView.offsetHeight === 0, "buttonView should be hidden");
 	
-//	attachedPChildRefHandler.pChildRefHandler.childRemoved();
-	childrenView.firstChild.remove();
+	//call remove function
+	attachedPChildRefHandler.pubSub.getSubscriptions()[1].functionToCall();
 	assert.strictEqual(childrenView.childNodes.length, 2);
 	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
-	
-	
 });
 
 // groupInGroupOneTextChild

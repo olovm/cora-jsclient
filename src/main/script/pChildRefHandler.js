@@ -100,7 +100,6 @@ var CORA = (function(cora) {
 		function createButtonView() {
 			var buttonViewNew = document.createElement("span");
 			buttonViewNew.className = "buttonView";
-
 			return buttonViewNew;
 		}
 
@@ -127,54 +126,27 @@ var CORA = (function(cora) {
 
 		function add(repeatId) {
 			var newPath = calculatePathForNewElement(repeatId);
-			// repeating element
-			var repeatingElement = document.createElement("span");
-			repeatingElement.remove = function() {
-				childrenView.removeChild(repeatingElement);
-				childRemoved();
+			var repeatingElementSpec = {
+				"repeatMin" : repeatMin,
+				"repeatMax" : repeatMax,
+				"path" : newPath,
+				"jsBookkeeper" : spec.jsBookkeeper
 			};
-			pubSub.subscribe("remove", newPath, undefined, repeatingElement.remove);
-			repeatingElement.className = "repeatingElement";
-
-			// repeating buttonview
-			var repeatingButtonView = document.createElement("span");
-			repeatingButtonView.className = "buttonView";
-			repeatingElement.appendChild(repeatingButtonView);
-			childrenView.appendChild(repeatingElement);
-
-			if (showAddButton()) {
-				// remove button
-				var removeButton = document.createElement("span");
-				removeButton.className = "removeButton";
-				repeatingButtonView.appendChild(removeButton);
-				removeButton.onclick = function() {
-					var data = {
-						"type" : "remove",
-						"path" : newPath
-					};
-					spec.jsBookkeeper.remove(data);
-				};
-			}
-			var presentation = presentationFactory.factor(newPath, cPresentation);
-			repeatingElement.insertBefore(presentation.getView(), repeatingButtonView);
-
+			var repeatingElement = CORA.pRepeatingElement(repeatingElementSpec);
+			var repeatingElementView = repeatingElement.getView();
 			noOfRepeating++;
+			childrenView.appendChild(repeatingElementView);
+
+			var presentation = presentationFactory.factor(newPath, cPresentation);
+			repeatingElement.addPresentation(presentation);
+
 			updateView();
-		}
-		
-		function childRemoved() {
-			noOfRepeating--;
-			updateView();
-		}
-		
-		function updateView() {
 			if (showAddButton()) {
-				if (noOfRepeating === Number(repeatMax)) {
-					buttonView.styleOriginal = buttonView.style.display;
-					buttonView.style.display = "none";
-				} else {
-					buttonView.style.display = buttonView.styleOriginal;
-				}
+				var removeFunction = function() {
+					childrenView.removeChild(repeatingElementView);
+					childRemoved();
+				};
+				pubSub.subscribe("remove", newPath, undefined, removeFunction);
 			}
 		}
 
@@ -213,6 +185,38 @@ var CORA = (function(cora) {
 				return getLowestPath(cPath.getFirstChildByNameInData("linkedPath"));
 			}
 			return path;
+		}
+
+		function childRemoved() {
+			noOfRepeating--;
+			updateView();
+		}
+
+		function updateView() {
+			if (showAddButton()) {
+				updateButtonViewVisibility();
+			}
+		}
+
+		function updateButtonViewVisibility() {
+			if (maxLimitOfChildrenReached()) {
+				hideButtonView();
+			} else {
+				showButtonView();
+			}
+		}
+
+		function hideButtonView() {
+			buttonView.styleOriginal = buttonView.style.display;
+			buttonView.style.display = "none";
+		}
+
+		function showButtonView() {
+			buttonView.style.display = buttonView.styleOriginal;
+		}
+
+		function maxLimitOfChildrenReached() {
+			return noOfRepeating === Number(repeatMax);
 		}
 
 		function sendAdd() {
