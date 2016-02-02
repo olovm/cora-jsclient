@@ -44,6 +44,7 @@ var CORATEST = (function(coraTest) {
 				fixture : fixture,
 				metadataProvider : metadataProvider,
 				pubSub : pubSub,
+				jsBookkeeper:jsBookkeeper,
 				view : view
 			};
 
@@ -149,22 +150,22 @@ QUnit.test("testInitRepeatingStaticNoOfChildren", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat3to3", "pVarTextVariableId");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
-	
+
 	assert.ok(childRefHandler.isRepeating === true);
 	assert.ok(childRefHandler.isStaticNoOfChildren === true);
-	
+
 	var view = attachedPChildRefHandler.view;
 	assert.deepEqual(view.className, "pChildRefHandler pVarTextVariableId");
 	assert.deepEqual(view.nodeName, "SPAN");
 	assert.ok(view.modelObject === childRefHandler,
-	"modelObject should be a pointer to the javascript object instance");
+			"modelObject should be a pointer to the javascript object instance");
 	assert.strictEqual(view.childNodes.length, 1);
 	assert.strictEqual(view.childNodes[0].className, "childrenView");
-	
+
 	// subscription
 	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
 	assert.deepEqual(subscriptions.length, 1);
-	
+
 	var firstSubsription = subscriptions[0];
 	assert.strictEqual(firstSubsription.type, "add");
 	assert.deepEqual(firstSubsription.path, {});
@@ -314,26 +315,153 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 	assert.deepEqual(this.presentationFactory.getPath(), childPath);
 });
 
-//groupIdOneTextChildRepeat1to3
-//pgGroupIdOneTextTwoTextChildrenRepeat1to3
-QUnit.test("testHiddenAddButton", function(assert) {
+// groupIdOneTextChildRepeat1to3
+// pgGroupIdOneTextTwoTextChildrenRepeat1to3
+QUnit.test("testRepeatingElement", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
 	var view = attachedPChildRefHandler.view;
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+
+	// remove button
+	var repeatingElement = childrenView.childNodes[0];
+	assert.strictEqual(repeatingElement.className, "repeatingElement");
+	var repeatingButtonView = repeatingElement.childNodes[1];
+	assert.strictEqual(repeatingButtonView.className, "buttonView");
+	var removeButton = repeatingButtonView.firstChild;
+	assert.strictEqual(removeButton.className, "removeButton");
+
+	// subscription
+	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 2);
+
+	var firstSubsription = subscriptions[1];
+	assert.strictEqual(firstSubsription.type, "remove");
+	var path = {
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		}, {
+			"name" : "repeatId",
+			"value" : "one"
+		} ],
+		"name" : "linkedPath"
+	};
+	assert.deepEqual(firstSubsription.path, path);
+//	var pVar = attachedPVar.pVar;
+//	assert.ok(firstSubsription.functionToCall === repeatingElement.remove);
+
+});
+QUnit.test("testRepeatingElementRemoveButton", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
 	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+	
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+	
+	// remove button
+	var repeatingElement = childrenView.childNodes[0];
+	assert.strictEqual(repeatingElement.className, "repeatingElement");
+	var repeatingButtonView = repeatingElement.childNodes[1];
+	assert.strictEqual(repeatingButtonView.className, "buttonView");
+	var removeButton = repeatingButtonView.firstChild;
+	assert.strictEqual(removeButton.className, "removeButton");
+	
+	removeButton.onclick();
+	// subscription
+	var removes = attachedPChildRefHandler.jsBookkeeper.getRemoveDataArray();
+	assert.deepEqual(removes.length, 1);
+
+	var firstRemove = removes[0];
+	assert.strictEqual(firstRemove.type, "remove");
+	var path = {
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		}, {
+			"name" : "repeatId",
+			"value" : "one"
+		} ],
+		"name" : "linkedPath"
+	};
+	assert.deepEqual(firstRemove.path, path);
+
+	
+});
+QUnit.test("testRepeatingElementStaticNoOfChildrenNoRemoveButton", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChildRepeat3to3", "pVarTextVariableId");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+
+	assert.ok(childRefHandler.isRepeating === true);
+	assert.ok(childRefHandler.isStaticNoOfChildren === true);
+
+	var view = attachedPChildRefHandler.view;
+	assert.deepEqual(view.className, "pChildRefHandler pVarTextVariableId");
+	assert.deepEqual(view.nodeName, "SPAN");
+	assert.ok(view.modelObject === childRefHandler,
+			"modelObject should be a pointer to the javascript object instance");
+	assert.strictEqual(view.childNodes.length, 1);
+	assert.strictEqual(view.childNodes[0].className, "childrenView");
+
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+
+	// remove button
+	var repeatingElement = childrenView.childNodes[0];
+	assert.strictEqual(repeatingElement.className, "repeatingElement");
+	var repeatingButtonView = repeatingElement.childNodes[1];
+	assert.strictEqual(repeatingButtonView.className, "buttonView");
+	assert.strictEqual(repeatingButtonView.childNodes.length, 0);
+	
+});
+
+QUnit.test("testHideRemoveButtonWhenMaxRepeat", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
 	var buttonView = view.childNodes[1];
 	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
-	
+
 	attachedPChildRefHandler.pChildRefHandler.add("one");
 	attachedPChildRefHandler.pChildRefHandler.add("two");
 	attachedPChildRefHandler.pChildRefHandler.add("three");
 
 	assert.strictEqual(childrenView.childNodes.length, 3);
 	assert.ok(buttonView.offsetHeight === 0, "buttonView should be hidden");
+});
 
+QUnit.test("testShowRemoveButtonWhenBelowMaxRepeat", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+	
+	var buttonView = view.childNodes[1];
+	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
+	
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+	attachedPChildRefHandler.pChildRefHandler.add("two");
+	attachedPChildRefHandler.pChildRefHandler.add("three");
+	
+	assert.strictEqual(childrenView.childNodes.length, 3);
+	assert.ok(buttonView.offsetHeight === 0, "buttonView should be hidden");
+	
+	//call remove function
+	attachedPChildRefHandler.pubSub.getSubscriptions()[1].functionToCall();
+	assert.strictEqual(childrenView.childNodes.length, 2);
+	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
 });
 
 // groupInGroupOneTextChild

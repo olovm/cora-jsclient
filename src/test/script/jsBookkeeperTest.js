@@ -89,3 +89,20 @@ QUnit.test("testAdd", function(assert) {
 
 	assert.equal(messages.length, 1);
 });
+QUnit.test("testremove", function(assert) {
+	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild");
+	var data = {
+			"path" : {}
+	};
+	jsBookkeeper.remove(data);
+	var messages = this.pubSub.getMessages();
+	var expectedMessage = {
+			"type" : "remove",
+			"message" : {
+				"path" : {}
+			}
+	};
+	assert.stringifyEqual(messages[0], expectedMessage);
+	
+	assert.equal(messages.length, 1);
+});

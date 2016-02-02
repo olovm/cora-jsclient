@@ -34,7 +34,7 @@ QUnit.module("CORA.DataHolder", {
 				"pubSub" : this.pubSub
 			};
 			return CORA.dataHolder(spec);
-		}
+		};
 	},
 	afterEach : function() {
 	}
@@ -42,8 +42,6 @@ QUnit.module("CORA.DataHolder", {
 
 QUnit.test("testInit", function(assert) {
 	var dataHolder = this.newDataHolder("recordTypeOnlyMetadataIdChild");
-	assert.deepEqual("recordTypeOnlyMetadataIdChild", dataHolder.getMetadataId());
-	assert.ok(dataHolder.getPubSub());
 
 	// subscription
 	var subscriptions = this.pubSub.getSubscriptions();
@@ -52,15 +50,8 @@ QUnit.test("testInit", function(assert) {
 	var firstSubscription = subscriptions[0];
 	assert.strictEqual(firstSubscription.type, "*");
 	assert.deepEqual(firstSubscription.path, {});
-	// assert.ok(firstSubsription.functionToCall === dataHolder.handleMsg);
+	 assert.ok(firstSubscription.functionToCall === dataHolder.handleMsg);
 });
-
-// QUnit.test("testCreateBroken", function() {
-// throws(function() {
-// new CORA.DataHolder("brokenMetadataNoNameInData", this.metadataProvider,
-// this.pubSub);
-// }, "TypeError");
-// });
 
 QUnit.test("testCreateOneChild", function(assert) {
 	var dataHolder = this.newDataHolder("groupIdOneTextChild");
@@ -735,6 +726,63 @@ QUnit.test("setValueEightDifferentChildrenWithRepeatIdSomeWithAttributeAndChildr
 
 			assert.stringifyEqual(dataHolder.getData(), expected);
 		});
+
+
+QUnit.test("testRemoveSecondLevel", function(assert) {
+	var dataHolder = this.newDataHolder("groupIdOneTextChild");
+	var path = {};
+	dataHolder.addChild(path, "groupIdOneTextChild");
+
+	var path2 = createLinkedPathWithNameInData("groupIdOneTextChild");
+	dataHolder.addChild(path2, "textVariableId");
+
+	var path3 = createLinkedPathWithNameInData("groupIdOneTextChild");
+	path3.children.push(createLinkedPathWithNameInData("textVariableId"));
+	dataHolder.remove(path3);
+	var expected = {
+		"name" : "groupIdOneTextChild",
+		"children" : [ {
+			"name" : "groupIdOneTextChild",
+			"children" : [  ]
+		} ]
+	};
+	assert.stringifyEqual(dataHolder.getData(), expected);
+});
+QUnit.test("testRemoveChildToGroupIdOneTextChildWrongNameInData", function(assert) {
+	var dataHolder = this.newDataHolder("groupIdOneTextChild");
+	var path = {};
+	dataHolder.addChild(path, "groupIdOneTextChild");
+	
+	var path2 = createLinkedPathWithNameInData("groupIdOneTextChild");
+	dataHolder.addChild(path2, "textVariableId");
+	
+	var path3 = createLinkedPathWithNameInData("groupIdOneTextChild");
+	path3.children.push(createLinkedPathWithNameInData("textVariableIdNOT"));
+	throws(function() {
+		dataHolder.remove(path3);
+	}, "Error");
+});
+QUnit.test("testHandleMessageRemove", function(assert) {
+	var dataHolder = this.newDataHolder("groupIdOneTextChild");
+	var path = {};
+	dataHolder.addChild(path, "groupIdOneTextChild");
+
+	var path2 = createLinkedPathWithNameInData("groupIdOneTextChild");
+	dataHolder.addChild(path2, "textVariableId");
+
+	var path3 = createLinkedPathWithNameInData("groupIdOneTextChild");
+	path3.children.push(createLinkedPathWithNameInData("textVariableId"));
+	dataHolder.handleMsg({"path":path3, "type": "remove"},"x/y/z/remove");
+	var expected = {
+		"name" : "groupIdOneTextChild",
+		"children" : [ {
+			"name" : "groupIdOneTextChild",
+			"children" : [  ]
+		} ]
+	};
+	assert.stringifyEqual(dataHolder.getData(), expected);
+});
+
 
 function createLinkedPathWithNameInData(nameInData) {
 	return {

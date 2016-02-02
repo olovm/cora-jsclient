@@ -100,7 +100,6 @@ var CORA = (function(cora) {
 		function createButtonView() {
 			var buttonViewNew = document.createElement("span");
 			buttonViewNew.className = "buttonView";
-
 			return buttonViewNew;
 		}
 
@@ -127,14 +126,27 @@ var CORA = (function(cora) {
 
 		function add(repeatId) {
 			var newPath = calculatePathForNewElement(repeatId);
-			var presentation = presentationFactory.factor(newPath, cPresentation);
-			childrenView.appendChild(presentation.getView());
+			var repeatingElementSpec = {
+				"repeatMin" : repeatMin,
+				"repeatMax" : repeatMax,
+				"path" : newPath,
+				"jsBookkeeper" : spec.jsBookkeeper
+			};
+			var repeatingElement = CORA.pRepeatingElement(repeatingElementSpec);
+			var repeatingElementView = repeatingElement.getView();
 			noOfRepeating++;
+			childrenView.appendChild(repeatingElementView);
+
+			var presentation = presentationFactory.factor(newPath, cPresentation);
+			repeatingElement.addPresentation(presentation);
+
 			updateView();
-		}
-		function updateView() {
-			if (isRepeating && noOfRepeating === Number(repeatMax)) {
-				buttonView.style.display = "none";
+			if (showAddButton()) {
+				var removeFunction = function() {
+					childrenView.removeChild(repeatingElementView);
+					childRemoved();
+				};
+				pubSub.subscribe("remove", newPath, undefined, removeFunction);
 			}
 		}
 
@@ -175,6 +187,38 @@ var CORA = (function(cora) {
 			return path;
 		}
 
+		function childRemoved() {
+			noOfRepeating--;
+			updateView();
+		}
+
+		function updateView() {
+			if (showAddButton()) {
+				updateButtonViewVisibility();
+			}
+		}
+
+		function updateButtonViewVisibility() {
+			if (maxLimitOfChildrenReached()) {
+				hideButtonView();
+			} else {
+				showButtonView();
+			}
+		}
+
+		function hideButtonView() {
+			buttonView.styleOriginal = buttonView.style.display;
+			buttonView.style.display = "none";
+		}
+
+		function showButtonView() {
+			buttonView.style.display = buttonView.styleOriginal;
+		}
+
+		function maxLimitOfChildrenReached() {
+			return noOfRepeating === Number(repeatMax);
+		}
+
 		function sendAdd() {
 			var data = {
 				"metadataId" : metadataId,
@@ -189,7 +233,8 @@ var CORA = (function(cora) {
 			handleMsg : handleMsg,
 			isRepeating : isRepeating,
 			isStaticNoOfChildren : isStaticNoOfChildren,
-			sendAdd : sendAdd
+			sendAdd : sendAdd,
+			childRemoved : childRemoved
 		});
 		view.modelObject = out;
 		if (showAddButton()) {
