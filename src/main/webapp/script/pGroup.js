@@ -27,15 +27,15 @@ var CORA = (function(cora) {
 		var jsBookkeeper = spec.jsBookkeeper;
 		var presentationFactory = spec.presentationFactory;
 
-		var presentationMetadata = getMetadataById(presentationId);
-		var cMetadataElement = getMetadataById(presentationMetadata
+		var cParentPresentation = getMetadataById(presentationId);
+		var cMetadataElement = getMetadataById(cParentPresentation
 				.getFirstAtomicValueByNameInData("presentationOf"));
 
 		var view = createBaseView();
 
 		function createBaseView() {
 			var viewNew = createBaseViewHolder();
-			var presentationChildren = presentationMetadata
+			var presentationChildren = cParentPresentation
 					.getFirstChildByNameInData("childReferences").children;
 			presentationChildren.forEach(function(presentationChildRef) {
 				viewNew.appendChild(createViewForChild(presentationChildRef));
@@ -65,14 +65,14 @@ var CORA = (function(cora) {
 //						cParentPresentation);
 				//should create a new surroundingContainer
 				var presentation = presentationFactory.factor(path, cPresentationChild,
-						presentationMetadata);
+						cParentPresentation);
 				return presentation.getView();
 			}
 			var childRefHandlerSpec = {
 				"parentPath" : path,
 				"cParentMetadata" : cMetadataElement,
 				"cPresentation" : cPresentationChild,
-				"cParentPresentation" : presentationMetadata,
+				"cParentPresentation" : cParentPresentation,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,

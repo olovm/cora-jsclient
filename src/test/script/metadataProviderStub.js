@@ -1751,7 +1751,7 @@ function MetadataProviderStub() {
 						"repeatId" : "2",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "pTextVariablePlus2SContainer2"
+							"value" : "pTextVariablePlus2SContainer"
 						}, {
 							"name" : "default",
 							"value" : "ref"

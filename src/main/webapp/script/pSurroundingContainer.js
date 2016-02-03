@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -29,8 +30,12 @@ var CORA = (function(cora) {
 		var presentationFactory = spec.presentationFactory;
 
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-
+//		console.log("cParentPresentation", JSON.stringify(cParentPresentation.getData()));
+		var presentationMetadata = cParentPresentation;
+		
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+//		console.log("in pSurroundingContainer");
+//		console.log("cParentPresentation", JSON.stringify(cParentPresentation.getData()));
 		var cMetadataElement = getMetadataById(cParentPresentation
 				.getFirstAtomicValueByNameInData("presentationOf"));
 		var view = createBaseView();
@@ -47,33 +52,8 @@ var CORA = (function(cora) {
 
 			return viewNew;
 		}
-//		function createViewForChildOLD(presentationChildRef) {
-//			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-//			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
-//			var cPresentationChild = getMetadataById(presRef);
-//
-//			if (cPresentationChild.getData().name === "text") {
-//				return document.createTextNode(textProvider.getTranslation(presRef));
-//			}
-//			
-//			//TODO: should handle surroundingContainer, see pGroup
-////			 console.log("cPresentationChild:"+JSON.stringify(cPresentationChild.getData()))
-//			var childRefHandlerSpec = {
-//				"parentPath" : path,
-//				"cParentMetadata" : cMetadataElement,
-//				"cPresentation" : cPresentationChild,
-//				"metadataProvider" : metadataProvider,
-//				"pubSub" : pubSub,
-//				"textProvider" : textProvider,
-//				"jsBookkeeper" : jsBookkeeper,
-//				"presentationFactory" : presentationFactory
-//			};
-//			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
-//			return pChildRefHandler.getView();
-//			// var presentation = presentationFactory.factor(path, cPresentationChild);
-//			// return presentation.getView();
-//		}
-		var presentationMetadata = cParentPresentation;
+		
+		//TODO: this is the same code as in pGroup, fix duplication 
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
 			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
@@ -90,14 +70,14 @@ var CORA = (function(cora) {
 //						cParentPresentation);
 				//should create a new surroundingContainer
 				var presentation = presentationFactory.factor(path, cPresentationChild,
-						presentationMetadata);
+						cParentPresentation);
 				return presentation.getView();
 			}
 			var childRefHandlerSpec = {
 				"parentPath" : path,
 				"cParentMetadata" : cMetadataElement,
 				"cPresentation" : cPresentationChild,
-				"cParentPresentation" : presentationMetadata,
+				"cParentPresentation" : cParentPresentation,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,

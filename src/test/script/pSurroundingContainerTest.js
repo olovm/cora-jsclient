@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -78,14 +79,6 @@ QUnit.module("CORA.pSurroundingContainer", {
 });
 
 QUnit.test("testInit", function(assert) {
-
-	// groupIdTwoTextChildRepeat1to5
-	// pgGroupIdTwoTextChildSurrounding2TextPGroup
-	// "pTextVariablePlus2SContainer":
-
-	// case "pgGroupIdTwoTextChildSurrounding2TextPGroup":
-//	pgGroupIdTwoTextChildSurrounding2TextPGroup
-
 	var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
 			"pTextVariablePlus2SContainer", "pgGroupIdTwoTextChildSurrounding2TextPGroup");
 	assert.strictEqual(attachedPSurroundingContainer.pSurroundingContainer.type,
@@ -101,13 +94,28 @@ QUnit.test("testInit", function(assert) {
 
 	var childRefHandler = view.childNodes[1];
 	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
-	
-	var childRefHandler = view.childNodes[2];
-	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId2");
 
-	// var cPresentation = this.presentationFactory.getCPresentation();
-	// var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-	//
-	// var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
-	// assert.strictEqual(presentationId, "pVarTextVariableId");
+	var childRefHandler2 = view.childNodes[2];
+	assert.deepEqual(childRefHandler2.className, "pChildRefHandler pVarTextVariableId2");
+});
+
+QUnit.test("testNestedSurroundingContainer", function(assert) {
+	var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
+			"pTextVariablePlus2SContainer2", "pgGroupIdTwoTextChildSurrounding2TextPGroup2");
+	assert.strictEqual(attachedPSurroundingContainer.pSurroundingContainer.type,
+			"pSurroundingContainer");
+	assert.deepEqual(attachedPSurroundingContainer.view.className, "pSurroundingContainer "
+			+ "pTextVariablePlus2SContainer2");
+	var view = attachedPSurroundingContainer.view;
+	assert.ok(view.modelObject === attachedPSurroundingContainer.pSurroundingContainer,
+			"modelObject should be a pointer to the javascript object instance");
+	assert.strictEqual(view.childNodes.length, 2);
+
+	assert.strictEqual(view.childNodes[0].textContent, "En rubrik");
+
+	var requestedCPresentation = this.presentationFactory.getCPresentation();
+	var recordInfo = requestedCPresentation.getFirstChildByNameInData("recordInfo");
+
+	var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+	assert.strictEqual(presentationId, "pTextVariablePlus2SContainer");
 });
