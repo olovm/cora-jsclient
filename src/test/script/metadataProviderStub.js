@@ -1706,21 +1706,86 @@ function MetadataProviderStub() {
 							"value" : "ref"
 						} ]
 					}
-					// , {
-					// "name" : "childReference",
-					// "repeatId" : "2",
-					// "children" : [ {
-					// "name" : "ref",
-					// "value" : "pVarTextVariableId2"
-					// }, {
-					// "name" : "default",
-					// "value" : "ref"
-					// } ]
-					// }
 					]
 				} ])
 			};
 			break;
+		case "pTextVariablePlus2SContainer2":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "container",
+					"repeat" : "children"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "pTextVariablePlus2SContainer2"
+					} ]
+				}, {
+					"name" : "presentationsOf",
+					"children" : [ {
+						"repeatId" : "1",
+						"name" : "presentationOf",
+						"value" : "textVariableId"
+					}, {
+						"repeatId" : "2",
+						"name" : "presentationOf",
+						"value" : "textVariableId2"
+					} ]
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "aHeadlineText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pTextVariablePlus2SContainer2"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ]
+			};
+			break;
+		case "pgGroupIdTwoTextChildSurrounding2TextPGroup2":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "groupIdTwoTextChildRepeat1to5"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pTextVariablePlus2SContainer2"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				}
+				]
+			} ])
+		};
+		break;
 		case "asdfasdfsad":
 			return {
 				"name" : "presentation",

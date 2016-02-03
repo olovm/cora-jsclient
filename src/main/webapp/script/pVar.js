@@ -43,7 +43,7 @@ var CORA = (function(cora) {
 		var text = textProvider.getTranslation(textId);
 
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
-		console.log("pVar:"+defTextId);
+//		console.log("pVar:"+defTextId);
 		var defText = textProvider.getTranslation(defTextId);
 
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");

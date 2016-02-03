@@ -47,19 +47,57 @@ var CORA = (function(cora) {
 
 			return viewNew;
 		}
+//		function createViewForChildOLD(presentationChildRef) {
+//			var cPresentationChildRef = CORA.coraData(presentationChildRef);
+//			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
+//			var cPresentationChild = getMetadataById(presRef);
+//
+//			if (cPresentationChild.getData().name === "text") {
+//				return document.createTextNode(textProvider.getTranslation(presRef));
+//			}
+//			
+//			//TODO: should handle surroundingContainer, see pGroup
+////			 console.log("cPresentationChild:"+JSON.stringify(cPresentationChild.getData()))
+//			var childRefHandlerSpec = {
+//				"parentPath" : path,
+//				"cParentMetadata" : cMetadataElement,
+//				"cPresentation" : cPresentationChild,
+//				"metadataProvider" : metadataProvider,
+//				"pubSub" : pubSub,
+//				"textProvider" : textProvider,
+//				"jsBookkeeper" : jsBookkeeper,
+//				"presentationFactory" : presentationFactory
+//			};
+//			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
+//			return pChildRefHandler.getView();
+//			// var presentation = presentationFactory.factor(path, cPresentationChild);
+//			// return presentation.getView();
+//		}
+		var presentationMetadata = cParentPresentation;
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
 			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
 			var cPresentationChild = getMetadataById(presRef);
 
+//			console.log("cPresentationChild:"+JSON.stringify(cPresentationChild.getData()));
 			if (cPresentationChild.getData().name === "text") {
 				return document.createTextNode(textProvider.getTranslation(presRef));
+			}else if("children" ===cPresentationChild.getData().attributes.repeat){
+//				console.log("children");
+//				var repeat = cPresentationChild.getData().attributes.repeat;
+//				if (repeat === "this") {
+//				var presentation = presentationFactory.factor(newPath, cPresentation,
+//						cParentPresentation);
+				//should create a new surroundingContainer
+				var presentation = presentationFactory.factor(path, cPresentationChild,
+						presentationMetadata);
+				return presentation.getView();
 			}
-//			 console.log("cPresentationChild:"+JSON.stringify(cPresentationChild.getData()))
 			var childRefHandlerSpec = {
 				"parentPath" : path,
 				"cParentMetadata" : cMetadataElement,
 				"cPresentation" : cPresentationChild,
+				"cParentPresentation" : presentationMetadata,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
@@ -68,8 +106,6 @@ var CORA = (function(cora) {
 			};
 			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
 			return pChildRefHandler.getView();
-			// var presentation = presentationFactory.factor(path, cPresentationChild);
-			// return presentation.getView();
 		}
 		function getMetadataById(id) {
 			return CORA.coraData(metadataProvider.getMetadataById(id));

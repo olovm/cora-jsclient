@@ -126,7 +126,7 @@ var CORA = (function(cora) {
 //			console.log("dataFromMSG:"+JSON.stringify(dataFromMsg))
 
 			if (metadataId === dataFromMsg.metadataId) {
-				console.log("dataFromMSG my data:"+JSON.stringify(dataFromMsg))
+//				console.log("dataFromMSG my data:"+JSON.stringify(dataFromMsg))
 				add(dataFromMsg.repeatId);
 			}
 		}
@@ -147,8 +147,8 @@ var CORA = (function(cora) {
 			var presentation = presentationFactory.factor(newPath, cPresentation,
 					cParentPresentation);
 			repeatingElement.addPresentation(presentation);
-			console.log("add : "+presentation.getView())
-			console.log(presentation.getView())
+//			console.log("add : "+presentation.getView())
+//			console.log(presentation.getView())
 
 			updateView();
 			if (showAddButton()) {

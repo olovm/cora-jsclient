@@ -54,11 +54,11 @@ var CORA = (function(cora) {
 			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
 			var cPresentationChild = getMetadataById(presRef);
 
-			console.log("cPresentationChild:"+JSON.stringify(cPresentationChild.getData()));
+//			console.log("cPresentationChild:"+JSON.stringify(cPresentationChild.getData()));
 			if (cPresentationChild.getData().name === "text") {
 				return document.createTextNode(textProvider.getTranslation(presRef));
 			}else if("children" ===cPresentationChild.getData().attributes.repeat){
-				console.log("children");
+//				console.log("children");
 //				var repeat = cPresentationChild.getData().attributes.repeat;
 //				if (repeat === "this") {
 //				var presentation = presentationFactory.factor(newPath, cPresentation,

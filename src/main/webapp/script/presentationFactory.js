@@ -33,7 +33,7 @@ var CORA = (function(cora) {
 					"textProvider" : spec.textProvider,
 					"jsBookkeeper" : spec.jsBookkeeper
 				};
-				console.log("factory");
+//				console.log("factory");
 				return CORA.pVar(varSpec);
 			} else if (type === "pGroup") {
 				var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");

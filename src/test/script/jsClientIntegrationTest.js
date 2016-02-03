@@ -249,7 +249,7 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurro
 	var view = presentation.getView();
 	// console.log(view);
 	this.fixture.appendChild(view);
-	console.log(view);
+//	console.log(view);
 	
 	//topPGroupView = topSurroundingContainer
 	var topPGroupView = view.firstChild;
