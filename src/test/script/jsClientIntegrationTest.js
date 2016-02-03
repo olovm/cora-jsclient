@@ -234,6 +234,32 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerTwoLe
 	});
 });
 
+
+QUnit.test("testIntegrateRepeatingContainer", function(
+		assert) {
+	var metadataId = "groupIdOneTextChildRepeat1to3";
+	var presentationId = "pgGroupIdRepeatingContainerRepeat1to3";
+	
+	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId);
+	var presentation = dependencies.presentation;
+	var dataHolder = dependencies.dataHolder;
+	
+	var view = presentation.getView();
+	this.fixture.appendChild(view);
+	
+	var topPGroupView = view.firstChild;
+	var headline = topPGroupView.childNodes[0];
+	assert.strictEqual(headline.textContent, "En rubrik");
+	
+	var repeatingContainer = topPGroupView.childNodes[1];
+	assert.deepEqual(repeatingContainer.className, "pChildRefHandler pTextVariableIdRContainer");
+	
+	var childrenView = repeatingContainer.firstChild;
+	var repeatingElement = childrenView.firstChild;
+	var pVarView = repeatingElement.firstChild;
+	assert.deepEqual(pVarView.className, "pRepeatingContainer pTextVariableIdRContainer");
+});
+
 QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurroundingC", function(
 		assert) {
 	var metadataId = "groupIdTwoTextChildRepeat1to5";
@@ -279,7 +305,6 @@ QUnit.test("testIntegrateSurroundingContainerInSurroundingContainer", function(
 	this.fixture.appendChild(view);
 	
 	var topPGroupView = view.firstChild;
-	console.log(view);
 	var surroundingContainer = topPGroupView.childNodes[0];
 	
 	var headline = surroundingContainer.childNodes[0];
