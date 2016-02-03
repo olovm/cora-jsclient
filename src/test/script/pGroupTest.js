@@ -21,8 +21,11 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.attachedPGroupFactory = function(metadataProvider, pubSub, textProvider, fixture) {
 		var factor = function(presentationId) {
+			var cPresentation = CORA.coraData(metadataProvider
+					.getMetadataById(presentationId));
 			var spec = {
-				"presentationId" : presentationId,
+//				"presentationId" : presentationId,
+				"cPresentation" : cPresentation,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider

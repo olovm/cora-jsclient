@@ -82,7 +82,7 @@ QUnit.test("testAdd", function(assert) {
 		"message" : {
 			"metadataId" : "aMetadataId",
 			"path" : {},
-			"repeatId" : "0"
+			"repeatId" : "100"
 		}
 	};
 	assert.stringifyEqual(messages[0], expectedMessage);

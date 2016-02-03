@@ -6,6 +6,9 @@
 	min-height: 13px;
 	min-width: 13px;
 }
+.pGroup .pGroup {
+	background-color: cyan;
+}
 .error input{
 	background-color: red;
 }
@@ -58,4 +61,16 @@
 }
 .pVar{
 	min-width: 30px;
+}
+.pRepeatingContainer {
+	border: 1px dashed green;
+	display: inline-block;
+}
+.pSurroundingContainer {
+	border: 1px dashed red;
+	display: inline-block;
+}
+.pChildRefHandler {
+	border: 1px dashed blue;
+	display: block;
 }

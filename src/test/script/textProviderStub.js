@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -28,6 +29,14 @@ var CORATEST = (function(coraTest) {
 				// "Example text variable"
 				break;
 			case "textVariableIdDefText":
+				return "Detta är en exempeldefinition för en textvariabel.";
+				// This is an example definition for a text variable.
+				break;
+			case "textVariableId2Text":
+				return "Exempel textvariabel";
+				// "Example text variable"
+				break;
+			case "textVariableId2DefText":
 				return "Detta är en exempeldefinition för en textvariabel.";
 				// This is an example definition for a text variable.
 				break;

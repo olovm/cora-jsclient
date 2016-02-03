@@ -26,7 +26,6 @@ var CORA = (function(cora) {
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
 		var jsBookkeeper = spec.jsBookkeeper;
-
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
@@ -138,7 +137,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type":"pVar",
+			"type" : "pVar",
 			getView : getView,
 			setValue : setValue,
 			handleMsg : handleMsg,

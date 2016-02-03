@@ -23,11 +23,13 @@ var CORA = (function(cora) {
 		var parentPath = spec.parentPath;
 		var cParentMetadata = spec.cParentMetadata;
 		var cPresentation = spec.cPresentation;
+		var cParentPresentation = spec.cParentPresentation;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
 		var presentationFactory = spec.presentationFactory;
 
 		var presentationId = findPresentationId(cPresentation);
+		// console.log("cPresentation:"+JSON.stringify(cPresentation.getData()))
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
 
@@ -119,7 +121,13 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsg(dataFromMsg) {
+			// console.log("handle message
+			// cMetadataElement:"+JSON.stringify(cMetadataElement.getData()))
+			// console.log("dataFromMSG:"+JSON.stringify(dataFromMsg))
+
 			if (metadataId === dataFromMsg.metadataId) {
+				// console.log("dataFromMSG my
+				// data:"+JSON.stringify(dataFromMsg))
 				add(dataFromMsg.repeatId);
 			}
 		}
@@ -136,7 +144,8 @@ var CORA = (function(cora) {
 			var repeatingElementView = repeatingElement.getView();
 			noOfRepeating++;
 			childrenView.appendChild(repeatingElementView);
-			var presentation = presentationFactory.factor(newPath, cPresentation);
+			var presentation = presentationFactory.factor(newPath, cPresentation,
+					cParentPresentation);
 			repeatingElement.addPresentation(presentation);
 
 			updateView();

@@ -44,8 +44,8 @@ QUnit.module("CORA.presentationFactory", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
-		this.newPresentationFactoryFactory = CORATEST.presentationFactoryFactory(this.metadataProvider,
-				this.pubSub, this.textProvider);
+		this.newPresentationFactoryFactory = CORATEST.presentationFactoryFactory(
+				this.metadataProvider, this.pubSub, this.textProvider);
 		this.newPresentationFactory = this.newPresentationFactoryFactory.factor();
 	},
 	afterEach : function() {
@@ -54,21 +54,35 @@ QUnit.module("CORA.presentationFactory", {
 
 QUnit.test("testFactorPVar", function(assert) {
 	var presentationIdToFactor = "pVarTextVariableId";
-	var cPresentation = CORA.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
-	var pVar = this.newPresentationFactory.factor({},cPresentation);
-	assert.strictEqual(pVar.type, "pVar"); 
+	var cPresentation = CORA
+			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
+	var pVar = this.newPresentationFactory.factor({}, cPresentation);
+	assert.strictEqual(pVar.type, "pVar");
 });
 
 QUnit.test("testFactorPGroup", function(assert) {
 	var presentationIdToFactor = "pgGroupIdOneTextChild";
-	var cPresentation = CORA.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
-	var pGroup = this.newPresentationFactory.factor({},cPresentation);
-	assert.strictEqual(pGroup.type, "pGroup"); 
+	var cPresentation = CORA
+			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
+	var pGroup = this.newPresentationFactory.factor({}, cPresentation);
+	assert.strictEqual(pGroup.type, "pGroup");
 });
 
 QUnit.test("testFactorPRepeatingContainer", function(assert) {
 	var presentationIdToFactor = "pTextVariableIdRContainer";
-	var cPresentation = CORA.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
-	var pGroup = this.newPresentationFactory.factor({},cPresentation);
-	assert.strictEqual(pGroup.type, "pRepeatingContainer"); 
+	var cPresentation = CORA
+			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
+	var pGroup = this.newPresentationFactory.factor({}, cPresentation);
+	assert.strictEqual(pGroup.type, "pRepeatingContainer");
+});
+
+QUnit.test("testFactorPSurroundingContainer", function(assert) {
+	var presentationIdToFactor = "pTextVariablePlus2SContainer";
+	var presentationIdToFactorParent = "pgGroupIdTwoTextChildSurrounding2TextPGroup";
+	var cPresentation = CORA
+			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
+	var cParentPresentation = CORA.coraData(this.metadataProvider
+			.getMetadataById(presentationIdToFactorParent));
+	var pGroup = this.newPresentationFactory.factor({}, cPresentation, cParentPresentation);
+	assert.strictEqual(pGroup.type, "pSurroundingContainer");
 });

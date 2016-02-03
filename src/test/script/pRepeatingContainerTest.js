@@ -89,8 +89,8 @@ QUnit.test("testInit",
 
 			assert.strictEqual(view.childNodes[0].textContent, "En rubrik");
 
-			var cPresentation = this.presentationFactory.getCPresentation();
-			var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
+			var requestedCPresentation = this.presentationFactory.getCPresentation();
+			var recordInfo = requestedCPresentation.getFirstChildByNameInData("recordInfo");
 
 			var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 			assert.strictEqual(presentationId, "pVarTextVariableId");

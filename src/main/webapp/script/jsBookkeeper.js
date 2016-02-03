@@ -21,7 +21,7 @@ var CORA = (function(cora) {
 	cora.jsBookkeeper = function(spec) {
 		var pubSub = spec.pubSub;
 
-		var repeatId = 0;
+		var repeatId = 100;
 
 		function setValue(data) {
 			pubSub.publish("setValue", data);

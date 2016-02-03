@@ -55,10 +55,10 @@ var CORATEST = (function(coraTest) {
 			};
 			var dataHolder = CORA.dataHolder(specDataHolder);
 			// // log all messages
-//			pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
-//				console.log("msg: " + msg);
-//				console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
-//			});
+			// pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
+			// console.log("msg: " + msg);
+			// console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
+			// });
 			var specMetadataController = {
 				"metadataId" : metadataId,
 				"data" : undefined,
@@ -82,7 +82,6 @@ var CORATEST = (function(coraTest) {
 
 	return coraTest;
 }(CORATEST || {}));
-
 
 QUnit.module("CORA.JsClientIntegration", {
 	beforeEach : function() {
@@ -185,7 +184,7 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerTwoLe
 	var dataHolder = dependencies.dataHolder;
 
 	var view = presentation.getView();
-//	console.log(view);
+	// console.log(view);
 	this.fixture.appendChild(view);
 
 	var topPGroupView = view.firstChild;
@@ -233,4 +232,97 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerTwoLe
 		} ],
 		"name" : "groupInGroupOneTextChild"
 	});
+});
+
+
+QUnit.test("testIntegrateRepeatingContainer", function(
+		assert) {
+	var metadataId = "groupIdOneTextChildRepeat1to3";
+	var presentationId = "pgGroupIdRepeatingContainerRepeat1to3";
+	
+	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId);
+	var presentation = dependencies.presentation;
+	var dataHolder = dependencies.dataHolder;
+	
+	var view = presentation.getView();
+	this.fixture.appendChild(view);
+	
+	var topPGroupView = view.firstChild;
+	var headline = topPGroupView.childNodes[0];
+	assert.strictEqual(headline.textContent, "En rubrik");
+	
+	var repeatingContainer = topPGroupView.childNodes[1];
+	assert.deepEqual(repeatingContainer.className, "pChildRefHandler pTextVariableIdRContainer");
+	
+	var childrenView = repeatingContainer.firstChild;
+	var repeatingElement = childrenView.firstChild;
+	var pVarView = repeatingElement.firstChild;
+	assert.deepEqual(pVarView.className, "pRepeatingContainer pTextVariableIdRContainer");
+});
+
+QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurroundingC", function(
+		assert) {
+	var metadataId = "groupIdTwoTextChildRepeat1to5";
+	var presentationId = "pgGroupIdTwoTextChildSurrounding2TextPGroup";
+
+	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId);
+	var presentation = dependencies.presentation;
+	var dataHolder = dependencies.dataHolder;
+
+	var view = presentation.getView();
+	this.fixture.appendChild(view);
+
+	var topPGroupView = view.firstChild;
+
+	var surroundingContainer = topPGroupView.childNodes[0];
+
+	var headline = surroundingContainer.childNodes[0];
+	assert.strictEqual(headline.textContent, "En rubrik");
+
+	var childRefHandler1 = surroundingContainer.childNodes[1];
+	var childrenView = childRefHandler1.firstChild;
+	var repeatingElement = childrenView.firstChild;
+	var pVarView = repeatingElement.firstChild;
+	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId");
+
+	var childRefHandler2 = surroundingContainer.childNodes[2];
+	var childrenView2 = childRefHandler2.firstChild;
+	var repeatingElement2 = childrenView2.firstChild;
+	var pVarView2 = repeatingElement2.firstChild;
+	assert.deepEqual(pVarView2.className, "pVar pVarTextVariableId2");
+});
+
+QUnit.test("testIntegrateSurroundingContainerInSurroundingContainer", function(
+		assert) {
+	var metadataId = "groupIdTwoTextChildRepeat1to5";
+	var presentationId = "pgGroupIdTwoTextChildSurrounding2TextPGroup2";
+	
+	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId);
+	var presentation = dependencies.presentation;
+	var dataHolder = dependencies.dataHolder;
+	
+	var view = presentation.getView();
+	this.fixture.appendChild(view);
+	
+	var topPGroupView = view.firstChild;
+	var surroundingContainer = topPGroupView.childNodes[0];
+	
+	var headline = surroundingContainer.childNodes[0];
+	assert.strictEqual(headline.textContent, "En rubrik");
+	
+	var surroundingContainerLevel2 = surroundingContainer.childNodes[1];
+	var headline2 = surroundingContainerLevel2.childNodes[0];
+	assert.strictEqual(headline2.textContent, "En rubrik");
+
+	var childRefHandler1 = surroundingContainerLevel2.childNodes[1];
+	var childrenView = childRefHandler1.firstChild;
+	var repeatingElement = childrenView.firstChild;
+	var pVarView = repeatingElement.firstChild;
+	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId");
+	
+	var childRefHandler2 = surroundingContainerLevel2.childNodes[2];
+	var childrenView2 = childRefHandler2.firstChild;
+	var repeatingElement2 = childrenView2.firstChild;
+	var pVarView2 = repeatingElement2.firstChild;
+	assert.deepEqual(pVarView2.className, "pVar pVarTextVariableId2");
 });

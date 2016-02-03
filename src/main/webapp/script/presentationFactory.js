@@ -22,43 +22,29 @@ var CORA = (function(cora) {
 	cora.presentationFactory = function(spec) {
 		var self;
 
-		function factor(path, cPresentation) {
+		function factor(path, cPresentation, cParentPresentation) {
+			var specNew = {
+				"path" : path,
+				"cPresentation" : cPresentation,
+				"cParentPresentation" : cParentPresentation,
+				"metadataProvider" : spec.metadataProvider,
+				"pubSub" : spec.pubSub,
+				"textProvider" : spec.textProvider,
+				"jsBookkeeper" : spec.jsBookkeeper,
+				"presentationFactory" : self
+			};
+
 			var type = cPresentation.getData().attributes.type;
 			if (type === "pVar") {
-				var varSpec = {
-					"path" : path,
-					"cPresentation" : cPresentation,
-					"metadataProvider" : spec.metadataProvider,
-					"pubSub" : spec.pubSub,
-					"textProvider" : spec.textProvider,
-					"jsBookkeeper" : spec.jsBookkeeper
-				};
-				return CORA.pVar(varSpec);
+				return CORA.pVar(specNew);
 			} else if (type === "pGroup") {
-				var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-				var presentationId = CORA.coraData(recordInfo)
-						.getFirstAtomicValueByNameInData("id");
-				var groupSpec = {
-					"path" : path,
-					"presentationId" : presentationId,
-					"metadataProvider" : spec.metadataProvider,
-					"pubSub" : spec.pubSub,
-					"textProvider" : spec.textProvider,
-					"jsBookkeeper" : spec.jsBookkeeper,
-					"presentationFactory" : self
-				};
-				return CORA.pGroup(groupSpec);
+				return CORA.pGroup(specNew);
 			} else {
-				var pRepeatingContainerSpec = {
-					"path" : path,
-					"cPresentation" : cPresentation,
-					"metadataProvider" : spec.metadataProvider,
-					"pubSub" : spec.pubSub,
-					"textProvider" : spec.textProvider,
-					"jsBookkeeper" : spec.jsBookkeeper,
-					"presentationFactory" : self
-				};
-				return CORA.pRepeatingContainer(pRepeatingContainerSpec);
+				var repeat = cPresentation.getData().attributes.repeat;
+				if (repeat === "this") {
+					return CORA.pRepeatingContainer(specNew);
+				}
+				return CORA.pSurroundingContainer(specNew);
 			}
 		}
 
