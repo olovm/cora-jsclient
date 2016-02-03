@@ -20,77 +20,30 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pSurroundingContainer = function(spec) {
-		var path = spec.path;
 		var cPresentation = spec.cPresentation;
 		var cParentPresentation = spec.cParentPresentation;
-		var metadataProvider = spec.metadataProvider;
-		var pubSub = spec.pubSub;
-		var textProvider = spec.textProvider;
-		var jsBookkeeper = spec.jsBookkeeper;
-		var presentationFactory = spec.presentationFactory;
 
-		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
-		var cMetadataElement = getMetadataById(cParentPresentation
-				.getFirstAtomicValueByNameInData("presentationOf"));
-		var view = createBaseView();
+		var my = {};
+		my.metadataId = cParentPresentation.getFirstAtomicValueByNameInData("presentationOf");
+		my.cPresentation = cPresentation;
+		my.cParentPresentation = cParentPresentation;
+		my.createBaseViewHolder = createBaseViewHolder;
 
-		function createBaseView() {
-			var viewNew = createBaseViewHolder();
-			var presentationChildren = cPresentation.getFirstChildByNameInData("childReferences").children;
-			presentationChildren.forEach(function(presentationChildRef) {
-				viewNew.appendChild(createViewForChild(presentationChildRef));
-			});
+		var parent = CORA.pMultipleChildren(spec, my);
+		parent.init();
 
-			return viewNew;
-		}
-		
 		function createBaseViewHolder() {
+			var presentationId = parent.getPresentationId();
 			var newView = document.createElement("span");
 			newView.className = "pSurroundingContainer " + presentationId;
 			return newView;
 		}
-		
-		// TODO: this is the same code as in pGroup, fix duplication
-		function createViewForChild(presentationChildRef) {
-			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
-			var cPresentationChild = getMetadataById(presRef);
-
-			if (cPresentationChild.getData().name === "text") {
-				return document.createTextNode(textProvider.getTranslation(presRef));
-			} else if ("children" === cPresentationChild.getData().attributes.repeat) {
-				var surroundingContainer = presentationFactory.factor(path, cPresentationChild,
-						cParentPresentation);
-				return surroundingContainer.getView();
-			}
-			var childRefHandlerSpec = {
-				"parentPath" : path,
-				"cParentMetadata" : cMetadataElement,
-				"cPresentation" : cPresentationChild,
-				"cParentPresentation" : cParentPresentation,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper,
-				"presentationFactory" : presentationFactory
-			};
-			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
-			return pChildRefHandler.getView();
-		}
-		function getMetadataById(id) {
-			return CORA.coraData(metadataProvider.getMetadataById(id));
-		}
-
-		function getView() {
-			return view;
-		}
 
 		var out = Object.freeze({
 			"type" : "pSurroundingContainer",
-			getView : getView
+			getView : parent.getView
 		});
-		view.modelObject = out;
+		parent.getView().modelObject = out;
 		return out;
 	};
 	return cora;
