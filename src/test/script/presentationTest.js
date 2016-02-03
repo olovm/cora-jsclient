@@ -19,13 +19,18 @@
 "use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.attachedPresentationFactory = function(metadataProvider, pubSub, textProvider, fixture) {
+	coraTest.attachedPresentationFactory = function(metadataProvider, pubSub, textProvider,
+			presentationFactory, jsBookkeeper, fixture) {
 		var factor = function(presentationId) {
+
 			var spec = {
 				"presentationId" : presentationId,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
-				"textProvider":textProvider
+				"textProvider" : textProvider,
+				"presentationFactory" : presentationFactory,
+				"jsBookkeeper" : jsBookkeeper
+
 			};
 			var presentation = CORA.presentation(spec);
 
@@ -36,7 +41,7 @@ var CORATEST = (function(coraTest) {
 				fixture : fixture,
 				metadataProvider : metadataProvider,
 				pubSub : pubSub,
-				textProvider:textProvider,
+				textProvider : textProvider,
 				view : view
 			};
 
@@ -55,8 +60,11 @@ QUnit.module("CORA.Presentation", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
+		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
+		this.presentationFactory = CORATEST.presentationFactorySpy();
 		this.newAttachedPresentation = CORATEST.attachedPresentationFactory(this.metadataProvider,
-				this.pubSub, this.textProvider, this.fixture);
+				this.pubSub, this.textProvider, this.presentationFactory, this.jsBookkeeper,
+				this.fixture);
 	},
 	afterEach : function() {
 	}
@@ -65,7 +73,7 @@ QUnit.module("CORA.Presentation", {
 QUnit.test("testInit", function(assert) {
 	var attachedPresentation = this.newAttachedPresentation.factor("pgGroupIdOneTextChild");
 	var presentation = attachedPresentation.presentation;
-	assert.strictEqual(presentation.getPresentationId(),"pgGroupIdOneTextChild");
+	assert.strictEqual(presentation.getPresentationId(), "pgGroupIdOneTextChild");
 	assert.ok(presentation.getPubSub());
 });
 
@@ -74,22 +82,9 @@ QUnit.test("testInitOneChild", function(assert) {
 	var presentation = attachedPresentation.presentation;
 	var view = presentation.getView();
 
-	assert.ok(view.offsetHeight > 0, "presentation view should be visible");
-	
-	assert.deepEqual(view.className, 'presentation pgGroupIdOneTextChild');
+	var requestedCPresentation = this.presentationFactory.getCPresentation();
+	var recordInfo = requestedCPresentation.getFirstChildByNameInData("recordInfo");
 
-	assert.ok(view.childNodes.length === 1, "presentation, should have one child");
-	
-	var pGroupHolder = view.firstChild;
-	assert.ok(pGroupHolder.childNodes.length === 1, "pGroup, should have one child");
-	assert.deepEqual(pGroupHolder.className, 'pGroup pgGroupIdOneTextChild');
-	
-	var childRefHolder = view.firstChild;
-	assert.ok(childRefHolder.childNodes.length === 1, "childRefHolder, should have one child");
-
-	var pVarView = childRefHolder.firstChild;
-	assert.deepEqual(pVarView.className, "pChildRefHandler pVarTextVariableId");
-
-	// console.log("firstChild: " +childRefHolder.outerHTML);
-
+	var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+	assert.strictEqual(presentationId, "pgGroupIdOneTextChild");
 });

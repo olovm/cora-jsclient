@@ -29,10 +29,10 @@ var CORA = (function(cora) {
 		var presentationFactory = spec.presentationFactory;
 
 		var presentationId = findPresentationId(cPresentation);
-//		console.log("cPresentation:"+JSON.stringify(cPresentation.getData()))
+		// console.log("cPresentation:"+JSON.stringify(cPresentation.getData()))
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
-		
+
 		var cParentMetadataChildRef = findParentMetadataChildRef(cParentMetadata);
 		var repeatMin = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMax");
@@ -51,7 +51,7 @@ var CORA = (function(cora) {
 			buttonView.appendChild(addButton);
 		}
 		var noOfRepeating = 0;
-			
+
 		pubSub.subscribe("add", parentPath, undefined, handleMsg);
 
 		function findPresentationId(cPresentationToSearch) {
@@ -60,7 +60,6 @@ var CORA = (function(cora) {
 		}
 
 		function findParentMetadataChildRef(cMetadata) {
-			// console.log("cMetadata:"+JSON.stringify(cMetadata.getData()));
 			var parentMetadataChildRef = cMetadata.getFirstChildByNameInData("childReferences").children
 					.find(function(metadataChildRef) {
 						var cMetadataChildRef = CORA.coraData(metadataChildRef);
@@ -122,11 +121,13 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsg(dataFromMsg) {
-//			console.log("handle message cMetadataElement:"+JSON.stringify(cMetadataElement.getData()))
-//			console.log("dataFromMSG:"+JSON.stringify(dataFromMsg))
+			// console.log("handle message
+			// cMetadataElement:"+JSON.stringify(cMetadataElement.getData()))
+			// console.log("dataFromMSG:"+JSON.stringify(dataFromMsg))
 
 			if (metadataId === dataFromMsg.metadataId) {
-//				console.log("dataFromMSG my data:"+JSON.stringify(dataFromMsg))
+				// console.log("dataFromMSG my
+				// data:"+JSON.stringify(dataFromMsg))
 				add(dataFromMsg.repeatId);
 			}
 		}
@@ -143,12 +144,9 @@ var CORA = (function(cora) {
 			var repeatingElementView = repeatingElement.getView();
 			noOfRepeating++;
 			childrenView.appendChild(repeatingElementView);
-			// var presentation = presentationFactory.factor(newPath, cPresentation);
 			var presentation = presentationFactory.factor(newPath, cPresentation,
 					cParentPresentation);
 			repeatingElement.addPresentation(presentation);
-//			console.log("add : "+presentation.getView())
-//			console.log(presentation.getView())
 
 			updateView();
 			if (showAddButton()) {

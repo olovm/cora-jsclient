@@ -20,12 +20,15 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.pGroup = function(spec) {
 		var path = spec.path;
-		var presentationId = spec.presentationId;
+		var cPresentation = spec.cPresentation;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
 		var textProvider = spec.textProvider;
 		var jsBookkeeper = spec.jsBookkeeper;
 		var presentationFactory = spec.presentationFactory;
+
+		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
+		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
 		var cParentPresentation = getMetadataById(presentationId);
 		var cMetadataElement = getMetadataById(cParentPresentation
@@ -54,19 +57,12 @@ var CORA = (function(cora) {
 			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
 			var cPresentationChild = getMetadataById(presRef);
 
-//			console.log("cPresentationChild:"+JSON.stringify(cPresentationChild.getData()));
 			if (cPresentationChild.getData().name === "text") {
 				return document.createTextNode(textProvider.getTranslation(presRef));
-			}else if("children" ===cPresentationChild.getData().attributes.repeat){
-//				console.log("children");
-//				var repeat = cPresentationChild.getData().attributes.repeat;
-//				if (repeat === "this") {
-//				var presentation = presentationFactory.factor(newPath, cPresentation,
-//						cParentPresentation);
-				//should create a new surroundingContainer
-				var presentation = presentationFactory.factor(path, cPresentationChild,
+			} else if ("children" === cPresentationChild.getData().attributes.repeat) {
+				var surroundingContainer = presentationFactory.factor(path, cPresentationChild,
 						cParentPresentation);
-				return presentation.getView();
+				return surroundingContainer.getView();
 			}
 			var childRefHandlerSpec = {
 				"parentPath" : path,
@@ -88,6 +84,7 @@ var CORA = (function(cora) {
 		}
 
 		function getView() {
+			createBaseView();
 			return view;
 		}
 

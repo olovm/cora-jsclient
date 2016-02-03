@@ -23,58 +23,28 @@ var CORA = (function(cora) {
 		var self;
 
 		function factor(path, cPresentation, cParentPresentation) {
+			var specNew = {
+				"path" : path,
+				"cPresentation" : cPresentation,
+				"cParentPresentation" : cParentPresentation,
+				"metadataProvider" : spec.metadataProvider,
+				"pubSub" : spec.pubSub,
+				"textProvider" : spec.textProvider,
+				"jsBookkeeper" : spec.jsBookkeeper,
+				"presentationFactory" : self
+			};
+
 			var type = cPresentation.getData().attributes.type;
 			if (type === "pVar") {
-				var varSpec = {
-					"path" : path,
-					"cPresentation" : cPresentation,
-					"metadataProvider" : spec.metadataProvider,
-					"pubSub" : spec.pubSub,
-					"textProvider" : spec.textProvider,
-					"jsBookkeeper" : spec.jsBookkeeper
-				};
-//				console.log("factory");
-				return CORA.pVar(varSpec);
+				return CORA.pVar(specNew);
 			} else if (type === "pGroup") {
-				var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-				var presentationId = CORA.coraData(recordInfo)
-						.getFirstAtomicValueByNameInData("id");
-				var groupSpec = {
-					"path" : path,
-					"presentationId" : presentationId,
-					"metadataProvider" : spec.metadataProvider,
-					"pubSub" : spec.pubSub,
-					"textProvider" : spec.textProvider,
-					"jsBookkeeper" : spec.jsBookkeeper,
-					"presentationFactory" : self
-				};
-				return CORA.pGroup(groupSpec);
+				return CORA.pGroup(specNew);
 			} else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {
-
-					var pRepeatingContainerSpec = {
-						"path" : path,
-						"cPresentation" : cPresentation,
-						"metadataProvider" : spec.metadataProvider,
-						"pubSub" : spec.pubSub,
-						"textProvider" : spec.textProvider,
-						"jsBookkeeper" : spec.jsBookkeeper,
-						"presentationFactory" : self
-					};
-					return CORA.pRepeatingContainer(pRepeatingContainerSpec);
+					return CORA.pRepeatingContainer(specNew);
 				}
-				var pSurroundingContainerSpec = {
-					"path" : path,
-					"cPresentation" : cPresentation,
-					"cParentPresentation" : cParentPresentation,
-					"metadataProvider" : spec.metadataProvider,
-					"pubSub" : spec.pubSub,
-					"textProvider" : spec.textProvider,
-					"jsBookkeeper" : spec.jsBookkeeper,
-					"presentationFactory" : self
-				};
-				return CORA.pSurroundingContainer(pSurroundingContainerSpec);
+				return CORA.pSurroundingContainer(specNew);
 			}
 		}
 

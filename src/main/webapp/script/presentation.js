@@ -22,8 +22,6 @@ var CORA = (function(cora) {
 		var presentationId = spec.presentationId;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
-		var textProvider = spec.textProvider;
-		var jsBookkeeper = spec.jsBookkeeper;
 		var presentationFactory = spec.presentationFactory;
 
 		var view = createBaseView();
@@ -41,17 +39,11 @@ var CORA = (function(cora) {
 		}
 
 		function createViewForTopPGroup() {
-			var groupSpec = {
-				"path" : {},
-				"presentationId" : presentationId,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper,
-				"presentationFactory" : presentationFactory
-			};
-			var pGroup = CORA.pGroup(groupSpec);
-			return pGroup.getView();
+			var cPresentation = CORA.coraData(metadataProvider
+					.getMetadataById(presentationId));
+			var presentation = presentationFactory.factor({}, cPresentation,
+					undefined);
+			return presentation.getView();
 		}
 
 		function getPresentationId() {

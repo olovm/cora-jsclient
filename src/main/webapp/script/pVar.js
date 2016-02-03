@@ -43,7 +43,6 @@ var CORA = (function(cora) {
 		var text = textProvider.getTranslation(textId);
 
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
-//		console.log("pVar:"+defTextId);
 		var defText = textProvider.getTranslation(defTextId);
 
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
@@ -138,7 +137,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type":"pVar",
+			"type" : "pVar",
 			getView : getView,
 			setValue : setValue,
 			handleMsg : handleMsg,
