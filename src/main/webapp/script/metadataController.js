@@ -31,7 +31,6 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData('childReferences');
 			var topLevelPath = {};
 			topLevelChildReferences.children.forEach(function(childReference) {
-				console.log(JSON.stringify(childReference));
 				CORA.metadataChildInitializer(childReference, topLevelPath, topLevelData,
 						spec.metadataProvider, spec.pubSub);
 			});

@@ -20,12 +20,13 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.jsBookkeeperFactory = function(metadataProvider, pubSub, textProvider) {
-		var factor = function(metadataId) {
+		var factor = function(metadataId, dataHolder) {
 			var spec = {
 				"metadataId" : metadataId,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
-				"textProvider" : textProvider
+				"textProvider" : textProvider,
+				"dataHolder" : dataHolder
 			};
 			return CORA.jsBookkeeper(spec);
 		};
@@ -42,6 +43,7 @@ QUnit.module("CORA.jsBookkeeper", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
+		this.dataHolder = CORATEST.dataHolderStub();
 		this.newJsBookkeeper = CORATEST.jsBookkeeperFactory(this.metadataProvider, this.pubSub,
 				this.textProvider);
 	},
@@ -50,7 +52,7 @@ QUnit.module("CORA.jsBookkeeper", {
 });
 
 QUnit.test("testSetValue", function(assert) {
-	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild");
+	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild", this.dataHolder);
 	var data = {
 		"data" : "a Value",
 		"path" : {}
@@ -70,7 +72,7 @@ QUnit.test("testSetValue", function(assert) {
 });
 
 QUnit.test("testAdd", function(assert) {
-	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild");
+	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild", this.dataHolder);
 	var childReference = {
 		"name" : "childReference",
 		"repeatId" : "1",
@@ -96,15 +98,153 @@ QUnit.test("testAdd", function(assert) {
 		"type" : "add",
 		"message" : {
 			"metadataId" : "textVariableId",
-			"path" : {}
+			"path" : {},
+			"repeatId" : "1"
 		}
 	};
 	assert.stringifyEqual(messages[0], expectedMessage);
 
 	assert.equal(messages.length, 1);
 });
+QUnit.test("testAdd2", function(assert) {
+	var currentData = {
+		"name" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
+		"children" : [ {
+			"name" : "textVarRepeat1to3InGroupOneAttribute",
+			"children" : [ {
+				"name" : "textVar",
+				"value" : "one",
+				"repeatId" : "1"
+			}, {
+				"name" : "textVar",
+				"value" : "two",
+				"repeatId" : "2"
+			} ],
+			"attributes" : {
+				"anAttribute" : "aFinalValue"
+			},
+			"repeatId" : "1"
+		}, {
+			"name" : "textVarRepeat1to3InGroupOneAttribute",
+			"children" : [ {
+				"name" : "textVar",
+				"value" : "three",
+				"repeatId" : "3"
+			} ],
+			"attributes" : {
+				"anAttribute" : "aFinalValue"
+			},
+			"repeatId" : "2"
+		}, {
+			"name" : "textVarRepeat1to3InGroupOneAttribute",
+			"children" : [ {
+				"name" : "textVar",
+				"value" : "four",
+				"repeatId" : "4"
+			} ],
+			"attributes" : {
+				"anOtherAttribute" : "aOtherFinalValue"
+			},
+			"repeatId" : "3"
+		} ]
+	};
+	var foundContainer = {
+		"name" : "textVarRepeat1to3InGroupOneAttribute",
+		"children" : [ {
+			"name" : "textVar",
+			"value" : "one",
+			"repeatId" : "1"
+		}, {
+			"name" : "textVar",
+			"value" : "two",
+			"repeatId" : "2"
+		} ],
+		"attributes" : {
+			"anAttribute" : "aFinalValue"
+		},
+		"repeatId" : "1"
+	};
+	var dataHolder = CORATEST.dataHolderStub(currentData, foundContainer);
+	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild", dataHolder);
+	var data = {
+		"metadataId" : "textVar",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVarRepeat1to3InGroupOneAttribute"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			}, {
+				"name" : "attributes",
+				"children" : [ {
+					"name" : "attribute",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "attributeName",
+						"value" : "anAttribute"
+					}, {
+						"name" : "attributeValue",
+						"value" : "aFinalValue"
+					} ]
+				} ]
+			} ]
+		},
+		"childReference" : {
+			"name" : "childReference",
+			"repeatId" : "1",
+			"children" : [ {
+				"name" : "ref",
+				"value" : "textVar"
+			}, {
+				"name" : "repeatMin",
+				"value" : "1"
+			}, {
+				"name" : "repeatMax",
+				"value" : "3"
+			} ]
+		}
+	};
+	jsBookkeeper.add(data);
+	var messages = this.pubSub.getMessages();
+	var expectedMessage = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "textVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVarRepeat1to3InGroupOneAttribute"
+				}, {
+					"name" : "repeatId",
+					"value" : "1"
+				}, {
+					"name" : "attributes",
+					"children" : [ {
+						"name" : "attribute",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "attributeName",
+							"value" : "anAttribute"
+						}, {
+							"name" : "attributeValue",
+							"value" : "aFinalValue"
+						} ]
+					} ]
+				} ]
+			},
+			"repeatId" : "3"
+		}
+	};
+
+	assert.stringifyEqual(messages[0], expectedMessage);
+
+	assert.equal(messages.length, 1);
+});
 QUnit.test("testremove", function(assert) {
-	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild");
+	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild", this.dataHolder);
 	var data = {
 		"path" : {}
 	};

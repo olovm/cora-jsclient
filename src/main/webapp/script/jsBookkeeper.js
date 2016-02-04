@@ -21,35 +21,59 @@ var CORA = (function(cora) {
 	cora.jsBookkeeper = function(spec) {
 		var pubSub = spec.pubSub;
 
-		var repeatId = 100;
+//		var repeatId = 100;
 
 		function setValue(data) {
 			pubSub.publish("setValue", data);
 		}
 
 		function add(data) {
-			// data.repeatId = String(repeatId);
-			 repeatId++;
-			// pubSub.publish("add", data);
-			// childReference
+//			repeatId++;
 			var childReference = data.childReference;
+//			console.log(JSON.stringify(data));
 			var path = data.path;
-			var existingData = undefined;
-			console.log(JSON.stringify(data));
-			console.log(JSON.stringify(childReference));
-			console.log(JSON.stringify(path));
-			// console.log(spec.metadataProvider);
-//			CORA.metadataChildInitializer(childReference, path, existingData,
-//					spec.metadataProvider, spec.pubSub);
-
-			
+			var startRepeatId = 0;
+			var currentData = spec.dataHolder.getData();
+//			console.log(JSON.stringify(currentData));
+			if(path.children!==undefined){
+				currentData = spec.dataHolder.findContainer(currentData, path);
+//				console.log(JSON.stringify(currentData));
+			}
+			startRepeatId = calculateStartRepeatId(currentData.children);
+//			console.log("startRepeatId:" + startRepeatId);
 			
 			var cChildReference = CORA.coraData(childReference);
 			var ref = cChildReference.getFirstAtomicValueByNameInData('ref');
-			var dataChild = undefined;
-			CORA.metadataRepeatInitializer(ref, path, dataChild, repeatId, spec.metadataProvider,
-							spec.pubSub);
+			CORA.metadataRepeatInitializer(ref, path, undefined, String(startRepeatId),
+					spec.metadataProvider, spec.pubSub);
 
+		}
+
+		function calculateStartRepeatId(dataChildrenForMetadata) {
+			var generatedRepeatId = 0;
+			generatedRepeatId = calculateStartRepeatIdFromData(dataChildrenForMetadata);
+			return generatedRepeatId;
+		}
+
+		function calculateStartRepeatIdFromData(dataChildrenForMetadata) {
+			var currentMaxRepeatId = 0;
+			dataChildrenForMetadata.forEach(function(child) {
+				currentMaxRepeatId = calculateMaxRepeatFromChildAndCurrentMaxRepeat(child,
+						currentMaxRepeatId);
+			});
+			return currentMaxRepeatId;
+		}
+
+		function calculateMaxRepeatFromChildAndCurrentMaxRepeat(child, currentMaxRepeatId) {
+			var x = Number(child.repeatId);
+			if (!isNaN(x) && x >= currentMaxRepeatId) {
+				x++;
+//				console.log("new top number:" + x)
+				return x;
+			}
+
+//			console.log("old top number:" + currentMaxRepeatId)
+			return currentMaxRepeatId;
 		}
 
 		function remove(data) {

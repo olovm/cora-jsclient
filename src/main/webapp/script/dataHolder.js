@@ -116,7 +116,7 @@ var CORA = (function(cora) {
 			var foundContainer = findContainer(dataContainer, path);
 			foundContainer.value = value;
 		}
-
+		
 		function findContainer(dataContainers, path) {
 			return findContainerAndParent(dataContainers, path).container;
 		}
@@ -200,7 +200,8 @@ var CORA = (function(cora) {
 			getData : getData,
 			setValue : setValue,
 			addChild : addChild,
-			remove : remove
+			remove : remove,
+			findContainer:findContainer
 		});
 	};
 	return cora;
