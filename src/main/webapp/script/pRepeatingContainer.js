@@ -48,7 +48,10 @@ var CORA = (function(cora) {
 			var cPresentationChild = getMetadataById(presRef);
 
 			if (cPresentationChild.getData().name === "text") {
-				return document.createTextNode(textProvider.getTranslation(presRef));
+				var text = document.createElement("span");
+				text.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
+				text.className = "text";
+				return text;
 			}
 			var presentation = presentationFactory.factor(path, cPresentationChild);
 			return presentation.getView();
