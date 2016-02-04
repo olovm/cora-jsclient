@@ -218,15 +218,23 @@ var CORA = (function(cora) {
 			var keys = Object.keys(repeatingElements);
 			if (minLimitOfChildrenReached()) {
 				keys.forEach(function(key) {
-					repeatingElements[key].modelObject.hideRemoveButton();
+					if (keyIsNotPhantomJsExtraLengthElement(key)) {
+						repeatingElements[key].modelObject.hideRemoveButton();
+					}
 				});
 			} else {
 				keys.forEach(function(key) {
-					repeatingElements[key].modelObject.showRemoveButton();
+						if (keyIsNotPhantomJsExtraLengthElement(key)) {
+						repeatingElements[key].modelObject.showRemoveButton();
+					}
 				});
 			}
 		}
-
+		
+		function keyIsNotPhantomJsExtraLengthElement(key) {
+			return !isNaN(key);
+		}
+		
 		function minLimitOfChildrenReached() {
 			return noOfRepeating === Number(repeatMin);
 		}
