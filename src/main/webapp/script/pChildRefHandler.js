@@ -120,11 +120,10 @@ var CORA = (function(cora) {
 			return view;
 		}
 
-		function handleMsg(dataFromMsg) {
+		function handleMsg(dataFromMsg, msg) {
 			// console.log("handle message
 			// cMetadataElement:"+JSON.stringify(cMetadataElement.getData()))
 			// console.log("dataFromMSG:"+JSON.stringify(dataFromMsg))
-
 			if (metadataId === dataFromMsg.metadataId) {
 				// console.log("dataFromMSG my
 				// data:"+JSON.stringify(dataFromMsg))
@@ -203,7 +202,29 @@ var CORA = (function(cora) {
 		function updateView() {
 			if (showAddButton()) {
 				updateButtonViewVisibility();
+				updateChildrenRemoveButtonVisibility();
 			}
+		}
+
+		function updateChildrenRemoveButtonVisibility() {
+			var repeatingElements = childrenView.childNodes;
+			console.log(repeatingElements);
+//			repeatingElements.forEach(function(repeatingElement) {
+//				repeatingElement.hideRemoveButton();
+//			});
+			if(minLimitOfChildrenReached()){
+				var keys = repeatingElements.keySet;
+				console.log("keys");
+				console.log(keys);
+				
+				repeatingElements[0].modelObject.hideRemoveButton();
+			} else {
+				repeatingElements[0].modelObject.showRemoveButton();
+			}
+		}
+
+		function minLimitOfChildrenReached() {
+			return noOfRepeating === Number(repeatMin);
 		}
 
 		function updateButtonViewVisibility() {

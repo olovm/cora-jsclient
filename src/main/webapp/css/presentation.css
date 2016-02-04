@@ -20,6 +20,9 @@
 
 .removeButton {
 	cursor: pointer;
+	min-width: 5px;
+	min-height: 5px;
+	display: inline-block;
 }
 
 .removeButton::before {

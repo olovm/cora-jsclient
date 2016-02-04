@@ -393,7 +393,7 @@ QUnit.test("testRepeatingElementRemoveButton", function(assert) {
 
 	
 });
-QUnit.test("testRepeatingElementStaticNoOfChildrenNoRemoveButton", function(assert) {
+QUnit.test("testRepeatingElementStaticNoOfChildrenNoAddButton", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat3to3", "pVarTextVariableId");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
@@ -423,7 +423,7 @@ QUnit.test("testRepeatingElementStaticNoOfChildrenNoRemoveButton", function(asse
 	
 });
 
-QUnit.test("testHideRemoveButtonWhenMaxRepeat", function(assert) {
+QUnit.test("testHideAddButtonWhenMaxRepeat", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
 	var view = attachedPChildRefHandler.view;
@@ -441,7 +441,7 @@ QUnit.test("testHideRemoveButtonWhenMaxRepeat", function(assert) {
 	assert.ok(buttonView.offsetHeight === 0, "buttonView should be hidden");
 });
 
-QUnit.test("testShowRemoveButtonWhenBelowMaxRepeat", function(assert) {
+QUnit.test("testShowAddButtonWhenBelowMaxRepeat", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
 	var view = attachedPChildRefHandler.view;
@@ -462,6 +462,50 @@ QUnit.test("testShowRemoveButtonWhenBelowMaxRepeat", function(assert) {
 	attachedPChildRefHandler.pubSub.getSubscriptions()[1].functionToCall();
 	assert.strictEqual(childrenView.childNodes.length, 2);
 	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
+});
+
+QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+	
+	var buttonView = view.childNodes[1];
+	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
+	
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+	attachedPChildRefHandler.pChildRefHandler.add("two");
+	attachedPChildRefHandler.pChildRefHandler.add("three");
+	
+	assert.strictEqual(childrenView.childNodes.length, 3);
+	assert.ok(buttonView.offsetHeight === 0, "buttonView should be hidden");
+	
+	//call remove function
+	attachedPChildRefHandler.pubSub.getSubscriptions()[1].functionToCall();
+	assert.strictEqual(childrenView.childNodes.length, 2);
+	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
+});
+QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+	
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+	
+	// remove button
+	var repeatingElement = childrenView.childNodes[0];
+	var repeatingButtonView = repeatingElement.childNodes[1];
+	var removeButton = repeatingButtonView.firstChild;
+	
+	assert.ok(removeButton.offsetHeight === 0, "removeButton should be hidden");
+	
+	attachedPChildRefHandler.pChildRefHandler.add("two");
+	assert.ok(removeButton.offsetHeight > 0, "removeButton should be visible");
+	
+	
 });
 
 // groupInGroupOneTextChild

@@ -30,6 +30,7 @@ var CORA = (function(cora) {
 
 		var view = createBaseView();
 		var buttonView;
+		var removeButton;
 		if (movableOrRemovableElement()) {
 			buttonView = createButtonView();
 		}
@@ -63,7 +64,7 @@ var CORA = (function(cora) {
 			return repeatMin === stringOne && repeatMax === stringOne;
 		}
 
-		function showRemoveButton() {
+		function addRemoveButton() {
 			return isRepeating && !isStaticNoOfChildren;
 		}
 
@@ -73,8 +74,8 @@ var CORA = (function(cora) {
 			newButtonView.className = "buttonView";
 			view.appendChild(newButtonView);
 
-			if (showRemoveButton()) {
-				var removeButton = createRemoveButton();
+			if (addRemoveButton()) {
+				removeButton = createRemoveButton();
 				newButtonView.appendChild(removeButton);
 			}
 			return newButtonView;
@@ -105,9 +106,21 @@ var CORA = (function(cora) {
 			view.insertBefore(presentation.getView(), buttonView);
 		}
 
+		function hideRemoveButton() {
+			removeButton.styleOriginal = removeButton.style.display;
+			removeButton.style.display = "none";
+		}
+
+		function showRemoveButton() {
+			removeButton.style.display = removeButton.styleOriginal;
+		}
+
 		var out = Object.freeze({
+			"type" : "pRepeatingElement",
 			getView : getView,
-			addPresentation : addPresentation
+			addPresentation : addPresentation,
+			hideRemoveButton : hideRemoveButton,
+			showRemoveButton : showRemoveButton
 		});
 
 		view.modelObject = out;
