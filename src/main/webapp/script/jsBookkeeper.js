@@ -28,9 +28,28 @@ var CORA = (function(cora) {
 		}
 
 		function add(data) {
-			data.repeatId = String(repeatId);
-			repeatId++;
-			pubSub.publish("add", data);
+			// data.repeatId = String(repeatId);
+			 repeatId++;
+			// pubSub.publish("add", data);
+			// childReference
+			var childReference = data.childReference;
+			var path = data.path;
+			var existingData = undefined;
+			console.log(JSON.stringify(data));
+			console.log(JSON.stringify(childReference));
+			console.log(JSON.stringify(path));
+			// console.log(spec.metadataProvider);
+//			CORA.metadataChildInitializer(childReference, path, existingData,
+//					spec.metadataProvider, spec.pubSub);
+
+			
+			
+			var cChildReference = CORA.coraData(childReference);
+			var ref = cChildReference.getFirstAtomicValueByNameInData('ref');
+			var dataChild = undefined;
+			CORA.metadataRepeatInitializer(ref, path, dataChild, repeatId, spec.metadataProvider,
+							spec.pubSub);
+
 		}
 
 		function remove(data) {

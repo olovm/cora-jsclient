@@ -169,6 +169,20 @@ QUnit.test("testAddButtonFor1toX", function(assert) {
 
 	button.onclick();
 	var addData = {
+		"childReference" : {
+			"children" : [ {
+				"name" : "ref",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatMin",
+				"value" : "1"
+			}, {
+				"name" : "repeatMax",
+				"value" : "X"
+			} ],
+			"name" : "childReference",
+			"repeatId" : "1"
+		},
 		"metadataId" : "textVariableId",
 		"path" : {}
 	};

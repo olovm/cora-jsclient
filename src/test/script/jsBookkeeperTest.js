@@ -71,18 +71,32 @@ QUnit.test("testSetValue", function(assert) {
 
 QUnit.test("testAdd", function(assert) {
 	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild");
+	var childReference = {
+		"name" : "childReference",
+		"repeatId" : "1",
+		"children" : [ {
+			"name" : "ref",
+			"value" : "textVariableId"
+		}, {
+			"name" : "repeatMin",
+			"value" : "1"
+		}, {
+			"name" : "repeatMax",
+			"value" : "1"
+		} ]
+	};
 	var data = {
-		"metadataId" : "aMetadataId",
-		"path" : {}
+		"metadataId" : "textVariableId",
+		"path" : {},
+		"childReference" : childReference
 	};
 	jsBookkeeper.add(data);
 	var messages = this.pubSub.getMessages();
 	var expectedMessage = {
 		"type" : "add",
 		"message" : {
-			"metadataId" : "aMetadataId",
-			"path" : {},
-			"repeatId" : "100"
+			"metadataId" : "textVariableId",
+			"path" : {}
 		}
 	};
 	assert.stringifyEqual(messages[0], expectedMessage);
@@ -92,17 +106,17 @@ QUnit.test("testAdd", function(assert) {
 QUnit.test("testremove", function(assert) {
 	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild");
 	var data = {
-			"path" : {}
+		"path" : {}
 	};
 	jsBookkeeper.remove(data);
 	var messages = this.pubSub.getMessages();
 	var expectedMessage = {
-			"type" : "remove",
-			"message" : {
-				"path" : {}
-			}
+		"type" : "remove",
+		"message" : {
+			"path" : {}
+		}
 	};
 	assert.stringifyEqual(messages[0], expectedMessage);
-	
+
 	assert.equal(messages.length, 1);
 });

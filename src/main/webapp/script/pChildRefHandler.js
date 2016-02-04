@@ -29,7 +29,6 @@ var CORA = (function(cora) {
 		var presentationFactory = spec.presentationFactory;
 
 		var presentationId = findPresentationId(cPresentation);
-		// console.log("cPresentation:"+JSON.stringify(cPresentation.getData()))
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
 
@@ -113,6 +112,7 @@ var CORA = (function(cora) {
 		}
 
 		function createAddButton() {
+//			console.log(JSON.stringify(cParentMetadataChildRef.getData()));
 			var button = document.createElement("input");
 			button.type = "button";
 			button.value = "ADD";
@@ -310,8 +310,10 @@ var CORA = (function(cora) {
 		function sendAdd() {
 			var data = {
 				"metadataId" : metadataId,
-				"path" : parentPath
+				"path" : parentPath,
+				"childReference": cParentMetadataChildRef.getData()
 			};
+//			console.log(JSON.stringify(data));
 			spec.jsBookkeeper.add(data);
 		}
 
