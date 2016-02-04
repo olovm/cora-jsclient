@@ -128,12 +128,7 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsg(dataFromMsg) {
-			// console.log("handle message
-			// cMetadataElement:"+JSON.stringify(cMetadataElement.getData()))
-			// console.log("dataFromMSG:"+JSON.stringify(dataFromMsg))
 			if (metadataId === dataFromMsg.metadataId) {
-				// console.log("dataFromMSG my
-				// data:"+JSON.stringify(dataFromMsg))
 				add(dataFromMsg.repeatId);
 			}
 		}
@@ -224,17 +219,17 @@ var CORA = (function(cora) {
 				});
 			} else {
 				keys.forEach(function(key) {
-						if (keyIsNotPhantomJsExtraLengthElement(key)) {
+					if (keyIsNotPhantomJsExtraLengthElement(key)) {
 						repeatingElements[key].modelObject.showRemoveButton();
 					}
 				});
 			}
 		}
-		
+
 		function keyIsNotPhantomJsExtraLengthElement(key) {
 			return !isNaN(key);
 		}
-		
+
 		function minLimitOfChildrenReached() {
 			return noOfRepeating === Number(repeatMin);
 		}
