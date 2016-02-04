@@ -12,6 +12,7 @@ var Arbiter = (function() {
 		var persistent_messages = {};
 		var id_lookup = {};
 		var new_id = 1;
+		var errorArray = [];
 		return {
 			'version' : '1.0',
 			'updated_on' : '2011-12-19',
@@ -144,6 +145,7 @@ var Arbiter = (function() {
 						}
 					} catch (e) {
 						overall_result = false;
+						errorArray.push(e);
 					}
 				}
 				return overall_result;
@@ -165,6 +167,9 @@ var Arbiter = (function() {
 					return true;
 				}
 				return false;
+			},
+			'getErrorArray' : function() {
+				return errorArray;
 			}
 
 		};

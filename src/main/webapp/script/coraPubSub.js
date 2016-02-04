@@ -28,7 +28,12 @@ var CORA = (function(cora) {
 		}
 
 		function publish(type, data) {
-			arbiter.publish(convertPathToMsg(data.path) + type, data);
+			var everyThingOk = arbiter.publish(convertPathToMsg(data.path) + type, data);
+			if (!everyThingOk) {
+				arbiter.getErrorArray().forEach(function(error) {
+					console.log(error.message);
+				});
+			}
 		}
 
 		function convertPathToMsg(path) {
