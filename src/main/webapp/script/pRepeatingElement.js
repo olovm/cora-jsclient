@@ -65,7 +65,14 @@ var CORA = (function(cora) {
 		}
 
 		function addRemoveButton() {
-			return isRepeating && !isStaticNoOfChildren;
+			return (isRepeating && !isStaticNoOfChildren) || isZeroToOne();
+		}
+
+		function isZeroToOne() {
+			if (repeatMin === "0" && repeatMax === "1") {
+				return true;
+			}
+			return false;
 		}
 
 		function createButtonView() {
@@ -82,14 +89,14 @@ var CORA = (function(cora) {
 		}
 
 		function createRemoveButton() {
-			var removeButton = document.createElement("span");
-			removeButton.className = "removeButton";
-			addCallToJsBookkeeperToRemove(removeButton);
-			return removeButton;
+			var createdRemoveButton = document.createElement("span");
+			createdRemoveButton.className = "removeButton";
+			addCallToJsBookkeeperToRemove(createdRemoveButton);
+			return createdRemoveButton;
 		}
 
-		function addCallToJsBookkeeperToRemove(removeButton) {
-			removeButton.onclick = function() {
+		function addCallToJsBookkeeperToRemove(removeButtonIn) {
+			removeButtonIn.onclick = function() {
 				var data = {
 					"type" : "remove",
 					"path" : path

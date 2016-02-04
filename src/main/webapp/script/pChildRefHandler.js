@@ -96,7 +96,14 @@ var CORA = (function(cora) {
 		}
 
 		function showAddButton() {
-			return isRepeating && !isStaticNoOfChildren;
+			return (isRepeating && !isStaticNoOfChildren) || isZeroToOne();
+		}
+
+		function isZeroToOne() {
+			if (repeatMin === "0" && repeatMax === "1") {
+				return true;
+			}
+			return false;
 		}
 
 		function createButtonView() {
@@ -120,7 +127,7 @@ var CORA = (function(cora) {
 			return view;
 		}
 
-		function handleMsg(dataFromMsg, msg) {
+		function handleMsg(dataFromMsg) {
 			// console.log("handle message
 			// cMetadataElement:"+JSON.stringify(cMetadataElement.getData()))
 			// console.log("dataFromMSG:"+JSON.stringify(dataFromMsg))
@@ -208,18 +215,15 @@ var CORA = (function(cora) {
 
 		function updateChildrenRemoveButtonVisibility() {
 			var repeatingElements = childrenView.childNodes;
-			console.log(repeatingElements);
-//			repeatingElements.forEach(function(repeatingElement) {
-//				repeatingElement.hideRemoveButton();
-//			});
-			if(minLimitOfChildrenReached()){
-				var keys = repeatingElements.keySet;
-				console.log("keys");
-				console.log(keys);
-				
-				repeatingElements[0].modelObject.hideRemoveButton();
+			var keys = Object.keys(repeatingElements);
+			if (minLimitOfChildrenReached()) {
+				keys.forEach(function(key) {
+					repeatingElements[key].modelObject.hideRemoveButton();
+				});
 			} else {
-				repeatingElements[0].modelObject.showRemoveButton();
+				keys.forEach(function(key) {
+					repeatingElements[key].modelObject.showRemoveButton();
+				});
 			}
 		}
 
