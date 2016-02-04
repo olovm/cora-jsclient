@@ -134,6 +134,7 @@ var CORATEST = (function(coraTest) {
 		client3(metadataProvider, textProvider);
 		client4(metadataProvider, textProvider);
 		client5(metadataProvider, textProvider);
+		client6(metadataProvider, textProvider);
 	}
 
 	function client1(metadataProvider, textProvider) {
@@ -292,21 +293,9 @@ var CORATEST = (function(coraTest) {
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
 				textProvider);
 		var metadataId = "groupIdTwoTextChildRepeat1to5";
-// 		var presentationId = "pgGroupIdTwoTextChildSurrounding2TextPGroup";
 		var presentationId = "pgGroupIdTwoTextChildSurrounding2TextPGroup2";
 		
-		var data = {
-				"name" : "groupIdOneTextChild",
-				"children" : [ {
-					"name" : "textVariableId",
-					"value" : "A different value!",
-					"repeatId":"one"
-				} ]
-			};
-		
-// 		var dependencies = dependenciesFactory.factor(metadataId, presentationId, data);
 		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
-		
 		
 		var view = dependencies.presentation.getView();
 		place.appendChild(view);
@@ -318,21 +307,28 @@ var CORATEST = (function(coraTest) {
 			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
 		}
 		document.getElementById("client5DataButton").onclick = showData;
-
-
-		var path2 = {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "textVariableId"
-				} ]
-			};
-			var data2 = {
-				"path" : path2,
-				"data" : "aValue1"
-			};
+	}
+	function client6(metadataProvider, textProvider) {
+		var place = document.getElementById("client6");
+		var pubSub = CORA.pubSub();
+		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
+				textProvider);
+		var metadataId = "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup";
+		var presentationId = "pgTextVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup";
 		
-// 		pubSub.publish("setValue", data2);
+		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
+		
+		
+		var view = dependencies.presentation.getView();
+		place.appendChild(view);
+		
+		view.dataHolder = dependencies.dataHolder;
+		
+		function showData(){
+			var clientData = document.getElementById("client6Data");
+			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
+		}
+		document.getElementById("client6DataButton").onclick = showData;
 	}
 </script>
 </head>
@@ -361,6 +357,13 @@ var CORATEST = (function(coraTest) {
 		</div>
 		<div id="client5Data"></div>
 		<input id="client5DataButton" type="button" value="Show data"></input>
+	<h2>JSClient 6 (groups has same nameInData different attributes)</h2>
+	<div id="client6"
+		style="background-color: rgb(248, 191, 91); min-height: 20px; min-width: 40px;">
+		
+		</div>
+		<div id="client6Data"></div>
+		<input id="client6DataButton" type="button" value="Show data"></input>
 </body>
 </html>
 

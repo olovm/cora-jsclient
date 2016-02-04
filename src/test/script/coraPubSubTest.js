@@ -58,6 +58,27 @@ QUnit.test("testPublish", function(assert) {
 	this.pubSub.publish(type, data);
 	assert.ok(this.pubSub !== undefined);
 });
+QUnit.test("testProblemWhenCallingFunctionToCall", function(assert) {
+	var type = "add";
+	var path = {};
+	var functionToCall = function() {
+		//generate error
+		x + y === z;
+	};
+	var context = this;
+	this.pubSub.subscribe(type, path, context, functionToCall);
+	assert.ok(this.pubSub !== undefined);
+
+	var data = {
+			"metadataId" : "someId",
+			"path" : path,
+			"repeatId" : "someRepeatId"
+	};
+	throws(function() {
+		this.pubSub.publish(type, data);
+	}, "Error");
+});
+
 QUnit.test("testMore", function(assert) {
 	var type = "add";
 	var path = {};

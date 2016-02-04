@@ -64,22 +64,6 @@ QUnit.module("CORA.pChildRefHandler", {
 		this.pubSub = new PubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
 
-		// var spec = {
-		// "metadataId" : metadataId,
-		// "metadataProvider" : metadataProvider,
-		// "pubSub" : pubSub,
-		// "textProvider" : textProvider
-		// };
-		// this.jsBookkeeper = CORA.jsBookkeeper(spec);
-		//
-		// var specPresentationFactory = {
-		// "metadataProvider" : metadataProvider,
-		// "pubSub" : pubSub,
-		// "textProvider" : textProvider,
-		// "jsBookkeeper" : jsBookkeeper
-		// };
-		// this.presentationFactory =
-		// CORA.presentationFactory(specPresentationFactory);
 		this.presentationFactory = CORATEST.presentationFactorySpy();
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 
@@ -326,6 +310,79 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 	};
 	assert.deepEqual(this.presentationFactory.getPath(), childPath);
 });
+// groupInGroupOneTextChild
+// groupIdOneTextChildTwoAttributes
+// use this to make sure path contains attributes...
+
+QUnit.test("testAddChildWithAttributesInPath", function(assert) {
+	var fixture = document.getElementById("qunit-fixture");
+	var metadataProvider = new MetadataProviderStub();
+	var pubSub = new PubSubSpy();
+	var textProvider = CORATEST.textProviderStub();
+
+	var specPresentationFactory = {
+		"metadataProvider" : metadataProvider,
+		"pubSub" : pubSub,
+		"textProvider" : textProvider,
+		"jsBookkeeper" : jsBookkeeper
+	};
+	var presentationFactory = CORA.presentationFactory(specPresentationFactory);
+	var jsBookkeeper = CORATEST.jsBookkeeperSpy();
+
+	var attachedPChildRefHandlerFactory = CORATEST.attachedPChildRefHandlerFactory(
+			metadataProvider, pubSub, textProvider, presentationFactory, jsBookkeeper, fixture);
+
+	var path = {};
+	var attachedPChildRefHandler = attachedPChildRefHandlerFactory.factor(path,
+			"textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
+			"pgTextVarRepeat1to3InGroupOtherAttribute");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+
+	assert.strictEqual(childrenView.childNodes.length, 1);
+	// console.log(childrenView)
+
+	var variableView = childrenView.firstChild.firstChild;
+	assert.strictEqual(variableView.className, "pGroup pgTextVarRepeat1to3InGroupOtherAttribute");
+
+	// subscription
+	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 3);
+
+	var firstSubsription = subscriptions[1];
+	assert.strictEqual(firstSubsription.type, "add");
+	var childPath = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVarRepeat1to3InGroupOneAttribute"
+		}, {
+			"name" : "repeatId",
+			"value" : "one"
+		}, {
+			"name" : "attributes",
+			"children" : [ {
+				"name" : "attribute",
+				"repeatId" : "1",
+				"children" : [ {
+					"name" : "attributeName",
+					"value" : "anOtherAttribute"
+				}, {
+					"name" : "attributeValue",
+					"value" : "aOtherFinalValue"
+				} ]
+			} ]
+		} ]
+	};
+	assert.deepEqual(firstSubsription.path, childPath);
+	var secondSubsription = subscriptions[2];
+	assert.strictEqual(secondSubsription.type, "remove");
+	assert.deepEqual(secondSubsription.path, childPath);
+
+});
 
 // groupIdOneTextChildRepeat1to3
 // pgGroupIdOneTextTwoTextChildrenRepeat1to3
@@ -546,56 +603,6 @@ QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
 
 	assert.ok(removeButton.offsetHeight > 0, "removeButton should be visible");
 });
-
-// groupInGroupOneTextChild
-// groupIdOneTextChildTwoAttributes
-// use this to make sure path contains attributes...
-
-// QUnit.test("testAddChildWithAttributesInPath", function (assert) {
-// var path = {};
-// var attachedPChildRefHandler =
-// this.attachedPChildRefHandlerFactory.factor(path,
-// "groupInGroupOneTextChildTwoAttributes",
-// "pgGroupIdOneTextOneTextChildTwoAttributes");
-// var view = attachedPChildRefHandler.view;
-// assert.ok(view.childNodes.length === 0, "pChildRefHandler, should have zero
-// children");
-//	
-// attachedPChildRefHandler.pChildRefHandler.add();
-//	
-// assert.ok(view.childNodes.length === 1, "pChildRefHandler, should have one
-// child");
-// var variableView = view.firstChild;
-// assert.strictEqual(variableView.className, "pVar pVarTextVariableId");
-//	
-// // subscription
-// var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
-// assert.deepEqual(subscriptions.length, 2);
-//	
-// var firstSubsription = subscriptions[1];
-// assert.strictEqual(firstSubsription.type, "setValue");
-// var childPath = {
-// "children" : [ {
-// "name" : "nameInData1",
-// "value" : "textVariableId"
-// }, {
-// "children" : [ {
-// "name" : "nameInData2",
-// "value" : "textVariableId"
-// }, {
-// "name" : "linkedPath",
-// "children" : [ {
-// "name" : "nameInData",
-// "value" : "textVariableId"
-// } ]
-// } ],
-// "name" : "linkedPath"
-// } ],
-// "name" : "linkedPath"
-// };
-// assert.deepEqual(firstSubsription.path, childPath);
-//	
-// });
 
 QUnit.test("testHandleMessageRightMetadataId", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},

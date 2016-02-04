@@ -161,8 +161,10 @@ var CORA = (function(cora) {
 
 		function calculatePathForNewElement(repeatId) {
 			var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
+			var attributes = getAttributesForMetadataId(cMetadataElement);
 			var pathCopy = JSON.parse(JSON.stringify(parentPath));
-			var childPath = createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId);
+			var childPath = createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId,
+					attributes);
 			if (pathCopy.children === undefined) {
 				return childPath;
 			}
@@ -171,7 +173,8 @@ var CORA = (function(cora) {
 			return pathCopy;
 		}
 
-		function createLinkedPathWithNameInDataAndRepeatId(nameInDataForPath, repeatIdForPath) {
+		function createLinkedPathWithNameInDataAndRepeatId(nameInDataForPath, repeatIdForPath,
+				attributes) {
 			var path = {
 				"name" : "linkedPath",
 				"children" : [ {
@@ -182,8 +185,13 @@ var CORA = (function(cora) {
 			if (repeatIdForPath !== undefined) {
 				path.children.push({
 					"name" : "repeatId",
+
 					"value" : repeatIdForPath
 				});
+			}
+
+			if (attributes !== undefined) {
+				path.children.push(attributes);
 			}
 			return path;
 		}
@@ -195,7 +203,57 @@ var CORA = (function(cora) {
 			}
 			return path;
 		}
+		function getAttributesForMetadataId(metadataElement) {
+			if (metadataElement.containsChildWithNameInData("attributeReferences")) {
+				return getAttributesForMetadataElement(metadataElement);
+			}
+			return undefined;
+		}
 
+		function getAttributesForMetadataElement(metadataElement) {
+			var attributesOut = createAttributes();
+			var attributeReferences = metadataElement
+					.getFirstChildByNameInData("attributeReferences");
+			var attributeReference;
+			for (var i = 0; i < attributeReferences.children.length; i++) {
+				attributeReference = attributeReferences.children[i];
+				var attribute = getAttributeForAttributeReference(attributeReference, i);
+				attributesOut.children.push(attribute);
+			}
+			return attributesOut;
+		}
+
+		function createAttributes() {
+			return {
+				"name" : "attributes",
+				"children" : []
+			};
+		}
+
+		function getAttributeForAttributeReference(attributeReference, index) {
+			var attributeMetadata = getMetadataById(attributeReference.value);
+			var attributeNameInData = attributeMetadata
+					.getFirstAtomicValueByNameInData("nameInData");
+			var finalValue = attributeMetadata.getFirstAtomicValueByNameInData("finalValue");
+
+			return createAttributeWithNameAndValueAndRepeatId(attributeNameInData, finalValue,
+					index);
+
+		}
+
+		function createAttributeWithNameAndValueAndRepeatId(attributeName, attributeValue, repeatId) {
+			return {
+				"name" : "attribute",
+				"repeatId" : repeatId || "1",
+				"children" : [ {
+					"name" : "attributeName",
+					"value" : attributeName
+				}, {
+					"name" : "attributeValue",
+					"value" : attributeValue
+				} ]
+			};
+		}
 		function childRemoved() {
 			noOfRepeating--;
 			updateView();
@@ -210,24 +268,18 @@ var CORA = (function(cora) {
 
 		function updateChildrenRemoveButtonVisibility() {
 			var repeatingElements = childrenView.childNodes;
-			var keys = Object.keys(repeatingElements);
+			// can not use Object.keys(repeatingElements) as phantomJs can't
+			// handle it
+			var length = repeatingElements.length;
 			if (minLimitOfChildrenReached()) {
-				keys.forEach(function(key) {
-					if (keyIsNotPhantomJsExtraLengthElement(key)) {
-						repeatingElements[key].modelObject.hideRemoveButton();
-					}
-				});
+				for (var i = 0; i < length; i++) {
+					repeatingElements[i].modelObject.hideRemoveButton();
+				}
 			} else {
-				keys.forEach(function(key) {
-					if (keyIsNotPhantomJsExtraLengthElement(key)) {
-						repeatingElements[key].modelObject.showRemoveButton();
-					}
-				});
+				for (var i2 = 0; i2 < length; i2++) {
+					repeatingElements[i2].modelObject.showRemoveButton();
+				}
 			}
-		}
-
-		function keyIsNotPhantomJsExtraLengthElement(key) {
-			return !isNaN(key);
 		}
 
 		function minLimitOfChildrenReached() {

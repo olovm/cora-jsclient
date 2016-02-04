@@ -30,9 +30,11 @@ var CORA = (function(cora) {
 		function publish(type, data) {
 			var everyThingOk = arbiter.publish(convertPathToMsg(data.path) + type, data);
 			if (!everyThingOk) {
+				var errorMessage ="";
 				arbiter.getErrorArray().forEach(function(error) {
-					console.log(error.message);
+					errorMessage += " " +error.message;
 				});
+				throw new Error("Errors generated when publishing: "+errorMessage);
 			}
 		}
 

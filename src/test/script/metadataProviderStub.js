@@ -1113,7 +1113,6 @@ function MetadataProviderStub() {
 				} ]
 			};
 			break;
-
 		case "pVarTextVariableIdOutput":
 			return {
 				"name" : "presentation",
@@ -1135,7 +1134,51 @@ function MetadataProviderStub() {
 				} ]
 			};
 			break;
+		case "pVarTextVar":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pVar"
+			},
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "pVarTextVar"
+				} ]
+			}, {
+				"name" : "presentationOf",
+				"value" : "textVar"
+			}, {
+				"name" : "mode",
+				"value" : "input"
+			} ]
+		};
+		break;
 
+		case "pVarTextVarOutput":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pVar"
+			},
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "pVarTextVarOutput"
+				} ]
+			}, {
+				"name" : "presentationOf",
+				"value" : "textVar"
+			}, {
+				"name" : "mode",
+				"value" : "output"
+			} ]
+		};
+		break;
+
+		
 		case "pgGroupIdOneTextChild":
 			return {
 				"name" : "presentation",
@@ -1358,6 +1401,121 @@ function MetadataProviderStub() {
 				} ])
 			};
 			break;
+		case "pgTextVarRepeat1to3InGroupOneAttribute":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "textVarRepeat1to3InGroupOneAttribute"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "aHeadlineText"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				}, {
+					"name" : "childReference",
+					"repeatId" : "2",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pVarTextVar"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				} ]
+			} ])
+		};
+		break;
+		case "pgTextVarRepeat1to3InGroupOtherAttribute":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "textVarRepeat1to3InGroupOtherAttribute"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "aHeadlineText"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				}, {
+					"name" : "childReference",
+					"repeatId" : "2",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pVarTextVar"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				} ]
+			} ])
+		};
+		break;
+		case "pgTextVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "aHeadlineText"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				}, {
+					"name" : "childReference",
+					"repeatId" : "2",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pgTextVarRepeat1to3InGroupOneAttribute"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				},{
+					"name" : "childReference",
+					"repeatId" : "3",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pgTextVarRepeat1to3InGroupOtherAttribute"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				} ]
+			} ])
+		};
+		break;
 		case "pgGroupIdOneTextOneTextChildTwoAttributes":
 			return {
 				"name" : "presentation",
