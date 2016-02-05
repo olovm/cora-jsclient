@@ -122,19 +122,19 @@ var CORA = (function(cora) {
 			presentationMinimized = presentationMinimizedIn.getView();
 			view.insertBefore(presentationMinimized, buttonView);
 			createMinimizeMaximizeButtons();
-			console.log("minimizedDefault:"+String(minimizedDefault))
+//			console.log("minimizedDefault:"+String(minimizedDefault))
 			toggleMinimizedShown(minimizedDefault);
 		}
 
 		function toggleMinimizedShown(minimizedShown) {
 			if (minimizedShown!==undefined && minimizedShown === "true") {
-				console.log("minimizedDefault:TRUE "+String(minimizedShown))
+//				console.log("minimizedDefault:TRUE "+String(minimizedShown))
 				hide(presentationMaximized);
 				show(presentationMinimized);
 				show(maximizeButton);
 				hide(minimizeButton);
 			} else {
-				console.log("minimizedDefault:FALSE "+String(minimizedShown))
+//				console.log("minimizedDefault:FALSE "+String(minimizedShown))
 				show(presentationMaximized);
 				hide(presentationMinimized);
 				hide(maximizeButton);

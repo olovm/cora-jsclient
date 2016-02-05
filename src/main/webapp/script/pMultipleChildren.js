@@ -65,6 +65,20 @@ var CORA = (function(cora) {
 				"jsBookkeeper" : jsBookkeeper,
 				"presentationFactory" : presentationFactory
 			};
+			
+			if(cPresentationChildRef.containsChildWithNameInData("refMinimized")){
+				var presRefMinimized = cPresentationChildRef.getFirstAtomicValueByNameInData("refMinimized");
+				var cPresentationMinimized = getMetadataById(presRefMinimized);
+				childRefHandlerSpec.cPresentationMinimized =cPresentationMinimized;
+				var minimizedDefault = cPresentationChildRef.getFirstAtomicValueByNameInData("default");
+				console.log("minimizedDefault:"+minimizedDefault)
+				if(minimizedDefault === "refMinimized"){
+					console.log("minimizedDefault:TRUE")
+					childRefHandlerSpec.minimizedDefault = "true";
+				}
+			}
+			
+			
 			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
 			return pChildRefHandler.getView();
 		}

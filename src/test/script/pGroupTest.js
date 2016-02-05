@@ -19,17 +19,40 @@
 "use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.attachedPGroupFactory = function(metadataProvider, pubSub, textProvider, fixture) {
+	coraTest.attachedPGroupFactory = function(metadataProvider, pubSub, textProvider,
+			presentationFactory, jsBookkeeper, fixture) {
 		var factor = function(presentationId) {
-			var cPresentation = CORA.coraData(metadataProvider
-					.getMetadataById(presentationId));
+			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
+
+			// var factor = function(path, pSurroundingContainerId,
+			// presentationParentId) {
+			// var cPSurroundingContainer = CORA.coraData(metadataProvider
+			// .getMetadataById(pSurroundingContainerId));
+//			var cParentPresentation = CORA.coraData(metadataProvider
+//					.getMetadataById(presentationParentId));
+
 			var spec = {
-//				"presentationId" : presentationId,
+				// "presentationId" : presentationId,
+					 "path" : {},
 				"cPresentation" : cPresentation,
+				 "cParentPresentation" : undefined,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
-				"textProvider" : textProvider
+				"textProvider" : textProvider,
+				"presentationFactory" : presentationFactory,
+				"jsBookkeeper" : jsBookkeeper
 			};
+			// var spec = {
+			// "path" : path,
+			// "cPresentation" : cPSurroundingContainer,
+			// "cParentPresentation" : cParentPresentation,
+			// "metadataProvider" : metadataProvider,
+			// "pubSub" : pubSub,
+			// "textProvider" : textProvider,
+			// "presentationFactory" : presentationFactory,
+			// "jsBookkeeper" : jsBookkeeper
+			//
+			// };
 			var pGroup = CORA.pGroup(spec);
 
 			var view = pGroup.getView();
@@ -57,8 +80,11 @@ QUnit.module("CORA.pGroup", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = new PubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
+		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
+		this.presentationFactory = CORATEST.presentationFactorySpy();
 		this.newAttachedPGroup = CORATEST.attachedPGroupFactory(this.metadataProvider, this.pubSub,
-				this.textProvider, this.fixture);
+				this.textProvider, this.presentationFactory,
+				this.jsBookkeeper, this.fixture);
 	},
 	afterEach : function() {
 	}
@@ -113,4 +139,64 @@ QUnit.test("testInitTwoChildren", function(assert) {
 	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
 	var childRefHandler2 = view.childNodes[1];
 	assert.deepEqual(childRefHandler2.className, "pChildRefHandler pVarTextVariableId2");
+});
+
+QUnit.test("testInitOneChildMimimized", function(assert) {
+	// var attachedPGroup =
+//	 this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimized");
+	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimized");
+//	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
+	var view = attachedPGroup.view;
+	var pGroup = attachedPGroup.pGroup;
+	var childRefHandler = view.firstChild;
+	console.log(childRefHandler);
+	var pChildRefHandler = childRefHandler.modelObject;
+	// pChildRefHandler.add("one");
+	pChildRefHandler.add("onelkadsjflökads jflköads jflökadsjfldasj lk");
+
+	// minimizedPresentation
+	var repeatingElement = childRefHandler.childNodes[0].firstChild;
+	assert.strictEqual(repeatingElement.childNodes.length, 3);
+	console.log(repeatingElement)
+
+	var repeatingButtonView = repeatingElement.childNodes[2];
+	assert.ok(repeatingButtonView.offsetHeight > 0, "repeatingButtonView should be visible");
+
+	var maximizeButton = repeatingButtonView.childNodes[0];
+	assert.strictEqual(maximizeButton.className, "maximizeButton");
+	assert.ok(maximizeButton.offsetHeight === 0, "maximizeButton should be hidden");
+
+	var minimizeButton = repeatingButtonView.childNodes[1];
+	assert.strictEqual(minimizeButton.className, "minimizeButton");
+	assert.ok(minimizeButton.offsetHeight > 0, "minimizeButton should be visible");
+});
+
+QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
+	// var attachedPGroup =
+//	 this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimized");
+	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimizedDefault");
+//	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
+	var view = attachedPGroup.view;
+	var pGroup = attachedPGroup.pGroup;
+	var childRefHandler = view.firstChild;
+	console.log(childRefHandler);
+	var pChildRefHandler = childRefHandler.modelObject;
+	// pChildRefHandler.add("one");
+	pChildRefHandler.add("onelkadsjflökads jflköads jflökadsjfldasj lk");
+	
+	// minimizedPresentation
+	var repeatingElement = childRefHandler.childNodes[0].firstChild;
+	assert.strictEqual(repeatingElement.childNodes.length, 3);
+	console.log(repeatingElement)
+	
+	var repeatingButtonView = repeatingElement.childNodes[2];
+	assert.ok(repeatingButtonView.offsetHeight > 0, "repeatingButtonView should be visible");
+	
+	var maximizeButton = repeatingButtonView.childNodes[0];
+	assert.strictEqual(maximizeButton.className, "maximizeButton");
+	assert.ok(maximizeButton.offsetHeight > 0, "maximizeButton should be shown");
+	
+	var minimizeButton = repeatingButtonView.childNodes[1];
+	assert.strictEqual(minimizeButton.className, "minimizeButton");
+	assert.ok(minimizeButton.offsetHeight === 0, "minimizeButton should be hidden");
 });

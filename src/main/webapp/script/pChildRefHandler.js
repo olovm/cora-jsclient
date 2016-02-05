@@ -24,6 +24,7 @@ var CORA = (function(cora) {
 		var cParentMetadata = spec.cParentMetadata;
 		var cPresentation = spec.cPresentation;
 		var cPresentationMinimized = spec.cPresentationMinimized;
+		var minimizedDefault = spec.minimizedDefault;
 		var cParentPresentation = spec.cParentPresentation;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
@@ -134,6 +135,7 @@ var CORA = (function(cora) {
 		}
 
 		function add(repeatId) {
+			console.log("Add:"+repeatId);
 			var newPath = calculatePathForNewElement(repeatId);
 			var repeatingElementSpec = {
 				"repeatMin" : repeatMin,
@@ -153,8 +155,9 @@ var CORA = (function(cora) {
 			if (cPresentationMinimized !== undefined) {
 				var presentationMinimized = presentationFactory.factor(newPath,
 						cPresentationMinimized, cParentPresentation);
+				console.log("spec.minimizedDefault: "+minimizedDefault)
 				repeatingElement.addPresentationMinimized(presentationMinimized,
-						spec.minimizedDefault);
+						minimizedDefault);
 
 			}
 
