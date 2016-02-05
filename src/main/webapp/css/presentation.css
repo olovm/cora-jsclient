@@ -1,23 +1,57 @@
 .presentation {
 	min-height: 13px;
 	min-width: 13px;
+	padding: 8px;
+	margin: 5px;
+	border: 1px solid rgba(140, 140, 140, 0.58);
+	border-radius: 5px;
+	box-shadow: 5px 5px 8px #aeaeae;
+	max-width: 50em;
 }
+input {
+	margin: 3px;
+}
+
+.client1>.presentation {
+	background-color: yellow;
+}
+
+.client2>.presentation {
+	background-color: rgb(170, 223, 248);
+}
+
+.client3>.presentation {
+	background-color: rgb(158, 231, 55);
+}
+
+.client4>.presentation {
+	background-color: rgb(255, 172, 251);
+}
+
+.client5>.presentation {
+	background-color: rgb(255, 218, 129);
+}
+
+.client6>.presentation {
+	background-color: rgb(248, 191, 91);
+}
+
 .pGroup {
 	min-height: 13px;
 	min-width: 13px;
 }
+
 .pGroup .pGroup {
 	background-color: cyan;
 }
-.error input{
+
+.error input {
 	background-color: red;
 }
 /* .presentation.pgGroupIdOneTextChild { */
 /* 	height: 131px; */
 /* 	width: 131px; */
 /* } */
-
-
 .removeButton {
 	cursor: pointer;
 	min-width: 5px;
@@ -26,54 +60,86 @@
 }
 
 .removeButton::before {
-  background: url("../images/icons2.svg") no-repeat scroll -32px -16px ;
-  content: "";
-  height: 16px;
-  width: 16px;
-  opacity: 1;
-  position: absolute;
-  transition: opacity 0.5s ease 0s;
-  z-index: 100;
+	background: url("../images/icons2.svg") no-repeat scroll -32px -16px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	opacity: 1;
+	position: absolute;
+	transition: opacity 0.5s ease 0s;
+	z-index: 100;
 }
+
 .removeButton:hover::before {
-  opacity: 0;
+	opacity: 0;
 }
+
 .removeButton::after {
-  background: url("../images/icons2.svg") no-repeat scroll -32px 0px;
-  content: "";
-  height: 16px;
-  width: 16px;
-  position: absolute;
-  opacity: 0;
+	background: url("../images/icons2.svg") no-repeat scroll -32px 0px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	opacity: 0;
 }
+
 .removeButton:hover::after {
-  opacity: 1;
+	opacity: 1;
 }
+
 .removeButton::before, .removeButton::after {
 	top: 3px;
 	right: 2px;
 }
-.repeatingElement{
+
+.repeatingElement {
 	display: block;
+	position: relative;
+	border: 1px dotted grey;
 }
+/* .repeatingElement + .repeatingElement { */
+/* 	margin-top: 5px; */
+/* } */
 .buttonView {
 	min-width: 20px;
 	min-height: 20px;
 	position: relative;
 	display: inline-block;
 }
-.pVar{
+
+.repeatingElement>.buttonView {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+.pVar {
 	min-width: 30px;
 }
+
 .pRepeatingContainer {
 	border: 1px dashed green;
-	display: inline-block;
+	display: block;
 }
+
 .pSurroundingContainer {
 	border: 1px dashed red;
 	display: inline-block;
 }
+
 .pChildRefHandler {
-	border: 1px dashed blue;
+/* 	border: 1px dashed blue; */
 	display: block;
+}
+.text {
+	margin: 4px;
+	display: inline-block;
+}
+
+/* .pChildRefHandler + .pGroup > .pChildRefHandler { */
+ .pGroup > .pChildRefHandler + .pChildRefHandler {
+	margin-top: 25px;
+}
+.childrenView > .repeatingElement {
+	margin-top: 5px;
 }

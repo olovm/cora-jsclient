@@ -21,32 +21,24 @@ var CORA = (function(cora) {
 	cora.jsBookkeeper = function(spec) {
 		var pubSub = spec.pubSub;
 
-//		var repeatId = 100;
-
 		function setValue(data) {
 			pubSub.publish("setValue", data);
 		}
 
 		function add(data) {
-//			repeatId++;
 			var childReference = data.childReference;
-//			console.log(JSON.stringify(data));
 			var path = data.path;
 			var startRepeatId = 0;
 			var currentData = spec.dataHolder.getData();
-//			console.log(JSON.stringify(currentData));
 			if(path.children!==undefined){
 				currentData = spec.dataHolder.findContainer(currentData, path);
-//				console.log(JSON.stringify(currentData));
 			}
 			startRepeatId = calculateStartRepeatId(currentData.children);
-//			console.log("startRepeatId:" + startRepeatId);
 			
 			var cChildReference = CORA.coraData(childReference);
 			var ref = cChildReference.getFirstAtomicValueByNameInData('ref');
 			CORA.metadataRepeatInitializer(ref, path, undefined, String(startRepeatId),
 					spec.metadataProvider, spec.pubSub);
-
 		}
 
 		function calculateStartRepeatId(dataChildrenForMetadata) {
@@ -68,11 +60,8 @@ var CORA = (function(cora) {
 			var x = Number(child.repeatId);
 			if (!isNaN(x) && x >= currentMaxRepeatId) {
 				x++;
-//				console.log("new top number:" + x)
 				return x;
 			}
-
-//			console.log("old top number:" + currentMaxRepeatId)
 			return currentMaxRepeatId;
 		}
 
