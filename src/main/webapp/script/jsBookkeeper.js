@@ -21,16 +21,48 @@ var CORA = (function(cora) {
 	cora.jsBookkeeper = function(spec) {
 		var pubSub = spec.pubSub;
 
-		var repeatId = 100;
-
 		function setValue(data) {
 			pubSub.publish("setValue", data);
 		}
 
 		function add(data) {
-			data.repeatId = String(repeatId);
-			repeatId++;
-			pubSub.publish("add", data);
+			var childReference = data.childReference;
+			var path = data.path;
+			var startRepeatId = 0;
+			var currentData = spec.dataHolder.getData();
+			if (path.children !== undefined) {
+				currentData = spec.dataHolder.findContainer(currentData, path);
+			}
+			startRepeatId = calculateStartRepeatId(currentData.children);
+
+			var cChildReference = CORA.coraData(childReference);
+			var ref = cChildReference.getFirstAtomicValueByNameInData('ref');
+			CORA.metadataRepeatInitializer(ref, path, undefined, String(startRepeatId),
+					spec.metadataProvider, spec.pubSub);
+		}
+
+		function calculateStartRepeatId(dataChildrenForMetadata) {
+			var generatedRepeatId = 0;
+			generatedRepeatId = calculateStartRepeatIdFromData(dataChildrenForMetadata);
+			return generatedRepeatId;
+		}
+
+		function calculateStartRepeatIdFromData(dataChildrenForMetadata) {
+			var currentMaxRepeatId = 0;
+			dataChildrenForMetadata.forEach(function(child) {
+				currentMaxRepeatId = calculateMaxRepeatFromChildAndCurrentMaxRepeat(child,
+						currentMaxRepeatId);
+			});
+			return currentMaxRepeatId;
+		}
+
+		function calculateMaxRepeatFromChildAndCurrentMaxRepeat(child, currentMaxRepeatId) {
+			var x = Number(child.repeatId);
+			if (!isNaN(x) && x >= currentMaxRepeatId) {
+				x++;
+				return x;
+			}
+			return currentMaxRepeatId;
 		}
 
 		function remove(data) {

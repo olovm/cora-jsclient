@@ -188,7 +188,7 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function removeContainerWithPath(path){
+		function removeContainerWithPath(path) {
 			var containerAndParent = findContainerAndParent(dataContainer, path);
 			var parentContainer = containerAndParent.parent.children;
 			var containerIndexInParent = parentContainer.indexOf(containerAndParent.container);
@@ -200,7 +200,8 @@ var CORA = (function(cora) {
 			getData : getData,
 			setValue : setValue,
 			addChild : addChild,
-			remove : remove
+			remove : remove,
+			findContainer : findContainer
 		});
 	};
 	return cora;

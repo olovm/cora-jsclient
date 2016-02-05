@@ -29,7 +29,6 @@ var CORA = (function(cora) {
 		var presentationFactory = spec.presentationFactory;
 
 		var presentationId = findPresentationId(cPresentation);
-		// console.log("cPresentation:"+JSON.stringify(cPresentation.getData()))
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
 
@@ -310,7 +309,8 @@ var CORA = (function(cora) {
 		function sendAdd() {
 			var data = {
 				"metadataId" : metadataId,
-				"path" : parentPath
+				"path" : parentPath,
+				"childReference" : cParentMetadataChildRef.getData()
 			};
 			spec.jsBookkeeper.add(data);
 		}

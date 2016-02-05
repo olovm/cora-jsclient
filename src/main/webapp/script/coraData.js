@@ -27,13 +27,11 @@ var CORA = (function(cora) {
 		function getData() {
 			return data;
 		}
-		;
 
 		function containsChildWithNameInData(nameInData) {
 			var filter = createNameInDataFilter(nameInData);
 			return children.some(filter);
 		}
-		;
 
 		function createNameInDataFilter(nameInDataIn) {
 			return function(child) {
