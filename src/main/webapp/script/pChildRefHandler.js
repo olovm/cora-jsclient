@@ -112,7 +112,6 @@ var CORA = (function(cora) {
 		}
 
 		function createAddButton() {
-//			console.log(JSON.stringify(cParentMetadataChildRef.getData()));
 			var button = document.createElement("input");
 			button.type = "button";
 			button.value = "ADD";
@@ -311,9 +310,8 @@ var CORA = (function(cora) {
 			var data = {
 				"metadataId" : metadataId,
 				"path" : parentPath,
-				"childReference": cParentMetadataChildRef.getData()
+				"childReference" : cParentMetadataChildRef.getData()
 			};
-//			console.log(JSON.stringify(data));
 			spec.jsBookkeeper.add(data);
 		}
 

@@ -124,7 +124,7 @@ input {
 
 .pSurroundingContainer {
 	border: 1px dashed red;
-	display: inline-block;
+	display: block;
 }
 
 .pChildRefHandler {
