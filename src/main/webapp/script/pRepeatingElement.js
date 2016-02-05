@@ -34,6 +34,11 @@ var CORA = (function(cora) {
 		if (movableOrRemovableElement()) {
 			buttonView = createButtonView();
 		}
+		var presentationMaximized;
+		var presentationMinimized;
+		var maximizeButton;
+		var minimizeButton;
+
 		function calculateIsRepeating() {
 			if (repeatMax > 1 || repeatMax === "X") {
 				return true;
@@ -110,22 +115,66 @@ var CORA = (function(cora) {
 		}
 
 		function addPresentation(presentation) {
-			view.insertBefore(presentation.getView(), buttonView);
+			presentationMaximized = presentation.getView();
+			view.insertBefore(presentationMaximized, buttonView);
+		}
+
+		function addPresentationMinimized(presentationMinimizedIn, minimizedDefault) {
+			presentationMinimized = presentationMinimizedIn.getView();
+			view.insertBefore(presentationMinimized, buttonView);
+			createMinimizeMaximizeButtons();
+			toggleMinimizedShown(minimizedDefault);
+		}
+
+		function toggleMinimizedShown(minimizedShown) {
+			if (minimizedShown) {
+				hide(presentationMaximized);
+				show(presentationMinimized);
+				show(maximizeButton);
+				hide(minimizeButton);
+			} else {
+				show(presentationMaximized);
+				hide(presentationMinimized);
+				hide(maximizeButton);
+				show(minimizeButton);
+			}
+		}
+
+		function createMinimizeMaximizeButtons() {
+			maximizeButton = document.createElement("span");
+			maximizeButton.className = "maximizeButton";
+			maximizeButton.onclick = function() {
+				toggleMinimizedShown(false);
+			};
+			buttonView.appendChild(maximizeButton);
+
+			minimizeButton = document.createElement("span");
+			minimizeButton.className = "minimizeButton";
+			minimizeButton.onclick = function() {
+				toggleMinimizedShown(true);
+			};
+			buttonView.appendChild(minimizeButton);
 		}
 
 		function hideRemoveButton() {
-			removeButton.styleOriginal = removeButton.style.display;
-			removeButton.style.display = "none";
+			hide(removeButton);
 		}
 
 		function showRemoveButton() {
-			removeButton.style.display = removeButton.styleOriginal;
+			show(removeButton);
 		}
-
+		function hide(element) {
+			element.styleOriginal = element.style.display;
+			element.style.display = "none";
+		}
+		function show(element) {
+			element.style.display = element.styleOriginal;
+		}
 		var out = Object.freeze({
 			"type" : "pRepeatingElement",
 			getView : getView,
 			addPresentation : addPresentation,
+			addPresentationMinimized : addPresentationMinimized,
 			hideRemoveButton : hideRemoveButton,
 			showRemoveButton : showRemoveButton
 		});

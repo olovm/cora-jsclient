@@ -144,11 +144,23 @@ var CORA = (function(cora) {
 			var repeatingElementView = repeatingElement.getView();
 			noOfRepeating++;
 			childrenView.appendChild(repeatingElementView);
+
 			var presentation = presentationFactory.factor(newPath, cPresentation,
 					cParentPresentation);
 			repeatingElement.addPresentation(presentation);
+			
+			if (spec.cPresentationMinimized !== undefined) {
+				var presentationMinimized = presentationFactory.factor(newPath,
+						cPresentationMinimized, cParentPresentation);
+			}
 
+			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
+					repeatingElementView);
 			updateView();
+		}
+
+		function subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
+				repeatingElementView) {
 			if (showAddButton()) {
 				var removeFunction = function() {
 					childrenView.removeChild(repeatingElementView);

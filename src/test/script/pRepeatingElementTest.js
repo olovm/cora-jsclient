@@ -99,9 +99,9 @@ QUnit.test("test1to1ShodHaveNoRemoveButton", function(assert) {
 	var repeatMax = "1";
 	var path = {};
 	var attachedPRepeatingElement = this.pRepeatingElementFactory
-	.factor(repeatMin, repeatMax, path);
+			.factor(repeatMin, repeatMax, path);
 	var view = attachedPRepeatingElement.view;
-	
+
 	var repeatingElement = view;
 	assert.strictEqual(repeatingElement.childNodes.length, 0);
 });
@@ -111,9 +111,9 @@ QUnit.test("testRemoveButtonOnclick", function(assert) {
 	var repeatMax = "2";
 	var path = {};
 	var attachedPRepeatingElement = this.pRepeatingElementFactory
-	.factor(repeatMin, repeatMax, path);
+			.factor(repeatMin, repeatMax, path);
 	var view = attachedPRepeatingElement.view;
-	
+
 	var repeatingElement = view;
 	var buttonView = repeatingElement.childNodes[0];
 	var removeButton = buttonView.firstChild;
@@ -134,20 +134,165 @@ QUnit.test("testHideRemoveButtonOnclick", function(assert) {
 	var repeatMax = "2";
 	var path = {};
 	var attachedPRepeatingElement = this.pRepeatingElementFactory
-	.factor(repeatMin, repeatMax, path);
+			.factor(repeatMin, repeatMax, path);
 	var view = attachedPRepeatingElement.view;
-	
+
 	var repeatingElement = view;
 	var buttonView = repeatingElement.childNodes[0];
 	var removeButton = buttonView.firstChild;
-	
+
 	assert.ok(removeButton.offsetHeight > 0, "buttonView should be visible");
-	
-	
+
 	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
 	pRepeatingElement.hideRemoveButton();
-	assert.ok(removeButton.offsetHeight === 0, "buttonView should be hidden"); 
-	
+	assert.ok(removeButton.offsetHeight === 0, "buttonView should be hidden");
+
 	pRepeatingElement.showRemoveButton();
 	assert.ok(removeButton.offsetHeight > 0, "buttonView should be visible");
+});
+
+QUnit.test("testAddPresentation", function(assert) {
+	var repeatMin = "1";
+	var repeatMax = "2";
+	var path = {};
+	var attachedPRepeatingElement = this.pRepeatingElementFactory
+			.factor(repeatMin, repeatMax, path);
+	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
+	var view = attachedPRepeatingElement.view;
+
+	var presentation = CORATEST.presentationStub();
+
+	pRepeatingElement.addPresentation(presentation);
+
+	var presentationView = view.childNodes[0];
+	assert.strictEqual(presentationView.className, "presentationStub");
+	assert.ok(presentationView.offsetHeight > 0, "presentationView should be visible");
+	assert.strictEqual(view.childNodes.length, 2);
+});
+
+QUnit.test("testAddPresentationMinimized", function(assert) {
+	var repeatMin = "1";
+	var repeatMax = "2";
+	var path = {};
+	var attachedPRepeatingElement = this.pRepeatingElementFactory
+			.factor(repeatMin, repeatMax, path);
+	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
+	var view = attachedPRepeatingElement.view;
+	var buttonView = view.childNodes[0];
+	var removeButton = buttonView.childNodes[0];
+
+	var presentation = CORATEST.presentationStub("maximized");
+	pRepeatingElement.addPresentation(presentation);
+
+	var presentationView = view.childNodes[0];
+	assert.strictEqual(presentationView.className, "presentationStub");
+	assert.ok(presentationView.offsetHeight > 0, "presentationView should be visible");
+	assert.strictEqual(view.childNodes.length, 2);
+
+	var presentationMinimized = CORATEST.presentationStub("minimized");
+	var defaultPresentation = "ref";
+	pRepeatingElement.addPresentationMinimized(presentationMinimized);
+
+	var presentationMinimizedView = view.childNodes[1];
+	assert.strictEqual(presentationMinimizedView.className, "presentationStub");
+	assert.ok(presentationMinimizedView.offsetHeight === 0,
+			"presentationMinimizedView should be hidden");
+
+	// test minimized/maximized button
+	var maximizeButton = buttonView.childNodes[1];
+	assert.strictEqual(maximizeButton.className, "maximizeButton");
+	assert.ok(maximizeButton.offsetHeight === 0, "maximizeButton should be hidden");
+	var minimizeButton = buttonView.childNodes[2];
+	assert.strictEqual(minimizeButton.className, "minimizeButton");
+	assert.ok(minimizeButton.offsetHeight > 0, "minimizeButton should be shown");
+});
+
+QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
+	var repeatMin = "1";
+	var repeatMax = "2";
+	var path = {};
+	var attachedPRepeatingElement = this.pRepeatingElementFactory
+			.factor(repeatMin, repeatMax, path);
+	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
+	var view = attachedPRepeatingElement.view;
+	var buttonView = view.childNodes[0];
+	var removeButton = buttonView.childNodes[0];
+
+	var presentation = CORATEST.presentationStub("maximized");
+	pRepeatingElement.addPresentation(presentation);
+
+	var presentationView = view.childNodes[0];
+	assert.strictEqual(presentationView.className, "presentationStub");
+	assert.ok(presentationView.offsetHeight > 0, "presentationView should be visible");
+	assert.strictEqual(view.childNodes.length, 2);
+
+	var presentationMinimized = CORATEST.presentationStub("minimized");
+	var defaultPresentation = "ref";
+	pRepeatingElement.addPresentationMinimized(presentationMinimized, true);
+
+	var presentationMinimizedView = view.childNodes[1];
+	assert.strictEqual(presentationMinimizedView.className, "presentationStub");
+	assert.ok(presentationMinimizedView.offsetHeight > 0,
+			"presentationMinimizedView should be shown");
+	assert.ok(presentationView.offsetHeight === 0, "presentationView should be hidden");
+
+	// test minimized/maximized button
+	var maximizeButton = buttonView.childNodes[1];
+	assert.strictEqual(maximizeButton.className, "maximizeButton");
+	assert.ok(maximizeButton.offsetHeight > 0, "maximizeButton should be shown");
+	var minimizeButton = buttonView.childNodes[2];
+	assert.strictEqual(minimizeButton.className, "minimizeButton");
+	assert.ok(minimizeButton.offsetHeight === 0, "minimizeButton should be hidden");
+});
+
+QUnit.test("testAddPresentationMinimizedToggle", function(assert) {
+	var repeatMin = "1";
+	var repeatMax = "2";
+	var path = {};
+	var attachedPRepeatingElement = this.pRepeatingElementFactory
+			.factor(repeatMin, repeatMax, path);
+	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
+	var view = attachedPRepeatingElement.view;
+	var buttonView = view.childNodes[0];
+	var removeButton = buttonView.childNodes[0];
+
+	var presentation = CORATEST.presentationStub("maximized");
+	pRepeatingElement.addPresentation(presentation);
+
+	var presentationView = view.childNodes[0];
+	assert.strictEqual(presentationView.className, "presentationStub");
+	assert.ok(presentationView.offsetHeight > 0, "presentationView should be visible");
+	assert.strictEqual(view.childNodes.length, 2);
+
+	var presentationMinimized = CORATEST.presentationStub("minimized");
+	var defaultPresentation = "ref";
+	pRepeatingElement.addPresentationMinimized(presentationMinimized, true);
+
+	var presentationMinimizedView = view.childNodes[1];
+	assert.strictEqual(presentationMinimizedView.className, "presentationStub");
+	assert.ok(presentationMinimizedView.offsetHeight > 0,
+			"presentationMinimizedView should be shown");
+	assert.ok(presentationView.offsetHeight === 0, "presentationView should be hidden");
+
+	// test minimized/maximized button
+	var maximizeButton = buttonView.childNodes[1];
+	assert.strictEqual(maximizeButton.className, "maximizeButton");
+	assert.ok(maximizeButton.offsetHeight > 0, "maximizeButton should be shown");
+	var minimizeButton = buttonView.childNodes[2];
+	assert.strictEqual(minimizeButton.className, "minimizeButton");
+	assert.ok(minimizeButton.offsetHeight === 0, "minimizeButton should be hidden");
+
+	maximizeButton.onclick();
+	assert.ok(presentationView.offsetHeight > 0, "presentationView should be visible");
+	assert.ok(presentationMinimizedView.offsetHeight === 0, "presentationView should be hidden");
+	assert.ok(maximizeButton.offsetHeight === 0, "maximizeButton should be hidden");
+	assert.ok(minimizeButton.offsetHeight > 0, "minimizeButton should be shown");
+
+	minimizeButton.onclick();
+	assert.ok(presentationView.offsetHeight === 0, "presentationView should be hidden");
+	assert.ok(presentationMinimizedView.offsetHeight > 0, "presentationMinimizedView should be shown");
+	assert.ok(maximizeButton.offsetHeight > 0, "maximizeButton should be shown");
+	assert.ok(minimizeButton.offsetHeight === 0, "minimizeButton should be hidden");
+	
+
 });
