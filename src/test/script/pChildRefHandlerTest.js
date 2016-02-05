@@ -645,3 +645,86 @@ QUnit.test("testHandleMessageNotRightMetadataId", function(assert) {
 
 	assert.strictEqual(childrenView.childNodes.length, 0);
 });
+
+QUnit.test("testWithMinimized", function(assert) {
+	var metadataProvider = this.metadataProvider;
+	var cParentMetadata = CORA.coraData(metadataProvider.getMetadataById("groupIdOneTextChild"));
+	var cPresentation = CORA.coraData(metadataProvider.getMetadataById("pVarTextVariableId"));
+	var cPresentationMinimized = CORA.coraData(metadataProvider
+			.getMetadataById("pVarTextVariableIdOutput"));
+
+	var spec = {
+		"parentPath" : {},
+		"cParentMetadata" : cParentMetadata,
+		"cPresentation" : cPresentation,
+		"cPresentationMinimized" : cPresentationMinimized,
+		"metadataProvider" : metadataProvider,
+		"pubSub" : this.pubSub,
+		"textProvider" : this.textProvider,
+		"presentationFactory" : this.presentationFactory,
+		"jsBookkeeper" : this.jsBookkeeper
+	};
+	var pChildRefHandler = CORA.pChildRefHandler(spec);
+	var view = pChildRefHandler.getView();
+	this.fixture.appendChild(view);
+
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	pChildRefHandler.add("one");
+	assert.strictEqual(childrenView.childNodes.length, 1);
+
+	// minimizedPresentation
+	var repeatingElement = childrenView.childNodes[0];
+	assert.strictEqual(repeatingElement.childNodes.length, 3);
+
+	var repeatingButtonView = repeatingElement.childNodes[2];
+	assert.ok(repeatingButtonView.offsetHeight > 0, "repeatingButtonView should be visible");
+
+	var maximizeButton = repeatingButtonView.childNodes[0];
+	assert.strictEqual(maximizeButton.className, "maximizeButton");
+	assert.ok(maximizeButton.offsetHeight === 0, "maximizeButton should be hidden");
+
+	var minimizeButton = repeatingButtonView.childNodes[1];
+	assert.strictEqual(minimizeButton.className, "minimizeButton");
+	assert.ok(minimizeButton.offsetHeight > 0, "minimizeButton should be visible");
+});
+
+QUnit.test("testWithMinimizedDefault", function(assert) {
+	var metadataProvider = this.metadataProvider;
+	var cParentMetadata = CORA.coraData(metadataProvider.getMetadataById("groupIdOneTextChild"));
+	var cPresentation = CORA.coraData(metadataProvider.getMetadataById("pVarTextVariableId"));
+	var cPresentationMinimized = CORA.coraData(metadataProvider
+			.getMetadataById("pVarTextVariableIdOutput"));
+
+	var spec = {
+		"parentPath" : {},
+		"cParentMetadata" : cParentMetadata,
+		"cPresentation" : cPresentation,
+		"cPresentationMinimized" : cPresentationMinimized,
+		"minimizedDefault" : "true",
+		"metadataProvider" : metadataProvider,
+		"pubSub" : this.pubSub,
+		"textProvider" : this.textProvider,
+		"presentationFactory" : this.presentationFactory,
+		"jsBookkeeper" : this.jsBookkeeper
+	};
+	var pChildRefHandler = CORA.pChildRefHandler(spec);
+	var view = pChildRefHandler.getView();
+	this.fixture.appendChild(view);
+
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	pChildRefHandler.add("one");
+	assert.strictEqual(childrenView.childNodes.length, 1);
+
+	// minimizedPresentation
+	var repeatingElement = childrenView.childNodes[0];
+	assert.strictEqual(repeatingElement.childNodes.length, 3);
+
+	var repeatingButtonView = repeatingElement.childNodes[2];
+	var minimizeButton = repeatingButtonView.childNodes[1];
+	assert.strictEqual(minimizeButton.className, "minimizeButton");
+	assert.ok(minimizeButton.offsetHeight === 0, "minimizeButton should be hidden");
+});

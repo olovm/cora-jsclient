@@ -52,7 +52,7 @@ input {
 /* 	height: 131px; */
 /* 	width: 131px; */
 /* } */
-.removeButton {
+.removeButton, .maximizeButton, .minimizeButton {
 	cursor: pointer;
 	min-width: 5px;
 	min-height: 5px;

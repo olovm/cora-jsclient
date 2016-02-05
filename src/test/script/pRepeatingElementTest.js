@@ -103,7 +103,7 @@ QUnit.test("test1to1ShodHaveNoRemoveButton", function(assert) {
 	var view = attachedPRepeatingElement.view;
 
 	var repeatingElement = view;
-	assert.strictEqual(repeatingElement.childNodes.length, 0);
+	assert.strictEqual(repeatingElement.childNodes[0].childNodes.length, 0);
 });
 
 QUnit.test("testRemoveButtonOnclick", function(assert) {
@@ -228,7 +228,7 @@ QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
 
 	var presentationMinimized = CORATEST.presentationStub("minimized");
 	var defaultPresentation = "ref";
-	pRepeatingElement.addPresentationMinimized(presentationMinimized, true);
+	pRepeatingElement.addPresentationMinimized(presentationMinimized, "true");
 
 	var presentationMinimizedView = view.childNodes[1];
 	assert.strictEqual(presentationMinimizedView.className, "presentationStub");
@@ -266,7 +266,7 @@ QUnit.test("testAddPresentationMinimizedToggle", function(assert) {
 
 	var presentationMinimized = CORATEST.presentationStub("minimized");
 	var defaultPresentation = "ref";
-	pRepeatingElement.addPresentationMinimized(presentationMinimized, true);
+	pRepeatingElement.addPresentationMinimized(presentationMinimized, "true");
 
 	var presentationMinimizedView = view.childNodes[1];
 	assert.strictEqual(presentationMinimizedView.className, "presentationStub");

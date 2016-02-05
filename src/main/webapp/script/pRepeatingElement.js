@@ -29,15 +29,14 @@ var CORA = (function(cora) {
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
 		var view = createBaseView();
-		var buttonView;
 		var removeButton;
-		if (movableOrRemovableElement()) {
-			buttonView = createButtonView();
-		}
 		var presentationMaximized;
 		var presentationMinimized;
 		var maximizeButton;
 		var minimizeButton;
+
+		var buttonView = createButtonView();
+
 
 		function calculateIsRepeating() {
 			if (repeatMax > 1 || repeatMax === "X") {
@@ -123,16 +122,19 @@ var CORA = (function(cora) {
 			presentationMinimized = presentationMinimizedIn.getView();
 			view.insertBefore(presentationMinimized, buttonView);
 			createMinimizeMaximizeButtons();
+			console.log("minimizedDefault:"+String(minimizedDefault))
 			toggleMinimizedShown(minimizedDefault);
 		}
 
 		function toggleMinimizedShown(minimizedShown) {
-			if (minimizedShown) {
+			if (minimizedShown!==undefined && minimizedShown === "true") {
+				console.log("minimizedDefault:TRUE "+String(minimizedShown))
 				hide(presentationMaximized);
 				show(presentationMinimized);
 				show(maximizeButton);
 				hide(minimizeButton);
 			} else {
+				console.log("minimizedDefault:FALSE "+String(minimizedShown))
 				show(presentationMaximized);
 				hide(presentationMinimized);
 				hide(maximizeButton);
@@ -144,14 +146,14 @@ var CORA = (function(cora) {
 			maximizeButton = document.createElement("span");
 			maximizeButton.className = "maximizeButton";
 			maximizeButton.onclick = function() {
-				toggleMinimizedShown(false);
+				toggleMinimizedShown("false");
 			};
 			buttonView.appendChild(maximizeButton);
 
 			minimizeButton = document.createElement("span");
 			minimizeButton.className = "minimizeButton";
 			minimizeButton.onclick = function() {
-				toggleMinimizedShown(true);
+				toggleMinimizedShown("true");
 			};
 			buttonView.appendChild(minimizeButton);
 		}

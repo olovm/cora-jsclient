@@ -23,6 +23,7 @@ var CORA = (function(cora) {
 		var parentPath = spec.parentPath;
 		var cParentMetadata = spec.cParentMetadata;
 		var cPresentation = spec.cPresentation;
+		var cPresentationMinimized = spec.cPresentationMinimized;
 		var cParentPresentation = spec.cParentPresentation;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
@@ -148,10 +149,13 @@ var CORA = (function(cora) {
 			var presentation = presentationFactory.factor(newPath, cPresentation,
 					cParentPresentation);
 			repeatingElement.addPresentation(presentation);
-			
-			if (spec.cPresentationMinimized !== undefined) {
+
+			if (cPresentationMinimized !== undefined) {
 				var presentationMinimized = presentationFactory.factor(newPath,
 						cPresentationMinimized, cParentPresentation);
+				repeatingElement.addPresentationMinimized(presentationMinimized,
+						spec.minimizedDefault);
+
 			}
 
 			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
