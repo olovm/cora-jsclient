@@ -59,15 +59,6 @@ var CORA = (function(cora) {
 			return repeatingElement;
 		}
 
-		function movableOrRemovableElement() {
-			return !oneAndOnlyOne();
-		}
-
-		function oneAndOnlyOne() {
-			var stringOne = "1";
-			return repeatMin === stringOne && repeatMax === stringOne;
-		}
-
 		function addRemoveButton() {
 			return (isRepeating && !isStaticNoOfChildren) || isZeroToOne();
 		}
@@ -115,26 +106,25 @@ var CORA = (function(cora) {
 
 		function addPresentation(presentation) {
 			presentationMaximized = presentation.getView();
+			presentationMaximized.className =  presentationMaximized.className + " maximized";
 			view.insertBefore(presentationMaximized, buttonView);
 		}
 
 		function addPresentationMinimized(presentationMinimizedIn, minimizedDefault) {
 			presentationMinimized = presentationMinimizedIn.getView();
+			presentationMinimized.className =  presentationMinimized.className + " minimized";
 			view.insertBefore(presentationMinimized, buttonView);
 			createMinimizeMaximizeButtons();
-//			console.log("minimizedDefault:"+String(minimizedDefault))
 			toggleMinimizedShown(minimizedDefault);
 		}
 
 		function toggleMinimizedShown(minimizedShown) {
 			if (minimizedShown!==undefined && minimizedShown === "true") {
-//				console.log("minimizedDefault:TRUE "+String(minimizedShown))
 				hide(presentationMaximized);
 				show(presentationMinimized);
 				show(maximizeButton);
 				hide(minimizeButton);
 			} else {
-//				console.log("minimizedDefault:FALSE "+String(minimizedShown))
 				show(presentationMaximized);
 				hide(presentationMinimized);
 				hide(maximizeButton);

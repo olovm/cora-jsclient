@@ -54,11 +54,17 @@ input {
 /* } */
 .removeButton, .maximizeButton, .minimizeButton {
 	cursor: pointer;
-	min-width: 5px;
-	min-height: 5px;
-	display: inline-block;
+	min-width: 16px;
+	min-height: 16px;
+	display: block;
+	float:right;
+	position: relative;
+	margin-right: 2px;
 }
-
+.buttonView > span::before, .buttonView> span::after {
+	top: 3px;
+	right: 2px;
+}
 .removeButton::before {
 	background: url("../images/icons2.svg") no-repeat scroll -32px -16px;
 	content: "";
@@ -87,10 +93,67 @@ input {
 	opacity: 1;
 }
 
-.removeButton::before, .removeButton::after {
-	top: 3px;
-	right: 2px;
+
+
+
+
+.minimizeButton::before {
+	background: url("../images/icons2.svg") no-repeat scroll -64px -16px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	opacity: 1;
+	position: absolute;
+	transition: opacity 0.5s ease 0s;
+	z-index: 100;
 }
+
+.minimizeButton:hover::before {
+	opacity: 0;
+}
+
+.minimizeButton::after {
+	background: url("../images/icons2.svg") no-repeat scroll -64px 0px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	opacity: 0;
+}
+
+.minimizeButton:hover::after {
+	opacity: 1;
+}
+.maximizeButton::before {
+	background: url("../images/icons2.svg") no-repeat scroll -64px -0px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	opacity: 1;
+	position: absolute;
+	transition: opacity 0.5s ease 0s;
+	z-index: 100;
+}
+
+.maximizeButton:hover::before {
+	opacity: 0;
+}
+
+.maximizeButton::after {
+	background: url("../images/icons2.svg") no-repeat scroll -64px -16px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	opacity: 0;
+}
+
+.maximizeButton:hover::after {
+	opacity: 1;
+}
+
+
+
 
 .repeatingElement {
 	display: block;
@@ -115,6 +178,8 @@ input {
 
 .pVar {
 	min-width: 30px;
+	min-height: 24px;
+	display: inline-block;
 }
 
 .pRepeatingContainer {

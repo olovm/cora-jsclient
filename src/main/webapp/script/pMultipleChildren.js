@@ -28,6 +28,7 @@ var CORA = (function(cora) {
 		var presentationFactory = spec.presentationFactory;
 
 		var view;
+		
 		function init() {
 			var viewNew = my.createBaseViewHolder();
 			var presentationChildren = my.cPresentation
@@ -35,25 +36,45 @@ var CORA = (function(cora) {
 			presentationChildren.forEach(function(presentationChildRef) {
 				viewNew.appendChild(createViewForChild(presentationChildRef));
 			});
-
 			view = viewNew;
 		}
 
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
-			var cPresentationChild = getMetadataById(presRef);
+			var ref = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
+			var cPresentationChild = getMetadataById(ref);
 
-			if (cPresentationChild.getData().name === "text") {
-				var text = document.createElement("span");
-				text.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
-				text.className = "text";
-				return text;
-			} else if ("children" === cPresentationChild.getData().attributes.repeat) {
-				var surroundingContainer = presentationFactory.factor(path, cPresentationChild,
-						my.cParentPresentation);
-				return surroundingContainer.getView();
+			if (childIsText(cPresentationChild)) {
+				return createText(ref);
 			}
+			if (childIsSurroundingContainer(cPresentationChild)) {
+				return createSurroundingContainer(cPresentationChild);
+			}
+			return createPChildRefHandler(cPresentationChild, cPresentationChildRef);
+		}
+
+		function childIsText(cChild) {
+			return cChild.getData().name === "text";
+		}
+
+		function createText(presRef) {
+			var text = document.createElement("span");
+			text.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
+			text.className = "text";
+			return text;
+		}
+
+		function childIsSurroundingContainer(cChild) {
+			return "children" === cChild.getData().attributes.repeat;
+		}
+
+		function createSurroundingContainer(cChild) {
+			var surroundingContainer = presentationFactory.factor(path, cChild,
+					my.cParentPresentation);
+			return surroundingContainer.getView();
+		}
+
+		function createPChildRefHandler(cPresentationChild, cPresentationChildRef) {
 			var childRefHandlerSpec = {
 				"parentPath" : path,
 				"cParentMetadata" : getMetadataById(my.metadataId),
@@ -65,24 +86,27 @@ var CORA = (function(cora) {
 				"jsBookkeeper" : jsBookkeeper,
 				"presentationFactory" : presentationFactory
 			};
-			
-			if(cPresentationChildRef.containsChildWithNameInData("refMinimized")){
-				var presRefMinimized = cPresentationChildRef.getFirstAtomicValueByNameInData("refMinimized");
+
+			if (childHasMinimizedPresenation(cPresentationChildRef)) {
+				var presRefMinimized = cPresentationChildRef
+						.getFirstAtomicValueByNameInData("refMinimized");
 				var cPresentationMinimized = getMetadataById(presRefMinimized);
-				childRefHandlerSpec.cPresentationMinimized =cPresentationMinimized;
-				var minimizedDefault = cPresentationChildRef.getFirstAtomicValueByNameInData("default");
-				console.log("minimizedDefault:"+minimizedDefault)
-				if(minimizedDefault === "refMinimized"){
-					console.log("minimizedDefault:TRUE")
+				childRefHandlerSpec.cPresentationMinimized = cPresentationMinimized;
+				var minimizedDefault = cPresentationChildRef
+						.getFirstAtomicValueByNameInData("default");
+				if (minimizedDefault === "refMinimized") {
 					childRefHandlerSpec.minimizedDefault = "true";
 				}
 			}
-			
-			
+
 			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
 			return pChildRefHandler.getView();
 		}
-
+		
+		function childHasMinimizedPresenation(cChildRef) {
+			return cChildRef.containsChildWithNameInData("refMinimized");
+		}
+		
 		function getMetadataById(id) {
 			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}

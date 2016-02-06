@@ -149,7 +149,6 @@ QUnit.test("testInitOneChildMimimized", function(assert) {
 	var view = attachedPGroup.view;
 	var pGroup = attachedPGroup.pGroup;
 	var childRefHandler = view.firstChild;
-	console.log(childRefHandler);
 	var pChildRefHandler = childRefHandler.modelObject;
 	// pChildRefHandler.add("one");
 	pChildRefHandler.add("onelkadsjflökads jflköads jflökadsjfldasj lk");
@@ -157,16 +156,15 @@ QUnit.test("testInitOneChildMimimized", function(assert) {
 	// minimizedPresentation
 	var repeatingElement = childRefHandler.childNodes[0].firstChild;
 	assert.strictEqual(repeatingElement.childNodes.length, 3);
-	console.log(repeatingElement)
 
 	var repeatingButtonView = repeatingElement.childNodes[2];
 	assert.ok(repeatingButtonView.offsetHeight > 0, "repeatingButtonView should be visible");
 
-	var maximizeButton = repeatingButtonView.childNodes[0];
+	var maximizeButton = repeatingButtonView.childNodes[1];
 	assert.strictEqual(maximizeButton.className, "maximizeButton");
 	assert.ok(maximizeButton.offsetHeight === 0, "maximizeButton should be hidden");
 
-	var minimizeButton = repeatingButtonView.childNodes[1];
+	var minimizeButton = repeatingButtonView.childNodes[2];
 	assert.strictEqual(minimizeButton.className, "minimizeButton");
 	assert.ok(minimizeButton.offsetHeight > 0, "minimizeButton should be visible");
 });
@@ -179,7 +177,6 @@ QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
 	var view = attachedPGroup.view;
 	var pGroup = attachedPGroup.pGroup;
 	var childRefHandler = view.firstChild;
-	console.log(childRefHandler);
 	var pChildRefHandler = childRefHandler.modelObject;
 	// pChildRefHandler.add("one");
 	pChildRefHandler.add("onelkadsjflökads jflköads jflökadsjfldasj lk");
@@ -187,7 +184,6 @@ QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
 	// minimizedPresentation
 	var repeatingElement = childRefHandler.childNodes[0].firstChild;
 	assert.strictEqual(repeatingElement.childNodes.length, 3);
-	console.log(repeatingElement)
 	
 	var repeatingButtonView = repeatingElement.childNodes[2];
 	assert.ok(repeatingButtonView.offsetHeight > 0, "repeatingButtonView should be visible");

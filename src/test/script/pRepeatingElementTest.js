@@ -165,7 +165,7 @@ QUnit.test("testAddPresentation", function(assert) {
 	pRepeatingElement.addPresentation(presentation);
 
 	var presentationView = view.childNodes[0];
-	assert.strictEqual(presentationView.className, "presentationStub");
+	assert.strictEqual(presentationView.className, "presentationStub maximized");
 	assert.ok(presentationView.offsetHeight > 0, "presentationView should be visible");
 	assert.strictEqual(view.childNodes.length, 2);
 });
@@ -185,7 +185,7 @@ QUnit.test("testAddPresentationMinimized", function(assert) {
 	pRepeatingElement.addPresentation(presentation);
 
 	var presentationView = view.childNodes[0];
-	assert.strictEqual(presentationView.className, "presentationStub");
+	assert.strictEqual(presentationView.className, "presentationStub maximized");
 	assert.ok(presentationView.offsetHeight > 0, "presentationView should be visible");
 	assert.strictEqual(view.childNodes.length, 2);
 
@@ -194,7 +194,7 @@ QUnit.test("testAddPresentationMinimized", function(assert) {
 	pRepeatingElement.addPresentationMinimized(presentationMinimized);
 
 	var presentationMinimizedView = view.childNodes[1];
-	assert.strictEqual(presentationMinimizedView.className, "presentationStub");
+	assert.strictEqual(presentationMinimizedView.className, "presentationStub minimized");
 	assert.ok(presentationMinimizedView.offsetHeight === 0,
 			"presentationMinimizedView should be hidden");
 
@@ -222,7 +222,7 @@ QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
 	pRepeatingElement.addPresentation(presentation);
 
 	var presentationView = view.childNodes[0];
-	assert.strictEqual(presentationView.className, "presentationStub");
+	assert.strictEqual(presentationView.className, "presentationStub maximized");
 	assert.ok(presentationView.offsetHeight > 0, "presentationView should be visible");
 	assert.strictEqual(view.childNodes.length, 2);
 
@@ -231,7 +231,7 @@ QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
 	pRepeatingElement.addPresentationMinimized(presentationMinimized, "true");
 
 	var presentationMinimizedView = view.childNodes[1];
-	assert.strictEqual(presentationMinimizedView.className, "presentationStub");
+	assert.strictEqual(presentationMinimizedView.className, "presentationStub minimized");
 	assert.ok(presentationMinimizedView.offsetHeight > 0,
 			"presentationMinimizedView should be shown");
 	assert.ok(presentationView.offsetHeight === 0, "presentationView should be hidden");
@@ -260,16 +260,16 @@ QUnit.test("testAddPresentationMinimizedToggle", function(assert) {
 	pRepeatingElement.addPresentation(presentation);
 
 	var presentationView = view.childNodes[0];
-	assert.strictEqual(presentationView.className, "presentationStub");
+	assert.strictEqual(presentationView.className, "presentationStub maximized");
 	assert.ok(presentationView.offsetHeight > 0, "presentationView should be visible");
 	assert.strictEqual(view.childNodes.length, 2);
 
-	var presentationMinimized = CORATEST.presentationStub("minimized");
+	var presentationMinimized = CORATEST.presentationStub("minimized maximized");
 	var defaultPresentation = "ref";
 	pRepeatingElement.addPresentationMinimized(presentationMinimized, "true");
 
 	var presentationMinimizedView = view.childNodes[1];
-	assert.strictEqual(presentationMinimizedView.className, "presentationStub");
+	assert.strictEqual(presentationMinimizedView.className, "presentationStub minimized");
 	assert.ok(presentationMinimizedView.offsetHeight > 0,
 			"presentationMinimizedView should be shown");
 	assert.ok(presentationView.offsetHeight === 0, "presentationView should be hidden");

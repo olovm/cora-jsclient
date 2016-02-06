@@ -357,10 +357,9 @@ QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 	attachedPChildRefHandler.pChildRefHandler.add("one");
 
 	assert.strictEqual(childrenView.childNodes.length, 1);
-	// console.log(childrenView)
 
 	var variableView = childrenView.firstChild.firstChild;
-	assert.strictEqual(variableView.className, "pGroup pgTextVarRepeat1to3InGroupOtherAttribute");
+	assert.strictEqual(variableView.className, "pGroup pgTextVarRepeat1to3InGroupOtherAttribute maximized");
 
 	// subscription
 	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();

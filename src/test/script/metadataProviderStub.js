@@ -1316,7 +1316,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
 					"name" : "presentationOf",
-					"value" : "groupIdOneTextChild"
+					"value" : "groupIdOneTextChildRepeat1to3"
 				}, {
 					"name" : "childReferences",
 					"children" : [ {
@@ -1491,6 +1491,31 @@ function MetadataProviderStub() {
 				} ])
 			};
 			break;
+		case "pgTextVarRepeat1to3InGroupOneAttributeMinimized":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "textVarRepeat1to3InGroupOneAttribute"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "aHeadlineText"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				} ]
+			} ])
+		};
+		break;
 		case "pgTextVarRepeat1to3InGroupOtherAttribute":
 			return {
 				"name" : "presentation",
@@ -1526,6 +1551,31 @@ function MetadataProviderStub() {
 				} ])
 			};
 			break;
+		case "pgTextVarRepeat1to3InGroupOtherAttributeMinimized":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "textVarRepeat1to3InGroupOtherAttribute"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "aHeadlineText"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				} ]
+			} ])
+		};
+		break;
 		case "pgTextVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup":
 			return {
 				"name" : "presentation",
@@ -1555,6 +1605,9 @@ function MetadataProviderStub() {
 										"children" : [ {
 											"name" : "ref",
 											"value" : "pgTextVarRepeat1to3InGroupOneAttribute"
+										},{
+											"name" : "refMinimized",
+											"value" : "pgTextVarRepeat1to3InGroupOneAttributeMinimized"
 										}, {
 											"name" : "default",
 											"value" : "ref"
@@ -1565,6 +1618,9 @@ function MetadataProviderStub() {
 										"children" : [ {
 											"name" : "ref",
 											"value" : "pgTextVarRepeat1to3InGroupOtherAttribute"
+										},{
+											"name" : "refMinimized",
+											"value" : "pgTextVarRepeat1to3InGroupOtherAttributeMinimized"
 										}, {
 											"name" : "default",
 											"value" : "ref"
