@@ -1512,6 +1512,16 @@ function MetadataProviderStub() {
 						"name" : "default",
 						"value" : "ref"
 					} ]
+				},{
+					"name" : "childReference",
+					"repeatId" : "2",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "pVarTextVarOutput"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
 				} ]
 			} ])
 		};

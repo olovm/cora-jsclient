@@ -199,6 +199,17 @@ input {
 /* 	border: 1px dashed blue; */
 	display: block;
 }
+
+.minimized > .pChildRefHandler {
+	display: inline-block;
+}
+.minimized .repeatingElement {
+	display: inline-block;
+}
+.minimized .buttonView {
+	display: none;
+}
+
 .text {
 	margin: 4px;
 	display: inline-block;
