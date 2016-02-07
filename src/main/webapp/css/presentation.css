@@ -87,18 +87,16 @@ input {
 	width: 16px;
 	position: absolute;
 	opacity: 0;
+	transition: opacity 0.5s ease 0s;
+	z-index: 101;
 }
 
 .removeButton:hover::after {
 	opacity: 1;
 }
 
-
-
-
-
 .minimizeButton::before {
-	background: url("../images/icons2.svg") no-repeat scroll -64px -16px;
+	background: url("../images/icons2.svg") no-repeat scroll -176px 0px;
 	content: "";
 	height: 16px;
 	width: 16px;
@@ -113,19 +111,21 @@ input {
 }
 
 .minimizeButton::after {
-	background: url("../images/icons2.svg") no-repeat scroll -64px 0px;
+	background: url("../images/icons2.svg") no-repeat scroll -176px -16px;
 	content: "";
 	height: 16px;
 	width: 16px;
 	position: absolute;
 	opacity: 0;
+	transition: opacity 0.5s ease 0s;
+	z-index: 101;
 }
 
 .minimizeButton:hover::after {
 	opacity: 1;
 }
 .maximizeButton::before {
-	background: url("../images/icons2.svg") no-repeat scroll -64px -0px;
+	background: url("../images/icons2.svg") no-repeat scroll -160px 0px;
 	content: "";
 	height: 16px;
 	width: 16px;
@@ -137,15 +137,18 @@ input {
 
 .maximizeButton:hover::before {
 	opacity: 0;
+/* 	transform: scale(20); */
 }
 
 .maximizeButton::after {
-	background: url("../images/icons2.svg") no-repeat scroll -64px -16px;
+	background: url("../images/icons2.svg") no-repeat scroll -160px -16px;
 	content: "";
 	height: 16px;
 	width: 16px;
 	position: absolute;
 	opacity: 0;
+	transition: opacity 0.5s ease 0s;
+	z-index: 101;
 }
 
 .maximizeButton:hover::after {
