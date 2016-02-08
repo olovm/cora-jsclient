@@ -28,7 +28,7 @@ var CORA = (function(cora) {
 		var presentationFactory = spec.presentationFactory;
 
 		var view;
-		
+
 		function init() {
 			var viewNew = my.createBaseViewHolder();
 			var presentationChildren = my.cPresentation
@@ -102,11 +102,11 @@ var CORA = (function(cora) {
 			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
 			return pChildRefHandler.getView();
 		}
-		
+
 		function childHasMinimizedPresenation(cChildRef) {
 			return cChildRef.containsChildWithNameInData("refMinimized");
 		}
-		
+
 		function getMetadataById(id) {
 			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}

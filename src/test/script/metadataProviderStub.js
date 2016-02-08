@@ -1620,7 +1620,7 @@ function MetadataProviderStub() {
 											"value" : "pgTextVarRepeat1to3InGroupOneAttributeMinimized"
 										}, {
 											"name" : "default",
-											"value" : "ref"
+											"value" : "refMinimized"
 										} ]
 									}, {
 										"name" : "childReference",
