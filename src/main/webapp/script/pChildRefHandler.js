@@ -23,6 +23,8 @@ var CORA = (function(cora) {
 		var parentPath = spec.parentPath;
 		var cParentMetadata = spec.cParentMetadata;
 		var cPresentation = spec.cPresentation;
+		var cPresentationMinimized = spec.cPresentationMinimized;
+		var minimizedDefault = spec.minimizedDefault;
 		var cParentPresentation = spec.cParentPresentation;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
@@ -59,11 +61,11 @@ var CORA = (function(cora) {
 		}
 
 		function findParentMetadataChildRef(cMetadata) {
-			var parentMetadataChildRef = cMetadata.getFirstChildByNameInData("childReferences").children
-					.find(function(metadataChildRef) {
-						var cMetadataChildRef = CORA.coraData(metadataChildRef);
-						return cMetadataChildRef.getFirstAtomicValueByNameInData("ref") === metadataId;
-					});
+			var children = cMetadata.getFirstChildByNameInData("childReferences").children;
+			var parentMetadataChildRef = children.find(function(metadataChildRef) {
+				var cMetadataChildRef = CORA.coraData(metadataChildRef);
+				return cMetadataChildRef.getFirstAtomicValueByNameInData("ref") === metadataId;
+			});
 			return CORA.coraData(parentMetadataChildRef);
 		}
 
@@ -133,22 +135,40 @@ var CORA = (function(cora) {
 		}
 
 		function add(repeatId) {
-			var newPath = calculatePathForNewElement(repeatId);
-			var repeatingElementSpec = {
-				"repeatMin" : repeatMin,
-				"repeatMax" : repeatMax,
-				"path" : newPath,
-				"jsBookkeeper" : spec.jsBookkeeper
-			};
-			var repeatingElement = CORA.pRepeatingElement(repeatingElementSpec);
-			var repeatingElementView = repeatingElement.getView();
 			noOfRepeating++;
+			var newPath = calculatePathForNewElement(repeatId);
+			var repeatingElement = createRepeatingElement(newPath);
+			var repeatingElementView = repeatingElement.getView();
 			childrenView.appendChild(repeatingElementView);
+
 			var presentation = presentationFactory.factor(newPath, cPresentation,
 					cParentPresentation);
 			repeatingElement.addPresentation(presentation);
 
+			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
+					repeatingElementView);
+
+			if (cPresentationMinimized !== undefined) {
+				var presentationMinimized = presentationFactory.factor(newPath,
+						cPresentationMinimized, cParentPresentation);
+				repeatingElement.addPresentationMinimized(presentationMinimized, minimizedDefault);
+			}
+
 			updateView();
+		}
+
+		function createRepeatingElement(path) {
+			var repeatingElementSpec = {
+				"repeatMin" : repeatMin,
+				"repeatMax" : repeatMax,
+				"path" : path,
+				"jsBookkeeper" : spec.jsBookkeeper
+			};
+			return CORA.pRepeatingElement(repeatingElementSpec);
+		}
+
+		function subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
+				repeatingElementView) {
 			if (showAddButton()) {
 				var removeFunction = function() {
 					childrenView.removeChild(repeatingElementView);
@@ -202,6 +222,7 @@ var CORA = (function(cora) {
 			}
 			return path;
 		}
+
 		function getAttributesForMetadataId(metadataElement) {
 			if (metadataElement.containsChildWithNameInData("attributeReferences")) {
 				return getAttributesForMetadataElement(metadataElement);
@@ -237,7 +258,6 @@ var CORA = (function(cora) {
 
 			return createAttributeWithNameAndValueAndRepeatId(attributeNameInData, finalValue,
 					index);
-
 		}
 
 		function createAttributeWithNameAndValueAndRepeatId(attributeName, attributeValue, repeatId) {
@@ -253,6 +273,7 @@ var CORA = (function(cora) {
 				} ]
 			};
 		}
+
 		function childRemoved() {
 			noOfRepeating--;
 			updateView();
@@ -266,18 +287,27 @@ var CORA = (function(cora) {
 		}
 
 		function updateChildrenRemoveButtonVisibility() {
-			var repeatingElements = childrenView.childNodes;
-			// can not use Object.keys(repeatingElements) as phantomJs can't
-			// handle it
-			var length = repeatingElements.length;
+			// can not use Object.keys(repeatingElements) as phantomJs can't handle it
 			if (minLimitOfChildrenReached()) {
-				for (var i = 0; i < length; i++) {
-					repeatingElements[i].modelObject.hideRemoveButton();
-				}
+				hideChildrensRemoveButton();
 			} else {
-				for (var i2 = 0; i2 < length; i2++) {
-					repeatingElements[i2].modelObject.showRemoveButton();
-				}
+				showChildrensRemoveButton();
+			}
+		}
+
+		function hideChildrensRemoveButton() {
+			var repeatingElements = childrenView.childNodes;
+			var length = repeatingElements.length;
+			for (var i = 0; i < length; i++) {
+				repeatingElements[i].modelObject.hideRemoveButton();
+			}
+		}
+
+		function showChildrensRemoveButton() {
+			var repeatingElements = childrenView.childNodes;
+			var length = repeatingElements.length;
+			for (var i = 0; i < length; i++) {
+				repeatingElements[i].modelObject.showRemoveButton();
 			}
 		}
 

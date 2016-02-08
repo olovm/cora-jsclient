@@ -29,11 +29,15 @@ var CORA = (function(cora) {
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
 		var view = createBaseView();
-		var buttonView;
 		var removeButton;
-		if (movableOrRemovableElement()) {
-			buttonView = createButtonView();
-		}
+		var presentationMaximized;
+		var presentationMinimized;
+		var maximizeButton;
+		var minimizeButton;
+
+		var buttonView = createButtonView();
+
+
 		function calculateIsRepeating() {
 			if (repeatMax > 1 || repeatMax === "X") {
 				return true;
@@ -53,15 +57,6 @@ var CORA = (function(cora) {
 			repeatingElement.className = "repeatingElement";
 
 			return repeatingElement;
-		}
-
-		function movableOrRemovableElement() {
-			return !oneAndOnlyOne();
-		}
-
-		function oneAndOnlyOne() {
-			var stringOne = "1";
-			return repeatMin === stringOne && repeatMax === stringOne;
 		}
 
 		function addRemoveButton() {
@@ -110,22 +105,68 @@ var CORA = (function(cora) {
 		}
 
 		function addPresentation(presentation) {
-			view.insertBefore(presentation.getView(), buttonView);
+			presentationMaximized = presentation.getView();
+			presentationMaximized.className =  presentationMaximized.className + " maximized";
+			view.insertBefore(presentationMaximized, buttonView);
+		}
+
+		function addPresentationMinimized(presentationMinimizedIn, minimizedDefault) {
+			presentationMinimized = presentationMinimizedIn.getView();
+			presentationMinimized.className =  presentationMinimized.className + " minimized";
+			view.insertBefore(presentationMinimized, buttonView);
+			createMinimizeMaximizeButtons();
+			toggleMinimizedShown(minimizedDefault);
+		}
+
+		function toggleMinimizedShown(minimizedShown) {
+			if (minimizedShown!==undefined && minimizedShown === "true") {
+				hide(presentationMaximized);
+				show(presentationMinimized);
+				show(maximizeButton);
+				hide(minimizeButton);
+			} else {
+				show(presentationMaximized);
+				hide(presentationMinimized);
+				hide(maximizeButton);
+				show(minimizeButton);
+			}
+		}
+
+		function createMinimizeMaximizeButtons() {
+			maximizeButton = document.createElement("span");
+			maximizeButton.className = "maximizeButton";
+			maximizeButton.onclick = function() {
+				toggleMinimizedShown("false");
+			};
+			buttonView.appendChild(maximizeButton);
+
+			minimizeButton = document.createElement("span");
+			minimizeButton.className = "minimizeButton";
+			minimizeButton.onclick = function() {
+				toggleMinimizedShown("true");
+			};
+			buttonView.appendChild(minimizeButton);
 		}
 
 		function hideRemoveButton() {
-			removeButton.styleOriginal = removeButton.style.display;
-			removeButton.style.display = "none";
+			hide(removeButton);
 		}
 
 		function showRemoveButton() {
-			removeButton.style.display = removeButton.styleOriginal;
+			show(removeButton);
 		}
-
+		function hide(element) {
+			element.styleOriginal = element.style.display;
+			element.style.display = "none";
+		}
+		function show(element) {
+			element.style.display = element.styleOriginal;
+		}
 		var out = Object.freeze({
 			"type" : "pRepeatingElement",
 			getView : getView,
 			addPresentation : addPresentation,
+			addPresentationMinimized : addPresentationMinimized,
 			hideRemoveButton : hideRemoveButton,
 			showRemoveButton : showRemoveButton
 		});
