@@ -1234,7 +1234,7 @@ var CORATEST = (function(coraTest) {
 				};
 			case "":
 				return;
-				// PGroup
+				// presentation
 			case "textSystemOneNewPGroup":
 				return {
 					"name" : "presentation",
@@ -1251,12 +1251,145 @@ var CORATEST = (function(coraTest) {
 							"repeatId" : "1",
 							"children" : [ {
 								"name" : "ref",
+								"value" : "textSystemOneNewPGroupText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "0",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "recordInfoNewTextPGroup"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
 								"value" : "textPartSvPGroup"
 							}, {
 								"name" : "default",
 								"value" : "ref"
 							} ]
-						},{
+						}, {
+							"name" : "childReference",
+							"repeatId" : "2",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textPartEnSContainer"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
+			case "recordInfoNewTextPGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "recordInfoNewTextGroup"
+					}, {
+						"name" : "childReferences",
+						"children" : [ {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "recordInfoNewTextPGroupText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "idTextTextPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
+			case "textPartSvPGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "textPartSvGroup"
+					}, {
+						"name" : "childReferences",
+						"children" : [ {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textPartSvPGroupText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textTextPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
+			case "textPartEnSContainer":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "container",
+						"repeat" : "children"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "pTextVariablePlus2SContainer2"
+						} ]
+					}, {
+						"name" : "presentationsOf",
+						"children" : [ {
+							"repeatId" : "1",
+							"name" : "presentationOf",
+							"value" : "textPartEnGroup"
+						} ]
+					}, {
+						"name" : "childReferences",
+						"children" : [ {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textPartEnPGroupText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
 							"name" : "childReference",
 							"repeatId" : "2",
 							"children" : [ {
@@ -1267,77 +1400,44 @@ var CORATEST = (function(coraTest) {
 								"value" : "ref"
 							} ]
 						} ]
-					} ])
-				};
-			case "textPartSvPGroup":
-				return {
-				"name" : "presentation",
-				"attributes" : {
-					"type" : "pGroup"
-				},
-				"children" : [ createRecordInfoJson(metadataId) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "textPartSvGroup"
-				}, {
-					"name" : "childReferences",
-					"children" : [ {
-						"name" : "childReference",
-						"repeatId" : "1",
-						"children" : [ {
-							"name" : "ref",
-							"value" : "textTextPVar"
-						}, {
-							"name" : "default",
-							"value" : "ref"
-						} ]
 					} ]
-				} ])
-			};
+				};
 			case "textPartEnPGroup":
 				return {
-				"name" : "presentation",
-				"attributes" : {
-					"type" : "pGroup"
-				},
-				"children" : [ createRecordInfoJson(metadataId) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "textPartEnGroup"
-				}, {
-					"name" : "childReferences",
-					"children" : [ {
-						"name" : "childReference",
-						"repeatId" : "1",
-						"children" : [ {
-							"name" : "ref",
-							"value" : "textTextPVar"
-						}, {
-							"name" : "default",
-							"value" : "ref"
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "textPartEnGroup"
+					}, {
+						"name" : "childReferences",
+						"children" : [ 
+//						               {
+//							"name" : "childReference",
+//							"repeatId" : "1",
+//							"children" : [ {
+//								"name" : "ref",
+//								"value" : "textPartEnPGroupText"
+//							}, {
+//								"name" : "default",
+//								"value" : "ref"
+//							} ]
+//						}, 
+						{
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textTextPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
 						} ]
-					} ]
-				} ])
-			};
-			case "textTextPVar":
-				return {
-				"name" : "presentation",
-				"attributes" : {
-					"type" : "pVar"
-				},
-				"children" : [ {
-					"name" : "recordInfo",
-					"children" : [ {
-						"name" : "id",
-						"value" : "textTextPVar"
-					} ]
-				}, {
-					"name" : "presentationOf",
-					"value" : "textTextVar"
-				}, {
-					"name" : "mode",
-					"value" : "input"
-				} ]
-			};
-			break;
+					} ])
+				};
 			case "idTextTextPVar":
 				return {
 					"name" : "presentation",
@@ -1353,6 +1453,27 @@ var CORATEST = (function(coraTest) {
 					}, {
 						"name" : "presentationOf",
 						"value" : "idTextTextVar"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					} ]
+				};
+				break;
+			case "textTextPVar":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pVar"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textTextPVar"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "textTextVar"
 					}, {
 						"name" : "mode",
 						"value" : "input"
@@ -1387,7 +1508,132 @@ var CORATEST = (function(coraTest) {
 			case "":
 				return;
 			case "":
-				return;
+				// Text
+			case "textSystemOneNewPGroupText":
+				return {
+					"name" : "text",
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textSystemOneNewPGroupText"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "default",
+							"lang" : "sv"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "En ny text"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "alternative",
+							"lang" : "en"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "A new text"
+						} ]
+					} ]
+				};
+			case "recordInfoNewTextPGroupText":
+				return {
+					"name" : "text",
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textSystemOneNewPGroupText"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "default",
+							"lang" : "sv"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Textid"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "alternative",
+							"lang" : "en"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Text id"
+						} ]
+					} ]
+				};
+			case "textPartSvPGroupText":
+				return {
+					"name" : "text",
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textSystemOneNewPGroupText"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "default",
+							"lang" : "sv"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Svenska"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "alternative",
+							"lang" : "en"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Swedish"
+						} ]
+					} ]
+				};
+
+			case "textPartEnPGroupText":
+				return {
+					"name" : "text",
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textSystemOneNewPGroupText"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "default",
+							"lang" : "sv"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Engelska"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "alternative",
+							"lang" : "en"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "English"
+						} ]
+					} ]
+				};
 			case "":
 				return;
 			case "":

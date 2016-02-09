@@ -438,9 +438,7 @@
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
 				textProvider);
 		var metadataId = "textSystemOneNewGroup";
-// 		var metadataId = "idTextTextVar";
 		var presentationId = "textSystemOneNewPGroup";
-// 		var presentationId = "idTextTextPVar";
 		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
 
 		var view = dependencies.presentation.getView();
@@ -492,7 +490,8 @@
 	<div id="client7Data"></div>
 	<input id="client7DataButton" type="button" value="Show data"></input>
 	
-	<h2>JSClient 8 (text)</h2>
+	<h2>JSClient 8 (text) lägg till att ta bort från pubSub vid delete så att den inte varnar 
+	för att den inte hittar node, se console</h2>
 	<div id="client8" class="client8" style=" min-height: 20px; min-width: 40px;">
 	</div>
 	<div id="client8Data"></div>

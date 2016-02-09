@@ -128,7 +128,7 @@ var CORA = (function(cora) {
 			return view;
 		}
 
-		function handleMsg(dataFromMsg) {
+		function handleMsg(dataFromMsg, msg) {
 			if (metadataId === dataFromMsg.metadataId) {
 				add(dataFromMsg.repeatId);
 			}
@@ -164,6 +164,7 @@ var CORA = (function(cora) {
 				"path" : path,
 				"jsBookkeeper" : spec.jsBookkeeper
 			};
+			// console.log(JSON.stringify(repeatingElementSpec));
 			return CORA.pRepeatingElement(repeatingElementSpec);
 		}
 
@@ -286,14 +287,14 @@ var CORA = (function(cora) {
 			}
 		}
 
-//		function updateChildrenRemoveButtonVisibility() {
-//			// can not use Object.keys(repeatingElements) as phantomJs can't handle it
-//			if (minLimitOfChildrenReached()) {
-//				hideChildrensRemoveButton();
-//			} else {
-//				showChildrensRemoveButton();
-//			}
-//		}
+		// function updateChildrenRemoveButtonVisibility() {
+		// // can not use Object.keys(repeatingElements) as phantomJs can't handle it
+		// if (minLimitOfChildrenReached()) {
+		// hideChildrensRemoveButton();
+		// } else {
+		// showChildrensRemoveButton();
+		// }
+		// }
 		function updateChildrenRemoveButtonVisibility() {
 			var repeatingElements = childrenView.childNodes;
 			var keys = Object.keys(repeatingElements);

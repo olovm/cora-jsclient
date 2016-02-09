@@ -219,6 +219,6 @@ input {
  .pGroup > .pChildRefHandler + .pChildRefHandler {
 	margin-top: 25px;
 }
-.childrenView > .repeatingElement {
+.childrenView > .repeatingElement + .repeatingElement {
 	margin-top: 5px;
 }
