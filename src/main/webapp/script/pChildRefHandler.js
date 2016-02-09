@@ -286,12 +286,25 @@ var CORA = (function(cora) {
 			}
 		}
 
+//		function updateChildrenRemoveButtonVisibility() {
+//			// can not use Object.keys(repeatingElements) as phantomJs can't handle it
+//			if (minLimitOfChildrenReached()) {
+//				hideChildrensRemoveButton();
+//			} else {
+//				showChildrensRemoveButton();
+//			}
+//		}
 		function updateChildrenRemoveButtonVisibility() {
-			// can not use Object.keys(repeatingElements) as phantomJs can't handle it
+			var repeatingElements = childrenView.childNodes;
+			var keys = Object.keys(repeatingElements);
 			if (minLimitOfChildrenReached()) {
-				hideChildrensRemoveButton();
+				keys.forEach(function(key) {
+					repeatingElements[key].modelObject.hideRemoveButton();
+				});
 			} else {
-				showChildrensRemoveButton();
+				keys.forEach(function(key) {
+					repeatingElements[key].modelObject.showRemoveButton();
+				});
 			}
 		}
 
