@@ -188,10 +188,7 @@ QUnit.test("testInitOneChildRepeat0to1", function(assert) {
 	var metadataController = this.metadataControllerFactory.factor("groupIdOneTextChildRepeat0to1",
 			undefined);
 	var messages = this.pubSub.getMessages();
-	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
-			+ '"metadataId":"textVariableId","path":{}}}');
-
-	assert.equal(messages.length, 1);
+	assert.equal(messages.length, 0);
 });
 
 QUnit.test("testInitOneChildRepeat0to1WithData", function(assert) {

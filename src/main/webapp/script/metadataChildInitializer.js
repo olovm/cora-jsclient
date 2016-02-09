@@ -197,8 +197,10 @@ var CORA = (function(cora) {
 		}
 
 		function childCanRepeat() {
+			var repeatMin = childReference.getFirstAtomicValueByNameInData("repeatMin");
 			var repeatMax = childReference.getFirstAtomicValueByNameInData("repeatMax");
-			return repeatMax === "X" || repeatMax > 1;
+			return repeatMax === "X" || Number(repeatMax) > 1
+					|| (Number(repeatMin) === 0 && Number(repeatMax) === 1);
 		}
 
 		function initializeForMetadataWithIdAndDataAndRepeatId(dataChild, repeatId) {
