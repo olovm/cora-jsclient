@@ -198,7 +198,8 @@ QUnit.test("testAddButtonShownFor0to1", function(assert) {
 	var buttonView = view.childNodes[1];
 	assert.strictEqual(buttonView.className, "buttonView");
 	var button = buttonView.firstChild;
-	assert.ok(button.offsetHeight > 0, "button should be visible");
+	assert.visible(button, "button should be visible");
+
 });
 
 QUnit.test("testAddOneChild", function(assert) {
@@ -359,7 +360,8 @@ QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 	assert.strictEqual(childrenView.childNodes.length, 1);
 
 	var variableView = childrenView.firstChild.firstChild;
-	assert.strictEqual(variableView.className, "pGroup pgTextVarRepeat1to3InGroupOtherAttribute maximized");
+	assert.strictEqual(variableView.className,
+			"pGroup pgTextVarRepeat1to3InGroupOtherAttribute maximized");
 
 	// subscription
 	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
@@ -512,14 +514,14 @@ QUnit.test("testHideAddButtonWhenMaxRepeat", function(assert) {
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
 	var buttonView = view.childNodes[1];
-	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
+	assert.visible(buttonView, "buttonView should be visible");
 
 	attachedPChildRefHandler.pChildRefHandler.add("one");
 	attachedPChildRefHandler.pChildRefHandler.add("two");
 	attachedPChildRefHandler.pChildRefHandler.add("three");
 
 	assert.strictEqual(childrenView.childNodes.length, 3);
-	assert.ok(buttonView.offsetHeight === 0, "buttonView should be hidden");
+	assert.notVisible(buttonView, "buttonView should be hidden");
 });
 
 QUnit.test("testShowAddButtonWhenBelowMaxRepeat", function(assert) {
@@ -530,19 +532,19 @@ QUnit.test("testShowAddButtonWhenBelowMaxRepeat", function(assert) {
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
 	var buttonView = view.childNodes[1];
-	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
+	assert.visible(buttonView, "buttonView should be visible");
 
 	attachedPChildRefHandler.pChildRefHandler.add("one");
 	attachedPChildRefHandler.pChildRefHandler.add("two");
 	attachedPChildRefHandler.pChildRefHandler.add("three");
 
 	assert.strictEqual(childrenView.childNodes.length, 3);
-	assert.ok(buttonView.offsetHeight === 0, "buttonView should be hidden");
+	assert.notVisible(buttonView, "buttonView should be hidden");
 
 	// call remove function in pChildRefHandler
 	attachedPChildRefHandler.pubSub.getSubscriptions()[1].functionToCall();
 	assert.strictEqual(childrenView.childNodes.length, 2);
-	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
+	assert.visible(buttonView, "buttonView should be visible");
 });
 
 QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
@@ -553,19 +555,19 @@ QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
 	var buttonView = view.childNodes[1];
-	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
+	assert.visible(buttonView, "buttonView should be visible");
 
 	attachedPChildRefHandler.pChildRefHandler.add("one");
 	attachedPChildRefHandler.pChildRefHandler.add("two");
 	attachedPChildRefHandler.pChildRefHandler.add("three");
 
 	assert.strictEqual(childrenView.childNodes.length, 3);
-	assert.ok(buttonView.offsetHeight === 0, "buttonView should be hidden");
+	assert.notVisible(buttonView, "buttonView should be hidden");
 
 	// call remove function
 	attachedPChildRefHandler.pubSub.getSubscriptions()[1].functionToCall();
 	assert.strictEqual(childrenView.childNodes.length, 2);
-	assert.ok(buttonView.offsetHeight > 0, "buttonView should be visible");
+	assert.visible(buttonView, "buttonView should be visible");
 });
 
 QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
@@ -582,21 +584,21 @@ QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
 	var repeatingButtonView = repeatingElement.childNodes[1];
 	var removeButton = repeatingButtonView.firstChild;
 
-	assert.ok(removeButton.offsetHeight === 0, "removeButton should be hidden");
+	assert.notVisible(removeButton, "removeButton should be hidden");
 
 	attachedPChildRefHandler.pChildRefHandler.add("two");
-	assert.ok(removeButton.offsetHeight > 0, "removeButton should be visible");
+	assert.visible(removeButton, "removeButton should be visible");
 	// remove button
 	var repeatingElement2 = childrenView.childNodes[1];
 	var repeatingButtonView2 = repeatingElement2.childNodes[1];
 	var removeButton2 = repeatingButtonView2.firstChild;
-	assert.ok(removeButton2.offsetHeight > 0, "removeButton should be visible");
+	assert.visible(removeButton2, "removeButton should be visible");
 
 	// call remove function in pChildRefHandler
 	var firstChildRemoveSubscription = attachedPChildRefHandler.pubSub.getSubscriptions()[1];
 	firstChildRemoveSubscription.functionToCall();
 	assert.strictEqual(childrenView.childNodes.length, 1);
-	assert.ok(removeButton2.offsetHeight === 0, "removeButton should be hidden");
+	assert.notVisible(removeButton2, "removeButton should be hidden");
 
 });
 
@@ -614,7 +616,7 @@ QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
 	var repeatingButtonView = repeatingElement.childNodes[1];
 	var removeButton = repeatingButtonView.firstChild;
 
-	assert.ok(removeButton.offsetHeight > 0, "removeButton should be visible");
+	assert.visible(removeButton, "removeButton should be visible");
 });
 
 QUnit.test("testHandleMessageRightMetadataId", function(assert) {
@@ -678,15 +680,15 @@ QUnit.test("testWithMinimized", function(assert) {
 	assert.strictEqual(repeatingElement.childNodes.length, 3);
 
 	var repeatingButtonView = repeatingElement.childNodes[2];
-	assert.ok(repeatingButtonView.offsetHeight > 0, "repeatingButtonView should be visible");
+	assert.visible(repeatingButtonView, "repeatingButtonView should be visible");
 
 	var maximizeButton = repeatingButtonView.childNodes[0];
 	assert.strictEqual(maximizeButton.className, "maximizeButton");
-	assert.ok(maximizeButton.offsetHeight === 0, "maximizeButton should be hidden");
+	assert.notVisible(maximizeButton, "maximizeButton should be hidden");
 
 	var minimizeButton = repeatingButtonView.childNodes[1];
 	assert.strictEqual(minimizeButton.className, "minimizeButton");
-	assert.ok(minimizeButton.offsetHeight > 0, "minimizeButton should be visible");
+	assert.visible(minimizeButton, "minimizeButton should be visible");
 });
 
 QUnit.test("testWithMinimizedDefault", function(assert) {
@@ -725,5 +727,5 @@ QUnit.test("testWithMinimizedDefault", function(assert) {
 	var repeatingButtonView = repeatingElement.childNodes[2];
 	var minimizeButton = repeatingButtonView.childNodes[1];
 	assert.strictEqual(minimizeButton.className, "minimizeButton");
-	assert.ok(minimizeButton.offsetHeight === 0, "minimizeButton should be hidden");
+	assert.notVisible(minimizeButton, "minimizeButton should be hidden");
 });

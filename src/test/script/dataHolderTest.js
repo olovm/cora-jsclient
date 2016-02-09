@@ -19,10 +19,6 @@
  */
 "use strict";
 
-QUnit.assert.stringifyEqual = function(actual, expected, message) {
-	QUnit.assert.deepEqual(JSON.stringify(actual), JSON.stringify(expected), message);
-};
-
 QUnit.module("CORA.DataHolder", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();

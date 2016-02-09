@@ -94,7 +94,7 @@ QUnit.test("testInit", function(assert) {
 	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
 	assert.strictEqual(attachedPGroup.pGroup.type, "pGroup");
 	var view = attachedPGroup.view;
-	assert.ok(view.offsetHeight > 0, "pGroup view should be visible");
+	assert.visible(view, "pGroup view should be visible");
 	var expectedClassName = 'pGroup pgGroupIdOneTextChild';
 	assert.deepEqual(view.className, expectedClassName);
 });
@@ -158,15 +158,15 @@ QUnit.test("testInitOneChildMimimized", function(assert) {
 	assert.strictEqual(repeatingElement.childNodes.length, 3);
 
 	var repeatingButtonView = repeatingElement.childNodes[2];
-	assert.ok(repeatingButtonView.offsetHeight > 0, "repeatingButtonView should be visible");
+	assert.visible(repeatingButtonView, "repeatingButtonView should be visible");
 
 	var maximizeButton = repeatingButtonView.childNodes[1];
 	assert.strictEqual(maximizeButton.className, "maximizeButton");
-	assert.ok(maximizeButton.offsetHeight === 0, "maximizeButton should be hidden");
+	assert.notVisible(maximizeButton, "maximizeButton should be hidden");
 
 	var minimizeButton = repeatingButtonView.childNodes[2];
 	assert.strictEqual(minimizeButton.className, "minimizeButton");
-	assert.ok(minimizeButton.offsetHeight > 0, "minimizeButton should be visible");
+	assert.visible(minimizeButton, "minimizeButton should be visible");
 });
 
 QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
@@ -186,13 +186,13 @@ QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
 	assert.strictEqual(repeatingElement.childNodes.length, 3);
 	
 	var repeatingButtonView = repeatingElement.childNodes[2];
-	assert.ok(repeatingButtonView.offsetHeight > 0, "repeatingButtonView should be visible");
+	assert.visible(repeatingButtonView, "repeatingButtonView should be visible");
 	
 	var maximizeButton = repeatingButtonView.childNodes[0];
 	assert.strictEqual(maximizeButton.className, "maximizeButton");
-	assert.ok(maximizeButton.offsetHeight > 0, "maximizeButton should be shown");
+	assert.visible(maximizeButton, "maximizeButton should be shown");
 	
 	var minimizeButton = repeatingButtonView.childNodes[1];
 	assert.strictEqual(minimizeButton.className, "minimizeButton");
-	assert.ok(minimizeButton.offsetHeight === 0, "minimizeButton should be hidden");
+	assert.notVisible(minimizeButton, "minimizeButton should be hidden");
 });
