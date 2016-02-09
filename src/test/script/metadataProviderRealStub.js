@@ -1256,6 +1256,16 @@ var CORATEST = (function(coraTest) {
 								"name" : "default",
 								"value" : "ref"
 							} ]
+						},{
+							"name" : "childReference",
+							"repeatId" : "2",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textPartEnPGroup"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
 						} ]
 					} ])
 				};
@@ -1268,6 +1278,30 @@ var CORATEST = (function(coraTest) {
 				"children" : [ createRecordInfoJson(metadataId) ].concat([ {
 					"name" : "presentationOf",
 					"value" : "textPartSvGroup"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textTextPVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
+			case "textPartEnPGroup":
+				return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "textPartEnGroup"
 				}, {
 					"name" : "childReferences",
 					"children" : [ {
