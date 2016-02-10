@@ -140,6 +140,8 @@
 		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
 		var textProviderRealStub = CORATEST.textProviderRealStub();
 		client8(metadataProviderRealStub, textProviderRealStub);
+		
+		client9(metadataProvider, textProvider);
 	}
 
 	function client1(metadataProvider, textProvider) {
@@ -452,6 +454,27 @@
 		}
 		document.getElementById("client8DataButton").onclick = showData;
 	}
+	
+	function client9(metadataProvider, textProvider) {
+		var place = document.getElementById("client9");
+		var pubSub = CORA.pubSub();
+		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
+				textProvider);
+		var metadataId = "groupId1toXCollectionChild";
+		var presentationId = "pgGroupId1toXCollectionChild";
+		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
+
+		var view = dependencies.presentation.getView();
+		place.appendChild(view);
+
+		view.dataHolder = dependencies.dataHolder;
+
+		function showData() {
+			var clientData = document.getElementById("client9Data");
+			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
+		}
+		document.getElementById("client9DataButton").onclick = showData;
+	}
 </script>
 </head>
 <body>
@@ -495,7 +518,14 @@
 	<div id="client8" class="client8" style=" min-height: 20px; min-width: 40px;">
 	</div>
 	<div id="client8Data"></div>
+	
 	<input id="client8DataButton" type="button" value="Show data"></input>
+	<h2>JSClient 9 (select)</h2>
+	<div id="client9" class="client9" style=" min-height: 20px; min-width: 40px;">
+	</div>
+	<div id="client9Data"></div>
+	<input id="client9DataButton" type="button" value="Show data"></input>
+	
 </body>
 </html>
 
