@@ -24,7 +24,7 @@ var CORA = (function(cora) {
 		var arbiter = Arbiter.create();
 
 		function subscribe(type, path, context, functionToCall) {
-			arbiter.subscribe(convertPathToMsg(path) + type, null, context, functionToCall);
+			return arbiter.subscribe(convertPathToMsg(path) + type, null, context, functionToCall);
 		}
 
 		function publish(type, data) {
@@ -37,7 +37,11 @@ var CORA = (function(cora) {
 				throw new Error("Errors generated when publishing: "+errorMessage);
 			}
 		}
-
+		
+		function unsubscribe(subscribeId){
+			return arbiter.unsubscribe(subscribeId);
+		}
+		
 		function convertPathToMsg(path) {
 			return convertAndAddPathToMsg(path, "root");
 		}
@@ -97,6 +101,7 @@ var CORA = (function(cora) {
 		}
 		return Object.freeze({
 			subscribe : subscribe,
+			unsubscribe : unsubscribe,
 			publish : publish,
 			convertPathToMsg : convertPathToMsg
 		});

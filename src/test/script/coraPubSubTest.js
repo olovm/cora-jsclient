@@ -44,7 +44,8 @@ QUnit.test("testSubscribe", function(assert) {
 	var functionToCall = function() {
 	};
 	var context = this;
-	this.pubSub.subscribe(type, path, context, functionToCall);
+	var subscribeId = this.pubSub.subscribe(type, path, context, functionToCall);
+	assert.ok(subscribeId !== undefined);
 	assert.ok(this.pubSub !== undefined);
 });
 QUnit.test("testPublish", function(assert) {
@@ -62,7 +63,7 @@ QUnit.test("testProblemWhenCallingFunctionToCall", function(assert) {
 	var type = "add";
 	var path = {};
 	var functionToCall = function() {
-		//generate error
+		// generate error
 		x + y === z;
 	};
 	var context = this;
@@ -70,9 +71,9 @@ QUnit.test("testProblemWhenCallingFunctionToCall", function(assert) {
 	assert.ok(this.pubSub !== undefined);
 
 	var data = {
-			"metadataId" : "someId",
-			"path" : path,
-			"repeatId" : "someRepeatId"
+		"metadataId" : "someId",
+		"path" : path,
+		"repeatId" : "someRepeatId"
 	};
 	throws(function() {
 		this.pubSub.publish(type, data);
@@ -96,11 +97,33 @@ QUnit.test("testMore", function(assert) {
 	assert.deepEqual(this.messages[0].data, data);
 	assert.deepEqual(this.messages[0].message, "root/add");
 });
+
+QUnit.test("testUnsubscribe", function(assert) {
+	var type = "add";
+	var path = {};
+	var context = this;
+	var functionToCall = this.toCall;
+	var subscribeId = this.pubSub.subscribe(type, path, context, functionToCall);
+
+	var data = {
+		"metadataId" : "someId",
+		"path" : path,
+		"repeatId" : "someRepeatId"
+	};
+	this.pubSub.publish(type, data);
+	this.pubSub.unsubscribe(subscribeId);
+	this.pubSub.publish(type, data);
+	assert.strictEqual(this.messages.length, 1);
+	assert.deepEqual(this.messages[0].data, data);
+	assert.deepEqual(this.messages[0].message, "root/add");
+});
+
 QUnit.test("testConvertPathNameInData", function(assert) {
 	var path = createLinkedPathWithNameInData("someNameInData");
 	var convertedPath = this.pubSub.convertPathToMsg(path);
 	assert.deepEqual(convertedPath, "root/someNameInData/");
 });
+
 QUnit.test("testConvertPathNameInDataAndAttributes", function(assert) {
 	var path = createLinkedPathWithNameInData("someNameInData");
 
@@ -115,6 +138,7 @@ QUnit.test("testConvertPathNameInDataAndAttributes", function(assert) {
 	assert.deepEqual(convertedPath,
 			"root/someNameInData#anAttribute:aFinalValue#anOtherAttribute:aOtherFinalValue/");
 });
+
 QUnit.test("testConvertPathNameInDataAndRepeatId", function(assert) {
 	var path = createLinkedPathWithNameInDataAndRepeatId("someNameInData", "one");
 	var convertedPath = this.pubSub.convertPathToMsg(path);

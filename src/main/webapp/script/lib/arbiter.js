@@ -13,6 +13,7 @@ var Arbiter = (function() {
 		var id_lookup = {};
 		var new_id = 1;
 		var errorArray = [];
+
 		return {
 			'version' : '1.0',
 			'updated_on' : '2011-12-19',
@@ -62,7 +63,8 @@ var Arbiter = (function() {
 						'f' : func,
 						p : priority,
 						self : context,
-						'options' : options
+						'options' : options,
+						msg : msg
 					};
 					id_lookup[id] = subscription;
 					subscription_list.push(subscription);
@@ -152,9 +154,39 @@ var Arbiter = (function() {
 			}
 
 			,
-			'unsubscribe' : function(id) {
+			'pauseSubscription' : function(id) {
 				if (id_lookup[id]) {
 					id_lookup[id].unsubscribed = true;
+					return true;
+				}
+				return false;
+			},
+
+			'unsubscribe' : function(id) {
+				var subscription = id_lookup[id];
+				if (subscription) {
+
+					var msg = subscription.msg;
+
+					var wildcardSubscriptionsForMessage = wildcard_subscriptions[msg];
+					var subscriptionsForMessage = subscriptions[msg];
+					
+					var findSubscriptionFilter = function(sub) {
+						return sub === subscription;
+					};
+					
+					if (wildcardSubscriptionsForMessage !== undefined) {
+						var foundIndex = wildcardSubscriptionsForMessage
+								.findIndex(findSubscriptionFilter);
+						wildcardSubscriptionsForMessage.splice(foundIndex, 1);
+					}
+
+					if (subscriptionsForMessage !== undefined) {
+						var foundIndex = subscriptionsForMessage.findIndex(findSubscriptionFilter);
+						subscriptionsForMessage.splice(foundIndex, 1);
+					}
+
+					delete id_lookup[id];
 					return true;
 				}
 				return false;

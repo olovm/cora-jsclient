@@ -22,42 +22,37 @@ QUnit.module("CORA.Arbiter", {
 	beforeEach : function() {
 		this.arbiter = Arbiter.create()
 		this.fixture = document.getElementById("qunit-fixture");
-		// this.metadataProvider = new MetadataProviderStub();
-		// this.pubSub = new PubSubStub();
-		// this.newPresentation = function(presentationId) {
-		// return new CORA.Presentation(presentationId, this.metadataProvider,
-		// this.pubSub);
-		// }
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("testInit", function(assert) {
-	// var presentation = this.newPresentation("pgGroupIdOneTextChild");
-	// assert.deepEqual("pgGroupIdOneTextChild",
-	// presentation.getPresentationId());
-	// assert.ok(presentation.getPubSub());
-//	this.arbiter.subscribe("test/setValue", function(data, msg) {
-//		console.log("test/setValue: " + JSON.stringify(data));
-//	})
-//	this.arbiter.publish("test/setValue", {
-//		"test" : "try"
-//	});
-//	this.arbiter.publish("test/setValue", createLinkedPathWithNameInData("someName"));
-
-//	this.arbiter.subscribe(
-//			'{"name":"linkedPath","children":[{"name":"nameInData","value":"someName"}]}',
-//			function(data, msg) {
-//				console.log("path/setValue: " + JSON.stringify(data));
-//			})
-//	this.arbiter.publish('{"name":"linkedPath","children":[{"name":"nameInData","value":"someName"}]}', createLinkedPathWithNameInData("someName"));
-	this.arbiter.subscribe(
-			'someName.attribName:attribValue.one/*',
-			function(data, msg) {
-//				console.log("path/setValue: "+msg +' : ' + JSON.stringify(data));
-			})
-			this.arbiter.publish('someName#attribName:attribValue.one/setValue', createLinkedPathWithNameInData("someName"));
-	this.arbiter.publish('someName#attribName:attribValue.one/add', createLinkedPathWithNameInData("someName"));
+	var publishCounter = 0;
+	this.arbiter.subscribe('someName#attribName:attribValue.one/*', function(data, msg) {
+//		console.log("path/setValue: " + msg + ' : ' + JSON.stringify(data));
+		publishCounter++;
+	})
+	this.arbiter.publish('someName#attribName:attribValue.one/setValue',
+			createLinkedPathWithNameInData("someName"));
+	this.arbiter.publish('someName#attribName:attribValue.one/add',
+			createLinkedPathWithNameInData("someName"));
 	assert.ok(true);
+	assert.strictEqual(publishCounter, 2);
+});
+
+QUnit.test("testUnsubscribe", function(assert) {
+	var publishCounter = 0;
+	var functionToCall  = function(data, msg) {
+//		console.log("path/setValue: " + msg + ' : ' + JSON.stringify(data));
+		publishCounter++;
+	};
+	var subscribeId = this.arbiter.subscribe('someName#attribName:attribValue.one/*', functionToCall);
+	this.arbiter.publish('someName#attribName:attribValue.one/setValue',
+			createLinkedPathWithNameInData("someName"));
+	this.arbiter.unsubscribe(subscribeId);
+	this.arbiter.publish('someName#attribName:attribValue.one/add',
+			createLinkedPathWithNameInData("someName"));
+	assert.ok(true);
+	assert.strictEqual(publishCounter, 1);
 });
