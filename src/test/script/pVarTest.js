@@ -121,9 +121,7 @@ QUnit.test("testInit", function(assert) {
 	CORATEST.testVariableSubscription(attachedPVar, assert);
 	CORATEST.testVariableMetadata(attachedPVar, assert);
 
-	//adding error for testing error warnings
-//	assert.equal(attachedPVar.pVar.getState(), "ok");
-	assert.equal(attachedPVar.pVar.getState(), "this test should fail..");
+	assert.equal(attachedPVar.pVar.getState(), "ok");
 
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
