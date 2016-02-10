@@ -170,11 +170,11 @@ var Arbiter = (function() {
 
 					var wildcardSubscriptionsForMessage = wildcard_subscriptions[msg];
 					var subscriptionsForMessage = subscriptions[msg];
-					
+
 					var findSubscriptionFilter = function(sub) {
 						return sub === subscription;
 					};
-					
+
 					if (wildcardSubscriptionsForMessage !== undefined) {
 						var foundIndex = wildcardSubscriptionsForMessage
 								.findIndex(findSubscriptionFilter);

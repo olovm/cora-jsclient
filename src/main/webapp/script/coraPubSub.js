@@ -30,18 +30,18 @@ var CORA = (function(cora) {
 		function publish(type, data) {
 			var everyThingOk = arbiter.publish(convertPathToMsg(data.path) + type, data);
 			if (!everyThingOk) {
-				var errorMessage ="";
+				var errorMessage = "";
 				arbiter.getErrorArray().forEach(function(error) {
-					errorMessage += " " +error.message;
+					errorMessage += " " + error.message;
 				});
-				throw new Error("Errors generated when publishing: "+errorMessage);
+				throw new Error("Errors generated when publishing: " + errorMessage);
 			}
 		}
-		
-		function unsubscribe(subscribeId){
+
+		function unsubscribe(subscribeId) {
 			return arbiter.unsubscribe(subscribeId);
 		}
-		
+
 		function convertPathToMsg(path) {
 			return convertAndAddPathToMsg(path, "root");
 		}
