@@ -61,7 +61,7 @@ QUnit.module("CORA.pChildRefHandler", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = new PubSubSpy();
+		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
 
 		this.presentationFactory = CORATEST.presentationFactorySpy();
@@ -332,7 +332,7 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 	var fixture = document.getElementById("qunit-fixture");
 	var metadataProvider = new MetadataProviderStub();
-	var pubSub = new PubSubSpy();
+	var pubSub = CORATEST.pubSubSpy();
 	var textProvider = CORATEST.textProviderStub();
 
 	var specPresentationFactory = {
@@ -602,7 +602,7 @@ QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
 
 });
 
-QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
+QUnit.test("testShownRemoveButtonWhenAboveMinRepeat", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat0to1", "pVarTextVariableId");
 	var view = attachedPChildRefHandler.view;
@@ -618,6 +618,42 @@ QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
 
 	assert.visible(removeButton, "removeButton should be visible");
 });
+
+//QUnit.test("testUnsubscribeOnRemove", function(assert) {
+//	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+//			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
+//	var view = attachedPChildRefHandler.view;
+//	var childrenView = view.firstChild;
+//	assert.strictEqual(childrenView.childNodes.length, 0);
+//
+//	attachedPChildRefHandler.pChildRefHandler.add("one");
+//
+//	// // remove button
+//	// var repeatingElement = childrenView.childNodes[0];
+//	// var repeatingButtonView = repeatingElement.childNodes[1];
+//	// var removeButton = repeatingButtonView.firstChild;
+//
+//	// assert.notVisible(removeButton, "removeButton should be hidden");
+//
+//	// attachedPChildRefHandler.pChildRefHandler.add("two");
+//	// assert.visible(removeButton, "removeButton should be visible");
+//	// remove button
+//	// var repeatingElement2 = childrenView.childNodes[1];
+//	// var repeatingButtonView2 = repeatingElement2.childNodes[1];
+//	// var removeButton2 = repeatingButtonView2.firstChild;
+//	// assert.visible(removeButton2, "removeButton should be visible");
+//
+//	// call remove function in pChildRefHandler
+//	var pubSub = attachedPChildRefHandler.pubSub;
+//	var firstChildRemoveSubscription = pubSub.getSubscriptions()[1];
+//	firstChildRemoveSubscription.functionToCall();
+//	console.log(JSON.stringify(pubSub.getSubscriptions()));
+//	// assert.strictEqual(childrenView.childNodes.length, 1);
+//	// assert.notVisible(removeButton2, "removeButton should be hidden");
+//
+//	assert.strictEqual(pubSub.getSubscriptions().length, 2);
+//	assert.strictEqual(pubSub.getUnsubscriptions().length, 1);
+//});
 
 QUnit.test("testHandleMessageRightMetadataId", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},

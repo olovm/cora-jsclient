@@ -30,29 +30,54 @@ QUnit.module("CORA.Arbiter", {
 QUnit.test("testInit", function(assert) {
 	var publishCounter = 0;
 	this.arbiter.subscribe('someName#attribName:attribValue.one/*', function(data, msg) {
-//		console.log("path/setValue: " + msg + ' : ' + JSON.stringify(data));
+		// console.log("path/setValue: " + msg + ' : ' + JSON.stringify(data));
 		publishCounter++;
 	})
 	this.arbiter.publish('someName#attribName:attribValue.one/setValue',
 			createLinkedPathWithNameInData("someName"));
 	this.arbiter.publish('someName#attribName:attribValue.one/add',
 			createLinkedPathWithNameInData("someName"));
-	assert.ok(true);
 	assert.strictEqual(publishCounter, 2);
 });
 
 QUnit.test("testUnsubscribe", function(assert) {
 	var publishCounter = 0;
-	var functionToCall  = function(data, msg) {
-//		console.log("path/setValue: " + msg + ' : ' + JSON.stringify(data));
+	var functionToCall = function(data, msg) {
+		// console.log("path/setValue: " + msg + ' : ' + JSON.stringify(data));
 		publishCounter++;
 	};
-	var subscribeId = this.arbiter.subscribe('someName#attribName:attribValue.one/*', functionToCall);
+	var subscribeId = this.arbiter.subscribe('someName#attribName:attribValue.one/*',
+			functionToCall);
 	this.arbiter.publish('someName#attribName:attribValue.one/setValue',
 			createLinkedPathWithNameInData("someName"));
 	this.arbiter.unsubscribe(subscribeId);
 	this.arbiter.publish('someName#attribName:attribValue.one/add',
 			createLinkedPathWithNameInData("someName"));
-	assert.ok(true);
+	assert.strictEqual(publishCounter, 1);
+});
+
+QUnit.test("testUnsubscribePathAndBelow", function(assert) {
+	var publishCounter = 0;
+	var functionToCall = function(data, msg) {
+		// console.log("path/setValue: " + msg + ' : ' +
+		// JSON.stringify(data));
+		publishCounter++;
+	};
+	// root/textVarRepeat1to3InGroupOneAttribute#anOtherAttribute:aOtherFinalValue.3/textVar.5/
+	// root/textVarRepeat1to3InGroupOneAttribute#anOtherAttribute:aOtherFinalValue.3/
+	this.arbiter.subscribe("root/textVarRepeat1to3InGroupOneAttribute#"
+			+ "anOtherAttribute:aOtherFinalValue.3/textVar.5/", functionToCall);
+	
+	this.arbiter.publish("root/textVarRepeat1to3InGroupOneAttribute#"
+			+ "anOtherAttribute:aOtherFinalValue.3/textVar.5/",
+			createLinkedPathWithNameInData("someName"));
+	
+	this.arbiter.unsubscribePathBelow("root/textVarRepeat1to3InGroupOneAttribute#"
+			+ "anOtherAttribute:aOtherFinalValue.3/");
+	
+	this.arbiter.publish("root/textVarRepeat1to3InGroupOneAttribute#"
+			+ "anOtherAttribute:aOtherFinalValue.3/textVar.5/",
+			createLinkedPathWithNameInData("someName"));
+	
 	assert.strictEqual(publishCounter, 1);
 });

@@ -118,6 +118,80 @@ QUnit.test("testUnsubscribe", function(assert) {
 	assert.deepEqual(this.messages[0].message, "root/add");
 });
 
+QUnit.test("testUnsubscribePathBelow", function(assert) {
+	var type = "add";
+	var path = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVarRepeat1to3InGroupOneAttribute"
+		}, {
+			"name" : "repeatId",
+			"value" : "3"
+		}, {
+			"name" : "attributes",
+			"children" : [ {
+				"name" : "attribute",
+				"repeatId" : "1",
+				"children" : [ {
+					"name" : "attributeName",
+					"value" : "anOtherAttribute"
+				}, {
+					"name" : "attributeValue",
+					"value" : "aOtherFinalValue"
+				} ]
+			} ]
+		}, {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVar"
+			}, {
+				"name" : "repeatId",
+				"value" : "5"
+			} ]
+		} ]
+	};
+	var removePath = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVarRepeat1to3InGroupOneAttribute"
+		}, {
+			"name" : "repeatId",
+			"value" : "3"
+		}, {
+			"name" : "attributes",
+			"children" : [ {
+				"name" : "attribute",
+				"repeatId" : "1",
+				"children" : [ {
+					"name" : "attributeName",
+					"value" : "anOtherAttribute"
+				}, {
+					"name" : "attributeValue",
+					"value" : "aOtherFinalValue"
+				} ]
+			} ]
+		} ]
+	};
+	var context = this;
+	var functionToCall = this.toCall;
+	var subscribeId = this.pubSub.subscribe(type, path, context, functionToCall);
+
+	var data = {
+		"metadataId" : "someId",
+		"path" : path,
+		"repeatId" : "someRepeatId"
+	};
+	this.pubSub.publish(type, data);
+	this.pubSub.unsubscribePathBelow(removePath);
+	this.pubSub.publish(type, data);
+	assert.strictEqual(this.messages.length, 1);
+//	assert.deepEqual(this.messages[0].data, data);
+//	assert.deepEqual(this.messages[0].message, "root/add");
+});
+
 QUnit.test("testConvertPathNameInData", function(assert) {
 	var path = createLinkedPathWithNameInData("someNameInData");
 	var convertedPath = this.pubSub.convertPathToMsg(path);

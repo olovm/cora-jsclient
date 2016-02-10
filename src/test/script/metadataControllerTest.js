@@ -48,7 +48,7 @@ var CORATEST = (function(coraTest) {
 QUnit.module("CORA.MetadataController", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = new PubSubSpy();
+		this.pubSub = CORATEST.pubSubSpy();
 		this.metadataControllerFactory = CORATEST.metadataControllerFactory(this.metadataProvider,
 				this.pubSub);
 	},

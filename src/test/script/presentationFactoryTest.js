@@ -42,7 +42,7 @@ var CORATEST = (function(coraTest) {
 QUnit.module("CORA.presentationFactory", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = new PubSubSpy();
+		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
 		this.newPresentationFactoryFactory = CORATEST.presentationFactoryFactory(
 				this.metadataProvider, this.pubSub, this.textProvider);

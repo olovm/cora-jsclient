@@ -99,9 +99,15 @@ var CORA = (function(cora) {
 			}
 			return "";
 		}
+
+		function unsubscribePathBelow(startOfPath) {
+			arbiter.unsubscribePathBelow(convertPathToMsg(startOfPath));
+		}
+
 		return Object.freeze({
 			subscribe : subscribe,
 			unsubscribe : unsubscribe,
+			unsubscribePathBelow : unsubscribePathBelow,
 			publish : publish,
 			convertPathToMsg : convertPathToMsg
 		});

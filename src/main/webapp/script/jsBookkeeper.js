@@ -67,6 +67,7 @@ var CORA = (function(cora) {
 
 		function remove(data) {
 			pubSub.publish("remove", data);
+			pubSub.unsubscribePathBelow(data.path);
 		}
 
 		return Object.freeze({

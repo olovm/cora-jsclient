@@ -16,31 +16,69 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.pubSubSpy = function() {
 
-function PubSubSpy() {
-	var messages = [];
-	var subscriptions = [];
+		var messages = [];
+		var subscriptions = [];
+		var subscriptionId = 0;
+		var unsubscriptions = [];
+		var unsubscriptionsPathBelow = [];
 
-	this.publish = function(type, message) {
-		messages.push({
-			"type" : type,
-			"message" : message
+		function publish(type, message) {
+			messages.push({
+				"type" : type,
+				"message" : message
+			});
+		}
+
+		function getMessages() {
+			return messages;
+		}
+
+		function subscribe(type, path, context, functionToCall) {
+			subscriptionId++;
+			subscriptions.push({
+				"type" : type,
+				"path" : path,
+				"context" : context,
+				"functionToCall" : functionToCall,
+				"subscriptionId" : subscriptionId
+			});
+			return subscriptionId;
+		}
+
+		function getSubscriptions() {
+			return subscriptions;
+		}
+
+		function unsubscribe(id) {
+			unsubscriptions.push(id);
+		}
+
+		function getUnsubscriptions() {
+			return unsubscriptions;
+		}
+
+		function unsubscribePathBelow(path) {
+			unsubscriptionsPathBelow.push(path);
+		}
+		
+		function getUnsubscriptionsPathBelow() {
+			return unsubscriptionsPathBelow;
+		}
+		
+		return Object.freeze({
+			publish : publish,
+			getMessages : getMessages,
+			subscribe : subscribe,
+			getSubscriptions : getSubscriptions,
+			unsubscribe : unsubscribe,
+			getUnsubscriptions : getUnsubscriptions,
+			unsubscribePathBelow:unsubscribePathBelow,
+			getUnsubscriptionsPathBelow:getUnsubscriptionsPathBelow
 		});
 	};
-	this.getMessages = function() {
-		return messages;
-	};
-
-	this.subscribe = function(type, path, context, functionToCall) {
-		subscriptions.push({
-			"type" : type,
-			"path" : path,
-			"context" : context,
-			"functionToCall" : functionToCall
-		});
-	}
-
-	this.getSubscriptions = function() {
-		return subscriptions;
-	}
-}
+	return coraTest;
+}(CORATEST || {}));

@@ -14,6 +14,36 @@ var Arbiter = (function() {
 		var new_id = 1;
 		var errorArray = [];
 
+		function unsubscribeById(id) {
+			var subscription = id_lookup[id];
+			if (subscription) {
+
+				var msg = subscription.msg;
+
+				var wildcardSubscriptionsForMessage = wildcard_subscriptions[msg];
+				var subscriptionsForMessage = subscriptions[msg];
+
+				var findSubscriptionFilter = function(sub) {
+					return sub === subscription;
+				};
+
+				if (wildcardSubscriptionsForMessage !== undefined) {
+					var foundIndex = wildcardSubscriptionsForMessage
+							.findIndex(findSubscriptionFilter);
+					wildcardSubscriptionsForMessage.splice(foundIndex, 1);
+				}
+
+				if (subscriptionsForMessage !== undefined) {
+					var foundIndex = subscriptionsForMessage.findIndex(findSubscriptionFilter);
+					subscriptionsForMessage.splice(foundIndex, 1);
+				}
+
+				delete id_lookup[id];
+				return true;
+			}
+			return false;
+		}
+
 		return {
 			'version' : '1.0',
 			'updated_on' : '2011-12-19',
@@ -163,36 +193,19 @@ var Arbiter = (function() {
 			},
 
 			'unsubscribe' : function(id) {
-				var subscription = id_lookup[id];
-				if (subscription) {
+				return unsubscribeById(id);
+			},
 
-					var msg = subscription.msg;
-
-					var wildcardSubscriptionsForMessage = wildcard_subscriptions[msg];
-					var subscriptionsForMessage = subscriptions[msg];
-
-					var findSubscriptionFilter = function(sub) {
-						return sub === subscription;
-					};
-
-					if (wildcardSubscriptionsForMessage !== undefined) {
-						var foundIndex = wildcardSubscriptionsForMessage
-								.findIndex(findSubscriptionFilter);
-						wildcardSubscriptionsForMessage.splice(foundIndex, 1);
+			'unsubscribePathBelow' : function(startOfPath) {
+				var keys = Object.keys(id_lookup);
+				keys.forEach(function(key) {
+					var path = id_lookup[key].msg;
+					if (path.startsWith(startOfPath)) {
+						unsubscribeById(key);
 					}
+				});
+			},
 
-					if (subscriptionsForMessage !== undefined) {
-						var foundIndex = subscriptionsForMessage.findIndex(findSubscriptionFilter);
-						subscriptionsForMessage.splice(foundIndex, 1);
-					}
-
-					delete id_lookup[id];
-					return true;
-				}
-				return false;
-			}
-
-			,
 			'resubscribe' : function(id) {
 				if (id_lookup[id]) {
 					id_lookup[id].unsubscribed = false;

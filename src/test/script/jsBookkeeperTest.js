@@ -41,7 +41,7 @@ var CORATEST = (function(coraTest) {
 QUnit.module("CORA.jsBookkeeper", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = new PubSubSpy();
+		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
 		this.dataHolder = CORATEST.dataHolderStub();
 		this.newJsBookkeeper = CORATEST.jsBookkeeperFactory(this.metadataProvider, this.pubSub,
@@ -243,7 +243,8 @@ QUnit.test("testAdd2", function(assert) {
 
 	assert.equal(messages.length, 1);
 });
-QUnit.test("testremove", function(assert) {
+
+QUnit.test("testRemove", function(assert) {
 	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild", this.dataHolder);
 	var data = {
 		"path" : {}
@@ -259,4 +260,9 @@ QUnit.test("testremove", function(assert) {
 	assert.stringifyEqual(messages[0], expectedMessage);
 
 	assert.equal(messages.length, 1);
+	
+	var unsubscriptionsPathBelow = this.pubSub.getUnsubscriptionsPathBelow();
+	assert.equal(unsubscriptionsPathBelow.length, 1);
+	assert.stringifyEqual(unsubscriptionsPathBelow[0], {});
+	
 });

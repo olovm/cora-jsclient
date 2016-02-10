@@ -95,6 +95,7 @@
 					"presentationFactory" : presentationFactory
 				};
 				var presentation = CORA.presentation(spec);
+				var presentation2 = CORA.presentation(spec);
 
 				// // log all messages
 				//			pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
@@ -113,6 +114,7 @@
 					jsBookkeeper : jsBookkeeper,
 					presentationFactory : presentationFactory,
 					presentation : presentation,
+					presentation2 : presentation2,
 					dataHolder : dataHolder,
 					metadataController : metadataController
 				});
@@ -474,6 +476,21 @@
 			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
 		}
 		document.getElementById("client9DataButton").onclick = showData;
+		
+		
+		
+// 		var spec = {
+// 				"presentationId" : presentationId,
+// 				"metadataProvider" : metadataProvider,
+// 				"pubSub" : pubSub,
+// 				"textProvider" : textProvider,
+// 				"jsBookkeeper" : dependencies.jsBookkeeper,
+// 				"presentationFactory" : dependencies.presentationFactory
+// 			};
+// 			var presentation2 = CORA.presentation(spec);
+			place.appendChild(dependencies.presentation2.getView());
+
+		
 	}
 </script>
 </head>
