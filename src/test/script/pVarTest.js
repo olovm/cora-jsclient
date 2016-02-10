@@ -143,8 +143,13 @@ QUnit.test("testInitCollection", function(assert) {
 
 	var options = valueView.childNodes;
 	assert.equal(options[0].nodeName, "OPTION");
-	assert.equal(options[0].text, "Ja");
-	assert.equal(options[0].value, "yes");
+	assert.equal(options[0].text, "");
+	assert.equal(options[0].value, "");
+	assert.equal(options[0].selected, true);
+
+	assert.equal(options[1].nodeName, "OPTION");
+	assert.equal(options[1].text, "Ja");
+	assert.equal(options[1].value, "yes");
 
 	CORATEST.testVariableSubscription(attachedPVar, assert);
 

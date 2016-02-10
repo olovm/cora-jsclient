@@ -71,6 +71,14 @@ var CORA = (function(cora) {
 
 		function createCollectionInput() {
 			var inputNew = document.createElement("select");
+			
+			if(cPresentation.containsChildWithNameInData("emptyTextId")){
+				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
+				var optionText = textProvider.getTranslation(emptyTextId);
+				var emptyTextOption = new Option(optionText, "");
+				inputNew.appendChild(emptyTextOption);
+			}
+			
 			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
 
 			collectionItemReferencesChildren.forEach(function(ref) {

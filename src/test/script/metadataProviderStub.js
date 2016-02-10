@@ -1303,6 +1303,9 @@ function MetadataProviderStub() {
 				}, {
 					"name" : "mode",
 					"value" : "input"
+				},{
+					"name" : "emptyTextId",
+					"value" : "emptyText"
 				} ]
 			};
 			break;
