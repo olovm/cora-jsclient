@@ -110,6 +110,144 @@ function MetadataProviderStub() {
 
 			};
 		}
+		if (idToGet === "yesNoUnknownVar") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "yesNoUnknownVar"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "yesNoUnknownVar"
+				}, {
+					"name" : "textId",
+					"value" : "yesNoUnknownVarText"
+				}, {
+					"name" : "defTextId",
+					"value" : "yesNoUnknownVarDefText"
+				}, {
+					"name" : "refCollectionId",
+					"value" : "yesNoUnknownCollection"
+				} ],
+				"attributes" : {
+					"type" : "collectionVariable"
+				}
+			};
+		}
+		if (idToGet === "yesNoUnknownCollection") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "yesNoUnknownCollection"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "yesNoUnknownCollection"
+				}, {
+					"name" : "textId",
+					"value" : "itemYesNoUnknownText"
+				}, {
+					"name" : "defTextId",
+					"value" : "itemYesNoUnknownDefText"
+				}, {
+					"name" : "collectionItemReferences",
+					"children" : [ {
+						"name" : "ref",
+						"repeatId" : "0",
+						"value" : "itemYes"
+					}, {
+						"name" : "ref",
+						"repeatId" : "1",
+						"value" : "itemNo"
+					}, {
+						"name" : "ref",
+						"repeatId" : "2",
+						"value" : "itemUnknown"
+					} ]
+				} ],
+				"attributes" : {
+					"type" : "itemCollection"
+				}
+			};
+		}
+		if (idToGet === "itemYes") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "itemYes"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "yes"
+				}, {
+					"name" : "textId",
+					"value" : "itemYesText"
+				}, {
+					"name" : "defTextId",
+					"value" : "itemYesDefText"
+				} ],
+				"attributes" : {
+					"type" : "collectionItem"
+				}
+			};
+		}
+		if (idToGet === "itemNo") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "itemNo"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "no"
+				}, {
+					"name" : "textId",
+					"value" : "itemNoText"
+				}, {
+					"name" : "defTextId",
+					"value" : "itemNoDefText"
+				} ],
+				"attributes" : {
+					"type" : "collectionItem"
+				}
+			};
+		}
+		if (idToGet === "itemUnknown") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "itemUnknown"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "unknown"
+				}, {
+					"name" : "textId",
+					"value" : "itemUnknownText"
+				}, {
+					"name" : "defTextId",
+					"value" : "itemUnknownDefText"
+				} ],
+				"attributes" : {
+					"type" : "collectionItem"
+				}
+			};
+		}
 		if (idToGet === "groupIdOneTextChild") {
 			return {
 				"name" : "metadata",
@@ -119,6 +257,19 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatId1to1("textVariableId", "1") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "groupId1toXCollectionChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+							"yesNoUnknownVar", "1", "1", "X") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -1134,6 +1285,48 @@ function MetadataProviderStub() {
 				} ]
 			};
 			break;
+		case "yesNoUnknownPVar":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "yesNoUnknownPVar"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "yesNoUnknownVar"
+				}, {
+					"name" : "mode",
+					"value" : "input"
+				} ]
+			};
+			break;
+		case "yesNoUnknownOutputPVar":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "yesNoUnknownOutputPVar"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "yesNoUnknownVar"
+				}, {
+					"name" : "mode",
+					"value" : "output"
+				} ]
+			};
+			break;
 		case "pVarTextVar":
 			return {
 				"name" : "presentation",
@@ -1228,6 +1421,31 @@ function MetadataProviderStub() {
 				} ])
 			};
 			break;
+		case "pgGroupId1toXCollectionChild":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"name" : "presentationOf",
+				"value" : "groupId1toXCollectionChild"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "ref",
+						"value" : "yesNoUnknownPVar"
+					}, {
+						"name" : "default",
+						"value" : "ref"
+					} ]
+				} ]
+			} ])
+		};
+		break;
 		case "pgGroupIdOneTextOneTextChild":
 			return {
 				"name" : "presentation",
@@ -1338,32 +1556,32 @@ function MetadataProviderStub() {
 			break;
 		case "pgGroupIdOneTextChildMinimizedDefault":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pGroup"
-			},
-			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-				"name" : "presentationOf",
-				"value" : "groupIdOneTextChild"
-			}, {
-				"name" : "childReferences",
-				"children" : [ {
-					"name" : "childReference",
-					"repeatId" : "1",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdOneTextChild"
+				}, {
+					"name" : "childReferences",
 					"children" : [ {
-						"name" : "ref",
-						"value" : "pVarTextVariableId"
-					}, {
-						"name" : "refMinimized",
-						"value" : "pVarTextVariableIdOutput"
-					}, {
-						"name" : "default",
-						"value" : "refMinimized"
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableId"
+						}, {
+							"name" : "refMinimized",
+							"value" : "pVarTextVariableIdOutput"
+						}, {
+							"name" : "default",
+							"value" : "refMinimized"
+						} ]
 					} ]
-				} ]
-			} ])
-		};
-		break;
+				} ])
+			};
+			break;
 		case "pVarTextVariableId2":
 			return {
 				"name" : "presentation",
@@ -1493,39 +1711,39 @@ function MetadataProviderStub() {
 			break;
 		case "pgTextVarRepeat1to3InGroupOneAttributeMinimized":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pGroup"
-			},
-			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-				"name" : "presentationOf",
-				"value" : "textVarRepeat1to3InGroupOneAttribute"
-			}, {
-				"name" : "childReferences",
-				"children" : [ {
-					"name" : "childReference",
-					"repeatId" : "1",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "textVarRepeat1to3InGroupOneAttribute"
+				}, {
+					"name" : "childReferences",
 					"children" : [ {
-						"name" : "ref",
-						"value" : "aHeadlineText"
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "aHeadlineText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
 					}, {
-						"name" : "default",
-						"value" : "ref"
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVarOutput"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
 					} ]
-				},{
-					"name" : "childReference",
-					"repeatId" : "2",
-					"children" : [ {
-						"name" : "ref",
-						"value" : "pVarTextVarOutput"
-					}, {
-						"name" : "default",
-						"value" : "ref"
-					} ]
-				} ]
-			} ])
-		};
-		break;
+				} ])
+			};
+			break;
 		case "pgTextVarRepeat1to3InGroupOtherAttribute":
 			return {
 				"name" : "presentation",
@@ -1563,29 +1781,29 @@ function MetadataProviderStub() {
 			break;
 		case "pgTextVarRepeat1to3InGroupOtherAttributeMinimized":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pGroup"
-			},
-			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-				"name" : "presentationOf",
-				"value" : "textVarRepeat1to3InGroupOtherAttribute"
-			}, {
-				"name" : "childReferences",
-				"children" : [ {
-					"name" : "childReference",
-					"repeatId" : "1",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "textVarRepeat1to3InGroupOtherAttribute"
+				}, {
+					"name" : "childReferences",
 					"children" : [ {
-						"name" : "ref",
-						"value" : "aHeadlineText"
-					}, {
-						"name" : "default",
-						"value" : "ref"
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "aHeadlineText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
 					} ]
-				} ]
-			} ])
-		};
-		break;
+				} ])
+			};
+			break;
 		case "pgTextVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup":
 			return {
 				"name" : "presentation",
@@ -1597,45 +1815,53 @@ function MetadataProviderStub() {
 								{
 									"name" : "presentationOf",
 									"value" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup"
-								}, {
+								},
+								{
 									"name" : "childReferences",
-									"children" : [ {
-										"name" : "childReference",
-										"repeatId" : "1",
-										"children" : [ {
-											"name" : "ref",
-											"value" : "aHeadlineText"
-										}, {
-											"name" : "default",
-											"value" : "ref"
-										} ]
-									}, {
-										"name" : "childReference",
-										"repeatId" : "2",
-										"children" : [ {
-											"name" : "ref",
-											"value" : "pgTextVarRepeat1to3InGroupOneAttribute"
-										},{
-											"name" : "refMinimized",
-											"value" : "pgTextVarRepeat1to3InGroupOneAttributeMinimized"
-										}, {
-											"name" : "default",
-											"value" : "refMinimized"
-										} ]
-									}, {
-										"name" : "childReference",
-										"repeatId" : "3",
-										"children" : [ {
-											"name" : "ref",
-											"value" : "pgTextVarRepeat1to3InGroupOtherAttribute"
-										},{
-											"name" : "refMinimized",
-											"value" : "pgTextVarRepeat1to3InGroupOtherAttributeMinimized"
-										}, {
-											"name" : "default",
-											"value" : "ref"
-										} ]
-									} ]
+									"children" : [
+											{
+												"name" : "childReference",
+												"repeatId" : "1",
+												"children" : [ {
+													"name" : "ref",
+													"value" : "aHeadlineText"
+												}, {
+													"name" : "default",
+													"value" : "ref"
+												} ]
+											},
+											{
+												"name" : "childReference",
+												"repeatId" : "2",
+												"children" : [
+														{
+															"name" : "ref",
+															"value" : "pgTextVarRepeat1to3InGroupOneAttribute"
+														},
+														{
+															"name" : "refMinimized",
+															"value" : "pgTextVarRepeat1to3InGroupOneAttributeMinimized"
+														}, {
+															"name" : "default",
+															"value" : "refMinimized"
+														} ]
+											},
+											{
+												"name" : "childReference",
+												"repeatId" : "3",
+												"children" : [
+														{
+															"name" : "ref",
+															"value" : "pgTextVarRepeat1to3InGroupOtherAttribute"
+														},
+														{
+															"name" : "refMinimized",
+															"value" : "pgTextVarRepeat1to3InGroupOtherAttributeMinimized"
+														}, {
+															"name" : "default",
+															"value" : "ref"
+														} ]
+											} ]
 								} ])
 			};
 			break;

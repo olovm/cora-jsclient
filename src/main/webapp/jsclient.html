@@ -52,6 +52,10 @@
 <script type="text/javascript" src="test/script/metadataProviderStub.js"></script>
 <script type="text/javascript" src="../../test/script/textProviderStub.js"></script>
 <script type="text/javascript" src="test/script/textProviderStub.js"></script>
+<script type="text/javascript" src="../../test/script/metadataProviderRealStub.js"></script>
+<script type="text/javascript" src="test/script/metadataProviderRealStub.js"></script>
+<script type="text/javascript" src="../../test/script/textProviderRealStub.js"></script>
+<script type="text/javascript" src="test/script/textProviderRealStub.js"></script>
 
 <script type="text/javascript">
 	var CORATEST = (function(coraTest) {
@@ -132,6 +136,12 @@
 		client5(metadataProvider, textProvider);
 		client6(metadataProvider, textProvider);
 		client7(metadataProvider, textProvider);
+		client8(metadataProvider, textProvider);
+		
+		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
+		var textProviderRealStub = CORATEST.textProviderRealStub();
+		client9(metadataProviderRealStub, textProviderRealStub);
+		
 	}
 
 	function client1(metadataProvider, textProvider) {
@@ -424,6 +434,47 @@
 		}
 		document.getElementById("client7DataButton").onclick = showData;
 	}
+	function client8(metadataProvider, textProvider) {
+		var place = document.getElementById("client8");
+		var pubSub = CORA.pubSub();
+		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
+				textProvider);
+		var metadataId = "groupId1toXCollectionChild";
+		var presentationId = "pgGroupId1toXCollectionChild";
+		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
+
+		var view = dependencies.presentation.getView();
+		place.appendChild(view);
+
+		view.dataHolder = dependencies.dataHolder;
+
+		function showData() {
+			var clientData = document.getElementById("client8Data");
+			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
+		}
+		document.getElementById("client8DataButton").onclick = showData;
+	}
+	
+	function client9(metadataProvider, textProvider) {
+		var place = document.getElementById("client9");
+		var pubSub = CORA.pubSub();
+		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
+				textProvider);
+		var metadataId = "textSystemOneNewGroup";
+		var presentationId = "textSystemOneNewPGroup";
+		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
+
+		var view = dependencies.presentation.getView();
+		place.appendChild(view);
+
+		view.dataHolder = dependencies.dataHolder;
+
+		function showData() {
+			var clientData = document.getElementById("client9Data");
+			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
+		}
+		document.getElementById("client9DataButton").onclick = showData;
+	}
 </script>
 </head>
 <body>
@@ -461,6 +512,20 @@
 	</div>
 	<div id="client7Data"></div>
 	<input id="client7DataButton" type="button" value="Show data"></input>
+	
+	<h2>JSClient 8 (select)</h2>
+	<div id="client8" class="client8" style=" min-height: 20px; min-width: 40px;">
+	</div>
+	<div id="client8Data"></div>
+	<input id="client8DataButton" type="button" value="Show data"></input>
+	
+	<h2>JSClient 9 (text) lägg till att unsubscribe från pubSub vid delete så att den inte varnar 
+	för att den inte hittar node, se console</h2>
+	<div id="client9" class="client9" style=" min-height: 20px; min-width: 40px;">
+	</div>
+	<div id="client9Data"></div>
+	<input id="client9DataButton" type="button" value="Show data"></input>
+	
 </body>
 </html>
 

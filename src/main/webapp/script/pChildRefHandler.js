@@ -287,7 +287,8 @@ var CORA = (function(cora) {
 		}
 
 		function updateChildrenRemoveButtonVisibility() {
-			// can not use Object.keys(repeatingElements) as phantomJs can't handle it
+			// can not use Object.keys(repeatingElements) as phantomJs can't
+			// handle it
 			if (minLimitOfChildrenReached()) {
 				hideChildrensRemoveButton();
 			} else {

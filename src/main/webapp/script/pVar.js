@@ -31,6 +31,7 @@ var CORA = (function(cora) {
 
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
+		var subType = cMetadataElement.getData().attributes.type;
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 
 		var view = createBaseView();
@@ -45,7 +46,9 @@ var CORA = (function(cora) {
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var defText = textProvider.getTranslation(defTextId);
 
-		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
+		if (subType === "textVariable") {
+			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
+		}
 
 		function createBaseView() {
 			var viewNew = document.createElement("span");
@@ -60,9 +63,43 @@ var CORA = (function(cora) {
 		}
 
 		function createInput() {
+			if (subType === "textVariable") {
+				return createTextInput();
+			}
+			return createCollectionInput();
+		}
+
+		function createCollectionInput() {
+			var inputNew = document.createElement("select");
+			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
+
+			collectionItemReferencesChildren.forEach(function(ref) {
+				var option = createOptionForRef(ref);
+				inputNew.appendChild(option);
+			});
+			return inputNew;
+		}
+
+		function getCollectionItemReferencesChildren() {
+			var refCollectionId = cMetadataElement
+					.getFirstAtomicValueByNameInData("refCollectionId");
+			var cMetadataCollection = getMetadataById(refCollectionId);
+			var collectionItemReferences = cMetadataCollection
+					.getFirstChildByNameInData("collectionItemReferences");
+			return collectionItemReferences.children;
+		}
+
+		function createOptionForRef(ref) {
+			var item = getMetadataById(ref.value);
+			var value = item.getFirstAtomicValueByNameInData("nameInData");
+			var optionText = textProvider.getTranslation(item
+					.getFirstAtomicValueByNameInData("textId"));
+			return new Option(optionText, value);
+		}
+
+		function createTextInput() {
 			var inputNew = document.createElement("input");
 			inputNew.type = "text";
-			valueView = inputNew;
 			return inputNew;
 		}
 
@@ -80,8 +117,35 @@ var CORA = (function(cora) {
 			if (mode === "input") {
 				valueView.value = value;
 			} else {
+				setValueForOutput(value);
+			}
+		}
+
+		function setValueForOutput(value) {
+			if (subType === "textVariable") {
 				valueView.textContent = value;
 			}
+			if (subType === "collectionVariable") {
+				setValueForCollectionOutput(value);
+			}
+		}
+
+		function setValueForCollectionOutput(value) {
+			var itemReference = findItemReferenceForValue(value);
+			var item = getMetadataById(itemReference.value);
+			var outputText = textProvider.getTranslation(item
+					.getFirstAtomicValueByNameInData("textId"));
+			valueView.textContent = outputText;
+		}
+
+		function findItemReferenceForValue(value) {
+			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
+			var itemReference = collectionItemReferencesChildren.find(function(ref) {
+				var item = getMetadataById(ref.value);
+				var refValue = item.getFirstAtomicValueByNameInData("nameInData");
+				return refValue === value;
+			});
+			return itemReference;
 		}
 
 		function handleMsg(dataFromMsg) {

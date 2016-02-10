@@ -52,6 +52,21 @@ var CORATEST = (function(coraTest) {
 				return "En rubrik";
 				// A headline
 				break;
+			case "yesNoUnknownVarText":
+				return "Exempel collectionVariable";
+				break;
+			case "yesNoUnknownVarDefText":
+				return "Exempel collectionVariable, är en variabel där man kan välja mellan ja, nej och okänt";
+				break;
+			case "itemYesText":
+				return "Ja";
+				break;
+			case "itemNoText":
+				return "Nej";
+				break;
+			case "itemUnknownText":
+				return "Okänt";
+				break;
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");

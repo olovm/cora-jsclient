@@ -27,8 +27,9 @@ if (!Array.prototype.find) {
 	};
 }
 
-/* Added to support internet explorer
- * 
+/*
+ * Added to support internet explorer
+ *
  * Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ copied from:
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
