@@ -74,3 +74,17 @@ if (!String.prototype.endsWith) {
 		return lastIndex !== -1 && lastIndex === position;
 	};
 }
+
+
+/* Added to support phantomjs and internet explorer
+ * 
+ * Any copyright is dedicated to the Public Domain.
+ * http://creativecommons.org/publicdomain/zero/1.0/ copied from:
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
+ */
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position){
+      position = position || 0;
+      return this.substr(position, searchString.length) === searchString;
+  };
+}

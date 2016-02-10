@@ -200,7 +200,7 @@ var Arbiter = (function() {
 				var keys = Object.keys(id_lookup);
 				keys.forEach(function(key) {
 					var path = id_lookup[key].msg;
-					if (path !== undefined && path.startsWith(startOfPath)) {
+					if (path.startsWith(startOfPath)) {
 						unsubscribeById(key);
 					}
 				});
