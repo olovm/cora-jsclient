@@ -169,28 +169,28 @@ QUnit.test("testInitCollectionNoEmptyTextId", function(assert) {
 	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownPVar");
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
-	"modelObject should be a pointer to the javascript object instance");
+			"modelObject should be a pointer to the javascript object instance");
 	assert.ok(view.childNodes.length === 1, "pVar, should have one child");
-	
+
 	var valueView = attachedPVar.valueView;
 	assert.equal(valueView.nodeName, "SELECT");
 	assert.equal(valueView.type, "select-one");
 	// assert.equal(valueView.value, "");
-	
+
 	var options = valueView.childNodes;
 	assert.equal(options[0].nodeName, "OPTION");
 	assert.equal(options[0].text, "Ja");
 	assert.equal(options[0].value, "yes");
-	
+
 	CORATEST.testVariableSubscription(attachedPVar, assert);
-	
+
 	var pVar = attachedPVar.pVar;
 	assert.strictEqual(pVar.getText(), "Exempel collectionVariable");
 	assert.strictEqual(pVar.getDefText(), "Exempel collectionVariable, är en variabel "
 			+ "där man kan välja mellan ja, nej och okänt");
-	
+
 	assert.equal(attachedPVar.pVar.getState(), "ok");
-	
+
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
@@ -261,13 +261,13 @@ QUnit.test("testInitCollectionOutput", function(assert) {
 	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownOutputPVar");
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
-	"modelObject should be a pointer to the javascript object instance");
+			"modelObject should be a pointer to the javascript object instance");
 	assert.ok(view.childNodes.length === 1, "pVar, should have one child");
-	
+
 	var valueView = attachedPVar.valueView;
 	assert.equal(valueView.nodeName, "SPAN");
 	assert.equal(valueView.innerHTML, "");
-	
+
 	CORATEST.testVariableSubscription(attachedPVar, assert);
 });
 
@@ -282,7 +282,7 @@ QUnit.test("testSetValueTextOutput", function(assert) {
 QUnit.test("testSetValueCollectionOutput", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownOutputPVar");
 	var valueView = attachedPVar.valueView;
-	
+
 	attachedPVar.pVar.setValue("yes");
 	assert.equal(valueView.innerHTML, "Ja");
 	attachedPVar.pVar.setValue("no");

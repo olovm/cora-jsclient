@@ -88,6 +88,7 @@ var CORA = (function(cora) {
 				var optionText = textProvider.getTranslation(emptyTextId);
 				var emptyTextOption = new Option(optionText, "");
 				inputNew.appendChild(emptyTextOption);
+				inputNew.value = "";
 			}
 
 			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
