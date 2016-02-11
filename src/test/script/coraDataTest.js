@@ -249,10 +249,8 @@ QUnit.test("testContainsChildWithNameInDataAndAttributeNoAttributes", function(a
 });
 
 QUnit.test("testContainsChildWithNameInDataAndAttributeNoAttributesHolder", function(assert) {
-	var attributes;
-
 	assert.notOk(this.coraDataWithAttribute.containsChildWithNameInDataAndAttributes(
-			"groupIdOneTextChildOneAttribute", attributes));
+			"groupIdOneTextChildOneAttribute", undefined));
 });
 
 QUnit.test("testContainsChildWithNameInDataAndAttributeButNoAttributeInMetadata", function(assert) {
@@ -266,10 +264,8 @@ QUnit.test("testContainsChildWithNameInDataAndAttributeButNoAttributeInMetadata"
 
 QUnit.test("testContainsChildWithNameInDataAndAttributeNoAttributeInMetadataOrParameter",
 		function(assert) {
-			var attributes;
-
 			assert.ok(this.coraData.containsChildWithNameInDataAndAttributes("textVariableId",
-					attributes));
+					undefined));
 		});
 
 QUnit.test("testContainsChildWithNameInDataAndAttributeNoAttributeInMetadataEmptyAttributesHolder",

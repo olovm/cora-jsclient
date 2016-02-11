@@ -1458,7 +1458,6 @@ var CORATEST = (function(coraTest) {
 						"value" : "input"
 					} ]
 				};
-				break;
 			case "textTextPVar":
 				return {
 					"name" : "presentation",
@@ -1479,7 +1478,6 @@ var CORATEST = (function(coraTest) {
 						"value" : "input"
 					} ]
 				};
-				break;
 
 			case "idTextTextOutputPVar":
 				return {
@@ -1501,13 +1499,7 @@ var CORATEST = (function(coraTest) {
 						"value" : "output"
 					} ]
 				};
-				break;
 
-			case "":
-				return;
-			case "":
-				return;
-			case "":
 				// Text
 			case "textSystemOneNewPGroupText":
 				return {
@@ -1634,14 +1626,6 @@ var CORATEST = (function(coraTest) {
 						} ]
 					} ]
 				};
-			case "":
-				return;
-			case "":
-				return;
-			case "":
-				return;
-			case "":
-				return;
 			default:
 				console.log("Id(" + metadataId + ") not found in metadataProviderRealStub");
 				throw new Error("Id(" + metadataId + ") not found in metadataProviderRealStub");

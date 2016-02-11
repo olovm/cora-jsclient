@@ -78,7 +78,7 @@ function MetadataProviderStub() {
 				"name" : "repeatMax",
 				"value" : repeatMax
 			} ]
-		}
+		};
 	}
 	function createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet) {
 		return [ createRecordInfoJson(idToGet) ].concat(createNameInDataTextIdDefTextId2(idToGet));
@@ -1266,7 +1266,7 @@ function MetadataProviderStub() {
 					"value" : "enterTextHereText"
 				} ]
 			};
-			break;
+			
 		case "pVarTextVariableIdOutput":
 			return {
 				"name" : "presentation",
@@ -1287,7 +1287,7 @@ function MetadataProviderStub() {
 					"value" : "output"
 				} ]
 			};
-			break;
+			
 		case "yesNoUnknownPVar":
 			return {
 				"name" : "presentation",
@@ -1311,7 +1311,7 @@ function MetadataProviderStub() {
 					"value" : "initialEmptyValueText"
 				} ]
 			};
-			break;
+			
 		case "yesNoUnknownNoEmptyTextIdPVar":
 			return {
 				"name" : "presentation",
@@ -1332,7 +1332,7 @@ function MetadataProviderStub() {
 					"value" : "input"
 				} ]
 			};
-			break;
+			
 		case "yesNoUnknownOutputPVar":
 			return {
 				"name" : "presentation",
@@ -1353,7 +1353,7 @@ function MetadataProviderStub() {
 					"value" : "output"
 				} ]
 			};
-			break;
+			
 		case "pVarTextVar":
 			return {
 				"name" : "presentation",
@@ -1374,7 +1374,7 @@ function MetadataProviderStub() {
 					"value" : "input"
 				} ]
 			};
-			break;
+			
 
 		case "pVarTextVarOutput":
 			return {
@@ -1396,7 +1396,7 @@ function MetadataProviderStub() {
 					"value" : "output"
 				} ]
 			};
-			break;
+			
 
 		case "pgGroupIdOneTextChild":
 			return {
@@ -1422,7 +1422,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgGroupIdOneTextChildOutput":
 			return {
 				"name" : "presentation",
@@ -1447,7 +1447,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgGroupId1toXCollectionChild":
 			return {
 				"name" : "presentation",
@@ -1472,7 +1472,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgGroupIdOneTextOneTextChild":
 			return {
 				"name" : "presentation",
@@ -1507,7 +1507,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgGroupIdOneTextTwoTextChildren":
 			return {
 				"name" : "presentation",
@@ -1552,7 +1552,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgGroupIdOneTextChildMinimized":
 			return {
 				"name" : "presentation",
@@ -1580,7 +1580,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgGroupIdOneTextChildMinimizedDefault":
 			return {
 				"name" : "presentation",
@@ -1608,7 +1608,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pVarTextVariableId2":
 			return {
 				"name" : "presentation",
@@ -1629,7 +1629,7 @@ function MetadataProviderStub() {
 					"value" : "input"
 				} ]
 			};
-			break;
+			
 		case "pgGroupIdTwoTextChild":
 			return {
 				"name" : "presentation",
@@ -1664,7 +1664,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		// groupInGroupOneTextChild
 		case "pgGroupInGroupIdOneTextOneTextChild":
 			return {
@@ -1700,7 +1700,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgTextVarRepeat1to3InGroupOneAttribute":
 			return {
 				"name" : "presentation",
@@ -1735,7 +1735,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgTextVarRepeat1to3InGroupOneAttributeMinimized":
 			return {
 				"name" : "presentation",
@@ -1770,7 +1770,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgTextVarRepeat1to3InGroupOtherAttribute":
 			return {
 				"name" : "presentation",
@@ -1805,7 +1805,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgTextVarRepeat1to3InGroupOtherAttributeMinimized":
 			return {
 				"name" : "presentation",
@@ -1830,7 +1830,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgTextVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup":
 			return {
 				"name" : "presentation",
@@ -1891,7 +1891,7 @@ function MetadataProviderStub() {
 											} ]
 								} ])
 			};
-			break;
+			
 		case "pgGroupIdOneTextOneTextChildTwoAttributes":
 			return {
 				"name" : "presentation",
@@ -1926,7 +1926,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pgGroupIdOneTextTwoTextChildrenRepeat1toX":
 			return {
 				"name" : "presentation",
@@ -2061,7 +2061,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		// pTextVariableIdRContainer
 		case "pTextVariableIdRContainer":
 			return {
@@ -2117,7 +2117,7 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
-			break;
+			
 		case "pgGroupIdRepeatingContainerRepeat1to3":
 			return {
 				"name" : "presentation",
@@ -2152,7 +2152,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		// groupIdTwoTextChild
 		// pgGroupIdTwoTextChild
 		case "pTextVariablePlus2SContainer":
@@ -2214,7 +2214,7 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
-			break;
+			
 		// groupIdTwoTextChildRepeat1to5
 		// "pTextVariablePlus2SContainer":
 
@@ -2242,7 +2242,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "pTextVariablePlus2SContainer2":
 			return {
 				"name" : "presentation",
@@ -2292,7 +2292,7 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
-			break;
+			
 		case "pgGroupIdTwoTextChildSurrounding2TextPGroup2":
 			return {
 				"name" : "presentation",
@@ -2317,7 +2317,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			break;
+			
 		case "asdfasdfsad":
 			return {
 				"name" : "presentation",
@@ -2371,7 +2371,7 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
-			break;
+			
 		case "textVariableIdText":
 			return {
 				"name" : "text",
@@ -2403,7 +2403,7 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
-			break;
+			
 		case "textVariableIdDefText":
 			return {
 				"name" : "text",
@@ -2435,7 +2435,7 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
-			break;
+			
 		case "aHeadlineText":
 			return {
 				"name" : "text",
@@ -2467,14 +2467,14 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
-			break;
+			
 		default:
 			throw new Error("Id(" + idToGet + ") not found in stub");
-			break;
+			
 		}
 
 		// throw new Error("Id(" + idToGet + ") not found in stub");
-	}
+	};
 
 	// this.getPresentationById = function(idToGet) {
 	// switch (idToGet) {
@@ -2498,7 +2498,7 @@ function MetadataProviderStub() {
 	// "value" : "input"
 	// } ]
 	// };
-	// break;
+	// 
 	//
 	// case "pgGroupIdOneTextChild":
 	// return {
@@ -2528,7 +2528,7 @@ function MetadataProviderStub() {
 	// }
 	// }
 	// };
-	// break;
+	// 
 	//
 	// case "asdfasdfsad":
 	// return {
@@ -2583,10 +2583,10 @@ function MetadataProviderStub() {
 	// } ]
 	// } ]
 	// };
-	// break;
+	// 
 	// default:
 	// throw new Error("Id(" + idToGet + ") not found in stub");
-	// break;
+	// 
 	// }
 	// }
 
@@ -2621,5 +2621,5 @@ function MetadataProviderStub() {
 				} ]
 			} ]
 		};
-	}
-};
+	};
+}

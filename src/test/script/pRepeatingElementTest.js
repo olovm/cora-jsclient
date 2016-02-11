@@ -179,7 +179,6 @@ QUnit.test("testAddPresentationMinimized", function(assert) {
 	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
 	var view = attachedPRepeatingElement.view;
 	var buttonView = view.childNodes[0];
-	var removeButton = buttonView.childNodes[0];
 
 	var presentation = CORATEST.presentationStub("maximized");
 	pRepeatingElement.addPresentation(presentation);
@@ -190,7 +189,6 @@ QUnit.test("testAddPresentationMinimized", function(assert) {
 	assert.strictEqual(view.childNodes.length, 2);
 
 	var presentationMinimized = CORATEST.presentationStub("minimized");
-	var defaultPresentation = "ref";
 	pRepeatingElement.addPresentationMinimized(presentationMinimized);
 
 	var presentationMinimizedView = view.childNodes[1];
@@ -215,7 +213,6 @@ QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
 	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
 	var view = attachedPRepeatingElement.view;
 	var buttonView = view.childNodes[0];
-	var removeButton = buttonView.childNodes[0];
 
 	var presentation = CORATEST.presentationStub("maximized");
 	pRepeatingElement.addPresentation(presentation);
@@ -226,7 +223,6 @@ QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
 	assert.strictEqual(view.childNodes.length, 2);
 
 	var presentationMinimized = CORATEST.presentationStub("minimized");
-	var defaultPresentation = "ref";
 	pRepeatingElement.addPresentationMinimized(presentationMinimized, "true");
 
 	var presentationMinimizedView = view.childNodes[1];
@@ -252,7 +248,6 @@ QUnit.test("testAddPresentationMinimizedToggle", function(assert) {
 	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
 	var view = attachedPRepeatingElement.view;
 	var buttonView = view.childNodes[0];
-	var removeButton = buttonView.childNodes[0];
 
 	var presentation = CORATEST.presentationStub("maximized");
 	pRepeatingElement.addPresentation(presentation);
@@ -263,7 +258,6 @@ QUnit.test("testAddPresentationMinimizedToggle", function(assert) {
 	assert.strictEqual(view.childNodes.length, 2);
 
 	var presentationMinimized = CORATEST.presentationStub("minimized maximized");
-	var defaultPresentation = "ref";
 	pRepeatingElement.addPresentationMinimized(presentationMinimized, "true");
 
 	var presentationMinimizedView = view.childNodes[1];

@@ -177,7 +177,7 @@ QUnit.test("testUnsubscribePathBelow", function(assert) {
 	};
 	var context = this;
 	var functionToCall = this.toCall;
-	var subscribeId = this.pubSub.subscribe(type, path, context, functionToCall);
+	this.pubSub.subscribe(type, path, context, functionToCall);
 
 	var data = {
 		"metadataId" : "someId",
@@ -188,8 +188,6 @@ QUnit.test("testUnsubscribePathBelow", function(assert) {
 	this.pubSub.unsubscribePathBelow(removePath);
 	this.pubSub.publish(type, data);
 	assert.strictEqual(this.messages.length, 1);
-//	assert.deepEqual(this.messages[0].data, data);
-//	assert.deepEqual(this.messages[0].message, "root/add");
 });
 
 QUnit.test("testConvertPathNameInData", function(assert) {
