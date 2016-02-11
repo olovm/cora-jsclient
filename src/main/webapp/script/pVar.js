@@ -69,8 +69,27 @@ var CORA = (function(cora) {
 			return createCollectionInput();
 		}
 
+		function createTextInput() {
+			var inputNew = document.createElement("input");
+			inputNew.type = "text";
+			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
+				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
+				var emptyText = textProvider.getTranslation(emptyTextId);
+				inputNew.placeholder = emptyText;
+			}
+			return inputNew;
+		}
+
 		function createCollectionInput() {
 			var inputNew = document.createElement("select");
+
+			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
+				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
+				var optionText = textProvider.getTranslation(emptyTextId);
+				var emptyTextOption = new Option(optionText, "");
+				inputNew.appendChild(emptyTextOption);
+			}
+
 			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
 
 			collectionItemReferencesChildren.forEach(function(ref) {
@@ -95,12 +114,6 @@ var CORA = (function(cora) {
 			var optionText = textProvider.getTranslation(item
 					.getFirstAtomicValueByNameInData("textId"));
 			return new Option(optionText, value);
-		}
-
-		function createTextInput() {
-			var inputNew = document.createElement("input");
-			inputNew.type = "text";
-			return inputNew;
 		}
 
 		function createOutput() {

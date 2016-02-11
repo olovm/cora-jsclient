@@ -103,8 +103,6 @@ QUnit.test("testInitOneChild", function(assert) {
 	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
 	var view = attachedPGroup.view;
 
-	var expectedClassName = 'presentation pgGroupIdOneTextChild';
-	var pGroup = attachedPGroup.pGroup;
 	assert.ok(view.childNodes.length === 1, "pgGroupIdOneTextChild, should have one child");
 
 	var childRefHandler = view.firstChild;
@@ -115,8 +113,6 @@ QUnit.test("testInitOneTextOneChild", function(assert) {
 	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextOneTextChild");
 	var view = attachedPGroup.view;
 
-	var expectedClassName = 'presentation pgGroupIdOneTextChild';
-	var pGroup = attachedPGroup.pGroup;
 	assert.ok(view.childNodes.length === 2,
 			"pgGroupIdOneTextOneTextChild, should have two children");
 
@@ -131,8 +127,6 @@ QUnit.test("testInitTwoChildren", function(assert) {
 	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdTwoTextChild");
 	var view = attachedPGroup.view;
 
-	var expectedClassName = 'presentation pgGroupIdTwoTextChild';
-	var pGroup = attachedPGroup.pGroup;
 	assert.ok(view.childNodes.length === 2);
 
 	var childRefHandler = view.childNodes[0];
@@ -147,7 +141,6 @@ QUnit.test("testInitOneChildMimimized", function(assert) {
 	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimized");
 //	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
 	var view = attachedPGroup.view;
-	var pGroup = attachedPGroup.pGroup;
 	var childRefHandler = view.firstChild;
 	var pChildRefHandler = childRefHandler.modelObject;
 	// pChildRefHandler.add("one");
@@ -170,12 +163,8 @@ QUnit.test("testInitOneChildMimimized", function(assert) {
 });
 
 QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
-	// var attachedPGroup =
-//	 this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimized");
 	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimizedDefault");
-//	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
 	var view = attachedPGroup.view;
-	var pGroup = attachedPGroup.pGroup;
 	var childRefHandler = view.firstChild;
 	var pChildRefHandler = childRefHandler.modelObject;
 	// pChildRefHandler.add("one");

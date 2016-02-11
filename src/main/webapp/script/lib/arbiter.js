@@ -127,9 +127,8 @@ var Arbiter = (function() {
 					return return_ids;
 				}
 				return return_ids[0];
-			}
+			},
 
-			,
 			'publish' : function(msg, data, options) {
 				var async_timeout = 10, result, overall_result = true, cancelable = true, internal_data = {}, subscriber, wildcard_msg;
 				var subscription_list = subscriptions[msg] || [];
