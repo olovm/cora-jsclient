@@ -67,8 +67,10 @@ var CORATEST = (function(coraTest) {
 			case "itemUnknownText":
 				return "Okänt";
 				break;
-			case "emptyText":
-				return "";
+			case "initialEmptyValueText":
+				return "-- Gör ett val ur listan --";
+			case "enterTextHereText":
+				return "Skriv din text här";
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");

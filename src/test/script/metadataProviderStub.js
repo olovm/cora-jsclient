@@ -1261,6 +1261,9 @@ function MetadataProviderStub() {
 				}, {
 					"name" : "mode",
 					"value" : "input"
+				}, {
+					"name" : "emptyTextId",
+					"value" : "enterTextHereText"
 				} ]
 			};
 			break;
@@ -1303,9 +1306,30 @@ function MetadataProviderStub() {
 				}, {
 					"name" : "mode",
 					"value" : "input"
-				},{
+				}, {
 					"name" : "emptyTextId",
-					"value" : "emptyText"
+					"value" : "initialEmptyValueText"
+				} ]
+			};
+			break;
+		case "yesNoUnknownNoEmptyTextIdPVar":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "yesNoUnknownPVar"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "yesNoUnknownVar"
+				}, {
+					"name" : "mode",
+					"value" : "input"
 				} ]
 			};
 			break;
@@ -1426,29 +1450,29 @@ function MetadataProviderStub() {
 			break;
 		case "pgGroupId1toXCollectionChild":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pGroup"
-			},
-			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-				"name" : "presentationOf",
-				"value" : "groupId1toXCollectionChild"
-			}, {
-				"name" : "childReferences",
-				"children" : [ {
-					"name" : "childReference",
-					"repeatId" : "1",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupId1toXCollectionChild"
+				}, {
+					"name" : "childReferences",
 					"children" : [ {
-						"name" : "ref",
-						"value" : "yesNoUnknownPVar"
-					}, {
-						"name" : "default",
-						"value" : "ref"
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "yesNoUnknownPVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
 					} ]
-				} ]
-			} ])
-		};
-		break;
+				} ])
+			};
+			break;
 		case "pgGroupIdOneTextOneTextChild":
 			return {
 				"name" : "presentation",
