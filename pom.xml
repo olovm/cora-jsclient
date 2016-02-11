@@ -204,13 +204,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>com.kelveden</groupId>
-                        <artifactId>maven-karma-plugin</artifactId>
-                        <configuration>
-                            <configFile>sonar-karma.conf.js</configFile>
-                        </configuration>
-                    </plugin>
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
                         <configuration>
