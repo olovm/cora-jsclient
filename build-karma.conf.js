@@ -25,7 +25,7 @@ module.exports = function (config)
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: './.jenkins/workspace/cora-jsclient/',
+        basePath: '',
 
 
         // frameworks to use
@@ -55,7 +55,7 @@ module.exports = function (config)
 
         coverageReporter: {
             type: 'lcov',
-            dir: 'karma-coverage'
+            dir: '../.jenkins/workspace/cora-jsclient/karma-coverage'
         },
 
         junitReporter: {
