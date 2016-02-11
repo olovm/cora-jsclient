@@ -20,7 +20,7 @@
 
 QUnit.module("CORA.Arbiter", {
 	beforeEach : function() {
-		this.arbiter = Arbiter.create()
+		this.arbiter = Arbiter.create();
 		this.fixture = document.getElementById("qunit-fixture");
 	},
 	afterEach : function() {
@@ -32,7 +32,7 @@ QUnit.test("testInit", function(assert) {
 	this.arbiter.subscribe('someName#attribName:attribValue.one/*', function(data, msg) {
 		// console.log("path/setValue: " + msg + ' : ' + JSON.stringify(data));
 		publishCounter++;
-	})
+	});
 	this.arbiter.publish('someName#attribName:attribValue.one/setValue',
 			createLinkedPathWithNameInData("someName"));
 	this.arbiter.publish('someName#attribName:attribValue.one/add',

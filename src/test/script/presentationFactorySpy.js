@@ -19,8 +19,8 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.presentationFactorySpy = function() {
-		var path;
-		var cPresentation;
+		var path = undefined;
+		var cPresentation = undefined;
 		function factor(pathIn, cPresentationIn) {
 			path = pathIn;
 			cPresentation = cPresentationIn;

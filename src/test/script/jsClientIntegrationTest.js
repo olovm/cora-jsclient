@@ -185,17 +185,14 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerTwoLe
 	var dataHolder = dependencies.dataHolder;
 
 	var view = presentation.getView();
-	// console.log(view);
 	this.fixture.appendChild(view);
 
 	var topPGroupView = view.firstChild;
 
-	var headline = topPGroupView.firstChild;
 
 	var childRefHandler1 = topPGroupView.childNodes[1];
 
 	var pGroupView = childRefHandler1.childNodes[0].firstChild.firstChild;
-	var headline2 = pGroupView.firstChild;
 	var childRefHandler2 = pGroupView.childNodes[1];
 
 	var pVarView = childRefHandler2.firstChild.firstChild.firstChild;
@@ -241,7 +238,6 @@ QUnit.test("testIntegrateRepeatingContainer", function(assert) {
 
 	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId);
 	var presentation = dependencies.presentation;
-	var dataHolder = dependencies.dataHolder;
 
 	var view = presentation.getView();
 	this.fixture.appendChild(view);
@@ -266,7 +262,6 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurro
 
 	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId);
 	var presentation = dependencies.presentation;
-	var dataHolder = dependencies.dataHolder;
 
 	var view = presentation.getView();
 	this.fixture.appendChild(view);
@@ -297,7 +292,6 @@ QUnit.test("testIntegrateSurroundingContainerInSurroundingContainer", function(a
 
 	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId);
 	var presentation = dependencies.presentation;
-	var dataHolder = dependencies.dataHolder;
 
 	var view = presentation.getView();
 	this.fixture.appendChild(view);

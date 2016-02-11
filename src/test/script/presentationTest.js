@@ -80,7 +80,6 @@ QUnit.test("testInit", function(assert) {
 QUnit.test("testInitOneChild", function(assert) {
 	var attachedPresentation = this.newAttachedPresentation.factor("pgGroupIdOneTextChild");
 	var presentation = attachedPresentation.presentation;
-	var view = presentation.getView();
 
 	var requestedCPresentation = this.presentationFactory.getCPresentation();
 	var recordInfo = requestedCPresentation.getFirstChildByNameInData("recordInfo");

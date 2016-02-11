@@ -27,46 +27,52 @@ var CORATEST = (function(coraTest) {
 			case "textVariableIdText":
 				return "Exempel textvariabel";
 				// "Example text variable"
-				break;
+
 			case "textVariableIdDefText":
 				return "Detta är en exempeldefinition för en textvariabel.";
 				// This is an example definition for a text variable.
-				break;
+
 			case "textVariableId2Text":
 				return "Exempel textvariabel";
 				// "Example text variable"
-				break;
+
 			case "textVariableId2DefText":
 				return "Detta är en exempeldefinition för en textvariabel.";
 				// This is an example definition for a text variable.
-				break;
+
 			case "textVarText":
 				return "Exempel textvar";
 				// "Example text variable"
-				break;
+
 			case "textVarDefText":
 				return "Detta är en exempeldefinition för en textvar.";
 				// This is an example definition for a text variable.
-				break;
+
 			case "aHeadlineText":
 				return "En rubrik";
 				// A headline
-				break;
+
 			case "yesNoUnknownVarText":
 				return "Exempel collectionVariable";
-				break;
+
 			case "yesNoUnknownVarDefText":
 				return "Exempel collectionVariable, är en variabel där man kan välja mellan ja, nej och okänt";
-				break;
+
 			case "itemYesText":
 				return "Ja";
-				break;
+
 			case "itemNoText":
 				return "Nej";
-				break;
+
 			case "itemUnknownText":
 				return "Okänt";
-				break;
+
+			case "initialEmptyValueText":
+				return "-- Gör ett val ur listan --";
+				
+			case "enterTextHereText":
+				return "Skriv din text här";
+				
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");
