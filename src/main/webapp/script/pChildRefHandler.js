@@ -93,6 +93,7 @@ var CORA = (function(cora) {
 		function createChildrenView() {
 			var childrenViewNew = document.createElement("span");
 			childrenViewNew.className = "childrenView";
+			childrenViewNew.droppable="true";
 			return childrenViewNew;
 		}
 
