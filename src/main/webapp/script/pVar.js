@@ -68,29 +68,28 @@ var CORA = (function(cora) {
 			}
 			return createCollectionInput();
 		}
-		
+
 		function createTextInput() {
 			var inputNew = document.createElement("input");
 			inputNew.type = "text";
-			if(cPresentation.containsChildWithNameInData("emptyTextId")){
+			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
 				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
 				var emptyText = textProvider.getTranslation(emptyTextId);
 				inputNew.placeholder = emptyText;
-//				inputNew.placeholder",emptyText);
 			}
 			return inputNew;
 		}
-		
+
 		function createCollectionInput() {
 			var inputNew = document.createElement("select");
-			
-			if(cPresentation.containsChildWithNameInData("emptyTextId")){
+
+			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
 				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
 				var optionText = textProvider.getTranslation(emptyTextId);
 				var emptyTextOption = new Option(optionText, "");
 				inputNew.appendChild(emptyTextOption);
 			}
-			
+
 			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
 
 			collectionItemReferencesChildren.forEach(function(ref) {
