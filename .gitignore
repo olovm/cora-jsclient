@@ -6,3 +6,4 @@
 /target-grunt/
 /test_results/
 *.iml
+/karma-reports/

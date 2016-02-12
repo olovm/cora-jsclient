@@ -30,7 +30,17 @@
                     </xsl:attribute>
 
                     <xsl:for-each select="current-group()">
-                        <testCase name="{@name}" duration="{@time * 1000}"/>
+                        <testCase name="{@name}" duration="{@time * 1000}">
+                            <xsl:if test="count(failure) &gt; 0">
+                                <failure>
+                                    <xsl:attribute name="message">
+                                        <xsl:value-of select="failure/@type"/>
+                                    </xsl:attribute>
+
+                                    <xsl:value-of select="failure"/>
+                                </failure>
+                            </xsl:if>
+                        </testCase>
                     </xsl:for-each>
                 </file>
             </xsl:for-each-group>
