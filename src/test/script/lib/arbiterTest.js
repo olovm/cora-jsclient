@@ -18,7 +18,7 @@
  */
 "use strict";
 
-QUnit.module("arbiterTest.js", {
+QUnit.module("lib/arbiterTest.js", {
 	beforeEach : function() {
 		this.arbiter = Arbiter.create();
 		this.fixture = document.getElementById("qunit-fixture");
