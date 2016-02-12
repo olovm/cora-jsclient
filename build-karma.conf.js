@@ -59,7 +59,7 @@ module.exports = function (config)
         },
 
         junitReporter: {
-            outputFile: 'target/surefire-reports/TEST-karma.xml',
+            outputDir: '../.jenkins/workspace/cora-jsclient/surefire-reports',
             useBrowserName: false,
             suite: ''
         },
