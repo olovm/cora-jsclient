@@ -67,11 +67,11 @@
 
     <properties>
         <sonar.language>js</sonar.language>
+        <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
         <sonar.sources>src/main/webapp/script</sonar.sources>
         <sonar.tests>src/test/script/</sonar.tests>
         <sonar.exclusions>src/main/webapp/script/lib/**</sonar.exclusions>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.javascript.jstest.reportsPath>target/surefire-reports</sonar.javascript.jstest.reportsPath>
+        <sonar.javascript.jstest.reportsPath>target/surefire-reports/**/</sonar.javascript.jstest.reportsPath>
         <sonar.javascript.lcov.reportPath>karma-coverage/Firefox 44.0.0 (Ubuntu 0.0.0)/lcov.info</sonar.javascript.lcov.reportPath>
         <fitnesse.version>20151230</fitnesse.version>
     </properties>
