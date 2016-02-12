@@ -30,6 +30,7 @@ var CORA = (function(cora) {
 
 		var view = createBaseView();
 		var removeButton;
+		var dragButton;
 		var presentationMaximized;
 		var presentationMinimized;
 		var maximizeButton;
@@ -54,57 +55,7 @@ var CORA = (function(cora) {
 		function createBaseView() {
 			var repeatingElement = document.createElement("span");
 			repeatingElement.className = "repeatingElement";
-			repeatingElement.draggable = "true";
-//			repeatingElement.ondragstart = dragstartHandler;
-//			repeatingElement.ondragover = dragoverHandler;
-//			repeatingElement.ondrop = dropHandler;
-
 			return repeatingElement;
-		}
-		function dragstartHandler(event) {
-//			console.log("dragStart:" + JSON.stringify(path));
-//			// console.log("event:"+JSON.stringify(event));
-//			// console.log("event:"+event);
-//			var source = event.target;
-//			CORA.beeingDragged = event.target;
-//			// source.parentElement.removeChild(source);
-//			event.dataTransfer.setData("text/plain", JSON.stringify(source.modelObject.getPath()));
-//			event.dataTransfer.setData("modelObject", {"test":"prova"});
-//			event.dataTransfer.effectAllowed = "move";
-//			source.style.opacity = ".5";
-		}
-		function dragoverHandler(event) {
-////			console.log("dragOver:" + JSON.stringify(path));
-//			console.log("target:" + JSON.stringify(event.target.modelObject.getPath()));
-////			console.log("currentTarget:"
-////					+ JSON.stringify(event.currentTarget.modelObject.getPath()));
-//			// console.log("relatedTarget:"+JSON.stringify(event.relatedTarget.modelObject.getPath()));
-////			console.log("dataTransfer:" + JSON.stringify(event.dataTransfer.getData("text/plain")));
-////			var modelObject = event.dataTransfer.getData("modelObject");
-////			 console.log("modelObject:"+JSON.stringify(modelObject.test));
-//			// console.log()
-//			// var source = event.source;
-//			// var target = event.target;
-//			// source.parentElement.insertAfter(source, target);
-//
-//			event.preventDefault();
-//			event.dataTransfer.dropEffect = "move";
-//			if (CORA.beeingDragged !== event.target) {
-//				if (event.target !== event.target.parentElement.firstChild) {
-//					CORA.beeingDragged.parentElement.insertBefore(CORA.beeingDragged, event.target.nextSibling);
-//				}else{
-//					CORA.beeingDragged.parentElement.insertBefore(CORA.beeingDragged, event.target);
-//				}
-//			}
-		}
-
-		function dropHandler(event) {
-			console.log("buttonWiew drop:" + JSON.stringify(path));
-//			event.preventDefault();
-////			event.stopPropagation();
-//			event.dataTransfer.dropEffect = "move";
-//			CORA.beeingDragged.style.opacity = "1";
-//			CORA.beeingDragged.parentElement.insertBefore(CORA.beeingDragged, event.target.nextSibling);
 		}
 
 		function addRemoveButton() {
@@ -122,35 +73,50 @@ var CORA = (function(cora) {
 			// repeating buttonview
 			var newButtonView = document.createElement("span");
 			newButtonView.className = "buttonView";
-//			newButtonView.droppable = "true";
 			view.appendChild(newButtonView);
-//			newButtonView.ondrop = function(){
-//				console.log("GGGGGGRRRRR222222222222   DROP");
-//			};
-//			newButtonView.ondragover = function(){
-//				console.log("GGGGGGRRRRR22222222222 OVER");
-//			};
+
+			// newButtonView.ondrop = function(event){
+			// console.log("GGGGGGRRRRR222222222222 DROP");
+			// event.preventDefault();
+			// };
+			//				
+			// newButtonView.ondragover = function(event){
+			// event.preventDefault();
+			// console.log("GGGGGGRRRRR22222222222 OVER");
+			// };
 
 			if (addRemoveButton()) {
 				removeButton = createRemoveButton();
 				newButtonView.appendChild(removeButton);
+				dragButton = createDragButton();
+				newButtonView.appendChild(dragButton);
 			}
 			return newButtonView;
 		}
 
 		function createRemoveButton() {
 			var createdRemoveButton = document.createElement("span");
-//			createdRemoveButton.droppable = "true";
-
-//			createdRemoveButton.ondrop = function(){
-//				console.log("GGGGGGRRRRR DROP");
-//			};
-//			createdRemoveButton.ondragover = function(){
-//				console.log("GGGGGGRRRRR OVER");
-//			};
 			createdRemoveButton.className = "removeButton";
 			addCallToJsBookkeeperToRemove(createdRemoveButton);
 			return createdRemoveButton;
+		}
+		function createDragButton() {
+			var createdDragButton = document.createElement("span");
+			createdDragButton.className = "dragButton";
+			// addCallToJsBookkeeperToRemove(createdRemoveButton);
+			createdDragButton.onmousedown = function() {
+//				console.log("draggable: true")
+				view.draggable = "true";
+			}
+			createdDragButton.onmouseup = function() {
+//				console.log("draggable: false")
+				view.draggable = undefined;
+			}
+			// createdDragButton.ondragend = function(){
+			// console.log("draggable: false")
+			// view.draggable = "false";
+			// }
+			return createdDragButton;
 		}
 
 		function addCallToJsBookkeeperToRemove(removeButtonIn) {
@@ -201,14 +167,22 @@ var CORA = (function(cora) {
 			maximizeButton.onclick = function() {
 				toggleMinimizedShown("false");
 			};
-			buttonView.appendChild(maximizeButton);
+			if (dragButton !== undefined) {
+				buttonView.insertBefore(maximizeButton, dragButton);
+			} else {
+				buttonView.appendChild(maximizeButton);
+			}
 
 			minimizeButton = document.createElement("span");
 			minimizeButton.className = "minimizeButton";
 			minimizeButton.onclick = function() {
 				toggleMinimizedShown("true");
 			};
-			buttonView.appendChild(minimizeButton);
+			if (dragButton !== undefined) {
+				buttonView.insertBefore(minimizeButton, dragButton);
+			} else {
+				buttonView.appendChild(minimizeButton);
+			}
 		}
 
 		function hideRemoveButton() {
@@ -218,6 +192,15 @@ var CORA = (function(cora) {
 		function showRemoveButton() {
 			show(removeButton);
 		}
+
+		function hideDragButton() {
+			hide(dragButton);
+		}
+		
+		function showDragButton() {
+			show(dragButton);
+		}
+		
 		function hide(element) {
 			element.styleOriginal = element.style.display;
 			element.style.display = "none";
@@ -237,6 +220,8 @@ var CORA = (function(cora) {
 			addPresentationMinimized : addPresentationMinimized,
 			hideRemoveButton : hideRemoveButton,
 			showRemoveButton : showRemoveButton,
+			hideDragButton : hideDragButton,
+			showDragButton : showDragButton,
 			getPath : getPath
 		});
 

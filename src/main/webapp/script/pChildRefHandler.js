@@ -86,9 +86,9 @@ var CORA = (function(cora) {
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			viewNew.className = "pChildRefHandler " + presentationId;
-//			viewNew.ondrop=function(){
-//				console.log("drop in baseweiew")
-//			};
+			// viewNew.ondrop=function(){
+			// console.log("drop in baseweiew")
+			// };
 
 			return viewNew;
 		}
@@ -96,66 +96,125 @@ var CORA = (function(cora) {
 		function createChildrenView() {
 			var childrenViewNew = document.createElement("span");
 			childrenViewNew.className = "childrenView";
-//			childrenViewNew.droppable = "true";
+			// childrenViewNew.droppable = "true";
 
 			// dragging
 			childrenViewNew.ondragstart = dragstartHandler;
 			childrenViewNew.ondragover = dragoverHandler;
 			childrenViewNew.ondrop = dropHandler;
+			childrenViewNew.ondragend = dragendHandler;
 
 			return childrenViewNew;
 		}
 
 		var beeingDragged;
+		var beeingDraggedY;
+		var dragging = false;
 		function dragstartHandler(event) {
+			event.stopPropagation();
+			dragging = true;
 			beeingDragged = event.target;
+			beeingDraggedY = event.screenY;
 			var source = event.target;
 			console.log("dragStart in pChildRefHandler:"
 					+ JSON.stringify(source.modelObject.getPath()));
-			event.dataTransfer.effectAllowed = "move";
+			// event.dataTransfer.effectAllowed = "move";
 			source.style.opacity = ".5";
 			// CORA.beeingDragged = event.target;
 			// source.parentElement.removeChild(source);
 			event.dataTransfer.setData("text/plain", JSON.stringify(source.modelObject.getPath()));
 			// event.dataTransfer.setData("modelObject", {"test":"prova"});
-			// event.dataTransfer.effectAllowed = "move";
+			// event.dataTransfer.effectAllowed = "copy";
 			// source.style.opacity = ".5";
 		}
 		function dragoverHandler(event) {
-			if (event.target.modelObject !== undefined) {
-				console.log("dragover in pChildRefHandler:"
-						+ JSON.stringify(event.target.modelObject.getPath()));
+			console.log("dragOver:")
+			console.log(event.target)
+			if (dragging) {
+				console.log("dragOver:dragging TRUE")
+				event.stopPropagation();
 
-				event.preventDefault();
-				event.dataTransfer.dropEffect = "move";
-				if (beeingDragged !== event.target) {
-					if (event.target !== event.target.parentElement.firstChild) {
-						beeingDragged.parentElement.insertBefore(beeingDragged,
-								event.target.nextSibling);
-					} else {
-						beeingDragged.parentElement.insertBefore(beeingDragged, event.target);
+				// event.dataTransfer.dropEffect = "copyMove";
+				// event.dataTransfer.dropEffect = "link";
+				// event.dataTransfer.dropEffect = "copy";
+				 event.dataTransfer.dropEffect = "move";
+				 
+				var isSibblings = isSibblingNodes(beeingDragged, event.target);
+				console.log("isSibbling")
+				 console.log(isSibblings);
+				if (event.target.modelObject !== undefined) {
+					console.log("dragOver:")
+					console.log(event.target)
+					// console.log("dragover in pChildRefHandler:"
+					// + JSON.stringify(event.target.modelObject.getPath()));
+
+//					event.preventDefault();
+					console.log(beeingDraggedY);
+					console.log(event.screenY);
+					var difY = event.screenY - beeingDraggedY;
+					console.log(difY);
+					if (beeingDragged !== event.target) {
+						// if (event.target !==
+						// event.target.parentElement.firstChild) {
+						beeingDraggedY = event.screenY;
+						if (difY > 0) {
+							// TODO: drag y minus or plus
+							// TODO: event.originalEvent, event.relatedTarget
+							beeingDragged.parentElement.insertBefore(beeingDragged,
+									event.target.nextSibling);
+						} else {
+							beeingDragged.parentElement.insertBefore(beeingDragged, event.target);
+						}
 					}
 				}
 			}
 		}
+		function isSibblingNodes(node1, node2){
+			var sibblings = node1.parentNode.childNodes;
+			console.log(JSON.stringify(sibblings))
+			return sibblings.some(function(node){
+				return node===node2;
+			});
+		}
 
 		function dropHandler(event) {
-			console.log(event.target)
-			console.log("drop in pChildRefHandler:"
-					+ JSON.stringify(event.target.modelObject.getPath()));
-			event.preventDefault();
-			event.stopPropagation();
-			event.dataTransfer.dropEffect = "move";
-			beeingDragged.style.opacity = "1";
-			beeingDragged.parentElement.insertBefore(beeingDragged, event.target.nextSibling);
-			// console.log("drop:" + JSON.stringify(path));
+			if (dragging) {
 
-			// event.preventDefault();
-			// event.stopPropagation();
-			// event.dataTransfer.dropEffect = "move";
-			// CORA.beeingDragged.style.opacity = "1";
-			// CORA.beeingDragged.parentElement.insertBefore(CORA.beeingDragged,
-			// event.target.nextSibling);
+				console.log(event.target);
+				console.log("dropEffect: " + event.dataTransfer.dropEffect);
+				console.log("drop in pChildRefHandler:"
+						+ JSON.stringify(event.target.modelObject.getPath()));
+				event.preventDefault();
+				event.stopPropagation();
+				// event.dataTransfer.dropEffect = "move";
+				beeingDragged.parentElement.insertBefore(beeingDragged, event.target.nextSibling);
+				// console.log("drop:" + JSON.stringify(path));
+
+				// event.preventDefault();
+				// event.stopPropagation();
+				// event.dataTransfer.dropEffect = "move";
+				// CORA.beeingDragged.style.opacity = "1";
+				// CORA.beeingDragged.parentElement.insertBefore(CORA.beeingDragged,
+				// event.target.nextSibling);
+			}
+		}
+		function dragendHandler(event) {
+			event.preventDefault();
+			if (dragging) {
+
+				event.preventDefault();
+				console.log("dragEnd:" + event.target);
+				console.log(event.target);
+				// beeingDragged.style.opacity = "1";
+				beeingDragged.style = undefined;
+				// beeingDragged.style.opacity.delete();
+				beeingDragged.draggable = undefined;
+				if (event.target.modelObject !== undefined) {
+					console.log("dragend in pChildRefHandler:"
+							+ JSON.stringify(event.target.modelObject.getPath()));
+				}
+				dragging = false;
+			}
 		}
 
 		function showAddButton() {

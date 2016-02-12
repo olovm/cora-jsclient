@@ -52,7 +52,7 @@ input {
 /* 	height: 131px; */
 /* 	width: 131px; */
 /* } */
-.removeButton, .maximizeButton, .minimizeButton {
+.removeButton, .maximizeButton, .minimizeButton, .dragButton {
 	cursor: pointer;
 	min-width: 16px;
 	min-height: 16px;
@@ -152,6 +152,36 @@ input {
 }
 
 .maximizeButton:hover::after {
+	opacity: 1;
+}
+.dragButton::before {
+	background: url("../images/icons2.svg") no-repeat scroll -144px 0px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	opacity: 1;
+	position: absolute;
+	transition: opacity 0.5s ease 0s;
+	z-index: 100;
+}
+
+.dragButton:hover::before {
+	opacity: 0;
+/* 	transform: scale(20); */
+}
+
+.dragButton::after {
+	background: url("../images/icons2.svg") no-repeat scroll -144px -16px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	opacity: 0;
+	transition: opacity 0.5s ease 0s;
+	z-index: 101;
+}
+
+.dragButton:hover::after {
 	opacity: 1;
 }
 
