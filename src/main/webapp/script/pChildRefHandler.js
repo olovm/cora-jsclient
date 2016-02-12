@@ -86,6 +86,9 @@ var CORA = (function(cora) {
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			viewNew.className = "pChildRefHandler " + presentationId;
+//			viewNew.ondrop=function(){
+//				console.log("drop in baseweiew")
+//			};
 
 			return viewNew;
 		}
@@ -93,8 +96,66 @@ var CORA = (function(cora) {
 		function createChildrenView() {
 			var childrenViewNew = document.createElement("span");
 			childrenViewNew.className = "childrenView";
-			childrenViewNew.droppable="true";
+//			childrenViewNew.droppable = "true";
+
+			// dragging
+			childrenViewNew.ondragstart = dragstartHandler;
+			childrenViewNew.ondragover = dragoverHandler;
+			childrenViewNew.ondrop = dropHandler;
+
 			return childrenViewNew;
+		}
+
+		var beeingDragged;
+		function dragstartHandler(event) {
+			beeingDragged = event.target;
+			var source = event.target;
+			console.log("dragStart in pChildRefHandler:"
+					+ JSON.stringify(source.modelObject.getPath()));
+			event.dataTransfer.effectAllowed = "move";
+			source.style.opacity = ".5";
+			// CORA.beeingDragged = event.target;
+			// source.parentElement.removeChild(source);
+			event.dataTransfer.setData("text/plain", JSON.stringify(source.modelObject.getPath()));
+			// event.dataTransfer.setData("modelObject", {"test":"prova"});
+			// event.dataTransfer.effectAllowed = "move";
+			// source.style.opacity = ".5";
+		}
+		function dragoverHandler(event) {
+			if (event.target.modelObject !== undefined) {
+				console.log("dragover in pChildRefHandler:"
+						+ JSON.stringify(event.target.modelObject.getPath()));
+
+				event.preventDefault();
+				event.dataTransfer.dropEffect = "move";
+				if (beeingDragged !== event.target) {
+					if (event.target !== event.target.parentElement.firstChild) {
+						beeingDragged.parentElement.insertBefore(beeingDragged,
+								event.target.nextSibling);
+					} else {
+						beeingDragged.parentElement.insertBefore(beeingDragged, event.target);
+					}
+				}
+			}
+		}
+
+		function dropHandler(event) {
+			console.log(event.target)
+			console.log("drop in pChildRefHandler:"
+					+ JSON.stringify(event.target.modelObject.getPath()));
+			event.preventDefault();
+			event.stopPropagation();
+			event.dataTransfer.dropEffect = "move";
+			beeingDragged.style.opacity = "1";
+			beeingDragged.parentElement.insertBefore(beeingDragged, event.target.nextSibling);
+			// console.log("drop:" + JSON.stringify(path));
+
+			// event.preventDefault();
+			// event.stopPropagation();
+			// event.dataTransfer.dropEffect = "move";
+			// CORA.beeingDragged.style.opacity = "1";
+			// CORA.beeingDragged.parentElement.insertBefore(CORA.beeingDragged,
+			// event.target.nextSibling);
 		}
 
 		function showAddButton() {

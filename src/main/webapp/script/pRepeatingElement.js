@@ -17,7 +17,6 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var dragged;
 var CORA = (function(cora) {
 	"use strict";
 	cora.pRepeatingElement = function(spec) {
@@ -56,55 +55,56 @@ var CORA = (function(cora) {
 			var repeatingElement = document.createElement("span");
 			repeatingElement.className = "repeatingElement";
 			repeatingElement.draggable = "true";
-			repeatingElement.ondragstart = dragstartHandler;
-			repeatingElement.ondragover = dragoverHandler;
-			repeatingElement.ondrop = dropHandler;
+//			repeatingElement.ondragstart = dragstartHandler;
+//			repeatingElement.ondragover = dragoverHandler;
+//			repeatingElement.ondrop = dropHandler;
 
 			return repeatingElement;
 		}
 		function dragstartHandler(event) {
-			console.log("dragStart:" + JSON.stringify(path));
-			// console.log("event:"+JSON.stringify(event));
-			// console.log("event:"+event);
-			var source = event.target;
-			dragged = event.target;
-			// source.parentElement.removeChild(source);
-			event.dataTransfer.setData("text/plain", JSON.stringify(source.modelObject.getPath()));
-			event.dataTransfer.setData("modelObject", source.modelObject);
-			event.dataTransfer.effectAllowed = "move";
-			source.style.opacity = ".5";
+//			console.log("dragStart:" + JSON.stringify(path));
+//			// console.log("event:"+JSON.stringify(event));
+//			// console.log("event:"+event);
+//			var source = event.target;
+//			CORA.beeingDragged = event.target;
+//			// source.parentElement.removeChild(source);
+//			event.dataTransfer.setData("text/plain", JSON.stringify(source.modelObject.getPath()));
+//			event.dataTransfer.setData("modelObject", {"test":"prova"});
+//			event.dataTransfer.effectAllowed = "move";
+//			source.style.opacity = ".5";
 		}
 		function dragoverHandler(event) {
-			console.log("dragOver:" + JSON.stringify(path));
-			console.log("target:" + JSON.stringify(event.target.modelObject.getPath()));
-			console.log("currentTarget:"
-					+ JSON.stringify(event.currentTarget.modelObject.getPath()));
-			// console.log("relatedTarget:"+JSON.stringify(event.relatedTarget.modelObject.getPath()));
-			console.log("dataTransfer:" + JSON.stringify(event.dataTransfer.getData("text/plain")));
-			// console.log("modelObject:"+JSON.stringify(event.dataTransfer.getData("modelObject").getPath()));
-			// console.log()
-			// var source = event.source;
-			// var target = event.target;
-			// source.parentElement.insertAfter(source, target);
-
-			event.preventDefault();
-			event.dataTransfer.dropEffect = "move";
-			if (dragged !== event.target) {
-				if (event.target !== event.target.parentElement.firstChild) {
-					dragged.parentElement.insertBefore(dragged, event.target.nextSibling);
-				}else{
-					dragged.parentElement.insertBefore(dragged, event.target);
-				}
-			}
+////			console.log("dragOver:" + JSON.stringify(path));
+//			console.log("target:" + JSON.stringify(event.target.modelObject.getPath()));
+////			console.log("currentTarget:"
+////					+ JSON.stringify(event.currentTarget.modelObject.getPath()));
+//			// console.log("relatedTarget:"+JSON.stringify(event.relatedTarget.modelObject.getPath()));
+////			console.log("dataTransfer:" + JSON.stringify(event.dataTransfer.getData("text/plain")));
+////			var modelObject = event.dataTransfer.getData("modelObject");
+////			 console.log("modelObject:"+JSON.stringify(modelObject.test));
+//			// console.log()
+//			// var source = event.source;
+//			// var target = event.target;
+//			// source.parentElement.insertAfter(source, target);
+//
+//			event.preventDefault();
+//			event.dataTransfer.dropEffect = "move";
+//			if (CORA.beeingDragged !== event.target) {
+//				if (event.target !== event.target.parentElement.firstChild) {
+//					CORA.beeingDragged.parentElement.insertBefore(CORA.beeingDragged, event.target.nextSibling);
+//				}else{
+//					CORA.beeingDragged.parentElement.insertBefore(CORA.beeingDragged, event.target);
+//				}
+//			}
 		}
 
 		function dropHandler(event) {
-			console.log("drop:" + JSON.stringify(path));
-			event.preventDefault();
-			event.stopPropagation();
-			event.dataTransfer.dropEffect = "move";
-			dragged.style.opacity = "1";
-			dragged.parentElement.insertBefore(dragged, event.target.nextSibling);
+			console.log("buttonWiew drop:" + JSON.stringify(path));
+//			event.preventDefault();
+////			event.stopPropagation();
+//			event.dataTransfer.dropEffect = "move";
+//			CORA.beeingDragged.style.opacity = "1";
+//			CORA.beeingDragged.parentElement.insertBefore(CORA.beeingDragged, event.target.nextSibling);
 		}
 
 		function addRemoveButton() {
@@ -122,7 +122,14 @@ var CORA = (function(cora) {
 			// repeating buttonview
 			var newButtonView = document.createElement("span");
 			newButtonView.className = "buttonView";
+//			newButtonView.droppable = "true";
 			view.appendChild(newButtonView);
+//			newButtonView.ondrop = function(){
+//				console.log("GGGGGGRRRRR222222222222   DROP");
+//			};
+//			newButtonView.ondragover = function(){
+//				console.log("GGGGGGRRRRR22222222222 OVER");
+//			};
 
 			if (addRemoveButton()) {
 				removeButton = createRemoveButton();
@@ -133,6 +140,14 @@ var CORA = (function(cora) {
 
 		function createRemoveButton() {
 			var createdRemoveButton = document.createElement("span");
+//			createdRemoveButton.droppable = "true";
+
+//			createdRemoveButton.ondrop = function(){
+//				console.log("GGGGGGRRRRR DROP");
+//			};
+//			createdRemoveButton.ondragover = function(){
+//				console.log("GGGGGGRRRRR OVER");
+//			};
 			createdRemoveButton.className = "removeButton";
 			addCallToJsBookkeeperToRemove(createdRemoveButton);
 			return createdRemoveButton;
