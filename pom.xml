@@ -260,6 +260,19 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>phantomjs</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.kelveden</groupId>
+                        <artifactId>maven-karma-plugin</artifactId>
+                        <configuration>
+                            <configFile>phantomjs-karma.conf.js</configFile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
-
 </project>
