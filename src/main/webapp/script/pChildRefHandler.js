@@ -100,7 +100,9 @@ var CORA = (function(cora) {
 
 			// dragging
 			childrenViewNew.ondragstart = dragstartHandler;
-			childrenViewNew.ondragover = dragoverHandler;
+//			childrenViewNew.ondragover = dragoverHandler;
+			childrenViewNew.ondragenter = dragoverHandler;
+//			childrenViewNew.ondragleave = dragoverHandler;
 			childrenViewNew.ondrop = dropHandler;
 			childrenViewNew.ondragend = dragendHandler;
 
@@ -110,6 +112,7 @@ var CORA = (function(cora) {
 		var beeingDragged;
 		var beeingDraggedY;
 		var dragging = false;
+		var repeatingElementDragOver;
 		function dragstartHandler(event) {
 			event.stopPropagation();
 			dragging = true;
@@ -128,32 +131,37 @@ var CORA = (function(cora) {
 			// source.style.opacity = ".5";
 		}
 		function dragoverHandler(event) {
-			console.log("dragOver:")
-			console.log(event.target)
+//			console.log("dragOver:")
 			if (dragging) {
-				console.log("dragOver:dragging TRUE")
-				event.stopPropagation();
+//				console.log("dragOver:dragging TRUE")
+//				event.stopPropagation();
 
 				// event.dataTransfer.dropEffect = "copyMove";
 				// event.dataTransfer.dropEffect = "link";
 				// event.dataTransfer.dropEffect = "copy";
 				 event.dataTransfer.dropEffect = "move";
 				 
-				var isSibblings = isSibblingNodes(beeingDragged, event.target);
-				console.log("isSibbling")
-				 console.log(isSibblings);
-				if (event.target.modelObject !== undefined) {
+//				 var isSibblings = isSibblingNodes(beeingDragged, event.target);
+				var isSibblings = isSibblingNodes(beeingDragged, repeatingElementDragOver.getView());
+//				console.log("isSibbling")
+//				 console.log(isSibblings);
+//				if (event.target.modelObject !== undefined) {
+				console.log(isSibblings);
+//				console.log(event.target)
+				console.log(repeatingElementDragOver.getView())
+				if(isSibblings){
 					console.log("dragOver:")
 					console.log(event.target)
 					// console.log("dragover in pChildRefHandler:"
 					// + JSON.stringify(event.target.modelObject.getPath()));
 
 //					event.preventDefault();
-					console.log(beeingDraggedY);
-					console.log(event.screenY);
 					var difY = event.screenY - beeingDraggedY;
+					console.log("beeingDragged:"+beeingDraggedY + " event.screenY:"+event.screenY
+							+ " difY: "+difY);
+//					console.log(event.screenY);
 					console.log(difY);
-					if (beeingDragged !== event.target) {
+					if (beeingDragged !== repeatingElementDragOver.getView()) {
 						// if (event.target !==
 						// event.target.parentElement.firstChild) {
 						beeingDraggedY = event.screenY;
@@ -161,9 +169,9 @@ var CORA = (function(cora) {
 							// TODO: drag y minus or plus
 							// TODO: event.originalEvent, event.relatedTarget
 							beeingDragged.parentElement.insertBefore(beeingDragged,
-									event.target.nextSibling);
+									repeatingElementDragOver.getView().nextSibling);
 						} else {
-							beeingDragged.parentElement.insertBefore(beeingDragged, event.target);
+							beeingDragged.parentElement.insertBefore(beeingDragged, repeatingElementDragOver.getView());
 						}
 					}
 				}
@@ -171,9 +179,11 @@ var CORA = (function(cora) {
 		}
 		function isSibblingNodes(node1, node2){
 			var sibblings = node1.parentNode.childNodes;
-			console.log(JSON.stringify(sibblings))
-			return sibblings.some(function(node){
-				return node===node2;
+//			console.log(JSON.stringify(sibblings))
+			var keys = Object.keys(sibblings);
+			
+			return keys.some(function(key){
+				return sibblings[key]===node2;
 			});
 		}
 
@@ -283,7 +293,8 @@ var CORA = (function(cora) {
 				"repeatMin" : repeatMin,
 				"repeatMax" : repeatMax,
 				"path" : path,
-				"jsBookkeeper" : spec.jsBookkeeper
+				"jsBookkeeper" : spec.jsBookkeeper,
+				"parentModelObject": view.modelObject
 			};
 			return CORA.pRepeatingElement(repeatingElementSpec);
 		}
@@ -467,7 +478,12 @@ var CORA = (function(cora) {
 			spec.jsBookkeeper.add(data);
 		}
 
+		function setRepeatingElementDragOver(repeatingElement){
+			repeatingElementDragOver = repeatingElement;
+		}
+		
 		var out = Object.freeze({
+			setRepeatingElementDragOver:setRepeatingElementDragOver,
 			getView : getView,
 			add : add,
 			handleMsg : handleMsg,

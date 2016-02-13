@@ -24,6 +24,7 @@ var CORA = (function(cora) {
 		var repeatMax = spec.repeatMax;
 		var path = spec.path;
 		var jsBookkeeper = spec.jsBookkeeper;
+		var parentModelObject = spec.parentModelObject;
 
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
@@ -55,6 +56,10 @@ var CORA = (function(cora) {
 		function createBaseView() {
 			var repeatingElement = document.createElement("span");
 			repeatingElement.className = "repeatingElement";
+//			repeatingElement.ondragover = function(){
+			repeatingElement.ondragenter = function(){
+				parentModelObject.setRepeatingElementDragOver(view.modelObject);
+			};
 			return repeatingElement;
 		}
 
