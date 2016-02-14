@@ -89,7 +89,8 @@ QUnit.test("testInit", function(assert) {
 	assert.ok(view.modelObject === childRefHandler,
 			"modelObject should be a pointer to the javascript object instance");
 	assert.strictEqual(view.childNodes.length, 1);
-	assert.strictEqual(view.childNodes[0].className, "childrenView");
+	var childrenView = view.childNodes[0];
+	assert.strictEqual(childrenView.className, "childrenView");
 
 	// subscription
 	var subscriptions = attachedPChildRefHandler.pubSub.getSubscriptions();
@@ -99,7 +100,50 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(firstSubsription.type, "add");
 	assert.deepEqual(firstSubsription.path, {});
 	assert.ok(firstSubsription.functionToCall === childRefHandler.handleMsg);
+
+	// dragHandling
+	assert.strictEqual(childrenView.ondragstart, childRefHandler.dragstartHandler);
+	assert.strictEqual(childrenView.ondragover, childRefHandler.dragoverHandler);
+	assert.strictEqual(childrenView.ondragenter, childRefHandler.dragenterHandler);
+	assert.strictEqual(childrenView.ondrop, childRefHandler.dropHandler);
+	assert.strictEqual(childrenView.ondragend, childRefHandler.dragendHandler);
 });
+
+QUnit.test("testDraggingDragStart", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+
+	var eventSpy = CORATEST.eventSpy();
+	eventSpy.target = document.createElement("span");
+	eventSpy.target.className = "eventSpy";
+	eventSpy.screenY = 0;
+
+	//dragStart
+	childRefHandler.dragstartHandler(eventSpy);
+	assert.strictEqual(eventSpy.stopPropagationWasCalled(), true);
+	assert.strictEqual(eventSpy.dataTransfer.effectAllowed, "move");
+	assert.strictEqual(eventSpy.target.className , "eventSpy beeingDragged");
+	assert.strictEqual(eventSpy.dataTransfer.getFormat(), "text/notInUse");
+	assert.strictEqual(eventSpy.dataTransfer.getData(), "notUsed");
+});
+
+QUnit.test("testDraggingDragover", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	
+	var eventSpy = CORATEST.eventSpy();
+	eventSpy.target = document.createElement("span");
+	eventSpy.target.className = "eventSpy";
+	eventSpy.screenY = 0;
+	
+	//dragover
+	childRefHandler.dragoverHandler(eventSpy);
+	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
+	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
+});
+
 QUnit.test("testInitRepeatingVariableNoOfChildren", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat1toX", "pVarTextVariableId");
@@ -619,41 +663,41 @@ QUnit.test("testShownRemoveButtonWhenAboveMinRepeat", function(assert) {
 	assert.visible(removeButton, "removeButton should be visible");
 });
 
-//QUnit.test("testUnsubscribeOnRemove", function(assert) {
-//	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-//			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
-//	var view = attachedPChildRefHandler.view;
-//	var childrenView = view.firstChild;
-//	assert.strictEqual(childrenView.childNodes.length, 0);
+// QUnit.test("testUnsubscribeOnRemove", function(assert) {
+// var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+// "groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
+// var view = attachedPChildRefHandler.view;
+// var childrenView = view.firstChild;
+// assert.strictEqual(childrenView.childNodes.length, 0);
 //
-//	attachedPChildRefHandler.pChildRefHandler.add("one");
+// attachedPChildRefHandler.pChildRefHandler.add("one");
 //
-//	// // remove button
-//	// var repeatingElement = childrenView.childNodes[0];
-//	// var repeatingButtonView = repeatingElement.childNodes[1];
-//	// var removeButton = repeatingButtonView.firstChild;
+// // // remove button
+// // var repeatingElement = childrenView.childNodes[0];
+// // var repeatingButtonView = repeatingElement.childNodes[1];
+// // var removeButton = repeatingButtonView.firstChild;
 //
-//	// assert.notVisible(removeButton, "removeButton should be hidden");
+// // assert.notVisible(removeButton, "removeButton should be hidden");
 //
-//	// attachedPChildRefHandler.pChildRefHandler.add("two");
-//	// assert.visible(removeButton, "removeButton should be visible");
-//	// remove button
-//	// var repeatingElement2 = childrenView.childNodes[1];
-//	// var repeatingButtonView2 = repeatingElement2.childNodes[1];
-//	// var removeButton2 = repeatingButtonView2.firstChild;
-//	// assert.visible(removeButton2, "removeButton should be visible");
+// // attachedPChildRefHandler.pChildRefHandler.add("two");
+// // assert.visible(removeButton, "removeButton should be visible");
+// // remove button
+// // var repeatingElement2 = childrenView.childNodes[1];
+// // var repeatingButtonView2 = repeatingElement2.childNodes[1];
+// // var removeButton2 = repeatingButtonView2.firstChild;
+// // assert.visible(removeButton2, "removeButton should be visible");
 //
-//	// call remove function in pChildRefHandler
-//	var pubSub = attachedPChildRefHandler.pubSub;
-//	var firstChildRemoveSubscription = pubSub.getSubscriptions()[1];
-//	firstChildRemoveSubscription.functionToCall();
-//	console.log(JSON.stringify(pubSub.getSubscriptions()));
-//	// assert.strictEqual(childrenView.childNodes.length, 1);
-//	// assert.notVisible(removeButton2, "removeButton should be hidden");
+// // call remove function in pChildRefHandler
+// var pubSub = attachedPChildRefHandler.pubSub;
+// var firstChildRemoveSubscription = pubSub.getSubscriptions()[1];
+// firstChildRemoveSubscription.functionToCall();
+// console.log(JSON.stringify(pubSub.getSubscriptions()));
+// // assert.strictEqual(childrenView.childNodes.length, 1);
+// // assert.notVisible(removeButton2, "removeButton should be hidden");
 //
-//	assert.strictEqual(pubSub.getSubscriptions().length, 2);
-//	assert.strictEqual(pubSub.getUnsubscriptions().length, 1);
-//});
+// assert.strictEqual(pubSub.getSubscriptions().length, 2);
+// assert.strictEqual(pubSub.getUnsubscriptions().length, 1);
+// });
 
 QUnit.test("testHandleMessageRightMetadataId", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},

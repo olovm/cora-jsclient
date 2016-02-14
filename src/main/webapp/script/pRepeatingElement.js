@@ -56,12 +56,12 @@ var CORA = (function(cora) {
 		function createBaseView() {
 			var repeatingElement = document.createElement("span");
 			repeatingElement.className = "repeatingElement";
-//			repeatingElement.ondragover = function(){
-			repeatingElement.ondragenter = function(event){
-				parentModelObject.setRepeatingElementDragOver(view.modelObject);
-				event.dataTransfer.dropEffect = "copy";
-			};
+			repeatingElement.ondragenter = ondragenterHandler;
 			return repeatingElement;
+		}
+
+		function ondragenterHandler() {
+			parentModelObject.setRepeatingElementDragOver(view.modelObject);
 		}
 
 		function addRemoveButton() {
@@ -76,20 +76,10 @@ var CORA = (function(cora) {
 		}
 
 		function createButtonView() {
-			// repeating buttonview
 			var newButtonView = document.createElement("span");
 			newButtonView.className = "buttonView";
 			view.appendChild(newButtonView);
 
-			// newButtonView.ondrop = function(event){
-			// console.log("GGGGGGRRRRR222222222222 DROP");
-			// event.preventDefault();
-			// };
-			//				
-			// newButtonView.ondragover = function(event){
-			// event.preventDefault();
-			// console.log("GGGGGGRRRRR22222222222 OVER");
-			// };
 
 			if (addRemoveButton()) {
 				removeButton = createRemoveButton();
@@ -109,19 +99,12 @@ var CORA = (function(cora) {
 		function createDragButton() {
 			var createdDragButton = document.createElement("span");
 			createdDragButton.className = "dragButton";
-			// addCallToJsBookkeeperToRemove(createdRemoveButton);
 			createdDragButton.onmousedown = function() {
-//				console.log("draggable: true")
 				view.draggable = "true";
-			}
+			};
 			createdDragButton.onmouseup = function() {
-//				console.log("draggable: false")
 				view.draggable = undefined;
-			}
-			// createdDragButton.ondragend = function(){
-			// console.log("draggable: false")
-			// view.draggable = "false";
-			// }
+			};
 			return createdDragButton;
 		}
 
@@ -202,11 +185,11 @@ var CORA = (function(cora) {
 		function hideDragButton() {
 			hide(dragButton);
 		}
-		
+
 		function showDragButton() {
 			show(dragButton);
 		}
-		
+
 		function hide(element) {
 			element.styleOriginal = element.style.display;
 			element.style.display = "none";

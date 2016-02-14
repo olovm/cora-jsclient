@@ -185,6 +185,9 @@ input {
 	opacity: 1;
 }
 
+.beeingDragged {
+	opacity: 0.5;
+}
 
 
 
