@@ -57,8 +57,9 @@ var CORA = (function(cora) {
 			var repeatingElement = document.createElement("span");
 			repeatingElement.className = "repeatingElement";
 //			repeatingElement.ondragover = function(){
-			repeatingElement.ondragenter = function(){
+			repeatingElement.ondragenter = function(event){
 				parentModelObject.setRepeatingElementDragOver(view.modelObject);
+				event.dataTransfer.dropEffect = "copy";
 			};
 			return repeatingElement;
 		}

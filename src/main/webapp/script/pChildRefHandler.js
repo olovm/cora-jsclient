@@ -100,8 +100,8 @@ var CORA = (function(cora) {
 
 			// dragging
 			childrenViewNew.ondragstart = dragstartHandler;
-//			childrenViewNew.ondragover = dragoverHandler;
-			childrenViewNew.ondragenter = dragoverHandler;
+			childrenViewNew.ondragover = dragoverHandler;
+			childrenViewNew.ondragenter = dragenterHandler;
 //			childrenViewNew.ondragleave = dragoverHandler;
 			childrenViewNew.ondrop = dropHandler;
 			childrenViewNew.ondragend = dragendHandler;
@@ -110,36 +110,53 @@ var CORA = (function(cora) {
 		}
 
 		var beeingDragged;
+		var repeatingElementDragOver;
+		var lastChangedWith;
+		var addDragged;
+		
 		var beeingDraggedY;
 		var dragging = false;
+		
 		var repeatingElementDragOver;
 		function dragstartHandler(event) {
 			event.stopPropagation();
+			
 			dragging = true;
 			beeingDragged = event.target;
 			beeingDraggedY = event.screenY;
 			var source = event.target;
 			console.log("dragStart in pChildRefHandler:"
 					+ JSON.stringify(source.modelObject.getPath()));
-			// event.dataTransfer.effectAllowed = "move";
+//			event.effectAllowed = "move";
+			 event.effectAllowed = "move";
 			source.style.opacity = ".5";
 			// CORA.beeingDragged = event.target;
 			// source.parentElement.removeChild(source);
 			event.dataTransfer.setData("text/plain", JSON.stringify(source.modelObject.getPath()));
+//			event.dataTransfer.addElement(beeingDragged
+//					);
 			// event.dataTransfer.setData("modelObject", {"test":"prova"});
-			// event.dataTransfer.effectAllowed = "copy";
+			 event.dataTransfer.effectAllowed = "move";
 			// source.style.opacity = ".5";
+//			 event.preventDefault();
 		}
 		function dragoverHandler(event) {
+			event.preventDefault();
+			
+			event.dataTransfer.dropEffect = "move";
+		}
+		function dragenterHandler(event) {
+			event.preventDefault();
 //			console.log("dragOver:")
+			event.dataTransfer.dropEffect = "move";
 			if (dragging) {
 //				console.log("dragOver:dragging TRUE")
 //				event.stopPropagation();
 
-				// event.dataTransfer.dropEffect = "copyMove";
-				// event.dataTransfer.dropEffect = "link";
-				// event.dataTransfer.dropEffect = "copy";
+//				 event.dataTransfer.dropEffect = "copyMove";
 				 event.dataTransfer.dropEffect = "move";
+				// event.dataTransfer.dropEffect = "move";
+//				 event.dataTransfer.dropEffect = "move";
 				 
 //				 var isSibblings = isSibblingNodes(beeingDragged, event.target);
 				var isSibblings = isSibblingNodes(beeingDragged, repeatingElementDragOver.getView());
@@ -150,6 +167,8 @@ var CORA = (function(cora) {
 //				console.log(event.target)
 				console.log(repeatingElementDragOver.getView())
 				if(isSibblings){
+					event.stopPropagation();
+					event.preventDefault();
 					console.log("dragOver:")
 					console.log(event.target)
 					// console.log("dragover in pChildRefHandler:"
@@ -165,12 +184,15 @@ var CORA = (function(cora) {
 						// if (event.target !==
 						// event.target.parentElement.firstChild) {
 						beeingDraggedY = event.screenY;
+						lastChangedWith = repeatingElementDragOver;
 						if (difY > 0) {
+							addDragged = "after";
 							// TODO: drag y minus or plus
 							// TODO: event.originalEvent, event.relatedTarget
 							beeingDragged.parentElement.insertBefore(beeingDragged,
 									repeatingElementDragOver.getView().nextSibling);
 						} else {
+							addDragged = "before";
 							beeingDragged.parentElement.insertBefore(beeingDragged, repeatingElementDragOver.getView());
 						}
 					}
@@ -188,16 +210,17 @@ var CORA = (function(cora) {
 		}
 
 		function dropHandler(event) {
+			event.preventDefault();
 			if (dragging) {
-
-				console.log(event.target);
-				console.log("dropEffect: " + event.dataTransfer.dropEffect);
-				console.log("drop in pChildRefHandler:"
-						+ JSON.stringify(event.target.modelObject.getPath()));
-				event.preventDefault();
 				event.stopPropagation();
-				// event.dataTransfer.dropEffect = "move";
-				beeingDragged.parentElement.insertBefore(beeingDragged, event.target.nextSibling);
+
+				event.dataTransfer.dropEffect = "move";
+				
+//				console.log(event.target);
+//				console.log("dropEffect: " + event.dataTransfer.dropEffect);
+//				console.log("drop in pChildRefHandler:"
+//						+ JSON.stringify(event.target.modelObject.getPath()));
+//				beeingDragged.parentElement.insertBefore(beeingDragged, event.target.nextSibling);
 				// console.log("drop:" + JSON.stringify(path));
 
 				// event.preventDefault();
@@ -212,18 +235,25 @@ var CORA = (function(cora) {
 			event.preventDefault();
 			if (dragging) {
 
-				event.preventDefault();
-				console.log("dragEnd:" + event.target);
-				console.log(event.target);
+//				event.preventDefault();
+//				console.log("dragEnd:" + event.target);
+//				console.log(event.target);
 				// beeingDragged.style.opacity = "1";
 				beeingDragged.style = undefined;
 				// beeingDragged.style.opacity.delete();
 				beeingDragged.draggable = undefined;
-				if (event.target.modelObject !== undefined) {
-					console.log("dragend in pChildRefHandler:"
-							+ JSON.stringify(event.target.modelObject.getPath()));
-				}
+//				if (event.target.modelObject !== undefined) {
+//					console.log("dragend in pChildRefHandler:"
+//							+ JSON.stringify(event.target.modelObject.getPath()));
+//				}
+				
 				dragging = false;
+				//TODO: we should send move on pubSub from here
+				console.log("beeingDragged:");
+				console.log(JSON.stringify(beeingDragged.modelObject.getPath()));
+				console.log("lastChangedWith:");
+				console.log(JSON.stringify(lastChangedWith.getPath()));
+				console.log("addDragged:"+addDragged);
 			}
 		}
 
