@@ -104,7 +104,7 @@ var CORA = (function(cora) {
 		}
 
 		var beeingDragged;
-		var repeatingElementDragOver;
+//		var repeatingElementDragOver;
 		var lastChangedWith;
 		var addDragged;
 
@@ -132,17 +132,16 @@ var CORA = (function(cora) {
 		
 		function dragenterHandler(event) {
 			event.preventDefault();
-			// console.log("dragOver:")
 			event.dataTransfer.dropEffect = "move";
 			if (dragging) {
 				// console.log("dragOver:dragging TRUE")
 				// event.stopPropagation();
-
+				
 				// event.dataTransfer.dropEffect = "copyMove";
-				event.dataTransfer.dropEffect = "move";
+//				event.dataTransfer.dropEffect = "move";
 				// event.dataTransfer.dropEffect = "move";
 				// event.dataTransfer.dropEffect = "move";
-
+				
 				// var isSibblings = isSibblingNodes(beeingDragged, event.target);
 				var isSibblings = isSibblingNodes(beeingDragged, repeatingElementDragOver.getView());
 				// console.log("isSibbling")
@@ -158,7 +157,7 @@ var CORA = (function(cora) {
 					console.log(event.target)
 					// console.log("dragover in pChildRefHandler:"
 					// + JSON.stringify(event.target.modelObject.getPath()));
-
+					
 					// event.preventDefault();
 					var difY = event.screenY - beeingDraggedY;
 					console.log("beeingDragged:" + beeingDraggedY + " event.screenY:"
@@ -186,6 +185,9 @@ var CORA = (function(cora) {
 			}
 		}
 		function isSibblingNodes(node1, node2) {
+			if (node1 === node2){
+				return false;
+			}
 			var sibblings = node1.parentNode.childNodes;
 			// console.log(JSON.stringify(sibblings))
 			var keys = Object.keys(sibblings);
@@ -218,6 +220,7 @@ var CORA = (function(cora) {
 				// event.target.nextSibling);
 			}
 		}
+		
 		function dragendHandler(event) {
 			event.preventDefault();
 			if (dragging) {

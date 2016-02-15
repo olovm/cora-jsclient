@@ -144,6 +144,55 @@ QUnit.test("testDraggingDragover", function(assert) {
 	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
 });
 
+QUnit.test("testDraggingDragenter", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	
+	var eventSpy = CORATEST.eventSpy();
+	eventSpy.target = document.createElement("span");
+	eventSpy.target.className = "eventSpy";
+	eventSpy.screenY = 0;
+	
+	//dragover
+	childRefHandler.dragenterHandler(eventSpy);
+	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
+	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
+});
+
+QUnit.test("testDraggingDragenterIsDragging", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	
+	
+	var spanHolder = document.createElement("span");
+	var beeingDragged = document.createElement("span");
+	beeingDragged.id = "beeingDragged";
+	beeingDragged.className = "eventSpy";
+	
+	
+	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy();
+	childRefHandler.setRepeatingElementDragOver(pRepeatingElementSpy);
+	pRepeatingElementSpy.id = "draggedOver";
+
+	spanHolder.appendChild(beeingDragged);
+	spanHolder.appendChild(pRepeatingElementSpy.getView());
+	
+	var eventSpy = CORATEST.eventSpy();
+	eventSpy.target = beeingDragged; 
+	eventSpy.screenY = 0;
+	
+
+	//dragstart
+	childRefHandler.dragstartHandler(eventSpy);
+	
+	//dragover
+	childRefHandler.dragenterHandler(eventSpy);
+	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
+	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
+});
+
 QUnit.test("testInitRepeatingVariableNoOfChildren", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat1toX", "pVarTextVariableId");
