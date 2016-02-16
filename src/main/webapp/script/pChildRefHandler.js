@@ -95,6 +95,7 @@ var CORA = (function(cora) {
 
 			// dragging
 			childrenViewNew.ondragstart = dragstartHandler;
+			// childrenViewNew.addEventListener("ondragstart",dragstartHandler);
 			childrenViewNew.ondragover = dragoverHandler;
 			childrenViewNew.ondragenter = dragenterHandler;
 			childrenViewNew.ondrop = dropHandler;
@@ -104,7 +105,7 @@ var CORA = (function(cora) {
 		}
 
 		var beeingDragged;
-//		var repeatingElementDragOver;
+		// var repeatingElementDragOver;
 		var lastChangedWith;
 		var addDragged;
 
@@ -112,7 +113,7 @@ var CORA = (function(cora) {
 		var dragging = false;
 
 		var repeatingElementDragOver;
-		
+
 		function dragstartHandler(event) {
 			event.stopPropagation();
 			dragging = true;
@@ -129,25 +130,25 @@ var CORA = (function(cora) {
 			event.preventDefault();
 			event.dataTransfer.dropEffect = "move";
 		}
-		
+
 		function dragenterHandler(event) {
 			event.preventDefault();
 			event.dataTransfer.dropEffect = "move";
 			if (dragging) {
 				// console.log("dragOver:dragging TRUE")
 				// event.stopPropagation();
-				
+
 				// event.dataTransfer.dropEffect = "copyMove";
-//				event.dataTransfer.dropEffect = "move";
 				// event.dataTransfer.dropEffect = "move";
 				// event.dataTransfer.dropEffect = "move";
-				
+				// event.dataTransfer.dropEffect = "move";
+
 				// var isSibblings = isSibblingNodes(beeingDragged, event.target);
 				var isSibblings = isSibblingNodes(beeingDragged, repeatingElementDragOver.getView());
 				// console.log("isSibbling")
 				// console.log(isSibblings);
 				// if (event.target.modelObject !== undefined) {
-				console.log(isSibblings);
+				console.log("isSibblings:" + isSibblings);
 				// console.log(event.target)
 				console.log(repeatingElementDragOver.getView())
 				if (isSibblings) {
@@ -157,35 +158,35 @@ var CORA = (function(cora) {
 					console.log(event.target)
 					// console.log("dragover in pChildRefHandler:"
 					// + JSON.stringify(event.target.modelObject.getPath()));
-					
+
 					// event.preventDefault();
 					var difY = event.screenY - beeingDraggedY;
 					console.log("beeingDragged:" + beeingDraggedY + " event.screenY:"
 							+ event.screenY + " difY: " + difY);
 					// console.log(event.screenY);
 					console.log(difY);
-					if (beeingDragged !== repeatingElementDragOver.getView()) {
-						// if (event.target !==
-						// event.target.parentElement.firstChild) {
-						beeingDraggedY = event.screenY;
-						lastChangedWith = repeatingElementDragOver;
-						if (difY > 0) {
-							addDragged = "after";
-							// TODO: drag y minus or plus
-							// TODO: event.originalEvent, event.relatedTarget
-							beeingDragged.parentElement.insertBefore(beeingDragged,
-									repeatingElementDragOver.getView().nextSibling);
-						} else {
-							addDragged = "before";
-							beeingDragged.parentElement.insertBefore(beeingDragged,
-									repeatingElementDragOver.getView());
-						}
+					// if (beeingDragged !== repeatingElementDragOver.getView()) {
+					// if (event.target !==
+					// event.target.parentElement.firstChild) {
+					beeingDraggedY = event.screenY;
+					lastChangedWith = repeatingElementDragOver;
+					if (difY > 0) {
+						addDragged = "after";
+						// TODO: drag y minus or plus
+						// TODO: event.originalEvent, event.relatedTarget
+						beeingDragged.parentElement.insertBefore(beeingDragged,
+								repeatingElementDragOver.getView().nextSibling);
+					} else {
+						addDragged = "before";
+						beeingDragged.parentElement.insertBefore(beeingDragged,
+								repeatingElementDragOver.getView());
 					}
+					// }
 				}
 			}
 		}
 		function isSibblingNodes(node1, node2) {
-			if (node1 === node2){
+			if (node1 === node2) {
 				return false;
 			}
 			var sibblings = node1.parentNode.childNodes;
@@ -220,7 +221,7 @@ var CORA = (function(cora) {
 				// event.target.nextSibling);
 			}
 		}
-		
+
 		function dragendHandler(event) {
 			event.preventDefault();
 			if (dragging) {
