@@ -272,6 +272,52 @@ QUnit.test("testDraggingDragenterIsDraggingChangeOrder", function(assert) {
 	assert.strictEqual(childrenView.childNodes[0], secondChild);
 });
 
+QUnit.test("testDropHandlerDragging", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+	
+	var eventSpy = CORATEST.eventSpy();
+	eventSpy.target = childrenView.childNodes[0];
+	eventSpy.screenY = 0;
+	
+	//dragstart
+	childRefHandler.dragstartHandler(eventSpy);
+	
+	//dragenter
+	childRefHandler.dropHandler(eventSpy);
+	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
+	assert.strictEqual(eventSpy.stopPropagationWasCalled(), true);
+	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
+});
+
+QUnit.test("testDropHandlerNotDragging", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+	
+	var eventSpy = CORATEST.eventSpy();
+	eventSpy.target = childrenView.childNodes[0];
+	eventSpy.screenY = 0;
+	
+	//dragstart
+//	childRefHandler.dragstartHandler(eventSpy);
+	
+	//dragenter
+	childRefHandler.dropHandler(eventSpy);
+	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
+	assert.strictEqual(eventSpy.stopPropagationWasCalled(), false);
+	assert.strictEqual(eventSpy.dataTransfer.dropEffect, undefined);
+});
+
 QUnit.test("testInitRepeatingVariableNoOfChildren", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat1toX", "pVarTextVariableId");
