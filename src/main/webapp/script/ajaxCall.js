@@ -25,8 +25,7 @@ var CORA = (function(cora) {
 		xhr.addEventListener("load", loadListener);
 		xhr.addEventListener("error", errorListener);
 
-		// xhr.open(spec.method, spec.url + "?" + (new Date()).getTime(), true);
-		xhr.open(spec.method, spec.url);
+		xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
 
 		xhr.timeout = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
 		if (spec.accept !== undefined) {
@@ -42,86 +41,30 @@ var CORA = (function(cora) {
 			xhr.send();
 		}
 
-		function loadListener(event) {
+		function loadListener() {
 			if (xhr.status === 200 || xhr.status === 201) {
-				spec.loadMethod(xhr);
+				spec.loadMethod(createReturnObject());
 			} else {
-				spec.errorMethod(xhr);
+				spec.errorMethod(createReturnObject());
 			}
 		}
-		function timeoutListener(event) {
+		function timeoutListener() {
 			xhr.abort();
-			spec.timeoutMethod(xhr);
+			spec.timeoutMethod(createReturnObject());
 		}
 
-		function errorListener(event) {
-			console.log(event)
-			spec.errorMethod(xhr);
-
+		function errorListener() {
+			spec.errorMethod(createReturnObject());
 		}
 
-		var out = Object.freeze({
-		// childRemoved : childRemoved
-		});
+		function createReturnObject() {
+			return {
+				"status" : xhr.status,
+				"responseText" : xhr.responseText
+			};
+		}
+		var out = Object.freeze({});
 		return out;
 	};
 	return cora;
 }(CORA));
-
-function reqListener() {
-	console.log(this.responseText);
-	console.log("GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOT HERE");
-}
-var oReq = new XMLHttpRequest();
-function test2() {
-	oReq.addEventListener("load", reqListener);
-	oReq.addEventListener("load", transferComplete);
-	oReq.addEventListener("progress", updateProgress);
-	oReq.addEventListener("error", transferFailed);
-	oReq.addEventListener("abort", transferCanceled);
-	// oReq.responseType = "json";
-	// oReq.open("GET", "http://epc.ub.uu.se/cora/rest/record/recordType");
-	// oReq.open("GET", "http://localhost:8080/therest/rest/record/recordType?"
-	// + (new Date()).getTime());
-	// oReq.open("GET",
-	// "http://130.238.171.39:8080/therest/rest/record/recordType?"
-	// + (new Date()).getTime());
-	oReq.open("GET", "http://130.238.171.39:8080/therest/rest/record/recordType");
-	oReq.setRequestHeader("accept", "application/uub+recordList+json");
-	// oReq.setRequestHeader("accept", "application/uub+record+json");
-	// oReq.setRequestHeader("Content-Type", "application/uub+record+json");
-	// oReq.setRequestHeader("Content-Type", "application/json");
-	// oReq.setRequestHeader("Content-Type",
-	// "application/x-www-form-urlencoded");
-	// oReq.setRequestHeader("Origin", "localhost");
-	// oReq.open("GET",
-	// "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne");
-	// oReq.open("GET", "http://google.com");
-	// oReq.overrideMimeType("text/plain; charset=x-user-defined");
-	oReq.send();
-}
-// progress on transfers from the server to the client (downloads)
-function updateProgress(oEvent) {
-	// if (oEvent.lengthComputable) {
-	// var percentComplete = oEvent.loaded / oEvent.total;
-	// // ...
-	// } else {
-	// // Unable to compute progress information since the total size is
-	// // unknown
-	// }
-}
-
-function transferComplete(evt) {
-	console.log("The transfer is complete.");
-}
-
-function transferFailed(evt) {
-	console.log("An error occurred while transferring the file.");
-	console.log(evt)
-	console.log(oReq.statusText)
-	console.log(oReq.status)
-}
-
-function transferCanceled(evt) {
-	console.log("The transfer has been canceled by the user.");
-}

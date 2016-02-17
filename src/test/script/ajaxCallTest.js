@@ -25,227 +25,116 @@ QUnit.module("ajaxCall.js", {
 	}
 });
 
-QUnit
-		.test(
-				"testCall200",
-				function(assert) {
-					var timeout = setTimeout(function() {
-						assert.ok(false, "ajaxCall timed  out (500ms)");
-						done();
-					}, 500);
-					var done = assert.async();
-					var expectedAnswer = {
-						"record" : {
-							"data" : {
-								"children" : [ {
-									"children" : [ {
-										"name" : "id",
-										"value" : "defaultItem"
-									}, {
-										"name" : "type",
-										"value" : "metadataCollectionItem"
-									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									}, {
-										"name" : "updatedBy",
-										"value" : "userId"
-									} ],
-									"name" : "recordInfo"
-								}, {
-									"name" : "nameInData",
-									"value" : "default"
-								}, {
-									"name" : "textId",
-									"value" : "defaultItemTextId"
-								}, {
-									"name" : "defTextId",
-									"value" : "defaultItemDefTextId"
-								} ],
-								"name" : "metadata",
-								"attributes" : {
-									"type" : "collectionItem"
-								}
-							},
-							"actionLinks" : {
-								"read" : {
-									"requestMethod" : "GET",
-									"rel" : "read",
-									"contentType" : "application/uub+record+json",
-									"url" : "http://130.238.171.39:8080/therest/rest/record/metadataCollectionItem/defaultItem",
-									"accept" : "application/uub+record+json"
-								},
-								"update" : {
-									"requestMethod" : "POST",
-									"rel" : "update",
-									"contentType" : "application/uub+record+json",
-									"url" : "http://130.238.171.39:8080/therest/rest/record/metadataCollectionItem/defaultItem",
-									"accept" : "application/uub+record+json"
-								},
-								"delete" : {
-									"requestMethod" : "DELETE",
-									"rel" : "delete",
-									"contentType" : "application/uub+record+json",
-									"url" : "http://130.238.171.39:8080/therest/rest/record/metadataCollectionItem/defaultItem",
-									"accept" : "application/uub+record+json"
-								}
-							}
-						}
-					};
-					function loadMethod(xhr) {
-						window.clearTimeout(timeout);
-						assert.strictEqual(xhr.status, 200);
-//						console.log(xhr.responseText);
-						assert.strictEqual(xhr.responseText, JSON.stringify(expectedAnswer));
-						done();
-					}
-					function errorMethod(xhr) {
-						window.clearTimeout(timeout);
-						console.log(xhr.status);
-						assert.ok(false, "not an ok call");
-						done();
-					}
-					var spec = {
-						"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-						"method" : "GET",
-						"url" : "http://130.238.171.39:8080/therest/rest/record/metadataCollectionItem/defaultItem",
-						// "url" :
-						// "http://130.238.171.39:8080/therest/rest/record/recordType",
-						"contentType" : "application/uub+record+json",
-						// "accept" : "application/uub+recordList+json",
-						"accept" : "application/uub+record+json",
-						"loadMethod" : loadMethod,
-						"errorMethod" : errorMethod
-
-					};
-					var ajaxCall = CORA.ajaxCall(spec);
-				});
-
-QUnit.test("testCallNot200", function(assert) {
-	var timeout = setTimeout(function() {
-		assert.ok(false, "ajaxCall timed  out (500ms)");
-		done();
-	}, 500);
-
-	var done = assert.async();
-	var status = "";
+QUnit.test("testCall200", function(assert) {
+	var loadMethodWasCalled = false;
 	function loadMethod(xhr) {
-		window.clearTimeout(timeout);
-		assert.ok(false, "not an ok call");
-		done();
+		loadMethodWasCalled = true;
 	}
-	function errorMethod(xhr) {
-		window.clearTimeout(timeout);
-		status = xhr.status;
-		assert.strictEqual(xhr.status, 406);
-		done();
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 	var spec = {
-		"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"method" : "GET",
 		"url" : "http://130.238.171.39:8080/therest/rest/record/recordType",
 		"contentType" : "application/uub+record+json",
 		"accept" : "application/uub+record+json",
-		"loadMethod" : loadMethod,
+		"loadMethod" : loadMethod
+	};
+	var ajaxCall = CORA.ajaxCall(spec);
+
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
+			"http://130.238.171.39:8080/therest/rest/record/recordType");
+	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
+			"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
+			"application/uub+record+json");
+
+	assert.ok(loadMethodWasCalled, "loadMethod was called ok")
+});
+
+QUnit.test("testCallErrorNot200answer", function(assert) {
+	var errorMethodWasCalled = false;
+	function errorMethod(xhr) {
+		errorMethodWasCalled = true;
+	}
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 406;
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var spec = {
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"method" : "GET",
+		"url" : "http://130.238.171.39:8080/therest/rest/record/recordType",
+		"contentType" : "application/uub+record+json",
+		"accept" : "application/uub+record+json",
 		"errorMethod" : errorMethod
 
 	};
 	var ajaxCall = CORA.ajaxCall(spec);
-
+	assert.ok(errorMethodWasCalled, "errorMethod was called ok");
 });
 
-QUnit.test("testCallError", function(assert) {
-	var timeout = setTimeout(function() {
-		assert.ok(false, "ajaxCall timed  out (500ms)");
-		done();
-	}, 500);
-
-	var done = assert.async();
-	var status = "";
-	function loadMethod(xhr) {
-		window.clearTimeout(timeout);
-		assert.ok(false, "should error ");
-		done();
-	}
+QUnit.test("testCallErrorBrokenAddress", function(assert) {
+	var errorMethodWasCalled = false;
 	function errorMethod(xhr) {
-		window.clearTimeout(timeout);
-		status = xhr.status;
-		assert.strictEqual(xhr.status, 0);
-		done();
-
+		errorMethodWasCalled = true;
+	}
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 0;
+		xmlHttpRequestSpy.addedEventListeners["error"][0]();
 	}
 	var spec = {
-		"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"method" : "GET",
 		"url" : "http://notAnExistingAddress/therest/rest/record/recordType",
 		"contentType" : "application/uub+record+json",
 		"accept" : "application/uub+record+json",
-		"loadMethod" : loadMethod,
 		"errorMethod" : errorMethod
 
 	};
 	var ajaxCall = CORA.ajaxCall(spec);
-
+	assert.ok(errorMethodWasCalled, "errorMethod was called ok");
 });
 
 QUnit.test("testTimeout", function(assert) {
-	var timeout = setTimeout(function() {
-		assert.ok(false, "ajaxCall timed  out (500ms)");
-		done();
-	}, 5000);
-	var done = assert.async();
-	function loadMethod(xhr) {
-		window.clearTimeout(timeout);
-		assert.ok(false, "should timeout1");
-		done();
-	}
-	function errorMethod(xhr) {
-		window.clearTimeout(timeout);
-		assert.ok(false, "should timeout2");
-		done();
-	}
+	var timeoutMethodWasCalled = false;
 	function timeoutMethod(xhr) {
-		window.clearTimeout(timeout);
-		assert.ok(true, "timedout as expected");
-		done();
+		timeoutMethodWasCalled = true;
+	}
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 0;
+		xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
 	}
 	var spec = {
-		"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-		"timeoutInMS" : 1,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"timeoutInMS" : 1000,
 		"timeoutMethod" : timeoutMethod,
 		"method" : "GET",
 		"url" : "http://www.google.com",
 		"contentType" : "application/uub+record+json",
 		"accept" : "application/uub+recordList+json",
-		"loadMethod" : loadMethod,
-		"errorMethod" : errorMethod
+		"loadMethod" : function() {
+			assert.ok(false);
+		},
+		"errorMethod" : function() {
+			assert.ok(false);
+		}
 
 	};
 	var ajaxCall = CORA.ajaxCall(spec);
+	assert.strictEqual(xmlHttpRequestSpy.timeout, 1000);
+	assert.ok(timeoutMethodWasCalled, "timeoutMethod was called ok");
 });
 
 QUnit.test("testSendCreate", function(assert) {
-	var timeout = setTimeout(function() {
-		assert.ok(false, "ajaxCall timed  out (500ms)");
-		done();
-	}, 500);
-	var done = assert.async();
-	function loadMethod(xhr) {
-		window.clearTimeout(timeout);
-		assert.strictEqual(xhr.status, 201);
-		done();
-	}
-	function errorMethod(xhr) {
-		window.clearTimeout(timeout);
-		console.log(xhr.statusText)
-		assert.ok(false, "not an ok call");
-		done();
-	}
-	function timeoutMethod(xhr) {
-		window.clearTimeout(timeout);
-		assert.ok(true, "timedout as expected");
-		done();
-	}
 	var textData = {
 		"name" : "text",
 		"children" : [ {
@@ -266,51 +155,55 @@ QUnit.test("testSendCreate", function(assert) {
 			} ]
 		} ]
 	};
+	var loadMethodWasCalled = false;
+	var recievedAnswer;
+	function loadMethod(answer) {
+		loadMethodWasCalled = true;
+		recievedAnswer = answer;
+	}
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 201;
+		xmlHttpRequestSpy.responseText = "a dummy response";
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
 	var spec = {
-		"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-		"timeoutMethod" : timeoutMethod,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"method" : "POST",
 		"url" : "http://130.238.171.39:8080/therest/rest/record/textSystemOne",
 		"contentType" : "application/uub+record+json",
 		"accept" : "application/uub+record+json",
 		"loadMethod" : loadMethod,
-		"errorMethod" : errorMethod,
 		"data" : JSON.stringify(textData)
 	};
 	var ajaxCall = CORA.ajaxCall(spec);
+	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(textData));
+	assert.strictEqual(recievedAnswer.status, 201);
+	assert.strictEqual(recievedAnswer.responseText, "a dummy response");
+	assert.ok(loadMethodWasCalled, "loadMethod was called ok");
 });
+
 QUnit.test("testSendDelete", function(assert) {
-	var timeout = setTimeout(function() {
-		assert.ok(false, "ajaxCall timed  out (500ms)");
-		done();
-	}, 500);
-	var done = assert.async();
-	function loadMethod(xhr) {
-		window.clearTimeout(timeout);
-		assert.strictEqual(xhr.status, 200);
-		done();
+	var loadMethodWasCalled = false;
+	var recievedAnswer;
+	function loadMethod(answer) {
+		loadMethodWasCalled = true;
+		recievedAnswer = answer;
 	}
-	function errorMethod(xhr) {
-		window.clearTimeout(timeout);
-		console.log(xhr.statusText)
-		console.log(xhr.status)
-		assert.ok(false, "not an ok call");
-		done();
-	}
-	function timeoutMethod(xhr) {
-		window.clearTimeout(timeout);
-		assert.ok(true, "timedout as expected");
-		done();
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 	var spec = {
-		"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-		"timeoutMethod" : timeoutMethod,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"method" : "DELETE",
 		"url" : "http://130.238.171.39:8080/therest/rest/record/textSystemOne/myText",
-		// "contentType" : "application/uub+record+json",
-		// "accept" : "application/uub+record+json",
 		"loadMethod" : loadMethod,
-		"errorMethod" : errorMethod
 	};
 	var ajaxCall = CORA.ajaxCall(spec);
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"], undefined);
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"], undefined);
+
+	assert.ok(loadMethodWasCalled, "loadMethod was called ok");
 });

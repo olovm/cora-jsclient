@@ -16,16 +16,16 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.xmlHttpRequestFactory = function() {
+	coraTest.xmlHttpRequestFactorySpy = function(xmlHttpRequestSpy) {
 		function factor(){
-			return new XMLHttpRequest();
+			return xmlHttpRequestSpy;
 		}
 		var out = Object.freeze({
 			factor:factor
 		});
 		return out;
 	};
-	return cora;
-}(CORA));
+	return coraTest;
+}(CORATEST));
