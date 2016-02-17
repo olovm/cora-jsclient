@@ -105,7 +105,6 @@ var CORA = (function(cora) {
 		}
 
 		var beeingDragged;
-		// var repeatingElementDragOver;
 		var lastChangedWith;
 		var addDragged;
 
@@ -144,27 +143,32 @@ var CORA = (function(cora) {
 				// event.dataTransfer.dropEffect = "move";
 
 				// var isSibblings = isSibblingNodes(beeingDragged, event.target);
-				var isSibblings = isSibblingNodes(beeingDragged, repeatingElementDragOver.getView());
+				var lastDraggedOver = repeatingElementDragOver !== undefined ? repeatingElementDragOver
+						.getView()
+						: "";
+				// var isSibblings = isSibblingNodes(beeingDragged,
+				// repeatingElementDragOver.getView());
+				var isSibblings = isSibblingNodes(beeingDragged, lastDraggedOver);
 				// console.log("isSibbling")
 				// console.log(isSibblings);
 				// if (event.target.modelObject !== undefined) {
-				console.log("isSibblings:" + isSibblings);
+//				console.log("isSibblings:" + isSibblings);
 				// console.log(event.target)
-				console.log(repeatingElementDragOver.getView())
+				// console.log(repeatingElementDragOver.getView())
 				if (isSibblings) {
 					event.stopPropagation();
 					event.preventDefault();
-					console.log("dragOver:")
-					console.log(event.target)
+//					console.log("dragOver:")
+//					console.log(event.target)
 					// console.log("dragover in pChildRefHandler:"
 					// + JSON.stringify(event.target.modelObject.getPath()));
 
 					// event.preventDefault();
 					var difY = event.screenY - beeingDraggedY;
-					console.log("beeingDragged:" + beeingDraggedY + " event.screenY:"
-							+ event.screenY + " difY: " + difY);
+//					console.log("beeingDragged:" + beeingDraggedY + " event.screenY:"
+//							+ event.screenY + " difY: " + difY);
 					// console.log(event.screenY);
-					console.log(difY);
+//					console.log(difY);
 					// if (beeingDragged !== repeatingElementDragOver.getView()) {
 					// if (event.target !==
 					// event.target.parentElement.firstChild) {
@@ -225,12 +229,14 @@ var CORA = (function(cora) {
 		function dragendHandler(event) {
 			event.preventDefault();
 			if (dragging) {
-
+				event.stopPropagation();
 				// event.preventDefault();
 				// console.log("dragEnd:" + event.target);
 				// console.log(event.target);
 				// beeingDragged.style.opacity = "1";
-				beeingDragged.style = undefined;
+				// beeingDragged.style = undefined;
+				var indexClassName = beeingDragged.className.indexOf(" beeingDragged");
+				beeingDragged.className = beeingDragged.className.substring(0, indexClassName);
 				// beeingDragged.style.opacity.delete();
 				beeingDragged.draggable = undefined;
 				// if (event.target.modelObject !== undefined) {
@@ -239,12 +245,31 @@ var CORA = (function(cora) {
 				// }
 
 				dragging = false;
-				// TODO: we should send move on pubSub from here
-				console.log("beeingDragged:");
-				console.log(JSON.stringify(beeingDragged.modelObject.getPath()));
-				console.log("lastChangedWith:");
-				console.log(JSON.stringify(lastChangedWith.getPath()));
-				console.log("addDragged:" + addDragged);
+				if (lastChangedWith !== undefined) {
+					// TODO: we should send move on pubSub from here
+//					console.log("beeingDragged:");
+//					console.log(JSON.stringify(beeingDragged.modelObject.getPath()));
+//					console.log("lastChangedWith:");
+//					console.log(JSON.stringify(lastChangedWith.getPath()));
+//					console.log("addDragged:" + addDragged);
+					// TODO: clear lastChangedWith and beeingDragged, etc see below
+
+					var data = {
+						"path" : parentPath,
+						"moveChild" : beeingDragged.modelObject.getPath(),
+						"basePositionOnChild" : lastChangedWith.getPath(),
+						"newPosition" : addDragged
+					};
+//					console.log(JSON.stringify(data));
+					spec.jsBookkeeper.move(data);
+					
+					 beeingDragged = undefined;
+					 lastChangedWith = undefined;
+					 addDragged = undefined;
+					 beeingDraggedY = undefined;
+					 dragging = false;
+					 repeatingElementDragOver = undefined;
+				}
 			}
 		}
 

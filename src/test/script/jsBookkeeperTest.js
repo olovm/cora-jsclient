@@ -260,9 +260,68 @@ QUnit.test("testRemove", function(assert) {
 	assert.stringifyEqual(messages[0], expectedMessage);
 
 	assert.equal(messages.length, 1);
-	
+
 	var unsubscriptionsPathBelow = this.pubSub.getUnsubscriptionsPathBelow();
 	assert.equal(unsubscriptionsPathBelow.length, 1);
 	assert.stringifyEqual(unsubscriptionsPathBelow[0], {});
-	
+});
+
+QUnit.test("testMove", function(assert) {
+	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild", this.dataHolder);
+	var data = {
+		"path" : {},
+		"moveChild" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatId",
+				"value" : "one"
+			} ]
+		},
+		"basePositionOnChild" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatId",
+				"value" : "two"
+			} ]
+		},
+		"newPosition" : "after"
+	};
+	jsBookkeeper.move(data);
+	var messages = this.pubSub.getMessages();
+	var expectedMessage = {
+		"type" : "move",
+		"message" : {
+			"path" : {},
+			"moveChild" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVariableId"
+				}, {
+					"name" : "repeatId",
+					"value" : "one"
+				} ]
+			},
+			"basePositionOnChild" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVariableId"
+				}, {
+					"name" : "repeatId",
+					"value" : "two"
+				} ]
+			},
+			"newPosition" : "after"
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedMessage);
+
+	assert.equal(messages.length, 1);
 });
