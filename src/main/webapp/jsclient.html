@@ -30,6 +30,7 @@
 <script type="text/javascript" src="script/lib/arbiter.js"></script>
 <script type="text/javascript" src="script/lib/polyfillES6.js"></script>
 
+<script type="text/javascript" src="script/ajaxCall.js"></script>
 <script type="text/javascript" src="script/coraData.js"></script>
 <script type="text/javascript" src="script/coraPubSub.js"></script>
 <script type="text/javascript" src="script/dataHolder.js"></script>
@@ -47,14 +48,20 @@
 <script type="text/javascript" src="script/presentationFactory.js"></script>
 <script type="text/javascript" src="script/pVar.js"></script>
 <script type="text/javascript" src="script/textProvider.js"></script>
+<script type="text/javascript" src="script/xmlHttpRequestFactory.js"></script>
 
-<script type="text/javascript" src="../../test/script/metadataProviderStub.js"></script>
+<script type="text/javascript"
+	src="../../test/script/metadataProviderStub.js"></script>
 <script type="text/javascript" src="test/script/metadataProviderStub.js"></script>
-<script type="text/javascript" src="../../test/script/textProviderStub.js"></script>
+<script type="text/javascript"
+	src="../../test/script/textProviderStub.js"></script>
 <script type="text/javascript" src="test/script/textProviderStub.js"></script>
-<script type="text/javascript" src="../../test/script/metadataProviderRealStub.js"></script>
-<script type="text/javascript" src="test/script/metadataProviderRealStub.js"></script>
-<script type="text/javascript" src="../../test/script/textProviderRealStub.js"></script>
+<script type="text/javascript"
+	src="../../test/script/metadataProviderRealStub.js"></script>
+<script type="text/javascript"
+	src="test/script/metadataProviderRealStub.js"></script>
+<script type="text/javascript"
+	src="../../test/script/textProviderRealStub.js"></script>
 <script type="text/javascript" src="test/script/textProviderRealStub.js"></script>
 
 <script type="text/javascript">
@@ -74,7 +81,7 @@
 					"metadataProvider" : metadataProvider,
 					"pubSub" : pubSub,
 					"textProvider" : textProvider,
-					"dataHolder":dataHolder
+					"dataHolder" : dataHolder
 				};
 				var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
 
@@ -129,6 +136,8 @@
 
 	window.onload = start;
 	function start() {
+		getStuffFromServer();
+
 		var metadataProvider = new MetadataProviderStub();
 		var textProvider = CORATEST.textProviderStub();
 		client1(metadataProvider, textProvider);
@@ -139,13 +148,34 @@
 		client6(metadataProvider, textProvider);
 		client7(metadataProvider, textProvider);
 		client8(metadataProvider, textProvider);
-		
+
 		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
 		var textProviderRealStub = CORATEST.textProviderRealStub();
 		client9(metadataProviderRealStub, textProviderRealStub);
-		
-	}
 
+	}
+	function getStuffFromServer() {
+		var spec = {
+			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+			"timeoutInMS" : 1000,
+			"timeoutMethod" : function() {
+				alert("timeout");
+			},
+			"method" : "GET",
+			"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
+			"contentType" : "application/uub+record+json",
+			"accept" : "application/uub+record+json",
+			"loadMethod" : loadMethod,
+			"errorMethod" : function(error) {
+				alert("error"+error.status);
+			},
+		};
+		CORA.ajaxCall(spec);
+	}
+	function loadMethod(answer){
+		var xmlHttpRequest1 = document.getElementById("xmlHttpRequest1");
+		xmlHttpRequest1.textContent = answer.responseText;
+	}
 	function client1(metadataProvider, textProvider) {
 		var place = document.getElementById("client1");
 		var pubSub = CORA.pubSub();
@@ -379,50 +409,50 @@
 				textProvider);
 		var metadataId = "groupIdOneTextChildRepeat1to3";
 		var presentationId = "pgGroupIdOneTextChildMinimized";
-// 		var presentationId = "pgGroupIdRepeatingContainerRepeat1to3";
+		// 		var presentationId = "pgGroupIdRepeatingContainerRepeat1to3";
 
-// 		var data = {
-// 			"name" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
-// 			"children" : [ {
-// 				"name" : "textVarRepeat1to3InGroupOneAttribute",
-// 				"children" : [ {
-// 					"name" : "textVar",
-// 					"value" : "one",
-// 					"repeatId" : "1"
-// 				}, {
-// 					"name" : "textVar",
-// 					"value" : "two",
-// 					"repeatId" : "2"
-// 				} ],
-// 				"attributes" : {
-// 					"anAttribute" : "aFinalValue"
-// 				},
-// 				"repeatId" : "1"
-// 			}, {
-// 				"name" : "textVarRepeat1to3InGroupOneAttribute",
-// 				"children" : [ {
-// 					"name" : "textVar",
-// 					"value" : "three",
-// 					"repeatId" : "3"
-// 				} ],
-// 				"attributes" : {
-// 					"anAttribute" : "aFinalValue"
-// 				},
-// 				"repeatId" : "2"
-// 			}, {
-// 				"name" : "textVarRepeat1to3InGroupOneAttribute",
-// 				"children" : [ {
-// 					"name" : "textVar",
-// 					"value" : "four",
-// 					"repeatId" : "4"
-// 				} ],
-// 				"attributes" : {
-// 					"anOtherAttribute" : "aOtherFinalValue"
-// 				},
-// 				"repeatId" : "3"
-// 			} ]
-// 		};
-// 		var dependencies = dependenciesFactory.factor(metadataId, presentationId, data);
+		// 		var data = {
+		// 			"name" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
+		// 			"children" : [ {
+		// 				"name" : "textVarRepeat1to3InGroupOneAttribute",
+		// 				"children" : [ {
+		// 					"name" : "textVar",
+		// 					"value" : "one",
+		// 					"repeatId" : "1"
+		// 				}, {
+		// 					"name" : "textVar",
+		// 					"value" : "two",
+		// 					"repeatId" : "2"
+		// 				} ],
+		// 				"attributes" : {
+		// 					"anAttribute" : "aFinalValue"
+		// 				},
+		// 				"repeatId" : "1"
+		// 			}, {
+		// 				"name" : "textVarRepeat1to3InGroupOneAttribute",
+		// 				"children" : [ {
+		// 					"name" : "textVar",
+		// 					"value" : "three",
+		// 					"repeatId" : "3"
+		// 				} ],
+		// 				"attributes" : {
+		// 					"anAttribute" : "aFinalValue"
+		// 				},
+		// 				"repeatId" : "2"
+		// 			}, {
+		// 				"name" : "textVarRepeat1to3InGroupOneAttribute",
+		// 				"children" : [ {
+		// 					"name" : "textVar",
+		// 					"value" : "four",
+		// 					"repeatId" : "4"
+		// 				} ],
+		// 				"attributes" : {
+		// 					"anOtherAttribute" : "aOtherFinalValue"
+		// 				},
+		// 				"repeatId" : "3"
+		// 			} ]
+		// 		};
+		// 		var dependencies = dependenciesFactory.factor(metadataId, presentationId, data);
 		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
 
 		var view = dependencies.presentation.getView();
@@ -456,7 +486,7 @@
 		}
 		document.getElementById("client8DataButton").onclick = showData;
 	}
-	
+
 	function client9(metadataProvider, textProvider) {
 		var place = document.getElementById("client9");
 		var pubSub = CORA.pubSub();
@@ -476,72 +506,78 @@
 			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
 		}
 		document.getElementById("client9DataButton").onclick = showData;
-		
-		
-		
-// 		var spec = {
-// 				"presentationId" : presentationId,
-// 				"metadataProvider" : metadataProvider,
-// 				"pubSub" : pubSub,
-// 				"textProvider" : textProvider,
-// 				"jsBookkeeper" : dependencies.jsBookkeeper,
-// 				"presentationFactory" : dependencies.presentationFactory
-// 			};
-// 			var presentation2 = CORA.presentation(spec);
-			place.appendChild(dependencies.presentation2.getView());
 
-		
+		// 		var spec = {
+		// 				"presentationId" : presentationId,
+		// 				"metadataProvider" : metadataProvider,
+		// 				"pubSub" : pubSub,
+		// 				"textProvider" : textProvider,
+		// 				"jsBookkeeper" : dependencies.jsBookkeeper,
+		// 				"presentationFactory" : dependencies.presentationFactory
+		// 			};
+		// 			var presentation2 = CORA.presentation(spec);
+		place.appendChild(dependencies.presentation2.getView());
+
 	}
 </script>
 </head>
 <body>
+	<h1>XMLHttpRequest</h1>
+
+	<h2>XMLHttpRequest 1</h2>
+	<div id="xmlHttpRequest1" class="xmlHttpRequest1"
+		style="min-height: 20px; min-width: 40px;"></div>
+
 	<h1>JSClient</h1>
 
 	<h2>JSClient 1</h2>
-	<div id="client1" class="client1" style=" min-height: 20px; min-width: 40px;"></div>
+	<div id="client1" class="client1"
+		style="min-height: 20px; min-width: 40px;"></div>
 
 	<h2>JSClient 2</h2>
-	<div id="client2" class="client2" style=" min-height: 20px; min-width: 40px;"></div>
+	<div id="client2" class="client2"
+		style="min-height: 20px; min-width: 40px;"></div>
 
 	<h2>JSClient 3(group in group)</h2>
-	<div id="client3" class="client3" style=" min-height: 20px; min-width: 40px;"></div>
+	<div id="client3" class="client3"
+		style="min-height: 20px; min-width: 40px;"></div>
 
 	<h2>JSClient 4 (repeatingContainer)</h2>
-	<div id="client4" class="client4" style=" min-height: 20px; min-width: 40px;">
-	</div>
+	<div id="client4" class="client4"
+		style="min-height: 20px; min-width: 40px;"></div>
 	<div id="client4Data"></div>
 	<input id="client4DataButton" type="button" value="Show data"></input>
 
 	<h2>JSClient 5 (surroundingContainer)</h2>
-	<div id="client5" class="client5" style="min-height: 20px; min-width: 40px;">
-	</div>
+	<div id="client5" class="client5"
+		style="min-height: 20px; min-width: 40px;"></div>
 	<div id="client5Data"></div>
 	<input id="client5DataButton" type="button" value="Show data"></input>
 
 	<h2>JSClient 6 (groups has same nameInData different attributes)</h2>
-	<div id="client6" class="client6" style=" min-height: 20px; min-width: 40px;">
-	</div>
+	<div id="client6" class="client6"
+		style="min-height: 20px; min-width: 40px;"></div>
 	<div id="client6Data"></div>
 	<input id="client6DataButton" type="button" value="Show data"></input>
-	
+
 	<h2>JSClient 7 (minimized)</h2>
-	<div id="client7" class="client7" style=" min-height: 20px; min-width: 40px;">
-	</div>
+	<div id="client7" class="client7"
+		style="min-height: 20px; min-width: 40px;"></div>
 	<div id="client7Data"></div>
 	<input id="client7DataButton" type="button" value="Show data"></input>
-	
+
 	<h2>JSClient 8 (select)</h2>
-	<div id="client8" class="client8" style=" min-height: 20px; min-width: 40px;">
-	</div>
+	<div id="client8" class="client8"
+		style="min-height: 20px; min-width: 40px;"></div>
 	<div id="client8Data"></div>
 	<input id="client8DataButton" type="button" value="Show data"></input>
-	
+
 	<h2>JSClient 9 (text)</h2>
-	<div id="client9" class="client9" style=" min-height: 20px; min-width: 40px;">
-	</div>
+	<div id="client9" class="client9"
+		style="min-height: 20px; min-width: 40px;"></div>
 	<div id="client9Data"></div>
 	<input id="client9DataButton" type="button" value="Show data"></input>
-	
+
 </body>
 </html>
 
