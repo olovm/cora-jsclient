@@ -18,7 +18,7 @@
  */
 "use strict";
 
-QUnit.module("ajaxCall.js", {
+QUnit.module("ajaxCallTest.js", {
 	beforeEach : function() {
 	},
 	afterEach : function() {
