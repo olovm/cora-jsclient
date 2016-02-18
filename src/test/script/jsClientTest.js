@@ -51,12 +51,44 @@ QUnit.test("init", function(assert) {
 	var sideBar = mainView.childNodes[1];
 	assert.strictEqual(sideBar.className, "sideBar");
 
+	var workArea = mainView.childNodes[2];
+	assert.strictEqual(workArea.className, "workArea");
+
 	var recordTypeList = jsClient.getRecordTypeList();
-//	console.log(recordTypeList)
+	// console.log(recordTypeList)
 	assert.strictEqual(recordTypeList.length, 15);
-	
+
 	var firstRecordType = sideBar.childNodes[0];
 	assert.strictEqual(firstRecordType.className, "recordType");
 	assert.strictEqual(firstRecordType.innerHTML, "presentationVar");
+});
+
+QUnit.test("showView", function(assert) {
+	var recordTypeListData = CORATEST.recordTypeList;
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	
+	var spec = {
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"name" : "The Client",
+			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+	};
+	var jsClient = CORA.jsClient(spec);
+	var mainView = jsClient.getView();
+
+	var workAreaChildren = mainView.childNodes[2].childNodes;
+	assert.strictEqual(workAreaChildren.length, 0);
+	
+	var aView = document.createElement("span");
+	jsClient.showView(aView);
+	assert.strictEqual(workAreaChildren[0], aView);
+	
+	var aDifferentView = document.createElement("span");
+	jsClient.showView(aDifferentView);
+	assert.strictEqual(workAreaChildren[0], aDifferentView);
 
 });

@@ -23,7 +23,8 @@ var CORA = (function(cora) {
 		var recordTypeList = [];
 		var mainView = createMainView();
 		var sideBar;
-
+		var workArea;
+		
 		fetchRecordTypeListAndThen(processFetchedRecordTypes);
 
 		function createMainView() {
@@ -38,6 +39,10 @@ var CORA = (function(cora) {
 			sideBar = document.createElement("span");
 			sideBar.className = "sideBar";
 			view.appendChild(sideBar);
+			
+			workArea = document.createElement("span");
+			workArea.className = "workArea";
+			view.appendChild(workArea);
 
 			return view;
 		}
@@ -96,9 +101,18 @@ var CORA = (function(cora) {
 		function getRecordTypeList() {
 			return recordTypeList;
 		}
+		
+		function showView(viewToShow){
+			if(workArea.childNodes.length > 0){
+				workArea.removeChild(workArea.firstChild);
+			}
+			workArea.appendChild(viewToShow);
+		}
+		
 		var out = Object.freeze({
 			getView : getView,
-			getRecordTypeList : getRecordTypeList
+			getRecordTypeList : getRecordTypeList,
+			showView:showView
 		});
 		return out;
 	};
