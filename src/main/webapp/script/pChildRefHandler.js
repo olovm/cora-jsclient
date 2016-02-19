@@ -96,7 +96,6 @@ var CORA = (function(cora) {
 
 			// dragging
 			childrenViewNew.ondragstart = dragstartHandler;
-			// childrenViewNew.addEventListener("ondragstart",dragstartHandler);
 			childrenViewNew.ondragover = dragoverHandler;
 			childrenViewNew.ondragenter = dragenterHandler;
 			childrenViewNew.ondrop = dropHandler;
@@ -238,28 +237,14 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsg(dataFromMsg, msg) {
-//			console.log("move in pChild---:"+msg)
-			if (dataFromMsg!== undefined && metadataId === dataFromMsg.metadataId) {
-//				console.log("move in pChild---")
+			if (dataFromMsg !== undefined && metadataId === dataFromMsg.metadataId) {
 				if (msg.endsWith("move")) {
 					move(dataFromMsg, msg);
-//					console.log("move in pChild---")
-				}else{
+				} else {
 					add(dataFromMsg.repeatId);
 				}
 			}
 		}
-//		function handleMsgMove(dataFromMsg, msg) {
-//			console.log("move in pChild---")
-//			if (metadataId === dataFromMsg.metadataId) {
-//				console.log("move in pChild---")
-//				if (msg.endsWith("move")) {
-//					move(dataFromMsg, msg);
-//					console.log("move in pChild---")
-//				}
-//				add(dataFromMsg.repeatId);
-//			}
-//		}
 
 		function add(repeatId) {
 			noOfRepeating++;
@@ -403,29 +388,18 @@ var CORA = (function(cora) {
 		}
 
 		function move(dataFromMsg, msg) {
-//			console.log("in move");
-//			console.log(JSON.stringify(msg));
-//			console.log(JSON.stringify(dataFromMsg));
 			var repeatingElements = childrenView.childNodes;
 			var length = repeatingElements.length;
 			var moveChild;
 			var basePositionOnChild;
-//			console.log("in move2");
-//			console.log(JSON.stringify(dataFromMsg.moveChild));
-//			console.log(dataFromMsg.basePositionOnChild);
-//			console.log("in move3");
 			for (var i = 0; i < length; i++) {
-				// repeatingElements[i].modelObject.hideRemoveButton();
-//				console.log(JSON.stringify(repeatingElements[i].modelObject.getPath()));
 				if (JSON.stringify(dataFromMsg.moveChild) === JSON
 						.stringify(repeatingElements[i].modelObject.getPath())) {
 					moveChild = repeatingElements[i];
-//					console.log("1");
 				}
 				if (JSON.stringify(dataFromMsg.basePositionOnChild) === JSON
 						.stringify(repeatingElements[i].modelObject.getPath())) {
 					basePositionOnChild = repeatingElements[i];
-//					console.log("2");
 				}
 			}
 			if (dataFromMsg.newPosition === "after") {
@@ -448,8 +422,7 @@ var CORA = (function(cora) {
 		}
 
 		function updateChildrenRemoveButtonVisibility() {
-			// can not use Object.keys(repeatingElements) as phantomJs can't
-			// handle it
+			// can not use Object.keys(repeatingElements) as phantomJs can't handle it
 			if (minLimitOfChildrenReached()) {
 				hideChildrensRemoveButton();
 			} else {

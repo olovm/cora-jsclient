@@ -287,7 +287,7 @@ QUnit.test("testDraggingDragenterIsDraggingChangeOrder", function(assert) {
 	var eventSpy2 = CORATEST.eventSpy();
 	eventSpy2.target = secondChild;
 	eventSpy2.screenY = "50";
-//	console.log("event.screenY: " + eventSpy2.screenY)
+	// console.log("event.screenY: " + eventSpy2.screenY)
 
 	// dragover
 	childRefHandler.dragenterHandler(eventSpy2);
@@ -423,7 +423,7 @@ QUnit.test("testDragendDraggingChangeOrder", function(assert) {
 	var eventSpy2 = CORATEST.eventSpy();
 	eventSpy2.target = secondChild;
 	eventSpy2.screenY = "50";
-//	console.log("event.screenY: " + eventSpy2.screenY)
+	// console.log("event.screenY: " + eventSpy2.screenY)
 
 	// dragover
 	childRefHandler.dragenterHandler(eventSpy2);
@@ -446,7 +446,7 @@ QUnit.test("testDragendDraggingChangeOrder", function(assert) {
 
 	var moveData = {
 		"path" : {},
-		"metadataId":"textVariableId",
+		"metadataId" : "textVariableId",
 		"moveChild" : {
 			"name" : "linkedPath",
 			"children" : [ {
@@ -475,43 +475,41 @@ QUnit.test("testDragendDraggingChangeOrder", function(assert) {
 QUnit.test("testHandleMoveMessage", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
-	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
-	
+	var pChildRefHandler = attachedPChildRefHandler.pChildRefHandler;
+
 	var view = attachedPChildRefHandler.view;
 	var childrenView = view.firstChild;
-	attachedPChildRefHandler.pChildRefHandler.add("one");
-	attachedPChildRefHandler.pChildRefHandler.add("two");
-	
-	var firstChild = childrenView.childNodes[0];
+	pChildRefHandler.add("one");
+	pChildRefHandler.add("two");
+
 	var secondChild = childrenView.childNodes[1];
-	
-	
+
 	var moveData = {
-			"path" : {},
-			"metadataId":"textVariableId",
-			"moveChild" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "textVariableId"
-				}, {
-					"name" : "repeatId",
-					"value" : "one"
-				} ]
-			},
-			"basePositionOnChild" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "textVariableId"
-				}, {
-					"name" : "repeatId",
-					"value" : "two"
-				} ]
-			},
-			"newPosition" : "after"
+		"path" : {},
+		"metadataId" : "textVariableId",
+		"moveChild" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatId",
+				"value" : "one"
+			} ]
+		},
+		"basePositionOnChild" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatId",
+				"value" : "two"
+			} ]
+		},
+		"newPosition" : "after"
 	};
-	attachedPChildRefHandler.pChildRefHandler.handleMsg(moveData, "x/y/z/move");
+	pChildRefHandler.handleMsg(moveData, "x/y/z/move");
 
 	// order
 	assert.strictEqual(childrenView.childNodes[0], secondChild);
@@ -519,44 +517,41 @@ QUnit.test("testHandleMoveMessage", function(assert) {
 QUnit.test("testHandleMoveMessage", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
-	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
-	
+	var pChildRefHandler = attachedPChildRefHandler.pChildRefHandler;
+
 	var view = attachedPChildRefHandler.view;
 	var childrenView = view.firstChild;
-	attachedPChildRefHandler.pChildRefHandler.add("one");
-	attachedPChildRefHandler.pChildRefHandler.add("two");
-	
-	var firstChild = childrenView.childNodes[0];
+	pChildRefHandler.add("one");
+	pChildRefHandler.add("two");
+
 	var secondChild = childrenView.childNodes[1];
-	
-	
+
 	var moveData = {
-			"path" : {},
-			"metadataId":"textVariableId",
-			"moveChild" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "textVariableId"
-				}, {
-					"name" : "repeatId",
-					"value" : "one"
-				} ]
-			},
-			"basePositionOnChild" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "textVariableId"
-				}, {
-					"name" : "repeatId",
-					"value" : "two"
-				} ]
-			},
-			"newPosition" : "before"
+		"path" : {},
+		"metadataId" : "textVariableId",
+		"moveChild" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatId",
+				"value" : "one"
+			} ]
+		},
+		"basePositionOnChild" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatId",
+				"value" : "two"
+			} ]
+		},
+		"newPosition" : "before"
 	};
-	attachedPChildRefHandler.pChildRefHandler.handleMsg(moveData, "x/y/z/move");
-	
+	pChildRefHandler.handleMsg(moveData, "x/y/z/move");
 	// order
 	assert.strictEqual(childrenView.childNodes[1], secondChild);
 });
@@ -589,7 +584,7 @@ QUnit.test("testInitRepeatingVariableNoOfChildren", function(assert) {
 	assert.strictEqual(firstSubsription.type, "add");
 	assert.deepEqual(firstSubsription.path, {});
 	assert.ok(firstSubsription.functionToCall === childRefHandler.handleMsg);
-	
+
 	var secondSubscription = subscriptions[1];
 	assert.strictEqual(secondSubscription.type, "move");
 	assert.deepEqual(firstSubsription.path, {});
