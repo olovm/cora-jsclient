@@ -72,6 +72,8 @@ var CORA = (function(cora) {
 		
 		function move(data){
 			pubSub.publish("move", data);
+//			console.log("publish move");
+//			console.log(JSON.stringify(data));
 		}
 		
 		return Object.freeze({

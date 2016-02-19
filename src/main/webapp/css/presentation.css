@@ -179,6 +179,7 @@ input {
 	opacity: 0;
 	transition: opacity 0.5s ease 0s;
 	z-index: 101;
+	cursor: move;
 }
 
 .dragButton:hover::after {
