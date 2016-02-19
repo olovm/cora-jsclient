@@ -3,11 +3,13 @@ html {
 	height: calc(100% - 2rem);
 	padding: 0px;
 }
+
 body {
 	margin: 0px;
 	height: 100%;
 	padding: 0px;
 }
+
 .jsClient.mainView {
 	height: 100%;
 	height: calc(100% - 2rem - 2px);
@@ -17,21 +19,26 @@ body {
 	border-radius: .3rem;
 	margin: 2rem;
 	border-color: #B6B0A2;
-	position: relative;	
+	position: relative;
 	display: block;
 	overflow: hidden;
 }
-.jsClient > .header {
+
+.jsClient>.header {
 	display: block;
 	height: 9rem;
 	font-size: 7rem;
 	text-align: center;
 	color: magenta;
-	text-shadow: 5px 5px 8px #0040f6;
+	text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, -1px 1px 0px #000,
+		1px -1px 0px #000, 5px 5px 8px #0040f6;
+	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
 	border-bottom: 1px solid;
 	border-color: inherit;
+	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
 }
-.jsClient > .sideBar {
+
+.jsClient>.sideBar {
 	display: inline-block;
 	height: calc(100% - 9rem - 2rem - 1px);
 	overflow: auto;
@@ -41,25 +48,97 @@ body {
 	border-color: inherit;
 	position: relative;
 }
-.sideBar > .recordType {
+
+.sideBar>.recordType {
 	display: block;
-	border-bottom: 1px dashed;
+	/* 	border-bottom: 1px dashed; */
 	border-color: inherit;
 	margin-bottom: 1rem;
 	margin-top: 1rem;
-	padding: .2rem;
-/* 	transition: zoom 0.5s ease 0s; */
+	/* 	padding: .2rem; */
+	/* 	transition: zoom 0.5s ease 0s; */
+	width: 100%;
 }
-.sideBar > .recordType:hover {
-/* 	transform: scale(1.1);	 */
+
+.sideBar>.recordType>.header {
+	padding: .2rem;
+}
+
+.sideBar>.recordType .header:hover, .sideBar>.recordType .childrenView span:hover
+	{
+	/* 	transform: scale(1.1);	 */
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-.jsClient > .workArea{
+.sideBar>.recordType .header {
+	border-bottom: 1px dashed;
+	border-color: inherit;
+}
+
+.recordType .childrenView {
+	display: block;
+	width: 100%;
+	/* 	border-bottom: 1px solid; */
+	border-color: inherit;
+	/* 	background-color: cyan; */
+	background-color: rgba(180, 216, 216, 0.07);
+}
+
+.recordType .childrenView span {
+	border-left: 1px solid;
+	border-right: 1px solid;
+	border-color: inherit;
+	padding: .2rem;
+	padding-left: .4rem;
+}
+
+.recordType .childrenView span:nth-child(odd) {
+	/* 	display: block; */
+	/* 	width: 100%; */
+	/* 	border-bottom: 1px solid; */
+	border-color: inherit;
+	/* 	background-color: cyan; */
+	background-color: rgba(63, 77, 77, 0.09);
+}
+
+.recordType .childrenView span:last-child {
+	/* 	display: block; */
+	/* 	width: 100%; */
+	border-bottom: 1px solid;
+	border-color: inherit;
+	/* 	background-color: cyan; */
+	/* 	background-color: rgba(180, 216, 216, 0.07); */
+}
+
+/* .recordType .childrenView span { */
+.recordType  span {
+	display: block;
+	/* 	width: 100%; */
+	/* 	border: 1px dotted; */
+	/* 	border-color: inherit; */
+	/* 	background-color: #2074d8; */
+}
+
+.jsClient>.workArea {
 	position: absolute;
 	display: inline-block;
-	width: calc(100% - 22rem - 1px);
-	height: calc(100% - 9rem - 1px);
-/* 	background-color: gray; */
+	width: calc(100% - 24rem - 1px);
+	height: calc(100% - 11rem - 1px);
+	/* 	background-color: gray; */
+	margin: 1rem;
+}
+
+.workArea .workView {
+	position: absolute;
+	display: inline-block;
+	width: calc(100% - 2rem);
+	height: calc(100% - 2rem);
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+
+.workArea .workView >.presentation {
+	box-shadow: none;
 }

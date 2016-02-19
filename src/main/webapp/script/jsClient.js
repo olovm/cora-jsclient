@@ -24,7 +24,7 @@ var CORA = (function(cora) {
 		var mainView = createMainView();
 		var sideBar;
 		var workArea;
-		
+		var recordGuiFactory = CORA.recordGuiFactory(spec.dependencies);
 		fetchRecordTypeListAndThen(processFetchedRecordTypes);
 
 		function createMainView() {
@@ -39,7 +39,7 @@ var CORA = (function(cora) {
 			sideBar = document.createElement("span");
 			sideBar.className = "sideBar";
 			view.appendChild(sideBar);
-			
+
 			workArea = document.createElement("span");
 			workArea.className = "workArea";
 			view.appendChild(workArea);
@@ -49,7 +49,7 @@ var CORA = (function(cora) {
 
 		function fetchRecordTypeListAndThen(callAfterAnswer) {
 			var recordListSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"xmlHttpRequestFactory" : spec.dependencies.xmlHttpRequestFactory,
 				"method" : "GET",
 				"url" : spec.baseUrl + "record/recordType",
 				"contentType" : "application/uub+record+json",
@@ -79,19 +79,15 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordTypeToSideBar(record) {
-			var id = getIdFromRecord(record);
+			var specRecord = {
+				"xmlHttpRequestFactory" : spec.dependencies.xmlHttpRequestFactory,
+				"recordGuiFactory" : recordGuiFactory,
+				"record" : record,
+				"jsClient" : mainView.modelObject
+			};
 
-			var recordTypeView = document.createElement("span");
-			recordTypeView.className = "recordType";
-			sideBar.appendChild(recordTypeView);
-
-			recordTypeView.textContent = id;
-		}
-
-		function getIdFromRecord(record) {
-			var cData = CORA.coraData(record.data);
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			return cRecordInfo.getFirstAtomicValueByNameInData("id");
+			var recordTypeHandler = CORA.recordTypeHandler(specRecord);
+			sideBar.appendChild(recordTypeHandler.getView());
 		}
 
 		function getView() {
@@ -101,19 +97,20 @@ var CORA = (function(cora) {
 		function getRecordTypeList() {
 			return recordTypeList;
 		}
-		
-		function showView(viewToShow){
-			if(workArea.childNodes.length > 0){
+
+		function showView(viewToShow) {
+			if (workArea.childNodes.length > 0) {
 				workArea.removeChild(workArea.firstChild);
 			}
 			workArea.appendChild(viewToShow);
 		}
-		
+
 		var out = Object.freeze({
 			getView : getView,
 			getRecordTypeList : getRecordTypeList,
-			showView:showView
+			showView : showView
 		});
+		mainView.modelObject = out;
 		return out;
 	};
 	return cora;

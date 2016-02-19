@@ -1232,6 +1232,822 @@ var CORATEST = (function(coraTest) {
 						"type" : "textVariable"
 					}
 				};
+			case "recordTypeGroup":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "recordTypeGroup"
+						}, {
+							"name" : "type",
+							"value" : "metadataGroup"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "recordType"
+					}, {
+						"name" : "textId",
+						"value" : "recordTypeText"
+					}, {
+						"name" : "defTextId",
+						"value" : "recordTypeDefText"
+					}, {
+						"children" : [ {
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "metadataIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "2",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "abstractTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "3",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "parentIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "0"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "4",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "recordInfo"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "5",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "presentationViewIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "6",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "presentationFormIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "7",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "newMetadataIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "8",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "newPresentationFormIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "9",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "listPresentationViewIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "10",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "searchMetadataIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "11",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "searchPresentationFormIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "12",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "userSuppliedIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "13",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "permissionKeyTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "14",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "selfPresentationViewIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						} ],
+						"name" : "childReferences"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "group"
+					}
+				};
+			case "metadataIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "metadataIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "metadataId"
+					}, {
+						"name" : "textId",
+						"value" : "metadataIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "metadataIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "abstractTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "abstractTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "abstract"
+					}, {
+						"name" : "textId",
+						"value" : "abstractTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "abstractTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "^true$|^false$"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "parentIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "parentIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "parentId"
+					}, {
+						"name" : "textId",
+						"value" : "parentIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "parentIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "recordInfo":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "recordInfo"
+						}, {
+							"name" : "type",
+							"value" : "metadataGroup"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "recordInfo"
+					}, {
+						"name" : "textId",
+						"value" : "recordInfoText"
+					}, {
+						"name" : "defTextId",
+						"value" : "recordInfoDefText"
+					}, {
+						"children" : [ {
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "idTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "2",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "typeTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "3",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "createdByTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "1"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						} ],
+						"name" : "childReferences"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "group"
+					}
+				};
+			case "typeTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "typeTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "type"
+					}, {
+						"name" : "textId",
+						"value" : "typeTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "typeTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "createdByTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "createdByTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "createdBy"
+					}, {
+						"name" : "textId",
+						"value" : "createdByTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "createdByTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "presentationViewIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "presentationViewIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "presentationViewId"
+					}, {
+						"name" : "textId",
+						"value" : "presentationViewIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "presentationViewIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "presentationFormIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "presentationFormIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "presentationFormId"
+					}, {
+						"name" : "textId",
+						"value" : "presentationFormIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "presentationFormIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "newMetadataIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "newMetadataIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "newMetadataId"
+					}, {
+						"name" : "textId",
+						"value" : "newMetadataIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "newMetadataIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "newPresentationFormIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "newPresentationFormIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "newPresentationFormId"
+					}, {
+						"name" : "textId",
+						"value" : "newPresentationFormIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "newPresentationFormIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "listPresentationViewIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "listPresentationViewIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "listPresentationViewId"
+					}, {
+						"name" : "textId",
+						"value" : "listPresentationViewIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "listPresentationViewIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "searchMetadataIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "searchMetadataIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "searchMetadataId"
+					}, {
+						"name" : "textId",
+						"value" : "searchMetadataIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "searchMetadataIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "searchPresentationFormIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "searchPresentationFormIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "searchPresentationFormId"
+					}, {
+						"name" : "textId",
+						"value" : "searchPresentationFormIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "searchPresentationFormIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "userSuppliedIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "userSuppliedIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "userSuppliedId"
+					}, {
+						"name" : "textId",
+						"value" : "userSuppliedIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "userSuppliedIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "^true$|^false$"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "permissionKeyTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "permissionKeyTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "permissionKey"
+					}, {
+						"name" : "textId",
+						"value" : "permissionKeyTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "permissionKeyTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[A-Z\\_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
+			case "selfPresentationViewIdTextVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "selfPresentationViewIdTextVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "selfPresentationViewId"
+					}, {
+						"name" : "textId",
+						"value" : "selfPresentationViewIdTextVarText"
+					}, {
+						"name" : "defTextId",
+						"value" : "selfPresentationViewIdTextVarDefText"
+					}, {
+						"name" : "regEx",
+						"value" : "(^[0-9A-Za-z:-_]{2,50}$)"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "textVariable"
+					}
+				};
 			case "":
 				return;
 				// presentation
@@ -1413,18 +2229,18 @@ var CORATEST = (function(coraTest) {
 						"value" : "textPartEnGroup"
 					}, {
 						"name" : "childReferences",
-						"children" : [ 
-//						               {
-//							"name" : "childReference",
-//							"repeatId" : "1",
-//							"children" : [ {
-//								"name" : "ref",
-//								"value" : "textPartEnPGroupText"
-//							}, {
-//								"name" : "default",
-//								"value" : "ref"
-//							} ]
-//						}, 
+						"children" : [
+						// {
+						// "name" : "childReference",
+						// "repeatId" : "1",
+						// "children" : [ {
+						// "name" : "ref",
+						// "value" : "textPartEnPGroupText"
+						// }, {
+						// "name" : "default",
+						// "value" : "ref"
+						// } ]
+						// },
 						{
 							"name" : "childReference",
 							"repeatId" : "1",
@@ -1499,8 +2315,116 @@ var CORATEST = (function(coraTest) {
 						"value" : "output"
 					} ]
 				};
-
+			case "recordTypePGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson("recordTypePGroup") ].concat([ {
+						"name" : "presentationOf",
+						"value" : "recordTypeGroup"
+					}, {
+						"name" : "childReferences",
+						"children" : [ {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "recordTypePGroupText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						},{
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "recordInfoPGroup"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
+			case "recordInfoPGroup":
+				return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson("recordInfoPGroup") ].concat([ {
+					"name" : "presentationOf",
+					"value" : "recordInfo"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "idTextOutputPVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
+			case "idTextOutputPVar":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pVar"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "idTextTextOutputPVar"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "idTextVar"
+					}, {
+						"name" : "mode",
+						"value" : "output"
+					} ]
+				};
 				// Text
+			case "recordTypePGroupText":
+				return {
+					"name" : "text",
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "recordTypePGroupText"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "default",
+							"lang" : "sv"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Posttyp"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "alternative",
+							"lang" : "en"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Record type"
+						} ]
+					} ]
+				};
 			case "textSystemOneNewPGroupText":
 				return {
 					"name" : "text",

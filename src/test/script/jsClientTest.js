@@ -34,13 +34,30 @@ QUnit.test("init", function(assert) {
 		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 
-	var spec = {
+	var dependencies = {
+		"metadataProvider" : CORATEST.metadataProviderRealStub(),
+		"textProvider" : CORATEST.textProviderRealStub(),
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"presentationFactoryFactory" : "not implemented yet"
+	}
+	var spec = {
+		"dependencies" : dependencies,
 		"name" : "The Client",
 		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 	};
 	var jsClient = CORA.jsClient(spec);
 	var mainView = jsClient.getView();
+
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
+			"http://epc.ub.uu.se/cora/rest/record/recordType");
+	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
+			"application/uub+recordList+json");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
+			"application/uub+record+json");
+
+	assert.strictEqual(mainView.modelObject, jsClient);
 
 	assert.strictEqual(mainView.className, "jsClient mainView");
 
@@ -60,7 +77,7 @@ QUnit.test("init", function(assert) {
 
 	var firstRecordType = sideBar.childNodes[0];
 	assert.strictEqual(firstRecordType.className, "recordType");
-	assert.strictEqual(firstRecordType.innerHTML, "presentationVar");
+	assert.strictEqual(firstRecordType.firstChild.textContent, "presentationVar");
 });
 
 QUnit.test("showView", function(assert) {
@@ -71,22 +88,28 @@ QUnit.test("showView", function(assert) {
 		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
 		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
-	
+
+	var dependencies = {
+		"metadataProvider" : CORATEST.metadataProviderRealStub(),
+		"textProvider" : CORATEST.textProviderRealStub(),
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"presentationFactoryFactory" : "not implemented yet"
+	}
 	var spec = {
-			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-			"name" : "The Client",
-			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+		"dependencies" : dependencies,
+		"name" : "The Client",
+		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 	};
 	var jsClient = CORA.jsClient(spec);
 	var mainView = jsClient.getView();
 
 	var workAreaChildren = mainView.childNodes[2].childNodes;
 	assert.strictEqual(workAreaChildren.length, 0);
-	
+
 	var aView = document.createElement("span");
 	jsClient.showView(aView);
 	assert.strictEqual(workAreaChildren[0], aView);
-	
+
 	var aDifferentView = document.createElement("span");
 	jsClient.showView(aDifferentView);
 	assert.strictEqual(workAreaChildren[0], aDifferentView);

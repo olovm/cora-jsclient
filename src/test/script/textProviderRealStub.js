@@ -31,6 +31,8 @@ var CORATEST = (function(coraTest) {
 				return "Svenska";
 			case "textPartEnPGroupText":
 				return "Engelska";
+			case "recordTypePGroupText":
+				return "Posttyp";
 			default:
 				console.log("Id(" + textId + ") not found in textProviderRealStub");
 //				throw new Error("Id(" + textId + ") not found in textProviderRealStub");
