@@ -19,7 +19,7 @@
  */
 "use strict";
 
-QUnit.module("CORA.DataHolder", {
+QUnit.module("dataHolderTest.js", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();

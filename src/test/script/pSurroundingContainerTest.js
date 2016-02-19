@@ -62,7 +62,7 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
-QUnit.module("CORA.pSurroundingContainer", {
+QUnit.module("pSurroundingContainerTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();

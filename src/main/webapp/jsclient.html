@@ -24,16 +24,19 @@
 <meta charset="UTF-8"></meta>
 <title>JSClient</title>
 <link rel="stylesheet" type="text/css" href="css/presentation.css"></link>
+<link rel="stylesheet" type="text/css" href="css/jsClient.css"></link>
 
 <script type="text/javascript" src="script/aCoraNameSpace.js"></script>
 
 <script type="text/javascript" src="script/lib/arbiter.js"></script>
 <script type="text/javascript" src="script/lib/polyfillES6.js"></script>
 
+<script type="text/javascript" src="script/ajaxCall.js"></script>
 <script type="text/javascript" src="script/coraData.js"></script>
 <script type="text/javascript" src="script/coraPubSub.js"></script>
 <script type="text/javascript" src="script/dataHolder.js"></script>
 <script type="text/javascript" src="script/jsBookkeeper.js"></script>
+<script type="text/javascript" src="script/jsClient.js"></script>
 <script type="text/javascript" src="script/metadataChildInitializer.js"></script>
 <script type="text/javascript" src="script/metadataController.js"></script>
 <script type="text/javascript" src="script/metadataRepeatInitializer.js"></script>
@@ -47,6 +50,7 @@
 <script type="text/javascript" src="script/presentationFactory.js"></script>
 <script type="text/javascript" src="script/pVar.js"></script>
 <script type="text/javascript" src="script/textProvider.js"></script>
+<script type="text/javascript" src="script/xmlHttpRequestFactory.js"></script>
 
 <script type="text/javascript"
 	src="../../test/script/metadataProviderStub.js"></script>
@@ -134,6 +138,9 @@
 
 	window.onload = start;
 	function start() {
+		startJsClient();
+		getStuffFromServer();
+
 		var metadataProvider = new MetadataProviderStub();
 		var textProvider = CORATEST.textProviderStub();
 		client1(metadataProvider, textProvider);
@@ -151,6 +158,38 @@
 
 	}
 
+	function startJsClient() {
+		var spec = {
+			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+			"name" : "The Client",
+			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+		};
+		var jsClient = CORA.jsClient(spec);
+		document.body.appendChild(jsClient.getView());
+	}
+
+	function getStuffFromServer() {
+		var spec = {
+			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+			"timeoutInMS" : 1000,
+			"timeoutMethod" : function() {
+				alert("timeout");
+			},
+			"method" : "GET",
+			"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
+			"contentType" : "application/uub+record+json",
+			"accept" : "application/uub+record+json",
+			"loadMethod" : loadMethod,
+			"errorMethod" : function(error) {
+				alert("error" + error.status);
+			},
+		};
+		CORA.ajaxCall(spec);
+	}
+	function loadMethod(answer) {
+		var xmlHttpRequest1 = document.getElementById("xmlHttpRequest1");
+		xmlHttpRequest1.textContent = answer.responseText;
+	}
 	function client1(metadataProvider, textProvider) {
 		var place = document.getElementById("client1");
 		var pubSub = CORA.pubSub();
@@ -520,6 +559,12 @@
 </script>
 </head>
 <body>
+	<h1>XMLHttpRequest</h1>
+
+	<h2>XMLHttpRequest 1</h2>
+	<div id="xmlHttpRequest1" class="xmlHttpRequest1"
+		style="min-height: 20px; min-width: 40px;"></div>
+
 	<h1>JSClient</h1>
 
 	<h2>JSClient 1</h2>

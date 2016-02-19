@@ -1,0 +1,35 @@
+body {
+	margin: 0;
+}
+.jsClient.mainView {
+	background-color: magenta;
+	border: 1px solid black;
+}
+.jsClient > .header {
+	display: block;
+	min-height: 3rem;
+	background-color: lime;
+	font-size: 7rem;
+	text-align: center;
+}
+.jsClient > .sideBar {
+	background-color: yellow;
+	padding: 1rem;
+	min-width: 10rem;
+	display: inline-block;
+}
+.sideBar > .recordType {
+	display: block;
+	border: 1px solid blue;
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+	padding: .2rem;
+	border-radius: .3rem;
+	box-shadow: 5px 5px 8px #aeaeae;
+	
+/* 	transition: zoom 0.5s ease 0s; */
+}
+.sideBar > .recordType:hover {
+/* 	transform: scale(1.1);	 */
+	background-color: green;
+}

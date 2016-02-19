@@ -34,7 +34,7 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
-QUnit.module("CORA.textProvider", {
+QUnit.module("textProviderTest.js", {
 	beforeEach : function() {
 		var metadataProvider = new MetadataProviderStub();
 		this.textProviderFactory = CORATEST.textProviderFactory(metadataProvider);

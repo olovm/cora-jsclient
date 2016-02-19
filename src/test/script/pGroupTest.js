@@ -74,7 +74,7 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
-QUnit.module("CORA.pGroup", {
+QUnit.module("pGroupTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();

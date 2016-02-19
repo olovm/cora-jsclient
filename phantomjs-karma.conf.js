@@ -57,7 +57,7 @@ module.exports = function (config) {
         },
 
         junitReporter: {
-            outputFile: 'target/surefire-reports/TEST-karma.xml',
+            outputFile: 'karma-reports/TEST-karma.xml',
             useBrowserName: false,
             suite: ''
         },

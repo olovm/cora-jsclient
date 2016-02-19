@@ -29,7 +29,7 @@
     </parent>
 
     <artifactId>jsclient</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>JS Client</name>
 
@@ -67,11 +67,11 @@
 
     <properties>
         <sonar.language>js</sonar.language>
+        <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
         <sonar.sources>src/main/webapp/script</sonar.sources>
         <sonar.tests>src/test/script/</sonar.tests>
         <sonar.exclusions>src/main/webapp/script/lib/**</sonar.exclusions>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.javascript.jstest.reportsPath>target/surefire-reports</sonar.javascript.jstest.reportsPath>
+        <sonar.genericcoverage.unitTestReportPaths>karma-reports/TEST-generic.xml</sonar.genericcoverage.unitTestReportPaths>
         <sonar.javascript.lcov.reportPath>karma-coverage/Firefox 44.0.0 (Ubuntu 0.0.0)/lcov.info</sonar.javascript.lcov.reportPath>
         <fitnesse.version>20151230</fitnesse.version>
     </properties>
@@ -260,6 +260,19 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>phantomjs</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.kelveden</groupId>
+                        <artifactId>maven-karma-plugin</artifactId>
+                        <configuration>
+                            <configFile>phantomjs-karma.conf.js</configFile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
-
 </project>

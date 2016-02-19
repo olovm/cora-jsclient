@@ -38,7 +38,7 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
-QUnit.module("CORA.jsBookkeeper", {
+QUnit.module("jsBookkeeperTest.js", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();

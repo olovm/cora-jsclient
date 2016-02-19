@@ -48,7 +48,7 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
-QUnit.module("CORA.pRepeatingElement", {
+QUnit.module("pRepeatingElementTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();

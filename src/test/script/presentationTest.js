@@ -54,7 +54,7 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
-QUnit.module("CORA.Presentation", {
+QUnit.module("presentationTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();
