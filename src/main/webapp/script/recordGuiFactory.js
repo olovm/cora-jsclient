@@ -21,7 +21,6 @@ var CORA = (function(cora) {
 	cora.recordGuiFactory = function(dependencies) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
-//		var factor = function(metadataId, presentationId, data) {
 		var factor = function(metadataId, data) {
 			var pubSub = CORA.pubSub();
 
@@ -31,7 +30,6 @@ var CORA = (function(cora) {
 				"pubSub" : pubSub
 			};
 			var dataHolder = CORA.dataHolder(specDataHolder);
-//			var dataHolder = {};
 
 			var specJSBookkeeper = {
 				"metadataId" : metadataId,
@@ -41,7 +39,6 @@ var CORA = (function(cora) {
 				"dataHolder" : dataHolder
 			};
 			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
-//			var jsBookkeeper = {};
 
 			var specPresentationFactory = {
 				"metadataProvider" : metadataProvider,
@@ -62,24 +59,9 @@ var CORA = (function(cora) {
 				};
 				return CORA.presentation(spec);
 			}
-			// var spec = {
-			// "presentationId" : presentationId,
-			// "metadataProvider" : metadataProvider,
-			// "pubSub" : pubSub,
-			// "textProvider" : textProvider,
-			// "jsBookkeeper" : jsBookkeeper,
-			// "presentationFactory" : presentationFactory
-			// };
-			// var presentation = CORA.presentation(spec);
-			// var presentation2 = CORA.presentation(spec);
 
-			// // log all messages
-			// pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
-			// console.log("msg: " + msg);
-			// console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
-			// });
 			var metadataController;
-			function start() {
+			function initMetadataControllerStartingGui() {
 				var specMetadataController = {
 					"metadataId" : metadataId,
 					"data" : data,
@@ -89,16 +71,18 @@ var CORA = (function(cora) {
 				metadataController = CORA.metadataController(specMetadataController);
 			}
 
+			function getMetadataController() {
+				return metadataController;
+			}
+
 			return Object.freeze({
 				pubSub : pubSub,
 				jsBookkeeper : jsBookkeeper,
 				presentationFactory : presentationFactory,
-				// presentation : presentation,
-				// presentation2 : presentation2,
 				dataHolder : dataHolder,
-				metadataController : metadataController,
+				getMetadataController : getMetadataController,
 				getPresentation : getPresentation,
-				start : start
+				initMetadataControllerStartingGui : initMetadataControllerStartingGui
 			});
 		};
 		return Object.freeze({

@@ -35,8 +35,6 @@ var CORA = (function(cora) {
 		childrenView.className = "childrenView";
 		view.appendChild(childrenView);
 
-		var recordList;
-
 		function getView() {
 			return view;
 		}
@@ -58,9 +56,7 @@ var CORA = (function(cora) {
 				"record" : spec.record,
 				"workView" : listItem.workView
 			};
-			var recordListHandler = CORA.recordListHandler(listHandlerSpec);
-
-			// fetchDataFromServer(processFetchedRecords);
+			CORA.recordListHandler(listHandlerSpec);
 		}
 		function createListItem(text) {
 			var item = document.createElement("span");
@@ -73,41 +69,6 @@ var CORA = (function(cora) {
 			return item;
 		}
 
-		// function fetchDataFromServer(callAfterAnswer) {
-		// // setting values that should exist in a link in record
-		//
-		// var callSpec = {
-		// "xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-		// "method" : "GET",
-		// "url" : "http://epc.ub.uu.se/cora/rest/record/" + recordId,
-		// "contentType" : "application/uub+record+json",
-		// "accept" : "application/uub+recordList+json",
-		// "loadMethod" : callAfterAnswer
-		// };
-		// var ajaxCall = CORA.ajaxCall(callSpec);
-		// }
-		//
-		// function processFetchedRecords(answer) {
-		// recordList = createRecordTypeListFromAnswer(answer);
-		// addRecordsToWorkView();
-		// }
-		//
-		// function createRecordTypeListFromAnswer(answer) {
-		// var data = JSON.parse(answer.responseText).dataList.data;
-		// var list = [];
-		// data.forEach(function(recordContainer) {
-		// list.push(recordContainer.record);
-		// });
-		// return list;
-		// }
-		// function addRecordsToWorkView() {
-		// recordList.forEach(function(record) {
-		// addRecordToWorkView(record);
-		// });
-		// }
-		// function addRecordToWorkView(record) {
-		// view
-		// }
 		var out = Object.freeze({
 			getView : getView,
 			fetchList : fetchList

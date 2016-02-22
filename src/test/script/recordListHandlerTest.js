@@ -145,11 +145,6 @@ QUnit.test("fetchListCheckGeneratedList", function(assert) {
 		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 
-	// var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	// function sendFunction() {
-	// // xmlHttpRequestSpy.status = 0;
-	// // xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
-	// }
 	var presentation = {"getView":function(){
 		return document.createElement("span");
 	}};
@@ -157,7 +152,7 @@ QUnit.test("fetchListCheckGeneratedList", function(assert) {
 		"getPresentation" : function() {
 			return presentation;
 		},
-		"start" : function start() {
+		"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
 		}
 	};
 	var recordGuiFactorySpy = {
@@ -175,6 +170,42 @@ QUnit.test("fetchListCheckGeneratedList", function(assert) {
 	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
 
 	assert.strictEqual(workView.childNodes.length, 15);
+});
+
+QUnit.test("fetchListCheckError", function(assert) {
+	var recordTypeListData = CORATEST.recordTypeList;
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 404;
+		xmlHttpRequestSpy.responseText = JSON.stringify("Error, something went wrong");
+		xmlHttpRequestSpy.addedEventListeners["error"][0]();
+	}
+	
+	var presentation = {"getView":function(){
+		return document.createElement("span");
+	}};
+	var recordGui = {
+			"getPresentation" : function() {
+				return presentation;
+			},
+			"start" : function start() {
+			}
+	};
+	var recordGuiFactorySpy = {
+			"factor" : function(metadataId, data) {
+				return recordGui;
+			}
+	};
+	var workView = document.createElement("span");
+	var listHandlerSpec = {
+			"record" : this.record,
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"recordGuiFactory" : recordGuiFactorySpy,
+			"workView" : workView
+	};
+	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+	
+	assert.strictEqual(workView.childNodes[0].textContent, "404");
 });
 
 // QUnit.test("fetchList", function(assert) {
