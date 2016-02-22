@@ -49,6 +49,8 @@
 <script type="text/javascript" src="script/presentation.js"></script>
 <script type="text/javascript" src="script/presentationFactory.js"></script>
 <script type="text/javascript" src="script/pVar.js"></script>
+<script type="text/javascript" src="script/recordTypeHandler.js"></script>
+<script type="text/javascript" src="script/recordGuiFactory.js"></script>
 <script type="text/javascript" src="script/textProvider.js"></script>
 <script type="text/javascript" src="script/xmlHttpRequestFactory.js"></script>
 
@@ -138,7 +140,7 @@
 
 	window.onload = start;
 	function start() {
-		startJsClient();
+		// 		startJsClient();
 		getStuffFromServer();
 
 		var metadataProvider = new MetadataProviderStub();
@@ -487,6 +489,7 @@
 				textProvider);
 		var metadataId = "groupId1toXCollectionChild";
 		var presentationId = "pgGroupId1toXCollectionChild";
+		
 		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
 
 		var view = dependencies.presentation.getView();
