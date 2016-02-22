@@ -82,7 +82,7 @@ var CORA = (function(cora) {
 			var specRecord = {
 				"xmlHttpRequestFactory" : spec.dependencies.xmlHttpRequestFactory,
 				"recordGuiFactory" : recordGuiFactory,
-				"record" : record,
+				"recordTypeRecord" : record,
 				"jsClient" : mainView.modelObject
 			};
 

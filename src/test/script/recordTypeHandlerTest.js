@@ -113,7 +113,7 @@ QUnit.module("recordTypeHandlerTest.js", {
 
 QUnit.test("init", function(assert) {
 	var spec = {
-		"record" : this.record,
+		"recordTypeRecord" : this.record,
 	};
 	var recordTypeHandler = CORA.recordTypeHandler(spec);
 
@@ -131,7 +131,7 @@ QUnit.test("init", function(assert) {
 
 QUnit.test("headerOnClick", function(assert) {
 	var spec = {
-		"record" : this.record,
+		"recordTypeRecord" : this.record,
 	};
 	var recordTypeHandler = CORA.recordTypeHandler(spec);
 
@@ -157,7 +157,7 @@ QUnit.test("fetchList", function(assert) {
 	};
 
 	var spec = {
-		"record" : this.record,
+		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"jsClient" : jsClientSpy
 	};
@@ -199,7 +199,7 @@ QUnit.test("fetchListCheckAjaxParameters", function(assert) {
 	};
 
 	var spec = {
-		"record" : this.record,
+		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"jsClient" : jsClientSpy
 	};
@@ -212,45 +212,28 @@ QUnit.test("fetchListCheckAjaxParameters", function(assert) {
 
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
 	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
-	"http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem");
+			"http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem");
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-	"application/uub+recordList+json");
+			"application/uub+recordList+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-	"application/uub+record+json");
+			"application/uub+record+json");
 });
 
-//QUnit.test("fetchListCheckAjaxParameters", function(assert) {
-//	
-//	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-//	function sendFunction() {
-//		// xmlHttpRequestSpy.status = 0;
-//		// xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
-//	}
-//	var viewShowingInWorkView;
-//	var jsClientSpy = {
-//			"showView" : function(view) {
-//				viewShowingInWorkView = view;
-//			}
-//	};
-//	
-//	var spec = {
-//			"record" : this.record,
-//			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-//			"jsClient" : jsClientSpy
-//	};
-//	
-//	var recordTypeHandler = CORA.recordTypeHandler(spec);
-//	
-//	
-//	
-//	var view = recordTypeHandler.getView();
-//	var header = view.firstChild;
-//	header.onclick();
-//	
-//	var childrenView = view.childNodes[1];
-//	var workItem = childrenView.childNodes[0];
-//	var workView = workItem.workView;
-//	
-////	assert.strictEqual(workView.childNodes.length, 13);
-//});
+QUnit.test("createListItem", function(assert) {
+	var workView;
+	var showView = function(workViewIn) {
+		workView = workViewIn;
+	}
+	var spec = {
+		"jsClient" : {
+			"showView" : showView
+		},
+		"recordTypeRecord" : this.record,
+	};
+	var recordTypeHandler = CORA.recordTypeHandler(spec);
+
+	recordTypeHandler.createListItem("text")
+	assert.notStrictEqual(workView, undefined);
+
+});

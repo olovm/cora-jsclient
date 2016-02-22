@@ -28,7 +28,7 @@ var CORA = (function(cora) {
 		header.onclick = fetchList;
 		view.appendChild(header);
 
-		var recordId = getIdFromRecord(spec.record);
+		var recordId = getIdFromRecord(spec.recordTypeRecord);
 		header.textContent = recordId;
 
 		var childrenView = document.createElement("span");
@@ -47,13 +47,13 @@ var CORA = (function(cora) {
 
 		function fetchList() {
 			var listItem = createListItem("List");
-			childrenView.appendChild(listItem);
-			spec.jsClient.showView(listItem.workView);
+//			spec.jsClient.showView(listItem.workView);
 
 			var listHandlerSpec = {
+				"recordTypeHandler" : out,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
-				"record" : spec.record,
+				"recordTypeRecord" : spec.recordTypeRecord,
 				"workView" : listItem.workView
 			};
 			CORA.recordListHandler(listHandlerSpec);
@@ -66,12 +66,15 @@ var CORA = (function(cora) {
 			item.onclick = function() {
 				spec.jsClient.showView(item.workView);
 			};
+			childrenView.appendChild(item);
+			spec.jsClient.showView(item.workView);
 			return item;
 		}
 
 		var out = Object.freeze({
 			getView : getView,
-			fetchList : fetchList
+			fetchList : fetchList,
+			createListItem : createListItem
 		});
 		return out;
 	};

@@ -76,7 +76,7 @@ body {
 	border-color: inherit;
 }
 
-.recordType .childrenView {
+.sideBar>.recordType .childrenView {
 	display: block;
 	width: 100%;
 	/* 	border-bottom: 1px solid; */
@@ -85,7 +85,7 @@ body {
 	background-color: rgba(180, 216, 216, 0.07);
 }
 
-.recordType .childrenView span {
+.sideBar>.recordType .childrenView span {
 	border-left: 1px solid;
 	border-right: 1px solid;
 	border-color: inherit;
@@ -93,7 +93,7 @@ body {
 	padding-left: .4rem;
 }
 
-.recordType .childrenView span:nth-child(odd) {
+.sideBar>.recordType .childrenView span:nth-child(even) {
 	/* 	display: block; */
 	/* 	width: 100%; */
 	/* 	border-bottom: 1px solid; */
@@ -102,7 +102,7 @@ body {
 	background-color: rgba(63, 77, 77, 0.09);
 }
 
-.recordType .childrenView span:last-child {
+.sideBar>.recordType .childrenView span:last-child {
 	/* 	display: block; */
 	/* 	width: 100%; */
 	border-bottom: 1px solid;
@@ -112,7 +112,7 @@ body {
 }
 
 /* .recordType .childrenView span { */
-.recordType  span {
+.sideBar>.recordType  span {
 	display: block;
 	/* 	width: 100%; */
 	/* 	border: 1px dotted; */
@@ -139,6 +139,6 @@ body {
 	overflow: auto;
 }
 
-.workArea .workView >.presentation {
+.workArea .workView .presentation {
 	box-shadow: none;
 }

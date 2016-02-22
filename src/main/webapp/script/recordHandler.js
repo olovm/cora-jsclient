@@ -18,11 +18,15 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordListHandler = function(spec) {
+	cora.recordHandler = function(spec) {
 
-		var recordId = getIdFromRecord(spec.recordTypeRecord);
+		var recordId = getIdFromRecord(spec.record);
 
-		fetchDataFromServer(processFetchedRecords);
+		var listItem = spec.recordTypeHandler.createListItem(recordId);
+
+		var workView = listItem.workView;
+
+		fetchDataFromServer(processFetchedRecord);
 
 		function getIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
@@ -31,37 +35,46 @@ var CORA = (function(cora) {
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
-			// setting values that should exist as a link in recordType
-
+			// setting values that should exist as a link in record
+			var readLink = spec.record.actionLinks.read;
+			// console.log(JSON.stringify(readLink));
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : "GET",
-				"url" : "http://epc.ub.uu.se/cora/rest/record/" + recordId,
-				"contentType" : "application/uub+record+json",
-				"accept" : "application/uub+recordList+json",
+				"method" : readLink.requestMethod,
+				"url" : readLink.url,
+				"contentType" : readLink.contentType,
+				"accept" : readLink.accept,
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
 			CORA.ajaxCall(callSpec);
 		}
 
-		function processFetchedRecords(answer) {
-			createRecordTypeListFromAnswer(answer);
+		function processFetchedRecord(answer) {
+//			 console.log(answer)
+			// createRecordTypeListFromAnswer(answer);
+			var data = JSON.parse(answer.responseText).record.data;
+			addRecordToWorkView(data);
 		}
 
-		function createRecordTypeListFromAnswer(answer) {
-			var data = JSON.parse(answer.responseText).dataList.data;
-			data.forEach(function(recordContainer) {
-				addRecordToWorkView(recordContainer.record);
-			});
-		}
+		// function createRecordTypeListFromAnswer(answer) {
+		// var data = JSON.parse(answer.responseText).dataList.data;
+		// data.forEach(function(recordContainer) {
+		// addRecordToWorkView(recordContainer.record);
+		// });
+		// }
 
 		function addRecordToWorkView(record) {
 			var view = createView(record);
-			spec.workView.appendChild(view);
-			var metadataId = "recordTypeGroup";
-			var presentationId = "recordTypePGroup";
-			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data);
+			view.appendChild(document.createTextNode(JSON.stringify(record)));
+			workView.appendChild(view);
+			var metadataId = CORA.coraData(spec.recordTypeRecord.data)
+					.getFirstAtomicValueByNameInData("metadataId");
+			var presentationId = CORA.coraData(spec.recordTypeRecord.data)
+					.getFirstAtomicValueByNameInData("presentationViewId");
+//			 var metadataId = "recordTypeGroup";
+//			 var presentationId = "recordTypePGroup";
+			var recordGui = spec.recordGuiFactory.factor(metadataId, record);
 
 			var presentationView = recordGui.getPresentation(presentationId).getView();
 			recordGui.initMetadataControllerStartingGui();
@@ -70,33 +83,25 @@ var CORA = (function(cora) {
 		function createView(record) {
 			var newView = document.createElement("span");
 			newView.className = "listItem " + recordId;
-			newView.onclick = function() {
-				open(record);
-			}
+//			newView.onclick = function() {
+//				open(record);
+//			}
 			return newView;
 		}
-		function open(record) {
+//		function open(record) {
 //			console.log(JSON.stringify(record));
-			// recordTypeHandler
-			var recordHandlerSpec = {
-				"recordTypeRecord" : spec.recordTypeRecord,
-				"recordTypeHandler" : spec.recordTypeHandler,
-				"record" : record,
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"recordGuiFactory" : spec.recordGuiFactory
-			};
-			var recordHandler = CORA.recordHandler(recordHandlerSpec);
-		}
+//		}
 
 		function callError(answer) {
 			var errorView = document.createElement("span");
 			errorView.textContent = JSON.stringify(answer.status);
-			spec.workView.appendChild(errorView);
-
+			workView.appendChild(errorView);
+			
 		}
 
 		var out = Object.freeze({
-			open : open
+			open : open,
+			
 		});
 		return out;
 	};
