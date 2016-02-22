@@ -18,7 +18,7 @@
  */
 "use strict";
 
-QUnit.module("recordTypeHandlerTest.js", {
+QUnit.module("recordListHandlerTest.js", {
 	beforeEach : function() {
 		this.record = {
 			"data" : {
