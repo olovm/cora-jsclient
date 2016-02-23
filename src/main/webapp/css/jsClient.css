@@ -1,35 +1,189 @@
+html {
+	margin: 0px;
+	height: calc(100% - 2rem);
+	padding: 0px;
+}
+
 body {
-	margin: 0;
+	margin: 0px;
+	height: 100%;
+	padding: 0px;
 }
+
 .jsClient.mainView {
-	background-color: magenta;
+	height: 100%;
+	height: calc(100% - 2rem - 2px);
+	background: linear-gradient(to bottom, #d5ebfc 0%, #f9fafb 100%);
 	border: 1px solid black;
-}
-.jsClient > .header {
+	box-shadow: 5px 5px 8px #aeaeae;
+	border-radius: .3rem;
+	margin: 2rem;
+	border-color: #B6B0A2;
+	position: relative;
 	display: block;
-	min-height: 3rem;
-	background-color: lime;
+	overflow: hidden;
+}
+
+.jsClient>.header {
+	display: block;
+	height: 9rem;
 	font-size: 7rem;
 	text-align: center;
+	color: magenta;
+	text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, -1px 1px 0px #000,
+		1px -1px 0px #000, 5px 5px 8px #0040f6;
+	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
+	border-bottom: 1px solid;
+	border-color: inherit;
+	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
 }
-.jsClient > .sideBar {
-	background-color: yellow;
-	padding: 1rem;
-	min-width: 10rem;
+
+.jsClient>.sideBar {
 	display: inline-block;
+	height: calc(100% - 9rem - 2rem - 1px);
+	overflow: auto;
+	width: 20rem;
+	padding: 1rem;
+	border-right: 1px solid;
+	border-color: inherit;
+	position: relative;
 }
-.sideBar > .recordType {
+
+.sideBar>.recordType {
 	display: block;
-	border: 1px solid blue;
+	/* 	border-bottom: 1px dashed; */
+	border-color: inherit;
 	margin-bottom: 1rem;
 	margin-top: 1rem;
-	padding: .2rem;
-	border-radius: .3rem;
-	box-shadow: 5px 5px 8px #aeaeae;
-	
-/* 	transition: zoom 0.5s ease 0s; */
+	/* 	padding: .2rem; */
+	/* 	transition: zoom 0.5s ease 0s; */
+	width: 100%;
 }
-.sideBar > .recordType:hover {
-/* 	transform: scale(1.1);	 */
-	background-color: green;
+
+.sideBar>.header {
+	padding: .2rem;
+}
+
+.sideBar .header:hover, .sideBar .childrenView .menuView:hover{
+	/* 	transform: scale(1.1);	 */
+	text-decoration: underline;
+	cursor: pointer;
+}
+.sideBar .childrenView span, .sideBar .childrenView div {
+	/* 	transform: scale(1.1);	 */
+	text-decoration: inherit;
+}
+
+.sideBar .header {
+	border-bottom: 1px dashed;
+	border-color: inherit;
+}
+
+.sideBar .childrenView {
+	display: block;
+	width: 100%;
+	/* 	border-bottom: 1px solid; */
+	border-color: inherit;
+	/* 	background-color: cyan; */
+	background-color: rgba(180, 216, 216, 0.07);
+	font-size: .8rem;
+}
+
+.sideBar .childrenView>span {
+	border-left: 1px solid;
+	border-right: 1px solid;
+	border-color: inherit;
+	padding: .2rem;
+	padding-left: .4rem;
+}
+
+.sideBar .childrenView>span:nth-child(even) {
+	/* 	display: block; */
+	/* 	width: 100%; */
+	/* 	border-bottom: 1px solid; */
+	border-color: inherit;
+	/* 	background-color: cyan; */
+/* 	background-color: rgba(162, 196, 228, 0.19); */
+}
+
+.sideBar .childrenView>span:last-child {
+	/* 	display: block; */
+	/* 	width: 100%; */
+	border-bottom: 1px solid;
+	border-color: inherit;
+	/* 	background-color: cyan; */
+	/* 	background-color: rgba(180, 216, 216, 0.07); */
+}
+.sideBar .active {
+	font-weight: bold;
+	background-color: rgba(162, 196, 228, 0.19);
+}
+/* .recordType .childrenView span { */
+.sideBar>.recordType  span {
+	display: block;
+	/* 	width: 100%; */
+	/* 	border: 1px dotted; */
+	/* 	border-color: inherit; */
+	/* 	background-color: #2074d8; */
+}
+
+.jsClient>.workArea {
+	position: absolute;
+	display: inline-block;
+	width: calc(100% - 24rem - 1px);
+	height: calc(100% - 11rem - 1px);
+	/* 	background-color: gray; */
+	margin: 1rem;
+}
+
+.workArea .workView {
+	position: absolute;
+	display: inline-block;
+	width: calc(100% - 2rem);
+	height: calc(100% - 2rem);
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+
+.workArea .workView .presentation {
+	box-shadow: none;
+}
+
+.jsClient .sideBar .menuView div, .jsClient .sideBar .menuView span {
+	/* 	position: absolute; */
+	display: inline;
+	/* 	width: calc(100% - 24rem - 1px); */
+	/* 	height: calc(100% - 11rem - 1px); */
+	/* 	background-color: gray; */
+	/* 	margin: 1rem; */
+	border: none;
+	padding: 0;
+	background: none;
+	box-shadow: none;
+	margin: 0;
+	
+}
+
+.jsClient .sideBar .menuView .pVar span {
+/* 	padding-right: 1rem; */
+	max-width: calc(70%  - 1rem);
+	overflow: hidden;
+	display: inline-block;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.jsClient .sideBar .recordInfoTextMenuPGroup .pVar span:before {
+	content: "(";
+}
+.jsClient .sideBar .recordInfoTextMenuPGroup .pVar span:after {
+	content: ")";
+}
+.jsClient .sideBar .recordInfoTextMenuPGroup .pVar span {
+	padding-right: 1rem;
+	width: 30%;
+	overflow: hidden;
+	display: inline-block;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
