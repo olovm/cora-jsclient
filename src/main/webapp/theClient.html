@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright 2016 Olov McKie
+  ~ Copyright 2016 Uppsala University Library
+  ~
+  ~ This file is part of Cora.
+  ~
+  ~     Cora is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     Cora is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<html>
+<head>
+<meta charset="UTF-8"></meta>
+<title>JSClient</title>
+<link rel="stylesheet" type="text/css" href="css/presentation.css"></link>
+<link rel="stylesheet" type="text/css" href="css/jsClient.css"></link>
+
+<script type="text/javascript" src="script/aCoraNameSpace.js"></script>
+
+<script type="text/javascript" src="script/lib/arbiter.js"></script>
+<script type="text/javascript" src="script/lib/polyfillES6.js"></script>
+
+<script type="text/javascript" src="script/ajaxCall.js"></script>
+<script type="text/javascript" src="script/coraData.js"></script>
+<script type="text/javascript" src="script/coraPubSub.js"></script>
+<script type="text/javascript" src="script/dataHolder.js"></script>
+<script type="text/javascript" src="script/jsBookkeeper.js"></script>
+<script type="text/javascript" src="script/jsClient.js"></script>
+<script type="text/javascript" src="script/metadataChildInitializer.js"></script>
+<script type="text/javascript" src="script/metadataController.js"></script>
+<script type="text/javascript" src="script/metadataRepeatInitializer.js"></script>
+<script type="text/javascript" src="script/pChildRefHandler.js"></script>
+<script type="text/javascript" src="script/pGroup.js"></script>
+<script type="text/javascript" src="script/pMultipleChildren.js"></script>
+<script type="text/javascript" src="script/pRepeatingContainer.js"></script>
+<script type="text/javascript" src="script/pRepeatingElement.js"></script>
+<script type="text/javascript" src="script/pSurroundingContainer.js"></script>
+<script type="text/javascript" src="script/presentation.js"></script>
+<script type="text/javascript" src="script/presentationFactory.js"></script>
+<script type="text/javascript" src="script/pVar.js"></script>
+<script type="text/javascript" src="script/recordGuiFactory.js"></script>
+<script type="text/javascript" src="script/recordHandler.js"></script>
+<script type="text/javascript" src="script/recordTypeHandler.js"></script>
+<script type="text/javascript" src="script/recordListHandler.js"></script>
+<script type="text/javascript" src="script/textProvider.js"></script>
+<script type="text/javascript" src="script/xmlHttpRequestFactory.js"></script>
+
+<script type="text/javascript"
+	src="../../test/script/metadataProviderStub.js"></script>
+<script type="text/javascript" src="test/script/metadataProviderStub.js"></script>
+<script type="text/javascript"
+	src="../../test/script/textProviderStub.js"></script>
+<script type="text/javascript" src="test/script/textProviderStub.js"></script>
+<script type="text/javascript"
+	src="../../test/script/metadataProviderRealStub.js"></script>
+<script type="text/javascript"
+	src="test/script/metadataProviderRealStub.js"></script>
+<script type="text/javascript"
+	src="../../test/script/textProviderRealStub.js"></script>
+<script type="text/javascript" src="test/script/textProviderRealStub.js"></script>
+
+<script type="text/javascript">
+	var CORATEST = (function(coraTest) {
+		"use strict";
+		coraTest.dependenciesFactory2 = function(metadataProvider, textProvider) {
+			var factor = function(metadataId, data) {
+				var pubSub = CORA.pubSub();
+
+				var specDataHolder = {
+					"metadataId" : metadataId,
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub
+				};
+				var dataHolder = CORA.dataHolder(specDataHolder);
+
+				var specJSBookkeeper = {
+					"metadataId" : metadataId,
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"dataHolder" : dataHolder
+				};
+				var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
+
+				var specPresentationFactory = {
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"jsBookkeeper" : jsBookkeeper
+				};
+				var presentationFactory = CORA.presentationFactory(specPresentationFactory);
+
+				function getPresentation(presentationId) {
+					var spec = {
+						"presentationId" : presentationId,
+						"metadataProvider" : metadataProvider,
+						"pubSub" : pubSub,
+						"textProvider" : textProvider,
+						"jsBookkeeper" : jsBookkeeper,
+						"presentationFactory" : presentationFactory
+					};
+					return CORA.presentation(spec);
+				}
+				// // log all messages
+				//			pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
+				//				console.log("msg: " + msg);
+				//				console.log("dataFromMsg: " + JSON.stringify(dataFromMsg));
+				//			});
+				var specMetadataController = {
+					"metadataId" : metadataId,
+					"data" : data,
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub
+				};
+				var metadataController = CORA.metadataController(specMetadataController);
+
+				return Object.freeze({
+					pubSub : pubSub,
+					jsBookkeeper : jsBookkeeper,
+					presentationFactory : presentationFactory,
+					dataHolder : dataHolder,
+					metadataController : metadataController,
+					getPresentation:getPresentation
+				});
+			};
+			return Object.freeze({
+				factor : factor
+			});
+		};
+
+		return coraTest;
+	}(CORATEST || {}));
+
+	window.onload = start;
+	function start() {
+		startJsClient();
+	}
+
+	function startJsClient() {
+		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
+		var textProviderRealStub = CORATEST.textProviderRealStub();
+		function client9(metadataProvider, textProvider) {
+			var place = document.getElementById("client9");
+			var dependenciesFactory = CORATEST.dependenciesFactory2(metadataProvider, textProvider);
+			var metadataId = "textSystemOneNewGroup";
+			var data = undefined;
+			var dependencies = dependenciesFactory.factor(metadataId, data);
+
+			var presentationId = "textSystemOneNewPGroup";
+			var view = dependencies.getPresentation(presentationId).getView();
+			place.appendChild(view);
+
+			view.dataHolder = dependencies.dataHolder;
+
+			function showData() {
+				var clientData = document.getElementById("client9Data");
+				clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
+			}
+			document.getElementById("client9DataButton").onclick = showData;
+
+			place.appendChild(dependencies.presentation2.getView());
+
+		}
+		var dependencies = {
+				"metadataProvider":CORATEST.metadataProviderRealStub(),
+				"textProvider": CORATEST.textProviderRealStub(),
+				"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+				"presentationFactoryFactory":"not implemented yet"
+		}
+		var spec = {
+			"dependencies": dependencies,
+			"name" : "The Client",
+			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+		};
+		var jsClient = CORA.jsClient(spec);
+		document.body.appendChild(jsClient.getView());
+	}
+</script>
+</head>
+<body>
+
+</body>
+</html>
+

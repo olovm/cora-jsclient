@@ -25,12 +25,18 @@ var CORATEST = (function(coraTest) {
 			switch (textId) {
 			case "textSystemOneNewPGroupText":
 				return "En ny text";
+			case "textSystemOnePGroupText":
+				return "En text";
 			case "recordInfoNewTextPGroupText":
+				return "Textid";
+			case "recordInfoTextPGroupText":
 				return "Textid";
 			case "textPartSvPGroupText":
 				return "Svenska";
 			case "textPartEnPGroupText":
 				return "Engelska";
+			case "recordTypePGroupText":
+				return "Posttyp";
 			default:
 				console.log("Id(" + textId + ") not found in textProviderRealStub");
 //				throw new Error("Id(" + textId + ") not found in textProviderRealStub");
