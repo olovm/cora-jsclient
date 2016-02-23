@@ -51,10 +51,15 @@ var CORA = (function(cora) {
 
 		function processFetchedRecord(answer) {
 			var data = getDataPartOfRecordFromAnswer(answer);
-			var recordGui = createRecordGui(data);
-			addRecordToWorkView(recordGui, data);
-			addRecordToMenuView(recordGui);
-			recordGui.initMetadataControllerStartingGui();
+			try {
+				var recordGui = createRecordGui(data);
+				addRecordToWorkView(recordGui, data);
+				addRecordToMenuView(recordGui);
+				recordGui.initMetadataControllerStartingGui();
+			} catch (error) {
+				//print raw data if we crash when creating data, (missing metadata)
+				createRawDataWorkView(data);
+			}
 		}
 
 		function getDataPartOfRecordFromAnswer(answer) {
@@ -78,6 +83,11 @@ var CORA = (function(cora) {
 			var presentationViewId = getPresentationViewId();
 			var presentationView = recordGui.getPresentation(presentationViewId).getView();
 			view.appendChild(presentationView);
+		}
+		function createRawDataWorkView(data) {
+			var view = createView();
+			view.appendChild(document.createTextNode(JSON.stringify(data)));
+			workView.appendChild(view);
 		}
 
 		function getPresentationViewId() {
