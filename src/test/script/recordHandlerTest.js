@@ -42,25 +42,28 @@ QUnit.module("recordHandlerTest.js", {
 					"value" : "recordTypeGroup"
 				}, {
 					"name" : "presentationViewId",
-					"value" : "pgRecordTypeView"
+					"value" : "recordTypeViewPGroup"
 				}, {
 					"name" : "presentationFormId",
-					"value" : "pgRecordTypeForm"
+					"value" : "recordTypeFormPGroup"
 				}, {
 					"name" : "newMetadataId",
 					"value" : "recordTypeNewGroup"
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "pgRecordTypeFormNew"
+					"value" : "recordTypeFormNewPGroup"
+				}, {
+					"name" : "menuPresentationViewId",
+					"value" : "recordTypeMenuPGroup"
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "pgRecordTypeList"
+					"value" : "recordTypeListPGroup"
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "recordTypeSearchGroup"
 				}, {
 					"name" : "searchPresentationFormId",
-					"value" : "pgRecordTypeSearchForm"
+					"value" : "recordTypeFormSearchPGroup"
 				}, {
 					"name" : "userSuppliedId",
 					"value" : "true"
@@ -69,7 +72,7 @@ QUnit.module("recordHandlerTest.js", {
 					"value" : "RECORDTYPE_RECORDTYPE"
 				}, {
 					"name" : "selfPresentationViewId",
-					"value" : "pgRecordTypeSelf"
+					"value" : "recordTypeViewSelfPGroup"
 				}, {
 					"name" : "abstract",
 					"value" : "false"
@@ -142,11 +145,13 @@ QUnit.test("initCallToServer", function(assert) {
 	}
 
 	var workView = document.createElement("span");
+	var menuView = document.createElement("span");
 	var listText;
 	function createListItem(listTextIn) {
 		listText = listTextIn;
 		return {
-			"workView" : workView
+			"workView" : workView,
+			"menuView":menuView
 		};
 	}
 	var presentation = {
@@ -204,11 +209,13 @@ QUnit.test("initCheckRightGuiCreated", function(assert) {
 	}
 
 	var workView = document.createElement("span");
+	var menuView = document.createElement("span");
 	var listText;
 	function createListItem(listTextIn) {
 		listText = listTextIn;
 		return {
-			"workView" : workView
+			"workView" : workView,
+			"menuView":menuView
 		};
 	}
 	var presentation = {
@@ -216,10 +223,10 @@ QUnit.test("initCheckRightGuiCreated", function(assert) {
 			return document.createElement("span");
 		}
 	};
-	var presentationIdUsed;
+	var presentationIdUsed = [];
 	var recordGui = {
 		"getPresentation" : function(presentationId) {
-			presentationIdUsed = presentationId;
+			presentationIdUsed.push(presentationId);
 			return presentation;
 		},
 		"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
@@ -245,7 +252,13 @@ QUnit.test("initCheckRightGuiCreated", function(assert) {
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
 
 	assert.strictEqual(metadataIdUsed, "recordTypeGroup");
-	assert.strictEqual(presentationIdUsed, "pgRecordTypeView");
+	assert.strictEqual(presentationIdUsed[0], "recordTypeViewPGroup");
+	assert.strictEqual(workView.childNodes[0].className, "workItem recordType");
+	
+	
+	assert.strictEqual(presentationIdUsed[1], "recordTypeMenuPGroup");
+	assert.strictEqual(menuView.textContent, "");
+	assert.strictEqual(menuView.childNodes[0].nodeName, "SPAN");
 
 });
 QUnit.test("fetchListCheckError", function(assert) {

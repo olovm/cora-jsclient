@@ -25,6 +25,7 @@ var CORA = (function(cora) {
 		var listItem = spec.recordTypeHandler.createListItem(recordId);
 
 		var workView = listItem.workView;
+		var menuView = listItem.menuView;
 
 		fetchDataFromServer(processFetchedRecord);
 
@@ -35,9 +36,7 @@ var CORA = (function(cora) {
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
-			// setting values that should exist as a link in record
 			var readLink = spec.record.actionLinks.read;
-			// console.log(JSON.stringify(readLink));
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"method" : readLink.requestMethod,
@@ -51,59 +50,66 @@ var CORA = (function(cora) {
 		}
 
 		function processFetchedRecord(answer) {
-//			 console.log(answer)
-			// createRecordTypeListFromAnswer(answer);
-			var data = JSON.parse(answer.responseText).record.data;
-			addRecordToWorkView(data);
+			var data = getDataPartOfRecordFromAnswer(answer);
+			var recordGui = createRecordGui(data);
+			addRecordToWorkView(recordGui, data);
+			addRecordToMenuView(recordGui);
+			recordGui.initMetadataControllerStartingGui();
 		}
 
-		// function createRecordTypeListFromAnswer(answer) {
-		// var data = JSON.parse(answer.responseText).dataList.data;
-		// data.forEach(function(recordContainer) {
-		// addRecordToWorkView(recordContainer.record);
-		// });
-		// }
+		function getDataPartOfRecordFromAnswer(answer) {
+			return JSON.parse(answer.responseText).record.data;
+		}
 
-		function addRecordToWorkView(record) {
-			var view = createView(record);
-			view.appendChild(document.createTextNode(JSON.stringify(record)));
+		function createRecordGui(data) {
+			var metadataId = getMetadataId();
+			return spec.recordGuiFactory.factor(metadataId, data);
+		}
+
+		function getMetadataId() {
+			return CORA.coraData(spec.recordTypeRecord.data).getFirstAtomicValueByNameInData(
+					"metadataId");
+		}
+
+		function addRecordToWorkView(recordGui, data) {
+			var view = createView();
+			view.appendChild(document.createTextNode(JSON.stringify(data)));
 			workView.appendChild(view);
-			var metadataId = CORA.coraData(spec.recordTypeRecord.data)
-					.getFirstAtomicValueByNameInData("metadataId");
-			var presentationId = CORA.coraData(spec.recordTypeRecord.data)
-					.getFirstAtomicValueByNameInData("presentationViewId");
-//			 var metadataId = "recordTypeGroup";
-//			 var presentationId = "recordTypePGroup";
-			var recordGui = spec.recordGuiFactory.factor(metadataId, record);
-
-			var presentationView = recordGui.getPresentation(presentationId).getView();
-			recordGui.initMetadataControllerStartingGui();
+			var presentationViewId = getPresentationViewId();
+			var presentationView = recordGui.getPresentation(presentationViewId).getView();
 			view.appendChild(presentationView);
 		}
-		function createView(record) {
+
+		function getPresentationViewId() {
+			return CORA.coraData(spec.recordTypeRecord.data).getFirstAtomicValueByNameInData(
+					"presentationViewId");
+		}
+
+		function addRecordToMenuView(recordGui) {
+			var menuPresentationViewId = getMenuPresentationViewId();
+			var menuPresentationView = recordGui.getPresentation(menuPresentationViewId).getView();
+			menuView.textContent = "";
+			menuView.appendChild(menuPresentationView);
+		}
+
+		function getMenuPresentationViewId() {
+			return CORA.coraData(spec.recordTypeRecord.data).getFirstAtomicValueByNameInData(
+					"menuPresentationViewId");
+		}
+
+		function createView() {
 			var newView = document.createElement("span");
-			newView.className = "listItem " + recordId;
-//			newView.onclick = function() {
-//				open(record);
-//			}
+			newView.className = "workItem " + recordId;
 			return newView;
 		}
-//		function open(record) {
-//			console.log(JSON.stringify(record));
-//		}
 
 		function callError(answer) {
 			var errorView = document.createElement("span");
 			errorView.textContent = JSON.stringify(answer.status);
 			workView.appendChild(errorView);
-			
 		}
 
-		var out = Object.freeze({
-			open : open,
-			
-		});
-		return out;
+		return Object.freeze({});
 	};
 	return cora;
 }(CORA));

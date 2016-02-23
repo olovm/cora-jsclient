@@ -42,25 +42,28 @@ QUnit.module("recordListHandlerTest.js", {
 					"value" : "recordTypeGroup"
 				}, {
 					"name" : "presentationViewId",
-					"value" : "pgRecordTypeView"
+					"value" : "recordTypeViewPGroup"
 				}, {
 					"name" : "presentationFormId",
-					"value" : "pgRecordTypeForm"
+					"value" : "recordTypeFormPGroup"
 				}, {
 					"name" : "newMetadataId",
 					"value" : "recordTypeNewGroup"
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "pgRecordTypeFormNew"
+					"value" : "recordTypeFormNewPGroup"
+				}, {
+					"name" : "menuPresentationViewId",
+					"value" : "recordTypeMenuPGroup"
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "pgRecordTypeList"
+					"value" : "recordTypeListPGroup"
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "recordTypeSearchGroup"
 				}, {
 					"name" : "searchPresentationFormId",
-					"value" : "pgRecordTypeSearchForm"
+					"value" : "recordTypeFormSearchPGroup"
 				}, {
 					"name" : "userSuppliedId",
 					"value" : "true"
@@ -69,7 +72,7 @@ QUnit.module("recordListHandlerTest.js", {
 					"value" : "RECORDTYPE_RECORDTYPE"
 				}, {
 					"name" : "selfPresentationViewId",
-					"value" : "pgRecordTypeSelf"
+					"value" : "recordTypeViewSelfPGroup"
 				}, {
 					"name" : "abstract",
 					"value" : "false"
@@ -115,7 +118,8 @@ QUnit.test("init", function(assert) {
 	var listHandlerSpec = {
 		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"workView" : workView
+		"workView" : workView,
+		"baseUrl":"http://epc.ub.uu.se/cora/rest/"
 	};
 	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
 
@@ -127,7 +131,6 @@ QUnit.test("init", function(assert) {
 			"application/uub+recordList+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
 			"application/uub+record+json");
-
 });
 
 QUnit.test("fetchListCheckGeneratedList", function(assert) {
@@ -272,10 +275,10 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 			return recordGui;
 		}
 	};
-//	var workView = document.createElement("span");
-//	function createListItem (){
-//		
-//	}
+	// var workView = document.createElement("span");
+	// function createListItem (){
+	//		
+	// }
 	var listItemWorkView = document.createElement("span");
 	var listText;
 	function createListItem(listTextIn) {
@@ -286,8 +289,10 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 	}
 	var workView = document.createElement("span");
 	var listHandlerSpec = {
-		"recordTypeHandler":{"createListItem":createListItem},
-			"recordTypeRecord" : this.record,
+		"recordTypeHandler" : {
+			"createListItem" : createListItem
+		},
+		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : recordGuiFactorySpy,
 		"workView" : workView
@@ -296,6 +301,6 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 
 	var firstListItem = workView.childNodes[0];
 	firstListItem.onclick();
-	
+
 	assert.strictEqual(listText, "presentationVar");
 });

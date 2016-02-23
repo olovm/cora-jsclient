@@ -32,11 +32,10 @@ var CORA = (function(cora) {
 
 		function fetchDataFromServer(callAfterAnswer) {
 			// setting values that should exist as a link in recordType
-
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"method" : "GET",
-				"url" : "http://epc.ub.uu.se/cora/rest/record/" + recordId,
+				"url" : spec.baseUrl + "record/" + recordId,
 				"contentType" : "application/uub+record+json",
 				"accept" : "application/uub+recordList+json",
 				"loadMethod" : callAfterAnswer,
@@ -67,17 +66,17 @@ var CORA = (function(cora) {
 			recordGui.initMetadataControllerStartingGui();
 			view.appendChild(presentationView);
 		}
+
 		function createView(record) {
 			var newView = document.createElement("span");
 			newView.className = "listItem " + recordId;
 			newView.onclick = function() {
-				open(record);
-			}
+				createRecordHandler(record);
+			};
 			return newView;
 		}
-		function open(record) {
-//			console.log(JSON.stringify(record));
-			// recordTypeHandler
+
+		function createRecordHandler(record) {
 			var recordHandlerSpec = {
 				"recordTypeRecord" : spec.recordTypeRecord,
 				"recordTypeHandler" : spec.recordTypeHandler,
@@ -85,14 +84,13 @@ var CORA = (function(cora) {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory
 			};
-			var recordHandler = CORA.recordHandler(recordHandlerSpec);
+			CORA.recordHandler(recordHandlerSpec);
 		}
 
 		function callError(answer) {
 			var errorView = document.createElement("span");
 			errorView.textContent = JSON.stringify(answer.status);
 			spec.workView.appendChild(errorView);
-
 		}
 
 		var out = Object.freeze({

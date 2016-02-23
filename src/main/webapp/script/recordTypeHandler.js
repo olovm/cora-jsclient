@@ -19,7 +19,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeHandler = function(spec) {
-
+		var out;
 		var view = document.createElement("span");
 		view.className = "recordType";
 
@@ -47,31 +47,41 @@ var CORA = (function(cora) {
 
 		function fetchList() {
 			var listItem = createListItem("List");
-//			spec.jsClient.showView(listItem.workView);
 
 			var listHandlerSpec = {
 				"recordTypeHandler" : out,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"recordTypeRecord" : spec.recordTypeRecord,
-				"workView" : listItem.workView
+				"workView" : listItem.workView,
+				"baseUrl" : spec.baseUrl
 			};
 			CORA.recordListHandler(listHandlerSpec);
 		}
+
 		function createListItem(text) {
-			var item = document.createElement("span");
-			item.textContent = text;
+			var item = {};
+			item.menuView = createMenuView(text, item);
+			childrenView.appendChild(item.menuView);
+
 			item.workView = document.createElement("span");
 			item.workView.className = "workView";
-			item.onclick = function() {
-				spec.jsClient.showView(item.workView);
-			};
-			childrenView.appendChild(item);
-			spec.jsClient.showView(item.workView);
+			spec.jsClient.showView(item);
 			return item;
 		}
 
-		var out = Object.freeze({
+		function createMenuView(text, item) {
+			var menuView = document.createElement("span");
+			menuView.modelObject = item;
+			menuView.className = "menuView";
+			menuView.textContent = text;
+			menuView.onclick = function() {
+				spec.jsClient.showView(item);
+			};
+			return menuView;
+		}
+
+		out = Object.freeze({
 			getView : getView,
 			fetchList : fetchList,
 			createListItem : createListItem

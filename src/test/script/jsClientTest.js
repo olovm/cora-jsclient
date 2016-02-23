@@ -106,12 +106,27 @@ QUnit.test("showView", function(assert) {
 	var workAreaChildren = mainView.childNodes[2].childNodes;
 	assert.strictEqual(workAreaChildren.length, 0);
 
-	var aView = document.createElement("span");
+	var workView1 = document.createElement("span");
+	var menuView1 = document.createElement("span");
+	menuView1.className ="menuView1";
+	var aView = {
+		"workView" : workView1,
+		"menuView" : menuView1
+	};
 	jsClient.showView(aView);
-	assert.strictEqual(workAreaChildren[0], aView);
+	assert.strictEqual(workAreaChildren[0], aView.workView);
+	assert.strictEqual(menuView1.className, "menuView1 active");
 
-	var aDifferentView = document.createElement("span");
+	var workView2 = document.createElement("span");
+	var menuView2 = document.createElement("span");
+	menuView2.className ="menuView2";
+	var aDifferentView = {
+			"workView" : workView2,
+			"menuView" : menuView2
+	};
 	jsClient.showView(aDifferentView);
-	assert.strictEqual(workAreaChildren[0], aDifferentView);
+	assert.strictEqual(workAreaChildren[0], aDifferentView.workView);
 
+	assert.strictEqual(menuView1.className, "menuView1");
+	assert.strictEqual(menuView2.className, "menuView2 active");
 });
