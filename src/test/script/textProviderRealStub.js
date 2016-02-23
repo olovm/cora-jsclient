@@ -25,7 +25,11 @@ var CORATEST = (function(coraTest) {
 			switch (textId) {
 			case "textSystemOneNewPGroupText":
 				return "En ny text";
+			case "textSystemOnePGroupText":
+				return "En text";
 			case "recordInfoNewTextPGroupText":
+				return "Textid";
+			case "recordInfoTextPGroupText":
 				return "Textid";
 			case "textPartSvPGroupText":
 				return "Svenska";

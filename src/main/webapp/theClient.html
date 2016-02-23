@@ -50,6 +50,7 @@
 <script type="text/javascript" src="script/presentationFactory.js"></script>
 <script type="text/javascript" src="script/pVar.js"></script>
 <script type="text/javascript" src="script/recordGuiFactory.js"></script>
+<script type="text/javascript" src="script/recordHandler.js"></script>
 <script type="text/javascript" src="script/recordTypeHandler.js"></script>
 <script type="text/javascript" src="script/recordListHandler.js"></script>
 <script type="text/javascript" src="script/textProvider.js"></script>
@@ -180,7 +181,8 @@
 		var spec = {
 			"dependencies": dependencies,
 			"name" : "The Client",
-			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+// 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+			"baseUrl" : "http://localhost:8080/therest/rest/"
 		};
 		var jsClient = CORA.jsClient(spec);
 		document.body.appendChild(jsClient.getView());

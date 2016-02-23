@@ -20,7 +20,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordListHandler = function(spec) {
 
-		var recordId = getIdFromRecord(spec.record);
+		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
 		fetchDataFromServer(processFetchedRecords);
 
@@ -31,12 +31,11 @@ var CORA = (function(cora) {
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
-			// setting values that should exist as a link in record
-
+			// setting values that should exist as a link in recordType
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"method" : "GET",
-				"url" : "http://epc.ub.uu.se/cora/rest/record/" + recordId,
+				"url" : spec.baseUrl + "record/" + recordId,
 				"contentType" : "application/uub+record+json",
 				"accept" : "application/uub+recordList+json",
 				"loadMethod" : callAfterAnswer,
@@ -57,23 +56,46 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordToWorkView(record) {
+			var view = createView(record);
+			spec.workView.appendChild(view);
 			var metadataId = "recordTypeGroup";
 			var presentationId = "recordTypePGroup";
 			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data);
 
-			var view = recordGui.getPresentation(presentationId).getView();
+			var presentationView = recordGui.getPresentation(presentationId).getView();
 			recordGui.initMetadataControllerStartingGui();
-			spec.workView.appendChild(view);
+			view.appendChild(presentationView);
+		}
+
+		function createView(record) {
+			var newView = document.createElement("span");
+			newView.className = "listItem " + recordId;
+			newView.onclick = function() {
+				createRecordHandler(record);
+			};
+			return newView;
+		}
+
+		function createRecordHandler(record) {
+			var recordHandlerSpec = {
+				"recordTypeRecord" : spec.recordTypeRecord,
+				"recordTypeHandler" : spec.recordTypeHandler,
+				"record" : record,
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"recordGuiFactory" : spec.recordGuiFactory
+			};
+			CORA.recordHandler(recordHandlerSpec);
 		}
 
 		function callError(answer) {
 			var errorView = document.createElement("span");
 			errorView.textContent = JSON.stringify(answer.status);
 			spec.workView.appendChild(errorView);
-
 		}
 
-		var out = Object.freeze({});
+		var out = Object.freeze({
+			open : open
+		});
 		return out;
 	};
 	return cora;

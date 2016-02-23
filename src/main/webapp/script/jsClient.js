@@ -82,8 +82,9 @@ var CORA = (function(cora) {
 			var specRecord = {
 				"xmlHttpRequestFactory" : spec.dependencies.xmlHttpRequestFactory,
 				"recordGuiFactory" : recordGuiFactory,
-				"record" : record,
-				"jsClient" : mainView.modelObject
+				"recordTypeRecord" : record,
+				"jsClient" : mainView.modelObject,
+				"baseUrl" : spec.baseUrl
 			};
 
 			var recordTypeHandler = CORA.recordTypeHandler(specRecord);
@@ -98,11 +99,35 @@ var CORA = (function(cora) {
 			return recordTypeList;
 		}
 
-		function showView(viewToShow) {
+		var itemShowing = undefined;
+		function showView(itemToShow) {
+			clearWorkArea();
+			resetLastShowingMenuItem();
+			showNewWorkView(itemToShow);
+			updateShowingMenuItem(itemToShow);
+			itemShowing = itemToShow;
+		}
+
+		function clearWorkArea() {
 			if (workArea.childNodes.length > 0) {
 				workArea.removeChild(workArea.firstChild);
 			}
-			workArea.appendChild(viewToShow);
+		}
+
+		function resetLastShowingMenuItem() {
+			if (itemShowing !== undefined) {
+				itemShowing.menuView.className = itemShowing.originalClassName;
+				delete itemShowing.originalClassName;
+			}
+		}
+
+		function showNewWorkView(itemToShow) {
+			workArea.appendChild(itemToShow.workView);
+		}
+
+		function updateShowingMenuItem(itemToShow) {
+			itemToShow.originalClassName = itemToShow.menuView.className;
+			itemToShow.menuView.className = itemToShow.menuView.className + " active";
 		}
 
 		var out = Object.freeze({
