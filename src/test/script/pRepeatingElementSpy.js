@@ -20,36 +20,55 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.pRepeatingElementSpy = function() {
 		var view = document.createElement("span");
-//		var dataTransfer = function() {
-//			var format = "";
-//			var data = "";
-//			function setData(formatIn, dataIn) {
-//				format = formatIn;
-//				data = dataIn;
-////				console.log(formatIn + dataIn)
-//			}
-//			function getFormat(){
-//				return format;
-//			}
-//			function getData(){
-//				return data;
-//			}
-//			return {
-//				setData : setData,
-//				getFormat : getFormat,
-//				getData : getData
-//			};
-//		}();
-
+		var parentModelObject;
+		var path;
+		// var dataTransfer = function() {
+		// var format = "";
+		// var data = "";
+		// function setData(formatIn, dataIn) {
+		// format = formatIn;
+		// data = dataIn;
+		// // console.log(formatIn + dataIn)
+		// }
+		// function getFormat(){
+		// return format;
+		// }
+		// function getData(){
+		// return data;
+		// }
+		// return {
+		// setData : setData,
+		// getFormat : getFormat,
+		// getData : getData
+		// };
+		// }();
 
 		function getView() {
 			return view;
 		}
-
+		function ondragenter() {
+			parentModelObject.setRepeatingElementDragOver(view.modelObject);
+		}
+		function setParentModelObject(pMO) {
+			parentModelObject = pMO;
+		}
+		function getPath() {
+			return path;
+		}
+		function setPath(p) {
+			path = p;
+		}
 		// return Object.freeze({
-		return ({
+		var out = ({
 			getView : getView,
+			ondragenter : ondragenter,
+			setParentModelObject : setParentModelObject,
+			getPath : getPath,
+			setPath : setPath
 		});
+		view.modelObject = out;
+		view.ondragenter = out.ondragenter;
+		return out;
 	};
 	return coraTest;
 }(CORATEST || {}));

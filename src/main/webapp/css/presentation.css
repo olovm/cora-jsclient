@@ -155,7 +155,7 @@ input {
 	opacity: 1;
 }
 .dragButton::before {
-	background: url("../images/icons2.svg") no-repeat scroll -144px 0px;
+	background: url("../images/icons2.svg") no-repeat scroll -192px 0px;
 	content: "";
 	height: 16px;
 	width: 16px;
@@ -171,7 +171,7 @@ input {
 }
 
 .dragButton::after {
-	background: url("../images/icons2.svg") no-repeat scroll -144px -16px;
+	background: url("../images/icons2.svg") no-repeat scroll -192px -16px;
 	content: "";
 	height: 16px;
 	width: 16px;
