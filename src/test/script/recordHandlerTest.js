@@ -114,23 +114,21 @@ QUnit.test("init", function(assert) {
 		// xmlHttpRequestSpy.status = 0;
 		// xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
 	}
+	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
-	var listText;
-	function createListItem(listTextIn) {
-		listText = listTextIn;
-		return workView;
-	}
 	var recordHandlerSpec = {
 		"recordTypeRecord" : this.record,
-//		"recordTypeHandler" : {
-			"createListItemMethod" : createListItem,
-//		},
+		"presentationMode":"view",
+		"views" : {
+			"menuView" : menuView,
+			"workView" : workView
+		},
 		"record" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
 
-	assert.strictEqual(listText, "recordType");
+	assert.notStrictEqual(recordHandler, undefined);
 });
 
 QUnit.test("initCallToServer", function(assert) {
@@ -144,16 +142,8 @@ QUnit.test("initCallToServer", function(assert) {
 		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 
-	var workView = document.createElement("span");
 	var menuView = document.createElement("span");
-	var listText;
-	function createListItem(listTextIn) {
-		listText = listTextIn;
-		return {
-			"workView" : workView,
-			"menuView" : menuView
-		};
-	}
+	var workView = document.createElement("span");
 	var presentation = {
 		"getView" : function() {
 			return document.createElement("span");
@@ -173,10 +163,11 @@ QUnit.test("initCallToServer", function(assert) {
 	};
 	var recordHandlerSpec = {
 		"recordTypeRecord" : this.record,
-//		"recordTypeHandler" : {
-//			"createListItem" : createListItem
-//		},
-		"createListItemMethod" : createListItem,
+		"presentationMode":"view",
+		"views" : {
+			"menuView" : menuView,
+			"workView" : workView
+		},
 		"record" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : recordGuiFactorySpy
@@ -193,12 +184,11 @@ QUnit.test("initCallToServer", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
 			"application/uub+record+json");
 
-	assert.strictEqual(listText, "recordType");
 	assert.strictEqual(workView.childNodes.length, 1);
 
 });
 
-QUnit.test("initCheckRightGuiCreated", function(assert) {
+QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 	var record = this.record;
 	function sendFunction() {
@@ -209,16 +199,8 @@ QUnit.test("initCheckRightGuiCreated", function(assert) {
 		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 
-	var workView = document.createElement("span");
 	var menuView = document.createElement("span");
-	var listText;
-	function createListItem(listTextIn) {
-		listText = listTextIn;
-		return {
-			"workView" : workView,
-			"menuView" : menuView
-		};
-	}
+	var workView = document.createElement("span");
 	var presentation = {
 		"getView" : function() {
 			return document.createElement("span");
@@ -242,10 +224,11 @@ QUnit.test("initCheckRightGuiCreated", function(assert) {
 	};
 	var recordHandlerSpec = {
 		"recordTypeRecord" : this.record,
-//		"recordTypeHandler" : {
-//			"createListItem" : createListItem
-//		},
-		"createListItemMethod" : createListItem,
+		"presentationMode":"view",
+		"views" : {
+			"menuView" : menuView,
+			"workView" : workView
+		},
 		"record" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : recordGuiFactorySpy
@@ -263,6 +246,65 @@ QUnit.test("initCheckRightGuiCreated", function(assert) {
 
 });
 
+QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	// var record = this.record;
+	function sendFunction() {
+		// xmlHttpRequestSpy.status = 200;
+		// xmlHttpRequestSpy.responseText = JSON.stringify({
+		// "record" : record
+		// });
+		// xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+
+	var menuView = document.createElement("span");
+	var workView = document.createElement("span");
+	var presentation = {
+		"getView" : function() {
+			return document.createElement("span");
+		}
+	};
+	var presentationIdUsed = [];
+	var recordGui = {
+		"getPresentation" : function(presentationId) {
+			presentationIdUsed.push(presentationId);
+			return presentation;
+		},
+		"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
+		}
+	};
+	var metadataIdUsed;
+	var recordGuiFactorySpy = {
+		"factor" : function(metadataId, data) {
+			metadataIdUsed = metadataId;
+			return recordGui;
+		}
+	};
+	var recordHandlerSpec = {
+		"recordTypeRecord" : this.record,
+		"presentationMode":"new",
+		"views" : {
+			"menuView" : menuView,
+			"workView" : workView
+		},
+		"record" : undefined,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"recordGuiFactory" : recordGuiFactorySpy
+	};
+	var recordHandler = CORA.recordHandler(recordHandlerSpec);
+
+	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), false);
+
+	 assert.strictEqual(metadataIdUsed, "recordTypeNewGroup");
+	 assert.strictEqual(presentationIdUsed[0], "recordTypeFormNewPGroup");
+	 assert.strictEqual(workView.childNodes[0].className, "workItem recordType");
+	
+	 assert.strictEqual(presentationIdUsed[1], "recordTypeMenuPGroup");
+	 assert.strictEqual(menuView.textContent, "");
+	 assert.strictEqual(menuView.childNodes[0].nodeName, "SPAN");
+
+});
+
 QUnit.test("fetchListCheckError", function(assert) {
 
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
@@ -271,20 +313,15 @@ QUnit.test("fetchListCheckError", function(assert) {
 		xmlHttpRequestSpy.responseText = JSON.stringify("Error, something went wrong");
 		xmlHttpRequestSpy.addedEventListeners["error"][0]();
 	}
+	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
-	var listText;
-	function createListItem(listTextIn) {
-		listText = listTextIn;
-		return {
-			"workView" : workView
-		};
-	}
 	var recordHandlerSpec = {
 		"recordTypeRecord" : this.record,
-//		"recordTypeHandler" : {
-//			"createListItem" : createListItem
-//		},
-		"createListItemMethod" : createListItem,
+		"presentationMode":"view",
+		"views" : {
+			"menuView" : menuView,
+			"workView" : workView
+		},
 		"record" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 	};
@@ -293,7 +330,7 @@ QUnit.test("fetchListCheckError", function(assert) {
 	assert.strictEqual(workView.childNodes[0].textContent, "404");
 });
 
-QUnit.test("initCheckRightGuiCreated2",
+QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissing",
 		function(assert) {
 			var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 			var record = this.record;
@@ -305,16 +342,8 @@ QUnit.test("initCheckRightGuiCreated2",
 				xmlHttpRequestSpy.addedEventListeners["load"][0]();
 			}
 
-			var workView = document.createElement("span");
 			var menuView = document.createElement("span");
-			var listText;
-			function createListItem(listTextIn) {
-				listText = listTextIn;
-				return {
-					"workView" : workView,
-					"menuView" : menuView
-				};
-			}
+			var workView = document.createElement("span");
 			var presentation = {
 				"getView" : function() {
 					return document.createElement("span");
@@ -332,17 +361,16 @@ QUnit.test("initCheckRightGuiCreated2",
 			var metadataIdUsed;
 			var recordGuiFactorySpy = {
 				"factor" : function(metadataId, data) {
-					// metadataIdUsed = metadataId;
-					// return recordGui;
 					throw new Error("missing metadata");
 				}
 			};
 			var recordHandlerSpec = {
 				"recordTypeRecord" : this.record,
-//				"recordTypeHandler" : {
-//					"createListItem" : createListItem
-//				},
-				"createListItemMethod" : createListItem,
+				"presentationMode":"view",
+				"views" : {
+					"menuView" : menuView,
+					"workView" : workView
+				},
 				"record" : this.record,
 				"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 				"recordGuiFactory" : recordGuiFactorySpy
@@ -354,3 +382,56 @@ QUnit.test("initCheckRightGuiCreated2",
 					"{\"children\":[{\"child");
 
 		});
+
+QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissingForNew",
+		function(assert) {
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	var record = this.record;
+	function sendFunction() {
+//		xmlHttpRequestSpy.status = 200;
+//		xmlHttpRequestSpy.responseText = JSON.stringify({
+//			"record" : undefined
+//		});
+//		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	
+	var menuView = document.createElement("span");
+	var workView = document.createElement("span");
+	var presentation = {
+			"getView" : function() {
+				return document.createElement("span");
+			}
+	};
+	var presentationIdUsed = [];
+	var recordGui = {
+			"getPresentation" : function(presentationId) {
+				presentationIdUsed.push(presentationId);
+				return presentation;
+			},
+			"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
+			}
+	};
+	var metadataIdUsed;
+	var recordGuiFactorySpy = {
+			"factor" : function(metadataId, data) {
+				throw new Error("missing metadata");
+			}
+	};
+	var recordHandlerSpec = {
+			"recordTypeRecord" : this.record,
+			"presentationMode":"new",
+			"views" : {
+				"menuView" : menuView,
+				"workView" : workView
+			},
+			"record" : undefined,
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"recordGuiFactory" : recordGuiFactorySpy
+			
+	};
+	var recordHandler = CORA.recordHandler(recordHandlerSpec);
+	
+	assert.strictEqual(workView.firstChild.textContent,
+			"\"something went wrong, probably missing metadata\"");
+	
+});

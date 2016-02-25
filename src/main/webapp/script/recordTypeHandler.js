@@ -22,11 +22,14 @@ var CORA = (function(cora) {
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
 		var viewSpec = {
-			"fetchListMethod" : fetchList,
-			"headerText" : recordId
+			"headerText" : recordId,
+			"fetchListMethod" : createRecordTypeList
 		};
+		if(recordTypeHasCreateLink()){
+			viewSpec.createNewMethod = createRecordHandler;
+		}
 
-		var recordTypeHandlerView = CORA.recordTypeHandlerView(viewSpec);
+		var recordTypeHandlerView = spec.recordTypeHandlerViewFactory.factor(viewSpec);
 
 		function getView() {
 			return recordTypeHandlerView.getView();
@@ -38,32 +41,57 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		function fetchList() {
-			var listItem = createListItem("List");
+		function recordTypeHasCreateLink(){
+			var createLink = spec.recordTypeRecord.actionLinks.create;
+			if(createLink !== undefined){
+				return true;
+			}
+			return false;
+		}
+		
+		function createRecordTypeList() {
+			var views = createItemViews("List");
 			var listHandlerSpec = {
-				"createListItemMethod" : createListItem,
+				"createRecordHandlerMethod":createRecordHandler,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"recordTypeRecord" : spec.recordTypeRecord,
-				"workView" : listItem.workView,
+				"views" : views,
 				"baseUrl" : spec.baseUrl
 			};
-			CORA.recordListHandler(listHandlerSpec);
+			spec.recordListHandlerFactory.factor(listHandlerSpec);
+		}
+		
+		function createItemViews(text) {
+			var item = recordTypeHandlerView.createListItem(text, onclickMethod);
+			spec.jsClient.showView(item);
+			return item;
 		}
 
 		function onclickMethod(item) {
 			spec.jsClient.showView(item);
 		}
 		
-		function createListItem(text) {
-			var item = recordTypeHandlerView.createListItem(text, onclickMethod);
-			spec.jsClient.showView(item);
-			return item;
+		function createRecordHandler(presentationMode, record) {
+			var text = "New";
+			if("new"!==presentationMode){
+				text = getIdFromRecord(record);
+			}
+			var views = createItemViews(text);
+			var recordHandlerSpec = {
+				"recordTypeRecord" : spec.recordTypeRecord,
+				"presentationMode":presentationMode,
+				"record" : record,
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"recordGuiFactory" : spec.recordGuiFactory,
+				"views": views
+			};
+			spec.recordHandlerFactory.factor(recordHandlerSpec);
 		}
-
+		
 		var out = Object.freeze({
 			getView : getView,
-			fetchList : fetchList
+			createRecordTypeList : createRecordTypeList
 		});
 		return out;
 	};

@@ -151,28 +151,6 @@
 	function startJsClient() {
 		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
 		var textProviderRealStub = CORATEST.textProviderRealStub();
-		function client9(metadataProvider, textProvider) {
-			var place = document.getElementById("client9");
-			var dependenciesFactory = CORATEST.dependenciesFactory2(metadataProvider, textProvider);
-			var metadataId = "textSystemOneNewGroup";
-			var data = undefined;
-			var dependencies = dependenciesFactory.factor(metadataId, data);
-
-			var presentationId = "textSystemOneNewPGroup";
-			var view = dependencies.getPresentation(presentationId).getView();
-			place.appendChild(view);
-
-			view.dataHolder = dependencies.dataHolder;
-
-			function showData() {
-				var clientData = document.getElementById("client9Data");
-				clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
-			}
-			document.getElementById("client9DataButton").onclick = showData;
-
-			place.appendChild(dependencies.presentation2.getView());
-
-		}
 		var dependencies = {
 				"metadataProvider":CORATEST.metadataProviderRealStub(),
 				"textProvider": CORATEST.textProviderRealStub(),
@@ -182,7 +160,8 @@
 		var spec = {
 			"dependencies": dependencies,
 			"name" : "The Client",
-			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+// 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+			"baseUrl" : "http://localhost:8080/therest/rest/"
 		};
 		var jsClient = CORA.jsClient(spec);
 		document.body.appendChild(jsClient.getView());

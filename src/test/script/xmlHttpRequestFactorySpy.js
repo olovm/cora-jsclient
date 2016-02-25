@@ -19,11 +19,19 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.xmlHttpRequestFactorySpy = function(xmlHttpRequestSpy) {
-		function factor(){
+		var factorWasCalled = false;
+		function factor() {
+			factorWasCalled = true;
 			return xmlHttpRequestSpy;
 		}
+		
+		function wasFactorCalled(){
+			return factorWasCalled;
+		}
+		
 		var out = Object.freeze({
-			factor:factor
+			factor : factor,
+			wasFactorCalled : wasFactorCalled
 		});
 		return out;
 	};

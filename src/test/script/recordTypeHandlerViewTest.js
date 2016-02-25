@@ -129,132 +129,179 @@ QUnit.module("recordTypeHandlerViewTest.js", {
 	afterEach : function() {
 	}
 });
+QUnit.test("init", function(assert) {
+	var viewSpec = {
+		"headerText" : "some text",
+		"fetchListMethod" : function(){}
+	};
+	var recordTypeHandlerView = CORA.recordTypeHandlerView(viewSpec);
 
-//QUnit.test("init", function(assert) {
-//	var spec = {
-//		"recordTypeRecord" : this.record,
-//	};
-//	var recordTypeHandler = CORA.recordTypeHandlerView(spec);
-//
-//	var view = recordTypeHandler.getView();
-//	assert.strictEqual(view.className, "recordType");
-//
-//	var header = view.firstChild;
-//	assert.strictEqual(header.className, "header");
-//	assert.strictEqual(header.textContent, "metadataCollectionItem");
-//
-//	var childrenView = view.childNodes[1];
-//	assert.strictEqual(childrenView.className, "childrenView");
-//
-//});
-//
-//QUnit.test("headerOnClick", function(assert) {
-//	var spec = {
-//		"recordTypeRecord" : this.record,
-//	};
-//	var recordTypeHandler = CORA.recordTypeHandler(spec);
-//
-//	var view = recordTypeHandler.getView();
-//	assert.strictEqual(view.className, "recordType");
-//
-//	var header = view.firstChild;
-//	assert.strictEqual(header.onclick, recordTypeHandler.fetchList);
-//});
+	var view = recordTypeHandlerView.getView();
+	assert.strictEqual(view.className, "recordType");
 
-//QUnit.test("fetchList", function(assert) {
-//
-//	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-//	function sendFunction() {
-//		// xmlHttpRequestSpy.status = 0;
-//		// xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
-//	}
-//	var viewShowingInWorkView;
-//	var jsClientSpy = {
-//		"showView" : function(item) {
-//			viewShowingInWorkView = item.workView;
-//		}
-//	};
-//
-//	var spec = {
-//		"recordTypeRecord" : this.record,
-//		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-//		"jsClient" : jsClientSpy
-//	};
-//
-//	var recordTypeHandler = CORA.recordTypeHandler(spec);
-//
-//	var view = recordTypeHandler.getView();
-//	var header = view.firstChild;
-//	header.onclick();
-//
-//	var childrenView = view.childNodes[1];
-//	var menuView = childrenView.childNodes[0];
-//
-//	assert.strictEqual(menuView.textContent, "List");
-//	assert.notStrictEqual(menuView.onclick, undefined);
-//
-//	var workView = menuView.modelObject.workView;
-//	assert.notStrictEqual(workView, undefined);
-//	assert.strictEqual(workView, viewShowingInWorkView);
-//	assert.strictEqual(workView.className, "workView");
-//
-//	viewShowingInWorkView = undefined;
-//	menuView.onclick();
-//	assert.strictEqual(workView, viewShowingInWorkView);
-//});
+	var header = view.firstChild;
+	assert.strictEqual(header.className, "header");
+	assert.strictEqual(header.textContent, "some text");
 
-//QUnit.test("fetchListCheckAjaxParameters", function(assert) {
+	var buttonView = view.childNodes[1];
+	assert.strictEqual(buttonView.className, "buttonView");
+	
+	var childrenView = view.childNodes[2];
+	assert.strictEqual(childrenView.className, "childrenView");
+	assert.strictEqual(buttonView.childNodes.length, 0);
+});
+
+QUnit.test("initWithCreateButton", function(assert) {
+	var createNewMethodIsCalled = false;
+	var presentationModeCalled;
+	function createNewMethod(presentationMode){
+		presentationModeCalled = presentationMode;
+		createNewMethodIsCalled = true;
+	}
+	var viewSpec = {
+			"headerText" : "some text",
+			"fetchListMethod" : function(){},
+			"createNewMethod":createNewMethod
+	};
+	var recordTypeHandlerView = CORA.recordTypeHandlerView(viewSpec);
+	
+	var view = recordTypeHandlerView.getView();
+	
+	var buttonView = view.childNodes[1];
+	var createButton = buttonView.childNodes[0];
+	assert.strictEqual(createButton.className, "createButton");
+	createButton.onclick();
+	assert.strictEqual(presentationModeCalled, "new");
+	assert.strictEqual(createNewMethodIsCalled, true);
+});
+
+// QUnit.test("init", function(assert) {
+// var spec = {
+// "recordTypeRecord" : this.record,
+// };
+// var recordTypeHandler = CORA.recordTypeHandlerView(spec);
 //
-//	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-//	function sendFunction() {
-//		// xmlHttpRequestSpy.status = 0;
-//		// xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
-//	}
-//	var viewShowingInWorkView;
-//	var jsClientSpy = {
-//		"showView" : function(view) {
-//			viewShowingInWorkView = view;
-//		}
-//	};
+// var view = recordTypeHandler.getView();
+// assert.strictEqual(view.className, "recordType");
 //
-//	var spec = {
-//		"recordTypeRecord" : this.record,
-//		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-//		"jsClient" : jsClientSpy,
-//		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-//	};
+// var header = view.firstChild;
+// assert.strictEqual(header.className, "header");
+// assert.strictEqual(header.textContent, "metadataCollectionItem");
 //
-//	var recordTypeHandler = CORA.recordTypeHandler(spec);
+// var childrenView = view.childNodes[1];
+// assert.strictEqual(childrenView.className, "childrenView");
 //
-//	var view = recordTypeHandler.getView();
-//	var header = view.firstChild;
-//	header.onclick();
+// });
 //
-//	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-//	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
-//			"http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem");
-//	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
-//	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-//			"application/uub+recordList+json");
-//	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-//			"application/uub+record+json");
-//});
+// QUnit.test("headerOnClick", function(assert) {
+// var spec = {
+// "recordTypeRecord" : this.record,
+// };
+// var recordTypeHandler = CORA.recordTypeHandler(spec);
 //
-//QUnit.test("createListItem", function(assert) {
-//	var workView;
-//	var showView = function(workViewIn) {
-//		workView = workViewIn;
-//	}
-//	var spec = {
-//		"jsClient" : {
-//			"showView" : showView
-//		},
-//		"recordTypeRecord" : this.record,
-//	};
-//	var recordTypeHandler = CORA.recordTypeHandler(spec);
+// var view = recordTypeHandler.getView();
+// assert.strictEqual(view.className, "recordType");
 //
-//	var listItem = recordTypeHandler.createListItem("menu text")
-//	assert.notStrictEqual(workView, undefined);
+// var header = view.firstChild;
+// assert.strictEqual(header.onclick, recordTypeHandler.fetchList);
+// });
+
+// QUnit.test("fetchList", function(assert) {
 //
-//	assert.strictEqual(listItem.menuView.textContent, "menu text");
-//});
+// var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+// function sendFunction() {
+// // xmlHttpRequestSpy.status = 0;
+// // xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
+// }
+// var viewShowingInWorkView;
+// var jsClientSpy = {
+// "showView" : function(item) {
+// viewShowingInWorkView = item.workView;
+// }
+// };
+//
+// var spec = {
+// "recordTypeRecord" : this.record,
+// "xmlHttpRequestFactory" :
+// CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+// "jsClient" : jsClientSpy
+// };
+//
+// var recordTypeHandler = CORA.recordTypeHandler(spec);
+//
+// var view = recordTypeHandler.getView();
+// var header = view.firstChild;
+// header.onclick();
+//
+// var childrenView = view.childNodes[1];
+// var menuView = childrenView.childNodes[0];
+//
+// assert.strictEqual(menuView.textContent, "List");
+// assert.notStrictEqual(menuView.onclick, undefined);
+//
+// var workView = menuView.modelObject.workView;
+// assert.notStrictEqual(workView, undefined);
+// assert.strictEqual(workView, viewShowingInWorkView);
+// assert.strictEqual(workView.className, "workView");
+//
+// viewShowingInWorkView = undefined;
+// menuView.onclick();
+// assert.strictEqual(workView, viewShowingInWorkView);
+// });
+
+// QUnit.test("fetchListCheckAjaxParameters", function(assert) {
+//
+// var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+// function sendFunction() {
+// // xmlHttpRequestSpy.status = 0;
+// // xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
+// }
+// var viewShowingInWorkView;
+// var jsClientSpy = {
+// "showView" : function(view) {
+// viewShowingInWorkView = view;
+// }
+// };
+//
+// var spec = {
+// "recordTypeRecord" : this.record,
+// "xmlHttpRequestFactory" :
+// CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+// "jsClient" : jsClientSpy,
+// "baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+// };
+//
+// var recordTypeHandler = CORA.recordTypeHandler(spec);
+//
+// var view = recordTypeHandler.getView();
+// var header = view.firstChild;
+// header.onclick();
+//
+// var openUrl = xmlHttpRequestSpy.getOpenUrl();
+// assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
+// "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem");
+// assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
+// assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
+// "application/uub+recordList+json");
+// assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
+// "application/uub+record+json");
+// });
+//
+// QUnit.test("createListItem", function(assert) {
+// var workView;
+// var showView = function(workViewIn) {
+// workView = workViewIn;
+// }
+// var spec = {
+// "jsClient" : {
+// "showView" : showView
+// },
+// "recordTypeRecord" : this.record,
+// };
+// var recordTypeHandler = CORA.recordTypeHandler(spec);
+//
+// var listItem = recordTypeHandler.createListItem("menu text")
+// assert.notStrictEqual(workView, undefined);
+//
+// assert.strictEqual(listItem.menuView.textContent, "menu text");
+// });

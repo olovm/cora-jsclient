@@ -25,11 +25,12 @@ var CORA = (function(cora) {
 		var header = createHeader();
 		view.appendChild(header);
 
-		var childrenView = createChildrenView();
-		view.appendChild(childrenView);
-
 		var buttonView = createButtonView();
 		view.appendChild(buttonView);
+		possiblyCreateCreateButton();
+
+		var childrenView = createChildrenView();
+		view.appendChild(childrenView);
 
 		function createView() {
 			var viewNew = document.createElement("span");
@@ -45,51 +46,44 @@ var CORA = (function(cora) {
 			return headerNew;
 		}
 
-		function createChildrenView() {
-			var childrenViewNew = document.createElement("span");
-			childrenViewNew.className = "childrenView";
-			return childrenViewNew;
-		}
-
 		function createButtonView() {
 			var buttonViewNew = document.createElement("span");
 			buttonViewNew.className = "buttonView";
 			return buttonViewNew;
 		}
 
+		function possiblyCreateCreateButton() {
+			if (spec.createNewMethod !== undefined) {
+				buttonView.appendChild(createCreateButton());
+			}
+		}
+
+		function createCreateButton() {
+			var createButtonNew = document.createElement("span");
+			createButtonNew.className = "createButton";
+			createButtonNew.onclick = function() {
+				spec.createNewMethod("new");
+			}
+			return createButtonNew;
+		}
+
+		function createChildrenView() {
+			var childrenViewNew = document.createElement("span");
+			childrenViewNew.className = "childrenView";
+			return childrenViewNew;
+		}
+
 		function getView() {
 			return view;
 		}
 
-//		function getIdFromRecord(record) {
-//			var cData = CORA.coraData(record.data);
-//			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-//			return cRecordInfo.getFirstAtomicValueByNameInData("id");
-//		}
-
-		// function fetchList() {
-		// var listItem = createListItem("List");
-		//
-		// var listHandlerSpec = {
-		// "recordTypeHandler" : out,
-		// "xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-		// "recordGuiFactory" : spec.recordGuiFactory,
-		// "recordTypeRecord" : spec.recordTypeRecord,
-		// "workView" : listItem.workView,
-		// "baseUrl" : spec.baseUrl
-		// };
-		// CORA.recordListHandler(listHandlerSpec);
-		// }
-
 		function createListItem(text, onclickMethod) {
 			var item = {};
 			item.menuView = createMenuView(text, item, onclickMethod);
-			// item.menuView.modelObject = item;
 			childrenView.appendChild(item.menuView);
 
 			item.workView = document.createElement("span");
 			item.workView.className = "workView";
-			// spec.jsClient.showView(item);
 			return item;
 		}
 
@@ -99,10 +93,8 @@ var CORA = (function(cora) {
 			menuView.className = "menuView";
 			menuView.textContent = text;
 			menuView.onclick = function() {
-//				spec.jsClient.showView(item);
 				onclickMethod(item);
 			};
-			// menuView.onclick = onclickMethod;
 			return menuView;
 		}
 

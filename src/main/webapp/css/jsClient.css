@@ -26,8 +26,8 @@ body {
 
 .jsClient>.header {
 	display: block;
-	height: 9rem;
-	font-size: 7rem;
+	height: 7rem;
+	font-size: 5rem;
 	text-align: center;
 	color: magenta;
 	text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, -1px 1px 0px #000,
@@ -58,6 +58,7 @@ body {
 	/* 	padding: .2rem; */
 	/* 	transition: zoom 0.5s ease 0s; */
 	width: 100%;
+	position: relative;
 }
 
 .sideBar>.header {
@@ -162,7 +163,6 @@ body {
 	background: none;
 	box-shadow: none;
 	margin: 0;
-	
 }
 
 .jsClient .sideBar .menuView .pVar span {
@@ -186,4 +186,55 @@ body {
 	display: inline-block;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.sideBar .recordType .buttonView {
+	min-width: 20px;
+	min-height: 20px;
+	position: absolute;
+	display: inline-block;
+	top: 0px;
+	right: 0px;
+}
+.createButton {
+	cursor: pointer;
+	min-width: 16px;
+	min-height: 16px;
+	display: block;
+	float:right;
+	position: relative;
+	margin-right: 2px;
+}
+.sideBar .recordType .buttonView > span::before, .sideBar .recordType .buttonView> span::after {
+	top: 3px;
+	right: 2px;
+}
+.createButton::before {
+	background: url("../images/icons2.svg") no-repeat scroll -128px -32px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	opacity: 1;
+	position: absolute;
+	transition: opacity 0.5s ease 0s;
+	z-index: 100;
+}
+
+.createButton:hover::before {
+	opacity: 0;
+}
+
+.createButton::after {
+	background: url("../images/icons2.svg") no-repeat scroll -128px -16px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	opacity: 0;
+	transition: opacity 0.5s ease 0s;
+	z-index: 101;
+}
+
+.createButton:hover::after {
+	opacity: 1;
 }
