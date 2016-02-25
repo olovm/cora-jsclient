@@ -289,9 +289,10 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 	}
 	var workView = document.createElement("span");
 	var listHandlerSpec = {
-		"recordTypeHandler" : {
-			"createListItem" : createListItem
-		},
+//		"recordTypeHandler" : {
+//			"createListItem" : createListItem
+//		},
+		"createListItemMethod" : createListItem,
 		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : recordGuiFactorySpy,

@@ -122,9 +122,9 @@ QUnit.test("init", function(assert) {
 	}
 	var recordHandlerSpec = {
 		"recordTypeRecord" : this.record,
-		"recordTypeHandler" : {
-			"createListItem" : createListItem
-		},
+//		"recordTypeHandler" : {
+			"createListItemMethod" : createListItem,
+//		},
 		"record" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 	};
@@ -173,9 +173,10 @@ QUnit.test("initCallToServer", function(assert) {
 	};
 	var recordHandlerSpec = {
 		"recordTypeRecord" : this.record,
-		"recordTypeHandler" : {
-			"createListItem" : createListItem
-		},
+//		"recordTypeHandler" : {
+//			"createListItem" : createListItem
+//		},
+		"createListItemMethod" : createListItem,
 		"record" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : recordGuiFactorySpy
@@ -241,9 +242,10 @@ QUnit.test("initCheckRightGuiCreated", function(assert) {
 	};
 	var recordHandlerSpec = {
 		"recordTypeRecord" : this.record,
-		"recordTypeHandler" : {
-			"createListItem" : createListItem
-		},
+//		"recordTypeHandler" : {
+//			"createListItem" : createListItem
+//		},
+		"createListItemMethod" : createListItem,
 		"record" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : recordGuiFactorySpy
@@ -279,9 +281,10 @@ QUnit.test("fetchListCheckError", function(assert) {
 	}
 	var recordHandlerSpec = {
 		"recordTypeRecord" : this.record,
-		"recordTypeHandler" : {
-			"createListItem" : createListItem
-		},
+//		"recordTypeHandler" : {
+//			"createListItem" : createListItem
+//		},
+		"createListItemMethod" : createListItem,
 		"record" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 	};
@@ -290,7 +293,7 @@ QUnit.test("fetchListCheckError", function(assert) {
 	assert.strictEqual(workView.childNodes[0].textContent, "404");
 });
 
-QUnit.test("initCheckRightGuiCreated",
+QUnit.test("initCheckRightGuiCreated2",
 		function(assert) {
 			var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 			var record = this.record;
@@ -336,9 +339,10 @@ QUnit.test("initCheckRightGuiCreated",
 			};
 			var recordHandlerSpec = {
 				"recordTypeRecord" : this.record,
-				"recordTypeHandler" : {
-					"createListItem" : createListItem
-				},
+//				"recordTypeHandler" : {
+//					"createListItem" : createListItem
+//				},
+				"createListItemMethod" : createListItem,
 				"record" : this.record,
 				"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 				"recordGuiFactory" : recordGuiFactorySpy

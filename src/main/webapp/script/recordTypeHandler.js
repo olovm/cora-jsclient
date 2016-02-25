@@ -19,24 +19,17 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeHandler = function(spec) {
-		var out;
-		var view = document.createElement("span");
-		view.className = "recordType";
-
-		var header = document.createElement("span");
-		header.className = "header";
-		header.onclick = fetchList;
-		view.appendChild(header);
-
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
-		header.textContent = recordId;
 
-		var childrenView = document.createElement("span");
-		childrenView.className = "childrenView";
-		view.appendChild(childrenView);
+		var viewSpec = {
+			"fetchListMethod" : fetchList,
+			"headerText" : recordId
+		};
+
+		var recordTypeHandlerView = CORA.recordTypeHandlerView(viewSpec);
 
 		function getView() {
-			return view;
+			return recordTypeHandlerView.getView();
 		}
 
 		function getIdFromRecord(record) {
@@ -47,9 +40,8 @@ var CORA = (function(cora) {
 
 		function fetchList() {
 			var listItem = createListItem("List");
-
 			var listHandlerSpec = {
-				"recordTypeHandler" : out,
+				"createListItemMethod" : createListItem,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"recordTypeRecord" : spec.recordTypeRecord,
@@ -59,32 +51,19 @@ var CORA = (function(cora) {
 			CORA.recordListHandler(listHandlerSpec);
 		}
 
+		function onclickMethod(item) {
+			spec.jsClient.showView(item);
+		}
+		
 		function createListItem(text) {
-			var item = {};
-			item.menuView = createMenuView(text, item);
-			childrenView.appendChild(item.menuView);
-
-			item.workView = document.createElement("span");
-			item.workView.className = "workView";
+			var item = recordTypeHandlerView.createListItem(text, onclickMethod);
 			spec.jsClient.showView(item);
 			return item;
 		}
 
-		function createMenuView(text, item) {
-			var menuView = document.createElement("span");
-			menuView.modelObject = item;
-			menuView.className = "menuView";
-			menuView.textContent = text;
-			menuView.onclick = function() {
-				spec.jsClient.showView(item);
-			};
-			return menuView;
-		}
-
-		out = Object.freeze({
+		var out = Object.freeze({
 			getView : getView,
-			fetchList : fetchList,
-			createListItem : createListItem
+			fetchList : fetchList
 		});
 		return out;
 	};

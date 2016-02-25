@@ -79,7 +79,8 @@ var CORA = (function(cora) {
 		function createRecordHandler(record) {
 			var recordHandlerSpec = {
 				"recordTypeRecord" : spec.recordTypeRecord,
-				"recordTypeHandler" : spec.recordTypeHandler,
+//				"recordTypeHandler" : spec.recordTypeHandler,
+				"createListItemMethod" : spec.createListItemMethod,
 				"record" : record,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory

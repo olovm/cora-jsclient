@@ -22,7 +22,7 @@ var CORA = (function(cora) {
 
 		var recordId = getIdFromRecord(spec.record);
 
-		var listItem = spec.recordTypeHandler.createListItem(recordId);
+		var listItem = spec.createListItemMethod(recordId);
 
 		var workView = listItem.workView;
 		var menuView = listItem.menuView;

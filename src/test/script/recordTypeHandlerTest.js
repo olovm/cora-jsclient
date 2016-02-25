@@ -83,29 +83,45 @@ QUnit.module("recordTypeHandlerTest.js", {
 				"name" : "recordType"
 			},
 			"actionLinks" : {
+				"search" : {
+					"requestMethod" : "GET",
+					"rel" : "search",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+					"accept" : "application/uub+recordList+json"
+				},
 				"read" : {
 					"requestMethod" : "GET",
 					"rel" : "read",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/"
-							+ "record/recordType/metadataCollectionItem",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
+							+ "metadataCollectionItem",
 					"accept" : "application/uub+record+json"
 				},
 				"update" : {
 					"requestMethod" : "POST",
 					"rel" : "update",
 					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/"
-							+ "record/recordType/metadataCollectionItem",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
+							+ "metadataCollectionItem",
 					"accept" : "application/uub+record+json"
+				},
+				"create" : {
+					"requestMethod" : "POST",
+					"rel" : "create",
+					"contentType" : "application/uub+record+json",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+					"accept" : "application/uub+record+json"
+				},
+				"list" : {
+					"requestMethod" : "GET",
+					"rel" : "list",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+					"accept" : "application/uub+recordList+json"
 				},
 				"delete" : {
 					"requestMethod" : "DELETE",
 					"rel" : "delete",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/"
-							+ "record/recordType/metadataCollectionItem",
-					"accept" : "application/uub+record+json"
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
+							+ "metadataCollectionItem"
 				}
 			}
 		};
@@ -184,7 +200,7 @@ QUnit.test("fetchList", function(assert) {
 
 	viewShowingInWorkView = undefined;
 	menuView.onclick();
-	assert.strictEqual(workView, viewShowingInWorkView); 
+	assert.strictEqual(workView, viewShowingInWorkView);
 });
 
 QUnit.test("fetchListCheckAjaxParameters", function(assert) {
@@ -205,7 +221,7 @@ QUnit.test("fetchListCheckAjaxParameters", function(assert) {
 		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"jsClient" : jsClientSpy,
-		"baseUrl":"http://epc.ub.uu.se/cora/rest/"
+		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 	};
 
 	var recordTypeHandler = CORA.recordTypeHandler(spec);
@@ -222,23 +238,4 @@ QUnit.test("fetchListCheckAjaxParameters", function(assert) {
 			"application/uub+recordList+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
 			"application/uub+record+json");
-});
-
-QUnit.test("createListItem", function(assert) {
-	var workView;
-	var showView = function(workViewIn) {
-		workView = workViewIn;
-	}
-	var spec = {
-		"jsClient" : {
-			"showView" : showView
-		},
-		"recordTypeRecord" : this.record,
-	};
-	var recordTypeHandler = CORA.recordTypeHandler(spec);
-
-	var listItem = recordTypeHandler.createListItem("menu text")
-	assert.notStrictEqual(workView, undefined);
-	
-	assert.strictEqual(listItem.menuView.textContent, "menu text");
 });
