@@ -37,8 +37,15 @@ var CORA = (function(cora) {
 
 			var cChildReference = CORA.coraData(childReference);
 			var ref = cChildReference.getFirstAtomicValueByNameInData('ref');
+			var repeatMax = cChildReference.getFirstAtomicValueByNameInData('repeatMax');
+			if(repeatMax==="1"){
+				CORA.metadataRepeatInitializer(ref, path, undefined, undefined,
+						spec.metadataProvider, spec.pubSub);
+			}else{
+				
 			CORA.metadataRepeatInitializer(ref, path, undefined, String(startRepeatId),
-					spec.metadataProvider, spec.pubSub);
+				spec.metadataProvider, spec.pubSub);
+			}
 		}
 
 		function calculateStartRepeatId(dataChildrenForMetadata) {
