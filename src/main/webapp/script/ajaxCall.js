@@ -25,7 +25,11 @@ var CORA = (function(cora) {
 		xhr.addEventListener("load", loadListener);
 		xhr.addEventListener("error", errorListener);
 
-		xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
+		if(spec.method!=="POST"){
+			xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
+		}else{
+			xhr.open(spec.method, spec.url);
+		}
 
 		xhr.timeout = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
 		if (spec.accept !== undefined) {

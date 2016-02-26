@@ -177,6 +177,8 @@ QUnit.test("testSendCreate", function(assert) {
 		"data" : JSON.stringify(textData)
 	};
 	var ajaxCall = CORA.ajaxCall(spec);
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl, "http://130.238.171.39:8080/therest/rest/record/textSystemOne");
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(textData));
 	assert.strictEqual(recievedAnswer.status, 201);
 	assert.strictEqual(recievedAnswer.responseText, "a dummy response");
