@@ -2125,7 +2125,7 @@ var CORATEST = (function(coraTest) {
 			case "":
 				return;
 				// presentation
-			case "textSystemOneNewPGroup":
+			case "textSystemOneFormNewPGroup":
 				return {
 					"name" : "presentation",
 					"attributes" : {

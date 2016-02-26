@@ -52,7 +52,9 @@
 <script type="text/javascript" src="script/pVar.js"></script>
 <script type="text/javascript" src="script/recordGuiFactory.js"></script>
 <script type="text/javascript" src="script/recordHandler.js"></script>
+<script type="text/javascript" src="script/recordHandlerView.js"></script>
 <script type="text/javascript" src="script/recordTypeHandler.js"></script>
+<script type="text/javascript" src="script/recordTypeHandlerView.js"></script>
 <script type="text/javascript" src="script/recordListHandler.js"></script>
 <script type="text/javascript" src="script/textProvider.js"></script>
 <script type="text/javascript" src="script/xmlHttpRequestFactory.js"></script>
@@ -151,28 +153,6 @@
 	function startJsClient() {
 		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
 		var textProviderRealStub = CORATEST.textProviderRealStub();
-		function client9(metadataProvider, textProvider) {
-			var place = document.getElementById("client9");
-			var dependenciesFactory = CORATEST.dependenciesFactory2(metadataProvider, textProvider);
-			var metadataId = "textSystemOneNewGroup";
-			var data = undefined;
-			var dependencies = dependenciesFactory.factor(metadataId, data);
-
-			var presentationId = "textSystemOneNewPGroup";
-			var view = dependencies.getPresentation(presentationId).getView();
-			place.appendChild(view);
-
-			view.dataHolder = dependencies.dataHolder;
-
-			function showData() {
-				var clientData = document.getElementById("client9Data");
-				clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
-			}
-			document.getElementById("client9DataButton").onclick = showData;
-
-			place.appendChild(dependencies.presentation2.getView());
-
-		}
 		var dependencies = {
 				"metadataProvider":CORATEST.metadataProviderRealStub(),
 				"textProvider": CORATEST.textProviderRealStub(),
@@ -183,6 +163,7 @@
 			"dependencies": dependencies,
 			"name" : "The Client",
 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+// 			"baseUrl" : "http://localhost:8080/therest/rest/"
 		};
 		var jsClient = CORA.jsClient(spec);
 		document.body.appendChild(jsClient.getView());
