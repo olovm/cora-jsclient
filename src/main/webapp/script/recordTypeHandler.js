@@ -19,24 +19,20 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeHandler = function(spec) {
-		var out;
-		var view = document.createElement("span");
-		view.className = "recordType";
-
-		var header = document.createElement("span");
-		header.className = "header";
-		header.onclick = fetchList;
-		view.appendChild(header);
-
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
-		header.textContent = recordId;
 
-		var childrenView = document.createElement("span");
-		childrenView.className = "childrenView";
-		view.appendChild(childrenView);
+		var viewSpec = {
+			"headerText" : recordId,
+			"fetchListMethod" : createRecordTypeList
+		};
+		if (recordTypeHasCreateLink()) {
+			viewSpec.createNewMethod = createRecordHandler;
+		}
+
+		var recordTypeHandlerView = spec.recordTypeHandlerViewFactory.factor(viewSpec);
 
 		function getView() {
-			return view;
+			return recordTypeHandlerView.getView();
 		}
 
 		function getIdFromRecord(record) {
@@ -45,46 +41,66 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		function fetchList() {
-			var listItem = createListItem("List");
+		function recordTypeHasCreateLink() {
+			var createLink = spec.recordTypeRecord.actionLinks.create;
+			if (createLink !== undefined) {
+				return true;
+			}
+			return false;
+		}
 
+		function createRecordTypeList() {
+			var views = createItemViews("List");
 			var listHandlerSpec = {
-				"recordTypeHandler" : out,
+				"createRecordHandlerMethod" : createRecordHandler,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"recordTypeRecord" : spec.recordTypeRecord,
-				"workView" : listItem.workView,
+				"views" : views,
 				"baseUrl" : spec.baseUrl
 			};
-			CORA.recordListHandler(listHandlerSpec);
+			spec.recordListHandlerFactory.factor(listHandlerSpec);
 		}
 
-		function createListItem(text) {
-			var item = {};
-			item.menuView = createMenuView(text, item);
-			childrenView.appendChild(item.menuView);
-
-			item.workView = document.createElement("span");
-			item.workView.className = "workView";
+		function createItemViews(text) {
+			var item = recordTypeHandlerView.createListItem(text, onclickMethod);
 			spec.jsClient.showView(item);
 			return item;
 		}
 
-		function createMenuView(text, item) {
-			var menuView = document.createElement("span");
-			menuView.modelObject = item;
-			menuView.className = "menuView";
-			menuView.textContent = text;
-			menuView.onclick = function() {
-				spec.jsClient.showView(item);
-			};
-			return menuView;
+		function onclickMethod(item) {
+			spec.jsClient.showView(item);
 		}
 
-		out = Object.freeze({
+		function createRecordHandler(presentationMode, record) {
+			var text = "New";
+			if ("new" !== presentationMode) {
+				text = getIdFromRecord(record);
+			}
+			var views = createItemViews(text);
+			var recordHandlerSpec = {
+				"recordHandlerViewFactory" : createRecordHandlerViewFactory(),
+				"recordTypeRecord" : spec.recordTypeRecord,
+				"presentationMode" : presentationMode,
+				"record" : record,
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"recordGuiFactory" : spec.recordGuiFactory,
+				"views" : views
+			};
+			spec.recordHandlerFactory.factor(recordHandlerSpec);
+		}
+		function createRecordHandlerViewFactory() {
+			return {
+				"factor" : function(recordHandlerViewSpec) {
+					return CORA.recordHandlerView(recordHandlerViewSpec);
+				}
+			};
+		}
+
+		var out = Object.freeze({
 			getView : getView,
-			fetchList : fetchList,
-			createListItem : createListItem
+			createRecordTypeList : createRecordTypeList,
+			createRecordHandlerViewFactory:createRecordHandlerViewFactory
 		});
 		return out;
 	};

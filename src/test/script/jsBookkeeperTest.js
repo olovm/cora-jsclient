@@ -98,8 +98,7 @@ QUnit.test("testAdd", function(assert) {
 		"type" : "add",
 		"message" : {
 			"metadataId" : "textVariableId",
-			"path" : {},
-			"repeatId" : "1"
+			"path" : {}
 		}
 	};
 	assert.stringifyEqual(messages[0], expectedMessage);

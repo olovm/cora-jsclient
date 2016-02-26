@@ -29,7 +29,7 @@ if (!Array.prototype.find) {
 
 /*
  * Added to support internet explorer
- *
+ * 
  * Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ copied from:
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
@@ -75,16 +75,16 @@ if (!String.prototype.endsWith) {
 	};
 }
 
-
-/* Added to support phantomjs and internet explorer
+/*
+ * Added to support phantomjs and internet explorer
  * 
  * Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ copied from:
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
  */
 if (!String.prototype.startsWith) {
-    String.prototype.startsWith = function(searchString, position){
-      position = position || 0;
-      return this.substr(position, searchString.length) === searchString;
-  };
+	String.prototype.startsWith = function(searchString, position) {
+		position = position || 0;
+		return this.substr(position, searchString.length) === searchString;
+	};
 }

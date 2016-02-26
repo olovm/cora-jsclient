@@ -28,23 +28,25 @@ var CORA = (function(cora) {
 		fetchRecordTypeListAndThen(processFetchedRecordTypes);
 
 		function createMainView() {
-			var view = document.createElement("div");
-			view.className = "jsClient mainView";
+			var view = createSpanWithClassName("jsClient mainView");
 
-			var header = document.createElement("span");
+			var header = createSpanWithClassName("header");
 			header.textContent = spec.name;
-			header.className = "header";
 			view.appendChild(header);
 
-			sideBar = document.createElement("span");
-			sideBar.className = "sideBar";
+			sideBar = createSpanWithClassName("sideBar");
 			view.appendChild(sideBar);
 
-			workArea = document.createElement("span");
-			workArea.className = "workArea";
+			workArea = createSpanWithClassName("workArea");
 			view.appendChild(workArea);
 
 			return view;
+		}
+
+		function createSpanWithClassName(className) {
+			var spanNew = document.createElement("span");
+			spanNew.className = className;
+			return spanNew;
 		}
 
 		function fetchRecordTypeListAndThen(callAfterAnswer) {
@@ -80,6 +82,9 @@ var CORA = (function(cora) {
 
 		function addRecordTypeToSideBar(record) {
 			var specRecord = {
+				"recordTypeHandlerViewFactory" : createRecordTypeHandlerViewFactory(),
+				"recordListHandlerFactory" : createRecordListHandlerFactory(),
+				"recordHandlerFactory" : createRecordHandlerFactory(),
 				"xmlHttpRequestFactory" : spec.dependencies.xmlHttpRequestFactory,
 				"recordGuiFactory" : recordGuiFactory,
 				"recordTypeRecord" : record,
@@ -89,6 +94,28 @@ var CORA = (function(cora) {
 
 			var recordTypeHandler = CORA.recordTypeHandler(specRecord);
 			sideBar.appendChild(recordTypeHandler.getView());
+		}
+
+		function createRecordTypeHandlerViewFactory() {
+			return {
+				"factor" : function(viewSpec) {
+					return CORA.recordTypeHandlerView(viewSpec);
+				}
+			};
+		}
+		function createRecordListHandlerFactory() {
+			return {
+				"factor" : function(listHandlerSpec) {
+					return CORA.recordListHandler(listHandlerSpec);
+				}
+			};
+		}
+		function createRecordHandlerFactory() {
+			return {
+				"factor" : function(recordHandlerSpec) {
+					return CORA.recordHandler(recordHandlerSpec);
+				}
+			};
 		}
 
 		function getView() {
@@ -133,7 +160,10 @@ var CORA = (function(cora) {
 		var out = Object.freeze({
 			getView : getView,
 			getRecordTypeList : getRecordTypeList,
-			showView : showView
+			showView : showView,
+			createRecordTypeHandlerViewFactory : createRecordTypeHandlerViewFactory,
+			createRecordListHandlerFactory : createRecordListHandlerFactory,
+			createRecordHandlerFactory : createRecordHandlerFactory
 		});
 		mainView.modelObject = out;
 		return out;

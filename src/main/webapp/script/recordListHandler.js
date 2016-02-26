@@ -19,6 +19,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordListHandler = function(spec) {
+		var workView = spec.views.workView;
 
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
@@ -57,7 +58,7 @@ var CORA = (function(cora) {
 
 		function addRecordToWorkView(record) {
 			var view = createView(record);
-			spec.workView.appendChild(view);
+			workView.appendChild(view);
 			var metadataId = "recordTypeGroup";
 			var presentationId = "recordTypePGroup";
 			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data);
@@ -71,26 +72,15 @@ var CORA = (function(cora) {
 			var newView = document.createElement("span");
 			newView.className = "listItem " + recordId;
 			newView.onclick = function() {
-				createRecordHandler(record);
+				spec.createRecordHandlerMethod("view", record);
 			};
 			return newView;
-		}
-
-		function createRecordHandler(record) {
-			var recordHandlerSpec = {
-				"recordTypeRecord" : spec.recordTypeRecord,
-				"recordTypeHandler" : spec.recordTypeHandler,
-				"record" : record,
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"recordGuiFactory" : spec.recordGuiFactory
-			};
-			CORA.recordHandler(recordHandlerSpec);
 		}
 
 		function callError(answer) {
 			var errorView = document.createElement("span");
 			errorView.textContent = JSON.stringify(answer.status);
-			spec.workView.appendChild(errorView);
+			workView.appendChild(errorView);
 		}
 
 		var out = Object.freeze({
