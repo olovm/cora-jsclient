@@ -28,23 +28,25 @@ var CORA = (function(cora) {
 		fetchRecordTypeListAndThen(processFetchedRecordTypes);
 
 		function createMainView() {
-			var view = document.createElement("div");
-			view.className = "jsClient mainView";
+			var view = createSpanWithClassName("jsClient mainView");
 
-			var header = document.createElement("span");
+			var header = createSpanWithClassName("header");
 			header.textContent = spec.name;
-			header.className = "header";
 			view.appendChild(header);
 
-			sideBar = document.createElement("span");
-			sideBar.className = "sideBar";
+			sideBar = createSpanWithClassName("sideBar");
 			view.appendChild(sideBar);
 
-			workArea = document.createElement("span");
-			workArea.className = "workArea";
+			workArea = createSpanWithClassName("workArea");
 			view.appendChild(workArea);
 
 			return view;
+		}
+		
+		function createSpanWithClassName(className) {
+			var spanNew = document.createElement("span");
+			spanNew.className = className;
+			return spanNew;
 		}
 
 		function fetchRecordTypeListAndThen(callAfterAnswer) {

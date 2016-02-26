@@ -20,36 +20,29 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeHandlerView = function(spec) {
 		var out;
-		var view = createView();
+		var view = createSpanWithClassName("recordType");
 
 		var header = createHeader();
 		view.appendChild(header);
 
-		var buttonView = createButtonView();
+		var buttonView = createSpanWithClassName("buttonView");
 		view.appendChild(buttonView);
 		possiblyCreateCreateButton();
 
-		var childrenView = createChildrenView();
+		var childrenView = createSpanWithClassName("childrenView");
 		view.appendChild(childrenView);
 
-		function createView() {
-			var viewNew = document.createElement("span");
-			viewNew.className = "recordType";
-			return viewNew;
+		function createSpanWithClassName(className) {
+			var spanNew = document.createElement("span");
+			spanNew.className = className;
+			return spanNew;
 		}
-
+		
 		function createHeader() {
-			var headerNew = document.createElement("span");
-			headerNew.className = "header";
+			var headerNew = createSpanWithClassName("header");
 			headerNew.onclick = spec.fetchListMethod;
 			headerNew.textContent = spec.headerText;
 			return headerNew;
-		}
-
-		function createButtonView() {
-			var buttonViewNew = document.createElement("span");
-			buttonViewNew.className = "buttonView";
-			return buttonViewNew;
 		}
 
 		function possiblyCreateCreateButton() {
@@ -59,18 +52,11 @@ var CORA = (function(cora) {
 		}
 
 		function createCreateButton() {
-			var createButtonNew = document.createElement("span");
-			createButtonNew.className = "createButton";
+			var createButtonNew = createSpanWithClassName("createButton");
 			createButtonNew.onclick = function() {
 				spec.createNewMethod("new");
 			}
 			return createButtonNew;
-		}
-
-		function createChildrenView() {
-			var childrenViewNew = document.createElement("span");
-			childrenViewNew.className = "childrenView";
-			return childrenViewNew;
 		}
 
 		function getView() {
@@ -82,19 +68,17 @@ var CORA = (function(cora) {
 			item.menuView = createMenuView(text, item, onclickMethod);
 			childrenView.appendChild(item.menuView);
 
-			item.workView = document.createElement("span");
-			item.workView.className = "workView";
+			item.workView = createSpanWithClassName("workView");
 			return item;
 		}
 
 		function createMenuView(text, item, onclickMethod) {
-			var menuView = document.createElement("span");
-			menuView.modelObject = item;
-			menuView.className = "menuView";
-			menuView.textContent = text;
+			var menuView = createSpanWithClassName("menuView");
 			menuView.onclick = function() {
 				onclickMethod(item);
 			};
+			menuView.textContent = text;
+			menuView.modelObject = item;
 			return menuView;
 		}
 

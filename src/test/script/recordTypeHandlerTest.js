@@ -441,9 +441,9 @@ QUnit.test("showNew", function(assert) {
 	}
 	var viewShowingInWorkView;
 	var jsClientSpy = {
-			"showView" : function(item) {
-				viewShowingInWorkView = item.workView;
-			}
+		"showView" : function(item) {
+			viewShowingInWorkView = item.workView;
+		}
 	};
 	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
@@ -452,40 +452,40 @@ QUnit.test("showNew", function(assert) {
 	var catchRecordHandlerSpec;
 	var xmlHttpRequestFactory = CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy);
 	var item = {
-			"workView" : workView,
-			"menuView" : menuView
+		"workView" : workView,
+		"menuView" : menuView
 	};
 	var createListItem = function() {
 		return item;
 	}
 	var spec = {
-			"recordTypeHandlerViewFactory" : {
-				"factor" : function(spec) {
-					catchRecordTypeHandlerViewSpec = spec;
-					return {
-						"createListItem" : createListItem
-					}
+		"recordTypeHandlerViewFactory" : {
+			"factor" : function(spec) {
+				catchRecordTypeHandlerViewSpec = spec;
+				return {
+					"createListItem" : createListItem
 				}
-			},
-			"recordListHandlerFactory" : {
-				"factor" : function(spec) {
-					catchRecordListHandlerSpec = spec;
-				}
-			},
-			"recordHandlerFactory" : {
-				"factor" : function(spec) {
-					catchRecordHandlerSpec = spec;
-				}
-			},
-			"recordTypeRecord" : this.record,
-			"xmlHttpRequestFactory" : xmlHttpRequestFactory,
-			"jsClient" : jsClientSpy
+			}
+		},
+		"recordListHandlerFactory" : {
+			"factor" : function(spec) {
+				catchRecordListHandlerSpec = spec;
+			}
+		},
+		"recordHandlerFactory" : {
+			"factor" : function(spec) {
+				catchRecordHandlerSpec = spec;
+			}
+		},
+		"recordTypeRecord" : this.record,
+		"xmlHttpRequestFactory" : xmlHttpRequestFactory,
+		"jsClient" : jsClientSpy
 	};
-	
+
 	var recordTypeHandler = CORA.recordTypeHandler(spec);
 	catchRecordTypeHandlerViewSpec.fetchListMethod();
 	catchRecordListHandlerSpec.createRecordHandlerMethod("new", undefined);
-	
+
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeRecord, this.record);
 	assert.strictEqual(catchRecordHandlerSpec.presentationMode, "new");
 	assert.strictEqual(catchRecordHandlerSpec.record, undefined);
@@ -531,4 +531,24 @@ QUnit.test("fetchListCheckAjaxParameters", function(assert) {
 			"application/uub+recordList+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
 			"application/uub+record+json");
+});
+
+QUnit.test("testFactory", function(assert) {
+	var spec = {
+		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
+		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
+		"recordHandlerFactory" : this.createRecordHandlerFactory(),
+		"recordTypeRecord" : this.record,
+	};
+	var recordTypeHandler = CORA.recordTypeHandler(spec);
+
+	var recordHandlerViewSpec = {
+		"extraClassName" : "text",
+	};
+
+	var recordHandlerView = recordTypeHandler.createRecordHandlerViewFactory().factor(
+			recordHandlerViewSpec);
+
+	assert.notStrictEqual(recordHandlerView, undefined);
+
 });

@@ -25,7 +25,7 @@ var CORA = (function(cora) {
 			"headerText" : recordId,
 			"fetchListMethod" : createRecordTypeList
 		};
-		if(recordTypeHasCreateLink()){
+		if (recordTypeHasCreateLink()) {
 			viewSpec.createNewMethod = createRecordHandler;
 		}
 
@@ -41,18 +41,18 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		function recordTypeHasCreateLink(){
+		function recordTypeHasCreateLink() {
 			var createLink = spec.recordTypeRecord.actionLinks.create;
-			if(createLink !== undefined){
+			if (createLink !== undefined) {
 				return true;
 			}
 			return false;
 		}
-		
+
 		function createRecordTypeList() {
 			var views = createItemViews("List");
 			var listHandlerSpec = {
-				"createRecordHandlerMethod":createRecordHandler,
+				"createRecordHandlerMethod" : createRecordHandler,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"recordTypeRecord" : spec.recordTypeRecord,
@@ -61,7 +61,7 @@ var CORA = (function(cora) {
 			};
 			spec.recordListHandlerFactory.factor(listHandlerSpec);
 		}
-		
+
 		function createItemViews(text) {
 			var item = recordTypeHandlerView.createListItem(text, onclickMethod);
 			spec.jsClient.showView(item);
@@ -71,27 +71,36 @@ var CORA = (function(cora) {
 		function onclickMethod(item) {
 			spec.jsClient.showView(item);
 		}
-		
+
 		function createRecordHandler(presentationMode, record) {
 			var text = "New";
-			if("new"!==presentationMode){
+			if ("new" !== presentationMode) {
 				text = getIdFromRecord(record);
 			}
 			var views = createItemViews(text);
 			var recordHandlerSpec = {
+				"recordHandlerViewFactory" : createRecordHandlerViewFactory(),
 				"recordTypeRecord" : spec.recordTypeRecord,
-				"presentationMode":presentationMode,
+				"presentationMode" : presentationMode,
 				"record" : record,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
-				"views": views
+				"views" : views
 			};
 			spec.recordHandlerFactory.factor(recordHandlerSpec);
 		}
-		
+		function createRecordHandlerViewFactory() {
+			return {
+				"factor" : function(recordHandlerViewSpec) {
+					return CORA.recordHandlerView(recordHandlerViewSpec);
+				}
+			};
+		}
+
 		var out = Object.freeze({
 			getView : getView,
-			createRecordTypeList : createRecordTypeList
+			createRecordTypeList : createRecordTypeList,
+			createRecordHandlerViewFactory:createRecordHandlerViewFactory
 		});
 		return out;
 	};

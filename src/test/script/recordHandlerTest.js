@@ -103,6 +103,14 @@ QUnit.module("recordHandlerTest.js", {
 				}
 			}
 		};
+		this.createRecordHandlerViewFactory = function() {
+			return {
+				"factor" : function(recordHandlerViewSpec) {
+					return CORA.recordHandlerView(recordHandlerViewSpec);
+					;
+				}
+			};
+		}
 	},
 	afterEach : function() {
 	}
@@ -117,8 +125,9 @@ QUnit.test("init", function(assert) {
 	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
 	var recordHandlerSpec = {
+		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
 		"recordTypeRecord" : this.record,
-		"presentationMode":"view",
+		"presentationMode" : "view",
 		"views" : {
 			"menuView" : menuView,
 			"workView" : workView
@@ -162,8 +171,9 @@ QUnit.test("initCallToServer", function(assert) {
 		}
 	};
 	var recordHandlerSpec = {
+		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
 		"recordTypeRecord" : this.record,
-		"presentationMode":"view",
+		"presentationMode" : "view",
 		"views" : {
 			"menuView" : menuView,
 			"workView" : workView
@@ -223,8 +233,9 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 		}
 	};
 	var recordHandlerSpec = {
+		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
 		"recordTypeRecord" : this.record,
-		"presentationMode":"view",
+		"presentationMode" : "view",
 		"views" : {
 			"menuView" : menuView,
 			"workView" : workView
@@ -281,8 +292,9 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 		}
 	};
 	var recordHandlerSpec = {
+		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
 		"recordTypeRecord" : this.record,
-		"presentationMode":"new",
+		"presentationMode" : "new",
 		"views" : {
 			"menuView" : menuView,
 			"workView" : workView
@@ -295,13 +307,13 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), false);
 
-	 assert.strictEqual(metadataIdUsed, "recordTypeNewGroup");
-	 assert.strictEqual(presentationIdUsed[0], "recordTypeFormNewPGroup");
-	 assert.strictEqual(workView.childNodes[0].className, "workItem recordType");
-	
-	 assert.strictEqual(presentationIdUsed[1], "recordTypeMenuPGroup");
-	 assert.strictEqual(menuView.textContent, "");
-	 assert.strictEqual(menuView.childNodes[0].nodeName, "SPAN");
+	assert.strictEqual(metadataIdUsed, "recordTypeNewGroup");
+	assert.strictEqual(presentationIdUsed[0], "recordTypeFormNewPGroup");
+	assert.strictEqual(workView.childNodes[0].className, "workItem recordType");
+
+	assert.strictEqual(presentationIdUsed[1], "recordTypeMenuPGroup");
+	assert.strictEqual(menuView.textContent, "");
+	assert.strictEqual(menuView.childNodes[0].nodeName, "SPAN");
 
 });
 
@@ -316,8 +328,9 @@ QUnit.test("fetchListCheckError", function(assert) {
 	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
 	var recordHandlerSpec = {
+		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
 		"recordTypeRecord" : this.record,
-		"presentationMode":"view",
+		"presentationMode" : "view",
 		"views" : {
 			"menuView" : menuView,
 			"workView" : workView
@@ -365,8 +378,9 @@ QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissing",
 				}
 			};
 			var recordHandlerSpec = {
+				"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
 				"recordTypeRecord" : this.record,
-				"presentationMode":"view",
+				"presentationMode" : "view",
 				"views" : {
 					"menuView" : menuView,
 					"workView" : workView
@@ -383,55 +397,55 @@ QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissing",
 
 		});
 
-QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissingForNew",
-		function(assert) {
+QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissingForNew", function(assert) {
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 	var record = this.record;
 	function sendFunction() {
-//		xmlHttpRequestSpy.status = 200;
-//		xmlHttpRequestSpy.responseText = JSON.stringify({
-//			"record" : undefined
-//		});
-//		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+		// xmlHttpRequestSpy.status = 200;
+		// xmlHttpRequestSpy.responseText = JSON.stringify({
+		// "record" : undefined
+		// });
+		// xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
-	
+
 	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
 	var presentation = {
-			"getView" : function() {
-				return document.createElement("span");
-			}
+		"getView" : function() {
+			return document.createElement("span");
+		}
 	};
 	var presentationIdUsed = [];
 	var recordGui = {
-			"getPresentation" : function(presentationId) {
-				presentationIdUsed.push(presentationId);
-				return presentation;
-			},
-			"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
-			}
+		"getPresentation" : function(presentationId) {
+			presentationIdUsed.push(presentationId);
+			return presentation;
+		},
+		"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
+		}
 	};
 	var metadataIdUsed;
 	var recordGuiFactorySpy = {
-			"factor" : function(metadataId, data) {
-				throw new Error("missing metadata");
-			}
+		"factor" : function(metadataId, data) {
+			throw new Error("missing metadata");
+		}
 	};
 	var recordHandlerSpec = {
-			"recordTypeRecord" : this.record,
-			"presentationMode":"new",
-			"views" : {
-				"menuView" : menuView,
-				"workView" : workView
-			},
-			"record" : undefined,
-			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-			"recordGuiFactory" : recordGuiFactorySpy
-			
+		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
+		"recordTypeRecord" : this.record,
+		"presentationMode" : "new",
+		"views" : {
+			"menuView" : menuView,
+			"workView" : workView
+		},
+		"record" : undefined,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"recordGuiFactory" : recordGuiFactorySpy
+
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
-	
+
 	assert.strictEqual(workView.firstChild.textContent,
 			"\"something went wrong, probably missing metadata\"");
-	
+
 });
