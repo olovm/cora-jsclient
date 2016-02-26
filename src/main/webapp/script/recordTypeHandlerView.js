@@ -37,7 +37,7 @@ var CORA = (function(cora) {
 			spanNew.className = className;
 			return spanNew;
 		}
-		
+
 		function createHeader() {
 			var headerNew = createSpanWithClassName("header");
 			headerNew.onclick = spec.fetchListMethod;
@@ -55,7 +55,7 @@ var CORA = (function(cora) {
 			var createButtonNew = createSpanWithClassName("createButton");
 			createButtonNew.onclick = function() {
 				spec.createNewMethod("new");
-			}
+			};
 			return createButtonNew;
 		}
 

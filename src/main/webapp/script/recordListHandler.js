@@ -20,7 +20,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordListHandler = function(spec) {
 		var workView = spec.views.workView;
-		
+
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
 		fetchDataFromServer(processFetchedRecords);
@@ -72,7 +72,7 @@ var CORA = (function(cora) {
 			var newView = document.createElement("span");
 			newView.className = "listItem " + recordId;
 			newView.onclick = function() {
-				spec.createRecordHandlerMethod("view",record);
+				spec.createRecordHandlerMethod("view", record);
 			};
 			return newView;
 		}

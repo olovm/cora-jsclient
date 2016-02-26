@@ -20,7 +20,92 @@
 
 QUnit.module("recordHandlerTest.js", {
 	beforeEach : function() {
+		// this.record = {
+		// "data" : {
+		// "children" : [ {
+		// "children" : [ {
+		// "name" : "id",
+		// "value" : "recordType"
+		// }, {
+		// "name" : "type",
+		// "value" : "recordType"
+		// }, {
+		// "name" : "createdBy",
+		// "value" : "userId"
+		// }, {
+		// "name" : "updatedBy",
+		// "value" : "userId"
+		// } ],
+		// "name" : "recordInfo"
+		// }, {
+		// "name" : "metadataId",
+		// "value" : "recordTypeGroup"
+		// }, {
+		// "name" : "presentationViewId",
+		// "value" : "recordTypeViewPGroup"
+		// }, {
+		// "name" : "presentationFormId",
+		// "value" : "recordTypeFormPGroup"
+		// }, {
+		// "name" : "newMetadataId",
+		// "value" : "recordTypeNewGroup"
+		// }, {
+		// "name" : "newPresentationFormId",
+		// "value" : "recordTypeFormNewPGroup"
+		// }, {
+		// "name" : "menuPresentationViewId",
+		// "value" : "recordTypeMenuPGroup"
+		// }, {
+		// "name" : "listPresentationViewId",
+		// "value" : "recordTypeListPGroup"
+		// }, {
+		// "name" : "searchMetadataId",
+		// "value" : "recordTypeSearchGroup"
+		// }, {
+		// "name" : "searchPresentationFormId",
+		// "value" : "recordTypeFormSearchPGroup"
+		// }, {
+		// "name" : "userSuppliedId",
+		// "value" : "true"
+		// }, {
+		// "name" : "permissionKey",
+		// "value" : "RECORDTYPE_RECORDTYPE"
+		// }, {
+		// "name" : "selfPresentationViewId",
+		// "value" : "recordTypeViewSelfPGroup"
+		// }, {
+		// "name" : "abstract",
+		// "value" : "false"
+		// } ],
+		// "name" : "recordType"
+		// },
+		// "actionLinks" : {
+		// "read" : {
+		// "requestMethod" : "GET",
+		// "rel" : "read",
+		// "contentType" : "application/uub+record+json",
+		// "url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType",
+		// "accept" : "application/uub+record+json"
+		// },
+		// "update" : {
+		// "requestMethod" : "POST",
+		// "rel" : "update",
+		// "contentType" : "application/uub+record+json",
+		// "url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType",
+		// "accept" : "application/uub+record+json"
+		// },
+		// "delete" : {
+		// "requestMethod" : "DELETE",
+		// "rel" : "delete",
+		// "contentType" : "application/uub+record+json",
+		// "url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType",
+		// "accept" : "application/uub+record+json"
+		// }
+		// }
+		// };
+
 		this.record = {
+			// "record" : {
 			"data" : {
 				"children" : [ {
 					"children" : [ {
@@ -80,10 +165,15 @@ QUnit.module("recordHandlerTest.js", {
 				"name" : "recordType"
 			},
 			"actionLinks" : {
+				"search" : {
+					"requestMethod" : "GET",
+					"rel" : "search",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+					"accept" : "application/uub+recordList+json"
+				},
 				"read" : {
 					"requestMethod" : "GET",
 					"rel" : "read",
-					"contentType" : "application/uub+record+json",
 					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType",
 					"accept" : "application/uub+record+json"
 				},
@@ -94,15 +184,28 @@ QUnit.module("recordHandlerTest.js", {
 					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType",
 					"accept" : "application/uub+record+json"
 				},
+				"create" : {
+					"requestMethod" : "POST",
+					"rel" : "create",
+					"contentType" : "application/uub+record+json",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+					"accept" : "application/uub+record+json"
+				},
+				"list" : {
+					"requestMethod" : "GET",
+					"rel" : "list",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+					"accept" : "application/uub+recordList+json"
+				},
 				"delete" : {
 					"requestMethod" : "DELETE",
 					"rel" : "delete",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType",
-					"accept" : "application/uub+record+json"
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType"
 				}
 			}
+		// }
 		};
+
 		this.createRecordHandlerViewFactory = function() {
 			return {
 				"factor" : function(recordHandlerViewSpec) {
@@ -191,8 +294,8 @@ QUnit.test("initCallToServer", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
 			"application/uub+record+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-			"application/uub+record+json");
+	// assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
+	// "application/uub+record+json");
 
 	assert.strictEqual(workView.childNodes.length, 1);
 
@@ -314,6 +417,78 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 	assert.strictEqual(presentationIdUsed[1], "recordTypeMenuPGroup");
 	assert.strictEqual(menuView.textContent, "");
 	assert.strictEqual(menuView.childNodes[0].nodeName, "SPAN");
+
+});
+
+QUnit.test("testCreateNewCall", function(assert) {
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+	}
+
+	var menuView = document.createElement("span");
+	var workView = document.createElement("span");
+	var presentation = {
+		"getView" : function() {
+			return document.createElement("span");
+		}
+	};
+	var presentationIdUsed = [];
+	var recordGui = {
+		"getPresentation" : function(presentationId) {
+			presentationIdUsed.push(presentationId);
+			return presentation;
+		},
+		"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
+		},
+		"dataHolder" : {
+			"getData" : function() {
+				return {};
+			}
+		}
+	};
+	var metadataIdUsed;
+	var recordGuiFactorySpy = {
+		"factor" : function(metadataId, data) {
+			metadataIdUsed = metadataId;
+			return recordGui;
+		}
+	};
+	var recordHandlerSpec = {
+		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
+		"recordTypeRecord" : this.record,
+		"presentationMode" : "new",
+		"views" : {
+			"menuView" : menuView,
+			"workView" : workView
+		},
+		"record" : undefined,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"recordGuiFactory" : recordGuiFactorySpy
+	};
+	var recordHandler = CORA.recordHandler(recordHandlerSpec);
+
+	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), false);
+
+	assert.strictEqual(metadataIdUsed, "recordTypeNewGroup");
+	assert.strictEqual(presentationIdUsed[0], "recordTypeFormNewPGroup");
+	assert.strictEqual(workView.childNodes[0].className, "workItem recordType");
+
+	var buttonView = workView.firstChild.firstChild;
+	assert.strictEqual(buttonView.className, "buttonView");
+
+	var createButton = buttonView.firstChild;
+	assert.strictEqual(createButton.value, "CREATE");
+
+	createButton.onclick();
+
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/recordType/");
+	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
+			"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
+			"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.getSentData(), "{}");
 
 });
 

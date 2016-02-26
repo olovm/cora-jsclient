@@ -42,13 +42,13 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		var recordGui;
+		var recordGuiNew;
 		function createGuiForNew() {
 			try {
-				recordGui = createRecordGui(getNewMetadataId());
-				addNewRecordToWorkView(recordGui);
-				addRecordToMenuView(recordGui);
-				recordGui.initMetadataControllerStartingGui();
+				recordGuiNew = createRecordGui(getNewMetadataId());
+				addNewRecordToWorkView(recordGuiNew);
+				addRecordToMenuView(recordGuiNew);
+				recordGuiNew.initMetadataControllerStartingGui();
 			} catch (error) {
 				createRawDataWorkView("something went wrong, probably missing metadata");
 			}
@@ -85,7 +85,7 @@ var CORA = (function(cora) {
 
 		function createRecordHandlerView() {
 			var recordHandlerViewSpec = {
-				"extraClassName" : recordTypeId,
+				"extraClassName" : recordTypeId
 			};
 			return spec.recordHandlerViewFactory.factor(recordHandlerViewSpec);
 		}
@@ -100,10 +100,8 @@ var CORA = (function(cora) {
 				"accept" : createLink.accept,
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError,
-				"data" : JSON.stringify(recordGui.dataHolder.getData())
+				"data" : JSON.stringify(recordGuiNew.dataHolder.getData())
 			};
-			console.log(JSON.stringify(recordGui.dataHolder.getData()))
-			console.log(JSON.stringify(callSpec))
 			CORA.ajaxCall(callSpec);
 		}
 
@@ -126,7 +124,7 @@ var CORA = (function(cora) {
 			try {
 				var metadataId = getMetadataId();
 				var recordGui = createRecordGui(metadataId, data);
-				addRecordToWorkView(recordGui, data);
+				addRecordToWorkView(recordGui);
 				addRecordToMenuView(recordGui);
 				recordGui.initMetadataControllerStartingGui();
 			} catch (error) {
@@ -144,7 +142,7 @@ var CORA = (function(cora) {
 			return getRecordTypeRecordValue("metadataId");
 		}
 
-		function addRecordToWorkView(recordGui, data) {
+		function addRecordToWorkView(recordGui) {
 			var presentationViewId = getPresentationViewId();
 			var presentationView = recordGui.getPresentation(presentationViewId).getView();
 			recordHandlerView.addShowView(presentationView);

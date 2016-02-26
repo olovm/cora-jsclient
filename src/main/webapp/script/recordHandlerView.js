@@ -34,31 +34,31 @@ var CORA = (function(cora) {
 			return spanNew;
 		}
 
-		function addShowView(node){
+		function addShowView(node) {
 			showView.appendChild(node);
 		}
-		
-		function addEditView(node){
+
+		function addEditView(node) {
 			editView.appendChild(node);
 		}
-		
-		function addButton(text, onclickMethod){
+
+		function addButton(text, onclickMethod) {
 			var button = document.createElement("input");
 			button.type = "button";
 			button.value = text;
 			button.onclick = onclickMethod;
 			buttonView.appendChild(button);
 		}
-		
+
 		function getView() {
 			return view;
 		}
 
 		return Object.freeze({
 			getView : getView,
-			addShowView:addShowView,
-			addEditView:addEditView,
-			addButton:addButton
+			addShowView : addShowView,
+			addEditView : addEditView,
+			addButton : addButton
 		});
 	};
 	return cora;

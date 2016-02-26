@@ -42,7 +42,7 @@ var CORA = (function(cora) {
 
 			return view;
 		}
-		
+
 		function createSpanWithClassName(className) {
 			var spanNew = document.createElement("span");
 			spanNew.className = className;
@@ -161,9 +161,9 @@ var CORA = (function(cora) {
 			getView : getView,
 			getRecordTypeList : getRecordTypeList,
 			showView : showView,
-			createRecordTypeHandlerViewFactory:createRecordTypeHandlerViewFactory,
-			createRecordListHandlerFactory:createRecordListHandlerFactory,
-			createRecordHandlerFactory:createRecordHandlerFactory
+			createRecordTypeHandlerViewFactory : createRecordTypeHandlerViewFactory,
+			createRecordListHandlerFactory : createRecordListHandlerFactory,
+			createRecordHandlerFactory : createRecordHandlerFactory
 		});
 		mainView.modelObject = out;
 		return out;
