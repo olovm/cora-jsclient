@@ -22,9 +22,13 @@ var CORA = (function(cora) {
 	cora.pChildRefHandlerView = function(spec) {
 
 		var view = createBaseView();
-
 		var childrenView = createChildrenView();
 		view.appendChild(childrenView);
+		if(spec.addMethod!==undefined){
+			createButtonView();
+		}
+		
+		var buttonView;
 
 		function createBaseView() {
 			var viewNew = document.createElement("span");
@@ -35,6 +39,32 @@ var CORA = (function(cora) {
 		function getView() {
 			return view;
 		}
+
+		function createButtonView() {
+			var buttonViewNew = document.createElement("span");
+			buttonViewNew.className = "buttonView";
+			buttonViewNew.appendChild(createAddButton());
+			buttonView = buttonViewNew;
+			view.appendChild(buttonView);
+		}
+		
+		function createAddButton() {
+			var button = document.createElement("input");
+			button.type = "button";
+			button.value = "ADD";
+			button.onclick = spec.addMethod;
+			return button;
+		}
+		
+		function hideButtonView() {
+			buttonView.styleOriginal = buttonView.style.display;
+			buttonView.style.display = "none";
+		}
+
+		function showButtonView() {
+			buttonView.style.display = buttonView.styleOriginal;
+		}
+
 		function setRepeatingElementDragOver(repeatingElement) {
 			repeatingElementDragOver = repeatingElement;
 		}
@@ -156,7 +186,6 @@ var CORA = (function(cora) {
 			childrenView.removeChild(child);
 		}
 		function moveChild(dataFromMsg) {
-//			pChildRefHandlerView.moveChild(dataFromMsg);
 			var repeatingElements = childrenView.childNodes;
 			var moveChild;
 			var basePositionOnChild;
@@ -199,14 +228,17 @@ var CORA = (function(cora) {
 			setRepeatingElementDragOver : setRepeatingElementDragOver,
 			addChild : addChild,
 			removeChild : removeChild,
-			moveChild:moveChild,
-			hideChildrensRemoveButton:hideChildrensRemoveButton,
-			showChildrensRemoveButton:showChildrensRemoveButton,
-			 dragstartHandler : dragstartHandler,
-			 dragoverHandler : dragoverHandler,
-			 dragenterHandler : dragenterHandler,
-			 dropHandler : dropHandler,
-			 dragendHandler : dragendHandler
+			moveChild : moveChild,
+			hideChildrensRemoveButton : hideChildrensRemoveButton,
+			showChildrensRemoveButton : showChildrensRemoveButton,
+			dragstartHandler : dragstartHandler,
+			dragoverHandler : dragoverHandler,
+			dragenterHandler : dragenterHandler,
+			dropHandler : dropHandler,
+			dragendHandler : dragendHandler,
+//			createButtonView : createButtonView,
+			hideButtonView : hideButtonView,
+			showButtonView : showButtonView
 		});
 		view.viewObject = out;
 		return out;
