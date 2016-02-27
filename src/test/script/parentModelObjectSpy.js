@@ -18,52 +18,19 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.jsBookkeeperSpy = function() {
-		var dataArray = [];
-		var addDataArray = [];
-		var removeDataArray = [];
-		var moveDataArray = [];
+	coraTest.parentModelObjectSpy = function() {
+		var repeatingElementDragOver;
 
-		function setValue(data) {
-			dataArray.push(data);
+		function setRepeatingElementDragOver(element) {
+			repeatingElementDragOver = element;
+		}
+		function getRepeatingElementDragOver() {
+			return repeatingElementDragOver;
 		}
 
-		function getDataArray() {
-			return dataArray;
-		}
-		
-		function add(data){
-			addDataArray.push(data);
-		}
-		
-		function getAddDataArray() {
-			return addDataArray;
-		}
-		
-		function remove(data){
-			removeDataArray.push(data);
-		}
-		function getRemoveDataArray() {
-			return removeDataArray;
-		}
-		
-		function move(data){
-			moveDataArray.push(data);
-		}
-		function getMoveDataArray() {
-			return moveDataArray;
-		}
-		
-		
 		return Object.freeze({
-			setValue : setValue,
-			getDataArray : getDataArray,
-			add:add,
-			getAddDataArray : getAddDataArray,
-			getRemoveDataArray:getRemoveDataArray,
-			remove:remove,
-			move:move,
-			getMoveDataArray:getMoveDataArray
+			setRepeatingElementDragOver:setRepeatingElementDragOver,
+			getRepeatingElementDragOver : getRepeatingElementDragOver
 		});
 	};
 	return coraTest;

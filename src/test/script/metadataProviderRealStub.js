@@ -2621,26 +2621,26 @@ var CORATEST = (function(coraTest) {
 						"value" : "input"
 					} ]
 				};
-			case "idTextTextOutputPVar":
-				return {
-					"name" : "presentation",
-					"attributes" : {
-						"type" : "pVar"
-					},
-					"children" : [ {
-						"name" : "recordInfo",
-						"children" : [ {
-							"name" : "id",
-							"value" : "idTextTextPVar"
-						} ]
-					}, {
-						"name" : "presentationOf",
-						"value" : "idTextTextVar"
-					}, {
-						"name" : "mode",
-						"value" : "output"
-					} ]
-				};
+//			case "idTextTextOutputPVar":
+//				return {
+//					"name" : "presentation",
+//					"attributes" : {
+//						"type" : "pVar"
+//					},
+//					"children" : [ {
+//						"name" : "recordInfo",
+//						"children" : [ {
+//							"name" : "id",
+//							"value" : "idTextTextPVar"
+//						} ]
+//					}, {
+//						"name" : "presentationOf",
+//						"value" : "idTextTextVar"
+//					}, {
+//						"name" : "mode",
+//						"value" : "output"
+//					} ]
+//				};
 			case "textTextPVar":
 				return {
 					"name" : "presentation",

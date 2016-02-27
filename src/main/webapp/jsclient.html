@@ -41,6 +41,7 @@
 <script type="text/javascript" src="script/metadataController.js"></script>
 <script type="text/javascript" src="script/metadataRepeatInitializer.js"></script>
 <script type="text/javascript" src="script/pChildRefHandler.js"></script>
+<script type="text/javascript" src="script/pChildRefHandlerView.js"></script>
 <script type="text/javascript" src="script/pGroup.js"></script>
 <script type="text/javascript" src="script/pMultipleChildren.js"></script>
 <script type="text/javascript" src="script/pRepeatingContainer.js"></script>
@@ -490,7 +491,28 @@
 		var metadataId = "groupId1toXCollectionChild";
 		var presentationId = "pgGroupId1toXCollectionChild";
 		
-		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
+
+		var data = {
+			"name" : "groupId1toXCollectionChild",
+			"children" : [ {
+				"name" : "yesNoUnknownVar",
+				"value" : "",
+				"repeatId" : "0"
+			}, {
+				"name" : "yesNoUnknownVar",
+				"value" : "yes",
+				"repeatId" : "1"
+			}, {
+				"name" : "yesNoUnknownVar",
+				"value" : "no",
+				"repeatId" : "2"
+			}, {
+				"name" : "yesNoUnknownVar",
+				"value" : "unknown",
+				"repeatId" : "3"
+			} ]
+		};
+		var dependencies = dependenciesFactory.factor(metadataId, presentationId, data);
 
 		var view = dependencies.presentation.getView();
 		place.appendChild(view);
@@ -502,6 +524,8 @@
 			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
 		}
 		document.getElementById("client8DataButton").onclick = showData;
+		place.appendChild(dependencies.presentation2.getView());
+
 	}
 
 	function client9(metadataProvider, textProvider) {
