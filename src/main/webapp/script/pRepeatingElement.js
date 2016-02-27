@@ -56,7 +56,9 @@ var CORA = (function(cora) {
 		function createBaseView() {
 			var repeatingElement = document.createElement("span");
 			repeatingElement.className = "repeatingElement";
-			repeatingElement.ondragenter = ondragenterHandler;
+			if (spec.isRepeating) {
+				repeatingElement.ondragenter = ondragenterHandler;
+			}
 			return repeatingElement;
 		}
 
@@ -80,10 +82,11 @@ var CORA = (function(cora) {
 			newButtonView.className = "buttonView";
 			view.appendChild(newButtonView);
 
-
 			if (addRemoveButton()) {
 				removeButton = createRemoveButton();
 				newButtonView.appendChild(removeButton);
+			}
+			if (isRepeating) {
 				dragButton = createDragButton();
 				newButtonView.appendChild(dragButton);
 			}

@@ -659,7 +659,38 @@ QUnit.test("testRepeatingElementStaticNoOfChildrenNoAddButton", function(assert)
 	assert.strictEqual(repeatingElement.className, "repeatingElement");
 	var repeatingButtonView = repeatingElement.childNodes[1];
 	assert.strictEqual(repeatingButtonView.className, "buttonView");
-	assert.strictEqual(repeatingButtonView.childNodes.length, 0);
+	assert.strictEqual(repeatingButtonView.childNodes.length, 1);
+
+	assert.strictEqual(repeatingButtonView.childNodes[0].className, "dragButton");
+
+});
+
+QUnit.test("testDragButtonHidden", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	
+	assert.ok(childRefHandler.isRepeating === true);
+	
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	attachedPChildRefHandler.pChildRefHandler.add("one");
+	
+	// no buttons
+	var repeatingElement = childrenView.childNodes[0];
+	var repeatingButtonView = repeatingElement.childNodes[1];
+	assert.strictEqual(repeatingButtonView.className, "buttonView");
+	var buttonChildren = repeatingButtonView.childNodes;
+	assert.strictEqual(buttonChildren.length, 2);
+	
+	assert.strictEqual(buttonChildren[0].className, "removeButton");
+	assert.strictEqual(buttonChildren[1].className, "dragButton");
+	assert.notVisible(buttonChildren[1], "dragButton should be hidden");
+
+	attachedPChildRefHandler.pChildRefHandler.add("two");
+	assert.visible(buttonChildren[1], "dragButton should be visible");
 
 });
 

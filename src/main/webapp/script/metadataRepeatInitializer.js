@@ -34,6 +34,10 @@ var CORA = (function(cora) {
 		}
 
 		function createAndPublishAddMessage() {
+			// TODO: metadataId should be nameInData and attributes instead
+			// to enable a "top" presentation to show data for all childtypes...
+			//attributeReferences might be a list that this presentation accepts any in the list
+			
 			var addMessage = {
 				"metadataId" : metadataId,
 				"path" : path,

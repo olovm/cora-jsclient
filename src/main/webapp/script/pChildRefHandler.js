@@ -42,6 +42,7 @@ var CORA = (function(cora) {
 
 		var pChildRefHandlerViewSpec = {
 			"presentationId" : presentationId,
+			"isRepeating" : isRepeating
 		};
 		if (showAddButton()) {
 			pChildRefHandlerViewSpec.addMethod = sendAdd;
@@ -70,17 +71,11 @@ var CORA = (function(cora) {
 		}
 
 		function calculateIsRepeating() {
-			if (repeatMax > 1 || repeatMax === "X") {
-				return true;
-			}
-			return false;
+			return (repeatMax > 1 || repeatMax === "X");
 		}
 
 		function calculateIsStaticNoOfChildren() {
-			if (repeatMax === repeatMin) {
-				return true;
-			}
-			return false;
+			return (repeatMax === repeatMin);
 		}
 
 		function showAddButton() {
@@ -88,10 +83,7 @@ var CORA = (function(cora) {
 		}
 
 		function isZeroToOne() {
-			if (repeatMin === "0" && repeatMax === "1") {
-				return true;
-			}
-			return false;
+			return (repeatMin === "0" && repeatMax === "1");
 		}
 
 		function getMetadataById(id) {
@@ -103,6 +95,9 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsg(dataFromMsg, msg) {
+			// TODO: metadataId should be nameInData and attributes instead
+			// to enable a "top" presentation to show data for all childtypes...
+			// attributeReferences might be a list that this presentation accepts any in the list
 			if (dataFromMsg !== undefined && metadataId === dataFromMsg.metadataId) {
 				if (msg.endsWith("move")) {
 					move(dataFromMsg, msg);
@@ -118,13 +113,10 @@ var CORA = (function(cora) {
 			var repeatingElement = createRepeatingElement(newPath);
 			var repeatingElementView = repeatingElement.getView();
 			pChildRefHandlerView.addChild(repeatingElementView);
-			
+
 			var presentation = presentationFactory.factor(newPath, cPresentation,
 					cParentPresentation);
 			repeatingElement.addPresentation(presentation);
-
-			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
-					repeatingElementView);
 
 			if (cPresentationMinimized !== undefined) {
 				var presentationMinimized = presentationFactory.factor(newPath,
@@ -132,6 +124,9 @@ var CORA = (function(cora) {
 				repeatingElement.addPresentationMinimized(presentationMinimized, minimizedDefault);
 			}
 
+			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
+					repeatingElementView);
+			
 			updateView();
 		}
 
@@ -141,7 +136,8 @@ var CORA = (function(cora) {
 				"repeatMax" : repeatMax,
 				"path" : path,
 				"jsBookkeeper" : spec.jsBookkeeper,
-				"parentModelObject" : view.viewObject
+				"parentModelObject" : view.viewObject,
+				"isRepeating" : isRepeating
 			};
 			return CORA.pRepeatingElement(repeatingElementSpec);
 		}
@@ -267,10 +263,12 @@ var CORA = (function(cora) {
 				updateButtonViewVisibility();
 				updateChildrenRemoveButtonVisibility();
 			}
+			if (isRepeating) {
+				updateChildrenDragButtonVisibility();
+			}
 		}
 
 		function updateChildrenRemoveButtonVisibility() {
-			// can not use Object.keys(repeatingElements) as phantomJs can't handle it
 			if (minLimitOfChildrenReached()) {
 				pChildRefHandlerView.hideChildrensRemoveButton();
 			} else {
@@ -280,6 +278,17 @@ var CORA = (function(cora) {
 
 		function minLimitOfChildrenReached() {
 			return noOfRepeating === Number(repeatMin);
+		}
+
+		function updateChildrenDragButtonVisibility() {
+			if (moreThenOneChild()) {
+				pChildRefHandlerView.showChildrensDragButton();
+			} else {
+				pChildRefHandlerView.hideChildrensDragButton();
+			}
+		}
+		function moreThenOneChild(){
+			return noOfRepeating > 1;
 		}
 
 		function updateButtonViewVisibility() {
@@ -296,6 +305,8 @@ var CORA = (function(cora) {
 
 		function sendAdd() {
 			var data = {
+				// TODO: metadataId should be nameInData and attributes instead
+				// to enable a "top" presentation to show data for all childtypes...
 				"metadataId" : metadataId,
 				"path" : parentPath,
 				"childReference" : cParentMetadataChildRef.getData()

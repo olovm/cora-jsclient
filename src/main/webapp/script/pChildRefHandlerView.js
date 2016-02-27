@@ -24,16 +24,20 @@ var CORA = (function(cora) {
 		var view = createBaseView();
 		var childrenView = createChildrenView();
 		view.appendChild(childrenView);
-		if(spec.addMethod!==undefined){
+		if (spec.addMethod !== undefined) {
 			createButtonView();
 		}
-		
+
 		var buttonView;
 
 		function createBaseView() {
-			var viewNew = document.createElement("span");
-			viewNew.className = "pChildRefHandler " + spec.presentationId;
-			return viewNew;
+			return createSpanWithClassName("pChildRefHandler " + spec.presentationId);
+		}
+
+		function createSpanWithClassName(className) {
+			var spanNew = document.createElement("span");
+			spanNew.className = className;
+			return spanNew;
 		}
 
 		function getView() {
@@ -41,13 +45,12 @@ var CORA = (function(cora) {
 		}
 
 		function createButtonView() {
-			var buttonViewNew = document.createElement("span");
-			buttonViewNew.className = "buttonView";
+			var buttonViewNew = createSpanWithClassName("buttonView");
 			buttonViewNew.appendChild(createAddButton());
 			buttonView = buttonViewNew;
 			view.appendChild(buttonView);
 		}
-		
+
 		function createAddButton() {
 			var button = document.createElement("input");
 			button.type = "button";
@@ -55,7 +58,7 @@ var CORA = (function(cora) {
 			button.onclick = spec.addMethod;
 			return button;
 		}
-		
+
 		function hideButtonView() {
 			buttonView.styleOriginal = buttonView.style.display;
 			buttonView.style.display = "none";
@@ -69,15 +72,16 @@ var CORA = (function(cora) {
 			repeatingElementDragOver = repeatingElement;
 		}
 		function createChildrenView() {
-			var childrenViewNew = document.createElement("span");
-			childrenViewNew.className = "childrenView";
+			var childrenViewNew = createSpanWithClassName("childrenView");
 
-			// dragging
-			childrenViewNew.ondragstart = dragstartHandler;
-			childrenViewNew.ondragover = dragoverHandler;
-			childrenViewNew.ondragenter = dragenterHandler;
-			childrenViewNew.ondrop = dropHandler;
-			childrenViewNew.ondragend = dragendHandler;
+			if (spec.isRepeating) {
+				// dragging
+				childrenViewNew.ondragstart = dragstartHandler;
+				childrenViewNew.ondragover = dragoverHandler;
+				childrenViewNew.ondragenter = dragenterHandler;
+				childrenViewNew.ondrop = dropHandler;
+				childrenViewNew.ondragend = dragendHandler;
+			}
 
 			return childrenViewNew;
 		}
@@ -210,19 +214,36 @@ var CORA = (function(cora) {
 		}
 		function hideChildrensRemoveButton() {
 			var repeatingElements = childrenView.childNodes;
-			var length = repeatingElements.length;
-			for (var i = 0; i < length; i++) {
-				repeatingElements[i].modelObject.hideRemoveButton();
-			}
+			var repeatingElementsKeys = Object.keys(repeatingElements);
+			repeatingElementsKeys.forEach(function(key) {
+				repeatingElements[key].modelObject.hideRemoveButton();
+			});
 		}
 
 		function showChildrensRemoveButton() {
 			var repeatingElements = childrenView.childNodes;
-			var length = repeatingElements.length;
-			for (var i = 0; i < length; i++) {
-				repeatingElements[i].modelObject.showRemoveButton();
-			}
+			var repeatingElementsKeys = Object.keys(repeatingElements);
+			repeatingElementsKeys.forEach(function(key) {
+				repeatingElements[key].modelObject.showRemoveButton();
+			});
 		}
+
+		function hideChildrensDragButton() {
+			var repeatingElements = childrenView.childNodes;
+			var repeatingElementsKeys = Object.keys(repeatingElements);
+			repeatingElementsKeys.forEach(function(key) {
+				repeatingElements[key].modelObject.hideDragButton();
+			});
+		}
+
+		function showChildrensDragButton() {
+			var repeatingElements = childrenView.childNodes;
+			var repeatingElementsKeys = Object.keys(repeatingElements);
+			repeatingElementsKeys.forEach(function(key) {
+				repeatingElements[key].modelObject.showDragButton();
+			});
+		}
+
 		var out = Object.freeze({
 			getView : getView,
 			setRepeatingElementDragOver : setRepeatingElementDragOver,
@@ -231,12 +252,14 @@ var CORA = (function(cora) {
 			moveChild : moveChild,
 			hideChildrensRemoveButton : hideChildrensRemoveButton,
 			showChildrensRemoveButton : showChildrensRemoveButton,
+			hideChildrensDragButton : hideChildrensDragButton,
+			showChildrensDragButton : showChildrensDragButton,
 			dragstartHandler : dragstartHandler,
 			dragoverHandler : dragoverHandler,
 			dragenterHandler : dragenterHandler,
 			dropHandler : dropHandler,
 			dragendHandler : dragendHandler,
-//			createButtonView : createButtonView,
+			// createButtonView : createButtonView,
 			hideButtonView : hideButtonView,
 			showButtonView : showButtonView
 		});

@@ -26,7 +26,8 @@ var CORATEST = (function(coraTest) {
 				"repeatMax" : repeatMax,
 				"path" : path,
 				"jsBookkeeper" : jsBookkeeper,
-				"parentModelObject" : parentModelObject
+				"parentModelObject" : parentModelObject,
+				"isRepeating":Number(repeatMax) > 1 || repeatMax === "X"
 			};
 			var pRepeatingElement = CORA.pRepeatingElement(spec);
 			var view = pRepeatingElement.getView();
