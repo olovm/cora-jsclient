@@ -102,42 +102,41 @@ QUnit.test("testInit", function(assert) {
 	assert.ok(firstSubsription.functionToCall === childRefHandler.handleMsg);
 
 	// dragHandling
-//	assert.strictEqual(childrenView.ondragstart, childRefHandler.dragstartHandler);
-//	assert.strictEqual(childrenView.ondragover, childRefHandler.dragoverHandler);
-//	assert.strictEqual(childrenView.ondragenter, childRefHandler.dragenterHandler);
-//	assert.strictEqual(childrenView.ondrop, childRefHandler.dropHandler);
-//	assert.strictEqual(childrenView.ondragend, childRefHandler.dragendHandler);
+	// assert.strictEqual(childrenView.ondragstart, childRefHandler.dragstartHandler);
+	// assert.strictEqual(childrenView.ondragover, childRefHandler.dragoverHandler);
+	// assert.strictEqual(childrenView.ondragenter, childRefHandler.dragenterHandler);
+	// assert.strictEqual(childrenView.ondrop, childRefHandler.dropHandler);
+	// assert.strictEqual(childrenView.ondragend, childRefHandler.dragendHandler);
 });
 QUnit.test("testChildMoved", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
-	
-	var moveDataFromPChildRefHandlerView ={
-			"moveChild" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "textVariableId"
-				}, {
-					"name" : "repeatId",
-					"value" : "one"
-				} ]
-			},
-			"basePositionOnChild" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "textVariableId"
-				}, {
-					"name" : "repeatId",
-					"value" : "two"
-				} ]
-			},
-			"newPosition" : "after"
-		};
-	
-	
+
+	var moveDataFromPChildRefHandlerView = {
+		"moveChild" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatId",
+				"value" : "one"
+			} ]
+		},
+		"basePositionOnChild" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatId",
+				"value" : "two"
+			} ]
+		},
+		"newPosition" : "after"
+	};
+
 	var moveData = {
 		"path" : {},
 		"metadataId" : "textVariableId",
@@ -164,7 +163,7 @@ QUnit.test("testChildMoved", function(assert) {
 		"newPosition" : "after"
 	};
 	childRefHandler.childMoved(moveDataFromPChildRefHandlerView);
-	
+
 	assert.deepEqual(this.jsBookkeeper.getMoveDataArray()[0], moveData);
 });
 
@@ -341,6 +340,7 @@ QUnit.test("testAddButtonFor1toX", function(assert) {
 			"repeatId" : "1"
 		},
 		"metadataId" : "textVariableId",
+		"nameInData" : "textVariableId",
 		"path" : {}
 	};
 	assert.deepEqual(this.jsBookkeeper.getAddDataArray()[0], addData);
@@ -669,22 +669,22 @@ QUnit.test("testDragButtonHidden", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
-	
+
 	assert.ok(childRefHandler.isRepeating === true);
-	
+
 	var view = attachedPChildRefHandler.view;
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
 	attachedPChildRefHandler.pChildRefHandler.add("one");
-	
+
 	// no buttons
 	var repeatingElement = childrenView.childNodes[0];
 	var repeatingButtonView = repeatingElement.childNodes[1];
 	assert.strictEqual(repeatingButtonView.className, "buttonView");
 	var buttonChildren = repeatingButtonView.childNodes;
 	assert.strictEqual(buttonChildren.length, 2);
-	
+
 	assert.strictEqual(buttonChildren[0].className, "removeButton");
 	assert.strictEqual(buttonChildren[1].className, "dragButton");
 	assert.notVisible(buttonChildren[1], "dragButton should be hidden");

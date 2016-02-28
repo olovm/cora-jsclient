@@ -200,6 +200,54 @@ function MetadataProviderStub() {
 				}
 			};
 		}
+		if (idToGet === "recordTypeTypeChoice1") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "recordTypeTypeChoice1"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "aFinalValue"
+				}, {
+					"name" : "textId",
+					"value" : "itemYesText"
+				}, {
+					"name" : "defTextId",
+					"value" : "itemYesDefText"
+				} ],
+				"attributes" : {
+					"type" : "collectionItem"
+				}
+			};
+		}
+		if (idToGet === "recordTypeTypeChoice2") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "recordTypeTypeChoice2"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "aOtherFinalValue"
+				}, {
+					"name" : "textId",
+					"value" : "itemYesText"
+				}, {
+					"name" : "defTextId",
+					"value" : "itemYesDefText"
+				} ],
+				"attributes" : {
+					"type" : "collectionItem"
+				}
+			};
+		}
 		if (idToGet === "itemNo") {
 			return {
 				"name" : "metadata",
@@ -1012,14 +1060,56 @@ function MetadataProviderStub() {
 				}
 			};
 		}
+//		if (idToGet === "recordTypeTypeCollection") {
+//			return {
+//				"name" : "metadata",
+//				"children" : [ {
+//					"ref" : "recordTypeTypeChoice1"
+//				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+//				"attributes" : {
+//					"type" : "collection"
+//				}
+//			};
+//		}
 		if (idToGet === "recordTypeTypeCollection") {
 			return {
 				"name" : "metadata",
 				"children" : [ {
-					"ref" : "recordTypeTypeChoice1"
-				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "recordTypeTypeCollection"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "recordTypeTypeCollection"
+				}, {
+					"name" : "textId",
+					"value" : "itemYesNoUnknownText"
+				}, {
+					"name" : "defTextId",
+					"value" : "itemYesNoUnknownDefText"
+				}, {
+					"name" : "collectionItemReferences",
+					"children" : [ {
+						"name" : "ref",
+						"repeatId" : "0",
+						"value" : "recordTypeTypeChoice1"
+					}
+					, {
+						"name" : "ref",
+						"repeatId" : "1",
+						"value" : "recordTypeTypeChoice2"
+					}
+//					, {
+//						"name" : "ref",
+//						"repeatId" : "2",
+//						"value" : "itemUnknown"
+//					}
+					]
+				} ],
 				"attributes" : {
-					"type" : "collection"
+					"type" : "itemCollection"
 				}
 			};
 		}

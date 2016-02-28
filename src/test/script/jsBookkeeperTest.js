@@ -98,7 +98,7 @@ QUnit.test("testAdd", function(assert) {
 		"type" : "add",
 		"message" : {
 			"metadataId" : "textVariableId",
-			"path" : {}
+			"path" : {},"nameInData":"textVariableId"
 		}
 	};
 	assert.stringifyEqual(messages[0], expectedMessage);
@@ -234,7 +234,8 @@ QUnit.test("testAdd2", function(assert) {
 					} ]
 				} ]
 			},
-			"repeatId" : "3"
+			"repeatId" : "3",
+			"nameInData" : "textVar"
 		}
 	};
 

@@ -135,10 +135,10 @@ var CORATEST = (function(coraTest) {
 					}, {
 						"children" : [ {
 							"name" : "ref",
-							"value" : "default"
+							"value" : "defaultItem"
 						}, {
 							"name" : "ref",
-							"value" : "alternative"
+							"value" : "alternativeItem"
 						} ],
 						"name" : "collectionItemReferences"
 					} ],

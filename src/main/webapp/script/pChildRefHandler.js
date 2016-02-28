@@ -56,6 +56,57 @@ var CORA = (function(cora) {
 		pubSub.subscribe("add", parentPath, undefined, handleMsg);
 		pubSub.subscribe("move", parentPath, undefined, handleMsg);
 
+		var metadataHasAttributes = hasAttributes();
+		var collectedAttributes = {};
+		if(metadataHasAttributes){
+			collectedAttributes = collectAttributes();
+		}
+//		console.log("presentationId:"+presentationId)
+//		console.log("collectedAttributes:"+JSON.stringify(collectedAttributes))
+		
+		function hasAttributes() {
+			return cMetadataElement.containsChildWithNameInData("attributeReferences");
+		}
+		function collectAttributes() {
+			var collectedAttributes ={};
+			var attributeReferences = cMetadataElement
+					.getFirstChildByNameInData("attributeReferences");
+//			console.log(attributeReferences.children)
+			attributeReferences.children.forEach(function(attributeReference) {
+//				var collectedAttribute = {};
+//				collectedAttributes.push(collectedAttribute);
+				var cCollectionVariable = getMetadataById(attributeReference.value);
+				var attributeNameInData = cCollectionVariable
+						.getFirstAtomicValueByNameInData("nameInData");
+//				collectedAttribute.name = attributeNameInData;
+				var attributeValues = [];
+//				collectedAttribute.values = attributeValues;
+				collectedAttributes[attributeNameInData] = attributeValues;
+				if (cCollectionVariable.containsChildWithNameInData("finalValue")) {
+					attributeValues.push(cCollectionVariable
+							.getFirstAtomicValueByNameInData("finalValue"));
+				} else {
+					// get collection and all items from it
+					var attributeRefCollectionId = cCollectionVariable
+							.getFirstAtomicValueByNameInData("refCollectionId");
+					var cAttributeItemCollection = getMetadataById(attributeRefCollectionId);
+					var collectionItemReferences = cAttributeItemCollection
+							.getFirstChildByNameInData("children");
+					collectionItemReferences.forEach(function(itemCollectionRef) {
+						var cAttributeCollectionItem = getMetadataById(itemCollectionRef.value);
+						attributeValues.push(cAttributeCollectionItem
+								.getFirstAtomicValueByNameInData("nameInData"));
+					});
+				}
+				
+			});
+			// get metadata for each attribute reference
+			// if final value return that else get refCollectionId metadata
+			// get collectionItemReferences metadata (might be more than one)
+			// get (ref) items metadata, get nameInData
+			return collectedAttributes;
+		}
+		
 		function findPresentationId(cPresentationToSearch) {
 			var recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
@@ -98,13 +149,42 @@ var CORA = (function(cora) {
 			// TODO: metadataId should be nameInData and attributes instead
 			// to enable a "top" presentation to show data for all childtypes...
 			// attributeReferences might be a list that this presentation accepts any in the list
-			if (dataFromMsg !== undefined && metadataId === dataFromMsg.metadataId) {
+			 if (dataFromMsg !== undefined && (metadataId === dataFromMsg.metadataId
+//			if (dataFromMsg !== undefined 
+					|| shouldPresentData(dataFromMsg.nameInData, dataFromMsg.attributes))) {
 				if (msg.endsWith("move")) {
 					move(dataFromMsg, msg);
 				} else {
 					add(dataFromMsg.repeatId);
 				}
 			}
+		}
+		function shouldPresentData(nameInDataFromMsg, attributesFromMsg) {
+			if (nameInDataFromMsg !== cMetadataElement
+					.getFirstAtomicValueByNameInData("nameInData")) {
+				return false;
+			}
+			if(metadataHasAttributes || attributesFromMsg !== undefined){
+				//check attributes
+				var attributeFromMsgKeys = Object.keys(attributesFromMsg);
+//				console.log("nameInDat:"+nameInDataFromMsg)
+//				console.log("keys:"+attributeFromMsgKeys)
+				
+				return attributeFromMsgKeys.every(function(attributeFromMsgKey){
+					console.log("key:"+attributeFromMsgKey)
+					var attributeValueFromMsg = attributesFromMsg[attributeFromMsgKey];
+					console.log(attributeValueFromMsg )
+					var collectedAttributeValues = collectedAttributes[attributeFromMsgKey];
+					if(collectedAttributeValues === undefined){return false;}
+//					console.log("METADATAID:"+metadataId)
+//					console.log(collectedAttributes )
+//					console.log(collectedAttributeValues )
+//					console.log("result:"+collectedAttributeValues.indexOf(attributeValueFromMsg[0]))
+					
+					return collectedAttributeValues.indexOf(attributeValueFromMsg[0])>-1;
+				});
+			}
+			return true;
 		}
 
 		function add(repeatId) {
@@ -126,7 +206,7 @@ var CORA = (function(cora) {
 
 			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
 					repeatingElementView);
-			
+
 			updateView();
 		}
 
@@ -287,7 +367,7 @@ var CORA = (function(cora) {
 				pChildRefHandlerView.hideChildrensDragButton();
 			}
 		}
-		function moreThenOneChild(){
+		function moreThenOneChild() {
 			return noOfRepeating > 1;
 		}
 
@@ -309,10 +389,16 @@ var CORA = (function(cora) {
 				// to enable a "top" presentation to show data for all childtypes...
 				"metadataId" : metadataId,
 				"path" : parentPath,
-				"childReference" : cParentMetadataChildRef.getData()
+				"childReference" : cParentMetadataChildRef.getData(),
+				"nameInData" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData")
 			};
+			if (metadataHasAttributes) {
+				console.log("hasAttributes in pChildRefHandler")
+				data.attributes = collectAttributes();
+			}
 			spec.jsBookkeeper.add(data);
 		}
+		
 
 		function childMoved(moveInfo) {
 			var data = {

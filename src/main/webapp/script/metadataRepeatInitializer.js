@@ -36,16 +36,62 @@ var CORA = (function(cora) {
 		function createAndPublishAddMessage() {
 			// TODO: metadataId should be nameInData and attributes instead
 			// to enable a "top" presentation to show data for all childtypes...
-			//attributeReferences might be a list that this presentation accepts any in the list
-			
+			// attributeReferences might be a list that this presentation accepts any in the list
+
 			var addMessage = {
 				"metadataId" : metadataId,
 				"path" : path,
-				"repeatId" : repeatId
+				"repeatId" : repeatId,
+				"nameInData" : metadataElement.getFirstAtomicValueByNameInData("nameInData")
 			};
+			if (hasAttributes()) {
+//				console.log("hasAttributes in metadataRepeatInitializer")
+				addMessage.attributes = collectAttributes();
+			}
 			pubSub.publish("add", addMessage);
 		}
-
+		function hasAttributes() {
+			return metadataElement.containsChildWithNameInData("attributeReferences");
+		}
+		function collectAttributes() {
+			var collectedAttributes ={};
+			var attributeReferences = metadataElement
+					.getFirstChildByNameInData("attributeReferences");
+//			console.log(attributeReferences.children)
+			attributeReferences.children.forEach(function(attributeReference) {
+//				var collectedAttribute = {};
+//				collectedAttributes.push(collectedAttribute);
+				var cCollectionVariable = getMetadataById(attributeReference.value);
+				var attributeNameInData = cCollectionVariable
+						.getFirstAtomicValueByNameInData("nameInData");
+//				collectedAttribute.name = attributeNameInData;
+				var attributeValues = [];
+//				collectedAttribute.values = attributeValues;
+				collectedAttributes[attributeNameInData] = attributeValues;
+				if (cCollectionVariable.containsChildWithNameInData("finalValue")) {
+					attributeValues.push(cCollectionVariable
+							.getFirstAtomicValueByNameInData("finalValue"));
+				} else {
+					// get collection and all items from it
+					var attributeRefCollectionId = cCollectionVariable
+							.getFirstAtomicValueByNameInData("refCollectionId");
+					var cAttributeItemCollection = getMetadataById(attributeRefCollectionId);
+					var collectionItemReferences = cAttributeItemCollection
+							.getFirstChildByNameInData("children");
+					collectionItemReferences.forEach(function(itemCollectionRef) {
+						var cAttributeCollectionItem = getMetadataById(itemCollectionRef.value);
+						attributeValues.push(cAttributeCollectionItem
+								.getFirstAtomicValueByNameInData("nameInData"));
+					});
+				}
+				
+			});
+			// get metadata for each attribute reference
+			// if final value return that else get refCollectionId metadata
+			// get collectionItemReferences metadata (might be more than one)
+			// get (ref) items metadata, get nameInData
+			return collectedAttributes;
+		}
 		function initializeForMetadata() {
 			var nextLevelPath = createNextLevelPath();
 			if (isGroup()) {
