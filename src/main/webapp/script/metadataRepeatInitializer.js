@@ -45,7 +45,7 @@ var CORA = (function(cora) {
 				"nameInData" : metadataElement.getFirstAtomicValueByNameInData("nameInData")
 			};
 			if (hasAttributes()) {
-//				console.log("hasAttributes in metadataRepeatInitializer")
+				// console.log("hasAttributes in metadataRepeatInitializer")
 				addMessage.attributes = collectAttributes();
 			}
 			pubSub.publish("add", addMessage);
@@ -54,19 +54,19 @@ var CORA = (function(cora) {
 			return metadataElement.containsChildWithNameInData("attributeReferences");
 		}
 		function collectAttributes() {
-			var collectedAttributes ={};
+			var collectedAttributes = {};
 			var attributeReferences = metadataElement
 					.getFirstChildByNameInData("attributeReferences");
-//			console.log(attributeReferences.children)
+			// console.log(attributeReferences.children)
 			attributeReferences.children.forEach(function(attributeReference) {
-//				var collectedAttribute = {};
-//				collectedAttributes.push(collectedAttribute);
+				// var collectedAttribute = {};
+				// collectedAttributes.push(collectedAttribute);
 				var cCollectionVariable = getMetadataById(attributeReference.value);
 				var attributeNameInData = cCollectionVariable
 						.getFirstAtomicValueByNameInData("nameInData");
-//				collectedAttribute.name = attributeNameInData;
+				// collectedAttribute.name = attributeNameInData;
 				var attributeValues = [];
-//				collectedAttribute.values = attributeValues;
+				// collectedAttribute.values = attributeValues;
 				collectedAttributes[attributeNameInData] = attributeValues;
 				if (cCollectionVariable.containsChildWithNameInData("finalValue")) {
 					attributeValues.push(cCollectionVariable
@@ -84,7 +84,7 @@ var CORA = (function(cora) {
 								.getFirstAtomicValueByNameInData("nameInData"));
 					});
 				}
-				
+
 			});
 			// get metadata for each attribute reference
 			// if final value return that else get refCollectionId metadata
@@ -147,10 +147,6 @@ var CORA = (function(cora) {
 				"name" : "repeatId",
 				"value" : repeatId
 			};
-		}
-
-		function hasAttributes() {
-			return metadataElement.containsChildWithNameInData('attributeReferences');
 		}
 
 		function createAttributes() {

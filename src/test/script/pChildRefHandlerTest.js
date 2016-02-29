@@ -188,7 +188,7 @@ QUnit.test("testHandleMoveMessage", function(assert) {
 				"name" : "nameInData",
 				"value" : "textVariableId"
 			}, {
-				"name" : "repeatId",
+				"name" : "repeatId", 
 				"value" : "one"
 			} ]
 		},
@@ -854,6 +854,20 @@ QUnit.test("testHandleMessageRightMetadataId", function(assert) {
 		"metadataId" : "textVariableId"
 	}, "x/y/z/add");
 
+	assert.strictEqual(childrenView.childNodes.length, 1);
+});
+
+QUnit.test("testHandleMessageParentMetadata", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+	
+	attachedPChildRefHandler.pChildRefHandler.handleMsg({
+		"metadataId" : "textVariableId"
+	}, "x/y/z/add");
+	
 	assert.strictEqual(childrenView.childNodes.length, 1);
 });
 
