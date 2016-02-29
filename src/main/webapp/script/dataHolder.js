@@ -95,8 +95,10 @@ var CORA = (function(cora) {
 				addChild(dataFromMsg.path, dataFromMsg.metadataId, dataFromMsg.repeatId);
 			} else if (msg.endsWith("setValue")) {
 				setValue(dataFromMsg.path, dataFromMsg.data);
-			} else {
+			} else if (msg.endsWith("remove")) {
 				remove(dataFromMsg.path);
+			} else {
+				move(dataFromMsg);
 			}
 		}
 
@@ -193,6 +195,26 @@ var CORA = (function(cora) {
 			var parentContainer = containerAndParent.parent.children;
 			var containerIndexInParent = parentContainer.indexOf(containerAndParent.container);
 			parentContainer.splice(containerIndexInParent, 1);
+		}
+
+		function move(dataFromMessage) {
+			var basePositionOnChildPath = dataFromMessage.basePositionOnChild;
+			var moveChildPath = dataFromMessage.moveChild;
+
+			var containerAndParent = findContainerAndParent(dataContainer, moveChildPath);
+			var parentContainer = containerAndParent.parent.children;
+			var moveChild = containerAndParent.container;
+			var moveChildIndex = parentContainer.indexOf(moveChild);
+			var movingChild = parentContainer.splice(moveChildIndex, 1)[0];
+
+			var basePositionChild = findContainer(dataContainer, basePositionOnChildPath);
+			var basePositionOnIndex = parentContainer.indexOf(basePositionChild);
+
+			if (dataFromMessage.newPosition === "before") {
+				parentContainer.splice(basePositionOnIndex, 0, movingChild);
+			} else {
+				parentContainer.splice(basePositionOnIndex + 1, 0, movingChild);
+			}
 		}
 
 		return Object.freeze({

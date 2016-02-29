@@ -40,20 +40,21 @@ var CORA = (function(cora) {
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
-		var view = createBaseView();
-		var childrenView = createChildrenView();
-		view.appendChild(childrenView);
-		var buttonView;
-		var addButton;
+		var pChildRefHandlerViewSpec = {
+			"presentationId" : presentationId,
+			"isRepeating" : isRepeating
+		};
 		if (showAddButton()) {
-			buttonView = createButtonView();
-			view.appendChild(buttonView);
-			addButton = createAddButton();
-			buttonView.appendChild(addButton);
+			pChildRefHandlerViewSpec.addMethod = sendAdd;
 		}
+		var pChildRefHandlerView = CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
+
+		var view = pChildRefHandlerView.getView();
+
 		var noOfRepeating = 0;
 
 		pubSub.subscribe("add", parentPath, undefined, handleMsg);
+		pubSub.subscribe("move", parentPath, undefined, handleMsg);
 
 		function findPresentationId(cPresentationToSearch) {
 			var recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
@@ -70,30 +71,11 @@ var CORA = (function(cora) {
 		}
 
 		function calculateIsRepeating() {
-			if (repeatMax > 1 || repeatMax === "X") {
-				return true;
-			}
-			return false;
+			return repeatMax > 1 || repeatMax === "X";
 		}
 
 		function calculateIsStaticNoOfChildren() {
-			if (repeatMax === repeatMin) {
-				return true;
-			}
-			return false;
-		}
-
-		function createBaseView() {
-			var viewNew = document.createElement("span");
-			viewNew.className = "pChildRefHandler " + presentationId;
-
-			return viewNew;
-		}
-
-		function createChildrenView() {
-			var childrenViewNew = document.createElement("span");
-			childrenViewNew.className = "childrenView";
-			return childrenViewNew;
+			return repeatMax === repeatMin;
 		}
 
 		function showAddButton() {
@@ -101,23 +83,7 @@ var CORA = (function(cora) {
 		}
 
 		function isZeroToOne() {
-			if (repeatMin === "0" && repeatMax === "1") {
-				return true;
-			}
-			return false;
-		}
-
-		function createButtonView() {
-			var buttonViewNew = document.createElement("span");
-			buttonViewNew.className = "buttonView";
-			return buttonViewNew;
-		}
-
-		function createAddButton() {
-			var button = document.createElement("input");
-			button.type = "button";
-			button.value = "ADD";
-			return button;
+			return repeatMin === "0" && repeatMax === "1";
 		}
 
 		function getMetadataById(id) {
@@ -128,9 +94,13 @@ var CORA = (function(cora) {
 			return view;
 		}
 
-		function handleMsg(dataFromMsg) {
-			if (metadataId === dataFromMsg.metadataId) {
-				add(dataFromMsg.repeatId);
+		function handleMsg(dataFromMsg, msg) {
+			if (dataFromMsg !== undefined && metadataId === dataFromMsg.metadataId) {
+				if (msg.endsWith("move")) {
+					move(dataFromMsg);
+				} else {
+					add(dataFromMsg.repeatId);
+				}
 			}
 		}
 
@@ -139,20 +109,20 @@ var CORA = (function(cora) {
 			var newPath = calculatePathForNewElement(repeatId);
 			var repeatingElement = createRepeatingElement(newPath);
 			var repeatingElementView = repeatingElement.getView();
-			childrenView.appendChild(repeatingElementView);
+			pChildRefHandlerView.addChild(repeatingElementView);
 
 			var presentation = presentationFactory.factor(newPath, cPresentation,
 					cParentPresentation);
 			repeatingElement.addPresentation(presentation);
-
-			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
-					repeatingElementView);
 
 			if (cPresentationMinimized !== undefined) {
 				var presentationMinimized = presentationFactory.factor(newPath,
 						cPresentationMinimized, cParentPresentation);
 				repeatingElement.addPresentationMinimized(presentationMinimized, minimizedDefault);
 			}
+
+			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
+					repeatingElementView);
 
 			updateView();
 		}
@@ -162,7 +132,9 @@ var CORA = (function(cora) {
 				"repeatMin" : repeatMin,
 				"repeatMax" : repeatMax,
 				"path" : path,
-				"jsBookkeeper" : spec.jsBookkeeper
+				"jsBookkeeper" : spec.jsBookkeeper,
+				"parentModelObject" : view.viewObject,
+				"isRepeating" : isRepeating
 			};
 			return CORA.pRepeatingElement(repeatingElementSpec);
 		}
@@ -171,7 +143,7 @@ var CORA = (function(cora) {
 				repeatingElementView) {
 			if (showAddButton()) {
 				var removeFunction = function() {
-					childrenView.removeChild(repeatingElementView);
+					pChildRefHandlerView.removeChild(repeatingElementView);
 					childRemoved();
 				};
 				pubSub.subscribe("remove", newPath, undefined, removeFunction);
@@ -274,6 +246,10 @@ var CORA = (function(cora) {
 			};
 		}
 
+		function move(dataFromMsg) {
+			pChildRefHandlerView.moveChild(dataFromMsg);
+		}
+
 		function childRemoved() {
 			noOfRepeating--;
 			updateView();
@@ -284,31 +260,16 @@ var CORA = (function(cora) {
 				updateButtonViewVisibility();
 				updateChildrenRemoveButtonVisibility();
 			}
+			if (isRepeating) {
+				updateChildrenDragButtonVisibility();
+			}
 		}
 
 		function updateChildrenRemoveButtonVisibility() {
-			// can not use Object.keys(repeatingElements) as phantomJs can't
-			// handle it
 			if (minLimitOfChildrenReached()) {
-				hideChildrensRemoveButton();
+				pChildRefHandlerView.hideChildrensRemoveButton();
 			} else {
-				showChildrensRemoveButton();
-			}
-		}
-
-		function hideChildrensRemoveButton() {
-			var repeatingElements = childrenView.childNodes;
-			var length = repeatingElements.length;
-			for (var i = 0; i < length; i++) {
-				repeatingElements[i].modelObject.hideRemoveButton();
-			}
-		}
-
-		function showChildrensRemoveButton() {
-			var repeatingElements = childrenView.childNodes;
-			var length = repeatingElements.length;
-			for (var i = 0; i < length; i++) {
-				repeatingElements[i].modelObject.showRemoveButton();
+				pChildRefHandlerView.showChildrensRemoveButton();
 			}
 		}
 
@@ -316,21 +277,23 @@ var CORA = (function(cora) {
 			return noOfRepeating === Number(repeatMin);
 		}
 
-		function updateButtonViewVisibility() {
-			if (maxLimitOfChildrenReached()) {
-				hideButtonView();
+		function updateChildrenDragButtonVisibility() {
+			if (moreThenOneChild()) {
+				pChildRefHandlerView.showChildrensDragButton();
 			} else {
-				showButtonView();
+				pChildRefHandlerView.hideChildrensDragButton();
 			}
 		}
-
-		function hideButtonView() {
-			buttonView.styleOriginal = buttonView.style.display;
-			buttonView.style.display = "none";
+		function moreThenOneChild() {
+			return noOfRepeating > 1;
 		}
 
-		function showButtonView() {
-			buttonView.style.display = buttonView.styleOriginal;
+		function updateButtonViewVisibility() {
+			if (maxLimitOfChildrenReached()) {
+				pChildRefHandlerView.hideButtonView();
+			} else {
+				pChildRefHandlerView.showButtonView();
+			}
 		}
 
 		function maxLimitOfChildrenReached() {
@@ -346,6 +309,16 @@ var CORA = (function(cora) {
 			spec.jsBookkeeper.add(data);
 		}
 
+		function childMoved(moveInfo) {
+			var data = {
+				"path" : parentPath,
+				"metadataId" : metadataId,
+				"moveChild" : moveInfo.moveChild,
+				"basePositionOnChild" : moveInfo.basePositionOnChild,
+				"newPosition" : moveInfo.newPosition
+			};
+			spec.jsBookkeeper.move(data);
+		}
 		var out = Object.freeze({
 			getView : getView,
 			add : add,
@@ -353,12 +326,11 @@ var CORA = (function(cora) {
 			isRepeating : isRepeating,
 			isStaticNoOfChildren : isStaticNoOfChildren,
 			sendAdd : sendAdd,
-			childRemoved : childRemoved
+			childRemoved : childRemoved,
+			childMoved : childMoved
 		});
+
 		view.modelObject = out;
-		if (showAddButton()) {
-			addButton.onclick = sendAdd;
-		}
 		return out;
 	};
 	return cora;

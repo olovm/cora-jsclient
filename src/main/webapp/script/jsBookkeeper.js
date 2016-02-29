@@ -77,10 +77,15 @@ var CORA = (function(cora) {
 			pubSub.unsubscribePathBelow(data.path);
 		}
 
+		function move(data) {
+			pubSub.publish("move", data);
+		}
+
 		return Object.freeze({
 			setValue : setValue,
 			add : add,
-			remove : remove
+			remove : remove,
+			move : move
 		});
 	};
 	return cora;

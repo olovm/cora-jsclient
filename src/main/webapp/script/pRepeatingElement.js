@@ -24,19 +24,20 @@ var CORA = (function(cora) {
 		var repeatMax = spec.repeatMax;
 		var path = spec.path;
 		var jsBookkeeper = spec.jsBookkeeper;
+		var parentModelObject = spec.parentModelObject;
 
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
 		var view = createBaseView();
 		var removeButton;
+		var dragButton;
 		var presentationMaximized;
 		var presentationMinimized;
 		var maximizeButton;
 		var minimizeButton;
 
 		var buttonView = createButtonView();
-
 
 		function calculateIsRepeating() {
 			if (repeatMax > 1 || repeatMax === "X") {
@@ -55,8 +56,14 @@ var CORA = (function(cora) {
 		function createBaseView() {
 			var repeatingElement = document.createElement("span");
 			repeatingElement.className = "repeatingElement";
-
+			if (spec.isRepeating) {
+				repeatingElement.ondragenter = ondragenterHandler;
+			}
 			return repeatingElement;
+		}
+
+		function ondragenterHandler() {
+			parentModelObject.setRepeatingElementDragOver(view.modelObject);
 		}
 
 		function addRemoveButton() {
@@ -71,7 +78,6 @@ var CORA = (function(cora) {
 		}
 
 		function createButtonView() {
-			// repeating buttonview
 			var newButtonView = document.createElement("span");
 			newButtonView.className = "buttonView";
 			view.appendChild(newButtonView);
@@ -79,6 +85,10 @@ var CORA = (function(cora) {
 			if (addRemoveButton()) {
 				removeButton = createRemoveButton();
 				newButtonView.appendChild(removeButton);
+			}
+			if (isRepeating) {
+				dragButton = createDragButton();
+				newButtonView.appendChild(dragButton);
 			}
 			return newButtonView;
 		}
@@ -88,6 +98,17 @@ var CORA = (function(cora) {
 			createdRemoveButton.className = "removeButton";
 			addCallToJsBookkeeperToRemove(createdRemoveButton);
 			return createdRemoveButton;
+		}
+		function createDragButton() {
+			var createdDragButton = document.createElement("span");
+			createdDragButton.className = "dragButton";
+			createdDragButton.onmousedown = function() {
+				view.draggable = "true";
+			};
+			createdDragButton.onmouseup = function() {
+				view.draggable = undefined;
+			};
+			return createdDragButton;
 		}
 
 		function addCallToJsBookkeeperToRemove(removeButtonIn) {
@@ -106,20 +127,20 @@ var CORA = (function(cora) {
 
 		function addPresentation(presentation) {
 			presentationMaximized = presentation.getView();
-			presentationMaximized.className =  presentationMaximized.className + " maximized";
+			presentationMaximized.className = presentationMaximized.className + " maximized";
 			view.insertBefore(presentationMaximized, buttonView);
 		}
 
 		function addPresentationMinimized(presentationMinimizedIn, minimizedDefault) {
 			presentationMinimized = presentationMinimizedIn.getView();
-			presentationMinimized.className =  presentationMinimized.className + " minimized";
+			presentationMinimized.className = presentationMinimized.className + " minimized";
 			view.insertBefore(presentationMinimized, buttonView);
 			createMinimizeMaximizeButtons();
 			toggleMinimizedShown(minimizedDefault);
 		}
 
 		function toggleMinimizedShown(minimizedShown) {
-			if (minimizedShown!==undefined && minimizedShown === "true") {
+			if (minimizedShown !== undefined && minimizedShown === "true") {
 				hide(presentationMaximized);
 				show(presentationMinimized);
 				show(maximizeButton);
@@ -138,14 +159,22 @@ var CORA = (function(cora) {
 			maximizeButton.onclick = function() {
 				toggleMinimizedShown("false");
 			};
-			buttonView.appendChild(maximizeButton);
+			if (dragButton !== undefined) {
+				buttonView.insertBefore(maximizeButton, dragButton);
+			} else {
+				buttonView.appendChild(maximizeButton);
+			}
 
 			minimizeButton = document.createElement("span");
 			minimizeButton.className = "minimizeButton";
 			minimizeButton.onclick = function() {
 				toggleMinimizedShown("true");
 			};
-			buttonView.appendChild(minimizeButton);
+			if (dragButton !== undefined) {
+				buttonView.insertBefore(minimizeButton, dragButton);
+			} else {
+				buttonView.appendChild(minimizeButton);
+			}
 		}
 
 		function hideRemoveButton() {
@@ -155,6 +184,15 @@ var CORA = (function(cora) {
 		function showRemoveButton() {
 			show(removeButton);
 		}
+
+		function hideDragButton() {
+			hide(dragButton);
+		}
+
+		function showDragButton() {
+			show(dragButton);
+		}
+
 		function hide(element) {
 			element.styleOriginal = element.style.display;
 			element.style.display = "none";
@@ -162,13 +200,21 @@ var CORA = (function(cora) {
 		function show(element) {
 			element.style.display = element.styleOriginal;
 		}
+
+		function getPath() {
+			return path;
+		}
+
 		var out = Object.freeze({
 			"type" : "pRepeatingElement",
 			getView : getView,
 			addPresentation : addPresentation,
 			addPresentationMinimized : addPresentationMinimized,
 			hideRemoveButton : hideRemoveButton,
-			showRemoveButton : showRemoveButton
+			showRemoveButton : showRemoveButton,
+			hideDragButton : hideDragButton,
+			showDragButton : showDragButton,
+			getPath : getPath
 		});
 
 		view.modelObject = out;

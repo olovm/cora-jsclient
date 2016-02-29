@@ -20,12 +20,14 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.attachedPRepeatingElementFactory = function(jsBookkeeper, fixture) {
-		var factor = function(repeatMin, repeatMax, path) {
+		var factor = function(repeatMin, repeatMax, path, parentModelObject) {
 			var spec = {
 				"repeatMin" : repeatMin,
 				"repeatMax" : repeatMax,
 				"path" : path,
-				"jsBookkeeper" : jsBookkeeper
+				"jsBookkeeper" : jsBookkeeper,
+				"parentModelObject" : parentModelObject,
+				"isRepeating":Number(repeatMax) > 1 || repeatMax === "X"
 			};
 			var pRepeatingElement = CORA.pRepeatingElement(spec);
 			var view = pRepeatingElement.getView();
@@ -34,7 +36,8 @@ var CORATEST = (function(coraTest) {
 				pRepeatingElement : pRepeatingElement,
 				fixture : fixture,
 				jsBookkeeper : jsBookkeeper,
-				view : view
+				view : view,
+				parentModelObject : parentModelObject
 			};
 
 		};
@@ -71,13 +74,34 @@ QUnit.test("testInit", function(assert) {
 	assert.ok(view.modelObject === pRepeatingElement,
 			"modelObject should be a pointer to the javascript object instance");
 
-	// remove button
+	assert.strictEqual(pRepeatingElement.getPath(), path);
+
 	var repeatingElement = view;
 	assert.strictEqual(repeatingElement.className, "repeatingElement");
 	var buttonView = repeatingElement.childNodes[0];
 	assert.strictEqual(buttonView.className, "buttonView");
+
+	// remove button
 	var removeButton = buttonView.firstChild;
 	assert.strictEqual(removeButton.className, "removeButton");
+
+	// drag button
+	var removeButton = buttonView.childNodes[1];
+	assert.strictEqual(removeButton.className, "dragButton");
+
+});
+
+QUnit.test("testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThis", function(assert) {
+	var repeatMin = "1";
+	var repeatMax = "2";
+	var path = {};
+	var parentModelObjectSpy = CORATEST.parentModelObjectSpy();
+	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(repeatMin, repeatMax,
+			path, parentModelObjectSpy);
+
+	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
+	pRepeatingElement.getView().ondragenter();
+	assert.strictEqual(parentModelObjectSpy.getRepeatingElementDragOver(), pRepeatingElement);
 });
 
 QUnit.test("testButtonViewAndRemoveButton", function(assert) {
@@ -94,7 +118,7 @@ QUnit.test("testButtonViewAndRemoveButton", function(assert) {
 	assert.strictEqual(removeButton.className, "removeButton");
 });
 
-QUnit.test("test1to1ShodHaveNoRemoveButton", function(assert) {
+QUnit.test("test1to1ShodHaveNoRemoveOrDragButton", function(assert) {
 	var repeatMin = "1";
 	var repeatMax = "1";
 	var path = {};
@@ -129,7 +153,26 @@ QUnit.test("testRemoveButtonOnclick", function(assert) {
 	assert.deepEqual(firstRemove.path, path);
 });
 
-QUnit.test("testHideRemoveButtonOnclick", function(assert) {
+QUnit.test("testDragButtonOnmousedownOnmouseup", function(assert) {
+	var repeatMin = "1";
+	var repeatMax = "2";
+	var path = {};
+	var attachedPRepeatingElement = this.pRepeatingElementFactory
+			.factor(repeatMin, repeatMax, path);
+	var view = attachedPRepeatingElement.view;
+
+	var repeatingElement = view;
+	var buttonView = repeatingElement.childNodes[0];
+	var dragButton = buttonView.lastChild;
+
+	assert.notOk(view.draggable);
+	dragButton.onmousedown();
+	assert.ok(view.draggable);
+	dragButton.onmouseup();
+	assert.notOk(view.draggable);
+});
+
+QUnit.test("testHideRemoveButton", function(assert) {
 	var repeatMin = "1";
 	var repeatMax = "2";
 	var path = {};
@@ -149,6 +192,28 @@ QUnit.test("testHideRemoveButtonOnclick", function(assert) {
 
 	pRepeatingElement.showRemoveButton();
 	assert.visible(removeButton, "buttonView should be visible");
+});
+
+QUnit.test("testHideDragButton", function(assert) {
+	var repeatMin = "1";
+	var repeatMax = "2";
+	var path = {};
+	var attachedPRepeatingElement = this.pRepeatingElementFactory
+			.factor(repeatMin, repeatMax, path);
+	var view = attachedPRepeatingElement.view;
+
+	var repeatingElement = view;
+	var buttonView = repeatingElement.childNodes[0];
+	var dragButton = buttonView.lastChild;
+
+	assert.visible(dragButton, "buttonView should be visible");
+
+	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
+	pRepeatingElement.hideDragButton();
+	assert.notVisible(dragButton, "buttonView should be hidden");
+
+	pRepeatingElement.showDragButton();
+	assert.visible(dragButton, "buttonView should be visible");
 });
 
 QUnit.test("testAddPresentation", function(assert) {
