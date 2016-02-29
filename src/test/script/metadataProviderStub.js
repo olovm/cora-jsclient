@@ -637,7 +637,8 @@ function MetadataProviderStub() {
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
 									"textVar", "1", "1", "3") ]
 						} ]
-						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+//						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("textVarRepeat1to3InGroupOneAttribute"))
 			};
 		}
 		if (idToGet === "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup") {
@@ -1175,9 +1176,10 @@ function MetadataProviderStub() {
 					"type" : "collectionVariable"
 				},
 				"children" : [ {
-					"name" : "ref",
+					"name" : "refCollectionId",
 					"value" : "recordTypeTypeCollection"
-				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+//				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("recordTypeTypeCollectionVar"))
 			};
 		}
 		if (idToGet === "metadata") {

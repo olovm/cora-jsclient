@@ -23,12 +23,19 @@ var CORA = (function(cora) {
 
 		var view = createBaseView();
 		var childrenView = createChildrenView();
+		var buttonView;
+
+		var beeingDragged;
+		var lastChangedWith;
+		var addDragged;
+		var beeingDraggedY;
+		var dragging = false;
+		var repeatingElementDragOver;
+
 		view.appendChild(childrenView);
 		if (spec.addMethod !== undefined) {
 			createButtonView();
 		}
-
-		var buttonView;
 
 		function createBaseView() {
 			return createSpanWithClassName("pChildRefHandler " + spec.presentationId);
@@ -85,15 +92,6 @@ var CORA = (function(cora) {
 
 			return childrenViewNew;
 		}
-
-		var beeingDragged;
-		var lastChangedWith;
-		var addDragged;
-
-		var beeingDraggedY;
-		var dragging = false;
-
-		var repeatingElementDragOver;
 
 		function dragstartHandler(event) {
 			event.stopPropagation();
@@ -191,14 +189,14 @@ var CORA = (function(cora) {
 		}
 		function moveChild(dataFromMsg) {
 			var repeatingElements = childrenView.childNodes;
-			var moveChild;
+			var childToMove;
 			var basePositionOnChild;
 			var childKeys = Object.keys(repeatingElements);
 			childKeys.forEach(function(repeatingElementKey) {
 				var repeatingElement = repeatingElements[repeatingElementKey];
 				if (JSON.stringify(dataFromMsg.moveChild) === JSON
 						.stringify(repeatingElement.modelObject.getPath())) {
-					moveChild = repeatingElement;
+					childToMove = repeatingElement;
 				}
 				if (JSON.stringify(dataFromMsg.basePositionOnChild) === JSON
 						.stringify(repeatingElement.modelObject.getPath())) {
@@ -207,9 +205,9 @@ var CORA = (function(cora) {
 			});
 
 			if (dataFromMsg.newPosition === "after") {
-				childrenView.insertBefore(moveChild, basePositionOnChild.nextSibling);
+				childrenView.insertBefore(childToMove, basePositionOnChild.nextSibling);
 			} else {
-				childrenView.insertBefore(moveChild, basePositionOnChild);
+				childrenView.insertBefore(childToMove, basePositionOnChild);
 			}
 		}
 		function hideChildrensRemoveButton() {

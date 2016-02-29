@@ -28,14 +28,14 @@ var CORATEST = (function(coraTest) {
 			// presentationParentId) {
 			// var cPSurroundingContainer = CORA.coraData(metadataProvider
 			// .getMetadataById(pSurroundingContainerId));
-//			var cParentPresentation = CORA.coraData(metadataProvider
-//					.getMetadataById(presentationParentId));
+			// var cParentPresentation = CORA.coraData(metadataProvider
+			// .getMetadataById(presentationParentId));
 
 			var spec = {
 				// "presentationId" : presentationId,
-					 "path" : {},
+				"path" : {},
 				"cPresentation" : cPresentation,
-				 "cParentPresentation" : undefined,
+				"cParentPresentation" : undefined,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
@@ -83,8 +83,7 @@ QUnit.module("pGroupTest.js", {
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 		this.presentationFactory = CORATEST.presentationFactorySpy();
 		this.newAttachedPGroup = CORATEST.attachedPGroupFactory(this.metadataProvider, this.pubSub,
-				this.textProvider, this.presentationFactory,
-				this.jsBookkeeper, this.fixture);
+				this.textProvider, this.presentationFactory, this.jsBookkeeper, this.fixture);
 	},
 	afterEach : function() {
 	}
@@ -137,14 +136,15 @@ QUnit.test("testInitTwoChildren", function(assert) {
 
 QUnit.test("testInitOneChildMimimized", function(assert) {
 	// var attachedPGroup =
-//	 this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimized");
+	// this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimized");
 	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimized");
-//	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
+	// var attachedPGroup =
+	// this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
 	var view = attachedPGroup.view;
 	var childRefHandler = view.firstChild;
 	var pChildRefHandler = childRefHandler.modelObject;
 	// pChildRefHandler.add("one");
-	pChildRefHandler.add("onelkadsjflökads jflköads jflökadsjfldasj lk");
+	pChildRefHandler.add("groupIdOneTextChild", "onelkadsjflökads jflköads jflökadsjfldasj lk");
 
 	// minimizedPresentation
 	var repeatingElement = childRefHandler.childNodes[0].firstChild;
@@ -168,19 +168,19 @@ QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
 	var childRefHandler = view.firstChild;
 	var pChildRefHandler = childRefHandler.modelObject;
 	// pChildRefHandler.add("one");
-	pChildRefHandler.add("onelkadsjflökads jflköads jflökadsjfldasj lk");
-	
+	pChildRefHandler.add("groupIdOneTextChild", "onelkadsjflökads jflköads jflökadsjfldasj lk");
+
 	// minimizedPresentation
 	var repeatingElement = childRefHandler.childNodes[0].firstChild;
 	assert.strictEqual(repeatingElement.childNodes.length, 3);
-	
+
 	var repeatingButtonView = repeatingElement.childNodes[2];
 	assert.visible(repeatingButtonView, "repeatingButtonView should be visible");
-	
+
 	var maximizeButton = repeatingButtonView.childNodes[0];
 	assert.strictEqual(maximizeButton.className, "maximizeButton");
 	assert.visible(maximizeButton, "maximizeButton should be shown");
-	
+
 	var minimizeButton = repeatingButtonView.childNodes[1];
 	assert.strictEqual(minimizeButton.className, "minimizeButton");
 	assert.notVisible(minimizeButton, "minimizeButton should be hidden");

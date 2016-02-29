@@ -20,6 +20,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pChildRefHandler = function(spec) {
+		// console.log("here1")
 		var parentPath = spec.parentPath;
 		var cParentMetadata = spec.cParentMetadata;
 		var cPresentation = spec.cPresentation;
@@ -35,11 +36,16 @@ var CORA = (function(cora) {
 		var cMetadataElement = getMetadataById(metadataId);
 
 		var cParentMetadataChildRef = findParentMetadataChildRef(cParentMetadata);
+		// var cParentMetadataChildRef =
+		// findParentMetadataChildRef(cMetadataElement);
+		// console.log(metadataId)
+		// console.log("here2")
+		// console.log(JSON.stringify(cParentMetadata.getData()))
 		var repeatMin = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMax");
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
-
+		// console.log("here")
 		var pChildRefHandlerViewSpec = {
 			"presentationId" : presentationId,
 			"isRepeating" : isRepeating
@@ -58,30 +64,24 @@ var CORA = (function(cora) {
 
 		var metadataHasAttributes = hasAttributes();
 		var collectedAttributes = {};
-		if(metadataHasAttributes){
+		if (metadataHasAttributes) {
 			collectedAttributes = collectAttributes();
 		}
-//		console.log("presentationId:"+presentationId)
-//		console.log("collectedAttributes:"+JSON.stringify(collectedAttributes))
-		
+
 		function hasAttributes() {
 			return cMetadataElement.containsChildWithNameInData("attributeReferences");
 		}
 		function collectAttributes() {
-			var collectedAttributes ={};
+			var collectedAttributes = {};
 			var attributeReferences = cMetadataElement
 					.getFirstChildByNameInData("attributeReferences");
-//			console.log(attributeReferences.children)
 			attributeReferences.children.forEach(function(attributeReference) {
-//				var collectedAttribute = {};
-//				collectedAttributes.push(collectedAttribute);
 				var cCollectionVariable = getMetadataById(attributeReference.value);
 				var attributeNameInData = cCollectionVariable
 						.getFirstAtomicValueByNameInData("nameInData");
-//				collectedAttribute.name = attributeNameInData;
 				var attributeValues = [];
-//				collectedAttribute.values = attributeValues;
 				collectedAttributes[attributeNameInData] = attributeValues;
+
 				if (cCollectionVariable.containsChildWithNameInData("finalValue")) {
 					attributeValues.push(cCollectionVariable
 							.getFirstAtomicValueByNameInData("finalValue"));
@@ -90,15 +90,16 @@ var CORA = (function(cora) {
 					var attributeRefCollectionId = cCollectionVariable
 							.getFirstAtomicValueByNameInData("refCollectionId");
 					var cAttributeItemCollection = getMetadataById(attributeRefCollectionId);
+
 					var collectionItemReferences = cAttributeItemCollection
-							.getFirstChildByNameInData("children");
-					collectionItemReferences.forEach(function(itemCollectionRef) {
+							.getFirstChildByNameInData("collectionItemReferences");
+					collectionItemReferences.children.forEach(function(itemCollectionRef) {
 						var cAttributeCollectionItem = getMetadataById(itemCollectionRef.value);
 						attributeValues.push(cAttributeCollectionItem
 								.getFirstAtomicValueByNameInData("nameInData"));
 					});
 				}
-				
+
 			});
 			// get metadata for each attribute reference
 			// if final value return that else get refCollectionId metadata
@@ -106,7 +107,7 @@ var CORA = (function(cora) {
 			// get (ref) items metadata, get nameInData
 			return collectedAttributes;
 		}
-		
+
 		function findPresentationId(cPresentationToSearch) {
 			var recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
@@ -122,11 +123,11 @@ var CORA = (function(cora) {
 		}
 
 		function calculateIsRepeating() {
-			return (repeatMax > 1 || repeatMax === "X");
+			return repeatMax > 1 || repeatMax === "X";
 		}
 
 		function calculateIsStaticNoOfChildren() {
-			return (repeatMax === repeatMin);
+			return repeatMax === repeatMin;
 		}
 
 		function showAddButton() {
@@ -134,7 +135,7 @@ var CORA = (function(cora) {
 		}
 
 		function isZeroToOne() {
-			return (repeatMin === "0" && repeatMax === "1");
+			return repeatMin === "0" && repeatMax === "1";
 		}
 
 		function getMetadataById(id) {
@@ -146,50 +147,53 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsg(dataFromMsg, msg) {
-			// TODO: metadataId should be nameInData and attributes instead
-			// to enable a "top" presentation to show data for all childtypes...
-			// attributeReferences might be a list that this presentation accepts any in the list
-			 if (dataFromMsg !== undefined && (metadataId === dataFromMsg.metadataId
-//			if (dataFromMsg !== undefined 
-					|| shouldPresentData(dataFromMsg.nameInData, dataFromMsg.attributes))) {
+			if (dataFromMsg !== undefined
+					&& (metadataId === dataFromMsg.metadataId || shouldPresentData(
+							dataFromMsg.nameInData, dataFromMsg.attributes))) {
 				if (msg.endsWith("move")) {
-					move(dataFromMsg, msg);
+					move(dataFromMsg);
 				} else {
-					add(dataFromMsg.repeatId);
+					add(dataFromMsg.metadataId, dataFromMsg.repeatId);
 				}
 			}
 		}
 		function shouldPresentData(nameInDataFromMsg, attributesFromMsg) {
-			if (nameInDataFromMsg !== cMetadataElement
-					.getFirstAtomicValueByNameInData("nameInData")) {
+			if (nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg)) {
 				return false;
 			}
-			if(metadataHasAttributes || attributesFromMsg !== undefined){
-				//check attributes
-				var attributeFromMsgKeys = Object.keys(attributesFromMsg);
-//				console.log("nameInDat:"+nameInDataFromMsg)
-//				console.log("keys:"+attributeFromMsgKeys)
-				
-				return attributeFromMsgKeys.every(function(attributeFromMsgKey){
-					console.log("key:"+attributeFromMsgKey)
-					var attributeValueFromMsg = attributesFromMsg[attributeFromMsgKey];
-					console.log(attributeValueFromMsg )
-					var collectedAttributeValues = collectedAttributes[attributeFromMsgKey];
-					if(collectedAttributeValues === undefined){return false;}
-//					console.log("METADATAID:"+metadataId)
-//					console.log(collectedAttributes )
-//					console.log(collectedAttributeValues )
-//					console.log("result:"+collectedAttributeValues.indexOf(attributeValueFromMsg[0]))
-					
-					return collectedAttributeValues.indexOf(attributeValueFromMsg[0])>-1;
-				});
+			if (noAttributesInMessageNorHandledByThisPChildRefHandler(attributesFromMsg)) {
+				return true;
 			}
-			return true;
+			if (metadataHasAttributes && attributesFromMsg !== undefined) {
+				var attributeFromMsgKeys = Object.keys(attributesFromMsg);
+				if (attributeFromMsgKeys.length === 0) {
+					return false;
+				}
+				var sameAttributes = attributeFromMsgKeys.every(function(attributeFromMsgKey) {
+					var attributeValueFromMsg = attributesFromMsg[attributeFromMsgKey];
+					var collectedAttributeValues = collectedAttributes[attributeFromMsgKey];
+					if (collectedAttributeValues === undefined) {
+						return false;
+					}
+					return collectedAttributeValues.indexOf(attributeValueFromMsg[0]) > -1;
+				});
+				return sameAttributes;
+			}
+			return false;
 		}
-
-		function add(repeatId) {
+		
+		function nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg) {
+			return nameInDataFromMsg !== cMetadataElement
+					.getFirstAtomicValueByNameInData("nameInData");
+		}
+		
+		function noAttributesInMessageNorHandledByThisPChildRefHandler(attributesFromMsg){
+			return !metadataHasAttributes && attributesFromMsg === undefined;
+		}
+		
+		function add(metadataIdToAdd, repeatId) {
 			noOfRepeating++;
-			var newPath = calculatePathForNewElement(repeatId);
+			var newPath = calculatePathForNewElement(metadataIdToAdd, repeatId);
 			var repeatingElement = createRepeatingElement(newPath);
 			var repeatingElementView = repeatingElement.getView();
 			pChildRefHandlerView.addChild(repeatingElementView);
@@ -233,9 +237,13 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function calculatePathForNewElement(repeatId) {
-			var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
-			var attributes = getAttributesForMetadataId(cMetadataElement);
+		function calculatePathForNewElement(metadataIdToAdd, repeatId) {
+			var cMetadataElementToAdd = getMetadataById(metadataIdToAdd);
+			// var nameInData =
+			// cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
+			// var attributes = getAttributesForMetadataId(cMetadataElement);
+			var nameInData = cMetadataElementToAdd.getFirstAtomicValueByNameInData("nameInData");
+			var attributes = getAttributesForMetadataId(cMetadataElementToAdd);
 			var pathCopy = JSON.parse(JSON.stringify(parentPath));
 			var childPath = createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId,
 					attributes);
@@ -329,7 +337,7 @@ var CORA = (function(cora) {
 			};
 		}
 
-		function move(dataFromMsg, msg) {
+		function move(dataFromMsg) {
 			pChildRefHandlerView.moveChild(dataFromMsg);
 		}
 
@@ -385,8 +393,6 @@ var CORA = (function(cora) {
 
 		function sendAdd() {
 			var data = {
-				// TODO: metadataId should be nameInData and attributes instead
-				// to enable a "top" presentation to show data for all childtypes...
 				"metadataId" : metadataId,
 				"path" : parentPath,
 				"childReference" : cParentMetadataChildRef.getData(),
@@ -398,7 +404,6 @@ var CORA = (function(cora) {
 			}
 			spec.jsBookkeeper.add(data);
 		}
-		
 
 		function childMoved(moveInfo) {
 			var data = {
