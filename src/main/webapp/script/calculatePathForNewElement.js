@@ -115,24 +115,31 @@ var CORA = (function(cora) {
 		}
 
 		function getAttributesAsPathPartFromMetadataElement() {
+			var attributeList = createAttributeListFromMetadata();
+			return createAttributesHolder(attributeList);
+		}
+		
+		function createAttributeListFromMetadata() {
+			var attributesObject = getAttributeObjectFromMetadata();
 
-			var metadataHelper = CORA.metadataHelper({
-				"metadataProvider" : spec.metadataProvider
-			});
-			var attributesObject = metadataHelper
-					.collectAttributesAsObjectForMetadataId(spec.metadataIdToAdd);
-
-			var attributesOut = [];
+			var attributeList = [];
 			var repeatIdCounter = 0;
 			var attributeKeys = Object.keys(attributesObject);
 			attributeKeys.forEach(function(attributeKey) {
 				var attribute = createAttributeWithNameAndValueAndRepeatId(attributeKey,
 						attributesObject[attributeKey][0], repeatIdCounter);
 
-				attributesOut.push(attribute);
+				attributeList.push(attribute);
 				repeatIdCounter++;
 			});
-			return createAttributesHolder(attributesOut);
+			return attributeList;
+		}
+		
+		function getAttributeObjectFromMetadata() {
+			var metadataHelper = CORA.metadataHelper({
+				"metadataProvider" : spec.metadataProvider
+			});
+			return metadataHelper.collectAttributesAsObjectForMetadataId(spec.metadataIdToAdd);
 		}
 
 		function createAttributesHolder(attributesOut) {

@@ -24,28 +24,21 @@ var CORA = (function(cora) {
 		var metadataId = getMetadataIdFromPresentation();
 		var cMetadataElement = getMetadataById(metadataId);
 
-		var cParentMetadataChildRef = findParentMetadataChildRef(spec.cParentMetadata);
+		var cParentMetadataChildRefPart = getChildRefPartOfMetadata(spec.cParentMetadata,
+				metadataId);
 
-		var repeatMin = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMin");
-		var repeatMax = cParentMetadataChildRef.getFirstAtomicValueByNameInData("repeatMax");
+		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
+		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
-		var pChildRefHandlerView = createPChildRefHandlerView();
-
 		var noOfRepeating = 0;
+		var metadataHasAttributes = hasAttributes();
+		var collectedAttributes = collectAttributesForMetadataId(metadataId);
 
+		var pChildRefHandlerView = createPChildRefHandlerView();
 		spec.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
 		spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
-
-		var metadataHasAttributes = hasAttributes();
-
-		var metadataHelper = CORA.metadataHelper({
-			"metadataProvider" : spec.metadataProvider
-		});
-
-		var collectedAttributes = metadataHelper.collectAttributesAsObjectForMetadataId(metadataId);
-		
 
 		function findPresentationId(cPresentationToSearch) {
 			var recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
@@ -58,6 +51,13 @@ var CORA = (function(cora) {
 
 		function getMetadataById(id) {
 			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
+		}
+
+		function collectAttributesForMetadataId(metadataId) {
+			var metadataHelper = CORA.metadataHelper({
+				"metadataProvider" : spec.metadataProvider
+			});
+			return metadataHelper.collectAttributesAsObjectForMetadataId(metadataId);
 		}
 
 		function createPChildRefHandlerView() {
@@ -75,12 +75,13 @@ var CORA = (function(cora) {
 			return cMetadataElement.containsChildWithNameInData("attributeReferences");
 		}
 
-		function findParentMetadataChildRef(cMetadata) {
-			var children = cMetadata.getFirstChildByNameInData("childReferences").children;
-			var parentMetadataChildRef = children.find(function(metadataChildRef) {
+		function getChildRefPartOfMetadata(cMetadata, metadataIdToFind) {
+			var findFunction = function(metadataChildRef) {
 				var cMetadataChildRef = CORA.coraData(metadataChildRef);
-				return cMetadataChildRef.getFirstAtomicValueByNameInData("ref") === metadataId;
-			});
+				return cMetadataChildRef.getFirstAtomicValueByNameInData("ref") === metadataIdToFind;
+			};
+			var children = cMetadata.getFirstChildByNameInData("childReferences").children;
+			var parentMetadataChildRef = children.find(findFunction);
 			return CORA.coraData(parentMetadataChildRef);
 		}
 
@@ -105,37 +106,31 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsg(dataFromMsg, msg) {
-			if (dataFromMsg !== undefined
-					&& (metadataId === dataFromMsg.metadataId || shouldPresentData(
-							dataFromMsg.nameInData, dataFromMsg.attributes))) {
-				if (msg.endsWith("move")) {
-					move(dataFromMsg);
-				} else {
-					add(dataFromMsg.metadataId, dataFromMsg.repeatId);
-				}
+			if (messageIsHandledByThisPChildRefHandler(dataFromMsg)) {
+				processMsg(dataFromMsg, msg);
 			}
 		}
+
+		function messageIsHandledByThisPChildRefHandler(dataFromMsg) {
+			if (metadataIdSameAsInMessage(dataFromMsg)) {
+				return true;
+			}
+			return shouldPresentData(dataFromMsg.nameInData, dataFromMsg.attributes);
+		}
+
+		function metadataIdSameAsInMessage(dataFromMsg) {
+			return metadataId === dataFromMsg.metadataId;
+		}
+
 		function shouldPresentData(nameInDataFromMsg, attributesFromMsg) {
 			if (nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg)) {
 				return false;
 			}
-			if (noAttributesInMessageNorHandledByThisPChildRefHandler(attributesFromMsg)) {
+			if (noAttributesInMessageNorThisPChildRefHandler(attributesFromMsg)) {
 				return true;
 			}
-			if (metadataHasAttributes && attributesFromMsg !== undefined) {
-				var attributeFromMsgKeys = Object.keys(attributesFromMsg);
-				if (attributeFromMsgKeys.length === 0) {
-					return false;
-				}
-				var sameAttributes = attributeFromMsgKeys.every(function(attributeFromMsgKey) {
-					var attributeValueFromMsg = attributesFromMsg[attributeFromMsgKey];
-					var collectedAttributeValues = collectedAttributes[attributeFromMsgKey];
-					if (collectedAttributeValues === undefined) {
-						return false;
-					}
-					return collectedAttributeValues.indexOf(attributeValueFromMsg[0]) > -1;
-				});
-				return sameAttributes;
+			if (attributesInMessageAndThisPChildRefHandler(attributesFromMsg)) {
+				return sameAttributesInMessageAsThisPChildRefHandler(attributesFromMsg);
 			}
 			return false;
 		}
@@ -145,41 +140,59 @@ var CORA = (function(cora) {
 					.getFirstAtomicValueByNameInData("nameInData");
 		}
 
-		function noAttributesInMessageNorHandledByThisPChildRefHandler(attributesFromMsg) {
+		function noAttributesInMessageNorThisPChildRefHandler(attributesFromMsg) {
 			return !metadataHasAttributes && attributesFromMsg === undefined;
+		}
+
+		function attributesInMessageAndThisPChildRefHandler(attributesFromMsg) {
+			return metadataHasAttributes && attributesFromMsg !== undefined;
+		}
+
+		function sameAttributesInMessageAsThisPChildRefHandler(attributesFromMsg) {
+			var attributeFromMsgKeys = Object.keys(attributesFromMsg);
+			if (attributeFromMsgKeys.length === 0) {
+				return false;
+			}
+
+			var attributeExistsInCollectedAttributes = function(attributeFromMsgKey) {
+				var attributeValueFromMsg = attributesFromMsg[attributeFromMsgKey];
+				var collectedAttributeValues = collectedAttributes[attributeFromMsgKey];
+				if (collectedAttributeValues === undefined) {
+					return false;
+				}
+				return collectedAttributeValues.indexOf(attributeValueFromMsg[0]) > -1;
+			};
+
+			var sameAttributes = attributeFromMsgKeys.every(attributeExistsInCollectedAttributes);
+			return sameAttributes;
+		}
+
+		function processMsg(dataFromMsg, msg) {
+			if (msg.endsWith("move")) {
+				move(dataFromMsg);
+			} else {
+				add(dataFromMsg.metadataId, dataFromMsg.repeatId);
+			}
 		}
 
 		function add(metadataIdToAdd, repeatId) {
 			noOfRepeating++;
+			var newPath = calculateNewPath(metadataIdToAdd, repeatId);
+			var repeatingElement = createRepeatingElement(newPath);
+			pChildRefHandlerView.addChild(repeatingElement.getView());
+			addPresentationsToRepeatingElementsView(repeatingElement);
+			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement);
+			updateView();
+		}
 
+		function calculateNewPath(metadataIdToAdd, repeatId) {
 			var pathSpec = {
 				"metadataProvider" : spec.metadataProvider,
 				"metadataIdToAdd" : metadataIdToAdd,
 				"repeatId" : repeatId,
 				"parentPath" : spec.parentPath
 			};
-			var newPath = CORA.calculatePathForNewElement(pathSpec);
-
-			var repeatingElement = createRepeatingElement(newPath);
-			var repeatingElementView = repeatingElement.getView();
-			pChildRefHandlerView.addChild(repeatingElementView);
-
-			var presentation = spec.presentationFactory.factor(newPath, spec.cPresentation,
-					spec.cParentPresentation);
-			repeatingElement.addPresentation(presentation);
-
-			var cPresentationMinimized = spec.cPresentationMinimized;
-			if (cPresentationMinimized !== undefined) {
-				var presentationMinimized = spec.presentationFactory.factor(newPath,
-						cPresentationMinimized, spec.cParentPresentation);
-				repeatingElement.addPresentationMinimized(presentationMinimized,
-						spec.minimizedDefault);
-			}
-
-			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
-					repeatingElementView);
-
-			updateView();
+			return CORA.calculatePathForNewElement(pathSpec);
 		}
 
 		function createRepeatingElement(path) {
@@ -194,14 +207,35 @@ var CORA = (function(cora) {
 			return CORA.pRepeatingElement(repeatingElementSpec);
 		}
 
-		function subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(newPath,
-				repeatingElementView) {
+		function addPresentationsToRepeatingElementsView(repeatingElement) {
+			var path = repeatingElement.getPath();
+
+			var presentation = getPresentation(path, spec.cPresentation);
+			repeatingElement.addPresentation(presentation);
+
+			if (hasMinimizedPresentation()) {
+				var presentationMinimized = getPresentation(path, spec.cPresentationMinimized);
+				repeatingElement.addPresentationMinimized(presentationMinimized,
+						spec.minimizedDefault);
+			}
+		}
+
+		function getPresentation(path, cPresentation) {
+			return spec.presentationFactory.factor(path, cPresentation, spec.cParentPresentation);
+		}
+
+		function hasMinimizedPresentation() {
+			return spec.cPresentationMinimized !== undefined;
+		}
+
+		function subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement) {
 			if (showAddButton()) {
 				var removeFunction = function() {
-					pChildRefHandlerView.removeChild(repeatingElementView);
+					pChildRefHandlerView.removeChild(repeatingElement.getView());
 					childRemoved();
 				};
-				spec.pubSub.subscribe("remove", newPath, undefined, removeFunction);
+				spec.pubSub.subscribe("remove", repeatingElement.getPath(), undefined,
+						removeFunction);
 			}
 		}
 
@@ -263,7 +297,7 @@ var CORA = (function(cora) {
 			var data = {
 				"metadataId" : metadataId,
 				"path" : spec.parentPath,
-				"childReference" : cParentMetadataChildRef.getData(),
+				"childReference" : cParentMetadataChildRefPart.getData(),
 				"nameInData" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData")
 			};
 			if (metadataHasAttributes) {
@@ -283,6 +317,7 @@ var CORA = (function(cora) {
 			};
 			spec.jsBookkeeper.move(data);
 		}
+		
 		var out = Object.freeze({
 			getView : getView,
 			add : add,
