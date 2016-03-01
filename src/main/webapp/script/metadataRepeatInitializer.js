@@ -63,7 +63,7 @@ var CORA = (function(cora) {
 			});
 			return collectedAttributes;
 		}
-		
+
 		function initializeForMetadata() {
 			var nextLevelPath = createNextLevelPath();
 			if (isGroup()) {

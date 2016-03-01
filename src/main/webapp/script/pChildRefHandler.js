@@ -53,11 +53,11 @@ var CORA = (function(cora) {
 			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}
 
-		function collectAttributesForMetadataId(metadataId) {
+		function collectAttributesForMetadataId(metadataIdIn) {
 			var metadataHelper = CORA.metadataHelper({
 				"metadataProvider" : spec.metadataProvider
 			});
-			return metadataHelper.collectAttributesAsObjectForMetadataId(metadataId);
+			return metadataHelper.collectAttributesAsObjectForMetadataId(metadataIdIn);
 		}
 
 		function createPChildRefHandlerView() {
@@ -301,7 +301,6 @@ var CORA = (function(cora) {
 				"nameInData" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData")
 			};
 			if (metadataHasAttributes) {
-				console.log("hasAttributes in pChildRefHandler")
 				data.attributes = collectedAttributes;
 			}
 			spec.jsBookkeeper.add(data);
@@ -317,7 +316,7 @@ var CORA = (function(cora) {
 			};
 			spec.jsBookkeeper.move(data);
 		}
-		
+
 		var out = Object.freeze({
 			getView : getView,
 			add : add,

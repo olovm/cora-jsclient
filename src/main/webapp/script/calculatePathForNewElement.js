@@ -25,7 +25,7 @@ var CORA = (function(cora) {
 		var repeatId = spec.repeatId;
 		var nameInData = cMetadataElementToAdd.getFirstAtomicValueByNameInData("nameInData");
 
-		var path = calculatePathForNewElement();
+		var newPath = calculatePathForNewElement();
 
 		function getMetadataById(id) {
 			return CORA.coraData(metadataProvider.getMetadataById(id));
@@ -118,7 +118,7 @@ var CORA = (function(cora) {
 			var attributeList = createAttributeListFromMetadata();
 			return createAttributesHolder(attributeList);
 		}
-		
+
 		function createAttributeListFromMetadata() {
 			var attributesObject = getAttributeObjectFromMetadata();
 
@@ -134,7 +134,7 @@ var CORA = (function(cora) {
 			});
 			return attributeList;
 		}
-		
+
 		function getAttributeObjectFromMetadata() {
 			var metadataHelper = CORA.metadataHelper({
 				"metadataProvider" : spec.metadataProvider
@@ -149,10 +149,10 @@ var CORA = (function(cora) {
 			};
 		}
 
-		function createAttributeWithNameAndValueAndRepeatId(attributeName, attributeValue, repeatId) {
+		function createAttributeWithNameAndValueAndRepeatId(attributeName, attributeValue, repeatIdIn) {
 			return {
 				"name" : "attribute",
-				"repeatId" : repeatId || "1",
+				"repeatId" : repeatIdIn || "1",
 				"children" : [ {
 					"name" : "attributeName",
 					"value" : attributeName
@@ -162,7 +162,7 @@ var CORA = (function(cora) {
 				} ]
 			};
 		}
-		return path;
+		return newPath;
 	};
 	return cora;
 }(CORA));

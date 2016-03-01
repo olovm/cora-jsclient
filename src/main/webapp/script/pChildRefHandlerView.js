@@ -87,13 +87,12 @@ var CORA = (function(cora) {
 			return childrenViewNew;
 		}
 
-		function addDragEventHandlers(childrenView) {
-			// childIsCurrentlyBeeingDragged
-			childrenView.ondragstart = dragstartHandler;
-			childrenView.ondragover = dragoverHandler;
-			childrenView.ondragenter = dragenterHandler;
-			childrenView.ondrop = dropHandler;
-			childrenView.ondragend = dragendHandler;
+		function addDragEventHandlers(childrenViewNew) {
+			childrenViewNew.ondragstart = dragstartHandler;
+			childrenViewNew.ondragover = dragoverHandler;
+			childrenViewNew.ondragenter = dragenterHandler;
+			childrenViewNew.ondrop = dropHandler;
+			childrenViewNew.ondragend = dragendHandler;
 		}
 
 		function dragstartHandler(event) {
@@ -237,7 +236,7 @@ var CORA = (function(cora) {
 				childrenView.insertBefore(childToMove, basePositionOnChild);
 			}
 		}
-		
+
 		function findRepeatingElementByPath(pathToFind) {
 			var repeatingElements = childrenView.childNodes;
 			var jsonPathToFind = JSON.stringify(pathToFind);
