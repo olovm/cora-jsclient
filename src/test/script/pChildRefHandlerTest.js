@@ -594,7 +594,7 @@ QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 	assert.deepEqual(firstSubsription.path, childPath);
 	var secondSubsription = subscriptions[4];
 	assert.strictEqual(secondSubsription.type, "remove");
-	assert.deepEqual(secondSubsription.path, childPath);
+	assert.stringifyEqual(secondSubsription.path, childPath);
 
 });
 

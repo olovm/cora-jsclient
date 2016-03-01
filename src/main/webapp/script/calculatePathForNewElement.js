@@ -1,0 +1,161 @@
+/*
+ * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
+ *
+ * This file is part of Cora.
+ *
+ *     Cora is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     Cora is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var CORA = (function(cora) {
+	"use strict";
+	cora.calculatePathForNewElement = function(spec) {
+		var metadataProvider = spec.metadataProvider;
+		var cMetadataElementToAdd = getMetadataById(spec.metadataIdToAdd);
+		var repeatId = spec.repeatId;
+		var nameInData = cMetadataElementToAdd.getFirstAtomicValueByNameInData("nameInData");
+
+		var path = calculatePathForNewElement();
+
+		function getMetadataById(id) {
+			return CORA.coraData(metadataProvider.getMetadataById(id));
+		}
+
+		function copyPath(pathToCopy) {
+			return JSON.parse(JSON.stringify(pathToCopy));
+		}
+
+		function calculatePathForNewElement() {
+			if (parentPathPointsToTopLevel()) {
+				return createPathForThisLevel();
+			}
+			return addPathForThisLevelToParentPath();
+		}
+
+		function parentPathPointsToTopLevel() {
+			return spec.parentPath.children === undefined;
+		}
+
+		function createPathForThisLevel() {
+			var path = createLinkedPath();
+			possiblyAddRepeatId(path);
+			possiblyAddAttributes(path);
+			return path;
+		}
+
+		function createLinkedPath() {
+			return {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : nameInData
+				} ]
+			};
+		}
+
+		function possiblyAddRepeatId(path) {
+			if (pathShouldHaveRepeatId()) {
+				addRepeatIdToPath(path);
+			}
+		}
+
+		function pathShouldHaveRepeatId() {
+			return repeatId !== undefined;
+		}
+
+		function addRepeatIdToPath(path) {
+			path.children.push({
+				"name" : "repeatId",
+				"value" : repeatId
+			});
+		}
+
+		function possiblyAddAttributes(path) {
+			if (pathShouldHaveAttributes()) {
+				addAttributesToPath(path);
+			}
+		}
+
+		function pathShouldHaveAttributes() {
+			return cMetadataElementToAdd.containsChildWithNameInData("attributeReferences");
+		}
+
+		function addAttributesToPath(path) {
+			path.children.push(getAttributesAsPathPartFromMetadataElement());
+		}
+
+		function addPathForThisLevelToParentPath() {
+			var parentPathCopy = copyPath(spec.parentPath);
+			var childPath = createPathForThisLevel();
+			return addChildPathToPath(parentPathCopy, childPath);
+		}
+
+		function addChildPathToPath(parentPath, childPath) {
+			var lowestPath = getLowestPathPointer(parentPath);
+			lowestPath.children.push(childPath);
+			return parentPath;
+		}
+
+		function getLowestPathPointer(path) {
+			var cPath = CORA.coraData(path);
+			if (cPath.containsChildWithNameInData("linkedPath")) {
+				return getLowestPathPointer(cPath.getFirstChildByNameInData("linkedPath"));
+			}
+			return path;
+		}
+
+		function getAttributesAsPathPartFromMetadataElement() {
+
+			var metadataHelper = CORA.metadataHelper({
+				"metadataProvider" : spec.metadataProvider
+			});
+			var attributesObject = metadataHelper
+					.collectAttributesAsObjectForMetadataId(spec.metadataIdToAdd);
+
+			var attributesOut = [];
+			var repeatIdCounter = 0;
+			var attributeKeys = Object.keys(attributesObject);
+			attributeKeys.forEach(function(attributeKey) {
+				var attribute = createAttributeWithNameAndValueAndRepeatId(attributeKey,
+						attributesObject[attributeKey][0], repeatIdCounter);
+
+				attributesOut.push(attribute);
+				repeatIdCounter++;
+			});
+			return createAttributesHolder(attributesOut);
+		}
+
+		function createAttributesHolder(attributesOut) {
+			return {
+				"name" : "attributes",
+				"children" : attributesOut
+			};
+		}
+
+		function createAttributeWithNameAndValueAndRepeatId(attributeName, attributeValue, repeatId) {
+			return {
+				"name" : "attribute",
+				"repeatId" : repeatId || "1",
+				"children" : [ {
+					"name" : "attributeName",
+					"value" : attributeName
+				}, {
+					"name" : "attributeValue",
+					"value" : attributeValue
+				} ]
+			};
+		}
+		return path;
+	};
+	return cora;
+}(CORA));
