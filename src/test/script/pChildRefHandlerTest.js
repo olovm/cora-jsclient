@@ -100,18 +100,8 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(firstSubsription.type, "add");
 	assert.deepEqual(firstSubsription.path, {});
 	assert.ok(firstSubsription.functionToCall === childRefHandler.handleMsg);
-
-	// dragHandling
-	// assert.strictEqual(childrenView.ondragstart,
-	// childRefHandler.dragstartHandler);
-	// assert.strictEqual(childrenView.ondragover,
-	// childRefHandler.dragoverHandler);
-	// assert.strictEqual(childrenView.ondragenter,
-	// childRefHandler.dragenterHandler);
-	// assert.strictEqual(childrenView.ondrop, childRefHandler.dropHandler);
-	// assert.strictEqual(childrenView.ondragend,
-	// childRefHandler.dragendHandler);
 });
+
 QUnit.test("testChildMoved", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");

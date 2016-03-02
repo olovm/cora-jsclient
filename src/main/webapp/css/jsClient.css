@@ -30,9 +30,6 @@ body {
 	font-size: 5rem;
 	text-align: center;
 	color: magenta;
-	text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, -1px 1px 0px #000,
-		1px -1px 0px #000, 5px 5px 8px #0040f6;
-	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
 	border-bottom: 1px solid;
 	border-color: inherit;
 	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
@@ -237,4 +234,54 @@ body {
 
 .createButton:hover::after {
 	opacity: 1;
+}
+.jsClient .workView {
+	counter-reset: record;
+}
+.jsClient .listItem {
+	font-size: .8rem;
+	counter-increment: record;
+}
+.jsClient .listItem::before {
+	content: counter(record) ".";
+	font-size: 2rem;
+	display: block;
+	position: absolute;
+	left: 0rem;
+}
+.jsClient .listItem .presentation {
+	border: none;
+	border-radius: 0;
+	border-bottom: 1px dashed;
+	padding-bottom: 2px;
+	padding-left: 3rem;
+}
+.jsClient .listItem .pVar {
+	min-height:0;
+}
+
+.jsClient .listItem input, .jsClient .listItem .buttonView {
+	display: none;
+}
+.jsClient .listItem .pGroup, .jsClient .listItem .repeatingElement {
+	background-color: transparent;
+	border: none;
+}
+.jsClient .listItem .pGroup > .pChildRefHandler + .pChildRefHandler {
+	margin-top: .3rem;
+}
+.jsClient .listItem .recordInfoTextMenuPGroup {
+	font-weight: bold;
+}
+
+.jsClient .listItem .recordInfoTextMenuPGroup .pVar span:before {
+	content: "(";
+}
+.jsClient .listItem .recordInfoTextMenuPGroup .pVar span:after {
+	content: ")";
+}
+
+.jsClient .listItem .textPartAlternativePGroup .text{
+	font-weight: bold;
+	margin: 0;
 }

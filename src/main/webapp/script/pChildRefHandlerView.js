@@ -72,7 +72,9 @@ var CORA = (function(cora) {
 		}
 
 		function showButtonView() {
-			buttonView.style.display = buttonView.styleOriginal;
+			if(buttonView.styleOriginal !== undefined){
+				buttonView.style.display = buttonView.styleOriginal;
+			}
 		}
 
 		function setRepeatingElementDragOver(repeatingElement) {

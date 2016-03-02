@@ -57,7 +57,8 @@ var CORA = (function(cora) {
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"recordTypeRecord" : spec.recordTypeRecord,
 				"views" : views,
-				"baseUrl" : spec.baseUrl
+				"baseUrl" : spec.baseUrl,
+				"jsClient" : spec.jsClient,
 			};
 			spec.recordListHandlerFactory.factor(listHandlerSpec);
 		}
@@ -85,7 +86,8 @@ var CORA = (function(cora) {
 				"record" : record,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
-				"views" : views
+				"views" : views,
+				"jsClient": spec.jsClient
 			};
 			spec.recordHandlerFactory.factor(recordHandlerSpec);
 		}

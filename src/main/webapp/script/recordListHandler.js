@@ -59,13 +59,22 @@ var CORA = (function(cora) {
 		function addRecordToWorkView(record) {
 			var view = createView(record);
 			workView.appendChild(view);
-			var metadataId = "recordTypeGroup";
-			var presentationId = "recordTypePGroup";
+			var recordTypeId = getRecordTypeId(record);
+//			var metadataId = "recordTypeGroup";
+			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
+//			var presentationId = "recordTypePGroup";
+//			 var presentationId = "textListPGroup";
+			var presentationId = getListPresentationFromRecordTypeRecord();
 			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data);
 
 			var presentationView = recordGui.getPresentation(presentationId).getView();
 			recordGui.initMetadataControllerStartingGui();
 			view.appendChild(presentationView);
+		}
+		function getRecordTypeId(record) {
+			var cData = CORA.coraData(record.data);
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			return cRecordInfo.getFirstAtomicValueByNameInData("type");
 		}
 
 		function createView(record) {
@@ -76,7 +85,12 @@ var CORA = (function(cora) {
 			};
 			return newView;
 		}
-
+		
+		function getListPresentationFromRecordTypeRecord() {
+			var cData = CORA.coraData(spec.recordTypeRecord.data);
+			return cData.getFirstAtomicValueByNameInData("listPresentationViewId");
+		}
+		
 		function callError(answer) {
 			var errorView = document.createElement("span");
 			errorView.textContent = JSON.stringify(answer.status);

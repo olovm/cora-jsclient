@@ -26,7 +26,10 @@ var CORA = (function(cora) {
 
 		var cParentMetadataChildRefPart = getChildRefPartOfMetadata(spec.cParentMetadata,
 				metadataId);
-
+		console.log("here")
+		console.log(JSON.stringify(spec.cParentMetadata.getData()))
+		console.log(metadataId)
+		console.log(JSON.stringify(cParentMetadataChildRefPart.getData()))
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
 		var isRepeating = calculateIsRepeating();

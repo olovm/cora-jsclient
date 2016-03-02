@@ -21,6 +21,8 @@ var CORA = (function(cora) {
 	cora.recordHandler = function(spec) {
 		var cRecordTypeRecordData = CORA.coraData(spec.recordTypeRecord.data);
 		var recordTypeId = getIdFromRecord(spec.recordTypeRecord);
+		console.log("recordTypeType in recordHandler:");
+		console.log(JSON.stringify(spec.recordTypeRecord));
 
 		var views = spec.views;
 
@@ -122,7 +124,9 @@ var CORA = (function(cora) {
 		function processFetchedRecord(answer) {
 			var data = getDataPartOfRecordFromAnswer(answer);
 			try {
-				var metadataId = getMetadataId();
+				// var metadataId = getMetadataId();
+				var recordTypeId = getRecordTypeId(spec.record);
+				var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
 				var recordGui = createRecordGui(metadataId, data);
 				addRecordToWorkView(recordGui);
 				addRecordToMenuView(recordGui);
@@ -137,9 +141,14 @@ var CORA = (function(cora) {
 		function getDataPartOfRecordFromAnswer(answer) {
 			return JSON.parse(answer.responseText).record.data;
 		}
-
-		function getMetadataId() {
-			return getRecordTypeRecordValue("metadataId");
+		//
+		// function getMetadataId() {
+		// return getRecordTypeRecordValue("metadataId");
+		// }
+		function getRecordTypeId(record) {
+			var cData = CORA.coraData(record.data);
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			return cRecordInfo.getFirstAtomicValueByNameInData("type");
 		}
 
 		function addRecordToWorkView(recordGui) {

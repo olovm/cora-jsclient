@@ -43,26 +43,23 @@ var CORA = (function(cora) {
 			var attributeReferences = cMetadataElement
 					.getFirstChildByNameInData("attributeReferences");
 			attributeReferences.children.forEach(function(attributeReference) {
-				var cCollectionVariable = getMetadataById(attributeReference.value);
-				var attributeNameInData = cCollectionVariable
-						.getFirstAtomicValueByNameInData("nameInData");
-				var attributeValues = collectAttributeValuesFromVariable(cCollectionVariable);
-				collectedAttributes[attributeNameInData] = attributeValues;
-
+				collectAttributesForAttributeReference(attributeReference, collectedAttributes);
 			});
-			// get metadata for each attribute reference
-			// if final value return that else get refCollectionId metadata
-			// get collectionItemReferences metadata (might be more than one)
-			// get (ref) items metadata, get nameInData
 			return collectedAttributes;
 		}
 
-		function collectAttributeValuesFromVariable(cCollectionVariable) {
+		function collectAttributesForAttributeReference(attributeReference, collectedAttributes) {
+			var cCollectionVariable = getMetadataById(attributeReference.value);
+			var attributeNameInData = cCollectionVariable
+					.getFirstAtomicValueByNameInData("nameInData");
+			var attributeValues = collectAttributeValuesFromVariable(cCollectionVariable);
+			collectedAttributes[attributeNameInData] = attributeValues;
+		}
 
+		function collectAttributeValuesFromVariable(cCollectionVariable) {
 			if (variableHasFinalValue(cCollectionVariable)) {
 				return getFinalValueFromVariable(cCollectionVariable);
 			}
-
 			return getAllValuesFromVariable(cCollectionVariable);
 		}
 
@@ -73,21 +70,27 @@ var CORA = (function(cora) {
 		function getFinalValueFromVariable(cCollectionVariable) {
 			return [ cCollectionVariable.getFirstAtomicValueByNameInData("finalValue") ];
 		}
-		function getAllValuesFromVariable(cCollectionVariable){
+
+		function getAllValuesFromVariable(cCollectionVariable) {
 			var attributeValues = [];
-			// get collection and all items from it
+			var collectionItemReferences = getCollectionItemReferencesFor(cCollectionVariable);
+			collectionItemReferences.children.forEach(function(collectionItemRef) {
+				attributeValues.push(getCollectionItemValue(collectionItemRef));
+			});
+			return attributeValues;
+		}
+
+		function getCollectionItemValue(collectionItemRef) {
+			var cCollectionItem = getMetadataById(collectionItemRef.value);
+			var value = cCollectionItem.getFirstAtomicValueByNameInData("nameInData");
+			return value;
+		}
+
+		function getCollectionItemReferencesFor(cCollectionVariable) {
 			var attributeRefCollectionId = cCollectionVariable
 					.getFirstAtomicValueByNameInData("refCollectionId");
 			var cAttributeItemCollection = getMetadataById(attributeRefCollectionId);
-
-			var collectionItemReferences = cAttributeItemCollection
-					.getFirstChildByNameInData("collectionItemReferences");
-			collectionItemReferences.children.forEach(function(itemCollectionRef) {
-				var cAttributeCollectionItem = getMetadataById(itemCollectionRef.value);
-				attributeValues.push(cAttributeCollectionItem
-						.getFirstAtomicValueByNameInData("nameInData"));
-			});
-			return attributeValues;
+			return cAttributeItemCollection.getFirstChildByNameInData("collectionItemReferences");
 		}
 
 		var out = Object.freeze({
