@@ -62,11 +62,12 @@ body {
 	padding: .2rem;
 }
 
-.sideBar .header:hover, .sideBar .childrenView .menuView:hover{
+.sideBar .header:hover, .sideBar .childrenView .menuView:hover {
 	/* 	transform: scale(1.1);	 */
 	text-decoration: underline;
 	cursor: pointer;
 }
+
 .sideBar .childrenView span, .sideBar .childrenView div {
 	/* 	transform: scale(1.1);	 */
 	text-decoration: inherit;
@@ -101,7 +102,7 @@ body {
 	/* 	border-bottom: 1px solid; */
 	border-color: inherit;
 	/* 	background-color: cyan; */
-/* 	background-color: rgba(162, 196, 228, 0.19); */
+	/* 	background-color: rgba(162, 196, 228, 0.19); */
 }
 
 .sideBar .childrenView>span:last-child {
@@ -112,6 +113,7 @@ body {
 	/* 	background-color: cyan; */
 	/* 	background-color: rgba(180, 216, 216, 0.07); */
 }
+
 .sideBar .active {
 	font-weight: bold;
 	background-color: rgba(162, 196, 228, 0.19);
@@ -163,19 +165,22 @@ body {
 }
 
 .jsClient .sideBar .menuView .pVar span {
-/* 	padding-right: 1rem; */
-	max-width: calc(70%  - 1rem);
+	/* 	padding-right: 1rem; */
+	max-width: calc(70% - 1rem);
 	overflow: hidden;
 	display: inline-block;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
 .jsClient .sideBar .recordInfoTextMenuPGroup .pVar span:before {
 	content: "(";
 }
+
 .jsClient .sideBar .recordInfoTextMenuPGroup .pVar span:after {
 	content: ")";
 }
+
 .jsClient .sideBar .recordInfoTextMenuPGroup .pVar span {
 	padding-right: 1rem;
 	width: 30%;
@@ -193,19 +198,23 @@ body {
 	top: 0px;
 	right: 0px;
 }
+
 .createButton {
 	cursor: pointer;
 	min-width: 16px;
 	min-height: 16px;
 	display: block;
-	float:right;
+	float: right;
 	position: relative;
 	margin-right: 2px;
 }
-.sideBar .recordType .buttonView > span::before, .sideBar .recordType .buttonView> span::after {
+
+.sideBar .recordType .buttonView>span::before, .sideBar .recordType .buttonView>span::after
+	{
 	top: 3px;
 	right: 2px;
 }
+
 .createButton::before {
 	background: url("../images/icons2.svg") no-repeat scroll -128px -32px;
 	content: "";
@@ -235,13 +244,16 @@ body {
 .createButton:hover::after {
 	opacity: 1;
 }
+
 .jsClient .workView {
 	counter-reset: record;
 }
+
 .jsClient .listItem {
 	font-size: .8rem;
 	counter-increment: record;
 }
+
 .jsClient .listItem::before {
 	content: counter(record) ".";
 	font-size: 2rem;
@@ -249,6 +261,7 @@ body {
 	position: absolute;
 	left: 0rem;
 }
+
 .jsClient .listItem .presentation {
 	border: none;
 	border-radius: 0;
@@ -256,20 +269,29 @@ body {
 	padding-bottom: 2px;
 	padding-left: 3rem;
 }
+
 .jsClient .listItem .pVar {
-	min-height:0;
+	min-height: 0;
 }
 
-.jsClient .listItem input, .jsClient .listItem .buttonView {
+.jsClient .workItem .presentation {
+	border: none;
+}
+
+.jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input,
+	.jsClient .showView .buttonView {
 	display: none;
 }
+
 .jsClient .listItem .pGroup, .jsClient .listItem .repeatingElement {
 	background-color: transparent;
 	border: none;
 }
-.jsClient .listItem .pGroup > .pChildRefHandler + .pChildRefHandler {
+
+.jsClient .listItem .pGroup>.pChildRefHandler+.pChildRefHandler {
 	margin-top: .3rem;
 }
+
 .jsClient .listItem .recordInfoTextMenuPGroup {
 	font-weight: bold;
 }
@@ -277,11 +299,76 @@ body {
 .jsClient .listItem .recordInfoTextMenuPGroup .pVar span:before {
 	content: "(";
 }
+
 .jsClient .listItem .recordInfoTextMenuPGroup .pVar span:after {
 	content: ")";
 }
 
-.jsClient .listItem .textPartAlternativePGroup .text{
+.jsClient .listItem .textPartAlternativePGroup .text {
 	font-weight: bold;
 	margin: 0;
+}
+
+.jsClient .editView, .jsClient .showView {
+	height: calc(100% - 3rem);
+	width: calc(50%);
+	display: inline-block;
+	overflow: auto;
+}
+
+.jsClient .editView .pGroup {
+	background-color: transparent;
+	/* 	border: none; */
+}
+
+.jsClient .editView .repeatingElement .repeatingElement, .jsClient .editView .pSurroundingContainer .repeatingElement
+	{
+	border: none;
+}
+.jsClient .editView .pSurroundingContainer {
+	border-color: grey;
+	border-style: dotted;
+	margin-top: 1rem;
+}
+/* .jsClient .showView { */
+.jsClient {
+	font-size: .9rem;
+}
+
+.jsClient .showView .pGroup, .jsClient .showView .repeatingElement {
+	background-color: transparent;
+	border: none;
+}
+
+.jsClient .showView .pGroup>.pChildRefHandler+.pChildRefHandler {
+	margin-top: .3rem;
+}
+
+.jsClient .showView .recordInfoTextPGroup {
+	font-weight: bold;
+}
+
+.jsClient .showView .recordInfoTextPGroup .pVar span:before {
+	content: "(";
+}
+
+.jsClient .showView .recordInfoTextPGroup .pVar span:after {
+	content: ")";
+}
+
+.jsClient .showView .text {
+	font-weight: bold;
+	margin: 0;
+}
+
+.jsClient .showView .pSurroundingContainer {
+	border: none;
+	margin-top: 1rem;
+}
+
+.jsClient .workItem>.buttonView {
+	width: 100%;
+	height: 2rem;
+	display: block;
+	height: 2rem;
 }

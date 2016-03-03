@@ -161,7 +161,7 @@ QUnit.test("testChildMoved", function(assert) {
 	assert.deepEqual(this.jsBookkeeper.getMoveDataArray()[0], moveData);
 });
 
-QUnit.test("testHandleMoveMessage", function(assert) {
+QUnit.test("testHandleMoveMessageAfter", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
 	var pChildRefHandler = attachedPChildRefHandler.pChildRefHandler;
@@ -203,7 +203,7 @@ QUnit.test("testHandleMoveMessage", function(assert) {
 	// order
 	assert.strictEqual(childrenView.childNodes[0], secondChild);
 });
-QUnit.test("testHandleMoveMessage", function(assert) {
+QUnit.test("testHandleMoveMessageBefore", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
 	var pChildRefHandler = attachedPChildRefHandler.pChildRefHandler;
