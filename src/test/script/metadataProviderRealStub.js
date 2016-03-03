@@ -2316,6 +2316,50 @@ var CORATEST = (function(coraTest) {
 						} ]
 					} ])
 				};
+			case "textSystemOneFormPGroup":
+				return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "textSystemOneGroup"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "recordInfoTextPGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textPartSvPGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textPartEnSContainer"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
 			case "textSystemOneViewPGroup":
 				return {
 					"name" : "presentation",
@@ -2327,17 +2371,7 @@ var CORATEST = (function(coraTest) {
 						"value" : "textSystemOneGroup"
 					}, {
 						"name" : "childReferences",
-						"children" : [ {
-							"name" : "childReference",
-							"repeatId" : "1",
-							"children" : [ {
-								"name" : "ref",
-								"value" : "textSystemOnePGroupText"
-							}, {
-								"name" : "default",
-								"value" : "ref"
-							} ]
-						}, {
+						"children" : [  {
 							"name" : "childReference",
 							"repeatId" : "0",
 							"children" : [ {

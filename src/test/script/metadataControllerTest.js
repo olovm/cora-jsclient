@@ -837,7 +837,7 @@ QUnit
 QUnit
 		.test(
 				"testInitTextVarRepeat1to3InGroupOneAttribute"
-						+ "Repeat0to2InGroupRepeat1to3InGroupWithData",
+						+ "Repeat0to2InGroupRepeat1to3InGroupWithData2",
 				function(assert) {
 					var data = {
 						"name" : "textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",
