@@ -60,10 +60,7 @@ var CORA = (function(cora) {
 			var view = createView(record);
 			workView.appendChild(view);
 			var recordTypeId = getRecordTypeId(record);
-//			var metadataId = "recordTypeGroup";
 			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
-//			var presentationId = "recordTypePGroup";
-//			 var presentationId = "textListPGroup";
 			var presentationId = getListPresentationFromRecordTypeRecord();
 			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data);
 
@@ -85,12 +82,12 @@ var CORA = (function(cora) {
 			};
 			return newView;
 		}
-		
+
 		function getListPresentationFromRecordTypeRecord() {
 			var cData = CORA.coraData(spec.recordTypeRecord.data);
 			return cData.getFirstAtomicValueByNameInData("listPresentationViewId");
 		}
-		
+
 		function callError(answer) {
 			var errorView = document.createElement("span");
 			errorView.textContent = JSON.stringify(answer.status);

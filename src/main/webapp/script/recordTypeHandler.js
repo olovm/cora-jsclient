@@ -58,7 +58,7 @@ var CORA = (function(cora) {
 				"recordTypeRecord" : spec.recordTypeRecord,
 				"views" : views,
 				"baseUrl" : spec.baseUrl,
-				"jsClient" : spec.jsClient,
+				"jsClient" : spec.jsClient
 			};
 			spec.recordListHandlerFactory.factor(listHandlerSpec);
 		}

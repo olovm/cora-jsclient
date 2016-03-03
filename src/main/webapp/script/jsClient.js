@@ -21,7 +21,7 @@ var CORA = (function(cora) {
 	cora.jsClient = function(spec) {
 
 		var recordTypeList = [];
-		var metadataIdsForRecordType ={};
+		var metadataIdsForRecordType = {};
 		var mainView = createMainView();
 		var sideBar;
 		var workArea;
@@ -75,8 +75,8 @@ var CORA = (function(cora) {
 			});
 			return list;
 		}
-		
-		function createMetadataIdsForRecordType(recordTypes){
+
+		function createMetadataIdsForRecordType(recordTypes) {
 			var metadataIds = {};
 			recordTypes.forEach(function(record) {
 				var cRecord = CORA.coraData(record.data);
@@ -87,7 +87,7 @@ var CORA = (function(cora) {
 			});
 			return metadataIds;
 		}
-		
+
 		function addRecordTypesToSideBar(recordTypes) {
 			recordTypes.forEach(function(record) {
 				addRecordTypeToSideBar(record);
@@ -170,11 +170,11 @@ var CORA = (function(cora) {
 			itemToShow.originalClassName = itemToShow.menuView.className;
 			itemToShow.menuView.className = itemToShow.menuView.className + " active";
 		}
-		
-		function getMetadataIdForRecordTypeId(recordTypeId){
+
+		function getMetadataIdForRecordTypeId(recordTypeId) {
 			return metadataIdsForRecordType[recordTypeId];
 		}
-		
+
 		var out = Object.freeze({
 			getView : getView,
 			getRecordTypeList : getRecordTypeList,
