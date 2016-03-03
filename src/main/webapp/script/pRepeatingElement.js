@@ -198,7 +198,9 @@ var CORA = (function(cora) {
 			element.style.display = "none";
 		}
 		function show(element) {
-			element.style.display = element.styleOriginal;
+			if(element.styleOriginal !== undefined){
+				element.style.display = element.styleOriginal;
+			}
 		}
 
 		function getPath() {
