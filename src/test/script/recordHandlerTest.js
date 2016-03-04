@@ -218,6 +218,53 @@ QUnit.module("recordHandlerTest.js", {
 				}
 			}
 		};
+		this.recordWithoutUpdateOrDeleteLink = {
+			"data" : {
+				"children" : [ {
+					"children" : [ {
+						"name" : "id",
+						"value" : "svEnText"
+					}, {
+						"name" : "type",
+						"value" : "textSystemOne"
+					}, {
+						"name" : "createdBy",
+						"value" : "userId"
+					} ],
+					"name" : "recordInfo"
+				}, {
+					"children" : [ {
+						"name" : "text",
+						"value" : "En text på både svenska och engelska"
+					} ],
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "default",
+						"lang" : "sv"
+					}
+				}, {
+					"children" : [ {
+						"name" : "text",
+						"value" : "A text both in english and swedish"
+					} ],
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "alternative",
+						"lang" : "en"
+					}
+				} ],
+				"name" : "text"
+			},
+			"actionLinks" : {
+				"read" : {
+					"requestMethod" : "GET",
+					"rel" : "read",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/textSystemOne/svEnText",
+					"accept" : "application/uub+record+json"
+				}
+			}
+		};
+
 		this.menuView = document.createElement("span");
 		this.workView = document.createElement("span");
 
@@ -372,6 +419,12 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 	assert.strictEqual(showView.className, "showView");
 	assert.strictEqual(showView.childNodes.length, 1);
 
+	var buttonView = workItem.childNodes[2];
+	assert.strictEqual(buttonView.className, "buttonView");
+
+	var updateButton = buttonView.firstChild;
+	assert.strictEqual(updateButton.value, "UPDATE");
+
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeMenuPGroup");
 	assert.strictEqual(this.menuView.textContent, "");
 	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
@@ -475,6 +528,43 @@ QUnit.test("testUpdateCall", function(assert) {
 			"application/uub+record+json");
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), "{}");
 
+});
+
+QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	var record = this.recordWithoutUpdateOrDeleteLink;
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify({
+			"record" : record
+		});
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var recordHandlerSpec = {
+		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
+		"recordTypeRecord" : this.record,
+		"presentationMode" : "edit",
+		"views" : {
+			"menuView" : this.menuView,
+			"workView" : this.workView
+		},
+		"record" : this.recordWithoutUpdateOrDeleteLink,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"recordGuiFactory" : this.recordGuiFactorySpy,
+		"jsClient" : this.jsClientSpy
+	};
+	var recordHandler = CORA.recordHandler(recordHandlerSpec);
+
+	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
+
+	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
+	assert.strictEqual(this.workView.childNodes[0].className, "workItem recordType");
+
+	assert.strictEqual(this.presentationIdUsed[0], "recordTypeViewPGroup");
+	assert.strictEqual(this.presentationIdUsed[1], "recordTypeMenuPGroup");
+
+	var buttonView = this.workView.firstChild.childNodes[2];
+	assert.strictEqual(buttonView.childNodes.length, 0);
 });
 
 QUnit.test("initCheckRightGuiCreatedNew", function(assert) {

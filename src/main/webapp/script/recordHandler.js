@@ -161,15 +161,21 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordToWorkView(recordGuiToAdd) {
-			if (notAbstractRecordRecordType()) {
+			if (notAbstractRecordRecordType() && recordHasUpdateLink()) {
 				addToEditView(recordGuiToAdd);
 				recordHandlerView.addButton("UPDATE", sendUpdateDataToServer);
 			}
 			addToShowView(recordGuiToAdd);
 		}
+
 		function notAbstractRecordRecordType() {
 			var abstractValue = getRecordTypeRecordValue("abstract");
 			return "true" !== abstractValue;
+		}
+
+		function recordHasUpdateLink() {
+			var updateLink = fetchedRecord.actionLinks.update;
+			return updateLink !== undefined;
 		}
 
 		function addToEditView(recordGuiToAdd) {

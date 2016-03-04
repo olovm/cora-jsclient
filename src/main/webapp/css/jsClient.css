@@ -1,6 +1,7 @@
 html {
 	margin: 0px;
-	height: calc(100% - 2rem);
+/* 	height: calc(100% - 2rem); */
+	height: calc(100%);
 	padding: 0px;
 }
 
@@ -12,12 +13,12 @@ body {
 
 .jsClient.mainView {
 	height: 100%;
-	height: calc(100% - 2rem - 2px);
+/* 	height: calc(100% - 2rem - 2px); */
 	background: linear-gradient(to bottom, #d5ebfc 0%, #f9fafb 100%);
-	border: 1px solid black;
-	box-shadow: 5px 5px 8px #aeaeae;
-	border-radius: .3rem;
-	margin: 2rem;
+/* 	border: 1px solid black; */
+/* 	box-shadow: 5px 5px 8px #aeaeae; */
+/* 	border-radius: .3rem; */
+/* 	margin: 2rem; */
 	border-color: #B6B0A2;
 	position: relative;
 	display: block;
@@ -37,7 +38,8 @@ body {
 
 .jsClient>.sideBar {
 	display: inline-block;
-	height: calc(100% - 9rem - 2rem - 1px);
+/* 	height: calc(100% - 9rem - 2rem - 1px); */
+	height: calc(100% - 9rem - 1px);
 	overflow: auto;
 	width: 20rem;
 	padding: 1rem;
@@ -48,12 +50,9 @@ body {
 
 .sideBar>.recordType {
 	display: block;
-	/* 	border-bottom: 1px dashed; */
 	border-color: inherit;
 	margin-bottom: 1rem;
 	margin-top: 1rem;
-	/* 	padding: .2rem; */
-	/* 	transition: zoom 0.5s ease 0s; */
 	width: 100%;
 	position: relative;
 }
@@ -63,13 +62,11 @@ body {
 }
 
 .sideBar .header:hover, .sideBar .childrenView .menuView:hover {
-	/* 	transform: scale(1.1);	 */
 	text-decoration: underline;
 	cursor: pointer;
 }
 
 .sideBar .childrenView span, .sideBar .childrenView div {
-	/* 	transform: scale(1.1);	 */
 	text-decoration: inherit;
 }
 
@@ -81,9 +78,7 @@ body {
 .sideBar .childrenView {
 	display: block;
 	width: 100%;
-	/* 	border-bottom: 1px solid; */
 	border-color: inherit;
-	/* 	background-color: cyan; */
 	background-color: rgba(180, 216, 216, 0.07);
 	font-size: .8rem;
 }
@@ -97,21 +92,12 @@ body {
 }
 
 .sideBar .childrenView>span:nth-child(even) {
-	/* 	display: block; */
-	/* 	width: 100%; */
-	/* 	border-bottom: 1px solid; */
 	border-color: inherit;
-	/* 	background-color: cyan; */
-	/* 	background-color: rgba(162, 196, 228, 0.19); */
 }
 
 .sideBar .childrenView>span:last-child {
-	/* 	display: block; */
-	/* 	width: 100%; */
 	border-bottom: 1px solid;
 	border-color: inherit;
-	/* 	background-color: cyan; */
-	/* 	background-color: rgba(180, 216, 216, 0.07); */
 }
 
 .sideBar .active {
@@ -121,42 +107,37 @@ body {
 /* .recordType .childrenView span { */
 .sideBar>.recordType  span {
 	display: block;
-	/* 	width: 100%; */
-	/* 	border: 1px dotted; */
-	/* 	border-color: inherit; */
-	/* 	background-color: #2074d8; */
 }
 
 .jsClient>.workArea {
 	position: absolute;
 	display: inline-block;
 	width: calc(100% - 24rem - 1px);
-	height: calc(100% - 11rem - 1px);
-	/* 	background-color: gray; */
+/* 	height: calc(100% - 11rem - 1px); */
+	height: calc(100% - 9rem - 1px);
 	margin: 1rem;
 }
 
 .workArea .workView {
 	position: absolute;
 	display: inline-block;
-	width: calc(100% - 2rem);
-	height: calc(100% - 2rem);
+/* 	width: calc(100% - 2rem); */
+/* 	height: calc(100% - 2rem); */
 	width: 100%;
 	height: 100%;
 	overflow: auto;
 }
-
+.workArea .workView .workItem {
+	height: 100%;
+	display: block;
+	position: relative;
+}
 .workArea .workView .presentation {
 	box-shadow: none;
 }
 
 .jsClient .sideBar .menuView div, .jsClient .sideBar .menuView span {
-	/* 	position: absolute; */
 	display: inline;
-	/* 	width: calc(100% - 24rem - 1px); */
-	/* 	height: calc(100% - 11rem - 1px); */
-	/* 	background-color: gray; */
-	/* 	margin: 1rem; */
 	border: none;
 	padding: 0;
 	background: none;
@@ -165,7 +146,6 @@ body {
 }
 
 .jsClient .sideBar .menuView .pVar span {
-	/* 	padding-right: 1rem; */
 	max-width: calc(70% - 1rem);
 	overflow: hidden;
 	display: inline-block;
