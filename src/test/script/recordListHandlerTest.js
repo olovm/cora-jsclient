@@ -103,6 +103,45 @@ QUnit.module("recordListHandlerTest.js", {
 				}
 			}
 		};
+		this.workView = document.createElement("span");
+		this.jsClientSpy = {
+			"getMetadataIdForRecordTypeId" : function(recordTypeId) {
+				return "recordTypeGroup2";
+			}
+		};
+
+		this.presentation = {
+			"getView" : function() {
+				return document.createElement("span");
+			}
+		};
+
+		var presentation = this.presentation;
+		this.presentationIdUsed = [];
+		var presentationIdUsed = this.presentationIdUsed;
+		this.recordGui = {
+			"getPresentation" : function(presentationId) {
+				presentationIdUsed.push(presentationId);
+				return presentation;
+			},
+			"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
+			},
+			"dataHolder" : {
+				"getData" : function() {
+					return {};
+				}
+			}
+		};
+
+		var recordGui = this.recordGui;
+		this.metadataIdUsed = [];
+		var metadataIdUsed = this.metadataIdUsed;
+		this.recordGuiFactorySpy = {
+			"factor" : function(metadataId, data) {
+				metadataIdUsed.push(metadataId);
+				return recordGui;
+			}
+		};
 	},
 	afterEach : function() {
 	}
@@ -111,15 +150,12 @@ QUnit.module("recordListHandlerTest.js", {
 QUnit.test("init", function(assert) {
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 	function sendFunction() {
-		// xmlHttpRequestSpy.status = 0;
-		// xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
 	}
-	var workView = document.createElement("span");
 	var listHandlerSpec = {
 		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"views" : {
-			"workView" : workView
+			"workView" : this.workView
 		},
 		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 	};
@@ -144,35 +180,18 @@ QUnit.test("fetchListCheckGeneratedList", function(assert) {
 		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 
-	var presentation = {
-		"getView" : function() {
-			return document.createElement("span");
-		}
-	};
-	var recordGui = {
-		"getPresentation" : function() {
-			return presentation;
-		},
-		"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
-		}
-	};
-	var recordGuiFactorySpy = {
-		"factor" : function(metadataId, data) {
-			return recordGui;
-		}
-	};
-	var workView = document.createElement("span");
 	var listHandlerSpec = {
 		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : recordGuiFactorySpy,
+		"recordGuiFactory" : this.recordGuiFactorySpy,
 		"views" : {
-			"workView" : workView
-		}
+			"workView" : this.workView
+		},
+		"jsClient" : this.jsClientSpy
 	};
 	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
 
-	assert.strictEqual(workView.childNodes.length, 15);
+	assert.strictEqual(this.workView.childNodes.length, 15);
 });
 
 QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
@@ -184,35 +203,18 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 
-	var presentation = {
-		"getView" : function() {
-			return document.createElement("span");
-		}
-	};
-	var recordGui = {
-		"getPresentation" : function() {
-			return presentation;
-		},
-		"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
-		}
-	};
-	var recordGuiFactorySpy = {
-		"factor" : function(metadataId, data) {
-			return recordGui;
-		}
-	};
-	var workView = document.createElement("span");
 	var listHandlerSpec = {
 		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : recordGuiFactorySpy,
+		"recordGuiFactory" : this.recordGuiFactorySpy,
 		"views" : {
-			"workView" : workView
-		}
+			"workView" : this.workView
+		},
+		"jsClient" : this.jsClientSpy
 	};
 	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
 
-	var firstListItem = workView.childNodes[0];
+	var firstListItem = this.workView.childNodes[0];
 	assert.strictEqual(firstListItem.className, "listItem recordType");
 	assert.notStrictEqual(firstListItem.onclick, undefined);
 });
@@ -226,38 +228,21 @@ QUnit.test("fetchListCheckError", function(assert) {
 		xmlHttpRequestSpy.addedEventListeners["error"][0]();
 	}
 
-	var presentation = {
-		"getView" : function() {
-			return document.createElement("span");
-		}
-	};
-	var recordGui = {
-		"getPresentation" : function() {
-			return presentation;
-		},
-		"start" : function start() {
-		}
-	};
-	var recordGuiFactorySpy = {
-		"factor" : function(metadataId, data) {
-			return recordGui;
-		}
-	};
-	var workView = document.createElement("span");
 	var listHandlerSpec = {
 		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : recordGuiFactorySpy,
+		"recordGuiFactory" : this.recordGuiFactorySpy,
 		"views" : {
-			"workView" : workView
-		}
+			"workView" : this.workView
+		},
+		"jsClient" : this.jsClientSpy
 	};
 	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
 
-	assert.strictEqual(workView.childNodes[0].textContent, "404");
+	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
 });
 
-QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
+QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(assert) {
 	var recordTypeListData = CORATEST.recordTypeList;
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 	function sendFunction() {
@@ -266,23 +251,6 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 
-	var presentation = {
-		"getView" : function() {
-			return document.createElement("span");
-		}
-	};
-	var recordGui = {
-		"getPresentation" : function() {
-			return presentation;
-		},
-		"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
-		}
-	};
-	var recordGuiFactorySpy = {
-		"factor" : function(metadataId, data) {
-			return recordGui;
-		}
-	};
 	var listItemWorkView = document.createElement("span");
 	var listText;
 	function createListItem(listTextIn) {
@@ -291,7 +259,6 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 			"workView" : listItemWorkView
 		};
 	}
-	var workView = document.createElement("span");
 	var createRecordHandlerMethodCalledWithPresentationMode;
 	var createRecordHandlerMethodCalledWithRecord;
 	var listHandlerSpec = {
@@ -302,17 +269,56 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 		},
 		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : recordGuiFactorySpy,
+		"recordGuiFactory" : this.recordGuiFactorySpy,
 		"views" : {
-			"workView" : workView
-		}
+			"workView" : this.workView
+		},
+		"jsClient" : this.jsClientSpy
 	};
 	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
 
-	var firstListItem = workView.childNodes[0];
+	var firstListItem = this.workView.childNodes[0];
 	firstListItem.onclick();
 
 	var firstRecord = recordTypeListData.dataList.data[0].record;
 	assert.stringifyEqual(createRecordHandlerMethodCalledWithPresentationMode, "view");
 	assert.stringifyEqual(createRecordHandlerMethodCalledWithRecord, firstRecord);
+});
+
+QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
+	var recordTypeListData = CORATEST.recordTypeList;
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var listItemWorkView = document.createElement("span");
+	var listText;
+	function createListItem(listTextIn) {
+		listText = listTextIn;
+		return {
+			"workView" : listItemWorkView
+		};
+	}
+	var createRecordHandlerMethodCalledWithPresentationMode;
+	var createRecordHandlerMethodCalledWithRecord;
+
+	var listHandlerSpec = {
+		"createListItemMethod" : createListItem,
+		"createRecordHandlerMethod" : function(presentationMode, record) {
+			createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
+			createRecordHandlerMethodCalledWithRecord = record;
+		},
+		"recordTypeRecord" : this.record,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"recordGuiFactory" : this.recordGuiFactorySpy,
+		"views" : {
+			"workView" : this.workView
+		},
+		"jsClient" : this.jsClientSpy
+	};
+	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+	assert.stringifyEqual(this.presentationIdUsed[0], "recordTypeListPGroup");
+	assert.stringifyEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 });

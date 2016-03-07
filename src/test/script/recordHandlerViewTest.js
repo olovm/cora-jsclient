@@ -35,18 +35,17 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(view.nodeName, "SPAN");
 	assert.strictEqual(view.className, "workItem text");
 
-	var buttonView = view.firstChild;
-	assert.strictEqual(buttonView.nodeName, "SPAN");
-	assert.strictEqual(buttonView.className, "buttonView");
+	var editView = view.childNodes[0];
+	assert.strictEqual(editView.nodeName, "SPAN");
+	assert.strictEqual(editView.className, "editView");
 
 	var showView = view.childNodes[1];
 	assert.strictEqual(showView.nodeName, "SPAN");
 	assert.strictEqual(showView.className, "showView");
 
-	var editView = view.childNodes[2];
-	assert.strictEqual(editView.nodeName, "SPAN");
-	assert.strictEqual(editView.className, "editView");
-
+	var buttonView = view.childNodes[2];
+	assert.strictEqual(buttonView.nodeName, "SPAN");
+	assert.strictEqual(buttonView.className, "buttonView");
 });
 
 QUnit.test("addEdit", function(assert) {
@@ -59,7 +58,7 @@ QUnit.test("addEdit", function(assert) {
 	var someView = document.createElement("span");
 	recordHandlerView.addEditView(someView);
 
-	var editView = view.childNodes[2];
+	var editView = view.childNodes[0];
 	assert.strictEqual(editView.firstChild, someView);
 });
 
@@ -90,9 +89,31 @@ QUnit.test("addButton", function(assert) {
 	};
 	recordHandlerView.addButton("text", onclickMethod);
 
-	var buttonView = view.firstChild;
+	var buttonView = view.childNodes[2];
 	assert.strictEqual(buttonView.firstChild.nodeName, "INPUT");
 	assert.strictEqual(buttonView.firstChild.type, "button");
 	assert.strictEqual(buttonView.firstChild.onclick, onclickMethod);
+});
+QUnit.test("testClearViews", function(assert) {
+	var recordHandlerViewSpec = {
+		"extraClassName" : "text",
+	};
+	var recordHandlerView = CORA.recordHandlerView(recordHandlerViewSpec);
+	var view = recordHandlerView.getView();
+
+	recordHandlerView.addButton("text", undefined);
+	var someView = document.createElement("span");
+	recordHandlerView.addEditView(someView);
+	var someView2 = document.createElement("span");
+	recordHandlerView.addShowView(someView2);
+
+	assert.strictEqual(view.childNodes[0].childNodes.length, 1);
+	assert.strictEqual(view.childNodes[1].childNodes.length, 1);
+	assert.strictEqual(view.childNodes[2].childNodes.length, 1);
+	
+	recordHandlerView.clearViews();
+	assert.strictEqual(view.childNodes[0].childNodes.length, 0);
+	assert.strictEqual(view.childNodes[1].childNodes.length, 0);
+	assert.strictEqual(view.childNodes[2].childNodes.length, 0);
 	
 });

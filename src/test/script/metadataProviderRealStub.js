@@ -135,10 +135,10 @@ var CORATEST = (function(coraTest) {
 					}, {
 						"children" : [ {
 							"name" : "ref",
-							"value" : "default"
+							"value" : "defaultItem"
 						}, {
 							"name" : "ref",
-							"value" : "alternative"
+							"value" : "alternativeItem"
 						} ],
 						"name" : "collectionItemReferences"
 					} ],
@@ -2122,9 +2122,146 @@ var CORATEST = (function(coraTest) {
 						"type" : "group"
 					}
 				};
+			case "systemLanguagesCollectionVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "systemLanguagesCollectionVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataCollectionVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "lang"
+					}, {
+						"name" : "textId",
+						"value" : "systemLanguagesCollectionVarTextId"
+					}, {
+						"name" : "defTextId",
+						"value" : "systemLanguagesCollectionVarDefTextId"
+					}, {
+						"name" : "refCollectionId",
+						"value" : "systemLanguagesCollection"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "collectionVariable"
+					}
+				};
+				// TODO: REMOVE
+			case "systemLanguageCollectionVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "systemLanguagesCollectionVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataCollectionVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "lang"
+					}, {
+						"name" : "textId",
+						"value" : "systemLanguagesCollectionVarTextId"
+					}, {
+						"name" : "defTextId",
+						"value" : "systemLanguagesCollectionVarDefTextId"
+					}, {
+						"name" : "refCollectionId",
+						"value" : "systemLanguagesCollection"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "collectionVariable"
+					}
+				};
+			case "":
+				return;
+			case "":
+				return;
+			case "":
+				return;
 			case "":
 				return;
 				// presentation
+			case "textListPGroup":
+			case "textSystemOneListPGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "textDefaultAlternativeGroup"
+					}, {
+						"name" : "childReferences",
+						"children" : [
+						// {
+						// "name" : "childReference",
+						// "repeatId" : "1",
+						// "children" : [ {
+						// "name" : "ref",
+						// "value" : "textSystemOneNewPGroupText"
+						// }, {
+						// "name" : "default",
+						// "value" : "ref"
+						// } ]
+						// }
+						// ,
+						{
+							"name" : "childReference",
+							"repeatId" : "0",
+							"children" : [ {
+								"name" : "ref",
+								// "value" : "recordInfoTextPGroup"
+								"value" : "recordInfoTextMenuPGroup"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								// "value" : "textPartSvPGroup"
+								"value" : "textPartDefaultPGroup"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "2",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textPartAlternativePGroup"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
 			case "textSystemOneFormNewPGroup":
 				return {
 					"name" : "presentation",
@@ -2179,6 +2316,50 @@ var CORATEST = (function(coraTest) {
 						} ]
 					} ])
 				};
+			case "textSystemOneFormPGroup":
+				return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "textSystemOneGroup"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "recordInfoTextPGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textPartSvPGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textPartEnSContainer"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
 			case "textSystemOneViewPGroup":
 				return {
 					"name" : "presentation",
@@ -2190,17 +2371,7 @@ var CORATEST = (function(coraTest) {
 						"value" : "textSystemOneGroup"
 					}, {
 						"name" : "childReferences",
-						"children" : [ {
-							"name" : "childReference",
-							"repeatId" : "1",
-							"children" : [ {
-								"name" : "ref",
-								"value" : "textSystemOnePGroupText"
-							}, {
-								"name" : "default",
-								"value" : "ref"
-							} ]
-						}, {
+						"children" : [  {
 							"name" : "childReference",
 							"repeatId" : "0",
 							"children" : [ {
@@ -2233,7 +2404,66 @@ var CORATEST = (function(coraTest) {
 						} ]
 					} ])
 				};
-			case "textSystemOneMenuPGroup":
+			case "textViewPGroup":
+				return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "textDefaultAlternativeGroup"
+				}, {
+					"name" : "childReferences",
+					"children" : [
+//					              {
+//						"name" : "childReference",
+//						"repeatId" : "1",
+//						"children" : [ {
+//							"name" : "ref",
+//							"value" : "textDefaultPGroupText"
+//						}, {
+//							"name" : "default",
+//							"value" : "ref"
+//						} ]
+//					}, 
+{
+						"name" : "childReference",
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "recordInfoTextPGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, 
+					{
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textPartDefaultPGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}
+					, {
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textPartAlternativePGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}
+					]
+				} ])
+			};
+			case "textMenuPGroup":
 				return {
 					"name" : "presentation",
 					"attributes" : {
@@ -2241,7 +2471,7 @@ var CORATEST = (function(coraTest) {
 					},
 					"children" : [ createRecordInfoJson(metadataId) ].concat([ {
 						"name" : "presentationOf",
-						"value" : "textSystemOneGroup"
+						"value" : "textDefaultAlternativeGroup"
 					}, {
 						"name" : "childReferences",
 						"children" : [ {
@@ -2259,7 +2489,7 @@ var CORATEST = (function(coraTest) {
 							"repeatId" : "1",
 							"children" : [ {
 								"name" : "ref",
-								"value" : "textPartSvMenuPGroup"
+								"value" : "textPartDefaultPGroup"
 							}, {
 								"name" : "default",
 								"value" : "ref"
@@ -2267,6 +2497,40 @@ var CORATEST = (function(coraTest) {
 						} ]
 					} ])
 				};
+			case "textSystemOneMenuPGroup":
+				return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "textSystemOneGroup"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "recordInfoTextMenuPGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textPartSvMenuPGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
 			case "recordInfoNewTextPGroup":
 				return {
 					"name" : "presentation",
@@ -2352,6 +2616,76 @@ var CORATEST = (function(coraTest) {
 							"children" : [ {
 								"name" : "ref",
 								"value" : "idTextTextOutputPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
+			case "textPartDefaultPGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "textPartDefaultGroup"
+					}, {
+						"name" : "childReferences",
+						"children" : [ 
+//						               {
+//							"name" : "childReference",
+//							"repeatId" : "1",
+//							"children" : [ {
+//								"name" : "ref",
+//								"value" : "textPartDefaultPGroupText"
+//							}, {
+//								"name" : "default",
+//								"value" : "ref"
+//							} ]
+//						}, 
+						{
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textTextOutputPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
+			case "textPartAlternativePGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "textPartAlternativeGroup"
+					}, {
+						"name" : "childReferences",
+						"children" : [ {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textPartAlternativePGroupText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textTextOutputPVar"
 							}, {
 								"name" : "default",
 								"value" : "ref"
@@ -2621,26 +2955,26 @@ var CORATEST = (function(coraTest) {
 						"value" : "input"
 					} ]
 				};
-//			case "idTextTextOutputPVar":
-//				return {
-//					"name" : "presentation",
-//					"attributes" : {
-//						"type" : "pVar"
-//					},
-//					"children" : [ {
-//						"name" : "recordInfo",
-//						"children" : [ {
-//							"name" : "id",
-//							"value" : "idTextTextPVar"
-//						} ]
-//					}, {
-//						"name" : "presentationOf",
-//						"value" : "idTextTextVar"
-//					}, {
-//						"name" : "mode",
-//						"value" : "output"
-//					} ]
-//				};
+				// case "idTextTextOutputPVar":
+				// return {
+				// "name" : "presentation",
+				// "attributes" : {
+				// "type" : "pVar"
+				// },
+				// "children" : [ {
+				// "name" : "recordInfo",
+				// "children" : [ {
+				// "name" : "id",
+				// "value" : "idTextTextPVar"
+				// } ]
+				// }, {
+				// "name" : "presentationOf",
+				// "value" : "idTextTextVar"
+				// }, {
+				// "name" : "mode",
+				// "value" : "output"
+				// } ]
+				// };
 			case "textTextPVar":
 				return {
 					"name" : "presentation",
@@ -2702,7 +3036,8 @@ var CORATEST = (function(coraTest) {
 						"value" : "output"
 					} ]
 				};
-			case "recordTypePGroup":
+				// case "recordTypePGroup":
+			case "recordTypeListPGroup":
 				return {
 					"name" : "presentation",
 					"attributes" : {
@@ -2933,6 +3268,68 @@ var CORATEST = (function(coraTest) {
 						"children" : [ {
 							"name" : "text",
 							"value" : "Text id"
+						} ]
+					} ]
+				};
+			case "textPartDefaultPGroupText":
+				return {
+					"name" : "text",
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textPartDefaultPGroupText"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "default",
+							"lang" : "sv"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Default"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "alternative",
+							"lang" : "en"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Default"
+						} ]
+					} ]
+				};
+			case "textPartAlternativePGroupText":
+				return {
+					"name" : "text",
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textPartAlternativePGroupText"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "default",
+							"lang" : "sv"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Alternativa översättningar"
+						} ]
+					}, {
+						"name" : "textPart",
+						"attributes" : {
+							"type" : "alternative",
+							"lang" : "en"
+						},
+						"children" : [ {
+							"name" : "text",
+							"value" : "Alternative translations"
 						} ]
 					} ]
 				};

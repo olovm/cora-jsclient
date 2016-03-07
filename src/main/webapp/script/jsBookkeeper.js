@@ -76,18 +76,16 @@ var CORA = (function(cora) {
 			pubSub.publish("remove", data);
 			pubSub.unsubscribePathBelow(data.path);
 		}
-		
-		function move(data){
+
+		function move(data) {
 			pubSub.publish("move", data);
-//			console.log("publish move");
-//			console.log(JSON.stringify(data));
 		}
-		
+
 		return Object.freeze({
 			setValue : setValue,
 			add : add,
 			remove : remove,
-			move:move
+			move : move
 		});
 	};
 	return cora;

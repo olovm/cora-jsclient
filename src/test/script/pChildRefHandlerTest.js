@@ -100,44 +100,37 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(firstSubsription.type, "add");
 	assert.deepEqual(firstSubsription.path, {});
 	assert.ok(firstSubsription.functionToCall === childRefHandler.handleMsg);
-
-	// dragHandling
-//	assert.strictEqual(childrenView.ondragstart, childRefHandler.dragstartHandler);
-//	assert.strictEqual(childrenView.ondragover, childRefHandler.dragoverHandler);
-//	assert.strictEqual(childrenView.ondragenter, childRefHandler.dragenterHandler);
-//	assert.strictEqual(childrenView.ondrop, childRefHandler.dropHandler);
-//	assert.strictEqual(childrenView.ondragend, childRefHandler.dragendHandler);
 });
+
 QUnit.test("testChildMoved", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
-	
-	var moveDataFromPChildRefHandlerView ={
-			"moveChild" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "textVariableId"
-				}, {
-					"name" : "repeatId",
-					"value" : "one"
-				} ]
-			},
-			"basePositionOnChild" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "textVariableId"
-				}, {
-					"name" : "repeatId",
-					"value" : "two"
-				} ]
-			},
-			"newPosition" : "after"
-		};
-	
-	
+
+	var moveDataFromPChildRefHandlerView = {
+		"moveChild" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatId",
+				"value" : "one"
+			} ]
+		},
+		"basePositionOnChild" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVariableId"
+			}, {
+				"name" : "repeatId",
+				"value" : "two"
+			} ]
+		},
+		"newPosition" : "after"
+	};
+
 	var moveData = {
 		"path" : {},
 		"metadataId" : "textVariableId",
@@ -164,19 +157,19 @@ QUnit.test("testChildMoved", function(assert) {
 		"newPosition" : "after"
 	};
 	childRefHandler.childMoved(moveDataFromPChildRefHandlerView);
-	
+
 	assert.deepEqual(this.jsBookkeeper.getMoveDataArray()[0], moveData);
 });
 
-QUnit.test("testHandleMoveMessage", function(assert) {
+QUnit.test("testHandleMoveMessageAfter", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
 	var pChildRefHandler = attachedPChildRefHandler.pChildRefHandler;
 
 	var view = attachedPChildRefHandler.view;
 	var childrenView = view.firstChild;
-	pChildRefHandler.add("one");
-	pChildRefHandler.add("two");
+	pChildRefHandler.add("textVariableId", "one");
+	pChildRefHandler.add("textVariableId", "two");
 
 	var secondChild = childrenView.childNodes[1];
 
@@ -210,15 +203,15 @@ QUnit.test("testHandleMoveMessage", function(assert) {
 	// order
 	assert.strictEqual(childrenView.childNodes[0], secondChild);
 });
-QUnit.test("testHandleMoveMessage", function(assert) {
+QUnit.test("testHandleMoveMessageBefore", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChild", "pVarTextVariableId");
 	var pChildRefHandler = attachedPChildRefHandler.pChildRefHandler;
 
 	var view = attachedPChildRefHandler.view;
 	var childrenView = view.firstChild;
-	pChildRefHandler.add("one");
-	pChildRefHandler.add("two");
+	pChildRefHandler.add("textVariableId", "one");
+	pChildRefHandler.add("textVariableId", "two");
 
 	var secondChild = childrenView.childNodes[1];
 
@@ -341,6 +334,45 @@ QUnit.test("testAddButtonFor1toX", function(assert) {
 			"repeatId" : "1"
 		},
 		"metadataId" : "textVariableId",
+		"nameInData" : "textVariableId",
+		"path" : {}
+	};
+	assert.deepEqual(this.jsBookkeeper.getAddDataArray()[0], addData);
+});
+
+QUnit.test("testAddButtonWithAttributes", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup",
+			"pgTextVarRepeat1to3InGroupOneAttribute");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var view = attachedPChildRefHandler.view;
+
+	var buttonView = view.childNodes[1];
+	assert.strictEqual(buttonView.className, "buttonView");
+	var button = buttonView.firstChild;
+	assert.ok(button.onclick === childRefHandler.sendAdd);
+
+	button.onclick();
+	var addData = {
+		"attributes" : {
+			"anAttribute" : [ "aFinalValue" ]
+		},
+		"childReference" : {
+			"children" : [ {
+				"name" : "ref",
+				"value" : "textVarRepeat1to3InGroupOneAttribute"
+			}, {
+				"name" : "repeatMin",
+				"value" : "0"
+			}, {
+				"name" : "repeatMax",
+				"value" : "2"
+			} ],
+			"name" : "childReference",
+			"repeatId" : "1"
+		},
+		"metadataId" : "textVarRepeat1to3InGroupOneAttribute",
+		"nameInData" : "textVarRepeat1to3InGroupOneAttribute",
 		"path" : {}
 	};
 	assert.deepEqual(this.jsBookkeeper.getAddDataArray()[0], addData);
@@ -366,7 +398,7 @@ QUnit.test("testAddOneChild", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add();
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId");
 
 	assert.strictEqual(childrenView.childNodes.length, 1);
 
@@ -387,7 +419,7 @@ QUnit.test("testAddOneChildWithRepeatId", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "one");
 
 	assert.strictEqual(childrenView.childNodes.length, 1);
 
@@ -418,7 +450,7 @@ QUnit.test("testAddOneChildWithOneLevelPath", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add();
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId");
 
 	assert.strictEqual(childrenView.childNodes.length, 1);
 	var childPath = {
@@ -458,7 +490,7 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add();
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId");
 
 	assert.strictEqual(childrenView.childNodes.length, 1);
 	var childPath = {
@@ -512,7 +544,7 @@ QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
+	attachedPChildRefHandler.pChildRefHandler.add("textVarRepeat1to3InGroupOtherAttribute", "one");
 
 	assert.strictEqual(childrenView.childNodes.length, 1);
 
@@ -552,7 +584,7 @@ QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 	assert.deepEqual(firstSubsription.path, childPath);
 	var secondSubsription = subscriptions[4];
 	assert.strictEqual(secondSubsription.type, "remove");
-	assert.deepEqual(secondSubsription.path, childPath);
+	assert.stringifyEqual(secondSubsription.path, childPath);
 
 });
 
@@ -565,7 +597,7 @@ QUnit.test("testRepeatingElement", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "one");
 
 	// remove button
 	var repeatingElement = childrenView.childNodes[0];
@@ -603,7 +635,7 @@ QUnit.test("testRepeatingElementRemoveButton", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "one");
 
 	// remove button
 	var repeatingElement = childrenView.childNodes[0];
@@ -652,7 +684,7 @@ QUnit.test("testRepeatingElementStaticNoOfChildrenNoAddButton", function(assert)
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "one");
 
 	// remove button
 	var repeatingElement = childrenView.childNodes[0];
@@ -669,27 +701,27 @@ QUnit.test("testDragButtonHidden", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
-	
+
 	assert.ok(childRefHandler.isRepeating === true);
-	
+
 	var view = attachedPChildRefHandler.view;
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
-	
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "one");
+
 	// no buttons
 	var repeatingElement = childrenView.childNodes[0];
 	var repeatingButtonView = repeatingElement.childNodes[1];
 	assert.strictEqual(repeatingButtonView.className, "buttonView");
 	var buttonChildren = repeatingButtonView.childNodes;
 	assert.strictEqual(buttonChildren.length, 2);
-	
+
 	assert.strictEqual(buttonChildren[0].className, "removeButton");
 	assert.strictEqual(buttonChildren[1].className, "dragButton");
 	assert.notVisible(buttonChildren[1], "dragButton should be hidden");
 
-	attachedPChildRefHandler.pChildRefHandler.add("two");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "two");
 	assert.visible(buttonChildren[1], "dragButton should be visible");
 
 });
@@ -704,9 +736,9 @@ QUnit.test("testHideAddButtonWhenMaxRepeat", function(assert) {
 	var buttonView = view.childNodes[1];
 	assert.visible(buttonView, "buttonView should be visible");
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
-	attachedPChildRefHandler.pChildRefHandler.add("two");
-	attachedPChildRefHandler.pChildRefHandler.add("three");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "one");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "two");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "three");
 
 	assert.strictEqual(childrenView.childNodes.length, 3);
 	assert.notVisible(buttonView, "buttonView should be hidden");
@@ -722,9 +754,9 @@ QUnit.test("testShowAddButtonWhenBelowMaxRepeat", function(assert) {
 	var buttonView = view.childNodes[1];
 	assert.visible(buttonView, "buttonView should be visible");
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
-	attachedPChildRefHandler.pChildRefHandler.add("two");
-	attachedPChildRefHandler.pChildRefHandler.add("three");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "one");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "two");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "three");
 
 	assert.strictEqual(childrenView.childNodes.length, 3);
 	assert.notVisible(buttonView, "buttonView should be hidden");
@@ -745,9 +777,9 @@ QUnit.test("testHideRemoveButtonWhenAtMinRepeat", function(assert) {
 	var buttonView = view.childNodes[1];
 	assert.visible(buttonView, "buttonView should be visible");
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
-	attachedPChildRefHandler.pChildRefHandler.add("two");
-	attachedPChildRefHandler.pChildRefHandler.add("three");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "one");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "two");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "three");
 
 	assert.strictEqual(childrenView.childNodes.length, 3);
 	assert.notVisible(buttonView, "buttonView should be hidden");
@@ -765,7 +797,7 @@ QUnit.test("testHideRemoveButtonWhenAtMinRepeat2", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "one");
 
 	// remove button
 	var repeatingElement = childrenView.childNodes[0];
@@ -774,7 +806,7 @@ QUnit.test("testHideRemoveButtonWhenAtMinRepeat2", function(assert) {
 
 	assert.notVisible(removeButton, "removeButton should be hidden");
 
-	attachedPChildRefHandler.pChildRefHandler.add("two");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "two");
 	assert.visible(removeButton, "removeButton should be visible");
 	// remove button
 	var repeatingElement2 = childrenView.childNodes[1];
@@ -797,7 +829,7 @@ QUnit.test("testShownRemoveButtonWhenAboveMinRepeat", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	attachedPChildRefHandler.pChildRefHandler.add("one");
+	attachedPChildRefHandler.pChildRefHandler.add("textVariableId", "one");
 
 	// remove button
 	var repeatingElement = childrenView.childNodes[0];
@@ -806,42 +838,6 @@ QUnit.test("testShownRemoveButtonWhenAboveMinRepeat", function(assert) {
 
 	assert.visible(removeButton, "removeButton should be visible");
 });
-
-// QUnit.test("testUnsubscribeOnRemove", function(assert) {
-// var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-// "groupIdOneTextChildRepeat1to3", "pVarTextVariableId");
-// var view = attachedPChildRefHandler.view;
-// var childrenView = view.firstChild;
-// assert.strictEqual(childrenView.childNodes.length, 0);
-//
-// attachedPChildRefHandler.pChildRefHandler.add("one");
-//
-// // // remove button
-// // var repeatingElement = childrenView.childNodes[0];
-// // var repeatingButtonView = repeatingElement.childNodes[1];
-// // var removeButton = repeatingButtonView.firstChild;
-//
-// // assert.notVisible(removeButton, "removeButton should be hidden");
-//
-// // attachedPChildRefHandler.pChildRefHandler.add("two");
-// // assert.visible(removeButton, "removeButton should be visible");
-// // remove button
-// // var repeatingElement2 = childrenView.childNodes[1];
-// // var repeatingButtonView2 = repeatingElement2.childNodes[1];
-// // var removeButton2 = repeatingButtonView2.firstChild;
-// // assert.visible(removeButton2, "removeButton should be visible");
-//
-// // call remove function in pChildRefHandler
-// var pubSub = attachedPChildRefHandler.pubSub;
-// var firstChildRemoveSubscription = pubSub.getSubscriptions()[2];
-// firstChildRemoveSubscription.functionToCall();
-// console.log(JSON.stringify(pubSub.getSubscriptions()));
-// // assert.strictEqual(childrenView.childNodes.length, 1);
-// // assert.notVisible(removeButton2, "removeButton should be hidden");
-//
-// assert.strictEqual(pubSub.getSubscriptions().length, 2);
-// assert.strictEqual(pubSub.getUnsubscriptions().length, 1);
-// });
 
 QUnit.test("testHandleMessageRightMetadataId", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
@@ -852,6 +848,94 @@ QUnit.test("testHandleMessageRightMetadataId", function(assert) {
 
 	attachedPChildRefHandler.pChildRefHandler.handleMsg({
 		"metadataId" : "textVariableId"
+	}, "x/y/z/add");
+
+	assert.strictEqual(childrenView.childNodes.length, 1);
+});
+
+QUnit.test("testHandleMessageMatchingNameInDataAndAttribute", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+	"textVarRepeat1to3InGroupParentAttribute1toXInGroup",
+			"pgTextVarRepeat1to3InGroupParentAttribute");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	attachedPChildRefHandler.pChildRefHandler.handleMsg({
+		"metadataId" : "textVarRepeat1to3InGroupOneAttribute",
+		"nameInData" : "textVarRepeat1to3InGroupOneAttribute",
+		"attributes" : {
+			"recordTypeTypeCollectionVar" : [ "aFinalValue" ]
+		}
+	}, "x/y/z/add");
+
+	assert.strictEqual(childrenView.childNodes.length, 1);
+});
+
+QUnit.test("testHandleMessageMatchingNameInDataWrongAttribute", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"textVarRepeat1to3InGroupParentAttribute1toXInGroup",
+			"pgTextVarRepeat1to3InGroupParentAttribute");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	attachedPChildRefHandler.pChildRefHandler.handleMsg({
+		"metadataId" : "textVarRepeat1to3InGroupOneAttribute",
+		"nameInData" : "textVarRepeat1to3InGroupOneAttribute",
+		"attributes" : {
+			"recordTypeTypeCollectionVarNOT" : [ "aFinalValue" ]
+		}
+	}, "x/y/z/add");
+
+	assert.strictEqual(childrenView.childNodes.length, 0);
+});
+
+QUnit.test("testHandleMessageMatchingNameInDataNoAttribute", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"textVarRepeat1to3InGroupParentAttribute1toXInGroup",
+			"pgTextVarRepeat1to3InGroupParentAttribute");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	attachedPChildRefHandler.pChildRefHandler.handleMsg({
+		"metadataId" : "textVarRepeat1to3InGroupOneAttribute",
+		"nameInData" : "textVarRepeat1to3InGroupOneAttribute",
+		"attributes" : {}
+	}, "x/y/z/add");
+
+	assert.strictEqual(childrenView.childNodes.length, 0);
+});
+
+QUnit.test("testHandleMessageMatchingNameInDataMissingAttribute", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"textVarRepeat1to3InGroupParentAttribute1toXInGroup",
+			"pgTextVarRepeat1to3InGroupParentAttribute");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	attachedPChildRefHandler.pChildRefHandler.handleMsg({
+		"metadataId" : "textVarRepeat1to3InGroupOneAttribute",
+		"nameInData" : "textVarRepeat1to3InGroupOneAttribute"
+	}, "x/y/z/add");
+
+	assert.strictEqual(childrenView.childNodes.length, 0);
+});
+
+QUnit.test("testHandleMessageMatchingNameInDataNoAttributeInMetadata", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneTextChild", "pVarTextVariableId");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+
+	attachedPChildRefHandler.pChildRefHandler.handleMsg({
+		// textVarRepeat1to3InGroupOneAttribute (existing metadataId but not the
+		// one used here)
+		"metadataId" : "textVarRepeat1to3InGroupOneAttribute",
+		"nameInData" : "textVariableId"
 	}, "x/y/z/add");
 
 	assert.strictEqual(childrenView.childNodes.length, 1);
@@ -896,7 +980,7 @@ QUnit.test("testWithMinimized", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	pChildRefHandler.add("one");
+	pChildRefHandler.add("textVariableId", "one");
 	assert.strictEqual(childrenView.childNodes.length, 1);
 
 	// minimizedPresentation
@@ -941,7 +1025,7 @@ QUnit.test("testWithMinimizedDefault", function(assert) {
 	var childrenView = view.firstChild;
 	assert.strictEqual(childrenView.childNodes.length, 0);
 
-	pChildRefHandler.add("one");
+	pChildRefHandler.add("textVariableId", "one");
 	assert.strictEqual(childrenView.childNodes.length, 1);
 
 	// minimizedPresentation

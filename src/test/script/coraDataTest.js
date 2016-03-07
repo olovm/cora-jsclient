@@ -408,7 +408,7 @@ QUnit.test("testContainsChildWithNameInDataAndRepeatId", function(assert) {
 	assert.ok(this.coraData.containsChildWithNameInDataAndRepeatId("textVariableId", "1"));
 });
 
-QUnit.test("testContainsChildWithNameInDataAndRepeatId", function(assert) {
+QUnit.test("testContainsChildWithNameInDataButWrongRepeatId", function(assert) {
 	assert.notOk(this.coraData.containsChildWithNameInDataAndRepeatId("textVariableId", "1NOT"));
 });
 

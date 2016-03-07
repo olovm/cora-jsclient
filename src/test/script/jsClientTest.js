@@ -301,5 +301,29 @@ QUnit.test("testFactories", function(assert) {
 	assert.notStrictEqual(recordTypeHandlerView, undefined);
 	assert.notStrictEqual(recordListHandler, undefined);
 	assert.notStrictEqual(recordHandler, undefined);
+});
 
+QUnit.test("getMetadataIdForRecordType", function(assert) {
+	var recordTypeListData = CORATEST.recordTypeList;
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+
+	var dependencies = {
+		"metadataProvider" : CORATEST.metadataProviderRealStub(),
+		"textProvider" : CORATEST.textProviderRealStub(),
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"presentationFactoryFactory" : "not implemented yet"
+	}
+	var spec = {
+		"dependencies" : dependencies,
+		"name" : "The Client",
+		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+	};
+	var jsClient = CORA.jsClient(spec);
+	var metadataId = jsClient.getMetadataIdForRecordTypeId("textSystemOne");
+	assert.strictEqual(metadataId, "textSystemOneGroup");
 });

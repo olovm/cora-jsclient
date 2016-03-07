@@ -37,6 +37,10 @@ var CORATEST = (function(coraTest) {
 				return "Engelska";
 			case "recordTypePGroupText":
 				return "Posttyp";
+			case "textPartDefaultPGroupText":
+				return "Default";
+			case "textPartAlternativePGroupText":
+				return "Alternativa översättningar";
 			default:
 				console.log("Id(" + textId + ") not found in textProviderRealStub");
 //				throw new Error("Id(" + textId + ") not found in textProviderRealStub");
