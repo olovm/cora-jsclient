@@ -37,9 +37,31 @@ var CORA = (function(cora) {
 			var addMessage = {
 				"metadataId" : metadataId,
 				"path" : path,
-				"repeatId" : repeatId
+				"repeatId" : repeatId,
+				"nameInData" : metadataElement.getFirstAtomicValueByNameInData("nameInData")
 			};
+			if (hasAttributes()) {
+				addMessage.attributes = collectAttributes();
+			}
 			pubSub.publish("add", addMessage);
+		}
+		function hasAttributes() {
+			return metadataElement.containsChildWithNameInData("attributeReferences");
+		}
+		function collectAttributes() {
+			var collectedAttributes = {};
+			var attributeReferences = metadataElement
+					.getFirstChildByNameInData("attributeReferences");
+			attributeReferences.children.forEach(function(attributeReference) {
+				var cCollectionVariable = getMetadataById(attributeReference.value);
+				var attributeNameInData = cCollectionVariable
+						.getFirstAtomicValueByNameInData("nameInData");
+				var attributeValues = [];
+				collectedAttributes[attributeNameInData] = attributeValues;
+				attributeValues.push(cCollectionVariable
+						.getFirstAtomicValueByNameInData("finalValue"));
+			});
+			return collectedAttributes;
 		}
 
 		function initializeForMetadata() {
@@ -97,10 +119,6 @@ var CORA = (function(cora) {
 				"name" : "repeatId",
 				"value" : repeatId
 			};
-		}
-
-		function hasAttributes() {
-			return metadataElement.containsChildWithNameInData('attributeReferences');
 		}
 
 		function createAttributes() {

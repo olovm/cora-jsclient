@@ -20,7 +20,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandler = function(spec) {
 		var cRecordTypeRecordData = CORA.coraData(spec.recordTypeRecord.data);
-		var recordTypeId = getIdFromRecord(spec.recordTypeRecord);
+		var recordTypeRecordId = getIdFromRecord(spec.recordTypeRecord);
 
 		var views = spec.views;
 
@@ -29,6 +29,10 @@ var CORA = (function(cora) {
 
 		var recordHandlerView = createRecordHandlerView();
 		workView.appendChild(recordHandlerView.getView());
+
+		var recordGuiNew;
+		var recordGui;
+		var fetchedRecord;
 
 		if ("new" === spec.presentationMode) {
 			createGuiForNew();
@@ -42,12 +46,12 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		var recordGuiNew;
 		function createGuiForNew() {
 			try {
 				recordGuiNew = createRecordGui(getNewMetadataId());
 				addNewRecordToWorkView(recordGuiNew);
 				addRecordToMenuView(recordGuiNew);
+				addToShowView(recordGuiNew);
 				recordGuiNew.initMetadataControllerStartingGui();
 			} catch (error) {
 				createRawDataWorkView("something went wrong, probably missing metadata");
@@ -65,32 +69,34 @@ var CORA = (function(cora) {
 			return spec.recordGuiFactory.factor(metadataId, data);
 		}
 
-		function addNewRecordToWorkView(recordGui) {
+		function addNewRecordToWorkView(recordGuiToAdd) {
 			var presentationViewId = getPresentationNewViewId();
-			var presentationView = recordGui.getPresentation(presentationViewId).getView();
+			var presentationView = recordGuiToAdd.getPresentation(presentationViewId).getView();
 			recordHandlerView.addEditView(presentationView);
-			recordHandlerView.addButton("CREATE", sendDataToServer);
+			recordHandlerView.addButton("CREATE", sendNewDataToServer);
 		}
 
 		function getPresentationNewViewId() {
 			return getRecordTypeRecordValue("newPresentationFormId");
 		}
 
-		function addRecordToMenuView(recordGui) {
+		function addRecordToMenuView(recordGuiToAdd) {
 			var menuPresentationViewId = getMenuPresentationViewId();
-			var menuPresentationView = recordGui.getPresentation(menuPresentationViewId).getView();
+			var menuPresentationView = recordGuiToAdd.getPresentation(menuPresentationViewId)
+					.getView();
 			menuView.textContent = "";
 			menuView.appendChild(menuPresentationView);
 		}
 
 		function createRecordHandlerView() {
 			var recordHandlerViewSpec = {
-				"extraClassName" : recordTypeId
+				"extraClassName" : recordTypeRecordId
 			};
 			return spec.recordHandlerViewFactory.factor(recordHandlerViewSpec);
 		}
 
-		function sendDataToServer(callAfterAnswer) {
+		function sendNewDataToServer() {
+			var callAfterAnswer = resetViewsAndProcessFetchedRecord;
 			var createLink = spec.recordTypeRecord.actionLinks.create;
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
@@ -103,6 +109,11 @@ var CORA = (function(cora) {
 				"data" : JSON.stringify(recordGuiNew.dataHolder.getData())
 			};
 			CORA.ajaxCall(callSpec);
+		}
+
+		function resetViewsAndProcessFetchedRecord(answer) {
+			recordHandlerView.clearViews();
+			processFetchedRecord(answer);
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
@@ -120,10 +131,12 @@ var CORA = (function(cora) {
 		}
 
 		function processFetchedRecord(answer) {
+			fetchedRecord = getRecordPartFromAnswer(answer);
 			var data = getDataPartOfRecordFromAnswer(answer);
 			try {
-				var metadataId = getMetadataId();
-				var recordGui = createRecordGui(metadataId, data);
+				var recordTypeId = getRecordTypeId(fetchedRecord);
+				var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
+				recordGui = createRecordGui(metadataId, data);
 				addRecordToWorkView(recordGui);
 				addRecordToMenuView(recordGui);
 				recordGui.initMetadataControllerStartingGui();
@@ -134,18 +147,63 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function getRecordPartFromAnswer(answer) {
+			return JSON.parse(answer.responseText).record;
+		}
+
 		function getDataPartOfRecordFromAnswer(answer) {
 			return JSON.parse(answer.responseText).record.data;
 		}
 
-		function getMetadataId() {
-			return getRecordTypeRecordValue("metadataId");
+		function getRecordTypeId(record) {
+			var cData = CORA.coraData(record.data);
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			return cRecordInfo.getFirstAtomicValueByNameInData("type");
 		}
 
-		function addRecordToWorkView(recordGui) {
-			var presentationViewId = getPresentationViewId();
-			var presentationView = recordGui.getPresentation(presentationViewId).getView();
-			recordHandlerView.addShowView(presentationView);
+		function addRecordToWorkView(recordGuiToAdd) {
+			if (notAbstractRecordRecordType() && recordHasUpdateLink()) {
+				addToEditView(recordGuiToAdd);
+				recordHandlerView.addButton("UPDATE", sendUpdateDataToServer);
+			}
+			addToShowView(recordGuiToAdd);
+		}
+
+		function notAbstractRecordRecordType() {
+			var abstractValue = getRecordTypeRecordValue("abstract");
+			return "true" !== abstractValue;
+		}
+
+		function recordHasUpdateLink() {
+			var updateLink = fetchedRecord.actionLinks.update;
+			return updateLink !== undefined;
+		}
+
+		function addToEditView(recordGuiToAdd) {
+			var editViewId = getPresentationFormId();
+			var editView = recordGuiToAdd.getPresentation(editViewId).getView();
+			recordHandlerView.addEditView(editView);
+		}
+
+		function addToShowView(recordGuiToAdd) {
+			var showViewId = getPresentationViewId();
+			var showView = recordGuiToAdd.getPresentation(showViewId).getView();
+			recordHandlerView.addShowView(showView);
+		}
+
+		function sendUpdateDataToServer(callAfterAnswer) {
+			var updateLink = fetchedRecord.actionLinks.update;
+			var callSpec = {
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"method" : updateLink.requestMethod,
+				"url" : updateLink.url,
+				"contentType" : updateLink.contentType,
+				"accept" : updateLink.accept,
+				"loadMethod" : callAfterAnswer,
+				"errorMethod" : callError,
+				"data" : JSON.stringify(recordGui.dataHolder.getData())
+			};
+			CORA.ajaxCall(callSpec);
 		}
 		function createRawDataWorkView(data) {
 			recordHandlerView.addEditView(document.createTextNode(JSON.stringify(data)));
@@ -153,6 +211,9 @@ var CORA = (function(cora) {
 
 		function getPresentationViewId() {
 			return getRecordTypeRecordValue("presentationViewId");
+		}
+		function getPresentationFormId() {
+			return getRecordTypeRecordValue("presentationFormId");
 		}
 
 		function getMenuPresentationViewId() {

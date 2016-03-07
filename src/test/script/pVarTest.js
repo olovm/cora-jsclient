@@ -205,7 +205,7 @@ QUnit.test("testValueViewHasOnBlurHandler", function(assert) {
 	assert.ok(attachedPVar.valueView.onblur === attachedPVar.pVar.onBlur);
 });
 
-QUnit.test("testChangedValueEmpty", function(assert) {
+QUnit.test("testChangedValueMissing", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");

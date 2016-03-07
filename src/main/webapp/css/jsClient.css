@@ -1,6 +1,7 @@
 html {
 	margin: 0px;
-	height: calc(100% - 2rem);
+/* 	height: calc(100% - 2rem); */
+	height: calc(100%);
 	padding: 0px;
 }
 
@@ -12,12 +13,12 @@ body {
 
 .jsClient.mainView {
 	height: 100%;
-	height: calc(100% - 2rem - 2px);
+/* 	height: calc(100% - 2rem - 2px); */
 	background: linear-gradient(to bottom, #d5ebfc 0%, #f9fafb 100%);
-	border: 1px solid black;
-	box-shadow: 5px 5px 8px #aeaeae;
-	border-radius: .3rem;
-	margin: 2rem;
+/* 	border: 1px solid black; */
+/* 	box-shadow: 5px 5px 8px #aeaeae; */
+/* 	border-radius: .3rem; */
+/* 	margin: 2rem; */
 	border-color: #B6B0A2;
 	position: relative;
 	display: block;
@@ -30,9 +31,6 @@ body {
 	font-size: 5rem;
 	text-align: center;
 	color: magenta;
-	text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, -1px 1px 0px #000,
-		1px -1px 0px #000, 5px 5px 8px #0040f6;
-	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
 	border-bottom: 1px solid;
 	border-color: inherit;
 	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
@@ -40,7 +38,8 @@ body {
 
 .jsClient>.sideBar {
 	display: inline-block;
-	height: calc(100% - 9rem - 2rem - 1px);
+/* 	height: calc(100% - 9rem - 2rem - 1px); */
+	height: calc(100% - 9rem - 1px);
 	overflow: auto;
 	width: 20rem;
 	padding: 1rem;
@@ -51,12 +50,9 @@ body {
 
 .sideBar>.recordType {
 	display: block;
-	/* 	border-bottom: 1px dashed; */
 	border-color: inherit;
 	margin-bottom: 1rem;
 	margin-top: 1rem;
-	/* 	padding: .2rem; */
-	/* 	transition: zoom 0.5s ease 0s; */
 	width: 100%;
 	position: relative;
 }
@@ -65,13 +61,12 @@ body {
 	padding: .2rem;
 }
 
-.sideBar .header:hover, .sideBar .childrenView .menuView:hover{
-	/* 	transform: scale(1.1);	 */
+.sideBar .header:hover, .sideBar .childrenView .menuView:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
+
 .sideBar .childrenView span, .sideBar .childrenView div {
-	/* 	transform: scale(1.1);	 */
 	text-decoration: inherit;
 }
 
@@ -83,9 +78,7 @@ body {
 .sideBar .childrenView {
 	display: block;
 	width: 100%;
-	/* 	border-bottom: 1px solid; */
 	border-color: inherit;
-	/* 	background-color: cyan; */
 	background-color: rgba(180, 216, 216, 0.07);
 	font-size: .8rem;
 }
@@ -99,22 +92,14 @@ body {
 }
 
 .sideBar .childrenView>span:nth-child(even) {
-	/* 	display: block; */
-	/* 	width: 100%; */
-	/* 	border-bottom: 1px solid; */
 	border-color: inherit;
-	/* 	background-color: cyan; */
-/* 	background-color: rgba(162, 196, 228, 0.19); */
 }
 
 .sideBar .childrenView>span:last-child {
-	/* 	display: block; */
-	/* 	width: 100%; */
 	border-bottom: 1px solid;
 	border-color: inherit;
-	/* 	background-color: cyan; */
-	/* 	background-color: rgba(180, 216, 216, 0.07); */
 }
+
 .sideBar .active {
 	font-weight: bold;
 	background-color: rgba(162, 196, 228, 0.19);
@@ -122,42 +107,37 @@ body {
 /* .recordType .childrenView span { */
 .sideBar>.recordType  span {
 	display: block;
-	/* 	width: 100%; */
-	/* 	border: 1px dotted; */
-	/* 	border-color: inherit; */
-	/* 	background-color: #2074d8; */
 }
 
 .jsClient>.workArea {
 	position: absolute;
 	display: inline-block;
 	width: calc(100% - 24rem - 1px);
-	height: calc(100% - 11rem - 1px);
-	/* 	background-color: gray; */
+/* 	height: calc(100% - 11rem - 1px); */
+	height: calc(100% - 9rem - 1px);
 	margin: 1rem;
 }
 
 .workArea .workView {
 	position: absolute;
 	display: inline-block;
-	width: calc(100% - 2rem);
-	height: calc(100% - 2rem);
+/* 	width: calc(100% - 2rem); */
+/* 	height: calc(100% - 2rem); */
 	width: 100%;
 	height: 100%;
 	overflow: auto;
 }
-
+.workArea .workView .workItem {
+	height: 100%;
+	display: block;
+	position: relative;
+}
 .workArea .workView .presentation {
 	box-shadow: none;
 }
 
 .jsClient .sideBar .menuView div, .jsClient .sideBar .menuView span {
-	/* 	position: absolute; */
 	display: inline;
-	/* 	width: calc(100% - 24rem - 1px); */
-	/* 	height: calc(100% - 11rem - 1px); */
-	/* 	background-color: gray; */
-	/* 	margin: 1rem; */
 	border: none;
 	padding: 0;
 	background: none;
@@ -166,19 +146,21 @@ body {
 }
 
 .jsClient .sideBar .menuView .pVar span {
-/* 	padding-right: 1rem; */
-	max-width: calc(70%  - 1rem);
+	max-width: calc(70% - 1rem);
 	overflow: hidden;
 	display: inline-block;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
 .jsClient .sideBar .recordInfoTextMenuPGroup .pVar span:before {
 	content: "(";
 }
+
 .jsClient .sideBar .recordInfoTextMenuPGroup .pVar span:after {
 	content: ")";
 }
+
 .jsClient .sideBar .recordInfoTextMenuPGroup .pVar span {
 	padding-right: 1rem;
 	width: 30%;
@@ -196,19 +178,23 @@ body {
 	top: 0px;
 	right: 0px;
 }
+
 .createButton {
 	cursor: pointer;
 	min-width: 16px;
 	min-height: 16px;
 	display: block;
-	float:right;
+	float: right;
 	position: relative;
 	margin-right: 2px;
 }
-.sideBar .recordType .buttonView > span::before, .sideBar .recordType .buttonView> span::after {
+
+.sideBar .recordType .buttonView>span::before, .sideBar .recordType .buttonView>span::after
+	{
 	top: 3px;
 	right: 2px;
 }
+
 .createButton::before {
 	background: url("../images/icons2.svg") no-repeat scroll -128px -32px;
 	content: "";
@@ -237,4 +223,132 @@ body {
 
 .createButton:hover::after {
 	opacity: 1;
+}
+
+.jsClient .workView {
+	counter-reset: record;
+}
+
+.jsClient .listItem {
+	font-size: .8rem;
+	counter-increment: record;
+}
+
+.jsClient .listItem::before {
+	content: counter(record) ".";
+	font-size: 2rem;
+	display: block;
+	position: absolute;
+	left: 0rem;
+}
+
+.jsClient .listItem .presentation {
+	border: none;
+	border-radius: 0;
+	border-bottom: 1px dashed;
+	padding-bottom: 2px;
+	padding-left: 3rem;
+}
+
+.jsClient .listItem .pVar {
+	min-height: 0;
+}
+
+.jsClient .workItem .presentation {
+	border: none;
+}
+
+.jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input,
+	.jsClient .showView .buttonView {
+	display: none;
+}
+
+.jsClient .listItem .pGroup, .jsClient .listItem .repeatingElement {
+	background-color: transparent;
+	border: none;
+}
+
+.jsClient .listItem .pGroup>.pChildRefHandler+.pChildRefHandler {
+	margin-top: .3rem;
+}
+
+.jsClient .listItem .recordInfoTextMenuPGroup {
+	font-weight: bold;
+}
+
+.jsClient .listItem .recordInfoTextMenuPGroup .pVar span:before {
+	content: "(";
+}
+
+.jsClient .listItem .recordInfoTextMenuPGroup .pVar span:after {
+	content: ")";
+}
+
+.jsClient .listItem .textPartAlternativePGroup .text {
+	font-weight: bold;
+	margin: 0;
+}
+
+.jsClient .editView, .jsClient .showView {
+	height: calc(100% - 3rem);
+	width: calc(50%);
+	display: inline-block;
+	overflow: auto;
+}
+
+.jsClient .editView .pGroup {
+	background-color: transparent;
+	/* 	border: none; */
+}
+
+.jsClient .editView .repeatingElement .repeatingElement, .jsClient .editView .pSurroundingContainer .repeatingElement
+	{
+	border: none;
+}
+.jsClient .editView .pSurroundingContainer {
+	border-color: grey;
+	border-style: dotted;
+	margin-top: 1rem;
+}
+/* .jsClient .showView { */
+.jsClient {
+	font-size: .9rem;
+}
+
+.jsClient .showView .pGroup, .jsClient .showView .repeatingElement {
+	background-color: transparent;
+	border: none;
+}
+
+.jsClient .showView .pGroup>.pChildRefHandler+.pChildRefHandler {
+	margin-top: .3rem;
+}
+
+.jsClient .showView .recordInfoTextPGroup {
+	font-weight: bold;
+}
+
+.jsClient .showView .recordInfoTextPGroup .pVar span:before {
+	content: "(";
+}
+
+.jsClient .showView .recordInfoTextPGroup .pVar span:after {
+	content: ")";
+}
+
+.jsClient .showView .text {
+	font-weight: bold;
+	margin: 0;
+}
+
+.jsClient .showView .pSurroundingContainer {
+	border: none;
+	margin-top: 1rem;
+}
+
+.jsClient .workItem>.buttonView {
+	width: 100%;
+	height: 2rem;
+	display: block;
+	height: 2rem;
 }

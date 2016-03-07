@@ -25,12 +25,12 @@ var CORA = (function(cora) {
 		var childrenView = createChildrenView();
 		var buttonView;
 
-		var beeingDragged;
+		var nodeBeeingDragged;
 		var lastChangedWith;
 		var addDragged;
 		var beeingDraggedY;
-		var dragging = false;
-		var repeatingElementDragOver;
+		var childIsCurrentlyBeeingDragged = false;
+		var lastRepeatingElementDraggedOver;
 
 		view.appendChild(childrenView);
 		if (spec.addMethod !== undefined) {
@@ -72,31 +72,35 @@ var CORA = (function(cora) {
 		}
 
 		function showButtonView() {
-			buttonView.style.display = buttonView.styleOriginal;
+			if(buttonView.styleOriginal !== undefined){
+				buttonView.style.display = buttonView.styleOriginal;
+			}
 		}
 
 		function setRepeatingElementDragOver(repeatingElement) {
-			repeatingElementDragOver = repeatingElement;
+			lastRepeatingElementDraggedOver = repeatingElement;
 		}
+
 		function createChildrenView() {
 			var childrenViewNew = createSpanWithClassName("childrenView");
-
 			if (spec.isRepeating) {
-				// dragging
-				childrenViewNew.ondragstart = dragstartHandler;
-				childrenViewNew.ondragover = dragoverHandler;
-				childrenViewNew.ondragenter = dragenterHandler;
-				childrenViewNew.ondrop = dropHandler;
-				childrenViewNew.ondragend = dragendHandler;
+				addDragEventHandlers(childrenViewNew);
 			}
-
 			return childrenViewNew;
+		}
+
+		function addDragEventHandlers(childrenViewNew) {
+			childrenViewNew.ondragstart = dragstartHandler;
+			childrenViewNew.ondragover = dragoverHandler;
+			childrenViewNew.ondragenter = dragenterHandler;
+			childrenViewNew.ondrop = dropHandler;
+			childrenViewNew.ondragend = dragendHandler;
 		}
 
 		function dragstartHandler(event) {
 			event.stopPropagation();
-			dragging = true;
-			beeingDragged = event.target;
+			childIsCurrentlyBeeingDragged = true;
+			nodeBeeingDragged = event.target;
 			beeingDraggedY = event.screenY;
 			var source = event.target;
 			source.originalClassname = source.className;
@@ -113,44 +117,56 @@ var CORA = (function(cora) {
 		function dragenterHandler(event) {
 			event.preventDefault();
 			event.dataTransfer.dropEffect = "move";
-			if (dragging) {
-				var lastDraggedOver = repeatingElementDragOver !== undefined ? repeatingElementDragOver
-						.getView()
-						: "";
-				var isSibblings = isSibblingNodes(beeingDragged, lastDraggedOver);
-				if (isSibblings) {
-					event.stopPropagation();
-					event.preventDefault();
-					var difY = event.screenY - beeingDraggedY;
-					beeingDraggedY = event.screenY;
-					lastChangedWith = repeatingElementDragOver;
-					if (difY > 0) {
-						addDragged = "after";
-						beeingDragged.parentElement.insertBefore(beeingDragged,
-								repeatingElementDragOver.getView().nextSibling);
-					} else {
-						addDragged = "before";
-						beeingDragged.parentElement.insertBefore(beeingDragged,
-								repeatingElementDragOver.getView());
-					}
-				}
+			if (childIsCurrentlyBeeingDragged && aRepeatingElementHasBeenDraggedOver()) {
+				moveNodeBeeingDraggedIfDraggedOverSibblingNode(event);
 			}
 		}
+
+		function aRepeatingElementHasBeenDraggedOver() {
+			return lastRepeatingElementDraggedOver !== undefined;
+		}
+
+		function moveNodeBeeingDraggedIfDraggedOverSibblingNode(event) {
+			if (isSibblingNodes(nodeBeeingDragged, lastRepeatingElementDraggedOver.getView())) {
+				moveNodeBeeingDragged(event);
+			}
+		}
+
 		function isSibblingNodes(node1, node2) {
 			if (node1 === node2) {
 				return false;
 			}
 			var sibblings = node1.parentNode.childNodes;
-			var keys = Object.keys(sibblings);
-
-			return keys.some(function(key) {
+			var isSibblingFunction = function(key) {
 				return sibblings[key] === node2;
-			});
+			};
+			var keys = Object.keys(sibblings);
+			return keys.some(isSibblingFunction);
+		}
+
+		function moveNodeBeeingDragged(event) {
+			event.stopPropagation();
+			event.preventDefault();
+			lastChangedWith = lastRepeatingElementDraggedOver;
+			if (dragDirectionIsDown(event)) {
+				addDragged = "after";
+				nodeBeeingDragged.parentElement.insertBefore(nodeBeeingDragged,
+						lastRepeatingElementDraggedOver.getView().nextSibling);
+			} else {
+				addDragged = "before";
+				nodeBeeingDragged.parentElement.insertBefore(nodeBeeingDragged,
+						lastRepeatingElementDraggedOver.getView());
+			}
+		}
+
+		function dragDirectionIsDown(event) {
+			var difY = event.screenY - beeingDraggedY;
+			return difY > 0;
 		}
 
 		function dropHandler(event) {
 			event.preventDefault();
-			if (dragging) {
+			if (childIsCurrentlyBeeingDragged) {
 				event.stopPropagation();
 				event.dataTransfer.dropEffect = "move";
 			}
@@ -158,51 +174,63 @@ var CORA = (function(cora) {
 
 		function dragendHandler(event) {
 			event.preventDefault();
-			if (dragging) {
-				event.stopPropagation();
-				var indexClassName = beeingDragged.className.indexOf(" beeingDragged");
-				beeingDragged.className = beeingDragged.className.substring(0, indexClassName);
-				beeingDragged.draggable = undefined;
-				dragging = false;
-				if (lastChangedWith !== undefined) {
-					var data = {
-						"moveChild" : beeingDragged.modelObject.getPath(),
-						"basePositionOnChild" : lastChangedWith.getPath(),
-						"newPosition" : addDragged
-					};
-					view.modelObject.childMoved(data);
-
-					beeingDragged = undefined;
-					lastChangedWith = undefined;
-					addDragged = undefined;
-					beeingDraggedY = undefined;
-					dragging = false;
-					repeatingElementDragOver = undefined;
-				}
+			if (childIsCurrentlyBeeingDragged) {
+				handleDraggedElements(event);
 			}
 		}
+
+		function handleDraggedElements(event) {
+			event.stopPropagation();
+			resetNodeBeeingDragged();
+			possiblySendMoveMessage();
+			resetDragSystem();
+		}
+
+		function resetNodeBeeingDragged() {
+			var indexClassName = nodeBeeingDragged.className.indexOf(" beeingDragged");
+			nodeBeeingDragged.className = nodeBeeingDragged.className.substring(0, indexClassName);
+			nodeBeeingDragged.draggable = undefined;
+		}
+
+		function possiblySendMoveMessage() {
+			if (nodesHasChangedPlace()) {
+				sendMoveMessage();
+			}
+		}
+
+		function nodesHasChangedPlace() {
+			return lastChangedWith !== undefined;
+		}
+
+		function sendMoveMessage() {
+			var data = {
+				"moveChild" : nodeBeeingDragged.modelObject.getPath(),
+				"basePositionOnChild" : lastChangedWith.getPath(),
+				"newPosition" : addDragged
+			};
+			view.modelObject.childMoved(data);
+		}
+
+		function resetDragSystem() {
+			nodeBeeingDragged = undefined;
+			lastChangedWith = undefined;
+			addDragged = undefined;
+			beeingDraggedY = undefined;
+			childIsCurrentlyBeeingDragged = false;
+			lastRepeatingElementDraggedOver = undefined;
+		}
+
 		function addChild(child) {
 			childrenView.appendChild(child);
 		}
+
 		function removeChild(child) {
 			childrenView.removeChild(child);
 		}
+
 		function moveChild(dataFromMsg) {
-			var repeatingElements = childrenView.childNodes;
-			var childToMove;
-			var basePositionOnChild;
-			var childKeys = Object.keys(repeatingElements);
-			childKeys.forEach(function(repeatingElementKey) {
-				var repeatingElement = repeatingElements[repeatingElementKey];
-				if (JSON.stringify(dataFromMsg.moveChild) === JSON
-						.stringify(repeatingElement.modelObject.getPath())) {
-					childToMove = repeatingElement;
-				}
-				if (JSON.stringify(dataFromMsg.basePositionOnChild) === JSON
-						.stringify(repeatingElement.modelObject.getPath())) {
-					basePositionOnChild = repeatingElement;
-				}
-			});
+			var childToMove = findRepeatingElementByPath(dataFromMsg.moveChild);
+			var basePositionOnChild = findRepeatingElementByPath(dataFromMsg.basePositionOnChild);
 
 			if (dataFromMsg.newPosition === "after") {
 				childrenView.insertBefore(childToMove, basePositionOnChild.nextSibling);
@@ -210,6 +238,19 @@ var CORA = (function(cora) {
 				childrenView.insertBefore(childToMove, basePositionOnChild);
 			}
 		}
+
+		function findRepeatingElementByPath(pathToFind) {
+			var repeatingElements = childrenView.childNodes;
+			var jsonPathToFind = JSON.stringify(pathToFind);
+			var childKeys = Object.keys(childrenView.childNodes);
+			var foundKey = childKeys.find(function(repeatingElementKey) {
+				var repeatingElement = repeatingElements[repeatingElementKey];
+				var jsonPath = JSON.stringify(repeatingElement.modelObject.getPath());
+				return jsonPathToFind === jsonPath;
+			});
+			return repeatingElements[foundKey];
+		}
+
 		function hideChildrensRemoveButton() {
 			var repeatingElements = childrenView.childNodes;
 			var repeatingElementsKeys = Object.keys(repeatingElements);
@@ -257,7 +298,6 @@ var CORA = (function(cora) {
 			dragenterHandler : dragenterHandler,
 			dropHandler : dropHandler,
 			dragendHandler : dragendHandler,
-			// createButtonView : createButtonView,
 			hideButtonView : hideButtonView,
 			showButtonView : showButtonView
 		});

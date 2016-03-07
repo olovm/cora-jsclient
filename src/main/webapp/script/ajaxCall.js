@@ -25,9 +25,9 @@ var CORA = (function(cora) {
 		xhr.addEventListener("load", loadListener);
 		xhr.addEventListener("error", errorListener);
 
-		if(spec.method!=="POST"){
+		if (spec.method !== "POST") {
 			xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
-		}else{
+		} else {
 			xhr.open(spec.method, spec.url);
 		}
 
@@ -52,6 +52,7 @@ var CORA = (function(cora) {
 				spec.errorMethod(createReturnObject());
 			}
 		}
+
 		function timeoutListener() {
 			xhr.abort();
 			spec.timeoutMethod(createReturnObject());

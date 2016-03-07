@@ -21,6 +21,7 @@ var CORA = (function(cora) {
 	cora.jsClient = function(spec) {
 
 		var recordTypeList = [];
+		var metadataIdsForRecordType = {};
 		var mainView = createMainView();
 		var sideBar;
 		var workArea;
@@ -63,7 +64,8 @@ var CORA = (function(cora) {
 
 		function processFetchedRecordTypes(answer) {
 			recordTypeList = createRecordTypeListFromAnswer(answer);
-			addRecordTypesToSideBar();
+			metadataIdsForRecordType = createMetadataIdsForRecordType(recordTypeList);
+			addRecordTypesToSideBar(recordTypeList);
 		}
 		function createRecordTypeListFromAnswer(answer) {
 			var data = JSON.parse(answer.responseText).dataList.data;
@@ -74,8 +76,20 @@ var CORA = (function(cora) {
 			return list;
 		}
 
-		function addRecordTypesToSideBar() {
-			recordTypeList.forEach(function(record) {
+		function createMetadataIdsForRecordType(recordTypes) {
+			var metadataIds = {};
+			recordTypes.forEach(function(record) {
+				var cRecord = CORA.coraData(record.data);
+				var metadataId = cRecord.getFirstAtomicValueByNameInData("metadataId");
+				var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+				var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
+				metadataIds[id] = metadataId;
+			});
+			return metadataIds;
+		}
+
+		function addRecordTypesToSideBar(recordTypes) {
+			recordTypes.forEach(function(record) {
 				addRecordTypeToSideBar(record);
 			});
 		}
@@ -157,13 +171,18 @@ var CORA = (function(cora) {
 			itemToShow.menuView.className = itemToShow.menuView.className + " active";
 		}
 
+		function getMetadataIdForRecordTypeId(recordTypeId) {
+			return metadataIdsForRecordType[recordTypeId];
+		}
+
 		var out = Object.freeze({
 			getView : getView,
 			getRecordTypeList : getRecordTypeList,
 			showView : showView,
 			createRecordTypeHandlerViewFactory : createRecordTypeHandlerViewFactory,
 			createRecordListHandlerFactory : createRecordListHandlerFactory,
-			createRecordHandlerFactory : createRecordHandlerFactory
+			createRecordHandlerFactory : createRecordHandlerFactory,
+			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId
 		});
 		mainView.modelObject = out;
 		return out;

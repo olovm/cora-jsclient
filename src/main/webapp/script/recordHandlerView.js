@@ -21,12 +21,12 @@ var CORA = (function(cora) {
 	cora.recordHandlerView = function(spec) {
 
 		var view = createSpanWithClassName("workItem " + spec.extraClassName);
-		var buttonView = createSpanWithClassName("buttonView");
-		view.appendChild(buttonView);
-		var showView = createSpanWithClassName("showView");
-		view.appendChild(showView);
 		var editView = createSpanWithClassName("editView");
 		view.appendChild(editView);
+		var showView = createSpanWithClassName("showView");
+		view.appendChild(showView);
+		var buttonView = createSpanWithClassName("buttonView");
+		view.appendChild(buttonView);
 
 		function createSpanWithClassName(className) {
 			var spanNew = document.createElement("span");
@@ -54,11 +54,18 @@ var CORA = (function(cora) {
 			return view;
 		}
 
+		function clearViews() {
+			editView.innerHTML = "";
+			showView.innerHTML = "";
+			buttonView.innerHTML = "";
+		}
+
 		return Object.freeze({
 			getView : getView,
 			addShowView : addShowView,
 			addEditView : addEditView,
-			addButton : addButton
+			addButton : addButton,
+			clearViews : clearViews
 		});
 	};
 	return cora;
