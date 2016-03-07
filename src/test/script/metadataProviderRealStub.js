@@ -2193,8 +2193,83 @@ var CORATEST = (function(coraTest) {
 						"type" : "collectionVariable"
 					}
 				};
-			case "":
-				return;
+			case "presentationVar":
+				return { 
+				"children": [{
+					      "children": [{
+					          "name": "id",
+					          "value": "presentationVar"
+					        },{
+					          "name": "type",
+					          "value": "recordType"
+					        },{
+					          "name": "createdBy",
+					          "value": "userId"
+					        },{
+					          "name": "updatedBy",
+					          "value": "userId"
+					        }],
+					      "name": "recordInfo"
+					    },
+					    {
+					      "name": "metadataId",
+					      "value": "presentationVarGroup"
+					    },
+					    {
+					      "name": "presentationViewId",
+					      "value": "presentationVarViewPGroup"
+					    },
+					    {
+					      "name": "presentationFormId",
+					      "value": "presentationVarFormPGroup"
+					    },
+					    {
+					      "name": "newMetadataId",
+					      "value": "presentationVarNewGroup"
+					    },
+					    {
+					      "name": "newPresentationFormId",
+					      "value": "presentationVarFormNewPGroup"
+					    },
+					    {
+					      "name": "menuPresentationViewId",
+					      "value": "presentationVarMenuPGroup"
+					    },
+					    {
+					      "name": "listPresentationViewId",
+					      "value": "presentationVarListPGroup"
+					    },
+					    {
+					      "name": "searchMetadataId",
+					      "value": "presentationVarSearchGroup"
+					    },
+					    {
+					      "name": "searchPresentationFormId",
+					      "value": "presentationVarFormSearchPGroup"
+					    },
+					    {
+					      "name": "userSuppliedId",
+					      "value": "true"
+					    },
+					    {
+					      "name": "permissionKey",
+					      "value": "RECORDTYPE_PRESENTATIONVAR"
+					    },
+					    {
+					      "name": "selfPresentationViewId",
+					      "value": "presentationVarViewSelfPGroup"
+					    },
+					    {
+					      "name": "abstract",
+					      "value": "false"
+					    },
+					    {
+					      "name": "parentId",
+					      "value": "presentation"
+					    }
+					  ],
+					  "name": "recordType"
+					};
 			case "":
 				return;
 			case "":
@@ -3364,7 +3439,6 @@ var CORATEST = (function(coraTest) {
 						} ]
 					} ]
 				};
-
 			case "textPartEnPGroupText":
 				return {
 					"name" : "text",
@@ -3396,6 +3470,229 @@ var CORATEST = (function(coraTest) {
 						} ]
 					} ]
 				};
+			case "presentationVarFormNewPGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "presentationVarNewGroup" //måste skapas
+					}, {
+						"name" : "childReferences",
+						"children" : [ {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textSystemOneNewPGroupText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}
+							, 
+						{
+							"name" : "childReference",
+							"repeatId" : "0",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "recordInfoNewTextPGroup"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textPartSvPGroup"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "2",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textPartEnSContainer"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
+					case "presentationVarNewGroup":
+						return {
+						"children": [
+						             {
+						               "name": "nameInData",
+						               "value": "presentation"
+						             },
+						             {
+						               "children": [
+						                 {
+						                   "name": "id",
+						                   "value": "presentationVarNewGroup"
+						                 },
+						                 {
+						                   "name": "type",
+						                   "value": "metadataGroup"
+						                 },
+						                 {
+						                   "name": "createdBy",
+						                   "value": "userId"
+						                 },
+						                 {
+						                   "name": "updatedBy",
+						                   "value": "userId"
+						                 }
+						               ],
+						               "name": "recordInfo"
+						             },
+						             {
+						               "name": "textId",
+						               "value": "presentationVarNewGroupText"
+						             },
+						             {
+						               "name": "defTextId",
+						               "value": "presentationVarNewGroupDefText"
+						             },
+						             {
+						               "children": [
+						                 {
+						                   "repeatId": "1",
+						                   "children": [
+						                     {
+						                       "name": "ref",
+						                       "value": "recordInfoNewPVarGroup"
+						                     },
+						                     {
+						                       "name": "repeatMin",
+						                       "value": "1"
+						                     },
+						                     {
+						                       "name": "repeatMax",
+						                       "value": "1"
+						                     }
+						                   ],
+						                   "name": "childReference"
+						                 },
+						                 {
+						                   "repeatId": "2",
+						                   "children": [
+						                     {
+						                       "name": "ref",
+						                       "value": "presentationOfTextVar"
+						                     },
+						                     {
+						                       "name": "repeatMin",
+						                       "value": "1"
+						                     },
+						                     {
+						                       "name": "repeatMax",
+						                       "value": "1"
+						                     }
+						                   ],
+						                   "name": "childReference"
+						                 },
+						                 {
+						                   "repeatId": "3",
+						                   "children": [
+						                     {
+						                       "name": "ref",
+						                       "value": "modeCollectionVar"
+						                     },
+						                     {
+						                       "name": "repeatMin",
+						                       "value": "1"
+						                     },
+						                     {
+						                       "name": "repeatMax",
+						                       "value": "1"
+						                     }
+						                   ],
+						                   "name": "childReference"
+						                 },
+						                 {
+						                   "repeatId": "4",
+						                   "children": [
+						                     {
+						                       "name": "ref",
+						                       "value": "emptyTextIdTextVar"
+						                     },
+						                     {
+						                       "name": "repeatMin",
+						                       "value": "0"
+						                     },
+						                     {
+						                       "name": "repeatMax",
+						                       "value": "1"
+						                     }
+						                   ],
+						                   "name": "childReference"
+						                 }
+						               ],
+						               "name": "childReferences"
+						             },
+						             {
+						               "children": [
+						                 {
+						                   "name": "ref",
+						                   "value": "presentationTypePVarCollectionVar"
+						                 }
+						               ],
+						               "name": "attributeReferences"
+						             },
+						             {
+						               "name": "refParentId",
+						               "value": "presentationVarGroup"
+						             }
+						           ],
+						           "name": "metadata",
+						           "attributes": {
+						             "type": "group"
+						           }
+						         };
+
+			case "presentationVarListPGroup":
+				return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson("presentationVarGroup") ].concat([ {
+					"name" : "presentationOf",
+					"value" : "presentationVarGroup"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "recordTypePGroupText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "recordInfoPGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ] )
+			};
 			default:
 				console.log("Id(" + metadataId + ") not found in metadataProviderRealStub");
 				throw new Error("Id(" + metadataId + ") not found in metadataProviderRealStub");
