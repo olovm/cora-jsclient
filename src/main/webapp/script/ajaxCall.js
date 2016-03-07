@@ -25,7 +25,7 @@ var CORA = (function(cora) {
 		xhr.addEventListener("load", loadListener);
 		xhr.addEventListener("error", errorListener);
 
-		if (spec.method !== "POST") {
+		if (spec.method === "GET") {
 			xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
 		} else {
 			xhr.open(spec.method, spec.url);

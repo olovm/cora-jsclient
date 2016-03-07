@@ -18,7 +18,8 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.xmlHttpRequestFactorySpy = function(xmlHttpRequestSpy) {
+	coraTest.xmlHttpRequestFactorySpy = function(xmlHttpRequestSpyIn) {
+		var xmlHttpRequestSpy = xmlHttpRequestSpyIn;
 		var factorWasCalled = false;
 		function factor() {
 			factorWasCalled = true;
@@ -28,10 +29,14 @@ var CORATEST = (function(coraTest) {
 		function wasFactorCalled(){
 			return factorWasCalled;
 		}
-		
+		function setXmlHttpRequestSpy(xmlHttpRequestSpyIn){
+			factorWasCalled = false;
+			xmlHttpRequestSpy = xmlHttpRequestSpyIn;
+		}
 		var out = Object.freeze({
 			factor : factor,
-			wasFactorCalled : wasFactorCalled
+			wasFactorCalled : wasFactorCalled,
+			setXmlHttpRequestSpy:setXmlHttpRequestSpy
 		});
 		return out;
 	};
