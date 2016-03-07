@@ -51,6 +51,7 @@ var CORA = (function(cora) {
 				recordGuiNew = createRecordGui(getNewMetadataId());
 				addNewRecordToWorkView(recordGuiNew);
 				addRecordToMenuView(recordGuiNew);
+				addToShowView(recordGuiNew);
 				recordGuiNew.initMetadataControllerStartingGui();
 			} catch (error) {
 				createRawDataWorkView("something went wrong, probably missing metadata");
