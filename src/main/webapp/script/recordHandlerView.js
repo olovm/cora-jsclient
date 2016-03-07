@@ -42,11 +42,14 @@ var CORA = (function(cora) {
 			editView.appendChild(node);
 		}
 
-		function addButton(text, onclickMethod) {
+		function addButton(text, onclickMethod, className) {
 			var button = document.createElement("input");
 			button.type = "button";
 			button.value = text;
 			button.onclick = onclickMethod;
+			if (undefined !== className) {
+				button.className = className;
+			}
 			buttonView.appendChild(button);
 		}
 
