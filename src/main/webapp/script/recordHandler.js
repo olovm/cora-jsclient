@@ -73,7 +73,7 @@ var CORA = (function(cora) {
 			var presentationViewId = getPresentationNewViewId();
 			var presentationView = recordGuiToAdd.getPresentation(presentationViewId).getView();
 			recordHandlerView.addEditView(presentationView);
-			recordHandlerView.addButton("CREATE", sendNewDataToServer);
+			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
 		}
 
 		function getPresentationNewViewId() {
@@ -162,9 +162,15 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordToWorkView(recordGuiToAdd) {
-			if (notAbstractRecordRecordType() && recordHasUpdateLink()) {
-				addToEditView(recordGuiToAdd);
-				recordHandlerView.addButton("UPDATE", sendUpdateDataToServer);
+			if (notAbstractRecordRecordType()) {
+
+				if (recordHasDeleteLink()) {
+					recordHandlerView.addButton("DELETE", sendDeleteDataToServer, "delete");
+				}
+				if (recordHasUpdateLink()) {
+					addToEditView(recordGuiToAdd);
+					recordHandlerView.addButton("UPDATE", sendUpdateDataToServer, "update");
+				}
 			}
 			addToShowView(recordGuiToAdd);
 		}
@@ -172,6 +178,11 @@ var CORA = (function(cora) {
 		function notAbstractRecordRecordType() {
 			var abstractValue = getRecordTypeRecordValue("abstract");
 			return "true" !== abstractValue;
+		}
+
+		function recordHasDeleteLink() {
+			var deleteLink = fetchedRecord.actionLinks["delete"];
+			return deleteLink !== undefined;
 		}
 
 		function recordHasUpdateLink() {
@@ -191,6 +202,18 @@ var CORA = (function(cora) {
 			recordHandlerView.addShowView(showView);
 		}
 
+		function sendDeleteDataToServer() {
+			var callAfterAnswer = recordHandlerView.clearViews;
+			var deleteLink = fetchedRecord.actionLinks["delete"];
+			var callSpec = {
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"method" : deleteLink.requestMethod,
+				"url" : deleteLink.url,
+				"loadMethod" : callAfterAnswer,
+				"errorMethod" : callError
+			};
+			CORA.ajaxCall(callSpec);
+		}
 		function sendUpdateDataToServer(callAfterAnswer) {
 			var updateLink = fetchedRecord.actionLinks.update;
 			var callSpec = {
