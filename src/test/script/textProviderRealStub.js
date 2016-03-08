@@ -41,6 +41,12 @@ var CORATEST = (function(coraTest) {
 				return "Default";
 			case "textPartAlternativePGroupText":
 				return "Alternativa översättningar";
+			case "emptyTextIdTextVarText":
+				return "Empty text id??";
+			case "presentationOfTextVarText":
+				return "Presentation av";
+			case "inputItemTextId":
+				return "input";
 			default:
 				console.log("Id(" + textId + ") not found in textProviderRealStub");
 //				throw new Error("Id(" + textId + ") not found in textProviderRealStub");

@@ -103,8 +103,10 @@ var CORA = (function(cora) {
 
 		function initializeChild() {
 			if (childCanRepeat()) {
+			console.log("childCanRepeat")
 				initializeRepeatingChild();
 			} else {
+			console.log("childCanNotRepeat")
 				initializeNonRepeatingChild();
 			}
 		}
@@ -112,6 +114,7 @@ var CORA = (function(cora) {
 		function initializeRepeatingChild() {
 			var generatedRepeatId = calculateStartRepeatId();
 			var repeatMin = calculateMinRepeat();
+			console.log("repeatMin" +repeatMin)
 
 			for (var index = 0; index < repeatMin; index++) {
 				if (hasDataForRepeatingChild(index)) {
