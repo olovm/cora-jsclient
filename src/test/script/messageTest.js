@@ -21,6 +21,8 @@
 QUnit.module("messageTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
+//		<link rel="stylesheet" type="text/css" href="css/message.css"></link>
+//		this.fixture.head.appendChild(document.createLink...)
 	},
 	afterEach : function() {
 	}
@@ -63,6 +65,8 @@ QUnit.test("testInit", function(assert) {
 
 	var messageText = view.firstChild;
 	assert.strictEqual(messageText.textContent, "some text");
+	//to prevent rouge timers call remove on elements after test has completed
+	message.clearHideTimeout();
 });
 
 QUnit.test("testInitWithoutTimeout", function(assert) {
@@ -75,6 +79,8 @@ QUnit.test("testInitWithoutTimeout", function(assert) {
 	this.fixture.appendChild(view);
 
 	assert.strictEqual(message.getTimeout(), 10000);
+	//to prevent rouge timers call remove on elements after test has completed
+	message.clearHideTimeout();
 });
 
 QUnit.test("testHide", function(assert) {
@@ -91,13 +97,15 @@ QUnit.test("testHide", function(assert) {
 
 	message.hide();
 	assert.notVisible(view);
+	//to prevent rouge timers call remove on elements after test has completed
+	message.clearHideTimeout();
 });
 QUnit.test("testHideAfterTimeout", function(assert) {
 	var done = assert.async();
 	var messageSpec = {
 		"message" : "some text",
 		"type" : CORA.message.ERROR,
-		"timeout" : 201
+		"timeout" : 5
 	};
 	var message = CORA.message(messageSpec);
 
@@ -107,9 +115,9 @@ QUnit.test("testHideAfterTimeout", function(assert) {
 
 	var timeout = window.setTimeout(function() {
 //		assert.ok(false, "ajaxCall timed out (500ms)");
-		assert.notVisible(view, "message should be hidden after 20ms timeout");
+		assert.notVisible(view, "message should be hidden after 5ms timeout");
 		done();
-	}, 500);
+	}, 8);
 });
 
 // QUnit.test("testCallNot200", function(assert) {

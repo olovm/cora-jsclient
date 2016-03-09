@@ -24,11 +24,11 @@ var CORA = (function(cora) {
 		var messageText = createMessageText();
 		view.appendChild(messageText);
 		var hideTimeout = possiblySetHideTimeout();
-		
-		function getTimeoutFromSpecOrDefault(){
+
+		function getTimeoutFromSpecOrDefault() {
 			return spec.timeout !== undefined ? spec.timeout : spec.type.defaultTimeout;
 		}
-		
+
 		function createView() {
 			var viewNew = document.createElement("div");
 			viewNew.className = "message " + spec.type.className;
@@ -40,23 +40,19 @@ var CORA = (function(cora) {
 			textNew.innerHTML = spec.message;
 			return textNew;
 		}
-		
-		function possiblySetHideTimeout(){
+
+		function possiblySetHideTimeout() {
 			var viewForCallFromOutside = view;
-			console.log("setup")
-			var hideFunction = function(){
-				console.log("in timeout:"+timeout)
+			var hideFunction = function() {
 				viewForCallFromOutside.parentNode.removeChild(viewForCallFromOutside);
 			}
-			if(timeout > 0){
-				console.log("setting timeout:"+timeout)
+			if (timeout > 0) {
 				var timeoutToBeCalled = window.setTimeout(hideFunction, timeout);
 			}
 			return timeoutToBeCalled;
 		}
-		
-		
-		function getTimeout(){
+
+		function getTimeout() {
 			return timeout;
 		}
 		function getView() {
@@ -66,19 +62,17 @@ var CORA = (function(cora) {
 			window.clearTimeout(hideTimeout);
 			view.parentNode.removeChild(view);
 		}
-		
+		function clearHideTimeout() {
+			window.clearTimeout(hideTimeout);
+		}
 		function hideWithEffect() {
 			console.log("hide")
 			removeChild(view);
 			view.className = view.className + " toBeRemoved";
 			view.addEventListener("transitionend", function(event) {
-				console.log("propertyName:" + event.propertyName)
-				console.log("elapsedTime:" + event.elapsedTime)
-//				if (event.propertyName === "opacity" && event.elapsedTime > 0.6) {
 				removeChild(view);
-//				}
-			}, true); 
-			
+			}, true);
+
 		}
 		function removeChild(view) {
 			// child.className = child.className + " toBeRemoved";
@@ -97,9 +91,10 @@ var CORA = (function(cora) {
 			childrenView.removeChild(child);
 		}
 		var out = Object.freeze({
-			getTimeout:getTimeout,
+			getTimeout : getTimeout,
 			getView : getView,
-			hide : hide
+			hide : hide,
+			clearHideTimeout : clearHideTimeout
 		});
 		view.modelObject = out;
 		return out;
