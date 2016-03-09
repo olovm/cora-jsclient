@@ -47,6 +47,10 @@ var CORATEST = (function(coraTest) {
 				return "Presentation av";
 			case "inputItemTextId":
 				return "input";
+			case "outputItemTextId":
+				return "output";
+			case "initialEmptyValueText":
+				return "-- Gör ett val ur listan --";
 			default:
 				console.log("Id(" + textId + ") not found in textProviderRealStub");
 //				throw new Error("Id(" + textId + ") not found in textProviderRealStub");

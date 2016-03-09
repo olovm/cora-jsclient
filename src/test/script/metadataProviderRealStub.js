@@ -2500,16 +2500,16 @@ var CORATEST = (function(coraTest) {
 								],
 								"name": "childReferences"
 							},
-							//{
-							//	"children": [
-							//		{
-							//			"name": "ref",
-							//			"value": "presentationTypePVarCollectionVar"
-							//		}
-							//	],
-							//	"name": "attributeReferences"
-							//}
-							//,
+							{
+								"children": [
+									{
+										"name": "ref",
+										"value": "presentationTypePVarCollectionVar"
+									}
+								],
+								"name": "attributeReferences"
+							}
+							,
 							{
 								"name": "refParentId",
 								"value": "presentationVarGroup"
@@ -2654,72 +2654,94 @@ var CORATEST = (function(coraTest) {
 					};
 				case "emptyTextIdTextVar":
 					return {
-						"children" : [ {
-							"children" : [ {
-								"name" : "id",
-								"value" : "emptyTextIdTextVar"
-							}, {
-								"name" : "type",
-								"value" : "metadataTextVariable"
-							}, {
-								"name" : "createdBy",
-								"value" : "userId"
-							}, {
-								"name" : "updatedBy",
-								"value" : "userId"
-							} ],
-							"name" : "recordInfo"
-						}, {
-							"name" : "nameInData",
-							"value" : "text"
-						}, {
-							"name" : "textId",
-							"value" : "emptyTextIdTextVarText"
-						}, {
-							"name" : "defTextId",
-							"value" : "emptyTextIdTextVarText"
-						}, {
-							"name" : "regEx",
-							"value" : "(.*)"
-						} ],
-						"name" : "metadata",
-						"attributes" : {
-							"type" : "textVariable"
+						"children": [
+							{
+								"children": [
+									{
+										"name": "id",
+										"value": "emptyTextIdTextVar"
+									},
+									{
+										"name": "type",
+										"value": "metadataTextVariable"
+									},
+									{
+										"name": "createdBy",
+										"value": "userId"
+									},
+									{
+										"name": "updatedBy",
+										"value": "userId"
+									}
+								],
+								"name": "recordInfo"
+							},
+							{
+								"name": "nameInData",
+								"value": "emptyTextId"
+							},
+							{
+								"name": "textId",
+								"value": "emptyTextIdTextVarText"
+							},
+							{
+								"name": "defTextId",
+								"value": "emptyTextIdTextVarDefText"
+							},
+							{
+								"name": "regEx",
+								"value": "(.*Text$)"
+							}
+						],
+						"name": "metadata",
+						"attributes": {
+							"type": "textVariable"
 						}
 					};
 				case "presentationOfTextVar":
 					return {
-						"children" : [ {
-							"children" : [ {
-								"name" : "id",
-								"value" : "presentationOfTextVar"
-							}, {
-								"name" : "type",
-								"value" : "metadataTextVariable"
-							}, {
-								"name" : "createdBy",
-								"value" : "userId"
-							}, {
-								"name" : "updatedBy",
-								"value" : "userId"
-							} ],
-							"name" : "recordInfo"
-						}, {
-							"name" : "nameInData",
-							"value" : "text"
-						}, {
-							"name" : "textId",
-							"value" : "presentationOfTextVarText"
-						}, {
-							"name" : "defTextId",
-							"value" : "presentationOfTextVarText"
-						}, {
-							"name" : "regEx",
-							"value" : "(.*)"
-						} ],
-						"name" : "metadata",
-						"attributes" : {
-							"type" : "textVariable"
+						"children": [
+							{
+								"children": [
+									{
+										"name": "id",
+										"value": "presentationOfTextVar"
+									},
+									{
+										"name": "type",
+										"value": "metadataTextVariable"
+									},
+									{
+										"name": "createdBy",
+										"value": "userId"
+									},
+									{
+										"name": "updatedBy",
+										"value": "userId"
+									}
+								],
+								"name": "recordInfo"
+							},
+							{
+								"name": "nameInData",
+								"value": "presentationOf"
+							},
+							{
+								"name": "textId",
+								"value": "presentationOfTextVarText"
+							},
+							{
+								"name": "defTextId",
+								"value": "presentationOfTextVarDefText"
+							},
+							{
+								"name": "regEx",
+								"value": "(.*)"
+							}
+						],
+						"name": "metadata",
+						"attributes": {
+							"type": "textVariable"
 						}
 					};
 				case "modeCollectionVar":
@@ -2905,6 +2927,291 @@ var CORATEST = (function(coraTest) {
 						"name": "metadata",
 						"attributes": {
 							"type": "collectionItem"
+						}
+					};
+				case "presentationTypePVarCollectionVar":
+					return {
+						"children": [
+							{
+								"children": [
+									{
+										"name": "id",
+										"value": "presentationTypePVarCollectionVar"
+									},
+									{
+										"name": "type",
+										"value": "metadataCollectionVariable"
+									},
+									{
+										"name": "createdBy",
+										"value": "userId"
+									},
+									{
+										"name": "updatedBy",
+										"value": "userId"
+									}
+								],
+								"name": "recordInfo"
+							},
+							{
+								"name": "nameInData",
+								"value": "type"
+							},
+							{
+								"name": "textId",
+								"value": "presentationTypePVarCollectionVarTextId"
+							},
+							{
+								"name": "defTextId",
+								"value": "presentationTypePVarCollectionVarDefTextId"
+							},
+							{
+								"name": "refCollectionId",
+								"value": "presentationTypeCollection"
+							},
+							{
+								"name": "refParentId",
+								"value": "presentationTypeCollectionVar"
+							},
+							{
+								"name": "finalValue",
+								"value": "pVar"
+							}
+						],
+						"name": "metadata",
+						"attributes": {
+							"type": "collectionVariable"
+						}
+					};
+				case "presentationTypeCollection":
+					return {
+						"children": [
+							{
+								"children": [
+									{
+										"name": "id",
+										"value": "presentationTypeCollection"
+									},
+									{
+										"name": "type",
+										"value": "metadataItemCollection"
+									},
+									{
+										"name": "createdBy",
+										"value": "userId"
+									},
+									{
+										"name": "updatedBy",
+										"value": "userId"
+									}
+								],
+								"name": "recordInfo"
+							},
+							{
+								"name": "nameInData",
+								"value": "presentationTypeCollection"
+							},
+							{
+								"name": "textId",
+								"value": "presentationTypeCollectionTextId"
+							},
+							{
+								"name": "defTextId",
+								"value": "presentationTypeCollectionDefTextId"
+							},
+							{
+								"children": [
+									{
+										"name": "ref",
+										"value": "pGroupItem"
+									},
+									{
+										"name": "ref",
+										"value": "pVarItem"
+									},
+									{
+										"name": "ref",
+										"value": "containerItem"
+									}
+								],
+								"name": "collectionItemReferences"
+							}
+						],
+						"name": "metadata",
+						"attributes": {
+							"type": "itemCollection"
+						}
+					};
+				case "containerItem":
+					return {
+						"children": [
+							{
+								"children": [
+									{
+										"name": "id",
+										"value": "containerItem"
+									},
+									{
+										"name": "type",
+										"value": "metadataCollectionItem"
+									},
+									{
+										"name": "createdBy",
+										"value": "userId"
+									},
+									{
+										"name": "updatedBy",
+										"value": "userId"
+									}
+								],
+								"name": "recordInfo"
+							},
+							{
+								"name": "nameInData",
+								"value": "container"
+							},
+							{
+								"name": "textId",
+								"value": "containerItemTextId"
+							},
+							{
+								"name": "defTextId",
+								"value": "containerItemDefTextId"
+							}
+						],
+						"name": "metadata",
+						"attributes": {
+							"type": "collectionItem"
+						}
+					};
+				case "pGroupItem":
+					return {
+						"children": [
+							{
+								"children": [
+									{
+										"name": "id",
+										"value": "pGroupItem"
+									},
+									{
+										"name": "type",
+										"value": "metadataCollectionItem"
+									},
+									{
+										"name": "createdBy",
+										"value": "userId"
+									},
+									{
+										"name": "updatedBy",
+										"value": "userId"
+									}
+								],
+								"name": "recordInfo"
+							},
+							{
+								"name": "nameInData",
+								"value": "pGroup"
+							},
+							{
+								"name": "textId",
+								"value": "pGroupItemTextId"
+							},
+							{
+								"name": "defTextId",
+								"value": "pGroupItemDefTextId"
+							}
+						],
+						"name": "metadata",
+						"attributes": {
+							"type": "collectionItem"
+						}
+					};
+				case "pVarItem":
+					return {
+						"children": [
+							{
+								"children": [
+									{
+										"name": "id",
+										"value": "pVarItem"
+									},
+									{
+										"name": "type",
+										"value": "metadataCollectionItem"
+									},
+									{
+										"name": "createdBy",
+										"value": "userId"
+									},
+									{
+										"name": "updatedBy",
+										"value": "userId"
+									}
+								],
+								"name": "recordInfo"
+							},
+							{
+								"name": "nameInData",
+								"value": "pVar"
+							},
+							{
+								"name": "textId",
+								"value": "pVarItemTextId"
+							},
+							{
+								"name": "defTextId",
+								"value": "pVarItemDefTextId"
+							}
+						],
+						"name": "metadata",
+						"attributes": {
+							"type": "collectionItem"
+						}
+					};
+				case "presentationTypeCollectionVar":
+					return {
+						"children": [
+							{
+								"children": [
+									{
+										"name": "id",
+										"value": "presentationTypeCollectionVar"
+									},
+									{
+										"name": "type",
+										"value": "metadataCollectionVariable"
+									},
+									{
+										"name": "createdBy",
+										"value": "userId"
+									},
+									{
+										"name": "updatedBy",
+										"value": "userId"
+									}
+								],
+								"name": "recordInfo"
+							},
+							{
+								"name": "nameInData",
+								"value": "type"
+							},
+							{
+								"name": "textId",
+								"value": "presentationTypeCollectionVarTextId"
+							},
+							{
+								"name": "defTextId",
+								"value": "presentationTypeCollectionVarDefTextId"
+							},
+							{
+								"name": "refCollectionId",
+								"value": "presentationTypeCollection"
+							}
+						],
+						"name": "metadata",
+						"attributes": {
+							"type": "collectionVariable"
 						}
 					};
 				case "":
@@ -3267,7 +3574,7 @@ var CORATEST = (function(coraTest) {
 								"repeatId" : "1",
 								"children" : [ {
 									"name" : "ref",
-									"value" : "idTextTextPVar"
+									"value" : "idPVarPVar"
 								}, {
 									"name" : "default",
 									"value" : "ref"
@@ -3303,7 +3610,7 @@ var CORATEST = (function(coraTest) {
 								"repeatId" : "1",
 								"children" : [ {
 									"name" : "ref",
-									"value" : "idTextTextPVar"
+									"value" : "idPVarPVar"
 								}, {
 									"name" : "default",
 									"value" : "ref"
@@ -3681,7 +3988,7 @@ var CORATEST = (function(coraTest) {
 							} ]
 						} ])
 					};
-				case "idTextTextPVar":
+				case "idPVarPVar":
 					return {
 						"name" : "presentation",
 						"attributes" : {
@@ -3691,11 +3998,11 @@ var CORATEST = (function(coraTest) {
 							"name" : "recordInfo",
 							"children" : [ {
 								"name" : "id",
-								"value" : "idTextTextPVar"
+								"value" : "idPVarPVar"
 							} ]
 						}, {
 							"name" : "presentationOf",
-							"value" : "idTextTextVar"
+							"value" : "idPVarTextVar"
 						}, {
 							"name" : "mode",
 							"value" : "input"
@@ -4344,7 +4651,7 @@ var CORATEST = (function(coraTest) {
 						}, {
 							"name" : "mode",
 							"value" : "input"
-						} ]
+						}]
 					};
 				case "modeCollectionVarPVar":
 					return {
@@ -4364,7 +4671,10 @@ var CORATEST = (function(coraTest) {
 						}, {
 							"name" : "mode",
 							"value" : "input"
-						} ]
+						}, {
+							"name" : "emptyTextId",
+							"value" : "initialEmptyValueText"
+						}  ]
 					};
 				case "presentationOfTextVarText":
 					return {
