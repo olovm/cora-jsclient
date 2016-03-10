@@ -929,7 +929,7 @@ QUnit
 QUnit
 		.test(
 				"testInitTextVarRepeat1to3InGroupOneAttribute"
-						+ "Repeat0to2InGroupRepeat1to3InGroupWithData2",
+						+ "Repeat0to2InGroupRepeat1to3InGroupWithData3",
 				function(assert) {
 					var data = {
 						"name" : "textVarRepeat1to3InGroupOne"
@@ -1098,7 +1098,7 @@ QUnit
 				});
 
 QUnit.test("testInitTextVarRepeat1to3InGroupOneAttribute"
-		+ "Repeat0to2InGroupRepeat1to3InGroupWithData3", function(assert) {
+		+ "Repeat0to2InGroupRepeat1to3InGroupWithData4", function(assert) {
 	var data = {
 		"name" : "textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup",
 		"children" : []
