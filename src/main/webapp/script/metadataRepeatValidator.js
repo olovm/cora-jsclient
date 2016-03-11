@@ -185,9 +185,14 @@ var CORA = (function(cora) {
 				if (!childResult.booleanResult) {
 					result.booleanResult = false;
 				}
-				if(childResult.containsValuableData){
+				if (childResult.containsValuableData) {
 					result.containsValuableData = true;
 				}
+				result.validationMessage = {
+					"metadataId" : metadataId,
+					"path" : path
+				}
+				result.sendValidationMessages= false;
 			});
 		}
 
@@ -201,7 +206,8 @@ var CORA = (function(cora) {
 				result = {
 					"booleanResult" : false,
 					"containsValuableData" : false,
-					"validationMessage" : message
+					"validationMessage" : message,
+					"sendValidationMessages":true
 				};
 			}
 		}

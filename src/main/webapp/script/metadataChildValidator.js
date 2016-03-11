@@ -21,7 +21,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.metadataChildValidator = function(childReferenceIn, path, dataIn, metadataProvider, pubSub) {
-//		var result = true;
+		// var result = true;
 		var result = {
 			"booleanResult" : true,
 			"containsValuableData" : false
@@ -105,17 +105,19 @@ var CORA = (function(cora) {
 		}
 
 		function validateChild() {
-//			if (childCanRepeat()) {
-				validateRepeatingChild();
-//			} else {
-//				validateNonRepeatingChild();
-//			}
+			// if (childCanRepeat()) {
+			validateRepeatingChild();
+			// } else {
+			// validateNonRepeatingChild();
+			// }
 		}
 
 		function validateRepeatingChild() {
 			var generatedRepeatId = calculateStartRepeatId();
 			var noOfChildrenToValidate = calculateMinRepeat();
 			var childValidationResults = [];
+			var childrenCanNotBeRemoved = [];
+			var childrenCanBeRemoved = [];
 			var numberOfChildrenOk = 0;
 			for (var index = 0; index < noOfChildrenToValidate; index++) {
 				var childValidationResult = validateRepeatingChildInstanceWithData(index);
@@ -124,51 +126,102 @@ var CORA = (function(cora) {
 				if (childValidationResult.booleanResult) {
 					numberOfChildrenOk++;
 				} else {
-					if(undefined !==childValidationResult.validationMessage){
-						childValidationResults.push(childValidationResult.validationMessage);
-					}else{
-						
-						result.booleanResult = false;
+					// data saknas, någonstans under
+					if (childValidationResult.containsValuableData) {
+						childrenCanNotBeRemoved.push(childValidationResult);
+						 result.booleanResult = false;
+					} else {
+						childrenCanBeRemoved.push(childValidationResult);
 					}
+					// if(undefined !==childValidationResult.validationMessage){
+					// //have validation message (empty data)
+					// childValidationResults.push(childValidationResult.validationMessage);
+					// }else{
+					//						
+					// result.booleanResult = false;
+					// }
 				}
 			}
-			console.log("numberOfChildrenOk:"+numberOfChildrenOk)
-			console.log("nameInData:"+nameInData)
-			if (childValidationResults.length > 0) {
-				if (atLeastRepeatMin(numberOfChildrenOk)) {
-					console.log("atLeastRepeatMin: true")
-					removeEmptyChildren(childValidationResults);
-				} else {
-					console.log("atLeastRepeatMin: false")
-					sendValidationErrorToEmptyChildren(childValidationResults);
-//					result = false;
-					result.booleanResult = false;
+			console.log("numberOfChildrenOk:" + numberOfChildrenOk)
+			console.log("nameInData:" + nameInData)
+			// if (childValidationResults.length > 0) {
+//			if (childrenCanBeRemoved.length > 0) {
+				var childrenNotRemovable = numberOfChildrenOk + childrenCanNotBeRemoved.length;
+				var noChildrenNeededForRepeatMin = calculateNeededNoChildrenForRepeatMin(childrenNotRemovable);
+				
+				console.log("childrenCanBeRemoved:"+JSON.stringify(childrenCanBeRemoved))
+				sendRemoveForEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin);
+				console.log("childrenCanBeRemoved2:"+JSON.stringify(childrenCanBeRemoved))
+				if(childrenCanBeRemoved.length>0){
+					
+					 result.booleanResult = false;
 				}
-			}
+				sendValidationErrorToEmptyChildren(childrenCanNotBeRemoved);
+				
+				//children that can be removed and are left
+				sendValidationErrorToEmptyChildren(childrenCanBeRemoved);
+
+				//TODO: figure out boolean result.....
+				
+//				if (atLeastRepeatMin(childrenNotRemovable)) {
+//					console.log("atLeastRepeatMin: true")
+//					// removeEmptyChildren(childValidationResults);
+//					removeEmptyChildren(childrenCanBeRemoved);
+//				} else {
+//					console.log("atLeastRepeatMin: false")
+//					sendValidationErrorToEmptyChildren(childValidationResults);
+//					// result = false;
+//					result.booleanResult = false;
+//				}
+//			}
+		}
+		function calculateNeededNoChildrenForRepeatMin(childrenNotRemovable) {
+			var repeatMin = Number(childReference.getFirstAtomicValueByNameInData("repeatMin"));
+			return repeatMin - childrenNotRemovable;
 		}
 		function atLeastRepeatMin(numberOfChildrenOk) {
 			var repeatMin = Number(childReference.getFirstAtomicValueByNameInData("repeatMin"));
 			return numberOfChildrenOk >= repeatMin;
 		}
 
-		function removeEmptyChildren(childValidationResults) {
-			childValidationResults.forEach(function(errorMessage) {
-				removeEmptyChild(errorMessage);
-			});
+		function sendRemoveForEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin) {
+			console.log("here")
+			if(noChildrenNeededForRepeatMin<1){
+				console.log("here2")
+				//no need to keep any children to reach minREpeat
+				childrenCanBeRemoved.forEach(function(errorMessage) {
+					sendRemoveForEmptyChild(errorMessage);
+					console.log("here3")
+					childrenCanBeRemoved.shift();
+					
+				});
+//				childrenCanBeRemoved = [];
+			}else{
+				console.log("here4")
+				//remove "extra" children (total -noChildrenNeededForRepeatMin)
+				//for...
+				var noToRemove = childrenCanBeRemoved.length - noChildrenNeededForRepeatMin;
+				for(var i = 0; i < noToRemove; i++){
+					console.log("here5")
+					sendRemoveForEmptyChild(childrenCanBeRemoved.pop());
+				}
+			}
 		}
 
-		function removeEmptyChild(errorMessage) {
-			console.log(errorMessage)
+		function sendRemoveForEmptyChild(errorMessage) {
+			console.log(errorMessage.validationMessage)
 			var removeMessage = {
 				"type" : "remove",
-				"path" : errorMessage.path
+				"path" : errorMessage.validationMessage.path
 			};
 			pubSub.publish("remove", removeMessage);
 		}
 
 		function sendValidationErrorToEmptyChildren(childValidationResults) {
 			childValidationResults.forEach(function(errorMessage) {
-				sendValidationErrorToEmptyChild(errorMessage);
+				if(errorMessage.sendValidationMessages){
+					sendValidationErrorToEmptyChild(errorMessage.validationMessage);
+				}
 			});
 		}
 
@@ -233,7 +286,7 @@ var CORA = (function(cora) {
 			console.log("childResult:")
 			console.log(childResult)
 			if (!childResult.booleanResult) {
-//				result = false;
+				// result = false;
 				result.booleanResult = false;
 				console.log("here")
 				pubSub.publish("validationError", childResult.validationMessage);
