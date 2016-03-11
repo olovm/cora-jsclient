@@ -142,16 +142,16 @@ var CORA = (function(cora) {
 					// }
 				}
 			}
-			console.log("numberOfChildrenOk:" + numberOfChildrenOk)
-			console.log("nameInData:" + nameInData)
+//			console.log("numberOfChildrenOk:" + numberOfChildrenOk)
+//			console.log("nameInData:" + nameInData)
 			// if (childValidationResults.length > 0) {
 //			if (childrenCanBeRemoved.length > 0) {
 				var childrenNotRemovable = numberOfChildrenOk + childrenCanNotBeRemoved.length;
 				var noChildrenNeededForRepeatMin = calculateNeededNoChildrenForRepeatMin(childrenNotRemovable);
 				
-				console.log("childrenCanBeRemoved:"+JSON.stringify(childrenCanBeRemoved))
+//				console.log("childrenCanBeRemoved:"+JSON.stringify(childrenCanBeRemoved))
 				sendRemoveForEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin);
-				console.log("childrenCanBeRemoved2:"+JSON.stringify(childrenCanBeRemoved))
+//				console.log("childrenCanBeRemoved2:"+JSON.stringify(childrenCanBeRemoved))
 				if(childrenCanBeRemoved.length>0){
 					
 					 result.booleanResult = false;
@@ -185,31 +185,25 @@ var CORA = (function(cora) {
 		}
 
 		function sendRemoveForEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin) {
-			console.log("here")
 			if(noChildrenNeededForRepeatMin<1){
-				console.log("here2")
 				//no need to keep any children to reach minREpeat
 				childrenCanBeRemoved.forEach(function(errorMessage) {
 					sendRemoveForEmptyChild(errorMessage);
-					console.log("here3")
 					childrenCanBeRemoved.shift();
 					
 				});
 //				childrenCanBeRemoved = [];
 			}else{
-				console.log("here4")
 				//remove "extra" children (total -noChildrenNeededForRepeatMin)
 				//for...
 				var noToRemove = childrenCanBeRemoved.length - noChildrenNeededForRepeatMin;
 				for(var i = 0; i < noToRemove; i++){
-					console.log("here5")
 					sendRemoveForEmptyChild(childrenCanBeRemoved.pop());
 				}
 			}
 		}
 
 		function sendRemoveForEmptyChild(errorMessage) {
-			console.log(errorMessage.validationMessage)
 			var removeMessage = {
 				"type" : "remove",
 				"path" : errorMessage.validationMessage.path
@@ -283,12 +277,9 @@ var CORA = (function(cora) {
 
 		function validateNonRepeatingChild() {
 			var childResult = validateNonRepeatingChildInstanceWithData();
-			console.log("childResult:")
-			console.log(childResult)
 			if (!childResult.booleanResult) {
 				// result = false;
 				result.booleanResult = false;
-				console.log("here")
 				pubSub.publish("validationError", childResult.validationMessage);
 			}
 		}

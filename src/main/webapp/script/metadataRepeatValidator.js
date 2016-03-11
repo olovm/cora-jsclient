@@ -190,7 +190,8 @@ var CORA = (function(cora) {
 				}
 				result.validationMessage = {
 					"metadataId" : metadataId,
-					"path" : path
+//					"path" : path
+					"path" : nextLevelPath
 				}
 				result.sendValidationMessages= false;
 			});
