@@ -37,35 +37,8 @@ var CORA = (function(cora) {
 			validateForMetadata();
 		}
 
-		function createAndPublishAddMessage() {
-			var addMessage = {
-				"metadataId" : metadataId,
-				"path" : path,
-				"repeatId" : repeatId,
-				"nameInData" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData")
-			};
-			if (hasAttributes()) {
-				addMessage.attributes = collectAttributes();
-			}
-			pubSub.publish("add", addMessage);
-		}
 		function hasAttributes() {
 			return cMetadataElement.containsChildWithNameInData("attributeReferences");
-		}
-		function collectAttributes() {
-			var collectedAttributes = {};
-			var attributeReferences = cMetadataElement
-					.getFirstChildByNameInData("attributeReferences");
-			attributeReferences.children.forEach(function(attributeReference) {
-				var cCollectionVariable = getMetadataById(attributeReference.value);
-				var attributeNameInData = cCollectionVariable
-						.getFirstAtomicValueByNameInData("nameInData");
-				var attributeValues = [];
-				collectedAttributes[attributeNameInData] = attributeValues;
-				attributeValues.push(cCollectionVariable
-						.getFirstAtomicValueByNameInData("finalValue"));
-			});
-			return collectedAttributes;
 		}
 
 		function validateForMetadata() {
@@ -210,6 +183,8 @@ var CORA = (function(cora) {
 					"validationMessage" : message,
 					"sendValidationMessages":true
 				};
+			}else{
+				result.containsValuableData = true;
 			}
 		}
 

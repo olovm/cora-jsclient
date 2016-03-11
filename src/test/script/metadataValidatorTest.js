@@ -118,7 +118,7 @@ QUnit.test("testValidateGroupIdTwoTextChildWithData", function(assert) {
 
 QUnit.test("testValidateGroupIdTwoTextChildWithEmptyValue", function(assert) {
 	var data = {
-		"name" : "groupIdOneTextChild",
+		"name" : "groupIdTwoTextChild",
 		"children" : [ {
 			"name" : "textVariableId",
 			"value" : ""
@@ -138,6 +138,68 @@ QUnit.test("testValidateGroupIdTwoTextChildWithEmptyValue", function(assert) {
 	assert.deepEqual(JSON.stringify(messages[1]), '{"type":"validationError","message":{'
 			+ '"metadataId":"textVariableId2",' + '"path":{\"name\":\"linkedPath\"'
 			+ ',\"children\":[{\"name\":\"nameInData\",\"value\":\"textVariableId2\"}]}}}');
+});
+
+QUnit.test("testValidategroupIdTwoTextChild1to1InGroupWithData", function(assert) {
+	var data = {
+		"name" : "groupIdTwoTextChild1to1InGroup",
+		"children" : [ {
+			"name" : "groupIdTwoTextChild",
+			"children" : [ {
+				"name" : "textVariableId",
+				"value" : "A Value"
+			}, {
+				"name" : "textVariableId2",
+				"value" : "AValue2"
+			} ]
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdTwoTextChild1to1InGroup", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
+
+QUnit.test("testValidategroupIdTwoTextChild1to1InGroupWithEmptyValue", function(assert) {
+	var data = {
+		"name" : "groupIdTwoTextChild1to1InGroup",
+		"children" : [ {
+			"name" : "groupIdTwoTextChild",
+			"children" : [ {
+				"name" : "textVariableId",
+				"value" : ""
+			}, {
+				"name" : "textVariableId2",
+				"value" : "AValue2"
+			} ]
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdTwoTextChild1to1InGroup", data);
+	assert.notOk(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+	var validationError = {
+		"type" : "validationError",
+		"message" : {
+			"metadataId" : "textVariableId",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "groupIdTwoTextChild"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "textVariableId"
+					} ]
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[0], validationError);
 });
 
 QUnit.test("testValidateOneChildRepeat0to1WithData", function(assert) {
@@ -171,6 +233,78 @@ QUnit.test("testValidateOneChildRepeat0to1WithEmptyValue", function(assert) {
 	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"remove","message":{'
 			+ '"type":"remove",' + '"path":{\"name\":\"linkedPath\"'
 			+ ',\"children\":[{\"name\":\"nameInData\",\"value\":\"textVariableId\"}]}}}');
+});
+
+// textVarRepeat1to3InGroup
+QUnit.test("testValidateTextVariableRepeat1to3InGroupWithData", function(assert) {
+	var data = {
+		"name" : "textVariableIdRepeat1to3InGroup",
+		"children" : [ {
+			"name" : "textVariableId",
+			"value" : "A Value",
+			"repeatId" : "one"
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("textVariableIdRepeat1to3InGroup", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
+
+QUnit.test("testValidateTextVariableRepeat1to3InGroupEmptyValue", function(assert) {
+	var data = {
+		"name" : "textVariableIdRepeat1to3InGroup",
+		"children" : [ {
+			"name" : "textVariableId",
+			"value" : "",
+			"repeatId" : "one"
+		}, {
+			"name" : "textVariableId",
+			"value" : "",
+			"repeatId" : "two"
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("textVariableIdRepeat1to3InGroup", data);
+	assert.notOk(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 2);
+
+	var validationError = {
+		"type" : "remove",
+		"message" : {
+			"type" : "remove",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVariableId"
+				}, {
+					"name" : "repeatId",
+					"value" : "two"
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[0], validationError);
+	var validationError2 = {
+		"type" : "validationError",
+		"message" : {
+			"metadataId" : "textVariableId",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVariableId"
+				}, {
+					"name" : "repeatId",
+					"value" : "one"
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[1], validationError2);
 });
 
 QUnit.test("testValidateOneChildRepeat3to3WithData", function(assert) {
@@ -302,7 +436,7 @@ QUnit.test("testValidateOneChildRepeat1toXWithTwoWithDataForOne", function(asser
 			+ ',{\"name\":\"repeatId\",\"value\":\"one\"}]}}}');
 });
 
-QUnit.test("testInitOneChildOneAttributeWithDataForOne", function(assert) {
+QUnit.test("testValidateOneChildOneAttributeWithDataForOne", function(assert) {
 	var data = {
 		"name" : "groupIdOneTextChildOneAttribute",
 		"children" : [ {
@@ -320,7 +454,7 @@ QUnit.test("testInitOneChildOneAttributeWithDataForOne", function(assert) {
 	assert.strictEqual(messages.length, 0);
 });
 
-QUnit.test("testInitTextVarRepeat1to1InGroupOneAttributeInGroupWithData", function(assert) {
+QUnit.test("testValidateTextVarRepeat1to1InGroupOneAttributeInGroupWithData", function(assert) {
 	var data = {
 		"name" : "groupInGroupOneTextChildOneAttribute",
 		"children" : [ {
@@ -1066,143 +1200,143 @@ QUnit.test("testInitTextVarRepeat1to3InGroup"
 	assert.stringifyEqual(messages[3], validationError4);
 });
 
-// QUnit.test("testInitTextVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat1to1InGroup",
-// function(assert) {
-// this.metadataValidatorFactory.factor(
-// "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat1to1InGroup",
-// undefined);
-// var messages = this.pubSub.getMessages();
-//
-// assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
-// + '"metadataId":"textVarRepeat1to3InGroupOneAttribute"' +
-// ',"path":{},"nameInData":"textVarRepeat1to3InGroupOneAttribute","attributes":{"anAttribute":["aFinalValue"]}}}');
-//
-// var path =
-// createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
-// var attributes = createAttributes();
-// attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
-// "aFinalValue", "1"));
-// path.children.push(attributes);
-//
-// assert
-// .deepEqual(JSON.stringify(messages[1]), '{"type":"add","message":{'
-// + '"metadataId":"textVar","path":' + JSON.stringify(path)
-// + ',"repeatId":"0","nameInData":"textVar"}}');
-//
-// assert.deepEqual(JSON.stringify(messages[2]), '{"type":"add","message":{'
-// + '"metadataId":"textVarRepeat1to3InGroupOtherAttribute"' +
-// ',"path":{},"nameInData":"textVarRepeat1to3InGroupOneAttribute","attributes":{"anOtherAttribute":["aOtherFinalValue"]}}}');
-//
-// var path3 =
-// createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
-// var attributes3 = createAttributes();
-// attributes3.children.push(createAttributeWithNameAndValueAndRepeatId(
-// "anOtherAttribute", "aOtherFinalValue", "1"));
-// path3.children.push(attributes3);
-// assert.deepEqual(JSON.stringify(messages[3]), '{"type":"add","message":{'
-// + '"metadataId":"textVar","path":' + JSON.stringify(path3)
-// + ',"repeatId":"0","nameInData":"textVar"}}');
-//
-// assert.equal(messages.length, 4);
-// });
-//
-// QUnit.test("testInitTextVarRepeat1to3InGroup"
-// + "OneAttributeAndOtherAttributeRepeat1to1InGroupWithData", function(assert)
-// {
-//
-// var data = {
-// "name" :
-// "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
-// "children" : [ {
-// "name" : "textVarRepeat1to3InGroupOneAttribute",
-// "children" : [ {
-// "name" : "textVar",
-// "value" : "A Value3",
-// "repeatId" : "one2"
-// } ],
-// "attributes" : {
-// "anAttribute" : "aFinalValue"
-// }
-// }, {
-// "name" : "textVarRepeat1to3InGroupOneAttribute",
-// "children" : [ {
-// "name" : "textVar",
-// "value" : "A Value33",
-// "repeatId" : "one22"
-// } ],
-// "attributes" : {
-// "anOtherAttribute" : "aOtherFinalValue"
-// }
-// } ]
-// };
-// this.metadataValidatorFactory.factor(
-// "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat1to1InGroup",
-// data);
-// var messages = this.pubSub.getMessages();
-//
-// assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
-// + '"metadataId":"textVarRepeat1to3InGroupOneAttribute"' +
-// ',"path":{},"nameInData":"textVarRepeat1to3InGroupOneAttribute","attributes":{"anAttribute":["aFinalValue"]}}}');
-//
-// var path =
-// createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
-// var attributes = createAttributes();
-// attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
-// "aFinalValue", "1"));
-// path.children.push(attributes);
-//
-// assert.deepEqual(JSON.stringify(messages[1]), '{"type":"add","message":{'
-// + '"metadataId":"textVar","path":' + JSON.stringify(path) +
-// ',"repeatId":"one2","nameInData":"textVar"}}');
-//
-// var path2 =
-// createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
-// var attributes2 = createAttributes();
-// attributes2.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
-// "aFinalValue", "1"));
-// path2.children.push(attributes2);
-//
-// var path22 = createLinkedPathWithNameInData("textVar");
-// path2.children.push(path22);
-// path22.children.push({
-// "name" : "repeatId",
-// "value" : "one2"
-// });
-// assert.deepEqual(JSON.stringify(messages[2]),
-// '{"type":"setValue","message":{"data":"A Value3"'
-// + ',"path":' + JSON.stringify(path2) + '}}');
-//
-// assert.deepEqual(JSON.stringify(messages[3]), '{"type":"add","message":{'
-// + '"metadataId":"textVarRepeat1to3InGroupOtherAttribute"' +
-// ',"path":{},"nameInData":"textVarRepeat1to3InGroupOneAttribute","attributes":{"anOtherAttribute":["aOtherFinalValue"]}}}');
-//
-// var path3 =
-// createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
-// var attributes3 = createAttributes();
-// attributes3.children.push(createAttributeWithNameAndValueAndRepeatId("anOtherAttribute",
-// "aOtherFinalValue", "1"));
-// path3.children.push(attributes3);
-//
-// assert.deepEqual(JSON.stringify(messages[4]), '{"type":"add","message":{'
-// + '"metadataId":"textVar","path":' + JSON.stringify(path3) +
-// ',"repeatId":"one22","nameInData":"textVar"}}');
-//
-// var path32 =
-// createLinkedPathWithNameInData("textVarRepeat1to3InGroupOneAttribute");
-// var attributes32 = createAttributes();
-// attributes32.children.push(createAttributeWithNameAndValueAndRepeatId("anOtherAttribute",
-// "aOtherFinalValue", "1"));
-// path32.children.push(attributes32);
-//
-// var path322 = createLinkedPathWithNameInData("textVar");
-// path32.children.push(path322);
-// path322.children.push({
-// "name" : "repeatId",
-// "value" : "one22"
-// });
-// assert.deepEqual(JSON.stringify(messages[5]),
-// '{"type":"setValue","message":{"data":"A Value33"' + ',"path":'
-// + JSON.stringify(path32) + '}}');
-//
-// assert.equal(messages.length, 6);
-// });
+QUnit.test("testInitTextVarRepeat1to3InGroup"
+		+ "OneAttributeAndOtherAttributeRepeat1to1InGroupWithData", function(assert) {
+
+	var data = {
+		"name" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
+		"children" : [ {
+			"name" : "textVarRepeat1to3InGroupOneAttribute",
+			"children" : [ {
+				"name" : "textVar",
+				"value" : "AValue3",
+				"repeatId" : "one2"
+			} ],
+			"attributes" : {
+				"anAttribute" : "aFinalValue"
+			}
+		}, {
+			"name" : "textVarRepeat1to3InGroupOneAttribute",
+			"children" : [ {
+				"name" : "textVar",
+				"value" : "AValue33",
+				"repeatId" : "one22"
+			} ],
+			"attributes" : {
+				"anOtherAttribute" : "aOtherFinalValue"
+			}
+		} ]
+	};
+	var factored = this.metadataValidatorFactory.factor(
+			"textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat1to1InGroup", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
+
+QUnit.test("testInitTextVarRepeat1to3InGroup"
+		+ "OneAttributeAndOtherAttributeRepeat1to1InGroupEmptyValue", function(assert) {
+
+	var data = {
+		"name" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat1to1InGroup",
+		"children" : [ {
+			"name" : "textVarRepeat1to3InGroupOneAttribute",
+			"children" : [ {
+				"name" : "textVar",
+				"value" : "",
+				"repeatId" : "one2"
+			} ],
+			"attributes" : {
+				"anAttribute" : "aFinalValue"
+			}
+		}, {
+			"name" : "textVarRepeat1to3InGroupOneAttribute",
+			"children" : [ {
+				"name" : "textVar",
+				"value" : "",
+				"repeatId" : "one22"
+			} ],
+			"attributes" : {
+				"anOtherAttribute" : "aOtherFinalValue"
+			}
+		} ]
+	};
+	var factored = this.metadataValidatorFactory.factor(
+			"textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat1to1InGroup", data);
+	assert.notOk(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 2);
+	var validationError = {
+		"type" : "validationError",
+		"message" : {
+			"metadataId" : "textVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVarRepeat1to3InGroupOneAttribute"
+				}, {
+					"name" : "attributes",
+					"children" : [ {
+						"name" : "attribute",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "attributeName",
+							"value" : "anAttribute"
+						}, {
+							"name" : "attributeValue",
+							"value" : "aFinalValue"
+						} ]
+					} ]
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "textVar"
+					}, {
+						"name" : "repeatId",
+						"value" : "one2"
+					} ]
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[0], validationError);
+
+	var validationError2 = {
+		"type" : "validationError",
+		"message" : {
+			"metadataId" : "textVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVarRepeat1to3InGroupOneAttribute"
+				}, {
+					"name" : "attributes",
+					"children" : [ {
+						"name" : "attribute",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "attributeName",
+							"value" : "anOtherAttribute"
+						}, {
+							"name" : "attributeValue",
+							"value" : "aOtherFinalValue"
+						} ]
+					} ]
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "textVar"
+					}, {
+						"name" : "repeatId",
+						"value" : "one22"
+					} ]
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[1], validationError2);
+});
