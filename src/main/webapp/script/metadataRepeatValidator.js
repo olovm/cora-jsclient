@@ -22,7 +22,7 @@ var CORA = (function(cora) {
 	cora.metadataRepeatValidator = function(metadataId, path, data, repeatId, metadataProvider,
 			pubSub) {
 		var result = {
-			"booleanResult" : true,
+			"everythingOkBelow" : true,
 			"containsValuableData" : false
 		};
 		var cMetadataElement = getMetadataById(metadataId);
@@ -33,7 +33,6 @@ var CORA = (function(cora) {
 		}
 
 		function validateRepeat() {
-			// createAndPublishAddMessage();
 			validateForMetadata();
 		}
 
@@ -155,15 +154,14 @@ var CORA = (function(cora) {
 			nextLevelChildReferences.children.forEach(function(childReference) {
 				var childResult = CORA.metadataChildValidator(childReference, nextLevelPath, data,
 						metadataProvider, pubSub);
-				if (!childResult.booleanResult) {
-					result.booleanResult = false;
+				if (!childResult.everythingOkBelow) {
+					result.everythingOkBelow = false;
 				}
 				if (childResult.containsValuableData) {
 					result.containsValuableData = true;
 				}
 				result.validationMessage = {
 					"metadataId" : metadataId,
-//					"path" : path
 					"path" : nextLevelPath
 				}
 				result.sendValidationMessages= false;
@@ -176,9 +174,8 @@ var CORA = (function(cora) {
 					"metadataId" : metadataId,
 					"path" : nextLevelPath
 				};
-				// pubSub.publish("validationError", message);
 				result = {
-					"booleanResult" : false,
+					"everythingOkBelow" : false,
 					"containsValuableData" : false,
 					"validationMessage" : message,
 					"sendValidationMessages":true

@@ -21,9 +21,8 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.metadataChildValidator = function(childReferenceIn, path, dataIn, metadataProvider, pubSub) {
-		// var result = true;
 		var result = {
-			"booleanResult" : true,
+			"everythingOkBelow" : true,
 			"containsValuableData" : false
 		};
 		var childReference = CORA.coraData(childReferenceIn);
@@ -96,109 +95,76 @@ var CORA = (function(cora) {
 
 		function getDataChildrenForMetadata(nameInDataIn, attributesIn) {
 			var dataChildrenForMetadataOut = [];
-//			if (data.containsChildWithNameInDataAndAttributes(nameInDataIn, attributesIn)) {
-				dataChildrenForMetadataOut = data.getChildrenByNameInDataAndAttributes(
-						nameInDataIn, attributesIn);
-//			}
+			dataChildrenForMetadataOut = data.getChildrenByNameInDataAndAttributes(nameInDataIn,
+					attributesIn);
 			return dataChildrenForMetadataOut;
 		}
 
 		function validateChild() {
-			// if (childCanRepeat()) {
-			validateRepeatingChild();
-			// } else {
-			// validateNonRepeatingChild();
-			// }
-		}
-
-		function validateRepeatingChild() {
-//			var generatedRepeatId = calculateStartRepeatId();
-			var noOfChildrenToValidate = calculateMinRepeat();
-			var childValidationResults = [];
-			var childrenCanNotBeRemoved = [];
-			var childrenCanBeRemoved = [];
+			var noOfRepeatsForThisChild = calculateMinRepeat();
+			var childInstancesCanNotBeRemoved = [];
+			var childInstancesCanBeRemoved = [];
 			var numberOfChildrenOk = 0;
-			for (var index = 0; index < noOfChildrenToValidate; index++) {
-				var childValidationResult = validateRepeatingChildInstanceWithData(index);
-				if (childValidationResult.containsValuableData) {
+			for (var index = 0; index < noOfRepeatsForThisChild; index++) {
+				var childInstanceValidationResult = validateRepeatingChildInstanceWithData(index);
+				if (childInstanceValidationResult.containsValuableData) {
 					result.containsValuableData = true;
 				}
 
-				// console.log("here")
-				// if (Object.keys(childValidationResult).length > 0) {
-				if (childValidationResult.booleanResult) {
+				if (childInstanceValidationResult.everythingOkBelow) {
 					numberOfChildrenOk++;
 				} else {
 					// data saknas, någonstans under
-					if (childValidationResult.containsValuableData) {
-						childrenCanNotBeRemoved.push(childValidationResult);
-						result.booleanResult = false;
+					if (childInstanceValidationResult.containsValuableData) {
+						childInstancesCanNotBeRemoved.push(childInstanceValidationResult);
+						result.everythingOkBelow = false;
 					} else {
-						childrenCanBeRemoved.push(childValidationResult);
+						childInstancesCanBeRemoved.push(childInstanceValidationResult);
 					}
-					// if(undefined !==childValidationResult.validationMessage){
-					// //have validation message (empty data)
-					// childValidationResults.push(childValidationResult.validationMessage);
-					// }else{
-					//						
-					// result.booleanResult = false;
-					// }
 				}
 			}
-			// console.log("numberOfChildrenOk:" + numberOfChildrenOk)
-			// console.log("nameInData:" + nameInData)
-			// if (childValidationResults.length > 0) {
-			// if (childrenCanBeRemoved.length > 0) {
-			var childrenNotRemovable = numberOfChildrenOk + childrenCanNotBeRemoved.length;
+			var childrenNotRemovable = numberOfChildrenOk + childInstancesCanNotBeRemoved.length;
 			var noChildrenNeededForRepeatMin = calculateNeededNoChildrenForRepeatMin(childrenNotRemovable);
 
-			// console.log("childrenCanBeRemoved:"+JSON.stringify(childrenCanBeRemoved))
-			sendRemoveForEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin);
-			// console.log("childrenCanBeRemoved2:"+JSON.stringify(childrenCanBeRemoved))
-			if (childrenCanBeRemoved.length > 0) {
+			sendRemoveForEmptyChildren(childInstancesCanBeRemoved, noChildrenNeededForRepeatMin);
+			if (childInstancesCanBeRemoved.length > 0) {
 
-				result.booleanResult = false;
+				result.everythingOkBelow = false;
 			}
-			sendValidationErrorToEmptyChildren(childrenCanNotBeRemoved);
+			sendValidationErrorToEmptyChildren(childInstancesCanNotBeRemoved);
 
 			// children that can be removed and are left
-			sendValidationErrorToEmptyChildren(childrenCanBeRemoved);
-
-			// TODO: figure out boolean result.....
-
-			// if (atLeastRepeatMin(childrenNotRemovable)) {
-			// console.log("atLeastRepeatMin: true")
-			// // removeEmptyChildren(childValidationResults);
-			// removeEmptyChildren(childrenCanBeRemoved);
-			// } else {
-			// console.log("atLeastRepeatMin: false")
-			// sendValidationErrorToEmptyChildren(childValidationResults);
-			// // result = false;
-			// result.booleanResult = false;
-			// }
-			// }
+			sendValidationErrorToEmptyChildren(childInstancesCanBeRemoved);
 		}
+
 		function calculateNeededNoChildrenForRepeatMin(childrenNotRemovable) {
 			var repeatMin = Number(childReference.getFirstAtomicValueByNameInData("repeatMin"));
 			return repeatMin - childrenNotRemovable;
 		}
 
 		function sendRemoveForEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin) {
-			if (noChildrenNeededForRepeatMin < 1) {
-				// no need to keep any children to reach minREpeat
-				childrenCanBeRemoved.forEach(function(errorMessage) {
-					sendRemoveForEmptyChild(errorMessage);
-					childrenCanBeRemoved.shift();
-
-				});
-				// childrenCanBeRemoved = [];
+			if (allEmptyChildrenCanBeRemoved(noChildrenNeededForRepeatMin)) {
+				removeAllEmptyChildren(childrenCanBeRemoved);
 			} else {
-				// remove "extra" children (total -noChildrenNeededForRepeatMin)
-				// for...
-				var noToRemove = childrenCanBeRemoved.length - noChildrenNeededForRepeatMin;
-				for (var i = 0; i < noToRemove; i++) {
-					sendRemoveForEmptyChild(childrenCanBeRemoved.pop());
-				}
+				removeExceedingEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin);
+			}
+		}
+		
+		function allEmptyChildrenCanBeRemoved(noChildrenNeededForRepeatMin) {
+			return noChildrenNeededForRepeatMin < 1;
+		}
+		
+		function removeAllEmptyChildren(childrenCanBeRemoved) {
+			childrenCanBeRemoved.forEach(function(errorMessage) {
+				sendRemoveForEmptyChild(errorMessage);
+				childrenCanBeRemoved.shift();
+			});
+		}
+		
+		function removeExceedingEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin){
+			var noToRemove = childrenCanBeRemoved.length - noChildrenNeededForRepeatMin;
+			for (var i = 0; i < noToRemove; i++) {
+				sendRemoveForEmptyChild(childrenCanBeRemoved.pop());
 			}
 		}
 
@@ -222,16 +188,12 @@ var CORA = (function(cora) {
 			pubSub.publish("validationError", errorMessage);
 		}
 
-
-
 		function calculateMinRepeat() {
 			var repeatMin = childReference.getFirstAtomicValueByNameInData("repeatMin");
-//			if (hasData()) {
-				var noOfData = dataChildrenForMetadata.length;
-				if (noOfData > repeatMin) {
-					repeatMin = noOfData;
-				}
-//			}
+			var noOfData = dataChildrenForMetadata.length;
+			if (noOfData > repeatMin) {
+				repeatMin = noOfData;
+			}
 			return repeatMin;
 		}
 
@@ -241,18 +203,13 @@ var CORA = (function(cora) {
 			return validateForMetadataWithIdAndDataAndRepeatId(dataChild, repeatId);
 		}
 
-
 		function getMetadataById(id) {
 			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
-
 		function validateForMetadataWithIdAndDataAndRepeatId(dataChild, repeatId) {
 			return CORA.metadataRepeatValidator(ref, path, dataChild, repeatId, metadataProvider,
 					pubSub);
-			// if(!repeatResult){
-			// result = false;
-			// }
 		}
 
 		return result;
