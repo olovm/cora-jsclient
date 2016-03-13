@@ -372,7 +372,7 @@ QUnit.test("initCallToServer", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
 			"application/uub+record+json");
 
-	assert.strictEqual(this.workView.childNodes.length, 1);
+	assert.strictEqual(this.workView.childNodes.length, 2);
 
 });
 

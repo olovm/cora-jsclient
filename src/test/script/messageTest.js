@@ -21,8 +21,6 @@
 QUnit.module("messageTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
-//		<link rel="stylesheet" type="text/css" href="css/message.css"></link>
-//		this.fixture.head.appendChild(document.createLink...)
 	},
 	afterEach : function() {
 	}
@@ -59,13 +57,15 @@ QUnit.test("testInit", function(assert) {
 
 	assert.strictEqual(message.getTimeout(), 254);
 
-//	var view = message.getView();
 	assert.strictEqual(view.modelObject, message);
 	assert.strictEqual(view.className, "message error");
 
 	var messageText = view.firstChild;
 	assert.strictEqual(messageText.textContent, "some text");
-	//to prevent rouge timers call remove on elements after test has completed
+
+	var removeButton = view.childNodes[1];
+	assert.strictEqual(removeButton.className, "removeButton");
+	// to prevent rouge timers call remove on elements after test has completed
 	message.clearHideTimeout();
 });
 
@@ -79,7 +79,7 @@ QUnit.test("testInitWithoutTimeout", function(assert) {
 	this.fixture.appendChild(view);
 
 	assert.strictEqual(message.getTimeout(), 10000);
-	//to prevent rouge timers call remove on elements after test has completed
+	// to prevent rouge timers call remove on elements after test has completed
 	message.clearHideTimeout();
 });
 
@@ -97,9 +97,30 @@ QUnit.test("testHide", function(assert) {
 
 	message.hide();
 	assert.notVisible(view);
-	//to prevent rouge timers call remove on elements after test has completed
+	// to prevent rouge timers call remove on elements after test has completed
 	message.clearHideTimeout();
 });
+
+QUnit.test("testRemoveButton", function(assert) {
+	var messageSpec = {
+		"message" : "some text",
+		"type" : CORA.message.ERROR,
+		"timeout" : 21
+	};
+	var message = CORA.message(messageSpec);
+
+	var view = message.getView();
+	this.fixture.appendChild(view);
+	assert.visible(view);
+
+	var removeButton = view.childNodes[1];
+	removeButton.onclick();
+
+	assert.notVisible(view);
+	// to prevent rouge timers call remove on elements after test has completed
+	message.clearHideTimeout();
+});
+
 QUnit.test("testHideAfterTimeout", function(assert) {
 	var done = assert.async();
 	var messageSpec = {
@@ -111,44 +132,63 @@ QUnit.test("testHideAfterTimeout", function(assert) {
 
 	var view = message.getView();
 	this.fixture.appendChild(view);
-	assert.visible(view);
 
-	var timeout = window.setTimeout(function() {
-//		assert.ok(false, "ajaxCall timed out (500ms)");
+	setTimeout(function() {
 		assert.notVisible(view, "message should be hidden after 5ms timeout");
 		done();
-	}, 8);
+		// to prevent rouge timers call remove on elements after test has completed
+		message.clearHideTimeout();
+	}, 7);
 });
 
-// QUnit.test("testCallNot200", function(assert) {
-// var timeout = setTimeout(function() {
-// assert.ok(false, "ajaxCall timed out (500ms)");
-// done();
-// }, 500);
-//
-// var done = assert.async();
-// var status = "";
-// function loadMethod(xhr) {
-// window.clearTimeout(timeout);
-// assert.ok(false, "not an ok call");
-// done();
-// }
-// function errorMethod(xhr) {
-// window.clearTimeout(timeout);
-// status = xhr.status;
-// assert.strictEqual(xhr.status, 406);
-// done();
-// }
-// var spec = {
-// "xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-// "method" : "GET",
-// "url" : "http://130.238.171.39:8080/therest/rest/record/recordType",
-// "contentType" : "application/uub+record+json",
-// "accept" : "application/uub+record+json",
-// "loadMethod" : loadMethod,
-// "errorMethod" : errorMethod
-//
-// };
-// var ajaxCall = CORA.ajaxCall(spec);
-//
-// });
+QUnit.test("testHideWithEffect", function(assert) {
+	var messageSpec = {
+		"message" : "some text",
+		"type" : CORA.message.ERROR,
+		"timeout" : 0
+	};
+	var message = CORA.message(messageSpec);
+
+	var view = message.getView();
+	this.fixture.appendChild(view);
+	assert.visible(view);
+
+	message.hideWithEffect();
+
+	var event = document.createEvent('Event');
+	event.initEvent('transitionend', true, true);
+	view.dispatchEvent(event);
+
+	assert.notVisible(view, "message should be hidden");
+
+	// to prevent rouge timers call remove on elements after test has completed
+	message.clearHideTimeout();
+});
+QUnit.test("testHideWithEffectTransitionendNotCalled", function(assert) {
+	var done = assert.async();
+	var messageSpec = {
+		"message" : "some text",
+		"type" : CORA.message.ERROR,
+		"timeout" : 0
+	};
+	var message = CORA.message(messageSpec);
+
+	var view = message.getView();
+	// no message className will make transition rule not affect this, triggering no
+	// fired event
+	view.className = "";
+	this.fixture.appendChild(view);
+	assert.visible(view);
+	message.hideWithEffect();
+
+	var timeout = window.setTimeout(function() {
+		assert.strictEqual(view.className, " toBeRemoved", "if toBeRemoved is still here,"
+				+ " has the message not been removed by transitionend event");
+		assert.strictEqual(view.parentNode, null, "message should be removed after max 1000ms");
+
+		// to prevent rouge timers call remove on elements after
+		// test has completed
+		message.clearHideTimeout();
+		done();
+	}, 1050);
+});

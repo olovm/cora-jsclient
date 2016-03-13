@@ -23,7 +23,9 @@ var CORA = (function(cora) {
 		var view = createView();
 		var messageText = createMessageText();
 		view.appendChild(messageText);
+		view.appendChild(createRemoveButton());
 		var hideTimeout = possiblySetHideTimeout();
+		var hideIfTransitionendNotCalled;
 
 		function getTimeoutFromSpecOrDefault() {
 			return spec.timeout !== undefined ? spec.timeout : spec.type.defaultTimeout;
@@ -34,20 +36,29 @@ var CORA = (function(cora) {
 			viewNew.className = "message " + spec.type.className;
 			return viewNew;
 		}
+
 		function createMessageText() {
-			var textNew = document.createElement("div");
+			var textNew = document.createElement("span");
 			textNew.className = "messageText";
 			textNew.innerHTML = spec.message;
 			return textNew;
 		}
 
+		function createRemoveButton() {
+			var createdRemoveButton = document.createElement("span");
+			createdRemoveButton.className = "removeButton";
+			createdRemoveButton.onclick = function() {
+				view.modelObject.hideWithEffect();
+			};
+			return createdRemoveButton;
+		}
+
 		function possiblySetHideTimeout() {
-			var viewForCallFromOutside = view;
 			var hideFunction = function() {
-				viewForCallFromOutside.parentNode.removeChild(viewForCallFromOutside);
+				view.modelObject.hideWithEffect();
 			}
 			if (timeout > 0) {
-				var timeoutToBeCalled = window.setTimeout(hideFunction, timeout);
+				var timeoutToBeCalled = setTimeout(hideFunction, timeout);
 			}
 			return timeoutToBeCalled;
 		}
@@ -59,42 +70,33 @@ var CORA = (function(cora) {
 			return view;
 		}
 		function hide() {
-			window.clearTimeout(hideTimeout);
+			clearHideTimeout();
 			view.parentNode.removeChild(view);
 		}
 		function clearHideTimeout() {
 			window.clearTimeout(hideTimeout);
+			window.clearTimeout(hideIfTransitionendNotCalled);
 		}
+			
 		function hideWithEffect() {
-			console.log("hide")
-			removeChild(view);
-			view.className = view.className + " toBeRemoved";
+			hideIfTransitionendNotCalled = window.setTimeout(function() {
+				view.modelObject.hide();
+			}, 1000);
+			var orgClassName = view.className;
 			view.addEventListener("transitionend", function(event) {
-				removeChild(view);
+//				window.clearTimeout(hideIfTransitionendNotCalled);
+				view.modelObject.hide();
+				view.className = orgClassName;
 			}, true);
+			view.className = view.className + " toBeRemoved";
+		}
 
-		}
-		function removeChild(view) {
-			// child.className = child.className + " toBeRemoved";
-			// child.addEventListener("transitionend", function(event) {
-			// console.log("propertyName:"+event.propertyName)
-			// console.log("elapsedTime:"+event.elapsedTime)
-			// if(event.propertyName === "opacity" && event.elapsedTime > 0.6){
-			//					
-			// removeChild2(child);
-			// }
-			// }, true);
-			// childrenView.removeChild(child);
-			view.style.display = "none";
-		}
-		function removeChild2(child) {
-			childrenView.removeChild(child);
-		}
 		var out = Object.freeze({
 			getTimeout : getTimeout,
 			getView : getView,
 			hide : hide,
-			clearHideTimeout : clearHideTimeout
+			clearHideTimeout : clearHideTimeout,
+			hideWithEffect : hideWithEffect
 		});
 		view.modelObject = out;
 		return out;
