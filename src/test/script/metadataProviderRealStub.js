@@ -2563,7 +2563,8 @@ var CORATEST = (function(coraTest) {
 										"children": [
 											{
 												"name": "ref",
-												"value": "recordInfoTextGroup"
+//												"value": "recordInfoPVarGroup"
+													"value": "recordInfo"
 											},
 											{
 												"name": "repeatMin",
@@ -4738,8 +4739,165 @@ var CORATEST = (function(coraTest) {
 							} ]
 						} ]
 					};
-				case "":
-					return;
+				case "presentationVarListPGroup":
+					return {
+						"name" : "presentation",
+						"attributes" : {
+							"type" : "pGroup"
+						},
+						"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+							"name" : "presentationOf",
+							"value" : "presentationVarGroup"
+						}, {
+							"name" : "childReferences",
+							"children" : [ {
+								"name" : "childReference",
+								"repeatId" : "1",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "recordTypePGroupText"
+								}, {
+									"name" : "default",
+									"value" : "ref"
+								} ]
+							}, {
+								"name" : "childReference",
+								"repeatId" : "1",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "recordInfoPGroup"
+								}, {
+									"name" : "default",
+									"value" : "ref"
+								} ]
+							} ]
+						} ])
+					};
+				case "recordInfoPVarPGroup":
+					return {
+						"name" : "presentation",
+						"attributes" : {
+							"type" : "pGroup"
+						},
+						"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+							"name" : "presentationOf",
+							"value" : "recordInfoPVarGroup"
+						}, {
+							"name" : "childReferences",
+							"children" : [ {
+								"name" : "childReference",
+								"repeatId" : "1",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "idTextOutputPVar"
+								}, {
+									"name" : "default",
+									"value" : "ref"
+								} ]
+							} ]
+						} ])
+					};
+				case "recordInfoPVarGroup":
+					return {
+					      "children": [
+					                   {
+					                     "children": [
+					                       {
+					                         "name": "id",
+					                         "value": "recordInfoPVarGroup"
+					                       },
+					                       {
+					                         "name": "type",
+					                         "value": "metadataGroup"
+					                       },
+					                       {
+					                         "name": "createdBy",
+					                         "value": "userId"
+					                       },
+					                       {
+					                         "name": "updatedBy",
+					                         "value": "userId"
+					                       }
+					                     ],
+					                     "name": "recordInfo"
+					                   },
+					                   {
+					                     "name": "nameInData",
+					                     "value": "recordInfo"
+					                   },
+					                   {
+					                     "name": "textId",
+					                     "value": "recordInfoText"
+					                   },
+					                   {
+					                     "name": "defTextId",
+					                     "value": "recordInfoDefText"
+					                   },
+					                   {
+					                     "children": [
+					                       {
+					                         "repeatId": "1",
+					                         "children": [
+					                           {
+					                             "name": "ref",
+					                             "value": "idPVarTextVar"
+					                           },
+					                           {
+					                             "name": "repeatMin",
+					                             "value": "1"
+					                           },
+					                           {
+					                             "name": "repeatMax",
+					                             "value": "1"
+					                           }
+					                         ],
+					                         "name": "childReference"
+					                       },
+					                       {
+					                         "repeatId": "2",
+					                         "children": [
+					                           {
+					                             "name": "ref",
+					                             "value": "typeTextVar"
+					                           },
+					                           {
+					                             "name": "repeatMin",
+					                             "value": "1"
+					                           },
+					                           {
+					                             "name": "repeatMax",
+					                             "value": "1"
+					                           }
+					                         ],
+					                         "name": "childReference"
+					                       },
+					                       {
+					                         "repeatId": "3",
+					                         "children": [
+					                           {
+					                             "name": "ref",
+					                             "value": "createdByTextVar"
+					                           },
+					                           {
+					                             "name": "repeatMin",
+					                             "value": "1"
+					                           },
+					                           {
+					                             "name": "repeatMax",
+					                             "value": "1"
+					                           }
+					                         ],
+					                         "name": "childReference"
+					                       }
+					                     ],
+					                     "name": "childReferences"
+					                   }
+					                 ],
+					                 "name": "metadata",
+					                 "attributes": {
+					                   "type": "group"
+					                 }
+					               };
 				case "":
 					return;
 				case "":
