@@ -2595,24 +2595,24 @@ var CORATEST = (function(coraTest) {
 										],
 										"name": "childReference"
 									},
-									//{
-									//	"repeatId": "3",
-									//	"children": [
-									//		{
-									//			"name": "ref",
-									//			"value": "modeCollectionVar"
-									//		},
-									//		{
-									//			"name": "repeatMin",
-									//			"value": "1"
-									//		},
-									//		{
-									//			"name": "repeatMax",
-									//			"value": "1"
-									//		}
-									//	],
-									//	"name": "childReference"
-									//},
+									{
+										"repeatId": "3",
+										"children": [
+											{
+												"name": "ref",
+												"value": "modeCollectionVar"
+											},
+											{
+												"name": "repeatMin",
+												"value": "1"
+											},
+											{
+												"name": "repeatMax",
+												"value": "1"
+											}
+										],
+										"name": "childReference"
+									},
 									{
 										"repeatId": "4",
 										"children": [
@@ -4543,6 +4543,100 @@ var CORATEST = (function(coraTest) {
 							]
 						} ])
 					};
+				case "presentationVarFormPGroup":
+					return {
+						"name" : "presentation",
+						"attributes" : {
+							"type" : "pGroup"
+						},
+						"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+							"name" : "presentationOf",
+							"value" : "presentationVarGroup"
+						}, {
+							"name" : "childReferences",
+							"children" : [ {
+								"name" : "childReference",
+								"repeatId" : "1",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "textSystemOneNewPGroupText"
+								}, {
+									"name" : "default",
+									"value" : "ref"
+								} ]
+							}
+								,
+								{
+									"name" : "childReference",
+									"repeatId" : "0",
+									"children" : [ {
+										"name" : "ref",
+										"value" : "recordInfoPGroup"
+									}, {
+										"name" : "default",
+										"value" : "ref"
+									} ]
+								}
+								,{
+									"name" : "childReference",
+									"repeatId" : "1",
+									"children" : [ {
+										"name" : "ref",
+										"value" : "presentationOfTextVarText"
+									}, {
+										"name" : "default",
+										"value" : "ref"
+									} ]
+								}
+								,
+								{
+									"name" : "childReference",
+									"repeatId" : "2",
+									"children" : [ {
+										"name" : "ref",
+										"value" : "presentationOfTextVarPVar"
+									}, {
+										"name" : "default",
+										"value" : "ref"
+									} ]
+								},
+								{
+									"name" : "childReference",
+									"repeatId" : "2",
+									"children" : [ {
+										"name" : "ref",
+										"value" : "modeCollectionVarPVar"
+									}, {
+										"name" : "default",
+										"value" : "ref"
+									} ]
+								},
+								{
+									"name" : "childReference",
+									"repeatId" : "5",
+									"children" : [ {
+										"name" : "ref",
+										"value" : "emptyTextIdTextVarText"
+									}, {
+										"name" : "default",
+										"value" : "ref"
+									} ]
+								},
+								{
+
+									"name" : "childReference",
+									"repeatId" : "6",
+									"children" : [ {
+										"name" : "ref",
+										"value" : "emptyTextIdTextVarPVar"
+									}, {
+										"name" : "default",
+										"value" : "ref"
+									} ]
+								}
+							]
+						} ])
+					};
 				case "presentationVarMenuPGroup":
 					return {
 						"name" : "presentation",
@@ -4559,7 +4653,7 @@ var CORATEST = (function(coraTest) {
 								"repeatId" : "0",
 								"children" : [ {
 									"name" : "ref",
-									"value" : "recordInfoTextMenuPGroup"
+									"value" : "recordInfoPGroup"
 								}, {
 									"name" : "default",
 									"value" : "ref"
@@ -4583,7 +4677,7 @@ var CORATEST = (function(coraTest) {
 								"repeatId" : "0",
 								"children" : [ {
 									"name" : "ref",
-									"value" : "recordInfoTextPGroup"
+									"value" : "recordInfoPGroup"
 								}, {
 									"name" : "default",
 									"value" : "ref"
