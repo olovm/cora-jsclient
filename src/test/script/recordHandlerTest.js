@@ -408,7 +408,10 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 
-	var workItem = this.workView.childNodes[0];
+	var messageHolder = this.workView.childNodes[0];
+	assert.strictEqual(messageHolder.className, "messageHolder");
+	
+	var workItem = this.workView.childNodes[1];
 	assert.strictEqual(workItem.className, "workItem recordType");
 
 	var editView = workItem.childNodes[0];
@@ -462,7 +465,10 @@ QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 	assert.strictEqual(this.presentationIdUsed[0], "textViewPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "textMenuPGroup");
 
-	var workItem = this.workView.childNodes[0];
+	var messageHolder = this.workView.childNodes[0];
+	assert.strictEqual(messageHolder.className, "messageHolder");
+	
+	var workItem = this.workView.childNodes[1];
 	assert.strictEqual(workItem.className, "workItem text");
 
 	var editView = workItem.childNodes[0];
@@ -506,12 +512,12 @@ QUnit.test("testUpdateCall", function(assert) {
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
-	assert.strictEqual(this.workView.childNodes[0].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 
-	var buttonView = this.workView.firstChild.childNodes[2];
+	var buttonView = this.workView.childNodes[1].childNodes[2];
 	assert.strictEqual(buttonView.className, "buttonView");
 
 	var updateButton = buttonView.firstChild;
@@ -558,12 +564,12 @@ QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
-	assert.strictEqual(this.workView.childNodes[0].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeViewPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeMenuPGroup");
 
-	var buttonView = this.workView.firstChild.childNodes[2];
+	var buttonView = this.workView.childNodes[1].childNodes[2];
 	assert.strictEqual(buttonView.childNodes.length, 0);
 });
 
@@ -591,7 +597,7 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeNewGroup");
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormNewPGroup");
-	assert.strictEqual(this.workView.childNodes[0].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeMenuPGroup");
 	assert.strictEqual(this.menuView.textContent, "");
@@ -628,9 +634,9 @@ QUnit.test("testCreateNewCall", function(assert) {
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeNewGroup");
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormNewPGroup");
-	assert.strictEqual(this.workView.childNodes[0].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
 
-	var buttonView = this.workView.firstChild.childNodes[2];
+	var buttonView = this.workView.childNodes[1].childNodes[2];
 	assert.strictEqual(buttonView.className, "buttonView");
 
 	var createButton = buttonView.firstChild;
@@ -710,7 +716,7 @@ QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissing", function
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
 
-	assert.strictEqual(this.workView.firstChild.textContent.substring(0, 20),
+	assert.strictEqual(this.workView.childNodes[1].textContent.substring(0, 20),
 			"{\"children\":[{\"child");
 
 });
@@ -741,7 +747,7 @@ QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissingForNew", fu
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
 
-	assert.strictEqual(this.workView.firstChild.textContent,
+	assert.strictEqual(this.workView.childNodes[1].textContent,
 			"\"something went wrong, probably missing metadata\"");
 
 });
