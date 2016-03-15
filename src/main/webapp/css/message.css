@@ -17,8 +17,17 @@
 	position: relative;
 	width: 100%;
 	color: black;
-	position: absolute;
+/* 	position: absolute; */
 	top: 0px;
+}
+.messageHolder {
+	/* position: relative; */
+	width: calc(100% - 25rem);
+	color: black;
+	/* position: absolute; */
+	top: 8em;
+	position: fixed;
+	z-index: 2;
 }
 
 .messageHolder .toBeRemoved, .message.toBeRemoved {

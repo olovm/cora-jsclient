@@ -27,12 +27,12 @@ var CORA = (function(cora) {
 		var workView = views.workView;
 		var menuView = views.menuView;
 
+		var messageHolder = CORA.messageHolder();
+		workView.appendChild(messageHolder.getView());
+
 		var recordHandlerView = createRecordHandlerView();
 		workView.appendChild(recordHandlerView.getView());
 
-		var messageHolder = CORA.messageHolder();
-		workView.appendChild(messageHolder.getView());
-		
 		var recordGuiNew;
 		var recordGui;
 		var fetchedRecord;
@@ -116,6 +116,13 @@ var CORA = (function(cora) {
 
 		function resetViewsAndProcessFetchedRecord(answer) {
 			recordHandlerView.clearViews();
+			var messageSpec = {
+				"message" : "Tjohoo, det där gick ju bra, data sparat på servern!!!!",
+				"type" : CORA.message.POSITIVE,
+//				"timeout" : 0
+			};
+			messageHolder.createMessage(messageSpec);
+
 			processFetchedRecord(answer);
 		}
 
@@ -134,13 +141,6 @@ var CORA = (function(cora) {
 		}
 
 		function processFetchedRecord(answer) {
-			var messageSpec = {
-					"message" : "Tjohoo, det där gick ju bra, data sparat på servern!!!!",
-					"type" : CORA.message.POSITIVE,
-//					"timeout" : 0
-			};
-			messageHolder.createMessage(messageSpec);
-			
 			fetchedRecord = getRecordPartFromAnswer(answer);
 			var data = getDataPartOfRecordFromAnswer(answer);
 			try {
@@ -232,12 +232,12 @@ var CORA = (function(cora) {
 		}
 
 		function callError(answer) {
-			var messageHolder = CORA.messageHolder();
-			workView.appendChild(messageHolder.getView());
+			// var messageHolder = CORA.messageHolder();
+			// workView.appendChild(messageHolder.getView());
 			var messageSpec = {
-					"message" : answer.status,
-					"type" : CORA.message.ERROR,
-//					"timeout" : 2000
+				"message" : answer.status,
+				"type" : CORA.message.ERROR,
+			// "timeout" : 2000
 			};
 			messageHolder.createMessage(messageSpec);
 			var errorView = document.createElement("span");
