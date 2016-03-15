@@ -27,6 +27,9 @@ var CORA = (function(cora) {
 		var workView = views.workView;
 		var menuView = views.menuView;
 
+		var messageHolder = CORA.messageHolder();
+		workView.appendChild(messageHolder.getView());
+
 		var recordHandlerView = createRecordHandlerView();
 		workView.appendChild(recordHandlerView.getView());
 
@@ -116,6 +119,12 @@ var CORA = (function(cora) {
 
 		function resetViewsAndProcessFetchedRecord(answer) {
 			recordHandlerView.clearViews();
+			var messageSpec = {
+				"message" : "Tjohoo, det där gick ju bra, data sparat på servern!",
+				"type" : CORA.message.POSITIVE
+			};
+			messageHolder.createMessage(messageSpec);
+
 			processFetchedRecord(answer);
 		}
 
@@ -217,21 +226,23 @@ var CORA = (function(cora) {
 			};
 			CORA.ajaxCall(callSpec);
 		}
-		function sendUpdateDataToServer(callAfterAnswer) {
+
+		function sendUpdateDataToServer() {
+			var callAfterAnswer = resetViewsAndProcessFetchedRecord;
 			if (recordGui.validateData()) {
 
 				var updateLink = fetchedRecord.actionLinks.update;
-			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : updateLink.requestMethod,
-				"url" : updateLink.url,
-				"contentType" : updateLink.contentType,
-				"accept" : updateLink.accept,
-				"loadMethod" : callAfterAnswer,
-				"errorMethod" : callError,
-				"data" : JSON.stringify(recordGui.dataHolder.getData())
-			};
-			CORA.ajaxCall(callSpec);
+				var callSpec = {
+					"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+					"method" : updateLink.requestMethod,
+					"url" : updateLink.url,
+					"contentType" : updateLink.contentType,
+					"accept" : updateLink.accept,
+					"loadMethod" : callAfterAnswer,
+					"errorMethod" : callError,
+					"data" : JSON.stringify(recordGui.dataHolder.getData())
+				};
+				CORA.ajaxCall(callSpec);
 			}
 		}
 		function createRawDataWorkView(data) {
@@ -250,9 +261,11 @@ var CORA = (function(cora) {
 		}
 
 		function callError(answer) {
-			var errorView = document.createElement("span");
-			errorView.textContent = JSON.stringify(answer.status);
-			recordHandlerView.addEditView(errorView);
+			var messageSpec = {
+				"message" : answer.status,
+				"type" : CORA.message.ERROR
+			};
+			messageHolder.createMessage(messageSpec);
 		}
 
 		return Object.freeze({});
