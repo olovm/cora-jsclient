@@ -316,3 +316,23 @@ QUnit.test("testSetValueCollectionOutput", function(assert) {
 	attachedPVar.pVar.setValue("no");
 	assert.equal(valueView.innerHTML, "Nej");
 });
+
+QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var message = {
+		"metadataId" : "textVariableId",
+		"path" : {}
+	};
+	attachedPVar.pVar.handleValidationError(message);
+	assert.equal(attachedPVar.pVar.getState(), "error");
+	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedPVar.view.className));
+	
+	var data = {
+			"data" : "A new value",
+			"path" : {}
+	};
+	attachedPVar.pVar.handleMsg(data);
+	
+	assert.strictEqual(attachedPVar.view.className,"");
+});
+

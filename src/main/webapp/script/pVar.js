@@ -129,6 +129,7 @@ var CORA = (function(cora) {
 		}
 
 		function setValue(value) {
+			state = "ok";
 			if (mode === "input") {
 				valueView.value = value;
 			} else {
@@ -165,9 +166,10 @@ var CORA = (function(cora) {
 
 		function handleMsg(dataFromMsg) {
 			setValue(dataFromMsg.data);
+			updateView();
 		}
-		
-		function handleValidationError(dataFromMsg){
+
+		function handleValidationError() {
 			state = "error";
 			updateView();
 		}
@@ -230,7 +232,7 @@ var CORA = (function(cora) {
 			getRegEx : getRegEx,
 			getState : getState,
 			onBlur : onBlur,
-			handleValidationError:handleValidationError
+			handleValidationError : handleValidationError
 		});
 		view.modelObject = out;
 		if (mode === "input") {

@@ -89,14 +89,38 @@ QUnit.test("testValidateGroupIdOneTextChild1to1WithDataEmptyValue", function(ass
 			+ ',\"children\":[{\"name\":\"nameInData\",\"value\":\"textVariableId\"}]}}}');
 });
 
-// function createLinkedPathWithNameInDataAsString(nameInData) {
-// return JSON.stringify(createLinkedPathWithNameInData(nameInData));
-// }
-//
+QUnit.test("testValidateGroupIdOneCollectionChild1toXWithData", function(assert) {
+	var data = {
+			"name" : "groupId1toXCollectionChild",
+			"children" : [ {
+				"name" : "yesNoUnknownVar",
+				"value" : "no"
+			} ]
+	};
+	
+	var factored = this.metadataValidatorFactory.factor("groupId1toXCollectionChild", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
 
-// function createLinkedPathWithNameInDataAsString(nameInData) {
-// return JSON.stringify(createLinkedPathWithNameInData(nameInData));
-// }
+QUnit.test("testValidateGroupIdOneCollectionChild1toXWithDataEmptyValue", function(assert) {
+	var data = {
+			"name" : "groupId1toXCollectionChild",
+			"children" : [ {
+				"name" : "yesNoUnknownVar",
+				"value" : ""
+			} ]
+	};
+	
+	var factored = this.metadataValidatorFactory.factor("groupId1toXCollectionChild", data);
+	assert.notOk(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"validationError","message":{'
+			+ '"metadataId":"yesNoUnknownVar",' + '"path":{\"name\":\"linkedPath\"'
+			+ ',\"children\":[{\"name\":\"nameInData\",\"value\":\"yesNoUnknownVar\"}]}}}');
+});
 
 QUnit.test("testValidateGroupIdTwoTextChildWithData", function(assert) {
 	var data = {
@@ -342,24 +366,6 @@ QUnit.test("testValidateOneChildRepeat3to3WithData", function(assert) {
 	assert.strictEqual(messages.length, 0);
 });
 
-// function createLinkedPathWithNameInDataAndRepeatIdAsString(nameInData,
-// repeatId) {
-// return JSON.stringify(createLinkedPathWithNameInDataAndRepeatId(nameInData,
-// repeatId));
-// }
-// function createLinkedPathWithNameInDataAndRepeatId(nameInData, repeatId) {
-// return {
-// "name" : "linkedPath",
-// "children" : [ {
-// "name" : "nameInData",
-// "value" : nameInData
-// }, {
-// "name" : "repeatId",
-// "value" : repeatId
-// } ]
-// };
-// }
-//
 QUnit.test("testValidateOneChildRepeat3to3WithEmptyValueForOne", function(assert) {
 	var data = {
 		"name" : "groupIdOneTextChildRepeat0to1",

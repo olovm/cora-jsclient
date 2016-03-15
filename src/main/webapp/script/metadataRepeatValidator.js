@@ -151,25 +151,31 @@ var CORA = (function(cora) {
 		function validateMetadataGroup(nextLevelPath) {
 			var nextLevelChildReferences = cMetadataElement
 					.getFirstChildByNameInData('childReferences');
-			nextLevelChildReferences.children.forEach(function(childReference) {
-				var childResult = CORA.metadataChildValidator(childReference, nextLevelPath, data,
-						metadataProvider, pubSub);
-				if (!childResult.everythingOkBelow) {
-					result.everythingOkBelow = false;
-				}
-				if (childResult.containsValuableData) {
-					result.containsValuableData = true;
-				}
-				result.validationMessage = {
-					"metadataId" : metadataId,
-					"path" : nextLevelPath
-				}
-				result.sendValidationMessages= false;
+			nextLevelChildReferences.children.forEach(function(childReference){
+				validateGroupChild(childReference, nextLevelPath);
 			});
 		}
 
+		function validateGroupChild(childReference, nextLevelPath) {
+			var childResult = CORA.metadataChildValidator(childReference, nextLevelPath, data,
+					metadataProvider, pubSub);
+			if (!childResult.everythingOkBelow) {
+				result.everythingOkBelow = false;
+			}
+			if (childResult.containsValuableData) {
+				result.containsValuableData = true;
+			}
+			result.validationMessage = {
+				"metadataId" : metadataId,
+				"path" : nextLevelPath
+			};
+			result.sendValidationMessages = false;
+		}
+
 		function validateVariableValue(nextLevelPath) {
-			if (dataIsInvalid()) {
+			if (dataIsValid()) {
+				result.containsValuableData = true;
+			} else {
 				var message = {
 					"metadataId" : metadataId,
 					"path" : nextLevelPath
@@ -178,16 +184,40 @@ var CORA = (function(cora) {
 					"everythingOkBelow" : false,
 					"containsValuableData" : false,
 					"validationMessage" : message,
-					"sendValidationMessages":true
+					"sendValidationMessages" : true
 				};
-			}else{
-				result.containsValuableData = true;
 			}
 		}
 
-		function dataIsInvalid() {
+		function dataIsValid() {
+			var type = cMetadataElement.getData().attributes.type;
+			if (type === "textVariable") {
+				return validateTextVariable();
+			}
+			return validateCollectionVariable();
+		}
+
+		function validateTextVariable() {
 			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
-			return !new RegExp(regEx).test(data.value);
+			return new RegExp(regEx).test(data.value);
+		}
+
+		function validateCollectionVariable() {
+			var collectionItemReferences = getCollectionItemReferences();
+			return collectionItemReferences.children.some(isItemDataValue);
+		}
+
+		function getCollectionItemReferences() {
+			var refCollectionId = cMetadataElement
+					.getFirstAtomicValueByNameInData("refCollectionId");
+			var cItemCollection = getMetadataById(refCollectionId);
+			return cItemCollection.getFirstChildByNameInData("collectionItemReferences");
+		}
+
+		function isItemDataValue(collectionItemReference) {
+			var cCollectionItem = getMetadataById(collectionItemReference.value);
+			var nameInData = cCollectionItem.getFirstAtomicValueByNameInData("nameInData");
+			return nameInData === data.value;
 		}
 
 		return result;
