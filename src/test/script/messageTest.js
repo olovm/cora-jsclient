@@ -41,7 +41,7 @@ QUnit.test("testConstants", function(assert) {
 	});
 	assert.deepEqual(CORA.message.POSITIVE, {
 		"className" : "positive",
-		"defaultTimeout" : 5000
+		"defaultTimeout" : 3000
 	});
 });
 

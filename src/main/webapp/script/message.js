@@ -56,7 +56,7 @@ var CORA = (function(cora) {
 		function possiblySetHideTimeout() {
 			var hideFunction = function() {
 				view.modelObject.hideWithEffect();
-			}
+			};
 			if (timeout > 0) {
 				var timeoutToBeCalled = setTimeout(hideFunction, timeout);
 			}
@@ -77,14 +77,13 @@ var CORA = (function(cora) {
 			window.clearTimeout(hideTimeout);
 			window.clearTimeout(hideIfTransitionendNotCalled);
 		}
-			
+
 		function hideWithEffect() {
 			hideIfTransitionendNotCalled = window.setTimeout(function() {
 				view.modelObject.hide();
 			}, 1000);
 			var orgClassName = view.className;
-			view.addEventListener("transitionend", function(event) {
-//				window.clearTimeout(hideIfTransitionendNotCalled);
+			view.addEventListener("transitionend", function() {
 				view.modelObject.hide();
 				view.className = orgClassName;
 			}, true);
@@ -116,7 +115,7 @@ var CORA = (function(cora) {
 	};
 	cora.message.POSITIVE = {
 		"className" : "positive",
-		"defaultTimeout" : 5000
+		"defaultTimeout" : 3000
 	};
 	return cora;
 }(CORA));

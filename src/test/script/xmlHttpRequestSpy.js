@@ -67,6 +67,13 @@ var CORATEST = (function(coraTest) {
 		function abort(){
 			abortWasCalled = true;
 		}
+		
+		function getSendWasCalled(){
+			return sendWasCalled;
+		}
+		function setSendWasCalled(sendWasCalledIn){
+			sendWasCalled = sendWasCalledIn;
+		}
 
 		var out = {
 			timeout:timeout,
@@ -80,7 +87,8 @@ var CORATEST = (function(coraTest) {
 			getOpenUrl : getOpenUrl,
 			send : send,
 			getSentData : getSentData,
-			sendWasCalled:sendWasCalled,
+			getSendWasCalled:getSendWasCalled,
+			setSendWasCalled:setSendWasCalled,
 			abort:abort,
 			abortWasCalled:abortWasCalled,
 			responseText:responseText

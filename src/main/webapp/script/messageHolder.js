@@ -18,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.messageHolder = function(spec) {
+	cora.messageHolder = function() {
 		var view = createView();
 
 		function createView() {

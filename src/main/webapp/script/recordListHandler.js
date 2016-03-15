@@ -93,15 +93,9 @@ var CORA = (function(cora) {
 			workView.appendChild(messageHolder.getView());
 			var messageSpec = {
 					"message" : answer.status,
-					"type" : CORA.message.ERROR,
-//					"timeout" : 2000
+					"type" : CORA.message.ERROR
 			};
 			messageHolder.createMessage(messageSpec);
-			var errorView = document.createElement("span");
-			errorView.textContent = JSON.stringify(answer.status);
-			workView.appendChild(errorView);
-			
-			
 		}
 
 		var out = Object.freeze({
