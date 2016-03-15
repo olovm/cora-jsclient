@@ -33,7 +33,12 @@ var CORA = (function(cora) {
 		var attributes = getAttributesForMetadataId(ref);
 		var dataChildrenForMetadata = getDataChildrenForMetadata(nameInData, attributes);
 
-		validateChild();
+		var noOfRepeatsForThisChild = calculateMinRepeat();
+		var childInstancesCanNotBeRemoved = [];
+		var childInstancesCanBeRemoved = [];
+		var numberOfChildrenOk = 0;
+
+		validateAndCategorizeChildInstances();
 
 		function getNameInDataForMetadataId(refIn) {
 			var metadataElement = getMetadataById(refIn);
@@ -73,10 +78,8 @@ var CORA = (function(cora) {
 			var attributeNameInData = attributeMetadata
 					.getFirstAtomicValueByNameInData("nameInData");
 			var finalValue = attributeMetadata.getFirstAtomicValueByNameInData("finalValue");
-
 			return createAttributeWithNameAndValueAndRepeatId(attributeNameInData, finalValue,
 					index);
-
 		}
 
 		function createAttributeWithNameAndValueAndRepeatId(attributeName, attributeValue, repeatId) {
@@ -100,41 +103,47 @@ var CORA = (function(cora) {
 			return dataChildrenForMetadataOut;
 		}
 
-		function validateChild() {
-			var noOfRepeatsForThisChild = calculateMinRepeat();
-			var childInstancesCanNotBeRemoved = [];
-			var childInstancesCanBeRemoved = [];
-			var numberOfChildrenOk = 0;
+		function validateAndCategorizeChildInstances() {
 			for (var index = 0; index < noOfRepeatsForThisChild; index++) {
-				var childInstanceValidationResult = validateRepeatingChildInstanceWithData(index);
-				if (childInstanceValidationResult.containsValuableData) {
-					result.containsValuableData = true;
-				}
-
-				if (childInstanceValidationResult.everythingOkBelow) {
-					numberOfChildrenOk++;
-				} else {
-					// data saknas, någonstans under
-					if (childInstanceValidationResult.containsValuableData) {
-						childInstancesCanNotBeRemoved.push(childInstanceValidationResult);
-						result.everythingOkBelow = false;
-					} else {
-						childInstancesCanBeRemoved.push(childInstanceValidationResult);
-					}
-				}
+				validateAndCategorizeChildInstance(index);
 			}
-			var childrenNotRemovable = numberOfChildrenOk + childInstancesCanNotBeRemoved.length;
-			var noChildrenNeededForRepeatMin = calculateNeededNoChildrenForRepeatMin(childrenNotRemovable);
+			removeEmptyChildren();
+			setEverythingOkBelowInResult();
+			sendValidationErrors();
+		}
 
-			sendRemoveForEmptyChildren(childInstancesCanBeRemoved, noChildrenNeededForRepeatMin);
-			if (childInstancesCanBeRemoved.length > 0) {
+		function validateAndCategorizeChildInstance(index) {
+			var childInstanceValidationResult = validateRepeatingChildInstanceWithData(index);
+			setValuableDataInResult(childInstanceValidationResult);
+			updateNumberOfChildrenOk(childInstanceValidationResult);
+			categorizeChildInstance(childInstanceValidationResult);
+		}
 
+		function setValuableDataInResult(childInstanceValidationResult) {
+			if (childInstanceValidationResult.containsValuableData) {
+				result.containsValuableData = true;
+			}
+		}
+
+		function updateNumberOfChildrenOk(childInstanceValidationResult) {
+			if (childInstanceValidationResult.everythingOkBelow) {
+				numberOfChildrenOk++;
+			}
+		}
+
+		function categorizeChildInstance(childInstanceValidationResult) {
+			if (!childInstanceValidationResult.everythingOkBelow) {
+				categorizeInvalidChildInstance(childInstanceValidationResult);
+			}
+		}
+
+		function categorizeInvalidChildInstance(childInstanceValidationResult) {
+			if (childInstanceValidationResult.containsValuableData) {
+				childInstancesCanNotBeRemoved.push(childInstanceValidationResult);
 				result.everythingOkBelow = false;
+			} else {
+				childInstancesCanBeRemoved.push(childInstanceValidationResult);
 			}
-			sendValidationErrorToEmptyChildren(childInstancesCanNotBeRemoved);
-
-			// children that can be removed and are left
-			sendValidationErrorToEmptyChildren(childInstancesCanBeRemoved);
 		}
 
 		function calculateNeededNoChildrenForRepeatMin(childrenNotRemovable) {
@@ -149,19 +158,36 @@ var CORA = (function(cora) {
 				removeExceedingEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin);
 			}
 		}
-		
+
+		function removeEmptyChildren() {
+			var childrenNotRemovable = numberOfChildrenOk + childInstancesCanNotBeRemoved.length;
+			var noChildrenNeededForRepeatMin = calculateNeededNoChildrenForRepeatMin(childrenNotRemovable);
+			sendRemoveForEmptyChildren(childInstancesCanBeRemoved, noChildrenNeededForRepeatMin);
+		}
+
+		function setEverythingOkBelowInResult() {
+			if (childInstancesCanBeRemoved.length > 0) {
+				result.everythingOkBelow = false;
+			}
+		}
+
+		function sendValidationErrors() {
+			sendValidationErrorToEmptyChildren(childInstancesCanNotBeRemoved);
+			sendValidationErrorToEmptyChildren(childInstancesCanBeRemoved);
+		}
+
 		function allEmptyChildrenCanBeRemoved(noChildrenNeededForRepeatMin) {
 			return noChildrenNeededForRepeatMin < 1;
 		}
-		
+
 		function removeAllEmptyChildren(childrenCanBeRemoved) {
 			childrenCanBeRemoved.forEach(function(errorMessage) {
 				sendRemoveForEmptyChild(errorMessage);
 				childrenCanBeRemoved.shift();
 			});
 		}
-		
-		function removeExceedingEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin){
+
+		function removeExceedingEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin) {
 			var noToRemove = childrenCanBeRemoved.length - noChildrenNeededForRepeatMin;
 			for (var i = 0; i < noToRemove; i++) {
 				sendRemoveForEmptyChild(childrenCanBeRemoved.pop());
