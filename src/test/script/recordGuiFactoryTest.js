@@ -44,7 +44,8 @@ QUnit.test("testFactor", function(assert) {
 	assert.notStrictEqual(recordGui.jsBookkeeper, undefined);
 	assert.notStrictEqual(recordGui.presentationFactory, undefined);
 	assert.notStrictEqual(recordGui.dataHolder, undefined);
-	assert.strictEqual(recordGui.metadataController, undefined);
+	assert.strictEqual(recordGui.getMetadataController(), undefined);
+	assert.notStrictEqual(recordGui.validateData, undefined);
 
 });
 
@@ -64,4 +65,15 @@ QUnit.test("testFactorInitMetadataControllerStartingGui", function(assert) {
 
 	recordGui.initMetadataControllerStartingGui();
 	assert.notStrictEqual(recordGui.getMetadataController(), undefined);
+});
+
+QUnit.test("testFactorValidateData", function(assert) {
+	var metadataId = "groupIdOneTextChild";
+	var recordGui = this.recordGuiFactory.factor(metadataId, undefined);
+	recordGui.initMetadataControllerStartingGui();
+	
+	var validData = recordGui.validateData();
+	
+	assert.notStrictEqual(validData, undefined);
+	
 });

@@ -96,19 +96,22 @@ var CORA = (function(cora) {
 		}
 
 		function sendNewDataToServer() {
-			var callAfterAnswer = resetViewsAndProcessFetchedRecord;
-			var createLink = spec.recordTypeRecord.actionLinks.create;
-			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : createLink.requestMethod,
-				"url" : createLink.url,
-				"contentType" : createLink.contentType,
-				"accept" : createLink.accept,
-				"loadMethod" : callAfterAnswer,
-				"errorMethod" : callError,
-				"data" : JSON.stringify(recordGuiNew.dataHolder.getData())
-			};
-			CORA.ajaxCall(callSpec);
+			if (recordGuiNew.validateData()) {
+
+				var callAfterAnswer = resetViewsAndProcessFetchedRecord;
+				var createLink = spec.recordTypeRecord.actionLinks.create;
+				var callSpec = {
+					"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+					"method" : createLink.requestMethod,
+					"url" : createLink.url,
+					"contentType" : createLink.contentType,
+					"accept" : createLink.accept,
+					"loadMethod" : callAfterAnswer,
+					"errorMethod" : callError,
+					"data" : JSON.stringify(recordGuiNew.dataHolder.getData())
+				};
+				CORA.ajaxCall(callSpec);
+			}
 		}
 
 		function resetViewsAndProcessFetchedRecord(answer) {
@@ -215,7 +218,9 @@ var CORA = (function(cora) {
 			CORA.ajaxCall(callSpec);
 		}
 		function sendUpdateDataToServer(callAfterAnswer) {
-			var updateLink = fetchedRecord.actionLinks.update;
+			if (recordGui.validateData()) {
+
+				var updateLink = fetchedRecord.actionLinks.update;
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"method" : updateLink.requestMethod,
@@ -227,6 +232,7 @@ var CORA = (function(cora) {
 				"data" : JSON.stringify(recordGui.dataHolder.getData())
 			};
 			CORA.ajaxCall(callSpec);
+			}
 		}
 		function createRawDataWorkView(data) {
 			recordHandlerView.addEditView(document.createTextNode(JSON.stringify(data)));

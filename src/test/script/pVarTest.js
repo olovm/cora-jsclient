@@ -76,13 +76,20 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.testVariableSubscription = function(attachedPVar, assert) {
 		var subscriptions = attachedPVar.pubSub.getSubscriptions();
-		assert.deepEqual(subscriptions.length, 1);
+		assert.deepEqual(subscriptions.length, 2);
 
 		var firstSubsription = subscriptions[0];
 		assert.strictEqual(firstSubsription.type, "setValue");
 		assert.deepEqual(firstSubsription.path, {});
 		var pVar = attachedPVar.pVar;
 		assert.ok(firstSubsription.functionToCall === pVar.handleMsg);
+
+		var secondSubsription = subscriptions[1];
+		assert.strictEqual(secondSubsription.type, "validationError");
+		assert.deepEqual(secondSubsription.path, {});
+		var pVar = attachedPVar.pVar;
+		assert.ok(secondSubsription.functionToCall === pVar.handleValidationError);
+
 	};
 
 	coraTest.testVariableMetadata = function(attachedPVar, assert) {
@@ -200,6 +207,16 @@ QUnit.test("testSetValueInput", function(assert) {
 	assert.equal(attachedPVar.valueView.value, "A Value");
 });
 
+QUnit.test("testHandleMessage", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var data = {
+		"data" : "A new value",
+		"path" : {}
+	};
+	attachedPVar.pVar.handleMsg(data);
+	assert.equal(attachedPVar.valueView.value, "A new value");
+});
+
 QUnit.test("testValueViewHasOnBlurHandler", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	assert.ok(attachedPVar.valueView.onblur === attachedPVar.pVar.onBlur);
@@ -238,6 +255,17 @@ QUnit.test("testChangedValueError", function(assert) {
 	assert.equal(attachedPVar.pVar.getState(), "error");
 	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedPVar.view.className));
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+});
+
+QUnit.test("testHandleValidationError", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var message = {
+		"metadataId" : "textVariableId",
+		"path" : {}
+	};
+	attachedPVar.pVar.handleValidationError(message);
+	assert.equal(attachedPVar.pVar.getState(), "error");
+	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedPVar.view.className));
 });
 
 QUnit.test("testInitTextOutput", function(assert) {

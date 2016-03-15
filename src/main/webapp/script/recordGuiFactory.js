@@ -75,6 +75,16 @@ var CORA = (function(cora) {
 				return metadataController;
 			}
 
+			function validateData() {
+				var spec = {
+					"metadataId" : metadataId,
+					"data" : dataHolder.getData(),
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub
+				};
+				return CORA.metadataValidator(spec);
+			}
+
 			return Object.freeze({
 				pubSub : pubSub,
 				jsBookkeeper : jsBookkeeper,
@@ -82,7 +92,8 @@ var CORA = (function(cora) {
 				dataHolder : dataHolder,
 				getMetadataController : getMetadataController,
 				getPresentation : getPresentation,
-				initMetadataControllerStartingGui : initMetadataControllerStartingGui
+				initMetadataControllerStartingGui : initMetadataControllerStartingGui,
+				validateData : validateData
 			});
 		};
 		return Object.freeze({

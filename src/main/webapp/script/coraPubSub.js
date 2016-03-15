@@ -28,7 +28,10 @@ var CORA = (function(cora) {
 		}
 
 		function publish(type, data) {
-			var everyThingOk = arbiter.publish(convertPathToMsg(data.path) + type, data);
+//			console.log(type +" : "+JSON.stringify(data))
+			var convertedPath = convertPathToMsg(data.path) + type;
+//			console.log(convertedPath)
+			var everyThingOk = arbiter.publish(convertedPath, data);
 			if (!everyThingOk) {
 				var errorMessage = "";
 				arbiter.getErrorArray().forEach(function(error) {

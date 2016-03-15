@@ -26,7 +26,7 @@ var CORA = (function(cora) {
 			"containsValuableData" : false
 		};
 		var childReference = CORA.coraData(childReferenceIn);
-		var data = CORA.coraData(dataIn);
+		var cData = CORA.coraData(dataIn);
 
 		var ref = childReference.getFirstAtomicValueByNameInData('ref');
 		var nameInData = getNameInDataForMetadataId(ref);
@@ -97,8 +97,12 @@ var CORA = (function(cora) {
 		}
 
 		function getDataChildrenForMetadata(nameInDataIn, attributesIn) {
+			if(!cData.containsChildWithNameInDataAndAttributes(nameInDataIn,
+					attributesIn)){
+				return [];
+			}
 			var dataChildrenForMetadataOut = [];
-			dataChildrenForMetadataOut = data.getChildrenByNameInDataAndAttributes(nameInDataIn,
+			dataChildrenForMetadataOut = cData.getChildrenByNameInDataAndAttributes(nameInDataIn,
 					attributesIn);
 			return dataChildrenForMetadataOut;
 		}

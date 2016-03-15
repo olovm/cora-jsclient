@@ -234,6 +234,17 @@ QUnit.test("testValidateOneChildRepeat0to1WithEmptyValue", function(assert) {
 			+ '"type":"remove",' + '"path":{\"name\":\"linkedPath\"'
 			+ ',\"children\":[{\"name\":\"nameInData\",\"value\":\"textVariableId\"}]}}}');
 });
+QUnit.test("testValidateOneChildRepeat0to1NoData", function(assert) {
+	var data = {
+			"name" : "groupIdOneTextChildRepeat0to1",
+			"children" : [ ]
+	};
+	
+	var factored = this.metadataValidatorFactory.factor("groupIdOneTextChildRepeat0to1", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
 
 // textVarRepeat1to3InGroup
 QUnit.test("testValidateTextVariableRepeat1to3InGroupWithData", function(assert) {

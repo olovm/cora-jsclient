@@ -97,7 +97,7 @@ var CORA = (function(cora) {
 				setValue(dataFromMsg.path, dataFromMsg.data);
 			} else if (msg.endsWith("remove")) {
 				remove(dataFromMsg.path);
-			} else {
+			} else if (msg.endsWith("move")) {
 				move(dataFromMsg);
 			}
 		}
