@@ -17,15 +17,12 @@
 	position: relative;
 	width: 100%;
 	color: black;
-/* 	position: absolute; */
 	top: 0px;
 }
 .messageHolder {
-	/* position: relative; */
 	width: calc(100% - 25rem);
 	color: black;
-	/* position: absolute; */
-	top: 8em;
+	top: 5em;
 	position: fixed;
 	z-index: 2;
 }
@@ -34,7 +31,6 @@
 	background-color: black;
 	opacity: 0.0;
 	height: 0px;
-	/* 	transition: opacity .7s, height .7s; */
 	transition: opacity .7s, height .7s;
 	overflow: hidden;
 	margin-top: 0px;
@@ -48,8 +44,6 @@
 	min-height: 19px;
 	padding: 2px;
 	width: auto;
-	/*     display: none; */
-	/*     height: 0px; */
 }
 
 .messageHolder .messageText {
@@ -58,36 +52,21 @@
 }
 
 .messageHolder .error {
-	/* 	background-color: red; */
 	background-color: #FFB0B0;
 }
 
 .messageHolder .warning {
-	/* 	background-color: yellow;	 */
 	background-color: #FFFE66;
 }
 
 .messageHolder .info {
-	/* 	background-color: cyan;	 */
 	background-color: #91FFFD;
 }
 
 .messageHolder .positive {
-	/* 	background-color: green;	 */
 	background-color: #6AFF69;
 }
 
 .message {
 	position: relative;
 }
-/* .messageHolder .closeButton{ */
-/* 	position: absolute; */
-/* 	height: 10px; */
-/* 	width: 10px; */
-/* 	top: 0px; */
-/* 	right: 0px; */
-/* 	background-color: red; */
-/* 	border: 1px solid black; */
-/* 	cursor: pointer; */
-
-/* } */
