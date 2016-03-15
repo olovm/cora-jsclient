@@ -35,6 +35,7 @@ var CORA = (function(cora) {
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 
 		var view = createBaseView();
+		var originalClassName = view.className;
 		var valueView = createValueView(mode);
 		view.appendChild(valueView);
 		var state = "ok";
@@ -211,9 +212,9 @@ var CORA = (function(cora) {
 		}
 
 		function updateView() {
-			var className = "";
+			var className = originalClassName;
 			if (state === "error") {
-				className += "error";
+				className += " error";
 			}
 			view.className = className;
 		}

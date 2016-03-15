@@ -235,7 +235,7 @@ QUnit.test("testChangedValueEmpty", function(assert) {
 	attachedPVar.valueView.value = "";
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
-	assert.equal(attachedPVar.view.className, "");
+	assert.equal(attachedPVar.view.className, "pVar pVarTextVariableId");
 	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "", assert);
 });
 
@@ -244,7 +244,7 @@ QUnit.test("testChangedValueOk", function(assert) {
 	attachedPVar.valueView.value = "hej";
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
-	assert.equal(attachedPVar.view.className, "");
+	assert.equal(attachedPVar.view.className, "pVar pVarTextVariableId");
 	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej", assert);
 });
 
@@ -333,6 +333,6 @@ QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
 	};
 	attachedPVar.pVar.handleMsg(data);
 	
-	assert.strictEqual(attachedPVar.view.className,"");
+	assert.strictEqual(attachedPVar.view.className,"pVar pVarTextVariableId");
 });
 
