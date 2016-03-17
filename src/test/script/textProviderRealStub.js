@@ -45,10 +45,14 @@ var CORATEST = (function(coraTest) {
 				return "Empty text id??";
 			case "presentationOfTextVarText":
 				return "Presentation av";
+			case "presentationVarIdText":
+				return "Id";
 			case "inputItemTextId":
 				return "input";
 			case "outputItemTextId":
 				return "output";
+			case "modeCollectionTextVarText":
+				return "Presentationsläge";
 			case "initialEmptyValueText":
 				return "-- Gör ett val ur listan --";
 			default:

@@ -3301,7 +3301,8 @@ var CORATEST = (function(coraTest) {
 									"name" : "default",
 									"value" : "ref"
 								} ]
-							}, {
+							}, 
+							{
 								"name" : "childReference",
 								"repeatId" : "0",
 								"children" : [ {
@@ -3311,7 +3312,8 @@ var CORATEST = (function(coraTest) {
 									"name" : "default",
 									"value" : "ref"
 								} ]
-							}, {
+							}, 
+							{
 								"name" : "childReference",
 								"repeatId" : "1",
 								"children" : [ {
@@ -3575,7 +3577,7 @@ var CORATEST = (function(coraTest) {
 								"repeatId" : "1",
 								"children" : [ {
 									"name" : "ref",
-									"value" : "idPVarPVar"
+									"value" : "idTextVarPVar"
 								}, {
 									"name" : "default",
 									"value" : "ref"
@@ -4004,6 +4006,26 @@ var CORATEST = (function(coraTest) {
 						}, {
 							"name" : "presentationOf",
 							"value" : "idPVarTextVar"
+						}, {
+							"name" : "mode",
+							"value" : "input"
+						} ]
+					};
+				case "idTextVarPVar":
+					return {
+						"name" : "presentation",
+						"attributes" : {
+							"type" : "pVar"
+						},
+						"children" : [ {
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "idTextVarPVar"
+							} ]
+						}, {
+							"name" : "presentationOf",
+							"value" : "idTextTextVar"
 						}, {
 							"name" : "mode",
 							"value" : "input"
@@ -4465,7 +4487,7 @@ var CORATEST = (function(coraTest) {
 								"repeatId" : "1",
 								"children" : [ {
 									"name" : "ref",
-									"value" : "textSystemOneNewPGroupText"
+									"value" : "presentationVarIdText"
 								}, {
 									"name" : "default",
 									"value" : "ref"
@@ -4508,7 +4530,18 @@ var CORATEST = (function(coraTest) {
 								},
 								{
 									"name" : "childReference",
-									"repeatId" : "2",
+									"repeatId" : "3",
+									"children" : [ {
+										"name" : "ref",
+										"value" : "modeCollectionTextVarText"
+									}, {
+										"name" : "default",
+										"value" : "ref"
+									} ]
+								},
+								{
+									"name" : "childReference",
+									"repeatId" : "4",
 									"children" : [ {
 										"name" : "ref",
 										"value" : "modeCollectionVarPVar"
@@ -4559,7 +4592,7 @@ var CORATEST = (function(coraTest) {
 								"repeatId" : "1",
 								"children" : [ {
 									"name" : "ref",
-									"value" : "textSystemOneNewPGroupText"
+									"value" : "presentationVarIdText"
 								}, {
 									"name" : "default",
 									"value" : "ref"
@@ -4602,7 +4635,18 @@ var CORATEST = (function(coraTest) {
 								},
 								{
 									"name" : "childReference",
-									"repeatId" : "2",
+									"repeatId" : "3",
+									"children" : [ {
+										"name" : "ref",
+										"value" : "modeCollectionTextVarText"
+									}, {
+										"name" : "default",
+										"value" : "ref"
+									} ]
+								},
+								{
+									"name" : "childReference",
+									"repeatId" : "4",
 									"children" : [ {
 										"name" : "ref",
 										"value" : "modeCollectionVarPVar"
@@ -4677,34 +4721,67 @@ var CORATEST = (function(coraTest) {
 								"repeatId" : "0",
 								"children" : [ {
 									"name" : "ref",
-									"value" : "recordInfoPGroup"
+									"value" : "presentationVarIdText"
 								}, {
 									"name" : "default",
 									"value" : "ref"
 								} ]
 							}
-								, {
-									"name" : "childReference",
-									"repeatId" : "1",
-									"children" : [ {
-										"name" : "ref",
-										"value" : "emptyTextIdTextVarPVar"
-									}, {
-										"name" : "default",
-										"value" : "ref"
-									} ]
-								}
-								//{
-								//	"name" : "childReference",
-								//	"repeatId" : "2",
-								//	"children" : [ {
-								//		"name" : "ref",
-								//		"value" : "textPartEnOutputSContainer"
-								//	}, {
-								//		"name" : "default",
-								//		"value" : "ref"
-								//	} ]
-								//}
+								,{
+								"name" : "childReference",
+								"repeatId" : "1",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "recordInfoPGroup"
+								}, {
+									"name" : "default",
+									"value" : "ref"
+								} ]
+							},
+							{
+								"name" : "childReference",
+								"repeatId" : "2",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "presentationOfTextVarText"
+								}, {
+									"name" : "default",
+									"value" : "ref"
+								} ]
+							},
+							{
+								"name" : "childReference",
+								"repeatId" : "3",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "presentationOfTextVarOutputPVar"
+								}, {
+									"name" : "default",
+									"value" : "ref"
+								} ]
+							},
+							{
+								"name" : "childReference",
+								"repeatId" : "4",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "modeCollectionTextVarText"
+								}, {
+									"name" : "default",
+									"value" : "ref"
+								} ]
+							},
+							{
+								"name" : "childReference",
+								"repeatId" : "5",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "modeCollectionVarOutputPVar"
+								}, {
+									"name" : "default",
+									"value" : "ref"
+								} ]
+							}
 							]
 						} ])
 					};
@@ -4748,6 +4825,26 @@ var CORATEST = (function(coraTest) {
 							"value" : "input"
 						}]
 					};
+				case "presentationOfTextVarOutputPVar":
+					return {
+						"name" : "presentation",
+						"attributes" : {
+							"type" : "pVar"
+						},
+						"children" : [ {
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "presentationOfTextVarPVar"
+							} ]
+						}, {
+							"name" : "presentationOf",
+							"value" : "presentationOfTextVar"
+						}, {
+							"name" : "mode",
+							"value" : "output"
+						}]
+					};
 				case "modeCollectionVarPVar":
 					return {
 						"name" : "presentation",
@@ -4770,6 +4867,62 @@ var CORATEST = (function(coraTest) {
 							"name" : "emptyTextId",
 							"value" : "initialEmptyValueText"
 						}  ]
+					};
+				case "modeCollectionVarOutputPVar":
+					return {
+						"name" : "presentation",
+						"attributes" : {
+							"type" : "pVar"
+						},
+						"children" : [ {
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "modeCollectionVarPVar"
+							} ]
+						}, {
+							"name" : "presentationOf",
+							"value" : "modeCollectionVar"
+						}, {
+							"name" : "mode",
+							"value" : "outtput"
+						}
+//						, {
+//							"name" : "emptyTextId",
+//							"value" : "initialEmptyValueText"
+//						}  
+						]
+					};
+				case "presentationVarIdText":
+					return {
+						"name" : "text",
+						"children" : [ {
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "modeCollectionTextVarText"
+							} ]
+						}, {
+							"name" : "textPart",
+							"attributes" : {
+								"type" : "default",
+								"lang" : "sv"
+							},
+							"children" : [ {
+								"name" : "text",
+								"value" : "Id"
+							} ]
+						}, {
+							"name" : "textPart",
+							"attributes" : {
+								"type" : "alternative",
+								"lang" : "en"
+							},
+							"children" : [ {
+								"name" : "text",
+								"value" : "Id"
+							} ]
+						} ]
 					};
 				case "presentationOfTextVarText":
 					return {
@@ -4799,6 +4952,37 @@ var CORATEST = (function(coraTest) {
 							"children" : [ {
 								"name" : "text",
 								"value" : "Presentation of"
+							} ]
+						} ]
+					};
+					case "modeCollectionTextVarText":
+					return {
+						"name" : "text",
+						"children" : [ {
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "modeCollectionTextVarText"
+							} ]
+						}, {
+							"name" : "textPart",
+							"attributes" : {
+								"type" : "default",
+								"lang" : "sv"
+							},
+							"children" : [ {
+								"name" : "text",
+								"value" : "Presentationsläge"
+							} ]
+						}, {
+							"name" : "textPart",
+							"attributes" : {
+								"type" : "alternative",
+								"lang" : "en"
+							},
+							"children" : [ {
+								"name" : "text",
+								"value" : "Mode of presentation"
 							} ]
 						} ]
 					};
