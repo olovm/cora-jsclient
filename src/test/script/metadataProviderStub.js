@@ -350,6 +350,35 @@ function MetadataProviderStub() {
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
+		if (idToGet === "groupIdTwoTextChild1to1InGroup") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [
+
+					createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+							"groupIdTwoTextChild", "1", "1", "1") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "textVariableIdRepeat1to3InGroup") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [
+					              createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+					            		  "textVariableId", "1", "1", "3")]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
 		if (idToGet === "groupIdTwoTextChildRepeat1to5") {
 			return {
 				"name" : "metadata",

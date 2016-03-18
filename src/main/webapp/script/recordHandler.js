@@ -27,6 +27,9 @@ var CORA = (function(cora) {
 		var workView = views.workView;
 		var menuView = views.menuView;
 
+		var messageHolder = CORA.messageHolder();
+		workView.appendChild(messageHolder.getView());
+
 		var recordHandlerView = createRecordHandlerView();
 		workView.appendChild(recordHandlerView.getView());
 
@@ -96,23 +99,32 @@ var CORA = (function(cora) {
 		}
 
 		function sendNewDataToServer() {
-			var callAfterAnswer = resetViewsAndProcessFetchedRecord;
-			var createLink = spec.recordTypeRecord.actionLinks.create;
-			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : createLink.requestMethod,
-				"url" : createLink.url,
-				"contentType" : createLink.contentType,
-				"accept" : createLink.accept,
-				"loadMethod" : callAfterAnswer,
-				"errorMethod" : callError,
-				"data" : JSON.stringify(recordGuiNew.dataHolder.getData())
-			};
-			CORA.ajaxCall(callSpec);
+			if (recordGuiNew.validateData()) {
+
+				var callAfterAnswer = resetViewsAndProcessFetchedRecord;
+				var createLink = spec.recordTypeRecord.actionLinks.create;
+				var callSpec = {
+					"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+					"method" : createLink.requestMethod,
+					"url" : createLink.url,
+					"contentType" : createLink.contentType,
+					"accept" : createLink.accept,
+					"loadMethod" : callAfterAnswer,
+					"errorMethod" : callError,
+					"data" : JSON.stringify(recordGuiNew.dataHolder.getData())
+				};
+				CORA.ajaxCall(callSpec);
+			}
 		}
 
 		function resetViewsAndProcessFetchedRecord(answer) {
 			recordHandlerView.clearViews();
+			var messageSpec = {
+				"message" : "Tjohoo, det där gick ju bra, data sparat på servern!",
+				"type" : CORA.message.POSITIVE
+			};
+			messageHolder.createMessage(messageSpec);
+
 			processFetchedRecord(answer);
 		}
 
@@ -214,19 +226,24 @@ var CORA = (function(cora) {
 			};
 			CORA.ajaxCall(callSpec);
 		}
-		function sendUpdateDataToServer(callAfterAnswer) {
-			var updateLink = fetchedRecord.actionLinks.update;
-			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : updateLink.requestMethod,
-				"url" : updateLink.url,
-				"contentType" : updateLink.contentType,
-				"accept" : updateLink.accept,
-				"loadMethod" : callAfterAnswer,
-				"errorMethod" : callError,
-				"data" : JSON.stringify(recordGui.dataHolder.getData())
-			};
-			CORA.ajaxCall(callSpec);
+
+		function sendUpdateDataToServer() {
+			var callAfterAnswer = resetViewsAndProcessFetchedRecord;
+			if (recordGui.validateData()) {
+
+				var updateLink = fetchedRecord.actionLinks.update;
+				var callSpec = {
+					"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+					"method" : updateLink.requestMethod,
+					"url" : updateLink.url,
+					"contentType" : updateLink.contentType,
+					"accept" : updateLink.accept,
+					"loadMethod" : callAfterAnswer,
+					"errorMethod" : callError,
+					"data" : JSON.stringify(recordGui.dataHolder.getData())
+				};
+				CORA.ajaxCall(callSpec);
+			}
 		}
 		function createRawDataWorkView(data) {
 			recordHandlerView.addEditView(document.createTextNode(JSON.stringify(data)));
@@ -244,9 +261,11 @@ var CORA = (function(cora) {
 		}
 
 		function callError(answer) {
-			var errorView = document.createElement("span");
-			errorView.textContent = JSON.stringify(answer.status);
-			recordHandlerView.addEditView(errorView);
+			var messageSpec = {
+				"message" : answer.status,
+				"type" : CORA.message.ERROR
+			};
+			messageHolder.createMessage(messageSpec);
 		}
 
 		return Object.freeze({});

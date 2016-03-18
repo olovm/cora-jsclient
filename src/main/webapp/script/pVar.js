@@ -35,10 +35,12 @@ var CORA = (function(cora) {
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 
 		var view = createBaseView();
+		var originalClassName = view.className;
 		var valueView = createValueView(mode);
 		view.appendChild(valueView);
 		var state = "ok";
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
+		pubSub.subscribe("validationError", path, undefined, handleValidationError);
 
 		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
 		var text = textProvider.getTranslation(textId);
@@ -128,6 +130,7 @@ var CORA = (function(cora) {
 		}
 
 		function setValue(value) {
+			state = "ok";
 			if (mode === "input") {
 				valueView.value = value;
 			} else {
@@ -164,6 +167,12 @@ var CORA = (function(cora) {
 
 		function handleMsg(dataFromMsg) {
 			setValue(dataFromMsg.data);
+			updateView();
+		}
+
+		function handleValidationError() {
+			state = "error";
+			updateView();
 		}
 
 		function getMetadataById(id) {
@@ -203,9 +212,9 @@ var CORA = (function(cora) {
 		}
 
 		function updateView() {
-			var className = "";
+			var className = originalClassName;
 			if (state === "error") {
-				className += "error";
+				className += " error";
 			}
 			view.className = className;
 		}
@@ -223,7 +232,8 @@ var CORA = (function(cora) {
 			getDefText : getDefText,
 			getRegEx : getRegEx,
 			getState : getState,
-			onBlur : onBlur
+			onBlur : onBlur,
+			handleValidationError : handleValidationError
 		});
 		view.modelObject = out;
 		if (mode === "input") {
