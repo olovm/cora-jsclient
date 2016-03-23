@@ -25,6 +25,8 @@ var CORA = (function(cora) {
 		var mainView = createMainView();
 		var sideBar;
 		var workArea;
+		var busy = CORA.busy();
+		mainView.appendChild(busy.getView());
 		var recordGuiFactory = CORA.recordGuiFactory(spec.dependencies);
 		fetchRecordTypeListAndThen(processFetchedRecordTypes);
 
@@ -51,6 +53,7 @@ var CORA = (function(cora) {
 		}
 
 		function fetchRecordTypeListAndThen(callAfterAnswer) {
+			busy.show();
 			var recordListSpec = {
 				"xmlHttpRequestFactory" : spec.dependencies.xmlHttpRequestFactory,
 				"method" : "GET",
@@ -66,6 +69,7 @@ var CORA = (function(cora) {
 			recordTypeList = createRecordTypeListFromAnswer(answer);
 			metadataIdsForRecordType = createMetadataIdsForRecordType(recordTypeList);
 			addRecordTypesToSideBar(recordTypeList);
+			busy.hideWithEffect();
 		}
 		function createRecordTypeListFromAnswer(answer) {
 			var data = JSON.parse(answer.responseText).dataList.data;
