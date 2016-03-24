@@ -33,6 +33,9 @@ var CORA = (function(cora) {
 		var recordHandlerView = createRecordHandlerView();
 		workView.appendChild(recordHandlerView.getView());
 
+		var busy = CORA.busy();
+		workView.appendChild(busy.getView());
+
 		var recordGuiNew;
 		var recordGui;
 		var fetchedRecord;
@@ -99,6 +102,7 @@ var CORA = (function(cora) {
 		}
 
 		function sendNewDataToServer() {
+			busy.show();
 			if (recordGuiNew.validateData()) {
 
 				var callAfterAnswer = resetViewsAndProcessFetchedRecord;
@@ -118,6 +122,7 @@ var CORA = (function(cora) {
 		}
 
 		function resetViewsAndProcessFetchedRecord(answer) {
+			busy.hideWithEffect();
 			recordHandlerView.clearViews();
 			var messageSpec = {
 				"message" : "Tjohoo, det där gick ju bra, data sparat på servern!",
@@ -129,6 +134,7 @@ var CORA = (function(cora) {
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
+			busy.show();
 			var readLink = spec.record.actionLinks.read;
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
@@ -157,6 +163,7 @@ var CORA = (function(cora) {
 				// metadata)
 				createRawDataWorkView(data);
 			}
+			busy.hideWithEffect();
 		}
 
 		function getRecordPartFromAnswer(answer) {
@@ -215,7 +222,11 @@ var CORA = (function(cora) {
 		}
 
 		function sendDeleteDataToServer() {
-			var callAfterAnswer = recordHandlerView.clearViews;
+			busy.show();
+			var callAfterAnswer = function() {
+				recordHandlerView.clearViews();
+				busy.hideWithEffect();
+			};
 			var deleteLink = fetchedRecord.actionLinks["delete"];
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
@@ -228,6 +239,7 @@ var CORA = (function(cora) {
 		}
 
 		function sendUpdateDataToServer() {
+			busy.show();
 			var callAfterAnswer = resetViewsAndProcessFetchedRecord;
 			if (recordGui.validateData()) {
 
@@ -245,6 +257,7 @@ var CORA = (function(cora) {
 				CORA.ajaxCall(callSpec);
 			}
 		}
+
 		function createRawDataWorkView(data) {
 			recordHandlerView.addEditView(document.createTextNode(JSON.stringify(data)));
 		}
@@ -252,6 +265,7 @@ var CORA = (function(cora) {
 		function getPresentationViewId() {
 			return getRecordTypeRecordValue("presentationViewId");
 		}
+
 		function getPresentationFormId() {
 			return getRecordTypeRecordValue("presentationFormId");
 		}
@@ -261,6 +275,7 @@ var CORA = (function(cora) {
 		}
 
 		function callError(answer) {
+			busy.hideWithEffect();
 			var messageSpec = {
 				"message" : answer.status,
 				"type" : CORA.message.ERROR
