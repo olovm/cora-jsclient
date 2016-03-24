@@ -428,7 +428,7 @@ QUnit.test("initCallToServer", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
 			"application/uub+record+json");
 
-	assert.strictEqual(this.workView.childNodes.length, 2);
+	assert.strictEqual(this.workView.childNodes.length, 3);
 
 });
 
@@ -488,6 +488,10 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeMenuPGroup");
 	assert.strictEqual(this.menuView.textContent, "");
 	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
+	
+	var busy = this.workView.childNodes[2];
+	assert.strictEqual(busy.className, "busy toBeRemoved");
+	
 });
 
 QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
