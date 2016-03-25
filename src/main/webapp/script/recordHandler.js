@@ -102,8 +102,8 @@ var CORA = (function(cora) {
 		}
 
 		function sendNewDataToServer() {
-			busy.show();
 			if (recordGuiNew.validateData()) {
+				busy.show();
 
 				var callAfterAnswer = resetViewsAndProcessFetchedRecord;
 				var createLink = spec.recordTypeRecord.actionLinks.create;
@@ -239,9 +239,9 @@ var CORA = (function(cora) {
 		}
 
 		function sendUpdateDataToServer() {
-			busy.show();
 			var callAfterAnswer = resetViewsAndProcessFetchedRecord;
 			if (recordGui.validateData()) {
+				busy.show();
 
 				var updateLink = fetchedRecord.actionLinks.update;
 				var callSpec = {
