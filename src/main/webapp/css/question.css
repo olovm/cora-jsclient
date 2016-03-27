@@ -1,8 +1,5 @@
 .question {
 	background-color: black;
-/* 	background-image: url("../images/updateing.gif"); */
-/* 	background-position: center; */
-/* 	background-repeat: no-repeat; */
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -10,6 +7,9 @@
 	height: 100%;
 	opacity: 0.85;
 	z-index: 999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .question.hidden {
@@ -19,4 +19,26 @@
 .question.toBeRemoved {
 	opacity: 0.0;
 	transition: opacity .7s;
+}
+
+.question .questionBox {
+	background-color: yellow;
+	width: calc(100% - 2em);
+	margin: 1em;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	padding-bottom: 1em;
+}
+
+.question .questionBox text {
+	display: block;
+	text-align: center;
+	padding: 1em;
+	font-weight: bold;
+	flex: 100%
+}
+
+.question .questionBox :last-child {
+	float: right;
 }

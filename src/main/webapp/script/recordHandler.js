@@ -184,7 +184,8 @@ var CORA = (function(cora) {
 			if (notAbstractRecordRecordType()) {
 
 				if (recordHasDeleteLink()) {
-					recordHandlerView.addButton("DELETE", sendDeleteDataToServer, "delete");
+					// recordHandlerView.addButton("DELETE", sendDeleteDataToServer, "delete");
+					recordHandlerView.addButton("DELETE", shouldRecordBeDeleted, "delete");
 				}
 				if (recordHasUpdateLink()) {
 					addToEditView(recordGuiToAdd);
@@ -219,6 +220,22 @@ var CORA = (function(cora) {
 			var showViewId = getPresentationViewId();
 			var showView = recordGuiToAdd.getPresentation(showViewId).getView();
 			recordHandlerView.addShowView(showView);
+		}
+
+		function shouldRecordBeDeleted() {
+			var spec = {
+				"text" : "Är du säker på att du vill ta bort posten?",
+				"buttons" : [ {
+					"text" : "Nej"
+				}, {
+					"text" : "Ja",
+					"onclickFunction" : sendDeleteDataToServer
+				} ]
+			};
+			var question = CORA.question(spec);
+			var view = question.getView();
+			workView.appendChild(view);
+
 		}
 
 		function sendDeleteDataToServer() {

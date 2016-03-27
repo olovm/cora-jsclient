@@ -79,7 +79,7 @@ QUnit.test("testInitAndButtonClick", function(assert) {
 	var buttonClicked = false;
 	var clickFunction = function (){
 		buttonClicked = true;
-	}
+	};
 	var spec = {
 		"text" : "Are you sure?",
 		"buttons" : [ {
