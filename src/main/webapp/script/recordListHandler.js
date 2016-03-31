@@ -89,9 +89,13 @@ var CORA = (function(cora) {
 		}
 
 		function callError(answer) {
-			var errorView = document.createElement("span");
-			errorView.textContent = JSON.stringify(answer.status);
-			workView.appendChild(errorView);
+			var messageHolder = CORA.messageHolder();
+			workView.appendChild(messageHolder.getView());
+			var messageSpec = {
+					"message" : answer.status,
+					"type" : CORA.message.ERROR
+			};
+			messageHolder.createMessage(messageSpec);
 		}
 
 		var out = Object.freeze({

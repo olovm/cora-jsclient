@@ -28,12 +28,11 @@ var CORA = (function(cora) {
 		function add(data) {
 			var childReference = data.childReference;
 			var path = data.path;
-			var startRepeatId = 0;
 			var currentData = spec.dataHolder.getData();
 			if (path.children !== undefined) {
 				currentData = spec.dataHolder.findContainer(currentData, path);
 			}
-			startRepeatId = calculateStartRepeatId(currentData.children);
+			var startRepeatId = calculateStartRepeatId(currentData.children);
 
 			var cChildReference = CORA.coraData(childReference);
 			var ref = cChildReference.getFirstAtomicValueByNameInData('ref');
@@ -49,8 +48,7 @@ var CORA = (function(cora) {
 		}
 
 		function calculateStartRepeatId(dataChildrenForMetadata) {
-			var generatedRepeatId = 0;
-			generatedRepeatId = calculateStartRepeatIdFromData(dataChildrenForMetadata);
+			var generatedRepeatId = calculateStartRepeatIdFromData(dataChildrenForMetadata);
 			return generatedRepeatId;
 		}
 

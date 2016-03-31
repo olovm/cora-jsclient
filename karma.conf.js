@@ -17,6 +17,7 @@ module.exports = function (config) {
         files: [
             'src/main/webapp/script/*.js',
             'src/main/webapp/script/lib/*.js',
+            'src/main/webapp/css/*.css',
             'src/test/script/*.js',
             'src/test/script/lib/*.js',
             'src/main/webapp/css/*.css'

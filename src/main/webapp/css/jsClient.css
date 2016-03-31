@@ -27,8 +27,8 @@ body {
 
 .jsClient>.header {
 	display: block;
-	height: 7rem;
-	font-size: 5rem;
+	height: 4rem;
+	font-size: 3rem;
 	text-align: center;
 	color: magenta;
 	border-bottom: 1px solid;
@@ -39,7 +39,7 @@ body {
 .jsClient>.sideBar {
 	display: inline-block;
 /* 	height: calc(100% - 9rem - 2rem - 1px); */
-	height: calc(100% - 9rem - 1px);
+	height: calc(100% - 6rem - 1px);
 	overflow: auto;
 	width: 20rem;
 	padding: 1rem;
@@ -113,8 +113,7 @@ body {
 	position: absolute;
 	display: inline-block;
 	width: calc(100% - 24rem - 1px);
-/* 	height: calc(100% - 11rem - 1px); */
-	height: calc(100% - 9rem - 1px);
+	height: calc(100% - 6rem - 1px);
 	margin: 1rem;
 }
 
@@ -128,7 +127,7 @@ body {
 	overflow: auto;
 }
 .workArea .workView .workItem {
-	height: 100%;
+/* 	height: 100%; */
 	display: block;
 	position: relative;
 }
@@ -153,15 +152,15 @@ body {
 	white-space: nowrap;
 }
 
-.jsClient .sideBar .recordInfoTextMenuPGroup .pVar span:before {
+.jsClient .sideBar [class*='recordInfo'] .pVar span:before {
 	content: "(";
 }
 
-.jsClient .sideBar .recordInfoTextMenuPGroup .pVar span:after {
+.jsClient .sideBar [class*='recordInfo'] .pVar span:after {
 	content: ")";
 }
 
-.jsClient .sideBar .recordInfoTextMenuPGroup .pVar span {
+.jsClient .sideBar [class*='recordInfo'] .pVar span {
 	padding-right: 1rem;
 	width: 30%;
 	overflow: hidden;
@@ -288,6 +287,9 @@ body {
 	font-weight: bold;
 	margin: 0;
 }
+.jsClient .showView {
+	float: right;
+}
 
 .jsClient .editView, .jsClient .showView {
 	height: calc(100% - 3rem);
@@ -322,18 +324,6 @@ body {
 
 .jsClient .showView .pGroup>.pChildRefHandler+.pChildRefHandler {
 	margin-top: .3rem;
-}
-
-.jsClient .showView .recordInfoTextPGroup {
-	font-weight: bold;
-}
-
-.jsClient .showView .recordInfoTextPGroup .pVar span:before {
-	content: "(";
-}
-
-.jsClient .showView .recordInfoTextPGroup .pVar span:after {
-	content: ")";
 }
 
 .jsClient .showView .text {

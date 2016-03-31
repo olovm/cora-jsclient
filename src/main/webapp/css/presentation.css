@@ -10,6 +10,7 @@
 /* 	display: inline-block; */
 	
 }
+
 input {
 	margin: 3px;
 }
@@ -47,7 +48,7 @@ input {
 	background-color: cyan;
 }
 
-.error input {
+.error input, .error select {
 	background-color: red;
 }
 /* .presentation.pgGroupIdOneTextChild { */
@@ -218,7 +219,11 @@ input {
 .pVar {
 	min-width: 30px;
 	min-height: 24px;
+	width: 80%;
 	display: inline-block;
+}
+.pVar input {
+	width: 100%;
 }
 
 .pRepeatingContainer {

@@ -1,0 +1,72 @@
+.removeButton:hover::after {
+	opacity: 1;
+/* 		transition: transform 2s; */
+/* 		transform: rotate(350deg); */
+/* 		animation: 2s rotate360 infinite linear; */
+/*     animation: rotation 1s infinite linear; */
+    animation: rotation 1s  linear;
+}
+
+@keyframes rotation {
+    from {transform: rotate(0deg);}
+    to   {transform: rotate(90deg);}
+/*     to   {transform: rotate(359deg);} */
+}
+
+.messageHolder {
+	position: relative;
+	width: 100%;
+	color: black;
+	top: 0px;
+}
+.messageHolder {
+	width: calc(100% - 25rem);
+	color: black;
+	top: 5em;
+	position: fixed;
+	z-index: 2;
+}
+
+.messageHolder .toBeRemoved, .message.toBeRemoved {
+	background-color: black;
+	opacity: 0.0;
+	height: 0px;
+	transition: opacity .7s, height .7s;
+	overflow: hidden;
+	margin-top: 0px;
+	border: 0px;
+}
+
+.messageHolder .message {
+	border: 1px solid #000000;
+	border-radius: 2px;
+	margin: 4px;
+	min-height: 19px;
+	padding: 2px;
+	width: auto;
+}
+
+.messageHolder .messageText {
+	/* 	position: absolute; */
+	max-width: calc(100% - 25px);
+}
+
+.messageHolder .error {
+	background-color: #FFB0B0;
+}
+
+.messageHolder .warning {
+	background-color: #FFFE66;
+}
+
+.messageHolder .info {
+	background-color: #91FFFD;
+}
+
+.messageHolder .positive {
+	background-color: #6AFF69;
+}
+
+.message {
+	position: relative;
+}
