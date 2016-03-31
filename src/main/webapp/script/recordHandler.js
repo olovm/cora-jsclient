@@ -102,8 +102,8 @@ var CORA = (function(cora) {
 		}
 
 		function sendNewDataToServer() {
-			busy.show();
 			if (recordGuiNew.validateData()) {
+				busy.show();
 
 				var callAfterAnswer = resetViewsAndProcessFetchedRecord;
 				var createLink = spec.recordTypeRecord.actionLinks.create;
@@ -184,7 +184,7 @@ var CORA = (function(cora) {
 			if (notAbstractRecordRecordType()) {
 
 				if (recordHasDeleteLink()) {
-					recordHandlerView.addButton("DELETE", sendDeleteDataToServer, "delete");
+					recordHandlerView.addButton("DELETE", shouldRecordBeDeleted, "delete");
 				}
 				if (recordHasUpdateLink()) {
 					addToEditView(recordGuiToAdd);
@@ -221,6 +221,22 @@ var CORA = (function(cora) {
 			recordHandlerView.addShowView(showView);
 		}
 
+		function shouldRecordBeDeleted() {
+			var questionSpec = {
+				"text" : "Är du säker på att du vill ta bort posten?",
+				"buttons" : [ {
+					"text" : "Nej"
+				}, {
+					"text" : "Ja",
+					"onclickFunction" : sendDeleteDataToServer
+				} ]
+			};
+			var question = CORA.question(questionSpec);
+			var view = question.getView();
+			workView.appendChild(view);
+
+		}
+
 		function sendDeleteDataToServer() {
 			busy.show();
 			var callAfterAnswer = function() {
@@ -239,9 +255,9 @@ var CORA = (function(cora) {
 		}
 
 		function sendUpdateDataToServer() {
-			busy.show();
 			var callAfterAnswer = resetViewsAndProcessFetchedRecord;
 			if (recordGui.validateData()) {
+				busy.show();
 
 				var updateLink = fetchedRecord.actionLinks.update;
 				var callSpec = {

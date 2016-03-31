@@ -152,15 +152,15 @@ body {
 	white-space: nowrap;
 }
 
-.jsClient .sideBar .recordInfoTextMenuPGroup .pVar span:before {
+.jsClient .sideBar [class*='recordInfo'] .pVar span:before {
 	content: "(";
 }
 
-.jsClient .sideBar .recordInfoTextMenuPGroup .pVar span:after {
+.jsClient .sideBar [class*='recordInfo'] .pVar span:after {
 	content: ")";
 }
 
-.jsClient .sideBar .recordInfoTextMenuPGroup .pVar span {
+.jsClient .sideBar [class*='recordInfo'] .pVar span {
 	padding-right: 1rem;
 	width: 30%;
 	overflow: hidden;
@@ -324,18 +324,6 @@ body {
 
 .jsClient .showView .pGroup>.pChildRefHandler+.pChildRefHandler {
 	margin-top: .3rem;
-}
-
-.jsClient .showView .recordInfoTextPGroup {
-	font-weight: bold;
-}
-
-.jsClient .showView .recordInfoTextPGroup .pVar span:before {
-	content: "(";
-}
-
-.jsClient .showView .recordInfoTextPGroup .pVar span:after {
-	content: ")";
 }
 
 .jsClient .showView .text {

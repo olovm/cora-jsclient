@@ -355,7 +355,7 @@ QUnit.module("recordHandlerTest.js", {
 					return {};
 				}
 			},
-			"validateData":function(){
+			"validateData" : function() {
 				return true;
 			}
 		};
@@ -466,7 +466,7 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 
 	var messageHolder = this.workView.childNodes[0];
 	assert.strictEqual(messageHolder.className, "messageHolder");
-	
+
 	var workItem = this.workView.childNodes[1];
 	assert.strictEqual(workItem.className, "workItem recordType");
 
@@ -488,10 +488,10 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeMenuPGroup");
 	assert.strictEqual(this.menuView.textContent, "");
 	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
-	
+
 	var busy = this.workView.childNodes[2];
 	assert.strictEqual(busy.className, "busy toBeRemoved");
-	
+
 });
 
 QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
@@ -528,7 +528,7 @@ QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 
 	var messageHolder = this.workView.childNodes[0];
 	assert.strictEqual(messageHolder.className, "messageHolder");
-	
+
 	var workItem = this.workView.childNodes[1];
 	assert.strictEqual(workItem.className, "workItem text");
 
@@ -569,9 +569,9 @@ QUnit.test("testUpdateCall", function(assert) {
 		"jsClient" : this.jsClientSpy
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
-	
+
 	var validateWasCalled = false;
-	this.recordGui.validateData = function(){
+	this.recordGui.validateData = function() {
 		validateWasCalled = true;
 		return true;
 	};
@@ -593,7 +593,7 @@ QUnit.test("testUpdateCall", function(assert) {
 	updateButton.onclick();
 
 	assert.strictEqual(validateWasCalled, true);
-	
+
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
 	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
@@ -615,47 +615,47 @@ QUnit.test("testUpdateCallValidationError", function(assert) {
 		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 	var recordHandlerSpec = {
-			"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
-			"recordTypeRecord" : this.record,
-			"presentationMode" : "edit",
-			"views" : {
-				"menuView" : this.menuView,
-				"workView" : this.workView
-			},
-			"record" : this.record,
-			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-			"recordGuiFactory" : this.recordGuiFactorySpy,
-			"jsClient" : this.jsClientSpy
+		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
+		"recordTypeRecord" : this.record,
+		"presentationMode" : "edit",
+		"views" : {
+			"menuView" : this.menuView,
+			"workView" : this.workView
+		},
+		"record" : this.record,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"recordGuiFactory" : this.recordGuiFactorySpy,
+		"jsClient" : this.jsClientSpy
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
-	
+
 	var validateWasCalled = false;
-	this.recordGui.validateData = function(){
+	this.recordGui.validateData = function() {
 		validateWasCalled = true;
 		return false;
 	};
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
-	
+
 	assert.strictEqual(xmlHttpRequestSpy.getSendWasCalled(), true);
 	xmlHttpRequestSpy.setSendWasCalled(false);
-	
+
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
-	
+
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
-	
+
 	var buttonView = this.workView.childNodes[1].childNodes[2];
 	assert.strictEqual(buttonView.className, "buttonView");
-	
+
 	var updateButton = buttonView.childNodes[1];
 	assert.strictEqual(updateButton.value, "UPDATE");
 	assert.strictEqual(updateButton.className, "update");
-	
+
 	updateButton.onclick();
-	
+
 	assert.strictEqual(validateWasCalled, true);
-	
+
 	assert.strictEqual(xmlHttpRequestSpy.getSendWasCalled(), false);
 });
 
@@ -742,7 +742,28 @@ QUnit.test("testDeleteCall", function(assert) {
 		xmlHttpRequestSpy2.addedEventListeners["load"][0]();
 	}
 	recordHandlerSpec.xmlHttpRequestFactory.setXmlHttpRequestSpy(xmlHttpRequestSpy2);
+
 	deleteButton.onclick();
+	var question = this.workView.lastChild;
+	assert.strictEqual(question.className, "question");
+	assert.strictEqual(xmlHttpRequestSpy2.getOpenUrl(), undefined,
+			"no delete call should have been made yet");
+	var buttonNo = question.firstChild.childNodes[1];
+	assert.strictEqual(buttonNo.value, "Nej");
+	buttonNo.onclick();
+	var question = this.workView.lastChild;
+	assert.notVisible(question);
+	assert.strictEqual(xmlHttpRequestSpy2.getOpenUrl(), undefined,
+			"no delete call should have been made yet");
+
+	deleteButton.onclick();
+	var question = this.workView.lastChild;
+	assert.strictEqual(question.className, "question");
+	assert.strictEqual(xmlHttpRequestSpy2.getOpenUrl(), undefined,
+			"no delete call should have been made yet");
+	var buttonYes = question.firstChild.childNodes[2];
+	assert.strictEqual(buttonYes.value, "Ja");
+	buttonYes.onclick();
 
 	var openUrl = xmlHttpRequestSpy2.getOpenUrl();
 	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
@@ -856,11 +877,11 @@ QUnit.test("testCreateNewCall", function(assert) {
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
 
 	var validateWasCalled = false;
-	this.recordGui.validateData = function(){
+	this.recordGui.validateData = function() {
 		validateWasCalled = true;
 		return true;
 	};
-	
+
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), false);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeNewGroup");
@@ -877,7 +898,7 @@ QUnit.test("testCreateNewCall", function(assert) {
 	createButton.onclick();
 
 	assert.strictEqual(validateWasCalled, true);
-	
+
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
 	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/recordType/");
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
@@ -907,43 +928,43 @@ QUnit.test("testCreateNewCallValidationError", function(assert) {
 		xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 	var recordHandlerSpec = {
-			"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
-			"recordTypeRecord" : this.record,
-			"presentationMode" : "new",
-			"views" : {
-				"menuView" : this.menuView,
-				"workView" : this.workView
-			},
-			"record" : undefined,
-			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-			"recordGuiFactory" : this.recordGuiFactorySpy,
-			"jsClient" : this.jsClientSpy
+		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
+		"recordTypeRecord" : this.record,
+		"presentationMode" : "new",
+		"views" : {
+			"menuView" : this.menuView,
+			"workView" : this.workView
+		},
+		"record" : undefined,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"recordGuiFactory" : this.recordGuiFactorySpy,
+		"jsClient" : this.jsClientSpy
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
-	
+
 	var validateWasCalled = false;
-	this.recordGui.validateData = function(){
+	this.recordGui.validateData = function() {
 		validateWasCalled = true;
 		return false;
 	};
-	
+
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), false);
-	
+
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeNewGroup");
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormNewPGroup");
 	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
-	
+
 	var buttonView = this.workView.childNodes[1].childNodes[2];
 	assert.strictEqual(buttonView.className, "buttonView");
-	
+
 	var createButton = buttonView.firstChild;
 	assert.strictEqual(createButton.value, "CREATE");
 	assert.strictEqual(createButton.className, "create");
-	
+
 	createButton.onclick();
-	
+
 	assert.strictEqual(validateWasCalled, true);
-	
+
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), false);
 });
 

@@ -148,11 +148,11 @@ var CORA = (function(cora) {
 		}
 
 		function setValueForCollectionOutput(value) {
-			var itemReference = findItemReferenceForValue(value);
-			var item = getMetadataById(itemReference.value);
-			var outputText = textProvider.getTranslation(item
-					.getFirstAtomicValueByNameInData("textId"));
-			valueView.textContent = outputText;
+			if(value === ""){
+				valueView.textContent = "";
+			}else{
+				setOutputValueFromItemReference(value);
+			}
 		}
 
 		function findItemReferenceForValue(value) {
@@ -163,6 +163,14 @@ var CORA = (function(cora) {
 				return refValue === value;
 			});
 			return itemReference;
+		}
+
+		function setOutputValueFromItemReference(value) {
+			var itemReference = findItemReferenceForValue(value);
+			var item = getMetadataById(itemReference.value);
+			var outputText = textProvider.getTranslation(item
+					.getFirstAtomicValueByNameInData("textId"));
+			valueView.textContent = outputText;
 		}
 
 		function handleMsg(dataFromMsg) {

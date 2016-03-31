@@ -101,8 +101,7 @@ var CORA = (function(cora) {
 					attributesIn)){
 				return [];
 			}
-			var dataChildrenForMetadataOut = [];
-			dataChildrenForMetadataOut = cData.getChildrenByNameInDataAndAttributes(nameInDataIn,
+			var dataChildrenForMetadataOut = cData.getChildrenByNameInDataAndAttributes(nameInDataIn,
 					attributesIn);
 			return dataChildrenForMetadataOut;
 		}

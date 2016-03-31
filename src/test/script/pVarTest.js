@@ -317,6 +317,16 @@ QUnit.test("testSetValueCollectionOutput", function(assert) {
 	assert.equal(valueView.innerHTML, "Nej");
 });
 
+QUnit.test("testSetValueCollectionOutputEmptyTextId", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownOutputPVar");
+	var valueView = attachedPVar.valueView;
+	
+	attachedPVar.pVar.setValue("no");
+	assert.equal(valueView.innerHTML, "Nej");
+	attachedPVar.pVar.setValue("");
+	assert.equal(valueView.innerHTML, "");
+});
+
 QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	var message = {
