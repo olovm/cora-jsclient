@@ -21,7 +21,6 @@ var CORA = (function(cora) {
 	cora.question = function(spec) {
 		var view = createView();
 		var hideIfTransitionendNotCalled;
-		// var beforeShowFunction;
 
 		var questionBox = createTextView();
 		view.appendChild(questionBox);
@@ -39,11 +38,10 @@ var CORA = (function(cora) {
 			var textElement = document.createElement("text");
 			viewNew.appendChild(textElement);
 			textElement.innerHTML = spec.text;
-			// viewNew.innerHTML = spec.text;
 			return viewNew;
 		}
 
-		function createAndAddButtons(buttonSpec) {
+		function createAndAddButtons() {
 			spec.buttons.forEach(function(buttonSpec) {
 				var button = addButton(buttonSpec);
 				questionBox.appendChild(button);
@@ -59,7 +57,7 @@ var CORA = (function(cora) {
 					buttonSpec.onclickFunction();
 					hideWithEffect();
 				};
-			}else{
+			} else {
 				button.onclick = function() {
 					hideWithEffect();
 				};
@@ -92,11 +90,10 @@ var CORA = (function(cora) {
 			view.className = view.className + " toBeRemoved";
 		}
 
-
 		var out = Object.freeze({
 			getView : getView,
 			hide : hide,
-			hideWithEffect : hideWithEffect,
+			hideWithEffect : hideWithEffect
 		});
 		view.modelObject = out;
 		return out;

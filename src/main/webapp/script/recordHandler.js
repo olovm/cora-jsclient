@@ -184,7 +184,6 @@ var CORA = (function(cora) {
 			if (notAbstractRecordRecordType()) {
 
 				if (recordHasDeleteLink()) {
-					// recordHandlerView.addButton("DELETE", sendDeleteDataToServer, "delete");
 					recordHandlerView.addButton("DELETE", shouldRecordBeDeleted, "delete");
 				}
 				if (recordHasUpdateLink()) {
@@ -223,7 +222,7 @@ var CORA = (function(cora) {
 		}
 
 		function shouldRecordBeDeleted() {
-			var spec = {
+			var questionSpec = {
 				"text" : "Är du säker på att du vill ta bort posten?",
 				"buttons" : [ {
 					"text" : "Nej"
@@ -232,7 +231,7 @@ var CORA = (function(cora) {
 					"onclickFunction" : sendDeleteDataToServer
 				} ]
 			};
-			var question = CORA.question(spec);
+			var question = CORA.question(questionSpec);
 			var view = question.getView();
 			workView.appendChild(view);
 
