@@ -283,6 +283,21 @@ QUnit.test("testInitTextOutput", function(assert) {
 	CORATEST.testVariableSubscription(attachedPVar, assert);
 	CORATEST.testVariableMetadata(attachedPVar, assert);
 });
+QUnit.test("testInitTextOutputFormatImage", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableIdOutputImage");
+	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
+	var view = attachedPVar.view;
+	assert.ok(view.modelObject === attachedPVar.pVar,
+	"modelObject should be a pointer to the javascript object instance");
+	assert.ok(view.childNodes.length === 1, "pVar, should have one child");
+	
+	var valueView = attachedPVar.valueView;
+	assert.equal(valueView.nodeName, "IMG");
+	assert.equal(valueView.src, "");
+	
+	CORATEST.testVariableSubscription(attachedPVar, assert);
+	CORATEST.testVariableMetadata(attachedPVar, assert);
+});
 
 QUnit.test("testInitCollectionOutput", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownOutputPVar");
@@ -305,6 +320,13 @@ QUnit.test("testSetValueTextOutput", function(assert) {
 
 	attachedPVar.pVar.setValue("A Value");
 	assert.equal(valueView.innerHTML, "A Value");
+});
+QUnit.test("testSetValueTextOutputFormatImage", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableIdOutputImage");
+	var valueView = attachedPVar.valueView;
+	
+	attachedPVar.pVar.setValue("http://www.some.domain.nu/image01.jpg");
+	assert.equal(valueView.src, "http://www.some.domain.nu/image01.jpg");
 });
 
 QUnit.test("testSetValueCollectionOutput", function(assert) {

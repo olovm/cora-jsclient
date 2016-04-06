@@ -33,10 +33,11 @@ var CORA = (function(cora) {
 		var cMetadataElement = getMetadataById(metadataId);
 		var subType = cMetadataElement.getData().attributes.type;
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
+		var outputFormat = getOutputFormat();
 
 		var view = createBaseView();
 		var originalClassName = view.className;
-		var valueView = createValueView(mode);
+		var valueView = createValueView();
 		view.appendChild(valueView);
 		var state = "ok";
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
@@ -52,13 +53,20 @@ var CORA = (function(cora) {
 			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 		}
 
+		function getOutputFormat() {
+			if (cPresentation.containsChildWithNameInData("outputFormat")) {
+				return cPresentation.getFirstAtomicValueByNameInData("outputFormat");
+			}
+			return "text";
+		}
+
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			viewNew.className = "pVar " + presentationId;
 			return viewNew;
 		}
-		function createValueView(viewMode) {
-			if (viewMode === "input") {
+		function createValueView() {
+			if (mode === "input") {
 				return createInput();
 			}
 			return createOutput();
@@ -120,8 +128,15 @@ var CORA = (function(cora) {
 		}
 
 		function createOutput() {
+			if ("image" === outputFormat) {
+				return createOutputForImage();
+			}
 			var outputNew = document.createElement("span");
-			valueView = outputNew;
+			return outputNew;
+		}
+
+		function createOutputForImage() {
+			var outputNew = document.createElement("img");
 			return outputNew;
 		}
 
@@ -140,17 +155,33 @@ var CORA = (function(cora) {
 
 		function setValueForOutput(value) {
 			if (subType === "textVariable") {
-				valueView.textContent = value;
+				setValueForTextOutput(value);
 			}
 			if (subType === "collectionVariable") {
 				setValueForCollectionOutput(value);
 			}
 		}
 
+		function setValueForTextOutput(value) {
+			if ("image" === outputFormat) {
+				setValueForTextOutputImage(value);
+			} else {
+				setValueForTextOutputText(value);
+			}
+		}
+
+		function setValueForTextOutputImage(value) {
+			valueView.src = value;
+		}
+
+		function setValueForTextOutputText(value) {
+			valueView.textContent = value;
+		}
+
 		function setValueForCollectionOutput(value) {
-			if(value === ""){
+			if (value === "") {
 				valueView.textContent = "";
-			}else{
+			} else {
 				setOutputValueFromItemReference(value);
 			}
 		}

@@ -55,6 +55,18 @@ var CORATEST = (function(coraTest) {
 				return "Presentationsläge";
 			case "initialEmptyValueText":
 				return "-- Gör ett val ur listan --";
+			case "outputFormatVarText":
+				return "Format för output";
+			case "textItemTextId":
+				return "text";
+			case "imageItemTextId":
+				return "bild";
+			case "videoItemTextId":
+				return "video";
+			case "soundItemTextId":
+				return "ljud";
+			case "downloadItemTextId":
+				return "nedladdning";
 			default:
 				console.log("Id(" + textId + ") not found in textProviderRealStub");
 //				throw new Error("Id(" + textId + ") not found in textProviderRealStub");

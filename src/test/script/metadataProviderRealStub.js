@@ -2420,6 +2420,19 @@ var CORATEST = (function(coraTest) {
 								"value" : "1"
 							} ],
 							"name" : "childReference"
+						}, {
+							"repeatId" : "5",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "outputFormatCollectionVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "0"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
 						} ],
 						"name" : "childReferences"
 					}, {
@@ -2509,6 +2522,19 @@ var CORATEST = (function(coraTest) {
 							"children" : [ {
 								"name" : "ref",
 								"value" : "emptyTextIdTextVar"
+							}, {
+								"name" : "repeatMin",
+								"value" : "0"
+							}, {
+								"name" : "repeatMax",
+								"value" : "1"
+							} ],
+							"name" : "childReference"
+						}, {
+							"repeatId" : "5",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "outputFormatCollectionVar"
 							}, {
 								"name" : "repeatMin",
 								"value" : "0"
@@ -2960,8 +2986,251 @@ var CORATEST = (function(coraTest) {
 						"type" : "collectionVariable"
 					}
 				};
-			case "":
-				return;
+			case "outputFormatCollectionVar":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "outputFormatCollectionVar"
+						}, {
+							"name" : "type",
+							"value" : "metadataCollectionVariable"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "outputFormat"
+					}, {
+						"name" : "textId",
+						"value" : "outputFormatCollectionVarTextId"
+					}, {
+						"name" : "defTextId",
+						"value" : "outputFormatCollectionVarDefTextId"
+					}, {
+						"name" : "refCollectionId",
+						"value" : "outputFormatCollection"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "collectionVariable"
+					}
+				};
+			case "outputFormatCollection":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "outputFormatCollection"
+						}, {
+							"name" : "type",
+							"value" : "metadataItemCollection"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "outputFormatCollection"
+					}, {
+						"name" : "textId",
+						"value" : "outputFormatCollectionTextId"
+					}, {
+						"name" : "defTextId",
+						"value" : "outputFormatCollectionDefTextId"
+					}, {
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textItem"
+						}, {
+							"name" : "ref",
+							"value" : "imageItem"
+						}, {
+							"name" : "ref",
+							"value" : "videoItem"
+						}, {
+							"name" : "ref",
+							"value" : "soundItem"
+						}, {
+							"name" : "ref",
+							"value" : "downloadItem"
+						} ],
+						"name" : "collectionItemReferences"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "itemCollection"
+					}
+				};
+			case "textItem":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "textItem"
+						}, {
+							"name" : "type",
+							"value" : "metadataCollectionItem"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "text"
+					}, {
+						"name" : "textId",
+						"value" : "textItemTextId"
+					}, {
+						"name" : "defTextId",
+						"value" : "textItemDefTextId"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "collectionItem"
+					}
+				};
+			case "imageItem":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "imageItem"
+						}, {
+							"name" : "type",
+							"value" : "metadataCollectionItem"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "image"
+					}, {
+						"name" : "textId",
+						"value" : "imageItemTextId"
+					}, {
+						"name" : "defTextId",
+						"value" : "imageItemDefTextId"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "collectionItem"
+					}
+				};
+			case "videoItem":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "videoItem"
+						}, {
+							"name" : "type",
+							"value" : "metadataCollectionItem"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "video"
+					}, {
+						"name" : "textId",
+						"value" : "videoItemTextId"
+					}, {
+						"name" : "defTextId",
+						"value" : "videoItemDefTextId"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "collectionItem"
+					}
+				};
+			case "soundItem":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "soundItem"
+						}, {
+							"name" : "type",
+							"value" : "metadataCollectionItem"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "sound"
+					}, {
+						"name" : "textId",
+						"value" : "soundItemTextId"
+					}, {
+						"name" : "defTextId",
+						"value" : "soundItemDefTextId"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "collectionItem"
+					}
+				};
+			case "downloadItem":
+				return {
+					"children" : [ {
+						"children" : [ {
+							"name" : "id",
+							"value" : "downloadItem"
+						}, {
+							"name" : "type",
+							"value" : "metadataCollectionItem"
+						}, {
+							"name" : "createdBy",
+							"value" : "userId"
+						}, {
+							"name" : "updatedBy",
+							"value" : "userId"
+						} ],
+						"name" : "recordInfo"
+					}, {
+						"name" : "nameInData",
+						"value" : "download"
+					}, {
+						"name" : "textId",
+						"value" : "downloadItemTextId"
+					}, {
+						"name" : "defTextId",
+						"value" : "downloadItemDefTextId"
+					} ],
+					"name" : "metadata",
+					"attributes" : {
+						"type" : "collectionItem"
+					}
+				};
 			case "":
 				return;
 				// presentation
@@ -4303,6 +4572,27 @@ var CORATEST = (function(coraTest) {
 								"name" : "default",
 								"value" : "ref"
 							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "7",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "outputFormatVarText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+
+							"name" : "childReference",
+							"repeatId" : "8",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "outputFormatCollectionVarPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
 						} ]
 					} ])
 				};
@@ -4394,6 +4684,27 @@ var CORATEST = (function(coraTest) {
 							"children" : [ {
 								"name" : "ref",
 								"value" : "emptyTextIdTextVarPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "7",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "outputFormatVarText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+
+							"name" : "childReference",
+							"repeatId" : "8",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "outputFormatCollectionVarPVar"
 							}, {
 								"name" : "default",
 								"value" : "ref"
@@ -4506,6 +4817,27 @@ var CORATEST = (function(coraTest) {
 								"name" : "default",
 								"value" : "ref"
 							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "7",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "outputFormatVarText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+
+							"name" : "childReference",
+							"repeatId" : "8",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "outputFormatCollectionVarOutputPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
 						} ]
 					} ])
 				};
@@ -4609,7 +4941,7 @@ var CORATEST = (function(coraTest) {
 						"value" : "modeCollectionVar"
 					}, {
 						"name" : "mode",
-						"value" : "outtput"
+						"value" : "output"
 					}
 					// , {
 					// "name" : "emptyTextId",
@@ -4617,6 +4949,54 @@ var CORATEST = (function(coraTest) {
 					// }
 					]
 				};
+			case "outputFormatCollectionVarPVar":
+				return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "outputFormatCollectionVarPVar"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "outputFormatCollectionVar"
+				}, {
+					"name" : "mode",
+					"value" : "input"
+				}, {
+					"name" : "emptyTextId",
+					"value" : "initialEmptyValueText"
+				} ]
+			};
+			case "outputFormatCollectionVarOutputPVar":
+				return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "outputFormatCollectionVarPVar"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "outputFormatCollectionVar"
+				}, {
+					"name" : "mode",
+					"value" : "output"
+				}
+				// , {
+				// "name" : "emptyTextId",
+				// "value" : "initialEmptyValueText"
+				// }
+				]
+			};
 			case "presentationVarIdText":
 				return {
 					"name" : "text",
@@ -4624,7 +5004,7 @@ var CORATEST = (function(coraTest) {
 						"name" : "recordInfo",
 						"children" : [ {
 							"name" : "id",
-							"value" : "modeCollectionTextVarText"
+							"value" : "presentationVarIdText"
 						} ]
 					}, {
 						"name" : "textPart",
@@ -4710,6 +5090,37 @@ var CORATEST = (function(coraTest) {
 						} ]
 					} ]
 				};
+			case "outputFormatVarText":
+				return {
+				"name" : "text",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "outputFormatVarText"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "default",
+						"lang" : "sv"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "Format för output"
+					} ]
+				}, {
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "alternative",
+						"lang" : "en"
+					},
+					"children" : [ {
+						"name" : "text",
+						"value" : "Output format"
+					} ]
+				} ]
+			};
 			case "emptyTextIdTextVarText":
 				return {
 					"name" : "text",
