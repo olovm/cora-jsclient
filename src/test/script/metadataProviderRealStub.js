@@ -2371,7 +2371,6 @@ var CORATEST = (function(coraTest) {
 							"repeatId" : "1",
 							"children" : [ {
 								"name" : "ref",
-								// "value": "recordInfoNewPVarGroup"
 								"value" : "recordInfoNewPVarGroup"
 							}, {
 								"name" : "repeatMin",
@@ -2986,251 +2985,622 @@ var CORATEST = (function(coraTest) {
 						"type" : "collectionVariable"
 					}
 				};
-			case "outputFormatCollectionVar":
-				return {
-					"children" : [ {
+				case "outputFormatCollectionVar":
+					return {
 						"children" : [ {
-							"name" : "id",
-							"value" : "outputFormatCollectionVar"
+							"children" : [ {
+								"name" : "id",
+								"value" : "outputFormatCollectionVar"
+							}, {
+								"name" : "type",
+								"value" : "metadataCollectionVariable"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
 						}, {
-							"name" : "type",
-							"value" : "metadataCollectionVariable"
+							"name" : "nameInData",
+							"value" : "outputFormat"
 						}, {
-							"name" : "createdBy",
-							"value" : "userId"
+							"name" : "textId",
+							"value" : "outputFormatCollectionVarTextId"
 						}, {
-							"name" : "updatedBy",
-							"value" : "userId"
+							"name" : "defTextId",
+							"value" : "outputFormatCollectionVarDefTextId"
+						}, {
+							"name" : "refCollectionId",
+							"value" : "outputFormatCollection"
 						} ],
-						"name" : "recordInfo"
-					}, {
-						"name" : "nameInData",
-						"value" : "outputFormat"
-					}, {
-						"name" : "textId",
-						"value" : "outputFormatCollectionVarTextId"
-					}, {
-						"name" : "defTextId",
-						"value" : "outputFormatCollectionVarDefTextId"
-					}, {
-						"name" : "refCollectionId",
-						"value" : "outputFormatCollection"
-					} ],
-					"name" : "metadata",
-					"attributes" : {
-						"type" : "collectionVariable"
-					}
-				};
-			case "outputFormatCollection":
-				return {
-					"children" : [ {
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "collectionVariable"
+						}
+					};
+				case "outputFormatCollection":
+					return {
 						"children" : [ {
-							"name" : "id",
+							"children" : [ {
+								"name" : "id",
+								"value" : "outputFormatCollection"
+							}, {
+								"name" : "type",
+								"value" : "metadataItemCollection"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
+						}, {
+							"name" : "nameInData",
 							"value" : "outputFormatCollection"
 						}, {
-							"name" : "type",
-							"value" : "metadataItemCollection"
+							"name" : "textId",
+							"value" : "outputFormatCollectionTextId"
 						}, {
-							"name" : "createdBy",
-							"value" : "userId"
+							"name" : "defTextId",
+							"value" : "outputFormatCollectionDefTextId"
 						}, {
-							"name" : "updatedBy",
-							"value" : "userId"
+							"children" : [ {
+								"name" : "ref",
+								"value" : "textItem"
+							}, {
+								"name" : "ref",
+								"value" : "imageItem"
+							}, {
+								"name" : "ref",
+								"value" : "videoItem"
+							}, {
+								"name" : "ref",
+								"value" : "soundItem"
+							}, {
+								"name" : "ref",
+								"value" : "downloadItem"
+							} ],
+							"name" : "collectionItemReferences"
 						} ],
-						"name" : "recordInfo"
-					}, {
-						"name" : "nameInData",
-						"value" : "outputFormatCollection"
-					}, {
-						"name" : "textId",
-						"value" : "outputFormatCollectionTextId"
-					}, {
-						"name" : "defTextId",
-						"value" : "outputFormatCollectionDefTextId"
-					}, {
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "itemCollection"
+						}
+					};
+				case "textItem":
+					return {
 						"children" : [ {
-							"name" : "ref",
-							"value" : "textItem"
+							"children" : [ {
+								"name" : "id",
+								"value" : "textItem"
+							}, {
+								"name" : "type",
+								"value" : "metadataCollectionItem"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
 						}, {
-							"name" : "ref",
-							"value" : "imageItem"
+							"name" : "nameInData",
+							"value" : "text"
 						}, {
-							"name" : "ref",
-							"value" : "videoItem"
+							"name" : "textId",
+							"value" : "textItemTextId"
 						}, {
-							"name" : "ref",
-							"value" : "soundItem"
-						}, {
-							"name" : "ref",
-							"value" : "downloadItem"
+							"name" : "defTextId",
+							"value" : "textItemDefTextId"
 						} ],
-						"name" : "collectionItemReferences"
-					} ],
-					"name" : "metadata",
-					"attributes" : {
-						"type" : "itemCollection"
-					}
-				};
-			case "textItem":
-				return {
-					"children" : [ {
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "collectionItem"
+						}
+					};
+				case "imageItem":
+					return {
 						"children" : [ {
-							"name" : "id",
-							"value" : "textItem"
+							"children" : [ {
+								"name" : "id",
+								"value" : "imageItem"
+							}, {
+								"name" : "type",
+								"value" : "metadataCollectionItem"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
 						}, {
-							"name" : "type",
-							"value" : "metadataCollectionItem"
+							"name" : "nameInData",
+							"value" : "image"
 						}, {
-							"name" : "createdBy",
-							"value" : "userId"
+							"name" : "textId",
+							"value" : "imageItemTextId"
 						}, {
-							"name" : "updatedBy",
-							"value" : "userId"
+							"name" : "defTextId",
+							"value" : "imageItemDefTextId"
 						} ],
-						"name" : "recordInfo"
-					}, {
-						"name" : "nameInData",
-						"value" : "text"
-					}, {
-						"name" : "textId",
-						"value" : "textItemTextId"
-					}, {
-						"name" : "defTextId",
-						"value" : "textItemDefTextId"
-					} ],
-					"name" : "metadata",
-					"attributes" : {
-						"type" : "collectionItem"
-					}
-				};
-			case "imageItem":
-				return {
-					"children" : [ {
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "collectionItem"
+						}
+					};
+				case "videoItem":
+					return {
 						"children" : [ {
-							"name" : "id",
-							"value" : "imageItem"
+							"children" : [ {
+								"name" : "id",
+								"value" : "videoItem"
+							}, {
+								"name" : "type",
+								"value" : "metadataCollectionItem"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
 						}, {
-							"name" : "type",
-							"value" : "metadataCollectionItem"
+							"name" : "nameInData",
+							"value" : "video"
 						}, {
-							"name" : "createdBy",
-							"value" : "userId"
+							"name" : "textId",
+							"value" : "videoItemTextId"
 						}, {
-							"name" : "updatedBy",
-							"value" : "userId"
+							"name" : "defTextId",
+							"value" : "videoItemDefTextId"
 						} ],
-						"name" : "recordInfo"
-					}, {
-						"name" : "nameInData",
-						"value" : "image"
-					}, {
-						"name" : "textId",
-						"value" : "imageItemTextId"
-					}, {
-						"name" : "defTextId",
-						"value" : "imageItemDefTextId"
-					} ],
-					"name" : "metadata",
-					"attributes" : {
-						"type" : "collectionItem"
-					}
-				};
-			case "videoItem":
-				return {
-					"children" : [ {
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "collectionItem"
+						}
+					};
+				case "soundItem":
+					return {
 						"children" : [ {
-							"name" : "id",
-							"value" : "videoItem"
+							"children" : [ {
+								"name" : "id",
+								"value" : "soundItem"
+							}, {
+								"name" : "type",
+								"value" : "metadataCollectionItem"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
 						}, {
-							"name" : "type",
-							"value" : "metadataCollectionItem"
+							"name" : "nameInData",
+							"value" : "sound"
 						}, {
-							"name" : "createdBy",
-							"value" : "userId"
+							"name" : "textId",
+							"value" : "soundItemTextId"
 						}, {
-							"name" : "updatedBy",
-							"value" : "userId"
+							"name" : "defTextId",
+							"value" : "soundItemDefTextId"
 						} ],
-						"name" : "recordInfo"
-					}, {
-						"name" : "nameInData",
-						"value" : "video"
-					}, {
-						"name" : "textId",
-						"value" : "videoItemTextId"
-					}, {
-						"name" : "defTextId",
-						"value" : "videoItemDefTextId"
-					} ],
-					"name" : "metadata",
-					"attributes" : {
-						"type" : "collectionItem"
-					}
-				};
-			case "soundItem":
-				return {
-					"children" : [ {
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "collectionItem"
+						}
+					};
+				case "downloadItem":
+					return {
 						"children" : [ {
-							"name" : "id",
-							"value" : "soundItem"
+							"children" : [ {
+								"name" : "id",
+								"value" : "downloadItem"
+							}, {
+								"name" : "type",
+								"value" : "metadataCollectionItem"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
 						}, {
-							"name" : "type",
-							"value" : "metadataCollectionItem"
+							"name" : "nameInData",
+							"value" : "download"
 						}, {
-							"name" : "createdBy",
-							"value" : "userId"
+							"name" : "textId",
+							"value" : "downloadItemTextId"
 						}, {
-							"name" : "updatedBy",
-							"value" : "userId"
+							"name" : "defTextId",
+							"value" : "downloadItemDefTextId"
 						} ],
-						"name" : "recordInfo"
-					}, {
-						"name" : "nameInData",
-						"value" : "sound"
-					}, {
-						"name" : "textId",
-						"value" : "soundItemTextId"
-					}, {
-						"name" : "defTextId",
-						"value" : "soundItemDefTextId"
-					} ],
-					"name" : "metadata",
-					"attributes" : {
-						"type" : "collectionItem"
-					}
-				};
-			case "downloadItem":
-				return {
-					"children" : [ {
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "collectionItem"
+						}
+					};
+				case "presentationGroup":
+					return {
 						"children" : [ {
-							"name" : "id",
-							"value" : "downloadItem"
+							"children" : [ {
+								"name" : "id",
+								"value" : "presentationGroup"
+							}, {
+								"name" : "type",
+								"value" : "recordType"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
 						}, {
-							"name" : "type",
-							"value" : "metadataCollectionItem"
+							"name" : "metadataId",
+							"value" : "presentationGroupGroup"
 						}, {
-							"name" : "createdBy",
-							"value" : "userId"
+							"name" : "presentationViewId",
+							"value" : "presentationGroupViewPGroup"
 						}, {
-							"name" : "updatedBy",
-							"value" : "userId"
+							"name" : "presentationFormId",
+							"value" : "presentationGroupFormPGroup"
+						}, {
+							"name" : "newMetadataId",
+							"value" : "presentationGroupNewGroup"
+						}, {
+							"name" : "newPresentationFormId",
+							"value" : "presentationGroupFormNewPGroup"
+						}, {
+							"name" : "menuPresentationViewId",
+							"value" : "presentationGroupMenuPGroup"
+						}, {
+							"name" : "listPresentationViewId",
+							"value" : "presentationGroupListPGroup"
+						}, {
+							"name" : "searchMetadataId",
+							"value" : "presentationGroupSearchGroup"
+						}, {
+							"name" : "searchPresentationFormId",
+							"value" : "presentationGroupFormSearchPGroup"
+						}, {
+							"name" : "userSuppliedId",
+							"value" : "true"
+						}, {
+							"name" : "permissionKey",
+							"value" : "RECORDTYPE_PRESENTATIONGROUP"
+						}, {
+							"name" : "selfPresentationViewId",
+							"value" : "presentationGroupViewSelfPGroup"
+						}, {
+							"name" : "abstract",
+							"value" : "false"
+						}, {
+							"name" : "parentId",
+							"value" : "presentation"
 						} ],
-						"name" : "recordInfo"
-					}, {
-						"name" : "nameInData",
-						"value" : "download"
-					}, {
-						"name" : "textId",
-						"value" : "downloadItemTextId"
-					}, {
-						"name" : "defTextId",
-						"value" : "downloadItemDefTextId"
-					} ],
-					"name" : "metadata",
-					"attributes" : {
-						"type" : "collectionItem"
-					}
-				};
+						"name" : "recordType"
+					};
+				case "presentationGroupNewGroup":
+					return {
+						"children" : [ {
+							"name" : "nameInData",
+							"value" : "presentation"
+						}, {
+							"children" : [ {
+								"name" : "id",
+								"value" : "presentationGroupNewGroup"
+							}, {
+								"name" : "type",
+								"value" : "metadataGroup"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
+						}, {
+							"name" : "textId",
+							"value" : "presentationGroupNewGroupText"
+						}, {
+							"name" : "defTextId",
+							"value" : "presentationGroupNewGroupDefText"
+						}, {
+							"children" : [ {
+								"repeatId" : "1",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "recordInfoNewPGroupGroup"
+								}, {
+									"name" : "repeatMin",
+									"value" : "1"
+								}, {
+									"name" : "repeatMax",
+									"value" : "1"
+								} ],
+								"name" : "childReference"
+							}, {
+								"repeatId" : "2",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "presentationOfTextVar"
+								}, {
+									"name" : "repeatMin",
+									"value" : "1"
+								}, {
+									"name" : "repeatMax",
+									"value" : "1"
+								} ],
+								"name" : "childReference"
+							}, {
+								"repeatId" : "3",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "presentationChildReferencesGroup"
+								}, {
+									"name" : "repeatMin",
+									"value" : "1"
+								}, {
+									"name" : "repeatMax",
+									"value" : "1"
+								} ],
+								"name" : "childReference"
+							} ],
+							"name" : "childReferences"
+						}, {
+							"children" : [ {
+								"name" : "ref",
+								"value" : "presentationTypePGroupCollectionVar"
+							} ],
+							"name" : "attributeReferences"
+						}, {
+							"name" : "refParentId",
+							"value" : "presentationGroupGroup"
+						} ],
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "group"
+						}
+					};
+				case "presentationGroupGroup":
+					return {
+						"children" : [ {
+							"name" : "nameInData",
+							"value" : "presentation"
+						}, {
+							"children" : [ {
+								"name" : "id",
+								"value" : "presentationGroupGroup"
+							}, {
+								"name" : "type",
+								"value" : "metadataGroup"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
+						}, {
+							"name" : "textId",
+							"value" : "presentationGroupGroupText"
+						}, {
+							"name" : "defTextId",
+							"value" : "presentationGroupGroupDefText"
+						}, {
+							"children" : [ {
+								"repeatId" : "1",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "recordInfo"
+								}, {
+									"name" : "repeatMin",
+									"value" : "1"
+								}, {
+									"name" : "repeatMax",
+									"value" : "1"
+								} ],
+								"name" : "childReference"
+							}, {
+								"repeatId" : "2",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "presentationOfTextVar"
+								}, {
+									"name" : "repeatMin",
+									"value" : "1"
+								}, {
+									"name" : "repeatMax",
+									"value" : "1"
+								} ],
+								"name" : "childReference"
+							}, {
+								"repeatId" : "3",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "presentationChildReferencesGroup"
+								}, {
+									"name" : "repeatMin",
+									"value" : "1"
+								}, {
+									"name" : "repeatMax",
+									"value" : "1"
+								} ],
+								"name" : "childReference"
+							} ],
+							"name" : "childReferences"
+						}, {
+							"children" : [ {
+								"name" : "ref",
+								"value" : "presentationTypePGroupCollectionVar"
+							} ],
+							"name" : "attributeReferences"
+						}, {
+							"name" : "refParentId",
+							"value" : "presentationGroup"
+						} ],
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "group"
+						}
+					};
+				case "recordInfoNewPGroupGroup":
+					return {
+						"children" : [ {
+							"children" : [ {
+								"name" : "id",
+								"value" : "recordInfoNewPGroupGroup"
+							}, {
+								"name" : "type",
+								"value" : "metadataGroup"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
+						}, {
+							"name" : "nameInData",
+							"value" : "recordInfo"
+						}, {
+							"name" : "textId",
+							"value" : "recordInfoText"
+						}, {
+							"name" : "defTextId",
+							"value" : "recordInfoDefText"
+						}, {
+							"children" : [ {
+								"repeatId" : "1",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "idPGroupTextVar"
+								}, {
+									"name" : "repeatMin",
+									"value" : "1"
+								}, {
+									"name" : "repeatMax",
+									"value" : "1"
+								} ],
+								"name" : "childReference"
+							} ],
+							"name" : "childReferences"
+						} ],
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "group"
+						}
+					};
+				case "presentationChildReferencesGroup":
+					return {
+						"children" : [ {
+							"name" : "nameInData",
+							"value" : "childReferences"
+						}, {
+							"children" : [ {
+								"name" : "id",
+								"value" : "presentationChildReferencesGroup"
+							}, {
+								"name" : "type",
+								"value" : "metadataGroup"
+							}, {
+								"name" : "createdBy",
+								"value" : "userId"
+							}, {
+								"name" : "updatedBy",
+								"value" : "userId"
+							} ],
+							"name" : "recordInfo"
+						}, {
+							"name" : "textId",
+							"value" : "presentationChildReferencesGroupText"
+						}, {
+							"name" : "defTextId",
+							"value" : "presentationChildReferencesGroupDefText"
+						}, {
+							"children" : [ {
+								"repeatId" : "1",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "presentationChildReferenceGroup"
+								}, {
+									"name" : "repeatMin",
+									"value" : "1"
+								}, {
+									"name" : "repeatMax",
+									"value" : "X"
+								} ],
+								"name" : "childReference"
+							} ],
+							"name" : "childReferences"
+						} ],
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "group"
+						}
+					};
+				case "presentationTypePGroupCollectionVar":
+					return {
+						"children" : [
+							{
+								"children" : [
+									{
+										"name" : "id",
+										"value" : "presentationTypePGroupCollectionVar"
+									},
+									{
+										"name" : "type",
+										"value" : "metadataCollectionVariable"
+									}, {
+										"name" : "createdBy",
+										"value" : "userId"
+									}, {
+										"name" : "updatedBy",
+										"value" : "userId"
+									} ],
+								"name" : "recordInfo"
+							},
+							{
+								"name" : "nameInData",
+								"value" : "type"
+							},
+							{
+								"name" : "textId",
+								"value" : "presentationTypePGroupCollectionVarTextId"
+							},
+							{
+								"name" : "defTextId",
+								"value" : "presentationTypePGroupCollectionVarDefTextId"
+							}, {
+								"name" : "refCollectionId",
+								"value" : "presentationTypeCollection"
+							}, {
+								"name" : "refParentId",
+								"value" : "presentationTypeCollectionVar"
+							}, {
+								"name" : "finalValue",
+								"value" : "pGroup"
+							} ],
+						"name" : "metadata",
+						"attributes" : {
+							"type" : "collectionVariable"
+						}
+					};
 			case "":
 				return;
 				// presentation
@@ -5284,6 +5654,175 @@ var CORATEST = (function(coraTest) {
 						"type" : "group"
 					}
 				};
+			case "presentationGroupFormNewPGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "presentationGroupNewGroup"
+					}, {
+						"name" : "childReferences",
+						"children" : [ {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "presentationGroupIdText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "0",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "recordInfoNewPGroupPGroup"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "presentationOfTextVarText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "2",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "presentationOfTextVarPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "3",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "modeCollectionTextVarText"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						}, {
+							"name" : "childReference",
+							"repeatId" : "4",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "modeCollectionVarPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
+				case "recordInfoNewPGroupPGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(metadataId) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "recordInfoNewPGroupGroup"
+					}, {
+						"name" : "childReferences",
+						"children" : [
+						{
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "idPGroupPVar"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
+				case "idPGroupPVar":
+					return {
+						"name" : "presentation",
+						"attributes" : {
+							"type" : "pVar"
+						},
+						"children" : [ {
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "idPGroupPVar"
+							} ]
+						}, {
+							"name" : "presentationOf",
+							"value" : "idPGroupTextVar"
+						}, {
+							"name" : "mode",
+							"value" : "input"
+						} ]
+					};
+				case "idPGroupTextVar":
+					return {
+					      "children": [
+					                   {
+					                     "children": [
+					                       {
+					                         "name": "id",
+					                         "value": "idPGroupTextVar"
+					                       },
+					                       {
+					                         "name": "type",
+					                         "value": "metadataTextVariable"
+					                       },
+					                       {
+					                         "name": "createdBy",
+					                         "value": "userId"
+					                       },
+					                       {
+					                         "name": "updatedBy",
+					                         "value": "userId"
+					                       }
+					                     ],
+					                     "name": "recordInfo"
+					                   },
+					                   {
+					                     "name": "nameInData",
+					                     "value": "id"
+					                   },
+					                   {
+					                     "name": "textId",
+					                     "value": "idPGroupTextVarText"
+					                   },
+					                   {
+					                     "name": "defTextId",
+					                     "value": "idPGroupTextVarDefText"
+					                   },
+					                   {
+					                     "name": "regEx",
+					                     "value": "(.*PGroup$)"
+					                   },
+					                   {
+					                     "name": "refParentId",
+					                     "value": "idTextVar"
+					                   }
+					                 ],
+					                 "name": "metadata",
+					                 "attributes": {
+					                   "type": "textVariable"
+					                 }
+					               };
 			case "":
 				return;
 			case "":
