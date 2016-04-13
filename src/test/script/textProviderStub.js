@@ -73,6 +73,12 @@ var CORATEST = (function(coraTest) {
 			case "enterTextHereText":
 				return "Skriv din text här";
 				
+			case "linkedRecordIdText":
+				return "PostId";
+				
+			case "linkedRepeatIdText":
+				return "RepeatId";	
+				
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");

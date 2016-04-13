@@ -1414,7 +1414,90 @@ function MetadataProviderStub() {
 				}
 			};
 		}
+		if (idToGet === "myLink") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myLink"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myLink"
+				}, {
+					"name" : "textId",
+					"value" : "myLinkText"
+				}, {
+					"name" : "defTextId",
+					"value" : "myLinkDefText"
+				}, {
+					"name" : "linkedRecordType",
+					"value" : "metadataTextVariable"
+				} ]
+			};
+		}
+		if (idToGet === "myPathLink") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myPathLink"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myLink"
+				}, {
+					"name" : "textId",
+					"value" : "myLinkText"
+				}, {
+					"name" : "defTextId",
+					"value" : "myLinkDefText"
+				}, {
+					"name" : "linkedRecordType",
+					"value" : "metadataTextVariable"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "name"
+					}
 
+					]
+				} ]
+			};
+		}
+		if (idToGet === "linkedRecordIdTVar") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"regEx" : "(^[A-Z\_]{2,50}$)"
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+				"attributes" : {
+					"type" : "textVariable"
+				}
+			};
+		}
+		if (idToGet === "linkedRepeatIdTVar") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"regEx" : "(^[A-Z\_]{2,50}$)"
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+				"attributes" : {
+					"type" : "textVariable"
+				}
+			};
+		}
 		// presentation
 
 		switch (idToGet) {
@@ -1645,28 +1728,28 @@ function MetadataProviderStub() {
 			};
 		case "groupOneTextChildOutputImagePGroup":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pGroup"
-			},
-			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-				"name" : "presentationOf",
-				"value" : "groupIdOneTextChild"
-			}, {
-				"name" : "childReferences",
-				"children" : [ {
-					"name" : "childReference",
-					"repeatId" : "1",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdOneTextChild"
+				}, {
+					"name" : "childReferences",
 					"children" : [ {
-						"name" : "ref",
-						"value" : "pVarTextVariableIdOutputImage"
-					}, {
-						"name" : "default",
-						"value" : "ref"
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "pVarTextVariableIdOutputImage"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
 					} ]
-				} ]
-			} ])
-		};
+				} ])
+			};
 
 		case "pgGroupId1toXCollectionChild":
 			return {
@@ -2696,7 +2779,94 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
+		case "myLinkNoPresentationOfLinkedRecordPLink":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pRecordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myLinkNoPresentationOfLinkedRecordPLink"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "myLink"
+				}, {
+					"name" : "mode",
+					"value" : "input"
+				} ]
+			};
+		case "myPathLinkNoPresentationOfLinkedRecordPLink":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pRecordLink"
+			},
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "myPathLinkNoPresentationOfLinkedRecordPLink"
+				} ]
+			}, {
+				"name" : "presentationOf",
+				"value" : "myPathLink"
+			}, {
+				"name" : "mode",
+				"value" : "input"
+			} ]
+		};
+		case "linkedRecordIdPVar":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "linkedRecordIdPVar"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "linkedRecordIdTVar"
+				}, {
+					"name" : "mode",
+					"value" : "input"
+				}, {
+					"name" : "emptyTextId",
+					"value" : "enterTextHereText"
+				} ]
+			};
+		case "linkedRepeatIdPVar":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pVar"
+			},
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "linkedRepeatIdPVar"
+				} ]
+			}, {
+				"name" : "presentationOf",
+				"value" : "linkedRepeatIdTVar"
+			}, {
+				"name" : "mode",
+				"value" : "input"
+			}, {
+				"name" : "emptyTextId",
+				"value" : "enterTextHereText"
+			} ]
+		};
 
+			// TEXT
 		case "textVariableIdText":
 			return {
 				"name" : "text",
