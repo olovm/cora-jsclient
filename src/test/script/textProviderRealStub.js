@@ -79,6 +79,8 @@ var CORATEST = (function(coraTest) {
 				return "presentation";
 			case "refMinimizedItemTextId":
 				return "minimierad presentation";
+			case "defaultPresentationCollectionText":
+					return "Presentation att visa initialt";
 			default:
 				console.log("Id(" + textId + ") not found in textProviderRealStub");
 //				throw new Error("Id(" + textId + ") not found in textProviderRealStub");

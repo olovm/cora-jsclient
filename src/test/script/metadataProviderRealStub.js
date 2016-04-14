@@ -5935,6 +5935,37 @@ var CORATEST = (function(coraTest) {
 						} ]
 					} ]
 				};
+				case "defaultPresentationCollectionText":
+					return {
+						"name" : "text",
+						"children" : [ {
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "defaultPresentationCollectionText"
+							} ]
+						}, {
+							"name" : "textPart",
+							"attributes" : {
+								"type" : "default",
+								"lang" : "sv"
+							},
+							"children" : [ {
+								"name" : "text",
+								"value" : "Presentation att visa initialt"
+							} ]
+						}, {
+							"name" : "textPart",
+							"attributes" : {
+								"type" : "alternative",
+								"lang" : "en"
+							},
+							"children" : [ {
+								"name" : "text",
+								"value" : "Default presentation"
+							} ]
+						} ]
+					};
 			case "modeCollectionTextVarText":
 				return {
 					"name" : "text",
@@ -6213,7 +6244,7 @@ var CORATEST = (function(coraTest) {
 							} ]
 						}, {
 							"name" : "childReference",
-							"repeatId" : "3",
+							"repeatId" : "4",
 							"children" : [ {
 								"name" : "ref",
 								"value" : "presentationChildReferencesGroupPGroup"
@@ -6589,6 +6620,16 @@ var CORATEST = (function(coraTest) {
 							}, {
 								"name" : "childReference",
 								"repeatId" : "4",
+								"children" : [ {
+									"name" : "ref",
+									"value" : "defaultPresentationCollectionText"
+								}, {
+									"name" : "default",
+									"value" : "ref"
+								} ]
+							}, {
+								"name" : "childReference",
+								"repeatId" : "5",
 								"children" : [ {
 									"name" : "ref",
 									"value" : "defaultPresentationCollectionVarPVar"
