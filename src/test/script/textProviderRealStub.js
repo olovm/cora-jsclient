@@ -67,6 +67,20 @@ var CORATEST = (function(coraTest) {
 				return "ljud";
 			case "downloadItemTextId":
 				return "nedladdning";
+			case "presentationGroupIdText":
+				return "Id";
+			case "presentationChildReferencesGroupText":
+				return "Referenser till barn som ska visas i presentationen";
+				case "presentationChildReferenceRefText":
+				return "Id på barnpresentationen";
+			case "presentationChildReferenceMinimizedRefText":
+				return "Id på den minimierade barnpresentationen";
+			case "refItemTextId":
+				return "presentation";
+			case "refMinimizedItemTextId":
+				return "minimierad presentation";
+			case "defaultPresentationCollectionText":
+					return "Presentation att visa initialt";
 			default:
 				console.log("Id(" + textId + ") not found in textProviderRealStub");
 //				throw new Error("Id(" + textId + ") not found in textProviderRealStub");
