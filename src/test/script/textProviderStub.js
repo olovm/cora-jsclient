@@ -79,6 +79,9 @@ var CORATEST = (function(coraTest) {
 			case "linkedRepeatIdText":
 				return "RepeatId";	
 				
+			case "linkedRecordIdTVarText":
+				return "RepeatId";	
+				
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");

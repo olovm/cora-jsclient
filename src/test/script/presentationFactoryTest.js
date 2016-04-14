@@ -86,3 +86,11 @@ QUnit.test("testFactorPSurroundingContainer", function(assert) {
 	var pGroup = this.newPresentationFactory.factor({}, cPresentation, cParentPresentation);
 	assert.strictEqual(pGroup.type, "pSurroundingContainer");
 });
+
+QUnit.test("testFactorPSurroundingContainer", function(assert) {
+	var presentationIdToFactor = "myLinkNoPresentationOfLinkedRecordPLink";
+	var cPresentation = CORA
+			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
+	var pGroup = this.newPresentationFactory.factor({}, cPresentation);
+	assert.strictEqual(pGroup.type, "pRecordLink");
+});
