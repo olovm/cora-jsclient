@@ -1480,7 +1480,8 @@ function MetadataProviderStub() {
 			return {
 				"name" : "metadata",
 				"children" : [ {
-					"regEx" : "(^[A-Z\_]{2,50}$)"
+					"name" : "regEx",
+					"value" : "(^[A-Z\_]{2,50}$)"
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
 				"attributes" : {
 					"type" : "textVariable"
@@ -1491,8 +1492,9 @@ function MetadataProviderStub() {
 			return {
 				"name" : "metadata",
 				"children" : [ {
-					"regEx" : "(^[A-Z\_]{2,50}$)"
-				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+					"name" : "regEx",
+					"value" : "(^[A-Z\_]{2,50}$)"
+				}  ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
 				"attributes" : {
 					"type" : "textVariable"
 				}
