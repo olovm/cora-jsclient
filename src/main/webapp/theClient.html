@@ -174,11 +174,69 @@
 		var spec = {
 			"dependencies": dependencies,
 			"name" : "The Client",
-			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-// 			"baseUrl" : "http://localhost:8080/therest/rest/"
+// 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+			"baseUrl" : "http://localhost:8080/therest/rest/"
 		};
 		var jsClient = CORA.jsClient(spec);
 		document.body.appendChild(jsClient.getView());
+		
+// 		var metadataArray = metadataProviderRealStub.metadataArray;
+// 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
+// 		Object.keys(metadataArray).forEach(function(key){
+// 			var type = getType(key);
+// 			if("unknown"!==type){
+// 			console.log(key);
+// 			var cMetadata = CORA.coraData(metadataArray[key]);
+// 			var recordInfo = cMetadata.getFirstChildByNameInData("recordInfo");
+// 			console.log(recordInfo);
+// 			recordInfo.children = [ {
+// 				"name" : "id",
+// 				"value" : key
+// 			} ];
+// 			console.log(cMetadata.getData())
+// 			var callSpec = {
+// 				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
+// 				"method" : "POST",
+// 				"url" : "http://localhost:8080/therest/rest/record/"+getType(key),
+// 				"contentType" : "application/uub+record+json",
+// 				"accept" : "application/uub+record+json",
+// 				"loadMethod" : callAfterAnswer,
+// 				"errorMethod" : callError,
+// 				"data" : JSON.stringify(cMetadata.getData())
+// 			};
+// 			CORA.ajaxCall(callSpec);
+// 			}
+// 		});
+		
+	}
+	function callError(error){
+		console.log(error);
+	}
+	function callAfterAnswer(){}
+	function getType(key) {
+// 		if (key.endsWith("Item")) {
+// 			return "metadataCollectionItem";
+// 		} else if (key.endsWith("Collection")) {
+// 			return "metadataItemCollection";
+// 		} else if (key.endsWith("CollectionVar")) {
+// 			return "metadataCollectionVariable";
+// 		} else if (key.endsWith("TextVar")) {
+// 			return "metadataTextVariable";
+// 		} else if (key.endsWith("Group")) {
+// // 			return "metadataGroup";
+// 			return "unknown";
+		if (key.endsWith("PGroup")) {
+			return "presentationGroup";
+		} else if (key.endsWith("SContainer")) {
+			return "presentationSurroundingContainer";
+		} else if (key.endsWith("PVar")) {
+			return "presentationVar";
+		} else if (key.endsWith("Text")) {
+			return "textSystemOne";
+		} else {
+			return "unknown";
+		}
+
 	}
 </script>
 </head>
