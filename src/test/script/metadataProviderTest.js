@@ -177,8 +177,16 @@ QUnit.test("init", function(assert) {
 	var metadataProvider = CORA.metadataProvider(spec);
 
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
+	var openUrls = xmlHttpRequestSpy.getOpenUrls();
+	var openUrl0 = openUrls[0];
+	var openUrl1 = openUrls[1];
+	var openUrl2 = openUrls[2];
+	assert.strictEqual(openUrl0.substring(0, openUrl0.indexOf("?")),
 			"http://epc.ub.uu.se/cora/rest/record/metadata/");
+	assert.strictEqual(openUrl1.substring(0, openUrl1.indexOf("?")),
+			"http://epc.ub.uu.se/cora/rest/record/presentation/");
+	assert.strictEqual(openUrl2.substring(0, openUrl2.indexOf("?")),
+			"http://epc.ub.uu.se/cora/rest/record/text/");
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
 			"application/uub+recordList+json");
@@ -284,140 +292,48 @@ QUnit.test("getMetadataById", function(assert) {
 	var x = metadataProvider.getMetadataById("textPartEnGroup");
 	assert.stringifyEqual(x, expected);
 });
+QUnit.test("getMetadataByIdNotFound", function(assert) {
+	var metadataListData = CORATEST.metadataList;
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify(metadataListData);
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
 
-// getMetadataById
-
-// QUnit.test("showView", function(assert) {
-// var recordTypeListData = CORATEST.recordTypeList;
-// var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-// function sendFunction() {
-// // xmlHttpRequestSpy.status = 200;
-// // xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-// // xmlHttpRequestSpy.addedEventListeners["load"][0]();
-// }
-//
-// var dependencies = {
-// "metadataProvider" : CORATEST.metadataProviderRealStub(),
-// "textProvider" : CORATEST.textProviderRealStub(),
-// "xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-// "presentationFactoryFactory" : "not implemented yet"
-// }
-// var spec = {
-// "dependencies" : dependencies,
-// "name" : "The Client",
-// "baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-// };
-// var jsClient = CORA.jsClient(spec);
-// var mainView = jsClient.getView();
-//
-// var workAreaChildren = mainView.childNodes[2].childNodes;
-// assert.strictEqual(workAreaChildren.length, 0);
-//
-// var workView1 = document.createElement("span");
-// var menuView1 = document.createElement("span");
-// menuView1.className = "menuView1";
-// var aView = {
-// "workView" : workView1,
-// "menuView" : menuView1
-// };
-// jsClient.showView(aView);
-// assert.strictEqual(workAreaChildren[0], aView.workView);
-// assert.strictEqual(menuView1.className, "menuView1 active");
-//
-// var workView2 = document.createElement("span");
-// var menuView2 = document.createElement("span");
-// menuView2.className = "menuView2";
-// var aDifferentView = {
-// "workView" : workView2,
-// "menuView" : menuView2
-// };
-// jsClient.showView(aDifferentView);
-// assert.strictEqual(workAreaChildren[0], aDifferentView.workView);
-//
-// assert.strictEqual(menuView1.className, "menuView1");
-// assert.strictEqual(menuView2.className, "menuView2 active");
-// });
-// QUnit.test("testFactories", function(assert) {
-// var recordTypeListData = CORATEST.recordTypeList;
-// var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-// function sendFunction() {
-// // xmlHttpRequestSpy.status = 200;
-// // xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-// // xmlHttpRequestSpy.addedEventListeners["load"][0]();
-// }
-//
-// var dependencies = {
-// "metadataProvider" : CORATEST.metadataProviderRealStub(),
-// "textProvider" : CORATEST.textProviderRealStub(),
-// "xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-// "presentationFactoryFactory" : "not implemented yet"
-// }
-// var spec = {
-// "dependencies" : dependencies,
-// "name" : "The Client",
-// "baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-// };
-// var jsClient = CORA.jsClient(spec);
-//
-// var viewSpec = {
-// "headerText" : "some text",
-// "fetchListMethod" : function() {
-// }
-// };
-// var recordTypeHandlerView = jsClient.createRecordTypeHandlerViewFactory().factor(viewSpec);
-//
-// var workView = document.createElement("span");
-// var listHandlerSpec = {
-// "recordTypeRecord" : this.record,
-// "xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-// "views" : {
-// "workView" : workView
-// },
-// "baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-// };
-// var recordListHandler = jsClient.createRecordListHandlerFactory().factor(listHandlerSpec);
-//
-// var menuView = document.createElement("span");
-// var workView = document.createElement("span");
-// var recordHandlerSpec = {
-// "recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
-// "recordTypeRecord" : this.record,
-// "presentationMode" : "view",
-// "views" : {
-// "menuView" : menuView,
-// "workView" : workView
-// },
-// "record" : this.record,
-// "xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-// };
-// var recordHandler = jsClient.createRecordHandlerFactory().factor(recordHandlerSpec);
-//
-// assert.notStrictEqual(recordTypeHandlerView, undefined);
-// assert.notStrictEqual(recordListHandler, undefined);
-// assert.notStrictEqual(recordHandler, undefined);
-// });
-//
-// QUnit.test("getMetadataIdForRecordType", function(assert) {
-// var recordTypeListData = CORATEST.recordTypeList;
-// var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-// function sendFunction() {
-// xmlHttpRequestSpy.status = 200;
-// xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-// xmlHttpRequestSpy.addedEventListeners["load"][0]();
-// }
-//
-// var dependencies = {
-// "metadataProvider" : CORATEST.metadataProviderRealStub(),
-// "textProvider" : CORATEST.textProviderRealStub(),
-// "xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-// "presentationFactoryFactory" : "not implemented yet"
-// }
-// var spec = {
-// "dependencies" : dependencies,
-// "name" : "The Client",
-// "baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-// };
-// var jsClient = CORA.jsClient(spec);
-// var metadataId = jsClient.getMetadataIdForRecordTypeId("textSystemOne");
-// assert.strictEqual(metadataId, "textSystemOneGroup");
-// });
+	var dependencies = {
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+	};
+	var metadataListLink = {
+		"requestMethod" : "GET",
+		"rel" : "list",
+		"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
+		"accept" : "application/uub+recordList+json"
+	};
+	var presentationListLink = {
+		"requestMethod" : "GET",
+		"rel" : "list",
+		"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
+		"accept" : "application/uub+recordList+json"
+	};
+	var textListLink = {
+		"requestMethod" : "GET",
+		"rel" : "list",
+		"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
+		"accept" : "application/uub+recordList+json"
+	};
+	var spec = {
+		"dependencies" : dependencies,
+		"metadataListLink" : metadataListLink,
+		"textListLink" : textListLink,
+		"presentationListLink" : presentationListLink
+	};
+	var metadataProvider = CORA.metadataProvider(spec);
+	var error = false;
+	try {
+		var x = metadataProvider.getMetadataById("someNonExistingMetadataId");
+	} catch (e) {
+		error = true;
+	}
+	assert.ok(error);
+});
