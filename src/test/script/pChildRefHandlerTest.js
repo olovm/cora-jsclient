@@ -855,7 +855,7 @@ QUnit.test("testHandleMessageRightMetadataId", function(assert) {
 
 QUnit.test("testHandleMessageMatchingNameInDataAndAttribute", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-	"textVarRepeat1to3InGroupParentAttribute1toXInGroup",
+			"textVarRepeat1to3InGroupParentAttribute1toXInGroup",
 			"pgTextVarRepeat1to3InGroupParentAttribute");
 	var view = attachedPChildRefHandler.view;
 	var childrenView = view.firstChild;
@@ -1036,4 +1036,104 @@ QUnit.test("testWithMinimizedDefault", function(assert) {
 	var minimizeButton = repeatingButtonView.childNodes[1];
 	assert.strictEqual(minimizeButton.className, "minimizeButton");
 	assert.notVisible(minimizeButton, "minimizeButton should be hidden");
+});
+
+QUnit.test("testPresentationMatchingNameInData", function(assert) {
+	var metadataProvider = this.metadataProvider;
+	var cParentMetadata = CORA.coraData(metadataProvider.getMetadataById("presentationVarGroup"));
+	var cPresentation = CORA.coraData(metadataProvider.getMetadataById("recordInfoPGroup"));
+
+	var spec = {
+		"parentPath" : {},
+		"cParentMetadata" : cParentMetadata,
+		"cPresentation" : cPresentation,
+		"metadataProvider" : metadataProvider,
+		"pubSub" : this.pubSub,
+		"textProvider" : this.textProvider,
+		"presentationFactory" : this.presentationFactory,
+		"jsBookkeeper" : this.jsBookkeeper
+	};
+	var pChildRefHandler = CORA.pChildRefHandler(spec);
+	var view = pChildRefHandler.getView();
+	this.fixture.appendChild(view);
+
+	assert.strictEqual(view.className, "pChildRefHandler recordInfoPGroup");
+});
+
+QUnit.test("testPresentationMatchingNameInDataAndAttributes", function(assert) {
+	var metadataProvider = this.metadataProvider;
+	var cParentMetadata = CORA.coraData(metadataProvider
+			.getMetadataById("presentationVarAttributeGroup"));
+	var cPresentation = CORA
+	.coraData(metadataProvider.getMetadataById("recordInfoAttributePGroup"));
+
+	var spec = {
+		"parentPath" : {},
+		"cParentMetadata" : cParentMetadata,
+		"cPresentation" : cPresentation,
+		"metadataProvider" : metadataProvider,
+		"pubSub" : this.pubSub,
+		"textProvider" : this.textProvider,
+		"presentationFactory" : this.presentationFactory,
+		"jsBookkeeper" : this.jsBookkeeper
+	};
+	var pChildRefHandler = CORA.pChildRefHandler(spec);
+	var view = pChildRefHandler.getView();
+	this.fixture.appendChild(view);
+
+	assert.strictEqual(view.className, "pChildRefHandler recordInfoAttributePGroup");
+});
+
+QUnit.test("testPresentationNonMatchingNameInDataAndAttributes", function(assert) {
+	var metadataProvider = this.metadataProvider;
+	var cParentMetadata = CORA.coraData(metadataProvider
+			.getMetadataById("presentationVarAttributeGroup"));
+	var cPresentation = CORA
+	.coraData(metadataProvider.getMetadataById("recordInfoPGroup"));
+//	.coraData(metadataProvider.getMetadataById("pgGroupIdOneTextChildOutput"));
+	
+	var spec = {
+			"parentPath" : {},
+			"cParentMetadata" : cParentMetadata,
+			"cPresentation" : cPresentation,
+			"metadataProvider" : metadataProvider,
+			"pubSub" : this.pubSub,
+			"textProvider" : this.textProvider,
+			"presentationFactory" : this.presentationFactory,
+			"jsBookkeeper" : this.jsBookkeeper
+	};
+	var error = false;
+	try{
+		var pChildRefHandler = CORA.pChildRefHandler(spec);
+	}catch(e){
+		error = true;
+	}
+	assert.ok(error);
+
+});
+
+QUnit.test("testPresentationNonMatchingNameInDataAndAttributes2", function(assert) {
+	var metadataProvider = this.metadataProvider;
+	var cParentMetadata = CORA.coraData(metadataProvider
+			.getMetadataById("presentationVarGroup"));
+	var cPresentation = CORA
+	.coraData(metadataProvider.getMetadataById("recordInfoAttributePGroup"));
+	
+	var spec = {
+			"parentPath" : {},
+			"cParentMetadata" : cParentMetadata,
+			"cPresentation" : cPresentation,
+			"metadataProvider" : metadataProvider,
+			"pubSub" : this.pubSub,
+			"textProvider" : this.textProvider,
+			"presentationFactory" : this.presentationFactory,
+			"jsBookkeeper" : this.jsBookkeeper
+	};
+	var error = false;
+	try{
+		var pChildRefHandler = CORA.pChildRefHandler(spec);
+	}catch(e){
+		error = true;
+	}
+	assert.ok(error);
 });
