@@ -129,10 +129,9 @@ QUnit.module("jsClientTest.js", {
 			return {
 				"factor" : function(recordHandlerViewSpec) {
 					return CORA.recordHandlerView(recordHandlerViewSpec);
-					;
 				}
 			};
-		}
+		};
 	},
 	afterEach : function() {
 	}

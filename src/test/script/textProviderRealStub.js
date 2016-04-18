@@ -47,9 +47,9 @@ var CORATEST = (function(coraTest) {
 				return "Presentation av";
 			case "presentationVarIdText":
 				return "Id";
-			case "inputItemTextId":
+			case "inputItemText":
 				return "input";
-			case "outputItemTextId":
+			case "outputItemText":
 				return "output";
 			case "modeCollectionTextVarText":
 				return "Presentationsläge";
@@ -57,15 +57,15 @@ var CORATEST = (function(coraTest) {
 				return "-- Gör ett val ur listan --";
 			case "outputFormatVarText":
 				return "Format för output";
-			case "textItemTextId":
+			case "textItemText":
 				return "text";
-			case "imageItemTextId":
+			case "imageItemText":
 				return "bild";
-			case "videoItemTextId":
+			case "videoItemText":
 				return "video";
-			case "soundItemTextId":
+			case "soundItemText":
 				return "ljud";
-			case "downloadItemTextId":
+			case "downloadItemText":
 				return "nedladdning";
 			case "presentationGroupIdText":
 				return "Id";
@@ -75,9 +75,9 @@ var CORATEST = (function(coraTest) {
 				return "Id på barnpresentationen";
 			case "presentationChildReferenceMinimizedRefText":
 				return "Id på den minimierade barnpresentationen";
-			case "refItemTextId":
+			case "refItemText":
 				return "presentation";
-			case "refMinimizedItemTextId":
+			case "refMinimizedItemText":
 				return "minimierad presentation";
 			case "defaultPresentationCollectionText":
 					return "Presentation att visa initialt";

@@ -49,6 +49,7 @@
 <script type="text/javascript" src="script/metadataController.js"></script>
 <script type="text/javascript" src="script/metadataValidator.js"></script>
 <script type="text/javascript" src="script/metadataHelper.js"></script>
+<script type="text/javascript" src="script/metadataProvider.js"></script>
 <script type="text/javascript" src="script/metadataRepeatInitializer.js"></script>
 <script type="text/javascript" src="script/metadataRepeatValidator.js"></script>
 <script type="text/javascript" src="script/pChildRefHandler.js"></script>
@@ -163,10 +164,43 @@
 	}
 
 	function startJsClient() {
-		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
+		var dependencies = {
+				"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+			};
+			var metadataListLink = {
+				"requestMethod" : "GET",
+				"rel" : "list",
+// 				"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
+				"url" : "http://localhost:8080/therest/rest/record/metadata/",
+				"accept" : "application/uub+recordList+json"
+			};
+			var presentationListLink = {
+					"requestMethod" : "GET",
+					"rel" : "list",
+// 					"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
+				"url" : "http://localhost:8080/therest/rest/record/presentation/",
+					"accept" : "application/uub+recordList+json"
+				};
+			var textListLink = {
+					"requestMethod" : "GET",
+					"rel" : "list",
+// 					"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
+				"url" : "http://localhost:8080/therest/rest/record/text/",
+					"accept" : "application/uub+recordList+json"
+				};
+				var spec = {
+					"dependencies" : dependencies,
+					"metadataListLink" : metadataListLink,
+					"textListLink" : textListLink,
+					"presentationListLink" : presentationListLink
+				};
+
+			var metadataProvider = CORA.metadataProvider(spec);
+// 		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
 		var textProviderRealStub = CORATEST.textProviderRealStub();
 		var dependencies = {
-				"metadataProvider":CORATEST.metadataProviderRealStub(),
+// 				"metadataProvider":CORATEST.metadataProviderRealStub(),
+				"metadataProvider":metadataProvider,
 				"textProvider": CORATEST.textProviderRealStub(),
 				"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
 				"presentationFactoryFactory":"not implemented yet"
