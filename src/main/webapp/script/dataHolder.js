@@ -32,12 +32,12 @@ var CORA = (function(cora) {
 		}
 
 		function createDataContainerForElementWithId(id) {
-			var metadataElement = getMetadataById(id);
-			var nameInData = metadataElement.getFirstAtomicValueByNameInData('nameInData');
+			var cMetadataElement = getMetadataById(id);
+			var nameInData = cMetadataElement.getFirstAtomicValueByNameInData('nameInData');
 			var dataContainerPart = {};
 			dataContainerPart.name = nameInData;
 
-			addContainerContentFromElement(dataContainerPart, metadataElement);
+			addContainerContentFromElement(dataContainerPart, cMetadataElement);
 			return dataContainerPart;
 		}
 
@@ -45,9 +45,13 @@ var CORA = (function(cora) {
 			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
-		function addContainerContentFromElement(dataContainerPart, metadataElement) {
-			if (isGroup(metadataElement)) {
-				addGroupParts(dataContainerPart, metadataElement);
+		function addContainerContentFromElement(dataContainerPart, cMetadataElement) {
+			if (isGroup(cMetadataElement)) {
+				addGroupParts(dataContainerPart, cMetadataElement);
+				return dataContainerPart;
+			}
+			if (isRecordLink(cMetadataElement)) {
+				dataContainerPart.children = [];
 				return dataContainerPart;
 			}
 
@@ -56,24 +60,21 @@ var CORA = (function(cora) {
 			return dataContainerPart;
 		}
 
-		function isGroup(metadataElement) {
-			var type = metadataElement.getData().attributes.type;
-			if (type === "group" || type === "childGroup") {
-				return true;
-			}
-			return false;
+		function isGroup(cMetadataElement) {
+			var type = cMetadataElement.getData().attributes.type;
+			return type === "group";
 		}
 
-		function addGroupParts(dataContainerPart, metadataElement) {
+		function addGroupParts(dataContainerPart, cMetadataElement) {
 			dataContainerPart.children = [];
-			if (metadataElement.containsChildWithNameInData("attributeReferences")) {
-				dataContainerPart.attributes = createAttributesContainer(metadataElement);
+			if (cMetadataElement.containsChildWithNameInData("attributeReferences")) {
+				dataContainerPart.attributes = createAttributesContainer(cMetadataElement);
 			}
 		}
 
-		function createAttributesContainer(metadataElement) {
+		function createAttributesContainer(cMetadataElement) {
 			var attributeContainer = {};
-			var attributeReferences = metadataElement
+			var attributeReferences = cMetadataElement
 					.getFirstChildByNameInData('attributeReferences');
 			attributeReferences.children.forEach(function(attributeReference) {
 				var ref = attributeReference.value;
@@ -84,6 +85,11 @@ var CORA = (function(cora) {
 				attributeContainer[attributeNameInData] = finalValue;
 			});
 			return attributeContainer;
+		}
+
+		function isRecordLink(cMetadataElement) {
+			var type = cMetadataElement.getData().attributes.type;
+			return type === "recordLink";
 		}
 
 		function subscribeToAddAndSetValueAndRemoveMessagesForAllPaths() {

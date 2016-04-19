@@ -307,6 +307,14 @@ body {
 	{
 	border: none;
 }
+.jsClient .editView .repeatingElement .repeatingElement .maximized {
+	border: 1px solid #9799b0;
+	background-color: rgba(0, 0, 255, 0.06);
+}
+.jsClient .editView .repeatingElement .repeatingElement .repeatingElement .maximized {
+	border: none;
+	background-color: none;
+}
 .jsClient .editView .pSurroundingContainer {
 	border-color: grey;
 	border-style: dotted;

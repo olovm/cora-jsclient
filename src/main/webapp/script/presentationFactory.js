@@ -39,6 +39,8 @@ var CORA = (function(cora) {
 				return CORA.pVar(specNew);
 			} else if (type === "pGroup") {
 				return CORA.pGroup(specNew);
+			} else if (type === "pRecordLink") {
+				return CORA.pRecordLink(specNew);
 			} else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {

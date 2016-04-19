@@ -26,7 +26,10 @@ var CORATEST = (function(coraTest) {
 			cPresentation = cPresentationIn;
 			return {
 				"getView" : function() {
-					return document.createElement("span");
+					var span = document.createElement("span");
+					span.path = pathIn;
+					span.cPresentation = cPresentationIn;
+					return span;
 				}
 			};
 		}
