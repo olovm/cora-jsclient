@@ -48,34 +48,37 @@ var CORA = (function(cora) {
 			var valueViewNew = document.createElement("span");
 			valueViewNew.className = "valueView";
 
+			var recordTypeViewNew = createChildView("linkedRecordType",
+					"linkedRecordTypeOutputPVar");
+			valueViewNew.appendChild(recordTypeViewNew);
 			if (mode === "input") {
 				createAndAddInputs(valueViewNew);
+			} else {
+				createAndAddOutput(valueViewNew);
 			}
-			// return createOutput();
 			return valueViewNew;
 		}
 
 		function createAndAddInputs(valueView) {
-			var recordIdViewNew = createRecordIdView();
+			var recordIdViewNew = createChildView("linkedRecordId", "linkedRecordIdPVar");
 			valueView.appendChild(recordIdViewNew);
 
 			if (hasLinkedRepeatId) {
-				var repeatIdViewNew = createRepeatIdView();
+				var repeatIdViewNew = createChildView("linkedRepeatId", "linkedRepeatIdPVar");
 				valueView.appendChild(repeatIdViewNew);
 			}
 		}
-		function createRecordIdView() {
-			var recordIdViewNew = document.createElement("span");
-			recordIdViewNew.className = "recordIdView";
-			recordIdViewNew.appendChild(createText("linkedRecordIdText"));
+		function createChildView(id, presentationIdToFactor) {
+			var childViewNew = document.createElement("span");
+			childViewNew.className = id + "View";
+			childViewNew.appendChild(createText(id + "Text"));
 
-			var childParentPath = calculateNewPath("linkedRecordIdTVar");
-			var presentationIdToFactor = "linkedRecordIdPVar";
+			var childParentPath = calculateNewPath(id + "TVar");
 			var cPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(presentationIdToFactor));
 			var pVar = spec.presentationFactory.factor(childParentPath, cPresentation);
-			recordIdViewNew.appendChild(pVar.getView());
-			return recordIdViewNew;
+			childViewNew.appendChild(pVar.getView());
+			return childViewNew;
 		}
 
 		function createText(presRef) {
@@ -93,19 +96,15 @@ var CORA = (function(cora) {
 			};
 			return CORA.calculatePathForNewElement(pathSpec);
 		}
+		
+		function createAndAddOutput(valueView) {
+			var recordIdViewNew = createChildView("linkedRecordId", "linkedRecordIdOutputPVar");
+			valueView.appendChild(recordIdViewNew);
 
-		function createRepeatIdView() {
-			var repeatIdViewNew = document.createElement("span");
-			repeatIdViewNew.className = "repeatIdView";
-			repeatIdViewNew.appendChild(createText("linkedRepeatIdText"));
-
-			var childParentPath = calculateNewPath("linkedRepeatIdTVar");
-			var presentationIdToFactor = "linkedRepeatIdPVar";
-			var cPresentation = CORA.coraData(metadataProvider
-					.getMetadataById(presentationIdToFactor));
-			var pVar = spec.presentationFactory.factor(childParentPath, cPresentation);
-			repeatIdViewNew.appendChild(pVar.getView());
-			return repeatIdViewNew;
+			if (hasLinkedRepeatId) {
+				var repeatIdViewNew = createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar");
+				valueView.appendChild(repeatIdViewNew);
+			}
 		}
 
 		function getView() {

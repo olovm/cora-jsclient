@@ -1492,22 +1492,70 @@ QUnit.test("testInitGroupWithOneRecordLinkWithData", function(assert) {
 	assert.equal(messages.length, 5);
 });
 
-// QUnit.test("testInitGroupIdOneTextChildWithData", function(assert) {
-//	var data = {
-//		"name" : "groupIdOneTextChild",
-//		"children" : [ {
-//			"name" : "textVariableId",
-//			"value" : "A Value"
-//		} ]
-//	};
-//
-//	this.metadataControllerFactory.factor("groupIdOneTextChild", data);
-//	var messages = this.pubSub.getMessages();
-//	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
-//			+ '"metadataId":"textVariableId","path":{},"nameInData":"textVariableId"}}');
-//	assert.deepEqual(JSON.stringify(messages[1]), '{"type":"setValue","message":{"data":"A Value",'
-//			+ '"path":' + createLinkedPathWithNameInDataAsString("textVariableId") + '}}');
-//
-//	assert.equal(messages.length, 2);
-//});
+QUnit.test("testInitGroupWithOneRecordLinkWithPath", function(assert) {
+	this.metadataControllerFactory.factor("groupIdOneRecordLinkChildWithPath", undefined);
+	var messages = this.pubSub.getMessages();
+	
+	
+	var expectedAddForLinkedRepeatId = {
+			"type" : "add",
+			"message" : {
+				"metadataId" : "linkedRepeatIdTVar",
+				"path" : {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "myPathLink"
+					} ]
+				},
+				"nameInData" : "linkedRepeatId"
+			}
+	};
+	assert.stringifyEqual(messages[4], expectedAddForLinkedRepeatId);
+	assert.equal(messages.length, 5);
+});
+
+QUnit.test("testInitGroupWithOneRecordLinkWithPathWithData", function(assert) {
+	var data = {
+			"name" : "groupIdOneRecordLinkChildWithPath",
+			"children" : [ {
+				"name" : "myPathLink",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataTextVariable"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "someRecordId"
+				}, {
+					"name" : "linkedRepeatId",
+					"value" : "someRepeatId1"
+				} ]
+			} ]
+	};
+	this.metadataControllerFactory.factor("groupIdOneRecordLinkChildWithPath", data);
+	var messages = this.pubSub.getMessages();
+	
+	var expectedSetValueForLinkedRepeatId = {
+			"type" : "setValue",
+			"message" : {
+				"data" : "someRepeatId1",
+				"path" : {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "myPathLink"
+					}, {
+						"name" : "linkedPath",
+						"children" : [ {
+							"name" : "nameInData",
+							"value" : "linkedRepeatId"
+						} ]
+					
+					} ]
+				}
+			}
+	};
+	assert.stringifyEqual(messages[6], expectedSetValueForLinkedRepeatId);
+	assert.equal(messages.length, 7);
+});
 

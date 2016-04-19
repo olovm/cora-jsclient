@@ -73,17 +73,22 @@ var CORATEST = (function(coraTest) {
 			case "enterTextHereText":
 				return "Skriv din text här";
 				
+			case "linkedRecordTypeText":
+				return "Posttyp";
+			case "linkedRecordTypeTVarText":
+				return "Posttyp";
+			case "linkedRecordTypeTVarDefText":
+				return "Posttyp";
+				
 			case "linkedRecordIdText":
 				return "PostId";
-				
+			case "linkedRecordIdTVarText":
+				return "Postid";	
+			case "linkedRecordIdTVarDefText":
+				return "Postid deffinition";	
+	
 			case "linkedRepeatIdText":
 				return "RepeatId";	
-				
-			case "linkedRecordIdTVarText":
-				return "RepeatId";	
-				
-			case "linkedRecordIdTVarDefText":
-				return "RepeatId deffinition";	
 				
 			default:
 				console.log("Id(" + textId + ") not found in stub");

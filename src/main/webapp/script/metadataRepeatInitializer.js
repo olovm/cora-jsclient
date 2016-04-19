@@ -191,6 +191,7 @@ var CORA = (function(cora) {
 		function initializeMetadataRecordLink(nextLevelPath) {
 			initializeLinkedRecordType(nextLevelPath);
 			initializeLinkedRecordId(nextLevelPath);
+			possiblyInitializeLinkedRepeatId(nextLevelPath);
 		}
 
 		function initializeLinkedRecordType(nextLevelPath) {
@@ -224,13 +225,25 @@ var CORA = (function(cora) {
 				} ]
 			};
 		}
-		
+
 		function initializeLinkedRecordId(nextLevelPath) {
 			var recordIdStaticChildReference = createRefWithRef("linkedRecordIdTVar");
-			CORA.metadataChildInitializer(recordIdStaticChildReference, nextLevelPath,
-					data, metadataProvider, pubSub);
+			CORA.metadataChildInitializer(recordIdStaticChildReference, nextLevelPath, data,
+					metadataProvider, pubSub);
+		}
+
+		function possiblyInitializeLinkedRepeatId(nextLevelPath) {
+			if (isLinkToRepeatingPartOfRecord()) {
+				var recordTypeStaticChildReference = createRefWithRef("linkedRepeatIdTVar");
+				CORA.metadataChildInitializer(recordTypeStaticChildReference, nextLevelPath,
+						data, metadataProvider, pubSub);
+			}
 		}
 		
+		function isLinkToRepeatingPartOfRecord(){
+			return cMetadataElement.containsChildWithNameInData("linkedPath");
+		}
+
 		function publishVariableValue(nextLevelPath) {
 			if (data !== undefined) {
 				var message = {

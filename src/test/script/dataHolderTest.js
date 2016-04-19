@@ -1142,3 +1142,38 @@ function createAttributeWithNameAndValueAndRepeatId(attributeName, attributeValu
 		} ]
 	};
 }
+
+QUnit.test("testAddChildToGroupIdOneRecordLinkChild", function(assert) {
+	var dataHolder = this.newDataHolder("groupIdOneRecordLinkChild");
+	var path = {};
+	dataHolder.addChild(path, "myLink");
+	var expected = {
+		"name" : "groupIdOneRecordLinkChild",
+		"children" : [ {
+			"name" : "myLink",
+			"children" : []
+		} ]
+	};
+	assert.stringifyEqual(dataHolder.getData(), expected);
+
+	var pathLinkedRecordType = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "myLink"
+		} ]
+	};
+
+	dataHolder.addChild(pathLinkedRecordType, "linkedRecordTypeTVar");
+	var expectedLinkedRecordType = {
+		"name" : "groupIdOneRecordLinkChild",
+		"children" : [ {
+			"name" : "myLink",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : ""
+			} ]
+		} ]
+	};
+	assert.stringifyEqual(dataHolder.getData(), expectedLinkedRecordType);
+});

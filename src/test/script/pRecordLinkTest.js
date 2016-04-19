@@ -74,45 +74,6 @@ QUnit.module("pRecordLinkTest.js", {
 	}
 });
 
-//var CORATEST = (function(coraTest) {
-//	"use strict";
-//	coraTest.testVariableSubscription = function(attachedPVar, assert) {
-//		var subscriptions = attachedPVar.pubSub.getSubscriptions();
-//		assert.deepEqual(subscriptions.length, 2);
-//
-//		var firstSubsription = subscriptions[0];
-//		assert.strictEqual(firstSubsription.type, "setValue");
-//		assert.deepEqual(firstSubsription.path, {});
-//		var pVar = attachedPVar.pVar;
-//		assert.ok(firstSubsription.functionToCall === pVar.handleMsg);
-//
-//		var secondSubsription = subscriptions[1];
-//		assert.strictEqual(secondSubsription.type, "validationError");
-//		assert.deepEqual(secondSubsription.path, {});
-//		var pVar = attachedPVar.pVar;
-//		assert.ok(secondSubsription.functionToCall === pVar.handleValidationError);
-//
-//	};
-//
-//	coraTest.testVariableMetadata = function(attachedPVar, assert) {
-//		var pVar = attachedPVar.pVar;
-//		assert.strictEqual(pVar.getText(), "Exempel textvariabel");
-//		assert.strictEqual(pVar.getDefText(), "Detta är en exempeldefinition "
-//				+ "för en textvariabel.");
-//		assert.strictEqual(pVar.getRegEx(), "^[0-9A-Öa-ö\\s!*.]{2,50}$");
-//	};
-//
-//	coraTest.testJSBookkeeperNoCall = function(jsBookkeeper, assert) {
-//		var dataArray = jsBookkeeper.getDataArray();
-//		assert.strictEqual(dataArray.length, 0);
-//	};
-//	coraTest.testJSBookkeeperOneCallWithValue = function(jsBookkeeper, value, assert) {
-//		var dataArray = jsBookkeeper.getDataArray();
-//		assert.strictEqual(dataArray.length, 1);
-//		assert.strictEqual(dataArray[0].data, value);
-//	};
-//	return coraTest;
-//}(CORATEST || {}));
 
 QUnit.test("testInitRecordLink", function(assert) {
 	var attachedPRecordLink = this.pRecordLinkFactory.factor({},
@@ -121,18 +82,22 @@ QUnit.test("testInitRecordLink", function(assert) {
 	assert.deepEqual(attachedPRecordLink.view.className,
 			"pRecordLink myLinkNoPresentationOfLinkedRecordPLink");
 	var view = attachedPRecordLink.view;
-	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink,
-			"modelObject should be a pointer to the javascript object instance");
+	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
 	assert.ok(view.childNodes.length === 1);
 
 	var valueView = attachedPRecordLink.valueView;
 	assert.strictEqual(valueView.nodeName, "SPAN");
 	assert.strictEqual(valueView.className, "valueView");
-	assert.ok(valueView.childNodes.length === 1);
+	assert.strictEqual(valueView.childNodes.length, 2);
 
-	var recordIdView = valueView.childNodes[0];
-	assert.strictEqual(recordIdView.className, "recordIdView");
-
+	var recordTypeView = valueView.childNodes[0];
+	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
+	var recordTypeTextView = recordTypeView.firstChild;
+	assert.strictEqual(recordTypeTextView.className, "text");
+	assert.strictEqual(recordTypeTextView.innerHTML, "Posttyp");
+	
+	var recordIdView = valueView.childNodes[1];
+	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
 	var recordIdTextView = recordIdView.firstChild;
 	assert.strictEqual(recordIdTextView.className, "text");
 	assert.strictEqual(recordIdTextView.innerHTML, "PostId");
@@ -157,17 +122,91 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 	assert.deepEqual(attachedPRecordLink.view.className,
 	"pRecordLink myPathLinkNoPresentationOfLinkedRecordPLink");
 	var view = attachedPRecordLink.view;
-	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink,
-	"modelObject should be a pointer to the javascript object instance");
+	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
 	assert.ok(view.childNodes.length === 1);
 	
 	var valueView = attachedPRecordLink.valueView;
 	assert.strictEqual(valueView.nodeName, "SPAN");
 	assert.strictEqual(valueView.className, "valueView");
-	assert.ok(valueView.childNodes.length === 2);
+	assert.strictEqual(valueView.childNodes.length, 3);
 	
-	var repeatIdView = valueView.childNodes[1];
-	assert.strictEqual(repeatIdView.className, "repeatIdView");
+	var repeatIdView = valueView.childNodes[2];
+	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
+	
+	var repeatIdTextView = repeatIdView.firstChild;
+	assert.strictEqual(repeatIdTextView.className, "text");
+	assert.strictEqual(repeatIdTextView.innerHTML, "RepeatId");
+	
+	var repeatIdTextVarSpyDummyView = repeatIdView.childNodes[1];
+	assert.strictEqual(repeatIdTextVarSpyDummyView.cPresentation
+			.getFirstAtomicValueByNameInData("presentationOf"), "linkedRepeatIdTVar");
+	var expectedPath = {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "linkedRepeatId"
+			} ]
+	};
+	assert.stringifyEqual(repeatIdTextVarSpyDummyView.path, expectedPath);
+});
+
+QUnit.test("testInitRecordLinkOutput", function(assert) {
+	var attachedPRecordLink = this.pRecordLinkFactory.factor({},
+	"myLinkNoPresentationOfLinkedRecordOutputPLink");
+	assert.strictEqual(attachedPRecordLink.pRecordLink.type, "pRecordLink");
+	assert.deepEqual(attachedPRecordLink.view.className,
+	"pRecordLink myLinkNoPresentationOfLinkedRecordOutputPLink");
+	var view = attachedPRecordLink.view;
+	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
+	assert.ok(view.childNodes.length === 1);
+	
+	var valueView = attachedPRecordLink.valueView;
+	assert.strictEqual(valueView.nodeName, "SPAN");
+	assert.strictEqual(valueView.className, "valueView");
+	assert.strictEqual(valueView.childNodes.length, 2);
+	
+	var recordTypeView = valueView.childNodes[0];
+	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
+	var recordTypeTextView = recordTypeView.firstChild;
+	assert.strictEqual(recordTypeTextView.className, "text");
+	assert.strictEqual(recordTypeTextView.innerHTML, "Posttyp");
+	
+	var recordIdView = valueView.childNodes[1];
+	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
+	var recordIdTextView = recordIdView.firstChild;
+	assert.strictEqual(recordIdTextView.className, "text");
+	assert.strictEqual(recordIdTextView.innerHTML, "PostId");
+	
+	var recordIdTextVarSpyDummyView = recordIdView.childNodes[1];
+	assert.strictEqual(recordIdTextVarSpyDummyView.cPresentation
+			.getFirstAtomicValueByNameInData("presentationOf"), "linkedRecordIdTVar");
+	var expectedPath = {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "linkedRecordId"
+			} ]
+	};
+	assert.stringifyEqual(recordIdTextVarSpyDummyView.path, expectedPath);
+});
+
+QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
+	var attachedPRecordLink = this.pRecordLinkFactory.factor({},
+	"myPathLinkNoPresentationOfLinkedRecordOutputPLink");
+	assert.strictEqual(attachedPRecordLink.pRecordLink.type, "pRecordLink");
+	assert.deepEqual(attachedPRecordLink.view.className,
+	"pRecordLink myPathLinkNoPresentationOfLinkedRecordOutputPLink");
+	var view = attachedPRecordLink.view;
+	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
+	assert.ok(view.childNodes.length === 1);
+	
+	var valueView = attachedPRecordLink.valueView;
+	assert.strictEqual(valueView.nodeName, "SPAN");
+	assert.strictEqual(valueView.className, "valueView");
+	assert.strictEqual(valueView.childNodes.length, 3);
+	
+	var repeatIdView = valueView.childNodes[2];
+	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
 	
 	var repeatIdTextView = repeatIdView.firstChild;
 	assert.strictEqual(repeatIdTextView.className, "text");
