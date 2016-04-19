@@ -235,12 +235,12 @@ var CORA = (function(cora) {
 		function possiblyInitializeLinkedRepeatId(nextLevelPath) {
 			if (isLinkToRepeatingPartOfRecord()) {
 				var recordTypeStaticChildReference = createRefWithRef("linkedRepeatIdTVar");
-				CORA.metadataChildInitializer(recordTypeStaticChildReference, nextLevelPath,
-						data, metadataProvider, pubSub);
+				CORA.metadataChildInitializer(recordTypeStaticChildReference, nextLevelPath, data,
+						metadataProvider, pubSub);
 			}
 		}
-		
-		function isLinkToRepeatingPartOfRecord(){
+
+		function isLinkToRepeatingPartOfRecord() {
 			return cMetadataElement.containsChildWithNameInData("linkedPath");
 		}
 

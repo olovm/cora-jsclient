@@ -50,7 +50,7 @@ var CORA = (function(cora) {
 				addGroupParts(dataContainerPart, cMetadataElement);
 				return dataContainerPart;
 			}
-			if(isRecordLink(cMetadataElement)){
+			if (isRecordLink(cMetadataElement)) {
 				dataContainerPart.children = [];
 				return dataContainerPart;
 			}
@@ -64,7 +64,7 @@ var CORA = (function(cora) {
 			var type = cMetadataElement.getData().attributes.type;
 			return type === "group";
 		}
-		
+
 		function addGroupParts(dataContainerPart, cMetadataElement) {
 			dataContainerPart.children = [];
 			if (cMetadataElement.containsChildWithNameInData("attributeReferences")) {
@@ -86,12 +86,12 @@ var CORA = (function(cora) {
 			});
 			return attributeContainer;
 		}
-		
+
 		function isRecordLink(cMetadataElement) {
 			var type = cMetadataElement.getData().attributes.type;
 			return type === "recordLink";
 		}
-		
+
 		function subscribeToAddAndSetValueAndRemoveMessagesForAllPaths() {
 			pubSub.subscribe("*", {}, undefined, handleMsg);
 		}
