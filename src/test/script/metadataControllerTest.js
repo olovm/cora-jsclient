@@ -1355,3 +1355,159 @@ QUnit.test("testInitTextVarRepeat1to3InGroup"
 
 	assert.equal(messages.length, 6);
 });
+QUnit
+.test(
+		"testInitTextVarRepeat1to1" +
+		"InGroupOneAttributeInGroup",
+		function(assert) {
+			this.metadataControllerFactory.factor("groupInGroupOneTextChildOneAttribute",
+					undefined);
+			var messages = this.pubSub.getMessages();
+			assert
+					.deepEqual(
+							JSON.stringify(messages[0]),
+							'{"type":"add","message":{'
+									+ '"metadataId":"groupIdOneTextChildOneAttribute","path":{},"nameInData":"groupIdOneTextChildOneAttribute","attributes":{"anAttribute":["aFinalValue"]}}}');
+
+			var path = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
+			var attributes = createAttributes();
+			attributes.children.push(createAttributeWithNameAndValueAndRepeatId(
+					"anAttribute", "aFinalValue"));
+			path.children.push(attributes);
+			assert.deepEqual(JSON.stringify(messages[1]), '{"type":"add","message":{'
+					+ '"metadataId":"textVariableId","path":' + JSON.stringify(path)
+					+ ',"nameInData":"textVariableId"}}');
+
+			assert.equal(messages.length, 2);
+		});
+
+QUnit.test("testInitGroupWithOneRecordLink", function(assert) {
+	this.metadataControllerFactory.factor("groupIdOneRecordLinkChild", undefined);
+	var messages = this.pubSub.getMessages();
+
+	var expectedAddForRecordLink = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "myLink",
+			"path" : {},
+			"nameInData" : "myLink"
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedAddForRecordLink);
+
+	var expectedAddForLinkedRecordType = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "linkedRecordTypeTVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myLink"
+				} ]
+			},
+			"nameInData" : "linkedRecordType"
+		}
+	};
+	assert.stringifyEqual(messages[1], expectedAddForLinkedRecordType);
+
+	var expectedSetValueForLinkedRecordType = {
+		"type" : "setValue",
+		"message" : {
+			"data" : "metadataTextVariable",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myLink"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "linkedRecordType"
+					} ]
+
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[2], expectedSetValueForLinkedRecordType);
+
+	var expectedAddForLinkedRecordId = {
+			"type" : "add",
+			"message" : {
+				"metadataId" : "linkedRecordIdTVar",
+				"path" : {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "myLink"
+					} ]
+				},
+				"nameInData" : "linkedRecordId"
+			}
+		};
+		assert.stringifyEqual(messages[3], expectedAddForLinkedRecordId);
+	 assert.equal(messages.length, 4);
+});
+
+QUnit.test("testInitGroupWithOneRecordLinkWithData", function(assert) {
+	var data = {
+		"name" : "groupIdOneRecordLinkChild",
+		"children" : [ {
+			"name" : "myLink",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : "metadataTextVariable"
+			}, {
+				"name" : "linkedRecordId",
+				"value" : "someRecordId"
+			} ]
+		} ]
+	};
+	this.metadataControllerFactory.factor("groupIdOneRecordLinkChild", data);
+	var messages = this.pubSub.getMessages();
+
+	var expectedSetValueForLinkedRecordType = {
+		"type" : "setValue",
+		"message" : {
+			"data" : "someRecordId",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myLink"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "linkedRecordId"
+					} ]
+
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[4], expectedSetValueForLinkedRecordType);
+	assert.equal(messages.length, 5);
+});
+
+// QUnit.test("testInitGroupIdOneTextChildWithData", function(assert) {
+//	var data = {
+//		"name" : "groupIdOneTextChild",
+//		"children" : [ {
+//			"name" : "textVariableId",
+//			"value" : "A Value"
+//		} ]
+//	};
+//
+//	this.metadataControllerFactory.factor("groupIdOneTextChild", data);
+//	var messages = this.pubSub.getMessages();
+//	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
+//			+ '"metadataId":"textVariableId","path":{},"nameInData":"textVariableId"}}');
+//	assert.deepEqual(JSON.stringify(messages[1]), '{"type":"setValue","message":{"data":"A Value",'
+//			+ '"path":' + createLinkedPathWithNameInDataAsString("textVariableId") + '}}');
+//
+//	assert.equal(messages.length, 2);
+//});
+

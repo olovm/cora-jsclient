@@ -144,7 +144,7 @@ QUnit.test("testInitRecordLink", function(assert) {
 		"name" : "linkedPath",
 		"children" : [ {
 			"name" : "nameInData",
-			"value" : "linkedRecordIdTVar"
+			"value" : "linkedRecordId"
 		} ]
 	};
 	assert.stringifyEqual(recordIdTextVarSpyDummyView.path, expectedPath);
@@ -180,7 +180,7 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 			"name" : "linkedPath",
 			"children" : [ {
 				"name" : "nameInData",
-				"value" : "linkedRepeatIdTVar"
+				"value" : "linkedRepeatId"
 			} ]
 	};
 	assert.stringifyEqual(repeatIdTextVarSpyDummyView.path, expectedPath);

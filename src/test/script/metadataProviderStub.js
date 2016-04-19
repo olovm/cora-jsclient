@@ -1695,6 +1695,18 @@ function MetadataProviderStub() {
 				}
 			};
 		}
+		if (idToGet === "groupIdOneRecordLinkChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myLink", "1") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
 		if (idToGet === "myLink") {
 			return {
 				"name" : "metadata",
@@ -1757,13 +1769,39 @@ function MetadataProviderStub() {
 				} ]
 			};
 		}
+		if (idToGet === "linkedRecordTypeTVar") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "regEx",
+					"value" : "(^[A-Z\_]{2,50}$)"
+				} ].concat([ createRecordInfoJson(idToGet) ]
+						.concat(createNameInDataTextIdDefTextIdWithNameInDataAndId("linkedRecordType",idToGet))),
+				"attributes" : {
+					"type" : "textVariable"
+				}
+			};
+		}
+		function createNameInDataTextIdDefTextIdWithNameInDataAndId(nameInData, id) {
+			return [ {
+				"name" : "nameInData",
+				"value" : nameInData
+			}, {
+				"name" : "textId",
+				"value" : id + "Text"
+			}, {
+				"name" : "defTextId",
+				"value" : id + "DefText"
+			} ];
+		}
 		if (idToGet === "linkedRecordIdTVar") {
 			return {
 				"name" : "metadata",
 				"children" : [ {
 					"name" : "regEx",
 					"value" : "(^[A-Z\_]{2,50}$)"
-				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+				} ].concat([ createRecordInfoJson(idToGet) ]
+				.concat(createNameInDataTextIdDefTextIdWithNameInDataAndId("linkedRecordId",idToGet))),
 				"attributes" : {
 					"type" : "textVariable"
 				}
@@ -1775,7 +1813,8 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "regEx",
 					"value" : "(^[A-Z\_]{2,50}$)"
-				}  ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+				} ].concat([ createRecordInfoJson(idToGet) ]
+				.concat(createNameInDataTextIdDefTextIdWithNameInDataAndId("linkedRepeatId",idToGet))),
 				"attributes" : {
 					"type" : "textVariable"
 				}

@@ -145,7 +145,7 @@ var CORA = (function(cora) {
 
 		function isGroup() {
 			var type = cMetadataElement.getData().attributes.type;
-			return type === "group" || type === "childGroup";
+			return type === "group";
 		}
 
 		function validateMetadataGroup(nextLevelPath) {

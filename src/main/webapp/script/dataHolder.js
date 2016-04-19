@@ -58,7 +58,7 @@ var CORA = (function(cora) {
 
 		function isGroup(metadataElement) {
 			var type = metadataElement.getData().attributes.type;
-			if (type === "group" || type === "childGroup") {
+			if (type === "group") {
 				return true;
 			}
 			return false;
