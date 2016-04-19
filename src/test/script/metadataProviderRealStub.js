@@ -2480,8 +2480,8 @@ var CORATEST = (function(coraTest) {
 							"repeatId" : "1",
 							"children" : [ {
 								"name" : "ref",
-								// "value": "recordInfoPVarGroup"
-								"value" : "recordInfo"
+								 "value": "recordInfoPVarGroup"
+//								"value" : "recordInfo"
 							}, {
 								"name" : "repeatMin",
 								"value" : "1"
@@ -3407,6 +3407,7 @@ var CORATEST = (function(coraTest) {
 								"children" : [ {
 									"name" : "ref",
 									"value" : "recordInfo"
+//									"value" : "recordInfoPGroupGroup"
 								}, {
 									"name" : "repeatMin",
 									"value" : "1"

@@ -20,6 +20,9 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pChildRefHandler = function(spec) {
+		var metadataHelper = CORA.metadataHelper({
+			"metadataProvider" : spec.metadataProvider
+		});
 		var presentationId = findPresentationId(spec.cPresentation);
 		var metadataId = getMetadataIdFromPresentation();
 		var cMetadataElement = getMetadataById(metadataId);
@@ -53,9 +56,7 @@ var CORA = (function(cora) {
 		}
 
 		function collectAttributesForMetadataId(metadataIdIn) {
-			var metadataHelper = CORA.metadataHelper({
-				"metadataProvider" : spec.metadataProvider
-			});
+
 			return metadataHelper.collectAttributesAsObjectForMetadataId(metadataIdIn);
 		}
 
@@ -75,13 +76,75 @@ var CORA = (function(cora) {
 		}
 
 		function getChildRefPartOfMetadata(cMetadata, metadataIdToFind) {
+			var cMetadataToFind = getMetadataById(metadataIdToFind);
+			var nameInDataToFind = cMetadataToFind.getFirstAtomicValueByNameInData("nameInData");
+			var attributesToFind = metadataHelper
+					.collectAttributesAsObjectForMetadataId(metadataIdToFind);
+
 			var findFunction = function(metadataChildRef) {
-				var cMetadataChildRef = CORA.coraData(metadataChildRef);
-				return cMetadataChildRef.getFirstAtomicValueByNameInData("ref") === metadataIdToFind;
+				var childMetadataId = getMetadataIdFromRef(metadataChildRef);
+				var childAttributesToFind = metadataHelper
+						.collectAttributesAsObjectForMetadataId(childMetadataId);
+				var childNameInData = getNameInDataFromMetadataChildRef(metadataChildRef);
+				return childNameInData === nameInDataToFind
+						&& sameAttributes(attributesToFind, childAttributesToFind);
 			};
 			var children = cMetadata.getFirstChildByNameInData("childReferences").children;
 			var parentMetadataChildRef = children.find(findFunction);
 			return CORA.coraData(parentMetadataChildRef);
+		}
+		function getMetadataIdFromRef(metadataChildRef) {
+			var cMetadataChildRef = CORA.coraData(metadataChildRef);
+			var childMetadataId = cMetadataChildRef.getFirstAtomicValueByNameInData("ref");
+			return childMetadataId;
+		}
+
+		function getNameInDataFromMetadataChildRef(metadataChildRef) {
+			var childMetadataId = getMetadataIdFromRef(metadataChildRef);
+			var cChildMetadata = getMetadataById(childMetadataId);
+			var childNameInData = cChildMetadata.getFirstAtomicValueByNameInData("nameInData");
+			return childNameInData;
+		}
+
+		function sameAttributes(attributes1, attributes2) {
+			var attributeKeys1 = Object.keys(attributes1);
+			var attributeKeys2 = Object.keys(attributes2);
+			if (notSameNumberOfKeys(attributeKeys1, attributeKeys2)) {
+				return false;
+			}
+			if (noAttributesToCompare(attributeKeys1)) {
+				return true;
+			}
+			return compareExistingAttributes(attributes1, attributes2);
+		}
+
+		function notSameNumberOfKeys(attributeKeys1, attributeKeys2) {
+			if (attributeKeys1.length !== attributeKeys2.length) {
+				return true;
+			}
+			return false;
+		}
+
+		function noAttributesToCompare(attributeKeys1) {
+			if (attributeKeys1.length === 0) {
+				return true;
+			}
+			return false;
+		}
+
+		function compareExistingAttributes(attributes1, attributes2) {
+			var attributeKeys1 = Object.keys(attributes1);
+			var attributeExistsInAttributes2 = function(attributeKey) {
+				var attributeValues1 = attributes1[attributeKey];
+				var attributeValues2 = attributes2[attributeKey];
+				if (attributeValues2 === undefined) {
+					return false;
+				}
+				return attributeValues2.indexOf(attributeValues1[0]) > -1;
+			};
+
+			var attributeMatches = attributeKeys1.every(attributeExistsInAttributes2);
+			return attributeMatches;
 		}
 
 		function calculateIsRepeating() {
@@ -162,8 +225,8 @@ var CORA = (function(cora) {
 				return collectedAttributeValues.indexOf(attributeValueFromMsg[0]) > -1;
 			};
 
-			var sameAttributes = attributeFromMsgKeys.every(attributeExistsInCollectedAttributes);
-			return sameAttributes;
+			var attributeMatches = attributeFromMsgKeys.every(attributeExistsInCollectedAttributes);
+			return attributeMatches;
 		}
 
 		function processMsg(dataFromMsg, msg) {
