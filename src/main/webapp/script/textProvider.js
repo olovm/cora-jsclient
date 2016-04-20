@@ -20,46 +20,62 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.textProvider = function(spec) {
-		var metadataProvider = spec.metadataProvider;
-		var lang = spec.lang;
+		var texts = {};
+		var currentLang = "sv";
+		fetchTextListAndThen(processFetchedTextdata);
 
-		function getTranslation(textId) {
-
-			var cTextElement = getMetadataById(textId);
-			var attributes = {
-				"name" : "attributes",
-				"children" : [ {
-					"name" : "attribute",
-					"repeatId" : "1",
-					"children" : [ {
-						"name" : "attributeName",
-						"value" : "type"
-					}, {
-						"name" : "attributeValue",
-						"value" : "default"
-					} ]
-				}, {
-					"name" : "attribute",
-					"repeatId" : "1",
-					"children" : [ {
-						"name" : "attributeName",
-						"value" : "lang"
-					}, {
-						"name" : "attributeValue",
-						"value" : lang
-					} ]
-				} ]
-			};
-			var textPart = cTextElement.getFirstChildByNameInDataAndAttributes("textPart",
-					attributes);
-			var cTextPart = CORA.coraData(textPart);
-			var text = cTextPart.getFirstAtomicValueByNameInData("text");
-
-			return text;
+		function fetchTextListAndThen(callAfterAnswer) {
+			callThroughAjax(spec.textListLink, callAfterAnswer);
 		}
 
-		function getMetadataById(id) {
-			return CORA.coraData(metadataProvider.getMetadataById(id));
+		function callThroughAjax(linkSpec, callAfterAnswer) {
+			var ajaxCallSpec = createIndependentCopy(linkSpec);
+			// fix for requestMethod being called method
+			ajaxCallSpec.method = ajaxCallSpec.requestMethod;
+			ajaxCallSpec.xmlHttpRequestFactory = spec.dependencies.xmlHttpRequestFactory;
+			ajaxCallSpec.loadMethod = callAfterAnswer;
+			CORA.ajaxCall(ajaxCallSpec);
+		}
+		
+		function createIndependentCopy(someObject){
+			return JSON.parse(JSON.stringify(someObject));
+		}
+
+		function processFetchedTextdata(answer) {
+			createTextObjectFromAnswer(answer);
+		}
+
+		function createTextObjectFromAnswer(answer) {
+			var data = JSON.parse(answer.responseText).dataList.data;
+			data.forEach(function(recordContainer) {
+				var recordData = recordContainer.record.data;
+				var recordId = getIdFromRecordData(recordData);
+
+				var cRecordData = CORA.coraData(recordData);
+				var textParts = cRecordData.getChildrenByNameInData("textPart");
+				textParts.forEach(function(textPart) {
+					var lang = textPart.attributes.lang;
+					var text = textPart.children[0].value;
+					if(texts[lang] === undefined){
+						texts[lang] = [];
+					}
+					texts[lang][recordId] = text;
+				});
+			});
+		}
+
+		function getIdFromRecordData(recordData) {
+			var cRecord = CORA.coraData(recordData);
+			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
+			return id;
+		}
+		function getTranslation(textId) {
+			if (texts[currentLang][textId] !== undefined) {
+				return texts[currentLang][textId];
+			}
+			console.log("Id(" + textId + ") not found in textProvider");
+//			throw new Error("Id(" + textId + ") not found in textProvider");
 		}
 
 		return Object.freeze({

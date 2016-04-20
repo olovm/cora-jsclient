@@ -75,7 +75,16 @@ var CORA = (function(cora) {
 				return containerIsSpecifiedByAttributes(child, attributes);
 			};
 		}
-
+		
+		function getChildrenByNameInData(nameInData, index) {
+			var filter = createNameInDataFilter(nameInData);
+			var foundChildren = children.filter(filter);
+			if (foundChildren.length > 0) {
+				return foundChildren;
+			}
+			throw new Error("name(" + nameInData + ") not found in children to coraData");
+		}
+		
 		function getChildrenByNameInDataAndAttributes(nameInData, attributes) {
 			var foundContainers = findContainersSpecifiedByNameInDataAndAttributes(nameInData,
 					attributes);
@@ -295,6 +304,7 @@ var CORA = (function(cora) {
 					getFirstAtomicValueByNameInData : getFirstAtomicValueByNameInData,
 					getNoOfChildrenWithNameInData : getNoOfChildrenWithNameInData,
 					containsChildWithNameInDataAndAttributes : containsChildWithNameInDataAndAttributes,
+					getChildrenByNameInData:getChildrenByNameInData,
 					getChildrenByNameInDataAndAttributes : getChildrenByNameInDataAndAttributes,
 					getFirstChildByNameInDataAndAttributes : getFirstChildByNameInDataAndAttributes,
 					containsChildWithNameInDataAndIndex : containsChildWithNameInDataAndIndex,

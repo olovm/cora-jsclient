@@ -72,18 +72,13 @@
 <script type="text/javascript" src="script/textProvider.js"></script>
 <script type="text/javascript" src="script/xmlHttpRequestFactory.js"></script>
 
-<script type="text/javascript"
-	src="../../test/script/metadataProviderStub.js"></script>
+<script type="text/javascript" src="../../test/script/metadataProviderStub.js"></script>
 <script type="text/javascript" src="test/script/metadataProviderStub.js"></script>
-<script type="text/javascript"
-	src="../../test/script/textProviderStub.js"></script>
+<script type="text/javascript" src="../../test/script/textProviderStub.js"></script>
 <script type="text/javascript" src="test/script/textProviderStub.js"></script>
-<script type="text/javascript"
-	src="../../test/script/metadataProviderRealStub.js"></script>
-<script type="text/javascript"
-	src="test/script/metadataProviderRealStub.js"></script>
-<script type="text/javascript"
-	src="../../test/script/textProviderRealStub.js"></script>
+<script type="text/javascript" src="../../test/script/metadataProviderRealStub.js"></script>
+<script type="text/javascript" src="test/script/metadataProviderRealStub.js"></script>
+<script type="text/javascript" src="../../test/script/textProviderRealStub.js"></script>
 <script type="text/javascript" src="test/script/textProviderRealStub.js"></script>
 
 <script type="text/javascript">
@@ -147,7 +142,7 @@
 					presentationFactory : presentationFactory,
 					dataHolder : dataHolder,
 					metadataController : metadataController,
-					getPresentation:getPresentation
+					getPresentation : getPresentation
 				});
 			};
 			return Object.freeze({
@@ -165,100 +160,111 @@
 
 	function startJsClient() {
 		var dependencies = {
-				"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-			};
-			var metadataListLink = {
-				"requestMethod" : "GET",
-				"rel" : "list",
-// 				"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
-				"url" : "http://localhost:8080/therest/rest/record/metadata/",
-				"accept" : "application/uub+recordList+json"
-			};
-			var presentationListLink = {
-					"requestMethod" : "GET",
-					"rel" : "list",
-// 					"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
-				"url" : "http://localhost:8080/therest/rest/record/presentation/",
-					"accept" : "application/uub+recordList+json"
-				};
-			var textListLink = {
-					"requestMethod" : "GET",
-					"rel" : "list",
-// 					"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
-				"url" : "http://localhost:8080/therest/rest/record/text/",
-					"accept" : "application/uub+recordList+json"
-				};
-				var spec = {
-					"dependencies" : dependencies,
-					"metadataListLink" : metadataListLink,
-					"textListLink" : textListLink,
-					"presentationListLink" : presentationListLink
-				};
+			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+		};
+		var metadataListLink = {
+			"requestMethod" : "GET",
+			"rel" : "list",
+			// 				"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
+			"url" : "http://localhost:8080/therest/rest/record/metadata/",
+			"accept" : "application/uub+recordList+json"
+		};
+		var presentationListLink = {
+			"requestMethod" : "GET",
+			"rel" : "list",
+			// 					"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
+			"url" : "http://localhost:8080/therest/rest/record/presentation/",
+			"accept" : "application/uub+recordList+json"
+		};
+		var textListLink = {
+			"requestMethod" : "GET",
+			"rel" : "list",
+			// 					"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
+			"url" : "http://localhost:8080/therest/rest/record/text/",
+			"accept" : "application/uub+recordList+json"
+		};
+		var metadataProviderSpec = {
+			"dependencies" : dependencies,
+			"metadataListLink" : metadataListLink,
+			"textListLink" : textListLink,
+			"presentationListLink" : presentationListLink
+		};
 
-			var metadataProvider = CORA.metadataProvider(spec);
-// 		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
+		var metadataProvider = CORA.metadataProvider(metadataProviderSpec);
+		// 		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
+
+		var textProviderSpec = {
+			"dependencies" : dependencies,
+			"textListLink" : textListLink,
+			"lang" : "sv"
+		};
+
+		var textProvider = CORA.textProvider(textProviderSpec);
+
 		var textProviderRealStub = CORATEST.textProviderRealStub();
-		var dependencies = {
-// 				"metadataProvider":CORATEST.metadataProviderRealStub(),
-				"metadataProvider":metadataProvider,
-				"textProvider": CORATEST.textProviderRealStub(),
-				"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-				"presentationFactoryFactory":"not implemented yet"
+		var jsClientDependencies = {
+			// 				"metadataProvider":CORATEST.metadataProviderRealStub(),
+			"metadataProvider" : metadataProvider,
+			// 			"textProvider" : CORATEST.textProviderRealStub(),
+			"textProvider" : textProvider,
+			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+			"presentationFactoryFactory" : "not implemented yet"
 		}
-		var spec = {
-			"dependencies": dependencies,
+		var jsClientSpec = {
+			"dependencies" : jsClientDependencies,
 			"name" : "The Client",
-// 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+			// 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 			"baseUrl" : "http://localhost:8080/therest/rest/"
 		};
-		var jsClient = CORA.jsClient(spec);
+		var jsClient = CORA.jsClient(jsClientSpec);
 		document.body.appendChild(jsClient.getView());
-		
-// 		var metadataArray = metadataProviderRealStub.metadataArray;
-// 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
-// 		Object.keys(metadataArray).forEach(function(key){
-// 			var type = getType(key);
-// 			if("unknown"!==type){
-// 			console.log(key);
-// 			var cMetadata = CORA.coraData(metadataArray[key]);
-// 			var recordInfo = cMetadata.getFirstChildByNameInData("recordInfo");
-// 			console.log(recordInfo);
-// 			recordInfo.children = [ {
-// 				"name" : "id",
-// 				"value" : key
-// 			} ];
-// 			console.log(cMetadata.getData())
-// 			var callSpec = {
-// 				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
-// 				"method" : "POST",
-// 				"url" : "http://localhost:8080/therest/rest/record/"+getType(key),
-// 				"contentType" : "application/uub+record+json",
-// 				"accept" : "application/uub+record+json",
-// 				"loadMethod" : callAfterAnswer,
-// 				"errorMethod" : callError,
-// 				"data" : JSON.stringify(cMetadata.getData())
-// 			};
-// 			CORA.ajaxCall(callSpec);
-// 			}
-// 		});
-		
+
+		// 		var metadataArray = metadataProviderRealStub.metadataArray;
+		// 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
+		// 		Object.keys(metadataArray).forEach(function(key){
+		// 			var type = getType(key);
+		// 			if("unknown"!==type){
+		// 			console.log(key);
+		// 			var cMetadata = CORA.coraData(metadataArray[key]);
+		// 			var recordInfo = cMetadata.getFirstChildByNameInData("recordInfo");
+		// 			console.log(recordInfo);
+		// 			recordInfo.children = [ {
+		// 				"name" : "id",
+		// 				"value" : key
+		// 			} ];
+		// 			console.log(cMetadata.getData())
+		// 			var callSpec = {
+		// 				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
+		// 				"method" : "POST",
+		// 				"url" : "http://localhost:8080/therest/rest/record/"+getType(key),
+		// 				"contentType" : "application/uub+record+json",
+		// 				"accept" : "application/uub+record+json",
+		// 				"loadMethod" : callAfterAnswer,
+		// 				"errorMethod" : callError,
+		// 				"data" : JSON.stringify(cMetadata.getData())
+		// 			};
+		// 			CORA.ajaxCall(callSpec);
+		// 			}
+		// 		});
+
 	}
-	function callError(error){
+	function callError(error) {
 		console.log(error);
 	}
-	function callAfterAnswer(){}
+	function callAfterAnswer() {
+	}
 	function getType(key) {
-// 		if (key.endsWith("Item")) {
-// 			return "metadataCollectionItem";
-// 		} else if (key.endsWith("Collection")) {
-// 			return "metadataItemCollection";
-// 		} else if (key.endsWith("CollectionVar")) {
-// 			return "metadataCollectionVariable";
-// 		} else if (key.endsWith("TextVar")) {
-// 			return "metadataTextVariable";
-// 		} else if (key.endsWith("Group")) {
-// // 			return "metadataGroup";
-// 			return "unknown";
+		// 		if (key.endsWith("Item")) {
+		// 			return "metadataCollectionItem";
+		// 		} else if (key.endsWith("Collection")) {
+		// 			return "metadataItemCollection";
+		// 		} else if (key.endsWith("CollectionVar")) {
+		// 			return "metadataCollectionVariable";
+		// 		} else if (key.endsWith("TextVar")) {
+		// 			return "metadataTextVariable";
+		// 		} else if (key.endsWith("Group")) {
+		// // 			return "metadataGroup";
+		// 			return "unknown";
 		if (key.endsWith("PGroup")) {
 			return "presentationGroup";
 		} else if (key.endsWith("SContainer")) {

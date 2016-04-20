@@ -20,161 +20,58 @@
 
 QUnit.module("metadataProviderTest.js", {
 	beforeEach : function() {
-		this.record = {
-			"data" : {
-				"children" : [ {
-					"children" : [ {
-						"name" : "id",
-						"value" : "metadataCollectionItem"
-					}, {
-						"name" : "type",
-						"value" : "recordType"
-					}, {
-						"name" : "createdBy",
-						"value" : "userId"
-					}, {
-						"name" : "updatedBy",
-						"value" : "userId"
-					} ],
-					"name" : "recordInfo"
-				}, {
-					"name" : "metadataId",
-					"value" : "metadataCollectionItemGroup"
-				}, {
-					"name" : "presentationViewId",
-					"value" : "metadataCollectionItemViewPGroup"
-				}, {
-					"name" : "presentationFormId",
-					"value" : "metadataCollectionItemFormPGroup"
-				}, {
-					"name" : "newMetadataId",
-					"value" : "metadataCollectionItemNewGroup"
-				}, {
-					"name" : "newPresentationFormId",
-					"value" : "metadataCollectionItemFormNewPGroup"
-				}, {
-					"name" : "menuPresentationViewId",
-					"value" : "metadataCollectionItemMenuPGroup"
-				}, {
-					"name" : "listPresentationViewId",
-					"value" : "metadataCollectionItemListPGroup"
-				}, {
-					"name" : "searchMetadataId",
-					"value" : "metadataCollectionItemSearchGroup"
-				}, {
-					"name" : "searchPresentationFormId",
-					"value" : "metadataCollectionItemFormSearchPGroup"
-				}, {
-					"name" : "userSuppliedId",
-					"value" : "true"
-				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_METADATACOLLECTIONITEM"
-				}, {
-					"name" : "selfPresentationViewId",
-					"value" : "metadataCollectionItemViewSelfPGroup"
-				}, {
-					"name" : "abstract",
-					"value" : "false"
-				}, {
-					"name" : "parentId",
-					"value" : "metadata"
-				} ],
-				"name" : "recordType"
-			},
-			"actionLinks" : {
-				"search" : {
-					"requestMethod" : "GET",
-					"rel" : "search",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+recordList+json"
-				},
-				"read" : {
-					"requestMethod" : "GET",
-					"rel" : "read",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem",
-					"accept" : "application/uub+record+json"
-				},
-				"update" : {
-					"requestMethod" : "POST",
-					"rel" : "update",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem",
-					"accept" : "application/uub+record+json"
-				},
-				"create" : {
-					"requestMethod" : "POST",
-					"rel" : "create",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+record+json"
-				},
-				"list" : {
-					"requestMethod" : "GET",
-					"rel" : "list",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+recordList+json"
-				},
-				"delete" : {
-					"requestMethod" : "DELETE",
-					"rel" : "delete",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem"
-				}
-			}
+		var metadataListData = CORATEST.metadataList;
+		var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+		function sendFunction() {
+			xmlHttpRequestSpy.status = 200;
+			xmlHttpRequestSpy.responseText = JSON.stringify(metadataListData);
+			xmlHttpRequestSpy.addedEventListeners["load"][0]();
+		}
+
+		var dependencies = {
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		};
-		this.createRecordHandlerViewFactory = function() {
-			return {
-				"factor" : function(recordHandlerViewSpec) {
-					return CORA.recordHandlerView(recordHandlerViewSpec);
-				}
-			};
+		var metadataListLink = {
+			"requestMethod" : "GET",
+			"rel" : "list",
+			"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
+			"accept" : "application/uub+recordList+json"
 		};
+		var presentationListLink = {
+			"requestMethod" : "GET",
+			"rel" : "list",
+			"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
+			"accept" : "application/uub+recordList+json"
+		};
+		var textListLink = {
+			"requestMethod" : "GET",
+			"rel" : "list",
+			"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
+			"accept" : "application/uub+recordList+json"
+		};
+		var spec = {
+			"dependencies" : dependencies,
+			"metadataListLink" : metadataListLink,
+			"textListLink" : textListLink,
+			"presentationListLink" : presentationListLink
+		};
+		this.metadataListLink = metadataListLink;
+		this.metadataListLinkJson = JSON.stringify(this.metadataListLink);
+		this.presentationListLink = presentationListLink;
+		this.presentationListLinkJson = JSON.stringify(this.presentationListLink);
+		this.textListLink = textListLink;
+		this.textListLinkJson = JSON.stringify(this.textListLink);
+
+		var metadataProvider = CORA.metadataProvider(spec);
+		this.metadataProvider = metadataProvider;
+		this.xmlHttpRequestSpy = xmlHttpRequestSpy;
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	var metadataListData = CORATEST.metadataList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify(metadataListData);
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
-
-	var dependencies = {
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-	};
-	var metadataListLink = {
-		"requestMethod" : "GET",
-		"rel" : "list",
-		"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
-		"accept" : "application/uub+recordList+json"
-	};
-	var presentationListLink = {
-		"requestMethod" : "GET",
-		"rel" : "list",
-		"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
-		"accept" : "application/uub+recordList+json"
-	};
-	var textListLink = {
-		"requestMethod" : "GET",
-		"rel" : "list",
-		"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
-		"accept" : "application/uub+recordList+json"
-	};
-	var spec = {
-		"dependencies" : dependencies,
-		"metadataListLink" : metadataListLink,
-		"textListLink" : textListLink,
-		"presentationListLink" : presentationListLink
-	};
-
-	var metadataProvider = CORA.metadataProvider(spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestSpy;
 
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
 	var openUrls = xmlHttpRequestSpy.getOpenUrls();
@@ -193,43 +90,23 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"], undefined);
 
 });
-QUnit.test("getMetadataById", function(assert) {
-	var metadataListData = CORATEST.metadataList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify(metadataListData);
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
 
-	var dependencies = {
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-	};
-	var metadataListLink = {
-		"requestMethod" : "GET",
-		"rel" : "list",
-		"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
-		"accept" : "application/uub+recordList+json"
-	};
-	var presentationListLink = {
-		"requestMethod" : "GET",
-		"rel" : "list",
-		"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
-		"accept" : "application/uub+recordList+json"
-	};
-	var textListLink = {
-		"requestMethod" : "GET",
-		"rel" : "list",
-		"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
-		"accept" : "application/uub+recordList+json"
-	};
-	var spec = {
-		"dependencies" : dependencies,
-		"metadataListLink" : metadataListLink,
-		"textListLink" : textListLink,
-		"presentationListLink" : presentationListLink
-	};
-	var metadataProvider = CORA.metadataProvider(spec);
+QUnit.test("testInitEnteredLinksIsNotChanged", function(assert) {
+	var metadataListLinkJson = this.metadataListLinkJson;
+	var metadataListLinkJsonAfter = JSON.stringify(this.metadataListLink);
+	assert.deepEqual(metadataListLinkJsonAfter, metadataListLinkJson);
+	
+	var presentationListLinkJson = this.presentationListLinkJson;
+	var presentationListLinkJsonAfter = JSON.stringify(this.presentationListLink);
+	assert.deepEqual(presentationListLinkJsonAfter, presentationListLinkJson);
+	
+	var textListLinkJson = this.textListLinkJson;
+	var textListLinkJsonAfter = JSON.stringify(this.textListLink);
+	assert.deepEqual(textListLinkJsonAfter, textListLinkJson);
+});
+
+QUnit.test("getMetadataById", function(assert) {
+	var metadataProvider = this.metadataProvider;
 	var expected = {
 		"children" : [ {
 			"name" : "nameInData",
@@ -292,43 +169,9 @@ QUnit.test("getMetadataById", function(assert) {
 	var x = metadataProvider.getMetadataById("textPartEnGroup");
 	assert.stringifyEqual(x, expected);
 });
-QUnit.test("getMetadataByIdNotFound", function(assert) {
-	var metadataListData = CORATEST.metadataList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify(metadataListData);
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
 
-	var dependencies = {
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-	};
-	var metadataListLink = {
-		"requestMethod" : "GET",
-		"rel" : "list",
-		"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
-		"accept" : "application/uub+recordList+json"
-	};
-	var presentationListLink = {
-		"requestMethod" : "GET",
-		"rel" : "list",
-		"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
-		"accept" : "application/uub+recordList+json"
-	};
-	var textListLink = {
-		"requestMethod" : "GET",
-		"rel" : "list",
-		"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
-		"accept" : "application/uub+recordList+json"
-	};
-	var spec = {
-		"dependencies" : dependencies,
-		"metadataListLink" : metadataListLink,
-		"textListLink" : textListLink,
-		"presentationListLink" : presentationListLink
-	};
-	var metadataProvider = CORA.metadataProvider(spec);
+QUnit.test("getMetadataByIdNotFound", function(assert) {
+	var metadataProvider = this.metadataProvider;
 	var error = false;
 	try {
 		var x = metadataProvider.getMetadataById("someNonExistingMetadataId");

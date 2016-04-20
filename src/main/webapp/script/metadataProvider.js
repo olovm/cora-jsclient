@@ -30,7 +30,7 @@ var CORA = (function(cora) {
 		}
 		
 		function callThroughAjax(linkSpec, callAfterAnswer){
-			var ajaxCallSpec = linkSpec;
+			var ajaxCallSpec = createIndependentCopy(linkSpec);
 			// fix for requestMethod being called method
 			ajaxCallSpec.method = ajaxCallSpec.requestMethod;
 			ajaxCallSpec.xmlHttpRequestFactory = spec.dependencies.xmlHttpRequestFactory;
@@ -38,6 +38,10 @@ var CORA = (function(cora) {
 			CORA.ajaxCall(ajaxCallSpec);
 		}
 
+		function createIndependentCopy(someObject){
+			return JSON.parse(JSON.stringify(someObject));
+		}
+		
 		function processFetchedMetadata(answer) {
 			createMetadataObjectFromAnswer(answer);
 		}

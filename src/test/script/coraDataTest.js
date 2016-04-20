@@ -357,6 +357,18 @@ QUnit.test("testGetFirstChildByNameInDataAndAttributeNoAttributeInMetadataEmptyA
 			assert.stringifyEqual(firstChildFound, this.firstChild);
 		});
 
+QUnit.test("testGetChildrenByNameInData", function(assert) {
+	var children = this.coraDataWithAttribute.getChildrenByNameInData(
+			"groupIdOneTextChildOneAttribute");
+	assert.stringifyEqual(children, [ this.firstChild2 ]);
+});
+
+QUnit.test("testGetChildrenByNameInDataNameNotFound", function(assert) {
+	assert.throws(function() {
+		this.coraDataWithAttribute.getChildrenByNameInData("groupIdOneTextChildOneAttributeNOT");
+	}, "Error");
+});
+
 QUnit.test("testGetChildrenByNameInDataAndAttribute", function(assert) {
 	var attributes = createAttributes();
 	attributes.children.push(createAttributeWithNameAndValueAndRepeatId("anAttribute",
