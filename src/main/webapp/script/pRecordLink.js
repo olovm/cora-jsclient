@@ -41,7 +41,7 @@ var CORA = (function(cora) {
 		}
 		function createValueView() {
 			var valueViewNew = document.createElement("span");
-			valueViewNew.className = "valueView";
+			valueViewNew.className = "childrenView";
 
 			var recordTypeViewNew = createChildView("linkedRecordType",
 					"linkedRecordTypeOutputPVar");

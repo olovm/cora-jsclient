@@ -1031,11 +1031,12 @@ function MetadataProviderStub() {
 						"repeatId" : "1"
 					} ]
 
-				},{
+				}, {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatId1to1("id", "1") ]
-				
-				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("recordInfo")),
+
+				} ]
+						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("recordInfo")),
 				"attributes" : {
 					"type" : "group"
 				}
@@ -1526,7 +1527,7 @@ function MetadataProviderStub() {
 						"children" : [ {
 							"name" : "ref",
 							"value" : "recordInfoPVarAttributeGroup"
-								// "value" : "recordInfo"
+						// "value" : "recordInfo"
 						}, {
 							"name" : "repeatMin",
 							"value" : "1"
@@ -1672,7 +1673,7 @@ function MetadataProviderStub() {
 						"repeatId" : "1"
 					} ]
 
-				},{
+				}, {
 					"children" : [ {
 						"repeatId" : "1",
 						"children" : [ {
@@ -1786,9 +1787,10 @@ function MetadataProviderStub() {
 				"name" : "metadata",
 				"children" : [ {
 					"name" : "regEx",
-					"value" : "(^[A-Z\_]{2,50}$)"
+					"value" : "^[0-9A-Öa-ö\\s!*.]{2,50}$"
 				} ].concat([ createRecordInfoJson(idToGet) ]
-						.concat(createNameInDataTextIdDefTextIdWithNameInDataAndId("linkedRecordType",idToGet))),
+						.concat(createNameInDataTextIdDefTextIdWithNameInDataAndId(
+								"linkedRecordType", idToGet))),
 				"attributes" : {
 					"type" : "textVariable"
 				}
@@ -1811,9 +1813,10 @@ function MetadataProviderStub() {
 				"name" : "metadata",
 				"children" : [ {
 					"name" : "regEx",
-					"value" : "(^[A-Z\_]{2,50}$)"
+					"value" : "^[0-9A-Öa-ö\\s!*.]{2,50}$"
 				} ].concat([ createRecordInfoJson(idToGet) ]
-				.concat(createNameInDataTextIdDefTextIdWithNameInDataAndId("linkedRecordId",idToGet))),
+						.concat(createNameInDataTextIdDefTextIdWithNameInDataAndId(
+								"linkedRecordId", idToGet))),
 				"attributes" : {
 					"type" : "textVariable"
 				}
@@ -1824,9 +1827,10 @@ function MetadataProviderStub() {
 				"name" : "metadata",
 				"children" : [ {
 					"name" : "regEx",
-					"value" : "(^[A-Z\_]{2,50}$)"
+					"value" : "^[0-9A-Öa-ö\\s!*.]{1,50}$"
 				} ].concat([ createRecordInfoJson(idToGet) ]
-				.concat(createNameInDataTextIdDefTextIdWithNameInDataAndId("linkedRepeatId",idToGet))),
+						.concat(createNameInDataTextIdDefTextIdWithNameInDataAndId(
+								"linkedRepeatId", idToGet))),
 				"attributes" : {
 					"type" : "textVariable"
 				}
@@ -1861,28 +1865,28 @@ function MetadataProviderStub() {
 			};
 		case "recordInfoAttributePGroup":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pGroup"
-			},
-			"children" : [ createRecordInfoJson("recordInfoAttributePGroup") ].concat([ {
-				"name" : "presentationOf",
-				"value" : "recordInfoAttribute"
-			}, {
-				"name" : "childReferences",
-				"children" : [ {
-					"name" : "childReference",
-					"repeatId" : "1",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson("recordInfoAttributePGroup") ].concat([ {
+					"name" : "presentationOf",
+					"value" : "recordInfoAttribute"
+				}, {
+					"name" : "childReferences",
 					"children" : [ {
-						"name" : "ref",
-						"value" : "idTextOutputPVar"
-					}, {
-						"name" : "default",
-						"value" : "ref"
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "idTextOutputPVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
 					} ]
-				} ]
-			} ])
-		};
+				} ])
+			};
 		case "idTextOutputPVar":
 			return {
 				"name" : "presentation",
@@ -3203,84 +3207,84 @@ function MetadataProviderStub() {
 			};
 		case "myPathLinkNoPresentationOfLinkedRecordPLink":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pRecordLink"
-			},
-			"children" : [ {
-				"name" : "recordInfo",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pRecordLink"
+				},
 				"children" : [ {
-					"name" : "id",
-					"value" : "myPathLinkNoPresentationOfLinkedRecordPLink"
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myPathLinkNoPresentationOfLinkedRecordPLink"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "myPathLink"
+				}, {
+					"name" : "mode",
+					"value" : "input"
 				} ]
-			}, {
-				"name" : "presentationOf",
-				"value" : "myPathLink"
-			}, {
-				"name" : "mode",
-				"value" : "input"
-			} ]
-		};
+			};
 		case "myLinkNoPresentationOfLinkedRecordOutputPLink":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pRecordLink"
-			},
-			"children" : [ {
-				"name" : "recordInfo",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pRecordLink"
+				},
 				"children" : [ {
-					"name" : "id",
-					"value" : "myLinkNoPresentationOfLinkedRecordOutputPLink"
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myLinkNoPresentationOfLinkedRecordOutputPLink"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "myLink"
+				}, {
+					"name" : "mode",
+					"value" : "output"
 				} ]
-			}, {
-				"name" : "presentationOf",
-				"value" : "myLink"
-			}, {
-				"name" : "mode",
-				"value" : "output"
-			} ]
-		};
+			};
 		case "myPathLinkNoPresentationOfLinkedRecordOutputPLink":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pRecordLink"
-			},
-			"children" : [ {
-				"name" : "recordInfo",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pRecordLink"
+				},
 				"children" : [ {
-					"name" : "id",
-					"value" : "myPathLinkNoPresentationOfLinkedRecordOutputPLink"
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myPathLinkNoPresentationOfLinkedRecordOutputPLink"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "myPathLink"
+				}, {
+					"name" : "mode",
+					"value" : "output"
 				} ]
-			}, {
-				"name" : "presentationOf",
-				"value" : "myPathLink"
-			}, {
-				"name" : "mode",
-				"value" : "output"
-			} ]
-		};
+			};
 		case "linkedRecordTypeOutputPVar":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pVar"
-			},
-			"children" : [ {
-				"name" : "recordInfo",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
 				"children" : [ {
-					"name" : "id",
-					"value" : "linkedRecordTypeOutputPVar"
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "linkedRecordTypeOutputPVar"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "linkedRecordTypeTVar"
+				}, {
+					"name" : "mode",
+					"value" : "output"
 				} ]
-			}, {
-				"name" : "presentationOf",
-				"value" : "linkedRecordTypeTVar"
-			}, {
-				"name" : "mode",
-				"value" : "output"
-			} ]
-		};
+			};
 		case "linkedRecordIdPVar":
 			return {
 				"name" : "presentation",
@@ -3306,67 +3310,101 @@ function MetadataProviderStub() {
 			};
 		case "linkedRecordIdOutputPVar":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pVar"
-			},
-			"children" : [ {
-				"name" : "recordInfo",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
 				"children" : [ {
-					"name" : "id",
-					"value" : "linkedRecordIdOutputPVar"
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "linkedRecordIdOutputPVar"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "linkedRecordIdTVar"
+				}, {
+					"name" : "mode",
+					"value" : "output"
 				} ]
-			}, {
-				"name" : "presentationOf",
-				"value" : "linkedRecordIdTVar"
-			}, {
-				"name" : "mode",
-				"value" : "output"
-			} ]
-		};
+			};
 		case "linkedRepeatIdPVar":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pVar"
-			},
-			"children" : [ {
-				"name" : "recordInfo",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
 				"children" : [ {
-					"name" : "id",
-					"value" : "linkedRepeatIdPVar"
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "linkedRepeatIdPVar"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "linkedRepeatIdTVar"
+				}, {
+					"name" : "mode",
+					"value" : "input"
+				}, {
+					"name" : "emptyTextId",
+					"value" : "enterTextHereText"
 				} ]
-			}, {
-				"name" : "presentationOf",
-				"value" : "linkedRepeatIdTVar"
-			}, {
-				"name" : "mode",
-				"value" : "input"
-			}, {
-				"name" : "emptyTextId",
-				"value" : "enterTextHereText"
-			} ]
-		};
+			};
 		case "linkedRepeatIdOutputPVar":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pVar"
-			},
-			"children" : [ {
-				"name" : "recordInfo",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
 				"children" : [ {
-					"name" : "id",
-					"value" : "linkedRepeatIdOutputPVar"
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "linkedRepeatIdOutputPVar"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "linkedRepeatIdTVar"
+				}, {
+					"name" : "mode",
+					"value" : "output"
 				} ]
-			}, {
-				"name" : "presentationOf",
-				"value" : "linkedRepeatIdTVar"
-			}, {
-				"name" : "mode",
-				"value" : "output"
-			} ]
-		};
+			};
+		case "groupIdOneRecordLinkChildWithPathPGroup":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"name" : "presentationOf",
+					"value" : "groupIdOneRecordLinkChildWithPath"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "myPathLinkNoPresentationOfLinkedRecordPLink"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "myPathLinkNoPresentationOfLinkedRecordOutputPLink"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
 
 			// TEXT
 		case "textVariableIdText":

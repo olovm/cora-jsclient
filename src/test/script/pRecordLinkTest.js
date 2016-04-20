@@ -37,11 +37,11 @@ var CORATEST = (function(coraTest) {
 			var pRecordLink = CORA.pRecordLink(spec);
 			var view = pRecordLink.getView();
 			fixture.appendChild(view);
-			var valueView = view.firstChild;
+			var childrenView = view.firstChild;
 			return {
 				pRecordLink : pRecordLink,
 				fixture : fixture,
-				valueView : valueView,
+				childrenView : childrenView,
 				metadataProvider : metadataProvider,
 				pubSub : pubSub,
 				textProvider : textProvider,
@@ -85,18 +85,18 @@ QUnit.test("testInitRecordLink", function(assert) {
 	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
 	assert.ok(view.childNodes.length === 1);
 
-	var valueView = attachedPRecordLink.valueView;
-	assert.strictEqual(valueView.nodeName, "SPAN");
-	assert.strictEqual(valueView.className, "valueView");
-	assert.strictEqual(valueView.childNodes.length, 2);
+	var childrenView = attachedPRecordLink.childrenView;
+	assert.strictEqual(childrenView.nodeName, "SPAN");
+	assert.strictEqual(childrenView.className, "childrenView");
+	assert.strictEqual(childrenView.childNodes.length, 2);
 
-	var recordTypeView = valueView.childNodes[0];
+	var recordTypeView = childrenView.childNodes[0];
 	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
 	var recordTypeTextView = recordTypeView.firstChild;
 	assert.strictEqual(recordTypeTextView.className, "text");
 	assert.strictEqual(recordTypeTextView.innerHTML, "Posttyp");
 	
-	var recordIdView = valueView.childNodes[1];
+	var recordIdView = childrenView.childNodes[1];
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
 	var recordIdTextView = recordIdView.firstChild;
 	assert.strictEqual(recordIdTextView.className, "text");
@@ -125,12 +125,12 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
 	assert.ok(view.childNodes.length === 1);
 	
-	var valueView = attachedPRecordLink.valueView;
-	assert.strictEqual(valueView.nodeName, "SPAN");
-	assert.strictEqual(valueView.className, "valueView");
-	assert.strictEqual(valueView.childNodes.length, 3);
+	var childrenView = attachedPRecordLink.childrenView;
+	assert.strictEqual(childrenView.nodeName, "SPAN");
+	assert.strictEqual(childrenView.className, "childrenView");
+	assert.strictEqual(childrenView.childNodes.length, 3);
 	
-	var repeatIdView = valueView.childNodes[2];
+	var repeatIdView = childrenView.childNodes[2];
 	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
 	
 	var repeatIdTextView = repeatIdView.firstChild;
@@ -160,18 +160,18 @@ QUnit.test("testInitRecordLinkOutput", function(assert) {
 	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
 	assert.ok(view.childNodes.length === 1);
 	
-	var valueView = attachedPRecordLink.valueView;
-	assert.strictEqual(valueView.nodeName, "SPAN");
-	assert.strictEqual(valueView.className, "valueView");
-	assert.strictEqual(valueView.childNodes.length, 2);
+	var childrenView = attachedPRecordLink.childrenView;
+	assert.strictEqual(childrenView.nodeName, "SPAN");
+	assert.strictEqual(childrenView.className, "childrenView");
+	assert.strictEqual(childrenView.childNodes.length, 2);
 	
-	var recordTypeView = valueView.childNodes[0];
+	var recordTypeView = childrenView.childNodes[0];
 	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
 	var recordTypeTextView = recordTypeView.firstChild;
 	assert.strictEqual(recordTypeTextView.className, "text");
 	assert.strictEqual(recordTypeTextView.innerHTML, "Posttyp");
 	
-	var recordIdView = valueView.childNodes[1];
+	var recordIdView = childrenView.childNodes[1];
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
 	var recordIdTextView = recordIdView.firstChild;
 	assert.strictEqual(recordIdTextView.className, "text");
@@ -200,12 +200,12 @@ QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
 	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
 	assert.ok(view.childNodes.length === 1);
 	
-	var valueView = attachedPRecordLink.valueView;
-	assert.strictEqual(valueView.nodeName, "SPAN");
-	assert.strictEqual(valueView.className, "valueView");
-	assert.strictEqual(valueView.childNodes.length, 3);
+	var childrenView = attachedPRecordLink.childrenView;
+	assert.strictEqual(childrenView.nodeName, "SPAN");
+	assert.strictEqual(childrenView.className, "childrenView");
+	assert.strictEqual(childrenView.childNodes.length, 3);
 	
-	var repeatIdView = valueView.childNodes[2];
+	var repeatIdView = childrenView.childNodes[2];
 	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
 	
 	var repeatIdTextView = repeatIdView.firstChild;

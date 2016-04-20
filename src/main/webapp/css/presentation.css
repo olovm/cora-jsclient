@@ -256,6 +256,10 @@ input {
 	display: inline-block;
 }
 
+.pRecordLink .text {
+	display: block;
+}
+
 /* .pChildRefHandler + .pGroup > .pChildRefHandler { */
  .pGroup > .pChildRefHandler + .pChildRefHandler {
 	margin-top: 25px;
