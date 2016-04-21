@@ -74,8 +74,7 @@ var CORA = (function(cora) {
 			if (texts[currentLang][textId] !== undefined) {
 				return texts[currentLang][textId];
 			}
-			console.log("Id(" + textId + ") not found in textProvider");
-//			throw new Error("Id(" + textId + ") not found in textProvider");
+			return "MISSING TRANSLATION FOR TEXTID:"+textId;
 		}
 
 		return Object.freeze({

@@ -96,8 +96,10 @@ QUnit.test("testGetTranslation", function(assert) {
 
 QUnit.test("testGetTranslationNotFound", function(assert) {
 	var textProvider = this.textProvider;
-	assert.throws(function() {
-		textProvider.getTranslation("textPartSvPGroupTextNOT");
-	}, "Error");
+//	assert.throws(function() {
+//		textProvider.getTranslation("textPartSvPGroupTextNOT");
+//	}, "Error");
+	var translation = textProvider.getTranslation("textPartSvPGroupTextNOT");
+	assert.deepEqual(translation, "MISSING TRANSLATION FOR TEXTID:textPartSvPGroupTextNOT");
 });
 
