@@ -16,16 +16,17 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 var CORA = (function(cora) {
 	"use strict";
-	cora.textProvider = function(spec) {
-		var texts = {};
-		var currentLang = "sv";
-		fetchTextListAndThen(processFetchedTextdata);
+	cora.metadataProvider = function(spec) {
 
-		function fetchTextListAndThen(callAfterAnswer) {
-			callThroughAjax(spec.textListLink, callAfterAnswer);
+		var metadata = {};
+		fetchMetadataListAndThen(processFetchedMetadata);
+		fetchPresentationListAndThen(processFetchedMetadata);
+		fetchTextListAndThen(processFetchedMetadata);
+
+		function fetchMetadataListAndThen(callAfterAnswer) {
+			callThroughAjax(spec.metadataListLink, callAfterAnswer);
 		}
 
 		function callThroughAjax(linkSpec, callAfterAnswer) {
@@ -41,26 +42,16 @@ var CORA = (function(cora) {
 			return JSON.parse(JSON.stringify(someObject));
 		}
 
-		function processFetchedTextdata(answer) {
-			createTextObjectFromAnswer(answer);
+		function processFetchedMetadata(answer) {
+			createMetadataObjectFromAnswer(answer);
 		}
 
-		function createTextObjectFromAnswer(answer) {
+		function createMetadataObjectFromAnswer(answer) {
 			var data = JSON.parse(answer.responseText).dataList.data;
 			data.forEach(function(recordContainer) {
 				var recordData = recordContainer.record.data;
 				var recordId = getIdFromRecordData(recordData);
-
-				var cRecordData = CORA.coraData(recordData);
-				var textParts = cRecordData.getChildrenByNameInData("textPart");
-				textParts.forEach(function(textPart) {
-					var lang = textPart.attributes.lang;
-					var text = textPart.children[0].value;
-					if (texts[lang] === undefined) {
-						texts[lang] = [];
-					}
-					texts[lang][recordId] = text;
-				});
+				metadata[recordId] = recordData;
 			});
 		}
 
@@ -70,16 +61,26 @@ var CORA = (function(cora) {
 			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			return id;
 		}
-		function getTranslation(textId) {
-			if (texts[currentLang][textId] !== undefined) {
-				return texts[currentLang][textId];
-			}
-			return "MISSING TRANSLATION FOR TEXTID:" + textId;
+
+		function fetchPresentationListAndThen(callAfterAnswer) {
+			callThroughAjax(spec.presentationListLink, callAfterAnswer);
 		}
 
-		return Object.freeze({
-			getTranslation : getTranslation
+		function fetchTextListAndThen(callAfterAnswer) {
+			callThroughAjax(spec.textListLink, callAfterAnswer);
+		}
+
+		function getMetadataById(metadataId) {
+			if (metadata[metadataId] !== undefined) {
+				return metadata[metadataId];
+			}
+			throw new Error("Id(" + metadataId + ") not found in metadataProvider");
+		}
+
+		var out = Object.freeze({
+			getMetadataById : getMetadataById
 		});
+		return out;
 	};
 	return cora;
 }(CORA));

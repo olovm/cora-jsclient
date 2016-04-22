@@ -21,8 +21,9 @@ var CORATEST = (function(coraTest) {
 	coraTest.xmlHttpRequestSpy = function(sendFunction) {
 		var addedEventListeners = [];
 		var addedRequestHeaders = [];
-		var openMethod="";
+		var openMethod = "";
 		var openUrl;
+		var openUrls = [];
 		var sendWasCalled = false;
 		var sentData;
 		var timeout = 0;
@@ -40,58 +41,66 @@ var CORATEST = (function(coraTest) {
 		function open(method, url) {
 			openMethod = method;
 			openUrl = url;
+			openUrls.push(url);
 		}
-		
-		function getOpenUrl(){
+
+		function getOpenUrl() {
 			return openUrl;
 		}
-		function getOpenMethod(){
+		
+		function getOpenUrls() {
+			return openUrls;
+		}
+		
+		function getOpenMethod() {
 			return openMethod;
 		}
+		
 		function setRequestHeader(header, value) {
 			if (addedRequestHeaders[header] === undefined) {
 				addedRequestHeaders[header] = [];
 			}
 			addedRequestHeaders[header].push(value);
 		}
-		
+
 		function send(data) {
 			sendWasCalled = true;
 			sentData = data;
 			sendFunction();
 		}
-		function getSentData(){
+		function getSentData() {
 			return sentData;
 		}
 
-		function abort(){
+		function abort() {
 			abortWasCalled = true;
 		}
-		
-		function getSendWasCalled(){
+
+		function getSendWasCalled() {
 			return sendWasCalled;
 		}
-		function setSendWasCalled(sendWasCalledIn){
+		function setSendWasCalled(sendWasCalledIn) {
 			sendWasCalled = sendWasCalledIn;
 		}
 
 		var out = {
-			timeout:timeout,
-			status:status,
+			timeout : timeout,
+			status : status,
 			addEventListener : addEventListener,
 			addedEventListeners : addedEventListeners,
 			open : open,
-			setRequestHeader:setRequestHeader,
-			addedRequestHeaders:addedRequestHeaders,
+			setRequestHeader : setRequestHeader,
+			addedRequestHeaders : addedRequestHeaders,
 			getOpenMethod : getOpenMethod,
 			getOpenUrl : getOpenUrl,
+			getOpenUrls : getOpenUrls,
 			send : send,
 			getSentData : getSentData,
-			getSendWasCalled:getSendWasCalled,
-			setSendWasCalled:setSendWasCalled,
-			abort:abort,
-			abortWasCalled:abortWasCalled,
-			responseText:responseText
+			getSendWasCalled : getSendWasCalled,
+			setSendWasCalled : setSendWasCalled,
+			abort : abort,
+			abortWasCalled : abortWasCalled,
+			responseText : responseText
 		};
 		return out;
 	};
