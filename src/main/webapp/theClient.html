@@ -165,22 +165,22 @@
 		var metadataListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
-			// 				"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
-			"url" : "http://localhost:8080/therest/rest/record/metadata/",
+							"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
+// 			"url" : "http://localhost:8080/therest/rest/record/metadata/",
 			"accept" : "application/uub+recordList+json"
 		};
 		var presentationListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
-			// 					"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
-			"url" : "http://localhost:8080/therest/rest/record/presentation/",
+								"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
+// 			"url" : "http://localhost:8080/therest/rest/record/presentation/",
 			"accept" : "application/uub+recordList+json"
 		};
 		var textListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
-			// 					"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
-			"url" : "http://localhost:8080/therest/rest/record/text/",
+								"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
+// 			"url" : "http://localhost:8080/therest/rest/record/text/",
 			"accept" : "application/uub+recordList+json"
 		};
 		var metadataProviderSpec = {
@@ -213,8 +213,8 @@
 		var jsClientSpec = {
 			"dependencies" : jsClientDependencies,
 			"name" : "The Client",
-			// 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-			"baseUrl" : "http://localhost:8080/therest/rest/"
+						"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+// 			"baseUrl" : "http://localhost:8080/therest/rest/"
 		};
 		var jsClient = CORA.jsClient(jsClientSpec);
 		document.body.appendChild(jsClient.getView());
