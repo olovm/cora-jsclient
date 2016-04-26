@@ -35,7 +35,9 @@
             <directory>src</directory>
             <excludes>
                 <exclude>main/assembly/</exclude>
-                <exclude>main/webapp/</exclude>
+                <exclude>main/webapp/*</exclude>
+                <exclude>main/webapp/css/</exclude>
+                <exclude>main/webapp/images/</exclude>
             </excludes>
         </fileSet>
     </fileSets>
