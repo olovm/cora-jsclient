@@ -1,23 +1,19 @@
 !define TEST_SYSTEM {slim}
 !define COMMAND_PATTERN {slimjs %p}
-
-!path src/main/script/
+!path src/main/webapp/script/
 !path src/test/fixtures/slimjs
-!path src/main/script/lib
+!path src/main/webapp/script/lib
 !path src/test/script/
 !path src/test/script/lib
 !path src/test/fixtures
-
 Examples from: https://github.com/noamtcohen/SlimJS
 
 !3 Cora
 | import |
-| coraFixtures|
-| aCoraNameSpace|
-|coraData|
+| coraFixtures |
+| aCoraNameSpace |
+| coraData |
 
 | CORAFIXTURES.coraData |
 | trams | getStuff? |
 | Bob | {"name":"textVariableId","value":"A Value","repeatId":"1"} |
-
-
