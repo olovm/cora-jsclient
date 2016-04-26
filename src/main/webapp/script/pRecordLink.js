@@ -55,7 +55,11 @@ var CORA = (function(cora) {
 		}
 
 		function createAndAddInputs(valueViewNew) {
-			var recordIdViewNew = createChildView("linkedRecordId", "linkedRecordIdPVar");
+			var recordIdPVarId = "linkedRecordIdPVar";
+			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
+				recordIdPVarId = "linkedRecordIdOutputPVar";
+			}
+			var recordIdViewNew = createChildView("linkedRecordId", recordIdPVarId);
 			valueViewNew.appendChild(recordIdViewNew);
 
 			if (hasLinkedRepeatId) {
@@ -68,7 +72,7 @@ var CORA = (function(cora) {
 			childViewNew.className = id + "View";
 			childViewNew.appendChild(createText(id + "Text"));
 
-			var childParentPath = calculateNewPath(id + "TVar");
+			var childParentPath = calculateNewPath(id + "TextVar");
 			var cPresentationChild = CORA.coraData(metadataProvider
 					.getMetadataById(presentationIdToFactor));
 			var pVar = spec.presentationFactory.factor(childParentPath, cPresentationChild);

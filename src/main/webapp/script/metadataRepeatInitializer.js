@@ -195,7 +195,7 @@ var CORA = (function(cora) {
 		}
 
 		function initializeLinkedRecordType(nextLevelPath) {
-			var recordTypeStaticChildReference = createRefWithRef("linkedRecordTypeTVar");
+			var recordTypeStaticChildReference = createRefWithRef("linkedRecordTypeTextVar");
 			var linkedRecordTypeValue = cMetadataElement
 					.getFirstAtomicValueByNameInData("linkedRecordType");
 			var recordTypeData = {
@@ -227,14 +227,27 @@ var CORA = (function(cora) {
 		}
 
 		function initializeLinkedRecordId(nextLevelPath) {
-			var recordIdStaticChildReference = createRefWithRef("linkedRecordIdTVar");
-			CORA.metadataChildInitializer(recordIdStaticChildReference, nextLevelPath, data,
-					metadataProvider, pubSub);
+			var recordIdData = data;
+			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
+				var finalValue = cMetadataElement.getFirstAtomicValueByNameInData("finalValue");
+
+				recordIdData = {
+					"name" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData"),
+					"children" : [ {
+						"name" : "linkedRecordId",
+						"value" : finalValue
+					} ]
+				};
+			}
+
+			var recordIdStaticChildReference = createRefWithRef("linkedRecordIdTextVar");
+			CORA.metadataChildInitializer(recordIdStaticChildReference, nextLevelPath,
+					recordIdData, metadataProvider, pubSub);
 		}
 
 		function possiblyInitializeLinkedRepeatId(nextLevelPath) {
 			if (isLinkToRepeatingPartOfRecord()) {
-				var recordTypeStaticChildReference = createRefWithRef("linkedRepeatIdTVar");
+				var recordTypeStaticChildReference = createRefWithRef("linkedRepeatIdTextVar");
 				CORA.metadataChildInitializer(recordTypeStaticChildReference, nextLevelPath, data,
 						metadataProvider, pubSub);
 			}

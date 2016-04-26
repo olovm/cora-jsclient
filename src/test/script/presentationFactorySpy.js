@@ -21,9 +21,11 @@ var CORATEST = (function(coraTest) {
 	coraTest.presentationFactorySpy = function() {
 		var path = undefined;
 		var cPresentation = undefined;
+		var cPresentations = [];
 		function factor(pathIn, cPresentationIn) {
 			path = pathIn;
 			cPresentation = cPresentationIn;
+			cPresentations.push(cPresentationIn);
 			return {
 				"getView" : function() {
 					var span = document.createElement("span");
@@ -40,11 +42,15 @@ var CORATEST = (function(coraTest) {
 		function getCPresentation(){
 			return cPresentation;
 		}
+		function getCPresentations(){
+			return cPresentations;
+		}
 		
 		return Object.freeze({
 			factor : factor,
 			getPath:getPath,
-			getCPresentation: getCPresentation
+			getCPresentation: getCPresentation,
+			getCPresentations: getCPresentations
 		});
 	};
 	return coraTest;

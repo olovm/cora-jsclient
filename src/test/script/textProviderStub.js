@@ -75,23 +75,23 @@ var CORATEST = (function(coraTest) {
 				
 			case "linkedRecordTypeText":
 				return "Posttyp";
-			case "linkedRecordTypeTVarText":
+			case "linkedRecordTypeTextVarText":
 				return "Posttyp";
-			case "linkedRecordTypeTVarDefText":
+			case "linkedRecordTypeTextVarDefText":
 				return "Posttyp";
 				
 			case "linkedRecordIdText":
 				return "PostId";
-			case "linkedRecordIdTVarText":
+			case "linkedRecordIdTextVarText":
 				return "Postid";	
-			case "linkedRecordIdTVarDefText":
+			case "linkedRecordIdTextVarDefText":
 				return "Postid deffinition";	
 	
 			case "linkedRepeatIdText":
 				return "RepeatId";	
-			case "linkedRepeatIdTVarText":
+			case "linkedRepeatIdTextVarText":
 				return "RepeatId";	
-			case "linkedRepeatIdTVarDefText":
+			case "linkedRepeatIdTextVarDefText":
 				return "RepeatId";	
 				
 			default:

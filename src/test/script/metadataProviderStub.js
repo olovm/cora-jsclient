@@ -1735,6 +1735,49 @@ function MetadataProviderStub() {
 				} ]
 			};
 		}
+		
+		if (idToGet === "groupIdOneRecordLinkChildWithFinalValue") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myFinalValueLink", "1") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "myFinalValueLink") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myFinalValueLink"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myFinalValueLink"
+				}, {
+					"name" : "textId",
+					"value" : "myFinalValueLinkText"
+				}, {
+					"name" : "defTextId",
+					"value" : "myFinalValueLinkDefText"
+				}, {
+					"name" : "linkedRecordType",
+					"value" : "metadataTextVariable"
+				}, {
+					"name" : "finalValue",
+					"value" : "someInstance"
+				} ]
+			};
+		}
 		if (idToGet === "groupIdOneRecordLinkChildWithPath") {
 			return {
 				"name" : "metadata",
@@ -1782,7 +1825,7 @@ function MetadataProviderStub() {
 				} ]
 			};
 		}
-		if (idToGet === "linkedRecordTypeTVar") {
+		if (idToGet === "linkedRecordTypeTextVar") {
 			return {
 				"name" : "metadata",
 				"children" : [ {
@@ -1808,7 +1851,7 @@ function MetadataProviderStub() {
 				"value" : id + "DefText"
 			} ];
 		}
-		if (idToGet === "linkedRecordIdTVar") {
+		if (idToGet === "linkedRecordIdTextVar") {
 			return {
 				"name" : "metadata",
 				"children" : [ {
@@ -1822,7 +1865,7 @@ function MetadataProviderStub() {
 				}
 			};
 		}
-		if (idToGet === "linkedRepeatIdTVar") {
+		if (idToGet === "linkedRepeatIdTextVar") {
 			return {
 				"name" : "metadata",
 				"children" : [ {
@@ -3205,6 +3248,26 @@ function MetadataProviderStub() {
 					"value" : "input"
 				} ]
 			};
+		case "myLinkNoPresentationOfLinkedRecordWithFinalValuePLink":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pRecordLink"
+			},
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "myLinkNoPresentationOfLinkedRecordWithFinalValuePLink"
+				} ]
+			}, {
+				"name" : "presentationOf",
+				"value" : "myFinalValueLink"
+			}, {
+				"name" : "mode",
+				"value" : "input"
+			} ]
+		};
 		case "myPathLinkNoPresentationOfLinkedRecordPLink":
 			return {
 				"name" : "presentation",
@@ -3279,7 +3342,7 @@ function MetadataProviderStub() {
 					} ]
 				}, {
 					"name" : "presentationOf",
-					"value" : "linkedRecordTypeTVar"
+					"value" : "linkedRecordTypeTextVar"
 				}, {
 					"name" : "mode",
 					"value" : "output"
@@ -3299,7 +3362,7 @@ function MetadataProviderStub() {
 					} ]
 				}, {
 					"name" : "presentationOf",
-					"value" : "linkedRecordIdTVar"
+					"value" : "linkedRecordIdTextVar"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -3322,7 +3385,7 @@ function MetadataProviderStub() {
 					} ]
 				}, {
 					"name" : "presentationOf",
-					"value" : "linkedRecordIdTVar"
+					"value" : "linkedRecordIdTextVar"
 				}, {
 					"name" : "mode",
 					"value" : "output"
@@ -3342,7 +3405,7 @@ function MetadataProviderStub() {
 					} ]
 				}, {
 					"name" : "presentationOf",
-					"value" : "linkedRepeatIdTVar"
+					"value" : "linkedRepeatIdTextVar"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -3365,7 +3428,7 @@ function MetadataProviderStub() {
 					} ]
 				}, {
 					"name" : "presentationOf",
-					"value" : "linkedRepeatIdTVar"
+					"value" : "linkedRepeatIdTextVar"
 				}, {
 					"name" : "mode",
 					"value" : "output"

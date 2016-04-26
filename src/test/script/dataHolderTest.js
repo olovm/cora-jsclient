@@ -1164,7 +1164,7 @@ QUnit.test("testAddChildToGroupIdOneRecordLinkChild", function(assert) {
 		} ]
 	};
 
-	dataHolder.addChild(pathLinkedRecordType, "linkedRecordTypeTVar");
+	dataHolder.addChild(pathLinkedRecordType, "linkedRecordTypeTextVar");
 	var expectedLinkedRecordType = {
 		"name" : "groupIdOneRecordLinkChild",
 		"children" : [ {
