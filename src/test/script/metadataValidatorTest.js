@@ -91,13 +91,13 @@ QUnit.test("testValidateGroupIdOneTextChild1to1WithDataEmptyValue", function(ass
 
 QUnit.test("testValidateGroupIdOneCollectionChild1toXWithData", function(assert) {
 	var data = {
-			"name" : "groupId1toXCollectionChild",
-			"children" : [ {
-				"name" : "yesNoUnknownVar",
-				"value" : "no"
-			} ]
+		"name" : "groupId1toXCollectionChild",
+		"children" : [ {
+			"name" : "yesNoUnknownVar",
+			"value" : "no"
+		} ]
 	};
-	
+
 	var factored = this.metadataValidatorFactory.factor("groupId1toXCollectionChild", data);
 	assert.ok(factored.validationResult);
 	var messages = this.pubSub.getMessages();
@@ -106,13 +106,13 @@ QUnit.test("testValidateGroupIdOneCollectionChild1toXWithData", function(assert)
 
 QUnit.test("testValidateGroupIdOneCollectionChild1toXWithDataEmptyValue", function(assert) {
 	var data = {
-			"name" : "groupId1toXCollectionChild",
-			"children" : [ {
-				"name" : "yesNoUnknownVar",
-				"value" : ""
-			} ]
+		"name" : "groupId1toXCollectionChild",
+		"children" : [ {
+			"name" : "yesNoUnknownVar",
+			"value" : ""
+		} ]
 	};
-	
+
 	var factored = this.metadataValidatorFactory.factor("groupId1toXCollectionChild", data);
 	assert.notOk(factored.validationResult);
 	var messages = this.pubSub.getMessages();
@@ -260,10 +260,10 @@ QUnit.test("testValidateOneChildRepeat0to1WithEmptyValue", function(assert) {
 });
 QUnit.test("testValidateOneChildRepeat0to1NoData", function(assert) {
 	var data = {
-			"name" : "groupIdOneTextChildRepeat0to1",
-			"children" : [ ]
+		"name" : "groupIdOneTextChildRepeat0to1",
+		"children" : []
 	};
-	
+
 	var factored = this.metadataValidatorFactory.factor("groupIdOneTextChildRepeat0to1", data);
 	assert.ok(factored.validationResult);
 	var messages = this.pubSub.getMessages();
@@ -1357,3 +1357,141 @@ QUnit.test("testInitTextVarRepeat1to3InGroup"
 	};
 	assert.stringifyEqual(messages[1], validationError2);
 });
+
+QUnit.test("testValidateGroupIdOneRecordLinkWithData", function(assert) {
+	var data = {
+		"name" : "groupIdOneRecordLinkChild",
+		"children" : [ {
+			"name" : "myLink",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : "metadataTextVariable"
+			}, {
+				"name" : "linkedRecordId",
+				"value" : "someInstance"
+			} ]
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdOneRecordLinkChild", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
+
+QUnit.test("testValidateGroupIdOneRecordLinkWithDataEmptyValue", function(assert) {
+	var data = {
+		"name" : "groupIdOneRecordLinkChild",
+		"children" : [ {
+			"name" : "myLink",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : "metadataTextVariable"
+			}, {
+				"name" : "linkedRecordId",
+				"value" : ""
+			} ]
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdOneRecordLinkChild", data);
+	assert.notOk(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+
+	var expectedMessage = {
+		"type" : "validationError",
+		"message" : {
+			"metadataId" : "linkedRecordIdTextVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [
+
+				{
+					"name" : "nameInData",
+					"value" : "myLink"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "linkedRecordId"
+					} ]
+				} ]
+			}
+		}
+	};
+
+	assert.stringifyEqual(messages[0], expectedMessage);
+});
+
+// groupIdOneRecordLinkChildWithPath
+QUnit.test("testValidateGroupIdOneRecordLinkChildWithPathWithData", function(assert) {
+	var data = {
+		"name" : "groupIdOneRecordLinkChildWithPath",
+		"children" : [ {
+			"name" : "myPathLink",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : "metadataTextVariable"
+			}, {
+				"name" : "linkedRecordId",
+				"value" : "someInstance"
+			}, {
+				"name" : "linkedRepeatId",
+				"value" : "one"
+			} ]
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdOneRecordLinkChildWithPath", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
+
+QUnit.test("testValidateGroupIdOneRecordLinkChildWithPathWithDataEmptyValue", function(assert) {
+	var data = {
+		"name" : "groupIdOneRecordLinkChildWithPath",
+		"children" : [ {
+			"name" : "myPathLink",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : "metadataTextVariable"
+			}, {
+				"name" : "linkedRecordId",
+				"value" : "someInstance"
+			}, {
+				"name" : "linkedRepeatId",
+				"value" : ""
+			} ]
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdOneRecordLinkChildWithPath", data);
+	assert.notOk(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+
+	var expectedMessage = {
+		"type" : "validationError",
+		"message" : {
+			"metadataId" : "linkedRepeatIdTextVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myPathLink"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "linkedRepeatId"
+					} ]
+				} ]
+			}
+		}
+	};
+
+	assert.stringifyEqual(messages[0], expectedMessage);
+});
+
