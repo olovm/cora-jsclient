@@ -1708,6 +1708,19 @@ function MetadataProviderStub() {
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
+		if (idToGet === "groupId0to1RecordLinkChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+							"myLink", "1", "0", "1") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
 		if (idToGet === "myLink") {
 			return {
 				"name" : "metadata",
@@ -1735,7 +1748,7 @@ function MetadataProviderStub() {
 				} ]
 			};
 		}
-		
+
 		if (idToGet === "groupIdOneRecordLinkChildWithFinalValue") {
 			return {
 				"name" : "metadata",
@@ -1744,7 +1757,8 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myFinalValueLink", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myFinalValueLink",
+							"1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -3250,24 +3264,24 @@ function MetadataProviderStub() {
 			};
 		case "myLinkNoPresentationOfLinkedRecordWithFinalValuePLink":
 			return {
-			"name" : "presentation",
-			"attributes" : {
-				"type" : "pRecordLink"
-			},
-			"children" : [ {
-				"name" : "recordInfo",
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pRecordLink"
+				},
 				"children" : [ {
-					"name" : "id",
-					"value" : "myLinkNoPresentationOfLinkedRecordWithFinalValuePLink"
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myLinkNoPresentationOfLinkedRecordWithFinalValuePLink"
+					} ]
+				}, {
+					"name" : "presentationOf",
+					"value" : "myFinalValueLink"
+				}, {
+					"name" : "mode",
+					"value" : "input"
 				} ]
-			}, {
-				"name" : "presentationOf",
-				"value" : "myFinalValueLink"
-			}, {
-				"name" : "mode",
-				"value" : "input"
-			} ]
-		};
+			};
 		case "myPathLinkNoPresentationOfLinkedRecordPLink":
 			return {
 				"name" : "presentation",
