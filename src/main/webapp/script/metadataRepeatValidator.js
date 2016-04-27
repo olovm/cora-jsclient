@@ -171,8 +171,8 @@ var CORA = (function(cora) {
 				result.containsValuableData = true;
 			}
 			result.validationMessage = {
-					"metadataId" : metadataId,
-					"path" : nextLevelPath
+				"metadataId" : metadataId,
+				"path" : nextLevelPath
 			};
 			result.sendValidationMessages = false;
 		}
@@ -183,15 +183,14 @@ var CORA = (function(cora) {
 		}
 
 		function validateMetadataRecordLink(nextLevelPath) {
-			validateLinkedRecordType(nextLevelPath);
 			validateLinkedRecordId(nextLevelPath);
 			possiblyValidateLinkedRepeatId(nextLevelPath);
 
 		}
 
-		function validateLinkedRecordType(nextLevelPath) {
-			var recordTypeStaticChildReference = createRefWithRef("linkedRecordTypeTextVar");
-			validateChild(recordTypeStaticChildReference, nextLevelPath, data);
+		function validateLinkedRecordId(nextLevelPath) {
+			var recordIdStaticChildReference = createRefWithRef("linkedRecordIdTextVar");
+			validateChild(recordIdStaticChildReference, nextLevelPath, data);
 		}
 
 		function createRefWithRef(ref) {
@@ -211,13 +210,8 @@ var CORA = (function(cora) {
 			};
 		}
 
-		function validateLinkedRecordId(nextLevelPath) {
-			var recordIdStaticChildReference = createRefWithRef("linkedRecordIdTextVar");
-			validateChild(recordIdStaticChildReference, nextLevelPath, data);
-		}
-
 		function possiblyValidateLinkedRepeatId(nextLevelPath) {
-			if (isLinkToRepeatingPartOfRecord()) { 
+			if (isLinkToRepeatingPartOfRecord()) {
 				var recordTypeStaticChildReference = createRefWithRef("linkedRepeatIdTextVar");
 				validateChild(recordTypeStaticChildReference, nextLevelPath, data);
 			}
@@ -226,7 +220,7 @@ var CORA = (function(cora) {
 		function isLinkToRepeatingPartOfRecord() {
 			return cMetadataElement.containsChildWithNameInData("linkedPath");
 		}
-		
+
 		function validateVariableValue(nextLevelPath) {
 			if (dataIsValid()) {
 				result.containsValuableData = true;

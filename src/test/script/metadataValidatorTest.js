@@ -1424,6 +1424,67 @@ QUnit.test("testValidateGroupIdOneRecordLinkWithDataEmptyValue", function(assert
 	assert.stringifyEqual(messages[0], expectedMessage);
 });
 
+// "groupId0to1RecordLinkChild"
+QUnit.test("testValidateGroupId0to1RecordLinkWithDataEmptyValue", function(assert) {
+	var data = {
+		"name" : "groupId0to1RecordLinkChild",
+		"children" : [ {
+			"name" : "myLink",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : "metadataTextVariable"
+			}, {
+				"name" : "linkedRecordId",
+				"value" : ""
+			} ]
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupId0to1RecordLinkChild", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 2);
+
+	var expectedMessage = {
+		"type" : "validationError",
+		"message" : {
+			"metadataId" : "linkedRecordIdTextVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [
+
+				{
+					"name" : "nameInData",
+					"value" : "myLink"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "linkedRecordId"
+					} ]
+				} ]
+			}
+		}
+	};
+	var expectedMessage2 = {
+			"type" : "remove",
+			"message" : {
+				"type" : "remove",
+				"path" : {
+					"name" : "linkedPath",
+					"children" : [
+
+					{
+						"name" : "nameInData",
+						"value" : "myLink"
+					} ]
+				}
+			}
+		};
+	assert.stringifyEqual(messages[0], expectedMessage);
+	assert.stringifyEqual(messages[1], expectedMessage2);
+});
+
 // groupIdOneRecordLinkChildWithPath
 QUnit.test("testValidateGroupIdOneRecordLinkChildWithPathWithData", function(assert) {
 	var data = {
@@ -1494,4 +1555,3 @@ QUnit.test("testValidateGroupIdOneRecordLinkChildWithPathWithDataEmptyValue", fu
 
 	assert.stringifyEqual(messages[0], expectedMessage);
 });
-
