@@ -1,6 +1,6 @@
 html {
 	margin: 0px;
-/* 	height: calc(100% - 2rem); */
+	/* 	height: calc(100% - 2rem); */
 	height: calc(100%);
 	padding: 0px;
 }
@@ -13,12 +13,12 @@ body {
 
 .jsClient.mainView {
 	height: 100%;
-/* 	height: calc(100% - 2rem - 2px); */
+	/* 	height: calc(100% - 2rem - 2px); */
 	background: linear-gradient(to bottom, #d5ebfc 0%, #f9fafb 100%);
-/* 	border: 1px solid black; */
-/* 	box-shadow: 5px 5px 8px #aeaeae; */
-/* 	border-radius: .3rem; */
-/* 	margin: 2rem; */
+	/* 	border: 1px solid black; */
+	/* 	box-shadow: 5px 5px 8px #aeaeae; */
+	/* 	border-radius: .3rem; */
+	/* 	margin: 2rem; */
 	border-color: #B6B0A2;
 	position: relative;
 	display: block;
@@ -38,7 +38,7 @@ body {
 
 .jsClient>.sideBar {
 	display: inline-block;
-/* 	height: calc(100% - 9rem - 2rem - 1px); */
+	/* 	height: calc(100% - 9rem - 2rem - 1px); */
 	height: calc(100% - 6rem - 1px);
 	overflow: auto;
 	width: 20rem;
@@ -120,17 +120,19 @@ body {
 .workArea .workView {
 	position: absolute;
 	display: inline-block;
-/* 	width: calc(100% - 2rem); */
-/* 	height: calc(100% - 2rem); */
+	/* 	width: calc(100% - 2rem); */
+	/* 	height: calc(100% - 2rem); */
 	width: 100%;
 	height: 100%;
 	overflow: auto;
 }
+
 .workArea .workView .workItem {
-/* 	height: 100%; */
+	/* 	height: 100%; */
 	display: block;
 	position: relative;
 }
+
 .workArea .workView .presentation {
 	box-shadow: none;
 }
@@ -145,7 +147,8 @@ body {
 }
 
 .jsClient .sideBar .menuView .pVar span {
-	max-width: calc(70% - 1rem);
+	/* 	max-width: calc(70% - 1rem); */
+	max-width: calc(70% - 1rem - 18px);
 	overflow: hidden;
 	display: inline-block;
 	text-overflow: ellipsis;
@@ -188,8 +191,7 @@ body {
 	margin-right: 2px;
 }
 
-.sideBar .recordType .buttonView>span::before, .sideBar .recordType .buttonView>span::after
-	{
+.sideBar .recordType .buttonView>span::before, .sideBar .recordType .buttonView>span::after {
 	top: 3px;
 	right: 2px;
 }
@@ -257,8 +259,10 @@ body {
 	border: none;
 }
 
-.jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input,
-	.jsClient .showView .buttonView {
+/* .jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input, */
+/* 	.jsClient .showView .buttonView { */
+.jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input, .jsClient .showView .buttonView .removeButton,
+	.jsClient .showView .buttonView .dragButton {
 	display: none;
 }
 
@@ -287,6 +291,7 @@ body {
 	font-weight: bold;
 	margin: 0;
 }
+
 .jsClient .showView {
 	float: right;
 }
@@ -307,14 +312,17 @@ body {
 	{
 	border: none;
 }
+
 .jsClient .editView .repeatingElement .repeatingElement .maximized {
 	border: 1px solid #9799b0;
 	background-color: rgba(0, 0, 255, 0.06);
 }
+
 .jsClient .editView .repeatingElement .repeatingElement .repeatingElement .maximized {
 	border: none;
 	background-color: none;
 }
+
 .jsClient .editView .pSurroundingContainer {
 	border-color: grey;
 	border-style: dotted;
