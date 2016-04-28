@@ -92,6 +92,17 @@ var CORA = (function(cora) {
 					.getView();
 			menuView.textContent = "";
 			menuView.appendChild(menuPresentationView);
+			menuView.appendChild(createRemoveButton());
+		}
+		function createRemoveButton() {
+			var createdRemoveButton = document.createElement("span");
+			createdRemoveButton.className = "removeButton";
+			var removeFunction = function(event) {
+				event.stopPropagation();
+				removeViewsFromParentNodes();
+			};
+			createdRemoveButton.onclick = removeFunction;
+			return createdRemoveButton;
 		}
 
 		function createRecordHandlerView() {
@@ -241,7 +252,7 @@ var CORA = (function(cora) {
 			busy.show();
 			var callAfterAnswer = function() {
 				recordHandlerView.clearViews();
-				busy.hideWithEffect();
+				removeViewsFromParentNodes();
 			};
 			var deleteLink = fetchedRecord.actionLinks["delete"];
 			var callSpec = {
@@ -252,6 +263,15 @@ var CORA = (function(cora) {
 				"errorMethod" : callError
 			};
 			CORA.ajaxCall(callSpec);
+		}
+
+		function removeViewsFromParentNodes() {
+			if (menuView.parentNode !== null) {
+				menuView.parentNode.removeChild(menuView);
+			}
+			if (workView.parentNode !== null) {
+				workView.parentNode.removeChild(workView);
+			}
 		}
 
 		function sendUpdateDataToServer() {

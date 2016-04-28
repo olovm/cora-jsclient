@@ -319,16 +319,20 @@ QUnit.module("recordHandlerTest.js", {
 		};
 
 		this.menuView = document.createElement("span");
+		this.menuViewParent = document.createElement("span");
+		this.menuViewParent.appendChild(this.menuView);
+		
 		this.workView = document.createElement("span");
+		this.workViewParent = document.createElement("span");
+		this.workViewParent.appendChild(this.workView);
 
 		this.createRecordHandlerViewFactory = function() {
 			return {
 				"factor" : function(recordHandlerViewSpec) {
 					return CORA.recordHandlerView(recordHandlerViewSpec);
-					;
 				}
 			};
-		}
+		};
 		this.jsClientSpy = {
 			"getMetadataIdForRecordTypeId" : function(recordTypeId) {
 				return "recordTypeGroup2";
@@ -458,6 +462,10 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
+	
+	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
+	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
+	assert.strictEqual(this.presentationIdUsed[2], "recordTypeMenuPGroup");
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 
@@ -485,13 +493,54 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 	assert.strictEqual(updateButton.value, "UPDATE");
 	assert.strictEqual(updateButton.className, "update");
 
-	assert.strictEqual(this.presentationIdUsed[2], "recordTypeMenuPGroup");
-	assert.strictEqual(this.menuView.textContent, "");
-	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
+	var menuView = this.menuView;
+	assert.strictEqual(menuView.textContent, "");
+	assert.strictEqual(menuView.childNodes[0].nodeName, "SPAN");
+	var removeButton = menuView.childNodes[1];
+	assert.strictEqual(removeButton.className, "removeButton");
 
 	var busy = this.workView.childNodes[2];
 	assert.strictEqual(busy.className, "busy toBeRemoved");
 
+});
+QUnit.test("initCheckRemoveButtonInMenuView", function(assert) {
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	var record = this.record;
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify({
+			"record" : record
+		});
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	
+	var recordHandlerSpec = {
+			"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
+			"recordTypeRecord" : this.record,
+			"presentationMode" : "view",
+			"views" : {
+				"menuView" : this.menuView,
+				"workView" : this.workView
+			},
+			"record" : this.record,
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"recordGuiFactory" : this.recordGuiFactorySpy,
+			"jsClient" : this.jsClientSpy
+			
+	};
+	var recordHandler = CORA.recordHandler(recordHandlerSpec);
+	
+	var menuView = this.menuView;
+	var workView = this.workView;
+	
+	var removeButton = menuView.childNodes[1];
+	assert.strictEqual(removeButton.className, "removeButton");
+	var event = document.createEvent('Event');
+
+	removeButton.onclick(event);
+	assert.strictEqual(menuView.parentNode, null);
+	assert.strictEqual(workView.parentNode, null);
+	
 });
 
 QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
@@ -777,6 +826,65 @@ QUnit.test("testDeleteCall", function(assert) {
 	assert.strictEqual(editView.childNodes.length, 0);
 	assert.strictEqual(showView.childNodes.length, 0);
 	assert.strictEqual(buttonView.childNodes.length, 0);
+	
+	var menuView = this.menuView;
+	assert.strictEqual(menuView.parentNode, null);
+	var workView = this.workView;
+	assert.strictEqual(workView.parentNode, null);
+});
+
+QUnit.test("testDeleteCallNoParentsForViews", function(assert) {
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	var record = this.record;
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify({
+			"record" : record
+		});
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	
+	var menuView = document.createElement("span");
+	var workView = document.createElement("span");
+	
+	var recordHandlerSpec = {
+			"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
+			"recordTypeRecord" : this.record,
+			"presentationMode" : "edit",
+			"views" : {
+				"menuView" : menuView,
+				"workView" : workView
+			},
+			"record" : this.record,
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"recordGuiFactory" : this.recordGuiFactorySpy,
+			"jsClient" : this.jsClientSpy
+	};
+	var recordHandler = CORA.recordHandler(recordHandlerSpec);
+	var buttonView = workView.childNodes[1].childNodes[2];
+	
+	var deleteButton = buttonView.childNodes[0];
+	
+	var xmlHttpRequestSpy2 = CORATEST.xmlHttpRequestSpy(sendFunction2);
+	function sendFunction2() {
+		xmlHttpRequestSpy2.status = 200;
+		xmlHttpRequestSpy2.addedEventListeners["load"][0]();
+	}
+	recordHandlerSpec.xmlHttpRequestFactory.setXmlHttpRequestSpy(xmlHttpRequestSpy2);
+	
+	deleteButton.onclick();
+	var question = workView.lastChild;
+	var buttonYes = question.firstChild.childNodes[2];
+	buttonYes.onclick();
+	
+	var editView = workView.childNodes[1].childNodes[0];
+	var showView = workView.childNodes[1].childNodes[1];
+	assert.strictEqual(editView.childNodes.length, 0);
+	assert.strictEqual(showView.childNodes.length, 0);
+	assert.strictEqual(buttonView.childNodes.length, 0);
+	
+	assert.strictEqual(menuView.parentNode, null);
+	assert.strictEqual(workView.parentNode, null);
 });
 
 QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {

@@ -242,10 +242,10 @@ input {
 }
 
 .minimized > .pChildRefHandler {
-	display: inline-block;
+/* 	display: inline-block; */
 }
 .minimized .repeatingElement {
-	display: inline-block;
+/* 	display: inline-block; */
 }
 .minimized .buttonView {
 	display: none;
