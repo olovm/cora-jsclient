@@ -259,8 +259,6 @@ body {
 	border: none;
 }
 
-/* .jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input, */
-/* 	.jsClient .showView .buttonView { */
 .jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input, .jsClient .showView .buttonView .removeButton,
 	.jsClient .showView .buttonView .dragButton {
 	display: none;
@@ -274,16 +272,15 @@ body {
 .jsClient .listItem .pGroup>.pChildRefHandler+.pChildRefHandler {
 	margin-top: .3rem;
 }
-
-.jsClient .listItem .recordInfoTextMenuPGroup {
+.jsClient .listItem [class*='recordInfo'] {
 	font-weight: bold;
 }
 
-.jsClient .listItem .recordInfoTextMenuPGroup .pVar span:before {
+.jsClient .listItem [class*='recordInfo'] .pVar span:before {
 	content: "(";
 }
 
-.jsClient .listItem .recordInfoTextMenuPGroup .pVar span:after {
+.jsClient .listItem [class*='recordInfo'] .pVar span:after {
 	content: ")";
 }
 
