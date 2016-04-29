@@ -114,7 +114,8 @@ QUnit.test("testRemoveButton", function(assert) {
 	assert.visible(view);
 
 	var removeButton = view.childNodes[1];
-	removeButton.onclick();
+	var event = document.createEvent('Event');
+	removeButton.onclick(event);
 
 	assert.notVisible(view);
 	// to prevent rouge timers call remove on elements after test has completed

@@ -142,7 +142,8 @@ QUnit.test("testRemoveButtonOnclick", function(assert) {
 	var buttonView = repeatingElement.childNodes[0];
 	var removeButton = buttonView.firstChild;
 
-	removeButton.onclick();
+	var event = document.createEvent('Event');
+	removeButton.onclick(event);
 	// subscription
 	var removes = attachedPRepeatingElement.jsBookkeeper.getRemoveDataArray();
 	assert.deepEqual(removes.length, 1);

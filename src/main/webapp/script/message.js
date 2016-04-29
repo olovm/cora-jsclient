@@ -45,12 +45,10 @@ var CORA = (function(cora) {
 		}
 
 		function createRemoveButton() {
-			var createdRemoveButton = document.createElement("span");
-			createdRemoveButton.className = "removeButton";
-			createdRemoveButton.onclick = function() {
+			var removeFunction = function() {
 				view.modelObject.hideWithEffect();
 			};
-			return createdRemoveButton;
+			return CORA.gui.createRemoveButton(removeFunction);
 		}
 
 		function possiblySetHideTimeout() {
