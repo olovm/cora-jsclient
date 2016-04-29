@@ -94,10 +94,14 @@ var CORA = (function(cora) {
 		}
 
 		function createRemoveButton() {
-			var createdRemoveButton = document.createElement("span");
-			createdRemoveButton.className = "removeButton";
-			addCallToJsBookkeeperToRemove(createdRemoveButton);
-			return createdRemoveButton;
+			var removeFunction = function() {
+				var data = {
+					"type" : "remove",
+					"path" : path
+				};
+				jsBookkeeper.remove(data);
+			};
+			return CORA.gui.createRemoveButton(removeFunction);
 		}
 		function createDragButton() {
 			var createdDragButton = document.createElement("span");
@@ -109,16 +113,6 @@ var CORA = (function(cora) {
 				view.draggable = undefined;
 			};
 			return createdDragButton;
-		}
-
-		function addCallToJsBookkeeperToRemove(removeButtonIn) {
-			removeButtonIn.onclick = function() {
-				var data = {
-					"type" : "remove",
-					"path" : path
-				};
-				jsBookkeeper.remove(data);
-			};
 		}
 
 		function getView() {
@@ -198,7 +192,7 @@ var CORA = (function(cora) {
 			element.style.display = "none";
 		}
 		function show(element) {
-			if(element.styleOriginal !== undefined){
+			if (element.styleOriginal !== undefined) {
 				element.style.display = element.styleOriginal;
 			}
 		}

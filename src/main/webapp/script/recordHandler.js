@@ -95,14 +95,7 @@ var CORA = (function(cora) {
 			menuView.appendChild(createRemoveButton());
 		}
 		function createRemoveButton() {
-			var createdRemoveButton = document.createElement("span");
-			createdRemoveButton.className = "removeButton";
-			var removeFunction = function(event) {
-				event.stopPropagation();
-				removeViewsFromParentNodes();
-			};
-			createdRemoveButton.onclick = removeFunction;
-			return createdRemoveButton;
+			return CORA.gui.createRemoveButton(removeViewsFromParentNodes);
 		}
 
 		function createRecordHandlerView() {

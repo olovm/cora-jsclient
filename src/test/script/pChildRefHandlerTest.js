@@ -645,7 +645,8 @@ QUnit.test("testRepeatingElementRemoveButton", function(assert) {
 	var removeButton = repeatingButtonView.firstChild;
 	assert.strictEqual(removeButton.className, "removeButton");
 
-	removeButton.onclick();
+	var event = document.createEvent('Event');
+	removeButton.onclick(event);
 	// subscription
 	var removes = attachedPChildRefHandler.jsBookkeeper.getRemoveDataArray();
 	assert.deepEqual(removes.length, 1);
@@ -1065,7 +1066,7 @@ QUnit.test("testPresentationMatchingNameInDataAndAttributes", function(assert) {
 	var cParentMetadata = CORA.coraData(metadataProvider
 			.getMetadataById("presentationVarAttributeGroup"));
 	var cPresentation = CORA
-	.coraData(metadataProvider.getMetadataById("recordInfoAttributePGroup"));
+			.coraData(metadataProvider.getMetadataById("recordInfoAttributePGroup"));
 
 	var spec = {
 		"parentPath" : {},
@@ -1088,24 +1089,23 @@ QUnit.test("testPresentationNonMatchingNameInDataAndAttributes", function(assert
 	var metadataProvider = this.metadataProvider;
 	var cParentMetadata = CORA.coraData(metadataProvider
 			.getMetadataById("presentationVarAttributeGroup"));
-	var cPresentation = CORA
-	.coraData(metadataProvider.getMetadataById("recordInfoPGroup"));
-//	.coraData(metadataProvider.getMetadataById("pgGroupIdOneTextChildOutput"));
-	
+	var cPresentation = CORA.coraData(metadataProvider.getMetadataById("recordInfoPGroup"));
+	// .coraData(metadataProvider.getMetadataById("pgGroupIdOneTextChildOutput"));
+
 	var spec = {
-			"parentPath" : {},
-			"cParentMetadata" : cParentMetadata,
-			"cPresentation" : cPresentation,
-			"metadataProvider" : metadataProvider,
-			"pubSub" : this.pubSub,
-			"textProvider" : this.textProvider,
-			"presentationFactory" : this.presentationFactory,
-			"jsBookkeeper" : this.jsBookkeeper
+		"parentPath" : {},
+		"cParentMetadata" : cParentMetadata,
+		"cPresentation" : cPresentation,
+		"metadataProvider" : metadataProvider,
+		"pubSub" : this.pubSub,
+		"textProvider" : this.textProvider,
+		"presentationFactory" : this.presentationFactory,
+		"jsBookkeeper" : this.jsBookkeeper
 	};
 	var error = false;
-	try{
+	try {
 		var pChildRefHandler = CORA.pChildRefHandler(spec);
-	}catch(e){
+	} catch (e) {
 		error = true;
 	}
 	assert.ok(error);
@@ -1114,25 +1114,24 @@ QUnit.test("testPresentationNonMatchingNameInDataAndAttributes", function(assert
 
 QUnit.test("testPresentationNonMatchingNameInDataAndAttributes2", function(assert) {
 	var metadataProvider = this.metadataProvider;
-	var cParentMetadata = CORA.coraData(metadataProvider
-			.getMetadataById("presentationVarGroup"));
+	var cParentMetadata = CORA.coraData(metadataProvider.getMetadataById("presentationVarGroup"));
 	var cPresentation = CORA
-	.coraData(metadataProvider.getMetadataById("recordInfoAttributePGroup"));
-	
+			.coraData(metadataProvider.getMetadataById("recordInfoAttributePGroup"));
+
 	var spec = {
-			"parentPath" : {},
-			"cParentMetadata" : cParentMetadata,
-			"cPresentation" : cPresentation,
-			"metadataProvider" : metadataProvider,
-			"pubSub" : this.pubSub,
-			"textProvider" : this.textProvider,
-			"presentationFactory" : this.presentationFactory,
-			"jsBookkeeper" : this.jsBookkeeper
+		"parentPath" : {},
+		"cParentMetadata" : cParentMetadata,
+		"cPresentation" : cPresentation,
+		"metadataProvider" : metadataProvider,
+		"pubSub" : this.pubSub,
+		"textProvider" : this.textProvider,
+		"presentationFactory" : this.presentationFactory,
+		"jsBookkeeper" : this.jsBookkeeper
 	};
 	var error = false;
-	try{
+	try {
 		var pChildRefHandler = CORA.pChildRefHandler(spec);
-	}catch(e){
+	} catch (e) {
 		error = true;
 	}
 	assert.ok(error);

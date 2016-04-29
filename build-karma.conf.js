@@ -36,8 +36,10 @@ module.exports = function (config)
         // list of files / patterns to load in the browser
         files: [
             'src/main/webapp/script/*.js',
+            'src/main/webapp/script/gui/*.js',
             'src/main/webapp/script/lib/*.js',
             'src/test/script/*.js',
+            'src/test/script/gui/*.js',
             'src/test/script/lib/*.js',
             'src/main/webapp/css/*.css'
         ],
