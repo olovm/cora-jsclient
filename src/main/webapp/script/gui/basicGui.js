@@ -36,5 +36,6 @@ var CORA = (function(cora) {
 		};
 		return cora.gui.createButton(spec);
 	};
+
 	return cora;
 }(CORA));

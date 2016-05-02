@@ -29,56 +29,63 @@
 <link rel="stylesheet" type="text/css" href="css/busy.css"></link>
 <link rel="stylesheet" type="text/css" href="css/question.css"></link>
 
+
 <script type="text/javascript" src="script/aCoraNameSpace.js"></script>
+<script type="text/javascript" src="script/coraPubSub.js"></script>
+<script type="text/javascript" src="script/jsClient.js"></script>
+<script type="text/javascript" src="script/recordGuiFactory.js"></script>
+<script type="text/javascript" src="script/recordHandler.js"></script>
+<script type="text/javascript" src="script/recordHandlerView.js"></script>
+<script type="text/javascript" src="script/recordListHandler.js"></script>
+<script type="text/javascript" src="script/recordTypeHandler.js"></script>
+<script type="text/javascript" src="script/recordTypeHandlerView.js"></script>
+
+<script type="text/javascript" src="script/gui/basicGui.js"></script>
+<script type="text/javascript" src="script/gui/busy.js"></script>
+<script type="text/javascript" src="script/gui/message.js"></script>
+<script type="text/javascript" src="script/gui/messageHolder.js"></script>
+<script type="text/javascript" src="script/gui/question.js"></script>
 
 <script type="text/javascript" src="script/lib/arbiter.js"></script>
 <script type="text/javascript" src="script/lib/polyfillES6.js"></script>
 
-<script type="text/javascript" src="script/ajaxCall.js"></script>
-<script type="text/javascript" src="script/busy.js"></script>
-<script type="text/javascript" src="script/calculatePathForNewElement.js"></script>
-<script type="text/javascript" src="script/coraData.js"></script>
-<script type="text/javascript" src="script/coraPubSub.js"></script>
-<script type="text/javascript" src="script/dataHolder.js"></script>
-<script type="text/javascript" src="script/jsBookkeeper.js"></script>
-<script type="text/javascript" src="script/jsClient.js"></script>
-<script type="text/javascript" src="script/message.js"></script>
-<script type="text/javascript" src="script/messageHolder.js"></script>
-<script type="text/javascript" src="script/metadataChildInitializer.js"></script>
-<script type="text/javascript" src="script/metadataChildValidator.js"></script>
-<script type="text/javascript" src="script/metadataController.js"></script>
-<script type="text/javascript" src="script/metadataValidator.js"></script>
-<script type="text/javascript" src="script/metadataHelper.js"></script>
-<script type="text/javascript" src="script/metadataProvider.js"></script>
-<script type="text/javascript" src="script/metadataRepeatInitializer.js"></script>
-<script type="text/javascript" src="script/metadataRepeatValidator.js"></script>
-<script type="text/javascript" src="script/pChildRefHandler.js"></script>
-<script type="text/javascript" src="script/pChildRefHandlerView.js"></script>
-<script type="text/javascript" src="script/pGroup.js"></script>
-<script type="text/javascript" src="script/pMultipleChildren.js"></script>
-<script type="text/javascript" src="script/pRepeatingContainer.js"></script>
-<script type="text/javascript" src="script/pRepeatingElement.js"></script>
-<script type="text/javascript" src="script/pSurroundingContainer.js"></script>
-<script type="text/javascript" src="script/presentation.js"></script>
-<script type="text/javascript" src="script/presentationFactory.js"></script>
-<script type="text/javascript" src="script/pVar.js"></script>
-<script type="text/javascript" src="script/question.js"></script>
-<script type="text/javascript" src="script/recordGuiFactory.js"></script>
-<script type="text/javascript" src="script/recordHandler.js"></script>
-<script type="text/javascript" src="script/recordHandlerView.js"></script>
-<script type="text/javascript" src="script/recordTypeHandler.js"></script>
-<script type="text/javascript" src="script/recordTypeHandlerView.js"></script>
-<script type="text/javascript" src="script/recordListHandler.js"></script>
-<script type="text/javascript" src="script/textProvider.js"></script>
-<script type="text/javascript" src="script/xmlHttpRequestFactory.js"></script>
-<script type="text/javascript" src="script/gui/basicGui.js"></script>
+<script type="text/javascript" src="script/metadata/calculatePathForNewElement.js"></script>
+<script type="text/javascript" src="script/metadata/coraData.js"></script>
+<script type="text/javascript" src="script/metadata/dataHolder.js"></script>
+<script type="text/javascript" src="script/metadata/jsBookkeeper.js"></script>
+<script type="text/javascript" src="script/metadata/metadataChildInitializer.js"></script>
+<script type="text/javascript" src="script/metadata/metadataChildValidator.js"></script>
+<script type="text/javascript" src="script/metadata/metadataController.js"></script>
+<script type="text/javascript" src="script/metadata/metadataHelper.js"></script>
+<script type="text/javascript" src="script/metadata/metadataProvider.js"></script>
+<script type="text/javascript" src="script/metadata/metadataRepeatInitializer.js"></script>
+<script type="text/javascript" src="script/metadata/metadataRepeatValidator.js"></script>
+<script type="text/javascript" src="script/metadata/metadataValidator.js"></script>
+<script type="text/javascript" src="script/metadata/textProvider.js"></script>
+
+<script type="text/javascript" src="script/net/ajaxCall.js"></script>
+<script type="text/javascript" src="script/net/xmlHttpRequestFactory.js"></script>
+
+<script type="text/javascript" src="script/presentation/pChildRefHandler.js"></script>
+<script type="text/javascript" src="script/presentation/pChildRefHandlerView.js"></script>
+<script type="text/javascript" src="script/presentation/pGroup.js"></script>
+<script type="text/javascript" src="script/presentation/pMultipleChildren.js"></script>
+<script type="text/javascript" src="script/presentation/pRecordLink.js"></script>
+<script type="text/javascript" src="script/presentation/pRepeatingContainer.js"></script>
+<script type="text/javascript" src="script/presentation/pRepeatingElement.js"></script>
+<script type="text/javascript" src="script/presentation/presentation.js"></script>
+<script type="text/javascript" src="script/presentation/presentationFactory.js"></script>
+<script type="text/javascript" src="script/presentation/pSurroundingContainer.js"></script>
+<script type="text/javascript" src="script/presentation/pVar.js"></script>
 
 <script type="text/javascript">
+	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+// 	var baseUrl = "http://localhost:8080/therest/rest/";
+
 	window.onload = start;
 	function start() {
 		startJsClient();
 	}
-
 	function startJsClient() {
 		var dependencies = {
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
@@ -86,22 +93,19 @@
 		var metadataListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
-							"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
-// 			"url" : "http://localhost:8080/therest/rest/record/metadata/",
+			"url" : baseUrl + "record/metadata/",
 			"accept" : "application/uub+recordList+json"
 		};
 		var presentationListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
-								"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
-// 			"url" : "http://localhost:8080/therest/rest/record/presentation/",
+			"url" : baseUrl + "record/presentation/",
 			"accept" : "application/uub+recordList+json"
 		};
 		var textListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
-								"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
-// 			"url" : "http://localhost:8080/therest/rest/record/text/",
+			"url" : baseUrl + "record/text/",
 			"accept" : "application/uub+recordList+json"
 		};
 		var metadataProviderSpec = {
@@ -130,20 +134,18 @@
 		var jsClientSpec = {
 			"dependencies" : jsClientDependencies,
 			"name" : "The Client",
-						"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-// 			"baseUrl" : "http://localhost:8080/therest/rest/"
+			"baseUrl" : baseUrl
 		};
 		var jsClient = CORA.jsClient(jsClientSpec);
 		document.body.appendChild(jsClient.getView());
 	}
-	
+
 	function callError(error) {
 		console.log(error);
 	}
-	
+
 	function callAfterAnswer() {
 	}
-	
 </script>
 </head>
 <body>
