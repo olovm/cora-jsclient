@@ -42,6 +42,7 @@ QUnit.test("testCreateButton", function(assert) {
 	button.onclick(event);
 	assert.strictEqual(clicked, true);
 });
+
 QUnit.test("testCreateRemoveButton", function(assert) {
 	var clicked = false;
 
