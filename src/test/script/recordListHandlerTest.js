@@ -104,6 +104,7 @@ QUnit.module("recordListHandlerTest.js", {
 			}
 		};
 		this.workView = document.createElement("span");
+		this.menuView = document.createElement("span");
 		this.jsClientSpy = {
 			"getMetadataIdForRecordTypeId" : function(recordTypeId) {
 				return "recordTypeGroup2";
@@ -155,7 +156,8 @@ QUnit.test("init", function(assert) {
 		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"views" : {
-			"workView" : this.workView
+			"workView" : this.workView,
+			"menuView" : this.menuView
 		},
 		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 	};
@@ -169,6 +171,67 @@ QUnit.test("init", function(assert) {
 			"application/uub+recordList+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
 			"application/uub+record+json");
+});
+
+QUnit.test("initCheckRemoveOnMenu", function(assert) {
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+	}
+	var listHandlerSpec = {
+		"recordTypeRecord" : this.record,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"views" : {
+			"workView" : this.workView,
+			"menuView" : this.menuView
+		},
+		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+	};
+	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+
+	var workView = this.workView;
+	var menuView = this.menuView;
+	
+	assert.strictEqual(menuView.textContent, "List");
+	
+	var removeButton = menuView.childNodes[1];
+	assert.strictEqual(removeButton.className, "removeButton");
+	var event = document.createEvent('Event');
+
+	removeButton.onclick(event);
+	assert.strictEqual(menuView.parentNode, null);
+	assert.strictEqual(workView.parentNode, null);
+});
+
+QUnit.test("initCheckRemoveOnMenuWhereParentsExist", function(assert) {
+	var menuView = document.createElement("span");
+	var menuViewParent = document.createElement("span");
+	menuViewParent.appendChild(menuView);
+
+	var workView = document.createElement("span");
+	var workViewParent = document.createElement("span");
+	workViewParent.appendChild(workView);
+
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+	}
+	var listHandlerSpec = {
+		"recordTypeRecord" : this.record,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"views" : {
+			"workView" : workView,
+			"menuView" : menuView
+		},
+		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+	};
+	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+
+	var removeButton = menuView.childNodes[1];
+	assert.strictEqual(removeButton.className, "removeButton");
+	var event = document.createEvent('Event');
+
+	removeButton.onclick(event);
+	assert.strictEqual(menuView.parentNode, null);
+	assert.strictEqual(workView.parentNode, null);
 });
 
 QUnit.test("fetchListCheckGeneratedList", function(assert) {
@@ -185,7 +248,8 @@ QUnit.test("fetchListCheckGeneratedList", function(assert) {
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : this.recordGuiFactorySpy,
 		"views" : {
-			"workView" : this.workView
+			"workView" : this.workView,
+			"menuView" : this.menuView
 		},
 		"jsClient" : this.jsClientSpy
 	};
@@ -208,7 +272,8 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : this.recordGuiFactorySpy,
 		"views" : {
-			"workView" : this.workView
+			"workView" : this.workView,
+			"menuView" : this.menuView
 		},
 		"jsClient" : this.jsClientSpy
 	};
@@ -233,7 +298,8 @@ QUnit.test("fetchListCheckError", function(assert) {
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : this.recordGuiFactorySpy,
 		"views" : {
-			"workView" : this.workView
+			"workView" : this.workView,
+			"menuView" : this.menuView
 		},
 		"jsClient" : this.jsClientSpy
 	};
@@ -256,7 +322,8 @@ QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(asse
 	function createListItem(listTextIn) {
 		listText = listTextIn;
 		return {
-			"workView" : listItemWorkView
+			"workView" : listItemWorkView,
+			"menuView" : this.menuView
 		};
 	}
 	var createRecordHandlerMethodCalledWithPresentationMode;
@@ -271,7 +338,8 @@ QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(asse
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : this.recordGuiFactorySpy,
 		"views" : {
-			"workView" : this.workView
+			"workView" : this.workView,
+			"menuView" : this.menuView
 		},
 		"jsClient" : this.jsClientSpy
 	};
@@ -298,7 +366,8 @@ QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
 	function createListItem(listTextIn) {
 		listText = listTextIn;
 		return {
-			"workView" : listItemWorkView
+			"workView" : listItemWorkView,
+			"menuView" : this.menuView
 		};
 	}
 	var createRecordHandlerMethodCalledWithPresentationMode;
@@ -314,7 +383,8 @@ QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : this.recordGuiFactorySpy,
 		"views" : {
-			"workView" : this.workView
+			"workView" : this.workView,
+			"menuView" : this.menuView
 		},
 		"jsClient" : this.jsClientSpy
 	};

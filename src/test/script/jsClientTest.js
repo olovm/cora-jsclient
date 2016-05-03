@@ -272,11 +272,13 @@ QUnit.test("testFactories", function(assert) {
 	var recordTypeHandlerView = jsClient.createRecordTypeHandlerViewFactory().factor(viewSpec);
 
 	var workView = document.createElement("span");
+	var menuView = document.createElement("span");
 	var listHandlerSpec = {
 		"recordTypeRecord" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"views" : {
-			"workView" : workView
+			"workView" : workView,
+			"menuView":menuView
 		},
 		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 	};

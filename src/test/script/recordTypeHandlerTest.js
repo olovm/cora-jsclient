@@ -375,8 +375,6 @@ QUnit.test("fetchList", function(assert) {
 QUnit.test("showRecord", function(assert) {
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 	function sendFunction() {
-		// xmlHttpRequestSpy.status = 0;
-		// xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
 	}
 	var viewShowingInWorkView;
 	var jsClientSpy = {
