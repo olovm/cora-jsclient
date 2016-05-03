@@ -20,8 +20,11 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordListHandler = function(spec) {
 		var workView = spec.views.workView;
+		var menuView = spec.views.menuView;
 
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
+
+		addTextAndButtonToMenuView();
 
 		fetchDataFromServer(processFetchedRecords);
 
@@ -29,6 +32,30 @@ var CORA = (function(cora) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
+		}
+
+		function addTextAndButtonToMenuView() {
+			addTextToMenuView();
+			addRemoveButtonToMenuView();
+		}
+
+		function addTextToMenuView() {
+			menuView.textContent = "";
+			menuView.textContent = "List";
+		}
+
+		function addRemoveButtonToMenuView() {
+			var removeButton = CORA.gui.createRemoveButton(removeViewsFromParentNodes);
+			menuView.appendChild(removeButton);
+		}
+
+		function removeViewsFromParentNodes() {
+			if (menuView.parentNode !== null) {
+				menuView.parentNode.removeChild(menuView);
+			}
+			if (workView.parentNode !== null) {
+				workView.parentNode.removeChild(workView);
+			}
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
@@ -92,8 +119,8 @@ var CORA = (function(cora) {
 			var messageHolder = CORA.messageHolder();
 			workView.appendChild(messageHolder.getView());
 			var messageSpec = {
-					"message" : answer.status,
-					"type" : CORA.message.ERROR
+				"message" : answer.status,
+				"type" : CORA.message.ERROR
 			};
 			messageHolder.createMessage(messageSpec);
 		}

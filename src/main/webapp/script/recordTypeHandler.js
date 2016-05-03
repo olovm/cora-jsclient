@@ -50,7 +50,7 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordTypeList() {
-			var views = createItemViews("List");
+			var views = createItemViews("menuView");
 			var listHandlerSpec = {
 				"createRecordHandlerMethod" : createRecordHandler,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
