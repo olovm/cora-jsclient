@@ -25,7 +25,7 @@ var CORA = (function(cora) {
 		var pubSub = spec.pubSub;
 		var dataContainer = createMainDataContainerWithChildrenAndAttributes();
 
-		subscribeToAddAndSetValueAndRemoveMessagesForAllPaths();
+		subscribeToAddAndSetValueAndRemoveAndMoveMessagesForAllPaths();
 
 		function createMainDataContainerWithChildrenAndAttributes() {
 			return createDataContainerForElementWithId(metadataId);
@@ -92,7 +92,7 @@ var CORA = (function(cora) {
 			return type === "recordLink";
 		}
 
-		function subscribeToAddAndSetValueAndRemoveMessagesForAllPaths() {
+		function subscribeToAddAndSetValueAndRemoveAndMoveMessagesForAllPaths() {
 			pubSub.subscribe("*", {}, undefined, handleMsg);
 		}
 

@@ -24,6 +24,10 @@ var CORA = (function(cora) {
 		var topLevelData = spec.data;
 
 		initializeFirstLevel();
+		spec.pubSub.publish("initComplete", {
+			"data" : "",
+			"path" : {}
+		});
 
 		function initializeFirstLevel() {
 			var topLevelMetadataElement = getMetadataById(topLevelMetadataId);
@@ -39,8 +43,7 @@ var CORA = (function(cora) {
 		function getMetadataById(id) {
 			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}
-		return Object.freeze({
-		});
+		return Object.freeze({});
 	};
 	return cora;
 }(CORA));
