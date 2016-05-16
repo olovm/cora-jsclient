@@ -40,6 +40,7 @@ var CORA = (function(cora) {
 		var valueView = createValueView();
 		view.appendChild(valueView);
 		var state = "ok";
+		var previousValue = "";
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
 		pubSub.subscribe("validationError", path, undefined, handleValidationError);
 
@@ -146,6 +147,7 @@ var CORA = (function(cora) {
 
 		function setValue(value) {
 			state = "ok";
+			previousValue = value;
 			if (mode === "input") {
 				valueView.value = value;
 			} else {
@@ -233,7 +235,7 @@ var CORA = (function(cora) {
 		function onBlur() {
 			checkRegEx();
 			updateView();
-			if (state === "ok") {
+			if (state === "ok" && valueHasChanged()) {
 				var data = {
 					"data" : valueView.value,
 					"path" : path
@@ -256,6 +258,14 @@ var CORA = (function(cora) {
 				className += " error";
 			}
 			view.className = className;
+		}
+
+		function valueHasChanged() {
+			if (valueView.value !== previousValue) {
+				previousValue = valueView.value;
+				return true;
+			}
+			return false;
 		}
 
 		function getState() {

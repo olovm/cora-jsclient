@@ -162,7 +162,7 @@ var CORA = (function(cora) {
 		function resetLastShowingMenuItem() {
 			if (itemShowing !== undefined) {
 				itemShowing.menuView.className = itemShowing.originalClassName;
-				delete itemShowing.originalClassName;
+				itemShowing.isActive = false;
 			}
 		}
 
@@ -171,6 +171,7 @@ var CORA = (function(cora) {
 		}
 
 		function updateShowingMenuItem(itemToShow) {
+			itemToShow.isActive = true;
 			itemToShow.originalClassName = itemToShow.menuView.className;
 			itemToShow.menuView.className = itemToShow.menuView.className + " active";
 		}
