@@ -224,6 +224,12 @@ QUnit.test("testValueViewHasOnBlurHandler", function(assert) {
 
 QUnit.test("testChangedValueMissing", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var data = {
+			"data" : "notEmpty",
+			"path" : {}
+	};
+	attachedPVar.pVar.handleMsg(data);
+	attachedPVar.valueView.value = null;
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
 
@@ -232,6 +238,11 @@ QUnit.test("testChangedValueMissing", function(assert) {
 
 QUnit.test("testChangedValueEmpty", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var data = {
+			"data" : "notEmpty",
+			"path" : {}
+	};
+	attachedPVar.pVar.handleMsg(data);
 	attachedPVar.valueView.value = "";
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
@@ -246,6 +257,9 @@ QUnit.test("testChangedValueOk", function(assert) {
 	assert.equal(attachedPVar.pVar.getState(), "ok");
 	assert.equal(attachedPVar.view.className, "pVar pVarTextVariableId");
 	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej", assert);
+	attachedPVar.valueView.onblur();
+	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej", assert);
+	
 });
 
 QUnit.test("testChangedValueError", function(assert) {

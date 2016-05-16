@@ -61,6 +61,10 @@ body {
 	padding: .2rem;
 }
 
+.sideBar .changed:before {
+	content: "* ";
+}
+
 .sideBar .header:hover, .sideBar .childrenView .menuView:hover {
 	text-decoration: underline;
 	cursor: pointer;
@@ -272,6 +276,7 @@ body {
 .jsClient .listItem .pGroup>.pChildRefHandler+.pChildRefHandler {
 	margin-top: .3rem;
 }
+
 .jsClient .listItem [class*='recordInfo'] {
 	font-weight: bold;
 }

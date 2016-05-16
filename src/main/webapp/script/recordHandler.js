@@ -26,6 +26,7 @@ var CORA = (function(cora) {
 
 		var workView = views.workView;
 		var menuView = views.menuView;
+		var menuViewOrgClassName = views.originalClassName;
 
 		var messageHolder = CORA.messageHolder();
 		workView.appendChild(messageHolder.getView());
@@ -39,6 +40,8 @@ var CORA = (function(cora) {
 		var recordGuiNew;
 		var recordGui;
 		var fetchedRecord;
+		var initComplete = false;
+		var dataIsChanged = false;
 
 		if ("new" === spec.presentationMode) {
 			createGuiForNew();
@@ -72,7 +75,41 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordGui(metadataId, data) {
-			return spec.recordGuiFactory.factor(metadataId, data);
+			var createdRecordGui = spec.recordGuiFactory.factor(metadataId, data);
+			var pubSub = createdRecordGui.pubSub;
+			subscribeToAllMessagesForAllPaths(pubSub);
+			return createdRecordGui;
+		}
+
+		function subscribeToAllMessagesForAllPaths(pubSub) {
+			pubSub.subscribe("*", {}, undefined, handleMsg);
+		}
+
+		function handleMsg(dataFromMsg, msg) {
+			if (initComplete) {
+				dataIsChanged = true;
+			}
+			if (messageSaysInitIsComplete(msg)) {
+				initComplete = true;
+			}
+			updateMenuClassName();
+		}
+
+		function messageSaysInitIsComplete(msg) {
+			return msg.endsWith("initComplete");
+		}
+
+		function updateMenuClassName() {
+			var className = menuViewOrgClassName;
+			if (dataIsChanged) {
+				className += ' changed';
+			}
+			views.originalClassName = className;
+
+			if (views.isActive) {
+				className += ' active';
+			}
+			menuView.className = className;
 		}
 
 		function addNewRecordToWorkView(recordGuiToAdd) {
@@ -94,6 +131,7 @@ var CORA = (function(cora) {
 			menuView.appendChild(menuPresentationView);
 			menuView.appendChild(createRemoveButton());
 		}
+
 		function createRemoveButton() {
 			return CORA.gui.createRemoveButton(removeViewsFromParentNodes);
 		}
@@ -133,7 +171,9 @@ var CORA = (function(cora) {
 				"type" : CORA.message.POSITIVE
 			};
 			messageHolder.createMessage(messageSpec);
-
+			initComplete = false;
+			dataIsChanged = false;
+			updateMenuClassName();
 			processFetchedRecord(answer);
 		}
 
@@ -312,7 +352,14 @@ var CORA = (function(cora) {
 			messageHolder.createMessage(messageSpec);
 		}
 
-		return Object.freeze({});
+		function getDataIsChanged() {
+			return dataIsChanged;
+		}
+
+		return Object.freeze({
+			handleMsg : handleMsg,
+			getDataIsChanged : getDataIsChanged
+		});
 	};
 	return cora;
 }(CORA));
