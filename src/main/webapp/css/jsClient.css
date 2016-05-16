@@ -65,6 +65,23 @@ body {
 	content: "* ";
 }
 
+.sideBar .menuView {
+	background-color: rgba(255, 0, 0, 0.31);
+	display: flex;
+}
+.sideBar .menuView > :first-child {
+	flex: 1;
+/* 	margin: .2em; */
+}
+.menuView > .presentation > .pGroup  {
+	display: flex;
+/* 	margin: .2em; */
+}
+..menuView > .presentation > .pGroup > :first-child {
+	flex: 1;
+/* 	margin: .2em; */
+}
+
 .sideBar .header:hover, .sideBar .childrenView .menuView:hover {
 	text-decoration: underline;
 	cursor: pointer;
@@ -110,7 +127,7 @@ body {
 }
 /* .recordType .childrenView span { */
 .sideBar>.recordType  span {
-	display: block;
+/* 	display: block; */
 }
 
 .jsClient>.workArea {
@@ -142,7 +159,7 @@ body {
 }
 
 .jsClient .sideBar .menuView div, .jsClient .sideBar .menuView span {
-	display: inline;
+/* 	display: inline; */
 	border: none;
 	padding: 0;
 	background: none;

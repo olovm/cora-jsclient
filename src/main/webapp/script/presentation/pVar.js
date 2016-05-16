@@ -32,6 +32,11 @@ var CORA = (function(cora) {
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
 		var subType = cMetadataElement.getData().attributes.type;
+
+		// var textIdTextVar = cMetadataElement.getFirstAtomicValueByNameInData("textIdTextVar");
+		// var defTextIdTextVar =
+		// cMetadataElement.getFirstAtomicValueByNameInData("defTextIdTextVar");
+
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var outputFormat = getOutputFormat();
 
@@ -39,6 +44,10 @@ var CORA = (function(cora) {
 		var originalClassName = view.className;
 		var valueView = createValueView();
 		view.appendChild(valueView);
+
+		var infoButton = createInfoButton();
+		view.appendChild(infoButton);
+
 		var state = "ok";
 		var previousValue = "";
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
@@ -139,6 +148,26 @@ var CORA = (function(cora) {
 		function createOutputForImage() {
 			var outputNew = document.createElement("img");
 			return outputNew;
+		}
+
+		function createInfoButton() {
+			var spec = {
+				"className" : "infoButton",
+				"onclick" : function() {
+					console.log(text);
+					console.log(defText);
+				}
+			};
+			return CORA.gui.createButton(spec);
+			
+//			var infoNew = document.createElement("span");
+//			infoNew.className = "infoButton";
+//			infoNew.onclick = function() {
+//				console.log(text);
+//				console.log(defText);
+//			};
+//
+//			return infoNew;
 		}
 
 		function getView() {
@@ -259,14 +288,14 @@ var CORA = (function(cora) {
 			}
 			view.className = className;
 		}
-		
-		function valueHasChanged(){
-			if(valueView.value !== previousValue){
+
+		function valueHasChanged() {
+			if (valueView.value !== previousValue) {
 				return true;
 			}
 			return false;
 		}
-		
+
 		function getState() {
 			return state;
 		}
