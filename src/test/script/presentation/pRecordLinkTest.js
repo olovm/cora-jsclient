@@ -283,3 +283,48 @@ QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
 	assert.stringifyEqual(this.getIdForGeneratedPresentationByNo(1), "linkedRecordIdOutputPVar");
 	assert.stringifyEqual(this.getIdForGeneratedPresentationByNo(2), "linkedRepeatIdOutputPVar");
 });
+
+QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", function(assert) {
+	var attachedPRecordLink = this.pRecordLinkFactory.factor({},
+			"myLinkPresentationOfLinkedRecordOutputPLink");
+	assert.strictEqual(attachedPRecordLink.pRecordLink.type, "pRecordLink");
+	assert.deepEqual(attachedPRecordLink.view.className,
+			"pRecordLink myLinkPresentationOfLinkedRecordOutputPLink");
+	var view = attachedPRecordLink.view;
+	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
+	assert.strictEqual(view.childNodes.length, 2);
+
+	var linkedRecordPresentations = view.childNodes[1];
+	
+	
+	var childrenView = attachedPRecordLink.childrenView;
+	assert.strictEqual(linkedRecordPresentations.nodeName, "SPAN");
+	assert.strictEqual(linkedRecordPresentations.className, "linkedRecordPresentationView");
+//	assert.strictEqual(linkedRecordPresentations.childNodes.length, 2);
+
+//	var recordTypeView = childrenView.childNodes[0];
+//	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
+//	var recordTypeTextView = recordTypeView.firstChild;
+//	assert.strictEqual(recordTypeTextView.className, "text");
+//	assert.strictEqual(recordTypeTextView.innerHTML, "Posttyp");
+//
+//	var recordIdView = childrenView.childNodes[1];
+//	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
+//	var recordIdTextView = recordIdView.firstChild;
+//	assert.strictEqual(recordIdTextView.className, "text");
+//	assert.strictEqual(recordIdTextView.innerHTML, "PostId");
+//
+//	var recordIdTextVarSpyDummyView = recordIdView.childNodes[1];
+//	assert.strictEqual(recordIdTextVarSpyDummyView.cPresentation
+//			.getFirstAtomicValueByNameInData("presentationOf"), "linkedRecordIdTextVar");
+//	var expectedPath = {
+//		"name" : "linkedPath",
+//		"children" : [ {
+//			"name" : "nameInData",
+//			"value" : "linkedRecordId"
+//		} ]
+//	};
+//	assert.stringifyEqual(recordIdTextVarSpyDummyView.path, expectedPath);
+//	assert.stringifyEqual(this.getIdForGeneratedPresentationByNo(0), "linkedRecordTypeOutputPVar");
+//	assert.stringifyEqual(this.getIdForGeneratedPresentationByNo(1), "linkedRecordIdOutputPVar");
+});

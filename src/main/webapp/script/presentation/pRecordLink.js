@@ -34,6 +34,8 @@ var CORA = (function(cora) {
 		var valueView = createValueView();
 		view.appendChild(valueView);
 
+		createLinkedRecordPresentationView();
+
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			viewNew.className = "pRecordLink " + presentationId;
@@ -52,6 +54,21 @@ var CORA = (function(cora) {
 				createAndAddOutput(valueViewNew);
 			}
 			return valueViewNew;
+		}
+
+		function createLinkedRecordPresentationView() {
+
+			if (cPresentation.containsChildWithNameInData("linkedRecordPresentations")) {
+
+				// var linkedRecordPresentationView =
+				// createLinkedRecordPresentationView();
+
+				var valueViewNew = document.createElement("span");
+				valueViewNew.className = "linkedRecordPresentationView";
+
+				// return valueViewNew;
+				view.appendChild(valueViewNew);
+			}
 		}
 
 		function createAndAddInputs(valueViewNew) {
