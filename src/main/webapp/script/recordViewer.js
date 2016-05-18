@@ -19,9 +19,72 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordViewer = function(spec) {
-	
 
-		return Object.freeze({});
+		var view = document.createElement("span");
+		view.className = "recordViewer";
+
+		var messageHolder = CORA.messageHolder();
+		view.appendChild(messageHolder.getView());
+
+		var busy = CORA.busy();
+		view.appendChild(busy.getView());
+
+		fetchDataFromServer(processFetchedRecord);
+		function fetchDataFromServer(callAfterAnswer) {
+			busy.show();
+			var readLink = spec.read;
+			var callSpec = {
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"method" : readLink.requestMethod,
+				"url" : readLink.url,
+				"contentType" : readLink.contentType,
+				"accept" : readLink.accept,
+				"loadMethod" : callAfterAnswer,
+				"errorMethod" : callError
+			};
+			CORA.ajaxCall(callSpec);
+		}
+		function callError(answer) {
+			busy.hideWithEffect();
+			var messageSpec = {
+				"message" : answer.status,
+				"type" : CORA.message.ERROR
+			};
+			messageHolder.createMessage(messageSpec);
+		}
+
+		function processFetchedRecord(answer) {
+			var data = getDataPartOfRecordFromAnswer(answer);
+			try {
+				var recordGui = createRecordGui(spec.metadataId, data);
+				addToShowView(recordGui);
+				recordGui.initMetadataControllerStartingGui();
+			} catch (error) {
+				view.appendChild(document.createTextNode(JSON.stringify(data)));
+			}
+			busy.hideWithEffect();
+		}
+
+		function getDataPartOfRecordFromAnswer(answer) {
+			return JSON.parse(answer.responseText).record.data;
+		}
+		function createRecordGui(metadataId, data) {
+			var createdRecordGui = spec.recordGuiFactory.factor(metadataId, data);
+			return createdRecordGui;
+		}
+		function addToShowView(recordGuiToAdd) {
+			var showViewId = spec.presentationId;
+			var showView = recordGuiToAdd.getPresentation(showViewId).getView();
+			view.appendChild(showView);
+		}
+
+		function getView() {
+			return view;
+		}
+
+		return Object.freeze({
+			getView : getView
+		});
 	};
 	return cora;
 }(CORA));
