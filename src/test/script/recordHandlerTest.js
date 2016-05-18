@@ -652,7 +652,9 @@ QUnit.test("testHandleMessage", function(assert) {
 		"presentationMode" : "view",
 		"views" : {
 			"menuView" : this.menuView,
-			"workView" : this.workView
+			"workView" : this.workView,
+			"isActive" : true,
+			"originalClassName" : "someClass"
 		},
 		"record" : this.record,
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
@@ -675,9 +677,11 @@ QUnit.test("testHandleMessage", function(assert) {
 	};
 	recordHandler.handleMsg(data1, "initComplete");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
+	assert.strictEqual(this.menuView.className, "someClass active");
 
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(this.menuView.className, "someClass changed active");
 });
 
 QUnit.test("testUpdateCall", function(assert) {

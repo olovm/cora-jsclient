@@ -32,11 +32,6 @@ var CORA = (function(cora) {
 		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
 		var subType = cMetadataElement.getData().attributes.type;
-
-		// var textIdTextVar = cMetadataElement.getFirstAtomicValueByNameInData("textIdTextVar");
-		// var defTextIdTextVar =
-		// cMetadataElement.getFirstAtomicValueByNameInData("defTextIdTextVar");
-
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var outputFormat = getOutputFormat();
 
@@ -58,6 +53,9 @@ var CORA = (function(cora) {
 
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var defText = textProvider.getTranslation(defTextId);
+
+		var infoLevel = 0;
+		var infoView;
 
 		if (subType === "textVariable") {
 			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
@@ -153,21 +151,55 @@ var CORA = (function(cora) {
 		function createInfoButton() {
 			var spec = {
 				"className" : "infoButton",
-				"onclick" : function() {
-					console.log(text);
-					console.log(defText);
-				}
+				"onclick" : showInfo
 			};
 			return CORA.gui.createButton(spec);
-			
-//			var infoNew = document.createElement("span");
-//			infoNew.className = "infoButton";
-//			infoNew.onclick = function() {
-//				console.log(text);
-//				console.log(defText);
-//			};
-//
-//			return infoNew;
+		}
+
+		function showInfo() {
+			// console.log(text);
+			// console.log(defText);
+			if (infoLevel === 0) {
+				//TODO: test content
+				infoView = document.createElement("span");
+				infoView.className = "infoView";
+				// view.insertBefore(infoView, view.firstChild);
+				view.appendChild(infoView);
+
+				var textView = document.createElement("span");
+				textView.className = "textView";
+				textView.innerHTML = text;
+				infoView.appendChild(textView);
+
+				var defTextView = document.createElement("span");
+				defTextView.className = "defTextView";
+				defTextView.innerHTML = defText;
+				infoView.appendChild(defTextView);
+			}
+			if (infoLevel === 1) {
+				//TODO: test content
+				var metadataIdView = document.createElement("span");
+				metadataIdView.className = "metadataIdView";
+				metadataIdView.innerHTML = "metadataId:" + metadataId;
+				infoView.appendChild(metadataIdView);
+
+				if (subType === "textVariable") {
+					//TODO: test content
+					var regExView = document.createElement("span");
+					regExView.className = "regExView";
+					regExView.innerHTML = "regEx:" + regEx;
+					infoView.appendChild(regExView);
+				}
+
+			}
+			if (infoLevel === 2) {
+				view.removeChild(infoView);
+				infoLevel = 0;
+			} else {
+				infoLevel++;
+			}
+//			view.className = originalClassName + " infoActive";
+			updateView();
 		}
 
 		function getView() {
@@ -270,8 +302,10 @@ var CORA = (function(cora) {
 					"path" : path
 				};
 				jsBookkeeper.setValue(data);
+				previousValue = valueView.value;
 			}
 		}
+
 		function checkRegEx() {
 			var value = valueView.value;
 			if (value.length === 0 || new RegExp(regEx).test(value)) {
@@ -285,6 +319,9 @@ var CORA = (function(cora) {
 			var className = originalClassName;
 			if (state === "error") {
 				className += " error";
+			}
+			if(infoLevel!==0){
+				className += " infoActive";
 			}
 			view.className = className;
 		}
@@ -310,7 +347,8 @@ var CORA = (function(cora) {
 			getRegEx : getRegEx,
 			getState : getState,
 			onBlur : onBlur,
-			handleValidationError : handleValidationError
+			handleValidationError : handleValidationError,
+			showInfo : showInfo
 		});
 		view.modelObject = out;
 		if (mode === "input") {

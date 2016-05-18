@@ -26,10 +26,7 @@ var CORA = (function(cora) {
 
 		var workView = views.workView;
 		var menuView = views.menuView;
-		// var menuViewOrgClassName = menuView.className;
-		// views.originalClassName = menuViewOrgClassName;
 		var menuViewOrgClassName = views.originalClassName;
-		// views.originalClassName = menuViewOrgClassName;
 
 		var messageHolder = CORA.messageHolder();
 		workView.appendChild(messageHolder.getView());
@@ -78,11 +75,12 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordGui(metadataId, data) {
-			var recordGui = spec.recordGuiFactory.factor(metadataId, data);
-			var pubSub = recordGui.pubSub;
+			var createdRecordGui = spec.recordGuiFactory.factor(metadataId, data);
+			var pubSub = createdRecordGui.pubSub;
 			subscribeToAllMessagesForAllPaths(pubSub);
-			return recordGui;
+			return createdRecordGui;
 		}
+
 		function subscribeToAllMessagesForAllPaths(pubSub) {
 			pubSub.subscribe("*", {}, undefined, handleMsg);
 		}

@@ -65,23 +65,6 @@ body {
 	content: "* ";
 }
 
-.sideBar .menuView {
-	background-color: rgba(255, 0, 0, 0.31);
-	display: flex;
-}
-.sideBar .menuView > :first-child {
-	flex: 1;
-/* 	margin: .2em; */
-}
-.menuView > .presentation > .pGroup  {
-	display: flex;
-/* 	margin: .2em; */
-}
-..menuView > .presentation > .pGroup > :first-child {
-	flex: 1;
-/* 	margin: .2em; */
-}
-
 .sideBar .header:hover, .sideBar .childrenView .menuView:hover {
 	text-decoration: underline;
 	cursor: pointer;
@@ -127,7 +110,7 @@ body {
 }
 /* .recordType .childrenView span { */
 .sideBar>.recordType  span {
-/* 	display: block; */
+	display: block;
 }
 
 .jsClient>.workArea {
@@ -158,8 +141,8 @@ body {
 	box-shadow: none;
 }
 
-.jsClient .sideBar .menuView div, .jsClient .sideBar .menuView span {
-/* 	display: inline; */
+.sideBar .menuView div, .jsClient .sideBar .menuView span {
+	display: inline;
 	border: none;
 	padding: 0;
 	background: none;
@@ -167,7 +150,7 @@ body {
 	margin: 0;
 }
 
-.jsClient .sideBar .menuView .pVar span {
+.sideBar .menuView .pVar span {
 	/* 	max-width: calc(70% - 1rem); */
 	max-width: calc(70% - 1rem - 18px);
 	overflow: hidden;
@@ -176,15 +159,15 @@ body {
 	white-space: nowrap;
 }
 
-.jsClient .sideBar [class*='recordInfo'] .pVar span:before {
+.sideBar [class*='recordInfo'] .pVar span:before {
 	content: "(";
 }
 
-.jsClient .sideBar [class*='recordInfo'] .pVar span:after {
+.sideBar [class*='recordInfo'] .pVar span:after {
 	content: ")";
 }
 
-.jsClient .sideBar [class*='recordInfo'] .pVar span {
+.sideBar [class*='recordInfo'] .pVar span {
 	padding-right: 1rem;
 	width: 30%;
 	overflow: hidden;
@@ -254,22 +237,26 @@ body {
 .jsClient .listItem {
 	font-size: .8rem;
 	counter-increment: record;
+	display: flex;
+	border-bottom: 1px dashed;
 }
 
 .jsClient .listItem::before {
 	content: counter(record) ".";
 	font-size: 2rem;
 	display: block;
-	position: absolute;
+/* 	position: absolute; */
 	left: 0rem;
+	padding-top: 0.7rem;
 }
 
 .jsClient .listItem .presentation {
 	border: none;
 	border-radius: 0;
-	border-bottom: 1px dashed;
-	padding-bottom: 2px;
-	padding-left: 3rem;
+/* 	border-bottom: 1px dashed; */
+/* 	padding-bottom: 2px; */
+/* 	padding-left: 3rem; */
+	flex: 1;
 }
 
 .jsClient .listItem .pVar {
@@ -302,9 +289,14 @@ body {
 	content: "(";
 }
 
-.jsClient .listItem [class*='recordInfo'] .pVar span:after {
+.jsClient .listItem [class*='recordInfo'] .pVar  span:after {
 	content: ")";
 }
+.jsClient .listItem [class*='recordInfo'] .pVar  .infoButton:before,
+.jsClient .listItem [class*='recordInfo'] .pVar  .infoButton:after {
+	content: "";
+}
+
 
 .jsClient .listItem .textPartAlternativePGroup .text {
 	font-weight: bold;

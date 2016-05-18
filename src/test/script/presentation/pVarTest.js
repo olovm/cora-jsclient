@@ -119,7 +119,7 @@ QUnit.test("testInitText", function(assert) {
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
 			"modelObject should be a pointer to the javascript object instance");
-	assert.ok(view.childNodes.length === 1, "pVar, should have one child");
+	assert.ok(view.childNodes.length, 2);
 
 	var valueView = attachedPVar.valueView;
 	assert.equal(valueView.nodeName, "INPUT");
@@ -134,6 +134,55 @@ QUnit.test("testInitText", function(assert) {
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
+QUnit.test("testInitInfoButton", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	assert.strictEqual(attachedPVar.pVar.type, "pVar");
+	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
+	var view = attachedPVar.view;
+	var infoButton = view.childNodes[1];
+	
+	assert.equal(infoButton.nodeName, "SPAN");
+	assert.equal(infoButton.className, "infoButton");
+	var event = document.createEvent('Event');
+
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+	
+	var infoView = view.childNodes[2];
+	assert.equal(infoView.childNodes.length, 2);
+	assert.equal(infoView.nodeName, "SPAN");
+	assert.equal(infoView.className, "infoView");
+	
+	var textView = infoView.childNodes[0];
+	assert.equal(textView.nodeName, "SPAN");
+	assert.equal(textView.className, "textView");
+	
+	var defTextView = infoView.childNodes[1];
+	assert.equal(defTextView.nodeName, "SPAN");
+	assert.equal(defTextView.className, "defTextView");
+	
+	
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+	assert.equal(infoView.childNodes.length, 4);
+
+	var metadataIdView = infoView.childNodes[2];
+	assert.equal(metadataIdView.nodeName, "SPAN");
+	assert.equal(metadataIdView.className, "metadataIdView");
+	
+	var regExView = infoView.childNodes[3];
+	assert.equal(regExView.nodeName, "SPAN");
+	assert.equal(regExView.className, "regExView");
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 2);
+	
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+	
+});
+
 QUnit.test("testInitCollection", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownPVar");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
@@ -141,7 +190,7 @@ QUnit.test("testInitCollection", function(assert) {
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
 			"modelObject should be a pointer to the javascript object instance");
-	assert.ok(view.childNodes.length === 1, "pVar, should have one child");
+	assert.ok(view.childNodes.length, 2);
 
 	var valueView = attachedPVar.valueView;
 	assert.equal(valueView.nodeName, "SELECT");
@@ -177,7 +226,7 @@ QUnit.test("testInitCollectionNoEmptyTextId", function(assert) {
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
 			"modelObject should be a pointer to the javascript object instance");
-	assert.ok(view.childNodes.length === 1, "pVar, should have one child");
+	assert.ok(view.childNodes.length, 2);
 
 	var valueView = attachedPVar.valueView;
 	assert.equal(valueView.nodeName, "SELECT");
@@ -225,8 +274,8 @@ QUnit.test("testValueViewHasOnBlurHandler", function(assert) {
 QUnit.test("testChangedValueMissing", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	var data = {
-			"data" : "notEmpty",
-			"path" : {}
+		"data" : "notEmpty",
+		"path" : {}
 	};
 	attachedPVar.pVar.handleMsg(data);
 	attachedPVar.valueView.value = null;
@@ -239,8 +288,8 @@ QUnit.test("testChangedValueMissing", function(assert) {
 QUnit.test("testChangedValueEmpty", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	var data = {
-			"data" : "notEmpty",
-			"path" : {}
+		"data" : "notEmpty",
+		"path" : {}
 	};
 	attachedPVar.pVar.handleMsg(data);
 	attachedPVar.valueView.value = "";
@@ -257,6 +306,9 @@ QUnit.test("testChangedValueOk", function(assert) {
 	assert.equal(attachedPVar.pVar.getState(), "ok");
 	assert.equal(attachedPVar.view.className, "pVar pVarTextVariableId");
 	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej", assert);
+	attachedPVar.valueView.onblur();
+	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej", assert);
+
 });
 
 QUnit.test("testChangedValueError", function(assert) {
@@ -285,7 +337,7 @@ QUnit.test("testInitTextOutput", function(assert) {
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
 			"modelObject should be a pointer to the javascript object instance");
-	assert.ok(view.childNodes.length === 1, "pVar, should have one child");
+	assert.ok(view.childNodes.length, 2);
 
 	var valueView = attachedPVar.valueView;
 	assert.equal(valueView.nodeName, "SPAN");
@@ -299,13 +351,13 @@ QUnit.test("testInitTextOutputFormatImage", function(assert) {
 	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
-	"modelObject should be a pointer to the javascript object instance");
-	assert.ok(view.childNodes.length === 1, "pVar, should have one child");
-	
+			"modelObject should be a pointer to the javascript object instance");
+	assert.ok(view.childNodes.length, 2);
+
 	var valueView = attachedPVar.valueView;
 	assert.equal(valueView.nodeName, "IMG");
 	assert.equal(valueView.src, "");
-	
+
 	CORATEST.testVariableSubscription(attachedPVar, assert);
 	CORATEST.testVariableMetadata(attachedPVar, assert);
 });
@@ -316,7 +368,7 @@ QUnit.test("testInitCollectionOutput", function(assert) {
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
 			"modelObject should be a pointer to the javascript object instance");
-	assert.ok(view.childNodes.length === 1, "pVar, should have one child");
+	assert.ok(view.childNodes.length, 2);
 
 	var valueView = attachedPVar.valueView;
 	assert.equal(valueView.nodeName, "SPAN");
@@ -335,7 +387,7 @@ QUnit.test("testSetValueTextOutput", function(assert) {
 QUnit.test("testSetValueTextOutputFormatImage", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableIdOutputImage");
 	var valueView = attachedPVar.valueView;
-	
+
 	attachedPVar.pVar.setValue("http://www.some.domain.nu/image01.jpg");
 	assert.equal(valueView.src, "http://www.some.domain.nu/image01.jpg");
 });
@@ -353,7 +405,7 @@ QUnit.test("testSetValueCollectionOutput", function(assert) {
 QUnit.test("testSetValueCollectionOutputEmptyTextId", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownOutputPVar");
 	var valueView = attachedPVar.valueView;
-	
+
 	attachedPVar.pVar.setValue("no");
 	assert.equal(valueView.innerHTML, "Nej");
 	attachedPVar.pVar.setValue("");
@@ -369,13 +421,12 @@ QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
 	attachedPVar.pVar.handleValidationError(message);
 	assert.equal(attachedPVar.pVar.getState(), "error");
 	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedPVar.view.className));
-	
+
 	var data = {
-			"data" : "A new value",
-			"path" : {}
+		"data" : "A new value",
+		"path" : {}
 	};
 	attachedPVar.pVar.handleMsg(data);
-	
-	assert.strictEqual(attachedPVar.view.className,"pVar pVarTextVariableId");
-});
 
+	assert.strictEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
+});

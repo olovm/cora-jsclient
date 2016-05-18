@@ -161,10 +161,7 @@ var CORA = (function(cora) {
 
 		function resetLastShowingMenuItem() {
 			if (itemShowing !== undefined) {
-//				var className = itemShowing.menuView.className;
-				
 				itemShowing.menuView.className = itemShowing.originalClassName;
-//				delete itemShowing.originalClassName;
 				itemShowing.isActive = false;
 			}
 		}
@@ -177,7 +174,6 @@ var CORA = (function(cora) {
 			itemToShow.isActive = true;
 			itemToShow.originalClassName = itemToShow.menuView.className;
 			itemToShow.menuView.className = itemToShow.menuView.className + " active";
-//			itemToShow.menuView.className = itemToShow.originalClassName + " active";
 		}
 
 		function getMetadataIdForRecordTypeId(recordTypeId) {

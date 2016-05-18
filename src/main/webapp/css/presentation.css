@@ -200,14 +200,35 @@ input {
 	position: relative;
 	border: 1px dotted grey;
 }
+.workView .repeatingElement {
+	display: flex;
+}
+
+/* .workView .listItem .repeatingElement { */
+/* 	display: inline-block; */
+/* } */
 /* .repeatingElement + .repeatingElement { */
 /* 	margin-top: 5px; */
 /* } */
+
+.workView .repeatingElement > * {
+	flex: 1;
+/* 	margin: .2em; */
+}
+.workView .repeatingElement > :last-child {
+	flex: 0 0 auto;
+	flex: 0;
+/* 	margin: .2em; */
+}
 .buttonView {
 	min-width: 20px;
 	min-height: 20px;
 	position: relative;
 	display: inline-block;
+}
+.buttonView:empty {
+	display: none;
+/* 	background-color: black; */
 }
 
 .repeatingElement>.buttonView {
@@ -215,39 +236,68 @@ input {
 	top: 0px;
 	right: 0px;
 }
+.workView .repeatingElement>.buttonView {
+	position: relative;
+}
 
 .pVar {
 	min-width: 30px;
 	min-height: 24px;
 /* 	width: 80%; */
 	display: inline-block;
-	display: flex;
-	background-color: rgba(0, 107, 255, 0.13);
+/* 	display: flex; */
 }
+.pVar:hover, .pVar.infoActive {
+	background-color: rgba(0, 107, 255, 0.13);
+	
+}
+.pVar.infoActive  > .infoButton::before {
+	opacity: 1;
+}
+
 .pVar input {
 /* 	width: 100%; */
 }
+.workView .pVar {
+	display: flex;
+	flex-wrap: wrap;
+}
 
-.pVar > :first-child {
+.workView .pVar > :first-child {
 	flex: 1;
 	margin: .2em;
 }
 
-.pVar .infoButton {
+.workView .pVar .infoButton {
 	min-height: 1em;
 	min-width: 1.3em;
 /* 	background-color: blue; */
-	margin-top: .2em;
+	margin-top: .3em;
 }
 .pVar .infoButton {
 	cursor: pointer;
 }
 
-.pVar:hover > .infoButton::before,  .pVar:focus > .infoButton::before {
+.pVar .infoView {
+	flex: 0 0 100%;
+}
+
+.pVar .infoView span {
+	display: block;
+	font-size: 0.7rem;
+}
+
+.jsClient .menuView .pVar .infoButton, .menuView .pVar:hover > .infoButton::before,
+.menuView .infoButton::before, .menuView .infoButton::after,
+.menuView .infoButton:hover::after  {
+	display: none;
+}
+
+.workView .pVar:hover > .infoButton::before,  input:focus + .infoButton::before {
 	opacity: 1;
 }
 	
-.infoButton::before {
+.workView .infoButton::before {
 	background: url("../images/icons2.svg") no-repeat scroll -63px -0px;
 	content: "";
 	height: 16px;
@@ -258,11 +308,11 @@ input {
 	z-index: 100;
 }
 
-.infoButton:hover::before {
+.workView .infoButton:hover::before {
 	opacity: 0;
 }
 
-.infoButton::after {
+.workView .infoButton::after {
 	background: url("../images/icons2.svg") no-repeat scroll -63px -16px;
 	content: "";
 	height: 16px;
@@ -273,7 +323,7 @@ input {
 	z-index: 101;
 }
 
-.infoButton:hover::after {
+.workView .infoButton:hover::after {
 	opacity: 1;
 }
 
