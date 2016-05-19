@@ -157,13 +157,9 @@ var CORA = (function(cora) {
 		}
 
 		function showInfo() {
-			// console.log(text);
-			// console.log(defText);
 			if (infoLevel === 0) {
-				//TODO: test content
 				infoView = document.createElement("span");
 				infoView.className = "infoView";
-				// view.insertBefore(infoView, view.firstChild);
 				view.appendChild(infoView);
 
 				var textView = document.createElement("span");
@@ -177,17 +173,25 @@ var CORA = (function(cora) {
 				infoView.appendChild(defTextView);
 			}
 			if (infoLevel === 1) {
-				//TODO: test content
+				var textIdView = document.createElement("span");
+				textIdView.className = "textIdView";
+				textIdView.innerHTML = "textId: " + textId;
+				infoView.appendChild(textIdView);
+
+				var defTextIdView = document.createElement("span");
+				defTextIdView.className = "defTextIdView";
+				defTextIdView.innerHTML = "defTextId: " + defTextId;
+				infoView.appendChild(defTextIdView);
+
 				var metadataIdView = document.createElement("span");
 				metadataIdView.className = "metadataIdView";
-				metadataIdView.innerHTML = "metadataId:" + metadataId;
+				metadataIdView.innerHTML = "metadataId: " + metadataId;
 				infoView.appendChild(metadataIdView);
 
 				if (subType === "textVariable") {
-					//TODO: test content
 					var regExView = document.createElement("span");
 					regExView.className = "regExView";
-					regExView.innerHTML = "regEx:" + regEx;
+					regExView.innerHTML = "regEx: " + regEx;
 					infoView.appendChild(regExView);
 				}
 
@@ -198,7 +202,6 @@ var CORA = (function(cora) {
 			} else {
 				infoLevel++;
 			}
-//			view.className = originalClassName + " infoActive";
 			updateView();
 		}
 
@@ -320,7 +323,7 @@ var CORA = (function(cora) {
 			if (state === "error") {
 				className += " error";
 			}
-			if(infoLevel!==0){
+			if (infoLevel !== 0) {
 				className += " infoActive";
 			}
 			view.className = className;
