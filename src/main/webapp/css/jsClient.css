@@ -152,7 +152,7 @@ body {
 
 .sideBar .menuView .pVar span {
 	/* 	max-width: calc(70% - 1rem); */
-	max-width: calc(70% - 1rem - 18px);
+	max-width: calc(70% - 1rem - 30px);
 	overflow: hidden;
 	display: inline-block;
 	text-overflow: ellipsis;

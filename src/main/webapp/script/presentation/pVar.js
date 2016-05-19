@@ -149,11 +149,11 @@ var CORA = (function(cora) {
 		}
 
 		function createInfoButton() {
-			var spec = {
+			var infoButtonSpec = {
 				"className" : "infoButton",
 				"onclick" : showInfo
 			};
-			return CORA.gui.createButton(spec);
+			return CORA.gui.createButton(infoButtonSpec);
 		}
 
 		function showInfo() {

@@ -248,8 +248,7 @@ input {
 /* 	display: flex; */
 }
 .pVar:hover, .pVar.infoActive {
-	background-color: rgba(0, 107, 255, 0.13);
-	
+	background-color: rgb(205, 224, 251);
 }
 .pVar.infoActive  > .infoButton::before {
 	opacity: 1;
