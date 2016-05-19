@@ -39,6 +39,10 @@ var CORA = (function(cora) {
 		var originalClassName = view.className;
 		var valueView = createValueView();
 		view.appendChild(valueView);
+
+		var infoButton = createInfoButton();
+		view.appendChild(infoButton);
+
 		var state = "ok";
 		var previousValue = "";
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
@@ -49,6 +53,9 @@ var CORA = (function(cora) {
 
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var defText = textProvider.getTranslation(defTextId);
+
+		var infoLevel = 0;
+		var infoView;
 
 		if (subType === "textVariable") {
 			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
@@ -139,6 +146,63 @@ var CORA = (function(cora) {
 		function createOutputForImage() {
 			var outputNew = document.createElement("img");
 			return outputNew;
+		}
+
+		function createInfoButton() {
+			var infoButtonSpec = {
+				"className" : "infoButton",
+				"onclick" : showInfo
+			};
+			return CORA.gui.createButton(infoButtonSpec);
+		}
+
+		function showInfo() {
+			if (infoLevel === 0) {
+				infoView = document.createElement("span");
+				infoView.className = "infoView";
+				view.appendChild(infoView);
+
+				var textView = document.createElement("span");
+				textView.className = "textView";
+				textView.innerHTML = text;
+				infoView.appendChild(textView);
+
+				var defTextView = document.createElement("span");
+				defTextView.className = "defTextView";
+				defTextView.innerHTML = defText;
+				infoView.appendChild(defTextView);
+			}
+			if (infoLevel === 1) {
+				var textIdView = document.createElement("span");
+				textIdView.className = "textIdView";
+				textIdView.innerHTML = "textId: " + textId;
+				infoView.appendChild(textIdView);
+
+				var defTextIdView = document.createElement("span");
+				defTextIdView.className = "defTextIdView";
+				defTextIdView.innerHTML = "defTextId: " + defTextId;
+				infoView.appendChild(defTextIdView);
+
+				var metadataIdView = document.createElement("span");
+				metadataIdView.className = "metadataIdView";
+				metadataIdView.innerHTML = "metadataId: " + metadataId;
+				infoView.appendChild(metadataIdView);
+
+				if (subType === "textVariable") {
+					var regExView = document.createElement("span");
+					regExView.className = "regExView";
+					regExView.innerHTML = "regEx: " + regEx;
+					infoView.appendChild(regExView);
+				}
+
+			}
+			if (infoLevel === 2) {
+				view.removeChild(infoView);
+				infoLevel = 0;
+			} else {
+				infoLevel++;
+			}
+			updateView();
 		}
 
 		function getView() {
@@ -241,8 +305,10 @@ var CORA = (function(cora) {
 					"path" : path
 				};
 				jsBookkeeper.setValue(data);
+				previousValue = valueView.value;
 			}
 		}
+
 		function checkRegEx() {
 			var value = valueView.value;
 			if (value.length === 0 || new RegExp(regEx).test(value)) {
@@ -257,12 +323,14 @@ var CORA = (function(cora) {
 			if (state === "error") {
 				className += " error";
 			}
+			if (infoLevel !== 0) {
+				className += " infoActive";
+			}
 			view.className = className;
 		}
 
 		function valueHasChanged() {
 			if (valueView.value !== previousValue) {
-				previousValue = valueView.value;
 				return true;
 			}
 			return false;
@@ -282,7 +350,8 @@ var CORA = (function(cora) {
 			getRegEx : getRegEx,
 			getState : getState,
 			onBlur : onBlur,
-			handleValidationError : handleValidationError
+			handleValidationError : handleValidationError,
+			showInfo : showInfo
 		});
 		view.modelObject = out;
 		if (mode === "input") {
