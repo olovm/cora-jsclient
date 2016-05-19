@@ -3515,6 +3515,171 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
+		case "metadataTextVariableViewPGroup":
+			return {
+				"children" : [ {
+					"children" : [ {
+						"name" : "id",
+						"value" : "metadataTextVariableViewPGroup"
+					}, {
+						"name" : "type",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "createdBy",
+						"value" : "userId"
+					}, {
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "system"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "cora"
+						} ],
+						"name" : "dataDivider"
+					} ],
+					"name" : "recordInfo"
+				}, {
+					"name" : "presentationOf",
+					"value" : "metadataTextVariableGroup"
+				}, {
+					"children" : [ {
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "recordInfoPGroup"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "nameInDataTextVarText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "nameInDataTextVarOutputPVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "3",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textIdTextVarText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "4",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "textIdTextVarOutputPVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "5",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "defTextIdTextVarText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "6",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "defTextIdTextVarOutputPVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "7",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "everythingRegExpTextVarText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "8",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "everythingRegExpTextVarOutputPVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "9",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "refParentIdTextVarText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "10",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "refParentIdTextVarOutputPVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "11",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "finalValueTextVarText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					}, {
+						"repeatId" : "12",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "finalValueTextVarOutputPVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ],
+						"name" : "childReference"
+					} ],
+					"name" : "childReferences"
+				} ],
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				}
+			};
 
 			// TEXT
 		case "textVariableIdText":

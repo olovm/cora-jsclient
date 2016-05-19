@@ -21,6 +21,9 @@ var CORA = (function(cora) {
 	cora.recordGuiFactory = function(dependencies) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
+		var xmlHttpRequestFactory = dependencies.xmlHttpRequestFactory;
+		var self;
+
 		var factor = function(metadataId, data) {
 			var pubSub = CORA.pubSub();
 
@@ -44,7 +47,9 @@ var CORA = (function(cora) {
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper
+				"jsBookkeeper" : jsBookkeeper,
+				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
+				"recordGuiFactory" : self
 			};
 			var presentationFactory = CORA.presentationFactory(specPresentationFactory);
 
@@ -96,9 +101,11 @@ var CORA = (function(cora) {
 				validateData : validateData
 			});
 		};
-		return Object.freeze({
+		var out = Object.freeze({
 			factor : factor
 		});
+		self = out;
+		return out;
 	};
 	return cora;
 }(CORA));

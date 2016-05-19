@@ -34,7 +34,7 @@ var CORA = (function(cora) {
 		var valueView = createValueView();
 		view.appendChild(valueView);
 
-		createLinkedRecordPresentationView();
+		spec.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
 
 		function createBaseView() {
 			var viewNew = document.createElement("span");
@@ -56,19 +56,49 @@ var CORA = (function(cora) {
 			return valueViewNew;
 		}
 
-		function createLinkedRecordPresentationView() {
+		function handleMsg(dataFromMsg) {
+			createLinkedRecordPresentationView(dataFromMsg);
+		}
 
+		function createLinkedRecordPresentationView(dataFromMessage) {
+			var cData = CORA.coraData(dataFromMessage.data);
+			var linkedRecordType = cData.getFirstAtomicValueByNameInData("linkedRecordType");
 			if (cPresentation.containsChildWithNameInData("linkedRecordPresentations")) {
+				var linkedRecordPresentations = cPresentation
+						.getFirstChildByNameInData("linkedRecordPresentations");
 
-				// var linkedRecordPresentationView =
-				// createLinkedRecordPresentationView();
+				var filter = linkedRecordTypeFilter(linkedRecordType);
+				var foundChild = linkedRecordPresentations.children.find(filter);
+				if (foundChild !== undefined) {
+					var cChildPresentation = CORA.coraData(foundChild);
+					var linkedPresentationId = cChildPresentation
+							.getFirstAtomicValueByNameInData("presentationId");
+					var cLinkedRecordPresentation = getMetadataById(linkedPresentationId);
+					var linkedMetadataId = cLinkedRecordPresentation
+							.getFirstAtomicValueByNameInData("presentationOf");
 
-				var valueViewNew = document.createElement("span");
-				valueViewNew.className = "linkedRecordPresentationView";
+					if (undefined !== dataFromMessage.data.actionLinks) {
+						var recordViewerSpec = {
+							"read" : dataFromMessage.data.actionLinks.read,
+							"presentationId" : presentationId,
+							"metadataId" : linkedMetadataId,
+							"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+							"recordGuiFactory" : spec.recordGuiFactory
+						};
+						var recordViewer = CORA.recordViewer(recordViewerSpec);
+						var recordViewerView = recordViewer.getView();
 
-				// return valueViewNew;
-				view.appendChild(valueViewNew);
+						view.appendChild(recordViewerView);
+					}
+				}
 			}
+		}
+		function linkedRecordTypeFilter(recordTypeId) {
+			return function(child) {
+				var cChild = CORA.coraData(child);
+				var linkedRecordType = cChild.getFirstAtomicValueByNameInData("linkedRecordType");
+				return linkedRecordType === recordTypeId;
+			};
 		}
 
 		function createAndAddInputs(valueViewNew) {
@@ -133,7 +163,8 @@ var CORA = (function(cora) {
 
 		var out = Object.freeze({
 			"type" : "pRecordLink",
-			getView : getView
+			getView : getView,
+			handleMsg : handleMsg
 		});
 		view.modelObject = out;
 		return out;

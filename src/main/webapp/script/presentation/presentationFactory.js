@@ -31,7 +31,9 @@ var CORA = (function(cora) {
 				"pubSub" : spec.pubSub,
 				"textProvider" : spec.textProvider,
 				"jsBookkeeper" : spec.jsBookkeeper,
-				"presentationFactory" : self
+				"presentationFactory" : self,
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"recordGuiFactory" : spec.recordGuiFactory
 			};
 
 			var type = cPresentation.getData().attributes.type;

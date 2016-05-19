@@ -77,7 +77,7 @@ QUnit.test("initCheckBusyAndMessageHolder", function(assert) {
 		"metadataId" : "someMetadataId",
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : this.recordGuiFactorySpy,
-		"jsClient" : this.jsClientSpy
+//		"jsClient" : this.jsClientSpy
 	};
 	var recordViewer = CORA.recordViewer(recordViewerSpec);
 	assert.notStrictEqual(recordViewer, undefined);
@@ -113,7 +113,7 @@ QUnit.test("initCallToServer", function(assert) {
 		"metadataId" : "someMetadataId",
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : this.recordGuiFactorySpy,
-		"jsClient" : this.jsClientSpy
+//		"jsClient" : this.jsClientSpy
 	};
 	var recordViewer = CORA.recordViewer(recordViewerSpec);
 
@@ -157,7 +157,7 @@ QUnit.test("errorMissingPresenation", function(assert) {
 		"metadataId" : "someMetadataId",
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"recordGuiFactory" : recordGuiFactorySpy,
-		"jsClient" : this.jsClientSpy
+//		"jsClient" : this.jsClientSpy
 	};
 	var recordViewer = CORA.recordViewer(recordViewerSpec);
 	var view = recordViewer.getView();
@@ -182,7 +182,7 @@ QUnit.test("errorDataNotFound", function(assert) {
 			"metadataId" : "someMetadataId",
 			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 			"recordGuiFactory" : this.recordGuiFactorySpy,
-			"jsClient" : this.jsClientSpy
+//			"jsClient" : this.jsClientSpy
 	};
 	var recordViewer = CORA.recordViewer(recordViewerSpec);
 	var view = recordViewer.getView();

@@ -1509,7 +1509,22 @@ QUnit.test("testInitGroupWithOneRecordLink", function(assert) {
 		}
 	};
 	assert.stringifyEqual(messages[3], expectedAddForLinkedRecordId);
-	assert.equal(messages.length, 5);
+
+	var expectedLinkedData = {
+		"type" : "linkedData",
+		"message" : {
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myLink"
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[4], expectedLinkedData);
+
+	assert.equal(messages.length, 6);
 });
 
 QUnit.test("testInitGroupWithOneRecordLinkWithFinalValue", function(assert) {
@@ -1602,7 +1617,7 @@ QUnit.test("testInitGroupWithOneRecordLinkWithFinalValue", function(assert) {
 	};
 	assert.stringifyEqual(messages[4], expectedSetValueForLinkedRecordId);
 
-	assert.equal(messages.length, 6);
+	assert.equal(messages.length, 7);
 });
 
 QUnit.test("testInitGroupWithOneRecordLinkWithData", function(assert) {
@@ -1643,7 +1658,7 @@ QUnit.test("testInitGroupWithOneRecordLinkWithData", function(assert) {
 		}
 	};
 	assert.stringifyEqual(messages[4], expectedSetValueForLinkedRecordType);
-	assert.equal(messages.length, 6);
+	assert.equal(messages.length, 7);
 });
 
 QUnit.test("testInitGroupWithOneRecordLinkWithPath", function(assert) {
@@ -1665,7 +1680,7 @@ QUnit.test("testInitGroupWithOneRecordLinkWithPath", function(assert) {
 		}
 	};
 	assert.stringifyEqual(messages[4], expectedAddForLinkedRepeatId);
-	assert.equal(messages.length, 6);
+	assert.equal(messages.length, 7);
 });
 
 QUnit.test("testInitGroupWithOneRecordLinkWithPathWithData", function(assert) {
@@ -1709,5 +1724,5 @@ QUnit.test("testInitGroupWithOneRecordLinkWithPathWithData", function(assert) {
 		}
 	};
 	assert.stringifyEqual(messages[6], expectedSetValueForLinkedRepeatId);
-	assert.equal(messages.length, 8);
+	assert.equal(messages.length, 9);
 });

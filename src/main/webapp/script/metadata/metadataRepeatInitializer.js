@@ -70,6 +70,11 @@ var CORA = (function(cora) {
 				initializeMetadataGroup(nextLevelPath);
 			} else if (isRecordLink()) {
 				initializeMetadataRecordLink(nextLevelPath);
+				var message = {
+					"data" : data,
+					"path" : nextLevelPath
+				};
+				pubSub.publish("linkedData", message);
 			} else {
 				publishVariableValue(nextLevelPath);
 			}
