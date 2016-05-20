@@ -193,12 +193,8 @@ QUnit.test("init", function(assert) {
 });
 
 QUnit.test("showView", function(assert) {
-	var recordTypeListData = CORATEST.recordTypeList;
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 	function sendFunction() {
-		// xmlHttpRequestSpy.status = 200;
-		// xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-		// xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 
 	var dependencies = {
@@ -206,7 +202,7 @@ QUnit.test("showView", function(assert) {
 		"textProvider" : CORATEST.textProviderRealStub(),
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"presentationFactoryFactory" : "not implemented yet"
-	}
+	};
 	var spec = {
 		"dependencies" : dependencies,
 		"name" : "The Client",
@@ -228,6 +224,9 @@ QUnit.test("showView", function(assert) {
 	jsClient.showView(aView);
 	assert.strictEqual(workAreaChildren[0], aView.workView);
 	assert.strictEqual(menuView1.className, "menuView1 active");
+	assert.strictEqual(menuView1.style.display, "");
+	assert.strictEqual(workView1.style.display, "");
+	
 
 	var workView2 = document.createElement("span");
 	var menuView2 = document.createElement("span");
@@ -237,18 +236,20 @@ QUnit.test("showView", function(assert) {
 		"menuView" : menuView2
 	};
 	jsClient.showView(aDifferentView);
-	assert.strictEqual(workAreaChildren[0], aDifferentView.workView);
 
 	assert.strictEqual(menuView1.className, "menuView1");
 	assert.strictEqual(menuView2.className, "menuView2 active");
+	assert.strictEqual(workView1.style.display, "none");
+	assert.strictEqual(workView2.style.display, "");
+	
+	jsClient.showView(aView);
+	assert.strictEqual(workView1.style.display, "");
+	assert.strictEqual(workView2.style.display, "none");
 });
 QUnit.test("testFactories", function(assert) {
 	var recordTypeListData = CORATEST.recordTypeList;
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 	function sendFunction() {
-		// xmlHttpRequestSpy.status = 200;
-		// xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-		// xmlHttpRequestSpy.addedEventListeners["load"][0]();
 	}
 
 	var dependencies = {
@@ -278,7 +279,7 @@ QUnit.test("testFactories", function(assert) {
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"views" : {
 			"workView" : workView,
-			"menuView":menuView
+			"menuView" : menuView
 		},
 		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 	};

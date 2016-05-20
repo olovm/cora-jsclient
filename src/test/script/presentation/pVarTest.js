@@ -134,7 +134,7 @@ QUnit.test("testInitText", function(assert) {
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
-QUnit.test("testInitInfoButton", function(assert) {
+QUnit.test("testInitInfoButtonTextVariable", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
 	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
@@ -143,8 +143,8 @@ QUnit.test("testInitInfoButton", function(assert) {
 
 	assert.equal(infoButton.nodeName, "SPAN");
 	assert.equal(infoButton.className, "infoButton");
+	
 	var event = document.createEvent('Event');
-
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 3);
 
@@ -186,7 +186,57 @@ QUnit.test("testInitInfoButton", function(assert) {
 
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 3);
+});
 
+QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownPVar");
+	assert.strictEqual(attachedPVar.pVar.type, "pVar");
+	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownPVar");
+	var view = attachedPVar.view;
+	var infoButton = view.childNodes[1];
+
+	assert.equal(infoButton.nodeName, "SPAN");
+	assert.equal(infoButton.className, "infoButton");
+	
+	var event = document.createEvent('Event');
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+
+	var infoView = view.childNodes[2];
+	assert.equal(infoView.childNodes.length, 2);
+	assert.equal(infoView.nodeName, "SPAN");
+	assert.equal(infoView.className, "infoView");
+
+	var textView = infoView.childNodes[0];
+	assert.equal(textView.nodeName, "SPAN");
+	assert.equal(textView.className, "textView");
+
+	var defTextView = infoView.childNodes[1];
+	assert.equal(defTextView.nodeName, "SPAN");
+	assert.equal(defTextView.className, "defTextView");
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+	assert.equal(infoView.childNodes.length, 5);
+
+	var textIdView = infoView.childNodes[2];
+	assert.equal(textIdView.nodeName, "SPAN");
+	assert.equal(textIdView.className, "textIdView");
+
+	var defTextIdView = infoView.childNodes[3];
+	assert.equal(defTextIdView.nodeName, "SPAN");
+	assert.equal(defTextIdView.className, "defTextIdView");
+
+	var metadataIdView = infoView.childNodes[4];
+	assert.equal(metadataIdView.nodeName, "SPAN");
+	assert.equal(metadataIdView.className, "metadataIdView");
+
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 2);
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
 });
 
 QUnit.test("testInitCollection", function(assert) {
