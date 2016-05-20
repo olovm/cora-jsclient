@@ -154,8 +154,8 @@ var CORA = (function(cora) {
 		}
 
 		function clearWorkArea() {
-			if (workArea.childNodes.length > 0) {
-				workArea.removeChild(workArea.firstChild);
+			if (itemShowing !== undefined) {
+				itemShowing.workView.style.display = "none";
 			}
 		}
 
@@ -167,7 +167,11 @@ var CORA = (function(cora) {
 		}
 
 		function showNewWorkView(itemToShow) {
-			workArea.appendChild(itemToShow.workView);
+			if (itemToShow.workView.parentNode !== workArea) {
+				workArea.appendChild(itemToShow.workView);
+				itemToShow.workView.scrollTop = 0;
+			}
+			itemToShow.workView.style.display = "";
 		}
 
 		function updateShowingMenuItem(itemToShow) {
