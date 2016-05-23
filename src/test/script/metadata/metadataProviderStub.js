@@ -3375,6 +3375,39 @@ function MetadataProviderStub() {
 					"name" : "linkedRecordPresentations"
 				} ]
 			};
+		case "myLinkPresentationOfLinkedRecordOutputPLinkWrongLinkedRecordType":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pRecordLink"
+			},
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "myLinkPresentationOfLinkedRecordOutputPLinkWrongLinkedRecordType"
+				} ]
+			}, {
+				"name" : "presentationOf",
+				"value" : "myLink"
+			}, {
+				"name" : "mode",
+				"value" : "output"
+			}, {
+				"children" : [ {
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "NOTmetadataTextVariable"
+					}, {
+						"name" : "presentationId",
+						"value" : "metadataTextVariableViewPGroup"
+					} ],
+					"name" : "linkedRecordPresentation"
+				} ],
+				"name" : "linkedRecordPresentations"
+			} ]
+		};
 		case "linkedRecordTypeOutputPVar":
 			return {
 				"name" : "presentation",

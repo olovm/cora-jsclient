@@ -74,6 +74,7 @@ var CORA = (function(cora) {
 		}
 		function addToShowView(recordGuiToAdd) {
 			var showViewId = spec.presentationId;
+//			console.log(showViewId)
 			var showView = recordGuiToAdd.getPresentation(showViewId).getView();
 			view.appendChild(showView);
 		}

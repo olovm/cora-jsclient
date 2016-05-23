@@ -331,7 +331,7 @@ body {
 
 .jsClient .editView .repeatingElement .repeatingElement .repeatingElement .maximized {
 	border: none;
-	background-color: none;
+	background-color: transparent;
 }
 
 .jsClient .editView .pSurroundingContainer {

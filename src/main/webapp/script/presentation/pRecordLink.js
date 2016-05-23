@@ -41,13 +41,11 @@ var CORA = (function(cora) {
 			viewNew.className = "pRecordLink " + presentationId;
 			return viewNew;
 		}
+
 		function createValueView() {
 			var valueViewNew = document.createElement("span");
 			valueViewNew.className = "childrenView";
 
-			var recordTypeViewNew = createChildView("linkedRecordType",
-					"linkedRecordTypeOutputPVar");
-			valueViewNew.appendChild(recordTypeViewNew);
 			if (mode === "input") {
 				createAndAddInputs(valueViewNew);
 			} else {
@@ -61,44 +59,81 @@ var CORA = (function(cora) {
 		}
 
 		function createLinkedRecordPresentationView(dataFromMessage) {
-			var cData = CORA.coraData(dataFromMessage.data);
-			var linkedRecordType = cData.getFirstAtomicValueByNameInData("linkedRecordType");
-			if (cPresentation.containsChildWithNameInData("linkedRecordPresentations")) {
-				var linkedRecordPresentations = cPresentation
-						.getFirstChildByNameInData("linkedRecordPresentations");
-
-				var filter = linkedRecordTypeFilter(linkedRecordType);
-				var foundChild = linkedRecordPresentations.children.find(filter);
-				if (foundChild !== undefined) {
-					var cChildPresentation = CORA.coraData(foundChild);
-					var linkedPresentationId = cChildPresentation
-							.getFirstAtomicValueByNameInData("presentationId");
-					var cLinkedRecordPresentation = getMetadataById(linkedPresentationId);
-					var linkedMetadataId = cLinkedRecordPresentation
-							.getFirstAtomicValueByNameInData("presentationOf");
-
-					if (undefined !== dataFromMessage.data.actionLinks) {
-						var recordViewerSpec = {
-							"read" : dataFromMessage.data.actionLinks.read,
-							"presentationId" : presentationId,
-							"metadataId" : linkedMetadataId,
-							"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-							"recordGuiFactory" : spec.recordGuiFactory
-						};
-						var recordViewer = CORA.recordViewer(recordViewerSpec);
-						var recordViewerView = recordViewer.getView();
-
-						view.appendChild(recordViewerView);
-					}
-				}
+			if (linkedRecordCanBeRead(dataFromMessage)) {
+				createRecordViewerForLinkedRecord(dataFromMessage.data);
 			}
 		}
-		function linkedRecordTypeFilter(recordTypeId) {
+
+		function linkedRecordCanBeRead(dataFromMessage) {
+			return cPresentation.containsChildWithNameInData("linkedRecordPresentations")
+					&& messageContainsDataWithActionLinks(dataFromMessage);
+		}
+
+		function messageContainsDataWithActionLinks(dataFromMessage) {
+			return dataFromMessage.data !== undefined
+					&& undefined !== dataFromMessage.data.actionLinks;
+		}
+
+		function createRecordViewerForLinkedRecord(data) {
+			var linkedRecordPresentation = findPresentationForRecordType(data);
+
+			if (presentationExistsForLinkedRecordType(linkedRecordPresentation)) {
+				var linkedPresentationId = extractPresentationIdFromPresentation(linkedRecordPresentation);
+				var readLink = data.actionLinks.read;
+				createRecordViewerUsingChosenPresentationForLinkedRecord(readLink,
+						linkedPresentationId);
+			}
+		}
+
+		function findPresentationForRecordType(data) {
+			var filter = createLinkedRecordTypeFilter(data);
+
+			var linkedRecordPresentations = cPresentation
+					.getFirstChildByNameInData("linkedRecordPresentations");
+			return linkedRecordPresentations.children.find(filter);
+		}
+
+		function createLinkedRecordTypeFilter(data) {
+			var cData = CORA.coraData(data);
+			var recordTypeId = cData.getFirstAtomicValueByNameInData("linkedRecordType");
+
 			return function(child) {
 				var cChild = CORA.coraData(child);
 				var linkedRecordType = cChild.getFirstAtomicValueByNameInData("linkedRecordType");
 				return linkedRecordType === recordTypeId;
 			};
+		}
+
+		function presentationExistsForLinkedRecordType(linkedRecordPresentation) {
+			return linkedRecordPresentation !== undefined;
+		}
+
+		function createRecordViewerUsingChosenPresentationForLinkedRecord(readLink,
+				linkedPresentationId) {
+			var recordViewerSpec = createRecordViewerSpec(readLink, linkedPresentationId);
+			var recordViewer = CORA.recordViewer(recordViewerSpec);
+			var recordViewerView = recordViewer.getView();
+
+			view.appendChild(recordViewerView);
+		}
+
+		function createRecordViewerSpec(readLink, linkedPresentationId) {
+			var cLinkedRecordPresentation = getMetadataById(linkedPresentationId);
+			var linkedMetadataId = cLinkedRecordPresentation
+					.getFirstAtomicValueByNameInData("presentationOf");
+
+			return {
+				"read" : readLink,
+				"presentationId" : linkedPresentationId,
+				"metadataId" : linkedMetadataId,
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"recordGuiFactory" : spec.recordGuiFactory
+			};
+		}
+
+		function extractPresentationIdFromPresentation(presentation) {
+			var cChildPresentation = CORA.coraData(presentation);
+			return cChildPresentation.getFirstAtomicValueByNameInData("presentationId");
 		}
 
 		function createAndAddInputs(valueViewNew) {
@@ -110,14 +145,17 @@ var CORA = (function(cora) {
 			valueViewNew.appendChild(recordIdViewNew);
 
 			if (hasLinkedRepeatId) {
-				var repeatIdViewNew = createChildView("linkedRepeatId", "linkedRepeatIdPVar");
+				var repeatIdViewNew = createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
 				valueViewNew.appendChild(repeatIdViewNew);
 			}
 		}
-		function createChildView(id, presentationIdToFactor) {
+
+		function createChildView(id, presentationIdToFactor, addText) {
 			var childViewNew = document.createElement("span");
 			childViewNew.className = id + "View";
-			childViewNew.appendChild(createText(id + "Text"));
+			if (addText) {
+				childViewNew.appendChild(createText(id + "Text"));
+			}
 
 			var childParentPath = calculateNewPath(id + "TextVar");
 			var cPresentationChild = CORA.coraData(metadataProvider
@@ -148,7 +186,8 @@ var CORA = (function(cora) {
 			valueViewNew.appendChild(recordIdViewNew);
 
 			if (hasLinkedRepeatId) {
-				var repeatIdViewNew = createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar");
+				var repeatIdViewNew = createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar",
+						true);
 				valueViewNew.appendChild(repeatIdViewNew);
 			}
 		}

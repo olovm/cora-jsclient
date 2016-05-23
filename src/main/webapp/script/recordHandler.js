@@ -63,7 +63,7 @@ var CORA = (function(cora) {
 				addToShowView(recordGuiNew);
 				recordGuiNew.initMetadataControllerStartingGui();
 			} catch (error) {
-				createRawDataWorkView("something went wrong, probably missing metadata");
+				createRawDataWorkView("something went wrong, probably missing metadata, "+ error);
 			}
 		}
 

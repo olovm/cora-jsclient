@@ -1044,6 +1044,6 @@ QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissingForNew", fu
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
 
 	assert.strictEqual(this.workView.childNodes[1].textContent,
-			"\"something went wrong, probably missing metadata\"");
+			"\"something went wrong, probably missing metadata, Error: missing metadata\"");
 
 });
