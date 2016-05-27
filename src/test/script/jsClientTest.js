@@ -184,12 +184,11 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(workArea.className, "workArea");
 
 	var recordTypeList = jsClient.getRecordTypeList();
-	// console.log(recordTypeList)
 	assert.strictEqual(recordTypeList.length, 15);
 
 	var firstRecordType = sideBar.childNodes[0];
 	assert.strictEqual(firstRecordType.className, "recordType");
-	assert.strictEqual(firstRecordType.firstChild.textContent, "presentationVar");
+	assert.strictEqual(firstRecordType.firstChild.textContent, "metadata");
 });
 
 QUnit.test("showView", function(assert) {
