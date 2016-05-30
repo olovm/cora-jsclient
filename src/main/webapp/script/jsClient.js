@@ -71,13 +71,76 @@ var CORA = (function(cora) {
 			addRecordTypesToSideBar(recordTypeList);
 			busy.hideWithEffect();
 		}
+
 		function createRecordTypeListFromAnswer(answer) {
 			var data = JSON.parse(answer.responseText).dataList.data;
 			var list = [];
-			data.forEach(function(recordContainer) {
-				list.push(recordContainer.record);
+			var recordTypeLists = sortRecordTypesIntoLists(data);
+
+			recordTypeLists.abstractList.forEach(function(parent){
+				list.push(parent);
+				addChildrenOfCurrentParentToList(parent, recordTypeLists, list);
 			});
+
+			list = list.concat(recordTypeLists.noParentList);
 			return list;
+		}
+
+		function sortRecordTypesIntoLists(data){
+			var recordTypeLists = {};
+			recordTypeLists.childList = [];
+			recordTypeLists.abstractList = [];
+			recordTypeLists.noParentList = [];
+
+			data.forEach(function(recordContainer) {
+				separateAbstractAndNonAbstractRecordTypes(recordTypeLists, recordContainer);
+			});
+			return recordTypeLists;
+		}
+
+
+		function separateAbstractAndNonAbstractRecordTypes(recordTypeLists, recordContainer){
+			var record = recordContainer.record;
+			var cRecord = CORA.coraData(record.data);
+
+			if(isAbstract(cRecord)){
+				recordTypeLists.abstractList.push(record)
+			}else {
+				separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record);
+			}
+		}
+
+		function separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record){
+			if (elementHasParent(cRecord)) {
+				recordTypeLists.childList.push(record);
+			}else{
+				recordTypeLists.noParentList.push(record)
+			}
+		}
+
+		function isAbstract(cRecord){
+        	return cRecord.getFirstAtomicValueByNameInData("abstract") === "true";
+		}
+
+		function addChildrenOfCurrentParentToList(parent, recordTypeLists, list){
+			var cParent = CORA.coraData(parent.data);
+			var cRecordInfo = CORA.coraData(cParent.getFirstChildByNameInData("recordInfo"));
+
+			recordTypeLists.childList.forEach(function(child){
+				var cChild = CORA.coraData(child.data);
+				if (isChildOfCurrentElement(cChild, cRecordInfo)) {
+					list.push(child);
+				}
+			});
+		}
+
+		function elementHasParent(cRecord){
+			return cRecord.containsChildWithNameInData("parentId");
+		}
+
+		function isChildOfCurrentElement(cChild, cRecordInfo){
+			return cChild.getFirstAtomicValueByNameInData("parentId") ===
+				cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
 		function createMetadataIdsForRecordType(recordTypes) {
