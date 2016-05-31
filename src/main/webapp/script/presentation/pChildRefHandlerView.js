@@ -72,10 +72,10 @@ var CORA = (function(cora) {
 		}
 
 		function createUploadView() {
-			var uploadViewNew = createSpanWithClassName("uploadView");
-			uploadViewNew.appendChild(createBrowseButton());
-			uploadView = uploadViewNew;
-			view.appendChild(uploadView);
+			var buttonViewNew = createSpanWithClassName("uploadView");
+			buttonViewNew.appendChild(createBrowseButton());
+			buttonView = buttonViewNew;
+			view.appendChild(buttonView);
 		}
 
 		function createBrowseButton() {
