@@ -24,6 +24,7 @@ var CORA = (function(cora) {
 		var view = createBaseView();
 		var childrenView = createChildrenView();
 		var buttonView;
+		var uploadView;
 
 		var nodeBeeingDragged;
 		var lastChangedWith;
@@ -35,6 +36,10 @@ var CORA = (function(cora) {
 		view.appendChild(childrenView);
 		if (spec.addMethod !== undefined) {
 			createButtonView();
+		}
+		//console.log(spec.upload)
+		if(spec.upload === "true"){
+			createUploadView();
 		}
 
 		function createBaseView() {
@@ -63,6 +68,21 @@ var CORA = (function(cora) {
 			button.type = "button";
 			button.value = "ADD";
 			button.onclick = spec.addMethod;
+			return button;
+		}
+
+		function createUploadView() {
+			var uploadViewNew = createSpanWithClassName("uploadView");
+			uploadViewNew.appendChild(createBrowseButton());
+			uploadView = uploadViewNew;
+			view.appendChild(uploadView);
+		}
+
+		function createBrowseButton() {
+			var button = document.createElement("input");
+			button.type = "file";
+			button.multiple = "true";
+			//button.onclick = spec.addMethod;
 			return button;
 		}
 

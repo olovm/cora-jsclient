@@ -181,6 +181,7 @@
 
 		client10(metadataProvider, textProvider);
 		client11(metadataProvider, textProvider);
+		client12(metadataProvider, textProvider);
 	}
 
 	function startJsClient() {
@@ -455,7 +456,7 @@
 				textProvider);
 		var metadataId = "groupId1toXCollectionChild";
 		var presentationId = "pgGroupId1toXCollectionChild";
-		
+
 
 		var data = {
 			"name" : "groupId1toXCollectionChild",
@@ -551,7 +552,7 @@
 		};
 		pubSub.publish("setValue", data2);
 	}
-	
+
 	function client11(metadataProvider, textProvider) {
 		var place = document.getElementById("client11");
 		var pubSub = CORA.pubSub();
@@ -571,6 +572,28 @@
 			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
 		}
 		document.getElementById("client11DataButton").onclick = showData;
+
+	}
+
+	function client12(metadataProvider, textProvider) {
+		var place = document.getElementById("client12");
+		var pubSub = CORA.pubSub();
+		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
+				textProvider);
+		var metadataId = "groupIdOneBinaryRecordLinkChild";
+		var presentationId = "groupIdOneBinaryRecordLinkChildPGroup";
+		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
+		console.log
+		var view = dependencies.presentation.getView();
+		place.appendChild(view);
+
+		view.dataHolder = dependencies.dataHolder;
+
+		function showData() {
+			var clientData = document.getElementById("client12Data");
+			clientData.innerHTML = JSON.stringify(dependencies.dataHolder.getData());
+		}
+		document.getElementById("client12DataButton").onclick = showData;
 
 	}
 
@@ -636,13 +659,22 @@
 <h2>JSClient 10 (outputFormat image)</h2>
 	<div id="client10" class="client10"
 		style="min-height: 20px; min-width: 40px;"></div>
-		
+
 <h2>JSClient 11 (recordLink)</h2>
 	<div id="client11" class="client11"
 		style="min-height: 20px; min-width: 40px;"></div>
 	<div id="client11Data"></div>
 	<input id="client11DataButton" type="button" value="Show data"></input>
 
+	<h2>JSClient 12 (browse)</h2>
+	<div id="client12" class="client12"
+		 style="min-height: 20px; min-width: 40px;"></div>
+	<div id="client12Data"></div>
+	<input id="client12ataButton" type="button" value="Show data"></input>
+	<!--<div id="client12" class="client12"-->
+		 <!--style="min-height: 20px; min-width: 40px;"></div>-->
+	<!--&lt;!&ndash;<div id="client11Data"></div>&ndash;&gt;-->
+	<!--<input id="client12DataButton" type="file" value="Show data" multiple></input>-->
 </body>
 </html>
 

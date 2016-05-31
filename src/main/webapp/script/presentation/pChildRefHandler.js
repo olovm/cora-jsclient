@@ -26,7 +26,6 @@ var CORA = (function(cora) {
 		var presentationId = findPresentationId(spec.cPresentation);
 		var metadataId = getMetadataIdFromPresentation();
 		var cMetadataElement = getMetadataById(metadataId);
-
 		var cParentMetadataChildRefPart = getChildRefPartOfMetadata(spec.cParentMetadata,
 				metadataId);
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
@@ -63,9 +62,13 @@ var CORA = (function(cora) {
 		function createPChildRefHandlerView() {
 			var pChildRefHandlerViewSpec = {
 				"presentationId" : presentationId,
-				"isRepeating" : isRepeating
+				"isRepeating" : isRepeating,
 			};
-			if (showAddButton()) {
+			if(showFileUpload()){
+				console.log("in upload")
+				pChildRefHandlerViewSpec.upload = "true";
+			}
+			else if (showAddButton()) {
 				pChildRefHandlerViewSpec.addMethod = sendAdd;
 			}
 			return CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
@@ -161,6 +164,58 @@ var CORA = (function(cora) {
 
 		function isZeroToOne() {
 			return repeatMin === "0" && repeatMax === "1";
+		}
+
+		function showFileUpload(){
+			if(currentChildRefIsRecordLink() && currentChildRefHasLinkedRecordType()){
+				return checkIfBinaryOrChildOfBinary();
+			}
+			return false;
+		}
+
+		function currentChildRefIsRecordLink(){
+			return currentChildRefHasAttributes() && isOfTypeRecordLink()
+		}
+
+		function currentChildRefHasAttributes(){
+			return cMetadataElement.getData().attributes !== undefined;
+		}
+
+		function isOfTypeRecordLink(){
+			var attributes = cMetadataElement.getData().attributes;
+			return attributes.type !== undefined && attributes.type  === "recordLink";
+		}
+
+		function currentChildRefHasLinkedRecordType(){
+			return cMetadataElement.containsChildWithNameInData("linkedRecordType");
+		}
+
+		function checkIfBinaryOrChildOfBinary(){
+			var cRecordType = getLinkedRecordType();
+			var cRecordInfo = CORA.coraData(cRecordType.getFirstChildByNameInData("recordInfo"));
+
+			return isBinaryOrChildOfBinary(cRecordInfo, cRecordType);
+		}
+
+		function getLinkedRecordType(){
+			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
+			var cRecordType = getMetadataById(recordTypeId);
+			return cRecordType;
+		}
+
+		function isBinaryOrChildOfBinary(cRecordInfo, cRecordType){
+			return isBinary(cRecordInfo) || isChildOfBinary(cRecordType);
+		}
+
+		function isBinary(cRecordInfo){
+			return cRecordInfo.getFirstAtomicValueByNameInData("id") === "binary";
+		}
+
+		function isChildOfBinary(cRecordType){
+
+			return cRecordType.containsChildWithNameInData("parentId") &&
+					cRecordType.getFirstAtomicValueByNameInData("parentId") === "binary";
+
 		}
 
 		function getView() {

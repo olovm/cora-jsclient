@@ -378,6 +378,42 @@ QUnit.test("testAddButtonWithAttributes", function(assert) {
 	assert.deepEqual(this.jsBookkeeper.getAddDataArray()[0], addData);
 });
 
+QUnit.test("testUploadButtonFor1toX", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+		"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var view = attachedPChildRefHandler.view;
+
+	var buttonView = view.childNodes[1];
+	assert.strictEqual(buttonView.className, "uploadView");
+	var button = buttonView.firstChild;
+	assert.strictEqual(button.type, "file");
+
+	//assert.ok(button.onclick === childRefHandler.sendAdd);
+
+	//button.onclick();
+	//var addData = {
+	//	"childReference" : {
+	//		"children" : [ {
+	//			"name" : "ref",
+	//			"value" : "textVariableId"
+	//		}, {
+	//			"name" : "repeatMin",
+	//			"value" : "1"
+	//		}, {
+	//			"name" : "repeatMax",
+	//			"value" : "X"
+	//		} ],
+	//		"name" : "childReference",
+	//		"repeatId" : "1"
+	//	},
+	//	"metadataId" : "textVariableId",
+	//	"nameInData" : "textVariableId",
+	//	"path" : {}
+	//};
+	//assert.deepEqual(this.jsBookkeeper.getAddDataArray()[0], addData);
+});
+
 QUnit.test("testAddButtonShownFor0to1", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat0to1", "pVarTextVariableId");

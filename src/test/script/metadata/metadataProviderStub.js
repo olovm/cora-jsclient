@@ -1792,6 +1792,46 @@ function MetadataProviderStub() {
 				} ]
 			};
 		}
+		if (idToGet === "groupIdOneBinaryRecordLinkChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax("myChildOfBinaryLink",
+						"one", "1", "X") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "myChildOfBinaryLink") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myChildOfBinaryLink"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myChildOfBinaryLink"
+				}, {
+					"name" : "textId",
+					"value" : "myChildOfBinaryLinkText"
+				}, {
+					"name" : "defTextId",
+					"value" : "myChildOfBinaryLinkDefText"
+				}, {
+					"name" : "linkedRecordType",
+					"value" : "image"
+				} ]
+			};
+		}
 		if (idToGet === "groupIdOneRecordLinkChildWithPath") {
 			return {
 				"name" : "metadata",
@@ -2139,6 +2179,26 @@ function MetadataProviderStub() {
 					"value" : "output"
 				} ]
 			};
+			case "myChildOfBinaryPLink":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pLink"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "myChildOfBinaryPLink"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "myChildOfBinaryLink"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					} ]
+				};
 
 		case "pgGroupIdOneTextChild":
 			return {
@@ -3282,6 +3342,26 @@ function MetadataProviderStub() {
 					"value" : "input"
 				} ]
 			};
+			case "myLinkNoPresentationOfLinkedRecordChildOfBinary":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pRecordLink"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "myLinkNoPresentationOfLinkedRecordChildOfBinary"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "myChildOfBinaryLink"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					} ]
+				};
 		case "myPathLinkNoPresentationOfLinkedRecordPLink":
 			return {
 				"name" : "presentation",
@@ -3302,6 +3382,26 @@ function MetadataProviderStub() {
 					"value" : "input"
 				} ]
 			};
+			case "myChildOfBinaryLinkPLink":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pRecordLink"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "myChildOfBinaryLinkPLink"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "myChildOfBinaryLink"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					} ]
+				};
 		case "myLinkNoPresentationOfLinkedRecordOutputPLink":
 			return {
 				"name" : "presentation",
@@ -3548,6 +3648,30 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
+			case "groupIdOneBinaryRecordLinkChildPGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "groupIdOneBinaryRecordLinkChild"
+					}, {
+						"name" : "childReferences",
+						"children" : [ {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "myChildOfBinaryLinkPLink"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
 		case "metadataTextVariableViewPGroup":
 			return {
 				"children" : [ {
@@ -3810,6 +3934,206 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
+			case "image":
+				return {
+					"children": [
+						{
+							"name": "metadataId",
+							"value": "imageGroup"
+						},
+						{
+							"name": "abstract",
+							"value": "false"
+						},
+						{
+							"name": "parentId",
+							"value": "binary"
+						},
+						{
+							"children": [
+								{
+									"name": "id",
+									"value": "image"
+								},
+								{
+									"name": "type",
+									"value": "recordType"
+								},
+								{
+									"name": "createdBy",
+									"value": "userId"
+								},
+								{
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "system"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "cora"
+										}
+									],
+									"actionLinks": {
+										"read": {
+											"requestMethod": "GET",
+											"rel": "read",
+											"url": "http://epc.ub.uu.se/cora/rest/record/system/cora",
+											"accept": "application/uub+record+json"
+										}
+									},
+									"name": "dataDivider"
+								}
+							],
+							"name": "recordInfo"
+						},
+						{
+							"name": "presentationViewId",
+							"value": "imageViewPGroup"
+						},
+						{
+							"name": "presentationFormId",
+							"value": "imageFormPGroup"
+						},
+						{
+							"name": "newMetadataId",
+							"value": "imageNewGroup"
+						},
+						{
+							"name": "newPresentationFormId",
+							"value": "imageFormNewPGroup"
+						},
+						{
+							"name": "menuPresentationViewId",
+							"value": "imageMenuPGroup"
+						},
+						{
+							"name": "listPresentationViewId",
+							"value": "imageListPGroup"
+						},
+						{
+							"name": "searchMetadataId",
+							"value": "imageSearchGroup"
+						},
+						{
+							"name": "searchPresentationFormId",
+							"value": "imageFormSearchPGroup"
+						},
+						{
+							"name": "userSuppliedId",
+							"value": "false"
+						},
+						{
+							"name": "permissionKey",
+							"value": "RECORDTYPE_IMAGE"
+						},
+						{
+							"name": "selfPresentationViewId",
+							"value": "imageViewSelfPGroup"
+						}
+					],
+					"name": "recordType"
+				};
+			case "metadataTextVariable":
+				return {
+					"children": [
+						{
+							"name": "metadataId",
+							"value": "metadataTextVariableGroup"
+						},
+						{
+							"name": "abstract",
+							"value": "false"
+						},
+						{
+							"name": "parentId",
+							"value": "metadata"
+						},
+						{
+							"children": [
+								{
+									"name": "id",
+									"value": "metadataTextVariable"
+								},
+								{
+									"name": "type",
+									"value": "recordType"
+								},
+								{
+									"name": "createdBy",
+									"value": "userId"
+								},
+								{
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "system"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "cora"
+										}
+									],
+									"actionLinks": {
+										"read": {
+											"requestMethod": "GET",
+											"rel": "read",
+											"url": "http://epc.ub.uu.se/cora/rest/record/system/cora",
+											"accept": "application/uub+record+json"
+										}
+									},
+									"name": "dataDivider"
+								}
+							],
+							"name": "recordInfo"
+						},
+						{
+							"name": "presentationViewId",
+							"value": "metadataTextVariableViewPGroup"
+						},
+						{
+							"name": "presentationFormId",
+							"value": "metadataTextVariableFormPGroup"
+						},
+						{
+							"name": "newMetadataId",
+							"value": "metadataTextVariableNewGroup"
+						},
+						{
+							"name": "newPresentationFormId",
+							"value": "metadataTextVariableFormNewPGroup"
+						},
+						{
+							"name": "menuPresentationViewId",
+							"value": "metadataTextVariableMenuPGroup"
+						},
+						{
+							"name": "listPresentationViewId",
+							"value": "metadataTextVariableListPGroup"
+						},
+						{
+							"name": "searchMetadataId",
+							"value": "metadataTextVariableSearchGroup"
+						},
+						{
+							"name": "searchPresentationFormId",
+							"value": "metadataTextVariableFormSearchPGroup"
+						},
+						{
+							"name": "userSuppliedId",
+							"value": "true"
+						},
+						{
+							"name": "permissionKey",
+							"value": "RECORDTYPE_METADATATEXTVARIABLE"
+						},
+						{
+							"name": "selfPresentationViewId",
+							"value": "metadataTextVariableViewSelfPGroup"
+						}
+					],
+					"name": "recordType"
+				};
 
 		default:
 			throw new Error("Id(" + idToGet + ") not found in stub");
