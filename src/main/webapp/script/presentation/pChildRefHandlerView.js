@@ -34,13 +34,14 @@ var CORA = (function(cora) {
 		var lastRepeatingElementDraggedOver;
 
 		view.appendChild(childrenView);
-		if (spec.addMethod !== undefined) {
+//		if (spec.addMethod !== undefined) {
+		if (spec.addMethod !== undefined || spec.upload === "true") {
 			createButtonView();
 		}
-		//console.log(spec.upload)
-		if(spec.upload === "true"){
-			createUploadView();
-		}
+		// console.log(spec.upload)
+//		if (spec.upload === "true") {
+//			createUploadView();
+//		}
 
 		function createBaseView() {
 			return createSpanWithClassName("pChildRefHandler " + spec.presentationId);
@@ -58,7 +59,12 @@ var CORA = (function(cora) {
 
 		function createButtonView() {
 			var buttonViewNew = createSpanWithClassName("buttonView");
-			buttonViewNew.appendChild(createAddButton());
+			if (spec.upload !== "true") {
+				buttonViewNew.appendChild(createAddButton());
+			} else {
+				buttonViewNew.appendChild(createBrowseButton());
+
+			}
 			buttonView = buttonViewNew;
 			view.appendChild(buttonView);
 		}
@@ -71,18 +77,11 @@ var CORA = (function(cora) {
 			return button;
 		}
 
-		function createUploadView() {
-			var uploadViewNew = createSpanWithClassName("uploadView");
-			uploadViewNew.appendChild(createBrowseButton());
-			uploadView = uploadViewNew;
-			view.appendChild(uploadView);
-		}
-
 		function createBrowseButton() {
 			var button = document.createElement("input");
 			button.type = "file";
 			button.multiple = "true";
-			//button.onclick = spec.addMethod;
+			// button.onclick = spec.addMethod;
 			return button;
 		}
 
@@ -92,7 +91,7 @@ var CORA = (function(cora) {
 		}
 
 		function showButtonView() {
-			if(buttonView.styleOriginal !== undefined){
+			if (buttonView.styleOriginal !== undefined) {
 				buttonView.style.display = buttonView.styleOriginal;
 			}
 		}

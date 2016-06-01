@@ -62,13 +62,14 @@ var CORA = (function(cora) {
 		function createPChildRefHandlerView() {
 			var pChildRefHandlerViewSpec = {
 				"presentationId" : presentationId,
-				"isRepeating" : isRepeating,
+				"isRepeating" : isRepeating
 			};
 			if(showFileUpload()){
-				console.log("in upload")
+//			if(true){
 				pChildRefHandlerViewSpec.upload = "true";
 			}
 			else if (showAddButton()) {
+//			if (showAddButton()) {
 				pChildRefHandlerViewSpec.addMethod = sendAdd;
 			}
 			return CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
@@ -174,7 +175,7 @@ var CORA = (function(cora) {
 		}
 
 		function currentChildRefIsRecordLink(){
-			return currentChildRefHasAttributes() && isOfTypeRecordLink()
+			return currentChildRefHasAttributes() && isOfTypeRecordLink();
 		}
 
 		function currentChildRefHasAttributes(){

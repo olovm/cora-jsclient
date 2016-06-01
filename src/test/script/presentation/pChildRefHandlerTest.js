@@ -385,7 +385,7 @@ QUnit.test("testUploadButtonFor1toX", function(assert) {
 	var view = attachedPChildRefHandler.view;
 
 	var buttonView = view.childNodes[1];
-	assert.strictEqual(buttonView.className, "uploadView");
+	assert.strictEqual(buttonView.className, "buttonView");
 	var button = buttonView.firstChild;
 	assert.strictEqual(button.type, "file");
 
