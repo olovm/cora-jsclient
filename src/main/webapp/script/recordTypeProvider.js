@@ -41,7 +41,7 @@ var CORA = (function(cora) {
 		}
 
 		function processFetchedData(answer) {
-			 createRecordTypeObjectFromAnswer(answer);
+			createRecordTypeObjectFromAnswer(answer);
 		}
 
 		function createRecordTypeObjectFromAnswer(answer) {
@@ -67,8 +67,17 @@ var CORA = (function(cora) {
 			throw new Error("Id(" + recordTypeId + ") not found in recordTypeProvider");
 		}
 
+		function getAllRecordTypes() {
+			var recordTypeList = [];
+			Object.keys(recordTypes).forEach(function(id) {
+				recordTypeList.push(recordTypes[id]);
+			});
+			return recordTypeList;
+		}
+
 		var out = Object.freeze({
-			getRecordTypeById : getRecordTypeById
+			getRecordTypeById : getRecordTypeById,
+			getAllRecordTypes : getAllRecordTypes
 		});
 		return out;
 	};

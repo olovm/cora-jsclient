@@ -28,8 +28,9 @@ var CORA = (function(cora) {
 		var busy = CORA.busy();
 		mainView.appendChild(busy.getView());
 		var recordGuiFactory = CORA.recordGuiFactory(spec.dependencies);
-		fetchRecordTypeListAndThen(processFetchedRecordTypes);
-
+//		fetchRecordTypeListAndThen(processFetchedRecordTypes);
+		processFetchedRecordTypes();
+		
 		function createMainView() {
 			var view = createSpanWithClassName("jsClient mainView");
 
@@ -66,7 +67,8 @@ var CORA = (function(cora) {
 		}
 
 		function processFetchedRecordTypes(answer) {
-			recordTypeList = createRecordTypeListFromAnswer(answer);
+//			recordTypeList = createRecordTypeListFromAnswer(answer);
+			recordTypeList = spec.dependencies.recordTypeProvider.getAllRecordTypes();
 			metadataIdsForRecordType = createMetadataIdsForRecordType(recordTypeList);
 			addRecordTypesToSideBar(recordTypeList);
 			busy.hideWithEffect();

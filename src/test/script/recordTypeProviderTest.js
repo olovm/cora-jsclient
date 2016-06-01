@@ -191,3 +191,9 @@ QUnit.test("getRecordTypeByIdNotFound", function(assert) {
 	}
 	assert.ok(error);
 });
+
+QUnit.test("getAllRecordTypes", function(assert) {
+	var recordTypeList = this.recordTypeProvider.getAllRecordTypes();
+	assert.stringifyEqual(recordTypeList.length, 15);
+	
+});
