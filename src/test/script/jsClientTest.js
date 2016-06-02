@@ -272,6 +272,7 @@ QUnit.test("showView", function(assert) {
 	assert.strictEqual(workView1.style.display, "");
 	assert.strictEqual(workView2.style.display, "none");
 });
+
 QUnit.test("testFactories", function(assert) {
 	var recordTypeListData = CORATEST.recordTypeList;
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);

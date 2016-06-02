@@ -1541,6 +1541,152 @@ var CORATEST = (function(coraTest) {
 				}
 			}
 		};
+		recordTypeArray["image"] = {
+			"data": {
+				"children": [
+					{
+						"name": "metadataId",
+						"value": "imageGroup"
+					},
+					{
+						"name": "abstract",
+						"value": "false"
+					},
+					{
+						"name": "parentId",
+						"value": "binary"
+					},
+					{
+						"children": [
+							{
+								"name": "id",
+								"value": "image"
+							},
+							{
+								"name": "type",
+								"value": "recordType"
+							},
+							{
+								"name": "createdBy",
+								"value": "userId"
+							},
+							{
+								"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "system"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "cora"
+									}
+								],
+								"actionLinks": {
+									"read": {
+										"requestMethod": "GET",
+										"rel": "read",
+										"url": "http://epc.ub.uu.se/cora/rest/record/system/cora",
+										"accept": "application/uub+record+json"
+									}
+								},
+								"name": "dataDivider"
+							}
+						],
+						"name": "recordInfo"
+					},
+					{
+						"name": "presentationViewId",
+						"value": "imageViewPGroup"
+					},
+					{
+						"name": "presentationFormId",
+						"value": "imageFormPGroup"
+					},
+					{
+						"name": "newMetadataId",
+						"value": "imageNewGroup"
+					},
+					{
+						"name": "newPresentationFormId",
+						"value": "imageFormNewPGroup"
+					},
+					{
+						"name": "menuPresentationViewId",
+						"value": "imageMenuPGroup"
+					},
+					{
+						"name": "listPresentationViewId",
+						"value": "imageListPGroup"
+					},
+					{
+						"name": "searchMetadataId",
+						"value": "imageSearchGroup"
+					},
+					{
+						"name": "searchPresentationFormId",
+						"value": "imageFormSearchPGroup"
+					},
+					{
+						"name": "userSuppliedId",
+						"value": "false"
+					},
+					{
+						"name": "permissionKey",
+						"value": "RECORDTYPE_IMAGE"
+					},
+					{
+						"name": "selfPresentationViewId",
+						"value": "imageViewSelfPGroup"
+					}
+				],
+				"name": "recordType"
+			},
+			"actionLinks": {
+				"search": {
+					"requestMethod": "GET",
+					"rel": "search",
+					"url": "http://epc.ub.uu.se/cora/rest/record/image/",
+					"accept": "application/uub+recordList+json"
+				},
+				"read": {
+					"requestMethod": "GET",
+					"rel": "read",
+					"url": "http://epc.ub.uu.se/cora/rest/record/recordType/image",
+					"accept": "application/uub+record+json"
+				},
+				"create_by_upload": {
+					"requestMethod": "POST",
+					"rel": "create_by_upload",
+					"contentType": "multipart/form-data",
+					"url": "http://epc.ub.uu.se/cora/rest/record/image/"
+				},
+				"update": {
+					"requestMethod": "POST",
+					"rel": "update",
+					"contentType": "application/uub+record+json",
+					"url": "http://epc.ub.uu.se/cora/rest/record/recordType/image",
+					"accept": "application/uub+record+json"
+				},
+				"create": {
+					"requestMethod": "POST",
+					"rel": "create",
+					"contentType": "application/uub+record+json",
+					"url": "http://epc.ub.uu.se/cora/rest/record/image/",
+					"accept": "application/uub+record+json"
+				},
+				"list": {
+					"requestMethod": "GET",
+					"rel": "list",
+					"url": "http://epc.ub.uu.se/cora/rest/record/image/",
+					"accept": "application/uub+recordList+json"
+				},
+				"delete": {
+					"requestMethod": "DELETE",
+					"rel": "delete",
+					"url": "http://epc.ub.uu.se/cora/rest/record/recordType/image"
+				}
+			}
+		};
 
 		function getRecordTypeById(recordTypeId) {
 
@@ -1549,8 +1695,8 @@ var CORATEST = (function(coraTest) {
 			} else {
 
 				// default:
-				console.log("Id(" + recordTypeId + ") not found in recordTypeProviderRealStub");
-				throw new Error("Id(" + recordTypeId + ") not found in recordTypeProviderRealStub");
+				console.log("Id(" + recordTypeId + ") not found in recordTypeProviderStub");
+				throw new Error("Id(" + recordTypeId + ") not found in recordTypeProviderStub");
 			}
 		}
 		

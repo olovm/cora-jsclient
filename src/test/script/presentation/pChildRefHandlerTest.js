@@ -21,7 +21,7 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.attachedPChildRefHandlerFactory = function(metadataProvider, pubSub, textProvider,
-			presentationFactory, jsBookkeeper, fixture) {
+			presentationFactory, jsBookkeeper, recordTypeProvider, fixture) {
 		var factor = function(path, parentMetadataId, presentationId) {
 			var cParentMetadata = CORA.coraData(metadataProvider.getMetadataById(parentMetadataId));
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
@@ -34,7 +34,8 @@ var CORATEST = (function(coraTest) {
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
 				"presentationFactory" : presentationFactory,
-				"jsBookkeeper" : jsBookkeeper
+				"jsBookkeeper" : jsBookkeeper,
+				"recordTypeProvider" : recordTypeProvider
 			};
 			var pChildRefHandler = CORA.pChildRefHandler(spec);
 			var view = pChildRefHandler.getView();
@@ -66,10 +67,11 @@ QUnit.module("pChildRefHandlerTest.js", {
 
 		this.presentationFactory = CORATEST.presentationFactorySpy();
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
+		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
 
 		this.attachedPChildRefHandlerFactory = CORATEST.attachedPChildRefHandlerFactory(
 				this.metadataProvider, this.pubSub, this.textProvider, this.presentationFactory,
-				this.jsBookkeeper, this.fixture);
+				this.jsBookkeeper, this.recordTypeProvider, this.fixture);
 	},
 	afterEach : function() {
 	}
@@ -559,6 +561,7 @@ QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 	var metadataProvider = new MetadataProviderStub();
 	var pubSub = CORATEST.pubSubSpy();
 	var textProvider = CORATEST.textProviderStub();
+	var recordTypeProvider = CORATEST.recordTypeProviderStub();
 
 	var specPresentationFactory = {
 		"metadataProvider" : metadataProvider,
@@ -570,7 +573,7 @@ QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 	var jsBookkeeper = CORATEST.jsBookkeeperSpy();
 
 	var attachedPChildRefHandlerFactory = CORATEST.attachedPChildRefHandlerFactory(
-			metadataProvider, pubSub, textProvider, presentationFactory, jsBookkeeper, fixture);
+			metadataProvider, pubSub, textProvider, presentationFactory, jsBookkeeper, recordTypeProvider, fixture);
 
 	var path = {};
 	var attachedPChildRefHandler = attachedPChildRefHandlerFactory.factor(path,

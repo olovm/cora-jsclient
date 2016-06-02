@@ -22,6 +22,7 @@ var CORA = (function(cora) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
 		var xmlHttpRequestFactory = dependencies.xmlHttpRequestFactory;
+		var recordTypeProvider = dependencies.recordTypeProvider
 		var self;
 
 		var factor = function(metadataId, data) {
@@ -49,7 +50,8 @@ var CORA = (function(cora) {
 				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper,
 				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
-				"recordGuiFactory" : self
+				"recordGuiFactory" : self,
+				"recordTypeProvider" : recordTypeProvider
 			};
 			var presentationFactory = CORA.presentationFactory(specPresentationFactory);
 

@@ -81,6 +81,9 @@
 <script type="text/javascript"
 	src="../../test/script/metadata/textProviderStub.js"></script>
 <script type="text/javascript" src="test/script/metadata/textProviderStub.js"></script>
+	<script type="text/javascript"
+			src="../../test/script/recordTypeProviderStub.js"></script>
+	<script type="text/javascript" src="test/script/recordTypeProviderStub.js"></script>
 <script type="text/javascript"
 	src="../../test/script/metadata/metadataProviderRealStub.js"></script>
 <script type="text/javascript"
@@ -92,7 +95,7 @@
 <script type="text/javascript">
 	var CORATEST = (function(coraTest) {
 		"use strict";
-		coraTest.dependenciesFactory = function(metadataProvider, pubSub, textProvider) {
+		coraTest.dependenciesFactory = function(metadataProvider, pubSub, textProvider, recordTypeProvider) {
 			var factor = function(metadataId, presentationId, data) {
 				var specDataHolder = {
 					"metadataId" : metadataId,
@@ -114,7 +117,8 @@
 					"metadataProvider" : metadataProvider,
 					"pubSub" : pubSub,
 					"textProvider" : textProvider,
-					"jsBookkeeper" : jsBookkeeper
+					"jsBookkeeper" : jsBookkeeper,
+					"recordTypeProvider" : recordTypeProvider
 				};
 				var presentationFactory = CORA.presentationFactory(specPresentationFactory);
 
@@ -166,22 +170,23 @@
 
 		var metadataProvider = new MetadataProviderStub();
 		var textProvider = CORATEST.textProviderStub();
-		client1(metadataProvider, textProvider);
-		client2(metadataProvider, textProvider);
-		client3(metadataProvider, textProvider);
-		client4(metadataProvider, textProvider);
-		client5(metadataProvider, textProvider);
-		client6(metadataProvider, textProvider);
-		client7(metadataProvider, textProvider);
-		client8(metadataProvider, textProvider);
+		var recordTypeProvider = CORATEST.recordTypeProviderStub();
+		client1(metadataProvider, textProvider, recordTypeProvider);
+		client2(metadataProvider, textProvider, recordTypeProvider);
+		client3(metadataProvider, textProvider, recordTypeProvider);
+		client4(metadataProvider, textProvider, recordTypeProvider);
+		client5(metadataProvider, textProvider, recordTypeProvider);
+		client6(metadataProvider, textProvider, recordTypeProvider);
+		client7(metadataProvider, textProvider, recordTypeProvider);
+		client8(metadataProvider, textProvider, recordTypeProvider);
 
 		var metadataProviderRealStub = CORATEST.metadataProviderRealStub();
 		var textProviderRealStub = CORATEST.textProviderRealStub();
-		client9(metadataProviderRealStub, textProviderRealStub);
+		client9(metadataProviderRealStub, textProviderRealStub, recordTypeProvider);
 
-		client10(metadataProvider, textProvider);
-		client11(metadataProvider, textProvider);
-		client12(metadataProvider, textProvider);
+		client10(metadataProvider, textProvider, recordTypeProvider);
+		client11(metadataProvider, textProvider, recordTypeProvider);
+		client12(metadataProvider, textProvider, recordTypeProvider);
 	}
 
 	function startJsClient() {
@@ -216,11 +221,11 @@
 		var xmlHttpRequest1 = document.getElementById("xmlHttpRequest1");
 		xmlHttpRequest1.textContent = answer.responseText;
 	}
-	function client1(metadataProvider, textProvider) {
+	function client1(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client1");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "groupIdOneTextChild";
 		var presentationId = "pgGroupIdOneTextChildOutput";
 
@@ -243,11 +248,11 @@
 		pubSub.publish("setValue", data2);
 	}
 
-	function client2(metadataProvider, textProvider) {
+	function client2(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client2");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "groupIdOneTextChild";
 		var presentationId = "pgGroupIdOneTextTwoTextChildren";
 
@@ -278,11 +283,11 @@
 
 	}
 
-	function client3(metadataProvider, textProvider) {
+	function client3(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client3");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "groupInGroupOneTextChild";
 		var presentationId = "pgGroupInGroupIdOneTextOneTextChild";
 
@@ -303,11 +308,11 @@
 		place.appendChild(view);
 	}
 
-	function client4(metadataProvider, textProvider) {
+	function client4(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client4");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "groupIdOneTextChildRepeat1to3";
 		var presentationId = "pgGroupIdRepeatingContainerRepeat1to3";
 
@@ -346,11 +351,11 @@
 		};
 
 	}
-	function client5(metadataProvider, textProvider) {
+	function client5(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client5");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "groupIdTwoTextChildRepeat1to5";
 		var presentationId = "pgGroupIdTwoTextChildSurrounding2TextPGroup2";
 
@@ -367,11 +372,11 @@
 		}
 		document.getElementById("client5DataButton").onclick = showData;
 	}
-	function client6(metadataProvider, textProvider) {
+	function client6(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client6");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup";
 		var presentationId = "pgTextVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup";
 
@@ -429,11 +434,11 @@
 		}
 		document.getElementById("client6DataButton").onclick = showData;
 	}
-	function client7(metadataProvider, textProvider) {
+	function client7(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client7");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "groupIdOneTextChildRepeat1to3";
 		var presentationId = "pgGroupIdOneTextChildMinimized";
 		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
@@ -449,11 +454,11 @@
 		}
 		document.getElementById("client7DataButton").onclick = showData;
 	}
-	function client8(metadataProvider, textProvider) {
+	function client8(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client8");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "groupId1toXCollectionChild";
 		var presentationId = "pgGroupId1toXCollectionChild";
 
@@ -494,11 +499,11 @@
 
 	}
 
-	function client9(metadataProvider, textProvider) {
+	function client9(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client9");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "textSystemOneNewGroup";
 		var presentationId = "textSystemOneFormNewPGroup";
 		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
@@ -526,11 +531,11 @@
 		place.appendChild(dependencies.presentation2.getView());
 
 	}
-	function client10(metadataProvider, textProvider) {
+	function client10(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client10");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "groupIdOneTextChild";
 		var presentationId = "groupOneTextChildOutputImagePGroup";
 
@@ -553,11 +558,11 @@
 		pubSub.publish("setValue", data2);
 	}
 
-	function client11(metadataProvider, textProvider) {
+	function client11(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client11");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "groupIdOneRecordLinkChildWithPath";
 		var presentationId = "groupIdOneRecordLinkChildWithPathPGroup";
 		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
@@ -575,11 +580,11 @@
 
 	}
 
-	function client12(metadataProvider, textProvider) {
+	function client12(metadataProvider, textProvider, recordTypeProvider) {
 		var place = document.getElementById("client12");
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
-				textProvider);
+				textProvider, recordTypeProvider);
 		var metadataId = "groupIdOneBinaryRecordLinkChild";
 		var presentationId = "groupIdOneBinaryRecordLinkChildPGroup";
 		var dependencies = dependenciesFactory.factor(metadataId, presentationId);

@@ -29,7 +29,7 @@ var CORA = (function(cora) {
 		mainView.appendChild(busy.getView());
 		var recordGuiFactory = CORA.recordGuiFactory(spec.dependencies);
 
-		processFetchedRecordTypes();
+		processRecordTypes();
 
 		function createMainView() {
 			var view = createSpanWithClassName("jsClient mainView");
@@ -53,20 +53,8 @@ var CORA = (function(cora) {
 			return spanNew;
 		}
 
-		function fetchRecordTypeListAndThen(callAfterAnswer) {
-			busy.show();
-			var recordListSpec = {
-				"xmlHttpRequestFactory" : spec.dependencies.xmlHttpRequestFactory,
-				"method" : "GET",
-				"url" : spec.baseUrl + "record/recordType",
-				"contentType" : "application/uub+record+json",
-				"accept" : "application/uub+recordList+json",
-				"loadMethod" : callAfterAnswer
-			};
-			CORA.ajaxCall(recordListSpec);
-		}
 
-		function processFetchedRecordTypes() {
+		function processRecordTypes() {
 			metadataIdsForRecordType = createMetadataIdsForRecordType(recordTypeList);
 			addRecordTypesToSideBar(recordTypeList);
 			busy.hideWithEffect();
@@ -76,19 +64,6 @@ var CORA = (function(cora) {
 			var allRecordTypes = spec.dependencies.recordTypeProvider.getAllRecordTypes();
 			var recordTypeLists = sortRecordTypesIntoLists(allRecordTypes);
 			var list = [];
-			recordTypeLists.abstractList.forEach(function(parent) {
-				list.push(parent);
-				addChildrenOfCurrentParentToList(parent, recordTypeLists, list);
-			});
-
-			list = list.concat(recordTypeLists.noParentList);
-			return list;
-		}
-		function createRecordTypeListFromAnswer(answer) {
-			var data = JSON.parse(answer.responseText).dataList.data;
-			var list = [];
-			var recordTypeLists = sortRecordTypesIntoLists(data);
-
 			recordTypeLists.abstractList.forEach(function(parent) {
 				list.push(parent);
 				addChildrenOfCurrentParentToList(parent, recordTypeLists, list);
@@ -182,7 +157,7 @@ var CORA = (function(cora) {
 				"jsClient" : mainView.modelObject,
 				"baseUrl" : spec.baseUrl
 			};
-
+			//console.log("mainView.modelObject "+mainView.modelObject)
 			var recordTypeHandler = CORA.recordTypeHandler(specRecord);
 			sideBar.appendChild(recordTypeHandler.getView());
 		}

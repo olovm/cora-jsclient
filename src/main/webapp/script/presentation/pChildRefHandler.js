@@ -65,11 +65,9 @@ var CORA = (function(cora) {
 				"isRepeating" : isRepeating
 			};
 			if(showFileUpload()){
-//			if(true){
 				pChildRefHandlerViewSpec.upload = "true";
 			}
 			else if (showAddButton()) {
-//			if (showAddButton()) {
 				pChildRefHandlerViewSpec.addMethod = sendAdd;
 			}
 			return CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
@@ -200,8 +198,12 @@ var CORA = (function(cora) {
 
 		function getLinkedRecordType(){
 			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
-			var cRecordType = getMetadataById(recordTypeId);
+			var cRecordType = getRecordTypeById(recordTypeId);
 			return cRecordType;
+		}
+
+		function getRecordTypeById(id){
+			return CORA.coraData(spec.recordTypeProvider.getRecordTypeById(id).data);
 		}
 
 		function isBinaryOrChildOfBinary(cRecordInfo, cRecordType){

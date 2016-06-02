@@ -33,7 +33,8 @@ var CORA = (function(cora) {
 				"jsBookkeeper" : spec.jsBookkeeper,
 				"presentationFactory" : self,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"recordGuiFactory" : spec.recordGuiFactory
+				"recordGuiFactory" : spec.recordGuiFactory,
+				"recordTypeProvider" : spec.recordTypeProvider
 			};
 
 			var type = cPresentation.getData().attributes.type;
