@@ -159,13 +159,6 @@ QUnit.test("init", function(assert) {
 
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
 	assert.strictEqual(openUrl, undefined);
-//	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
-//			"http://epc.ub.uu.se/cora/rest/record/recordType");
-//	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
-//	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-//			"application/uub+recordList+json");
-//	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-//			"application/uub+record+json");
 
 	assert.strictEqual(mainView.modelObject, jsClient);
 
@@ -186,7 +179,7 @@ QUnit.test("init", function(assert) {
 
 	var firstRecordType = sideBar.childNodes[0];
 	assert.strictEqual(firstRecordType.className, "recordType");
-	assert.strictEqual(firstRecordType.firstChild.textContent, "presentationVar");
+	assert.strictEqual(firstRecordType.firstChild.textContent, "metadata");
 });
 
 QUnit.test("initRecordTypesAreSortedByType", function(assert) {
@@ -216,7 +209,13 @@ QUnit.test("initRecordTypesAreSortedByType", function(assert) {
 	assert.strictEqual(firstRecordType.className, "recordType");
 	assert.strictEqual(firstRecordType.firstChild.textContent, "metadata");
 	
-	assert.strictEqual(sideBar.childNodes[1].firstChild.textContent, "metadata");
+	assert.strictEqual(sideBar.childNodes[1].firstChild.textContent, "metadataGroup");
+	assert.strictEqual(sideBar.childNodes[2].firstChild.textContent, "metadataCollectionItem");
+	
+	assert.strictEqual(sideBar.childNodes[7].firstChild.textContent, "presentation");
+	assert.strictEqual(sideBar.childNodes[8].firstChild.textContent, "presentationVar");
+	
+	assert.strictEqual(sideBar.childNodes[14].firstChild.textContent, "recordType");
 });
 
 QUnit.test("showView", function(assert) {
