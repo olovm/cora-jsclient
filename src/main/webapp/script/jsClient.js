@@ -56,7 +56,6 @@ var CORA = (function(cora) {
 
 		function processRecordTypes() {
 			metadataIdsForRecordType = createMetadataIdsForRecordType(recordTypeList);
-			addRecordTypesToSideBar(recordTypeList);
 			busy.hideWithEffect();
 		}
 
@@ -157,7 +156,6 @@ var CORA = (function(cora) {
 				"jsClient" : mainView.modelObject,
 				"baseUrl" : spec.baseUrl
 			};
-			//console.log("mainView.modelObject "+mainView.modelObject)
 			var recordTypeHandler = CORA.recordTypeHandler(specRecord);
 			sideBar.appendChild(recordTypeHandler.getView());
 		}
@@ -242,6 +240,7 @@ var CORA = (function(cora) {
 			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId
 		});
 		mainView.modelObject = out;
+		addRecordTypesToSideBar(recordTypeList);
 		return out;
 	};
 	return cora;
