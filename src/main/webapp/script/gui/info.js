@@ -19,7 +19,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.info = function(spec) {
-		var infoLevel = 0;
+		var infoLevel =  cora.info.NONE;
 		var button = createButton();
 		var view;
 
@@ -56,22 +56,22 @@ var CORA = (function(cora) {
 			} else {
 				infoLevel++;
 			}
-			if(spec.afterLevelChange !== undefined){
+			if (spec.afterLevelChange !== undefined) {
 				spec.afterLevelChange(event);
 			}
 		}
-		
+
 		function createAndAddBaseView() {
 			createBaseView();
 			addBaseViewAccordingToSpec();
 		}
-		
+
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			viewNew.className = "infoView";
 			view = viewNew;
 		}
-		
+
 		function addBaseViewAccordingToSpec() {
 			if (spec.appendTo !== undefined) {
 				spec.appendTo.appendChild(view);
@@ -86,15 +86,15 @@ var CORA = (function(cora) {
 				levelInfos.forEach(createViewPart);
 			}
 		}
-		
+
 		function createViewPart(info) {
 			var viewPart = document.createElement("span");
 			viewPart.className = info.className;
 			viewPart.innerHTML = info.text;
 			view.appendChild(viewPart);
 		}
-		
-		function resetInfo(){
+
+		function resetInfo() {
 			view.parentNode.removeChild(view);
 			view = null;
 			infoLevel = 0;
@@ -108,7 +108,7 @@ var CORA = (function(cora) {
 		});
 		return out;
 	};
-	
+
 	cora.info.NONE = 0;
 	cora.info.TEXT = 1;
 	cora.info.ALL = 2;

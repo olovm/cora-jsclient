@@ -47,21 +47,21 @@ QUnit.test("initTestInfoButton", function(assert) {
 
 QUnit.test("initTestOneButtonClickafterLevelChangeCall", function(assert) {
 	var wasCalled = false;
-	function someFunction(){
+	function someFunction() {
 		wasCalled = true;
 	}
 	var spec = {
-			"afterLevelChange":someFunction,
-			"appendTo" : this.fixture
-			
+		"afterLevelChange" : someFunction,
+		"appendTo" : this.fixture
+
 	};
 	var info = CORA.info(spec);
 	assert.strictEqual(this.fixture.childNodes.length, 0);
-	
+
 	var event = document.createEvent('Event');
 	var button = info.getButton();
 	button.onclick(event);
-	
+
 	assert.ok(wasCalled);
 });
 
@@ -132,9 +132,9 @@ QUnit.test("initTestInfoViewWithInfoLevel1", function(assert) {
 
 	var infoView = info.getView();
 	assert.equal(infoView.childNodes.length, 1);
-	var firstChild = infoView.childNodes[0];
-	assert.equal(firstChild.className, "textView");
-	assert.strictEqual(firstChild.textContent, "someText");
+
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView", "someText",
+			assert);
 });
 
 QUnit.test("initTestInfoViewWithInfoLevel1TwoTexts", function(assert) {
@@ -157,13 +157,10 @@ QUnit.test("initTestInfoViewWithInfoLevel1TwoTexts", function(assert) {
 	var infoView = info.getView();
 	assert.equal(infoView.childNodes.length, 2);
 
-	var firstChild = infoView.childNodes[0];
-	assert.equal(firstChild.className, "textView");
-	assert.strictEqual(firstChild.textContent, "someText");
-
-	var secondChild = infoView.childNodes[1];
-	assert.equal(secondChild.className, "defTextView");
-	assert.strictEqual(secondChild.textContent, "someDefText");
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView", "someText",
+			assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
+			"someDefText", assert);
 });
 
 QUnit.test("initTestInfoViewAppendToTwoButtonClick", function(assert) {
@@ -219,21 +216,14 @@ QUnit.test("initTestInfoViewWithInfoLevel1TwoTexts", function(assert) {
 	var infoView = info.getView();
 	assert.equal(infoView.childNodes.length, 4);
 
-	var firstChild = infoView.childNodes[0];
-	assert.equal(firstChild.className, "textView");
-	assert.strictEqual(firstChild.textContent, "someText");
-
-	var secondChild = infoView.childNodes[1];
-	assert.equal(secondChild.className, "defTextView");
-	assert.strictEqual(secondChild.textContent, "someDefText");
-	
-	var thirdChild = infoView.childNodes[2];
-	assert.equal(thirdChild.className, "metadataIdView");
-	assert.strictEqual(thirdChild.textContent, "someMetadataText");
-	
-	var fourthChild = infoView.childNodes[3];
-	assert.equal(fourthChild.className, "regExView");
-	assert.strictEqual(fourthChild.textContent, "someRegEx");
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView", "someText",
+			assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
+			"someDefText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "metadataIdView",
+			"someMetadataText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3], "regExView",
+			"someRegEx", assert);
 });
 
 QUnit.test("initTestInfoViewAppendToThreeButtonClick", function(assert) {
