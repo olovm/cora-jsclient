@@ -88,15 +88,59 @@ QUnit.test("testInit", function(assert) {
 	var view = attachedPSurroundingContainer.view;
 	assert.ok(view.modelObject === attachedPSurroundingContainer.pSurroundingContainer,
 			"modelObject should be a pointer to the javascript object instance");
-	assert.strictEqual(view.childNodes.length, 3);
+	assert.strictEqual(view.childNodes.length, 4);
 
-	assert.strictEqual(view.childNodes[0].textContent, "En rubrik");
+	assert.strictEqual(view.childNodes[1].textContent, "En rubrik");
 
-	var childRefHandler = view.childNodes[1];
+	var childRefHandler = view.childNodes[2];
 	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
 
-	var childRefHandler2 = view.childNodes[2];
+	var childRefHandler2 = view.childNodes[3];
 	assert.deepEqual(childRefHandler2.className, "pChildRefHandler pVarTextVariableId2");
+});
+
+
+QUnit.test("testInitInfo", function(assert) {
+	var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
+			"pTextVariablePlus2SContainer", "pgGroupIdTwoTextChildSurrounding2TextPGroup");
+	var view = attachedPSurroundingContainer.view;
+
+	var infoButton = view.childNodes[0];
+	assert.equal(infoButton.nodeName, "SPAN");
+	assert.equal(infoButton.className, "infoButton");
+
+//	var event = document.createEvent('Event');
+//	infoButton.onclick(event);
+//	assert.equal(view.childNodes.length, 3);
+//
+//	var infoView = view.childNodes[2];
+//	assert.equal(infoView.childNodes.length, 2);
+//	assert.equal(infoView.nodeName, "SPAN");
+//	assert.equal(infoView.className, "infoView");
+//
+//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView",
+//			"Exempel textvariabel", assert);
+//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
+//			"Detta är en exempeldefinition för en textvariabel.", assert);
+//
+//	infoButton.onclick(event);
+//	assert.equal(view.childNodes.length, 3);
+//	assert.equal(infoView.childNodes.length, 6);
+//
+//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
+//			"textId: textVariableIdText", assert);
+//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3], "defTextIdView",
+//			"defTextId: textVariableIdDefText", assert);
+//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
+//			"metadataId: textVariableId", assert);
+//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[5], "regExView",
+//			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", assert);
+//
+//	infoButton.onclick(event);
+//	assert.equal(view.childNodes.length, 2);
+//
+//	infoButton.onclick(event);
+//	assert.equal(view.childNodes.length, 3);
 });
 
 QUnit.test("testNestedSurroundingContainer", function(assert) {
@@ -109,9 +153,9 @@ QUnit.test("testNestedSurroundingContainer", function(assert) {
 	var view = attachedPSurroundingContainer.view;
 	assert.ok(view.modelObject === attachedPSurroundingContainer.pSurroundingContainer,
 			"modelObject should be a pointer to the javascript object instance");
-	assert.strictEqual(view.childNodes.length, 2);
+	assert.strictEqual(view.childNodes.length, 3);
 
-	assert.strictEqual(view.childNodes[0].textContent, "En rubrik");
+	assert.strictEqual(view.childNodes[1].textContent, "En rubrik");
 
 	var requestedCPresentation = this.presentationFactory.getCPresentation();
 	var recordInfo = requestedCPresentation.getFirstChildByNameInData("recordInfo");

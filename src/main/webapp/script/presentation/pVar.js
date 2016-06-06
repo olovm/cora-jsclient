@@ -52,8 +52,6 @@ var CORA = (function(cora) {
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var defText = textProvider.getTranslation(defTextId);
 
-		var infoView;
-
 		if (subType === "textVariable") {
 			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 		}

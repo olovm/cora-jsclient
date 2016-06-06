@@ -139,8 +139,8 @@ QUnit.test("testInitInfoButtonTextVariable", function(assert) {
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
 	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
 	var view = attachedPVar.view;
+	
 	var infoButton = view.childNodes[1];
-
 	assert.equal(infoButton.nodeName, "SPAN");
 	assert.equal(infoButton.className, "infoButton");
 
