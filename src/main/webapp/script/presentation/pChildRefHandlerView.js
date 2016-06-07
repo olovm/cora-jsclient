@@ -34,14 +34,14 @@ var CORA = (function(cora) {
 		var lastRepeatingElementDraggedOver;
 
 		view.appendChild(childrenView);
-//		if (spec.addMethod !== undefined) {
+		// if (spec.addMethod !== undefined) {
 		if (spec.addMethod !== undefined || spec.upload === "true") {
 			createButtonView();
 		}
 		// console.log(spec.upload)
-//		if (spec.upload === "true") {
-//			createUploadView();
-//		}
+		// if (spec.upload === "true") {
+		// createUploadView();
+		// }
 
 		function createBaseView() {
 			return createSpanWithClassName("pChildRefHandler " + spec.presentationId);
@@ -82,6 +82,7 @@ var CORA = (function(cora) {
 			button.type = "file";
 			button.multiple = "true";
 			// button.onclick = spec.addMethod;
+			button.onchange = spec.handleFilesMethod;
 			return button;
 		}
 

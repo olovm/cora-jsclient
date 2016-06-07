@@ -26,6 +26,77 @@ var CORATEST = (function(coraTest) {
 			var cParentMetadata = CORA.coraData(metadataProvider.getMetadataById(parentMetadataId));
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
 
+			var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+			var record = {
+				"data" : {
+					"children" : [
+							{
+								"children" : [
+										{
+											"children" : [ {
+												"name" : "linkedRecordType",
+												"value" : "system"
+											}, {
+												"name" : "linkedRecordId",
+												"value" : "alvin"
+											} ],
+											"actionLinks" : {
+												"read" : {
+													"requestMethod" : "GET",
+													"rel" : "read",
+													"url" : "http://localhost:8080/therest/rest/record/system/alvin",
+													"accept" : "application/uub+record+json"
+												}
+											},
+											"name" : "dataDivider"
+										}, {
+											"name" : "id",
+											"value" : "image:333759270435575"
+										}, {
+											"name" : "type",
+											"value" : "image"
+										}, {
+											"name" : "createdBy",
+											"value" : "userId"
+										} ],
+								"name" : "recordInfo"
+							}, {
+								"name" : "fileName",
+								"value" : "someFileName"
+							}, {
+								"name" : "fileSize",
+								"value" : "1234567890"
+							} ],
+					"name" : "binary"
+				},
+				"actionLinks" : {
+					"read" : {
+						"requestMethod" : "GET",
+						"rel" : "read",
+						"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575",
+						"accept" : "application/uub+record+json"
+					},
+					"update" : {
+						"requestMethod" : "POST",
+						"rel" : "update",
+						"contentType" : "application/uub+record+json",
+						"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575",
+						"accept" : "application/uub+record+json"
+					},
+					"delete" : {
+						"requestMethod" : "DELETE",
+						"rel" : "delete",
+						"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575"
+					}
+				}
+			};
+			function sendFunction() {
+				xmlHttpRequestSpy.status = 200;
+				xmlHttpRequestSpy.responseText = JSON.stringify({
+					"record" : record
+				});
+				xmlHttpRequestSpy.addedEventListeners["load"][0]();
+			}
 			var spec = {
 				"parentPath" : path,
 				"cParentMetadata" : cParentMetadata,
@@ -35,8 +106,10 @@ var CORATEST = (function(coraTest) {
 				"textProvider" : textProvider,
 				"presentationFactory" : presentationFactory,
 				"jsBookkeeper" : jsBookkeeper,
-				"recordTypeProvider" : recordTypeProvider
+				"recordTypeProvider" : recordTypeProvider,
+				"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy)
 			};
+
 			var pChildRefHandler = CORA.pChildRefHandler(spec);
 			var view = pChildRefHandler.getView();
 			fixture.appendChild(view);
@@ -46,7 +119,8 @@ var CORATEST = (function(coraTest) {
 				metadataProvider : metadataProvider,
 				pubSub : pubSub,
 				jsBookkeeper : jsBookkeeper,
-				view : view
+				view : view,
+				xmlHttpRequest : xmlHttpRequestSpy
 			};
 
 		};
@@ -380,9 +454,9 @@ QUnit.test("testAddButtonWithAttributes", function(assert) {
 	assert.deepEqual(this.jsBookkeeper.getAddDataArray()[0], addData);
 });
 
-QUnit.test("testUploadButtonFor1toX", function(assert) {
+QUnit.test("testUploadButtonFor0toX", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-		"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
+			"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
@@ -391,29 +465,117 @@ QUnit.test("testUploadButtonFor1toX", function(assert) {
 	var button = buttonView.firstChild;
 	assert.strictEqual(button.type, "file");
 
-	//assert.ok(button.onclick === childRefHandler.sendAdd);
+	assert.ok(button.onchange === childRefHandler.handleFiles);
+});
 
-	//button.onclick();
-	//var addData = {
-	//	"childReference" : {
-	//		"children" : [ {
-	//			"name" : "ref",
-	//			"value" : "textVariableId"
-	//		}, {
-	//			"name" : "repeatMin",
-	//			"value" : "1"
-	//		}, {
-	//			"name" : "repeatMax",
-	//			"value" : "X"
-	//		} ],
-	//		"name" : "childReference",
-	//		"repeatId" : "1"
-	//	},
-	//	"metadataId" : "textVariableId",
-	//	"nameInData" : "textVariableId",
-	//	"path" : {}
-	//};
-	//assert.deepEqual(this.jsBookkeeper.getAddDataArray()[0], addData);
+QUnit.test("testHandleFilesSendingOneFile", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var view = attachedPChildRefHandler.view;
+
+	var files = [];
+	var file1 = {
+		"name" : "someFile.tif",
+		"size" : 1234567890
+	};
+	files.push(file1);
+
+	childRefHandler.handleFiles(files);
+
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
+
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/image/");
+	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
+			"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
+			"application/uub+record+json");
+
+	var data = {
+		"name" : "binary",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "dataDivider",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "system"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "alvin"
+				} ]
+			} ]
+		}, {
+			"name" : "fileName",
+			"value" : "someFile.tif"
+		}, {
+			"name" : "fileSize",
+			"value" : "1234567890"
+		} ]
+	};
+	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
+});
+
+QUnit.test("testHandleFilesRecieveAnswerForOneFile", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var view = attachedPChildRefHandler.view;
+
+	var files = [];
+	var file1 = {
+		"name" : "someFile.tif",
+		"size" : 1234567890
+	};
+	files.push(file1);
+
+	childRefHandler.handleFiles(files);
+
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
+
+	var addData = {
+		"childReference" : {
+			"children" : [ {
+				"name" : "ref",
+				"value" : "myChildOfBinaryLink"
+			}, {
+				"name" : "repeatMin",
+				"value" : "0"
+			}, {
+				"name" : "repeatMax",
+				"value" : "X"
+			} ],
+			"name" : "childReference",
+			"repeatId" : "one"
+		},
+		"metadataId" : "myChildOfBinaryLink",
+		"nameInData" : "myChildOfBinaryLink",
+		"path" : {}
+	};
+	assert.deepEqual(this.jsBookkeeper.getAddDataArray()[0], addData);
+	
+	var setValueData = {
+		"data" : "image:333759270435575",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "myChildOfBinaryLink"
+			}, {
+				"name" : "repeatId",
+				"value" : "dummyRepeatId"
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "linkedRecordId"
+				} ]
+			} ]
+		}
+	}
+	assert.deepEqual(this.jsBookkeeper.getDataArray()[0], setValueData);
 });
 
 QUnit.test("testAddButtonShownFor0to1", function(assert) {
@@ -573,7 +735,8 @@ QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 	var jsBookkeeper = CORATEST.jsBookkeeperSpy();
 
 	var attachedPChildRefHandlerFactory = CORATEST.attachedPChildRefHandlerFactory(
-			metadataProvider, pubSub, textProvider, presentationFactory, jsBookkeeper, recordTypeProvider, fixture);
+			metadataProvider, pubSub, textProvider, presentationFactory, jsBookkeeper,
+			recordTypeProvider, fixture);
 
 	var path = {};
 	var attachedPChildRefHandler = attachedPChildRefHandlerFactory.factor(path,

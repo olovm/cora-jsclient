@@ -1801,7 +1801,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax("myChildOfBinaryLink",
-						"one", "1", "X") ]
+						"one", "0", "X") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
