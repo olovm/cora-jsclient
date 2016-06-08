@@ -444,8 +444,28 @@ var CORA = (function(cora) {
 		}
 
 		function handleFiles(files) {
-			var file = files[0];
-			var data = {
+			files.forEach(handleFile);
+		}
+
+		function handleFile(file) {
+			var data = createNewBinaryData(file);
+			var createLink = getLinkedRecordTypeCreateLink();
+
+			var callSpec = {
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"method" : createLink.requestMethod,
+				"url" : createLink.url,
+				"contentType" : createLink.contentType,
+				"accept" : createLink.accept,
+				"loadMethod" : processNewBinary,
+				"errorMethod" : callError,
+				"data" : JSON.stringify(data)
+			};
+			CORA.ajaxCall(callSpec);
+		}
+		
+		function createNewBinaryData(file) {
+			return {
 				"name" : "binary",
 				"children" : [ {
 					"name" : "recordInfo",
@@ -467,20 +487,6 @@ var CORA = (function(cora) {
 					"value" : "" + file.size
 				} ]
 			};
-
-			var createLink = getLinkedRecordTypeCreateLink();
-
-			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : createLink.requestMethod,
-				"url" : createLink.url,
-				"contentType" : createLink.contentType,
-				"accept" : createLink.accept,
-				"loadMethod" : processNewBinary,
-				"errorMethod" : callError,
-				"data" : JSON.stringify(data)
-			};
-			CORA.ajaxCall(callSpec);
 		}
 
 		function getLinkedRecordTypeCreateLink() {
@@ -514,12 +520,13 @@ var CORA = (function(cora) {
 			return id;
 		}
 
-		function callError(error) {
+		function callError(answer) {
 			var messageSpec = {
 				"message" : answer.status,
 				"type" : CORA.message.ERROR
 			};
-			messageHolder.createMessage(messageSpec);
+//			messageHolder.createMessage(messageSpec);
+			//TODO: do something good with the error
 		}
 
 		var out = Object.freeze({
