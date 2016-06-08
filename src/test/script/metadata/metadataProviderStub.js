@@ -1792,7 +1792,7 @@ function MetadataProviderStub() {
 				} ]
 			};
 		}
-		if (idToGet === "groupIdOneBinaryRecordLinkChild") {
+		if (idToGet === "groupIdOneChildOfBinaryRecordLinkChild") {
 			return {
 				"name" : "metadata",
 				"attributes" : {
@@ -1829,6 +1829,46 @@ function MetadataProviderStub() {
 				}, {
 					"name" : "linkedRecordType",
 					"value" : "image"
+				} ]
+			};
+		}
+		if (idToGet === "groupIdOneBinaryRecordLinkChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax("myBinaryLink",
+						"one", "0", "X") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "myBinaryLink") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myBinaryLink"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myBinaryLink"
+				}, {
+					"name" : "textId",
+					"value" : "myBinaryLinkText"
+				}, {
+					"name" : "defTextId",
+					"value" : "myBinaryLinkDefText"
+				}, {
+					"name" : "linkedRecordType",
+					"value" : "binary"
 				} ]
 			};
 		}
@@ -2194,6 +2234,26 @@ function MetadataProviderStub() {
 					}, {
 						"name" : "presentationOf",
 						"value" : "myChildOfBinaryLink"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					} ]
+				};
+			case "myBinaryPLink":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pLink"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "myBinaryPLink"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "myBinaryLink"
 					}, {
 						"name" : "mode",
 						"value" : "input"
@@ -3648,7 +3708,7 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-			case "groupIdOneBinaryRecordLinkChildPGroup":
+			case "groupIdOneChildOfBinaryRecordLinkChildPGroup":
 				return {
 					"name" : "presentation",
 					"attributes" : {
@@ -3656,7 +3716,7 @@ function MetadataProviderStub() {
 					},
 					"children" : [ createRecordInfoJson(idToGet) ].concat([ {
 						"name" : "presentationOf",
-						"value" : "groupIdOneBinaryRecordLinkChild"
+						"value" : "groupIdOneChildOfBinaryRecordLinkChild"
 					}, {
 						"name" : "childReferences",
 						"children" : [ {
