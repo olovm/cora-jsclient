@@ -34,6 +34,7 @@ var CORATEST = (function(coraTest) {
 		
 		function add(data){
 			addDataArray.push(data);
+			return "dummyRepeatId";
 		}
 		
 		function getAddDataArray() {

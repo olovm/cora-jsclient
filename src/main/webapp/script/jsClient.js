@@ -20,7 +20,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.jsClient = function(spec) {
 
-		var recordTypeList = [];
+		var recordTypeList = sortRecordTypesFromRecordTypeProvider();
 		var metadataIdsForRecordType = {};
 		var mainView = createMainView();
 		var sideBar;
@@ -28,7 +28,8 @@ var CORA = (function(cora) {
 		var busy = CORA.busy();
 		mainView.appendChild(busy.getView());
 		var recordGuiFactory = CORA.recordGuiFactory(spec.dependencies);
-		fetchRecordTypeListAndThen(processFetchedRecordTypes);
+
+		processRecordTypes();
 
 		function createMainView() {
 			var view = createSpanWithClassName("jsClient mainView");
@@ -52,32 +53,17 @@ var CORA = (function(cora) {
 			return spanNew;
 		}
 
-		function fetchRecordTypeListAndThen(callAfterAnswer) {
-			busy.show();
-			var recordListSpec = {
-				"xmlHttpRequestFactory" : spec.dependencies.xmlHttpRequestFactory,
-				"method" : "GET",
-				"url" : spec.baseUrl + "record/recordType",
-				"contentType" : "application/uub+record+json",
-				"accept" : "application/uub+recordList+json",
-				"loadMethod" : callAfterAnswer
-			};
-			CORA.ajaxCall(recordListSpec);
-		}
 
-		function processFetchedRecordTypes(answer) {
-			recordTypeList = createRecordTypeListFromAnswer(answer);
+		function processRecordTypes() {
 			metadataIdsForRecordType = createMetadataIdsForRecordType(recordTypeList);
-			addRecordTypesToSideBar(recordTypeList);
 			busy.hideWithEffect();
 		}
 
-		function createRecordTypeListFromAnswer(answer) {
-			var data = JSON.parse(answer.responseText).dataList.data;
+		function sortRecordTypesFromRecordTypeProvider() {
+			var allRecordTypes = spec.dependencies.recordTypeProvider.getAllRecordTypes();
+			var recordTypeLists = sortRecordTypesIntoLists(allRecordTypes);
 			var list = [];
-			var recordTypeLists = sortRecordTypesIntoLists(data);
-
-			recordTypeLists.abstractList.forEach(function(parent){
+			recordTypeLists.abstractList.forEach(function(parent) {
 				list.push(parent);
 				addChildrenOfCurrentParentToList(parent, recordTypeLists, list);
 			});
@@ -86,47 +72,45 @@ var CORA = (function(cora) {
 			return list;
 		}
 
-		function sortRecordTypesIntoLists(data){
+		function sortRecordTypesIntoLists(unsortedRecordTypes) {
 			var recordTypeLists = {};
 			recordTypeLists.childList = [];
 			recordTypeLists.abstractList = [];
 			recordTypeLists.noParentList = [];
 
-			data.forEach(function(recordContainer) {
-				separateAbstractAndNonAbstractRecordTypes(recordTypeLists, recordContainer);
+			unsortedRecordTypes.forEach(function(recordType) {
+				separateAbstractAndNonAbstractRecordTypes(recordTypeLists, recordType);
 			});
 			return recordTypeLists;
 		}
 
-
-		function separateAbstractAndNonAbstractRecordTypes(recordTypeLists, recordContainer){
-			var record = recordContainer.record;
+		function separateAbstractAndNonAbstractRecordTypes(recordTypeLists, record) {
 			var cRecord = CORA.coraData(record.data);
 
-			if(isAbstract(cRecord)){
-				recordTypeLists.abstractList.push(record)
-			}else {
+			if (isAbstract(cRecord)) {
+				recordTypeLists.abstractList.push(record);
+			} else {
 				separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record);
 			}
 		}
 
-		function separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record){
+		function separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record) {
 			if (elementHasParent(cRecord)) {
 				recordTypeLists.childList.push(record);
-			}else{
-				recordTypeLists.noParentList.push(record)
+			} else {
+				recordTypeLists.noParentList.push(record);
 			}
 		}
 
-		function isAbstract(cRecord){
-        	return cRecord.getFirstAtomicValueByNameInData("abstract") === "true";
+		function isAbstract(cRecord) {
+			return cRecord.getFirstAtomicValueByNameInData("abstract") === "true";
 		}
 
-		function addChildrenOfCurrentParentToList(parent, recordTypeLists, list){
+		function addChildrenOfCurrentParentToList(parent, recordTypeLists, list) {
 			var cParent = CORA.coraData(parent.data);
 			var cRecordInfo = CORA.coraData(cParent.getFirstChildByNameInData("recordInfo"));
 
-			recordTypeLists.childList.forEach(function(child){
+			recordTypeLists.childList.forEach(function(child) {
 				var cChild = CORA.coraData(child.data);
 				if (isChildOfCurrentElement(cChild, cRecordInfo)) {
 					list.push(child);
@@ -134,13 +118,13 @@ var CORA = (function(cora) {
 			});
 		}
 
-		function elementHasParent(cRecord){
+		function elementHasParent(cRecord) {
 			return cRecord.containsChildWithNameInData("parentId");
 		}
 
-		function isChildOfCurrentElement(cChild, cRecordInfo){
-			return cChild.getFirstAtomicValueByNameInData("parentId") ===
-				cRecordInfo.getFirstAtomicValueByNameInData("id");
+		function isChildOfCurrentElement(cChild, cRecordInfo) {
+			return cChild.getFirstAtomicValueByNameInData("parentId") === cRecordInfo
+					.getFirstAtomicValueByNameInData("id");
 		}
 
 		function createMetadataIdsForRecordType(recordTypes) {
@@ -172,7 +156,6 @@ var CORA = (function(cora) {
 				"jsClient" : mainView.modelObject,
 				"baseUrl" : spec.baseUrl
 			};
-
 			var recordTypeHandler = CORA.recordTypeHandler(specRecord);
 			sideBar.appendChild(recordTypeHandler.getView());
 		}
@@ -257,6 +240,7 @@ var CORA = (function(cora) {
 			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId
 		});
 		mainView.modelObject = out;
+		addRecordTypesToSideBar(recordTypeList);
 		return out;
 	};
 	return cora;

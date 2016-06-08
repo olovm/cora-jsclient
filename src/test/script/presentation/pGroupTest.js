@@ -20,7 +20,7 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.attachedPGroupFactory = function(metadataProvider, pubSub, textProvider,
-			presentationFactory, jsBookkeeper, fixture) {
+			presentationFactory, jsBookkeeper, recordTypeProvider, fixture) {
 		var factor = function(presentationId) {
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
 
@@ -40,7 +40,8 @@ var CORATEST = (function(coraTest) {
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
 				"presentationFactory" : presentationFactory,
-				"jsBookkeeper" : jsBookkeeper
+				"jsBookkeeper" : jsBookkeeper,
+				"recordTypeProvider" : recordTypeProvider
 			};
 			// var spec = {
 			// "path" : path,
@@ -82,8 +83,9 @@ QUnit.module("pGroupTest.js", {
 		this.textProvider = CORATEST.textProviderStub();
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 		this.presentationFactory = CORATEST.presentationFactorySpy();
+		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
 		this.newAttachedPGroup = CORATEST.attachedPGroupFactory(this.metadataProvider, this.pubSub,
-				this.textProvider, this.presentationFactory, this.jsBookkeeper, this.fixture);
+				this.textProvider, this.presentationFactory, this.jsBookkeeper, this.recordTypeProvider, this.fixture);
 	},
 	afterEach : function() {
 	}

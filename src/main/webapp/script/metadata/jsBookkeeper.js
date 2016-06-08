@@ -32,7 +32,6 @@ var CORA = (function(cora) {
 			if (path.children !== undefined) {
 				currentData = spec.dataHolder.findContainer(currentData, path);
 			}
-			var startRepeatId = calculateStartRepeatId(currentData.children);
 
 			var cChildReference = CORA.coraData(childReference);
 			var ref = cChildReference.getFirstAtomicValueByNameInData('ref');
@@ -41,9 +40,10 @@ var CORA = (function(cora) {
 				CORA.metadataRepeatInitializer(ref, path, undefined, undefined,
 						spec.metadataProvider, spec.pubSub);
 			} else {
-
+				var startRepeatId = calculateStartRepeatId(currentData.children);
 				CORA.metadataRepeatInitializer(ref, path, undefined, String(startRepeatId),
 						spec.metadataProvider, spec.pubSub);
+				return String(startRepeatId);
 			}
 		}
 

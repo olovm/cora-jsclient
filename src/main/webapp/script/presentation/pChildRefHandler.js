@@ -62,13 +62,12 @@ var CORA = (function(cora) {
 		function createPChildRefHandlerView() {
 			var pChildRefHandlerViewSpec = {
 				"presentationId" : presentationId,
-				"isRepeating" : isRepeating,
+				"isRepeating" : isRepeating
 			};
-			if(showFileUpload()){
-				console.log("in upload")
+			if (showFileUpload()) {
 				pChildRefHandlerViewSpec.upload = "true";
-			}
-			else if (showAddButton()) {
+				pChildRefHandlerViewSpec.handleFilesMethod = handleFiles;
+			} else if (showAddButton()) {
 				pChildRefHandlerViewSpec.addMethod = sendAdd;
 			}
 			return CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
@@ -166,55 +165,59 @@ var CORA = (function(cora) {
 			return repeatMin === "0" && repeatMax === "1";
 		}
 
-		function showFileUpload(){
-			if(currentChildRefIsRecordLink() && currentChildRefHasLinkedRecordType()){
+		function showFileUpload() {
+			if (currentChildRefIsRecordLink() && currentChildRefHasLinkedRecordType()) {
 				return checkIfBinaryOrChildOfBinary();
 			}
 			return false;
 		}
 
-		function currentChildRefIsRecordLink(){
-			return currentChildRefHasAttributes() && isOfTypeRecordLink()
+		function currentChildRefIsRecordLink() {
+			return currentChildRefHasAttributes() && isOfTypeRecordLink();
 		}
 
-		function currentChildRefHasAttributes(){
+		function currentChildRefHasAttributes() {
 			return cMetadataElement.getData().attributes !== undefined;
 		}
 
-		function isOfTypeRecordLink(){
+		function isOfTypeRecordLink() {
 			var attributes = cMetadataElement.getData().attributes;
-			return attributes.type !== undefined && attributes.type  === "recordLink";
+			return attributes.type !== undefined && attributes.type === "recordLink";
 		}
 
-		function currentChildRefHasLinkedRecordType(){
+		function currentChildRefHasLinkedRecordType() {
 			return cMetadataElement.containsChildWithNameInData("linkedRecordType");
 		}
 
-		function checkIfBinaryOrChildOfBinary(){
+		function checkIfBinaryOrChildOfBinary() {
 			var cRecordType = getLinkedRecordType();
 			var cRecordInfo = CORA.coraData(cRecordType.getFirstChildByNameInData("recordInfo"));
 
 			return isBinaryOrChildOfBinary(cRecordInfo, cRecordType);
 		}
 
-		function getLinkedRecordType(){
+		function getLinkedRecordType() {
 			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
-			var cRecordType = getMetadataById(recordTypeId);
+			var cRecordType = getRecordTypeById(recordTypeId);
 			return cRecordType;
 		}
 
-		function isBinaryOrChildOfBinary(cRecordInfo, cRecordType){
+		function getRecordTypeById(id) {
+			return CORA.coraData(spec.recordTypeProvider.getRecordTypeById(id).data);
+		}
+
+		function isBinaryOrChildOfBinary(cRecordInfo, cRecordType) {
 			return isBinary(cRecordInfo) || isChildOfBinary(cRecordType);
 		}
 
-		function isBinary(cRecordInfo){
+		function isBinary(cRecordInfo) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id") === "binary";
 		}
 
-		function isChildOfBinary(cRecordType){
+		function isChildOfBinary(cRecordType) {
 
-			return cRecordType.containsChildWithNameInData("parentId") &&
-					cRecordType.getFirstAtomicValueByNameInData("parentId") === "binary";
+			return cRecordType.containsChildWithNameInData("parentId")
+					&& cRecordType.getFirstAtomicValueByNameInData("parentId") === "binary";
 
 		}
 
@@ -303,11 +306,17 @@ var CORA = (function(cora) {
 		}
 
 		function calculateNewPath(metadataIdToAdd, repeatId) {
+			return calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd,
+					repeatId, spec.parentPath);
+		}
+
+		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
+				parentPath) {
 			var pathSpec = {
 				"metadataProvider" : spec.metadataProvider,
 				"metadataIdToAdd" : metadataIdToAdd,
 				"repeatId" : repeatId,
-				"parentPath" : spec.parentPath
+				"parentPath" : parentPath
 			};
 			return CORA.calculatePathForNewElement(pathSpec);
 		}
@@ -420,7 +429,7 @@ var CORA = (function(cora) {
 			if (metadataHasAttributes) {
 				data.attributes = collectedAttributes;
 			}
-			spec.jsBookkeeper.add(data);
+			return spec.jsBookkeeper.add(data);
 		}
 
 		function childMoved(moveInfo) {
@@ -434,6 +443,92 @@ var CORA = (function(cora) {
 			spec.jsBookkeeper.move(data);
 		}
 
+		function handleFiles(files) {
+			files.forEach(handleFile);
+		}
+
+		function handleFile(file) {
+			var data = createNewBinaryData(file);
+			var createLink = getLinkedRecordTypeCreateLink();
+
+			var callSpec = {
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"method" : createLink.requestMethod,
+				"url" : createLink.url,
+				"contentType" : createLink.contentType,
+				"accept" : createLink.accept,
+				"loadMethod" : processNewBinary,
+				"errorMethod" : callError,
+				"data" : JSON.stringify(data)
+			};
+			CORA.ajaxCall(callSpec);
+		}
+		
+		function createNewBinaryData(file) {
+			return {
+				"name" : "binary",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "dataDivider",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "system"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "alvin"
+						} ]
+					} ]
+				}, {
+					"name" : "fileName",
+					"value" : file.name
+				}, {
+					"name" : "fileSize",
+					"value" : "" + file.size
+				} ]
+			};
+		}
+
+		function getLinkedRecordTypeCreateLink() {
+			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
+			var recordType = spec.recordTypeProvider.getRecordTypeById(recordTypeId);
+			return recordType.actionLinks.create;
+		}
+
+		function processNewBinary(answer) {
+			var calculatedRepeatId = sendAdd();
+			var data = getDataPartOfRecordFromAnswer(answer);
+			var createdRecordId = getIdFromRecordData(data);
+			var newPath1 = calculateNewPath(metadataId, calculatedRepeatId);
+			var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(
+					"linkedRecordIdTextVar", undefined, newPath1);
+			var setValueData = {
+				"data" : createdRecordId,
+				"path" : newPath
+			};
+			spec.jsBookkeeper.setValue(setValueData);
+		}
+
+		function getDataPartOfRecordFromAnswer(answer) {
+			return JSON.parse(answer.responseText).record.data;
+		}
+
+		function getIdFromRecordData(recordData) {
+			var cRecord = CORA.coraData(recordData);
+			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
+			return id;
+		}
+
+		function callError(answer) {
+			var messageSpec = {
+				"message" : answer.status,
+				"type" : CORA.message.ERROR
+			};
+//			messageHolder.createMessage(messageSpec);
+			//TODO: do something good with the error
+		}
+
 		var out = Object.freeze({
 			getView : getView,
 			add : add,
@@ -442,7 +537,9 @@ var CORA = (function(cora) {
 			isStaticNoOfChildren : isStaticNoOfChildren,
 			sendAdd : sendAdd,
 			childRemoved : childRemoved,
-			childMoved : childMoved
+			childMoved : childMoved,
+			handleFiles : handleFiles,
+			processNewBinary : processNewBinary
 		});
 
 		pChildRefHandlerView.getView().modelObject = out;

@@ -19,14 +19,15 @@
 "use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.presentationFactoryFactory = function(metadataProvider, pubSub, textProvider) {
+	coraTest.presentationFactoryFactory = function(metadataProvider, pubSub, textProvider, recordTypeProvider) {
 		var factor = function() {
 			var jsBookkeeper = CORATEST.jsBookkeeperSpy();
 			var specPresentationFactory = {
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper
+				"jsBookkeeper" : jsBookkeeper,
+				"recordTypeProvider" : recordTypeProvider
 			};
 			return CORA.presentationFactory(specPresentationFactory);
 
@@ -44,8 +45,9 @@ QUnit.module("presentationFactoryTest.js", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
+		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
 		this.newPresentationFactoryFactory = CORATEST.presentationFactoryFactory(
-				this.metadataProvider, this.pubSub, this.textProvider);
+				this.metadataProvider, this.pubSub, this.textProvider, this.recordTypeProvider);
 		this.newPresentationFactory = this.newPresentationFactoryFactory.factor();
 	},
 	afterEach : function() {

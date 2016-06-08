@@ -39,6 +39,7 @@
 <script type="text/javascript" src="script/recordListHandler.js"></script>
 <script type="text/javascript" src="script/recordTypeHandler.js"></script>
 <script type="text/javascript" src="script/recordTypeHandlerView.js"></script>
+<script type="text/javascript" src="script/recordTypeProvider.js"></script>
 <script type="text/javascript" src="script/recordViewer.js"></script>
 
 <script type="text/javascript" src="script/gui/basicGui.js"></script>
@@ -80,14 +81,18 @@
 <script type="text/javascript" src="script/presentation/pVar.js"></script>
 
 <script type="text/javascript">
-	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
-//  	var baseUrl = "http://localhost:8080/therest/rest/";
+// 	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+	var baseUrl = "http://localhost:8080/therest/rest/";
 
 	window.onload = start;
+	var jsClientSpec;
 	function start() {
-		startJsClient();
+// 		startJsClient();
+		startDependencies();
+		//this is a small hack to have time to read recordTypes before jsClient starts
+		window.setTimeout(startJsClient, 200);
 	}
-	function startJsClient() {
+	function startDependencies() {
 		var dependencies = {
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
 		};
@@ -125,18 +130,33 @@
 		};
 
 		var textProvider = CORA.textProvider(textProviderSpec);
-
+ 
+		var recordTypeListLink = {
+			"requestMethod" : "GET",
+			"rel" : "list",
+			"url" :  baseUrl + "record/recordType/",
+			"accept" : "application/uub+recordList+json"
+		};
+		var recordTypeProviderSpec = {
+			"dependencies" : dependencies,
+			"recordTypeListLink" : recordTypeListLink
+		};
+		var recordTypeProvider = CORA.recordTypeProvider(recordTypeProviderSpec);
+		
 		var jsClientDependencies = {
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
+			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
 			"presentationFactoryFactory" : "not implemented yet"
 		}
-		var jsClientSpec = {
+		jsClientSpec = {
 			"dependencies" : jsClientDependencies,
 			"name" : "The Client",
 			"baseUrl" : baseUrl
 		};
+	}
+	function startJsClient() {
 		var jsClient = CORA.jsClient(jsClientSpec);
 		document.body.appendChild(jsClient.getView());
 	}
