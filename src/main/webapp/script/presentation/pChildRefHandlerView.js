@@ -82,7 +82,9 @@ var CORA = (function(cora) {
 			button.type = "file";
 			button.multiple = "true";
 			// button.onclick = spec.addMethod;
-			button.onchange = spec.handleFilesMethod;
+			button.onchange = function(){
+				spec.handleFilesMethod(this.files);
+			}
 			return button;
 		}
 
