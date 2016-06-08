@@ -20,7 +20,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pChildRefHandlerView = function(spec) {
-
+		console.log(JSON.stringify(spec))
 		var view = createBaseView();
 		var childrenView = createChildrenView();
 		var buttonView;
@@ -81,10 +81,9 @@ var CORA = (function(cora) {
 			var button = document.createElement("input");
 			button.type = "file";
 			button.multiple = "true";
-			// button.onclick = spec.addMethod;
 			button.onchange = function(){
 				spec.handleFilesMethod(this.files);
-			}
+			};
 			return button;
 		}
 

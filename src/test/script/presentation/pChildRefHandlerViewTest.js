@@ -467,8 +467,8 @@ QUnit.test("testDragendDraggingChangeOrder", function(assert) {
 	assert.strictEqual(eventSpy3.target.className, "");
 
 	var moveData = {
-//		"path" : {},
-//		"metadataId" : "textVariableId",
+		// "path" : {},
+		// "metadataId" : "textVariableId",
 		"moveChild" : {
 			"name" : "linkedPath",
 			"children" : [ {
@@ -494,5 +494,25 @@ QUnit.test("testDragendDraggingChangeOrder", function(assert) {
 	assert.deepEqual(movedData, moveData);
 });
 
+QUnit.test("testInit", function(assert) {
+	var handleFilesHasBeenCalled = false;
+	function handleFiles(files) {
+		handleFilesHasBeenCalled = true;
+	}
+	var pChildRefHandlerViewSpec = {
+		"presentationId" : "myChildOfBinaryPLink",
+		"isRepeating" : true,
+		"upload" : "true",
+		"handleFilesMethod" : handleFiles
+	};
+	var pChildRefHandlerView = CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
+	var view = pChildRefHandlerView.getView();
 
+	var buttonView = view.childNodes[1];
+	assert.strictEqual(buttonView.className, "buttonView");
+	var button = buttonView.firstChild;
+	assert.strictEqual(button.type, "file");
 
+	button.onchange();
+	assert.ok(handleFilesHasBeenCalled);
+});
