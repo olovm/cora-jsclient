@@ -115,11 +115,15 @@ QUnit.test("testAddRepeating", function(assert) {
 			"children" : [ {
 				"name" : "textVar",
 				"value" : "one",
-				"repeatId" : "1"
+				"repeatId" : "one"
 			}, {
 				"name" : "textVar",
 				"value" : "two",
 				"repeatId" : "2"
+			}, {
+				"name" : "textVar",
+				"value" : "three",
+				"repeatId" : "1"
 			} ],
 			"attributes" : {
 				"anAttribute" : "aFinalValue"
@@ -154,12 +158,16 @@ QUnit.test("testAddRepeating", function(assert) {
 		"children" : [ {
 			"name" : "textVar",
 			"value" : "one",
-			"repeatId" : "1"
+			"repeatId" : "one"
 		}, {
 			"name" : "textVar",
 			"value" : "two",
 			"repeatId" : "2"
-		} ],
+		}, {
+			"name" : "textVar",
+			"value" : "three",
+			"repeatId" : "1"
+		}],
 		"attributes" : {
 			"anAttribute" : "aFinalValue"
 		},

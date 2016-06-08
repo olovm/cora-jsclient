@@ -27,6 +27,7 @@ var CORA = (function(cora) {
 		var jsBookkeeper = spec.jsBookkeeper;
 		var presentationFactory = spec.presentationFactory;
 		var recordTypeProvider = spec.recordTypeProvider;
+		var xmlHttpRequestFactory = spec.xmlHttpRequestFactory;
 
 		var view;
 
@@ -86,7 +87,8 @@ var CORA = (function(cora) {
 				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper,
 				"presentationFactory" : presentationFactory,
-				"recordTypeProvider" : recordTypeProvider
+				"recordTypeProvider" : recordTypeProvider,
+				"xmlHttpRequestFactory" : xmlHttpRequestFactory
 			};
 
 			if (childHasMinimizedPresenation(cPresentationChildRef)) {

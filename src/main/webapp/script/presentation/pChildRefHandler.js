@@ -493,7 +493,7 @@ var CORA = (function(cora) {
 			var calculatedRepeatId = sendAdd();
 			var data = getDataPartOfRecordFromAnswer(answer);
 			var createdRecordId = getIdFromRecordData(data);
-			var newPath1 = calculateNewPath("myChildOfBinaryLink", calculatedRepeatId);
+			var newPath1 = calculateNewPath(metadataId, calculatedRepeatId);
 			var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(
 					"linkedRecordIdTextVar", undefined, newPath1);
 			var setValueData = {

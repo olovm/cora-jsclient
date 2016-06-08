@@ -518,7 +518,7 @@ QUnit.test("testHandleFilesSendingOneFile", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
 });
 
-QUnit.test("testHandleFilesRecieveAnswerForOneFile", function(assert) {
+QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;

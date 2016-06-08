@@ -20,7 +20,6 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pChildRefHandlerView = function(spec) {
-		console.log(JSON.stringify(spec))
 		var view = createBaseView();
 		var childrenView = createChildrenView();
 		var buttonView;
