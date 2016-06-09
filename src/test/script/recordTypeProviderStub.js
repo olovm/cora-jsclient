@@ -1822,6 +1822,152 @@ var CORATEST = (function(coraTest) {
 				}
 			}
 		};
+	recordTypeArray["genericBinary"] = {
+		    "data": {
+		        "children": [
+		          {
+		            "name": "metadataId",
+		            "value": "genericBinaryGroup"
+		          },
+		          {
+		            "name": "abstract",
+		            "value": "false"
+		          },
+		          {
+		            "name": "parentId",
+		            "value": "binary"
+		          },
+		          {
+		            "children": [
+		              {
+		                "name": "id",
+		                "value": "genericBinary"
+		              },
+		              {
+		                "name": "type",
+		                "value": "recordType"
+		              },
+		              {
+		                "name": "createdBy",
+		                "value": "userId"
+		              },
+		              {
+		                "children": [
+		                  {
+		                    "name": "linkedRecordType",
+		                    "value": "system"
+		                  },
+		                  {
+		                    "name": "linkedRecordId",
+		                    "value": "cora"
+		                  }
+		                ],
+		                "actionLinks": {
+		                  "read": {
+		                    "requestMethod": "GET",
+		                    "rel": "read",
+		                    "url": "http://epc.ub.uu.se/cora/rest/record/system/cora",
+		                    "accept": "application/uub+record+json"
+		                  }
+		                },
+		                "name": "dataDivider"
+		              }
+		            ],
+		            "name": "recordInfo"
+		          },
+		          {
+		            "name": "presentationViewId",
+		            "value": "genericBinaryViewPGroup"
+		          },
+		          {
+		            "name": "presentationFormId",
+		            "value": "genericBinaryFormPGroup"
+		          },
+		          {
+		            "name": "newMetadataId",
+		            "value": "genericBinaryNewGroup"
+		          },
+		          {
+		            "name": "newPresentationFormId",
+		            "value": "genericBinaryFormNewPGroup"
+		          },
+		          {
+		            "name": "menuPresentationViewId",
+		            "value": "genericBinaryMenuPGroup"
+		          },
+		          {
+		            "name": "listPresentationViewId",
+		            "value": "genericBinaryListPGroup"
+		          },
+		          {
+		            "name": "searchMetadataId",
+		            "value": "genericBinarySearchGroup"
+		          },
+		          {
+		            "name": "searchPresentationFormId",
+		            "value": "genericBinaryFormSearchPGroup"
+		          },
+		          {
+		            "name": "userSuppliedId",
+		            "value": "false"
+		          },
+		          {
+		            "name": "permissionKey",
+		            "value": "RECORDTYPE_GENERIC_BINARY"
+		          },
+		          {
+		            "name": "selfPresentationViewId",
+		            "value": "genericBinaryViewSelfPGroup"
+		          }
+		        ],
+		        "name": "recordType"
+		      },
+		      "actionLinks": {
+		        "search": {
+		          "requestMethod": "GET",
+		          "rel": "search",
+		          "url": "http://epc.ub.uu.se/cora/rest/record/genericBinary/",
+		          "accept": "application/uub+recordList+json"
+		        },
+		        "read": {
+		          "requestMethod": "GET",
+		          "rel": "read",
+		          "url": "http://epc.ub.uu.se/cora/rest/record/recordType/genericBinary",
+		          "accept": "application/uub+record+json"
+		        },
+		        "create_by_upload": {
+		          "requestMethod": "POST",
+		          "rel": "create_by_upload",
+		          "contentType": "multipart/form-data",
+		          "url": "http://epc.ub.uu.se/cora/rest/record/genericBinary/"
+		        },
+		        "update": {
+		          "requestMethod": "POST",
+		          "rel": "update",
+		          "contentType": "application/uub+record+json",
+		          "url": "http://epc.ub.uu.se/cora/rest/record/recordType/genericBinary",
+		          "accept": "application/uub+record+json"
+		        },
+		        "create": {
+		          "requestMethod": "POST",
+		          "rel": "create",
+		          "contentType": "application/uub+record+json",
+		          "url": "http://epc.ub.uu.se/cora/rest/record/genericBinary/",
+		          "accept": "application/uub+record+json"
+		        },
+		        "list": {
+		          "requestMethod": "GET",
+		          "rel": "list",
+		          "url": "http://epc.ub.uu.se/cora/rest/record/genericBinary/",
+		          "accept": "application/uub+recordList+json"
+		        },
+		        "delete": {
+		          "requestMethod": "DELETE",
+		          "rel": "delete",
+		          "url": "http://epc.ub.uu.se/cora/rest/record/recordType/genericBinary"
+		        }
+		      }
+		    };
 
 		function getRecordTypeById(recordTypeId) {
 

@@ -33,14 +33,9 @@ var CORA = (function(cora) {
 		var lastRepeatingElementDraggedOver;
 
 		view.appendChild(childrenView);
-		// if (spec.addMethod !== undefined) {
 		if (spec.addMethod !== undefined || spec.upload === "true") {
 			createButtonView();
 		}
-		// console.log(spec.upload)
-		// if (spec.upload === "true") {
-		// createUploadView();
-		// }
 
 		function createBaseView() {
 			return createSpanWithClassName("pChildRefHandler " + spec.presentationId);

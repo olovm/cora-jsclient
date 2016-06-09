@@ -491,8 +491,18 @@ var CORA = (function(cora) {
 
 		function getLinkedRecordTypeCreateLink() {
 			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
+			
+			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);
+
 			var recordType = spec.recordTypeProvider.getRecordTypeById(recordTypeId);
 			return recordType.actionLinks.create;
+		}
+		
+		function changeRecordTypeIdIfBinary(recordTypeId){
+			if(recordTypeId === "binary"){
+				recordTypeId = "genericBinary";
+			}
+			return recordTypeId;
 		}
 
 		function processNewBinary(answer) {
