@@ -166,7 +166,6 @@ var CORA = (function(cora) {
 		}
 
 		function showFileUpload() {
-			console.log("in fileupload")
 			if (currentChildRefIsRecordLink() && currentChildRefHasLinkedRecordType()) {
 				return checkIfBinaryOrChildOfBinary();
 			}
@@ -493,14 +492,11 @@ var CORA = (function(cora) {
 		}
 
 		function setLinkedRecordIdFromFinalValue(){
-			var dataDividerLinkedRecordId = "";
 			var cMetadataGroup = getNewMetadataGroupFromRecordType();
 
 			var cRecordInfo =  findRefByNameInData(cMetadataGroup, "recordInfo");
-			if(cRecordInfo !== undefined){
-				dataDividerLinkedRecordId = getFinalValueDataDivider(cRecordInfo, dataDividerLinkedRecordId);
-			}
-			return dataDividerLinkedRecordId;
+
+			return getFinalValueDataDivider(cRecordInfo);
 		}
 
 		function getNewMetadataGroupFromRecordType(){
@@ -511,13 +507,13 @@ var CORA = (function(cora) {
 		}
 
 		function getImplementingLinkedRecordType(){
-			console.log("cMetadataGroup ")
 			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
 			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);
 			return spec.recordTypeProvider.getRecordTypeById(recordTypeId);
 		}
 
-		function getFinalValueDataDivider(cRecordInfo, dataDividerLinkedRecordId){
+		function getFinalValueDataDivider(cRecordInfo){
+			var dataDividerLinkedRecordId = "";
 			var cDataDivider = findRefByNameInData(cRecordInfo, "dataDivider");
 			if(cDataDivider !==  undefined && cDataDivider.getFirstAtomicValueByNameInData("finalValue") !== undefined) {
 				dataDividerLinkedRecordId = cDataDivider.getFirstAtomicValueByNameInData("finalValue");

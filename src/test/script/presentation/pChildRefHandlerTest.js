@@ -584,14 +584,6 @@ QUnit.test("testHandleFilesSendingOneBinaryFileDataDividerMissing", function(ass
 
 	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
 
-	//var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	//assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/genericBinary/");
-	//assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
-	//assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-	//	"application/uub+record+json");
-	//assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-	//	"application/uub+record+json");
-
 	var data = {
 		"name" : "binary",
 		"children" : [ {
@@ -603,7 +595,7 @@ QUnit.test("testHandleFilesSendingOneBinaryFileDataDividerMissing", function(ass
 					"value" : "system"
 				}, {
 					"name" : "linkedRecordId",
-					"value" : "cora"
+					"value" : ""
 				} ]
 			} ]
 		}, {
