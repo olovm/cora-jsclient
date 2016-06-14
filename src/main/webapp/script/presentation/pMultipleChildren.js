@@ -29,29 +29,18 @@ var CORA = (function(cora) {
 
 		var view;
 		var originalClassName;
-
-		// var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
-		// var cMetadataElement = getMetadataById(my.metadataId);
 		var cMetadataElement;
-
 		var textId;
 		var text;
-
 		var defTextId;
 		var defText;
-
 		var info;
 		var infoButton;
 		function init() {
 			cMetadataElement = getMetadataById(my.metadataId);
-			// console.log(my.metadataId)
-			// console.log(cMetadataElement.getData())
 			textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
-			// console.log(textId)
 			text = textProvider.getTranslation(textId);
-			//			
 			defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
-			// console.log(defTextId)
 			defText = textProvider.getTranslation(defTextId);
 
 			var viewNew = my.createBaseViewHolder();
@@ -70,8 +59,7 @@ var CORA = (function(cora) {
 		}
 		function createInfo() {
 			var infoSpec = {
-				// "appendTo" : view,
-				// "insertAfter" : infoButton,
+				// "insertAfter" is set to infoButton below
 				"afterLevelChange" : updateView,
 				"level1" : [ {
 					"className" : "textView",
@@ -180,16 +168,17 @@ var CORA = (function(cora) {
 			var recordInfo = spec.cPresentation.getFirstChildByNameInData("recordInfo");
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
+		
 		function getView() {
 			return view;
 		}
+		
 		return Object.freeze({
 			"type" : "pMultipleChildren",
 			getPresentationId : getPresentationId,
 			init : init,
 			getView : getView
 		});
-
 	};
 	return cora;
 }(CORA));
