@@ -45,7 +45,7 @@ input {
 }
 
 .pGroup .pGroup {
-	background-color: cyan;
+/* 	background-color: cyan; */
 }
 
 .error input, .error select {
@@ -247,10 +247,15 @@ input {
 	display: inline-block;
 /* 	display: flex; */
 }
-.pVar:hover, .pVar.infoActive {
+/* .pVar:hover, .pVar.infoActive { */
+.pVar:hover, .pVar.infoActive,
+.pGroup2:hover, .pGroup.infoActive {
 	background-color: rgb(205, 224, 251);
+	background-color: rgba(49, 134, 252, 0.29);
 }
-.pVar.infoActive  > .infoButton::before {
+/* .pVar.infoActive  > .infoButton::before { */
+.pVar.infoActive  > .infoButton::before,
+.pGroup.infoActive  > .infoButton::before {
 	opacity: 1;
 }
 
@@ -267,32 +272,60 @@ input {
 	margin: .2em;
 }
 
-.workView .pVar .infoButton {
+.workView .pGroup {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.workView .pGroup > :nth-child(1n) {
+	flex: 0 0 100%;
+/* 	margin: .2em; */
+	order: 2;
+}
+.workView .pGroup > :nth-child(2) {
+	flex: 1;
+	margin: .2em;
+	order: 0;
+}
+.workView .pGroup > :first-child {
+/* 	flex: 1; */
+flex: 0 1 0;
+/* 	margin: .2em; */
+	order: 1;
+}
+
+/* .workView .pVar .infoButton { */
+.infoButton {
 	min-height: 1em;
 	min-width: 1.3em;
 /* 	background-color: blue; */
 	margin-top: .3em;
 }
-.pVar .infoButton {
+/* .pVar .infoButton { */
+.infoButton {
 	cursor: pointer;
 }
 
-.pVar .infoView {
+/* .pVar .infoView { */
+ .infoView {
 	flex: 0 0 100%;
 }
 
-.pVar .infoView span {
+/* .pVar .infoView span { */
+.infoView span {
 	display: block;
 	font-size: 0.7rem;
 }
 
 .jsClient .menuView .pVar .infoButton, .menuView .pVar:hover > .infoButton::before,
+.menuView .pGroup:hover > .infoButton::before,
 .menuView .infoButton::before, .menuView .infoButton::after,
 .menuView .infoButton:hover::after  {
 	display: none;
 }
 
-.workView .pVar:hover > .infoButton::before,  input:focus + .infoButton::before {
+.workView .pVar:hover > .infoButton::before,  input:focus + .infoButton::before ,
+.workView .pGroup:hover > .infoButton::before {
 	opacity: 1;
 }
 	

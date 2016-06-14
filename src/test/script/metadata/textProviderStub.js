@@ -93,6 +93,30 @@ var CORATEST = (function(coraTest) {
 				return "RepeatId";	
 			case "linkedRepeatIdTextVarDefText":
 				return "RepeatId";	
+			case "groupIdOneTextChildText":
+				return "groupIdOneTextChildText";	
+			case "groupIdOneTextChildDefText":
+				return "groupIdOneTextChildDefText";	
+			case "groupIdTwoTextChildRepeat1to5Text":
+				return "groupIdOneTextChildText";	
+			case "groupIdTwoTextChildRepeat1to5DefText":
+				return "groupIdOneTextChildDefText";	
+			case "groupIdOneTextChildRepeat1to3Text":
+				return "groupIdOneTextChildText";	
+			case "groupIdOneTextChildRepeat1to3DefText":
+				return "groupIdOneTextChildDefText";	
+			case "groupIdTwoTextChildText":
+				return "groupIdOneTextChildText";	
+			case "groupIdTwoTextChildDefText":
+				return "groupIdOneTextChildDefText";	
+			case "textVarRepeat1to3InGroupOneAttributeText":
+				return "textVarRepeat1to3InGroupOneAttributeText";	
+			case "textVarRepeat1to3InGroupOneAttributeDefText":
+				return "textVarRepeat1to3InGroupOneAttributeDefText";	
+			case "groupInGroupOneTextChildText":
+				return "groupInGroupOneTextChildText";	
+			case "groupInGroupOneTextChildDefText":
+				return "groupInGroupOneTextChildDefText";	
 				
 			default:
 				console.log("Id(" + textId + ") not found in stub");
