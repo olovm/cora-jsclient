@@ -45,7 +45,7 @@ input {
 }
 
 .pGroup .pGroup {
-	background-color: cyan;
+/* 	background-color: cyan; */
 }
 
 .error input, .error select {
@@ -249,8 +249,9 @@ input {
 }
 /* .pVar:hover, .pVar.infoActive { */
 .pVar:hover, .pVar.infoActive,
-.pGroup:hover, .pGroup.infoActive {
+.pGroup2:hover, .pGroup.infoActive {
 	background-color: rgb(205, 224, 251);
+	background-color: rgba(49, 134, 252, 0.29);
 }
 /* .pVar.infoActive  > .infoButton::before { */
 .pVar.infoActive  > .infoButton::before,

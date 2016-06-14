@@ -106,38 +106,38 @@ QUnit.test("testInitInfo", function(assert) {
 	assert.equal(infoButton.nodeName, "SPAN");
 	assert.equal(infoButton.className, "infoButton");
 
-//	var event = document.createEvent('Event');
-//	infoButton.onclick(event);
-//	assert.equal(view.childNodes.length, 3);
-//
-//	var infoView = view.childNodes[2];
-//	assert.equal(infoView.childNodes.length, 2);
-//	assert.equal(infoView.nodeName, "SPAN");
-//	assert.equal(infoView.className, "infoView");
-//
-//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView",
-//			"Exempel textvariabel", assert);
-//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
-//			"Detta är en exempeldefinition för en textvariabel.", assert);
-//
-//	infoButton.onclick(event);
-//	assert.equal(view.childNodes.length, 3);
-//	assert.equal(infoView.childNodes.length, 6);
-//
-//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
-//			"textId: textVariableIdText", assert);
-//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3], "defTextIdView",
-//			"defTextId: textVariableIdDefText", assert);
-//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
-//			"metadataId: textVariableId", assert);
-//	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[5], "regExView",
-//			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", assert);
-//
-//	infoButton.onclick(event);
-//	assert.equal(view.childNodes.length, 2);
-//
-//	infoButton.onclick(event);
-//	assert.equal(view.childNodes.length, 3);
+	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
+	assert.equal(view.childNodes.length, 2);
+	
+	var event = document.createEvent('Event');
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
+	
+	var infoView = view.childNodes[1];
+	assert.equal(infoView.childNodes.length, 2);
+	assert.equal(infoView.nodeName, "SPAN");
+	assert.equal(infoView.className, "infoView");
+
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView",
+			"groupIdOneTextChildText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
+			"groupIdOneTextChildDefText", assert);
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+	assert.equal(infoView.childNodes.length, 5);
+
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
+			"textId: groupIdOneTextChildText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3], "defTextIdView",
+			"defTextId: groupIdOneTextChildDefText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
+			"metadataId: groupIdOneTextChild", assert);
+	
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 2);
 });
 
 QUnit.test("testInitOneChild", function(assert) {

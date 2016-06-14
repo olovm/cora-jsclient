@@ -28,64 +28,82 @@ var CORA = (function(cora) {
 		var presentationFactory = spec.presentationFactory;
 
 		var view;
-var info;
-var infoButton;
+		var originalClassName;
+
+		// var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
+		// var cMetadataElement = getMetadataById(my.metadataId);
+		var cMetadataElement;
+
+		var textId;
+		var text;
+
+		var defTextId;
+		var defText;
+
+		var info;
+		var infoButton;
 		function init() {
+			cMetadataElement = getMetadataById(my.metadataId);
+			// console.log(my.metadataId)
+			// console.log(cMetadataElement.getData())
+			textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
+			// console.log(textId)
+			text = textProvider.getTranslation(textId);
+			//			
+			defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
+			// console.log(defTextId)
+			defText = textProvider.getTranslation(defTextId);
+
 			var viewNew = my.createBaseViewHolder();
 			view = viewNew;
-			
+
 			info = createInfo();
 			infoButton = info.getButton();
 			viewNew.appendChild(infoButton);
-			
-			
+
 			var presentationChildren = my.cPresentation
 					.getFirstChildByNameInData("childReferences").children;
 			presentationChildren.forEach(function(presentationChildRef) {
 				viewNew.appendChild(createViewForChild(presentationChildRef));
 			});
-			
-
+			originalClassName = view.className;
 		}
 		function createInfo() {
 			var infoSpec = {
-//				"appendTo" : view,
-//				"insertAfter" : infoButton,
-//				"afterLevelChange": updateView,
+				// "appendTo" : view,
+				// "insertAfter" : infoButton,
+				"afterLevelChange" : updateView,
 				"level1" : [ {
 					"className" : "textView",
-//					"text" : text
-					"text" : "someText"
-				}
-//				, {
-//					"className" : "defTextView",
-//					"text" : defText
-//				}
-				],
+					"text" : text
+				}, {
+					"className" : "defTextView",
+					"text" : defText
+				} ],
 				"level2" : [ {
 					"className" : "textIdView",
-//					"text" : "textId: " + textId
-					"text" : "textId: some id"
-				}
-//				, {
-//					"className" : "defTextIdView",
-//					"text" : "defTextId: " + defTextId
-//				}, {
-//					"className" : "metadataIdView",
-//					"text" : "metadataId: " + metadataId
-//				}
-				]
+					"text" : "textId: " + textId
+				}, {
+					"className" : "defTextIdView",
+					"text" : "defTextId: " + defTextId
+				}, {
+					"className" : "metadataIdView",
+					"text" : "metadataId: " + my.metadataId
+				} ]
 			};
-//			if (subType === "textVariable") {
-//				infoSpec.level2.push({
-//					"className" : "regExView",
-//					"text" : "regEx: " + regEx
-//				});
-//			}
 			var newInfo = CORA.info(infoSpec);
 			infoSpec.insertAfter = newInfo.getButton();
 			return newInfo;
 		}
+
+		function updateView() {
+			var className = originalClassName;
+			if (info.getInfoLevel() !== 0) {
+				className += " infoActive";
+			}
+			view.className = className;
+		}
+
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
 			var ref = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
