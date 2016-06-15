@@ -87,14 +87,36 @@ var CORA = (function(cora) {
 		}
 
 		function createTextInput() {
-			var inputNew = document.createElement("input");
+			var inputNew;
+			if (isTextArea()) {
+				inputNew = document.createElement("textarea");
+			} else {
+				inputNew = createTextTypeInput(inputNew);
+				possiblyAddPlaceholderText(inputNew);
+			}
+			return inputNew;
+		}
+
+		function isTextArea(){
+			var showAsTextArea;
+			if(cPresentation.containsChildWithNameInData("showAsTextArea")){
+				showAsTextArea = cPresentation.getFirstAtomicValueByNameInData("showAsTextArea");
+			}
+			return showAsTextArea === "true";
+		}
+
+		function createTextTypeInput(inputNew){
+			inputNew = document.createElement("input");
 			inputNew.type = "text";
+			return inputNew;
+		}
+
+		function possiblyAddPlaceholderText(inputNew){
 			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
 				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
 				var emptyText = textProvider.getTranslation(emptyTextId);
 				inputNew.placeholder = emptyText;
 			}
-			return inputNew;
 		}
 
 		function createCollectionInput() {
