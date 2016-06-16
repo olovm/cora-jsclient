@@ -117,7 +117,18 @@ var CORATEST = (function(coraTest) {
 				return "groupInGroupOneTextChildText";	
 			case "groupInGroupOneTextChildDefText":
 				return "groupInGroupOneTextChildDefText";	
-				
+			case "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroupText":
+				return "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroupText";
+			case "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroupDefText":
+				return "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroupDefText";
+			case "groupId1toXCollectionChildText":
+				return "groupId1toXCollectionChildText";
+			case "groupId1toXCollectionChildDefText":
+				return "groupId1toXCollectionChildDefText";
+			case "groupIdOneRecordLinkChildWithPathText":
+				return "groupIdOneRecordLinkChildWithPathText";
+			case "groupIdOneRecordLinkChildWithPathDefText":
+				return "groupIdOneRecordLinkChildWithPathDefText";
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");
