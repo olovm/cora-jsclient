@@ -2035,8 +2035,8 @@ function MetadataProviderStub() {
 						"name" : "emptyTextId",
 						"value" : "enterTextHereText"
 					}, {
-						"name" : "showAsTextArea",
-						"value" : "true"
+						"name" : "inputType",
+						"value" : "textarea"
 					} ]
 				};
 

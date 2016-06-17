@@ -98,11 +98,11 @@ var CORA = (function(cora) {
 		}
 
 		function isTextArea(){
-			var showAsTextArea;
-			if(cPresentation.containsChildWithNameInData("showAsTextArea")){
-				showAsTextArea = cPresentation.getFirstAtomicValueByNameInData("showAsTextArea");
+			var inputType;
+			if(cPresentation.containsChildWithNameInData("inputType")){
+				inputType = cPresentation.getFirstAtomicValueByNameInData("inputType");
 			}
-			return showAsTextArea === "true";
+			return inputType === "textarea";
 		}
 
 		function createTextTypeInput(inputNew){
