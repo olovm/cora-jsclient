@@ -1987,6 +1987,58 @@ function MetadataProviderStub() {
 					"value" : "enterTextHereText"
 				} ]
 			};
+			case "textVariableIdShowTextAreaFalsePVar":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pVar"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textVariableIdShowTextAreaFalsePVar"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "textVariableId"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					}, {
+						"name" : "emptyTextId",
+						"value" : "enterTextHereText"
+					}, {
+						"name" : "showAsTextArea",
+						"value" : "false"
+					}  ]
+				};
+			case "textVariableIdTextAreaPVar":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pVar"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textVariableIdTextAreaPVar"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "textVariableId"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					}, {
+						"name" : "emptyTextId",
+						"value" : "enterTextHereText"
+					}, {
+						"name" : "inputType",
+						"value" : "textarea"
+					} ]
+				};
 
 		case "pVarTextVariableIdOutput":
 			return {

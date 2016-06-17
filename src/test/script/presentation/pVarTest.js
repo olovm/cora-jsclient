@@ -134,6 +134,48 @@ QUnit.test("testInitText", function(assert) {
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
+QUnit.test("testInitTextArea", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableIdTextAreaPVar");
+	assert.strictEqual(attachedPVar.pVar.type, "pVar");
+	assert.deepEqual(attachedPVar.view.className, "pVar textVariableIdTextAreaPVar");
+	var view = attachedPVar.view;
+	assert.ok(view.modelObject === attachedPVar.pVar);
+	assert.ok(view.childNodes.length, 2);
+
+	var valueView = attachedPVar.valueView;
+	assert.equal(valueView.nodeName, "TEXTAREA");
+	assert.equal(valueView.value, "");
+
+	CORATEST.testVariableSubscription(attachedPVar, assert);
+	CORATEST.testVariableMetadata(attachedPVar, assert);
+
+	assert.equal(attachedPVar.pVar.getState(), "ok");
+
+	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+});
+
+QUnit.test("testInitTextShowTextAreaFalse", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableIdShowTextAreaFalsePVar");
+	assert.strictEqual(attachedPVar.pVar.type, "pVar");
+	assert.deepEqual(attachedPVar.view.className, "pVar textVariableIdShowTextAreaFalsePVar");
+	var view = attachedPVar.view;
+	assert.ok(view.modelObject === attachedPVar.pVar,
+		"modelObject should be a pointer to the javascript object instance");
+	assert.ok(view.childNodes.length, 2);
+
+	var valueView = attachedPVar.valueView;
+	assert.equal(valueView.nodeName, "INPUT");
+	assert.equal(valueView.type, "text");
+	assert.equal(valueView.value, "");
+
+	CORATEST.testVariableSubscription(attachedPVar, assert);
+	CORATEST.testVariableMetadata(attachedPVar, assert);
+
+	assert.equal(attachedPVar.pVar.getState(), "ok");
+
+	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+});
+
 QUnit.test("testInitInfoButtonTextVariable", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
