@@ -48,7 +48,7 @@ input {
 /* 	background-color: cyan; */
 }
 
-.error input, .error select {
+.error input, .error select, .error textarea {
 	background-color: red;
 }
 /* .presentation.pgGroupIdOneTextChild { */
