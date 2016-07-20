@@ -336,18 +336,18 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type" : "pVar",
-			getView : getView,
-			setValue : setValue,
-			handleMsg : handleMsg,
-			getText : getText,
-			getDefText : getDefText,
-			getRegEx : getRegEx,
-			getState : getState,
-			onBlur : onBlur,
-			handleValidationError : handleValidationError
+			"type": "pVar",
+			getView: getView,
+			setValue: setValue,
+			handleMsg: handleMsg,
+			getText: getText,
+			getDefText: getDefText,
+			getRegEx: getRegEx,
+			getState: getState,
+			onBlur: onBlur,
+			handleValidationError: handleValidationError
 		});
-		
+
 		view.modelObject = out;
 		if (mode === "input") {
 			valueView.onblur = onBlur;

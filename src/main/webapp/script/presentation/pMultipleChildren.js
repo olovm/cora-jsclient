@@ -168,16 +168,16 @@ var CORA = (function(cora) {
 			var recordInfo = spec.cPresentation.getFirstChildByNameInData("recordInfo");
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
-		
+
 		function getView() {
 			return view;
 		}
-		
+
 		return Object.freeze({
-			"type" : "pMultipleChildren",
-			getPresentationId : getPresentationId,
-			init : init,
-			getView : getView
+			"type": "pMultipleChildren",
+			getPresentationId: getPresentationId,
+			init: init,
+			getView: getView
 		});
 	};
 	return cora;
