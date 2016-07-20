@@ -104,7 +104,7 @@ var CORA = (function(cora) {
 			var cRecord = CORA.coraData(record.data);
 
 			if(isAbstract(cRecord)){
-				recordTypeLists.abstractList.push(record)
+				recordTypeLists.abstractList.push(record);
 			}else {
 				separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record);
 			}
@@ -114,7 +114,7 @@ var CORA = (function(cora) {
 			if (elementHasParent(cRecord)) {
 				recordTypeLists.childList.push(record);
 			}else{
-				recordTypeLists.noParentList.push(record)
+				recordTypeLists.noParentList.push(record);
 			}
 		}
 

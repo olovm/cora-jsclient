@@ -104,7 +104,7 @@ var CORA = (function(cora) {
 			getButton : getButton,
 			showInfo : showInfo,
 			getView : getView,
-			getInfoLevel : getInfoLevel,
+			getInfoLevel : getInfoLevel
 		});
 		return out;
 	};

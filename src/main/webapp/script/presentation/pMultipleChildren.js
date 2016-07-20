@@ -111,10 +111,10 @@ var CORA = (function(cora) {
 		}
 
 		function createText(presRef) {
-			var text = document.createElement("span");
-			text.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
-			text.className = "text";
-			return text;
+			var textSpan = document.createElement("span");
+			textSpan.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
+			textSpan.className = "text";
+			return textSpan;
 		}
 
 		function childIsSurroundingContainer(cChild) {

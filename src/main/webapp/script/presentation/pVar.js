@@ -55,7 +55,7 @@ var CORA = (function(cora) {
 		if (subType === "textVariable") {
 			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 		}
-		
+
 		var info = createInfo();
 		var infoButton = info.getButton();
 		view.appendChild(infoButton);
@@ -345,7 +345,7 @@ var CORA = (function(cora) {
 			getRegEx : getRegEx,
 			getState : getState,
 			onBlur : onBlur,
-			handleValidationError : handleValidationError,
+			handleValidationError : handleValidationError
 		});
 		
 		view.modelObject = out;
