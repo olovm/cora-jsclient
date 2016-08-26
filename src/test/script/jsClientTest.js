@@ -175,7 +175,7 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(workArea.className, "workArea");
 
 	var recordTypeList = jsClient.getRecordTypeList();
-	assert.strictEqual(recordTypeList.length, 15);
+	assert.strictEqual(recordTypeList.length, 19);
 
 	var firstRecordType = sideBar.childNodes[0];
 	assert.strictEqual(firstRecordType.className, "recordType");
@@ -215,7 +215,7 @@ QUnit.test("initRecordTypesAreSortedByType", function(assert) {
 	assert.strictEqual(sideBar.childNodes[7].firstChild.textContent, "presentation");
 	assert.strictEqual(sideBar.childNodes[8].firstChild.textContent, "presentationVar");
 	
-	assert.strictEqual(sideBar.childNodes[14].firstChild.textContent, "recordType");
+	assert.strictEqual(sideBar.childNodes[18].firstChild.textContent, "recordType");
 });
 
 QUnit.test("showView", function(assert) {

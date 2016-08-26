@@ -585,8 +585,8 @@
 		var pubSub = CORA.pubSub();
 		var dependenciesFactory = CORATEST.dependenciesFactory(metadataProvider, pubSub,
 				textProvider, recordTypeProvider);
-		var metadataId = "groupIdOneBinaryRecordLinkChild";
-		var presentationId = "groupIdOneBinaryRecordLinkChildPGroup";
+		var metadataId = "groupIdOneChildOfBinaryRecordLinkChild";
+		var presentationId = "groupIdOneChildOfBinaryRecordLinkChildPGroup";
 		var dependencies = dependenciesFactory.factor(metadataId, presentationId);
 		var view = dependencies.presentation.getView();
 		place.appendChild(view);

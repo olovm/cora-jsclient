@@ -201,7 +201,7 @@ var CORA = (function(cora) {
 			var cRecordType = getRecordTypeById(recordTypeId);
 			return cRecordType;
 		}
-
+		
 		function getRecordTypeById(id) {
 			return CORA.coraData(spec.recordTypeProvider.getRecordTypeById(id).data);
 		}
@@ -471,8 +471,10 @@ var CORA = (function(cora) {
 			console.log(callSpec)
 			CORA.ajaxCall(callSpec);
 		}
-		
+
 		function createNewBinaryData(file) {
+			var dataDividerLinkedRecordId = setLinkedRecordIdFromFinalValue();
+
 			return {
 				"name" : "binary",
 				"children" : [ {
@@ -484,7 +486,7 @@ var CORA = (function(cora) {
 							"value" : "system"
 						}, {
 							"name" : "linkedRecordId",
-							"value" : "alvin"
+							"value" : dataDividerLinkedRecordId
 						} ]
 					} ]
 				}, {
@@ -497,10 +499,68 @@ var CORA = (function(cora) {
 			};
 		}
 
-		function getLinkedRecordTypeCreateLink() {
+		function setLinkedRecordIdFromFinalValue(){
+			var cMetadataGroup = getNewMetadataGroupFromRecordType();
+
+			var cRecordInfo =  findRefByNameInData(cMetadataGroup, "recordInfo");
+
+			return getFinalValueDataDivider(cRecordInfo);
+		}
+
+		function getNewMetadataGroupFromRecordType(){
+			var recordType = getImplementingLinkedRecordType();
+			var cData = CORA.coraData(recordType.data);
+			var newMetadataId = cData.getFirstAtomicValueByNameInData("newMetadataId");
+			return getMetadataById(newMetadataId);
+		}
+
+		function getImplementingLinkedRecordType(){
 			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
-			var recordType = spec.recordTypeProvider.getRecordTypeById(recordTypeId);
+			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);
+			return spec.recordTypeProvider.getRecordTypeById(recordTypeId);
+		}
+
+		function getFinalValueDataDivider(cRecordInfo){
+			var dataDividerLinkedRecordId = "";
+			var cDataDivider = findRefByNameInData(cRecordInfo, "dataDivider");
+			if(cDataDivider !==  undefined && cDataDivider.getFirstAtomicValueByNameInData("finalValue") !== undefined) {
+				dataDividerLinkedRecordId = cDataDivider.getFirstAtomicValueByNameInData("finalValue");
+			}
+			return dataDividerLinkedRecordId;
+		}
+
+		function findRefByNameInData(cMetadataGroup, nameInData){
+			var filter = createChildNameInDataFilter(nameInData);
+			var childRefs = cMetadataGroup.getFirstChildByNameInData("childReferences");
+
+			var found = childRefs.children.find(filter);
+			if(found !== undefined){
+				var refValue = CORA.coraData(found).getFirstAtomicValueByNameInData("ref");
+				return getMetadataById(refValue);
+			}
+
+			return found;
+		}
+
+		function createChildNameInDataFilter(nameInData){
+			return function(child) {
+				var ref = CORA.coraData(child).getFirstAtomicValueByNameInData("ref");
+				var childRef = getMetadataById(ref);
+				var childNameInData = childRef.getFirstAtomicValueByNameInData('nameInData');
+				return childNameInData === nameInData;
+			};
+		}
+
+		function getLinkedRecordTypeCreateLink() {
+			var recordType = getImplementingLinkedRecordType();
 			return recordType.actionLinks.create;
+		}
+
+		function changeRecordTypeIdIfBinary(recordTypeId){
+			if(recordTypeId === "binary"){
+				recordTypeId = "genericBinary";
+			}
+			return recordTypeId;
 		}
 
 		function processNewBinary(answer) {

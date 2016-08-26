@@ -456,7 +456,7 @@ QUnit.test("testAddButtonWithAttributes", function(assert) {
 
 QUnit.test("testUploadButtonFor0toX", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-			"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
+			"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
@@ -469,7 +469,7 @@ QUnit.test("testUploadButtonFor0toX", function(assert) {
 
 QUnit.test("testHandleFilesSendingOneFile", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-			"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
+			"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
@@ -503,7 +503,99 @@ QUnit.test("testHandleFilesSendingOneFile", function(assert) {
 					"value" : "system"
 				}, {
 					"name" : "linkedRecordId",
-					"value" : "alvin"
+					"value" : "cora"
+				} ]
+			} ]
+		}, {
+			"name" : "fileName",
+			"value" : "someFile.tif"
+		}, {
+			"name" : "fileSize",
+			"value" : "1234567890"
+		} ]
+	};
+	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
+});
+
+QUnit.test("testHandleFilesSendingOneBinaryFile", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+		"groupIdOneBinaryRecordLinkChild", "myBinaryPLink");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var view = attachedPChildRefHandler.view;
+
+	var files = [];
+	var file1 = {
+		"name" : "someFile.tif",
+		"size" : 1234567890
+	};
+	files.push(file1);
+
+	childRefHandler.handleFiles(files);
+
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
+
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/genericBinary/");
+	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
+		"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
+		"application/uub+record+json");
+
+	var data = {
+		"name" : "binary",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "dataDivider",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "system"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "cora"
+				} ]
+			} ]
+		}, {
+			"name" : "fileName",
+			"value" : "someFile.tif"
+		}, {
+			"name" : "fileSize",
+			"value" : "1234567890"
+		} ]
+	};
+	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
+});
+
+QUnit.test("testHandleFilesSendingOneBinaryFileDataDividerMissing", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+		"groupIdOneBinaryRecordNoDataDividerLinkChild", "myBinaryNoDataDividerPLink");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var view = attachedPChildRefHandler.view;
+
+	var files = [];
+	var file1 = {
+		"name" : "someFile.tif",
+		"size" : 1234567890
+	};
+	files.push(file1);
+
+	childRefHandler.handleFiles(files);
+
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
+
+	var data = {
+		"name" : "binary",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "dataDivider",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "system"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : ""
 				} ]
 			} ]
 		}, {
@@ -519,7 +611,7 @@ QUnit.test("testHandleFilesSendingOneFile", function(assert) {
 
 QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-			"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
+			"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 	
@@ -561,7 +653,7 @@ QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
 						"value" : "system"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "alvin"
+						"value" : "cora"
 					} ]
 				} ]
 			}, {
@@ -577,7 +669,7 @@ QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
 
 QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-			"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
+			"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
@@ -638,7 +730,7 @@ QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 
 QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-			"groupIdOneBinaryRecordLinkChild", "myChildOfBinaryPLink");
+			"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
@@ -675,7 +767,7 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 					"value" : "system"
 				}, {
 					"name" : "linkedRecordId",
-					"value" : "alvin"
+					"value" : "cora"
 				} ]
 			} ]
 		}, {
@@ -699,7 +791,7 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 						"value" : "system"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "alvin"
+						"value" : "cora"
 					} ]
 				} ]
 			}, {
@@ -723,7 +815,7 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 						"value" : "system"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "alvin"
+						"value" : "cora"
 					} ]
 				} ]
 			}, {
