@@ -444,7 +444,12 @@ var CORA = (function(cora) {
 		}
 
 		function handleFiles(files) {
-			files.forEach(handleFile);
+			console.log("here here here here here here here here ");
+			console.log(files);
+//			files.forEach(handleFile);
+			for(var i=0; i<files.length; i++){
+				handleFile(files[i]);
+			}
 		}
 
 		function handleFile(file) {
@@ -461,6 +466,9 @@ var CORA = (function(cora) {
 				"errorMethod" : callError,
 				"data" : JSON.stringify(data)
 			};
+			console.log("spec")
+			console.log(spec)
+			console.log(callSpec)
 			CORA.ajaxCall(callSpec);
 		}
 		
