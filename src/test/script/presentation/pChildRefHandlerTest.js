@@ -512,7 +512,10 @@ QUnit.test("testHandleFilesSendingOneFile", function(assert) {
 		}, {
 			"name" : "fileSize",
 			"value" : "1234567890"
-		} ]
+		} ],
+		"attributes":{
+			"type":"image"
+		}
 	};
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
 });
@@ -562,7 +565,10 @@ QUnit.test("testHandleFilesSendingOneBinaryFile", function(assert) {
 		}, {
 			"name" : "fileSize",
 			"value" : "1234567890"
-		} ]
+		} ],
+		"attributes":{
+			"type":"genericBinary"
+		}
 	};
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
 });
@@ -604,7 +610,10 @@ QUnit.test("testHandleFilesSendingOneBinaryFileDataDividerMissing", function(ass
 		}, {
 			"name" : "fileSize",
 			"value" : "1234567890"
-		} ]
+		} ],
+		"attributes":{
+			"type":"genericBinary"
+		}
 	};
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
 });
@@ -662,7 +671,10 @@ QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
 			}, {
 				"name" : "fileSize",
 				"value" : "1234567890"
-			} ]
+			} ],
+			"attributes":{
+				"type":"image"
+			}
 	};
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
 });
@@ -776,7 +788,10 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 		}, {
 			"name" : "fileSize",
 			"value" : "1234567890"
-		} ]
+		} ],
+		"attributes":{
+			"type":"image"
+		}
 	};
 	assert.strictEqual(sentDataArray[0], JSON.stringify(data));
 	
@@ -800,7 +815,10 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 			}, {
 				"name" : "fileSize",
 				"value" : "9876543210"
-			} ]
+			} ],
+			"attributes":{
+				"type":"image"
+			}
 	};
 	assert.strictEqual(sentDataArray[1], JSON.stringify(data2));
 	
@@ -824,7 +842,10 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 			}, {
 				"name" : "fileSize",
 				"value" : "1122334455"
-			} ]
+			} ],
+			"attributes":{
+				"type":"image"
+			}
 	};
 	assert.strictEqual(sentDataArray[2], JSON.stringify(data3));
 	
