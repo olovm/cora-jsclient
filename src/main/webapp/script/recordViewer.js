@@ -68,13 +68,23 @@ var CORA = (function(cora) {
 		function getDataPartOfRecordFromAnswer(answer) {
 			return JSON.parse(answer.responseText).record.data;
 		}
+
 		function createRecordGui(metadataId, data) {
-			var createdRecordGui = spec.recordGuiFactory.factor(metadataId, data);
+			var dataDivider = getDataDividerFromData(data);
+			var createdRecordGui = spec.recordGuiFactory.factor(metadataId, data, dataDivider);
 			return createdRecordGui;
 		}
+
+		function getDataDividerFromData(data) {
+			var cData = CORA.coraData(data);
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			var cDataDivider = CORA.coraData(cRecordInfo.getFirstChildByNameInData("dataDivider"));
+			return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+
 		function addToShowView(recordGuiToAdd) {
 			var showViewId = spec.presentationId;
-//			console.log(showViewId)
+			// console.log(showViewId)
 			var showView = recordGuiToAdd.getPresentation(showViewId).getView();
 			view.appendChild(showView);
 		}

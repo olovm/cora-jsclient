@@ -51,9 +51,12 @@ QUnit.module("recordViewerTest.js", {
 		var recordGui = this.recordGui;
 		this.metadataIdUsed = [];
 		var metadataIdUsed = this.metadataIdUsed;
+		this.dataDividerUsed = [];
+		var dataDividerUsed = this.dataDividerUsed;
 		this.recordGuiFactorySpy = {
-			"factor" : function(metadataId, data) {
+			"factor" : function(metadataId, data, dataDivider) {
 				metadataIdUsed.push(metadataId);
+				dataDividerUsed.push(dataDivider);
 				return recordGui;
 			}
 		};
@@ -129,6 +132,10 @@ QUnit.test("initCallToServer", function(assert) {
 
 	var busy = view.childNodes[1];
 	assert.strictEqual(busy.className, "busy toBeRemoved");
+	
+	assert.strictEqual(this.metadataIdUsed[0], "someMetadataId");
+	assert.strictEqual(this.dataDividerUsed[0], "cora");
+	
 });
 
 QUnit.test("errorMissingPresenation", function(assert) {
