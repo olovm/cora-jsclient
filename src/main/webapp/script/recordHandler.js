@@ -92,11 +92,18 @@ var CORA = (function(cora) {
 			if (messageSaysInitIsComplete(msg)) {
 				initComplete = true;
 			}
+			if(messageSaysUpdateRecord(msg)){
+				sendUpdateDataToServer();
+			}
 			updateMenuClassName();
 		}
 
 		function messageSaysInitIsComplete(msg) {
 			return msg.endsWith("initComplete");
+		}
+
+		function messageSaysUpdateRecord(msg) {
+			return msg.endsWith("updateRecord");
 		}
 
 		function updateMenuClassName() {

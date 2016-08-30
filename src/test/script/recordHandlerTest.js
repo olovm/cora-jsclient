@@ -454,6 +454,55 @@ QUnit.test("testUpdateCall", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), "{}");
 
 });
+QUnit.test("testUpdateThroughPubSubCall", function(assert) {
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	var record = this.record;
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify({
+			"record" : record
+		});
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var recordHandlerSpec = {
+			"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
+			"recordTypeRecord" : this.record,
+			"presentationMode" : "edit",
+			"views" : {
+				"menuView" : this.menuView,
+				"workView" : this.workView
+			},
+			"record" : this.record,
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"recordGuiFactory" : this.recordGuiFactorySpy,
+			"jsClient" : this.jsClientSpy
+	};
+	var recordHandler = CORA.recordHandler(recordHandlerSpec);
+	
+	var validateWasCalled = false;
+	this.recordGui.validateData = function() {
+		validateWasCalled = true;
+		return true;
+	};
+
+	var data = {
+		"data" : "",
+		"path" : {}
+	};
+	recordHandler.handleMsg(data, "updateRecord");
+		
+	assert.strictEqual(validateWasCalled, true);
+	
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
+	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
+	"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
+	"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.getSentData(), "{}");
+	
+});
 
 QUnit.test("testUpdateDataIsChanged", function(assert) {
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);

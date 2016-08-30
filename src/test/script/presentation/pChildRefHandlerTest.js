@@ -692,6 +692,35 @@ QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 		}
 	}
 	assert.deepEqual(this.jsBookkeeper.getDataArray()[0], setValueData);
+	
+	
+});
+QUnit.test("testHandleFilesSavingMainRecordAfterReceiveAnswerForOneFile", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var view = attachedPChildRefHandler.view;
+	
+	var files = [];
+	var file1 = {
+			"name" : "someFile.tif",
+			"size" : 1234567890
+	};
+	files.push(file1);
+	
+	childRefHandler.handleFiles(files);
+	
+	var messages = attachedPChildRefHandler.pubSub.getMessages();
+	assert.deepEqual(messages.length, 1);
+	assert.deepEqual(messages[0].type, "updateRecord");
+	
+	//send more files
+	childRefHandler.handleFiles(files);
+	assert.deepEqual(messages.length, 2);
+	assert.deepEqual(messages[0].type, "updateRecord");
+	assert.deepEqual(messages[1].type, "updateRecord");
+	
+	
 });
 
 
@@ -803,6 +832,10 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 			}
 	};
 	assert.strictEqual(sentDataArray[2], JSON.stringify(data3));
+	
+	var messages = attachedPChildRefHandler.pubSub.getMessages();
+	assert.deepEqual(messages.length, 1);
+	assert.deepEqual(messages[0].type, "updateRecord");
 	
 });
 QUnit.test("testAddButtonShownFor0to1", function(assert) {
