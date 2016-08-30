@@ -3,3 +3,6 @@
 /org.eclipse.wst.jsdt.ui.superType.name
 /org.sonar.ide.eclipse.core.prefs
 /com.eclipsesource.jshint.ui.prefs
+/org.eclipse.core.resources.prefs
+/org.eclipse.jdt.core.prefs
+/org.eclipse.m2e.core.prefs

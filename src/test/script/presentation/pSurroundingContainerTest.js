@@ -21,7 +21,7 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.attachedPSurroundingContainerFactory = function(metadataProvider, pubSub,
-			textProvider, presentationFactory, jsBookkeeper, fixture) {
+			textProvider, presentationFactory, jsBookkeeper, recordTypeProvider, fixture) {
 		var factor = function(path, pSurroundingContainerId, presentationParentId) {
 			var cPSurroundingContainer = CORA.coraData(metadataProvider
 					.getMetadataById(pSurroundingContainerId));
@@ -35,7 +35,8 @@ var CORATEST = (function(coraTest) {
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
 				"presentationFactory" : presentationFactory,
-				"jsBookkeeper" : jsBookkeeper
+				"jsBookkeeper" : jsBookkeeper,
+				"recordTypeProvider" : recordTypeProvider
 
 			};
 			var pSurroundingContainer = CORA.pSurroundingContainer(spec);
@@ -70,9 +71,10 @@ QUnit.module("pSurroundingContainerTest.js", {
 		this.textProvider = CORATEST.textProviderStub();
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 		this.presentationFactory = CORATEST.presentationFactorySpy();
+		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
 		this.pSurroundingContainerFactory = CORATEST.attachedPSurroundingContainerFactory(
 				this.metadataProvider, this.pubSub, this.textProvider, this.presentationFactory,
-				this.jsBookkeeper, this.fixture);
+				this.jsBookkeeper, this.recordTypeProvider, this.fixture);
 	},
 	afterEach : function() {
 	}

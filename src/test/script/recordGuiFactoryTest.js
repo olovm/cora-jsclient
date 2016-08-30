@@ -21,7 +21,8 @@ QUnit.module("recordGuiFactoryTest.js", {
 	beforeEach : function() {
 		var dependencies = {
 			"metadataProvider" : new MetadataProviderStub(),
-			"textProvider" : CORATEST.textProviderStub()
+			"textProvider" : CORATEST.textProviderStub(),
+			
 		}
 		this.recordGuiFactory = CORA.recordGuiFactory(dependencies);
 	},
@@ -31,6 +32,12 @@ QUnit.module("recordGuiFactoryTest.js", {
 
 QUnit.test("testInit", function(assert) {
 	assert.notStrictEqual(this.recordGuiFactory.factor, undefined);
+});
+
+QUnit.test("testFactorTestDataDivider", function(assert) {
+	var metadataId = "groupIdOneTextChild";
+	var recordGui = this.recordGuiFactory.factor(metadataId, undefined, "systemY");
+	assert.strictEqual(recordGui.presentationFactory.getDataDivider(), "systemY");
 });
 
 QUnit.test("testFactor", function(assert) {

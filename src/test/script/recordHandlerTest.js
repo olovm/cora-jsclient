@@ -77,9 +77,12 @@ QUnit.module("recordHandlerTest.js", {
 		var recordGui = this.recordGui;
 		this.metadataIdUsed = [];
 		var metadataIdUsed = this.metadataIdUsed;
+		this.dataDividerUsed = [];
+		var dataDividerUsed = this.dataDividerUsed;
 		this.recordGuiFactorySpy = {
-			"factor" : function(metadataId, data) {
+			"factor" : function(metadataId, data, dataDivider) {
 				metadataIdUsed.push(metadataId);
+				dataDividerUsed.push(dataDivider);
 				return recordGui;
 			}
 		};
@@ -424,6 +427,7 @@ QUnit.test("testUpdateCall", function(assert) {
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
+	assert.strictEqual(this.dataDividerUsed[0], "cora");
 	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
@@ -450,31 +454,57 @@ QUnit.test("testUpdateCall", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), "{}");
 
 });
+QUnit.test("testUpdateThroughPubSubCall", function(assert) {
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	var record = this.record;
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify({
+			"record" : record
+		});
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var recordHandlerSpec = {
+			"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
+			"recordTypeRecord" : this.record,
+			"presentationMode" : "edit",
+			"views" : {
+				"menuView" : this.menuView,
+				"workView" : this.workView
+			},
+			"record" : this.record,
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"recordGuiFactory" : this.recordGuiFactorySpy,
+			"jsClient" : this.jsClientSpy
+	};
+	var recordHandler = CORA.recordHandler(recordHandlerSpec);
+	
+	var validateWasCalled = false;
+	this.recordGui.validateData = function() {
+		validateWasCalled = true;
+		return true;
+	};
+
+	var data = {
+		"data" : "",
+		"path" : {}
+	};
+	recordHandler.handleMsg(data, "updateRecord");
+		
+	assert.strictEqual(validateWasCalled, true);
+	
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
+	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
+	"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
+	"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.getSentData(), "{}");
+	
+});
 
 QUnit.test("testUpdateDataIsChanged", function(assert) {
-	// function sendFunction() {
-	// xmlHttpRequestSpy.status = 200;
-	// xmlHttpRequestSpy.responseText = JSON.stringify({
-	// "record" : record
-	// });
-	// xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	// }
-	// var recordHandlerSpec = {
-	// "recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
-	// "recordTypeRecord" : this.record,
-	// "presentationMode" : "edit",
-	// "views" : {
-	// "menuView" : this.menuView,
-	// "workView" : this.workView
-	// },
-	// "record" : this.record,
-	// "xmlHttpRequestFactory" :
-	// CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-	// "recordGuiFactory" : this.recordGuiFactorySpy,
-	// "jsClient" : this.jsClientSpy
-	// };
-	// var recordHandler = CORA.recordHandler(recordHandlerSpec);
-
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 	var record = this.record;
 	function sendFunction() {

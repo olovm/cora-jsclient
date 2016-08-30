@@ -22,9 +22,11 @@ var CORA = (function(cora) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
 		var xmlHttpRequestFactory = dependencies.xmlHttpRequestFactory;
+		var recordTypeProvider = dependencies.recordTypeProvider;
+
 		var self;
 
-		var factor = function(metadataId, data) {
+		var factor = function(metadataId, data, dataDivider) {
 			var pubSub = CORA.pubSub();
 
 			var specDataHolder = {
@@ -49,9 +51,12 @@ var CORA = (function(cora) {
 				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper,
 				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
-				"recordGuiFactory" : self
+				"recordGuiFactory" : self,
+				"recordTypeProvider" : recordTypeProvider,
+				"dataDivider" : dataDivider
 			};
-			var presentationFactory = CORA.presentationFactory(specPresentationFactory);
+			var presentationFactory = CORA
+					.presentationFactory(specPresentationFactory);
 
 			function getPresentation(presentationId) {
 				var spec = {
@@ -73,7 +78,8 @@ var CORA = (function(cora) {
 					"metadataProvider" : metadataProvider,
 					"pubSub" : pubSub
 				};
-				metadataController = CORA.metadataController(specMetadataController);
+				metadataController = CORA
+						.metadataController(specMetadataController);
 			}
 
 			function getMetadataController() {
@@ -90,16 +96,17 @@ var CORA = (function(cora) {
 				return CORA.metadataValidator(spec);
 			}
 
-			return Object.freeze({
-				pubSub : pubSub,
-				jsBookkeeper : jsBookkeeper,
-				presentationFactory : presentationFactory,
-				dataHolder : dataHolder,
-				getMetadataController : getMetadataController,
-				getPresentation : getPresentation,
-				initMetadataControllerStartingGui : initMetadataControllerStartingGui,
-				validateData : validateData
-			});
+			return Object
+					.freeze({
+						pubSub : pubSub,
+						jsBookkeeper : jsBookkeeper,
+						presentationFactory : presentationFactory,
+						dataHolder : dataHolder,
+						getMetadataController : getMetadataController,
+						getPresentation : getPresentation,
+						initMetadataControllerStartingGui : initMetadataControllerStartingGui,
+						validateData : validateData
+					});
 		};
 		var out = Object.freeze({
 			factor : factor

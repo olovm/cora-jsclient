@@ -150,13 +150,13 @@ body {
 	margin: 0;
 }
 
-.sideBar .menuView .pVar span {
+.sideBar .menuView .pVar span, .jsClient .sideBar .menuView .text{
 	/* 	max-width: calc(70% - 1rem); */
 	max-width: calc(70% - 1rem - 30px);
 	overflow: hidden;
 	display: inline-block;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+	white-space: pre;
 }
 
 .sideBar [class*='recordInfo'] .pVar span:before {
@@ -173,7 +173,7 @@ body {
 	overflow: hidden;
 	display: inline-block;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+	white-space: pre;
 }
 
 .sideBar .recordType .buttonView {

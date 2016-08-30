@@ -20,7 +20,7 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.pubSub = function() {
+	cora.pubSub = function(){
 		var arbiter = Arbiter.create();
 
 		function subscribe(type, path, context, functionToCall) {
@@ -28,9 +28,7 @@ var CORA = (function(cora) {
 		}
 
 		function publish(type, data) {
-//			console.log(type +" : "+JSON.stringify(data))
 			var convertedPath = convertPathToMsg(data.path) + type;
-//			console.log(convertedPath)
 			var everyThingOk = arbiter.publish(convertedPath, data);
 			if (!everyThingOk) {
 				var errorMessage = "";

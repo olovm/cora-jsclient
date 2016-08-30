@@ -33,7 +33,28 @@ var CORATEST = (function(coraTest) {
 				}, {
 					"name" : "updatedBy",
 					"value" : "userId"
-				} ],
+				},
+		        {
+			          "children": [
+			            {
+			              "name": "linkedRecordType",
+			              "value": "system"
+			            },
+			            {
+			              "name": "linkedRecordId",
+			              "value": "cora"
+			            }
+			          ],
+			          "actionLinks": {
+			            "read": {
+			              "requestMethod": "GET",
+			              "rel": "read",
+			              "url": "http://localhost:8080/therest/rest/record/system/cora",
+			              "accept": "application/uub+record+json"
+			            }
+			          },
+			          "name": "dataDivider"
+			        } ],
 				"name" : "recordInfo"
 			}, {
 				"name" : "metadataId",
@@ -228,7 +249,28 @@ var CORATEST = (function(coraTest) {
 				}, {
 					"name" : "createdBy",
 					"value" : "userId"
-				} ],
+				},
+		        {
+			          "children": [
+			            {
+			              "name": "linkedRecordType",
+			              "value": "system"
+			            },
+			            {
+			              "name": "linkedRecordId",
+			              "value": "cora"
+			            }
+			          ],
+			          "actionLinks": {
+			            "read": {
+			              "requestMethod": "GET",
+			              "rel": "read",
+			              "url": "http://localhost:8080/therest/rest/record/system/cora",
+			              "accept": "application/uub+record+json"
+			            }
+			          },
+			          "name": "dataDivider"
+			        } ],
 				"name" : "recordInfo"
 			}, {
 				"children" : [ {
@@ -274,7 +316,28 @@ var CORATEST = (function(coraTest) {
 				}, {
 					"name" : "createdBy",
 					"value" : "userId"
-				} ],
+				},
+		        {
+			          "children": [
+			            {
+			              "name": "linkedRecordType",
+			              "value": "system"
+			            },
+			            {
+			              "name": "linkedRecordId",
+			              "value": "cora"
+			            }
+			          ],
+			          "actionLinks": {
+			            "read": {
+			              "requestMethod": "GET",
+			              "rel": "read",
+			              "url": "http://localhost:8080/therest/rest/record/system/cora",
+			              "accept": "application/uub+record+json"
+			            }
+			          },
+			          "name": "dataDivider"
+			        } ],
 				"name" : "recordInfo"
 			}, {
 				"children" : [ {

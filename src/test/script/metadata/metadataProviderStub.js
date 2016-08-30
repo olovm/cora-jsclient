@@ -1792,6 +1792,126 @@ function MetadataProviderStub() {
 				} ]
 			};
 		}
+		if (idToGet === "groupIdOneChildOfBinaryRecordLinkChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax("myChildOfBinaryLink",
+						"one", "0", "X") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "myChildOfBinaryLink") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myChildOfBinaryLink"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myChildOfBinaryLink"
+				}, {
+					"name" : "textId",
+					"value" : "myChildOfBinaryLinkText"
+				}, {
+					"name" : "defTextId",
+					"value" : "myChildOfBinaryLinkDefText"
+				}, {
+					"name" : "linkedRecordType",
+					"value" : "image"
+				} ]
+			};
+		}
+		if (idToGet === "groupIdOneBinaryRecordLinkChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax("myBinaryLink",
+						"one", "0", "X") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "myBinaryLink") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myBinaryLink"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myBinaryLink"
+				}, {
+					"name" : "textId",
+					"value" : "myBinaryLinkText"
+				}, {
+					"name" : "defTextId",
+					"value" : "myBinaryLinkDefText"
+				}, {
+					"name" : "linkedRecordType",
+					"value" : "binary"
+				} ]
+			};
+		}
+		if (idToGet === "groupIdOneBinaryRecordNoDataDividerLinkChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax("myBinaryNoDataDividerLink",
+						"one", "0", "X") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "myBinaryNoDataDividerLink") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myBinaryNoDataDividerLink"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myBinaryNoDataDividerLink"
+				}, {
+					"name" : "textId",
+					"value" : "myBinaryNoDataDividerLinkText"
+				}, {
+					"name" : "defTextId",
+					"value" : "myBinaryNoDataDividerLinkDefText"
+				}, {
+					"name" : "linkedRecordType",
+					"value" : "noDataDividerBinary"
+				} ]
+			};
+		}
 		if (idToGet === "groupIdOneRecordLinkChildWithPath") {
 			return {
 				"name" : "metadata",
@@ -1892,6 +2012,748 @@ function MetadataProviderStub() {
 					"type" : "textVariable"
 				}
 			};
+		}
+		if (idToGet === "imageNewGroup") {
+			return {
+				  "children": [
+				               {
+				                 "children": [
+				                   {
+				                     "name": "id",
+				                     "value": "imageNewGroup"
+				                   },
+				                   {
+				                     "name": "type",
+				                     "value": "metadataGroup"
+				                   },
+				                   {
+				                     "name": "createdBy",
+				                     "value": "userId"
+				                   },
+				                   {
+				                     "children": [
+				                       {
+				                         "name": "linkedRecordType",
+				                         "value": "system"
+				                       },
+				                       {
+				                         "name": "linkedRecordId",
+				                         "value": "cora"
+				                       }
+				                     ],
+				                     "actionLinks": {
+				                       "read": {
+				                         "requestMethod": "GET",
+				                         "rel": "read",
+				                         "url": "http://localhost:8080/therest/rest/record/system/cora",
+				                         "accept": "application/uub+record+json"
+				                       }
+				                     },
+				                     "name": "dataDivider"
+				                   }
+				                 ],
+				                 "name": "recordInfo"
+				               },
+				               {
+				                 "name": "nameInData",
+				                 "value": "binary"
+				               },
+				               {
+				                 "name": "textId",
+				                 "value": "imageNewGroupText"
+				               },
+				               {
+				                 "name": "defTextId",
+				                 "value": "imageNewGroupDefText"
+				               },
+				               {
+				                 "name": "refParentId",
+				                 "value": "imageGroup"
+				               },
+				               {
+				                 "children": [
+				                   {
+				                     "repeatId": "3",
+				                     "children": [
+				                       {
+				                         "name": "ref",
+				                         "value": "recordInfoCoraAutogeneratedNewGroup"
+				                       },
+				                       {
+				                         "name": "repeatMin",
+				                         "value": "1"
+				                       },
+				                       {
+				                         "name": "repeatMax",
+				                         "value": "1"
+				                       }
+				                     ],
+				                     "name": "childReference"
+				                   },
+				                   {
+				                     "repeatId": "1",
+				                     "children": [
+				                       {
+				                         "name": "ref",
+				                         "value": "filenameTextVar"
+				                       },
+				                       {
+				                         "name": "repeatMin",
+				                         "value": "1"
+				                       },
+				                       {
+				                         "name": "repeatMax",
+				                         "value": "1"
+				                       }
+				                     ],
+				                     "name": "childReference"
+				                   },
+				                   {
+				                     "repeatId": "2",
+				                     "children": [
+				                       {
+				                         "name": "ref",
+				                         "value": "filesizeTextVar"
+				                       },
+				                       {
+				                         "name": "repeatMin",
+				                         "value": "1"
+				                       },
+				                       {
+				                         "name": "repeatMax",
+				                         "value": "1"
+				                       }
+				                     ],
+				                     "name": "childReference"
+				                   }
+				                 ],
+				                 "name": "childReferences"
+				               },
+				               {
+				                 "children": [
+				                   {
+				                     "repeatId": "0",
+				                     "name": "ref",
+				                     "value": "binaryTypeImageCollectionVar"
+				                   }
+				                 ],
+				                 "name": "attributeReferences"
+				               }
+				             ],
+				             "name": "metadata",
+				             "attributes": {
+				               "type": "group"
+				             }
+				           };
+               
+		}
+		if (idToGet === "binaryTypeImageCollectionVar") {
+			return {
+				      "children": [
+				        {
+				          "children": [
+				            {
+				              "name": "id",
+				              "value": "binaryTypeImageCollectionVar"
+				            },
+				            {
+				              "children": [
+				                {
+				                  "name": "linkedRecordType",
+				                  "value": "system"
+				                },
+				                {
+				                  "name": "linkedRecordId",
+				                  "value": "cora"
+				                }
+				              ],
+				              "actionLinks": {
+				                "read": {
+				                  "requestMethod": "GET",
+				                  "rel": "read",
+				                  "url": "http://localhost:8080/therest/rest/record/system/cora",
+				                  "accept": "application/uub+record+json"
+				                }
+				              },
+				              "name": "dataDivider"
+				            },
+				            {
+				              "name": "type",
+				              "value": "metadataCollectionVariable"
+				            },
+				            {
+				              "name": "createdBy",
+				              "value": "userId"
+				            }
+				          ],
+				          "name": "recordInfo"
+				        },
+				        {
+				          "name": "nameInData",
+				          "value": "type"
+				        },
+				        {
+				          "name": "textId",
+				          "value": "binaryTypeImageCollectionVarText"
+				        },
+				        {
+				          "name": "defTextId",
+				          "value": "binaryTypeImageCollectionVarDefText"
+				        },
+				        {
+				          "name": "refCollectionId",
+				          "value": "binaryTypeCollection"
+				        },
+				        {
+				          "name": "refParentId",
+				          "value": "binaryTypeCollectionVar"
+				        },
+				        {
+				          "name": "finalValue",
+				          "value": "image"
+				        }
+				      ],
+				      "name": "metadata",
+				      "attributes": {
+				        "type": "collectionVariable"
+				      }
+				};
+		}
+		if (idToGet === "genericBinaryNewGroup") {
+			return {
+				"children": [
+					{
+						"children": [
+							{
+								"name": "id",
+								"value": "genericBinaryNewGroup"
+							},
+							{
+								"name": "type",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "createdBy",
+								"value": "userId"
+							},
+							{
+								"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "system"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "cora"
+									}
+								],
+								"actionLinks": {
+									"read": {
+										"requestMethod": "GET",
+										"rel": "read",
+										"url": "http://localhost:8080/therest/rest/record/system/cora",
+										"accept": "application/uub+record+json"
+									}
+								},
+								"name": "dataDivider"
+							}
+						],
+						"name": "recordInfo"
+					},
+					{
+						"name": "nameInData",
+						"value": "binary"
+					},
+					{
+						"name": "textId",
+						"value": "genericBinaryNewGroupText"
+					},
+					{
+						"name": "defTextId",
+						"value": "genericBinaryNewGroupDefText"
+					},
+					{
+						"name": "refParentId",
+						"value": "genericBinaryGroup"
+					},
+					{
+						"children": [
+							{
+								"repeatId": "0",
+								"children": [
+									{
+										"name": "ref",
+										"value": "recordInfoCoraAutogeneratedNewGroup"
+									},
+									{
+										"name": "repeatMin",
+										"value": "1"
+									},
+									{
+										"name": "repeatMax",
+										"value": "1"
+									}
+								],
+								"name": "childReference"
+							},
+							{
+								"repeatId": "1",
+								"children": [
+									{
+										"name": "ref",
+										"value": "filenameTextVar"
+									},
+									{
+										"name": "repeatMin",
+										"value": "1"
+									},
+									{
+										"name": "repeatMax",
+										"value": "1"
+									}
+								],
+								"name": "childReference"
+							},
+							{
+								"repeatId": "2",
+								"children": [
+									{
+										"name": "ref",
+										"value": "filesizeTextVar"
+									},
+									{
+										"name": "repeatMin",
+										"value": "1"
+									},
+									{
+										"name": "repeatMax",
+										"value": "1"
+									}
+								],
+								"name": "childReference"
+							}
+						],
+						"name": "childReferences"
+					},
+		               {
+		                 "children": [
+		                   {
+		                     "repeatId": "0",
+		                     "name": "ref",
+		                     "value": "binaryTypeGenericBinaryCollectionVar"
+		                   }
+		                 ],
+		                 "name": "attributeReferences"
+		               }
+				],
+				"name": "metadata",
+				"attributes": {
+					"type": "group"
+				}
+			};
+		}
+		if (idToGet === "binaryTypeGenericBinaryCollectionVar") {
+			return {
+				      "children": [
+				        {
+				          "children": [
+				            {
+				              "name": "id",
+				              "value": "binaryTypeGenericBinaryCollectionVar"
+				            },
+				            {
+				              "children": [
+				                {
+				                  "name": "linkedRecordType",
+				                  "value": "system"
+				                },
+				                {
+				                  "name": "linkedRecordId",
+				                  "value": "cora"
+				                }
+				              ],
+				              "actionLinks": {
+				                "read": {
+				                  "requestMethod": "GET",
+				                  "rel": "read",
+				                  "url": "http://localhost:8080/therest/rest/record/system/cora",
+				                  "accept": "application/uub+record+json"
+				                }
+				              },
+				              "name": "dataDivider"
+				            },
+				            {
+				              "name": "type",
+				              "value": "metadataCollectionVariable"
+				            },
+				            {
+				              "name": "createdBy",
+				              "value": "userId"
+				            }
+				          ],
+				          "name": "recordInfo"
+				        },
+				        {
+				          "name": "nameInData",
+				          "value": "type"
+				        },
+				        {
+				          "name": "textId",
+				          "value": "binaryTypeGenericBinaryCollectionVarText"
+				        },
+				        {
+				          "name": "defTextId",
+				          "value": "binaryTypeGenericBinaryCollectionVarDefText"
+				        },
+				        {
+				          "name": "refCollectionId",
+				          "value": "binaryTypeCollection"
+				        },
+				        {
+				          "name": "refParentId",
+				          "value": "binaryTypeCollectionVar"
+				        },
+				        {
+				          "name": "finalValue",
+				          "value": "genericBinary"
+				        }
+				      ],
+				      "name": "metadata",
+				      "attributes": {
+				        "type": "collectionVariable"
+				    }
+				}
+		}
+		if (idToGet === "noDataDividerBinaryNewGroup") {
+			return {
+				"children": [
+					{
+						"children": [
+							{
+								"name": "id",
+								"value": "noDataDividerBinaryNewGroup"
+							},
+							{
+								"name": "type",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "createdBy",
+								"value": "userId"
+							},
+							{
+								"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "system"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "cora"
+									}
+								],
+								"actionLinks": {
+									"read": {
+										"requestMethod": "GET",
+										"rel": "read",
+										"url": "http://localhost:8080/therest/rest/record/system/cora",
+										"accept": "application/uub+record+json"
+									}
+								},
+								"name": "dataDivider"
+							}
+						],
+						"name": "recordInfo"
+					},
+					{
+						"name": "nameInData",
+						"value": "binary"
+					},
+					{
+						"name": "textId",
+						"value": "noDataDividerBinaryNewGroupText"
+					},
+					{
+						"name": "defTextId",
+						"value": "noDataDividerBinaryNewGroupDefText"
+					},
+					{
+						"name": "refParentId",
+						"value": "noDataDividerBinaryGroup"
+					},
+					{
+						"children": [
+							{
+								"repeatId": "0",
+								"children": [
+									{
+										"name": "ref",
+										"value": "recordInfoNoDataDividerAutogeneratedNewGroup"
+									},
+									{
+										"name": "repeatMin",
+										"value": "1"
+									},
+									{
+										"name": "repeatMax",
+										"value": "1"
+									}
+								],
+								"name": "childReference"
+							}
+						],
+						"name": "childReferences"
+					},
+		               {
+		                 "children": [
+		                   {
+		                     "repeatId": "0",
+		                     "name": "ref",
+		                     "value": "binaryTypeGenericBinaryCollectionVar"
+		                   }
+		                 ],
+		                 "name": "attributeReferences"
+		               }
+				],
+				"name": "metadata",
+				"attributes": {
+					"type": "group"
+				}
+			};
+		}
+		if (idToGet === "recordInfoCoraAutogeneratedNewGroup") {
+			return {
+			      "children": [
+               {
+                 "children": [
+                   {
+                     "name": "id",
+                     "value": "recordInfoCoraAutogeneratedNewGroup"
+                   },
+                   {
+                     "children": [
+                       {
+                         "name": "linkedRecordType",
+                         "value": "system"
+                       },
+                       {
+                         "name": "linkedRecordId",
+                         "value": "cora"
+                       }
+                     ],
+                     "actionLinks": {
+                       "read": {
+                         "requestMethod": "GET",
+                         "rel": "read",
+                         "url": "http://localhost:8080/therest/rest/record/system/cora",
+                         "accept": "application/uub+record+json"
+                       }
+                     },
+                     "name": "dataDivider"
+                   },
+                   {
+                     "name": "type",
+                     "value": "metadataGroup"
+                   },
+                   {
+                     "name": "createdBy",
+                     "value": "userId"
+                   }
+                 ],
+                 "name": "recordInfo"
+               },
+               {
+                 "name": "nameInData",
+                 "value": "recordInfo"
+               },
+               {
+                 "name": "textId",
+                 "value": "recordInfoCoraAutogeneratedNewText"
+               },
+               {
+                 "name": "defTextId",
+                 "value": "recordInfoCoraAutogeneratedNewDefText"
+               },
+               {
+                 "children": [
+                   {
+                     "repeatId": "0",
+                     "children": [
+                       {
+                         "name": "ref",
+                         "value": "dataDividerCoraLink"
+                       },
+                       {
+                         "name": "repeatMin",
+                         "value": "1"
+                       },
+                       {
+                         "name": "repeatMax",
+                         "value": "1"
+                       }
+                     ],
+                     "name": "childReference"
+                   }
+                 ],
+                 "name": "childReferences"
+               }
+             ],
+             "name": "metadata",
+             "attributes": {
+               "type": "group"
+             }
+           };
+		}
+		if (idToGet === "recordInfoNoDataDividerAutogeneratedNewGroup") {
+			return {
+				"children": [
+					{
+						"children": [
+							{
+								"name": "id",
+								"value": "recordInfoNoDataDividerAutogeneratedNewGroup"
+							},
+							{
+								"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "system"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "cora"
+									}
+								],
+								"actionLinks": {
+									"read": {
+										"requestMethod": "GET",
+										"rel": "read",
+										"url": "http://localhost:8080/therest/rest/record/system/cora",
+										"accept": "application/uub+record+json"
+									}
+								},
+								"name": "dataDivider"
+							},
+							{
+								"name": "type",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "createdBy",
+								"value": "userId"
+							}
+						],
+						"name": "recordInfo"
+					},
+					{
+						"name": "nameInData",
+						"value": "recordInfo"
+					},
+					{
+						"name": "textId",
+						"value": "recordInfoNoDataDividerAutogeneratedNewText"
+					},
+					{
+						"name": "defTextId",
+						"value": "recordInfoNoDataDividerAutogeneratedNewDefText"
+					},
+					{
+						"children": [
+							{
+								"repeatId": "0",
+								"children": [
+									{
+										"name": "ref",
+										"value": "idTextVar"
+									},
+									{
+										"name": "repeatMin",
+										"value": "1"
+									},
+									{
+										"name": "repeatMax",
+										"value": "1"
+									}
+								],
+								"name": "childReference"
+							}
+						],
+						"name": "childReferences"
+					}
+				],
+				"name": "metadata",
+				"attributes": {
+					"type": "group"
+				}
+			};
+		}
+		if (idToGet === "dataDividerCoraLink") {
+			return {
+			      "children": [
+               {
+                 "children": [
+                   {
+                     "name": "id",
+                     "value": "dataDividerCoraLink"
+                   },
+                   {
+                     "children": [
+                       {
+                         "name": "linkedRecordType",
+                         "value": "system"
+                       },
+                       {
+                         "name": "linkedRecordId",
+                         "value": "cora"
+                       }
+                     ],
+                     "actionLinks": {
+                       "read": {
+                         "requestMethod": "GET",
+                         "rel": "read",
+                         "url": "http://localhost:8080/therest/rest/record/system/cora",
+                         "accept": "application/uub+record+json"
+                       }
+                     },
+                     "name": "dataDivider"
+                   },
+                   {
+                     "name": "type",
+                     "value": "metadataRecordLink"
+                   },
+                   {
+                     "name": "createdBy",
+                     "value": "userId"
+                   }
+                 ],
+                 "name": "recordInfo"
+               },
+               {
+                 "name": "nameInData",
+                 "value": "dataDivider"
+               },
+               {
+                 "name": "textId",
+                 "value": "dataDividerCoraLinkText"
+               },
+               {
+                 "name": "defTextId",
+                 "value": "dataDividerCoraLinkDefText"
+               },
+               {
+                 "name": "linkedRecordType",
+                 "value": "system"
+               },
+               {
+                 "name": "finalValue",
+                 "value": "cora"
+               }
+             ],
+             "name": "metadata",
+             "attributes": {
+               "type": "recordLink"
+             }
+           };
 		}
 		// presentation
 
@@ -2191,6 +3053,67 @@ function MetadataProviderStub() {
 					"value" : "output"
 				} ]
 			};
+			case "myChildOfBinaryPLink":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pLink"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "myChildOfBinaryPLink"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "myChildOfBinaryLink"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					} ]
+				};
+			case "myBinaryPLink":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pLink"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "myBinaryPLink"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "myBinaryLink"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					} ]
+				};
+
+			case "myBinaryNoDataDividerPLink":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pLink"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "myBinaryNoDataDividerPLink"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "myBinaryNoDataDividerLink"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					} ]
+				};
 
 		case "pgGroupIdOneTextChild":
 			return {
@@ -3334,6 +4257,26 @@ function MetadataProviderStub() {
 					"value" : "input"
 				} ]
 			};
+			case "myLinkNoPresentationOfLinkedRecordChildOfBinary":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pRecordLink"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "myLinkNoPresentationOfLinkedRecordChildOfBinary"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "myChildOfBinaryLink"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					} ]
+				};
 		case "myPathLinkNoPresentationOfLinkedRecordPLink":
 			return {
 				"name" : "presentation",
@@ -3354,6 +4297,26 @@ function MetadataProviderStub() {
 					"value" : "input"
 				} ]
 			};
+			case "myChildOfBinaryLinkPLink":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pRecordLink"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "myChildOfBinaryLinkPLink"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "myChildOfBinaryLink"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					} ]
+				};
 		case "myLinkNoPresentationOfLinkedRecordOutputPLink":
 			return {
 				"name" : "presentation",
@@ -3600,6 +4563,30 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
+			case "groupIdOneChildOfBinaryRecordLinkChildPGroup":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pGroup"
+					},
+					"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+						"name" : "presentationOf",
+						"value" : "groupIdOneChildOfBinaryRecordLinkChild"
+					}, {
+						"name" : "childReferences",
+						"children" : [ {
+							"name" : "childReference",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"value" : "myChildOfBinaryLinkPLink"
+							}, {
+								"name" : "default",
+								"value" : "ref"
+							} ]
+						} ]
+					} ])
+				};
 		case "metadataTextVariableViewPGroup":
 			return {
 				"children" : [ {
@@ -4114,7 +5101,6 @@ function MetadataProviderStub() {
 				} ]
 			}]
 		};
-
 		default:
 			throw new Error("Id(" + idToGet + ") not found in stub");
 

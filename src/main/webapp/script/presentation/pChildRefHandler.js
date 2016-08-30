@@ -26,7 +26,6 @@ var CORA = (function(cora) {
 		var presentationId = findPresentationId(spec.cPresentation);
 		var metadataId = getMetadataIdFromPresentation();
 		var cMetadataElement = getMetadataById(metadataId);
-
 		var cParentMetadataChildRefPart = getChildRefPartOfMetadata(spec.cParentMetadata,
 				metadataId);
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
@@ -41,6 +40,9 @@ var CORA = (function(cora) {
 		var pChildRefHandlerView = createPChildRefHandlerView();
 		spec.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
 		spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
+
+		var numberOfFiles = 0;
+		var numberOfFilesStored = 0;
 
 		function findPresentationId(cPresentationToSearch) {
 			var recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
@@ -65,7 +67,10 @@ var CORA = (function(cora) {
 				"presentationId" : presentationId,
 				"isRepeating" : isRepeating
 			};
-			if (showAddButton()) {
+			if (showFileUpload()) {
+				pChildRefHandlerViewSpec.upload = "true";
+				pChildRefHandlerViewSpec.handleFilesMethod = handleFiles;
+			} else if (showAddButton()) {
 				pChildRefHandlerViewSpec.addMethod = sendAdd;
 			}
 			return CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
@@ -163,6 +168,62 @@ var CORA = (function(cora) {
 			return repeatMin === "0" && repeatMax === "1";
 		}
 
+		function showFileUpload() {
+			if (currentChildRefIsRecordLink() && currentChildRefHasLinkedRecordType()) {
+				return checkIfBinaryOrChildOfBinary();
+			}
+			return false;
+		}
+
+		function currentChildRefIsRecordLink() {
+			return currentChildRefHasAttributes() && isOfTypeRecordLink();
+		}
+
+		function currentChildRefHasAttributes() {
+			return cMetadataElement.getData().attributes !== undefined;
+		}
+
+		function isOfTypeRecordLink() {
+			var attributes = cMetadataElement.getData().attributes;
+			return attributes.type !== undefined && attributes.type === "recordLink";
+		}
+
+		function currentChildRefHasLinkedRecordType() {
+			return cMetadataElement.containsChildWithNameInData("linkedRecordType");
+		}
+
+		function checkIfBinaryOrChildOfBinary() {
+			var cRecordType = getLinkedRecordType();
+			var cRecordInfo = CORA.coraData(cRecordType.getFirstChildByNameInData("recordInfo"));
+
+			return isBinaryOrChildOfBinary(cRecordInfo, cRecordType);
+		}
+
+		function getLinkedRecordType() {
+			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
+			var cRecordType = getRecordTypeById(recordTypeId);
+			return cRecordType;
+		}
+
+		function getRecordTypeById(id) {
+			return CORA.coraData(spec.recordTypeProvider.getRecordTypeById(id).data);
+		}
+
+		function isBinaryOrChildOfBinary(cRecordInfo, cRecordType) {
+			return isBinary(cRecordInfo) || isChildOfBinary(cRecordType);
+		}
+
+		function isBinary(cRecordInfo) {
+			return cRecordInfo.getFirstAtomicValueByNameInData("id") === "binary";
+		}
+
+		function isChildOfBinary(cRecordType) {
+
+			return cRecordType.containsChildWithNameInData("parentId")
+					&& cRecordType.getFirstAtomicValueByNameInData("parentId") === "binary";
+
+		}
+
 		function getView() {
 			return pChildRefHandlerView.getView();
 		}
@@ -248,11 +309,17 @@ var CORA = (function(cora) {
 		}
 
 		function calculateNewPath(metadataIdToAdd, repeatId) {
+			return calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd,
+					repeatId, spec.parentPath);
+		}
+
+		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
+				parentPath) {
 			var pathSpec = {
 				"metadataProvider" : spec.metadataProvider,
 				"metadataIdToAdd" : metadataIdToAdd,
 				"repeatId" : repeatId,
-				"parentPath" : spec.parentPath
+				"parentPath" : parentPath
 			};
 			return CORA.calculatePathForNewElement(pathSpec);
 		}
@@ -365,7 +432,7 @@ var CORA = (function(cora) {
 			if (metadataHasAttributes) {
 				data.attributes = collectedAttributes;
 			}
-			spec.jsBookkeeper.add(data);
+			return spec.jsBookkeeper.add(data);
 		}
 
 		function childMoved(moveInfo) {
@@ -379,6 +446,146 @@ var CORA = (function(cora) {
 			spec.jsBookkeeper.move(data);
 		}
 
+		function handleFiles(files) {
+			numberOfFiles = files.length;
+			for (var i = 0; i < files.length; i++) {
+				handleFile(files[i]);
+			}
+		}
+
+		function handleFile(file) {
+			var data = createNewBinaryData(file);
+			var createLink = getLinkedRecordTypeCreateLink();
+
+			var callSpec = {
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"method" : createLink.requestMethod,
+				"url" : createLink.url,
+				"contentType" : createLink.contentType,
+				"accept" : createLink.accept,
+				"loadMethod" : processNewBinary,
+				"errorMethod" : callError,
+				"data" : JSON.stringify(data)
+			};
+			CORA.ajaxCall(callSpec);
+		}
+
+		function createNewBinaryData(file) {
+			var dataDividerLinkedRecordId = getDataDividerFromSpec();
+			var type = getTypeFromRecordType();
+			return {
+				"name" : "binary",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "dataDivider",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "system"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : dataDividerLinkedRecordId
+						} ]
+					} ]
+				}, {
+					"name" : "fileName",
+					"value" : file.name
+				}, {
+					"name" : "fileSize",
+					"value" : "" + file.size
+				} ],
+				"attributes" : {
+					"type" : type
+				}
+			};
+		}
+
+		function getDataDividerFromSpec() {
+			return spec.presentationFactory.getDataDivider();
+		}
+
+		function getNewMetadataGroupFromRecordType() {
+			var recordType = getImplementingLinkedRecordType();
+			var cData = CORA.coraData(recordType.data);
+			var newMetadataId = cData.getFirstAtomicValueByNameInData("newMetadataId");
+			return getMetadataById(newMetadataId);
+		}
+
+		function getImplementingLinkedRecordType() {
+			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
+			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);
+			return spec.recordTypeProvider.getRecordTypeById(recordTypeId);
+		}
+
+		function getLinkedRecordTypeCreateLink() {
+			var recordType = getImplementingLinkedRecordType();
+			return recordType.actionLinks.create;
+		}
+
+		function changeRecordTypeIdIfBinary(recordTypeId) {
+			if (recordTypeId === "binary") {
+				recordTypeId = "genericBinary";
+			}
+			return recordTypeId;
+		}
+
+		function getTypeFromRecordType() {
+			var cMetadataGroup = getNewMetadataGroupFromRecordType();
+			var attributeReferences = cMetadataGroup
+					.getFirstChildByNameInData("attributeReferences");
+			var cAttributeReferences = CORA.coraData(attributeReferences);
+			var ref = cAttributeReferences.getFirstAtomicValueByNameInData("ref");
+			var cItem = getMetadataById(ref);
+			return cItem.getFirstAtomicValueByNameInData("finalValue");
+		}
+
+		function processNewBinary(answer) {
+			var calculatedRepeatId = sendAdd();
+			var data = getDataPartOfRecordFromAnswer(answer);
+			var createdRecordId = getIdFromRecordData(data);
+			var newPath1 = calculateNewPath(metadataId, calculatedRepeatId);
+			var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(
+					"linkedRecordIdTextVar", undefined, newPath1);
+			var setValueData = {
+				"data" : createdRecordId,
+				"path" : newPath
+			};
+			spec.jsBookkeeper.setValue(setValueData);
+
+			saveMainRecordIfAllFilesAreCreated();
+		}
+
+		function getDataPartOfRecordFromAnswer(answer) {
+			return JSON.parse(answer.responseText).record.data;
+		}
+
+		function getIdFromRecordData(recordData) {
+			var cRecord = CORA.coraData(recordData);
+			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
+			return id;
+		}
+
+		function saveMainRecordIfAllFilesAreCreated() {
+			numberOfFilesStored++;
+			if (numberOfFiles === numberOfFilesStored) {
+				spec.pubSub.publish("updateRecord", {
+					"data" : "",
+					"path" : {}
+				});
+				numberOfFilesStored = 0;
+			}
+		}
+
+		function callError(answer) {
+			var messageSpec = {
+				"message" : answer.status,
+				"type" : CORA.message.ERROR
+			};
+			// messageHolder.createMessage(messageSpec);
+			// TODO: do something good with the error
+		}
+
 		var out = Object.freeze({
 			getView : getView,
 			add : add,
@@ -387,7 +594,9 @@ var CORA = (function(cora) {
 			isStaticNoOfChildren : isStaticNoOfChildren,
 			sendAdd : sendAdd,
 			childRemoved : childRemoved,
-			childMoved : childMoved
+			childMoved : childMoved,
+			handleFiles : handleFiles,
+			processNewBinary : processNewBinary
 		});
 
 		pChildRefHandlerView.getView().modelObject = out;

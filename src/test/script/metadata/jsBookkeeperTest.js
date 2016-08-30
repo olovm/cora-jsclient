@@ -92,7 +92,7 @@ QUnit.test("testAdd", function(assert) {
 		"path" : {},
 		"childReference" : childReference
 	};
-	jsBookkeeper.add(data);
+	var calculatedRepeatId = jsBookkeeper.add(data);
 	var messages = this.pubSub.getMessages();
 	var expectedMessage = {
 		"type" : "add",
@@ -104,8 +104,10 @@ QUnit.test("testAdd", function(assert) {
 	assert.stringifyEqual(messages[0], expectedMessage);
 
 	assert.equal(messages.length, 1);
+	assert.strictEqual(calculatedRepeatId, undefined);
+	
 });
-QUnit.test("testAdd2", function(assert) {
+QUnit.test("testAddRepeating", function(assert) {
 	var currentData = {
 		"name" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
 		"children" : [ {
@@ -113,11 +115,15 @@ QUnit.test("testAdd2", function(assert) {
 			"children" : [ {
 				"name" : "textVar",
 				"value" : "one",
-				"repeatId" : "1"
+				"repeatId" : "one"
 			}, {
 				"name" : "textVar",
 				"value" : "two",
 				"repeatId" : "2"
+			}, {
+				"name" : "textVar",
+				"value" : "three",
+				"repeatId" : "1"
 			} ],
 			"attributes" : {
 				"anAttribute" : "aFinalValue"
@@ -152,12 +158,16 @@ QUnit.test("testAdd2", function(assert) {
 		"children" : [ {
 			"name" : "textVar",
 			"value" : "one",
-			"repeatId" : "1"
+			"repeatId" : "one"
 		}, {
 			"name" : "textVar",
 			"value" : "two",
 			"repeatId" : "2"
-		} ],
+		}, {
+			"name" : "textVar",
+			"value" : "three",
+			"repeatId" : "1"
+		}],
 		"attributes" : {
 			"anAttribute" : "aFinalValue"
 		},
@@ -205,7 +215,7 @@ QUnit.test("testAdd2", function(assert) {
 			} ]
 		}
 	};
-	jsBookkeeper.add(data);
+	var calculatedRepeatId = jsBookkeeper.add(data);
 	var messages = this.pubSub.getMessages();
 	var expectedMessage = {
 		"type" : "add",
@@ -242,6 +252,7 @@ QUnit.test("testAdd2", function(assert) {
 	assert.stringifyEqual(messages[0], expectedMessage);
 
 	assert.equal(messages.length, 1);
+	assert.strictEqual(calculatedRepeatId, "3");
 });
 
 QUnit.test("testRemove", function(assert) {

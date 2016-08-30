@@ -26,6 +26,8 @@ var CORA = (function(cora) {
 		var textProvider = spec.textProvider;
 		var jsBookkeeper = spec.jsBookkeeper;
 		var presentationFactory = spec.presentationFactory;
+		var recordTypeProvider = spec.recordTypeProvider;
+		var xmlHttpRequestFactory = spec.xmlHttpRequestFactory;
 
 		var view;
 		var originalClassName;
@@ -94,7 +96,8 @@ var CORA = (function(cora) {
 
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var ref = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
+			var ref = cPresentationChildRef
+					.getFirstAtomicValueByNameInData("ref");
 			var cPresentationChild = getMetadataById(ref);
 
 			if (childIsText(cPresentationChild)) {
@@ -103,7 +106,8 @@ var CORA = (function(cora) {
 			if (childIsSurroundingContainer(cPresentationChild)) {
 				return createSurroundingContainer(cPresentationChild);
 			}
-			return createPChildRefHandler(cPresentationChild, cPresentationChildRef);
+			return createPChildRefHandler(cPresentationChild,
+					cPresentationChildRef);
 		}
 
 		function childIsText(cChild) {
@@ -127,7 +131,8 @@ var CORA = (function(cora) {
 			return surroundingContainer.getView();
 		}
 
-		function createPChildRefHandler(cPresentationChild, cPresentationChildRef) {
+		function createPChildRefHandler(cPresentationChild,
+				cPresentationChildRef) {
 			var childRefHandlerSpec = {
 				"parentPath" : path,
 				"cParentMetadata" : getMetadataById(my.metadataId),
@@ -137,7 +142,9 @@ var CORA = (function(cora) {
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper,
-				"presentationFactory" : presentationFactory
+				"presentationFactory" : presentationFactory,
+				"recordTypeProvider" : recordTypeProvider,
+				"xmlHttpRequestFactory" : xmlHttpRequestFactory
 			};
 
 			if (childHasMinimizedPresenation(cPresentationChildRef)) {
@@ -165,8 +172,10 @@ var CORA = (function(cora) {
 		}
 
 		function getPresentationId() {
-			var recordInfo = spec.cPresentation.getFirstChildByNameInData("recordInfo");
-			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+			var recordInfo = spec.cPresentation
+					.getFirstChildByNameInData("recordInfo");
+			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData(
+					"id");
 		}
 
 		function getView() {

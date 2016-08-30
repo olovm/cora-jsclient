@@ -63,7 +63,7 @@ var CORA = (function(cora) {
 				addToShowView(recordGuiNew);
 				recordGuiNew.initMetadataControllerStartingGui();
 			} catch (error) {
-				createRawDataWorkView("something went wrong, probably missing metadata, "+ error);
+				createRawDataWorkView("something went wrong, probably missing metadata, " + error);
 			}
 		}
 
@@ -74,8 +74,8 @@ var CORA = (function(cora) {
 			return cRecordTypeRecordData.getFirstAtomicValueByNameInData(id);
 		}
 
-		function createRecordGui(metadataId, data) {
-			var createdRecordGui = spec.recordGuiFactory.factor(metadataId, data);
+		function createRecordGui(metadataId, data, dataDivider) {
+			var createdRecordGui = spec.recordGuiFactory.factor(metadataId, data, dataDivider);
 			var pubSub = createdRecordGui.pubSub;
 			subscribeToAllMessagesForAllPaths(pubSub);
 			return createdRecordGui;
@@ -92,11 +92,18 @@ var CORA = (function(cora) {
 			if (messageSaysInitIsComplete(msg)) {
 				initComplete = true;
 			}
+			if(messageSaysUpdateRecord(msg)){
+				sendUpdateDataToServer();
+			}
 			updateMenuClassName();
 		}
 
 		function messageSaysInitIsComplete(msg) {
 			return msg.endsWith("initComplete");
+		}
+
+		function messageSaysUpdateRecord(msg) {
+			return msg.endsWith("updateRecord");
 		}
 
 		function updateMenuClassName() {
@@ -195,10 +202,11 @@ var CORA = (function(cora) {
 		function processFetchedRecord(answer) {
 			fetchedRecord = getRecordPartFromAnswer(answer);
 			var data = getDataPartOfRecordFromAnswer(answer);
+			var dataDivider = getDataDividerFromData(data);
 			try {
 				var recordTypeId = getRecordTypeId(fetchedRecord);
 				var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
-				recordGui = createRecordGui(metadataId, data);
+				recordGui = createRecordGui(metadataId, data, dataDivider);
 				addRecordToWorkView(recordGui);
 				addRecordToMenuView(recordGui);
 				recordGui.initMetadataControllerStartingGui();
@@ -216,6 +224,13 @@ var CORA = (function(cora) {
 
 		function getDataPartOfRecordFromAnswer(answer) {
 			return JSON.parse(answer.responseText).record.data;
+		}
+
+		function getDataDividerFromData(data) {
+			var cData = CORA.coraData(data);
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			var cDataDivider = CORA.coraData(cRecordInfo.getFirstChildByNameInData("dataDivider"));
+			return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function getRecordTypeId(record) {

@@ -18,7 +18,7 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.xmlHttpRequestSpy = function(sendFunction) {
+	coraTest.xmlHttpRequestSpy = function(sendFunctionIn) {
 		var addedEventListeners = [];
 		var addedRequestHeaders = [];
 		var openMethod = "";
@@ -26,10 +26,14 @@ var CORATEST = (function(coraTest) {
 		var openUrls = [];
 		var sendWasCalled = false;
 		var sentData;
+		var sentDataArray = [];
 		var timeout = 0;
 		var status = 0;
 		var abortWasCalled = false;
 		var responseText;
+		var sendFunction;
+
+		setSendFunction(sendFunctionIn);
 
 		function addEventListener(type, listener) {
 			if (addedEventListeners[type] === undefined) {
@@ -47,15 +51,15 @@ var CORATEST = (function(coraTest) {
 		function getOpenUrl() {
 			return openUrl;
 		}
-		
+
 		function getOpenUrls() {
 			return openUrls;
 		}
-		
+
 		function getOpenMethod() {
 			return openMethod;
 		}
-		
+
 		function setRequestHeader(header, value) {
 			if (addedRequestHeaders[header] === undefined) {
 				addedRequestHeaders[header] = [];
@@ -66,10 +70,14 @@ var CORATEST = (function(coraTest) {
 		function send(data) {
 			sendWasCalled = true;
 			sentData = data;
+			sentDataArray.push(data);
 			sendFunction();
 		}
 		function getSentData() {
 			return sentData;
+		}
+		function getSentDataArray() {
+			return sentDataArray;
 		}
 
 		function abort() {
@@ -81,6 +89,10 @@ var CORATEST = (function(coraTest) {
 		}
 		function setSendWasCalled(sendWasCalledIn) {
 			sendWasCalled = sendWasCalledIn;
+		}
+
+		function setSendFunction(sendFunctionIn) {
+			sendFunction = sendFunctionIn;
 		}
 
 		var out = {
@@ -96,11 +108,13 @@ var CORATEST = (function(coraTest) {
 			getOpenUrls : getOpenUrls,
 			send : send,
 			getSentData : getSentData,
+			getSentDataArray : getSentDataArray,
 			getSendWasCalled : getSendWasCalled,
 			setSendWasCalled : setSendWasCalled,
 			abort : abort,
 			abortWasCalled : abortWasCalled,
-			responseText : responseText
+			responseText : responseText,
+			setSendFunction : setSendFunction
 		};
 		return out;
 	};
