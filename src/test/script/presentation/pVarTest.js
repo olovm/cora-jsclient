@@ -134,16 +134,58 @@ QUnit.test("testInitText", function(assert) {
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
+QUnit.test("testInitTextArea", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableIdTextAreaPVar");
+	assert.strictEqual(attachedPVar.pVar.type, "pVar");
+	assert.deepEqual(attachedPVar.view.className, "pVar textVariableIdTextAreaPVar");
+	var view = attachedPVar.view;
+	assert.ok(view.modelObject === attachedPVar.pVar);
+	assert.ok(view.childNodes.length, 2);
+
+	var valueView = attachedPVar.valueView;
+	assert.equal(valueView.nodeName, "TEXTAREA");
+	assert.equal(valueView.value, "");
+
+	CORATEST.testVariableSubscription(attachedPVar, assert);
+	CORATEST.testVariableMetadata(attachedPVar, assert);
+
+	assert.equal(attachedPVar.pVar.getState(), "ok");
+
+	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+});
+
+QUnit.test("testInitTextShowTextAreaFalse", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableIdShowTextAreaFalsePVar");
+	assert.strictEqual(attachedPVar.pVar.type, "pVar");
+	assert.deepEqual(attachedPVar.view.className, "pVar textVariableIdShowTextAreaFalsePVar");
+	var view = attachedPVar.view;
+	assert.ok(view.modelObject === attachedPVar.pVar,
+		"modelObject should be a pointer to the javascript object instance");
+	assert.ok(view.childNodes.length, 2);
+
+	var valueView = attachedPVar.valueView;
+	assert.equal(valueView.nodeName, "INPUT");
+	assert.equal(valueView.type, "text");
+	assert.equal(valueView.value, "");
+
+	CORATEST.testVariableSubscription(attachedPVar, assert);
+	CORATEST.testVariableMetadata(attachedPVar, assert);
+
+	assert.equal(attachedPVar.pVar.getState(), "ok");
+
+	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+});
+
 QUnit.test("testInitInfoButtonTextVariable", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
 	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
 	var view = attachedPVar.view;
+	
 	var infoButton = view.childNodes[1];
-
 	assert.equal(infoButton.nodeName, "SPAN");
 	assert.equal(infoButton.className, "infoButton");
-	
+
 	var event = document.createEvent('Event');
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 3);
@@ -153,33 +195,23 @@ QUnit.test("testInitInfoButtonTextVariable", function(assert) {
 	assert.equal(infoView.nodeName, "SPAN");
 	assert.equal(infoView.className, "infoView");
 
-	var textView = infoView.childNodes[0];
-	assert.equal(textView.nodeName, "SPAN");
-	assert.equal(textView.className, "textView");
-
-	var defTextView = infoView.childNodes[1];
-	assert.equal(defTextView.nodeName, "SPAN");
-	assert.equal(defTextView.className, "defTextView");
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView",
+			"Exempel textvariabel", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
+			"Detta är en exempeldefinition för en textvariabel.", assert);
 
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 3);
 	assert.equal(infoView.childNodes.length, 6);
 
-	var textIdView = infoView.childNodes[2];
-	assert.equal(textIdView.nodeName, "SPAN");
-	assert.equal(textIdView.className, "textIdView");
-
-	var defTextIdView = infoView.childNodes[3];
-	assert.equal(defTextIdView.nodeName, "SPAN");
-	assert.equal(defTextIdView.className, "defTextIdView");
-
-	var metadataIdView = infoView.childNodes[4];
-	assert.equal(metadataIdView.nodeName, "SPAN");
-	assert.equal(metadataIdView.className, "metadataIdView");
-
-	var regExView = infoView.childNodes[5];
-	assert.equal(regExView.nodeName, "SPAN");
-	assert.equal(regExView.className, "regExView");
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
+			"textId: textVariableIdText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3], "defTextIdView",
+			"defTextId: textVariableIdDefText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
+			"metadataId: textVariableId", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[5], "regExView",
+			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", assert);
 
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 2);
@@ -197,9 +229,10 @@ QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
 
 	assert.equal(infoButton.nodeName, "SPAN");
 	assert.equal(infoButton.className, "infoButton");
-	
+
 	var event = document.createEvent('Event');
 	infoButton.onclick(event);
+	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(attachedPVar.view.className));
 	assert.equal(view.childNodes.length, 3);
 
 	var infoView = view.childNodes[2];
@@ -207,35 +240,30 @@ QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
 	assert.equal(infoView.nodeName, "SPAN");
 	assert.equal(infoView.className, "infoView");
 
-	var textView = infoView.childNodes[0];
-	assert.equal(textView.nodeName, "SPAN");
-	assert.equal(textView.className, "textView");
-
-	var defTextView = infoView.childNodes[1];
-	assert.equal(defTextView.nodeName, "SPAN");
-	assert.equal(defTextView.className, "defTextView");
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView",
+			"Exempel collectionVariable", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
+			"Exempel collectionVariable, är en variabel "
+					+ "där man kan välja mellan ja, nej och okänt", assert);
 
 	infoButton.onclick(event);
+	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(attachedPVar.view.className));
 	assert.equal(view.childNodes.length, 3);
 	assert.equal(infoView.childNodes.length, 5);
 
-	var textIdView = infoView.childNodes[2];
-	assert.equal(textIdView.nodeName, "SPAN");
-	assert.equal(textIdView.className, "textIdView");
-
-	var defTextIdView = infoView.childNodes[3];
-	assert.equal(defTextIdView.nodeName, "SPAN");
-	assert.equal(defTextIdView.className, "defTextIdView");
-
-	var metadataIdView = infoView.childNodes[4];
-	assert.equal(metadataIdView.nodeName, "SPAN");
-	assert.equal(metadataIdView.className, "metadataIdView");
-
-
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
+			"textId: yesNoUnknownVarText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3], "defTextIdView",
+			"defTextId: yesNoUnknownVarDefText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
+			"metadataId: yesNoUnknownVar", assert);
+	
 	infoButton.onclick(event);
+	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(attachedPVar.view.className));
 	assert.equal(view.childNodes.length, 2);
 
 	infoButton.onclick(event);
+	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(attachedPVar.view.className));
 	assert.equal(view.childNodes.length, 3);
 });
 
@@ -374,6 +402,14 @@ QUnit.test("testChangedValueError", function(assert) {
 	assert.equal(attachedPVar.pVar.getState(), "error");
 	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedPVar.view.className));
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+
+	var event = document.createEvent('Event');
+	var view = attachedPVar.view;
+	var infoButton = view.childNodes[1];
+	infoButton.onclick(event);
+	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedPVar.view.className));
+	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(attachedPVar.view.className));
+
 });
 
 QUnit.test("testHandleValidationError", function(assert) {

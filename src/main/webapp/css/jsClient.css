@@ -315,7 +315,7 @@ body {
 }
 
 .jsClient .editView .pGroup {
-	background-color: transparent;
+/* 	background-color: transparent; */
 	/* 	border: none; */
 }
 
@@ -345,7 +345,7 @@ body {
 }
 
 .jsClient .showView .pGroup, .jsClient .showView .repeatingElement {
-	background-color: transparent;
+/* 	background-color: transparent; */
 	border: none;
 }
 

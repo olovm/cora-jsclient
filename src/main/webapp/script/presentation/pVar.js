@@ -40,8 +40,6 @@ var CORA = (function(cora) {
 		var valueView = createValueView();
 		view.appendChild(valueView);
 
-		var infoButton = createInfoButton();
-		view.appendChild(infoButton);
 
 		var state = "ok";
 		var previousValue = "";
@@ -54,12 +52,13 @@ var CORA = (function(cora) {
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var defText = textProvider.getTranslation(defTextId);
 
-		var infoLevel = 0;
-		var infoView;
-
 		if (subType === "textVariable") {
 			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 		}
+
+		var info = createInfo();
+		var infoButton = info.getButton();
+		view.appendChild(infoButton);
 
 		function getOutputFormat() {
 			if (cPresentation.containsChildWithNameInData("outputFormat")) {
@@ -88,14 +87,36 @@ var CORA = (function(cora) {
 		}
 
 		function createTextInput() {
-			var inputNew = document.createElement("input");
+			var inputNew;
+			if (isTextArea()) {
+				inputNew = document.createElement("textarea");
+			} else {
+				inputNew = createTextTypeInput(inputNew);
+				possiblyAddPlaceholderText(inputNew);
+			}
+			return inputNew;
+		}
+
+		function isTextArea(){
+			var inputType;
+			if(cPresentation.containsChildWithNameInData("inputType")){
+				inputType = cPresentation.getFirstAtomicValueByNameInData("inputType");
+			}
+			return inputType === "textarea";
+		}
+
+		function createTextTypeInput(inputNew){
+			inputNew = document.createElement("input");
 			inputNew.type = "text";
+			return inputNew;
+		}
+
+		function possiblyAddPlaceholderText(inputNew){
 			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
 				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
 				var emptyText = textProvider.getTranslation(emptyTextId);
 				inputNew.placeholder = emptyText;
 			}
-			return inputNew;
 		}
 
 		function createCollectionInput() {
@@ -147,62 +168,36 @@ var CORA = (function(cora) {
 			var outputNew = document.createElement("img");
 			return outputNew;
 		}
-
-		function createInfoButton() {
-			var infoButtonSpec = {
-				"className" : "infoButton",
-				"onclick" : showInfo
+		function createInfo() {
+			var infoSpec = {
+				"appendTo" : view,
+				"afterLevelChange": updateView,
+				"level1" : [ {
+					"className" : "textView",
+					"text" : text
+				}, {
+					"className" : "defTextView",
+					"text" : defText
+				} ],
+				"level2" : [ {
+					"className" : "textIdView",
+					"text" : "textId: " + textId
+				}, {
+					"className" : "defTextIdView",
+					"text" : "defTextId: " + defTextId
+				}, {
+					"className" : "metadataIdView",
+					"text" : "metadataId: " + metadataId
+				} ]
 			};
-			return CORA.gui.createButton(infoButtonSpec);
-		}
-
-		function showInfo() {
-			if (infoLevel === 0) {
-				infoView = document.createElement("span");
-				infoView.className = "infoView";
-				view.appendChild(infoView);
-
-				var textView = document.createElement("span");
-				textView.className = "textView";
-				textView.innerHTML = text;
-				infoView.appendChild(textView);
-
-				var defTextView = document.createElement("span");
-				defTextView.className = "defTextView";
-				defTextView.innerHTML = defText;
-				infoView.appendChild(defTextView);
+			if (subType === "textVariable") {
+				infoSpec.level2.push({
+					"className" : "regExView",
+					"text" : "regEx: " + regEx
+				});
 			}
-			if (infoLevel === 1) {
-				var textIdView = document.createElement("span");
-				textIdView.className = "textIdView";
-				textIdView.innerHTML = "textId: " + textId;
-				infoView.appendChild(textIdView);
-
-				var defTextIdView = document.createElement("span");
-				defTextIdView.className = "defTextIdView";
-				defTextIdView.innerHTML = "defTextId: " + defTextId;
-				infoView.appendChild(defTextIdView);
-
-				var metadataIdView = document.createElement("span");
-				metadataIdView.className = "metadataIdView";
-				metadataIdView.innerHTML = "metadataId: " + metadataId;
-				infoView.appendChild(metadataIdView);
-
-				if (subType === "textVariable") {
-					var regExView = document.createElement("span");
-					regExView.className = "regExView";
-					regExView.innerHTML = "regEx: " + regEx;
-					infoView.appendChild(regExView);
-				}
-
-			}
-			if (infoLevel === 2) {
-				view.removeChild(infoView);
-				infoLevel = 0;
-			} else {
-				infoLevel++;
-			}
-			updateView();
+			var newInfo = CORA.info(infoSpec);
+			return newInfo;
 		}
 
 		function getView() {
@@ -323,7 +318,7 @@ var CORA = (function(cora) {
 			if (state === "error") {
 				className += " error";
 			}
-			if (infoLevel !== 0) {
+			if (info.getInfoLevel() !== 0) {
 				className += " infoActive";
 			}
 			view.className = className;
@@ -341,18 +336,18 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type" : "pVar",
-			getView : getView,
-			setValue : setValue,
-			handleMsg : handleMsg,
-			getText : getText,
-			getDefText : getDefText,
-			getRegEx : getRegEx,
-			getState : getState,
-			onBlur : onBlur,
-			handleValidationError : handleValidationError,
-			showInfo : showInfo
+			"type": "pVar",
+			getView: getView,
+			setValue: setValue,
+			handleMsg: handleMsg,
+			getText: getText,
+			getDefText: getDefText,
+			getRegEx: getRegEx,
+			getState: getState,
+			onBlur: onBlur,
+			handleValidationError: handleValidationError
 		});
+
 		view.modelObject = out;
 		if (mode === "input") {
 			valueView.onblur = onBlur;

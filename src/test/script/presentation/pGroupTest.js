@@ -107,17 +107,59 @@ QUnit.test("testInit",
 			assert.deepEqual(view.className, expectedClassName);
 		});
 
+QUnit.test("testInitInfo", function(assert) {
+	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
+	var view = attachedPGroup.view;
+
+	var infoButton = view.childNodes[0];
+	assert.equal(infoButton.nodeName, "SPAN");
+	assert.equal(infoButton.className, "infoButton");
+
+	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
+	assert.equal(view.childNodes.length, 2);
+	
+	var event = document.createEvent('Event');
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
+	
+	var infoView = view.childNodes[1];
+	assert.equal(infoView.childNodes.length, 2);
+	assert.equal(infoView.nodeName, "SPAN");
+	assert.equal(infoView.className, "infoView");
+
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView",
+			"groupIdOneTextChildText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
+			"groupIdOneTextChildDefText", assert);
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+	assert.equal(infoView.childNodes.length, 5);
+
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
+			"textId: groupIdOneTextChildText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3], "defTextIdView",
+			"defTextId: groupIdOneTextChildDefText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
+			"metadataId: groupIdOneTextChild", assert);
+	
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 2);
+});
+
 QUnit.test("testInitOneChild",
 		function(assert) {
 			var attachedPGroup = this.newAttachedPGroup
 					.factor("pgGroupIdOneTextChild");
 			var view = attachedPGroup.view;
 
-			assert.ok(view.childNodes.length === 1,
-					"pgGroupIdOneTextChild, should have one child");
+			assert.ok(view.childNodes.length === 2,
+					"pgGroupIdOneTextChild, should have two children");
 
-			var childRefHandler = view.firstChild;
-			assert.deepEqual(childRefHandler.className,
+			var childRefHandler = view.childNodes[1];
+		assert.deepEqual(childRefHandler.className,
 					"pChildRefHandler pVarTextVariableId");
 		});
 
@@ -126,13 +168,13 @@ QUnit.test("testInitOneTextOneChild", function(assert) {
 			.factor("pgGroupIdOneTextOneTextChild");
 	var view = attachedPGroup.view;
 
-	assert.ok(view.childNodes.length === 2,
+	assert.ok(view.childNodes.length === 3,
 			"pgGroupIdOneTextOneTextChild, should have two children");
 
-	var text = view.childNodes[0];
+	var text = view.childNodes[1];
 	assert.deepEqual(text.textContent, "En rubrik");
 
-	var childRefHandler = view.childNodes[1];
+	var childRefHandler = view.childNodes[2];
 	assert.deepEqual(childRefHandler.className,
 			"pChildRefHandler pVarTextVariableId");
 });
@@ -143,27 +185,22 @@ QUnit.test("testInitTwoChildren",
 					.factor("pgGroupIdTwoTextChild");
 			var view = attachedPGroup.view;
 
-			assert.ok(view.childNodes.length === 2);
+			assert.ok(view.childNodes.length === 3);
 
-			var childRefHandler = view.childNodes[0];
+			var childRefHandler = view.childNodes[1];
 			assert.deepEqual(childRefHandler.className,
 					"pChildRefHandler pVarTextVariableId");
-			var childRefHandler2 = view.childNodes[1];
+			var childRefHandler2 = view.childNodes[2];
 			assert.deepEqual(childRefHandler2.className,
 					"pChildRefHandler pVarTextVariableId2");
 		});
 
 QUnit.test("testInitOneChildMimimized", function(assert) {
-	// var attachedPGroup =
-	// this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimized");
 	var attachedPGroup = this.newAttachedPGroup
 			.factor("pgGroupIdOneTextChildMinimized");
-	// var attachedPGroup =
-	// this.newAttachedPGroup.factor("pgGroupIdOneTextChild");
 	var view = attachedPGroup.view;
-	var childRefHandler = view.firstChild;
+	var childRefHandler = view.childNodes[1];
 	var pChildRefHandler = childRefHandler.modelObject;
-	// pChildRefHandler.add("one");
 	pChildRefHandler.add("groupIdOneTextChild",
 			"onelkadsjflökads jflköads jflökadsjfldasj lk");
 
@@ -189,9 +226,8 @@ QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
 	var attachedPGroup = this.newAttachedPGroup
 			.factor("pgGroupIdOneTextChildMinimizedDefault");
 	var view = attachedPGroup.view;
-	var childRefHandler = view.firstChild;
+	var childRefHandler = view.childNodes[1];
 	var pChildRefHandler = childRefHandler.modelObject;
-	// pChildRefHandler.add("one");
 	pChildRefHandler.add("groupIdOneTextChild",
 			"onelkadsjflökads jflköads jflökadsjfldasj lk");
 

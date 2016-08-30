@@ -2849,6 +2849,58 @@ function MetadataProviderStub() {
 					"value" : "enterTextHereText"
 				} ]
 			};
+			case "textVariableIdShowTextAreaFalsePVar":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pVar"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textVariableIdShowTextAreaFalsePVar"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "textVariableId"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					}, {
+						"name" : "emptyTextId",
+						"value" : "enterTextHereText"
+					}, {
+						"name" : "showAsTextArea",
+						"value" : "false"
+					}  ]
+				};
+			case "textVariableIdTextAreaPVar":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pVar"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "textVariableIdTextAreaPVar"
+						} ]
+					}, {
+						"name" : "presentationOf",
+						"value" : "textVariableId"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					}, {
+						"name" : "emptyTextId",
+						"value" : "enterTextHereText"
+					}, {
+						"name" : "inputType",
+						"value" : "textarea"
+					} ]
+				};
 
 		case "pVarTextVariableIdOutput":
 			return {
@@ -4797,6 +4849,258 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
+		case "groupIdOneTextChildText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "groupIdOneTextChildText"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "groupIdOneTextChildText"
+				} ]
+			}]
+		};
+		case "groupIdOneTextChildDefText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "groupIdOneTextChildText"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "groupIdOneTextChildText"
+				} ]
+			}]
+		};
+		case "groupIdTwoTextChildRepeat1to5Text":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "groupIdTwoTextChildRepeat1to5Text"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "groupIdTwoTextChildRepeat1to5Text"
+				} ]
+			}]
+		};
+		case "groupIdTwoTextChildRepeat1to5DefText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "groupIdTwoTextChildRepeat1to5DefText"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "groupIdTwoTextChildRepeat1to5DefText"
+				} ]
+			}]
+		};
+		case "groupIdOneTextChildRepeat1to3Text":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "groupIdOneTextChildRepeat1to3Text"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "groupIdOneTextChildRepeat1to3Text"
+				} ]
+			}]
+		};
+		case "groupIdTwoTextChildRepeat1to3DefText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "groupIdTwoTextChildRepeat1to3DefText"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "groupIdTwoTextChildRepeat1to3DefText"
+				} ]
+			}]
+		};
+		case "groupIdTwoTextChildText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "groupIdTwoTextChildText"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "groupIdTwoTextChildText"
+				} ]
+			}]
+		};
+		case "groupIdTwoTextChildDefText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "groupIdTwoTextChildDefText"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "groupIdTwoTextChildDefText"
+				} ]
+			}]
+		};
+		case "textVarRepeat1to3InGroupOneAttributeText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "textVarRepeat1to3InGroupOneAttributeText"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "textVarRepeat1to3InGroupOneAttributeText"
+				} ]
+			}]
+		};
+		case "textVarRepeat1to3InGroupOneAttributeDefText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "textVarRepeat1to3InGroupOneAttributeDefText"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "textVarRepeat1to3InGroupOneAttributeDefText"
+				} ]
+			}]
+		};
+		case "groupInGroupOneTextChildText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "groupInGroupOneTextChildText"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "groupInGroupOneTextChildText"
+				} ]
+			}]
+		};
+		case "groupInGroupOneTextChildDefText":
+			return {
+			"name" : "text",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "groupInGroupOneTextChildDefText"
+				} ]
+			}, {
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				},
+				"children" : [ {
+					"name" : "text",
+					"value" : "groupInGroupOneTextChildDefText"
+				} ]
+			}]
+		};
 		default:
 			throw new Error("Id(" + idToGet + ") not found in stub");
 
