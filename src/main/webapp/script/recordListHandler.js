@@ -89,7 +89,8 @@ var CORA = (function(cora) {
 			var recordTypeId = getRecordTypeId(record);
 			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
 			var presentationId = getListPresentationFromRecordTypeRecord();
-			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data);
+			var dataDivider = getDataDividerFromData(record.data);
+			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data, dataDivider);
 
 			var presentationView = recordGui.getPresentation(presentationId).getView();
 			recordGui.initMetadataControllerStartingGui();
@@ -113,6 +114,13 @@ var CORA = (function(cora) {
 		function getListPresentationFromRecordTypeRecord() {
 			var cData = CORA.coraData(spec.recordTypeRecord.data);
 			return cData.getFirstAtomicValueByNameInData("listPresentationViewId");
+		}
+
+		function getDataDividerFromData(data) {
+			var cData = CORA.coraData(data);
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			var cDataDivider = CORA.coraData(cRecordInfo.getFirstChildByNameInData("dataDivider"));
+			return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function callError(answer) {

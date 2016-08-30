@@ -90,6 +90,23 @@ QUnit.test("getRecordTypeById", function(assert) {
 				}, {
 					"name" : "updatedBy",
 					"value" : "userId"
+				}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "system"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "cora"
+					} ],
+					"actionLinks" : {
+						"read" : {
+							"requestMethod" : "GET",
+							"rel" : "read",
+							"url" : "http://localhost:8080/therest/rest/record/system/cora",
+							"accept" : "application/uub+record+json"
+						}
+					},
+					"name" : "dataDivider"
 				} ],
 				"name" : "recordInfo"
 			}, {
@@ -195,5 +212,5 @@ QUnit.test("getRecordTypeByIdNotFound", function(assert) {
 QUnit.test("getAllRecordTypes", function(assert) {
 	var recordTypeList = this.recordTypeProvider.getAllRecordTypes();
 	assert.stringifyEqual(recordTypeList.length, 15);
-	
+
 });

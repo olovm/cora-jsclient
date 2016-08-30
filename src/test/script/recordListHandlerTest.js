@@ -35,6 +35,23 @@ QUnit.module("recordListHandlerTest.js", {
 					}, {
 						"name" : "updatedBy",
 						"value" : "userId"
+					}, {
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "system"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "cora"
+						} ],
+						"actionLinks" : {
+							"read" : {
+								"requestMethod" : "GET",
+								"rel" : "read",
+								"url" : "http://localhost:8080/therest/rest/record/system/cora",
+								"accept" : "application/uub+record+json"
+							}
+						},
+						"name" : "dataDivider"
 					} ],
 					"name" : "recordInfo"
 				}, {
@@ -137,9 +154,12 @@ QUnit.module("recordListHandlerTest.js", {
 		var recordGui = this.recordGui;
 		this.metadataIdUsed = [];
 		var metadataIdUsed = this.metadataIdUsed;
+		this.dataDividerUsed = [];
+		var dataDividerUsed = this.dataDividerUsed;
 		this.recordGuiFactorySpy = {
-			"factor" : function(metadataId, data) {
+			"factor" : function(metadataId, data, dataDivider) {
 				metadataIdUsed.push(metadataId);
+				dataDividerUsed.push(dataDivider);
 				return recordGui;
 			}
 		};
@@ -190,9 +210,9 @@ QUnit.test("initCheckRemoveOnMenu", function(assert) {
 
 	var workView = this.workView;
 	var menuView = this.menuView;
-	
+
 	assert.strictEqual(menuView.textContent, "List");
-	
+
 	var removeButton = menuView.childNodes[1];
 	assert.strictEqual(removeButton.className, "removeButton");
 	var event = document.createEvent('Event');
@@ -391,4 +411,5 @@ QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
 	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
 	assert.stringifyEqual(this.presentationIdUsed[0], "recordTypeListPGroup");
 	assert.stringifyEqual(this.metadataIdUsed[0], "recordTypeGroup2");
+	assert.strictEqual(this.dataDividerUsed[0], "cora");
 });
