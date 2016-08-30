@@ -45,12 +45,16 @@ var CORATEST = (function(coraTest) {
 		function getCPresentations(){
 			return cPresentations;
 		}
+		function getDataDivider(){
+			return "systemX";
+		}
 		
 		return Object.freeze({
 			factor : factor,
 			getPath:getPath,
 			getCPresentation: getCPresentation,
-			getCPresentations: getCPresentations
+			getCPresentations: getCPresentations,
+			getDataDivider : getDataDivider
 		});
 	};
 	return coraTest;

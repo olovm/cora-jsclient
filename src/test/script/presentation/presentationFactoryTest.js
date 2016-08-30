@@ -19,7 +19,8 @@
 "use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.presentationFactoryFactory = function(metadataProvider, pubSub, textProvider, recordTypeProvider) {
+	coraTest.presentationFactoryFactory = function(metadataProvider, pubSub, textProvider,
+			recordTypeProvider, dataDivider) {
 		var factor = function() {
 			var jsBookkeeper = CORATEST.jsBookkeeperSpy();
 			var specPresentationFactory = {
@@ -27,7 +28,8 @@ var CORATEST = (function(coraTest) {
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper,
-				"recordTypeProvider" : recordTypeProvider
+				"recordTypeProvider" : recordTypeProvider,
+				"dataDivider" : dataDivider
 			};
 			return CORA.presentationFactory(specPresentationFactory);
 
@@ -46,12 +48,18 @@ QUnit.module("presentationFactoryTest.js", {
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
 		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
+		this.dataDivider = "systemX";
 		this.newPresentationFactoryFactory = CORATEST.presentationFactoryFactory(
-				this.metadataProvider, this.pubSub, this.textProvider, this.recordTypeProvider);
+				this.metadataProvider, this.pubSub, this.textProvider, this.recordTypeProvider,
+				this.dataDivider);
 		this.newPresentationFactory = this.newPresentationFactoryFactory.factor();
 	},
 	afterEach : function() {
 	}
+});
+
+QUnit.test("testFactorPVar", function(assert) {
+	assert.strictEqual(this.newPresentationFactory.getDataDivider(), "systemX");
 });
 
 QUnit.test("testFactorPVar", function(assert) {

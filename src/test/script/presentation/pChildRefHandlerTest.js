@@ -503,7 +503,7 @@ QUnit.test("testHandleFilesSendingOneFile", function(assert) {
 					"value" : "system"
 				}, {
 					"name" : "linkedRecordId",
-					"value" : "cora"
+					"value" : "systemX"
 				} ]
 			} ]
 		}, {
@@ -556,52 +556,7 @@ QUnit.test("testHandleFilesSendingOneBinaryFile", function(assert) {
 					"value" : "system"
 				}, {
 					"name" : "linkedRecordId",
-					"value" : "cora"
-				} ]
-			} ]
-		}, {
-			"name" : "fileName",
-			"value" : "someFile.tif"
-		}, {
-			"name" : "fileSize",
-			"value" : "1234567890"
-		} ],
-		"attributes":{
-			"type":"genericBinary"
-		}
-	};
-	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
-});
-
-QUnit.test("testHandleFilesSendingOneBinaryFileDataDividerMissing", function(assert) {
-	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-		"groupIdOneBinaryRecordNoDataDividerLinkChild", "myBinaryNoDataDividerPLink");
-	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
-	var view = attachedPChildRefHandler.view;
-
-	var files = [];
-	var file1 = {
-		"name" : "someFile.tif",
-		"size" : 1234567890
-	};
-	files.push(file1);
-
-	childRefHandler.handleFiles(files);
-
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
-
-	var data = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : ""
+					"value" : "systemX"
 				} ]
 			} ]
 		}, {
@@ -662,7 +617,7 @@ QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
 						"value" : "system"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "cora"
+						"value" : "systemX"
 					} ]
 				} ]
 			}, {
@@ -779,7 +734,7 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 					"value" : "system"
 				}, {
 					"name" : "linkedRecordId",
-					"value" : "cora"
+					"value" : "systemX"
 				} ]
 			} ]
 		}, {
@@ -806,7 +761,7 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 						"value" : "system"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "cora"
+						"value" : "systemX"
 					} ]
 				} ]
 			}, {
@@ -833,7 +788,7 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 						"value" : "system"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "cora"
+						"value" : "systemX"
 					} ]
 				} ]
 			}, {

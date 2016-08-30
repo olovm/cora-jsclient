@@ -26,10 +26,12 @@ var CORA = (function(cora) {
 		var presentationId = findPresentationId(spec.cPresentation);
 		var metadataId = getMetadataIdFromPresentation();
 		var cMetadataElement = getMetadataById(metadataId);
-		var cParentMetadataChildRefPart = getChildRefPartOfMetadata(spec.cParentMetadata,
-				metadataId);
-		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
-		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
+		var cParentMetadataChildRefPart = getChildRefPartOfMetadata(
+				spec.cParentMetadata, metadataId);
+		var repeatMin = cParentMetadataChildRefPart
+				.getFirstAtomicValueByNameInData("repeatMin");
+		var repeatMax = cParentMetadataChildRefPart
+				.getFirstAtomicValueByNameInData("repeatMax");
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
@@ -42,12 +44,15 @@ var CORA = (function(cora) {
 		spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
 
 		function findPresentationId(cPresentationToSearch) {
-			var recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
-			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+			var recordInfo = cPresentationToSearch
+					.getFirstChildByNameInData("recordInfo");
+			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData(
+					"id");
 		}
 
 		function getMetadataIdFromPresentation() {
-			return spec.cPresentation.getFirstAtomicValueByNameInData("presentationOf");
+			return spec.cPresentation
+					.getFirstAtomicValueByNameInData("presentationOf");
 		}
 
 		function getMetadataById(id) {
@@ -56,7 +61,8 @@ var CORA = (function(cora) {
 
 		function collectAttributesForMetadataId(metadataIdIn) {
 
-			return metadataHelper.collectAttributesAsObjectForMetadataId(metadataIdIn);
+			return metadataHelper
+					.collectAttributesAsObjectForMetadataId(metadataIdIn);
 		}
 
 		function createPChildRefHandlerView() {
@@ -74,12 +80,14 @@ var CORA = (function(cora) {
 		}
 
 		function hasAttributes() {
-			return cMetadataElement.containsChildWithNameInData("attributeReferences");
+			return cMetadataElement
+					.containsChildWithNameInData("attributeReferences");
 		}
 
 		function getChildRefPartOfMetadata(cMetadata, metadataIdToFind) {
 			var cMetadataToFind = getMetadataById(metadataIdToFind);
-			var nameInDataToFind = cMetadataToFind.getFirstAtomicValueByNameInData("nameInData");
+			var nameInDataToFind = cMetadataToFind
+					.getFirstAtomicValueByNameInData("nameInData");
 			var attributesToFind = metadataHelper
 					.collectAttributesAsObjectForMetadataId(metadataIdToFind);
 
@@ -89,22 +97,26 @@ var CORA = (function(cora) {
 						.collectAttributesAsObjectForMetadataId(childMetadataId);
 				var childNameInData = getNameInDataFromMetadataChildRef(metadataChildRef);
 				return childNameInData === nameInDataToFind
-						&& sameAttributes(attributesToFind, childAttributesToFind);
+						&& sameAttributes(attributesToFind,
+								childAttributesToFind);
 			};
-			var children = cMetadata.getFirstChildByNameInData("childReferences").children;
+			var children = cMetadata
+					.getFirstChildByNameInData("childReferences").children;
 			var parentMetadataChildRef = children.find(findFunction);
 			return CORA.coraData(parentMetadataChildRef);
 		}
 		function getMetadataIdFromRef(metadataChildRef) {
 			var cMetadataChildRef = CORA.coraData(metadataChildRef);
-			var childMetadataId = cMetadataChildRef.getFirstAtomicValueByNameInData("ref");
+			var childMetadataId = cMetadataChildRef
+					.getFirstAtomicValueByNameInData("ref");
 			return childMetadataId;
 		}
 
 		function getNameInDataFromMetadataChildRef(metadataChildRef) {
 			var childMetadataId = getMetadataIdFromRef(metadataChildRef);
 			var cChildMetadata = getMetadataById(childMetadataId);
-			var childNameInData = cChildMetadata.getFirstAtomicValueByNameInData("nameInData");
+			var childNameInData = cChildMetadata
+					.getFirstAtomicValueByNameInData("nameInData");
 			return childNameInData;
 		}
 
@@ -145,7 +157,8 @@ var CORA = (function(cora) {
 				return attributeValues2.indexOf(attributeValues1[0]) > -1;
 			};
 
-			var attributeMatches = attributeKeys1.every(attributeExistsInAttributes2);
+			var attributeMatches = attributeKeys1
+					.every(attributeExistsInAttributes2);
 			return attributeMatches;
 		}
 
@@ -166,7 +179,8 @@ var CORA = (function(cora) {
 		}
 
 		function showFileUpload() {
-			if (currentChildRefIsRecordLink() && currentChildRefHasLinkedRecordType()) {
+			if (currentChildRefIsRecordLink()
+					&& currentChildRefHasLinkedRecordType()) {
 				return checkIfBinaryOrChildOfBinary();
 			}
 			return false;
@@ -182,28 +196,33 @@ var CORA = (function(cora) {
 
 		function isOfTypeRecordLink() {
 			var attributes = cMetadataElement.getData().attributes;
-			return attributes.type !== undefined && attributes.type === "recordLink";
+			return attributes.type !== undefined
+					&& attributes.type === "recordLink";
 		}
 
 		function currentChildRefHasLinkedRecordType() {
-			return cMetadataElement.containsChildWithNameInData("linkedRecordType");
+			return cMetadataElement
+					.containsChildWithNameInData("linkedRecordType");
 		}
 
 		function checkIfBinaryOrChildOfBinary() {
 			var cRecordType = getLinkedRecordType();
-			var cRecordInfo = CORA.coraData(cRecordType.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = CORA.coraData(cRecordType
+					.getFirstChildByNameInData("recordInfo"));
 
 			return isBinaryOrChildOfBinary(cRecordInfo, cRecordType);
 		}
 
 		function getLinkedRecordType() {
-			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
+			var recordTypeId = cMetadataElement
+					.getFirstAtomicValueByNameInData("linkedRecordType");
 			var cRecordType = getRecordTypeById(recordTypeId);
 			return cRecordType;
 		}
 
 		function getRecordTypeById(id) {
-			return CORA.coraData(spec.recordTypeProvider.getRecordTypeById(id).data);
+			return CORA
+					.coraData(spec.recordTypeProvider.getRecordTypeById(id).data);
 		}
 
 		function isBinaryOrChildOfBinary(cRecordInfo, cRecordType) {
@@ -235,7 +254,8 @@ var CORA = (function(cora) {
 			if (metadataIdSameAsInMessage(dataFromMsg)) {
 				return true;
 			}
-			return shouldPresentData(dataFromMsg.nameInData, dataFromMsg.attributes);
+			return shouldPresentData(dataFromMsg.nameInData,
+					dataFromMsg.attributes);
 		}
 
 		function metadataIdSameAsInMessage(dataFromMsg) {
@@ -255,7 +275,8 @@ var CORA = (function(cora) {
 			return false;
 		}
 
-		function nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg) {
+		function nameInDataFromMsgNotHandledByThisPChildRefHandler(
+				nameInDataFromMsg) {
 			return nameInDataFromMsg !== cMetadataElement
 					.getFirstAtomicValueByNameInData("nameInData");
 		}
@@ -268,22 +289,26 @@ var CORA = (function(cora) {
 			return metadataHasAttributes && attributesFromMsg !== undefined;
 		}
 
-		function sameAttributesInMessageAsThisPChildRefHandler(attributesFromMsg) {
+		function sameAttributesInMessageAsThisPChildRefHandler(
+				attributesFromMsg) {
 			var attributeFromMsgKeys = Object.keys(attributesFromMsg);
 			if (attributeFromMsgKeys.length === 0) {
 				return false;
 			}
 
-			var attributeExistsInCollectedAttributes = function(attributeFromMsgKey) {
+			var attributeExistsInCollectedAttributes = function(
+					attributeFromMsgKey) {
 				var attributeValueFromMsg = attributesFromMsg[attributeFromMsgKey];
 				var collectedAttributeValues = collectedAttributes[attributeFromMsgKey];
 				if (collectedAttributeValues === undefined) {
 					return false;
 				}
-				return collectedAttributeValues.indexOf(attributeValueFromMsg[0]) > -1;
+				return collectedAttributeValues
+						.indexOf(attributeValueFromMsg[0]) > -1;
 			};
 
-			var attributeMatches = attributeFromMsgKeys.every(attributeExistsInCollectedAttributes);
+			var attributeMatches = attributeFromMsgKeys
+					.every(attributeExistsInCollectedAttributes);
 			return attributeMatches;
 		}
 
@@ -306,12 +331,12 @@ var CORA = (function(cora) {
 		}
 
 		function calculateNewPath(metadataIdToAdd, repeatId) {
-			return calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd,
-					repeatId, spec.parentPath);
+			return calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(
+					metadataIdToAdd, repeatId, spec.parentPath);
 		}
 
-		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
-				parentPath) {
+		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(
+				metadataIdToAdd, repeatId, parentPath) {
 			var pathSpec = {
 				"metadataProvider" : spec.metadataProvider,
 				"metadataIdToAdd" : metadataIdToAdd,
@@ -340,28 +365,32 @@ var CORA = (function(cora) {
 			repeatingElement.addPresentation(presentation);
 
 			if (hasMinimizedPresentation()) {
-				var presentationMinimized = getPresentation(path, spec.cPresentationMinimized);
-				repeatingElement.addPresentationMinimized(presentationMinimized,
-						spec.minimizedDefault);
+				var presentationMinimized = getPresentation(path,
+						spec.cPresentationMinimized);
+				repeatingElement.addPresentationMinimized(
+						presentationMinimized, spec.minimizedDefault);
 			}
 		}
 
 		function getPresentation(path, cPresentation) {
-			return spec.presentationFactory.factor(path, cPresentation, spec.cParentPresentation);
+			return spec.presentationFactory.factor(path, cPresentation,
+					spec.cParentPresentation);
 		}
 
 		function hasMinimizedPresentation() {
 			return spec.cPresentationMinimized !== undefined;
 		}
 
-		function subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement) {
+		function subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(
+				repeatingElement) {
 			if (showAddButton()) {
 				var removeFunction = function() {
-					pChildRefHandlerView.removeChild(repeatingElement.getView());
+					pChildRefHandlerView
+							.removeChild(repeatingElement.getView());
 					childRemoved();
 				};
-				spec.pubSub.subscribe("remove", repeatingElement.getPath(), undefined,
-						removeFunction);
+				spec.pubSub.subscribe("remove", repeatingElement.getPath(),
+						undefined, removeFunction);
 			}
 		}
 
@@ -424,7 +453,8 @@ var CORA = (function(cora) {
 				"metadataId" : metadataId,
 				"path" : spec.parentPath,
 				"childReference" : cParentMetadataChildRefPart.getData(),
-				"nameInData" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData")
+				"nameInData" : cMetadataElement
+						.getFirstAtomicValueByNameInData("nameInData")
 			};
 			if (metadataHasAttributes) {
 				data.attributes = collectedAttributes;
@@ -444,7 +474,7 @@ var CORA = (function(cora) {
 		}
 
 		function handleFiles(files) {
-			for(var i=0; i<files.length; i++){
+			for (var i = 0; i < files.length; i++) {
 				handleFile(files[i]);
 			}
 		}
@@ -467,7 +497,7 @@ var CORA = (function(cora) {
 		}
 
 		function createNewBinaryData(file) {
-			var dataDividerLinkedRecordId = getLinkedRecordIdFromFinalValue();
+			var dataDividerLinkedRecordId = getDataDividerFromSpec();
 			var type = getTypeFromRecordType();
 			return {
 				"name" : "binary",
@@ -490,68 +520,65 @@ var CORA = (function(cora) {
 					"name" : "fileSize",
 					"value" : "" + file.size
 				} ],
-				"attributes":{
-					"type":type
+				"attributes" : {
+					"type" : type
 				}
 			};
 		}
 
-		
-
-		function getLinkedRecordIdFromFinalValue(){
-			var cMetadataGroup = getNewMetadataGroupFromRecordType();
-//			console.log("cMetadataGroup")
-//			console.log(JSON.stringify(cMetadataGroup.getData()))
-//			detta kan vara fel, borde hämta childreferences, leta rätt på den som 
-			//har nameInData, recordInfo(recordInfoCoraAutogeneratedNewGroup)
-			//hämta dess childreferences, hitta den som är en länk till system(dataDividerCoraLink),
-			//har nameInData "dataDivider"
-			//, hämta upp länkdeffinitionen, och titta på dess final value
-			var cRecordInfo =  findRefByNameInData(cMetadataGroup, "recordInfo");
-
-			return getFinalValueDataDivider(cRecordInfo);
+		function getDataDividerFromSpec() {
+			return spec.presentationFactory.getDataDivider();
 		}
 
-		function getNewMetadataGroupFromRecordType(){
+		function getNewMetadataGroupFromRecordType() {
 			var recordType = getImplementingLinkedRecordType();
 			var cData = CORA.coraData(recordType.data);
-			var newMetadataId = cData.getFirstAtomicValueByNameInData("newMetadataId");
+			var newMetadataId = cData
+					.getFirstAtomicValueByNameInData("newMetadataId");
 			return getMetadataById(newMetadataId);
 		}
 
-		function getImplementingLinkedRecordType(){
-			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
+		function getImplementingLinkedRecordType() {
+			var recordTypeId = cMetadataElement
+					.getFirstAtomicValueByNameInData("linkedRecordType");
 			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);
 			return spec.recordTypeProvider.getRecordTypeById(recordTypeId);
 		}
 
-		function getFinalValueDataDivider(cRecordInfo){
+		function getFinalValueDataDivider(cRecordInfo) {
 			var dataDividerLinkedRecordId = "";
 			var cDataDivider = findRefByNameInData(cRecordInfo, "dataDivider");
-			if(cDataDivider !==  undefined && cDataDivider.getFirstAtomicValueByNameInData("finalValue") !== undefined) {
-				dataDividerLinkedRecordId = cDataDivider.getFirstAtomicValueByNameInData("finalValue");
+			if (cDataDivider !== undefined
+					&& cDataDivider
+							.getFirstAtomicValueByNameInData("finalValue") !== undefined) {
+				dataDividerLinkedRecordId = cDataDivider
+						.getFirstAtomicValueByNameInData("finalValue");
 			}
 			return dataDividerLinkedRecordId;
 		}
 
-		function findRefByNameInData(cMetadataGroup, nameInData){
+		function findRefByNameInData(cMetadataGroup, nameInData) {
 			var filter = createChildNameInDataFilter(nameInData);
-			var childRefs = cMetadataGroup.getFirstChildByNameInData("childReferences");
+			var childRefs = cMetadataGroup
+					.getFirstChildByNameInData("childReferences");
 
 			var found = childRefs.children.find(filter);
-			if(found !== undefined){
-				var refValue = CORA.coraData(found).getFirstAtomicValueByNameInData("ref");
+			if (found !== undefined) {
+				var refValue = CORA.coraData(found)
+						.getFirstAtomicValueByNameInData("ref");
 				return getMetadataById(refValue);
 			}
 
 			return found;
 		}
 
-		function createChildNameInDataFilter(nameInData){
+		function createChildNameInDataFilter(nameInData) {
 			return function(child) {
-				var ref = CORA.coraData(child).getFirstAtomicValueByNameInData("ref");
+				var ref = CORA.coraData(child).getFirstAtomicValueByNameInData(
+						"ref");
 				var childRef = getMetadataById(ref);
-				var childNameInData = childRef.getFirstAtomicValueByNameInData('nameInData');
+				var childNameInData = childRef
+						.getFirstAtomicValueByNameInData('nameInData');
 				return childNameInData === nameInData;
 			};
 		}
@@ -561,22 +588,24 @@ var CORA = (function(cora) {
 			return recordType.actionLinks.create;
 		}
 
-		function changeRecordTypeIdIfBinary(recordTypeId){
-			if(recordTypeId === "binary"){
+		function changeRecordTypeIdIfBinary(recordTypeId) {
+			if (recordTypeId === "binary") {
 				recordTypeId = "genericBinary";
 			}
 			return recordTypeId;
 		}
 
-		function getTypeFromRecordType(){
+		function getTypeFromRecordType() {
 			var cMetadataGroup = getNewMetadataGroupFromRecordType();
-			var attributeReferences = cMetadataGroup.getFirstChildByNameInData("attributeReferences");
+			var attributeReferences = cMetadataGroup
+					.getFirstChildByNameInData("attributeReferences");
 			var cAttributeReferences = CORA.coraData(attributeReferences);
-			var ref = cAttributeReferences.getFirstAtomicValueByNameInData("ref");
+			var ref = cAttributeReferences
+					.getFirstAtomicValueByNameInData("ref");
 			var cItem = getMetadataById(ref);
 			return cItem.getFirstAtomicValueByNameInData("finalValue");
 		}
-		
+
 		function processNewBinary(answer) {
 			var calculatedRepeatId = sendAdd();
 			var data = getDataPartOfRecordFromAnswer(answer);
@@ -597,7 +626,8 @@ var CORA = (function(cora) {
 
 		function getIdFromRecordData(recordData) {
 			var cRecord = CORA.coraData(recordData);
-			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = CORA.coraData(cRecord
+					.getFirstChildByNameInData("recordInfo"));
 			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			return id;
 		}
@@ -607,8 +637,8 @@ var CORA = (function(cora) {
 				"message" : answer.status,
 				"type" : CORA.message.ERROR
 			};
-//			messageHolder.createMessage(messageSpec);
-			//TODO: do something good with the error
+			// messageHolder.createMessage(messageSpec);
+			// TODO: do something good with the error
 		}
 
 		var out = Object.freeze({

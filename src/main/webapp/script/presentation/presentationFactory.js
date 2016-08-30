@@ -53,7 +53,12 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function getDataDivider() {
+			return spec.dataDivider;
+		}
+
 		var out = Object.freeze({
+			getDataDivider : getDataDivider,
 			factor : factor
 		});
 		self = out;
