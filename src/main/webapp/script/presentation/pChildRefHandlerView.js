@@ -23,7 +23,6 @@ var CORA = (function(cora) {
 		var view = createBaseView();
 		var childrenView = createChildrenView();
 		var buttonView;
-		var uploadView;
 
 		var nodeBeeingDragged;
 		var lastChangedWith;

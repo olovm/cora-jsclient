@@ -632,6 +632,7 @@ QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
 			}
 	};
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
+	assert.strictEqual(view.firstChild.lastChild.innerHTML, "404");
 });
 
 QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {

@@ -60,3 +60,143 @@ QUnit.test("testAbstractAttributes", function(assert) {
 			.collectAttributesAsObjectForMetadataId("textVarRepeat1to3InGroupParentAttribute");
 	assert.stringifyEqual(attributesObject, expectedObject);
 });
+
+QUnit.test("testGetChildRefPartOfMetadata", function(assert) {
+	var parentMetadata = {
+		"name" : "metadata",
+		"attributes" : {
+			"type" : "group"
+		},
+		"children" : [ {
+			"name" : "childReferences",
+			"children" : [ {
+				"name" : "childReference",
+				"repeatId" : "1",
+				"children" : [ {
+					"name" : "ref",
+					"value" : "textVariableId"
+				}, {
+					"name" : "repeatMin",
+					"value" : "1"
+				}, {
+					"name" : "repeatMax",
+					"value" : "1"
+				} ]
+			} ]
+		}, {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "id",
+				"value" : "groupIdOneTextChild"
+			}, {
+				"name" : "type",
+				"value" : "metadataGroup"
+			}, {
+				"name" : "createdBy",
+				"value" : "userId"
+			}, {
+				"name" : "updatedBy",
+				"value" : "userId"
+			} ]
+		}, {
+			"name" : "nameInData",
+			"value" : "groupIdOneTextChild"
+		}, {
+			"name" : "textId",
+			"value" : "groupIdOneTextChildText"
+		}, {
+			"name" : "defTextId",
+			"value" : "groupIdOneTextChildDefText"
+		} ]
+	};
+
+	var cParentMetadataChildRefPart = this.metadataHelper.getChildRefPartOfMetadata(CORA
+			.coraData(parentMetadata), "textVariableId");
+	var expectedData = {
+		"name" : "childReference",
+		"repeatId" : "1",
+		"children" : [ {
+			"name" : "ref",
+			"value" : "textVariableId"
+		}, {
+			"name" : "repeatMin",
+			"value" : "1"
+		}, {
+			"name" : "repeatMax",
+			"value" : "1"
+		} ]
+	};
+	assert.stringifyEqual(cParentMetadataChildRefPart.getData(), expectedData);
+});
+
+QUnit.test("testSameAttributeUndefined", function(assert) {
+	assert.ok(this.metadataHelper.attributesMatch(undefined, undefined));
+});
+
+QUnit.test("testSameAttributeOneUndefined", function(assert) {
+	var attribute1 = {};
+	assert.ok(this.metadataHelper.attributesMatch(attribute1, undefined));
+	var attribute2 = {};
+	assert.ok(this.metadataHelper.attributesMatch(undefined, attribute2));
+});
+
+QUnit.test("testSameAttributeEmpty", function(assert) {
+	var attribute1 = {};
+	var attribute2 = {};
+	assert.ok(this.metadataHelper.attributesMatch(attribute1, attribute2));
+});
+
+QUnit.test("testSameAttributeOneEmpty", function(assert) {
+	var attribute1 = {
+		"anAttribute" : [ "aFinalValue" ]
+	};
+	var attribute2 = {};
+	assert.notOk(this.metadataHelper.attributesMatch(attribute1, attribute2));
+});
+
+QUnit.test("testattributesMatchame", function(assert) {
+	var attribute1 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
+	};
+	var attribute2 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
+	};
+	assert.ok(this.metadataHelper.attributesMatch(attribute1, attribute2));
+});
+
+QUnit.test("testSameAttributeDifferentAttributeValues", function(assert) {
+	var attribute1 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
+	};
+	var attribute2 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue" ]
+	};
+	assert.ok(this.metadataHelper.attributesMatch(attribute1, attribute2));
+});
+QUnit.test("testSameAttributeDifferentAttributeValues", function(assert) {
+	var attribute1 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue" ]
+	};
+	var attribute2 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
+	};
+	assert.ok(this.metadataHelper.attributesMatch(attribute1, attribute2));
+});
+QUnit.test("testSameAttributeDifferent", function(assert) {
+	var attribute1 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
+	};
+	var attribute2 = {
+		"recordTypeTypeCollectionVarNOT" : [ "aFinalValue" ]
+	};
+	assert.notOk(this.metadataHelper.attributesMatch(attribute1, attribute2));
+});
+QUnit.test("testSameAttributeDifferentName", function(assert) {
+	var attribute1 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue" ]
+	};
+	var attribute2 = {
+		"recordTypeTypeCollectionVarNOT" : [ "aFinalValue" ]
+	};
+	assert.notOk(this.metadataHelper.attributesMatch(attribute1, attribute2));
+});
