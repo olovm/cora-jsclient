@@ -57,6 +57,31 @@ QUnit.test("testCall200", function(assert) {
 	assert.ok(loadMethodWasCalled, "loadMethod was called ok")
 });
 
+QUnit.test("testSpecReturnedInCallToLoadMethod", function(assert) {
+	var loadMethodWasCalled = false;
+	var specReturned;
+	function loadMethod(answer) {
+		loadMethodWasCalled = true;
+		specReturned = answer.spec;
+	}
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var spec = {
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"method" : "GET",
+			"url" : "http://130.238.171.39:8080/therest/rest/record/recordType",
+			"contentType" : "application/uub+record+json",
+			"accept" : "application/uub+record+json",
+			"loadMethod" : loadMethod
+	};
+	var ajaxCall = CORA.ajaxCall(spec);
+	
+	assert.stringifyEqual(specReturned, spec)
+});
+
 QUnit.test("testCallErrorNot200answer", function(assert) {
 	var errorMethodWasCalled = false;
 	function errorMethod(xhr) {

@@ -65,7 +65,8 @@ var CORA = (function(cora) {
 		function createReturnObject() {
 			return {
 				"status" : xhr.status,
-				"responseText" : xhr.responseText
+				"responseText" : xhr.responseText,
+				"spec":spec
 			};
 		}
 		var out = Object.freeze({});
