@@ -506,13 +506,8 @@ QUnit.test("testHandleFilesSendingOneFile", function(assert) {
 					"value" : "systemX"
 				} ]
 			} ]
-		}, {
-			"name" : "fileName",
-			"value" : "someFile.tif"
-		}, {
-			"name" : "fileSize",
-			"value" : "1234567890"
-		} ],
+		}
+		],
 		"attributes":{
 			"type":"image"
 		}
@@ -559,13 +554,8 @@ QUnit.test("testHandleFilesSendingOneBinaryFile", function(assert) {
 					"value" : "systemX"
 				} ]
 			} ]
-		}, {
-			"name" : "fileName",
-			"value" : "someFile.tif"
-		}, {
-			"name" : "fileSize",
-			"value" : "1234567890"
-		} ],
+		}
+		],
 		"attributes":{
 			"type":"genericBinary"
 		}
@@ -620,13 +610,8 @@ QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
 						"value" : "systemX"
 					} ]
 				} ]
-			}, {
-				"name" : "fileName",
-				"value" : "someFile.tif"
-			}, {
-				"name" : "fileSize",
-				"value" : "1234567890"
-			} ],
+			}
+			],
 			"attributes":{
 				"type":"image"
 			}
@@ -767,13 +752,8 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 					"value" : "systemX"
 				} ]
 			} ]
-		}, {
-			"name" : "fileName",
-			"value" : "someFile.tif"
-		}, {
-			"name" : "fileSize",
-			"value" : "1234567890"
-		} ],
+		}
+		],
 		"attributes":{
 			"type":"image"
 		}
@@ -794,13 +774,8 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 						"value" : "systemX"
 					} ]
 				} ]
-			}, {
-				"name" : "fileName",
-				"value" : "someFile2.tif"
-			}, {
-				"name" : "fileSize",
-				"value" : "9876543210"
-			} ],
+			}
+			],
 			"attributes":{
 				"type":"image"
 			}
@@ -821,13 +796,8 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 						"value" : "systemX"
 					} ]
 				} ]
-			}, {
-				"name" : "fileName",
-				"value" : "someFile3.tif"
-			}, {
-				"name" : "fileSize",
-				"value" : "1122334455"
-			} ],
+			}
+			],
 			"attributes":{
 				"type":"image"
 			}

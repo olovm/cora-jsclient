@@ -346,19 +346,20 @@ var CORA = (function(cora) {
 
 		function handleFile(file) {
 			var data = createNewBinaryData(file);
-//			var createLink = getLinkedRecordTypeCreateLink();
-//
-//			var callSpec = {
-//				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-//				"method" : createLink.requestMethod,
-//				"url" : createLink.url,
-//				"contentType" : createLink.contentType,
-//				"accept" : createLink.accept,
-//				"loadMethod" : processNewBinary,
-//				"errorMethod" : callError,
-//				"data" : JSON.stringify(data)
-//			};
-//			CORA.ajaxCall(callSpec);
+			var createLink = getLinkedRecordTypeCreateLink();
+
+			var callSpec = {
+				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+				"method" : createLink.requestMethod,
+				"url" : createLink.url,
+				"contentType" : createLink.contentType,
+				"accept" : createLink.accept,
+				"loadMethod" : processNewBinary,
+				"errorMethod" : callError,
+				"data" : JSON.stringify(data),
+				"file":file
+			};
+			CORA.ajaxCall(callSpec);
 //			var xhr = new XMLHttpRequest();
 //			xhr.open("POST", "http://localhost:8080/therest/rest/binary/upload/t1"+ "?" + (new Date()).getTime());
 //			xhr.open("POST", "http://localhost:8080/therest/rest/record/upload"+ "?" + (new Date()).getTime());
@@ -372,16 +373,8 @@ var CORA = (function(cora) {
 //			xhr.send(JSON.stringify(data));
 //			xhr.send(blob);
 //			xhr.send();
+//			console.log(JSON.stringify(data))
 			
-			 var formData = new FormData();
-//			 formData.append(file.name, file);
-			formData.append("file", file);
-			formData.append("userId", "aUserName");
-			var xhr = new XMLHttpRequest();
-//			xhr.open('POST', '/upload', true);
-			xhr.open("POST", "http://localhost:8080/therest/rest/record/image/image:213/upload"+ "?" + (new Date()).getTime(),true);
-//			xhr.onload = function(e) { ... };
-			xhr.send(formData);
 		}
 
 		function createNewBinaryData(file) {
@@ -401,13 +394,8 @@ var CORA = (function(cora) {
 							"value" : dataDividerLinkedRecordId
 						} ]
 					} ]
-				}, {
-					"name" : "fileName",
-					"value" : file.name
-				}, {
-					"name" : "fileSize",
-					"value" : "" + file.size
-				} ],
+				}
+				],
 				"attributes" : {
 					"type" : type
 				}
@@ -465,7 +453,16 @@ var CORA = (function(cora) {
 				"path" : newPath
 			};
 			spec.jsBookkeeper.setValue(setValueData);
-
+			 var formData = new FormData();
+//			 formData.append(file.name, file);
+			formData.append("file", answer.spec.file);
+			formData.append("userId", "aUserName");
+			var xhr = new XMLHttpRequest();
+//			xhr.open('POST', '/upload', true);
+			xhr.open("POST", "http://localhost:8080/therest/rest/record/image/"+createdRecordId
+					+"/upload"+ "?" + (new Date()).getTime(),true);
+//			xhr.onload = function(e) { ... };
+			xhr.send(formData);
 			saveMainRecordIfAllFilesAreCreated();
 		}
 
