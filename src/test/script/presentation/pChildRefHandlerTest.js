@@ -87,7 +87,14 @@ var CORATEST = (function(coraTest) {
 						"requestMethod" : "DELETE",
 						"rel" : "delete",
 						"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575"
-					}
+					},
+				"upload" : {
+					"requestMethod" : "POST",
+					"rel" : "upload",
+					"contentType" : "multipart/form-data",
+					"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575/upload",
+					"accept" : "application/uub+record+json"
+				}
 				}
 			};
 			function sendFunction() {

@@ -345,7 +345,7 @@ var CORA = (function(cora) {
 		}
 
 		function handleFile(file) {
-			var data = createNewBinaryData(file);
+			var data = createNewBinaryData();
 			var createLink = getLinkedRecordTypeCreateLink();
 
 			var callSpec = {
@@ -357,27 +357,12 @@ var CORA = (function(cora) {
 				"loadMethod" : processNewBinary,
 				"errorMethod" : callError,
 				"data" : JSON.stringify(data),
-				"file":file
+				"file" : file
 			};
 			CORA.ajaxCall(callSpec);
-//			var xhr = new XMLHttpRequest();
-//			xhr.open("POST", "http://localhost:8080/therest/rest/binary/upload/t1"+ "?" + (new Date()).getTime());
-//			xhr.open("POST", "http://localhost:8080/therest/rest/record/upload"+ "?" + (new Date()).getTime());
-//			var blob = new Blob(file.binaryString, {type: 'text/plain'});
-//			xhr.setRequestHeader("content-type", "multipart/mixed");
-//			xhr.setRequestHeader("content-type", "multipart/form-data");
-//			xhr.setRequestHeader("content-type", "application/uub+record+json");
-//			xhr.setRequestHeader("content-type", "application/uub+record+json");
-//			xhr.send(file);
-//			xhr.setRequestHeader("accept", "application/uub+record+json");
-//			xhr.send(JSON.stringify(data));
-//			xhr.send(blob);
-//			xhr.send();
-//			console.log(JSON.stringify(data))
-			
 		}
 
-		function createNewBinaryData(file) {
+		function createNewBinaryData() {
 			var dataDividerLinkedRecordId = getDataDividerFromSpec();
 			var type = getTypeFromRecordType();
 			return {
@@ -394,8 +379,7 @@ var CORA = (function(cora) {
 							"value" : dataDividerLinkedRecordId
 						} ]
 					} ]
-				}
-				],
+				} ],
 				"attributes" : {
 					"type" : type
 				}
@@ -453,19 +437,41 @@ var CORA = (function(cora) {
 				"path" : newPath
 			};
 			spec.jsBookkeeper.setValue(setValueData);
-			 var formData = new FormData();
-//			 formData.append(file.name, file);
+			var formData = new FormData();
 			formData.append("file", answer.spec.file);
 			formData.append("userId", "aUserName");
+			
+			var uploadLink = JSON.parse(answer.responseText).record.actionLinks.upload;
+			console.log(JSON.stringify(uploadLink))
+			
+//			var callSpec2 = {
+//				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+//				"method" : uploadLink.requestMethod,
+//				"url" : uploadLink.url,
+////				"contentType" : uploadLink.contentType,
+//				"accept" : uploadLink.accept,
+//				"loadMethod" : unusedForNow,
+//				"errorMethod" : callError,
+//				"data" : formData
+//			};
+//			CORA.ajaxCall(callSpec2); 
+			
+			
+//			var xhr = new XMLHttpRequest();
+//			xhr.open("POST", "http://localhost:8080/therest/rest/record/image/" + createdRecordId
+//					+ "/upload" + "?" + (new Date()).getTime(), true);
+//			xhr.send(formData);
+			
+			//TODO: we must use the factory, to create xmlHttpRequest, and fix the test so that 
+			//they create good spies for that
 			var xhr = new XMLHttpRequest();
-//			xhr.open('POST', '/upload', true);
-			xhr.open("POST", "http://localhost:8080/therest/rest/record/image/"+createdRecordId
-					+"/upload"+ "?" + (new Date()).getTime(),true);
-//			xhr.onload = function(e) { ... };
+			xhr.open(uploadLink.requestMethod, uploadLink.url + "?" + (new Date()).getTime(), true);
 			xhr.send(formData);
 			saveMainRecordIfAllFilesAreCreated();
 		}
-
+function unusedForNow(){
+	
+}
 		function getDataPartOfRecordFromAnswer(answer) {
 			return JSON.parse(answer.responseText).record.data;
 		}
