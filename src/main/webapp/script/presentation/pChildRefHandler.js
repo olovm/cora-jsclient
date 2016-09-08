@@ -345,7 +345,7 @@ var CORA = (function(cora) {
 		}
 
 		function handleFile(file) {
-			var data = createNewBinaryData(file);
+			var data = createNewBinaryData();
 			var createLink = getLinkedRecordTypeCreateLink();
 
 			var callSpec = {
@@ -356,7 +356,8 @@ var CORA = (function(cora) {
 				"accept" : createLink.accept,
 				"loadMethod" : processNewBinary,
 				"errorMethod" : callError,
-				"data" : JSON.stringify(data)
+				"data" : JSON.stringify(data),
+				"file" : file
 			};
 			CORA.ajaxCall(callSpec);
 		}
