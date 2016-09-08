@@ -361,7 +361,7 @@ var CORA = (function(cora) {
 			CORA.ajaxCall(callSpec);
 		}
 
-		function createNewBinaryData(file) {
+		function createNewBinaryData() {
 			var dataDividerLinkedRecordId = getDataDividerFromSpec();
 			var type = getTypeFromRecordType();
 			return {
