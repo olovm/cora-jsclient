@@ -378,12 +378,6 @@ var CORA = (function(cora) {
 							"value" : dataDividerLinkedRecordId
 						} ]
 					} ]
-				}, {
-					"name" : "fileName",
-					"value" : file.name
-				}, {
-					"name" : "fileSize",
-					"value" : "" + file.size
 				} ],
 				"attributes" : {
 					"type" : type
