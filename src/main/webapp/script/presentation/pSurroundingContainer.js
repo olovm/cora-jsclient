@@ -24,7 +24,6 @@ var CORA = (function(cora) {
 		var cParentPresentation = spec.cParentPresentation;
 
 		var my = {};
-		console.log(JSON.stringify(cParentPresentation.getData()))
 
 		var presentationGroup = cParentPresentation.getFirstChildByNameInData("presentationOf");
 		var cPresentationGroup = CORA.coraData(presentationGroup)
