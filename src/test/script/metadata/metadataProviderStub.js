@@ -1832,6 +1832,19 @@ function MetadataProviderStub() {
 				} ]
 			};
 		}
+		if (idToGet === "groupIdOneChildOfBinaryRecordLinkChildRepeatMax2") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax("myChildOfBinaryLink",
+						"one", "0", "2") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
 		if (idToGet === "groupIdOneBinaryRecordLinkChild") {
 			return {
 				"name" : "metadata",
