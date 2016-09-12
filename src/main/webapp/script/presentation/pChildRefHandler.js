@@ -341,13 +341,14 @@ var CORA = (function(cora) {
 			numberOfFiles = files.length;
 			for (var i = 0; i < files.length; i++) {
 				handleFile(files[i]);
+
 			}
 		}
 
 		function handleFile(file) {
 			var data = createNewBinaryData();
 			var createLink = getLinkedRecordTypeCreateLink();
-
+			var localFile = file;
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"method" : createLink.requestMethod,
@@ -357,7 +358,7 @@ var CORA = (function(cora) {
 				"loadMethod" : processNewBinary,
 				"errorMethod" : callError,
 				"data" : JSON.stringify(data),
-				"file" : file
+				"file" : localFile
 			};
 			CORA.ajaxCall(callSpec);
 		}
@@ -440,38 +441,53 @@ var CORA = (function(cora) {
 			var formData = new FormData();
 			formData.append("file", answer.spec.file);
 			formData.append("userId", "aUserName");
-			
+
 			var uploadLink = JSON.parse(answer.responseText).record.actionLinks.upload;
 			console.log(JSON.stringify(uploadLink))
-			
-//			var callSpec2 = {
-//				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-//				"method" : uploadLink.requestMethod,
-//				"url" : uploadLink.url,
-////				"contentType" : uploadLink.contentType,
-//				"accept" : uploadLink.accept,
-//				"loadMethod" : unusedForNow,
-//				"errorMethod" : callError,
-//				"data" : formData
+
+			// var callSpec2 = {
+			// "xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+			// "method" : uploadLink.requestMethod,
+			// "url" : uploadLink.url,
+			// // "contentType" : uploadLink.contentType,
+			// "accept" : uploadLink.accept,
+			// "loadMethod" : unusedForNow,
+			// "errorMethod" : callError,
+			// "data" : formData
+			// };
+			// CORA.ajaxCall(callSpec2);
+
+			// var xhr = new XMLHttpRequest();
+			// xhr.open("POST",
+			// "http://localhost:8080/therest/rest/record/image/" +
+			// createdRecordId
+			// + "/upload" + "?" + (new Date()).getTime(), true);
+			// xhr.send(formData);
+
+			// TODO: we must use the factory, to create xmlHttpRequest, and fix
+			// the test so that
+			// they create good spies for that
+			// var xhr = new XMLHttpRequest();
+			// xhr.open(uploadLink.requestMethod, uploadLink.url + "?" + (new
+			// Date()).getTime(), true);
+			// xhr.send(formData);
+
+			var uploadSpec = {
+				"uploadLink" : uploadLink,
+				"file" : answer.spec.file
+			}
+			console.log(answer.spec.file)
+//			var uploadManagerSpec = {
+//				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory
 //			};
-//			CORA.ajaxCall(callSpec2); 
-			
-			
-//			var xhr = new XMLHttpRequest();
-//			xhr.open("POST", "http://localhost:8080/therest/rest/record/image/" + createdRecordId
-//					+ "/upload" + "?" + (new Date()).getTime(), true);
-//			xhr.send(formData);
-			
-			//TODO: we must use the factory, to create xmlHttpRequest, and fix the test so that 
-			//they create good spies for that
-			var xhr = new XMLHttpRequest();
-			xhr.open(uploadLink.requestMethod, uploadLink.url + "?" + (new Date()).getTime(), true);
-			xhr.send(formData);
+//			var uploadManager = CORA.uploadManager(uploadManagerSpec)
+//			 uploadManager.upload(uploadSpec);
+			 spec.uploadManager.upload(uploadSpec);
 			saveMainRecordIfAllFilesAreCreated();
 		}
-function unusedForNow(){
-	
-}
+		function unusedForNow() {
+
+		}
 		function getDataPartOfRecordFromAnswer(answer) {
 			return JSON.parse(answer.responseText).record.data;
 		}

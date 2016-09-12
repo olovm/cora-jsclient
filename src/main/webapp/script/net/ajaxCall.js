@@ -19,6 +19,8 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.ajaxCall = function(spec) {
+		console.log(spec.file);
+		var file = spec.file;
 		var xhr = spec.xmlHttpRequestFactory.factor();
 		var defaultTimeoutMS = 5000;
 
@@ -63,6 +65,9 @@ var CORA = (function(cora) {
 		}
 
 		function createReturnObject() {
+			console.log(spec.file)
+			console.log(file)
+			
 			return {
 				"status" : xhr.status,
 				"responseText" : xhr.responseText,
