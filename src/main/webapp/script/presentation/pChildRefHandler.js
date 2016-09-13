@@ -448,7 +448,6 @@ var CORA = (function(cora) {
 				"uploadLink" : uploadLink,
 				"file" : answer.spec.file
 			};
-			console.log(uploadSpec)
 			spec.uploadManager.upload(uploadSpec);
 			saveMainRecordIfRecordsAreCreatedForAllFiles();
 		}

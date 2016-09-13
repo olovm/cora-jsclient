@@ -94,7 +94,11 @@ var CORATEST = (function(coraTest) {
 		function setSendFunction(sendFunctionIn) {
 			sendFunction = sendFunctionIn;
 		}
-
+		
+		function runLoadFunction() {
+			addedEventListeners["load"][0]();
+		}
+		
 		var out = {
 			timeout : timeout,
 			status : status,
@@ -114,7 +118,8 @@ var CORATEST = (function(coraTest) {
 			abort : abort,
 			abortWasCalled : abortWasCalled,
 			responseText : responseText,
-			setSendFunction : setSendFunction
+			setSendFunction : setSendFunction,
+			runLoadFunction : runLoadFunction
 		};
 		return out;
 	};

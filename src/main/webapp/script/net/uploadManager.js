@@ -19,31 +19,55 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.uploadManager = function(spec) {
-
+		var uploading = false;
+		var uploadQue = [];
+		var viewSpec = {
+			"showWorkViewMethod" : spec.jsClient.showView
+		};
+		var view = CORA.uploadManagerView(viewSpec);
+		
+		spec.jsClient.addGlobalView(view.getItem().menuView);
+		
 		function upload(uploadSpec) {
 			var uploadLink = uploadSpec.uploadLink;
 			var formData = new FormData();
 			formData.append("file", uploadSpec.file);
-//			formData.append("userId", "aUserName");
+			// formData.append("userId", "aUserName");
 
-			var callSpec2 = {
+			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"method" : uploadLink.requestMethod,
 				"url" : uploadLink.url,
 				// "contentType" : uploadLink.contentType,
 				"accept" : uploadLink.accept,
-				"loadMethod" : unusedForNow,
+				"loadMethod" : uploadFinished,
 				"errorMethod" : callError,
-				"data" : formData
+				"timeoutMethod" : callTimeout,
+				"data" : formData,
+				"timeoutInMS" : 60000
 			};
-			CORA.ajaxCall(callSpec2);
-			
+			uploadQue.push(callSpec);
+			view.addFile(uploadSpec.file.name);
+			possiblyStartNextUpload();
 
 		}
-		function unusedForNow() {
-
+		function uploadFinished() {
+			uploading = false;
+			possiblyStartNextUpload();
+		}
+		function possiblyStartNextUpload() {
+			if (uploading !== true) {
+				var callSpec = uploadQue.pop();
+				if (callSpec !== undefined) {
+					uploading = true;
+					CORA.ajaxCall(callSpec);
+				}
+			}
 		}
 		function callError() {
+
+		}
+		function callTimeout() {
 
 		}
 		var out = Object.freeze({

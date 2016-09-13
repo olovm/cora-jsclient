@@ -19,7 +19,6 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.ajaxCall = function(spec) {
-		var file = spec.file;
 		var xhr = spec.xmlHttpRequestFactory.factor();
 		var defaultTimeoutMS = 5000;
 

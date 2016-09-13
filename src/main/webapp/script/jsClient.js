@@ -19,24 +19,33 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.jsClient = function(spec) {
-
+		var out;
 		var recordTypeList = sortRecordTypesFromRecordTypeProvider();
 		var metadataIdsForRecordType = {};
 		var mainView = createMainView();
+		var header;
 		var sideBar;
 		var workArea;
 		var busy = CORA.busy();
 		mainView.appendChild(busy.getView());
-		var recordGuiFactorySpec = spec.dependencies;
-		recordGuiFactorySpec.uploadManager = CORA
-				.uploadManager(spec.dependencies);
-		var recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
-		processRecordTypes();
+
+		var recordGuiFactory;
+
+		function start() {
+			var uploadManagerSpec = spec.dependencies;
+			uploadManagerSpec.jsClient = out;
+
+			var recordGuiFactorySpec = spec.dependencies;
+			recordGuiFactorySpec.uploadManager = CORA.uploadManager(uploadManagerSpec);
+			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
+			processRecordTypes();
+			addRecordTypesToSideBar(recordTypeList);
+		}
 
 		function createMainView() {
 			var view = createSpanWithClassName("jsClient mainView");
 
-			var header = createSpanWithClassName("header");
+			header = createSpanWithClassName("header");
 			header.textContent = spec.name;
 			view.appendChild(header);
 
@@ -230,18 +239,23 @@ var CORA = (function(cora) {
 		function getMetadataIdForRecordTypeId(recordTypeId) {
 			return metadataIdsForRecordType[recordTypeId];
 		}
+		function addGlobalView(viewToAdd) {
+			header.appendChild(viewToAdd);
+		}
 
-		var out = Object.freeze({
+		out = Object.freeze({
 			getView : getView,
 			getRecordTypeList : getRecordTypeList,
 			showView : showView,
 			createRecordTypeHandlerViewFactory : createRecordTypeHandlerViewFactory,
 			createRecordListHandlerFactory : createRecordListHandlerFactory,
 			createRecordHandlerFactory : createRecordHandlerFactory,
-			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId
+			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
+			addGlobalView : addGlobalView
 		});
 		mainView.modelObject = out;
-		addRecordTypesToSideBar(recordTypeList);
+		start();
+
 		return out;
 	};
 	return cora;

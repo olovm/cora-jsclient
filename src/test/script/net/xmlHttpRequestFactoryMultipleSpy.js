@@ -23,6 +23,7 @@ var CORATEST = (function(coraTest) {
 		var responseStatus;
 		var responseText;
 		var factoredXmlHttpRequests = [];
+		var sendResponse = true;
 
 		function factor() {
 			var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy();
@@ -39,14 +40,20 @@ var CORATEST = (function(coraTest) {
 			if (responseText !== undefined) {
 				xmlHttpRequestSpy.responseText = responseText;
 			}
-			if (responseStatus === 200) {
+			if (sendResponse) {
+				if (responseStatus === 200) {
+					xmlHttpRequestSpy.setSendFunction(function() {
+						xmlHttpRequestSpy.addedEventListeners["load"][0]();
+					});
+				} else {
+					xmlHttpRequestSpy.setSendFunction(function() {
+						xmlHttpRequestSpy.addedEventListeners["error"][0]();
+					});
+				}
+			} else {
 				xmlHttpRequestSpy.setSendFunction(function() {
-					xmlHttpRequestSpy.addedEventListeners["load"][0]();
 				});
-			}else{
-				xmlHttpRequestSpy.setSendFunction(function() {
-					xmlHttpRequestSpy.addedEventListeners["error"][0]();
-				});
+
 			}
 		}
 
@@ -65,13 +72,18 @@ var CORATEST = (function(coraTest) {
 		function getFactoredXmlHttpRequest(number) {
 			return factoredXmlHttpRequests[number];
 		}
-
+		
+		function setSendResponse(send) {
+			sendResponse = send;
+		}
+		
 		var out = Object.freeze({
 			setResponseStatus : setResponseStatus,
 			setResponseText : setResponseText,
 			factor : factor,
 			wasFactorCalled : wasFactorCalled,
-			getFactoredXmlHttpRequest : getFactoredXmlHttpRequest
+			getFactoredXmlHttpRequest : getFactoredXmlHttpRequest,
+			setSendResponse : setSendResponse
 		});
 		return out;
 	};

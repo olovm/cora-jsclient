@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -35,6 +36,12 @@ var CORA = (function(cora) {
 			"onclick" : onclick
 		};
 		return cora.gui.createButton(spec);
+	};
+
+	cora.gui.createSpanWithClassName = function(className) {
+		var spanNew = document.createElement("span");
+		spanNew.className = className;
+		return spanNew;
 	};
 
 	return cora;
