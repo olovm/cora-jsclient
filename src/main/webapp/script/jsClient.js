@@ -27,8 +27,10 @@ var CORA = (function(cora) {
 		var workArea;
 		var busy = CORA.busy();
 		mainView.appendChild(busy.getView());
-		var recordGuiFactory = CORA.recordGuiFactory(spec.dependencies);
-
+		var recordGuiFactorySpec = spec.dependencies;
+		recordGuiFactorySpec.uploadManager = CORA
+				.uploadManager(spec.dependencies);
+		var recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
 		processRecordTypes();
 
 		function createMainView() {
@@ -52,7 +54,6 @@ var CORA = (function(cora) {
 			spanNew.className = className;
 			return spanNew;
 		}
-
 
 		function processRecordTypes() {
 			metadataIdsForRecordType = createMetadataIdsForRecordType(recordTypeList);

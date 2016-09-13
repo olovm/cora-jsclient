@@ -26,7 +26,6 @@ var CORATEST = (function(coraTest) {
 			var cParentMetadata = CORA.coraData(metadataProvider.getMetadataById(parentMetadataId));
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
 
-			var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 			var record = {
 				"data" : {
 					"children" : [
@@ -97,13 +96,13 @@ var CORATEST = (function(coraTest) {
 					}
 				}
 			};
-			function sendFunction() {
-				xmlHttpRequestSpy.status = 200;
-				xmlHttpRequestSpy.responseText = JSON.stringify({
-					"record" : record
-				});
-				xmlHttpRequestSpy.addedEventListeners["load"][0]();
-			}
+
+			var xmlHttpRequestFactoryMultipleSpy = CORATEST.xmlHttpRequestFactoryMultipleSpy();
+			xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
+			xmlHttpRequestFactoryMultipleSpy.setResponseText(JSON.stringify({
+				"record" : record
+			}));
+
 			var uploadManager = CORATEST.uploadManagerSpy();
 			var spec = {
 				"parentPath" : path,
@@ -115,7 +114,7 @@ var CORATEST = (function(coraTest) {
 				"presentationFactory" : presentationFactory,
 				"jsBookkeeper" : jsBookkeeper,
 				"recordTypeProvider" : recordTypeProvider,
-				"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+				"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
 				"uploadManager" : uploadManager
 			};
 
@@ -129,7 +128,7 @@ var CORATEST = (function(coraTest) {
 				pubSub : pubSub,
 				jsBookkeeper : jsBookkeeper,
 				view : view,
-				xmlHttpRequest : xmlHttpRequestSpy,
+				xmlHttpRequestFactoryMultipleSpy : xmlHttpRequestFactoryMultipleSpy,
 				uploadManager : uploadManager
 			};
 
@@ -492,7 +491,9 @@ QUnit.test("testHandleFilesSendingOneFile", function(assert) {
 
 	childRefHandler.handleFiles(files);
 
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
+	// var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+			.getFactoredXmlHttpRequest(0);
 
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
 	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/image/");
@@ -539,7 +540,9 @@ QUnit.test("testHandleFilesSendingOneBinaryFile", function(assert) {
 
 	childRefHandler.handleFiles(files);
 
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
+	// var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+			.getFactoredXmlHttpRequest(0);
 
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
 	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/genericBinary/");
@@ -584,16 +587,15 @@ QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
 	};
 	files.push(file1);
 
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 404;
-		xmlHttpRequestSpy.responseText = JSON.stringify("Error, something went wrong");
-		xmlHttpRequestSpy.addedEventListeners["error"][0]();
-	}
-
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
-	xmlHttpRequestSpy.setSendFunction(sendFunction);
+	var xmlHttpRequestFactoryMultipleSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy;
+	xmlHttpRequestFactoryMultipleSpy.setResponseStatus(404);
+	xmlHttpRequestFactoryMultipleSpy.setResponseText(JSON.stringify("Error, something went wrong"));
 
 	childRefHandler.handleFiles(files);
+	
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+	.getFactoredXmlHttpRequest(0);
+	
 
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
 	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/image/");
@@ -641,7 +643,8 @@ QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 
 	childRefHandler.handleFiles(files);
 
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+			.getFactoredXmlHttpRequest(0);
 
 	var addData = {
 		"childReference" : {
@@ -738,7 +741,8 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 
 	childRefHandler.handleFiles(files);
 
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+			.getFactoredXmlHttpRequest(0);
 	var sentDataArray = xmlHttpRequestSpy.getSentDataArray();
 
 	var data = {
@@ -781,7 +785,10 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 			"type" : "image"
 		}
 	};
-	assert.strictEqual(sentDataArray[1], JSON.stringify(data2));
+	var xmlHttpRequestSpy2 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+			.getFactoredXmlHttpRequest(1);
+	var sentDataArray2 = xmlHttpRequestSpy2.getSentDataArray();
+	assert.strictEqual(sentDataArray2[0], JSON.stringify(data2));
 
 	var data3 = {
 		"name" : "binary",
@@ -802,7 +809,10 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 			"type" : "image"
 		}
 	};
-	assert.strictEqual(sentDataArray[2], JSON.stringify(data3));
+	var xmlHttpRequestSpy3 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+			.getFactoredXmlHttpRequest(2);
+	var sentDataArray3 = xmlHttpRequestSpy3.getSentDataArray();
+	assert.strictEqual(sentDataArray3[0], JSON.stringify(data3));
 
 	var messages = attachedPChildRefHandler.pubSub.getMessages();
 	assert.deepEqual(messages.length, 1);
@@ -827,20 +837,20 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 		}
 	};
 	assert.deepEqual(uploadSpec1, expectedUploadSpec1);
-	
+
 	var uploadSpec2 = uploadSpecs[1];
 	var expectedUploadSpec2 = {
-			"file" : {
-				"name" : "someFile2.tif",
-				"size" : 9876543210
-			},
-			"uploadLink" : {
-				"accept" : "application/uub+record+json",
-				"contentType" : "multipart/form-data",
-				"rel" : "upload",
-				"requestMethod" : "POST",
-				"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575/upload"
-			}
+		"file" : {
+			"name" : "someFile2.tif",
+			"size" : 9876543210
+		},
+		"uploadLink" : {
+			"accept" : "application/uub+record+json",
+			"contentType" : "multipart/form-data",
+			"rel" : "upload",
+			"requestMethod" : "POST",
+			"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575/upload"
+		}
 	};
 	assert.deepEqual(uploadSpec2, expectedUploadSpec2);
 

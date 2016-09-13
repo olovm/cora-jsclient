@@ -42,7 +42,7 @@ var CORA = (function(cora) {
 		spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
 
 		var numberOfFiles = 0;
-		var numberOfFilesStored = 0;
+		var numberOfRecordsForFilesCreated = 0;
 
 		function findPresentationId(cPresentationToSearch) {
 			var recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
@@ -443,51 +443,16 @@ var CORA = (function(cora) {
 			formData.append("userId", "aUserName");
 
 			var uploadLink = JSON.parse(answer.responseText).record.actionLinks.upload;
-			console.log(JSON.stringify(uploadLink))
-
-			// var callSpec2 = {
-			// "xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-			// "method" : uploadLink.requestMethod,
-			// "url" : uploadLink.url,
-			// // "contentType" : uploadLink.contentType,
-			// "accept" : uploadLink.accept,
-			// "loadMethod" : unusedForNow,
-			// "errorMethod" : callError,
-			// "data" : formData
-			// };
-			// CORA.ajaxCall(callSpec2);
-
-			// var xhr = new XMLHttpRequest();
-			// xhr.open("POST",
-			// "http://localhost:8080/therest/rest/record/image/" +
-			// createdRecordId
-			// + "/upload" + "?" + (new Date()).getTime(), true);
-			// xhr.send(formData);
-
-			// TODO: we must use the factory, to create xmlHttpRequest, and fix
-			// the test so that
-			// they create good spies for that
-			// var xhr = new XMLHttpRequest();
-			// xhr.open(uploadLink.requestMethod, uploadLink.url + "?" + (new
-			// Date()).getTime(), true);
-			// xhr.send(formData);
 
 			var uploadSpec = {
 				"uploadLink" : uploadLink,
 				"file" : answer.spec.file
-			}
-			console.log(answer.spec.file)
-//			var uploadManagerSpec = {
-//				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory
-//			};
-//			var uploadManager = CORA.uploadManager(uploadManagerSpec)
-//			 uploadManager.upload(uploadSpec);
-			 spec.uploadManager.upload(uploadSpec);
-			saveMainRecordIfAllFilesAreCreated();
+			};
+			console.log(uploadSpec)
+			spec.uploadManager.upload(uploadSpec);
+			saveMainRecordIfRecordsAreCreatedForAllFiles();
 		}
-		function unusedForNow() {
 
-		}
 		function getDataPartOfRecordFromAnswer(answer) {
 			return JSON.parse(answer.responseText).record.data;
 		}
@@ -499,14 +464,14 @@ var CORA = (function(cora) {
 			return id;
 		}
 
-		function saveMainRecordIfAllFilesAreCreated() {
-			numberOfFilesStored++;
-			if (numberOfFiles === numberOfFilesStored) {
+		function saveMainRecordIfRecordsAreCreatedForAllFiles() {
+			numberOfRecordsForFilesCreated++;
+			if (numberOfFiles === numberOfRecordsForFilesCreated) {
 				spec.pubSub.publish("updateRecord", {
 					"data" : "",
 					"path" : {}
 				});
-				numberOfFilesStored = 0;
+				numberOfRecordsForFilesCreated = 0;
 			}
 		}
 
