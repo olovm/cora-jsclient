@@ -50,6 +50,9 @@ QUnit.module("uploadManagerTest.js", {
 QUnit.test("testInit", function(assert) {
 
 	assert.ok(this.uploadManager);
+	assert.ok(this.uploadManager.view);
+	assert.strictEqual(this.uploadManager.view.getItem().menuView.className, "menuView");
+
 });
 
 QUnit.test("testUpload", function(assert) {
@@ -104,6 +107,10 @@ QUnit.test("testUploadQue", function(assert) {
 	var loadMethodWasCalled = this.loadMethodWasCalled;
 	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
 	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
+
+	var menuView = this.uploadManager.view.getItem().menuView;
+	assert.strictEqual(menuView.className, "menuView");
+
 	var uploadLink = CORATEST.createUploadLink();
 	var file = CORATEST.createFileForUpload();
 	var uploadSpec = {
@@ -111,6 +118,7 @@ QUnit.test("testUploadQue", function(assert) {
 		"file" : file
 	}
 	uploadManager.upload(uploadSpec);
+	assert.strictEqual(menuView.className, "menuView uploading");
 
 	var xmlHttpRequestSpy = xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
 
@@ -127,6 +135,10 @@ QUnit.test("testUploadQue", function(assert) {
 	uploadManager.upload(uploadSpec);
 	assert.strictEqual(xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1), undefined);
 	xmlHttpRequestSpy.runLoadFunction();
-	assert.ok(xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1));
 
+	var xmlHttpRequestSpy1 = xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
+	assert.ok(xmlHttpRequestSpy1);
+	xmlHttpRequestSpy1.runLoadFunction();
+
+	assert.strictEqual(menuView.className, "menuView");
 });

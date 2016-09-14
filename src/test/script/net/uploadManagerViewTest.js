@@ -74,4 +74,16 @@ QUnit.test("addFile", function(assert) {
 	assert.strictEqual(workView.children.length, 1);
 });
 
+QUnit.test("activateDeactivate", function(assert) {
+	var uploadManagerView = CORA.uploadManagerView(this.spec);
+	
+	var item = uploadManagerView.getItem();
+	var menuView = item.menuView;
+	
+	assert.strictEqual(menuView.className, "menuView");
+	uploadManagerView.activate();
+	assert.strictEqual(menuView.className, "menuView uploading");
+	uploadManagerView.deactivate();
+});
+
 

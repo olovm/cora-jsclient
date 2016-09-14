@@ -25,6 +25,13 @@ var CORA = (function(cora) {
 		xhr.addEventListener("load", loadListener);
 		xhr.addEventListener("error", errorListener);
 
+		if (spec.downloadProgressMethod !== undefined) {
+			xhr.addEventListener("progress", spec.downloadProgressMethod);
+		}
+		if (spec.uploadProgressMethod !== undefined) {
+			xhr.upload.addEventListener("progress", spec.uploadProgressMethod);
+		}
+
 		if (spec.method === "GET") {
 			xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
 		} else {
@@ -38,6 +45,7 @@ var CORA = (function(cora) {
 		if (spec.contentType !== undefined) {
 			xhr.setRequestHeader("content-type", spec.contentType);
 		}
+
 		xhr.addEventListener("timeout", timeoutListener);
 		if (spec.data !== undefined) {
 			xhr.send(spec.data);
@@ -66,10 +74,12 @@ var CORA = (function(cora) {
 			return {
 				"status" : xhr.status,
 				"responseText" : xhr.responseText,
-				"spec":spec
+				"spec" : spec
 			};
 		}
-		var out = Object.freeze({});
+		var out = Object.freeze({
+			xhr : xhr
+		});
 		return out;
 	};
 	return cora;

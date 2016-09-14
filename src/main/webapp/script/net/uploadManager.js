@@ -25,9 +25,9 @@ var CORA = (function(cora) {
 			"showWorkViewMethod" : spec.jsClient.showView
 		};
 		var view = CORA.uploadManagerView(viewSpec);
-		
+
 		spec.jsClient.addGlobalView(view.getItem().menuView);
-		
+
 		function upload(uploadSpec) {
 			var uploadLink = uploadSpec.uploadLink;
 			var formData = new FormData();
@@ -44,15 +44,21 @@ var CORA = (function(cora) {
 				"errorMethod" : callError,
 				"timeoutMethod" : callTimeout,
 				"data" : formData,
-				"timeoutInMS" : 60000
+				"timeoutInMS" : 60000,
+				"uploadProgressMethod" : progressMethod
 			};
 			uploadQue.push(callSpec);
 			view.addFile(uploadSpec.file.name);
 			possiblyStartNextUpload();
 
 		}
+		function progressMethod(progressEvent) {
+			console.log("upload progress in uploadManager");
+			console.log(progressEvent);
+		}
 		function uploadFinished() {
 			uploading = false;
+			view.deactivate();
 			possiblyStartNextUpload();
 		}
 		function possiblyStartNextUpload() {
@@ -60,6 +66,7 @@ var CORA = (function(cora) {
 				var callSpec = uploadQue.pop();
 				if (callSpec !== undefined) {
 					uploading = true;
+					view.activate();
 					CORA.ajaxCall(callSpec);
 				}
 			}
@@ -71,7 +78,8 @@ var CORA = (function(cora) {
 
 		}
 		var out = Object.freeze({
-			upload : upload
+			upload : upload,
+			view : view
 		});
 
 		return out;

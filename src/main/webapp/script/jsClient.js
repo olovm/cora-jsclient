@@ -27,11 +27,11 @@ var CORA = (function(cora) {
 		var sideBar;
 		var workArea;
 		var busy = CORA.busy();
-		mainView.appendChild(busy.getView());
 
 		var recordGuiFactory;
 
 		function start() {
+			mainView.appendChild(busy.getView());
 			var uploadManagerSpec = spec.dependencies;
 			uploadManagerSpec.jsClient = out;
 

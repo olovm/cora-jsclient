@@ -48,10 +48,17 @@ var CORA = (function(cora) {
 			child.textContent = name;
 			workView.appendChild(child);
 		}
-
+		function activate(){
+			menuView.className = "menuView uploading";
+		}
+		function deactivate(){
+			menuView.className = "menuView";
+		}
 		out = Object.freeze({
 			getItem : getItem,
-			addFile:addFile
+			addFile:addFile,
+			activate: activate,
+			deactivate: deactivate
 		});
 
 		return out;

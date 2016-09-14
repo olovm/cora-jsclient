@@ -53,7 +53,7 @@ body {
 /* 	animation: rotation2 2s linear; */
 /* 	animation-iteration-count:infinite; */
 }
-.jsClient>.header .menuView::before {
+.jsClient>.header .menuView.uploading::before {
 	background: url("../images/icons2.svg") no-repeat scroll -79px 0px;
 	content: "";
 	height: 16px;
