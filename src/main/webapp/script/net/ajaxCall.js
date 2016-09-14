@@ -20,10 +20,17 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.ajaxCall = function(spec) {
 		var xhr = spec.xmlHttpRequestFactory.factor();
-		var defaultTimeoutMS = 5000;
+		var defaultTimeoutMS = 50000;
 
 		xhr.addEventListener("load", loadListener);
 		xhr.addEventListener("error", errorListener);
+
+		if (spec.downloadProgressMethod !== undefined) {
+			xhr.addEventListener("progress", spec.downloadProgressMethod);
+		}
+		if (spec.uploadProgressMethod !== undefined) {
+			xhr.upload.addEventListener("progress", spec.uploadProgressMethod);
+		}
 
 		if (spec.method === "GET") {
 			xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
@@ -38,6 +45,7 @@ var CORA = (function(cora) {
 		if (spec.contentType !== undefined) {
 			xhr.setRequestHeader("content-type", spec.contentType);
 		}
+
 		xhr.addEventListener("timeout", timeoutListener);
 		if (spec.data !== undefined) {
 			xhr.send(spec.data);
@@ -65,10 +73,13 @@ var CORA = (function(cora) {
 		function createReturnObject() {
 			return {
 				"status" : xhr.status,
-				"responseText" : xhr.responseText
+				"responseText" : xhr.responseText,
+				"spec" : spec
 			};
 		}
-		var out = Object.freeze({});
+		var out = Object.freeze({
+			xhr : xhr
+		});
 		return out;
 	};
 	return cora;
