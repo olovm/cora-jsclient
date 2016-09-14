@@ -68,12 +68,7 @@ var CORA = (function(cora) {
 				}
 			}
 		}
-		function callError() {
 
-		}
-		function callTimeout() {
-
-		}
 		var out = Object.freeze({
 			upload : upload,
 			view : view
