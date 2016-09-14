@@ -2869,6 +2869,45 @@ function MetadataProviderStub() {
 					"value" : "enterTextHereText"
 				} ]
 			};
+		case "userSuppliedIdCollectionVarPCollVar":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pCollVar"
+			},
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "userSuppliedIdCollectionVarPCollVar"
+				} ]
+			}, {
+			      "children": [
+						        {
+						          "name": "linkedRecordType",
+						          "value": "metadataCollectionVariable"
+						        },
+						        {
+						          "name": "linkedRecordId",
+						          "value": "userSuppliedIdCollectionVar"
+						        }
+						      ],
+						      "actionLinks": {
+						        "read": {
+						          "requestMethod": "GET",
+						          "rel": "read",
+						          "url": "http://localhost:8080/therest/rest/record/metadataCollectionVariable/userSuppliedIdCollectionVar",
+						          "accept": "application/uub+record+json"
+						        }
+						      },
+						      "name": "presentationOf"
+						    }, {
+				"name" : "mode",
+				"value" : "input"
+			}, {
+				"name" : "emptyTextId",
+				"value" : "enterTextHereText"
+			} ]};
 			case "textVariableIdShowTextAreaFalsePVar":
 				return {
 					"name" : "presentation",
@@ -2966,7 +3005,7 @@ function MetadataProviderStub() {
 				} ]
 			};
 
-		case "yesNoUnknownPVar":
+		case "yesNoUnknownPCollVar":
 			return {
 				"name" : "presentation",
 				"attributes" : {
@@ -2976,7 +3015,7 @@ function MetadataProviderStub() {
 					"name" : "recordInfo",
 					"children" : [ {
 						"name" : "id",
-						"value" : "yesNoUnknownPVar"
+						"value" : "yesNoUnknownPCollVar"
 					} ]
 				}, {
 					"name" : "presentationOf",
@@ -3000,7 +3039,7 @@ function MetadataProviderStub() {
 					"name" : "recordInfo",
 					"children" : [ {
 						"name" : "id",
-						"value" : "yesNoUnknownPVar"
+						"value" : "yesNoUnknownNoEmptyTextIdPVar"
 					} ]
 				}, {
 					"name" : "presentationOf",
@@ -3265,7 +3304,7 @@ function MetadataProviderStub() {
 						"repeatId" : "1",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "yesNoUnknownPVar"
+							"value" : "yesNoUnknownPCollVar"
 						}, {
 							"name" : "default",
 							"value" : "ref"

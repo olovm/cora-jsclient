@@ -44,7 +44,10 @@ var CORA = (function(cora) {
 				return CORA.pGroup(specNew);
 			} else if (type === "pRecordLink") {
 				return CORA.pRecordLink(specNew);
-			} else {
+			} else if (type === "pCollVar") {
+				console.log("i pCollVar")
+				return CORA.pCollVar(specNew);
+			}else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {
 					return CORA.pRepeatingContainer(specNew);

@@ -221,9 +221,9 @@ QUnit.test("testInitInfoButtonTextVariable", function(assert) {
 });
 
 QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownPVar");
+	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownPCollVar");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
-	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownPVar");
+	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownPCollVar");
 	var view = attachedPVar.view;
 	var infoButton = view.childNodes[1];
 
@@ -268,9 +268,9 @@ QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
 });
 
 QUnit.test("testInitCollection", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownPVar");
+	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownPCollVar");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
-	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownPVar");
+	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownPCollVar");
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
 			"modelObject should be a pointer to the javascript object instance");
@@ -306,7 +306,7 @@ QUnit.test("testInitCollection", function(assert) {
 QUnit.test("testInitCollectionNoEmptyTextId", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownNoEmptyTextIdPVar");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
-	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownPVar");
+	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownNoEmptyTextIdPVar");
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
 			"modelObject should be a pointer to the javascript object instance");
