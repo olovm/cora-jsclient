@@ -22,7 +22,8 @@ var CORA = (function(cora) {
 		var uploading = false;
 		var uploadQue = [];
 		var viewSpec = {
-			"showWorkViewMethod" : spec.jsClient.showView
+			"showWorkViewMethod" : spec.jsClient.showView,
+			"textProvider" : spec.textProvider
 		};
 		var view = CORA.uploadManagerView(viewSpec);
 
@@ -32,38 +33,34 @@ var CORA = (function(cora) {
 			var uploadLink = uploadSpec.uploadLink;
 			var formData = new FormData();
 			formData.append("file", uploadSpec.file);
-			// formData.append("userId", "aUserName");
 
+			var fileView = view.addFile(uploadSpec.file.name);
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"method" : uploadLink.requestMethod,
 				"url" : uploadLink.url,
-				// "contentType" : uploadLink.contentType,
 				"accept" : uploadLink.accept,
 				"loadMethod" : uploadFinished,
-				"errorMethod" : callError,
-				"timeoutMethod" : callTimeout,
+				"errorMethod" : fileView.errorMethod,
+				"timeoutMethod" : fileView.timeoutMethod,
 				"data" : formData,
 				"timeoutInMS" : 60000,
-				"uploadProgressMethod" : progressMethod
+				"uploadProgressMethod" : fileView.progressMethod
 			};
 			uploadQue.push(callSpec);
-			view.addFile(uploadSpec.file.name);
 			possiblyStartNextUpload();
 
 		}
-		function progressMethod(progressEvent) {
-			console.log("upload progress in uploadManager");
-			console.log(progressEvent);
-		}
+
 		function uploadFinished() {
 			uploading = false;
 			view.deactivate();
 			possiblyStartNextUpload();
 		}
+
 		function possiblyStartNextUpload() {
 			if (uploading !== true) {
-				var callSpec = uploadQue.pop();
+				var callSpec = uploadQue.shift();
 				if (callSpec !== undefined) {
 					uploading = true;
 					view.activate();

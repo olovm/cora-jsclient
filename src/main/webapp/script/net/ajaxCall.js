@@ -20,7 +20,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.ajaxCall = function(spec) {
 		var xhr = spec.xmlHttpRequestFactory.factor();
-		var defaultTimeoutMS = 5000;
+		var defaultTimeoutMS = 50000;
 
 		xhr.addEventListener("load", loadListener);
 		xhr.addEventListener("error", errorListener);

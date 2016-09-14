@@ -33,10 +33,12 @@ QUnit.module("uploadManagerTest.js", {
 			addGlobalView : function() {
 			}
 		}
+		var textProvider = CORATEST.textProviderStub();
 
 		var spec = {
 			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
 			"jsClient" : jsClient,
+			"textProvider" : textProvider
 
 		};
 		this.uploadManager = CORA.uploadManager(spec);
@@ -130,7 +132,6 @@ QUnit.test("testUploadQue", function(assert) {
 			"application/uub+record+json");
 	var sentData = xmlHttpRequestSpy.getSentData();
 	assert.strictEqual(sentData.get("file"), file);
-	// assert.strictEqual(sentData.get("userId"), file);
 
 	uploadManager.upload(uploadSpec);
 	assert.strictEqual(xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1), undefined);
@@ -141,4 +142,41 @@ QUnit.test("testUploadQue", function(assert) {
 	xmlHttpRequestSpy1.runLoadFunction();
 
 	assert.strictEqual(menuView.className, "menuView");
+});
+
+QUnit.test("testUploadError", function(assert) {
+	var uploadManager = this.uploadManager;
+	var loadMethodWasCalled = this.loadMethodWasCalled;
+
+	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(400);
+
+	var uploadLink = CORATEST.createUploadLink();
+	var file = CORATEST.createFileForUpload();
+	var uploadSpec = {
+		"uploadLink" : uploadLink,
+		"file" : file
+	}
+	uploadManager.upload(uploadSpec);
+	var fileView = this.uploadManager.view.getItem().workView.firstChild;
+	assert.strictEqual(fileView.lastChild.textContent, "ERROR");
+});
+
+QUnit.test("testUploadTimeout", function(assert) {
+	var uploadManager = this.uploadManager;
+	var loadMethodWasCalled = this.loadMethodWasCalled;
+	this.xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
+
+	var uploadLink = CORATEST.createUploadLink();
+	var file = CORATEST.createFileForUpload();
+	var uploadSpec = {
+			"uploadLink" : uploadLink,
+			"file" : file
+	}
+	uploadManager.upload(uploadSpec);
+	
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
+	
+	var fileView = this.uploadManager.view.getItem().workView.firstChild;
+	assert.strictEqual(fileView.lastChild.textContent, "TIMEOUT");
 });

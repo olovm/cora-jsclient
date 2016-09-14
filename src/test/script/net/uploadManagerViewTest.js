@@ -21,12 +21,13 @@
 QUnit.module("uploadManagerViewTest.js", {
 	beforeEach : function() {
 		var item = {};
+		var textProvider = CORATEST.textProviderStub();
 		this.spec = {
-				"showWorkViewMethod" : showWorkViewMethod
+				"showWorkViewMethod" : showWorkViewMethod,
+				"textProvider":textProvider
 		};
 		function showWorkViewMethod(itemIn){
 			item = itemIn;
-			console.log(itemIn)
 		}
 		this.getSetItem = function(){
 			return item;
@@ -48,6 +49,7 @@ QUnit.test("testGetItem", function(assert) {
 	var item = uploadManagerView.getItem();
 	var menuView = item.menuView;
 	assert.strictEqual(menuView.className, "menuView");
+	assert.strictEqual(menuView.textContent, "Uploads");
 
 	var workView = item.workView;
 	assert.strictEqual(workView.className, "workView");
@@ -70,8 +72,15 @@ QUnit.test("addFile", function(assert) {
 	var workView = item.workView;
 	
 	assert.strictEqual(workView.children.length, 0);
-	uploadManagerView.addFile("name1");
+	var uploadItem = uploadManagerView.addFile("name1");
 	assert.strictEqual(workView.children.length, 1);
+	var uploadItem = uploadManagerView.addFile("name1");
+	assert.ok(uploadItem);
+	assert.ok(uploadItem.progressMethod);
+	assert.ok(uploadItem.progress);
+	assert.strictEqual(uploadItem.progress.nodeName, "PROGRESS");
+	assert.ok(uploadItem.errorMethod);
+	assert.ok(uploadItem.timeoutMethod);
 });
 
 QUnit.test("activateDeactivate", function(assert) {

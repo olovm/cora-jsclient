@@ -129,6 +129,10 @@ var CORATEST = (function(coraTest) {
 				return "groupIdOneRecordLinkChildWithPathText";
 			case "groupIdOneRecordLinkChildWithPathDefText":
 				return "groupIdOneRecordLinkChildWithPathDefText";
+				
+			case "theClient_uploadMenuText":
+				return "Uploads";
+				
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");

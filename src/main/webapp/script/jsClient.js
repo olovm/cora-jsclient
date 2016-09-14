@@ -217,7 +217,8 @@ var CORA = (function(cora) {
 
 		function resetLastShowingMenuItem() {
 			if (itemShowing !== undefined) {
-				itemShowing.menuView.className = itemShowing.originalClassName;
+				itemShowing.menuView.className = itemShowing.menuView.className.replace(" active",
+						"");
 				itemShowing.isActive = false;
 			}
 		}

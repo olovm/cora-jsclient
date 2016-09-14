@@ -25,6 +25,12 @@ body {
 	overflow: hidden;
 }
 
+.progress {
+	height: 1rem;
+	width: 50%;
+	margin: 1rem;
+}
+
 .jsClient>.header {
 	display: block;
 	height: 4rem;

@@ -23,10 +23,10 @@ var CORA = (function(cora) {
 
 		var workView = CORA.gui.createSpanWithClassName("workView");
 		var item = {
-			// "menuView" : menuView,
 			"workView" : workView
 		};
-		var menuView = createMenuView("Uploads...", item, spec.showWorkViewMethod);
+		var menuView = createMenuView(spec.textProvider.getTranslation("theClient_uploadMenuText"),
+				item, spec.showWorkViewMethod);
 
 		function createMenuView(text, itemIn, onclickMethod) {
 			var menuViewNew = CORA.gui.createSpanWithClassName("menuView");
@@ -47,18 +47,44 @@ var CORA = (function(cora) {
 			var child = CORA.gui.createSpanWithClassName("listItem");
 			child.textContent = name;
 			workView.appendChild(child);
+
+			var progress = document.createElement("progress");
+			progress.className = "progress";
+			progress.min = 0;
+			progress.max = 100;
+			progress.value = 0;
+			child.appendChild(progress);
+			child.progress = progress;
+
+			child.progressMethod = function(progressEvent) {
+				if (progressEvent.lengthComputable) {
+					var percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+					progress.value = percentage;
+				}
+			};
+
+			child.errorMethod = function() {
+				child.appendChild(document.createTextNode("ERROR"));
+			};
+			child.timeoutMethod = function() {
+				child.appendChild(document.createTextNode("TIMEOUT"));
+			};
+			return child;
 		}
-		function activate(){
-			menuView.className = "menuView uploading";
+
+		function activate() {
+			menuView.className = menuView.className + " uploading";
 		}
-		function deactivate(){
-			menuView.className = "menuView";
+
+		function deactivate() {
+			menuView.className = menuView.className.replace(" uploading", "");
 		}
+
 		out = Object.freeze({
 			getItem : getItem,
-			addFile:addFile,
-			activate: activate,
-			deactivate: deactivate
+			addFile : addFile,
+			activate : activate,
+			deactivate : deactivate
 		});
 
 		return out;
