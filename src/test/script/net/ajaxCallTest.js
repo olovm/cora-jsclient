@@ -128,35 +128,101 @@ QUnit.test("testCallErrorBrokenAddress", function(assert) {
 	assert.ok(errorMethodWasCalled, "errorMethod was called ok");
 });
 
-QUnit.test("testTimeout", function(assert) {
+//QUnit.test("testTimeout", function(assert) {
+//	var timeoutMethodWasCalled = false;
+//	function timeoutMethod(xhr) {
+//		timeoutMethodWasCalled = true;
+//	}
+//	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(function(){});
+//
+//	var spec = {
+//		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+//		"timeoutInMS" : 1000,
+//		"timeoutMethod" : timeoutMethod,
+//		"method" : "GET",
+//		"url" : "http://www.google.com",
+//		"contentType" : "application/uub+record+json",
+//		"accept" : "application/uub+recordList+json",
+//		"loadMethod" : function() {
+//			assert.ok(false);
+//		},
+//		"errorMethod" : function() {
+//			assert.ok(false);
+//		}
+//
+//	};
+//	var ajaxCall = CORA.ajaxCall(spec);
+//	assert.strictEqual(xmlHttpRequestSpy.timeout, 1000);
+//	
+//	xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
+//	
+//	assert.ok(timeoutMethodWasCalled, "timeoutMethod was called ok");
+//});
+QUnit.test("testTimeoutIsCalled", function(assert) {
+	var done = assert.async();
 	var timeoutMethodWasCalled = false;
 	function timeoutMethod(xhr) {
 		timeoutMethodWasCalled = true;
 	}
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(function(){});
-
+	
 	var spec = {
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"timeoutInMS" : 1000,
-		"timeoutMethod" : timeoutMethod,
-		"method" : "GET",
-		"url" : "http://www.google.com",
-		"contentType" : "application/uub+record+json",
-		"accept" : "application/uub+recordList+json",
-		"loadMethod" : function() {
-			assert.ok(false);
-		},
-		"errorMethod" : function() {
-			assert.ok(false);
-		}
-
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"timeoutInMS" : 1,
+			"timeoutMethod" : timeoutMethod,
+			"method" : "GET",
+			"url" : "http://www.google.com",
+			"contentType" : "application/uub+record+json",
+			"accept" : "application/uub+recordList+json",
+			"loadMethod" : function() {
+				assert.ok(false);
+			},
+			"errorMethod" : function() {
+				assert.ok(false);
+			}
+			
 	};
 	var ajaxCall = CORA.ajaxCall(spec);
-	assert.strictEqual(xmlHttpRequestSpy.timeout, 1000);
 	
-	xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
+	window.setTimeout(function() {
+		assert.ok(timeoutMethodWasCalled, "timeoutMethod was called ok");
+		done();
+	}, 10);
+});
+
+QUnit.test("testTimeoutIsNotCalledAsLoadIsCalled", function(assert) {
+	var done = assert.async();
+	var timeoutMethodWasCalled = false;
+	function timeoutMethod(xhr) {
+		timeoutMethodWasCalled = true;
+		console.log("in timeout call")
+	}
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(function(){});
 	
-	assert.ok(timeoutMethodWasCalled, "timeoutMethod was called ok");
+	var spec = {
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"timeoutInMS" : 5,
+			"timeoutMethod" : timeoutMethod,
+			"method" : "GET",
+			"url" : "http://www.google.com",
+			"contentType" : "application/uub+record+json",
+			"accept" : "application/uub+recordList+json",
+			"loadMethod" : function() {
+				assert.ok(false);
+			},
+			"errorMethod" : function() {
+				assert.ok(false);
+			}
+			
+	};
+	var ajaxCall = CORA.ajaxCall(spec);
+	xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	
+	window.setTimeout(function() {
+		console.log("checking...")
+		assert.ok(!timeoutMethodWasCalled, "timeoutMethod should not have been called");
+		done();
+	}, 10);
 });
 
 QUnit.test("testSendCreate", function(assert) {

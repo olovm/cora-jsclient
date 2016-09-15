@@ -21,6 +21,7 @@ var CORA = (function(cora) {
 	cora.ajaxCall = function(spec) {
 
 		var defaultTimeoutMS = 50000;
+		var timeoutId;
 		var xhr = factorXmlHttpRequestUsingFactoryFromSpec();
 		addListenersToXmlHttpRequest();
 		open();
@@ -40,6 +41,9 @@ var CORA = (function(cora) {
 		}
 
 		function handleLoadEvent() {
+			window.clearTimeout(timeoutId);
+			console.log("handleLoadEvent") 
+			
 			if (statusIsOk()) {
 				createReturnObjectAndCallLoadMethodFromSpec();
 			} else {
@@ -88,11 +92,19 @@ var CORA = (function(cora) {
 		}
 
 		function setTimeout() {
-			xhr.timeout = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
-			xhr.addEventListener("timeout", handleTimeout);
+			// xhr.timeout = spec.timeoutInMS ? spec.timeoutInMS :
+			// defaultTimeoutMS;
+			var timeoutTime = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
+			// xhr.addEventListener("timeout", handleTimeout);
+//			if (spec.timeoutFactory !== undefined) {
+//				timeoutId = spec.timeoutFactory.factor();
+//			} else {
+				timeoutId = window.setTimeout(handleTimeout, timeoutTime);
+//			}
 		}
 
 		function handleTimeout() {
+			console.log("in timeout in xhr")
 			xhr.abort();
 			spec.timeoutMethod(createReturnObject());
 		}
