@@ -122,7 +122,7 @@ QUnit.module("pRecordLinkTest.js", {
 		this.pRecordLinkFactory = CORATEST.attachedPRecordLinkFactory(this.metadataProvider,
 				this.pubSub, this.textProvider, this.presentationFactory, this.jsBookkeeper,
 				this.fixture, CORATEST.xmlHttpRequestFactorySpy(this.xmlHttpRequestSpy),
-				this.recordGuiFactory);
+				this.recordGuiFactorySpy);
 
 		this.getIdForGeneratedPresentationByNo = function(no) {
 			return CORA.coraData(
@@ -149,7 +149,6 @@ QUnit.test("testInitRecordLink", function(assert) {
 	assert.strictEqual(childrenView.nodeName, "SPAN");
 	assert.strictEqual(childrenView.className, "childrenView");
 	assert.strictEqual(childrenView.childNodes.length, 1);
-
 
 	var recordIdView = childrenView.childNodes[0];
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
@@ -193,7 +192,6 @@ QUnit.test("testInitRecordLinkWithFinalValue", function(assert) {
 	assert.strictEqual(childrenView.nodeName, "SPAN");
 	assert.strictEqual(childrenView.className, "childrenView");
 	assert.strictEqual(childrenView.childNodes.length, 1);
-
 
 	var recordIdView = childrenView.childNodes[0];
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
@@ -267,7 +265,6 @@ QUnit.test("testInitRecordLinkOutput", function(assert) {
 	assert.strictEqual(childrenView.className, "childrenView");
 	assert.strictEqual(childrenView.childNodes.length, 1);
 
-
 	var recordIdView = childrenView.childNodes[0];
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
 
@@ -332,7 +329,6 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", functio
 	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
 	assert.strictEqual(view.childNodes.length, 1);
 
-
 	var dataFromMsg = {
 		"data" : {
 			"children" : [ {
@@ -370,45 +366,14 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", functio
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
 
 	assert.strictEqual(view.childNodes.length, 2);
+	assert.strictEqual(this.metadataIdUsed[0], "metadataTextVariableGroup");
+	
 	var linkedRecordPresentations = view.childNodes[1];
 	assert.strictEqual(linkedRecordPresentations.nodeName, "SPAN");
 	assert.strictEqual(linkedRecordPresentations.className, "recordViewer");
-
 });
 
 QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoData", function(assert) {
-	var attachedPRecordLink = this.pRecordLinkFactory.factor({},
-	"myLinkPresentationOfLinkedRecordOutputPLink");
-	assert.strictEqual(attachedPRecordLink.pRecordLink.type, "pRecordLink");
-	assert.deepEqual(attachedPRecordLink.view.className,
-	"pRecordLink myLinkPresentationOfLinkedRecordOutputPLink");
-	var view = attachedPRecordLink.view;
-	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
-	assert.strictEqual(view.childNodes.length, 1);
-	
-	
-	var dataFromMsg = {
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "recordInfo"
-				}, {
-					"name" : "linkedPath",
-					"children" : [ {
-						"name" : "nameInData",
-						"value" : "dataDivider"
-					} ]
-				} ]
-			}
-	};
-	var pRecordLink = attachedPRecordLink.pRecordLink;
-	pRecordLink.handleMsg(dataFromMsg, "linkedData");
-	
-	assert.strictEqual(view.childNodes.length, 1);
-});
-
-QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoActionLinks", function(assert) {
 	var attachedPRecordLink = this.pRecordLinkFactory.factor({},
 			"myLinkPresentationOfLinkedRecordOutputPLink");
 	assert.strictEqual(attachedPRecordLink.pRecordLink.type, "pRecordLink");
@@ -418,6 +383,37 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoActionLi
 	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
 	assert.strictEqual(view.childNodes.length, 1);
 
+	var dataFromMsg = {
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "recordInfo"
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "dataDivider"
+				} ]
+			} ]
+		}
+	};
+	var pRecordLink = attachedPRecordLink.pRecordLink;
+	pRecordLink.handleMsg(dataFromMsg, "linkedData");
+
+	assert.strictEqual(view.childNodes.length, 1);
+});
+
+QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoActionLinks", function(
+		assert) {
+	var attachedPRecordLink = this.pRecordLinkFactory.factor({},
+			"myLinkPresentationOfLinkedRecordOutputPLink");
+	assert.strictEqual(attachedPRecordLink.pRecordLink.type, "pRecordLink");
+	assert.deepEqual(attachedPRecordLink.view.className,
+			"pRecordLink myLinkPresentationOfLinkedRecordOutputPLink");
+	var view = attachedPRecordLink.view;
+	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
+	assert.strictEqual(view.childNodes.length, 1);
 
 	var dataFromMsg = {
 		"data" : {
@@ -451,54 +447,57 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoActionLi
 
 });
 
-QUnit.test("testInitRecordLinkOutputWithLinkedRecord" +
-		"PresentationsGroupWrongLinkedRecordType", function(assert) {
-	var attachedPRecordLink = this.pRecordLinkFactory.factor({},
-			"myLinkPresentationOfLinkedRecordOutputPLinkWrongLinkedRecordType");
-	assert.strictEqual(attachedPRecordLink.pRecordLink.type, "pRecordLink");
-	assert.deepEqual(attachedPRecordLink.view.className,
-	"pRecordLink myLinkPresentationOfLinkedRecordOutputPLinkWrongLinkedRecordType");
-	var view = attachedPRecordLink.view;
-	assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
-	assert.strictEqual(view.childNodes.length, 1);
-	
-	
-	var dataFromMsg = {
-			"data" : {
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "metadataTextVariable"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "cora"
-				} ],
-				"actionLinks" : {
-					"read" : {
-						"requestMethod" : "GET",
-						"rel" : "read",
-						"url" : "http://localhost:8080/therest/rest/record/system/cora",
-						"accept" : "application/uub+record+json"
-					}
-				},
-				"name" : "dataDivider"
-			},
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "recordInfo"
-				}, {
-					"name" : "linkedPath",
-					"children" : [ {
-						"name" : "nameInData",
-						"value" : "dataDivider"
-					} ]
-				} ]
-			}
-	};
-	var pRecordLink = attachedPRecordLink.pRecordLink;
-	pRecordLink.handleMsg(dataFromMsg, "linkedData");
-	
-	assert.strictEqual(view.childNodes.length, 1);
-	
-});
+QUnit
+		.test(
+				"testInitRecordLinkOutputWithLinkedRecord"
+						+ "PresentationsGroupWrongLinkedRecordType",
+				function(assert) {
+					var attachedPRecordLink = this.pRecordLinkFactory.factor({},
+							"myLinkPresentationOfLinkedRecordOutputPLinkWrongLinkedRecordType");
+					assert.strictEqual(attachedPRecordLink.pRecordLink.type, "pRecordLink");
+					assert
+							.deepEqual(attachedPRecordLink.view.className,
+									"pRecordLink myLinkPresentationOfLinkedRecordOutputPLinkWrongLinkedRecordType");
+					var view = attachedPRecordLink.view;
+					assert.ok(view.modelObject === attachedPRecordLink.pRecordLink);
+					assert.strictEqual(view.childNodes.length, 1);
+
+					var dataFromMsg = {
+						"data" : {
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "metadataTextVariable"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "cora"
+							} ],
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://localhost:8080/therest/rest/record/system/cora",
+									"accept" : "application/uub+record+json"
+								}
+							},
+							"name" : "dataDivider"
+						},
+						"path" : {
+							"name" : "linkedPath",
+							"children" : [ {
+								"name" : "nameInData",
+								"value" : "recordInfo"
+							}, {
+								"name" : "linkedPath",
+								"children" : [ {
+									"name" : "nameInData",
+									"value" : "dataDivider"
+								} ]
+							} ]
+						}
+					};
+					var pRecordLink = attachedPRecordLink.pRecordLink;
+					pRecordLink.handleMsg(dataFromMsg, "linkedData");
+
+					assert.strictEqual(view.childNodes.length, 1);
+
+				});
