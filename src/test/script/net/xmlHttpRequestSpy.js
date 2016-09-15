@@ -95,6 +95,17 @@ var CORATEST = (function(coraTest) {
 			sendFunction = sendFunctionIn;
 		}
 
+		function runLoadFunction() {
+			addedEventListeners["load"][0]();
+		}
+		var listeners = [];
+		listeners["progress"] = [];
+		var upload = {
+			addEventListener : function(name, evListener) {
+				listeners[name].push(evListener);
+			},
+			addedEventListeners : listeners
+		};
 		var out = {
 			timeout : timeout,
 			status : status,
@@ -114,7 +125,9 @@ var CORATEST = (function(coraTest) {
 			abort : abort,
 			abortWasCalled : abortWasCalled,
 			responseText : responseText,
-			setSendFunction : setSendFunction
+			setSendFunction : setSendFunction,
+			runLoadFunction : runLoadFunction,
+			upload : upload
 		};
 		return out;
 	};

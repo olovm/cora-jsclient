@@ -56,3 +56,9 @@ QUnit.test("testCreateRemoveButton", function(assert) {
 	button.onclick(event);
 	assert.strictEqual(clicked, true);
 });
+
+QUnit.test("testCreateSpanWithClassName", function(assert) {
+	var span = CORA.gui.createSpanWithClassName("className");
+	assert.strictEqual(span.nodeName, "SPAN");
+	assert.strictEqual(span.className, "className");
+});

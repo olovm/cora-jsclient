@@ -34,7 +34,8 @@ var CORA = (function(cora) {
 				"presentationFactory" : self,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
-				"recordTypeProvider" : spec.recordTypeProvider
+				"recordTypeProvider" : spec.recordTypeProvider,
+				"uploadManager" : spec.uploadManager
 			};
 
 			var type = cPresentation.getData().attributes.type;

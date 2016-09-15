@@ -57,6 +57,31 @@ QUnit.test("testCall200", function(assert) {
 	assert.ok(loadMethodWasCalled, "loadMethod was called ok")
 });
 
+QUnit.test("testSpecReturnedInCallToLoadMethod", function(assert) {
+	var loadMethodWasCalled = false;
+	var specReturned;
+	function loadMethod(answer) {
+		loadMethodWasCalled = true;
+		specReturned = answer.spec;
+	}
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var spec = {
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"method" : "GET",
+		"url" : "http://130.238.171.39:8080/therest/rest/record/recordType",
+		"contentType" : "application/uub+record+json",
+		"accept" : "application/uub+record+json",
+		"loadMethod" : loadMethod
+	};
+	var ajaxCall = CORA.ajaxCall(spec);
+
+	assert.stringifyEqual(specReturned, spec);
+});
+
 QUnit.test("testCallErrorNot200answer", function(assert) {
 	var errorMethodWasCalled = false;
 	function errorMethod(xhr) {
@@ -208,4 +233,53 @@ QUnit.test("testSendDelete", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"], undefined);
 
 	assert.ok(loadMethodWasCalled, "loadMethod was called ok");
+});
+
+QUnit.test("testDownloadProgress", function(assert) {
+	var specReturned;
+	function loadMethod(answer) {
+	}
+	function progressMethod(progressEvent) {
+	}
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var spec = {
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"method" : "GET",
+		"url" : "http://130.238.171.39:8080/therest/rest/record/recordType",
+		"contentType" : "application/uub+record+json",
+		"accept" : "application/uub+record+json",
+		"loadMethod" : loadMethod,
+		"downloadProgressMethod" : progressMethod
+	};
+	var ajaxCall = CORA.ajaxCall(spec);
+	assert.strictEqual(ajaxCall.xhr.addedEventListeners["progress"][0], progressMethod);
+
+});
+
+QUnit.test("testUploadProgress", function(assert) {
+	var specReturned;
+	function loadMethod(answer) {
+	}
+	function progressMethod(progressEvent) {
+	}
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var spec = {
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"method" : "GET",
+		"url" : "http://130.238.171.39:8080/therest/rest/record/recordType",
+		"contentType" : "application/uub+record+json",
+		"accept" : "application/uub+record+json",
+		"loadMethod" : loadMethod,
+		"uploadProgressMethod" : progressMethod
+	};
+	var ajaxCall = CORA.ajaxCall(spec);
+	assert.strictEqual(ajaxCall.xhr.upload.addedEventListeners["progress"][0], progressMethod);
 });
