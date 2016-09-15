@@ -138,7 +138,7 @@ QUnit.test("initCallToServer", function(assert) {
 	
 });
 
-QUnit.test("errorMissingPresenation", function(assert) {
+QUnit.test("errorMissingPresentation", function(assert) {
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 	var record = CORATEST.record;
 	function sendFunction() {
@@ -168,7 +168,7 @@ QUnit.test("errorMissingPresenation", function(assert) {
 	};
 	var recordViewer = CORA.recordViewer(recordViewerSpec);
 	var view = recordViewer.getView();
-	assert.strictEqual(view.childNodes[2].textContent.substring(0, 20), "{\"children\":[{\"child");
+	assert.strictEqual(view.childNodes[2].textContent.substring(0, 24), "Error: missing metadata");
 });
 QUnit.test("errorDataNotFound", function(assert) {
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);

@@ -119,8 +119,12 @@ var CORA = (function(cora) {
 
 		function createRecordViewerSpec(readLink, linkedPresentationId) {
 			var cLinkedRecordPresentation = getMetadataById(linkedPresentationId);
-			var linkedMetadataId = cLinkedRecordPresentation
-					.getFirstAtomicValueByNameInData("presentationOf");
+
+			var presentationOfLink = cLinkedRecordPresentation
+					.getFirstChildByNameInData("presentationOf");
+			var cPresentationOfLink = CORA.coraData(presentationOfLink);
+			var linkedMetadataId = cPresentationOfLink
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 
 			return {
 				"read" : readLink,
