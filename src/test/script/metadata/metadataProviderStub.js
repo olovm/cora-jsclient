@@ -2764,10 +2764,20 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson("recordInfoPGroup") ].concat([ {
-					"name" : "presentationOf",
-					"value" : "recordInfo"
-				}, {
+				"children" : [ createRecordInfoJson("recordInfoPGroup") ].concat([
+					{
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "recordInfo"
+							}
+						],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -2788,9 +2798,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson("recordInfoAttributePGroup") ].concat([ {
-					"name" : "presentationOf",
-					"value" : "recordInfoAttribute"
+				"children" : [ createRecordInfoJson("recordInfoAttributePGroup") ].concat([
+					{
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "recordInfoAttribute"
+						}
+					],
+					"name": "presentationOf"
 				}, {
 					"name" : "childReferences",
 					"children" : [ {
@@ -3121,10 +3141,20 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChild"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "groupIdOneTextChild"
+							}
+						],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3146,10 +3176,20 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChild"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "groupIdOneTextChild"
+							}
+						],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3170,10 +3210,20 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChild"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "groupIdOneTextChild"
+							}
+						],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3195,10 +3245,20 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupId1toXCollectionChild"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "groupId1toXCollectionChild"
+							}
+						],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3220,10 +3280,20 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChild"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "groupIdOneTextChild"
+							}
+						],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3255,10 +3325,20 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChild"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "groupIdOneTextChild"
+							}
+						],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3300,10 +3380,20 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChildRepeat1to3"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+				{
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "metadataGroup"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "groupIdOneTextChildRepeat1to3"
+					}
+				],
+				"name": "presentationOf"
+			}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3328,10 +3418,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChild"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "groupIdOneTextChild"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3377,10 +3476,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdTwoTextChild"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "groupIdTwoTextChild"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3413,10 +3521,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupInGroupOneTextChild"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "groupInGroupOneTextChild"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3448,10 +3565,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "textVarRepeat1to3InGroupOneAttribute"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVarRepeat1to3InGroupOneAttribute"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3482,10 +3608,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "textVarRepeat1to3InGroupParentAttribute"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVarRepeat1to3InGroupParentAttribute"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3517,10 +3652,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "textVarRepeat1to3InGroupOneAttribute"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVarRepeat1to3InGroupOneAttribute"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3551,10 +3695,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "textVarRepeat1to3InGroupParentAttribute"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVarRepeat1to3InGroupParentAttribute"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3586,10 +3739,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "textVarRepeat1to3InGroupOtherAttribute"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVarRepeat1to3InGroupOtherAttribute"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3621,10 +3783,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "textVarRepeat1to3InGroupOtherAttribute"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVarRepeat1to3InGroupOtherAttribute"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3648,10 +3819,18 @@ function MetadataProviderStub() {
 				},
 				"children" : [ createRecordInfoJson(idToGet) ]
 						.concat([
+							{ "children": [
 								{
-									"name" : "presentationOf",
-									"value" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup"
+									"name": "linkedRecordType",
+									"value": "metadataGroup"
 								},
+								{
+									"name": "linkedRecordId",
+									"value": "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup"
+								}
+							],
+								"name": "presentationOf"
+							},
 								{
 									"name" : "childReferences",
 									"children" : [
@@ -3706,10 +3885,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "textVarRepeat1to3InGroupParentAttribute1toXInGroup"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVarRepeat1to3InGroupParentAttribute1toXInGroup"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3744,10 +3932,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChildTwoAttributes"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "groupIdOneTextChildTwoAttributes"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3779,10 +3976,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChildRepeat1toX"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "groupIdOneTextChildRepeat1toX"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3824,10 +4030,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChildRepeat1to3"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "groupIdOneTextChildRepeat1to3"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3869,10 +4084,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChildRepeat3to3"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "groupIdOneTextChildRepeat3to3"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -3970,10 +4194,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneTextChildRepeat1to3"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "groupIdOneTextChildRepeat1to3"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -4070,10 +4303,20 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdTwoTextChildRepeat1to5"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "groupIdTwoTextChildRepeat1to5"
+						}
+					],
+						"name": "presentationOf"
+					}
+					, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -4145,10 +4388,19 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdTwoTextChildRepeat1to5"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{ "children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "groupIdTwoTextChildRepeat1to5"
+						}
+					],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -4177,8 +4429,17 @@ function MetadataProviderStub() {
 						"value" : "myPGroup"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "myGroup"
+						}
+					],
+					"name": "presentationOf"
 				}, {
 					"name" : "childReferences",
 					"children" : [ {
@@ -4535,10 +4796,20 @@ function MetadataProviderStub() {
 				"attributes" : {
 					"type" : "pGroup"
 				},
-				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-					"name" : "presentationOf",
-					"value" : "groupIdOneRecordLinkChildWithPath"
-				}, {
+				"children" : [ createRecordInfoJson(idToGet) ].concat([
+					{
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataGroup"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "groupIdOneRecordLinkChildWithPath"
+							}
+						],
+						"name": "presentationOf"
+					}, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -4569,10 +4840,20 @@ function MetadataProviderStub() {
 					"attributes" : {
 						"type" : "pGroup"
 					},
-					"children" : [ createRecordInfoJson(idToGet) ].concat([ {
-						"name" : "presentationOf",
-						"value" : "groupIdOneChildOfBinaryRecordLinkChild"
-					}, {
+					"children" : [ createRecordInfoJson(idToGet) ].concat([
+						{
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "groupIdOneChildOfBinaryRecordLinkChild"
+								}
+							],
+							"name": "presentationOf"
+						}, {
 						"name" : "childReferences",
 						"children" : [ {
 							"name" : "childReference",
@@ -4611,8 +4892,17 @@ function MetadataProviderStub() {
 					} ],
 					"name" : "recordInfo"
 				}, {
-					"name" : "presentationOf",
-					"value" : "metadataTextVariableGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "metadataTextVariableGroup"
+						}
+					],
+					"name": "presentationOf"
 				}, {
 					"children" : [ {
 						"repeatId" : "0",

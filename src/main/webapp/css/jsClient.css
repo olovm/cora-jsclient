@@ -311,7 +311,7 @@ body {
 }
 
 .jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input, .jsClient .showView .buttonView .removeButton,
-	.jsClient .showView .buttonView .dragButton {
+	.jsClient .showView .buttonView .dragButton, .jsClient .menuView .buttonView .removeButton {
 	display: none;
 }
 
