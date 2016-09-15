@@ -133,11 +133,13 @@ QUnit.test("testTimeout", function(assert) {
 	function timeoutMethod(xhr) {
 		timeoutMethodWasCalled = true;
 	}
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 0;
-		xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
-	}
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(function(){});
+//	xmlHttpRequestSpy.setSendFunction(false);
+	
+//	function sendFunction() {
+//		xmlHttpRequestSpy.status = 0;
+//		xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
+//	}
 	var spec = {
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"timeoutInMS" : 1000,
@@ -156,6 +158,9 @@ QUnit.test("testTimeout", function(assert) {
 	};
 	var ajaxCall = CORA.ajaxCall(spec);
 	assert.strictEqual(xmlHttpRequestSpy.timeout, 1000);
+	
+	xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
+	
 	assert.ok(timeoutMethodWasCalled, "timeoutMethod was called ok");
 });
 
