@@ -132,6 +132,18 @@ var CORATEST = (function(coraTest) {
 				
 			case "theClient_uploadMenuText":
 				return "Uploads";
+			case "trueItemText":
+				return "true";
+			case "trueItemDefText":
+				return "true";
+			case "falseItemText":
+				return "false";
+			case "falseItemDefText":
+				return "false";
+			case "userSuppliedIdCollectionVarText":
+				return "userSuppliedIdCollectionVarText";
+			case "userSuppliedIdCollectionVarDefText":
+				return "userSuppliedIdCollectionVarDefText";
 				
 			default:
 				console.log("Id(" + textId + ") not found in stub");

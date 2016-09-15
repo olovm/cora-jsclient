@@ -2219,6 +2219,70 @@ function MetadataProviderStub() {
 				      }
 				};
 		}
+		if (idToGet === "userSuppliedIdCollectionVar") {
+			return {
+				"children": [
+					{
+						"children": [
+							{
+								"name": "id",
+								"value": "userSuppliedIdCollectionVar"
+							},
+							{
+								"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "system"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "cora"
+									}
+								],
+								"actionLinks": {
+									"read": {
+										"requestMethod": "GET",
+										"rel": "read",
+										"url": "http://localhost:8080/therest/rest/record/system/cora",
+										"accept": "application/uub+record+json"
+									}
+								},
+								"name": "dataDivider"
+							},
+							{
+								"name": "type",
+								"value": "metadataCollectionVariable"
+							},
+							{
+								"name": "createdBy",
+								"value": "userId"
+							}
+						],
+						"name": "recordInfo"
+					},
+					{
+						"name": "nameInData",
+						"value": "userSuppliedId"
+					},
+					{
+						"name": "textId",
+						"value": "userSuppliedIdCollectionVarText"
+					},
+					{
+						"name": "defTextId",
+						"value": "userSuppliedIdCollectionVarDefText"
+					},
+					{
+						"name": "refCollectionId",
+						"value": "trueFalseCollection"
+					}
+				],
+				"name": "metadata",
+				"attributes": {
+					"type": "collectionVariable"
+				}
+			};
+		}
 		if (idToGet === "genericBinaryNewGroup") {
 			return {
 				"children": [
@@ -2754,6 +2818,202 @@ function MetadataProviderStub() {
                "type": "recordLink"
              }
            };
+
+		}
+		if (idToGet === "trueFalseCollection") {
+			return {
+				"children": [
+					{
+						"children": [
+							{
+								"name": "id",
+								"value": "trueFalseCollection"
+							},
+							{
+								"name": "type",
+								"value": "metadataItemCollection"
+							},
+							{
+								"name": "createdBy",
+								"value": "userId"
+							},
+							{
+								"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "system"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "cora"
+									}
+								],
+								"actionLinks": {
+									"read": {
+										"requestMethod": "GET",
+										"rel": "read",
+										"url": "http://localhost:8080/therest/rest/record/system/cora",
+										"accept": "application/uub+record+json"
+									}
+								},
+								"name": "dataDivider"
+							}
+						],
+						"name": "recordInfo"
+					},
+					{
+						"name": "nameInData",
+						"value": "trueFalseCollection"
+					},
+					{
+						"name": "textId",
+						"value": "trueFalseCollectionText"
+					},
+					{
+						"name": "defTextId",
+						"value": "trueFalseCollectionDefText"
+					},
+					{
+						"children": [
+							{
+								"repeatId": "1",
+								"name": "ref",
+								"value": "falseItem"
+							},
+							{
+								"repeatId": "0",
+								"name": "ref",
+								"value": "trueItem"
+							}
+						],
+						"name": "collectionItemReferences"
+					}
+				],
+				"name": "metadata",
+				"attributes": {
+					"type": "itemCollection"
+				}
+			};
+		}
+		if (idToGet === "falseItem") {
+			return {
+				"children": [
+					{
+						"children": [
+							{
+								"name": "id",
+								"value": "falseItem"
+							},
+							{
+								"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "system"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "cora"
+									}
+								],
+								"actionLinks": {
+									"read": {
+										"requestMethod": "GET",
+										"rel": "read",
+										"url": "http://localhost:8080/therest/rest/record/system/cora",
+										"accept": "application/uub+record+json"
+									}
+								},
+								"name": "dataDivider"
+							},
+							{
+								"name": "type",
+								"value": "metadataCollectionItem"
+							},
+							{
+								"name": "createdBy",
+								"value": "userId"
+							}
+						],
+						"name": "recordInfo"
+					},
+					{
+						"name": "nameInData",
+						"value": "false"
+					},
+					{
+						"name": "textId",
+						"value": "falseItemText"
+					},
+					{
+						"name": "defTextId",
+						"value": "falseItemDefText"
+					}
+				],
+				"name": "metadata",
+				"attributes": {
+					"type": "collectionItem"
+				}
+			};
+		}
+		if (idToGet === "trueItem") {
+			return {
+				"children": [
+					{
+						"children": [
+							{
+								"name": "id",
+								"value": "trueItem"
+							},
+							{
+								"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "system"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "cora"
+									}
+								],
+								"actionLinks": {
+									"read": {
+										"requestMethod": "GET",
+										"rel": "read",
+										"url": "http://localhost:8080/therest/rest/record/system/cora",
+										"accept": "application/uub+record+json"
+									}
+								},
+								"name": "dataDivider"
+							},
+							{
+								"name": "type",
+								"value": "metadataCollectionItem"
+							},
+							{
+								"name": "createdBy",
+								"value": "userId"
+							}
+						],
+						"name": "recordInfo"
+					},
+					{
+						"name": "nameInData",
+						"value": "true"
+					},
+					{
+						"name": "textId",
+						"value": "trueItemText"
+					},
+					{
+						"name": "defTextId",
+						"value": "trueItemDefText"
+					}
+				],
+				"name": "metadata",
+				"attributes": {
+					"type": "collectionItem"
+				}
+			};
 		}
 		// presentation
 

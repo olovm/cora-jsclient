@@ -28,7 +28,10 @@ var CORA = (function(cora) {
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
-		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
+		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
+		var cPresentationGroup = CORA.coraData(presentationGroup)
+		var metadataId  = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+
 		var cMetadataElement = getMetadataById(metadataId);
 		var subType = cMetadataElement.getData().attributes.type;
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
@@ -285,7 +288,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type": "pVar",
+			"type": "pCollVar",
 			getView: getView,
 			setValue: setValue,
 			handleMsg: handleMsg,

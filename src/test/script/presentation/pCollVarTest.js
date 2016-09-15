@@ -267,40 +267,40 @@ QUnit.module("pCollVarTest.js", {
 //	assert.equal(view.childNodes.length, 3);
 //});
 
-//QUnit.test("testInitCollection", function(assert) {
-//	var attachedPCollVar = this.pVarFactory.factor({}, "yesNoUnknownPCollVar");
-//	assert.strictEqual(attachedPCollVar.pCollVar.type, "pCollVar");
-//	assert.deepEqual(attachedPCollVar.view.className, "pCollVar yesNoUnknownPCollVar");
-//	var view = attachedPCollVar.view;
-//	assert.ok(view.modelObject === attachedPCollVar.pCollVar);
-//	assert.ok(view.childNodes.length, 2);
-//
-//	var valueView = attachedPCollVar.valueView;
-//	assert.equal(valueView.nodeName, "SELECT");
-//	assert.equal(valueView.type, "select-one");
-//	// assert.equal(valueView.value, "");
-//
-//	var options = valueView.childNodes;
-//	assert.equal(options[0].nodeName, "OPTION");
-//	assert.equal(options[0].text, "-- Gör ett val ur listan --");
-//	assert.equal(options[0].value, "");
-//	assert.equal(options[0].selected, true);
-//
-//	assert.equal(options[1].nodeName, "OPTION");
-//	assert.equal(options[1].text, "Ja");
-//	assert.equal(options[1].value, "yes");
-//
-//	CORATEST.testVariableSubscription(attachedPCollVar, assert);
-//
-//	var pCollVar = attachedPCollVar.pCollVar;
-//	assert.strictEqual(pCollVar.getText(), "Exempel collectionVariable");
-//	assert.strictEqual(pCollVar.getDefText(), "Exempel collectionVariable, är en variabel "
-//			+ "där man kan välja mellan ja, nej och okänt");
-//
-//	assert.equal(attachedPCollVar.pVCollar.getState(), "ok");
-//
-//	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
-//});
+QUnit.test("testInitCollection", function(assert) {
+	var attachedPCollVar = this.pVarFactory.factor({}, "yesNoUnknownPCollVar");
+	assert.strictEqual(attachedPCollVar.pCollVar.type, "pCollVar");
+	assert.deepEqual(attachedPCollVar.view.className, "pCollVar yesNoUnknownPCollVar");
+	var view = attachedPCollVar.view;
+	assert.ok(view.modelObject === attachedPCollVar.pCollVar);
+	assert.ok(view.childNodes.length, 2);
+
+	var valueView = attachedPCollVar.valueView;
+	assert.equal(valueView.nodeName, "SELECT");
+	assert.equal(valueView.type, "select-one");
+	// assert.equal(valueView.value, "");
+
+	var options = valueView.childNodes;
+	assert.equal(options[0].nodeName, "OPTION");
+	assert.equal(options[0].text, "-- Gör ett val ur listan --");
+	assert.equal(options[0].value, "");
+	assert.equal(options[0].selected, true);
+
+	assert.equal(options[1].nodeName, "OPTION");
+	assert.equal(options[1].text, "Ja");
+	assert.equal(options[1].value, "yes");
+
+	CORATEST.testVariableSubscription(attachedPCollVar, assert);
+
+	var pCollVar = attachedPCollVar.pCollVar;
+	assert.strictEqual(pCollVar.getText(), "Exempel collectionVariable");
+	assert.strictEqual(pCollVar.getDefText(), "Exempel collectionVariable, är en variabel "
+			+ "där man kan välja mellan ja, nej och okänt");
+
+	assert.equal(attachedPCollVar.pVCollar.getState(), "ok");
+
+	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+});
 
 //QUnit.test("testInitCollectionNoEmptyTextId", function(assert) {
 //	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownNoEmptyTextIdPVar");
