@@ -81,6 +81,8 @@ var CORATEST = (function(coraTest) {
 				return "minimierad presentation";
 			case "defaultPresentationCollectionText":
 					return "Presentation att visa initialt";
+			case "theClient_uploadMenuText":
+				return "Uploads";	
 			default:
 				console.log("Id(" + textId + ") not found in textProviderRealStub");
 //				throw new Error("Id(" + textId + ") not found in textProviderRealStub");

@@ -67,6 +67,8 @@
 <script type="text/javascript" src="script/metadata/textProvider.js"></script>
 
 <script type="text/javascript" src="script/net/ajaxCall.js"></script>
+<script type="text/javascript" src="script/net/uploadManager.js"></script>
+<script type="text/javascript" src="script/net/uploadManagerView.js"></script>
 <script type="text/javascript" src="script/net/xmlHttpRequestFactory.js"></script>
 
 <script type="text/javascript" src="script/presentation/pChildRefHandler.js"></script>
@@ -82,8 +84,9 @@
 <script type="text/javascript" src="script/presentation/pVar.js"></script>
 
 <script type="text/javascript">
-// 	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
-	var baseUrl = "http://localhost:8080/therest/rest/";
+	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+// 	var baseUrl = "http://localhost:8080/therest/rest/";
+// 	var baseUrl = "http://130.238.171.39:8080/therest/rest/";
 
 	window.onload = start;
 	var jsClientSpec;
@@ -91,7 +94,7 @@
 // 		startJsClient();
 		startDependencies();
 		//this is a small hack to have time to read recordTypes before jsClient starts
-		window.setTimeout(startJsClient, 200);
+		window.setTimeout(startJsClient, 1000);
 	}
 	function startDependencies() {
 		var dependencies = {

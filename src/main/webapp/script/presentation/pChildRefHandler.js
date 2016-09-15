@@ -42,7 +42,7 @@ var CORA = (function(cora) {
 		spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
 
 		var numberOfFiles = 0;
-		var numberOfFilesStored = 0;
+		var numberOfRecordsForFilesCreated = 0;
 
 		function findPresentationId(cPresentationToSearch) {
 			var recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
@@ -347,13 +347,14 @@ var CORA = (function(cora) {
 			numberOfFiles = files.length;
 			for (var i = 0; i < files.length; i++) {
 				handleFile(files[i]);
+
 			}
 		}
 
 		function handleFile(file) {
-			var data = createNewBinaryData(file);
+			var data = createNewBinaryData();
 			var createLink = getLinkedRecordTypeCreateLink();
-
+			var localFile = file;
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"method" : createLink.requestMethod,
@@ -362,12 +363,13 @@ var CORA = (function(cora) {
 				"accept" : createLink.accept,
 				"loadMethod" : processNewBinary,
 				"errorMethod" : callError,
-				"data" : JSON.stringify(data)
+				"data" : JSON.stringify(data),
+				"file" : localFile
 			};
 			CORA.ajaxCall(callSpec);
 		}
 
-		function createNewBinaryData(file) {
+		function createNewBinaryData() {
 			var dataDividerLinkedRecordId = getDataDividerFromSpec();
 			var type = getTypeFromRecordType();
 			return {
@@ -384,12 +386,6 @@ var CORA = (function(cora) {
 							"value" : dataDividerLinkedRecordId
 						} ]
 					} ]
-				}, {
-					"name" : "fileName",
-					"value" : file.name
-				}, {
-					"name" : "fileSize",
-					"value" : "" + file.size
 				} ],
 				"attributes" : {
 					"type" : type
@@ -448,8 +444,18 @@ var CORA = (function(cora) {
 				"path" : newPath
 			};
 			spec.jsBookkeeper.setValue(setValueData);
+			var formData = new FormData();
+			formData.append("file", answer.spec.file);
+			formData.append("userId", "aUserName");
 
-			saveMainRecordIfAllFilesAreCreated();
+			var uploadLink = JSON.parse(answer.responseText).record.actionLinks.upload;
+
+			var uploadSpec = {
+				"uploadLink" : uploadLink,
+				"file" : answer.spec.file
+			};
+			spec.uploadManager.upload(uploadSpec);
+			saveMainRecordIfRecordsAreCreatedForAllFiles();
 		}
 
 		function getDataPartOfRecordFromAnswer(answer) {
@@ -463,14 +469,14 @@ var CORA = (function(cora) {
 			return id;
 		}
 
-		function saveMainRecordIfAllFilesAreCreated() {
-			numberOfFilesStored++;
-			if (numberOfFiles === numberOfFilesStored) {
+		function saveMainRecordIfRecordsAreCreatedForAllFiles() {
+			numberOfRecordsForFilesCreated++;
+			if (numberOfFiles === numberOfRecordsForFilesCreated) {
 				spec.pubSub.publish("updateRecord", {
 					"data" : "",
 					"path" : {}
 				});
-				numberOfFilesStored = 0;
+				numberOfRecordsForFilesCreated = 0;
 			}
 		}
 

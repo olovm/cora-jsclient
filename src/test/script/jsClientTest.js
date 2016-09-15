@@ -166,7 +166,7 @@ QUnit.test("init", function(assert) {
 
 	var header = mainView.childNodes[0];
 	assert.strictEqual(header.className, "header");
-	assert.strictEqual(header.innerHTML, "The Client");
+//	assert.strictEqual(header.textContent, "The Client");
 
 	var sideBar = mainView.childNodes[1];
 	assert.strictEqual(sideBar.className, "sideBar");
@@ -180,6 +180,39 @@ QUnit.test("init", function(assert) {
 	var firstRecordType = sideBar.childNodes[0];
 	assert.strictEqual(firstRecordType.className, "recordType");
 	assert.strictEqual(firstRecordType.firstChild.textContent, "metadata");
+});
+
+QUnit.test("addGlobalView", function(assert) {
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+	}
+	
+	var dependencies = {
+			"metadataProvider" : CORATEST.metadataProviderRealStub(),
+			"textProvider" : CORATEST.textProviderRealStub(),
+			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"presentationFactoryFactory" : "not implemented yet"
+	}
+	var spec = {
+			"dependencies" : dependencies,
+			"name" : "The Client",
+			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+	};
+	var jsClient = CORA.jsClient(spec);
+	var mainView = jsClient.getView();
+	
+	var header = mainView.childNodes[0];
+	assert.strictEqual(header.className, "header");
+//	assert.strictEqual(header.innerHTML, "The Client");
+
+	assert.strictEqual(header.childNodes.length, 2);
+	
+	var testView = CORA.gui.createSpanWithClassName("menuView");
+	jsClient.addGlobalView(testView);
+	assert.strictEqual(header.childNodes.length, 3);
+	
+	
 });
 
 QUnit.test("initRecordTypesAreSortedByType", function(assert) {
