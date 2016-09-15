@@ -134,12 +134,7 @@ QUnit.test("testTimeout", function(assert) {
 		timeoutMethodWasCalled = true;
 	}
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(function(){});
-//	xmlHttpRequestSpy.setSendFunction(false);
-	
-//	function sendFunction() {
-//		xmlHttpRequestSpy.status = 0;
-//		xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
-//	}
+
 	var spec = {
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"timeoutInMS" : 1000,

@@ -19,55 +19,40 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.ajaxCall = function(spec) {
-		var xhr = spec.xmlHttpRequestFactory.factor();
+
 		var defaultTimeoutMS = 50000;
+		var xhr = factorXmlHttpRequestUsingFactoryFromSpec();
+		addListenersToXmlHttpRequest();
+		open();
+		setTimeout();
+		setHeadersSpecifiedInSpec();
+		sendRequest();
 
-		xhr.addEventListener("load", loadListener);
-		xhr.addEventListener("error", errorListener);
-
-		if (spec.downloadProgressMethod !== undefined) {
-			xhr.addEventListener("progress", spec.downloadProgressMethod);
-		}
-		if (spec.uploadProgressMethod !== undefined) {
-			xhr.upload.addEventListener("progress", spec.uploadProgressMethod);
-		}
-
-		if (spec.method === "GET") {
-			xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
-		} else {
-			xhr.open(spec.method, spec.url);
+		function factorXmlHttpRequestUsingFactoryFromSpec() {
+			return spec.xmlHttpRequestFactory.factor();
 		}
 
-		xhr.timeout = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
-		if (spec.accept !== undefined) {
-			xhr.setRequestHeader("accept", spec.accept);
-		}
-		if (spec.contentType !== undefined) {
-			xhr.setRequestHeader("content-type", spec.contentType);
-		}
-
-		xhr.addEventListener("timeout", timeoutListener);
-		if (spec.data !== undefined) {
-			xhr.send(spec.data);
-		} else {
-			xhr.send();
+		function addListenersToXmlHttpRequest() {
+			xhr.addEventListener("load", handleLoadEvent);
+			xhr.addEventListener("error", createReturnObjectAndCallErrorMethodFromSpec);
+			addDownloadProgressListnerIfSpecifiedInSpec();
+			addUploadProgressListnerIfSpecifiedInSpec();
 		}
 
-		function loadListener() {
-			if (xhr.status === 200 || xhr.status === 201) {
-				spec.loadMethod(createReturnObject());
+		function handleLoadEvent() {
+			if (statusIsOk()) {
+				createReturnObjectAndCallLoadMethodFromSpec();
 			} else {
-				spec.errorMethod(createReturnObject());
+				createReturnObjectAndCallErrorMethodFromSpec();
 			}
 		}
 
-		function timeoutListener() {
-			xhr.abort();
-			spec.timeoutMethod(createReturnObject());
+		function statusIsOk() {
+			return xhr.status === 200 || xhr.status === 201;
 		}
 
-		function errorListener() {
-			spec.errorMethod(createReturnObject());
+		function createReturnObjectAndCallLoadMethodFromSpec() {
+			spec.loadMethod(createReturnObject());
 		}
 
 		function createReturnObject() {
@@ -77,6 +62,58 @@ var CORA = (function(cora) {
 				"spec" : spec
 			};
 		}
+
+		function createReturnObjectAndCallErrorMethodFromSpec() {
+			spec.errorMethod(createReturnObject());
+		}
+
+		function addDownloadProgressListnerIfSpecifiedInSpec() {
+			if (spec.downloadProgressMethod !== undefined) {
+				xhr.addEventListener("progress", spec.downloadProgressMethod);
+			}
+		}
+
+		function addUploadProgressListnerIfSpecifiedInSpec() {
+			if (spec.uploadProgressMethod !== undefined) {
+				xhr.upload.addEventListener("progress", spec.uploadProgressMethod);
+			}
+		}
+
+		function open() {
+			if (spec.method === "GET") {
+				xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
+			} else {
+				xhr.open(spec.method, spec.url);
+			}
+		}
+
+		function setTimeout() {
+			xhr.timeout = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
+			xhr.addEventListener("timeout", handleTimeout);
+		}
+
+		function handleTimeout() {
+			xhr.abort();
+			spec.timeoutMethod(createReturnObject());
+		}
+
+		function setHeadersSpecifiedInSpec() {
+			if (spec.accept !== undefined) {
+				xhr.setRequestHeader("accept", spec.accept);
+			}
+			if (spec.contentType !== undefined) {
+				xhr.setRequestHeader("content-type", spec.contentType);
+			}
+		}
+
+		function sendRequest() {
+			if (spec.data !== undefined) {
+				xhr.send(spec.data);
+			} else {
+				xhr.send();
+			}
+		}
+
 		var out = Object.freeze({
 			xhr : xhr
 		});
