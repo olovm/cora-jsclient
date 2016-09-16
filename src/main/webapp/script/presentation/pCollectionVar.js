@@ -18,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pCollVar = function(spec) {
+	cora.pCollectionVar = function(spec) {
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
 		var metadataProvider = spec.metadataProvider;
@@ -27,9 +27,8 @@ var CORA = (function(cora) {
 		var jsBookkeeper = spec.jsBookkeeper;
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
-
 		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
-		var cPresentationGroup = CORA.coraData(presentationGroup)
+		var cPresentationGroup = CORA.coraData(presentationGroup);
 		var metadataId  = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 		var cMetadataElement = getMetadataById(metadataId);

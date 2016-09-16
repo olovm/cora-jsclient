@@ -46,7 +46,7 @@ var CORA = (function(cora) {
 			} else if (type === "pRecordLink") {
 				return CORA.pRecordLink(specNew);
 			} else if (type === "pCollVar") {
-				return CORA.pCollVar(specNew);
+				return CORA.pCollectionVar(specNew);
 			}else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {

@@ -20,26 +20,26 @@
 "use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.attachedPVarFactory = function(metadataProvider, pubSub, textProvider, jsBookkeeper,
+	coraTest.attachedPCollectionVarFactory = function(metadataProvider, pubSub, textProvider, jsBookkeeper,
 			fixture) {
-		var factor = function(path, pVarPresentationId) {
-			var cPCollVarPresentation = CORA.coraData(metadataProvider
-					.getMetadataById(pCollVarPresentationId));
+		var factor = function(path, pCollectionVarPresentationId) {
+			var cPCollectionVarPresentation = CORA.coraData(metadataProvider
+					.getMetadataById(pCollectionVarPresentationId));
 
 			var spec = {
 				"path" : path,
-				"cPresentation" : cPCollVarPresentation,
+				"cPresentation" : cPCollectionVarPresentation,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper
 			};
-			var pCollVar = CORA.pCollVar(spec);
-			var view = pCollVar.getView();
+			var pCollectionVar = CORA.pCollectionVar(spec);
+			var view = pCollectionVar.getView();
 			fixture.appendChild(view);
 			var valueView = view.firstChild;
 			return {
-				pCollVar : pCollVar,
+				pCollectionVar : pCollectionVar,
 				fixture : fixture,
 				valueView : valueView,
 				metadataProvider : metadataProvider,
@@ -58,59 +58,59 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
-QUnit.module("pCollVarTest.js", {
+QUnit.module("pCollectionVarTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
-		this.pVarFactory = CORATEST.attachedPVarFactory(this.metadataProvider, this.pubSub,
+		this.attachedPCollectionVarFactory = CORATEST.attachedPCollectionVarFactory(this.metadataProvider, this.pubSub,
 				this.textProvider, this.jsBookkeeper, this.fixture);
 	},
 	afterEach : function() {
 	}
 });
 
-//var CORATEST = (function(coraTest) {
-//	"use strict";
-//	coraTest.testVariableSubscription = function(attachedPVar, assert) {
-//		var subscriptions = attachedPVar.pubSub.getSubscriptions();
-//		assert.deepEqual(subscriptions.length, 2);
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.testVariableSubscription = function(attachedPCollectionVar, assert) {
+		var subscriptions = attachedPCollectionVar.pubSub.getSubscriptions();
+		assert.deepEqual(subscriptions.length, 2);
+
+		var firstSubsription = subscriptions[0];
+		assert.strictEqual(firstSubsription.type, "setValue");
+		assert.deepEqual(firstSubsription.path, {});
+		var pCollectionVar = attachedPCollectionVar.pCollectionVar;
+		assert.ok(firstSubsription.functionToCall === pCollectionVar.handleMsg);
+
+		var secondSubsription = subscriptions[1];
+		assert.strictEqual(secondSubsription.type, "validationError");
+		assert.deepEqual(secondSubsription.path, {});
+		var pCollectionVar = attachedPCollectionVar.pCollectionVar;
+		assert.ok(secondSubsription.functionToCall === pCollectionVar.handleValidationError);
+
+	};
 //
-//		var firstSubsription = subscriptions[0];
-//		assert.strictEqual(firstSubsription.type, "setValue");
-//		assert.deepEqual(firstSubsription.path, {});
-//		var pVar = attachedPVar.pVar;
-//		assert.ok(firstSubsription.functionToCall === pVar.handleMsg);
-//
-//		var secondSubsription = subscriptions[1];
-//		assert.strictEqual(secondSubsription.type, "validationError");
-//		assert.deepEqual(secondSubsription.path, {});
-//		var pVar = attachedPVar.pVar;
-//		assert.ok(secondSubsription.functionToCall === pVar.handleValidationError);
-//
-//	};
-//
-//	coraTest.testVariableMetadata = function(attachedPVar, assert) {
-//		var pVar = attachedPVar.pVar;
-//		assert.strictEqual(pVar.getText(), "Exempel textvariabel");
-//		assert.strictEqual(pVar.getDefText(), "Detta är en exempeldefinition "
-//				+ "för en textvariabel.");
-//		assert.strictEqual(pVar.getRegEx(), "^[0-9A-Öa-ö\\s!*.]{2,50}$");
-//	};
-//
-//	coraTest.testJSBookkeeperNoCall = function(jsBookkeeper, assert) {
-//		var dataArray = jsBookkeeper.getDataArray();
-//		assert.strictEqual(dataArray.length, 0);
-//	};
-//	coraTest.testJSBookkeeperOneCallWithValue = function(jsBookkeeper, value, assert) {
-//		var dataArray = jsBookkeeper.getDataArray();
-//		assert.strictEqual(dataArray.length, 1);
-//		assert.strictEqual(dataArray[0].data, value);
-//	};
-//	return coraTest;
-//}(CORATEST || {}));
+	coraTest.testVariableMetadata = function(attachedPCollectionVar, assert) {
+		var pCollectionVar = attachedPCollectionVar.pCollectionVar;
+		assert.strictEqual(pCollectionVar.getText(), "Exempel textvariabel");
+		assert.strictEqual(pCollectionVar.getDefText(), "Detta är en exempeldefinition "
+				+ "för en textvariabel.");
+		assert.strictEqual(pCollectionVar.getRegEx(), "^[0-9A-Öa-ö\\s!*.]{2,50}$");
+	};
+
+	coraTest.testJSBookkeeperNoCall = function(jsBookkeeper, assert) {
+		var dataArray = jsBookkeeper.getDataArray();
+		assert.strictEqual(dataArray.length, 0);
+	};
+	coraTest.testJSBookkeeperOneCallWithValue = function(jsBookkeeper, value, assert) {
+		var dataArray = jsBookkeeper.getDataArray();
+		assert.strictEqual(dataArray.length, 1);
+		assert.strictEqual(dataArray[0].data, value);
+	};
+	return coraTest;
+}(CORATEST || {}));
 
 //QUnit.test("testInitText", function(assert) {
 //	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
@@ -268,14 +268,14 @@ QUnit.module("pCollVarTest.js", {
 //});
 
 QUnit.test("testInitCollection", function(assert) {
-	var attachedPCollVar = this.pVarFactory.factor({}, "yesNoUnknownPCollVar");
-	assert.strictEqual(attachedPCollVar.pCollVar.type, "pCollVar");
-	assert.deepEqual(attachedPCollVar.view.className, "pCollVar yesNoUnknownPCollVar");
-	var view = attachedPCollVar.view;
-	assert.ok(view.modelObject === attachedPCollVar.pCollVar);
+	var attachedPCollectionVar = this.attachedPCollectionVarFactory.factor({}, "userSuppliedIdCollectionVarPCollVar");
+	assert.strictEqual(attachedPCollectionVar.pCollectionVar.type, "pCollVar");
+	assert.deepEqual(attachedPCollectionVar.view.className, "pCollVar userSuppliedIdCollectionVarPCollVar");
+	var view = attachedPCollectionVar.view;
+	assert.ok(view.modelObject === attachedPCollectionVar.pCollectionVar);
 	assert.ok(view.childNodes.length, 2);
 
-	var valueView = attachedPCollVar.valueView;
+	var valueView = attachedPCollectionVar.valueView;
 	assert.equal(valueView.nodeName, "SELECT");
 	assert.equal(valueView.type, "select-one");
 	// assert.equal(valueView.value, "");
@@ -287,19 +287,18 @@ QUnit.test("testInitCollection", function(assert) {
 	assert.equal(options[0].selected, true);
 
 	assert.equal(options[1].nodeName, "OPTION");
-	assert.equal(options[1].text, "Ja");
-	assert.equal(options[1].value, "yes");
+	assert.equal(options[1].text, "false");
+	assert.equal(options[1].value, "false");
 
-	CORATEST.testVariableSubscription(attachedPCollVar, assert);
-
-	var pCollVar = attachedPCollVar.pCollVar;
-	assert.strictEqual(pCollVar.getText(), "Exempel collectionVariable");
-	assert.strictEqual(pCollVar.getDefText(), "Exempel collectionVariable, är en variabel "
-			+ "där man kan välja mellan ja, nej och okänt");
-
-	assert.equal(attachedPCollVar.pVCollar.getState(), "ok");
-
-	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+//	CORATEST.testVariableSubscription(attachedPCollectionVar, assert);
+//
+//	var pCollectionVar = attachedPCollectionVar.pCollectionVar;
+//	assert.strictEqual(pCollectionVar.getText(), "Exempel collectionVariable");
+//	assert.strictEqual(pCollectionVar.getDefText());
+//
+//	assert.equal(attachedPCollectionVar.pCollectionVar.getState(), "ok");
+//
+//	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
 //QUnit.test("testInitCollectionNoEmptyTextId", function(assert) {
