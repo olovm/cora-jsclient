@@ -3115,6 +3115,78 @@ function MetadataProviderStub() {
 							"value" : "initialEmptyValueText"
 						} ]
 			};
+		case "userSuppliedIdNoEmptyTextIdCollectionVarPCollVar":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pCollVar"
+				},
+				"children" : [
+						{
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "userSuppliedIdNoEmptyTextIdCollectionVarPCollVar"
+							} ]
+						},
+						{
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "metadataCollectionVariable"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "userSuppliedIdCollectionVar"
+							} ],
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://localhost:8080/therest/rest/record/metadataCollectionVariable/userSuppliedIdCollectionVar",
+									"accept" : "application/uub+record+json"
+								}
+							},
+							"name" : "presentationOf"
+						}, {
+							"name" : "mode",
+							"value" : "input"
+						}]
+			};
+		case "userSuppliedIdCollectionVarOutputPCollVar":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pCollVar"
+				},
+				"children" : [
+						{
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "userSuppliedIdCollectionVarOutputPCollVar"
+							} ]
+						},
+						{
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "metadataCollectionVariable"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "userSuppliedIdCollectionVar"
+							} ],
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://localhost:8080/therest/rest/record/metadataCollectionVariable/userSuppliedIdCollectionVar",
+									"accept" : "application/uub+record+json"
+								}
+							},
+							"name" : "presentationOf"
+						}, {
+							"name" : "mode",
+							"value" : "output"
+						} ]
+			};	
 		case "textVariableIdShowTextAreaFalsePVar":
 			return {
 				"name" : "presentation",
@@ -3251,7 +3323,6 @@ function MetadataProviderStub() {
 							"value" : "initialEmptyValueText"
 						} ]
 			};
-
 		case "yesNoUnknownNoEmptyTextIdPVar":
 			return {
 				"name" : "presentation",
