@@ -236,56 +236,13 @@ QUnit.test("testInitCollectionOutput", function(assert) {
 	CORATEST.testCollectionVariableSubscription(attachedPCollectionVar, assert);
 });
 
-//QUnit.test("testSetValueTextOutput", function(assert) {
-//	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableIdOutput");
-//	var valueView = attachedPVar.valueView;
-//
-//	attachedPVar.pVar.setValue("A Value");
-//	assert.equal(valueView.innerHTML, "A Value");
-//});
-//QUnit.test("testSetValueTextOutputFormatImage", function(assert) {
-//	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableIdOutputImage");
-//	var valueView = attachedPVar.valueView;
-//
-//	attachedPVar.pVar.setValue("http://www.some.domain.nu/image01.jpg");
-//	assert.equal(valueView.src, "http://www.some.domain.nu/image01.jpg");
-//});
-//
-//QUnit.test("testSetValueCollectionOutput", function(assert) {
-//	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownOutputPVar");
-//	var valueView = attachedPVar.valueView;
-//
-//	attachedPVar.pVar.setValue("yes");
-//	assert.equal(valueView.innerHTML, "Ja");
-//	attachedPVar.pVar.setValue("no");
-//	assert.equal(valueView.innerHTML, "Nej");
-//});
-//
-//QUnit.test("testSetValueCollectionOutputEmptyTextId", function(assert) {
-//	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownOutputPVar");
-//	var valueView = attachedPVar.valueView;
-//
-//	attachedPVar.pVar.setValue("no");
-//	assert.equal(valueView.innerHTML, "Nej");
-//	attachedPVar.pVar.setValue("");
-//	assert.equal(valueView.innerHTML, "");
-//});
-//
-//QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
-//	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
-//	var message = {
-//		"metadataId" : "textVariableId",
-//		"path" : {}
-//	};
-//	attachedPVar.pVar.handleValidationError(message);
-//	assert.equal(attachedPVar.pVar.getState(), "error");
-//	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedPVar.view.className));
-//
-//	var data = {
-//		"data" : "A new value",
-//		"path" : {}
-//	};
-//	attachedPVar.pVar.handleMsg(data);
-//
-//	assert.strictEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
-//});
+
+QUnit.test("testSetValueCollectionOutputEmptyTextId", function(assert) {
+	var attachedPCollectionVar = this.pCollectionVarFactory.factor({}, "userSuppliedIdCollectionVarOutputPCollVar");
+	var valueView = attachedPCollectionVar.valueView;
+
+	attachedPCollectionVar.pCollectionVar.setValue("false");
+	assert.equal(valueView.innerHTML, "false");
+	attachedPCollectionVar.pCollectionVar.setValue("");
+	assert.equal(valueView.innerHTML, "");
+});

@@ -52,9 +52,7 @@ var CORA = (function(cora) {
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var defText = textProvider.getTranslation(defTextId);
 
-		if (subType === "textVariable") {
-			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
-		}
+		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 
 		var info = createInfo();
 		var infoButton = info.getButton();
@@ -80,10 +78,7 @@ var CORA = (function(cora) {
 		}
 
 		function createInput() {
-			if (subType === "textVariable") {
-				return createTextInput();
-			}
-			return createCollectionInput();
+			return createTextInput();
 		}
 
 		function createTextInput() {
@@ -117,43 +112,6 @@ var CORA = (function(cora) {
 				var emptyText = textProvider.getTranslation(emptyTextId);
 				inputNew.placeholder = emptyText;
 			}
-		}
-
-		function createCollectionInput() {
-			var inputNew = document.createElement("select");
-
-			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
-				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
-				var optionText = textProvider.getTranslation(emptyTextId);
-				var emptyTextOption = new Option(optionText, "");
-				inputNew.appendChild(emptyTextOption);
-				inputNew.value = "";
-			}
-
-			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
-
-			collectionItemReferencesChildren.forEach(function(ref) {
-				var option = createOptionForRef(ref);
-				inputNew.appendChild(option);
-			});
-			return inputNew;
-		}
-
-		function getCollectionItemReferencesChildren() {
-			var refCollectionId = cMetadataElement
-					.getFirstAtomicValueByNameInData("refCollectionId");
-			var cMetadataCollection = getMetadataById(refCollectionId);
-			var collectionItemReferences = cMetadataCollection
-					.getFirstChildByNameInData("collectionItemReferences");
-			return collectionItemReferences.children;
-		}
-
-		function createOptionForRef(ref) {
-			var item = getMetadataById(ref.value);
-			var value = item.getFirstAtomicValueByNameInData("nameInData");
-			var optionText = textProvider.getTranslation(item
-					.getFirstAtomicValueByNameInData("textId"));
-			return new Option(optionText, value);
 		}
 
 		function createOutput() {
@@ -190,12 +148,10 @@ var CORA = (function(cora) {
 					"text" : "metadataId: " + metadataId
 				} ]
 			};
-			if (subType === "textVariable") {
-				infoSpec.level2.push({
-					"className" : "regExView",
-					"text" : "regEx: " + regEx
-				});
-			}
+			infoSpec.level2.push({
+				"className" : "regExView",
+				"text" : "regEx: " + regEx
+			});
 			var newInfo = CORA.info(infoSpec);
 			return newInfo;
 		}
@@ -215,12 +171,7 @@ var CORA = (function(cora) {
 		}
 
 		function setValueForOutput(value) {
-			if (subType === "textVariable") {
-				setValueForTextOutput(value);
-			}
-			if (subType === "collectionVariable") {
-				setValueForCollectionOutput(value);
-			}
+			setValueForTextOutput(value);
 		}
 
 		function setValueForTextOutput(value) {
@@ -237,32 +188,6 @@ var CORA = (function(cora) {
 
 		function setValueForTextOutputText(value) {
 			valueView.textContent = value;
-		}
-
-		function setValueForCollectionOutput(value) {
-			if (value === "") {
-				valueView.textContent = "";
-			} else {
-				setOutputValueFromItemReference(value);
-			}
-		}
-
-		function findItemReferenceForValue(value) {
-			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
-			var itemReference = collectionItemReferencesChildren.find(function(ref) {
-				var item = getMetadataById(ref.value);
-				var refValue = item.getFirstAtomicValueByNameInData("nameInData");
-				return refValue === value;
-			});
-			return itemReference;
-		}
-
-		function setOutputValueFromItemReference(value) {
-			var itemReference = findItemReferenceForValue(value);
-			var item = getMetadataById(itemReference.value);
-			var outputText = textProvider.getTranslation(item
-					.getFirstAtomicValueByNameInData("textId"));
-			valueView.textContent = outputText;
 		}
 
 		function handleMsg(dataFromMsg) {

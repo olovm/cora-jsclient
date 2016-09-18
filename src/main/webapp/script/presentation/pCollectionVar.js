@@ -34,7 +34,6 @@ var CORA = (function(cora) {
 		var cMetadataElement = getMetadataById(metadataId);
 		var subType = cMetadataElement.getData().attributes.type;
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
-		var outputFormat = getOutputFormat();
 
 		var view = createBaseView();
 		var originalClassName = view.className;
@@ -57,13 +56,6 @@ var CORA = (function(cora) {
 		var infoButton = info.getButton();
 		view.appendChild(infoButton);
 
-		function getOutputFormat() {
-			if (cPresentation.containsChildWithNameInData("outputFormat")) {
-				return cPresentation.getFirstAtomicValueByNameInData("outputFormat");
-			}
-			return "text";
-		}
-
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			viewNew.className = "pCollVar " + presentationId;
@@ -84,14 +76,6 @@ var CORA = (function(cora) {
 			inputNew = document.createElement("input");
 			inputNew.type = "text";
 			return inputNew;
-		}
-
-		function possiblyAddPlaceholderText(inputNew){
-			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
-				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
-				var emptyText = textProvider.getTranslation(emptyTextId);
-				inputNew.placeholder = emptyText;
-			}
 		}
 
 		function createCollectionInput() {
@@ -158,12 +142,6 @@ var CORA = (function(cora) {
 					"text" : "metadataId: " + metadataId
 				} ]
 			};
-			if (subType === "textVariable") {
-				infoSpec.level2.push({
-					"className" : "regExView",
-					"text" : "regEx: " + regEx
-				});
-			}
 			var newInfo = CORA.info(infoSpec);
 			return newInfo;
 		}
@@ -184,10 +162,6 @@ var CORA = (function(cora) {
 
 		function setValueForOutput(value) {
 			setValueForCollectionOutput(value);
-		}
-
-		function setValueForTextOutputText(value) {
-			valueView.textContent = value;
 		}
 
 		function setValueForCollectionOutput(value) {
@@ -238,12 +212,7 @@ var CORA = (function(cora) {
 			return defText;
 		}
 
-		function getRegEx() {
-			return regEx;
-		}
-
 		function onBlur() {
-//			checkRegEx();
 			updateView();
 			if (state === "ok" && valueHasChanged()) {
 				var data = {
@@ -254,15 +223,6 @@ var CORA = (function(cora) {
 				previousValue = valueView.value;
 			}
 		}
-//
-//		function checkRegEx() {
-//			var value = valueView.value;
-//			if (value.length === 0 || new RegExp(regEx).test(value)) {
-//				state = "ok";
-//			} else {
-//				state = "error";
-//			}
-//		}
 
 		function updateView() {
 			var className = originalClassName;
@@ -293,7 +253,6 @@ var CORA = (function(cora) {
 			handleMsg: handleMsg,
 			getText: getText,
 			getDefText: getDefText,
-			getRegEx: getRegEx,
 			getState: getState,
 			onBlur: onBlur,
 			handleValidationError: handleValidationError
