@@ -300,6 +300,20 @@ function MetadataProviderStub() {
 				}
 			};
 		}
+		if (idToGet === "groupWithOneCollectionVarChildGroup") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
+							"userSuppliedIdCollectionVar", "1") ]
+				} ]
+						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
 		if (idToGet === "groupIdOneTextChild") {
 			return {
 				"name" : "metadata",
@@ -3590,7 +3604,46 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-
+		case "groupWithOneCollectionVarChildPGroup":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "groupWithOneCollectionVarChildGroup"
+					} ],
+					"name" : "presentationOf"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "aHeadlineText"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					}, {
+						"name" : "childReference",
+						"repeatId" : "2",
+						"children" : [ {
+							"name" : "ref",
+							"value" : "userSuppliedIdCollectionVarPCollVar"
+						}, {
+							"name" : "default",
+							"value" : "ref"
+						} ]
+					} ]
+				} ])
+			};
 		case "pgGroupIdOneTextOneTextChild":
 			return {
 				"name" : "presentation",

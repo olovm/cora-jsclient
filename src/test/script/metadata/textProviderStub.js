@@ -144,7 +144,10 @@ var CORATEST = (function(coraTest) {
 				return "userSuppliedIdCollectionVarText";
 			case "userSuppliedIdCollectionVarDefText":
 				return "userSuppliedIdCollectionVarDefText";
-				
+			case "groupWithOneCollectionVarChildGroupText":
+				return "groupWithOneCollectionVarChildGroupText";	
+			case "groupWithOneCollectionVarChildGroupDefText":
+				return "groupWithOneCollectionVarChildGroupDefText";	
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");

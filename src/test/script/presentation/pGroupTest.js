@@ -179,6 +179,22 @@ QUnit.test("testInitOneTextOneChild", function(assert) {
 			"pChildRefHandler pVarTextVariableId");
 });
 
+QUnit.test("testInitOneCollectionChild", function(assert) {
+	var attachedPGroup = this.newAttachedPGroup
+			.factor("groupWithOneCollectionVarChildPGroup");
+	var view = attachedPGroup.view;
+
+	assert.ok(view.childNodes.length === 3,
+			"pgGroupIdOneTextOneTextChild, should have two children");
+
+	var text = view.childNodes[1];
+	assert.deepEqual(text.textContent, "En rubrik");
+
+	var childRefHandler = view.childNodes[2];
+	assert.deepEqual(childRefHandler.className,
+			"pChildRefHandler userSuppliedIdCollectionVarPCollVar");
+});
+
 QUnit.test("testInitTwoChildren",
 		function(assert) {
 			var attachedPGroup = this.newAttachedPGroup

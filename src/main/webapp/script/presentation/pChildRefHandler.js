@@ -50,7 +50,8 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataIdFromPresentation() {
-			if(spec.cPresentation.getData().attributes.type === "pGroup"){
+			if(spec.cPresentation.getData().attributes.type === "pGroup"
+					|| spec.cPresentation.getData().attributes.type === "pCollVar"){
 				var presentationGroup = spec.cPresentation.getFirstChildByNameInData("presentationOf");
 				var cPresentationGroup = CORA.coraData(presentationGroup)
 				return cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
