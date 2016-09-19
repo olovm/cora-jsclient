@@ -19,55 +19,49 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.ajaxCall = function(spec) {
-		var xhr = spec.xmlHttpRequestFactory.factor();
-		var defaultTimeoutMS = 50000;
 
-		xhr.addEventListener("load", loadListener);
-		xhr.addEventListener("error", errorListener);
+		var defaultTimeoutMS = 10000;
+		var timeoutTime = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
+		var intervalId;
+		var xhr = factorXmlHttpRequestUsingFactoryFromSpec();
+		var intervalStart;
+		var timeProgress;
 
-		if (spec.downloadProgressMethod !== undefined) {
-			xhr.addEventListener("progress", spec.downloadProgressMethod);
-		}
-		if (spec.uploadProgressMethod !== undefined) {
-			xhr.upload.addEventListener("progress", spec.uploadProgressMethod);
-		}
+		addListenersToXmlHttpRequest();
+		open();
+		setTimeout();
+		setHeadersSpecifiedInSpec();
+		sendRequest();
 
-		if (spec.method === "GET") {
-			xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
-		} else {
-			xhr.open(spec.method, spec.url);
-		}
-
-		xhr.timeout = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
-		if (spec.accept !== undefined) {
-			xhr.setRequestHeader("accept", spec.accept);
-		}
-		if (spec.contentType !== undefined) {
-			xhr.setRequestHeader("content-type", spec.contentType);
+		function factorXmlHttpRequestUsingFactoryFromSpec() {
+			return spec.xmlHttpRequestFactory.factor();
 		}
 
-		xhr.addEventListener("timeout", timeoutListener);
-		if (spec.data !== undefined) {
-			xhr.send(spec.data);
-		} else {
-			xhr.send();
+		function addListenersToXmlHttpRequest() {
+			xhr.addEventListener("load", handleLoadEvent);
+			xhr.addEventListener("error", handleErrorEvent);
+			addDownloadProgressListnerIfSpecifiedInSpec();
+			xhr.addEventListener("progress", updateProgressTime);
+			addUploadProgressListnerIfSpecifiedInSpec();
+			xhr.upload.addEventListener("progress", updateProgressTime);
 		}
 
-		function loadListener() {
-			if (xhr.status === 200 || xhr.status === 201) {
-				spec.loadMethod(createReturnObject());
+		function handleLoadEvent() {
+			window.clearInterval(intervalId);
+
+			if (statusIsOk()) {
+				createReturnObjectAndCallLoadMethodFromSpec();
 			} else {
-				spec.errorMethod(createReturnObject());
+				createReturnObjectAndCallErrorMethodFromSpec();
 			}
 		}
 
-		function timeoutListener() {
-			xhr.abort();
-			spec.timeoutMethod(createReturnObject());
+		function statusIsOk() {
+			return xhr.status === 200 || xhr.status === 201;
 		}
 
-		function errorListener() {
-			spec.errorMethod(createReturnObject());
+		function createReturnObjectAndCallLoadMethodFromSpec() {
+			spec.loadMethod(createReturnObject());
 		}
 
 		function createReturnObject() {
@@ -77,8 +71,77 @@ var CORA = (function(cora) {
 				"spec" : spec
 			};
 		}
+
+		function handleErrorEvent() {
+			window.clearInterval(intervalId);
+			createReturnObjectAndCallErrorMethodFromSpec();
+		}
+
+		function createReturnObjectAndCallErrorMethodFromSpec() {
+			spec.errorMethod(createReturnObject());
+		}
+
+		function addDownloadProgressListnerIfSpecifiedInSpec() {
+			if (spec.downloadProgressMethod !== undefined) {
+				xhr.addEventListener("progress", spec.downloadProgressMethod);
+			}
+		}
+
+		function updateProgressTime() {
+			timeProgress = performance.now();
+		}
+
+		function addUploadProgressListnerIfSpecifiedInSpec() {
+			if (spec.uploadProgressMethod !== undefined) {
+				xhr.upload.addEventListener("progress", spec.uploadProgressMethod);
+			}
+		}
+
+		function open() {
+			if (spec.method === "GET") {
+				xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
+			} else {
+				xhr.open(spec.method, spec.url);
+			}
+			timeProgress = performance.now();
+			intervalStart = performance.now();
+		}
+
+		function setTimeout() {
+			intervalId = window.setInterval(handleTimeout, timeoutTime);
+		}
+
+		function handleTimeout() {
+			var progressAfterStartTime = timeProgress - intervalStart;
+			if (progressAfterStartTime > 0) {
+				intervalStart = performance.now();
+			} else {
+				window.clearInterval(intervalId);
+				xhr.abort();
+				spec.timeoutMethod(createReturnObject());
+			}
+		}
+
+		function setHeadersSpecifiedInSpec() {
+			if (spec.accept !== undefined) {
+				xhr.setRequestHeader("accept", spec.accept);
+			}
+			if (spec.contentType !== undefined) {
+				xhr.setRequestHeader("content-type", spec.contentType);
+			}
+		}
+
+		function sendRequest() {
+			if (spec.data !== undefined) {
+				xhr.send(spec.data);
+			} else {
+				xhr.send();
+			}
+		}
+
 		var out = Object.freeze({
-			xhr : xhr
+			xhr : xhr,
+			spec : spec
 		});
 		return out;
 	};

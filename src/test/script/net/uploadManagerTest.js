@@ -174,8 +174,7 @@ QUnit.test("testUploadTimeout", function(assert) {
 	}
 	uploadManager.upload(uploadSpec);
 	
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
-	xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
+	uploadManager.getCurrentAjaxCall().spec.timeoutMethod();
 	
 	var fileView = this.uploadManager.view.getItem().workView.firstChild;
 	assert.strictEqual(fileView.lastChild.textContent, "TIMEOUT");
