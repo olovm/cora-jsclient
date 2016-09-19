@@ -21,6 +21,7 @@ var CORA = (function(cora) {
 	cora.uploadManager = function(spec) {
 		var uploading = false;
 		var uploadQue = [];
+		var currentAjaxCall;
 		var viewSpec = {
 			"showWorkViewMethod" : spec.jsClient.showView,
 			"textProvider" : spec.textProvider
@@ -64,14 +65,19 @@ var CORA = (function(cora) {
 				if (callSpec !== undefined) {
 					uploading = true;
 					view.activate();
-					CORA.ajaxCall(callSpec);
+					currentAjaxCall = CORA.ajaxCall(callSpec);
 				}
 			}
 		}
 
+		function getCurrentAjaxCall() {
+			return currentAjaxCall;
+		}
+
 		var out = Object.freeze({
 			upload : upload,
-			view : view
+			view : view,
+			getCurrentAjaxCall : getCurrentAjaxCall
 		});
 
 		return out;

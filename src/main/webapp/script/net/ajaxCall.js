@@ -20,7 +20,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.ajaxCall = function(spec) {
 
-		var defaultTimeoutMS = 50000;
+		var defaultTimeoutMS = 10000;
 		var timeoutId;
 		var xhr = factorXmlHttpRequestUsingFactoryFromSpec();
 		addListenersToXmlHttpRequest();
@@ -35,15 +35,17 @@ var CORA = (function(cora) {
 
 		function addListenersToXmlHttpRequest() {
 			xhr.addEventListener("load", handleLoadEvent);
-			xhr.addEventListener("error", createReturnObjectAndCallErrorMethodFromSpec);
+			xhr.addEventListener("error", handleErrorEvent);
 			addDownloadProgressListnerIfSpecifiedInSpec();
+			xhr.addEventListener("progress", resetTimeout);
 			addUploadProgressListnerIfSpecifiedInSpec();
+			xhr.upload.addEventListener("progress", resetTimeout);
 		}
 
 		function handleLoadEvent() {
 			window.clearTimeout(timeoutId);
-			console.log("handleLoadEvent") 
-			
+			// console.log("handleLoadEvent")
+
 			if (statusIsOk()) {
 				createReturnObjectAndCallLoadMethodFromSpec();
 			} else {
@@ -67,6 +69,11 @@ var CORA = (function(cora) {
 			};
 		}
 
+		function handleErrorEvent() {
+			window.clearTimeout(timeoutId);
+			createReturnObjectAndCallErrorMethodFromSpec();
+		}
+
 		function createReturnObjectAndCallErrorMethodFromSpec() {
 			spec.errorMethod(createReturnObject());
 		}
@@ -75,6 +82,11 @@ var CORA = (function(cora) {
 			if (spec.downloadProgressMethod !== undefined) {
 				xhr.addEventListener("progress", spec.downloadProgressMethod);
 			}
+		}
+
+		function resetTimeout() {
+			window.clearTimeout(timeoutId);
+			setTimeout();
 		}
 
 		function addUploadProgressListnerIfSpecifiedInSpec() {
@@ -92,19 +104,11 @@ var CORA = (function(cora) {
 		}
 
 		function setTimeout() {
-			// xhr.timeout = spec.timeoutInMS ? spec.timeoutInMS :
-			// defaultTimeoutMS;
 			var timeoutTime = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
-			// xhr.addEventListener("timeout", handleTimeout);
-//			if (spec.timeoutFactory !== undefined) {
-//				timeoutId = spec.timeoutFactory.factor();
-//			} else {
-				timeoutId = window.setTimeout(handleTimeout, timeoutTime);
-//			}
+			timeoutId = window.setTimeout(handleTimeout, timeoutTime);
 		}
 
 		function handleTimeout() {
-			console.log("in timeout in xhr")
 			xhr.abort();
 			spec.timeoutMethod(createReturnObject());
 		}
@@ -127,7 +131,8 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			xhr : xhr
+			xhr : xhr,
+			spec : spec
 		});
 		return out;
 	};
