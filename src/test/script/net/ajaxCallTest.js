@@ -323,6 +323,48 @@ QUnit.test("testTimeoutIsNotCalledAsUploadProgressIsCalled", function(assert) {
 		done();
 	}, 10);
 });
+QUnit.test("testTimeoutIsCalledAsUploadProgressIsCalledOnlyOnce", function(assert) {
+	var done = assert.async();
+	var timeoutMethodWasCalled = false;
+	function timeoutMethod(xhr) {
+		timeoutMethodWasCalled = true;
+	}
+	var progressCalls = 0;
+	function progressMethod(progressEvent) {
+		progressCalls++;
+	}
+	
+	var spec = {
+			"xmlHttpRequestFactory" : this.xmlHttpRequestFactoryMultipleSpy,
+			"timeoutInMS" : 10,
+			"timeoutMethod" : timeoutMethod,
+			"method" : "GET",
+			"url" : "http://www.google.com",
+			"contentType" : "application/uub+record+json",
+			"accept" : "application/uub+recordList+json",
+			"loadMethod" : function() {
+				assert.ok(false);
+			},
+			"errorMethod" : function() {
+			},
+			"uploadProgressMethod" : progressMethod
+			
+	};
+	this.xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
+	var ajaxCall = CORA.ajaxCall(spec);
+	
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+//	var intervalId = window.setInterval(function() {
+	var intervalId = window.setTimeout(function() {
+		xmlHttpRequestSpy.upload.addedEventListeners["progress"][1]();
+	}, 3);
+	
+	window.setTimeout(function() {
+		assert.ok(timeoutMethodWasCalled, "timeoutMethod should have been called");
+//		window.clearInterval(intervalId);
+		done();
+	}, 30);
+});
 
 QUnit.test("testSendCreate", function(assert) {
 	var textData = {

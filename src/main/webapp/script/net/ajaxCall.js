@@ -21,8 +21,12 @@ var CORA = (function(cora) {
 	cora.ajaxCall = function(spec) {
 
 		var defaultTimeoutMS = 10000;
-		var timeoutId;
+		var timeoutTime = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
+		var intervalId;
 		var xhr = factorXmlHttpRequestUsingFactoryFromSpec();
+		var intervalStart;
+		var timeProgress;
+
 		addListenersToXmlHttpRequest();
 		open();
 		setTimeout();
@@ -37,14 +41,13 @@ var CORA = (function(cora) {
 			xhr.addEventListener("load", handleLoadEvent);
 			xhr.addEventListener("error", handleErrorEvent);
 			addDownloadProgressListnerIfSpecifiedInSpec();
-			xhr.addEventListener("progress", resetTimeout);
+			xhr.addEventListener("progress", updateProgressTime);
 			addUploadProgressListnerIfSpecifiedInSpec();
-			xhr.upload.addEventListener("progress", resetTimeout);
+			xhr.upload.addEventListener("progress", updateProgressTime);
 		}
 
 		function handleLoadEvent() {
-			window.clearTimeout(timeoutId);
-			// console.log("handleLoadEvent")
+			window.clearInterval(intervalId);
 
 			if (statusIsOk()) {
 				createReturnObjectAndCallLoadMethodFromSpec();
@@ -70,7 +73,7 @@ var CORA = (function(cora) {
 		}
 
 		function handleErrorEvent() {
-			window.clearTimeout(timeoutId);
+			window.clearInterval(intervalId);
 			createReturnObjectAndCallErrorMethodFromSpec();
 		}
 
@@ -84,9 +87,8 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function resetTimeout() {
-			window.clearTimeout(timeoutId);
-			setTimeout();
+		function updateProgressTime() {
+			timeProgress = performance.now();
 		}
 
 		function addUploadProgressListnerIfSpecifiedInSpec() {
@@ -101,16 +103,23 @@ var CORA = (function(cora) {
 			} else {
 				xhr.open(spec.method, spec.url);
 			}
+			timeProgress = performance.now();
+			intervalStart = performance.now();
 		}
 
 		function setTimeout() {
-			var timeoutTime = spec.timeoutInMS ? spec.timeoutInMS : defaultTimeoutMS;
-			timeoutId = window.setTimeout(handleTimeout, timeoutTime);
+			intervalId = window.setInterval(handleTimeout, timeoutTime);
 		}
 
 		function handleTimeout() {
-			xhr.abort();
-			spec.timeoutMethod(createReturnObject());
+			var progressAfterStartTime = timeProgress - intervalStart;
+			if (progressAfterStartTime > 0) {
+				intervalStart = performance.now();
+			} else {
+				window.clearInterval(intervalId);
+				xhr.abort();
+				spec.timeoutMethod(createReturnObject());
+			}
 		}
 
 		function setHeadersSpecifiedInSpec() {

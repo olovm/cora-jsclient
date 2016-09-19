@@ -45,7 +45,7 @@ var CORA = (function(cora) {
 				"errorMethod" : fileView.errorMethod,
 				"timeoutMethod" : fileView.timeoutMethod,
 				"data" : formData,
-				"timeoutInMS" : 60000,
+				"timeoutInMS" : 10000,
 				"uploadProgressMethod" : fileView.progressMethod
 			};
 			uploadQue.push(callSpec);
