@@ -51,9 +51,9 @@ var CORA = (function(cora) {
 
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var defText = textProvider.getTranslation(defTextId);
-
-		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
-
+		if (subType === "textVariable") {
+			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
+		}
 		var info = createInfo();
 		var infoButton = info.getButton();
 		view.appendChild(infoButton);
@@ -148,10 +148,12 @@ var CORA = (function(cora) {
 					"text" : "metadataId: " + metadataId
 				} ]
 			};
+			if (subType === "textVariable") {
 			infoSpec.level2.push({
 				"className" : "regExView",
 				"text" : "regEx: " + regEx
 			});
+			}
 			var newInfo = CORA.info(infoSpec);
 			return newInfo;
 		}

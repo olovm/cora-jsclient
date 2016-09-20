@@ -169,7 +169,7 @@ QUnit.test("testInitCollection", function(assert) {
 	var valueView = attachedPCollectionVar.valueView;
 	assert.equal(valueView.nodeName, "SELECT");
 	assert.equal(valueView.type, "select-one");
-	// assert.equal(valueView.value, "");
+	 assert.equal(valueView.value, "");
 
 	var options = valueView.childNodes;
 	assert.equal(options[0].nodeName, "OPTION");
@@ -182,7 +182,7 @@ QUnit.test("testInitCollection", function(assert) {
 	assert.equal(options[1].value, "false");
 
 	CORATEST.testCollectionVariableSubscription(attachedPCollectionVar, assert);
-//
+
 	var pCollectionVar = attachedPCollectionVar.pCollectionVar;
 	assert.strictEqual(pCollectionVar.getText(), "userSuppliedIdCollectionVarText");
 	assert.strictEqual(pCollectionVar.getDefText(), "userSuppliedIdCollectionVarDefText");
@@ -203,7 +203,6 @@ QUnit.test("testInitCollectionNoEmptyTextId", function(assert) {
 	var valueView = attachedPCollectionVar.valueView;
 	assert.equal(valueView.nodeName, "SELECT");
 	assert.equal(valueView.type, "select-one");
-	// assert.equal(valueView.value, "");
 
 	var options = valueView.childNodes;
 	assert.equal(options[0].nodeName, "OPTION");
@@ -221,7 +220,6 @@ QUnit.test("testInitCollectionNoEmptyTextId", function(assert) {
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
-
 QUnit.test("testInitCollectionOutput", function(assert) {
 	var attachedPCollectionVar = this.pCollectionVarFactory.factor({}, "userSuppliedIdCollectionVarOutputPCollVar");
 	assert.deepEqual(attachedPCollectionVar.view.className, "pCollVar userSuppliedIdCollectionVarOutputPCollVar");
@@ -235,7 +233,6 @@ QUnit.test("testInitCollectionOutput", function(assert) {
 
 	CORATEST.testCollectionVariableSubscription(attachedPCollectionVar, assert);
 });
-
 
 QUnit.test("testSetValueCollectionOutputEmptyTextId", function(assert) {
 	var attachedPCollectionVar = this.pCollectionVarFactory.factor({}, "userSuppliedIdCollectionVarOutputPCollVar");
