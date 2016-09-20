@@ -91,7 +91,7 @@ var CORATEST = (function(coraTest) {
 		assert.ok(secondSubsription.functionToCall === pCollectionVar.handleValidationError);
 
 	};
-//
+
 	coraTest.testVariableMetadata = function(attachedPCollectionVar, assert) {
 		var pCollectionVar = attachedPCollectionVar.pCollectionVar;
 		assert.strictEqual(pCollectionVar.getText(), "Exempel textvariabel");
@@ -164,7 +164,7 @@ QUnit.test("testInitCollection", function(assert) {
 	assert.deepEqual(attachedPCollectionVar.view.className, "pCollVar userSuppliedIdCollectionVarPCollVar");
 	var view = attachedPCollectionVar.view;
 	assert.ok(view.modelObject === attachedPCollectionVar.pCollectionVar);
-	assert.ok(view.childNodes.length, 2);
+	assert.equal(view.childNodes.length, 2);
 
 	var valueView = attachedPCollectionVar.valueView;
 	assert.equal(valueView.nodeName, "SELECT");
@@ -220,6 +220,24 @@ QUnit.test("testInitCollectionNoEmptyTextId", function(assert) {
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
+QUnit.test("testSetValueCollectionInput", function(assert) {
+	var attachedPCollectionVar = this.pCollectionVarFactory.factor({}, "userSuppliedIdCollectionVarPCollVar");
+	attachedPCollectionVar.pCollectionVar.setValue("true");
+	assert.equal(attachedPCollectionVar.valueView.value, "true");
+});
+
+QUnit.test("testChangedValueOk", function(assert) {
+	var attachedPCollectionVar = this.pCollectionVarFactory.factor({}, "userSuppliedIdCollectionVarPCollVar");
+	attachedPCollectionVar.valueView.value = "true";
+	attachedPCollectionVar.valueView.onblur();
+	assert.equal(attachedPCollectionVar.pCollectionVar.getState(), "ok");
+	assert.equal(attachedPCollectionVar.view.className, "pCollVar userSuppliedIdCollectionVarPCollVar");
+	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "true", assert);
+	attachedPCollectionVar.valueView.onblur();
+	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "true", assert);
+
+});
+
 QUnit.test("testInitCollectionOutput", function(assert) {
 	var attachedPCollectionVar = this.pCollectionVarFactory.factor({}, "userSuppliedIdCollectionVarOutputPCollVar");
 	assert.deepEqual(attachedPCollectionVar.view.className, "pCollVar userSuppliedIdCollectionVarOutputPCollVar");
@@ -234,6 +252,7 @@ QUnit.test("testInitCollectionOutput", function(assert) {
 	CORATEST.testCollectionVariableSubscription(attachedPCollectionVar, assert);
 });
 
+
 QUnit.test("testSetValueCollectionOutputEmptyTextId", function(assert) {
 	var attachedPCollectionVar = this.pCollectionVarFactory.factor({}, "userSuppliedIdCollectionVarOutputPCollVar");
 	var valueView = attachedPCollectionVar.valueView;
@@ -242,4 +261,26 @@ QUnit.test("testSetValueCollectionOutputEmptyTextId", function(assert) {
 	assert.equal(valueView.innerHTML, "false");
 	attachedPCollectionVar.pCollectionVar.setValue("");
 	assert.equal(valueView.innerHTML, "");
+});
+
+
+QUnit.test("testHandleMessage", function(assert) {
+	var attachedPCollectionVar = this.pCollectionVarFactory.factor({}, "userSuppliedIdCollectionVarOutputPCollVar");
+	var data = {
+		"data" : "false",
+		"path" : {}
+	};
+	attachedPCollectionVar.pCollectionVar.handleMsg(data);
+	assert.equal(attachedPCollectionVar.valueView.innerHTML, "false");
+});
+
+QUnit.test("testHandleValidationError", function(assert) {
+	var attachedPCollectionVar = this.pCollectionVarFactory.factor({}, "userSuppliedIdCollectionVarOutputPCollVar");
+	var message = {
+		"metadataId" : "userSuppliedIdCollectionVar",
+		"path" : {}
+	};
+	attachedPCollectionVar.pCollectionVar.handleValidationError(message);
+	assert.equal(attachedPCollectionVar.pCollectionVar.getState(), "error");
+	assert.ok(new RegExp("^(.*\\s)*error(\\s.*)*$").test(attachedPCollectionVar.view.className));
 });

@@ -32,7 +32,6 @@ var CORA = (function(cora) {
 		var metadataId  = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 		var cMetadataElement = getMetadataById(metadataId);
-		var subType = cMetadataElement.getData().attributes.type;
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 
 		var view = createBaseView();
@@ -70,12 +69,6 @@ var CORA = (function(cora) {
 
 		function createInput() {
 			return createCollectionInput();
-		}
-
-		function createTextTypeInput(inputNew){
-			inputNew = document.createElement("input");
-			inputNew.type = "text";
-			return inputNew;
 		}
 
 		function createCollectionInput() {
