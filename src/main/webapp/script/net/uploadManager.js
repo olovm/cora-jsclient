@@ -45,7 +45,8 @@ var CORA = (function(cora) {
 				"errorMethod" : fileView.errorMethod,
 				"timeoutMethod" : fileView.timeoutMethod,
 				"data" : formData,
-				"timeoutInMS" : 60000,
+				//long time needed as time between last progress and answer can be long (flusing)
+				"timeoutInMS" : 600000,
 				"uploadProgressMethod" : fileView.progressMethod
 			};
 			uploadQue.push(callSpec);
