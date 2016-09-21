@@ -220,120 +220,6 @@ QUnit.test("testInitInfoButtonTextVariable", function(assert) {
 	assert.equal(view.childNodes.length, 3);
 });
 
-QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownPVar");
-	assert.strictEqual(attachedPVar.pVar.type, "pVar");
-	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownPVar");
-	var view = attachedPVar.view;
-	var infoButton = view.childNodes[1];
-
-	assert.equal(infoButton.nodeName, "SPAN");
-	assert.equal(infoButton.className, "infoButton");
-
-	var event = document.createEvent('Event');
-	infoButton.onclick(event);
-	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(attachedPVar.view.className));
-	assert.equal(view.childNodes.length, 3);
-
-	var infoView = view.childNodes[2];
-	assert.equal(infoView.childNodes.length, 2);
-	assert.equal(infoView.nodeName, "SPAN");
-	assert.equal(infoView.className, "infoView");
-
-	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView",
-			"Exempel collectionVariable", assert);
-	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
-			"Exempel collectionVariable, är en variabel "
-					+ "där man kan välja mellan ja, nej och okänt", assert);
-
-	infoButton.onclick(event);
-	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(attachedPVar.view.className));
-	assert.equal(view.childNodes.length, 3);
-	assert.equal(infoView.childNodes.length, 5);
-
-	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
-			"textId: yesNoUnknownVarText", assert);
-	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3], "defTextIdView",
-			"defTextId: yesNoUnknownVarDefText", assert);
-	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
-			"metadataId: yesNoUnknownVar", assert);
-	
-	infoButton.onclick(event);
-	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(attachedPVar.view.className));
-	assert.equal(view.childNodes.length, 2);
-
-	infoButton.onclick(event);
-	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(attachedPVar.view.className));
-	assert.equal(view.childNodes.length, 3);
-});
-
-QUnit.test("testInitCollection", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownPVar");
-	assert.strictEqual(attachedPVar.pVar.type, "pVar");
-	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownPVar");
-	var view = attachedPVar.view;
-	assert.ok(view.modelObject === attachedPVar.pVar,
-			"modelObject should be a pointer to the javascript object instance");
-	assert.ok(view.childNodes.length, 2);
-
-	var valueView = attachedPVar.valueView;
-	assert.equal(valueView.nodeName, "SELECT");
-	assert.equal(valueView.type, "select-one");
-	// assert.equal(valueView.value, "");
-
-	var options = valueView.childNodes;
-	assert.equal(options[0].nodeName, "OPTION");
-	assert.equal(options[0].text, "-- Gör ett val ur listan --");
-	assert.equal(options[0].value, "");
-	assert.equal(options[0].selected, true);
-
-	assert.equal(options[1].nodeName, "OPTION");
-	assert.equal(options[1].text, "Ja");
-	assert.equal(options[1].value, "yes");
-
-	CORATEST.testVariableSubscription(attachedPVar, assert);
-
-	var pVar = attachedPVar.pVar;
-	assert.strictEqual(pVar.getText(), "Exempel collectionVariable");
-	assert.strictEqual(pVar.getDefText(), "Exempel collectionVariable, är en variabel "
-			+ "där man kan välja mellan ja, nej och okänt");
-
-	assert.equal(attachedPVar.pVar.getState(), "ok");
-
-	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
-});
-
-QUnit.test("testInitCollectionNoEmptyTextId", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownNoEmptyTextIdPVar");
-	assert.strictEqual(attachedPVar.pVar.type, "pVar");
-	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownPVar");
-	var view = attachedPVar.view;
-	assert.ok(view.modelObject === attachedPVar.pVar,
-			"modelObject should be a pointer to the javascript object instance");
-	assert.ok(view.childNodes.length, 2);
-
-	var valueView = attachedPVar.valueView;
-	assert.equal(valueView.nodeName, "SELECT");
-	assert.equal(valueView.type, "select-one");
-	// assert.equal(valueView.value, "");
-
-	var options = valueView.childNodes;
-	assert.equal(options[0].nodeName, "OPTION");
-	assert.equal(options[0].text, "Ja");
-	assert.equal(options[0].value, "yes");
-
-	CORATEST.testVariableSubscription(attachedPVar, assert);
-
-	var pVar = attachedPVar.pVar;
-	assert.strictEqual(pVar.getText(), "Exempel collectionVariable");
-	assert.strictEqual(pVar.getDefText(), "Exempel collectionVariable, är en variabel "
-			+ "där man kan välja mellan ja, nej och okänt");
-
-	assert.equal(attachedPVar.pVar.getState(), "ok");
-
-	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
-});
-
 QUnit.test("testSetValueInput", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
 	attachedPVar.pVar.setValue("A Value");
@@ -454,21 +340,6 @@ QUnit.test("testInitTextOutputFormatImage", function(assert) {
 	CORATEST.testVariableMetadata(attachedPVar, assert);
 });
 
-QUnit.test("testInitCollectionOutput", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownOutputPVar");
-	assert.deepEqual(attachedPVar.view.className, "pVar yesNoUnknownOutputPVar");
-	var view = attachedPVar.view;
-	assert.ok(view.modelObject === attachedPVar.pVar,
-			"modelObject should be a pointer to the javascript object instance");
-	assert.ok(view.childNodes.length, 2);
-
-	var valueView = attachedPVar.valueView;
-	assert.equal(valueView.nodeName, "SPAN");
-	assert.equal(valueView.innerHTML, "");
-
-	CORATEST.testVariableSubscription(attachedPVar, assert);
-});
-
 QUnit.test("testSetValueTextOutput", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableIdOutput");
 	var valueView = attachedPVar.valueView;
@@ -482,26 +353,6 @@ QUnit.test("testSetValueTextOutputFormatImage", function(assert) {
 
 	attachedPVar.pVar.setValue("http://www.some.domain.nu/image01.jpg");
 	assert.equal(valueView.src, "http://www.some.domain.nu/image01.jpg");
-});
-
-QUnit.test("testSetValueCollectionOutput", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownOutputPVar");
-	var valueView = attachedPVar.valueView;
-
-	attachedPVar.pVar.setValue("yes");
-	assert.equal(valueView.innerHTML, "Ja");
-	attachedPVar.pVar.setValue("no");
-	assert.equal(valueView.innerHTML, "Nej");
-});
-
-QUnit.test("testSetValueCollectionOutputEmptyTextId", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "yesNoUnknownOutputPVar");
-	var valueView = attachedPVar.valueView;
-
-	attachedPVar.pVar.setValue("no");
-	assert.equal(valueView.innerHTML, "Nej");
-	attachedPVar.pVar.setValue("");
-	assert.equal(valueView.innerHTML, "");
 });
 
 QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
