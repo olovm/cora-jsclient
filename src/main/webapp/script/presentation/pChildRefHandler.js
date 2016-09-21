@@ -53,7 +53,7 @@ var CORA = (function(cora) {
 			if(spec.cPresentation.getData().attributes.type === "pGroup"
 					|| spec.cPresentation.getData().attributes.type === "pCollVar"){
 				var presentationGroup = spec.cPresentation.getFirstChildByNameInData("presentationOf");
-				var cPresentationGroup = CORA.coraData(presentationGroup)
+				var cPresentationGroup = CORA.coraData(presentationGroup);
 				return cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 			}

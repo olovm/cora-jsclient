@@ -23,7 +23,7 @@ var CORA = (function(cora) {
 
 		var my = {};
 		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
-		var cPresentationGroup = CORA.coraData(presentationGroup)
+		var cPresentationGroup = CORA.coraData(presentationGroup);
 		my.metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 		my.cPresentation = cPresentation;
