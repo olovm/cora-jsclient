@@ -1,6 +1,5 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pVar = function(spec) {
+	cora.pCollectionVar = function(spec) {
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
 		var metadataProvider = spec.metadataProvider;
@@ -28,11 +27,12 @@ var CORA = (function(cora) {
 		var jsBookkeeper = spec.jsBookkeeper;
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
+		var cPresentationGroup = CORA.coraData(presentationGroup);
+		var metadataId  = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
-		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
-		var outputFormat = getOutputFormat();
 
 		var view = createBaseView();
 		var originalClassName = view.className;
@@ -51,21 +51,13 @@ var CORA = (function(cora) {
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var defText = textProvider.getTranslation(defTextId);
 
-		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 		var info = createInfo();
 		var infoButton = info.getButton();
 		view.appendChild(infoButton);
 
-		function getOutputFormat() {
-			if (cPresentation.containsChildWithNameInData("outputFormat")) {
-				return cPresentation.getFirstAtomicValueByNameInData("outputFormat");
-			}
-			return "text";
-		}
-
 		function createBaseView() {
 			var viewNew = document.createElement("span");
-			viewNew.className = "pVar " + presentationId;
+			viewNew.className = "pCollVar " + presentationId;
 			return viewNew;
 		}
 		function createValueView() {
@@ -76,54 +68,51 @@ var CORA = (function(cora) {
 		}
 
 		function createInput() {
-			return createTextInput();
+			return createCollectionInput();
 		}
 
-		function createTextInput() {
-			var inputNew;
-			if (isTextArea()) {
-				inputNew = document.createElement("textarea");
-			} else {
-				inputNew = createTextTypeInput(inputNew);
-				possiblyAddPlaceholderText(inputNew);
-			}
-			return inputNew;
-		}
+		function createCollectionInput() {
+			var inputNew = document.createElement("select");
 
-		function isTextArea(){
-			var inputType;
-			if(cPresentation.containsChildWithNameInData("inputType")){
-				inputType = cPresentation.getFirstAtomicValueByNameInData("inputType");
-			}
-			return inputType === "textarea";
-		}
-
-		function createTextTypeInput(inputNew){
-			inputNew = document.createElement("input");
-			inputNew.type = "text";
-			return inputNew;
-		}
-
-		function possiblyAddPlaceholderText(inputNew){
 			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
 				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
-				var emptyText = textProvider.getTranslation(emptyTextId);
-				inputNew.placeholder = emptyText;
+				var optionText = textProvider.getTranslation(emptyTextId);
+				var emptyTextOption = new Option(optionText, "");
+				inputNew.appendChild(emptyTextOption);
+				inputNew.value = "";
 			}
+
+			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
+
+			collectionItemReferencesChildren.forEach(function(ref) {
+				var option = createOptionForRef(ref);
+				inputNew.appendChild(option);
+			});
+			return inputNew;
+		}
+
+		function getCollectionItemReferencesChildren() {
+			var refCollectionId = cMetadataElement
+					.getFirstAtomicValueByNameInData("refCollectionId");
+			var cMetadataCollection = getMetadataById(refCollectionId);
+			var collectionItemReferences = cMetadataCollection
+					.getFirstChildByNameInData("collectionItemReferences");
+			return collectionItemReferences.children;
+		}
+
+		function createOptionForRef(ref) {
+			var item = getMetadataById(ref.value);
+			var value = item.getFirstAtomicValueByNameInData("nameInData");
+			var optionText = textProvider.getTranslation(item
+					.getFirstAtomicValueByNameInData("textId"));
+			return new Option(optionText, value);
 		}
 
 		function createOutput() {
-			if ("image" === outputFormat) {
-				return createOutputForImage();
-			}
 			var outputNew = document.createElement("span");
 			return outputNew;
 		}
 
-		function createOutputForImage() {
-			var outputNew = document.createElement("img");
-			return outputNew;
-		}
 		function createInfo() {
 			var infoSpec = {
 				"appendTo" : view,
@@ -146,10 +135,6 @@ var CORA = (function(cora) {
 					"text" : "metadataId: " + metadataId
 				} ]
 			};
-			infoSpec.level2.push({
-				"className" : "regExView",
-				"text" : "regEx: " + regEx
-			});
 			var newInfo = CORA.info(infoSpec);
 			return newInfo;
 		}
@@ -169,23 +154,33 @@ var CORA = (function(cora) {
 		}
 
 		function setValueForOutput(value) {
-			setValueForTextOutput(value);
+			setValueForCollectionOutput(value);
 		}
 
-		function setValueForTextOutput(value) {
-			if ("image" === outputFormat) {
-				setValueForTextOutputImage(value);
+		function setValueForCollectionOutput(value) {
+			if (value === "") {
+				valueView.textContent = "";
 			} else {
-				setValueForTextOutputText(value);
+				setOutputValueFromItemReference(value);
 			}
 		}
 
-		function setValueForTextOutputImage(value) {
-			valueView.src = value;
+		function findItemReferenceForValue(value) {
+			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
+			var itemReference = collectionItemReferencesChildren.find(function(ref) {
+				var item = getMetadataById(ref.value);
+				var refValue = item.getFirstAtomicValueByNameInData("nameInData");
+				return refValue === value;
+			});
+			return itemReference;
 		}
 
-		function setValueForTextOutputText(value) {
-			valueView.textContent = value;
+		function setOutputValueFromItemReference(value) {
+			var itemReference = findItemReferenceForValue(value);
+			var item = getMetadataById(itemReference.value);
+			var outputText = textProvider.getTranslation(item
+					.getFirstAtomicValueByNameInData("textId"));
+			valueView.textContent = outputText;
 		}
 
 		function handleMsg(dataFromMsg) {
@@ -210,12 +205,7 @@ var CORA = (function(cora) {
 			return defText;
 		}
 
-		function getRegEx() {
-			return regEx;
-		}
-
 		function onBlur() {
-			checkRegEx();
 			updateView();
 			if (state === "ok" && valueHasChanged()) {
 				var data = {
@@ -224,15 +214,6 @@ var CORA = (function(cora) {
 				};
 				jsBookkeeper.setValue(data);
 				previousValue = valueView.value;
-			}
-		}
-
-		function checkRegEx() {
-			var value = valueView.value;
-			if (value.length === 0 || new RegExp(regEx).test(value)) {
-				state = "ok";
-			} else {
-				state = "error";
 			}
 		}
 
@@ -259,13 +240,12 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type": "pVar",
+			"type": "pCollVar",
 			getView: getView,
 			setValue: setValue,
 			handleMsg: handleMsg,
 			getText: getText,
 			getDefText: getDefText,
-			getRegEx: getRegEx,
 			getState: getState,
 			onBlur: onBlur,
 			handleValidationError: handleValidationError

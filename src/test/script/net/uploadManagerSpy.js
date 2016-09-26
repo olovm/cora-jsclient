@@ -1,5 +1,4 @@
 /*
- * Copyright 2016 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -17,32 +16,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.gui.createButton = function(spec) {
-		var createdButton = document.createElement("span");
-		createdButton.className = spec.className;
-		var onclickFunction = function(event) {
-			event.stopPropagation();
-			spec.onclick(event);
-		};
-		createdButton.onclick = onclickFunction;
-		return createdButton;
-	};
+	coraTest.uploadManagerSpy = function() {
+		var uploadWasCalled = false;
+		var uploadSpecs = [];
+		function upload(uploadSpec) {
+			uploadWasCalled = true;
+			uploadSpecs.push(uploadSpec);
+		}
 
-	cora.gui.createRemoveButton = function(onclick) {
-		var spec = {
-			"className" : "removeButton",
-			"onclick" : onclick
-		};
-		return cora.gui.createButton(spec);
+		function wasUploadCalled() {
+			return uploadWasCalled;
+		}
+		var out = Object.freeze({
+			upload : upload,
+			wasUploadCalled : wasUploadCalled,
+			uploadSpecs : uploadSpecs
+		});
+		return out;
 	};
-
-	cora.gui.createSpanWithClassName = function(className) {
-		var spanNew = document.createElement("span");
-		spanNew.className = className;
-		return spanNew;
-	};
-
-	return cora;
-}(CORA));
+	return coraTest;
+}(CORATEST));

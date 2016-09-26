@@ -34,7 +34,8 @@ var CORA = (function(cora) {
 				"presentationFactory" : self,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
-				"recordTypeProvider" : spec.recordTypeProvider
+				"recordTypeProvider" : spec.recordTypeProvider,
+				"uploadManager" : spec.uploadManager
 			};
 
 			var type = cPresentation.getData().attributes.type;
@@ -44,7 +45,9 @@ var CORA = (function(cora) {
 				return CORA.pGroup(specNew);
 			} else if (type === "pRecordLink") {
 				return CORA.pRecordLink(specNew);
-			} else {
+			} else if (type === "pCollVar") {
+				return CORA.pCollectionVar(specNew);
+			}else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {
 					return CORA.pRepeatingContainer(specNew);

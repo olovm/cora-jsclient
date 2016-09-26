@@ -70,6 +70,15 @@ QUnit.test("testFactorPVar", function(assert) {
 	assert.strictEqual(pVar.type, "pVar");
 });
 
+QUnit.test("testFactorPCollVar", function(assert) {
+	var presentationIdToFactor = "userSuppliedIdCollectionVarPCollVar";
+	var data = this.metadataProvider.getMetadataById(presentationIdToFactor);
+	var cPresentation = CORA
+			.coraData(data);
+	var pCollVar = this.newPresentationFactory.factor({}, cPresentation);
+	assert.strictEqual(pCollVar.type, "pCollVar");
+});
+
 QUnit.test("testFactorPGroup", function(assert) {
 	var presentationIdToFactor = "pgGroupIdOneTextChild";
 	var cPresentation = CORA

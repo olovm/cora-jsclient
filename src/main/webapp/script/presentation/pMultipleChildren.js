@@ -144,7 +144,8 @@ var CORA = (function(cora) {
 				"jsBookkeeper" : jsBookkeeper,
 				"presentationFactory" : presentationFactory,
 				"recordTypeProvider" : recordTypeProvider,
-				"xmlHttpRequestFactory" : xmlHttpRequestFactory
+				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
+				"uploadManager" : spec.uploadManager
 			};
 
 			if (childHasMinimizedPresenation(cPresentationChildRef)) {

@@ -25,6 +25,12 @@ body {
 	overflow: hidden;
 }
 
+.progress {
+	height: 1rem;
+	width: 50%;
+	margin: 1rem;
+}
+
 .jsClient>.header {
 	display: block;
 	height: 4rem;
@@ -34,6 +40,43 @@ body {
 	border-bottom: 1px solid;
 	border-color: inherit;
 	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
+}
+
+.jsClient>.header .menuView {
+	display: block;
+	float: left;
+	height: auto;
+	font-size: 1rem;
+	text-align: center;
+	color: black;
+	border-bottom: none;
+	border-color: inherit;
+	text-shadow: none;
+	padding: .2rem;
+	cursor: pointer;
+	position: relative;
+/* 	animation: rotation2 1s linear; */
+/* 	animation: rotation2 2s linear; */
+/* 	animation-iteration-count:infinite; */
+}
+.jsClient>.header .menuView.uploading::before {
+	background: url("../images/icons2.svg") no-repeat scroll -79px 0px;
+	content: "";
+	height: 16px;
+	width: 16px;
+	opacity: 1;
+	position: absolute;
+	transition: opacity 0.5s ease 0s;
+	z-index: 100;
+	top: 3px;
+	right: 2px;
+	animation: rotation2 2s linear;
+	animation-iteration-count:infinite;
+}
+@keyframes rotation2 {
+    from {transform: rotate(0deg);}
+/*     to   {transform: rotate(90deg);} */
+    to   {transform: rotate(359deg);}
 }
 
 .jsClient>.sideBar {
@@ -104,7 +147,7 @@ body {
 	border-color: inherit;
 }
 
-.sideBar .active {
+.sideBar .active, .header .active {
 	font-weight: bold;
 	background-color: rgba(162, 196, 228, 0.19);
 }
@@ -268,7 +311,7 @@ body {
 }
 
 .jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input, .jsClient .showView .buttonView .removeButton,
-	.jsClient .showView .buttonView .dragButton {
+	.jsClient .showView .buttonView .dragButton, .jsClient .menuView .buttonView .removeButton {
 	display: none;
 }
 

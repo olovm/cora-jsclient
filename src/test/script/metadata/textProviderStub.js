@@ -129,6 +129,25 @@ var CORATEST = (function(coraTest) {
 				return "groupIdOneRecordLinkChildWithPathText";
 			case "groupIdOneRecordLinkChildWithPathDefText":
 				return "groupIdOneRecordLinkChildWithPathDefText";
+				
+			case "theClient_uploadMenuText":
+				return "Uploads";
+			case "trueItemText":
+				return "true";
+			case "trueItemDefText":
+				return "true";
+			case "falseItemText":
+				return "false";
+			case "falseItemDefText":
+				return "false";
+			case "userSuppliedIdCollectionVarText":
+				return "userSuppliedIdCollectionVarText";
+			case "userSuppliedIdCollectionVarDefText":
+				return "userSuppliedIdCollectionVarDefText";
+			case "groupWithOneCollectionVarChildGroupText":
+				return "groupWithOneCollectionVarChildGroupText";	
+			case "groupWithOneCollectionVarChildGroupDefText":
+				return "groupWithOneCollectionVarChildGroupDefText";	
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");

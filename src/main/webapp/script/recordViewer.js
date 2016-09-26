@@ -60,6 +60,7 @@ var CORA = (function(cora) {
 				addToShowView(recordGui);
 				recordGui.initMetadataControllerStartingGui();
 			} catch (error) {
+				view.appendChild(document.createTextNode(error));
 				view.appendChild(document.createTextNode(JSON.stringify(data)));
 			}
 			busy.hideWithEffect();
