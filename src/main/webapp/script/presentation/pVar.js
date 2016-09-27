@@ -33,7 +33,6 @@ var CORA = (function(cora) {
 		var cPresentationGroup = CORA.coraData(presentationGroup);
 		var metadataId  = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
-//		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
 
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
