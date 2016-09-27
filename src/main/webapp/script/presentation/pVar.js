@@ -33,9 +33,7 @@ var CORA = (function(cora) {
 		var cPresentationGroup = CORA.coraData(presentationGroup);
 		var metadataId  = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
-//		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		var cMetadataElement = getMetadataById(metadataId);
-		
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var outputFormat = getOutputFormat();
 
@@ -55,7 +53,6 @@ var CORA = (function(cora) {
 
 		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 		var defText = textProvider.getTranslation(defTextId);
-		
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 		var info = createInfo();
 		var infoButton = info.getButton();
