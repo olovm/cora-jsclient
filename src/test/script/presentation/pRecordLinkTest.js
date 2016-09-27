@@ -155,8 +155,10 @@ QUnit.test("testInitRecordLink", function(assert) {
 	var recordIdTextView = recordIdView.firstChild;
 
 	var recordIdTextVarSpyDummyView = recordIdView.childNodes[0];
-	assert.strictEqual(recordIdTextVarSpyDummyView.cPresentation
-			.getFirstAtomicValueByNameInData("presentationOf"), "linkedRecordIdTextVar");
+	var presentationOfLink = recordIdTextVarSpyDummyView.cPresentation
+			.getFirstChildByNameInData("presentationOf");
+	var cPresentationOfLink = CORA.coraData(presentationOfLink);
+	assert.strictEqual(cPresentationOfLink.getFirstAtomicValueByNameInData("linkedRecordId"), "linkedRecordIdTextVar");
 	var expectedPath = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -200,8 +202,11 @@ QUnit.test("testInitRecordLinkWithFinalValue", function(assert) {
 	assert.stringifyEqual(this.getIdForGeneratedPresentationByNo(0), "linkedRecordIdOutputPVar");
 
 	var recordIdTextVarSpyDummyView = recordIdView.childNodes[0];
-	assert.strictEqual(recordIdTextVarSpyDummyView.cPresentation
-			.getFirstAtomicValueByNameInData("presentationOf"), "linkedRecordIdTextVar");
+	var presentationOfLink = recordIdTextVarSpyDummyView.cPresentation
+			.getFirstChildByNameInData("presentationOf");
+	var cPresentationOfLink = CORA.coraData(presentationOfLink);
+
+	assert.strictEqual(cPresentationOfLink.getFirstAtomicValueByNameInData("linkedRecordId"), "linkedRecordIdTextVar");
 	var expectedPath = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -235,8 +240,13 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 	assert.strictEqual(repeatIdTextView.innerHTML, "RepeatId");
 
 	var repeatIdTextVarSpyDummyView = repeatIdView.childNodes[1];
-	assert.strictEqual(repeatIdTextVarSpyDummyView.cPresentation
-			.getFirstAtomicValueByNameInData("presentationOf"), "linkedRepeatIdTextVar");
+	var presentationOfLink = repeatIdTextVarSpyDummyView.cPresentation
+			.getFirstChildByNameInData("presentationOf");
+	var cPresentationOfLink = CORA.coraData(presentationOfLink);
+
+	assert.strictEqual(cPresentationOfLink
+			.getFirstAtomicValueByNameInData("linkedRecordId"), "linkedRepeatIdTextVar");
+	
 	var expectedPath = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -269,8 +279,12 @@ QUnit.test("testInitRecordLinkOutput", function(assert) {
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
 
 	var recordIdTextVarSpyDummyView = recordIdView.childNodes[0];
-	assert.strictEqual(recordIdTextVarSpyDummyView.cPresentation
-			.getFirstAtomicValueByNameInData("presentationOf"), "linkedRecordIdTextVar");
+	var presentationOfLink = recordIdTextVarSpyDummyView.cPresentation
+			.getFirstChildByNameInData("presentationOf");
+	var cPresentationOfLink = CORA.coraData(presentationOfLink);
+
+	assert.strictEqual(cPresentationOfLink
+			.getFirstAtomicValueByNameInData("linkedRecordId"), "linkedRecordIdTextVar");
 	var expectedPath = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -305,8 +319,12 @@ QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
 	assert.strictEqual(repeatIdTextView.innerHTML, "RepeatId");
 
 	var repeatIdTextVarSpyDummyView = repeatIdView.childNodes[1];
-	assert.strictEqual(repeatIdTextVarSpyDummyView.cPresentation
-			.getFirstAtomicValueByNameInData("presentationOf"), "linkedRepeatIdTextVar");
+	var presentationOfLink = repeatIdTextVarSpyDummyView.cPresentation
+			.getFirstChildByNameInData("presentationOf");
+	var cPresentationOfLink = CORA.coraData(presentationOfLink);
+
+	assert.strictEqual(cPresentationOfLink
+			.getFirstAtomicValueByNameInData("linkedRecordId"), "linkedRepeatIdTextVar");
 	var expectedPath = {
 		"name" : "linkedPath",
 		"children" : [ {

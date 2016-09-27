@@ -3080,8 +3080,14 @@ function MetadataProviderStub() {
 						"value" : "pVarTextVariableId"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "textVariableId"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textVariableId"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -3214,8 +3220,22 @@ function MetadataProviderStub() {
 						"value" : "textVariableIdShowTextAreaFalsePVar"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "textVariableId"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textVariableId"
+					} ],
+					"actionLinks" : {
+						"read" : {
+							"requestMethod" : "GET",
+							"rel" : "read",
+							"url" : "http://localhost:8080/therest/rest/record/metadataTextVariable/textVariableId",
+							"accept" : "application/uub+record+json"
+						}
+					},
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -3240,8 +3260,22 @@ function MetadataProviderStub() {
 						"value" : "textVariableIdTextAreaPVar"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "textVariableId"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textVariableId"
+					} ],
+					"actionLinks" : {
+						"read" : {
+							"requestMethod" : "GET",
+							"rel" : "read",
+							"url" : "http://localhost:8080/therest/rest/record/metadataTextVariable/textVariableId",
+							"accept" : "application/uub+record+json"
+						}
+					},
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -3267,8 +3301,14 @@ function MetadataProviderStub() {
 						"value" : "pVarTextVariableId"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "textVariableId"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textVariableId"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "output"
@@ -3287,8 +3327,14 @@ function MetadataProviderStub() {
 						"value" : "pVarTextVariableId"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "textVariableId"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textVariableId"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "output"
@@ -3392,8 +3438,14 @@ function MetadataProviderStub() {
 						"value" : "pVarTextVar"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "textVar"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textVar"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -3413,8 +3465,14 @@ function MetadataProviderStub() {
 						"value" : "pVarTextVarOutput"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "textVar"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textVar"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "output"
@@ -3817,8 +3875,14 @@ function MetadataProviderStub() {
 						"value" : "pVarTextVariableId2"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "textVariableId2"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textVariableId2"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -5016,9 +5080,17 @@ function MetadataProviderStub() {
 						"value" : "linkedRecordTypeOutputPVar"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "linkedRecordTypeTextVar"
-				}, {
+					"children" : [
+									{
+										"name" : "linkedRecordType",
+										"value" : "metadataTextVariable"
+									},
+									{
+										"name" : "linkedRecordId",
+										"value" : "linkedRecordTypeTextVar"
+									} ],
+							"name" : "presentationOf"
+						}, {
 					"name" : "mode",
 					"value" : "output"
 				} ]
@@ -5036,9 +5108,17 @@ function MetadataProviderStub() {
 						"value" : "linkedRecordIdPVar"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "linkedRecordIdTextVar"
-				}, {
+					"children" : [
+									{
+										"name" : "linkedRecordType",
+										"value" : "metadataTextVariable"
+									},
+									{
+										"name" : "linkedRecordId",
+										"value" : "linkedRecordIdTextVar"
+									} ],
+							"name" : "presentationOf"
+						}, {
 					"name" : "mode",
 					"value" : "input"
 				}, {
@@ -5059,9 +5139,17 @@ function MetadataProviderStub() {
 						"value" : "linkedRecordIdOutputPVar"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "linkedRecordIdTextVar"
-				}, {
+					"children" : [
+									{
+										"name" : "linkedRecordType",
+										"value" : "metadataTextVariable"
+									},
+									{
+										"name" : "linkedRecordId",
+										"value" : "linkedRecordIdTextVar"
+									} ],
+							"name" : "presentationOf"
+						}, {
 					"name" : "mode",
 					"value" : "output"
 				} ]
@@ -5079,9 +5167,17 @@ function MetadataProviderStub() {
 						"value" : "linkedRepeatIdPVar"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "linkedRepeatIdTextVar"
-				}, {
+					"children" : [
+									{
+										"name" : "linkedRecordType",
+										"value" : "metadataTextVariable"
+									},
+									{
+										"name" : "linkedRecordId",
+										"value" : "linkedRepeatIdTextVar"
+									} ],
+							"name" : "presentationOf"
+						}, {
 					"name" : "mode",
 					"value" : "input"
 				}, {
@@ -5102,9 +5198,17 @@ function MetadataProviderStub() {
 						"value" : "linkedRepeatIdOutputPVar"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "linkedRepeatIdTextVar"
-				}, {
+					"children" : [
+									{
+										"name" : "linkedRecordType",
+										"value" : "metadataTextVariable"
+									},
+									{
+										"name" : "linkedRecordId",
+										"value" : "linkedRepeatIdTextVar"
+									} ],
+							"name" : "presentationOf"
+						}, {
 					"name" : "mode",
 					"value" : "output"
 				} ]
