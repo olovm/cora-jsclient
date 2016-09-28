@@ -113,3 +113,11 @@ QUnit.test("testFactorPRecordLink", function(assert) {
 	var pGroup = this.newPresentationFactory.factor({}, cPresentation);
 	assert.strictEqual(pGroup.type, "pRecordLink");
 });
+
+QUnit.test("testFactorPResourceLink", function(assert) {
+	var presentationIdToFactor = "masterPResLink";
+	var cPresentation = CORA
+			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
+	var pGroup = this.newPresentationFactory.factor({}, cPresentation);
+	assert.strictEqual(pGroup.type, "pResourceLink");
+});
