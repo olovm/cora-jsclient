@@ -62,6 +62,7 @@ var CORA = (function(cora) {
 			if (linkedRecordCanBeRead(dataFromMessage)) {
 				createRecordViewerForLinkedRecord(dataFromMessage.data);
 			}
+
 		}
 
 		function linkedRecordCanBeRead(dataFromMessage) {
@@ -78,6 +79,7 @@ var CORA = (function(cora) {
 			var linkedRecordPresentation = findPresentationForRecordType(data);
 
 			if (presentationExistsForLinkedRecordType(linkedRecordPresentation)) {
+				removeIdPresentations();
 				var linkedPresentationId = extractPresentationIdFromPresentation(linkedRecordPresentation);
 				var readLink = data.actionLinks.read;
 				createRecordViewerUsingChosenPresentationForLinkedRecord(readLink,
@@ -106,6 +108,10 @@ var CORA = (function(cora) {
 
 		function presentationExistsForLinkedRecordType(linkedRecordPresentation) {
 			return linkedRecordPresentation !== undefined;
+		}
+
+		function removeIdPresentations() {
+			valueView.parentNode.removeChild(valueView);
 		}
 
 		function createRecordViewerUsingChosenPresentationForLinkedRecord(readLink,

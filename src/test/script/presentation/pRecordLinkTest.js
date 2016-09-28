@@ -383,10 +383,10 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", functio
 	var pRecordLink = attachedPRecordLink.pRecordLink;
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
 
-	assert.strictEqual(view.childNodes.length, 2);
+	assert.strictEqual(view.childNodes.length, 1);
 	assert.strictEqual(this.metadataIdUsed[0], "metadataTextVariableGroup");
 	
-	var linkedRecordPresentations = view.childNodes[1];
+	var linkedRecordPresentations = view.childNodes[0];
 	assert.strictEqual(linkedRecordPresentations.nodeName, "SPAN");
 	assert.strictEqual(linkedRecordPresentations.className, "recordViewer");
 });
