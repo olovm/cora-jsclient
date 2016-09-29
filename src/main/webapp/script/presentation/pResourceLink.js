@@ -34,6 +34,7 @@ var CORA = (function(cora) {
 
 		var parent = CORA.pMultipleChildren(spec, my);
 		parent.init();
+		createOutputFormat();
 
 		function createBaseViewHolder() {
 			var presentationId = parent.getPresentationId();
@@ -42,6 +43,17 @@ var CORA = (function(cora) {
 			return newView;
 		}
 
+		function createOutputFormat(){
+			var outputFormatType = cPresentation.getFirstAtomicValueByNameInData("outputFormat");
+			if(outputFormatType === "image"){
+				var presentationOfGroup = cPresentation.getFirstChildByNameInData("presentationOf");
+				var url = presentationOfGroup.actionLinks.read.url;
+				var image = document.createElement("img");
+				image.src = url;
+				parent.getView().appendChild(url);
+			}
+		}
+		
 		return Object.freeze({
 			"type" : "pResourceLink",
 			getView : parent.getView

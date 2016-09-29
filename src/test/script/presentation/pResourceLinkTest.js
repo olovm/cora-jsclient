@@ -85,9 +85,9 @@ QUnit.module("pResourceLinkTest.js", {
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 		this.presentationFactory = CORATEST.presentationFactorySpy();
 		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
-		this.newAttachedPResourceLink = CORATEST.attachedPResourceLinkFactory(this.metadataProvider, this.pubSub,
-				this.textProvider, this.presentationFactory, this.jsBookkeeper,
-				this.recordTypeProvider, this.fixture);
+		this.newAttachedPResourceLink = CORATEST.attachedPResourceLinkFactory(
+				this.metadataProvider, this.pubSub, this.textProvider, this.presentationFactory,
+				this.jsBookkeeper, this.recordTypeProvider, this.fixture);
 	},
 	afterEach : function() {
 	}
@@ -102,68 +102,61 @@ QUnit.test("testInit", function(assert) {
 	assert.deepEqual(view.className, expectedClassName);
 });
 
-// QUnit.test("testInitInfo", function(assert) {
-// var attachedPResourceLink = this.newAttachedPResourceLink.factor("pgGroupIdOneTextChild");
-// var view = attachedPResourceLink.view;
-//
-// var infoButton = view.childNodes[0];
-// assert.equal(infoButton.nodeName, "SPAN");
-// assert.equal(infoButton.className, "infoButton");
-//
-// assert.notOk(new
-// RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
-// assert.equal(view.childNodes.length, 2);
-//	
-// var event = document.createEvent('Event');
-// infoButton.onclick(event);
-// assert.equal(view.childNodes.length, 3);
-// assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
-//	
-// var infoView = view.childNodes[1];
-// assert.equal(infoView.childNodes.length, 2);
-// assert.equal(infoView.nodeName, "SPAN");
-// assert.equal(infoView.className, "infoView");
-//
-// CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0],
-// "textView",
-// "groupIdOneTextChildText", assert);
-// CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1],
-// "defTextView",
-// "groupIdOneTextChildDefText", assert);
-//
-// infoButton.onclick(event);
-// assert.equal(view.childNodes.length, 3);
-// assert.equal(infoView.childNodes.length, 5);
-//
-// CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2],
-// "textIdView",
-// "textId: groupIdOneTextChildText", assert);
-// CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3],
-// "defTextIdView",
-// "defTextId: groupIdOneTextChildDefText", assert);
-// CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4],
-// "metadataIdView",
-// "metadataId: groupIdOneTextChild", assert);
-//	
-//
-// infoButton.onclick(event);
-// assert.equal(view.childNodes.length, 2);
-// });
-//
-// QUnit.test("testInitOneChild",
-// function(assert) {
-// var attachedPResourceLink = this.newAttachedPResourceLink
-// .factor("pgGroupIdOneTextChild");
-// var view = attachedPResourceLink.view;
-//
-// assert.ok(view.childNodes.length === 2,
-// "pgGroupIdOneTextChild, should have two children");
-//
-// var childRefHandler = view.childNodes[1];
-// assert.deepEqual(childRefHandler.className,
-// "pChildRefHandler pVarTextVariableId");
-// });
-//
+QUnit.test("testInitInfo", function(assert) {
+	var attachedPResourceLink = this.newAttachedPResourceLink.factor("masterPResLink");
+	var view = attachedPResourceLink.view;
+
+	var infoButton = view.childNodes[0];
+	assert.equal(infoButton.nodeName, "SPAN");
+	assert.equal(infoButton.className, "infoButton");
+
+	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
+	assert.equal(view.childNodes.length, 2);
+
+	var event = document.createEvent('Event');
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
+
+	var infoView = view.childNodes[1];
+	assert.equal(infoView.childNodes.length, 2);
+	assert.equal(infoView.nodeName, "SPAN");
+	assert.equal(infoView.className, "infoView");
+
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView",
+			"metadataGroupForResourceLinkGroupText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
+			"metadataGroupForResourceLinkGroupDefText", assert);
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 3);
+	assert.equal(infoView.childNodes.length, 5);
+
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
+			"textId: metadataGroupForResourceLinkGroupText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3], "defTextIdView",
+			"defTextId: metadataGroupForResourceLinkGroupDefText", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
+			"metadataId: metadataGroupForResourceLinkGroup", assert);
+
+	infoButton.onclick(event);
+	assert.equal(view.childNodes.length, 2);
+});
+
+ QUnit.test("testInitOneChild", function(assert) {
+	var attachedPResourceLink = this.newAttachedPResourceLink.factor("masterPResLink");
+	var view = attachedPResourceLink.view;
+
+	assert.ok(view.childNodes.length === 3, "masterPResLink, should have two children");
+	
+	var childRefHandler = view.childNodes[1];
+	assert.deepEqual(childRefHandler.className, "pChildRefHandler filenamePVar");
+
+	var image =  view.childNodes[2];
+	assert.equal(image.nodeName, "IMG");
+	
+});
+
 // QUnit.test("testInitOneTextOneChild", function(assert) {
 // var attachedPResourceLink = this.newAttachedPResourceLink
 // .factor("pgGroupIdOneTextOneTextChild");
