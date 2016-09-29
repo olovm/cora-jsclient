@@ -24,7 +24,7 @@ var CORA = (function(cora) {
 		var my = {};
 		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
 		var cPresentationGroup = CORA.coraData(presentationGroup);
-		my.metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+//		my.metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 //		my.metadataId = "fakeMetadataGroupWithStreamIdFilenameFilesizeMimeType";
 		my.metadataId = "metadataGroupForResourceLinkGroup";
 
@@ -34,7 +34,8 @@ var CORA = (function(cora) {
 
 		var parent = CORA.pMultipleChildren(spec, my);
 		parent.init();
-		createOutputFormat();
+		spec.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
+//createOutputFormat();
 
 		function createBaseViewHolder() {
 			var presentationId = parent.getPresentationId();
@@ -42,15 +43,17 @@ var CORA = (function(cora) {
 			newView.className = "pResourceLink " + presentationId;
 			return newView;
 		}
-
+		function handleMsg(dataFromMsg) {
+//			createLinkedRecordPresentationView(dataFromMsg);
+		}
 		function createOutputFormat(){
 			var outputFormatType = cPresentation.getFirstAtomicValueByNameInData("outputFormat");
 			if(outputFormatType === "image"){
-				var presentationOfGroup = cPresentation.getFirstChildByNameInData("presentationOf");
-				var url = presentationOfGroup.actionLinks.read.url;
-				var image = document.createElement("img");
-				image.src = url;
-				parent.getView().appendChild(url);
+//				var presentationOfGroup = cPresentation.getFirstChildByNameInData("presentationOf");
+//				var url = presentationOfGroup.actionLinks.read.url;
+//				var image = document.createElement("img");
+//				image.src = url;
+//				parent.getView().appendChild(url);
 			}
 		}
 		

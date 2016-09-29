@@ -5717,8 +5717,11 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("filenameTextVar",
-							"1") ]
+					"children" : [
+							createChildReferenceWithRefAndRepeatId1to1("streamIdTextVar", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("filenameTextVar", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("filesizeTextVar", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("mimeTypeTextVar", "1") ]
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("metadataGroupForResourceLinkGroup"))
 			};
@@ -5748,6 +5751,18 @@ function MetadataProviderStub() {
 					"value" : "output"
 				} ]
 			};
+		case "streamIdTextVar":
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "textVariable"
+				},
+				"children" : [ {
+					"name" : "regEx",
+					"value" : "(^[0-9A-Za-z]{2,50}$)"
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("streamId"))
+
+			};
 		case "filenameTextVar":
 			return {
 				"name" : "metadata",
@@ -5757,9 +5772,42 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "regEx",
 					"value" : "(^[0-9A-Za-z]{2,50}$)"
-				} ]
-						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("filenameTextVar"))
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("filename"))
 
+			};
+		case "filesizeTextVar":
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "textVariable"
+				},
+				"children" : [ {
+					"name" : "regEx",
+					"value" : "(^[0-9A-Za-z]{2,50}$)"
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("filesize"))
+			};
+		case "mimeTypeTextVar":
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "textVariable"
+				},
+				"children" : [ {
+					"name" : "regEx",
+					"value" : "(^[0-9A-Za-z]{2,50}$)"
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("mimeType"))
+			};
+		case "groupIdOneResourceLinkChild":
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("masterResLink", "1") ]
+				} ]
+						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("groupIdOneResourceLinkChild"))
 			};
 		default:
 			throw new Error("Id(" + idToGet + ") not found in stub");

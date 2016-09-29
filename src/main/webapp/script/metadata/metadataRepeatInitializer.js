@@ -66,15 +66,18 @@ var CORA = (function(cora) {
 
 		function initializeForMetadata() {
 			var nextLevelPath = createNextLevelPath();
+			var message = {
+					"data" : data,
+					"path" : nextLevelPath
+			};
 			if (isGroup()) {
 				initializeMetadataGroup(nextLevelPath);
 			} else if (isRecordLink()) {
 				initializeMetadataRecordLink(nextLevelPath);
-				var message = {
-					"data" : data,
-					"path" : nextLevelPath
-				};
 				pubSub.publish("linkedData", message);
+			} else if (isResourceLink()) {
+				initializeMetadataResourceLink(nextLevelPath);
+				pubSub.publish("linkedResource", message);
 			} else {
 				publishVariableValue(nextLevelPath);
 			}
@@ -260,6 +263,21 @@ var CORA = (function(cora) {
 
 		function isLinkToRepeatingPartOfRecord() {
 			return cMetadataElement.containsChildWithNameInData("linkedPath");
+		}
+
+		function isResourceLink() {
+			var type = cMetadataElement.getData().attributes.type;
+			return type === "resourceLink";
+		}
+
+		function initializeMetadataResourceLink(nextLevelPath) {
+			var cMetadataGroupForResourceLinkGroup = getMetadataById("metadataGroupForResourceLinkGroup");
+			var nextLevelChildReferences = cMetadataGroupForResourceLinkGroup
+					.getFirstChildByNameInData('childReferences');
+			nextLevelChildReferences.children.forEach(function(childReference) {
+				CORA.metadataChildInitializer(childReference, nextLevelPath, data,
+						metadataProvider, pubSub);
+			});
 		}
 
 		function publishVariableValue(nextLevelPath) {
