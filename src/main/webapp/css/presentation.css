@@ -39,7 +39,7 @@ input {
 	background-color: rgb(248, 191, 91);
 }
 
-.pGroup {
+.pGroup, .pResourceLink {
 	min-height: 13px;
 	min-width: 13px;
 }

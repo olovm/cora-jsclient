@@ -26,8 +26,8 @@ var CORA = (function(cora) {
 		var presentationId = findPresentationId(spec.cPresentation);
 		var metadataId = getMetadataIdFromPresentation();
 		var cMetadataElement = getMetadataById(metadataId);
-		console.log(metadataId)
-		console.log(JSON.stringify(spec.cParentMetadata.getData()))
+//		console.log(metadataId)
+//		console.log(JSON.stringify(spec.cParentMetadata.getData()))
 		var cParentMetadataChildRefPart = metadataHelper.getChildRefPartOfMetadata(
 				spec.cParentMetadata, metadataId);
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");

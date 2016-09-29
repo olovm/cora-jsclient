@@ -40,7 +40,7 @@ var CORA = (function(cora) {
 		var infoButton;
 		function init() {
 			cMetadataElement = getMetadataById(my.metadataId);
-			console.log(JSON.stringify(cMetadataElement.getData()))
+//			console.log(JSON.stringify(cMetadataElement.getData())) 
 			textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
 			text = textProvider.getTranslation(textId);
 			defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
