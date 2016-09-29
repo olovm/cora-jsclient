@@ -50,9 +50,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataIdFromPresentation() {
-			if(spec.cPresentation.getData().attributes.type === "pGroup"
-					|| spec.cPresentation.getData().attributes.type === "pCollVar"
-						|| spec.cPresentation.getData().attributes.type === "pVar"){
+			if(presentationHasLinkedPresentationOf()){
 				var presentationGroup = spec.cPresentation.getFirstChildByNameInData("presentationOf");
 				var cPresentationGroup = CORA.coraData(presentationGroup);
 				return cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
@@ -61,6 +59,11 @@ var CORA = (function(cora) {
 			return spec.cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		}
 
+		function presentationHasLinkedPresentationOf(){
+			return spec.cPresentation.getData().attributes.type === "pGroup"
+				|| spec.cPresentation.getData().attributes.type === "pCollVar"
+				|| spec.cPresentation.getData().attributes.type === "pVar";
+		}
 		function getMetadataById(id) {
 			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}
