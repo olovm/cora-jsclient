@@ -207,7 +207,7 @@ var CORA = (function(cora) {
 
 		function onBlur() {
 			updateView();
-			if (state === "ok" && valueHasChanged()) {
+			if (valueHasChanged()) {
 				var data = {
 					"data" : valueView.value,
 					"path" : path
