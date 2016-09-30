@@ -79,7 +79,13 @@ var CORA = (function(cora) {
 		function createRecordTypeListFromAnswer(answer) {
 			var data = JSON.parse(answer.responseText).dataList.data;
 			data.forEach(function(recordContainer) {
-				addRecordToWorkView(recordContainer.record);
+				try{
+					
+					addRecordToWorkView(recordContainer.record);
+				}catch (e) {
+					workView.appendChild(document.createTextNode(e))
+					// TODO: handle exception
+				}
 			});
 		}
 

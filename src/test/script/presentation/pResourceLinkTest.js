@@ -161,8 +161,8 @@ QUnit.test("testInitOneChild", function(assert) {
 	var childRefHandler = view.childNodes[1];
 	assert.deepEqual(childRefHandler.className, "pChildRefHandler filenamePVar");
 
-	 var image = view.childNodes[2];
-	 assert.equal(image.nodeName, "IMG");
+	var image = view.childNodes[2];
+	assert.equal(image.nodeName, "IMG");
 
 });
 
@@ -173,36 +173,81 @@ QUnit.test("testOneChildHandleLinkedResource", function(assert) {
 	assert.deepEqual(view.childNodes.length, 3);
 
 	var dataFromMessage = {
-		"name" : "master",
-		"children" : [ {
-			"name" : "streamId",
-			"value" : "binary:123456789"
-		}, {
-			"name" : "filename",
-			"value" : "adele.png"
-		}, {
-			"name" : "filesize",
-			"value" : "12345"
-		}, {
-			"name" : "mimeType",
-			"value" : "application/png"
-		} ],
-		"actionLinks" : {
-			"read" : {
-				"requestMethod" : "GET",
-				"rel" : "read",
-				"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
-				"accept" : "application/octet-stream"
+		"data" : {
+			"name" : "master",
+			"children" : [ {
+				"name" : "streamId",
+				"value" : "binary:123456789"
+			}, {
+				"name" : "filename",
+				"value" : "adele.png"
+			}, {
+				"name" : "filesize",
+				"value" : "12345"
+			}, {
+				"name" : "mimeType",
+				"value" : "application/png"
+			} ],
+			"actionLinks" : {
+				"read" : {
+					"requestMethod" : "GET",
+					"rel" : "read",
+					"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
+					"accept" : "application/octet-stream"
+				}
 			}
 		}
 	};
-	
+
 	var pResourceLink = attachedPResourceLink.pResourceLink;
 	pResourceLink.handleMsg(dataFromMessage);
 
-//	assert.deepEqual(view.childNodes.length, 3);
-	 var image = view.childNodes[2];
-	 assert.equal(image.src, "http://localhost:8080/therest/rest/record/image/image:123456/master");
+	// assert.deepEqual(view.childNodes.length, 3);
+	var image = view.childNodes[2];
+	assert.equal(image.src, "http://localhost:8080/therest/rest/record/image/image:123456/master");
+
+});
+
+QUnit.test("testOneChildHandleLinkedResourceNoChildReferences", function(assert) {
+	var attachedPResourceLink = this.newAttachedPResourceLink
+			.factor("masterPResLinkNoChildReferences");
+	var view = attachedPResourceLink.view;
+
+	assert.deepEqual(view.childNodes.length, 2);
+
+	var dataFromMessage = {
+		"data" : {
+			"name" : "master",
+			"children" : [ {
+				"name" : "streamId",
+				"value" : "binary:123456789"
+			}, {
+				"name" : "filename",
+				"value" : "adele.png"
+			}, {
+				"name" : "filesize",
+				"value" : "12345"
+			}, {
+				"name" : "mimeType",
+				"value" : "application/png"
+			} ],
+			"actionLinks" : {
+				"read" : {
+					"requestMethod" : "GET",
+					"rel" : "read",
+					"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
+					"accept" : "application/octet-stream"
+				}
+			}
+		}
+	};
+
+	var pResourceLink = attachedPResourceLink.pResourceLink;
+	pResourceLink.handleMsg(dataFromMessage);
+
+	// assert.deepEqual(view.childNodes.length, 2);
+	var image = view.childNodes[1];
+	assert.equal(image.src, "http://localhost:8080/therest/rest/record/image/image:123456/master");
 
 });
 

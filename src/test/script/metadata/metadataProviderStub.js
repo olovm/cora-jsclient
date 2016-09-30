@@ -5663,6 +5663,65 @@ function MetadataProviderStub() {
 					"type" : "pResourceLink"
 				}
 			};
+		case "masterPResLinkNoChildReferences":
+			return {
+			"children" : [
+			              {
+			            	  "children" : [ {
+			            		  "name" : "id",
+			            		  "value" : "masterPResLinkNoChildReferences"
+			            	  }, {
+			            		  "children" : [ {
+			            			  "name" : "linkedRecordType",
+			            			  "value" : "system"
+			            		  }, {
+			            			  "name" : "linkedRecordId",
+			            			  "value" : "cora"
+			            		  } ],
+			            		  "actionLinks" : {
+			            			  "read" : {
+			            				  "requestMethod" : "GET",
+			            				  "rel" : "read",
+			            				  "url" : "http://epc.ub.uu.se/cora/rest/record/system/cora",
+			            				  "accept" : "application/uub+record+json"
+			            			  }
+			            		  },
+			            		  "name" : "dataDivider"
+			            	  }, {
+			            		  "name" : "type",
+			            		  "value" : "presentationResourceLink"
+			            	  }, {
+			            		  "name" : "createdBy",
+			            		  "value" : "userId"
+			            	  } ],
+			            	  "name" : "recordInfo"
+			              },
+			              {
+			            	  "children" : [ {
+			            		  "name" : "linkedRecordType",
+			            		  "value" : "metadataResourceLink"
+			            	  }, {
+			            		  "name" : "linkedRecordId",
+			            		  "value" : "masterResLink"
+			            	  } ],
+			            	  "actionLinks" : {
+			            		  "read" : {
+			            			  "requestMethod" : "GET",
+			            			  "rel" : "read",
+			            			  "url" : "http://localhost:8080/therest/rest/record/metadataResourceLink/masterResLink",
+			            			  "accept" : "application/uub+record+json"
+			            		  }
+			            	  },
+			            	  "name" : "presentationOf"
+			              }, {
+			            	  "name" : "outputFormat",
+			            	  "value" : "image"
+			              }],
+			              "name" : "presentation",
+			              "attributes" : {
+			            	  "type" : "pResourceLink"
+			              }
+		};
 		case "masterResLink":
 			return {
 				"children" : [ {

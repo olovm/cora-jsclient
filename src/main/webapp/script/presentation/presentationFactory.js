@@ -39,6 +39,7 @@ var CORA = (function(cora) {
 			};
 
 			var type = cPresentation.getData().attributes.type;
+			console.log(JSON.stringify(cPresentation.getData()));
 			if (type === "pVar") {
 				return CORA.pVar(specNew);
 			} else if (type === "pGroup") {

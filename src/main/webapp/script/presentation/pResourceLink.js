@@ -62,7 +62,8 @@ var CORA = (function(cora) {
 			}
 		}
 		function createLinkedResourceView(dataFromMsg){
-			var url = dataFromMsg.actionLinks.read.url;
+			console.log(JSON.stringify(dataFromMsg))
+			var url = dataFromMsg.data.actionLinks.read.url;
 			resourceView.src = url;
 		}
 

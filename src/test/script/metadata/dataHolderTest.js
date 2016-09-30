@@ -1177,3 +1177,20 @@ QUnit.test("testAddChildToGroupIdOneRecordLinkChild", function(assert) {
 	};
 	assert.stringifyEqual(dataHolder.getData(), expectedLinkedRecordType);
 });
+
+QUnit.test("testAddChildToGroupIdOneResourceLinkChild", function(assert) {
+	var dataHolder = this.newDataHolder("groupIdOneResourceLinkChild");
+	var path = {};
+	dataHolder.addChild(path, "masterResLink");
+	var expected = {
+			"name" : "groupIdOneResourceLinkChild",
+			"children" : [ {
+				"name" : "master",
+				"children" : []
+			} ]
+	};
+	assert.stringifyEqual(dataHolder.getData(), expected);
+	
+});
+
+

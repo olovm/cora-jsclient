@@ -64,7 +64,8 @@ var CORA = (function(cora) {
 		function presentationHasLinkedPresentationOf(){
 			return spec.cPresentation.getData().attributes.type === "pGroup"
 				|| spec.cPresentation.getData().attributes.type === "pCollVar"
-				|| spec.cPresentation.getData().attributes.type === "pVar";
+				|| spec.cPresentation.getData().attributes.type === "pVar"
+			|| spec.cPresentation.getData().attributes.type === "pResourceLink";
 		}
 		function getMetadataById(id) {
 			return CORA.coraData(spec.metadataProvider.getMetadataById(id));

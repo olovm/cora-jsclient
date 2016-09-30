@@ -46,11 +46,12 @@ var CORA = (function(cora) {
 		}
 
 		function addContainerContentFromElement(dataContainerPart, cMetadataElement) {
-			if (isGroup(cMetadataElement)) {
+			var type = cMetadataElement.getData().attributes.type;
+			if (isGroup(type)||isResourceLink(type)) {
 				addGroupParts(dataContainerPart, cMetadataElement);
 				return dataContainerPart;
 			}
-			if (isRecordLink(cMetadataElement)) {
+			if (isRecordLink(type)) {
 				dataContainerPart.children = [];
 				return dataContainerPart;
 			}
@@ -60,8 +61,7 @@ var CORA = (function(cora) {
 			return dataContainerPart;
 		}
 
-		function isGroup(cMetadataElement) {
-			var type = cMetadataElement.getData().attributes.type;
+		function isGroup(type) {
 			return type === "group";
 		}
 
@@ -87,8 +87,11 @@ var CORA = (function(cora) {
 			return attributeContainer;
 		}
 
-		function isRecordLink(cMetadataElement) {
-			var type = cMetadataElement.getData().attributes.type;
+		function isResourceLink(type) {
+			return type === "resourceLink";
+		}
+
+		function isRecordLink(type) {
 			return type === "recordLink";
 		}
 
@@ -170,7 +173,8 @@ var CORA = (function(cora) {
 				addChildInContainerListUsingPath(parentPath, metadataIdToAdd, repeatId);
 			} catch (e) {
 				throw new Error("path(" + JSON.stringify(parentPath)
-						+ ") not found in dataContainers:" + e);
+						+ ") not found in dataContainers:" + JSON.stringify(dataContainer)
+						+ " Error:" + e);
 			}
 		}
 
