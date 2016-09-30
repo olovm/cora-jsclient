@@ -1848,7 +1848,15 @@ QUnit.test("testInitGroupWithOneResourceLinkWithData", function(assert) {
 			}, {
 				"name" : "mimeType",
 				"value" : "application/png"
-			} ]
+			} ],
+			"actionLinks" : {
+				"read" : {
+					"requestMethod" : "GET",
+					"rel" : "read",
+					"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
+					"accept" : "application/octet-stream"
+				}
+			}
 		} ]
 	};
 	this.metadataControllerFactory.factor("groupIdOneResourceLinkChild", data);
@@ -1991,7 +1999,7 @@ QUnit.test("testInitGroupWithOneResourceLinkWithData", function(assert) {
 	};
 	assert.stringifyEqual(messages[7], expectedAddForMimeType);
 
-	var expectedSetValueForMimeType= {
+	var expectedSetValueForMimeType = {
 		"type" : "setValue",
 		"message" : {
 			"data" : "application/png",
@@ -2015,6 +2023,30 @@ QUnit.test("testInitGroupWithOneResourceLinkWithData", function(assert) {
 	var expectedLinkedData = {
 		"type" : "linkedResource",
 		"message" : {
+			"data" : {
+				"name" : "master",
+				"children" : [ {
+					"name" : "streamId",
+					"value" : "binary:123456789"
+				}, {
+					"name" : "filename",
+					"value" : "adele.png"
+				}, {
+					"name" : "filesize",
+					"value" : "12345"
+				}, {
+					"name" : "mimeType",
+					"value" : "application/png"
+				} ],
+				"actionLinks" : {
+					"read" : {
+						"requestMethod" : "GET",
+						"rel" : "read",
+						"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
+						"accept" : "application/octet-stream"
+					}
+				}
+			},
 			"path" : {
 				"name" : "linkedPath",
 				"children" : [ {

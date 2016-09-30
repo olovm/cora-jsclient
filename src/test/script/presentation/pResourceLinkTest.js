@@ -100,6 +100,15 @@ QUnit.test("testInit", function(assert) {
 	assert.visible(view, "pResourceLink view should be visible");
 	var expectedClassName = 'pResourceLink masterPResLink';
 	assert.deepEqual(view.className, expectedClassName);
+
+	var subscriptions = this.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 3);
+
+	var firstSubsription = subscriptions[2];
+	assert.strictEqual(firstSubsription.type, "linkedResource");
+	assert.deepEqual(firstSubsription.path, {});
+	var pResourceLink = attachedPResourceLink.pResourceLink;
+	assert.ok(firstSubsription.functionToCall === pResourceLink.handleMsg);
 });
 
 QUnit.test("testInitInfo", function(assert) {
@@ -111,11 +120,11 @@ QUnit.test("testInitInfo", function(assert) {
 	assert.equal(infoButton.className, "infoButton");
 
 	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
-	assert.equal(view.childNodes.length, 2);
+	assert.equal(view.childNodes.length, 3);
 
 	var event = document.createEvent('Event');
 	infoButton.onclick(event);
-	assert.equal(view.childNodes.length, 3);
+	assert.equal(view.childNodes.length, 4);
 	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 
 	var infoView = view.childNodes[1];
@@ -129,7 +138,7 @@ QUnit.test("testInitInfo", function(assert) {
 			"metadataGroupForResourceLinkGroupDefText", assert);
 
 	infoButton.onclick(event);
-	assert.equal(view.childNodes.length, 3);
+	assert.equal(view.childNodes.length, 4);
 	assert.equal(infoView.childNodes.length, 5);
 
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
@@ -140,21 +149,61 @@ QUnit.test("testInitInfo", function(assert) {
 			"metadataId: metadataGroupForResourceLinkGroup", assert);
 
 	infoButton.onclick(event);
-	assert.equal(view.childNodes.length, 2);
+	assert.equal(view.childNodes.length, 3);
 });
 
- QUnit.test("testInitOneChild", function(assert) {
+QUnit.test("testInitOneChild", function(assert) {
 	var attachedPResourceLink = this.newAttachedPResourceLink.factor("masterPResLink");
 	var view = attachedPResourceLink.view;
 
-	assert.ok(view.childNodes.length === 3, "masterPResLink, should have two children");
-	
+	assert.deepEqual(view.childNodes.length, 3);
+
 	var childRefHandler = view.childNodes[1];
 	assert.deepEqual(childRefHandler.className, "pChildRefHandler filenamePVar");
 
-	var image =  view.childNodes[2];
-	assert.equal(image.nodeName, "IMG");
+	 var image = view.childNodes[2];
+	 assert.equal(image.nodeName, "IMG");
+
+});
+
+QUnit.test("testOneChildHandleLinkedResource", function(assert) {
+	var attachedPResourceLink = this.newAttachedPResourceLink.factor("masterPResLink");
+	var view = attachedPResourceLink.view;
+
+	assert.deepEqual(view.childNodes.length, 3);
+
+	var dataFromMessage = {
+		"name" : "master",
+		"children" : [ {
+			"name" : "streamId",
+			"value" : "binary:123456789"
+		}, {
+			"name" : "filename",
+			"value" : "adele.png"
+		}, {
+			"name" : "filesize",
+			"value" : "12345"
+		}, {
+			"name" : "mimeType",
+			"value" : "application/png"
+		} ],
+		"actionLinks" : {
+			"read" : {
+				"requestMethod" : "GET",
+				"rel" : "read",
+				"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
+				"accept" : "application/octet-stream"
+			}
+		}
+	};
 	
+	var pResourceLink = attachedPResourceLink.pResourceLink;
+	pResourceLink.handleMsg(dataFromMessage);
+
+//	assert.deepEqual(view.childNodes.length, 3);
+	 var image = view.childNodes[2];
+	 assert.equal(image.src, "http://localhost:8080/therest/rest/record/image/image:123456/master");
+
 });
 
 // QUnit.test("testInitOneTextOneChild", function(assert) {

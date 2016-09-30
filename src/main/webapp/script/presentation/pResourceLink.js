@@ -24,8 +24,11 @@ var CORA = (function(cora) {
 		var my = {};
 		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
 		var cPresentationGroup = CORA.coraData(presentationGroup);
-//		my.metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-//		my.metadataId = "fakeMetadataGroupWithStreamIdFilenameFilesizeMimeType";
+		var resourceView;
+		// my.metadataId =
+		// cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		// my.metadataId =
+		// "fakeMetadataGroupWithStreamIdFilenameFilesizeMimeType";
 		my.metadataId = "metadataGroupForResourceLinkGroup";
 
 		my.cPresentation = cPresentation;
@@ -34,8 +37,8 @@ var CORA = (function(cora) {
 
 		var parent = CORA.pMultipleChildren(spec, my);
 		parent.init();
-		spec.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
-//createOutputFormat();
+		spec.pubSub.subscribe("linkedResource", spec.path, undefined, handleMsg);
+		createOutputFormat();
 
 		function createBaseViewHolder() {
 			var presentationId = parent.getPresentationId();
@@ -44,22 +47,29 @@ var CORA = (function(cora) {
 			return newView;
 		}
 		function handleMsg(dataFromMsg) {
-//			createLinkedRecordPresentationView(dataFromMsg);
+			createLinkedResourceView(dataFromMsg);
 		}
-		function createOutputFormat(){
+		function createOutputFormat() {
 			var outputFormatType = cPresentation.getFirstAtomicValueByNameInData("outputFormat");
-			if(outputFormatType === "image"){
-//				var presentationOfGroup = cPresentation.getFirstChildByNameInData("presentationOf");
-//				var url = presentationOfGroup.actionLinks.read.url;
-//				var image = document.createElement("img");
-//				image.src = url;
-//				parent.getView().appendChild(url);
+			if (outputFormatType === "image") {
+				// var presentationOfGroup =
+				// cPresentation.getFirstChildByNameInData("presentationOf");
+				// var url = presentationOfGroup.actionLinks.read.url;
+				 var image = document.createElement("img");
+				// image.src = url;
+				 parent.getView().appendChild(image);
+				 resourceView = image;
 			}
 		}
-		
+		function createLinkedResourceView(dataFromMsg){
+			var url = dataFromMsg.actionLinks.read.url;
+			resourceView.src = url;
+		}
+
 		return Object.freeze({
 			"type" : "pResourceLink",
-			getView : parent.getView
+			getView : parent.getView,
+			handleMsg : handleMsg
 		});
 
 	};
