@@ -87,8 +87,10 @@ var CORA = (function(cora) {
 		}
 
 		function getCollectionItemReferencesFor(cCollectionVariable) {
-			var attributeRefCollectionId = cCollectionVariable
-					.getFirstAtomicValueByNameInData("refCollectionId");
+			var cAttributeRefCollection = CORA.coraData(cCollectionVariable.getFirstChildByNameInData("refCollection"));
+			
+			var attributeRefCollectionId = cAttributeRefCollection
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var cAttributeItemCollection = getMetadataById(attributeRefCollectionId);
 			return cAttributeItemCollection.getFirstChildByNameInData("collectionItemReferences");
 		}

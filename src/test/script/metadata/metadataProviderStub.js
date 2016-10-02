@@ -133,9 +133,18 @@ function MetadataProviderStub() {
 					"name" : "defTextId",
 					"value" : "yesNoUnknownVarDefText"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "yesNoUnknownCollection"
-				} ],
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "yesNoUnknownCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         } ],
 				"attributes" : {
 					"type" : "collectionVariable"
 				}
@@ -1318,11 +1327,18 @@ function MetadataProviderStub() {
 					"type" : "collectionVariable"
 				},
 				"children" : [ {
-					"name" : "refCollectionId",
-					"value" : "recordTypeTypeCollection"
-				// }
-				// ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
-				} ]
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "recordTypeTypeCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         }]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("recordTypeTypeCollectionVar"))
 			};
 		}
@@ -2300,9 +2316,18 @@ function MetadataProviderStub() {
 							"name" : "defTextId",
 							"value" : "binaryTypeImageCollectionVarDefText"
 						}, {
-							"name" : "refCollectionId",
-							"value" : "binaryTypeCollection"
-						}, {
+			                "children": [
+			                             {
+			                               "name": "linkedRecordType",
+			                               "value": "metadataItemCollection"
+			                             },
+			                             {
+			                               "name": "linkedRecordId",
+			                               "value": "binaryTypeCollection"
+			                             }
+			                           ],
+			                           "name": "refCollection"
+			                         }, {
 							"name" : "refParentId",
 							"value" : "binaryTypeCollectionVar"
 						}, {
@@ -2359,9 +2384,18 @@ function MetadataProviderStub() {
 							"name" : "defTextId",
 							"value" : "userSuppliedIdCollectionVarDefText"
 						}, {
-							"name" : "refCollectionId",
-							"value" : "trueFalseCollection"
-						} ],
+			                "children": [
+			                             {
+			                               "name": "linkedRecordType",
+			                               "value": "metadataItemCollection"
+			                             },
+			                             {
+			                               "name": "linkedRecordId",
+			                               "value": "trueFalseCollection"
+			                             }
+			                           ],
+			                           "name": "refCollection"
+			                         } ],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"
@@ -2527,9 +2561,18 @@ function MetadataProviderStub() {
 							"name" : "defTextId",
 							"value" : "binaryTypeGenericBinaryCollectionVarDefText"
 						}, {
-							"name" : "refCollectionId",
-							"value" : "binaryTypeCollection"
-						}, {
+			                "children": [
+			                             {
+			                               "name": "linkedRecordType",
+			                               "value": "metadataItemCollection"
+			                             },
+			                             {
+			                               "name": "linkedRecordId",
+			                               "value": "binaryTypeCollection"
+			                             }
+			                           ],
+			                           "name": "refCollection"
+			                         }, {
 							"name" : "refParentId",
 							"value" : "binaryTypeCollectionVar"
 						}, {
