@@ -163,8 +163,35 @@ QUnit.test("testInitOneChild", function(assert) {
 
 	var image = view.childNodes[2];
 	assert.equal(image.nodeName, "IMG");
+	assert.equal(image.className, "master");
 
 });
+CORATEST.resourceLinkDataFromMessage = {
+	"data" : {
+		"name" : "master",
+		"children" : [ {
+			"name" : "streamId",
+			"value" : "binary:123456789"
+		}, {
+			"name" : "filename",
+			"value" : "adele.png"
+		}, {
+			"name" : "filesize",
+			"value" : "12345"
+		}, {
+			"name" : "mimeType",
+			"value" : "application/png"
+		} ],
+		"actionLinks" : {
+			"read" : {
+				"requestMethod" : "GET",
+				"rel" : "read",
+				"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
+				"accept" : "application/octet-stream"
+			}
+		}
+	}
+};
 
 QUnit.test("testOneChildHandleLinkedResource", function(assert) {
 	var attachedPResourceLink = this.newAttachedPResourceLink.factor("masterPResLink");
@@ -172,37 +199,9 @@ QUnit.test("testOneChildHandleLinkedResource", function(assert) {
 
 	assert.deepEqual(view.childNodes.length, 3);
 
-	var dataFromMessage = {
-		"data" : {
-			"name" : "master",
-			"children" : [ {
-				"name" : "streamId",
-				"value" : "binary:123456789"
-			}, {
-				"name" : "filename",
-				"value" : "adele.png"
-			}, {
-				"name" : "filesize",
-				"value" : "12345"
-			}, {
-				"name" : "mimeType",
-				"value" : "application/png"
-			} ],
-			"actionLinks" : {
-				"read" : {
-					"requestMethod" : "GET",
-					"rel" : "read",
-					"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
-					"accept" : "application/octet-stream"
-				}
-			}
-		}
-	};
-
 	var pResourceLink = attachedPResourceLink.pResourceLink;
-	pResourceLink.handleMsg(dataFromMessage);
+	pResourceLink.handleMsg(CORATEST.resourceLinkDataFromMessage);
 
-	// assert.deepEqual(view.childNodes.length, 3);
 	var image = view.childNodes[2];
 	assert.equal(image.src, "http://localhost:8080/therest/rest/record/image/image:123456/master");
 
@@ -215,42 +214,46 @@ QUnit.test("testOneChildHandleLinkedResourceNoChildReferences", function(assert)
 
 	assert.deepEqual(view.childNodes.length, 2);
 
-	var dataFromMessage = {
-		"data" : {
-			"name" : "master",
-			"children" : [ {
-				"name" : "streamId",
-				"value" : "binary:123456789"
-			}, {
-				"name" : "filename",
-				"value" : "adele.png"
-			}, {
-				"name" : "filesize",
-				"value" : "12345"
-			}, {
-				"name" : "mimeType",
-				"value" : "application/png"
-			} ],
-			"actionLinks" : {
-				"read" : {
-					"requestMethod" : "GET",
-					"rel" : "read",
-					"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
-					"accept" : "application/octet-stream"
-				}
-			}
-		}
-	};
-
 	var pResourceLink = attachedPResourceLink.pResourceLink;
-	pResourceLink.handleMsg(dataFromMessage);
+	pResourceLink.handleMsg(CORATEST.resourceLinkDataFromMessage);
 
-	// assert.deepEqual(view.childNodes.length, 2);
 	var image = view.childNodes[1];
 	assert.equal(image.src, "http://localhost:8080/therest/rest/record/image/image:123456/master");
 
 });
 
+QUnit.test("testOneChildMasterPResLinkNoOutputFormat", function(assert) {
+	var attachedPResourceLink = this.newAttachedPResourceLink
+			.factor("masterPResLinkNoOutputFormat");
+	var view = attachedPResourceLink.view;
+
+	assert.deepEqual(view.childNodes.length, 2);
+
+	var pResourceLink = attachedPResourceLink.pResourceLink;
+	pResourceLink.handleMsg(CORATEST.resourceLinkDataFromMessage);
+
+	var fileName = view.childNodes[1];
+	assert.equal(fileName.className, "pChildRefHandler filenamePVar");
+
+});
+
+QUnit.test("testOneChildMasterPResLinkDownloadOutputFormat", function(assert) {
+	var attachedPResourceLink = this.newAttachedPResourceLink
+			.factor("masterPResLinkDownloadOutputFormat");
+	var view = attachedPResourceLink.view;
+
+	assert.deepEqual(view.childNodes.length, 2);
+
+	var pResourceLink = attachedPResourceLink.pResourceLink;
+	pResourceLink.handleMsg(CORATEST.resourceLinkDataFromMessage);
+
+	var link = view.childNodes[1];
+	assert.equal(link.nodeName, "A");
+	assert.equal(link.href, "http://localhost:8080/therest/rest/record/image/image:123456/master");
+	assert.equal(link.textContent, "Ladda ner");
+	assert.equal(link.target, "_blank");
+
+});
 // QUnit.test("testInitOneTextOneChild", function(assert) {
 // var attachedPResourceLink = this.newAttachedPResourceLink
 // .factor("pgGroupIdOneTextOneTextChild");

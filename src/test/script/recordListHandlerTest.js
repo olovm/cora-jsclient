@@ -413,3 +413,42 @@ QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
 	assert.stringifyEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 	assert.strictEqual(this.dataDividerUsed[0], "cora");
 });
+QUnit.test("fetchListBroken", function(assert) {
+	var recordTypeListData = CORATEST.recordTypeBrokenList;
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var listItemWorkView = document.createElement("span");
+	var listText;
+	function createListItem(listTextIn) {
+		listText = listTextIn;
+		return {
+			"workView" : listItemWorkView,
+			"menuView" : this.menuView
+		};
+	}
+	var createRecordHandlerMethodCalledWithPresentationMode;
+	var createRecordHandlerMethodCalledWithRecord;
+	
+	var listHandlerSpec = {
+			"createListItemMethod" : createListItem,
+			"createRecordHandlerMethod" : function(presentationMode, record) {
+				createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
+				createRecordHandlerMethodCalledWithRecord = record;
+			},
+			"recordTypeRecord" : this.record,
+			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"recordGuiFactory" : this.recordGuiFactorySpy,
+			"views" : {
+				"workView" : this.workView,
+				"menuView" : this.menuView
+			},
+			"jsClient" : this.jsClientSpy
+	};
+	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+	var firstListItem = this.workView.childNodes[0];
+	assert.strictEqual(this.workView.textContent.substring(0,10), "TypeError:");
+});

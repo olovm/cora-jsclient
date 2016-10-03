@@ -59,7 +59,7 @@ var CORA = (function(cora) {
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
-			// setting values that should exist as a link in recordType
+			// setting values that should exist as an actionLink in recordType
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"method" : "GET",
@@ -71,6 +71,20 @@ var CORA = (function(cora) {
 			};
 			CORA.ajaxCall(callSpec);
 		}
+//		function fetchDataFromServer(callAfterAnswer) {
+////			busy.show();
+//			var readLink = spec.recordTypeRecord.actionLinks.list;
+//			var callSpec = {
+//				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+//				"method" : readLink.requestMethod,
+//				"url" : readLink.url,
+//				"contentType" : readLink.contentType,
+//				"accept" : readLink.accept,
+//				"loadMethod" : callAfterAnswer,
+//				"errorMethod" : callError
+//			};
+//			CORA.ajaxCall(callSpec);
+//		}
 
 		function processFetchedRecords(answer) {
 			createRecordTypeListFromAnswer(answer);
@@ -79,14 +93,16 @@ var CORA = (function(cora) {
 		function createRecordTypeListFromAnswer(answer) {
 			var data = JSON.parse(answer.responseText).dataList.data;
 			data.forEach(function(recordContainer) {
-				try{
-					
-					addRecordToWorkView(recordContainer.record);
-				}catch (e) {
-					workView.appendChild(document.createTextNode(e))
-					// TODO: handle exception
-				}
+				tryToAddRecordToWorkView(recordContainer);
 			});
+		}
+
+		function tryToAddRecordToWorkView(recordContainer) {
+			try {
+				addRecordToWorkView(recordContainer.record);
+			} catch (e) {
+				workView.appendChild(document.createTextNode(e));
+			}
 		}
 
 		function addRecordToWorkView(record) {

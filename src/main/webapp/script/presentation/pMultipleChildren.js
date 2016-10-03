@@ -40,7 +40,6 @@ var CORA = (function(cora) {
 		var infoButton;
 		function init() {
 			cMetadataElement = getMetadataById(my.metadataId);
-			// console.log(JSON.stringify(cMetadataElement.getData()))
 			textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
 			text = textProvider.getTranslation(textId);
 			defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
@@ -62,6 +61,7 @@ var CORA = (function(cora) {
 			}
 			originalClassName = view.className;
 		}
+
 		function createInfo() {
 			var infoSpec = {
 				// "insertAfter" is set to infoButton below
@@ -101,11 +101,6 @@ var CORA = (function(cora) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
 			var ref = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
 			var cPresentationChild = getMetadataById(ref);
-			if(ref === "masterOutputPResLink"){
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-				console.log(JSON.stringify(cPresentationChild.getData()))
-				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			}
 
 			if (childIsText(cPresentationChild)) {
 				return createText(ref);

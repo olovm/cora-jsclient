@@ -22,23 +22,27 @@ var CORA = (function(cora) {
 		var cPresentation = spec.cPresentation;
 
 		var my = {};
-		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
-		var cPresentationGroup = CORA.coraData(presentationGroup);
+		var parent;
+		var hasOutputFormat;
 		var resourceView;
-		// my.metadataId =
-		// cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-		// my.metadataId =
-		// "fakeMetadataGroupWithStreamIdFilenameFilesizeMimeType";
-		my.metadataId = "metadataGroupForResourceLinkGroup";
 
-		my.cPresentation = cPresentation;
-		my.cParentPresentation = cPresentation;
-		my.createBaseViewHolder = createBaseViewHolder;
+		function start() {
+			initParent();
+			hasOutputFormat = presentationHasOutputFormat();
+			createResourceViewIfOutputFormatInMetadata();
+			subscribeToLinkedResourceMessage();
+		}
 
-		var parent = CORA.pMultipleChildren(spec, my);
-		parent.init();
-		spec.pubSub.subscribe("linkedResource", spec.path, undefined, handleMsg);
-		createOutputFormat();
+		function initParent() {
+			my.metadataId = "metadataGroupForResourceLinkGroup";
+
+			my.cPresentation = cPresentation;
+			my.cParentPresentation = cPresentation;
+			my.createBaseViewHolder = createBaseViewHolder;
+
+			parent = CORA.pMultipleChildren(spec, my);
+			parent.init();
+		}
 
 		function createBaseViewHolder() {
 			var presentationId = parent.getPresentationId();
@@ -46,33 +50,70 @@ var CORA = (function(cora) {
 			newView.className = "pResourceLink " + presentationId;
 			return newView;
 		}
-		function handleMsg(dataFromMsg) {
-			createLinkedResourceView(dataFromMsg);
+
+		function presentationHasOutputFormat() {
+			return cPresentation.containsChildWithNameInData("outputFormat");
 		}
-		function createOutputFormat() {
-			var outputFormatType = cPresentation.getFirstAtomicValueByNameInData("outputFormat");
-			if (outputFormatType === "image") {
-				// var presentationOfGroup =
-				// cPresentation.getFirstChildByNameInData("presentationOf");
-				// var url = presentationOfGroup.actionLinks.read.url;
-				 var image = document.createElement("img");
-				// image.src = url;
-				 parent.getView().appendChild(image);
-				 resourceView = image;
+
+		function createResourceViewIfOutputFormatInMetadata() {
+			if (hasOutputFormat) {
+				createResourceViewFromOutputFormat();
 			}
 		}
-		function createLinkedResourceView(dataFromMsg){
-			console.log(JSON.stringify(dataFromMsg))
-			var url = dataFromMsg.data.actionLinks.read.url;
-			resourceView.src = url;
+
+		function createResourceViewFromOutputFormat() {
+			var outputFormatType = cPresentation.getFirstAtomicValueByNameInData("outputFormat");
+			if (outputFormatType === "image") {
+				createImage();
+			} else {
+				createDownload();
+			}
+			setCommonAttributesOnResourceView();
 		}
 
-		return Object.freeze({
+		function createImage() {
+			resourceView = document.createElement("img");
+		}
+
+		function createDownload() {
+			resourceView = document.createElement("a");
+			resourceView.appendChild(document.createTextNode(spec.textProvider
+					.getTranslation("resourceLinkDownloadText")));
+			resourceView.target = "_blank";
+		}
+
+		function setCommonAttributesOnResourceView() {
+			resourceView.className = "master";
+			parent.getView().appendChild(resourceView);
+		}
+
+		function setInfoInLinkedResourceView(dataFromMsg) {
+			if (hasOutputFormat) {
+				var url = dataFromMsg.data.actionLinks.read.url;
+				resourceView.src = url;
+				resourceView.href = url;
+			}
+		}
+
+		function subscribeToLinkedResourceMessage() {
+			spec.pubSub.subscribe("linkedResource", spec.path, undefined, handleMsg);
+		}
+
+		function handleMsg(dataFromMsg) {
+			setInfoInLinkedResourceView(dataFromMsg);
+		}
+
+		function getView() {
+			return parent.getView();
+		}
+
+		var out = Object.freeze({
 			"type" : "pResourceLink",
-			getView : parent.getView,
+			getView : getView,
 			handleMsg : handleMsg
 		});
-
+		start();
+		return out;
 	};
 	return cora;
 }(CORA));

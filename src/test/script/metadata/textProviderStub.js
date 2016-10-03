@@ -155,7 +155,9 @@ var CORATEST = (function(coraTest) {
 			case "metadataGroupForResourceLinkGroupText":
 				return "metadataGroupForResourceLinkGroupText";	
 			case "metadataGroupForResourceLinkGroupDefText":
-				return "metadataGroupForResourceLinkGroupDefText";	
+				return "metadataGroupForResourceLinkGroupDefText";
+			case "resourceLinkDownloadText":
+				return "Ladda ner";
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");
