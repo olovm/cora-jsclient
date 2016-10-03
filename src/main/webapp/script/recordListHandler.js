@@ -59,32 +59,18 @@ var CORA = (function(cora) {
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
-			// setting values that should exist as an actionLink in recordType
+			var readLink = spec.recordTypeRecord.actionLinks.list;
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : "GET",
-				"url" : spec.baseUrl + "record/" + recordId,
-				"contentType" : "application/uub+record+json",
-				"accept" : "application/uub+recordList+json",
+				"method" : readLink.requestMethod,
+				"url" : readLink.url,
+				"contentType" : readLink.contentType,
+				"accept" : readLink.accept,
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
 			CORA.ajaxCall(callSpec);
 		}
-//		function fetchDataFromServer(callAfterAnswer) {
-////			busy.show();
-//			var readLink = spec.recordTypeRecord.actionLinks.list;
-//			var callSpec = {
-//				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-//				"method" : readLink.requestMethod,
-//				"url" : readLink.url,
-//				"contentType" : readLink.contentType,
-//				"accept" : readLink.accept,
-//				"loadMethod" : callAfterAnswer,
-//				"errorMethod" : callError
-//			};
-//			CORA.ajaxCall(callSpec);
-//		}
 
 		function processFetchedRecords(answer) {
 			createRecordTypeListFromAnswer(answer);
