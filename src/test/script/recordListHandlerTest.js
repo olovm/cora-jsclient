@@ -47,7 +47,7 @@ QUnit.module("recordListHandlerTest.js", {
 							"read" : {
 								"requestMethod" : "GET",
 								"rel" : "read",
-								"url" : "http://localhost:8080/therest/rest/record/system/cora",
+								"url" : "http://epc.ub.uu.se/cora/rest/record/system/cora",
 								"accept" : "application/uub+record+json"
 							}
 						},
@@ -100,7 +100,6 @@ QUnit.module("recordListHandlerTest.js", {
 				"read" : {
 					"requestMethod" : "GET",
 					"rel" : "read",
-					"contentType" : "application/uub+record+json",
 					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType",
 					"accept" : "application/uub+record+json"
 				},
@@ -111,12 +110,23 @@ QUnit.module("recordListHandlerTest.js", {
 					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType",
 					"accept" : "application/uub+record+json"
 				},
+				"create" : {
+					"requestMethod" : "POST",
+					"rel" : "create",
+					"contentType" : "application/uub+record+json",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+					"accept" : "application/uub+record+json"
+				},
+				"list" : {
+					"requestMethod" : "GET",
+					"rel" : "list",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+					"accept" : "application/uub+recordList+json"
+				},
 				"delete" : {
 					"requestMethod" : "DELETE",
 					"rel" : "delete",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType",
-					"accept" : "application/uub+record+json"
+					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/recordType"
 				}
 			}
 		};
@@ -184,13 +194,12 @@ QUnit.test("init", function(assert) {
 	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
 
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
+	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?") - 1),
 			"http://epc.ub.uu.se/cora/rest/record/recordType");
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
 			"application/uub+recordList+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-			"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"], undefined);
 });
 
 QUnit.test("initCheckRemoveOnMenu", function(assert) {
@@ -412,4 +421,43 @@ QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
 	assert.stringifyEqual(this.presentationIdUsed[0], "recordTypeListPGroup");
 	assert.stringifyEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 	assert.strictEqual(this.dataDividerUsed[0], "cora");
+});
+QUnit.test("fetchListBroken", function(assert) {
+	var recordTypeListData = CORATEST.recordTypeBrokenList;
+	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
+	function sendFunction() {
+		xmlHttpRequestSpy.status = 200;
+		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
+		xmlHttpRequestSpy.addedEventListeners["load"][0]();
+	}
+	var listItemWorkView = document.createElement("span");
+	var listText;
+	function createListItem(listTextIn) {
+		listText = listTextIn;
+		return {
+			"workView" : listItemWorkView,
+			"menuView" : this.menuView
+		};
+	}
+	var createRecordHandlerMethodCalledWithPresentationMode;
+	var createRecordHandlerMethodCalledWithRecord;
+
+	var listHandlerSpec = {
+		"createListItemMethod" : createListItem,
+		"createRecordHandlerMethod" : function(presentationMode, record) {
+			createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
+			createRecordHandlerMethodCalledWithRecord = record;
+		},
+		"recordTypeRecord" : this.record,
+		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"recordGuiFactory" : this.recordGuiFactorySpy,
+		"views" : {
+			"workView" : this.workView,
+			"menuView" : this.menuView
+		},
+		"jsClient" : this.jsClientSpy
+	};
+	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+	var firstListItem = this.workView.childNodes[0];
+	assert.strictEqual(this.workView.textContent.substring(0, 10), "TypeError:");
 });

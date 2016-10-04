@@ -148,6 +148,16 @@ var CORATEST = (function(coraTest) {
 				return "groupWithOneCollectionVarChildGroupText";	
 			case "groupWithOneCollectionVarChildGroupDefText":
 				return "groupWithOneCollectionVarChildGroupDefText";	
+			case "masterResLinkText":
+				return "masterResLinkText";	
+			case "masterResLinkDefText":
+				return "masterResLinkDefText";	
+			case "metadataGroupForResourceLinkGroupText":
+				return "metadataGroupForResourceLinkGroupText";	
+			case "metadataGroupForResourceLinkGroupDefText":
+				return "metadataGroupForResourceLinkGroupDefText";
+			case "resourceLinkDownloadText":
+				return "Ladda ner";
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");
