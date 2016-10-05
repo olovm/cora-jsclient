@@ -1,10 +1,16 @@
 !define TEST_SYSTEM {slim}
 !define COMMAND_PATTERN {slimjs %p}
-!path src/main/webapp/script/
 !path src/test/fixtures/slimjs
+!path src/main/webapp/script/
+!path src/main/webapp/script/gui
 !path src/main/webapp/script/lib
-!path src/test/script/
-!path src/test/script/lib
+!path src/main/webapp/script/metadata
+!path src/main/webapp/script/net
+!path src/main/webapp/script/presentation
+#!path src/test/script/
+
+#!path src/test/script/lib
+
 !path src/test/fixtures
 Examples from: https://github.com/noamtcohen/SlimJS
 
