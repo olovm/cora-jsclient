@@ -88,15 +88,37 @@
 <script type="text/javascript">
 	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
 // 	var baseUrl = "http://localhost:8080/therest/rest/";
-
+ 
 	window.onload = start;
 	var jsClientSpec;
 	function start() {
-// 		startJsClient();
 		startDependencies();
-		//this is a small hack to have time to read recordTypes before jsClient starts
-		window.setTimeout(startJsClient, 1000);
 	}
+	
+	var metadataProviderStarted = false;
+	function metadataProviderReady() {
+		metadataProviderStarted = true;
+		possiblyStartJsClient();
+	}
+	
+	var textProviderStarted = false;
+	function textProviderReady() {
+		textProviderStarted = true;
+		possiblyStartJsClient();
+	}
+	
+	var recordTypeProviderStarted = false;
+	function recordTypeProviderReady() {
+		recordTypeProviderStarted = true;
+		possiblyStartJsClient();
+	}
+	
+	function possiblyStartJsClient(){
+		if(recordTypeProviderStarted && metadataProviderStarted && textProviderStarted){
+			startJsClient();
+		}
+	}
+	
 	function startDependencies() {
 		var dependencies = {
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
@@ -123,7 +145,8 @@
 			"dependencies" : dependencies,
 			"metadataListLink" : metadataListLink,
 			"textListLink" : textListLink,
-			"presentationListLink" : presentationListLink
+			"presentationListLink" : presentationListLink,
+			"callWhenReady" : metadataProviderReady
 		};
 
 		var metadataProvider = CORA.metadataProvider(metadataProviderSpec);
@@ -131,7 +154,8 @@
 		var textProviderSpec = {
 			"dependencies" : dependencies,
 			"textListLink" : textListLink,
-			"lang" : "sv"
+			"lang" : "sv",
+			"callWhenReady" : textProviderReady
 		};
 
 		var textProvider = CORA.textProvider(textProviderSpec);
@@ -144,7 +168,8 @@
 		};
 		var recordTypeProviderSpec = {
 			"dependencies" : dependencies,
-			"recordTypeListLink" : recordTypeListLink
+			"recordTypeListLink" : recordTypeListLink,
+			"callWhenReady" : recordTypeProviderReady
 		};
 		var recordTypeProvider = CORA.recordTypeProvider(recordTypeProviderSpec);
 		

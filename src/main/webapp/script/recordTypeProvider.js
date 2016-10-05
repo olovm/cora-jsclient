@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -42,6 +43,9 @@ var CORA = (function(cora) {
 
 		function processFetchedData(answer) {
 			createRecordTypeObjectFromAnswer(answer);
+			if(spec.callWhenReady){
+				spec.callWhenReady();
+			}
 		}
 
 		function createRecordTypeObjectFromAnswer(answer) {

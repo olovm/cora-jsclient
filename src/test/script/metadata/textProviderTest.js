@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -17,35 +18,16 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-var CORATEST = (function(coraTest) {
-	"use strict";
-	coraTest.textProviderFactory = function(metadataProvider) {
-		var factor = function(lang) {
-			var spec = {
-				"metadataProvider" : metadataProvider,
-				"lang" : lang
-			};
-			return CORA.textProvider(spec);
-		};
-		return Object.freeze({
-			factor : factor
-		});
-	};
-	return coraTest;
-}(CORATEST || {}));
 
 QUnit.module("textProviderTest.js", {
 	beforeEach : function() {
-		var textListData = CORATEST.textList;
-		var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-		function sendFunction() {
-			xmlHttpRequestSpy.status = 200;
-			xmlHttpRequestSpy.responseText = JSON.stringify(textListData);
-			xmlHttpRequestSpy.addedEventListeners["load"][0]();
-		}
+		var xmlHttpRequestFactoryMultipleSpy = CORATEST.xmlHttpRequestFactoryMultipleSpy();
+		xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
+		var responseText = JSON.stringify(CORATEST.textList);
+		xmlHttpRequestFactoryMultipleSpy.setResponseText(responseText);
 
 		var dependencies = {
-			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
 		};
 		var textListLink = {
 			"requestMethod" : "GET",
@@ -56,24 +38,24 @@ QUnit.module("textProviderTest.js", {
 		var spec = {
 			"dependencies" : dependencies,
 			"textListLink" : textListLink,
-			"lang" : "sv" 
+			"lang" : "sv"
 		};
+		this.spec = spec;
 
-		this.xmlHttpRequestSpy = xmlHttpRequestSpy;
 		this.textListLink = textListLink;
 		this.textListLinkJson = JSON.stringify(this.textListLink);
 
-		var textProvider = CORA.textProvider(spec);
-		this.textProvider = textProvider;
+		this.xmlHttpRequestFactoryMultipleSpy = xmlHttpRequestFactoryMultipleSpy;
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("testInit", function(assert) {
-	var xmlHttpRequestSpy = this.xmlHttpRequestSpy;
-	var openUrls = xmlHttpRequestSpy.getOpenUrls();
-	var openUrl0 = openUrls[0];
+	var provider = CORA.textProvider(this.spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+
+	var openUrl0 = xmlHttpRequestSpy.getOpenUrl();
 	assert.strictEqual(openUrl0.substring(0, openUrl0.indexOf("?")),
 			"http://epc.ub.uu.se/cora/rest/record/text/");
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
@@ -81,25 +63,67 @@ QUnit.test("testInit", function(assert) {
 			"application/uub+recordList+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"], undefined);
 });
+
+QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
+	var providerStarted = false;
+	function providerReady() {
+		providerStarted = true;
+	}
+
+	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
+	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
+
+	var spec = this.spec;
+	spec.callWhenReady = providerReady;
+	var provider = CORA.textProvider(spec);
+
+	var xmlHttpRequestSpy = xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+
+	assert.notOk(providerStarted);
+
+	xmlHttpRequestSpy.runLoadFunction();
+
+	assert.ok(providerStarted);
+});
+
+QUnit.test("initCallWhenReadyNotCalledWhenReadyIfUnspecified", function(assert) {
+	var providerStarted = false;
+	function providerReady() {
+		providerStarted = true;
+	}
+
+	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
+	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
+
+	var spec = this.spec;
+	var provider = CORA.textProvider(spec);
+
+	var xmlHttpRequestSpy = xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+
+	assert.notOk(providerStarted);
+
+	xmlHttpRequestSpy.runLoadFunction();
+
+	assert.notOk(providerStarted);
+});
+
 QUnit.test("testInitEnteredTextListLinkIsNotChanged", function(assert) {
 	var textListLinkJson = this.textListLinkJson;
-	
+
 	var textListLinkJsonAfter = JSON.stringify(this.textListLink);
 	assert.deepEqual(textListLinkJsonAfter, textListLinkJson);
 });
 
 QUnit.test("testGetTranslation", function(assert) {
-	var textProvider = this.textProvider;
-	var translation = textProvider.getTranslation("textPartSvPGroupText");
+	var provider = CORA.textProvider(this.spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	var translation = provider.getTranslation("textPartSvPGroupText");
 	assert.deepEqual(translation, "Svenska");
 });
 
 QUnit.test("testGetTranslationNotFound", function(assert) {
-	var textProvider = this.textProvider;
-//	assert.throws(function() {
-//		textProvider.getTranslation("textPartSvPGroupTextNOT");
-//	}, "Error");
-	var translation = textProvider.getTranslation("textPartSvPGroupTextNOT");
+	var provider = CORA.textProvider(this.spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	var translation = provider.getTranslation("textPartSvPGroupTextNOT");
 	assert.deepEqual(translation, "MISSING TRANSLATION FOR TEXTID:textPartSvPGroupTextNOT");
 });
-

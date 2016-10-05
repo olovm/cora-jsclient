@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -20,16 +21,13 @@
 
 QUnit.module("metadataProviderTest.js", {
 	beforeEach : function() {
-		var metadataListData = CORATEST.metadataList;
-		var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-		function sendFunction() {
-			xmlHttpRequestSpy.status = 200;
-			xmlHttpRequestSpy.responseText = JSON.stringify(metadataListData);
-			xmlHttpRequestSpy.addedEventListeners["load"][0]();
-		}
+		var xmlHttpRequestFactoryMultipleSpy = CORATEST.xmlHttpRequestFactoryMultipleSpy();
+		xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
+		var responseText = JSON.stringify(CORATEST.metadataList);
+		xmlHttpRequestFactoryMultipleSpy.setResponseText(responseText);
 
 		var dependencies = {
-			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
 		};
 		var metadataListLink = {
 			"requestMethod" : "GET",
@@ -55,6 +53,7 @@ QUnit.module("metadataProviderTest.js", {
 			"textListLink" : textListLink,
 			"presentationListLink" : presentationListLink
 		};
+		this.spec = spec;
 		this.metadataListLink = metadataListLink;
 		this.metadataListLinkJson = JSON.stringify(this.metadataListLink);
 		this.presentationListLink = presentationListLink;
@@ -62,22 +61,23 @@ QUnit.module("metadataProviderTest.js", {
 		this.textListLink = textListLink;
 		this.textListLinkJson = JSON.stringify(this.textListLink);
 
-		var metadataProvider = CORA.metadataProvider(spec);
-		this.metadataProvider = metadataProvider;
-		this.xmlHttpRequestSpy = xmlHttpRequestSpy;
+		this.xmlHttpRequestFactoryMultipleSpy = xmlHttpRequestFactoryMultipleSpy;
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	var xmlHttpRequestSpy = this.xmlHttpRequestSpy;
+	var metadataProvider = CORA.metadataProvider(this.spec);
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	var openUrls = xmlHttpRequestSpy.getOpenUrls();
-	var openUrl0 = openUrls[0];
-	var openUrl1 = openUrls[1];
-	var openUrl2 = openUrls[2];
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	var xmlHttpRequestSpy1 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
+	var xmlHttpRequestSpy2 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(2);
+
+	var openUrl0 = xmlHttpRequestSpy.getOpenUrl();
+	var openUrl1 = xmlHttpRequestSpy1.getOpenUrl();
+	var openUrl2 = xmlHttpRequestSpy2.getOpenUrl();
+
 	assert.strictEqual(openUrl0.substring(0, openUrl0.indexOf("?")),
 			"http://epc.ub.uu.se/cora/rest/record/metadata/");
 	assert.strictEqual(openUrl1.substring(0, openUrl1.indexOf("?")),
@@ -91,22 +91,87 @@ QUnit.test("init", function(assert) {
 
 });
 
+QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
+	var providerStarted = false;
+	function providerReady() {
+		providerStarted = true;
+	}
+	
+	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
+	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
+	
+	var spec = this.spec;
+	spec.callWhenReady = providerReady;
+	var provider = CORA.metadataProvider(spec);
+
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	var xmlHttpRequestSpy1 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
+	var xmlHttpRequestSpy2 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(2);
+
+	assert.notOk(providerStarted);
+
+	xmlHttpRequestSpy.runLoadFunction();
+
+	assert.notOk(providerStarted);
+
+	xmlHttpRequestSpy2.runLoadFunction();
+
+	assert.notOk(providerStarted);
+	
+	xmlHttpRequestSpy1.runLoadFunction();
+	
+	assert.ok(providerStarted);
+});
+
+QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
+	var providerStarted = false;
+	function providerReady() {
+		providerStarted = true;
+	}
+	
+	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
+	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
+	
+	var spec = this.spec;
+//	spec.callWhenReady = providerReady;
+	var provider = CORA.metadataProvider(spec);
+
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	var xmlHttpRequestSpy1 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
+	var xmlHttpRequestSpy2 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(2);
+
+	assert.notOk(providerStarted);
+
+	xmlHttpRequestSpy.runLoadFunction();
+
+	assert.notOk(providerStarted);
+
+	xmlHttpRequestSpy2.runLoadFunction();
+
+	assert.notOk(providerStarted);
+	
+	xmlHttpRequestSpy1.runLoadFunction();
+	
+	assert.notOk(providerStarted);
+});
+
 QUnit.test("testInitEnteredLinksIsNotChanged", function(assert) {
+	var provider = CORA.metadataProvider(this.spec);
 	var metadataListLinkJson = this.metadataListLinkJson;
 	var metadataListLinkJsonAfter = JSON.stringify(this.metadataListLink);
 	assert.deepEqual(metadataListLinkJsonAfter, metadataListLinkJson);
-	
+
 	var presentationListLinkJson = this.presentationListLinkJson;
 	var presentationListLinkJsonAfter = JSON.stringify(this.presentationListLink);
 	assert.deepEqual(presentationListLinkJsonAfter, presentationListLinkJson);
-	
+
 	var textListLinkJson = this.textListLinkJson;
 	var textListLinkJsonAfter = JSON.stringify(this.textListLink);
 	assert.deepEqual(textListLinkJsonAfter, textListLinkJson);
 });
 
 QUnit.test("getMetadataById", function(assert) {
-	var metadataProvider = this.metadataProvider;
+	var provider = CORA.metadataProvider(this.spec);
 	var expected = {
 		"children" : [ {
 			"name" : "nameInData",
@@ -166,15 +231,15 @@ QUnit.test("getMetadataById", function(assert) {
 			"type" : "group"
 		}
 	};
-	var x = metadataProvider.getMetadataById("textPartEnGroup");
+	var x = provider.getMetadataById("textPartEnGroup");
 	assert.stringifyEqual(x, expected);
 });
 
 QUnit.test("getMetadataByIdNotFound", function(assert) {
-	var metadataProvider = this.metadataProvider;
+	var provider = CORA.metadataProvider(this.spec);
 	var error = false;
 	try {
-		var x = metadataProvider.getMetadataById("someNonExistingMetadataId");
+		var x = provider.getMetadataById("someNonExistingMetadataId");
 	} catch (e) {
 		error = true;
 	}

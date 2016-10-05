@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -43,24 +44,26 @@ var CORA = (function(cora) {
 
 		function processFetchedTextdata(answer) {
 			createTextObjectFromAnswer(answer);
+			if (spec.callWhenReady) {
+				spec.callWhenReady();
+			}
 		}
 
 		function createTextObjectFromAnswer(answer) {
 			var data = JSON.parse(answer.responseText).dataList.data;
 			data.forEach(function(recordContainer) {
-				var recordData = recordContainer.record.data;
-				var recordId = getIdFromRecordData(recordData);
+				createTextObjectFromRecordContainer(recordContainer);
+			});
+		}
 
-				var cRecordData = CORA.coraData(recordData);
-				var textParts = cRecordData.getChildrenByNameInData("textPart");
-				textParts.forEach(function(textPart) {
-					var lang = textPart.attributes.lang;
-					var text = textPart.children[0].value;
-					if (texts[lang] === undefined) {
-						texts[lang] = [];
-					}
-					texts[lang][recordId] = text;
-				});
+		function createTextObjectFromRecordContainer(recordContainer) {
+			var recordData = recordContainer.record.data;
+			var recordId = getIdFromRecordData(recordData);
+
+			var cRecordData = CORA.coraData(recordData);
+			var textParts = cRecordData.getChildrenByNameInData("textPart");
+			textParts.forEach(function(textPart) {
+				createTextObjectFromTextPart(recordId, textPart);
 			});
 		}
 
@@ -70,6 +73,16 @@ var CORA = (function(cora) {
 			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			return id;
 		}
+
+		function createTextObjectFromTextPart(recordId, textPart) {
+			var lang = textPart.attributes.lang;
+			var text = textPart.children[0].value;
+			if (texts[lang] === undefined) {
+				texts[lang] = [];
+			}
+			texts[lang][recordId] = text;
+		}
+
 		function getTranslation(textId) {
 			if (texts[currentLang][textId] !== undefined) {
 				return texts[currentLang][textId];

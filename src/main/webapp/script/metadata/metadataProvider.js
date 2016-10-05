@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -20,6 +21,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.metadataProvider = function(spec) {
 
+		var processedAjaxCalls = 0;
 		var metadata = {};
 		fetchMetadataListAndThen(processFetchedMetadata);
 		fetchPresentationListAndThen(processFetchedMetadata);
@@ -44,6 +46,14 @@ var CORA = (function(cora) {
 
 		function processFetchedMetadata(answer) {
 			createMetadataObjectFromAnswer(answer);
+			processedAjaxCalls++;
+			possiblyCallWhenReady();
+		}
+
+		function possiblyCallWhenReady() {
+			if (spec.callWhenReady && processedAjaxCalls === 3) {
+				spec.callWhenReady();
+			}
 		}
 
 		function createMetadataObjectFromAnswer(answer) {

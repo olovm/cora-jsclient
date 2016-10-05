@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -20,40 +21,43 @@
 
 QUnit.module("recordTypeProviderTest.js", {
 	beforeEach : function() {
-		var recordTypeListData = CORATEST.recordTypeList;
-		var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-		function sendFunction() {
-			xmlHttpRequestSpy.status = 200;
-			xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-			xmlHttpRequestSpy.addedEventListeners["load"][0]();
-		}
-
+		var xmlHttpRequestFactoryMultipleSpy = CORATEST.xmlHttpRequestFactoryMultipleSpy();
+		xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
+		var responseText = JSON.stringify(CORATEST.recordTypeList);
+		xmlHttpRequestFactoryMultipleSpy.setResponseText(responseText);
+		
 		var dependencies = {
-			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy
 		};
+		this.dependencies = dependencies;
+
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
 			"accept" : "application/uub+recordList+json"
 		};
+		this.recordTypeListLink = recordTypeListLink;
+
 		var spec = {
 			"dependencies" : dependencies,
 			"recordTypeListLink" : recordTypeListLink
 		};
+		
+		this.spec = spec;
 		this.recordTypeListLink = recordTypeListLink;
 		this.recordTypeListLinkJson = JSON.stringify(this.recordTypeListLink);
 
-		var recordTypeProvider = CORA.recordTypeProvider(spec);
-		this.recordTypeProvider = recordTypeProvider;
-		this.xmlHttpRequestSpy = xmlHttpRequestSpy;
+		this.xmlHttpRequestFactoryMultipleSpy = xmlHttpRequestFactoryMultipleSpy;
+		
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("initCorrectRequestMade", function(assert) {
-	var xmlHttpRequestSpy = this.xmlHttpRequestSpy;
+	var provider = CORA.recordTypeProvider(this.spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
 
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
 	var openUrls = xmlHttpRequestSpy.getOpenUrls();
@@ -67,14 +71,58 @@ QUnit.test("initCorrectRequestMade", function(assert) {
 
 });
 
+QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
+	var providerStarted = false;
+	function providerReady() {
+		providerStarted = true;
+	}
+	
+	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
+	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
+	
+	var spec = this.spec;
+	spec.callWhenReady = providerReady;
+	var provider = CORA.recordTypeProvider(spec);
+
+	var xmlHttpRequestSpy = xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	
+	assert.notOk(providerStarted);
+
+	xmlHttpRequestSpy.runLoadFunction();
+	
+	assert.ok(providerStarted);
+});
+
+QUnit.test("initCallWhenReadyNotCalledWhenReadyIfUnspecified", function(assert) {
+	var providerStarted = false;
+	function providerReady() {
+		providerStarted = true;
+	}
+	
+	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
+	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
+	
+	var spec = this.spec;
+	var provider = CORA.recordTypeProvider(spec);
+	
+	var xmlHttpRequestSpy = xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	
+	assert.notOk(providerStarted);
+	
+	xmlHttpRequestSpy.runLoadFunction();
+	
+	assert.notOk(providerStarted);
+});
+
 QUnit.test("testInitEnteredLinkIsNotChanged", function(assert) {
+	var provider = CORA.recordTypeProvider(this.spec);
 	var recordTypeListLinkJson = this.recordTypeListLinkJson;
 	var recordTypeListLinkJsonAfter = JSON.stringify(this.recordTypeListLink);
 	assert.deepEqual(recordTypeListLinkJsonAfter, recordTypeListLinkJson);
 });
 
 QUnit.test("getRecordTypeById", function(assert) {
-	var recordTypeProvider = this.recordTypeProvider;
+	var provider = CORA.recordTypeProvider(this.spec);
 	var expected = {
 		"data" : {
 			"children" : [ {
@@ -194,15 +242,15 @@ QUnit.test("getRecordTypeById", function(assert) {
 			}
 		}
 	};
-	var x = recordTypeProvider.getRecordTypeById("textSystemOne");
+	var x = provider.getRecordTypeById("textSystemOne");
 	assert.stringifyEqual(x, expected);
 });
 
 QUnit.test("getRecordTypeByIdNotFound", function(assert) {
-	var recordTypeProvider = this.recordTypeProvider;
+	var provider = CORA.recordTypeProvider(this.spec);
 	var error = false;
 	try {
-		var x = recordTypeProvider.getRecordTypeById("someNonExistingRecordTypeId");
+		var x = provider.getRecordTypeById("someNonExistingRecordTypeId");
 	} catch (e) {
 		error = true;
 	}
@@ -210,7 +258,8 @@ QUnit.test("getRecordTypeByIdNotFound", function(assert) {
 });
 
 QUnit.test("getAllRecordTypes", function(assert) {
-	var recordTypeList = this.recordTypeProvider.getAllRecordTypes();
+	var provider = CORA.recordTypeProvider(this.spec);
+	var recordTypeList = provider.getAllRecordTypes();
 	assert.stringifyEqual(recordTypeList.length, 15);
 
 });
