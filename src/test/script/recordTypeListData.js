@@ -1944,5 +1944,140 @@ var CORATEST = (function(coraTest) {
 			"toNo" : "15"
 		}
 	};
+	coraTest.recordTypeBrokenList = {
+		"dataList" : {
+			"fromNo" : "1",
+			"data" : [ {
+				"record" : {
+					"dataBROKEN" : {
+						"children" : [
+								{
+									"children" : [
+											{
+												"name" : "id",
+												"value" : "presentationVar"
+											},
+											{
+												"name" : "type",
+												"value" : "recordType"
+											},
+											{
+												"name" : "createdBy",
+												"value" : "userId"
+											},
+											{
+												"name" : "updatedBy",
+												"value" : "userId"
+											},
+											{
+												"children" : [ {
+													"name" : "linkedRecordType",
+													"value" : "system"
+												}, {
+													"name" : "linkedRecordId",
+													"value" : "cora"
+												} ],
+												"actionLinks" : {
+													"read" : {
+														"requestMethod" : "GET",
+														"rel" : "read",
+														"url" : "http://localhost:8080/therest/rest/record/system/cora",
+														"accept" : "application/uub+record+json"
+													}
+												},
+												"name" : "dataDivider"
+											} ],
+									"name" : "recordInfo"
+								}, {
+									"name" : "metadataId",
+									"value" : "presentationVarGroup"
+								}, {
+									"name" : "presentationViewId",
+									"value" : "presentationVarViewPGroup"
+								}, {
+									"name" : "presentationFormId",
+									"value" : "presentationVarFormPGroup"
+								}, {
+									"name" : "newMetadataId",
+									"value" : "presentationVarNewGroup"
+								}, {
+									"name" : "newPresentationFormId",
+									"value" : "presentationVarFormNewPGroup"
+								}, {
+									"name" : "menuPresentationViewId",
+									"value" : "presentationVarMenuPGroup"
+								}, {
+									"name" : "listPresentationViewId",
+									"value" : "presentationVarListPGroup"
+								}, {
+									"name" : "searchMetadataId",
+									"value" : "presentationVarSearchGroup"
+								}, {
+									"name" : "searchPresentationFormId",
+									"value" : "presentationVarFormSearchPGroup"
+								}, {
+									"name" : "userSuppliedId",
+									"value" : "true"
+								}, {
+									"name" : "permissionKey",
+									"value" : "RECORDTYPE_PRESENTATIONVAR"
+								}, {
+									"name" : "selfPresentationViewId",
+									"value" : "presentationVarViewSelfPGroup"
+								}, {
+									"name" : "abstract",
+									"value" : "false"
+								}, {
+									"name" : "parentId",
+									"value" : "presentation"
+								} ],
+						"name" : "recordType"
+					},
+					"actionLinks" : {
+						"search" : {
+							"requestMethod" : "GET",
+							"rel" : "search",
+							"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+							"accept" : "application/uub+recordList+json"
+						},
+						"read" : {
+							"requestMethod" : "GET",
+							"rel" : "read",
+							"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/presentationVar",
+							"accept" : "application/uub+record+json"
+						},
+						"update" : {
+							"requestMethod" : "POST",
+							"rel" : "update",
+							"contentType" : "application/uub+record+json",
+							"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/presentationVar",
+							"accept" : "application/uub+record+json"
+						},
+						"create" : {
+							"requestMethod" : "POST",
+							"rel" : "create",
+							"contentType" : "application/uub+record+json",
+							"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+							"accept" : "application/uub+record+json"
+						},
+						"list" : {
+							"requestMethod" : "GET",
+							"rel" : "list",
+							"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+							"accept" : "application/uub+recordList+json"
+						},
+						"delete" : {
+							"requestMethod" : "DELETE",
+							"rel" : "delete",
+							"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/presentationVar"
+						}
+					}
+				}
+			} ],
+			"totalNo" : "15",
+			"containDataOfType" : "recordType",
+			"toNo" : "15"
+		}
+	};
 	return coraTest;
 }(CORATEST));

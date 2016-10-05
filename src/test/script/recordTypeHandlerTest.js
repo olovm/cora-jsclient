@@ -83,46 +83,43 @@ QUnit.module("recordTypeHandlerTest.js", {
 				"name" : "recordType"
 			},
 			"actionLinks" : {
-				"search" : {
-					"requestMethod" : "GET",
-					"rel" : "search",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+recordList+json"
-				},
-				"read" : {
-					"requestMethod" : "GET",
-					"rel" : "read",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem",
-					"accept" : "application/uub+record+json"
-				},
-				"update" : {
-					"requestMethod" : "POST",
-					"rel" : "update",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem",
-					"accept" : "application/uub+record+json"
-				},
-				"create" : {
-					"requestMethod" : "POST",
-					"rel" : "create",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+record+json"
-				},
-				"list" : {
-					"requestMethod" : "GET",
-					"rel" : "list",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+recordList+json"
-				},
-				"delete" : {
-					"requestMethod" : "DELETE",
-					"rel" : "delete",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem"
-				}
+				"search": {
+		              "requestMethod": "GET",
+		              "rel": "search",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
+		              "accept": "application/uub+recordList+json"
+		            },
+		            "read": {
+		              "requestMethod": "GET",
+		              "rel": "read",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem",
+		              "accept": "application/uub+record+json"
+		            },
+		            "update": {
+		              "requestMethod": "POST",
+		              "rel": "update",
+		              "contentType": "application/uub+record+json",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem",
+		              "accept": "application/uub+record+json"
+		            },
+		            "create": {
+		              "requestMethod": "POST",
+		              "rel": "create",
+		              "contentType": "application/uub+record+json",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
+		              "accept": "application/uub+record+json"
+		            },
+		            "list": {
+		              "requestMethod": "GET",
+		              "rel": "list",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
+		              "accept": "application/uub+recordList+json"
+		            },
+		            "delete": {
+		              "requestMethod": "DELETE",
+		              "rel": "delete",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem"
+		            }
 			}
 		};
 		this.recordWithoutCreateLink = {
@@ -188,46 +185,43 @@ QUnit.module("recordTypeHandlerTest.js", {
 				"name" : "recordType"
 			},
 			"actionLinks" : {
-				"search" : {
-					"requestMethod" : "GET",
-					"rel" : "search",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+recordList+json"
-				},
-				"read" : {
-					"requestMethod" : "GET",
-					"rel" : "read",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem",
-					"accept" : "application/uub+record+json"
-				},
-				"update" : {
-					"requestMethod" : "POST",
-					"rel" : "update",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem",
-					"accept" : "application/uub+record+json"
-				},
-				// "create" : {
-				// "requestMethod" : "POST",
-				// "rel" : "create",
-				// "contentType" : "application/uub+record+json",
-				// "url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-				// "accept" : "application/uub+record+json"
-				// },
-				"list" : {
-					"requestMethod" : "GET",
-					"rel" : "list",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+recordList+json"
-				},
-				"delete" : {
-					"requestMethod" : "DELETE",
-					"rel" : "delete",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem"
-				}
+				"search": {
+		              "requestMethod": "GET",
+		              "rel": "search",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
+		              "accept": "application/uub+recordList+json"
+		            },
+		            "read": {
+		              "requestMethod": "GET",
+		              "rel": "read",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem",
+		              "accept": "application/uub+record+json"
+		            },
+		            "update": {
+		              "requestMethod": "POST",
+		              "rel": "update",
+		              "contentType": "application/uub+record+json",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem",
+		              "accept": "application/uub+record+json"
+		            },
+//		            "create": {
+//		              "requestMethod": "POST",
+//		              "rel": "create",
+//		              "contentType": "application/uub+record+json",
+//		              "url": "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
+//		              "accept": "application/uub+record+json"
+//		            },
+		            "list": {
+		              "requestMethod": "GET",
+		              "rel": "list",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
+		              "accept": "application/uub+recordList+json"
+		            },
+		            "delete": {
+		              "requestMethod": "DELETE",
+		              "rel": "delete",
+		              "url": "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem"
+		            }
 			}
 		};
 		this.createRecordTypeHandlerViewFactory = function() {
@@ -522,13 +516,11 @@ QUnit.test("fetchListCheckAjaxParameters", function(assert) {
 	header.onclick();
 
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
+	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")-1),
 			"http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem");
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
 			"application/uub+recordList+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-			"application/uub+record+json");
 });
 
 QUnit.test("testFactory", function(assert) {

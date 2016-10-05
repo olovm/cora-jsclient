@@ -59,13 +59,13 @@ var CORA = (function(cora) {
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
-			// setting values that should exist as a link in recordType
+			var readLink = spec.recordTypeRecord.actionLinks.list;
 			var callSpec = {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : "GET",
-				"url" : spec.baseUrl + "record/" + recordId,
-				"contentType" : "application/uub+record+json",
-				"accept" : "application/uub+recordList+json",
+				"method" : readLink.requestMethod,
+				"url" : readLink.url,
+				"contentType" : readLink.contentType,
+				"accept" : readLink.accept,
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
@@ -79,8 +79,16 @@ var CORA = (function(cora) {
 		function createRecordTypeListFromAnswer(answer) {
 			var data = JSON.parse(answer.responseText).dataList.data;
 			data.forEach(function(recordContainer) {
-				addRecordToWorkView(recordContainer.record);
+				tryToAddRecordToWorkView(recordContainer);
 			});
+		}
+
+		function tryToAddRecordToWorkView(recordContainer) {
+			try {
+				addRecordToWorkView(recordContainer.record);
+			} catch (e) {
+				workView.appendChild(document.createTextNode(e));
+			}
 		}
 
 		function addRecordToWorkView(record) {

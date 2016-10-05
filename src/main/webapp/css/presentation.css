@@ -15,6 +15,10 @@ input {
 /* 	margin: 3px; */
 }
 
+img {
+	max-width: 100%;
+}
+
 .client1>.presentation {
 	background-color: yellow;
 }
@@ -39,7 +43,7 @@ input {
 	background-color: rgb(248, 191, 91);
 }
 
-.pGroup {
+.pGroup, .pResourceLink {
 	min-height: 13px;
 	min-width: 13px;
 }
@@ -248,13 +252,14 @@ input {
 /* 	display: flex; */
 }
 /* .pVar:hover, .pVar.infoActive { */
-.pVar:hover, .pVar.infoActive,
+.pVar:hover, .pCollVar:hover, .pVar.infoActive,
 .pGroup2:hover, .pGroup.infoActive {
 	background-color: rgb(205, 224, 251);
 	background-color: rgba(49, 134, 252, 0.29);
 }
 /* .pVar.infoActive  > .infoButton::before { */
 .pVar.infoActive  > .infoButton::before,
+.pCollVar.infoActive  > .infoButton::before,
 .pGroup.infoActive  > .infoButton::before {
 	opacity: 1;
 }
@@ -262,12 +267,12 @@ input {
 .pVar input {
 /* 	width: 100%; */
 }
-.workView .pVar {
+.workView .pVar, .workView .pCollVar {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.workView .pVar > :first-child {
+.workView .pVar > :first-child, .workView .pCollVar > :first-child {
 	flex: 1;
 	margin: .2em;
 }
@@ -325,6 +330,7 @@ flex: 0 1 0;
 }
 
 .workView .pVar:hover > .infoButton::before,  input:focus + .infoButton::before ,
+.workView .pCollVar:hover > .infoButton::before,  select:focus + .infoButton::before ,
 .workView .pGroup:hover > .infoButton::before {
 	opacity: 1;
 }

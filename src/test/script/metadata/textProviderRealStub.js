@@ -83,6 +83,8 @@ var CORATEST = (function(coraTest) {
 					return "Presentation att visa initialt";
 			case "theClient_uploadMenuText":
 				return "Uploads";	
+			case "resourceLinkDownloadText":
+				return "Ladda ner";	
 			default:
 				console.log("Id(" + textId + ") not found in textProviderRealStub");
 //				throw new Error("Id(" + textId + ") not found in textProviderRealStub");

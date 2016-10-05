@@ -52,13 +52,16 @@ var CORA = (function(cora) {
 			infoButton = info.getButton();
 			viewNew.appendChild(infoButton);
 
-			var presentationChildren = my.cPresentation
-					.getFirstChildByNameInData("childReferences").children;
-			presentationChildren.forEach(function(presentationChildRef) {
-				viewNew.appendChild(createViewForChild(presentationChildRef));
-			});
+			if (my.cPresentation.containsChildWithNameInData("childReferences")) {
+				var presentationChildren = my.cPresentation
+						.getFirstChildByNameInData("childReferences").children;
+				presentationChildren.forEach(function(presentationChildRef) {
+					viewNew.appendChild(createViewForChild(presentationChildRef));
+				});
+			}
 			originalClassName = view.className;
 		}
+
 		function createInfo() {
 			var infoSpec = {
 				// "insertAfter" is set to infoButton below
@@ -96,8 +99,7 @@ var CORA = (function(cora) {
 
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var ref = cPresentationChildRef
-					.getFirstAtomicValueByNameInData("ref");
+			var ref = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
 			var cPresentationChild = getMetadataById(ref);
 
 			if (childIsText(cPresentationChild)) {
@@ -106,8 +108,7 @@ var CORA = (function(cora) {
 			if (childIsSurroundingContainer(cPresentationChild)) {
 				return createSurroundingContainer(cPresentationChild);
 			}
-			return createPChildRefHandler(cPresentationChild,
-					cPresentationChildRef);
+			return createPChildRefHandler(cPresentationChild, cPresentationChildRef);
 		}
 
 		function childIsText(cChild) {
@@ -131,8 +132,7 @@ var CORA = (function(cora) {
 			return surroundingContainer.getView();
 		}
 
-		function createPChildRefHandler(cPresentationChild,
-				cPresentationChildRef) {
+		function createPChildRefHandler(cPresentationChild, cPresentationChildRef) {
 			var childRefHandlerSpec = {
 				"parentPath" : path,
 				"cParentMetadata" : getMetadataById(my.metadataId),
@@ -173,10 +173,8 @@ var CORA = (function(cora) {
 		}
 
 		function getPresentationId() {
-			var recordInfo = spec.cPresentation
-					.getFirstChildByNameInData("recordInfo");
-			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData(
-					"id");
+			var recordInfo = spec.cPresentation.getFirstChildByNameInData("recordInfo");
+			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
 
 		function getView() {
@@ -184,10 +182,10 @@ var CORA = (function(cora) {
 		}
 
 		return Object.freeze({
-			"type": "pMultipleChildren",
-			getPresentationId: getPresentationId,
-			init: init,
-			getView: getView
+			"type" : "pMultipleChildren",
+			getPresentationId : getPresentationId,
+			init : init,
+			getView : getView
 		});
 	};
 	return cora;
