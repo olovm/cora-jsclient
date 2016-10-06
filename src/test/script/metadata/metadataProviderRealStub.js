@@ -171,9 +171,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "textPartTypeCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "textPartTypeCollection"
-				} ],
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "textPartTypeCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         } ],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"
@@ -205,9 +214,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "textPartTypeDefaultCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "textPartTypeCollection"
-				}, {
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "textPartTypeCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         }, {
 					"name" : "refParentId",
 					"value" : "textPartTypeCollectionVar"
 				}, {
@@ -245,9 +263,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "textPartTypeAlternativeCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "textPartTypeCollection"
-				}, {
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "textPartTypeCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         }, {
 					"name" : "refParentId",
 					"value" : "textPartTypeCollectionVar"
 				}, {
@@ -387,9 +414,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "systemLanguagesCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "systemLanguagesCollection"
-				} ],
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "systemLanguagesCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         } ],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"
@@ -421,9 +457,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "systemLanguageSvCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "systemLanguagesCollection"
-				}, {
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "systemLanguagesCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         }, {
 					"name" : "refParentId",
 					"value" : "systemLanguagesCollectionVar"
 				}, {
@@ -461,9 +506,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "systemLanguageEnCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "systemLanguagesCollection"
-				}, {
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "systemLanguagesCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         }, {
 					"name" : "refParentId",
 					"value" : "systemLanguagesCollectionVar"
 				}, {
@@ -2225,9 +2279,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "systemLanguagesCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "systemLanguagesCollection"
-				} ],
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "systemLanguagesCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         } ],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"
@@ -2605,9 +2668,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "modeCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "modeCollection"
-				} ],
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "modeCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         }],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"
@@ -2741,9 +2813,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "presentationTypePVarCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "presentationTypeCollection"
-				}, {
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "presentationTypeCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         }, {
 					"name" : "refParentId",
 					"value" : "presentationTypeCollectionVar"
 				}, {
@@ -2917,9 +2998,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "presentationTypeCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "presentationTypeCollection"
-				} ],
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "presentationTypeCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         } ],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"
@@ -2951,9 +3041,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "outputFormatCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "outputFormatCollection"
-				} ],
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "outputFormatCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         } ],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"
@@ -3581,9 +3680,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "presentationTypePGroupCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "presentationTypeCollection"
-				}, {
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "presentationTypeCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         }, {
 					"name" : "refParentId",
 					"value" : "presentationTypeCollectionVar"
 				}, {
@@ -3689,9 +3797,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "defTextId",
 					"value" : "defaultPresentationCollectionVarDefTextId"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "defaultPresentationCollection"
-				} ],
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "defaultPresentationCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         } ],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"

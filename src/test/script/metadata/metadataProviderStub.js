@@ -129,9 +129,18 @@ function MetadataProviderStub() {
 					"name" : "defTextId",
 					"value" : "yesNoUnknownVarDefText"
 				}, {
-					"name" : "refCollectionId",
-					"value" : "yesNoUnknownCollection"
-				} ],
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "yesNoUnknownCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         } ],
 				"attributes" : {
 					"type" : "collectionVariable"
 				}
@@ -1240,11 +1249,18 @@ function MetadataProviderStub() {
 					"type" : "collectionVariable"
 				},
 				"children" : [ {
-					"name" : "refCollectionId",
-					"value" : "recordTypeTypeCollection"
-				// }
-				// ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
-				} ]
+	                "children": [
+	                             {
+	                               "name": "linkedRecordType",
+	                               "value": "metadataItemCollection"
+	                             },
+	                             {
+	                               "name": "linkedRecordId",
+	                               "value": "recordTypeTypeCollection"
+	                             }
+	                           ],
+	                           "name": "refCollection"
+	                         }]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("recordTypeTypeCollectionVar"))
 			};
 		}
@@ -2124,108 +2140,131 @@ function MetadataProviderStub() {
 					"type" : "group"
 				}
 			};
-
 		}
 		if (idToGet === "binaryTypeImageCollectionVar") {
 			return {
-				"children" : [ {
-					"children" : [ {
-						"name" : "id",
-						"value" : "binaryTypeImageCollectionVar"
-					}, {
-						"children" : [ {
-							"name" : "linkedRecordType",
-							"value" : "system"
+				"children" : [
+						{
+							"children" : [
+									{
+										"name" : "id",
+										"value" : "binaryTypeImageCollectionVar"
+									},
+									{
+										"children" : [ {
+											"name" : "linkedRecordType",
+											"value" : "system"
+										}, {
+											"name" : "linkedRecordId",
+											"value" : "cora"
+										} ],
+										"actionLinks" : {
+											"read" : {
+												"requestMethod" : "GET",
+												"rel" : "read",
+												"url" : "http://localhost:8080/therest/rest/record/system/cora",
+												"accept" : "application/uub+record+json"
+											}
+										},
+										"name" : "dataDivider"
+									}, {
+										"name" : "type",
+										"value" : "metadataCollectionVariable"
+									}, {
+										"name" : "createdBy",
+										"value" : "userId"
+									} ],
+							"name" : "recordInfo"
 						}, {
-							"name" : "linkedRecordId",
-							"value" : "cora"
+							"name" : "nameInData",
+							"value" : "type"
+						}, {
+							"name" : "textId",
+							"value" : "binaryTypeImageCollectionVarText"
+						}, {
+							"name" : "defTextId",
+							"value" : "binaryTypeImageCollectionVarDefText"
+						}, {
+			                "children": [
+			                             {
+			                               "name": "linkedRecordType",
+			                               "value": "metadataItemCollection"
+			                             },
+			                             {
+			                               "name": "linkedRecordId",
+			                               "value": "binaryTypeCollection"
+			                             }
+			                           ],
+			                           "name": "refCollection"
+			                         }, {
+							"name" : "refParentId",
+							"value" : "binaryTypeCollectionVar"
+						}, {
+							"name" : "finalValue",
+							"value" : "image"
 						} ],
-						"actionLinks" : {
-							"read" : {
-								"requestMethod" : "GET",
-								"rel" : "read",
-								"url" : "http://localhost:8080/therest/rest/record/system/cora",
-								"accept" : "application/uub+record+json"
-							}
-						},
-						"name" : "dataDivider"
-					}, {
-						"name" : "type",
-						"value" : "metadataCollectionVariable"
-					}, {
-						"name" : "createdBy",
-						"value" : "userId"
-					} ],
-					"name" : "recordInfo"
-				}, {
-					"name" : "nameInData",
-					"value" : "type"
-				}, {
-					"name" : "textId",
-					"value" : "binaryTypeImageCollectionVarText"
-				}, {
-					"name" : "defTextId",
-					"value" : "binaryTypeImageCollectionVarDefText"
-				}, {
-					"name" : "refCollectionId",
-					"value" : "binaryTypeCollection"
-				}, {
-					"name" : "refParentId",
-					"value" : "binaryTypeCollectionVar"
-				}, {
-					"name" : "finalValue",
-					"value" : "image"
-				} ],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"
 				}
 			};
-		}
+		}		
 		if (idToGet === "userSuppliedIdCollectionVar") {
 			return {
-				"children" : [ {
-					"children" : [ {
-						"name" : "id",
-						"value" : "userSuppliedIdCollectionVar"
-					}, {
-						"children" : [ {
-							"name" : "linkedRecordType",
-							"value" : "system"
+				"children" : [
+						{
+							"children" : [
+									{
+										"name" : "id",
+										"value" : "userSuppliedIdCollectionVar"
+									},
+									{
+										"children" : [ {
+											"name" : "linkedRecordType",
+											"value" : "system"
+										}, {
+											"name" : "linkedRecordId",
+											"value" : "cora"
+										} ],
+										"actionLinks" : {
+											"read" : {
+												"requestMethod" : "GET",
+												"rel" : "read",
+												"url" : "http://localhost:8080/therest/rest/record/system/cora",
+												"accept" : "application/uub+record+json"
+											}
+										},
+										"name" : "dataDivider"
+									}, {
+										"name" : "type",
+										"value" : "metadataCollectionVariable"
+									}, {
+										"name" : "createdBy",
+										"value" : "userId"
+									} ],
+							"name" : "recordInfo"
 						}, {
-							"name" : "linkedRecordId",
-							"value" : "cora"
-						} ],
-						"actionLinks" : {
-							"read" : {
-								"requestMethod" : "GET",
-								"rel" : "read",
-								"url" : "http://localhost:8080/therest/rest/record/system/cora",
-								"accept" : "application/uub+record+json"
-							}
-						},
-						"name" : "dataDivider"
-					}, {
-						"name" : "type",
-						"value" : "metadataCollectionVariable"
-					}, {
-						"name" : "createdBy",
-						"value" : "userId"
-					} ],
-					"name" : "recordInfo"
-				}, {
-					"name" : "nameInData",
-					"value" : "userSuppliedId"
-				}, {
-					"name" : "textId",
-					"value" : "userSuppliedIdCollectionVarText"
-				}, {
-					"name" : "defTextId",
-					"value" : "userSuppliedIdCollectionVarDefText"
-				}, {
-					"name" : "refCollectionId",
-					"value" : "trueFalseCollection"
-				} ],
+							"name" : "nameInData",
+							"value" : "userSuppliedId"
+						}, {
+							"name" : "textId",
+							"value" : "userSuppliedIdCollectionVarText"
+						}, {
+							"name" : "defTextId",
+							"value" : "userSuppliedIdCollectionVarDefText"
+						}, {
+			                "children": [
+			                             {
+			                               "name": "linkedRecordType",
+			                               "value": "metadataItemCollection"
+			                             },
+			                             {
+			                               "name": "linkedRecordId",
+			                               "value": "trueFalseCollection"
+			                             }
+			                           ],
+			                           "name": "refCollection"
+			                         } ],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"
@@ -2333,59 +2372,74 @@ function MetadataProviderStub() {
 		}
 		if (idToGet === "binaryTypeGenericBinaryCollectionVar") {
 			return {
-				"children" : [ {
-					"children" : [ {
-						"name" : "id",
-						"value" : "binaryTypeGenericBinaryCollectionVar"
-					}, {
-						"children" : [ {
-							"name" : "linkedRecordType",
-							"value" : "system"
-						}, {
-							"name" : "linkedRecordId",
-							"value" : "cora"
-						} ],
-						"actionLinks" : {
-							"read" : {
-								"requestMethod" : "GET",
-								"rel" : "read",
-								"url" : "http://localhost:8080/therest/rest/record/system/cora",
-								"accept" : "application/uub+record+json"
-							}
+				"children" : [
+						{
+							"children" : [
+									{
+										"name" : "id",
+										"value" : "binaryTypeGenericBinaryCollectionVar"
+									},
+									{
+										"children" : [ {
+											"name" : "linkedRecordType",
+											"value" : "system"
+										}, {
+											"name" : "linkedRecordId",
+											"value" : "cora"
+										} ],
+										"actionLinks" : {
+											"read" : {
+												"requestMethod" : "GET",
+												"rel" : "read",
+												"url" : "http://localhost:8080/therest/rest/record/system/cora",
+												"accept" : "application/uub+record+json"
+											}
+										},
+										"name" : "dataDivider"
+									}, {
+										"name" : "type",
+										"value" : "metadataCollectionVariable"
+									}, {
+										"name" : "createdBy",
+										"value" : "userId"
+									} ],
+							"name" : "recordInfo"
 						},
-						"name" : "dataDivider"
-					}, {
-						"name" : "type",
-						"value" : "metadataCollectionVariable"
-					}, {
-						"name" : "createdBy",
-						"value" : "userId"
-					} ],
-					"name" : "recordInfo"
-				}, {
-					"name" : "nameInData",
-					"value" : "type"
-				}, {
-					"name" : "textId",
-					"value" : "binaryTypeGenericBinaryCollectionVarText"
-				}, {
-					"name" : "defTextId",
-					"value" : "binaryTypeGenericBinaryCollectionVarDefText"
-				}, {
-					"name" : "refCollectionId",
-					"value" : "binaryTypeCollection"
-				}, {
-					"name" : "refParentId",
-					"value" : "binaryTypeCollectionVar"
-				}, {
-					"name" : "finalValue",
-					"value" : "genericBinary"
-				} ],
+						{
+							"name" : "nameInData",
+							"value" : "type"
+						},
+						{
+							"name" : "textId",
+							"value" : "binaryTypeGenericBinaryCollectionVarText"
+						},
+						{
+							"name" : "defTextId",
+							"value" : "binaryTypeGenericBinaryCollectionVarDefText"
+						}, {
+			                "children": [
+			                             {
+			                               "name": "linkedRecordType",
+			                               "value": "metadataItemCollection"
+			                             },
+			                             {
+			                               "name": "linkedRecordId",
+			                               "value": "binaryTypeCollection"
+			                             }
+			                           ],
+			                           "name": "refCollection"
+			                         }, {
+							"name" : "refParentId",
+							"value" : "binaryTypeCollectionVar"
+						}, {
+							"name" : "finalValue",
+							"value" : "genericBinary"
+						} ],
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "collectionVariable"
 				}
-			}
+			};
 		}
 		if (idToGet === "noDataDividerBinaryNewGroup") {
 			return {

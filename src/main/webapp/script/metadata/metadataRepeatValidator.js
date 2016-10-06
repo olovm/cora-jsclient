@@ -257,8 +257,10 @@ var CORA = (function(cora) {
 		}
 
 		function getCollectionItemReferences() {
-			var refCollectionId = cMetadataElement
-					.getFirstAtomicValueByNameInData("refCollectionId");
+			var cRefCollection = CORA.coraData(cMetadataElement.getFirstChildByNameInData("refCollection"));
+			
+			var refCollectionId = cRefCollection
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var cItemCollection = getMetadataById(refCollectionId);
 			return cItemCollection.getFirstChildByNameInData("collectionItemReferences");
 		}

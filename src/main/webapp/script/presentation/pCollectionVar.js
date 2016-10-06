@@ -92,8 +92,9 @@ var CORA = (function(cora) {
 		}
 
 		function getCollectionItemReferencesChildren() {
-			var refCollectionId = cMetadataElement
-					.getFirstAtomicValueByNameInData("refCollectionId");
+			var cRefCollection = CORA.coraData(cMetadataElement.getFirstChildByNameInData("refCollection"));
+			var refCollectionId = cRefCollection
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var cMetadataCollection = getMetadataById(refCollectionId);
 			var collectionItemReferences = cMetadataCollection
 					.getFirstChildByNameInData("collectionItemReferences");
