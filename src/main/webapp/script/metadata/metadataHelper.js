@@ -88,7 +88,7 @@ var CORA = (function(cora) {
 
 		function getCollectionItemReferencesFor(cCollectionVariable) {
 			var cAttributeRefCollection = CORA.coraData(cCollectionVariable.getFirstChildByNameInData("refCollection"));
-			
+
 			var attributeRefCollectionId = cAttributeRefCollection
 					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var cAttributeItemCollection = getMetadataById(attributeRefCollectionId);
