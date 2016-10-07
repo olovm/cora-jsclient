@@ -574,10 +574,7 @@ QUnit.test("testHandleFilesSendingOneBinaryFile", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
 });
 
-QUnit
-		.test(
-				"testHandleFilesSendingOneFileError",
-				function(assert) {
+QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
 					var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 							"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
 					var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
@@ -858,6 +855,217 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 	assert.deepEqual(uploadSpec2, expectedUploadSpec2);
 
 });
+
+QUnit.test("testHandleFilesSendingMoreFilesThanAllowed", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+		"groupIdOneChildOfBinaryRecordLinkChildRepeatMax2", "myChildOfBinaryPLink");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var view = attachedPChildRefHandler.view;
+
+	var files = [];
+	var file1 = {
+		"name" : "someFile.tif",
+		"size" : 1234567890
+	};
+	files.push(file1);
+	var file2 = {
+		"name" : "someFile2.tif",
+		"size" : 9876543210
+	};
+	files.push(file2);
+	var file3 = {
+		"name" : "someFile3.tif",
+		"size" : 1122334455
+	};
+	files.push(file3);
+
+	childRefHandler.handleFiles(files);
+
+
+	var data = {
+		"name" : "binary",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "dataDivider",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "system"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "systemX"
+				} ]
+			} ]
+		} ],
+		"attributes":{
+			"type":"image"
+		}
+	};
+
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+		.getFactoredXmlHttpRequest(0);
+	var sentDataArray = xmlHttpRequestSpy.getSentDataArray();
+	assert.strictEqual(sentDataArray[0], JSON.stringify(data));
+
+	var data2 = {
+		"name" : "binary",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "dataDivider",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "system"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "systemX"
+				} ]
+			} ]
+		}],
+		"attributes":{
+			"type":"image"
+		}
+	};
+	var xmlHttpRequestSpy2 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+		.getFactoredXmlHttpRequest(1);
+	var sentDataArray2 = xmlHttpRequestSpy2.getSentDataArray();
+	assert.strictEqual(sentDataArray2[0], JSON.stringify(data2));
+
+	var data3 = {
+		"name" : "binary",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "dataDivider",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "system"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "systemX"
+				} ]
+			} ]
+		} ],
+		"attributes":{
+			"type":"image"
+		}
+	};
+
+	var xmlHttpRequestSpy3 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+		.getFactoredXmlHttpRequest(2);
+	assert.strictEqual(xmlHttpRequestSpy3, undefined);
+
+	var messages = attachedPChildRefHandler.pubSub.getMessages();
+	assert.deepEqual(messages.length, 1);
+	assert.deepEqual(messages[0].type, "updateRecord");
+
+});
+
+QUnit.test("testHandleFilesSendingMoreFilesThanAllowedDifferentRequest", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+		"groupIdOneChildOfBinaryRecordLinkChildRepeatMax2", "myChildOfBinaryPLink");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var view = attachedPChildRefHandler.view;
+
+	var files = [];
+	var file1 = {
+		"name" : "someFile.tif",
+		"size" : 1234567890
+	};
+	files.push(file1);
+	childRefHandler.handleFiles(files);
+
+	var data = {
+		"name" : "binary",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "dataDivider",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "system"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "systemX"
+				} ]
+			} ]
+		} ],
+		"attributes":{
+			"type":"image"
+		}
+	};
+
+	childRefHandler.handleMsg({"metadataId" : "myChildOfBinaryLink"}, "x/y/z/add");
+
+	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+		.getFactoredXmlHttpRequest(0);
+	var sentDataArray = xmlHttpRequestSpy.getSentDataArray();
+	assert.strictEqual(sentDataArray[0], JSON.stringify(data));
+
+	var files2 = [];
+	var file2 = {
+		"name" : "someFile2.tif",
+		"size" : 9876543210
+	};
+	files2.push(file2);
+	var file3 = {
+		"name" : "someFile3.tif",
+		"size" : 1122334455
+	};
+	files2.push(file3);
+	childRefHandler.handleFiles(files2);
+
+	var data2 = {
+		"name" : "binary",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "dataDivider",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "system"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "systemX"
+				} ]
+			} ]
+		}],
+		"attributes":{
+			"type":"image"
+		}
+	};
+	var xmlHttpRequestSpy2 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+		.getFactoredXmlHttpRequest(1);
+	var sentDataArray2 = xmlHttpRequestSpy2.getSentDataArray();
+	assert.strictEqual(sentDataArray2[0], JSON.stringify(data2));
+
+
+	var data3 = {
+		"name" : "binary",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "dataDivider",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "system"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "systemX"
+				} ]
+			} ]
+		} ],
+		"attributes":{
+			"type":"image"
+		}
+	};
+
+	var xmlHttpRequestSpy3 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
+		.getFactoredXmlHttpRequest(2);
+	assert.strictEqual(xmlHttpRequestSpy3, undefined);
+
+});
+
 QUnit.test("testAddButtonShownFor0to1", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneTextChildRepeat0to1", "pVarTextVariableId");

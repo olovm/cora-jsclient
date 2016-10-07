@@ -43,7 +43,7 @@ var CORA = (function(cora) {
 		spec.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
 		spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
 
-		var numberOfFiles = 0;
+		var numberOfFilesToUpload = 0;
 		var numberOfRecordsForFilesCreated = 0;
 
 		function findPresentationId(cPresentationToSearch) {
@@ -352,10 +352,27 @@ var CORA = (function(cora) {
 		}
 
 		function handleFiles(files) {
-			numberOfFiles = files.length;
-			for (var i = 0; i < files.length; i++) {
+			numberOfFilesToUpload = files.length;
+			changeNumberOfFilesIfMaxNumberExceeded(numberOfFilesToUpload);
+			for (var i = 0; i < numberOfFilesToUpload; i++) {
 				handleFile(files[i]);
+			}
+		}
 
+		function changeNumberOfFilesIfMaxNumberExceeded(numberOfChosenFiles) {
+			if (repeatMaxIsNumber()) {
+				calculateNumOfFilesLeftToUploadAndPossiblyChangeNumToUpload(numberOfChosenFiles);
+			}
+		}
+
+		function repeatMaxIsNumber(){
+			return !isNaN(repeatMax);
+		}
+
+		function calculateNumOfFilesLeftToUploadAndPossiblyChangeNumToUpload(numberOfChosenFiles){
+			var numOfFilesLeftToUpLoad = Number(repeatMax) - noOfRepeating;
+			if (numOfFilesLeftToUpLoad < numberOfChosenFiles) {
+				numberOfFilesToUpload = numOfFilesLeftToUpLoad;
 			}
 		}
 
@@ -479,7 +496,7 @@ var CORA = (function(cora) {
 
 		function saveMainRecordIfRecordsAreCreatedForAllFiles() {
 			numberOfRecordsForFilesCreated++;
-			if (numberOfFiles === numberOfRecordsForFilesCreated) {
+			if (numberOfFilesToUpload === numberOfRecordsForFilesCreated) {
 				spec.pubSub.publish("updateRecord", {
 					"data" : "",
 					"path" : {}
