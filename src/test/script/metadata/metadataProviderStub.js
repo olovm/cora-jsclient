@@ -3361,7 +3361,7 @@ function MetadataProviderStub() {
 			return {
 				"name" : "presentation",
 				"attributes" : {
-					"type" : "pLink"
+					"type" : "pRecordLink"
 				},
 				"children" : [ {
 					"name" : "recordInfo",
@@ -3370,8 +3370,14 @@ function MetadataProviderStub() {
 						"value" : "myChildOfBinaryPLink"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myChildOfBinaryLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myChildOfBinaryLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -3381,7 +3387,7 @@ function MetadataProviderStub() {
 			return {
 				"name" : "presentation",
 				"attributes" : {
-					"type" : "pLink"
+					"type" : "pRecordLink"
 				},
 				"children" : [ {
 					"name" : "recordInfo",
@@ -3390,8 +3396,14 @@ function MetadataProviderStub() {
 						"value" : "myBinaryPLink"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myBinaryLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myBinaryLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -3402,7 +3414,7 @@ function MetadataProviderStub() {
 			return {
 				"name" : "presentation",
 				"attributes" : {
-					"type" : "pLink"
+					"type" : "pRecordLink"
 				},
 				"children" : [ {
 					"name" : "recordInfo",
@@ -3411,8 +3423,14 @@ function MetadataProviderStub() {
 						"value" : "myBinaryNoDataDividerPLink"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myBinaryNoDataDividerLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myBinaryNoDataDividerLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -4737,8 +4755,14 @@ function MetadataProviderStub() {
 						"value" : "myLinkNoPresentationOfLinkedRecordPLink"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -4757,8 +4781,14 @@ function MetadataProviderStub() {
 						"value" : "myLinkNoPresentationOfLinkedRecordWithFinalValuePLink"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myFinalValueLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myFinalValueLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -4777,8 +4807,14 @@ function MetadataProviderStub() {
 						"value" : "myLinkNoPresentationOfLinkedRecordChildOfBinary"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myChildOfBinaryLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myChildOfBinaryLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -4797,8 +4833,14 @@ function MetadataProviderStub() {
 						"value" : "myPathLinkNoPresentationOfLinkedRecordPLink"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myPathLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myPathLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -4817,8 +4859,14 @@ function MetadataProviderStub() {
 						"value" : "myChildOfBinaryLinkPLink"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myChildOfBinaryLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myChildOfBinaryLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "input"
@@ -4837,8 +4885,14 @@ function MetadataProviderStub() {
 						"value" : "myLinkNoPresentationOfLinkedRecordOutputPLink"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "output"
@@ -4857,8 +4911,14 @@ function MetadataProviderStub() {
 						"value" : "myPathLinkNoPresentationOfLinkedRecordOutputPLink"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myPathLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myPathLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "output"
@@ -4877,8 +4937,14 @@ function MetadataProviderStub() {
 						"value" : "myLinkPresentationOfLinkedRecordOutputPLink"
 					} ]
 				}, {
-					"name" : "presentationOf",
-					"value" : "myLink"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataRecordLink"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myLink"
+					} ],
+					"name" : "presentationOf"
 				}, {
 					"name" : "mode",
 					"value" : "output"
@@ -4911,8 +4977,14 @@ function MetadataProviderStub() {
 								"value" : "myLinkPresentationOfLinkedRecordOutputPLinkWrongLinkedRecordType"
 							} ]
 						}, {
-							"name" : "presentationOf",
-							"value" : "myLink"
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "metadataRecordLink"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "myLink"
+							} ],
+							"name" : "presentationOf"
 						}, {
 							"name" : "mode",
 							"value" : "output"

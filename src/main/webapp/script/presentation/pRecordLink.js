@@ -25,7 +25,10 @@ var CORA = (function(cora) {
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
-		var metadataId = cPresentation.getFirstAtomicValueByNameInData("presentationOf");
+		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
+		var cPresentationGroup = CORA.coraData(presentationGroup);
+		var metadataId  = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+
 		var cMetadataElement = getMetadataById(metadataId);
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var hasLinkedRepeatId = cMetadataElement.containsChildWithNameInData("linkedPath");
