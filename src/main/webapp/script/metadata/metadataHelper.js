@@ -81,7 +81,9 @@ var CORA = (function(cora) {
 		}
 
 		function getCollectionItemValue(collectionItemRef) {
-			var cCollectionItem = getMetadataById(collectionItemRef.value);
+			var cItemRef = CORA.coraData(collectionItemRef);
+			var itemRefId = cItemRef.getFirstChildByNameInData("linkedRecordId").value;
+			var cCollectionItem = getMetadataById(itemRefId);
 			var value = cCollectionItem.getFirstAtomicValueByNameInData("nameInData");
 			return value;
 		}

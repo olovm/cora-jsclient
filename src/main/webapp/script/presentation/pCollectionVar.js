@@ -102,7 +102,10 @@ var CORA = (function(cora) {
 		}
 
 		function createOptionForRef(ref) {
-			var item = getMetadataById(ref.value);
+			var cItemRef = CORA.coraData(ref);
+			var itemRefId = cItemRef.getFirstChildByNameInData("linkedRecordId").value;
+
+			var item = getMetadataById(itemRefId);
 			var value = item.getFirstAtomicValueByNameInData("nameInData");
 			var optionText = textProvider.getTranslation(item
 					.getFirstAtomicValueByNameInData("textId"));
@@ -169,7 +172,10 @@ var CORA = (function(cora) {
 		function findItemReferenceForValue(value) {
 			var collectionItemReferencesChildren = getCollectionItemReferencesChildren();
 			var itemReference = collectionItemReferencesChildren.find(function(ref) {
-				var item = getMetadataById(ref.value);
+				var cItemRef = CORA.coraData(ref);
+				var itemRefId = cItemRef.getFirstChildByNameInData("linkedRecordId").value;
+
+				var item = getMetadataById(itemRefId);
 				var refValue = item.getFirstAtomicValueByNameInData("nameInData");
 				return refValue === value;
 			});
@@ -178,7 +184,10 @@ var CORA = (function(cora) {
 
 		function setOutputValueFromItemReference(value) {
 			var itemReference = findItemReferenceForValue(value);
-			var item = getMetadataById(itemReference.value);
+			var cItemRef = CORA.coraData(itemReference);
+			var itemRefId = cItemRef.getFirstChildByNameInData("linkedRecordId").value;
+
+			var item = getMetadataById(itemRefId);
 			var outputText = textProvider.getTranslation(item
 					.getFirstAtomicValueByNameInData("textId"));
 			valueView.textContent = outputText;

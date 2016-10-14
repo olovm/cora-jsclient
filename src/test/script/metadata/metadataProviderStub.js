@@ -169,15 +169,43 @@ function MetadataProviderStub() {
 					"children" : [ {
 						"name" : "ref",
 						"repeatId" : "0",
-						"value" : "itemYes"
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataCollectionItem"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "itemYes"
+							}
+						]
 					}, {
 						"name" : "ref",
 						"repeatId" : "1",
-						"value" : "itemNo"
+						"repeatId" : "0",
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataCollectionItem"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "itemNo"
+							}
+						]
 					}, {
 						"name" : "ref",
 						"repeatId" : "2",
-						"value" : "itemUnknown"
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataCollectionItem"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "itemUnknown"
+							}
+						]
 					} ]
 				} ],
 				"attributes" : {
@@ -1209,11 +1237,29 @@ function MetadataProviderStub() {
 					"children" : [ {
 						"name" : "ref",
 						"repeatId" : "0",
-						"value" : "recordTypeTypeChoice1"
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataCollectionItem"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "recordTypeTypeChoice1"
+							}
+						]
 					}, {
 						"name" : "ref",
 						"repeatId" : "1",
-						"value" : "recordTypeTypeChoice2"
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataCollectionItem"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "recordTypeTypeChoice2"
+							}
+						]
 					}
 					// , {
 					// "name" : "ref",
@@ -2751,11 +2797,29 @@ function MetadataProviderStub() {
 					"children" : [ {
 						"repeatId" : "1",
 						"name" : "ref",
-						"value" : "falseItem"
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataCollectionItem"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "falseItem"
+							}
+						]
 					}, {
 						"repeatId" : "0",
 						"name" : "ref",
-						"value" : "trueItem"
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "metadataCollectionItem"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "trueItem"
+							}
+						]
 					} ],
 					"name" : "collectionItemReferences"
 				} ],
@@ -2993,14 +3057,6 @@ function MetadataProviderStub() {
 								"name" : "linkedRecordId",
 								"value" : "userSuppliedIdCollectionVar"
 							} ],
-							"actionLinks" : {
-								"read" : {
-									"requestMethod" : "GET",
-									"rel" : "read",
-									"url" : "http://localhost:8080/therest/rest/record/metadataCollectionVariable/userSuppliedIdCollectionVar",
-									"accept" : "application/uub+record+json"
-								}
-							},
 							"name" : "presentationOf"
 						}, {
 							"name" : "mode",

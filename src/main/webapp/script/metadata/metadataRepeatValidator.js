@@ -266,7 +266,9 @@ var CORA = (function(cora) {
 		}
 
 		function isItemDataValue(collectionItemReference) {
-			var cCollectionItem = getMetadataById(collectionItemReference.value);
+			var cItemRef = CORA.coraData(collectionItemReference);
+			var itemRefId = cItemRef.getFirstChildByNameInData("linkedRecordId").value;
+			var cCollectionItem = getMetadataById(itemRefId);
 			var nameInData = cCollectionItem.getFirstAtomicValueByNameInData("nameInData");
 			return nameInData === data.value;
 		}
