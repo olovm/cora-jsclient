@@ -160,10 +160,28 @@ function MetadataProviderStub() {
 					"value" : "yesNoUnknownCollection"
 				}, {
 					"name" : "textId",
-					"value" : "itemYesNoUnknownText"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "itemYesNoUnknownText"
+				                    }
+				                  ]
 				}, {
 					"name" : "defTextId",
-					"value" : "itemYesNoUnknownDefText"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "itemYesNoUnknownDefText"
+				                    }
+				                  ]
 				}, {
 					"name" : "collectionItemReferences",
 					"children" : [ {
@@ -1228,10 +1246,28 @@ function MetadataProviderStub() {
 					"value" : "recordTypeTypeCollection"
 				}, {
 					"name" : "textId",
-					"value" : "itemYesNoUnknownText"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "itemYesNoUnknownText"
+				                    }
+				                  ]
 				}, {
 					"name" : "defTextId",
-					"value" : "itemYesNoUnknownDefText"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "itemYesNoUnknownDefText"
+				                    }
+				                  ]
 				}, {
 					"name" : "collectionItemReferences",
 					"children" : [ {
@@ -2789,10 +2825,28 @@ function MetadataProviderStub() {
 					"value" : "trueFalseCollection"
 				}, {
 					"name" : "textId",
-					"value" : "trueFalseCollectionText"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "trueFalseCollectionText"
+				                    }
+				                  ]
 				}, {
 					"name" : "defTextId",
-					"value" : "trueFalseCollectionDefText"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "trueFalseCollectionDefText"
+				                    }
+				                  ]
 				}, {
 					"children" : [ {
 						"repeatId" : "1",
