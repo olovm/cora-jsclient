@@ -126,10 +126,28 @@ var CORATEST = (function(coraTest) {
 					"value" : "textPartTypeCollection"
 				}, {
 					"name" : "textId",
-					"value" : "textPartTypeCollectionTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "textPartTypeCollectionTextId"
+				                    }
+				                  ]
 				}, {
 					"name" : "defTextId",
-					"value" : "textPartTypeCollectionDefTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "textPartTypeCollectionDefTextId"
+				                    }
+				                  ]
 				}, {
 					"children" : [ {
 						"name" : "ref",
@@ -369,10 +387,28 @@ var CORATEST = (function(coraTest) {
 					"value" : "systemLanguagesCollection"
 				}, {
 					"name" : "textId",
-					"value" : "systemLanguagesCollectionTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "systemLanguagesCollectionTextId"
+				                    }
+				                  ]
 				}, {
 					"name" : "defTextId",
-					"value" : "systemLanguagesCollectionDefTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "systemLanguagesCollectionDefTextId"
+				                    }
+				                  ]
 				}, {
 					"children" : [ {
 						"name" : "ref",
@@ -2706,10 +2742,28 @@ var CORATEST = (function(coraTest) {
 					"value" : "modeCollection"
 				}, {
 					"name" : "textId",
-					"value" : "modeCollectionTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "modeCollectionTextId"
+				                    }
+				                  ]
 				}, {
 					"name" : "defTextId",
-					"value" : "modeCollectionDefTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "modeCollectionDefTextId"
+				                    }
+				                  ]
 				}, {
 					"children" : [ {
 						"name" : "ref",
@@ -2857,10 +2911,28 @@ var CORATEST = (function(coraTest) {
 					"value" : "presentationTypeCollection"
 				}, {
 					"name" : "textId",
-					"value" : "presentationTypeCollectionTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "presentationTypeCollectionTextId"
+				                    }
+				                  ]
 				}, {
 					"name" : "defTextId",
-					"value" : "presentationTypeCollectionDefTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "presentationTypeCollectionDefTextId"
+				                    }
+				                  ]
 				}, {
 					"children" : [ {
 						"name" : "ref",
@@ -3079,10 +3151,28 @@ var CORATEST = (function(coraTest) {
 					"value" : "outputFormatCollection"
 				}, {
 					"name" : "textId",
-					"value" : "outputFormatCollectionTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "outputFormatCollectionTextId"
+				                    }
+				                  ]
 				}, {
 					"name" : "defTextId",
-					"value" : "outputFormatCollectionDefTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "outputFormatCollectionDefTextId"
+				                    }
+				                  ]
 				}, {
 					"children" : [ {
 						"name" : "ref",
@@ -3835,10 +3925,28 @@ var CORATEST = (function(coraTest) {
 					"value" : "defaultPresentationCollection"
 				}, {
 					"name" : "textId",
-					"value" : "defaultPresentationCollectionTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "defaultPresentationCollectionTextId"
+				                    }
+				                  ]
 				}, {
 					"name" : "defTextId",
-					"value" : "defaultPresentationCollectionDefTextId"
+					"children": [
+				                    {
+				                      "name": "linkedRecordType",
+				                      "value": "textSystemOne"
+				                    },
+				                    {
+				                      "name": "linkedRecordId",
+				                      "value": "defaultPresentationCollectionDefTextId"
+				                    }
+				                  ]
 				}, {
 					"children" : [ {
 						"name" : "ref",
