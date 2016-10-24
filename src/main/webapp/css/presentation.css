@@ -303,9 +303,23 @@ textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::bef
 	display: block;
 }
 
- .pGroup > .pChildRefHandler + .pChildRefHandler {
-	margin-top: 25px;
+.repeatingElement + .repeatingElement {
+	padding-top: 5px;
 }
-.childrenView > .repeatingElement + .repeatingElement {
+.repeatingElement:first-child {
 	margin-top: 5px;
+	border-top: 1px dashed #0082c9;
+	padding-top: 5px;
+}
+.repeatingElement {
+	border-bottom: 1px dashed #0082c9;
+}
+.repeatingElement:last-child {
+	margin-bottom: 5px;
+}
+.repeatingElement:first-child:last-child {
+	border-top: none;
+	border-bottom: none;
+	padding-top: 0;
+	margin-top: 0;
 }
