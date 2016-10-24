@@ -100,7 +100,7 @@ QUnit.test("testAddChildToGroupIdOneTextChild", function(assert) {
 QUnit.test("testAddChildToGroupIdOneTextChildWrongNameInData", function(assert) {
 	var dataHolder = this.newDataHolder("groupIdOneTextChild");
 	var path = {};
-	throws(function() {
+	assert.throws(function() {
 		dataHolder.addChild(path, "textVariableIdNOT");
 	}, "Error");
 });
@@ -123,7 +123,7 @@ QUnit.test("testSetValueGroupIdOneTextChild", function(assert) {
 QUnit.test("testSetValueGroupIdOneTextChildWrongNameInData", function(assert) {
 	var dataHolder = this.newDataHolder("groupIdOneTextChild");
 	dataHolder.addChild({}, "textVariableId");
-	throws(function() {
+	assert.throws(function() {
 		dataHolder.setValue(createLinkedPathWithNameInData("textVariableIdNOT"), 'A Value');
 	}, "Error");
 });
@@ -313,7 +313,7 @@ QUnit.test("testAddChildMissingAttributes", function(assert) {
 	dataHolder.addChild(path, "groupIdOneTextChildTwoAttributes");
 
 	var path2 = createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
-	throws(function() {
+	assert.throws(function() {
 		dataHolder.addChild(path2, "textVariableId");
 	}, "Error");
 });
@@ -753,7 +753,7 @@ QUnit.test("testRemoveChildToGroupIdOneTextChildWrongNameInData", function(asser
 
 	var path3 = createLinkedPathWithNameInData("groupIdOneTextChild");
 	path3.children.push(createLinkedPathWithNameInData("textVariableIdNOT"));
-	throws(function() {
+	assert.throws(function() {
 		dataHolder.remove(path3);
 	}, "Error");
 });
