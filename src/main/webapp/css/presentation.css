@@ -248,7 +248,7 @@ img {
 /* 	min-width: 20px; */
 /* 	min-height: 20px; */
 /* 	position: relative; */
-/* 	display: inline-block; */
+	display: inline-block;	
 }
 .buttonView:empty {
 	display: none;
@@ -370,9 +370,9 @@ textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::bef
 	opacity: 1;
 }
 input:focus, select:focus, textarea:focus {
-	border-width: 1px;
-	border-style:  solid;
-	border-color: #0082c9;
+/* 	border-width: 1px; */
+/* 	border-style:  solid; */
+/* 	border-color: #0082c9; */
 }
 	
 	
