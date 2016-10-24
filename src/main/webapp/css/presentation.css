@@ -1,10 +1,10 @@
 .presentation {
 	min-height: 13px;
 	min-width: 13px;
-	padding: 8px;
-	margin: 5px;
+/* 	padding: 8px; */
+/* 	margin: 5px; */
 	border: 1px solid rgba(140, 140, 140, 0.58);
-	border-radius: 5px;
+/* 	border-radius: 5px; */
 	box-shadow: 5px 5px 8px #aeaeae;
 /* 	width: calc(50% - 2rem); */
 /* 	display: inline-block; */
@@ -60,6 +60,7 @@ img {
 /* 	width: 131px; */
 /* } */
 .removeButton, .maximizeButton, .minimizeButton, .dragButton {
+/* 	background: url("../images/icons2.svg") no-repeat scroll; */
 	cursor: pointer;
 	min-width: 16px;
 	min-height: 16px;
@@ -67,18 +68,30 @@ img {
 	float:right;
 	position: relative;
 	margin-right: 2px;
+	transform: scale(0.7, 0.7);
 }
 .buttonView > span::before, .buttonView> span::after {
 	top: 3px;
 	right: 2px;
 }
-.removeButton::before {
-	background: url("../images/icons2.svg") no-repeat scroll -32px -16px;
+.removeButton::before, .removeButton::after, .minimizeButton::before, .minimizeButton::after,
+.maximizeButton::before, .maximizeButton::after,
+.infoButton::before, .infoButton::after, .dragButton::before, .dragButton::after {
+	background: url("../images/icons2.svg") no-repeat scroll;
 	content: "";
 	height: 16px;
 	width: 16px;
-	opacity: 1;
+/* 	transform: scale(1.3, 1.3); */
 	position: absolute;
+}
+.removeButton::before {
+/* 	background: url("../images/icons2.svg") no-repeat scroll -32px -16px; */
+	background-position: -32px -16px;
+/* 	content: ""; */
+/* 	height: 16px; */
+/* 	width: 16px; */
+	opacity: 1;
+/* 	position: absolute; */
 	transition: opacity 0.5s ease 0s;
 	z-index: 100;
 }
@@ -88,11 +101,12 @@ img {
 }
 
 .removeButton::after {
-	background: url("../images/icons2.svg") no-repeat scroll -32px 0px;
-	content: "";
-	height: 16px;
-	width: 16px;
-	position: absolute;
+/* 	background: url("../images/icons2.svg") no-repeat scroll -32px 0px; */
+	background-position: -32px -0px;
+/* 	content: ""; */
+/* 	height: 16px; */
+/* 	width: 16px; */
+/* 	position: absolute; */
 	opacity: 0;
 	transition: opacity 0.5s ease 0s;
 	z-index: 101;
@@ -103,12 +117,13 @@ img {
 }
 
 .minimizeButton::before {
-	background: url("../images/icons2.svg") no-repeat scroll -176px 0px;
-	content: "";
-	height: 16px;
-	width: 16px;
+	background-position: -176px 0px;
+/* 	background: url("../images/icons2.svg") no-repeat scroll -176px 0px; */
+/* 	content: ""; */
+/* 	height: 16px; */
+/* 	width: 16px; */
 	opacity: 1;
-	position: absolute;
+/* 	position: absolute; */
 	transition: opacity 0.5s ease 0s;
 	z-index: 100;
 }
@@ -118,11 +133,12 @@ img {
 }
 
 .minimizeButton::after {
-	background: url("../images/icons2.svg") no-repeat scroll -176px -16px;
-	content: "";
-	height: 16px;
-	width: 16px;
-	position: absolute;
+	background-position: -176px -16px;
+/* 	background: url("../images/icons2.svg") no-repeat scroll -176px -16px; */
+/* 	content: ""; */
+/* 	height: 16px; */
+/* 	width: 16px; */
+/* 	position: absolute; */
 	opacity: 0;
 	transition: opacity 0.5s ease 0s;
 	z-index: 101;
@@ -132,12 +148,13 @@ img {
 	opacity: 1;
 }
 .maximizeButton::before {
-	background: url("../images/icons2.svg") no-repeat scroll -160px 0px;
-	content: "";
-	height: 16px;
-	width: 16px;
+	background-position: -160px 0px;
+/* 	background: url("../images/icons2.svg") no-repeat scroll -160px 0px; */
+/* 	content: ""; */
+/* 	height: 16px; */
+/* 	width: 16px; */
 	opacity: 1;
-	position: absolute;
+/* 	position: absolute; */
 	transition: opacity 0.5s ease 0s;
 	z-index: 100;
 }
@@ -148,11 +165,12 @@ img {
 }
 
 .maximizeButton::after {
-	background: url("../images/icons2.svg") no-repeat scroll -160px -16px;
-	content: "";
-	height: 16px;
-	width: 16px;
-	position: absolute;
+	background-position: -160px -16px;
+/* 	background: url("../images/icons2.svg") no-repeat scroll -160px -16px; */
+/* 	content: ""; */
+/* 	height: 16px; */
+/* 	width: 16px; */
+/* 	position: absolute; */
 	opacity: 0;
 	transition: opacity 0.5s ease 0s;
 	z-index: 101;
@@ -162,12 +180,13 @@ img {
 	opacity: 1;
 }
 .dragButton::before {
-	background: url("../images/icons2.svg") no-repeat scroll -192px 0px;
-	content: "";
-	height: 16px;
-	width: 16px;
+	background-position: -192px -0px;
+/* 	background: url("../images/icons2.svg") no-repeat scroll -192px 0px; */
+/* 	content: ""; */
+/* 	height: 16px; */
+/* 	width: 16px; */
 	opacity: 1;
-	position: absolute;
+/* 	position: absolute; */
 	transition: opacity 0.5s ease 0s;
 	z-index: 100;
 }
@@ -178,11 +197,12 @@ img {
 }
 
 .dragButton::after {
-	background: url("../images/icons2.svg") no-repeat scroll -192px -16px;
-	content: "";
-	height: 16px;
-	width: 16px;
-	position: absolute;
+	background-position: -192px -16px;
+/* 	background: url("../images/icons2.svg") no-repeat scroll -192px -16px; */
+/* 	content: ""; */
+/* 	height: 16px; */
+/* 	width: 16px; */
+/* 	position: absolute; */
 	opacity: 0;
 	transition: opacity 0.5s ease 0s;
 	z-index: 101;
@@ -200,9 +220,9 @@ img {
 
 
 .repeatingElement {
-	display: block;
-	position: relative;
-	border: 1px dotted grey;
+/* 	display: block; */
+/* 	position: relative; */
+/* 	border: 1px dotted grey; */
 }
 .workView .repeatingElement {
 	display: flex;
@@ -220,15 +240,15 @@ img {
 /* 	margin: .2em; */
 }
 .workView .repeatingElement > :last-child {
-	flex: 0 0 auto;
-	flex: 0;
+/* 	flex: 0 0 auto; */
+/* 	flex: 0; */
 /* 	margin: .2em; */
 }
 .buttonView {
-	min-width: 20px;
-	min-height: 20px;
-	position: relative;
-	display: inline-block;
+/* 	min-width: 20px; */
+/* 	min-height: 20px; */
+/* 	position: relative; */
+/* 	display: inline-block; */
 }
 .buttonView:empty {
 	display: none;
@@ -236,12 +256,13 @@ img {
 }
 
 .repeatingElement>.buttonView {
-	position: absolute;
-	top: 0px;
-	right: 0px;
+/* 	position: absolute; */
+/* 	top: 0px; */
+/* 	right: 0px; */
 }
 .workView .repeatingElement>.buttonView {
-	position: relative;
+/* 	position: relative; */
+	flex: 0 1 0;
 }
 
 .pVar {
@@ -256,6 +277,13 @@ img {
 .pGroup2:hover, .pGroup.infoActive {
 	background-color: rgb(205, 224, 251);
 	background-color: rgba(49, 134, 252, 0.29);
+	background-color: #0082c91a;
+}
+.pGroup:hover, .repeatingElement:hover {
+/* 	background-color: rgb(205, 224, 251); */
+	background-color: rgba(49, 134, 252, 0.29);
+/* 	border: 1px dotted #B6B0A2; */
+	background-color: #0082c91a;
 }
 /* .pVar.infoActive  > .infoButton::before { */
 .pVar.infoActive  > .infoButton::before,
@@ -267,6 +295,9 @@ img {
 .pVar input {
 /* 	width: 100%; */
 }
+.pVar span {
+	font-size: .8rem;
+}
 .workView .pVar, .workView .pCollVar {
 	display: flex;
 	flex-wrap: wrap;
@@ -274,7 +305,7 @@ img {
 
 .workView .pVar > :first-child, .workView .pCollVar > :first-child {
 	flex: 1;
-	margin: .2em;
+	margin: .2em 0;
 }
 
 .workView .pGroup {
@@ -283,13 +314,14 @@ img {
 }
 
 .workView .pGroup > :nth-child(1n) {
-	flex: 0 0 100%;
+/* 	flex: 0 0 99%; */
+	flex: 1 0 100%;
 /* 	margin: .2em; */
 	order: 2;
 }
 .workView .pGroup > :nth-child(2) {
 	flex: 1;
-	margin: .2em;
+	margin: .2em 0;
 	order: 0;
 }
 .workView .pGroup > :first-child {
@@ -309,6 +341,9 @@ flex: 0 1 0;
 /* .pVar .infoButton { */
 .infoButton {
 	cursor: pointer;
+	transform: scale(0.7, 0.7);
+	width: 16px;
+	height: 16px;
 }
 
 /* .pVar .infoView { */
@@ -330,38 +365,50 @@ flex: 0 1 0;
 }
 
 .workView .pVar:hover > .infoButton::before,  input:focus + .infoButton::before ,
-.workView .pCollVar:hover > .infoButton::before,  select:focus + .infoButton::before ,
-.workView .pGroup:hover > .infoButton::before {
+.workView .pCollVar:hover > .infoButton::before,  select:focus + .infoButton::before,
+textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::before {
 	opacity: 1;
 }
+input:focus, select:focus, textarea:focus {
+	border-width: 1px;
+	border-style:  solid;
+	border-color: #0082c9;
+}
 	
-.workView .infoButton::before {
-	background: url("../images/icons2.svg") no-repeat scroll -63px -0px;
-	content: "";
-	height: 16px;
-	width: 16px;
+	
+/* .workView .infoButton::before { */
+.infoButton::before {
+	background-position: -63px -0px;
+/* 	background: url("../images/icons2.svg") no-repeat scroll -63px -0px; */
+/* 	content: ""; */
+/* 	height: 16px; */
+/* 	width: 16px; */
 	opacity: 0;
-	position: absolute;
+/* 	position: absolute; */
 	transition: opacity 0.5s ease 0s;
 	z-index: 100;
 }
 
-.workView .infoButton:hover::before {
+/* .workView .infoButton:hover::before { */
+.infoButton:hover::before {
 	opacity: 0;
 }
 
-.workView .infoButton::after {
-	background: url("../images/icons2.svg") no-repeat scroll -63px -16px;
-	content: "";
-	height: 16px;
-	width: 16px;
-	position: absolute;
+/* .workView .infoButton::after { */
+.infoButton::after {
+	background-position: -63px -16px;
+/* 	background: url("../images/icons2.svg") no-repeat scroll -63px -16px; */
+/* 	content: ""; */
+/* 	height: 16px; */
+/* 	width: 16px; */
+/* 	position: absolute; */
 	opacity: 0;
 	transition: opacity 0.5s ease 0s;
 	z-index: 101;
 }
 
-.workView .infoButton:hover::after {
+/* .workView .infoButton:hover::after { */
+.infoButton:hover::after {
 	opacity: 1;
 }
 
@@ -371,8 +418,8 @@ flex: 0 1 0;
 }
 
 .pSurroundingContainer {
-	border: 1px dashed red;
-	display: block;
+/* 	border: 1px dashed red; */
+/* 	display: block; */
 }
 
 .pChildRefHandler {

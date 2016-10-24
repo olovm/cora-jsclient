@@ -14,15 +14,17 @@ body {
 .jsClient.mainView {
 	height: 100%;
 	/* 	height: calc(100% - 2rem - 2px); */
-	background: linear-gradient(to bottom, #d5ebfc 0%, #f9fafb 100%);
+/* 	background: linear-gradient(to bottom, #d5ebfc 0%, #f9fafb 100%); */
 	/* 	border: 1px solid black; */
 	/* 	box-shadow: 5px 5px 8px #aeaeae; */
 	/* 	border-radius: .3rem; */
 	/* 	margin: 2rem; */
-	border-color: #B6B0A2;
+	border-color: #0082c9;
 	position: relative;
 	display: block;
 	overflow: hidden;
+	
+	background: linear-gradient(to bottom, #eaeaea 0%, #f9fafb 100%);
 }
 
 .progress {
@@ -33,13 +35,14 @@ body {
 
 .jsClient>.header {
 	display: block;
-	height: 4rem;
-	font-size: 3rem;
+	height: 3rem;
+	font-size: 2.5rem;
 	text-align: center;
-	color: magenta;
+	color: white;
 	border-bottom: 1px solid;
 	border-color: inherit;
 	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
+	background-color: #0082c9;
 }
 
 .jsClient>.header .menuView {
@@ -80,15 +83,15 @@ body {
 }
 
 .jsClient>.sideBar {
-	display: inline-block;
-	/* 	height: calc(100% - 9rem - 2rem - 1px); */
-	height: calc(100% - 6rem - 1px);
-	overflow: auto;
-	width: 20rem;
-	padding: 1rem;
-	border-right: 1px solid;
 	border-color: inherit;
-	position: relative;
+    border-right-style: solid;
+    border-right-width: 1px;
+    display: inline-block;
+    height: calc(100% - 3rem - 1px);
+    overflow: auto;
+    padding: 0rem 0.5rem;
+    position: relative;
+    width: 20rem;
 }
 
 .sideBar>.recordType {
@@ -149,7 +152,7 @@ body {
 
 .sideBar .active, .header .active {
 	font-weight: bold;
-	background-color: rgba(162, 196, 228, 0.19);
+/* 	background-color: rgba(162, 196, 228, 0.19); */
 	background-color: rgba(5, 131, 249, 0.49);
 }
 /* .recordType .childrenView span { */
@@ -158,11 +161,11 @@ body {
 }
 
 .jsClient>.workArea {
-	position: absolute;
-	display: inline-block;
-	width: calc(100% - 24rem - 1px);
-	height: calc(100% - 6rem - 1px);
-	margin: 1rem;
+	display: inline;
+    height: calc(100% - 3rem - 1px);
+    margin-left: 1rem;
+    position: absolute;
+    width: calc(100% - 22rem - 1px);
 }
 
 .workArea .workView {
@@ -283,6 +286,7 @@ body {
 	counter-increment: record;
 	display: flex;
 	border-bottom: 1px dashed;
+	padding: 0.3rem
 }
 
 .jsClient .listItem::before {
@@ -291,7 +295,7 @@ body {
 	display: block;
 /* 	position: absolute; */
 	left: 0rem;
-	padding-top: 0.7rem;
+	padding-right: 0.5rem;
 }
 
 .jsClient .listItem .presentation {
@@ -353,7 +357,7 @@ body {
 
 .jsClient .editView, .jsClient .showView {
 	height: calc(100% - 3rem);
-	width: calc(50%);
+	width: calc(50% - 0.5rem);
 	display: inline-block;
 	overflow: auto;
 }
@@ -369,8 +373,8 @@ body {
 }
 
 .jsClient .editView .repeatingElement .repeatingElement .maximized {
-	border: 1px solid #9799b0;
-	background-color: rgba(0, 0, 255, 0.06);
+/* 	border: 1px solid #9799b0; */
+/* 	background-color: rgba(0, 0, 255, 0.06); */
 }
 
 .jsClient .editView .repeatingElement .repeatingElement .repeatingElement .maximized {
@@ -379,9 +383,9 @@ body {
 }
 
 .jsClient .editView .pSurroundingContainer {
-	border-color: grey;
-	border-style: dotted;
-	margin-top: 1rem;
+/* 	border-color: grey; */
+/* 	border-style: dotted; */
+/* 	margin-top: 1rem; */
 }
 /* .jsClient .showView { */
 .jsClient {
@@ -397,9 +401,10 @@ body {
 	margin-top: .3rem;
 }
 
-.jsClient .showView .text {
+.jsClient .text {
 	font-weight: bold;
 	margin: 0;
+	margin-top: 0.5rem;
 }
 
 .jsClient .showView .pSurroundingContainer {
