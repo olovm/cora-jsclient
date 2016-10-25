@@ -75,7 +75,7 @@ QUnit.test("testProblemWhenCallingFunctionToCall", function(assert) {
 		"path" : path,
 		"repeatId" : "someRepeatId"
 	};
-	throws(function() {
+	assert.throws(function() {
 		this.pubSub.publish(type, data);
 	}, "Error");
 });
