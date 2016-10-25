@@ -87,7 +87,8 @@ var CORA = (function(cora) {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"views" : views,
-				"jsClient": spec.jsClient
+				"jsClient": spec.jsClient,
+				"recordTypeHandler":out
 			};
 			spec.recordHandlerFactory.factor(recordHandlerSpec);
 		}
@@ -102,7 +103,8 @@ var CORA = (function(cora) {
 		var out = Object.freeze({
 			getView : getView,
 			createRecordTypeList : createRecordTypeList,
-			createRecordHandlerViewFactory:createRecordHandlerViewFactory
+			createRecordHandlerViewFactory:createRecordHandlerViewFactory,
+			createRecordHandler:createRecordHandler
 		});
 		return out;
 	};

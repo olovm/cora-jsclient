@@ -69,7 +69,9 @@ var CORA = (function(cora) {
 		}
 		function hide() {
 			clearHideTimeout();
-			view.parentNode.removeChild(view);
+			if(view.parentNode){
+				view.parentNode.removeChild(view);
+			}
 		}
 		function clearHideTimeout() {
 			window.clearTimeout(hideTimeout);

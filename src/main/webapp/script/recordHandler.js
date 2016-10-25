@@ -44,7 +44,8 @@ var CORA = (function(cora) {
 		var dataIsChanged = false;
 
 		if ("new" === spec.presentationMode) {
-			createGuiForNew();
+//				var oldData = {"name":"book","children":[{"name":"recordInfo","children":[{"name":"id","value":"book:129444859150323"},{"name":"type","value":"book"},{"name":"createdBy","value":"12345"},{"name":"dataDivider","children":[{"name":"linkedRecordType","value":"system"},{"name":"linkedRecordId","value":"systemOne"}]}]},{"name":"bookTitle","value":"Standards as a way of life"},{"name":"bookCover","children":[{"name":"linkedRecordType","value":"image"},{"name":"linkedRecordId","value":"image:129454637795255"}],"repeatId":"1"},{"name":"bookCover","children":[{"name":"linkedRecordType","value":"image"},{"name":"linkedRecordId","value":"image:129454546346696"}],"repeatId":"0"}]};
+			createGuiForNew(spec.record);
 		} else {
 			fetchDataFromServer(processFetchedRecord);
 		}
@@ -55,13 +56,18 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		function createGuiForNew() {
+		function createGuiForNew(oldData) {
 			try {
-				recordGuiNew = createRecordGui(getNewMetadataId());
+				recordGuiNew = createRecordGui(getNewMetadataId(),oldData);
+				recordGui = recordGuiNew;
 				addNewRecordToWorkView(recordGuiNew);
 				addRecordToMenuView(recordGuiNew);
 				addToShowView(recordGuiNew);
 				recordGuiNew.initMetadataControllerStartingGui();
+				if(oldData){
+					dataIsChanged = true;
+					updateMenuClassName();
+				}
 			} catch (error) {
 				createRawDataWorkView("something went wrong, probably missing metadata, " + error);
 			}
@@ -124,6 +130,8 @@ var CORA = (function(cora) {
 			var presentationView = recordGuiToAdd.getPresentation(presentationViewId).getView();
 			recordHandlerView.addEditView(presentationView);
 			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
+			recordHandlerView.addButton("SHOW DATA", showData, "showData");
+			recordHandlerView.addButton("COPY", copyData, "copyData");
 		}
 
 		function getPresentationNewViewId() {
@@ -249,8 +257,23 @@ var CORA = (function(cora) {
 					addToEditView(recordGuiToAdd);
 					recordHandlerView.addButton("UPDATE", sendUpdateDataToServer, "update");
 				}
+				recordHandlerView.addButton("SHOW DATA", showData, "showData");
+				recordHandlerView.addButton("COPY", copyData, "copyData");
 			}
 			addToShowView(recordGuiToAdd);
+		}
+		function showData(){
+//			console.log(JSON.stringify(recordGui.dataHolder.getData()));
+			var messageSpec = {
+					"message" : JSON.stringify(recordGui.dataHolder.getData()),
+					"type" : CORA.message.INFO,
+					"timeout" : 0
+				};
+				messageHolder.createMessage(messageSpec);
+		}
+		function copyData(){
+//			console.log(JSON.stringify(recordGui.dataHolder.getData()));
+			spec.recordTypeHandler.createRecordHandler("new",recordGui.dataHolder.getData());
 		}
 
 		function notAbstractRecordRecordType() {
