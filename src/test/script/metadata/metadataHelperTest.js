@@ -130,20 +130,20 @@ QUnit.test("testGetChildRefPartOfMetadata", function(assert) {
 });
 
 QUnit.test("testSameAttributeUndefined", function(assert) {
-	assert.ok(this.metadataHelper.attributesMatch(undefined, undefined));
+	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(undefined, undefined));
 });
 
 QUnit.test("testSameAttributeOneUndefined", function(assert) {
 	var attribute1 = {};
-	assert.ok(this.metadataHelper.attributesMatch(attribute1, undefined));
+	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(attribute1, undefined));
 	var attribute2 = {};
-	assert.ok(this.metadataHelper.attributesMatch(undefined, attribute2));
+	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(undefined, attribute2));
 });
 
 QUnit.test("testSameAttributeEmpty", function(assert) {
 	var attribute1 = {};
 	var attribute2 = {};
-	assert.ok(this.metadataHelper.attributesMatch(attribute1, attribute2));
+	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
 });
 
 QUnit.test("testSameAttributeOneEmpty", function(assert) {
@@ -151,17 +151,27 @@ QUnit.test("testSameAttributeOneEmpty", function(assert) {
 		"anAttribute" : [ "aFinalValue" ]
 	};
 	var attribute2 = {};
-	assert.notOk(this.metadataHelper.attributesMatch(attribute1, attribute2));
+	assert.notOk(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
 });
 
-QUnit.test("testattributesMatchame", function(assert) {
+QUnit.test("testfirstAttributesExistsInSecondame", function(assert) {
 	var attribute1 = {
 		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
 	};
 	var attribute2 = {
 		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
 	};
-	assert.ok(this.metadataHelper.attributesMatch(attribute1, attribute2));
+	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
+});
+
+QUnit.test("testfirstAttributesExistsInSecondReversedAttributes", function(assert) {
+	var attribute1 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
+	};
+	var attribute2 = {
+		"recordTypeTypeCollectionVar" : [ "aOtherFinalValue", "aFinalValue" ]
+	};
+	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
 });
 
 QUnit.test("testSameAttributeDifferentAttributeValues", function(assert) {
@@ -171,16 +181,52 @@ QUnit.test("testSameAttributeDifferentAttributeValues", function(assert) {
 	var attribute2 = {
 		"recordTypeTypeCollectionVar" : [ "aFinalValue" ]
 	};
-	assert.ok(this.metadataHelper.attributesMatch(attribute1, attribute2));
+	assert.notOk(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
 });
-QUnit.test("testSameAttributeDifferentAttributeValues", function(assert) {
+QUnit.test("testSameAttributeDifferentAttributeValues2", function(assert) {
+	var attribute1 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
+	};
+	var attribute2 = {
+		"recordTypeTypeCollectionVar" : [ "aOtherFinalValue" ]
+	};
+	assert.notOk(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
+});
+QUnit.test("testSameAttributeDifferentAttributeValues3", function(assert) {
 	var attribute1 = {
 		"recordTypeTypeCollectionVar" : [ "aFinalValue" ]
 	};
 	var attribute2 = {
 		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
 	};
-	assert.ok(this.metadataHelper.attributesMatch(attribute1, attribute2));
+	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
+});
+QUnit.test("testSameAttributeDifferentAttributeValues4", function(assert) {
+	var attribute1 = {
+		"recordTypeTypeCollectionVar" : [ "aOtherFinalValue" ]
+	};
+	var attribute2 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue", "aOtherFinalValue" ]
+	};
+	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
+});
+QUnit.test("testSameAttributeDifferentAttributeValues5", function(assert) {
+	var attribute1 = {
+		"recordTypeTypeCollectionVar" : [ "aOtherFinalValue" ]
+	};
+	var attribute2 = {
+		"recordTypeTypeCollectionVar" : [ "aOtherFinalValue", "aFinalValue" ]
+	};
+	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
+});
+QUnit.test("testSameAttributeDifferentAttributeValues6", function(assert) {
+	var attribute1 = {
+		"recordTypeTypeCollectionVar" : [ "aFinalValue" ]
+	};
+	var attribute2 = {
+		"recordTypeTypeCollectionVar" : [ "aOtherFinalValue", "aFinalValue" ]
+	};
+	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
 });
 QUnit.test("testSameAttributeDifferent", function(assert) {
 	var attribute1 = {
@@ -189,7 +235,7 @@ QUnit.test("testSameAttributeDifferent", function(assert) {
 	var attribute2 = {
 		"recordTypeTypeCollectionVarNOT" : [ "aFinalValue" ]
 	};
-	assert.notOk(this.metadataHelper.attributesMatch(attribute1, attribute2));
+	assert.notOk(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
 });
 QUnit.test("testSameAttributeDifferentName", function(assert) {
 	var attribute1 = {
@@ -198,5 +244,5 @@ QUnit.test("testSameAttributeDifferentName", function(assert) {
 	var attribute2 = {
 		"recordTypeTypeCollectionVarNOT" : [ "aFinalValue" ]
 	};
-	assert.notOk(this.metadataHelper.attributesMatch(attribute1, attribute2));
+	assert.notOk(this.metadataHelper.firstAttributesExistsInSecond(attribute1, attribute2));
 });

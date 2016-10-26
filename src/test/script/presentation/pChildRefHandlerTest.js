@@ -1563,6 +1563,28 @@ QUnit.test("testHandleMessageMatchingNameInDataAndAttribute", function(assert) {
 	assert.strictEqual(childrenView.childNodes.length, 1);
 });
 
+QUnit.test("testHandleMessageMatchingNameInDataAndMoreGenericAttributeDefinition", function(assert) {
+//	aFinalValue
+//	aOtherFinalValue
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"textVarRepeat1to3InGroupParentAttribute1toXInGroup",
+	"pgTextVarRepeat1to3InGroupParentAttribute");
+	var view = attachedPChildRefHandler.view;
+	var childrenView = view.firstChild;
+	assert.strictEqual(childrenView.childNodes.length, 0);
+	
+	attachedPChildRefHandler.pChildRefHandler.handleMsg({
+		"metadataId" : "textVarRepeat1to3InGroupOneAttribute",
+		"nameInData" : "textVarRepeat1to3InGroupOneAttribute",
+		"attributes" : {
+//			"recordTypeTypeCollectionVar" : [ "aFinalValue" ]
+			"recordTypeTypeCollectionVar" : [ "aOtherFinalValue" ]
+		}
+	}, "x/y/z/add");
+	
+	assert.strictEqual(childrenView.childNodes.length, 1);
+});
+
 QUnit.test("testHandleMessageMatchingNameInDataWrongAttribute", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"textVarRepeat1to3InGroupParentAttribute1toXInGroup",
