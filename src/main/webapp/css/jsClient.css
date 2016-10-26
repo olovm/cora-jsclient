@@ -343,7 +343,7 @@ body {
 
 .jsClient .editView .repeatingElement .repeatingElement, .jsClient .editView .pSurroundingContainer .repeatingElement
 	{
-	border: none;
+/* 	border: none; */
 }
 
 .jsClient .editView .repeatingElement .repeatingElement .repeatingElement .maximized {
