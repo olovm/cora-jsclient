@@ -122,6 +122,33 @@ QUnit.test("testRemoveButton", function(assert) {
 	message.clearHideTimeout();
 });
 
+QUnit.test("testRemoveButtonMultipleTransitionsMayCallHideMoreThanOnce", function(assert) {
+	var messageSpec = {
+			"message" : "some text",
+			"type" : CORA.message.ERROR,
+			"timeout" : 21
+	};
+	var message = CORA.message(messageSpec);
+	
+	var view = message.getView();
+	this.fixture.appendChild(view);
+	assert.visible(view);
+	
+	var removeButton = view.childNodes[1];
+	var event = document.createEvent('Event');
+	removeButton.onclick(event);
+	
+	assert.notVisible(view);
+	var noProblem = true;
+	try{
+		message.hide();
+		message.hide();
+	}catch (e) {
+		noProblem = false;
+	}
+	assert.ok(noProblem);
+});
+
 QUnit.test("testHideAfterTimeout", function(assert) {
 	var done = assert.async();
 	var messageSpec = {

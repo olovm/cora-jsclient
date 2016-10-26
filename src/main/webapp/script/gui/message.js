@@ -64,15 +64,18 @@ var CORA = (function(cora) {
 		function getTimeout() {
 			return timeout;
 		}
+		
 		function getView() {
 			return view;
 		}
+		
 		function hide() {
 			clearHideTimeout();
 			if(view.parentNode){
 				view.parentNode.removeChild(view);
 			}
 		}
+		
 		function clearHideTimeout() {
 			window.clearTimeout(hideTimeout);
 			window.clearTimeout(hideIfTransitionendNotCalled);
