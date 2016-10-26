@@ -164,7 +164,7 @@ img {
 	flex: 1;
 }
 .buttonView {
-	display: inline-block;	
+/* 	display: inline-block;	 */
 }
 .buttonView:empty {
 	display: none;
@@ -314,7 +314,7 @@ textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::bef
 .repeatingElement {
 	border-bottom: 1px dashed #0082c9;
 }
-.repeatingElement:last-child {
+.editView .repeatingElement:last-child {
 	margin-bottom: 5px;
 }
 .repeatingElement:first-child:last-child {
