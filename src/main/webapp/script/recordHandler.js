@@ -41,6 +41,8 @@ var CORA = (function(cora) {
 		topBar.appendChild(toolHolder.getButton());
 
 		var toolView = toolHolder.getView();
+		toolView.appendChild(createButton("SHOW DATA", showData, "showData"));
+		toolView.appendChild(createButton("COPY", copyData, "copyData"));
 		
 		
 		var messageHolder = CORA.messageHolder();
@@ -148,8 +150,8 @@ var CORA = (function(cora) {
 			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
 //			recordHandlerView.addButton("SHOW DATA", showData, "showData");
 //			recordHandlerView.addButton("COPY", copyData, "copyData");
-			toolView.appendChild(createButton("SHOW DATA", showData, "showData"));
-			toolView.appendChild(createButton("COPY", copyData, "copyData"));
+//			toolView.appendChild(createButton("SHOW DATA", showData, "showData"));
+//			toolView.appendChild(createButton("COPY", copyData, "copyData"));
 		}
 
 		function getPresentationNewViewId() {
@@ -277,8 +279,8 @@ var CORA = (function(cora) {
 				}
 //				recordHandlerView.addButton("SHOW DATA", showData, "showData");
 //				recordHandlerView.addButton("COPY", copyData, "copyData");
-				toolView.appendChild(createButton("SHOW DATA", showData, "showData"));
-				toolView.appendChild(createButton("COPY", copyData, "copyData"));
+//				toolView.appendChild(createButton("SHOW DATA", showData, "showData"));
+//				toolView.appendChild(createButton("COPY", copyData, "copyData"));
 			}
 			addToShowView(recordGuiToAdd);
 		}
