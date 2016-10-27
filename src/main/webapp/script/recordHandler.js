@@ -27,9 +27,25 @@ var CORA = (function(cora) {
 		var workView = views.workView;
 		var menuView = views.menuView;
 		var menuViewOrgClassName = views.originalClassName;
+		
+		
+		
+		var topBar =  document.createElement("span");
+		topBar.className = "topBar";
+		workView.appendChild(topBar);
+		
+		var toolHolder = CORA.holder({
+			"className":"tool",
+			"appendTo" : workView
+		});
+		topBar.appendChild(toolHolder.getButton());
 
+		var toolView = toolHolder.getView();
+		
+		
 		var messageHolder = CORA.messageHolder();
 		workView.appendChild(messageHolder.getView());
+		
 
 		var recordHandlerView = createRecordHandlerView();
 		workView.appendChild(recordHandlerView.getView());
@@ -130,8 +146,10 @@ var CORA = (function(cora) {
 			var presentationView = recordGuiToAdd.getPresentation(presentationViewId).getView();
 			recordHandlerView.addEditView(presentationView);
 			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
-			recordHandlerView.addButton("SHOW DATA", showData, "showData");
-			recordHandlerView.addButton("COPY", copyData, "copyData");
+//			recordHandlerView.addButton("SHOW DATA", showData, "showData");
+//			recordHandlerView.addButton("COPY", copyData, "copyData");
+			toolView.appendChild(createButton("SHOW DATA", showData, "showData"));
+			toolView.appendChild(createButton("COPY", copyData, "copyData"));
 		}
 
 		function getPresentationNewViewId() {
@@ -257,10 +275,22 @@ var CORA = (function(cora) {
 					addToEditView(recordGuiToAdd);
 					recordHandlerView.addButton("UPDATE", sendUpdateDataToServer, "update");
 				}
-				recordHandlerView.addButton("SHOW DATA", showData, "showData");
-				recordHandlerView.addButton("COPY", copyData, "copyData");
+//				recordHandlerView.addButton("SHOW DATA", showData, "showData");
+//				recordHandlerView.addButton("COPY", copyData, "copyData");
+				toolView.appendChild(createButton("SHOW DATA", showData, "showData"));
+				toolView.appendChild(createButton("COPY", copyData, "copyData"));
 			}
 			addToShowView(recordGuiToAdd);
+		}
+		function createButton(text, onclickMethod, className) {
+			var button = document.createElement("input");
+			button.type = "button";
+			button.value = text;
+			button.onclick = onclickMethod;
+			if (undefined !== className) {
+				button.className = className;
+			}
+			return button;
 		}
 		function showData(){
 //			console.log(JSON.stringify(recordGui.dataHolder.getData()));

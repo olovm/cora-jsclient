@@ -146,7 +146,7 @@ QUnit.test("initCallToServer", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
 			"application/uub+record+json");
 
-	assert.strictEqual(this.workView.childNodes.length, 3);
+	assert.strictEqual(this.workView.childNodes.length, 5);
 
 });
 
@@ -185,11 +185,17 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
-
-	var messageHolder = this.workView.childNodes[0];
+	
+	var topBar = this.workView.childNodes[0];
+	assert.strictEqual(topBar.className, "topBar");
+	
+	var toolHolder = this.workView.childNodes[1];
+	assert.strictEqual(toolHolder.className, "holder tool");
+	
+	var messageHolder = this.workView.childNodes[2];
 	assert.strictEqual(messageHolder.className, "messageHolder");
 
-	var workItem = this.workView.childNodes[1];
+	var workItem = this.workView.childNodes[3];
 	assert.strictEqual(workItem.className, "workItem recordType");
 
 	var editView = workItem.childNodes[0];
@@ -213,10 +219,11 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 	var removeButton = menuView.childNodes[1];
 	assert.strictEqual(removeButton.className, "removeButton");
 
-	var busy = this.workView.childNodes[2];
+	var busy = this.workView.childNodes[4];
 	assert.strictEqual(busy.className, "busy toBeRemoved");
-
 });
+
+
 QUnit.test("initCheckRemoveButtonInMenuView", function(assert) {
 	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
 	var record = this.record;
@@ -289,10 +296,10 @@ QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 	assert.strictEqual(this.presentationIdUsed[0], "textViewPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "textMenuPGroup");
 
-	var messageHolder = this.workView.childNodes[0];
+	var messageHolder = this.workView.childNodes[2];
 	assert.strictEqual(messageHolder.className, "messageHolder");
 
-	var workItem = this.workView.childNodes[1];
+	var workItem = this.workView.childNodes[3];
 	assert.strictEqual(workItem.className, "workItem text");
 
 	var editView = workItem.childNodes[0];
@@ -428,12 +435,12 @@ QUnit.test("testUpdateCall", function(assert) {
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 	assert.strictEqual(this.dataDividerUsed[0], "cora");
-	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[3].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 
-	var buttonView = this.workView.childNodes[1].childNodes[2];
+	var buttonView = this.workView.childNodes[3].childNodes[2];
 	assert.strictEqual(buttonView.className, "buttonView");
 
 	var updateButton = buttonView.childNodes[1];
@@ -553,7 +560,7 @@ QUnit.test("testUpdateDataIsChanged", function(assert) {
 	// reset xmlHttpReqestSpy
 	xmlHttpRequestSpy.addedEventListeners["load"] = [];
 
-	var buttonView = this.workView.childNodes[1].childNodes[2];
+	var buttonView = this.workView.childNodes[3].childNodes[2];
 
 	var updateButton = buttonView.childNodes[1];
 	updateButton.onclick();
@@ -597,12 +604,12 @@ QUnit.test("testUpdateCallValidationError", function(assert) {
 	xmlHttpRequestSpy.setSendWasCalled(false);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
-	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[3].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 
-	var buttonView = this.workView.childNodes[1].childNodes[2];
+	var buttonView = this.workView.childNodes[3].childNodes[2];
 	assert.strictEqual(buttonView.className, "buttonView");
 
 	var updateButton = buttonView.childNodes[1];
@@ -645,12 +652,12 @@ QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
-	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[3].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeViewPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeMenuPGroup");
 
-	var buttonView = this.workView.childNodes[1].childNodes[2];
+	var buttonView = this.workView.childNodes[3].childNodes[2];
 	assert.strictEqual(buttonView.childNodes.length, 0);
 });
 
@@ -682,12 +689,12 @@ QUnit.test("testDeleteCall", function(assert) {
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
-	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[3].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 
-	var buttonView = this.workView.childNodes[1].childNodes[2];
+	var buttonView = this.workView.childNodes[3].childNodes[2];
 	assert.strictEqual(buttonView.className, "buttonView");
 
 	var deleteButton = buttonView.childNodes[0];
@@ -730,8 +737,8 @@ QUnit.test("testDeleteCall", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy2.addedRequestHeaders["content-type"], undefined);
 	assert.strictEqual(xmlHttpRequestSpy2.getSentData(), undefined);
 
-	var editView = this.workView.childNodes[1].childNodes[0];
-	var showView = this.workView.childNodes[1].childNodes[1];
+	var editView = this.workView.childNodes[3].childNodes[0];
+	var showView = this.workView.childNodes[3].childNodes[1];
 	assert.strictEqual(editView.childNodes.length, 0);
 	assert.strictEqual(showView.childNodes.length, 0);
 	assert.strictEqual(buttonView.childNodes.length, 0);
@@ -770,7 +777,7 @@ QUnit.test("testDeleteCallNoParentsForViews", function(assert) {
 		"jsClient" : this.jsClientSpy
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
-	var buttonView = workView.childNodes[1].childNodes[2];
+	var buttonView = workView.childNodes[3].childNodes[2];
 
 	var deleteButton = buttonView.childNodes[0];
 
@@ -786,8 +793,8 @@ QUnit.test("testDeleteCallNoParentsForViews", function(assert) {
 	var buttonYes = question.firstChild.childNodes[2];
 	buttonYes.onclick();
 
-	var editView = workView.childNodes[1].childNodes[0];
-	var showView = workView.childNodes[1].childNodes[1];
+	var editView = workView.childNodes[3].childNodes[0];
+	var showView = workView.childNodes[3].childNodes[1];
 	assert.strictEqual(editView.childNodes.length, 0);
 	assert.strictEqual(showView.childNodes.length, 0);
 	assert.strictEqual(buttonView.childNodes.length, 0);
@@ -824,13 +831,13 @@ QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
 	assert.strictEqual(recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
-	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[3].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeMenuPGroup");
 
-	var buttonView = this.workView.childNodes[1].childNodes[2];
+	var buttonView = this.workView.childNodes[3].childNodes[2];
 	assert.strictEqual(buttonView.childNodes.length, 1);
 	assert.strictEqual(buttonView.childNodes[0].value, "UPDATE");
 
@@ -860,7 +867,7 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeNewGroup");
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormNewPGroup");
-	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[3].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeMenuPGroup");
 	assert.strictEqual(this.menuView.textContent, "");
@@ -903,9 +910,9 @@ QUnit.test("testCreateNewCall", function(assert) {
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeNewGroup");
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormNewPGroup");
-	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[3].className, "workItem recordType");
 
-	var buttonView = this.workView.childNodes[1].childNodes[2];
+	var buttonView = this.workView.childNodes[3].childNodes[2];
 	assert.strictEqual(buttonView.className, "buttonView");
 
 	var createButton = buttonView.firstChild;
@@ -969,9 +976,9 @@ QUnit.test("testCreateNewCallValidationError", function(assert) {
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeNewGroup");
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormNewPGroup");
-	assert.strictEqual(this.workView.childNodes[1].className, "workItem recordType");
+	assert.strictEqual(this.workView.childNodes[3].className, "workItem recordType");
 
-	var buttonView = this.workView.childNodes[1].childNodes[2];
+	var buttonView = this.workView.childNodes[3].childNodes[2];
 	assert.strictEqual(buttonView.className, "buttonView");
 
 	var createButton = buttonView.firstChild;
@@ -1007,7 +1014,7 @@ QUnit.test("fetchListCheckError", function(assert) {
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
 
-	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
+	assert.strictEqual(this.workView.childNodes[2].textContent, "404");
 });
 
 QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissing", function(assert) {
@@ -1042,7 +1049,7 @@ QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissing", function
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
 
-	assert.strictEqual(this.workView.childNodes[1].textContent.substring(0, 20),
+	assert.strictEqual(this.workView.childNodes[3].textContent.substring(0, 20),
 			"{\"children\":[{\"child");
 
 });
@@ -1073,7 +1080,7 @@ QUnit.test("initCheckRightGuiCreatedWhenPresentationMetadataIsMissingForNew", fu
 	};
 	var recordHandler = CORA.recordHandler(recordHandlerSpec);
 
-	assert.strictEqual(this.workView.childNodes[1].textContent,
+	assert.strictEqual(this.workView.childNodes[3].textContent,
 			"\"something went wrong, probably missing metadata, Error: missing metadata\"");
 
 });

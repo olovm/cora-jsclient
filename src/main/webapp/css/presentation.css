@@ -42,7 +42,7 @@ img {
 .error input, .error select, .error textarea {
 	background-color: red;
 }
-.removeButton, .maximizeButton, .minimizeButton, .dragButton {
+.removeButton, .maximizeButton, .minimizeButton, .dragButton, .iconButton {
 	cursor: pointer;
 	min-width: 16px;
 	min-height: 16px;
@@ -58,13 +58,36 @@ img {
 }
 .removeButton::before, .removeButton::after, .minimizeButton::before, .minimizeButton::after,
 .maximizeButton::before, .maximizeButton::after,
-.infoButton::before, .infoButton::after, .dragButton::before, .dragButton::after {
+.infoButton::before, .infoButton::after, .dragButton::before, .dragButton::after,
+.iconButton::before, .iconButton::after {
 	background: url("../images/icons2.svg") no-repeat scroll;
 	content: "";
 	height: 16px;
 	width: 16px;
 	position: absolute;
 }
+.iconButton.tool::before {
+	background-position: -144px -32px;
+	opacity: 1;
+	transition: opacity 0.5s ease 0s;
+	z-index: 100;
+}
+
+.iconButton.tool:hover::before {
+	opacity: 0;
+}
+
+.iconButton.tool::after {
+	background-position: -144px -16px;
+	opacity: 0;
+	transition: opacity 0.5s ease 0s;
+	z-index: 101;
+}
+
+.iconButton.tool:hover::after {
+	opacity: 1;
+}
+
 .removeButton::before {
 	background-position: -32px -16px;
 	opacity: 1;
@@ -164,7 +187,8 @@ img {
 	flex: 1;
 }
 .buttonView {
-/* 	display: inline-block;	 */
+/* 	needed for tests to see that it is visible */
+	display: inline-block;	
 }
 .buttonView:empty {
 	display: none;

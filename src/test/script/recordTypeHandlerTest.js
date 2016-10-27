@@ -423,6 +423,7 @@ QUnit.test("showRecord", function(assert) {
 	assert.strictEqual(catchRecordHandlerSpec.xmlHttpRequestFactory, xmlHttpRequestFactory);
 	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
 	assert.strictEqual(catchRecordHandlerSpec.views, item);
+	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
 });
 
 QUnit.test("showNew", function(assert) {
@@ -484,6 +485,7 @@ QUnit.test("showNew", function(assert) {
 	assert.strictEqual(catchRecordHandlerSpec.xmlHttpRequestFactory, xmlHttpRequestFactory);
 	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
 	assert.strictEqual(catchRecordHandlerSpec.views, item);
+	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
 });
 
 QUnit.test("fetchListCheckAjaxParameters", function(assert) {

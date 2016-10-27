@@ -19,6 +19,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeHandler = function(spec) {
+		var self;
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
 		var viewSpec = {
@@ -88,7 +89,7 @@ var CORA = (function(cora) {
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"views" : views,
 				"jsClient": spec.jsClient,
-				"recordTypeHandler":out
+				"recordTypeHandler":self
 			};
 			spec.recordHandlerFactory.factor(recordHandlerSpec);
 		}
@@ -106,6 +107,7 @@ var CORA = (function(cora) {
 			createRecordHandlerViewFactory:createRecordHandlerViewFactory,
 			createRecordHandler:createRecordHandler
 		});
+		self = out;
 		return out;
 	};
 	return cora;
