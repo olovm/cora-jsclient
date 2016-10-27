@@ -12,7 +12,6 @@ body {
 
 .topBar {
 	min-height: 2rem;
-	/* 	background-color: cyan; */
 	display: block;
 	border-bottom: 1px solid #0082c9;
 }
@@ -23,7 +22,7 @@ body {
 }
 
 .holder.tool {
-	background-color: #89e300;
+	background-color: #0082c933;
 	display: block;
 	border: 1px solid black;
 	min-height: 5rem;
