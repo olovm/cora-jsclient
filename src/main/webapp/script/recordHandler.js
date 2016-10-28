@@ -27,27 +27,23 @@ var CORA = (function(cora) {
 		var workView = views.workView;
 		var menuView = views.menuView;
 		var menuViewOrgClassName = views.originalClassName;
-		
-		
-		
-		var topBar =  document.createElement("span");
+
+		var topBar = document.createElement("span");
 		topBar.className = "topBar";
 		workView.appendChild(topBar);
-		
+
 		var toolHolder = CORA.holder({
-			"className":"tool",
+			"className" : "tool",
 			"appendTo" : workView
 		});
 		topBar.appendChild(toolHolder.getButton());
 
 		var toolView = toolHolder.getView();
-		toolView.appendChild(createButton("SHOW DATA", showData, "showData"));
-		toolView.appendChild(createButton("COPY", copyData, "copyData"));
-		
-		
+		toolView.appendChild(createButton("show data as JSON", showData, "showData"));
+		toolView.appendChild(createButton("Copy as new", copyData, "copyData"));
+
 		var messageHolder = CORA.messageHolder();
 		workView.appendChild(messageHolder.getView());
-		
 
 		var recordHandlerView = createRecordHandlerView();
 		workView.appendChild(recordHandlerView.getView());
@@ -62,7 +58,10 @@ var CORA = (function(cora) {
 		var dataIsChanged = false;
 
 		if ("new" === spec.presentationMode) {
-//				var oldData = {"name":"book","children":[{"name":"recordInfo","children":[{"name":"id","value":"book:129444859150323"},{"name":"type","value":"book"},{"name":"createdBy","value":"12345"},{"name":"dataDivider","children":[{"name":"linkedRecordType","value":"system"},{"name":"linkedRecordId","value":"systemOne"}]}]},{"name":"bookTitle","value":"Standards as a way of life"},{"name":"bookCover","children":[{"name":"linkedRecordType","value":"image"},{"name":"linkedRecordId","value":"image:129454637795255"}],"repeatId":"1"},{"name":"bookCover","children":[{"name":"linkedRecordType","value":"image"},{"name":"linkedRecordId","value":"image:129454546346696"}],"repeatId":"0"}]};
+			// var oldData =
+			// {"name":"book","children":[{"name":"recordInfo","children":[{"name":"id","value":"book:129444859150323"},{"name":"type","value":"book"},{"name":"createdBy","value":"12345"},{"name":"dataDivider","children":[{"name":"linkedRecordType","value":"system"},{"name":"linkedRecordId","value":"systemOne"}]}]},{"name":"bookTitle","value":"Standards
+			// as a way of
+			// life"},{"name":"bookCover","children":[{"name":"linkedRecordType","value":"image"},{"name":"linkedRecordId","value":"image:129454637795255"}],"repeatId":"1"},{"name":"bookCover","children":[{"name":"linkedRecordType","value":"image"},{"name":"linkedRecordId","value":"image:129454546346696"}],"repeatId":"0"}]};
 			createGuiForNew(spec.record);
 		} else {
 			fetchDataFromServer(processFetchedRecord);
@@ -76,13 +75,13 @@ var CORA = (function(cora) {
 
 		function createGuiForNew(oldData) {
 			try {
-				recordGuiNew = createRecordGui(getNewMetadataId(),oldData);
+				recordGuiNew = createRecordGui(getNewMetadataId(), oldData);
 				recordGui = recordGuiNew;
 				addNewRecordToWorkView(recordGuiNew);
 				addRecordToMenuView(recordGuiNew);
 				addToShowView(recordGuiNew);
 				recordGuiNew.initMetadataControllerStartingGui();
-				if(oldData){
+				if (oldData) {
 					dataIsChanged = true;
 					updateMenuClassName();
 				}
@@ -116,7 +115,7 @@ var CORA = (function(cora) {
 			if (messageSaysInitIsComplete(msg)) {
 				initComplete = true;
 			}
-			if(messageSaysUpdateRecord(msg)){
+			if (messageSaysUpdateRecord(msg)) {
 				sendUpdateDataToServer();
 			}
 			updateMenuClassName();
@@ -148,10 +147,11 @@ var CORA = (function(cora) {
 			var presentationView = recordGuiToAdd.getPresentation(presentationViewId).getView();
 			recordHandlerView.addEditView(presentationView);
 			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
-//			recordHandlerView.addButton("SHOW DATA", showData, "showData");
-//			recordHandlerView.addButton("COPY", copyData, "copyData");
-//			toolView.appendChild(createButton("SHOW DATA", showData, "showData"));
-//			toolView.appendChild(createButton("COPY", copyData, "copyData"));
+			// recordHandlerView.addButton("SHOW DATA", showData, "showData");
+			// recordHandlerView.addButton("COPY", copyData, "copyData");
+			// toolView.appendChild(createButton("SHOW DATA", showData,
+			// "showData"));
+			// toolView.appendChild(createButton("COPY", copyData, "copyData"));
 		}
 
 		function getPresentationNewViewId() {
@@ -277,10 +277,13 @@ var CORA = (function(cora) {
 					addToEditView(recordGuiToAdd);
 					recordHandlerView.addButton("UPDATE", sendUpdateDataToServer, "update");
 				}
-//				recordHandlerView.addButton("SHOW DATA", showData, "showData");
-//				recordHandlerView.addButton("COPY", copyData, "copyData");
-//				toolView.appendChild(createButton("SHOW DATA", showData, "showData"));
-//				toolView.appendChild(createButton("COPY", copyData, "copyData"));
+				// recordHandlerView.addButton("SHOW DATA", showData,
+				// "showData");
+				// recordHandlerView.addButton("COPY", copyData, "copyData");
+				// toolView.appendChild(createButton("SHOW DATA", showData,
+				// "showData"));
+				// toolView.appendChild(createButton("COPY", copyData,
+				// "copyData"));
 			}
 			addToShowView(recordGuiToAdd);
 		}
@@ -294,18 +297,18 @@ var CORA = (function(cora) {
 			}
 			return button;
 		}
-		function showData(){
-//			console.log(JSON.stringify(recordGui.dataHolder.getData()));
+		function showData() {
+			// console.log(JSON.stringify(recordGui.dataHolder.getData()));
 			var messageSpec = {
-					"message" : JSON.stringify(recordGui.dataHolder.getData()),
-					"type" : CORA.message.INFO,
-					"timeout" : 0
-				};
-				messageHolder.createMessage(messageSpec);
+				"message" : JSON.stringify(recordGui.dataHolder.getData()),
+				"type" : CORA.message.INFO,
+				"timeout" : 0
+			};
+			messageHolder.createMessage(messageSpec);
 		}
-		function copyData(){
-//			console.log(JSON.stringify(recordGui.dataHolder.getData()));
-			spec.recordTypeHandler.createRecordHandler("new",recordGui.dataHolder.getData());
+		function copyData() {
+			// console.log(JSON.stringify(recordGui.dataHolder.getData()));
+			spec.recordTypeHandler.createRecordHandler("new", recordGui.dataHolder.getData());
 		}
 
 		function notAbstractRecordRecordType() {
