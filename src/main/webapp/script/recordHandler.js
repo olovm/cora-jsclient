@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -28,19 +29,7 @@ var CORA = (function(cora) {
 		var menuView = views.menuView;
 		var menuViewOrgClassName = views.originalClassName;
 
-		var topBar = document.createElement("span");
-		topBar.className = "topBar";
-		workView.appendChild(topBar);
-
-		var toolHolder = CORA.holder({
-			"className" : "tool",
-			"appendTo" : workView
-		});
-		topBar.appendChild(toolHolder.getButton());
-
-		var toolView = toolHolder.getView();
-		toolView.appendChild(createButton("show data as JSON", showData, "showData"));
-		toolView.appendChild(createButton("Copy as new", copyData, "copyData"));
+		createTopBarInWorkView();
 
 		var messageHolder = CORA.messageHolder();
 		workView.appendChild(messageHolder.getView());
@@ -71,6 +60,23 @@ var CORA = (function(cora) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
+		}
+		
+		function createTopBarInWorkView(){
+			var topBar = document.createElement("span");
+			topBar.className = "topBar";
+			workView.appendChild(topBar);
+
+			var toolHolder = CORA.holder({
+				"className" : "tool",
+				"appendTo" : workView
+			});
+			topBar.appendChild(toolHolder.getButton());
+
+			var toolView = toolHolder.getView();
+			toolView.appendChild(createButton("show data as JSON", showData, "showData"));
+			toolView.appendChild(createButton("Copy as new", copyData, "copyData"));
+			return topBar;
 		}
 
 		function createGuiForNew(oldData) {
@@ -431,7 +437,8 @@ var CORA = (function(cora) {
 
 		return Object.freeze({
 			handleMsg : handleMsg,
-			getDataIsChanged : getDataIsChanged
+			getDataIsChanged : getDataIsChanged,
+			copyData:copyData
 		});
 	};
 	return cora;
