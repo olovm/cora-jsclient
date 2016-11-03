@@ -20,13 +20,27 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandlerView = function(spec) {
 
-		var view = createSpanWithClassName("workItem " + spec.extraClassName);
+		var holderFactory = {
+			"factor" : function(holderSpec) {
+				return CORA.holder(holderSpec);
+			}
+		};
+
+		var workItemViewSpec = {
+			"dependencies" : spec.dependencies,
+			"extraClassName" : spec.extraClassName,
+			"holderFactory" : holderFactory
+		};
+
+		var workItemView = spec.workItemViewFactory.factor(workItemViewSpec);
+		var view = workItemView.getView();
+
 		var editView = createSpanWithClassName("editView");
-		view.appendChild(editView);
+		workItemView.addViewToView(editView);
 		var showView = createSpanWithClassName("showView");
-		view.appendChild(showView);
+		workItemView.addViewToView(showView);
 		var buttonView = createSpanWithClassName("buttonView");
-		view.appendChild(buttonView);
+		workItemView.addViewToView(buttonView);
 
 		function createSpanWithClassName(className) {
 			var spanNew = document.createElement("span");
@@ -34,15 +48,20 @@ var CORA = (function(cora) {
 			return spanNew;
 		}
 
-		function addShowView(node) {
+		function addToShowView(node) {
 			showView.appendChild(node);
 		}
 
-		function addEditView(node) {
+		function addToEditView(node) {
 			editView.appendChild(node);
 		}
 
 		function addButton(text, onclickMethod, className) {
+			var button = createButton(text, onclickMethod, className);
+			buttonView.appendChild(button);
+		}
+
+		function createButton(text, onclickMethod, className) {
 			var button = document.createElement("input");
 			button.type = "button";
 			button.value = text;
@@ -50,7 +69,7 @@ var CORA = (function(cora) {
 			if (undefined !== className) {
 				button.className = className;
 			}
-			buttonView.appendChild(button);
+			return button;
 		}
 
 		function getView() {
@@ -63,12 +82,24 @@ var CORA = (function(cora) {
 			buttonView.innerHTML = "";
 		}
 
+		function setShowDataFunction(functionToCall) {
+			var button = createButton("Show data as JSON", functionToCall, "showData");
+			workItemView.addToolViewToToolHolder(button);
+		}
+
+		function setCopyAsNewFunction(functionToCall) {
+			var button = createButton("Copy as new", functionToCall, "copyAsNew");
+			workItemView.addToolViewToToolHolder(button);
+		}
+
 		return Object.freeze({
 			getView : getView,
-			addShowView : addShowView,
-			addEditView : addEditView,
+			addToShowView : addToShowView,
+			addToEditView : addToEditView,
 			addButton : addButton,
-			clearViews : clearViews
+			clearViews : clearViews,
+			setShowDataFunction : setShowDataFunction,
+			setCopyAsNewFunction : setCopyAsNewFunction
 		});
 	};
 	return cora;

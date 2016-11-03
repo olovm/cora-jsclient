@@ -29,17 +29,22 @@ var CORA = (function(cora) {
 		var menuView = views.menuView;
 		var menuViewOrgClassName = views.originalClassName;
 
-		createTopBarInWorkView();
+//		createTopBarInWorkView();
 
 		var messageHolder = CORA.messageHolder();
 		workView.appendChild(messageHolder.getView());
 
 		var recordHandlerView = createRecordHandlerView();
 		workView.appendChild(recordHandlerView.getView());
+		var view = recordHandlerView.getView();
 
 		var busy = CORA.busy();
 		workView.appendChild(busy.getView());
 
+		recordHandlerView.setShowDataFunction(showData);
+		recordHandlerView.setCopyAsNewFunction(copyData);
+		
+		
 		var recordGuiNew;
 		var recordGui;
 		var fetchedRecord;
@@ -61,8 +66,8 @@ var CORA = (function(cora) {
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
-		
-		function createTopBarInWorkView(){
+
+		function createTopBarInWorkView() {
 			var topBar = document.createElement("span");
 			topBar.className = "topBar";
 			workView.appendChild(topBar);
@@ -151,7 +156,7 @@ var CORA = (function(cora) {
 		function addNewRecordToWorkView(recordGuiToAdd) {
 			var presentationViewId = getPresentationNewViewId();
 			var presentationView = recordGuiToAdd.getPresentation(presentationViewId).getView();
-			recordHandlerView.addEditView(presentationView);
+			recordHandlerView.addToEditView(presentationView);
 			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
 			// recordHandlerView.addButton("SHOW DATA", showData, "showData");
 			// recordHandlerView.addButton("COPY", copyData, "copyData");
@@ -178,7 +183,13 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordHandlerView() {
+			var workItemViewFactory = {
+				"factor" : function(workItemViewSpec) {
+					return CORA.workItemView(workItemViewSpec);
+				}
+			};
 			var recordHandlerViewSpec = {
+				"workItemViewFactory" : workItemViewFactory,
 				"extraClassName" : recordTypeRecordId
 			};
 			return spec.recordHandlerViewFactory.factor(recordHandlerViewSpec);
@@ -335,13 +346,13 @@ var CORA = (function(cora) {
 		function addToEditView(recordGuiToAdd) {
 			var editViewId = getPresentationFormId();
 			var editView = recordGuiToAdd.getPresentation(editViewId).getView();
-			recordHandlerView.addEditView(editView);
+			recordHandlerView.addToEditView(editView);
 		}
 
 		function addToShowView(recordGuiToAdd) {
 			var showViewId = getPresentationViewId();
 			var showView = recordGuiToAdd.getPresentation(showViewId).getView();
-			recordHandlerView.addShowView(showView);
+			recordHandlerView.addToShowView(showView);
 		}
 
 		function shouldRecordBeDeleted() {
@@ -407,7 +418,7 @@ var CORA = (function(cora) {
 		}
 
 		function createRawDataWorkView(data) {
-			recordHandlerView.addEditView(document.createTextNode(JSON.stringify(data)));
+			recordHandlerView.addToEditView(document.createTextNode(JSON.stringify(data)));
 		}
 
 		function getPresentationViewId() {
@@ -438,7 +449,7 @@ var CORA = (function(cora) {
 		return Object.freeze({
 			handleMsg : handleMsg,
 			getDataIsChanged : getDataIsChanged,
-			copyData:copyData
+			copyData : copyData
 		});
 	};
 	return cora;
