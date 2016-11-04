@@ -29,8 +29,6 @@ var CORA = (function(cora) {
 		var menuView = views.menuView;
 		var menuViewOrgClassName = views.originalClassName;
 
-		// createTopBarInWorkView();
-
 		var messageHolder = CORA.messageHolder();
 		workView.appendChild(messageHolder.getView());
 
@@ -48,13 +46,9 @@ var CORA = (function(cora) {
 		var dataIsChanged = false;
 
 		recordHandlerView.setShowDataFunction(showData);
-		 recordHandlerView.setCopyAsNewFunction(copyData);
-		
+		recordHandlerView.setCopyAsNewFunction(copyData);
+
 		if ("new" === spec.presentationMode) {
-			// var oldData =
-			// {"name":"book","children":[{"name":"recordInfo","children":[{"name":"id","value":"book:129444859150323"},{"name":"type","value":"book"},{"name":"createdBy","value":"12345"},{"name":"dataDivider","children":[{"name":"linkedRecordType","value":"system"},{"name":"linkedRecordId","value":"systemOne"}]}]},{"name":"bookTitle","value":"Standards
-			// as a way of
-			// life"},{"name":"bookCover","children":[{"name":"linkedRecordType","value":"image"},{"name":"linkedRecordId","value":"image:129454637795255"}],"repeatId":"1"},{"name":"bookCover","children":[{"name":"linkedRecordType","value":"image"},{"name":"linkedRecordId","value":"image:129454546346696"}],"repeatId":"0"}]};
 			createGuiForNew(spec.record);
 		} else {
 			fetchDataFromServer(processFetchedRecord);
@@ -66,23 +60,6 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		// function createTopBarInWorkView() {
-		// var topBar = document.createElement("span");
-		// topBar.className = "topBar";
-		// workView.appendChild(topBar);
-		//
-		// var toolHolder = CORA.holder({
-		// "className" : "tool",
-		// "appendTo" : workView
-		// });
-		// topBar.appendChild(toolHolder.getButton());
-		//
-		// var toolView = toolHolder.getView();
-		// toolView.appendChild(createButton("show data as JSON", showData, "showData"));
-		// toolView.appendChild(createButton("Copy as new", copyData, "copyData"));
-		// return topBar;
-		// }
-
 		function createGuiForNew(oldData) {
 			try {
 				recordGuiNew = createRecordGui(getNewMetadataId(), oldData);
@@ -91,10 +68,8 @@ var CORA = (function(cora) {
 				addRecordToMenuView(recordGuiNew);
 				addToShowView(recordGuiNew);
 				recordGuiNew.initMetadataControllerStartingGui();
-				if (oldData) {
-					dataIsChanged = true;
-					updateMenuClassName();
-				}
+				dataIsChanged = true;
+				updateMenuClassName();
 			} catch (error) {
 				createRawDataWorkView("something went wrong, probably missing metadata, " + error);
 			}
@@ -157,11 +132,6 @@ var CORA = (function(cora) {
 			var presentationView = recordGuiToAdd.getPresentation(presentationViewId).getView();
 			recordHandlerView.addToEditView(presentationView);
 			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
-			// recordHandlerView.addButton("SHOW DATA", showData, "showData");
-			// recordHandlerView.addButton("COPY", copyData, "copyData");
-			// toolView.appendChild(createButton("SHOW DATA", showData,
-			// "showData"));
-			// toolView.appendChild(createButton("COPY", copyData, "copyData"));
 		}
 
 		function getPresentationNewViewId() {
@@ -293,28 +263,11 @@ var CORA = (function(cora) {
 					addToEditView(recordGuiToAdd);
 					recordHandlerView.addButton("UPDATE", sendUpdateDataToServer, "update");
 				}
-				// recordHandlerView.addButton("SHOW DATA", showData,
-				// "showData");
-				// recordHandlerView.addButton("COPY", copyData, "copyData");
-				// toolView.appendChild(createButton("SHOW DATA", showData,
-				// "showData"));
-				// toolView.appendChild(createButton("COPY", copyData,
-				// "copyData"));
 			}
 			addToShowView(recordGuiToAdd);
 		}
-		function createButton(text, onclickMethod, className) {
-			var button = document.createElement("input");
-			button.type = "button";
-			button.value = text;
-			button.onclick = onclickMethod;
-			if (undefined !== className) {
-				button.className = className;
-			}
-			return button;
-		}
+
 		function showData() {
-			// console.log(JSON.stringify(recordGui.dataHolder.getData()));
 			var messageSpec = {
 				"message" : JSON.stringify(recordGui.dataHolder.getData()),
 				"type" : CORA.message.INFO,
@@ -322,6 +275,7 @@ var CORA = (function(cora) {
 			};
 			messageHolder.createMessage(messageSpec);
 		}
+
 		function copyData() {
 			spec.recordTypeHandler.createRecordHandler("new", recordGui.dataHolder.getData());
 		}
@@ -448,7 +402,7 @@ var CORA = (function(cora) {
 			handleMsg : handleMsg,
 			getDataIsChanged : getDataIsChanged,
 			copyData : copyData,
-			showData:showData
+			showData : showData
 		});
 	};
 	return cora;

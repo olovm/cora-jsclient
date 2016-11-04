@@ -228,6 +228,21 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 	assert.strictEqual(busy.className, "busy toBeRemoved");
 });
 
+QUnit.test("initCheckActiveStatusOfMenuViewWhenActive", function(assert) {
+	this.recordHandlerSpec.presentationMode = "new";
+	this.recordHandlerSpec.views.isActive = true;
+	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	assert.strictEqual(this.menuView.className, "someClass changed active");
+});
+
+QUnit.test("initCheckActiveStatusOfMenuViewWhenNotActive", function(assert) {
+	this.recordHandlerSpec.presentationMode = "new";
+	this.recordHandlerSpec.views.isActive = false;
+	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	assert.strictEqual(this.menuView.className, "someClass changed");
+});
+
+
 QUnit.test("initCheckRemoveButtonInMenuView", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
 
