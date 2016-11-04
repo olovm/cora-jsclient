@@ -30,6 +30,7 @@ body {
 	position: relative;
 	overflow: hidden;
 	margin: 2px 0px;
+	z-index: 0;
 }
 
 .holder.tool:before {
@@ -43,6 +44,7 @@ body {
 	position: absolute;
 	right: 4.5rem;
 	top: 5rem;
+	z-index: -1;
 }
 
 .holder {
@@ -217,7 +219,9 @@ to {
 
 .workArea .workView .workItem {
 	display: block;
-	position: relative;
+	position: absolute;
+	overflow: scroll;
+	height: 100%;
 }
 
 .workArea .workView .presentation {
@@ -389,7 +393,7 @@ to {
 }
 
 .jsClient .editView, .jsClient .showView {
-	height: calc(100% - 3rem);
+/* 	height: calc(100% - 3rem); */
 	width: calc(50% - 0.5rem);
 	display: inline-block;
 	overflow: auto;
