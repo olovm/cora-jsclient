@@ -29,7 +29,7 @@ var CORA = (function(cora) {
 		var menuView = views.menuView;
 		var menuViewOrgClassName = views.originalClassName;
 
-//		createTopBarInWorkView();
+		// createTopBarInWorkView();
 
 		var messageHolder = CORA.messageHolder();
 		workView.appendChild(messageHolder.getView());
@@ -41,16 +41,15 @@ var CORA = (function(cora) {
 		var busy = CORA.busy();
 		workView.appendChild(busy.getView());
 
-		recordHandlerView.setShowDataFunction(showData);
-		recordHandlerView.setCopyAsNewFunction(copyData);
-		
-		
 		var recordGuiNew;
 		var recordGui;
 		var fetchedRecord;
 		var initComplete = false;
 		var dataIsChanged = false;
 
+		recordHandlerView.setShowDataFunction(showData);
+		 recordHandlerView.setCopyAsNewFunction(copyData);
+		
 		if ("new" === spec.presentationMode) {
 			// var oldData =
 			// {"name":"book","children":[{"name":"recordInfo","children":[{"name":"id","value":"book:129444859150323"},{"name":"type","value":"book"},{"name":"createdBy","value":"12345"},{"name":"dataDivider","children":[{"name":"linkedRecordType","value":"system"},{"name":"linkedRecordId","value":"systemOne"}]}]},{"name":"bookTitle","value":"Standards
@@ -67,22 +66,22 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		function createTopBarInWorkView() {
-			var topBar = document.createElement("span");
-			topBar.className = "topBar";
-			workView.appendChild(topBar);
-
-			var toolHolder = CORA.holder({
-				"className" : "tool",
-				"appendTo" : workView
-			});
-			topBar.appendChild(toolHolder.getButton());
-
-			var toolView = toolHolder.getView();
-			toolView.appendChild(createButton("show data as JSON", showData, "showData"));
-			toolView.appendChild(createButton("Copy as new", copyData, "copyData"));
-			return topBar;
-		}
+		// function createTopBarInWorkView() {
+		// var topBar = document.createElement("span");
+		// topBar.className = "topBar";
+		// workView.appendChild(topBar);
+		//
+		// var toolHolder = CORA.holder({
+		// "className" : "tool",
+		// "appendTo" : workView
+		// });
+		// topBar.appendChild(toolHolder.getButton());
+		//
+		// var toolView = toolHolder.getView();
+		// toolView.appendChild(createButton("show data as JSON", showData, "showData"));
+		// toolView.appendChild(createButton("Copy as new", copyData, "copyData"));
+		// return topBar;
+		// }
 
 		function createGuiForNew(oldData) {
 			try {
@@ -324,7 +323,6 @@ var CORA = (function(cora) {
 			messageHolder.createMessage(messageSpec);
 		}
 		function copyData() {
-			// console.log(JSON.stringify(recordGui.dataHolder.getData()));
 			spec.recordTypeHandler.createRecordHandler("new", recordGui.dataHolder.getData());
 		}
 
@@ -449,7 +447,8 @@ var CORA = (function(cora) {
 		return Object.freeze({
 			handleMsg : handleMsg,
 			getDataIsChanged : getDataIsChanged,
-			copyData : copyData
+			copyData : copyData,
+			showData:showData
 		});
 	};
 	return cora;

@@ -21,75 +21,14 @@
 
 QUnit.module("recordHandlerViewTest.js", {
 	beforeEach : function() {
-
-		var workItemViewSpy = function(spec) {
-			var addedViews = [];
-			var addedToolViews = [];
-			var showDataF = null;
-			var spyView = document.createElement("span");
-			function getView() {
-				return spyView;
-			}
-			function addToolViewToToolHolder(viewToAdd) {
-				addedToolViews.push(viewToAdd);
-			}
-			function addViewToView(viewToAdd) {
-				addedViews.push(viewToAdd);
-			}
-
-			function setShowDataFunction(showDataFunction) {
-				showDataF = showDataFunction;
-			}
-
-			function getSpec() {
-				return spec;
-			}
-
-			function getViewsAddedToView() {
-				return addedViews;
-			}
-			function getToolViewsAddedToView() {
-				return addedToolViews;
-			}
-
-			function getShowDataFunction() {
-				return showDataF;
-			}
-			
-			function getSpyView() {
-				return spyView;
-			}
-			
-			return Object.freeze({
-				getView : getView,
-				addToolViewToToolHolder : addToolViewToToolHolder,
-				addViewToView : addViewToView,
-
-				getSpec : getSpec,
-				getViewsAddedToView : getViewsAddedToView,
-				getToolViewsAddedToView : getToolViewsAddedToView,
-				getShowDataFunction : getShowDataFunction,
-				getSpyView : getSpyView
-			});
-		};
-
-		var factoredWorkItemViews = [];
-		this.factoredWorkItemViews = factoredWorkItemViews;
-		this.workItemViewFactory = {
-			"factor" : function(workItemViewSpec) {
-				var factoredWorkItemView = workItemViewSpy(workItemViewSpec);
-				factoredWorkItemViews.push(factoredWorkItemView);
-				return factoredWorkItemView;
-			}
-		};
-
+		this.workItemViewFactory = CORATEST.workItemViewFactorySpy();
 		this.recordHandlerViewSpec = {
 			"workItemViewFactory" : this.workItemViewFactory,
 			"extraClassName" : "extraClassName2"
 		};
 		this.recordHandlerView = CORA.recordHandlerView(this.recordHandlerViewSpec);
 
-		var workItemViewSpy = factoredWorkItemViews[0];
+		var workItemViewSpy = this.workItemViewFactory.getFactored(0);
 		var viewsAddedToView = workItemViewSpy.getViewsAddedToView();
 		this.viewsToolAddedToView = workItemViewSpy.getToolViewsAddedToView();
 
@@ -103,7 +42,7 @@ QUnit.module("recordHandlerViewTest.js", {
 });
 
 QUnit.test("init", function(assert) {
-	var workItemViewSpy = this.factoredWorkItemViews[0];
+	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
 	var factoredWorkItemViewSpec = workItemViewSpy.getSpec();
 	assert.strictEqual(factoredWorkItemViewSpec.extraClassName, "extraClassName2");
 	assert.ok(factoredWorkItemViewSpec.holderFactory.factor);
@@ -125,7 +64,7 @@ QUnit.test("init", function(assert) {
 });
 
 QUnit.test("testGetView", function(assert) {
-	var workItemViewSpy = this.factoredWorkItemViews[0];
+	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
 	assert.strictEqual(this.recordHandlerView.getView(), workItemViewSpy.getSpyView());
 });
 
@@ -200,7 +139,8 @@ QUnit.test("testSetShowDataFunction", function(assert) {
 	var recordHandlerView = this.recordHandlerView;
 	recordHandlerView.setShowDataFunction(dataFunction);
 
-	var workItemViewSpy = this.factoredWorkItemViews[0];
+	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
+	
 
 	var button = this.viewsToolAddedToView[0];
 	assert.strictEqual(button.nodeName, "INPUT");
@@ -222,8 +162,8 @@ QUnit.test("testSetCopyAsNewFunction", function(assert) {
 	var recordHandlerView = this.recordHandlerView;
 	recordHandlerView.setCopyAsNewFunction(dataFunction);
 
-	var workItemViewSpy = this.factoredWorkItemViews[0];
-
+	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
+	
 	var button = this.viewsToolAddedToView[0];
 	assert.strictEqual(button.nodeName, "INPUT");
 	assert.strictEqual(button.type, "button");
