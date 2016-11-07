@@ -153,7 +153,7 @@ img {
 	opacity: 1;
 }
 .dragButton::before {
-	background-position: -192px -0px;
+	background-position: -193px -0px;
 	opacity: 1;
 	transition: opacity 0.5s ease 0s;
 	z-index: 100;
@@ -164,7 +164,7 @@ img {
 }
 
 .dragButton::after {
-	background-position: -192px -16px;
+	background-position: -193px -16px;
 	opacity: 0;
 	transition: opacity 0.5s ease 0s;
 	z-index: 101;
