@@ -27,7 +27,7 @@ var CORA = (function(cora) {
 
 		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
 		var cPresentationGroup = CORA.coraData(presentationGroup);
-		var metadataId  = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		var metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 		var cMetadataElement = getMetadataById(metadataId);
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
@@ -164,6 +164,7 @@ var CORA = (function(cora) {
 		}
 
 		function createChildView(id, presentationIdToFactor, addText) {
+			var metadataIdUsedInData = id + "TextVar";
 			var childViewNew = document.createElement("span");
 			childViewNew.className = id + "View";
 			if (addText) {
@@ -173,7 +174,8 @@ var CORA = (function(cora) {
 			var childParentPath = calculateNewPath(id + "TextVar");
 			var cPresentationChild = CORA.coraData(metadataProvider
 					.getMetadataById(presentationIdToFactor));
-			var pVar = spec.presentationFactory.factor(childParentPath, cPresentationChild);
+			var pVar = spec.presentationFactory.factor(childParentPath, metadataIdUsedInData,
+					cPresentationChild);
 			childViewNew.appendChild(pVar.getView());
 			return childViewNew;
 		}

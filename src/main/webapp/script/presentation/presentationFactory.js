@@ -22,9 +22,10 @@ var CORA = (function(cora) {
 	cora.presentationFactory = function(spec) {
 		var self;
 
-		function factor(path, cPresentation, cParentPresentation) {
+		function factor(path, metadataIdUsedInData, cPresentation, cParentPresentation) {
 			var specNew = {
 				"path" : path,
+				"metadataIdUsedInData" : metadataIdUsedInData,
 				"cPresentation" : cPresentation,
 				"cParentPresentation" : cParentPresentation,
 				"metadataProvider" : spec.metadataProvider,
@@ -49,7 +50,7 @@ var CORA = (function(cora) {
 				return CORA.pCollectionVar(specNew);
 			} else if (type === "pResourceLink") {
 				return CORA.pResourceLink(specNew);
-			}else {
+			} else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {
 					return CORA.pRepeatingContainer(specNew);

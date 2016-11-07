@@ -53,7 +53,9 @@ var CORA = (function(cora) {
 				text.className = "text";
 				return text;
 			}
-			var presentation = presentationFactory.factor(path, cPresentationChild);
+			// TODO: metadataIdUsedInData should it be spec.metadataIdUsedInData?
+			var presentation = presentationFactory.factor(path, spec.metadataIdUsedInData,
+					cPresentationChild);
 			return presentation.getView();
 		}
 		function getMetadataById(id) {

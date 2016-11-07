@@ -22,12 +22,13 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.attachedPVarFactory = function(metadataProvider, pubSub, textProvider, jsBookkeeper,
 			fixture) {
-		var factor = function(path, pVarPresentationId) {
+		var factor = function(path, metadataIdUsedInData, pVarPresentationId) {
 			var cPVarPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(pVarPresentationId));
 
 			var spec = {
 				"path" : path,
+				"metadataIdUsedInData" : metadataIdUsedInData,
 				"cPresentation" : cPVarPresentation,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
@@ -39,6 +40,7 @@ var CORATEST = (function(coraTest) {
 			fixture.appendChild(view);
 			var valueView = view.firstChild;
 			return {
+				spec : spec,
 				pVar : pVar,
 				fixture : fixture,
 				valueView : valueView,
@@ -57,20 +59,6 @@ var CORATEST = (function(coraTest) {
 
 	return coraTest;
 }(CORATEST || {}));
-
-QUnit.module("pVarTest.js", {
-	beforeEach : function() {
-		this.fixture = document.getElementById("qunit-fixture");
-		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = CORATEST.pubSubSpy();
-		this.textProvider = CORATEST.textProviderStub();
-		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
-		this.pVarFactory = CORATEST.attachedPVarFactory(this.metadataProvider, this.pubSub,
-				this.textProvider, this.jsBookkeeper, this.fixture);
-	},
-	afterEach : function() {
-	}
-});
 
 var CORATEST = (function(coraTest) {
 	"use strict";
@@ -112,8 +100,22 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
+QUnit.module("pVarTest.js", {
+	beforeEach : function() {
+		this.fixture = document.getElementById("qunit-fixture");
+		this.metadataProvider = new MetadataProviderStub();
+		this.pubSub = CORATEST.pubSubSpy();
+		this.textProvider = CORATEST.textProviderStub();
+		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
+		this.pVarFactory = CORATEST.attachedPVarFactory(this.metadataProvider, this.pubSub,
+				this.textProvider, this.jsBookkeeper, this.fixture);
+	},
+	afterEach : function() {
+	}
+});
+
 QUnit.test("testInitText", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
 	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
 	var view = attachedPVar.view;
@@ -134,8 +136,23 @@ QUnit.test("testInitText", function(assert) {
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
+QUnit.test("testGetSpec", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
+	assert.strictEqual(attachedPVar.pVar.getSpec(), attachedPVar.spec);
+});
+
+QUnit.test("testGetRegexpShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", function(assert) {
+	var pVarTextVariableId2 = this.metadataProvider.getMetadataById("pVarTextVariableId2");
+	var presentationOf2 = pVarTextVariableId2.children[1].children[1].value;
+	var textVariableId2 = this.metadataProvider.getMetadataById(presentationOf2);
+	assert.strictEqual(textVariableId2.children[0].value, "(^[0-9A-Za-z]{2,50}$)");
+	
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId2");
+	assert.strictEqual(attachedPVar.pVar.getRegEx(), "^[0-9A-Öa-ö\\s!*.]{2,50}$");
+});
+
 QUnit.test("testInitTextArea", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableIdTextAreaPVar");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "textVariableIdTextAreaPVar");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
 	assert.deepEqual(attachedPVar.view.className, "pVar textVariableIdTextAreaPVar");
 	var view = attachedPVar.view;
@@ -155,12 +172,13 @@ QUnit.test("testInitTextArea", function(assert) {
 });
 
 QUnit.test("testInitTextShowTextAreaFalse", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableIdShowTextAreaFalsePVar");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"textVariableIdShowTextAreaFalsePVar");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
 	assert.deepEqual(attachedPVar.view.className, "pVar textVariableIdShowTextAreaFalsePVar");
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
-		"modelObject should be a pointer to the javascript object instance");
+			"modelObject should be a pointer to the javascript object instance");
 	assert.ok(view.childNodes.length, 2);
 
 	var valueView = attachedPVar.valueView;
@@ -177,11 +195,11 @@ QUnit.test("testInitTextShowTextAreaFalse", function(assert) {
 });
 
 QUnit.test("testInitInfoButtonTextVariable", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
 	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
 	var view = attachedPVar.view;
-	
+
 	var infoButton = view.childNodes[1];
 	assert.equal(infoButton.nodeName, "SPAN");
 	assert.equal(infoButton.className, "infoButton");
@@ -221,13 +239,13 @@ QUnit.test("testInitInfoButtonTextVariable", function(assert) {
 });
 
 QUnit.test("testSetValueInput", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	attachedPVar.pVar.setValue("A Value");
 	assert.equal(attachedPVar.valueView.value, "A Value");
 });
 
 QUnit.test("testHandleMessage", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	var data = {
 		"data" : "A new value",
 		"path" : {}
@@ -237,12 +255,12 @@ QUnit.test("testHandleMessage", function(assert) {
 });
 
 QUnit.test("testValueViewHasOnBlurHandler", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	assert.ok(attachedPVar.valueView.onblur === attachedPVar.pVar.onBlur);
 });
 
 QUnit.test("testChangedValueMissing", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	var data = {
 		"data" : "notEmpty",
 		"path" : {}
@@ -256,7 +274,7 @@ QUnit.test("testChangedValueMissing", function(assert) {
 });
 
 QUnit.test("testChangedValueEmpty", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	var data = {
 		"data" : "notEmpty",
 		"path" : {}
@@ -270,7 +288,7 @@ QUnit.test("testChangedValueEmpty", function(assert) {
 });
 
 QUnit.test("testChangedValueOk", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	attachedPVar.valueView.value = "hej";
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "ok");
@@ -282,7 +300,7 @@ QUnit.test("testChangedValueOk", function(assert) {
 });
 
 QUnit.test("testChangedValueError", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	attachedPVar.valueView.value = "hej####/(&/%&/¤/";
 	attachedPVar.valueView.onblur();
 	assert.equal(attachedPVar.pVar.getState(), "error");
@@ -299,7 +317,7 @@ QUnit.test("testChangedValueError", function(assert) {
 });
 
 QUnit.test("testHandleValidationError", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	var message = {
 		"metadataId" : "textVariableId",
 		"path" : {}
@@ -310,7 +328,7 @@ QUnit.test("testHandleValidationError", function(assert) {
 });
 
 QUnit.test("testInitTextOutput", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableIdOutput");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableIdOutput");
 	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
@@ -325,7 +343,8 @@ QUnit.test("testInitTextOutput", function(assert) {
 	CORATEST.testVariableMetadata(attachedPVar, assert);
 });
 QUnit.test("testInitTextOutputFormatImage", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableIdOutputImage");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableIdOutputImage");
 	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");
 	var view = attachedPVar.view;
 	assert.ok(view.modelObject === attachedPVar.pVar,
@@ -341,14 +360,15 @@ QUnit.test("testInitTextOutputFormatImage", function(assert) {
 });
 
 QUnit.test("testSetValueTextOutput", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableIdOutput");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableIdOutput");
 	var valueView = attachedPVar.valueView;
 
 	attachedPVar.pVar.setValue("A Value");
 	assert.equal(valueView.innerHTML, "A Value");
 });
 QUnit.test("testSetValueTextOutputFormatImage", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableIdOutputImage");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableIdOutputImage");
 	var valueView = attachedPVar.valueView;
 
 	attachedPVar.pVar.setValue("http://www.some.domain.nu/image01.jpg");
@@ -356,7 +376,7 @@ QUnit.test("testSetValueTextOutputFormatImage", function(assert) {
 });
 
 QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	var message = {
 		"metadataId" : "textVariableId",
 		"path" : {}

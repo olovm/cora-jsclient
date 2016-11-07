@@ -39,9 +39,11 @@ var CORA = (function(cora) {
 		}
 
 		function createViewForTopPGroup() {
-			var cPresentation = CORA.coraData(metadataProvider
-					.getMetadataById(presentationId));
-			var presentation = presentationFactory.factor({}, cPresentation,
+			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
+			//TODO: is this correct or could it be some other metadataId?
+			var metadataIdUsedInData = cPresentation
+					.getFirstAtomicValueByNameInData("presentationOf");
+			var presentation = presentationFactory.factor({}, metadataIdUsedInData, cPresentation,
 					undefined);
 			return presentation.getView();
 		}

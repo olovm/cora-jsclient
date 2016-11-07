@@ -111,6 +111,7 @@ QUnit.test("testIntegrateCoraPubSubPVar", function(assert) {
 			.getMetadataById("pVarTextVariableIdOutput"));
 	var spec = {
 		"path" : path,
+		"metadataIdUsedInData":"textVariableId",
 		"cPresentation" : cPVarPresentation,
 		"metadataProvider" : this.metadataProvider,
 		"pubSub" : this.pubSub,

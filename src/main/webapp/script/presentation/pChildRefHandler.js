@@ -206,7 +206,7 @@ var CORA = (function(cora) {
 			var newPath = calculateNewPath(metadataIdToAdd, repeatId);
 			var repeatingElement = createRepeatingElement(newPath);
 			pChildRefHandlerView.addChild(repeatingElement.getView());
-			addPresentationsToRepeatingElementsView(repeatingElement);
+			addPresentationsToRepeatingElementsView(repeatingElement, metadataIdToAdd);
 			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement);
 			updateView();
 		}
@@ -239,21 +239,22 @@ var CORA = (function(cora) {
 			return CORA.pRepeatingElement(repeatingElementSpec);
 		}
 
-		function addPresentationsToRepeatingElementsView(repeatingElement) {
+		function addPresentationsToRepeatingElementsView(repeatingElement, metadataIdToAdd) {
 			var path = repeatingElement.getPath();
 
-			var presentation = getPresentation(path, spec.cPresentation);
+			var presentation = factorPresentation(path, spec.cPresentation, metadataIdToAdd);
 			repeatingElement.addPresentation(presentation);
 
 			if (hasMinimizedPresentation()) {
-				var presentationMinimized = getPresentation(path, spec.cPresentationMinimized);
+				var presentationMinimized = factorPresentation(path, spec.cPresentationMinimized);
 				repeatingElement.addPresentationMinimized(presentationMinimized,
 						spec.minimizedDefault);
 			}
 		}
 
-		function getPresentation(path, cPresentation) {
-			return spec.presentationFactory.factor(path, cPresentation, spec.cParentPresentation);
+		function factorPresentation(path, cPresentation, metadataIdToAdd) {
+			return spec.presentationFactory.factor(path, metadataIdToAdd, cPresentation,
+					spec.cParentPresentation);
 		}
 
 		function hasMinimizedPresentation() {

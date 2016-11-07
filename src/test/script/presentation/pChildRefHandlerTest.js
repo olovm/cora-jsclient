@@ -574,7 +574,10 @@ QUnit.test("testHandleFilesSendingOneBinaryFile", function(assert) {
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
 });
 
-QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
+QUnit
+		.test(
+				"testHandleFilesSendingOneFileError",
+				function(assert) {
 					var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 							"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
 					var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
@@ -858,7 +861,7 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 
 QUnit.test("testHandleFilesSendingMoreFilesThanAllowed", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-		"groupIdOneChildOfBinaryRecordLinkChildRepeatMax2", "myChildOfBinaryPLink");
+			"groupIdOneChildOfBinaryRecordLinkChildRepeatMax2", "myChildOfBinaryPLink");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
@@ -881,7 +884,6 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowed", function(assert) {
 
 	childRefHandler.handleFiles(files);
 
-
 	var data = {
 		"name" : "binary",
 		"children" : [ {
@@ -897,13 +899,13 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowed", function(assert) {
 				} ]
 			} ]
 		} ],
-		"attributes":{
-			"type":"image"
+		"attributes" : {
+			"type" : "image"
 		}
 	};
 
 	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-		.getFactoredXmlHttpRequest(0);
+			.getFactoredXmlHttpRequest(0);
 	var sentDataArray = xmlHttpRequestSpy.getSentDataArray();
 	assert.strictEqual(sentDataArray[0], JSON.stringify(data));
 
@@ -921,13 +923,13 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowed", function(assert) {
 					"value" : "systemX"
 				} ]
 			} ]
-		}],
-		"attributes":{
-			"type":"image"
+		} ],
+		"attributes" : {
+			"type" : "image"
 		}
 	};
 	var xmlHttpRequestSpy2 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-		.getFactoredXmlHttpRequest(1);
+			.getFactoredXmlHttpRequest(1);
 	var sentDataArray2 = xmlHttpRequestSpy2.getSentDataArray();
 	assert.strictEqual(sentDataArray2[0], JSON.stringify(data2));
 
@@ -946,13 +948,13 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowed", function(assert) {
 				} ]
 			} ]
 		} ],
-		"attributes":{
-			"type":"image"
+		"attributes" : {
+			"type" : "image"
 		}
 	};
 
 	var xmlHttpRequestSpy3 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-		.getFactoredXmlHttpRequest(2);
+			.getFactoredXmlHttpRequest(2);
 	assert.strictEqual(xmlHttpRequestSpy3, undefined);
 
 	var messages = attachedPChildRefHandler.pubSub.getMessages();
@@ -963,7 +965,7 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowed", function(assert) {
 
 QUnit.test("testHandleFilesSendingMoreFilesThanAllowedDifferentRequest", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-		"groupIdOneChildOfBinaryRecordLinkChildRepeatMax2", "myChildOfBinaryPLink");
+			"groupIdOneChildOfBinaryRecordLinkChildRepeatMax2", "myChildOfBinaryPLink");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
@@ -990,15 +992,17 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowedDifferentRequest", functio
 				} ]
 			} ]
 		} ],
-		"attributes":{
-			"type":"image"
+		"attributes" : {
+			"type" : "image"
 		}
 	};
 
-	childRefHandler.handleMsg({"metadataId" : "myChildOfBinaryLink"}, "x/y/z/add");
+	childRefHandler.handleMsg({
+		"metadataId" : "myChildOfBinaryLink"
+	}, "x/y/z/add");
 
 	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-		.getFactoredXmlHttpRequest(0);
+			.getFactoredXmlHttpRequest(0);
 	var sentDataArray = xmlHttpRequestSpy.getSentDataArray();
 	assert.strictEqual(sentDataArray[0], JSON.stringify(data));
 
@@ -1029,16 +1033,15 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowedDifferentRequest", functio
 					"value" : "systemX"
 				} ]
 			} ]
-		}],
-		"attributes":{
-			"type":"image"
+		} ],
+		"attributes" : {
+			"type" : "image"
 		}
 	};
 	var xmlHttpRequestSpy2 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-		.getFactoredXmlHttpRequest(1);
+			.getFactoredXmlHttpRequest(1);
 	var sentDataArray2 = xmlHttpRequestSpy2.getSentDataArray();
 	assert.strictEqual(sentDataArray2[0], JSON.stringify(data2));
-
 
 	var data3 = {
 		"name" : "binary",
@@ -1055,13 +1058,13 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowedDifferentRequest", functio
 				} ]
 			} ]
 		} ],
-		"attributes":{
-			"type":"image"
+		"attributes" : {
+			"type" : "image"
 		}
 	};
 
 	var xmlHttpRequestSpy3 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-		.getFactoredXmlHttpRequest(2);
+			.getFactoredXmlHttpRequest(2);
 	assert.strictEqual(xmlHttpRequestSpy3, undefined);
 
 });
@@ -1098,6 +1101,7 @@ QUnit.test("testAddOneChild", function(assert) {
 		"name" : "linkedPath"
 	};
 	assert.deepEqual(this.presentationFactory.getPath(), path);
+	assert.deepEqual(this.presentationFactory.getMetadataIds()[0], "textVariableId");
 });
 
 QUnit.test("testAddOneChildWithRepeatId", function(assert) {
@@ -1122,6 +1126,7 @@ QUnit.test("testAddOneChildWithRepeatId", function(assert) {
 		"name" : "linkedPath"
 	};
 	assert.deepEqual(this.presentationFactory.getPath(), path);
+	assert.deepEqual(this.presentationFactory.getMetadataIds()[0], "textVariableId");
 });
 
 QUnit.test("testAddOneChildWithOneLevelPath", function(assert) {
@@ -1155,7 +1160,7 @@ QUnit.test("testAddOneChildWithOneLevelPath", function(assert) {
 		"name" : "linkedPath"
 	};
 	assert.deepEqual(this.presentationFactory.getPath(), childPath);
-
+	assert.deepEqual(this.presentationFactory.getMetadataIds()[0], "textVariableId");
 });
 
 QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
@@ -1201,6 +1206,7 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 		"name" : "linkedPath"
 	};
 	assert.deepEqual(this.presentationFactory.getPath(), childPath);
+	assert.deepEqual(this.presentationFactory.getMetadataIds()[0], "textVariableId");
 });
 // groupInGroupOneTextChild
 // groupIdOneTextChildTwoAttributes
@@ -1563,27 +1569,28 @@ QUnit.test("testHandleMessageMatchingNameInDataAndAttribute", function(assert) {
 	assert.strictEqual(childrenView.childNodes.length, 1);
 });
 
-QUnit.test("testHandleMessageMatchingNameInDataAndMoreGenericAttributeDefinition", function(assert) {
-//	aFinalValue
-//	aOtherFinalValue
-	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-			"textVarRepeat1to3InGroupParentAttribute1toXInGroup",
-	"pgTextVarRepeat1to3InGroupParentAttribute");
-	var view = attachedPChildRefHandler.view;
-	var childrenView = view.firstChild;
-	assert.strictEqual(childrenView.childNodes.length, 0);
-	
-	attachedPChildRefHandler.pChildRefHandler.handleMsg({
-		"metadataId" : "textVarRepeat1to3InGroupOneAttribute",
-		"nameInData" : "textVarRepeat1to3InGroupOneAttribute",
-		"attributes" : {
-//			"recordTypeTypeCollectionVar" : [ "aFinalValue" ]
-			"recordTypeTypeCollectionVar" : [ "aOtherFinalValue" ]
-		}
-	}, "x/y/z/add");
-	
-	assert.strictEqual(childrenView.childNodes.length, 1);
-});
+QUnit.test("testHandleMessageMatchingNameInDataAndMoreGenericAttributeDefinition",
+		function(assert) {
+			// aFinalValue
+			// aOtherFinalValue
+			var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+					"textVarRepeat1to3InGroupParentAttribute1toXInGroup",
+					"pgTextVarRepeat1to3InGroupParentAttribute");
+			var view = attachedPChildRefHandler.view;
+			var childrenView = view.firstChild;
+			assert.strictEqual(childrenView.childNodes.length, 0);
+
+			attachedPChildRefHandler.pChildRefHandler.handleMsg({
+				"metadataId" : "textVarRepeat1to3InGroupOneAttribute",
+				"nameInData" : "textVarRepeat1to3InGroupOneAttribute",
+				"attributes" : {
+					// "recordTypeTypeCollectionVar" : [ "aFinalValue" ]
+					"recordTypeTypeCollectionVar" : [ "aOtherFinalValue" ]
+				}
+			}, "x/y/z/add");
+
+			assert.strictEqual(childrenView.childNodes.length, 1);
+		});
 
 QUnit.test("testHandleMessageMatchingNameInDataWrongAttribute", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
