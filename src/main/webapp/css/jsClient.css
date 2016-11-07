@@ -10,13 +10,59 @@ body {
 	padding: 0px;
 }
 
+.topBar {
+	min-height: 2rem;
+	display: block;
+	border-bottom: 1px solid #0082c9;
+}
+
+.topBar .iconButton {
+	transform: scale(1.3, 1.3);
+	top: 0.5rem;
+	right: 0.5rem;
+}
+
+.holder.tool {
+	background-color: #0082c933;
+	display: block;
+	border: 1px solid black;
+	min-height: 5rem;
+	position: relative;
+	overflow: hidden;
+	margin: 2px 0px;
+	z-index: 0;
+}
+
+.holder.tool:before {
+	background: url("../images/icons2.svg") no-repeat scroll;
+	content: "";
+	background-position: -144px -0px;
+	opacity: .4;
+	height: 16px;
+	width: 16px;
+	transform: scale(10, 10);
+	position: absolute;
+	right: 4.5rem;
+	top: 5rem;
+	z-index: -1;
+}
+
+.holder {
+	/* 	needed for tests to see that it is visible */
+	min-height: 1px;
+	min-width: 1px;
+	display: inline-block;
+}
+.holder.tool input {
+	margin: 1rem;
+}
+
 .jsClient.mainView {
 	height: 100%;
 	border-color: #0082c9;
 	position: relative;
 	display: block;
 	overflow: hidden;
-	
 	background: linear-gradient(to bottom, #eaeaea 0%, #f9fafb 100%);
 }
 
@@ -52,6 +98,7 @@ body {
 	cursor: pointer;
 	position: relative;
 }
+
 .jsClient>.header .menuView.uploading::before {
 	background: url("../images/icons2.svg") no-repeat scroll -79px 0px;
 	content: "";
@@ -64,23 +111,29 @@ body {
 	top: 3px;
 	right: 2px;
 	animation: rotation2 2s linear;
-	animation-iteration-count:infinite;
-}
-@keyframes rotation2 {
-    from {transform: rotate(0deg);}
-    to   {transform: rotate(359deg);}
+	animation-iteration-count: infinite;
 }
 
+@
+keyframes rotation2 {
+	from {transform: rotate(0deg);
+}
+
+to {
+	transform: rotate(359deg);
+}
+
+}
 .jsClient>.sideBar {
 	border-color: inherit;
-    border-right-style: solid;
-    border-right-width: 1px;
-    display: inline-block;
-    height: calc(100% - 3rem - 1px);
-    overflow: auto;
-    padding: 0rem 0.5rem;
-    position: relative;
-    width: 20rem;
+	border-right-style: solid;
+	border-right-width: 1px;
+	display: inline-block;
+	height: calc(100% - 3rem - 1px);
+	overflow: auto;
+	padding: 0rem 0.5rem;
+	position: relative;
+	width: 20rem;
 }
 
 .sideBar>.recordType {
@@ -143,16 +196,17 @@ body {
 	font-weight: bold;
 	background-color: rgba(5, 131, 249, 0.49);
 }
+
 .sideBar>.recordType  span {
 	display: block;
 }
 
 .jsClient>.workArea {
 	display: inline;
-    height: calc(100% - 3rem - 1px);
-    margin-left: 1rem;
-    position: absolute;
-    width: calc(100% - 22rem - 1px);
+	height: calc(100% - 3rem - 1px);
+	margin-left: 1rem;
+	position: absolute;
+	width: calc(100% - 22rem - 1px);
 }
 
 .workArea .workView {
@@ -165,7 +219,9 @@ body {
 
 .workArea .workView .workItem {
 	display: block;
-	position: relative;
+	position: absolute;
+	overflow: scroll;
+	height: 100%;
 }
 
 .workArea .workView .presentation {
@@ -181,7 +237,7 @@ body {
 	margin: 0;
 }
 
-.sideBar .menuView .pVar span, .jsClient .sideBar .menuView .text{
+.sideBar .menuView .pVar span, .jsClient .sideBar .menuView .text {
 	max-width: calc(70% - 1rem - 30px);
 	overflow: hidden;
 	display: inline-block;
@@ -225,7 +281,8 @@ body {
 	margin-right: 2px;
 }
 
-.sideBar .recordType .buttonView>span::before, .sideBar .recordType .buttonView>span::after {
+.sideBar .recordType .buttonView>span::before, .sideBar .recordType .buttonView>span::after
+	{
 	top: 3px;
 	right: 2px;
 }
@@ -294,8 +351,9 @@ body {
 	border: none;
 }
 
-.jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input, .jsClient .showView .buttonView .removeButton,
-	.jsClient .showView .buttonView .dragButton, .jsClient .menuView .buttonView .removeButton {
+.jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input,
+	.jsClient .showView .buttonView .removeButton, .jsClient .showView .buttonView .dragButton,
+	.jsClient .menuView .buttonView .removeButton {
 	display: none;
 }
 
@@ -319,11 +377,11 @@ body {
 .jsClient .listItem [class*='recordInfo'] .pVar  span:after {
 	content: ")";
 }
+
 .jsClient .listItem [class*='recordInfo'] .pVar  .infoButton:before,
-.jsClient .listItem [class*='recordInfo'] .pVar  .infoButton:after {
+	.jsClient .listItem [class*='recordInfo'] .pVar  .infoButton:after {
 	content: "";
 }
-
 
 .jsClient .listItem .textPartAlternativePGroup .text {
 	font-weight: bold;
@@ -335,7 +393,7 @@ body {
 }
 
 .jsClient .editView, .jsClient .showView {
-	height: calc(100% - 3rem);
+/* 	height: calc(100% - 3rem); */
 	width: calc(50% - 0.5rem);
 	display: inline-block;
 	overflow: auto;
@@ -343,10 +401,12 @@ body {
 
 .jsClient .editView .repeatingElement .repeatingElement, .jsClient .editView .pSurroundingContainer .repeatingElement
 	{
-/* 	border: none; */
+	/* 	border: none; */
+	
 }
 
-.jsClient .editView .repeatingElement .repeatingElement .repeatingElement .maximized {
+.jsClient .editView .repeatingElement .repeatingElement .repeatingElement .maximized
+	{
 	border: none;
 	background-color: transparent;
 }
@@ -360,7 +420,8 @@ body {
 }
 
 .jsClient .showView .pGroup>.pChildRefHandler+.pChildRefHandler {
-	margin-top: .3rem;
+	/* 	margin-top: .3rem; */
+	flex: 1;
 }
 
 .jsClient .text {

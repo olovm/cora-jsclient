@@ -60,10 +60,10 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(view.modelObject, message);
 	assert.strictEqual(view.className, "message error");
 
-	var messageText = view.firstChild;
+	var messageText = view.childNodes[1];
 	assert.strictEqual(messageText.textContent, "some text");
 
-	var removeButton = view.childNodes[1];
+	var removeButton = view.childNodes[0];
 	assert.strictEqual(removeButton.className, "removeButton");
 	// to prevent rouge timers call remove on elements after test has completed
 	message.clearHideTimeout();
@@ -113,13 +113,40 @@ QUnit.test("testRemoveButton", function(assert) {
 	this.fixture.appendChild(view);
 	assert.visible(view);
 
-	var removeButton = view.childNodes[1];
+	var removeButton = view.childNodes[0];
 	var event = document.createEvent('Event');
 	removeButton.onclick(event);
 
 	assert.notVisible(view);
 	// to prevent rouge timers call remove on elements after test has completed
 	message.clearHideTimeout();
+});
+
+QUnit.test("testRemoveButtonMultipleTransitionsMayCallHideMoreThanOnce", function(assert) {
+	var messageSpec = {
+			"message" : "some text",
+			"type" : CORA.message.ERROR,
+			"timeout" : 21
+	};
+	var message = CORA.message(messageSpec);
+	
+	var view = message.getView();
+	this.fixture.appendChild(view);
+	assert.visible(view);
+	
+	var removeButton = view.childNodes[0];
+	var event = document.createEvent('Event');
+	removeButton.onclick(event);
+	
+	assert.notVisible(view);
+	var noProblem = true;
+	try{
+		message.hide();
+		message.hide();
+	}catch (e) {
+		noProblem = false;
+	}
+	assert.ok(noProblem);
 });
 
 QUnit.test("testHideAfterTimeout", function(assert) {

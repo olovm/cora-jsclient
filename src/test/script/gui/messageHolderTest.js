@@ -49,6 +49,6 @@ QUnit.test("testNewMessage", function(assert) {
 	var messageView = view.firstChild;
 	assert.strictEqual(messageView.className, "message error");
 
-	var messageText = messageView.firstChild;
+	var messageText = messageView.childNodes[1];
 	assert.strictEqual(messageText.textContent, "some text");
 });

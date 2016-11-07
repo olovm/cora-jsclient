@@ -19,9 +19,11 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeHandler = function(spec) {
+		var self;
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
 		var viewSpec = {
+			"dependencies" : spec.dependencies,
 			"headerText" : recordId,
 			"fetchListMethod" : createRecordTypeList
 		};
@@ -52,6 +54,7 @@ var CORA = (function(cora) {
 		function createRecordTypeList() {
 			var views = createItemViews("menuView");
 			var listHandlerSpec = {
+				"dependencies" : spec.dependencies,
 				"createRecordHandlerMethod" : createRecordHandler,
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
@@ -80,6 +83,7 @@ var CORA = (function(cora) {
 			}
 			var views = createItemViews(text);
 			var recordHandlerSpec = {
+				"dependencies" : spec.dependencies,
 				"recordHandlerViewFactory" : createRecordHandlerViewFactory(),
 				"recordTypeRecord" : spec.recordTypeRecord,
 				"presentationMode" : presentationMode,
@@ -87,7 +91,8 @@ var CORA = (function(cora) {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"views" : views,
-				"jsClient": spec.jsClient
+				"jsClient" : spec.jsClient,
+				"recordTypeHandler" : self
 			};
 			spec.recordHandlerFactory.factor(recordHandlerSpec);
 		}
@@ -102,8 +107,10 @@ var CORA = (function(cora) {
 		var out = Object.freeze({
 			getView : getView,
 			createRecordTypeList : createRecordTypeList,
-			createRecordHandlerViewFactory:createRecordHandlerViewFactory
+			createRecordHandlerViewFactory : createRecordHandlerViewFactory,
+			createRecordHandler : createRecordHandler
 		});
+		self = out;
 		return out;
 	};
 	return cora;

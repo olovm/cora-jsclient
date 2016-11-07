@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -43,8 +44,11 @@ var CORA = (function(cora) {
 		var initComplete = false;
 		var dataIsChanged = false;
 
+		recordHandlerView.setShowDataFunction(showData);
+		recordHandlerView.setCopyAsNewFunction(copyData);
+
 		if ("new" === spec.presentationMode) {
-			createGuiForNew();
+			createGuiForNew(spec.record);
 		} else {
 			fetchDataFromServer(processFetchedRecord);
 		}
@@ -55,13 +59,16 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		function createGuiForNew() {
+		function createGuiForNew(oldData) {
 			try {
-				recordGuiNew = createRecordGui(getNewMetadataId());
+				recordGuiNew = createRecordGui(getNewMetadataId(), oldData);
+				recordGui = recordGuiNew;
 				addNewRecordToWorkView(recordGuiNew);
 				addRecordToMenuView(recordGuiNew);
 				addToShowView(recordGuiNew);
 				recordGuiNew.initMetadataControllerStartingGui();
+				dataIsChanged = true;
+				updateMenuClassName();
 			} catch (error) {
 				createRawDataWorkView("something went wrong, probably missing metadata, " + error);
 			}
@@ -92,7 +99,7 @@ var CORA = (function(cora) {
 			if (messageSaysInitIsComplete(msg)) {
 				initComplete = true;
 			}
-			if(messageSaysUpdateRecord(msg)){
+			if (messageSaysUpdateRecord(msg)) {
 				sendUpdateDataToServer();
 			}
 			updateMenuClassName();
@@ -122,7 +129,7 @@ var CORA = (function(cora) {
 		function addNewRecordToWorkView(recordGuiToAdd) {
 			var presentationViewId = getPresentationNewViewId();
 			var presentationView = recordGuiToAdd.getPresentation(presentationViewId).getView();
-			recordHandlerView.addEditView(presentationView);
+			recordHandlerView.addToEditView(presentationView);
 			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
 		}
 
@@ -144,7 +151,13 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordHandlerView() {
+			var workItemViewFactory = {
+				"factor" : function(workItemViewSpec) {
+					return CORA.workItemView(workItemViewSpec);
+				}
+			};
 			var recordHandlerViewSpec = {
+				"workItemViewFactory" : workItemViewFactory,
 				"extraClassName" : recordTypeRecordId
 			};
 			return spec.recordHandlerViewFactory.factor(recordHandlerViewSpec);
@@ -253,6 +266,19 @@ var CORA = (function(cora) {
 			addToShowView(recordGuiToAdd);
 		}
 
+		function showData() {
+			var messageSpec = {
+				"message" : JSON.stringify(recordGui.dataHolder.getData()),
+				"type" : CORA.message.INFO,
+				"timeout" : 0
+			};
+			messageHolder.createMessage(messageSpec);
+		}
+
+		function copyData() {
+			spec.recordTypeHandler.createRecordHandler("new", recordGui.dataHolder.getData());
+		}
+
 		function notAbstractRecordRecordType() {
 			var abstractValue = getRecordTypeRecordValue("abstract");
 			return "true" !== abstractValue;
@@ -271,13 +297,13 @@ var CORA = (function(cora) {
 		function addToEditView(recordGuiToAdd) {
 			var editViewId = getPresentationFormId();
 			var editView = recordGuiToAdd.getPresentation(editViewId).getView();
-			recordHandlerView.addEditView(editView);
+			recordHandlerView.addToEditView(editView);
 		}
 
 		function addToShowView(recordGuiToAdd) {
 			var showViewId = getPresentationViewId();
 			var showView = recordGuiToAdd.getPresentation(showViewId).getView();
-			recordHandlerView.addShowView(showView);
+			recordHandlerView.addToShowView(showView);
 		}
 
 		function shouldRecordBeDeleted() {
@@ -291,8 +317,8 @@ var CORA = (function(cora) {
 				} ]
 			};
 			var question = CORA.question(questionSpec);
-			var view = question.getView();
-			workView.appendChild(view);
+			var questionView = question.getView();
+			workView.appendChild(questionView);
 
 		}
 
@@ -343,7 +369,7 @@ var CORA = (function(cora) {
 		}
 
 		function createRawDataWorkView(data) {
-			recordHandlerView.addEditView(document.createTextNode(JSON.stringify(data)));
+			recordHandlerView.addToEditView(document.createTextNode(JSON.stringify(data)));
 		}
 
 		function getPresentationViewId() {
@@ -373,7 +399,9 @@ var CORA = (function(cora) {
 
 		return Object.freeze({
 			handleMsg : handleMsg,
-			getDataIsChanged : getDataIsChanged
+			getDataIsChanged : getDataIsChanged,
+			copyData : copyData,
+			showData : showData
 		});
 	};
 	return cora;
