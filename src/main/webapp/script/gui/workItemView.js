@@ -31,19 +31,19 @@ var CORA = (function(cora) {
 		}
 
 		function createTopBarInView() {
-			var topBar = createSpanWithClassName("topBar")
-			view.appendChild(topBar);
+			var topBarNew = createSpanWithClassName("topBar");
+			view.appendChild(topBarNew);
 
-			return topBar;
+			return topBarNew;
 		}
 
 		function createToolHolder() {
-			var toolHolder = spec.holderFactory.factor({
+			var toolHolderNew = spec.holderFactory.factor({
 				"className" : "tool",
 				"appendTo" : view
 			});
-			topBar.appendChild(toolHolder.getButton());
-			return toolHolder;
+			topBar.appendChild(toolHolderNew.getButton());
+			return toolHolderNew;
 		}
 
 		function addToolViewToToolHolder(toolView) {

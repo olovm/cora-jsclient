@@ -19,7 +19,6 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.holder = function(spec) {
-//		var status = cora.holder.CLOSED;
 		var status;
 		var button = createButton();
 		var view = createBaseView();
@@ -55,27 +54,19 @@ var CORA = (function(cora) {
 		}
 		function open() {
 			status = cora.holder.OPEN;
-//			if(view.previousDisplay !== undefined){
-				view.style.display = view.previousDisplay;
-//			}
+			view.style.display = view.previousDisplay;
 		}
 		function close() {
 			status = cora.holder.CLOSED;
 			view.previousDisplay = view.style.display;
 			view.style.display = "none";
 		}
-		// function createAndAddBaseView() {
-		// createBaseView();
-		// addBaseViewAccordingToSpec()
-		// }
 
 		function createBaseView() {
 			var viewNew = document.createElement("span");
 			var className = "holder";
 			className += getClassNameFromSpec();
 			viewNew.className = className;
-//			viewNew.style.display = "none";
-			
 			return viewNew;
 		}
 
@@ -84,8 +75,7 @@ var CORA = (function(cora) {
 				spec.appendTo.appendChild(view);
 			}
 			if (spec.insertAfter !== undefined) {
-				spec.insertAfter.parentNode.insertBefore(view,
-						spec.insertAfter.nextSibling);
+				spec.insertAfter.parentNode.insertBefore(view, spec.insertAfter.nextSibling);
 			}
 		}
 		function getButton() {
