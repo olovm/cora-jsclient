@@ -89,7 +89,8 @@ var CORA = (function(cora) {
 		}
 
 		function getCollectionItemReferencesFor(cCollectionVariable) {
-			var cAttributeRefCollection = CORA.coraData(cCollectionVariable.getFirstChildByNameInData("refCollection"));
+			var cAttributeRefCollection = CORA.coraData(cCollectionVariable
+					.getFirstChildByNameInData("refCollection"));
 
 			var attributeRefCollectionId = cAttributeRefCollection
 					.getFirstAtomicValueByNameInData("linkedRecordId");
@@ -107,7 +108,7 @@ var CORA = (function(cora) {
 				var childAttributesToFind = collectAttributesAsObjectForMetadataId(childMetadataId);
 				var childNameInData = getNameInDataFromMetadataChildRef(metadataChildRef);
 				return childNameInData === nameInDataToFind
-						&& attributesMatch(attributesToFind, childAttributesToFind);
+						&& firstAttributesExistsInSecond(attributesToFind, childAttributesToFind);
 			};
 			var children = cMetadata.getFirstChildByNameInData("childReferences").children;
 			var parentMetadataChildRef = children.find(findFunction);
@@ -127,7 +128,7 @@ var CORA = (function(cora) {
 			return childNameInData;
 		}
 
-		function attributesMatch(attributes1, attributes2) {
+		function firstAttributesExistsInSecond(attributes1, attributes2) {
 			var attributeKeys1 = attributes1 !== undefined ? Object.keys(attributes1) : Object
 					.keys({});
 			var attributeKeys2 = attributes2 !== undefined ? Object.keys(attributes2) : Object
@@ -139,7 +140,7 @@ var CORA = (function(cora) {
 			if (noAttributesToCompare(attributeKeys1)) {
 				return true;
 			}
-			return compareExistingAttributes(attributes1, attributes2);
+			return existingFirstAttributesExistsInSecond(attributes1, attributes2);
 		}
 
 		function notSameNumberOfKeys(attributeKeys1, attributeKeys2) {
@@ -156,25 +157,34 @@ var CORA = (function(cora) {
 			return false;
 		}
 
-		function compareExistingAttributes(attributes1, attributes2) {
+		function existingFirstAttributesExistsInSecond(attributes1, attributes2) {
 			var attributeKeys1 = Object.keys(attributes1);
-			var attributeExistsInAttributes2 = function(attributeKey) {
+			var checkAttributeExistsInAttributes2 = createCheckFunction(attributes1, attributes2);
+			return attributeKeys1.every(checkAttributeExistsInAttributes2);
+		}
+
+		function createCheckFunction(attributes1, attributes2) {
+			return function(attributeKey) {
 				var attributeValues1 = attributes1[attributeKey];
 				var attributeValues2 = attributes2[attributeKey];
 				if (attributeValues2 === undefined) {
 					return false;
 				}
-				return attributeValues2.indexOf(attributeValues1[0]) > -1;
+				var functionAttribute2ContainsValue = createValueCheckFunction(attributeValues2);
+				return attributeValues1.every(functionAttribute2ContainsValue);
 			};
+		}
 
-			var attributeMatches = attributeKeys1.every(attributeExistsInAttributes2);
-			return attributeMatches;
+		function createValueCheckFunction(attributeValues2) {
+			return function(attributeValue) {
+				return attributeValues2.indexOf(attributeValue) > -1;
+			};
 		}
 
 		var out = Object.freeze({
 			collectAttributesAsObjectForMetadataId : collectAttributesAsObjectForMetadataId,
 			getChildRefPartOfMetadata : getChildRefPartOfMetadata,
-			attributesMatch : attributesMatch
+			firstAttributesExistsInSecond : firstAttributesExistsInSecond
 		});
 		return out;
 	};

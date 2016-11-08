@@ -252,6 +252,7 @@ QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
 	assert.strictEqual(repeatingElement.childNodes.length, 3);
 
 	var repeatingButtonView = repeatingElement.childNodes[2];
+	
 	assert
 			.visible(repeatingButtonView,
 					"repeatingButtonView should be visible");

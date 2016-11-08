@@ -21,9 +21,9 @@ var CORA = (function(cora) {
 	cora.message = function(spec) {
 		var timeout = getTimeoutFromSpecOrDefault();
 		var view = createView();
+		view.appendChild(createRemoveButton());
 		var messageText = createMessageText();
 		view.appendChild(messageText);
-		view.appendChild(createRemoveButton());
 		var hideTimeout = possiblySetHideTimeout();
 		var hideIfTransitionendNotCalled;
 
@@ -64,13 +64,18 @@ var CORA = (function(cora) {
 		function getTimeout() {
 			return timeout;
 		}
+
 		function getView() {
 			return view;
 		}
+
 		function hide() {
 			clearHideTimeout();
-			view.parentNode.removeChild(view);
+			if (view.parentNode) {
+				view.parentNode.removeChild(view);
+			}
 		}
+
 		function clearHideTimeout() {
 			window.clearTimeout(hideTimeout);
 			window.clearTimeout(hideIfTransitionendNotCalled);

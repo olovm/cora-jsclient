@@ -50,8 +50,9 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataIdFromPresentation() {
-			if(presentationHasLinkedPresentationOf()){
-				var presentationGroup = spec.cPresentation.getFirstChildByNameInData("presentationOf");
+			if (presentationHasLinkedPresentationOf()) {
+				var presentationGroup = spec.cPresentation
+						.getFirstChildByNameInData("presentationOf");
 				var cPresentationGroup = CORA.coraData(presentationGroup);
 				return cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
@@ -59,7 +60,7 @@ var CORA = (function(cora) {
 			return spec.cPresentation.getFirstAtomicValueByNameInData("presentationOf");
 		}
 
-		function presentationHasLinkedPresentationOf(){
+		function presentationHasLinkedPresentationOf() {
 			return spec.cPresentation.getData().attributes.type !== "container";
 		}
 
@@ -183,7 +184,8 @@ var CORA = (function(cora) {
 			if (nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg)) {
 				return false;
 			}
-			return metadataHelper.attributesMatch(collectedAttributes, attributesFromMsg);
+			return metadataHelper.firstAttributesExistsInSecond(attributesFromMsg,
+					collectedAttributes);
 		}
 
 		function nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg) {
@@ -361,11 +363,11 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function repeatMaxIsNumber(){
+		function repeatMaxIsNumber() {
 			return !isNaN(repeatMax);
 		}
 
-		function calculateNumOfFilesLeftToUploadAndPossiblyChangeNumToUpload(numberOfChosenFiles){
+		function calculateNumOfFilesLeftToUploadAndPossiblyChangeNumToUpload(numberOfChosenFiles) {
 			var numOfFilesLeftToUpLoad = Number(repeatMax) - noOfRepeating;
 			if (numOfFilesLeftToUpLoad < numberOfChosenFiles) {
 				numberOfFilesToUpload = numOfFilesLeftToUpLoad;

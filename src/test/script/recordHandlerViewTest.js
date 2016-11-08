@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -20,77 +21,75 @@
 
 QUnit.module("recordHandlerViewTest.js", {
 	beforeEach : function() {
+		this.workItemViewFactory = CORATEST.workItemViewFactorySpy();
+		this.recordHandlerViewSpec = {
+			"workItemViewFactory" : this.workItemViewFactory,
+			"extraClassName" : "extraClassName2"
+		};
+		this.recordHandlerView = CORA.recordHandlerView(this.recordHandlerViewSpec);
+
+		var workItemViewSpy = this.workItemViewFactory.getFactored(0);
+		var viewsAddedToView = workItemViewSpy.getViewsAddedToView();
+		this.viewsToolAddedToView = workItemViewSpy.getToolViewsAddedToView();
+
+		this.editView = viewsAddedToView[0];
+		this.showView = viewsAddedToView[1];
+		this.buttonView = viewsAddedToView[2];
+
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	var recordHandlerViewSpec = {
-		"extraClassName" : "text",
-	};
-	var recordHandlerView = CORA.recordHandlerView(recordHandlerViewSpec);
-	var view = recordHandlerView.getView();
+	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
+	var factoredWorkItemViewSpec = workItemViewSpy.getSpec();
+	assert.strictEqual(factoredWorkItemViewSpec.extraClassName, "extraClassName2");
+	assert.ok(factoredWorkItemViewSpec.holderFactory.factor);
 
-	assert.strictEqual(view.nodeName, "SPAN");
-	assert.strictEqual(view.className, "workItem text");
+	var viewsAddedToView = workItemViewSpy.getViewsAddedToView();
+	assert.strictEqual(viewsAddedToView.length, 3);
 
-	var editView = view.childNodes[0];
+	var editView = viewsAddedToView[0];
 	assert.strictEqual(editView.nodeName, "SPAN");
 	assert.strictEqual(editView.className, "editView");
 
-	var showView = view.childNodes[1];
+	var showView = viewsAddedToView[1];
 	assert.strictEqual(showView.nodeName, "SPAN");
 	assert.strictEqual(showView.className, "showView");
 
-	var buttonView = view.childNodes[2];
+	var buttonView = viewsAddedToView[2];
 	assert.strictEqual(buttonView.nodeName, "SPAN");
 	assert.strictEqual(buttonView.className, "buttonView");
 });
 
-QUnit.test("addEdit", function(assert) {
-	var recordHandlerViewSpec = {
-		"extraClassName" : "text",
-	};
-	var recordHandlerView = CORA.recordHandlerView(recordHandlerViewSpec);
-	var view = recordHandlerView.getView();
-
-	var someView = document.createElement("span");
-	recordHandlerView.addEditView(someView);
-
-	var editView = view.childNodes[0];
-	assert.strictEqual(editView.firstChild, someView);
+QUnit.test("testGetView", function(assert) {
+	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
+	assert.strictEqual(this.recordHandlerView.getView(), workItemViewSpy.getSpyView());
 });
 
-QUnit.test("addShow", function(assert) {
-	var recordHandlerViewSpec = {
-		"extraClassName" : "text",
-	};
-	var recordHandlerView = CORA.recordHandlerView(recordHandlerViewSpec);
-	var view = recordHandlerView.getView();
-
+QUnit.test("addToEdit", function(assert) {
 	var someView = document.createElement("span");
-	recordHandlerView.addShowView(someView);
+	this.recordHandlerView.addToEditView(someView);
 
-	var showView = view.childNodes[1];
-	assert.strictEqual(showView.firstChild, someView);
+	assert.strictEqual(this.editView.firstChild, someView);
+});
+
+QUnit.test("addToShow", function(assert) {
+	var someView = document.createElement("span");
+	this.recordHandlerView.addToShowView(someView);
+
+	assert.strictEqual(this.showView.firstChild, someView);
 });
 
 QUnit.test("addButton", function(assert) {
-	var recordHandlerViewSpec = {
-		"extraClassName" : "text",
-	};
-	var recordHandlerView = CORA.recordHandlerView(recordHandlerViewSpec);
-	var view = recordHandlerView.getView();
-
 	var clicked = false;
 	var onclickMethod = function() {
 		clicked = true;
 	};
-	recordHandlerView.addButton("text", onclickMethod);
+	this.recordHandlerView.addButton("text", onclickMethod);
 
-	var buttonView = view.childNodes[2];
-	var button = buttonView.firstChild;
+	var button = this.buttonView.firstChild;
 	assert.strictEqual(button.nodeName, "INPUT");
 	assert.strictEqual(button.type, "button");
 	assert.strictEqual(button.onclick, onclickMethod);
@@ -98,20 +97,13 @@ QUnit.test("addButton", function(assert) {
 });
 
 QUnit.test("addButtonWithClassName", function(assert) {
-	var recordHandlerViewSpec = {
-		"extraClassName" : "text",
-	};
-	var recordHandlerView = CORA.recordHandlerView(recordHandlerViewSpec);
-	var view = recordHandlerView.getView();
-
 	var clicked = false;
 	var onclickMethod = function() {
 		clicked = true;
 	};
-	recordHandlerView.addButton("text", onclickMethod, "someClass");
+	this.recordHandlerView.addButton("text", onclickMethod, "someClass");
 
-	var buttonView = view.childNodes[2];
-	var button = buttonView.firstChild;
+	var button = this.buttonView.firstChild;
 	assert.strictEqual(button.nodeName, "INPUT");
 	assert.strictEqual(button.type, "button");
 	assert.strictEqual(button.onclick, onclickMethod);
@@ -119,25 +111,67 @@ QUnit.test("addButtonWithClassName", function(assert) {
 });
 
 QUnit.test("testClearViews", function(assert) {
-	var recordHandlerViewSpec = {
-		"extraClassName" : "text",
-	};
-	var recordHandlerView = CORA.recordHandlerView(recordHandlerViewSpec);
-	var view = recordHandlerView.getView();
+	var recordHandlerView = this.recordHandlerView;
 
-	recordHandlerView.addButton("text", undefined);
+	this.recordHandlerView.addButton("text", undefined);
+
 	var someView = document.createElement("span");
-	recordHandlerView.addEditView(someView);
-	var someView2 = document.createElement("span");
-	recordHandlerView.addShowView(someView2);
+	recordHandlerView.addToEditView(someView);
 
-	assert.strictEqual(view.childNodes[0].childNodes.length, 1);
-	assert.strictEqual(view.childNodes[1].childNodes.length, 1);
-	assert.strictEqual(view.childNodes[2].childNodes.length, 1);
+	var someView2 = document.createElement("span");
+	recordHandlerView.addToShowView(someView2);
+
+	assert.strictEqual(this.editView.childNodes.length, 1);
+	assert.strictEqual(this.showView.childNodes.length, 1);
+	assert.strictEqual(this.buttonView.childNodes.length, 1);
 
 	recordHandlerView.clearViews();
-	assert.strictEqual(view.childNodes[0].childNodes.length, 0);
-	assert.strictEqual(view.childNodes[1].childNodes.length, 0);
-	assert.strictEqual(view.childNodes[2].childNodes.length, 0);
+	assert.strictEqual(this.editView.childNodes.length, 0);
+	assert.strictEqual(this.showView.childNodes.length, 0);
+	assert.strictEqual(this.buttonView.childNodes.length, 0);
+});
 
+QUnit.test("testSetShowDataFunction", function(assert) {
+	var showDataWasCalled = false;
+	var dataFunction = function() {
+		showDataWasCalled = true;
+	}
+	var recordHandlerView = this.recordHandlerView;
+	recordHandlerView.setShowDataFunction(dataFunction);
+
+	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
+	
+
+	var button = this.viewsToolAddedToView[0];
+	assert.strictEqual(button.nodeName, "INPUT");
+	assert.strictEqual(button.type, "button");
+	assert.strictEqual(button.onclick, dataFunction);
+	assert.strictEqual(button.className, "showData");
+	assert.strictEqual(button.value, "Show data as JSON");
+
+	assert.notOk(showDataWasCalled);
+	button.onclick();
+	assert.ok(showDataWasCalled);
+});
+
+QUnit.test("testSetCopyAsNewFunction", function(assert) {
+	var showDataWasCalled = false;
+	var dataFunction = function() {
+		showDataWasCalled = true;
+	}
+	var recordHandlerView = this.recordHandlerView;
+	recordHandlerView.setCopyAsNewFunction(dataFunction);
+
+	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
+	
+	var button = this.viewsToolAddedToView[0];
+	assert.strictEqual(button.nodeName, "INPUT");
+	assert.strictEqual(button.type, "button");
+	assert.strictEqual(button.onclick, dataFunction);
+	assert.strictEqual(button.className, "copyAsNew");
+	assert.strictEqual(button.value, "Copy as new");
+
+	assert.notOk(showDataWasCalled);
+	button.onclick();
+	assert.ok(showDataWasCalled);
 });

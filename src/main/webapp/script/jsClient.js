@@ -157,6 +157,7 @@ var CORA = (function(cora) {
 
 		function addRecordTypeToSideBar(record) {
 			var specRecord = {
+				"dependencies" : spec.dependencies,
 				"recordTypeHandlerViewFactory" : createRecordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : createRecordListHandlerFactory(),
 				"recordHandlerFactory" : createRecordHandlerFactory(),
