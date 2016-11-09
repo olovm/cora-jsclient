@@ -90,7 +90,8 @@ QUnit.test("testFactorPGroup", function(assert) {
 	var presentationIdToFactor = "pgGroupIdOneTextChild";
 	var cPresentation = CORA
 			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
-	var pGroup = this.newPresentationFactory.factor({}, "textVariableId", cPresentation);
+	
+	var pGroup = this.newPresentationFactory.factor({}, "groupIdOneTextChild", cPresentation);
 	assert.strictEqual(pGroup.type, "pGroup");
 });
 

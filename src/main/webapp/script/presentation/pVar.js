@@ -29,9 +29,6 @@ var CORA = (function(cora) {
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
-		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
-		var cPresentationGroup = CORA.coraData(presentationGroup);
-//		var metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		var metadataId = spec.metadataIdUsedInData;
 		
 		var cMetadataElement = getMetadataById(metadataId);

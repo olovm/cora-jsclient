@@ -50,12 +50,15 @@ QUnit.module("recordHandlerTest.js", {
 		var presentation = this.presentation;
 		this.presentationIdUsed = [];
 		var presentationIdUsed = this.presentationIdUsed;
+		this.metadataIdsUsedInData = [];
+		var metadataIdsUsedInData = this.metadataIdsUsedInData;
 		this.pubSub = CORATEST.pubSubSpy();
 		this.dataHolderData = {};
 		var dataHolderData = this.dataHolderData;
 		this.recordGui = {
-			"getPresentation" : function(presentationId) {
+			"getPresentation" : function(presentationId, metadataIdUsedInData) {
 				presentationIdUsed.push(presentationId);
+				metadataIdsUsedInData.push(metadataIdUsedInData);
 				return presentation;
 			},
 			"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
@@ -207,13 +210,16 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
+	
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
+	
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeMenuPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[2], "recordTypeGroup2");
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 
-	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
-	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 
 	var messageHolder = this.workView.childNodes[0];
 	assert.strictEqual(messageHolder.className, "messageHolder");
@@ -277,6 +283,8 @@ QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 	assert.strictEqual(updateButtonSpec, undefined);
 
 	assert.strictEqual(this.presentationIdUsed[1], "textMenuPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
+	
 	assert.strictEqual(this.menuView.textContent, "");
 	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
 });
@@ -332,8 +340,11 @@ QUnit.test("testUpdateCall", function(assert) {
 	assert.strictEqual(this.dataDividerUsed[0], "cora");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
+	
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
-
+	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
+	
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(1);
 	updateButtonSpec.onclickMethod();
@@ -426,8 +437,11 @@ QUnit.test("testUpdateCallValidationError", function(assert) {
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
+	
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
-
+	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
+	
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(1);
 	updateButtonSpec.onclickMethod();
@@ -451,8 +465,11 @@ QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeViewPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
+	
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeMenuPGroup");
-
+	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
+	
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 
 	var editViewChild = recordHandlerViewSpy.getAddedEditView(0);
@@ -474,8 +491,11 @@ QUnit.test("testDeleteCall", function(assert) {
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
+	
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
-
+	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
+	
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var deleteButtonSpec = recordHandlerViewSpy.getAddedButton(0);
 	deleteButtonSpec.onclickMethod();
@@ -555,9 +575,14 @@ QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
 	// assert.strictEqual(this.workView.childNodes[3].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
+	
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
+	
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeMenuPGroup");
-
+	assert.strictEqual(this.metadataIdsUsedInData[2], "recordTypeGroup2");
+	
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(0);
 	assert.strictEqual(updateButtonSpec.className, "update");
@@ -571,9 +596,14 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeNewGroup");
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormNewPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeNewGroup");
+	
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeMenuPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeNewGroup");
+	
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeViewPGroup");
-
+	assert.strictEqual(this.metadataIdsUsedInData[2], "recordTypeNewGroup");
+	
 	assert.strictEqual(this.menuView.textContent, "");
 	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
 });

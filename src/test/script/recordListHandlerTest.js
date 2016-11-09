@@ -147,9 +147,12 @@ QUnit.module("recordListHandlerTest.js", {
 		var presentation = this.presentation;
 		this.presentationIdUsed = [];
 		var presentationIdUsed = this.presentationIdUsed;
+		this.metadataIdsUsedInData = [];
+		var metadataIdsUsedInData = this.metadataIdsUsedInData;
 		this.recordGui = {
-			"getPresentation" : function(presentationId) {
+			"getPresentation" : function(presentationId, metadataIdUsedInData) {
 				presentationIdUsed.push(presentationId);
+				metadataIdsUsedInData.push(metadataIdUsedInData);
 				return presentation;
 			},
 			"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
@@ -419,6 +422,7 @@ QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
 	};
 	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
 	assert.stringifyEqual(this.presentationIdUsed[0], "recordTypeListPGroup");
+	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
 	assert.stringifyEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 	assert.strictEqual(this.dataDividerUsed[0], "cora");
 });

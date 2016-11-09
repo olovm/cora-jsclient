@@ -100,7 +100,7 @@ var CORA = (function(cora) {
 			var dataDivider = getDataDividerFromData(record.data);
 			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data, dataDivider);
 
-			var presentationView = recordGui.getPresentation(presentationId).getView();
+			var presentationView = recordGui.getPresentation(presentationId, metadataId).getView();
 			recordGui.initMetadataControllerStartingGui();
 			view.appendChild(presentationView);
 		}

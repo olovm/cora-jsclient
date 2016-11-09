@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -24,7 +25,8 @@ var CORA = (function(cora) {
 		var my = {};
 		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
 		var cPresentationGroup = CORA.coraData(presentationGroup);
-		my.metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+//		my.metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		my.metadataId = spec.metadataIdUsedInData;
 
 		my.cPresentation = cPresentation;
 		my.cParentPresentation = cPresentation;
