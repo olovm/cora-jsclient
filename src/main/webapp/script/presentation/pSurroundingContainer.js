@@ -24,11 +24,8 @@ var CORA = (function(cora) {
 		var cParentPresentation = spec.cParentPresentation;
 
 		var my = {};
-
-		var presentationGroup = cParentPresentation.getFirstChildByNameInData("presentationOf");
-		var cPresentationGroup = CORA.coraData(presentationGroup);
-		my.metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-
+		my.metadataId = spec.metadataIdUsedInData;
+		
 		my.cPresentation = cPresentation;
 		my.cParentPresentation = cParentPresentation;
 		my.createBaseViewHolder = createBaseViewHolder;

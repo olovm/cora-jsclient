@@ -24,15 +24,16 @@ var CORA = (function(cora) {
 			"metadataProvider" : spec.metadataProvider
 		});
 		var presentationId = findPresentationId(spec.cPresentation);
-//		console.log(presentationId)
+		// console.log(presentationId)
 		var metadataId = getMetadataIdFromPresentation();
-//		console.log(metadataId)
-		
+//		 console.log("meatdataId in pChildRefHandler:"+metadataId)
+
 		var cMetadataElement = getMetadataById(metadataId);
-//		console.log(JSON.stringify(spec.cParentMetadata.getData()))
+		// console.log(JSON.stringify(spec.cParentMetadata.getData()))
 		var cParentMetadataChildRefPart = metadataHelper.getChildRefPartOfMetadata(
 				spec.cParentMetadata, metadataId);
-//		console.log(JSON.stringify(cParentMetadataChildRefPart.getData()))
+		
+//		 console.log("cParentMetadataChildRefPart in pChildRefHandler:"+JSON.stringify(cParentMetadataChildRefPart.getData()))
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
 		var isRepeating = calculateIsRepeating();
@@ -58,7 +59,7 @@ var CORA = (function(cora) {
 			if (presentationHasLinkedPresentationOf()) {
 				var presentationGroup = spec.cPresentation
 						.getFirstChildByNameInData("presentationOf");
-//				console.log(JSON.stringify(presentationGroup))
+				// console.log(JSON.stringify(presentationGroup))
 				var cPresentationGroup = CORA.coraData(presentationGroup);
 				return cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
@@ -252,14 +253,16 @@ var CORA = (function(cora) {
 			repeatingElement.addPresentation(presentation);
 
 			if (hasMinimizedPresentation()) {
-				var presentationMinimized = factorPresentation(path, spec.cPresentationMinimized);
+				var presentationMinimized = factorPresentation(path, spec.cPresentationMinimized,
+						metadataIdToAdd);
 				repeatingElement.addPresentationMinimized(presentationMinimized,
 						spec.minimizedDefault);
 			}
 		}
 
 		function factorPresentation(path, cPresentation, metadataIdToAdd) {
-			return spec.presentationFactory.factor(path, metadataIdToAdd, cPresentation,
+			var metadataIdUsedInData = metadataIdToAdd;
+			return spec.presentationFactory.factor(path, metadataIdUsedInData, cPresentation,
 					spec.cParentPresentation);
 		}
 

@@ -43,6 +43,12 @@ var CORA = (function(cora) {
 			if (type === "pVar") {
 				return CORA.pVar(specNew);
 			} else if (type === "pGroup") {
+				if (!metadataIdUsedInData) {
+					var e = new Error();
+					console.log(e.stack)
+					console.log("In presentationFactory factor, metadataIdUsedInData: "
+							+ metadataIdUsedInData)
+				}
 				return CORA.pGroup(specNew);
 			} else if (type === "pRecordLink") {
 				return CORA.pRecordLink(specNew);

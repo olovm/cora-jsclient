@@ -187,7 +187,7 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerTwoLe
 
 	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId,
 			metadataIdUsedInData);
-	
+
 	var presentation = dependencies.presentation;
 	var dataHolder = dependencies.dataHolder;
 
@@ -246,7 +246,7 @@ QUnit.test("testIntegrateRepeatingContainer",
 
 			var dependencies = this.dependenciesFactory.factor(metadataId, presentationId,
 					metadataIdUsedInData);
-			
+
 			var presentation = dependencies.presentation;
 
 			var view = presentation.getView();
@@ -271,11 +271,11 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurro
 		assert) {
 	var metadataId = "groupIdTwoTextChildRepeat1to5";
 	var presentationId = "pgGroupIdTwoTextChildSurrounding2TextPGroup";
-	var metadataIdUsedInData = "groupIdOneTextChild";
+	var metadataIdUsedInData = "groupIdTwoTextChildRepeat1to5";
 
 	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId,
 			metadataIdUsedInData);
-	
+
 	var presentation = dependencies.presentation;
 
 	var view = presentation.getView();
@@ -304,11 +304,11 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurro
 QUnit.test("testIntegrateSurroundingContainerInSurroundingContainer", function(assert) {
 	var metadataId = "groupIdTwoTextChildRepeat1to5";
 	var presentationId = "pgGroupIdTwoTextChildSurrounding2TextPGroup2";
-	var metadataIdUsedInData = "groupIdOneTextChild";
+	var metadataIdUsedInData = "groupIdTwoTextChildRepeat1to5";
 
 	var dependencies = this.dependenciesFactory.factor(metadataId, presentationId,
 			metadataIdUsedInData);
-	
+
 	var presentation = dependencies.presentation;
 
 	var view = presentation.getView();

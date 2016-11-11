@@ -127,7 +127,6 @@ var CORA = (function(cora) {
 		}
 
 		function createSurroundingContainer(cChild) {
-			// TODO: metadataIdUsedInData should it be spec.metadataIdUsedInData
 			var surroundingContainer = presentationFactory.factor(path, spec.metadataIdUsedInData,
 					cChild, my.cParentPresentation);
 			return surroundingContainer.getView();

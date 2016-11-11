@@ -88,6 +88,7 @@ var CORA = (function(cora) {
 				addRecordToWorkView(recordContainer.record);
 			} catch (e) {
 				workView.appendChild(document.createTextNode(e));
+				workView.appendChild(document.createTextNode(e.stack));
 			}
 		}
 

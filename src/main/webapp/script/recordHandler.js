@@ -72,6 +72,7 @@ var CORA = (function(cora) {
 				updateMenuClassName();
 			} catch (error) {
 				createRawDataWorkView("something went wrong, probably missing metadata, " + error);
+				recordHandlerView.addToEditView(document.createTextNode(error.stack));
 			}
 		}
 
@@ -229,6 +230,7 @@ var CORA = (function(cora) {
 				// print raw data if we crash when creating data, (missing
 				// metadata)
 				createRawDataWorkView(data);
+				recordHandlerView.addToEditView(document.createTextNode(error.stack));
 			}
 			busy.hideWithEffect();
 		}

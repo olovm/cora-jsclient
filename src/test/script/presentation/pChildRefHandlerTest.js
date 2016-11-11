@@ -1717,6 +1717,10 @@ QUnit.test("testWithMinimized", function(assert) {
 	var minimizeButton = repeatingButtonView.childNodes[1];
 	assert.strictEqual(minimizeButton.className, "minimizeButton");
 	assert.visible(minimizeButton, "minimizeButton should be visible");
+	
+	assert.deepEqual(this.presentationFactory.getMetadataIds()[0], "textVariableId");
+	assert.deepEqual(this.presentationFactory.getMetadataIds()[1], "textVariableId");
+	assert.deepEqual(this.presentationFactory.getMetadataIds().length, 2);
 });
 
 QUnit.test("testWithMinimizedDefault", function(assert) {
