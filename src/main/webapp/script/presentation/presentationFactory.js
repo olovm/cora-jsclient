@@ -49,6 +49,7 @@ var CORA = (function(cora) {
 					console.log("In presentationFactory factor, metadataIdUsedInData: "
 							+ metadataIdUsedInData)
 				}
+				console.log("pGroup spec:::::::::::::::::::::::::",JSON.stringify(specNew))
 				return CORA.pGroup(specNew);
 			} else if (type === "pRecordLink") {
 				return CORA.pRecordLink(specNew);

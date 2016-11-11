@@ -26,29 +26,47 @@ var CORA = (function(cora) {
 		var presentationId = findPresentationId(spec.cPresentation);
 		// console.log(presentationId)
 		var metadataId = getMetadataIdFromPresentation();
-//		 console.log("meatdataId in pChildRefHandler:"+metadataId)
+		// console.log("meatdataId in pChildRefHandler:"+metadataId)
 
 		var cMetadataElement = getMetadataById(metadataId);
-//		 console.log(JSON.stringify(spec.cParentMetadata.getData()))
+		// console.log(JSON.stringify(spec.cParentMetadata.getData()))
+
+		// PRESENTATION IS ASKING FOR METADATA, FOR ID AS WE USE THAT IN (VIEW MENUVIEW),
+		// BUT METADATA FOR NEW DOES NOT HAVE ID.... THAT DOES NOT WORK... HOW TO SOLVE?
 		var cParentMetadataChildRefPart = metadataHelper.getChildRefPartOfMetadata(
 				spec.cParentMetadata, metadataId);
-		
-		 console.log("cParentMetadataChildRefPart in pChildRefHandler:"+JSON.stringify(cParentMetadataChildRefPart.getData()))
-		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
-		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
-		var isRepeating = calculateIsRepeating();
-		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
-		var noOfRepeating = 0;
-		var metadataHasAttributes = hasAttributes();
-		var collectedAttributes = collectAttributesForMetadataId(metadataId);
+		if (cParentMetadataChildRefPart.getData() !== undefined) {
 
-		var pChildRefHandlerView = createPChildRefHandlerView();
-		spec.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
-		spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
+			console.log("cParentMetadataChildRefPart in pChildRefHandler:"
+					+ JSON.stringify(cParentMetadataChildRefPart.getData()))
+			var repeatMin = cParentMetadataChildRefPart
+					.getFirstAtomicValueByNameInData("repeatMin");
+			var repeatMax = cParentMetadataChildRefPart
+					.getFirstAtomicValueByNameInData("repeatMax");
+			var isRepeating = calculateIsRepeating();
+			var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
-		var numberOfFilesToUpload = 0;
-		var numberOfRecordsForFilesCreated = 0;
+			var noOfRepeating = 0;
+			var metadataHasAttributes = hasAttributes();
+			var collectedAttributes = collectAttributesForMetadataId(metadataId);
+
+			var pChildRefHandlerView = createPChildRefHandlerView();
+			spec.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
+			spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
+
+			var numberOfFilesToUpload = 0;
+			var numberOfRecordsForFilesCreated = 0;
+		} else {
+			// create fake view as we have no metadata to work with...
+			return {
+				getView : function() {
+					var spanNew = document.createElement("span");
+					spanNew.className = "fakePChildRefHandlerAsNoMetadataExists";
+					return spanNew;
+				}
+			}
+		}
 
 		function findPresentationId(cPresentationToSearch) {
 			var recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
