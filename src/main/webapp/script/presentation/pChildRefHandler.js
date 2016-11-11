@@ -29,11 +29,11 @@ var CORA = (function(cora) {
 //		 console.log("meatdataId in pChildRefHandler:"+metadataId)
 
 		var cMetadataElement = getMetadataById(metadataId);
-		// console.log(JSON.stringify(spec.cParentMetadata.getData()))
+//		 console.log(JSON.stringify(spec.cParentMetadata.getData()))
 		var cParentMetadataChildRefPart = metadataHelper.getChildRefPartOfMetadata(
 				spec.cParentMetadata, metadataId);
 		
-//		 console.log("cParentMetadataChildRefPart in pChildRefHandler:"+JSON.stringify(cParentMetadataChildRefPart.getData()))
+		 console.log("cParentMetadataChildRefPart in pChildRefHandler:"+JSON.stringify(cParentMetadataChildRefPart.getData()))
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
 		var isRepeating = calculateIsRepeating();

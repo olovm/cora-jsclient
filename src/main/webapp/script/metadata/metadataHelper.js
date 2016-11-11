@@ -102,16 +102,24 @@ var CORA = (function(cora) {
 			var cMetadataToFind = getMetadataById(metadataIdToFind);
 			var nameInDataToFind = cMetadataToFind.getFirstAtomicValueByNameInData("nameInData");
 			var attributesToFind = collectAttributesAsObjectForMetadataId(metadataIdToFind);
-
+			
+			console.log("nameInDataToFind",nameInDataToFind)
+			console.log("attributesToFind",JSON.stringify(attributesToFind))
+			
 			var findFunction = function(metadataChildRef) {
 				var childMetadataId = getMetadataIdFromRef(metadataChildRef);
 				var childAttributesToFind = collectAttributesAsObjectForMetadataId(childMetadataId);
 				var childNameInData = getNameInDataFromMetadataChildRef(metadataChildRef);
+				console.log("childAttributesToFind",JSON.stringify(childAttributesToFind))
+				console.log("childNameInData",childNameInData)
 				return childNameInData === nameInDataToFind
 						&& firstAttributesExistsInSecond(childAttributesToFind,attributesToFind);
 			};
+			console.log("cMetadata",JSON.stringify(cMetadata.getData()))
+			
 			var children = cMetadata.getFirstChildByNameInData("childReferences").children;
 			var parentMetadataChildRef = children.find(findFunction);
+			console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOO:",parentMetadataChildRef)
 			return CORA.coraData(parentMetadataChildRef);
 		}
 

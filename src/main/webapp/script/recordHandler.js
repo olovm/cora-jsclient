@@ -48,6 +48,7 @@ var CORA = (function(cora) {
 		recordHandlerView.setCopyAsNewFunction(copyData);
 
 		if ("new" === spec.presentationMode) {
+			console.log("spec.record", spec.record)
 			createGuiForNew(spec.record);
 		} else {
 			fetchDataFromServer(processFetchedRecord);
@@ -64,6 +65,7 @@ var CORA = (function(cora) {
 				var metadataId = getNewMetadataId();
 				recordGuiNew = createRecordGui(metadataId, oldData);
 				recordGui = recordGuiNew;
+				console.log("createGuiForNew metadataId:",metadataId)
 				addNewRecordToWorkView(recordGuiNew, metadataId);
 				addRecordToMenuView(recordGuiNew, metadataId);
 				addToShowView(recordGuiNew, metadataId);
