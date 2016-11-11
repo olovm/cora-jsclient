@@ -99,13 +99,9 @@ var CORA = (function(cora) {
 		}
 
 		function getChildRefPartOfMetadata(cMetadata, metadataIdToFind) {
-//			console.log(JSON.stringify(cMetadata.getData()))
 			var cMetadataToFind = getMetadataById(metadataIdToFind);
 			var nameInDataToFind = cMetadataToFind.getFirstAtomicValueByNameInData("nameInData");
-//			console.log("nameInDataToFind:"+nameInDataToFind)
 			var attributesToFind = collectAttributesAsObjectForMetadataId(metadataIdToFind);
-
-//			console.log("attributesToFind:",JSON.stringify(attributesToFind))
 
 			var findFunction = function(metadataChildRef) {
 				var childMetadataId = getMetadataIdFromRef(metadataChildRef);

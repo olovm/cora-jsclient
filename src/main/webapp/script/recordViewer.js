@@ -57,7 +57,7 @@ var CORA = (function(cora) {
 			var data = getDataPartOfRecordFromAnswer(answer);
 			try {
 				var recordGui = createRecordGui(spec.metadataId, data);
-				addToShowView(recordGui);
+				addToShowView(recordGui, spec.metadataId);
 				recordGui.initMetadataControllerStartingGui();
 			} catch (error) {
 				view.appendChild(document.createTextNode(error));
@@ -84,10 +84,13 @@ var CORA = (function(cora) {
 			return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
-		function addToShowView(recordGuiToAdd) {
+		function addToShowView(recordGuiToAdd, metadataIdUsedInData) {
 			var showViewId = spec.presentationId;
-			// console.log(showViewId)
-			var showView = recordGuiToAdd.getPresentation(showViewId).getView();
+			 console.log("showViewId",showViewId)
+			console.log("metadataIdUsedInData",metadataIdUsedInData)
+
+			var showView = recordGuiToAdd.getPresentation(showViewId, metadataIdUsedInData)
+					.getView();
 			view.appendChild(showView);
 		}
 
