@@ -86,8 +86,8 @@ var CORA = (function(cora) {
 
 		function addToShowView(recordGuiToAdd, metadataIdUsedInData) {
 			var showViewId = spec.presentationId;
-			 console.log("showViewId",showViewId)
-			console.log("metadataIdUsedInData",metadataIdUsedInData)
+//			 console.log("showViewId",showViewId)
+//			console.log("metadataIdUsedInData",metadataIdUsedInData)
 
 			var showView = recordGuiToAdd.getPresentation(showViewId, metadataIdUsedInData)
 					.getView();

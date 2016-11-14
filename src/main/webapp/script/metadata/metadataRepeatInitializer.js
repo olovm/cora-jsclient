@@ -43,7 +43,7 @@ var CORA = (function(cora) {
 			if (hasAttributes()) {
 				addMessage.attributes = collectAttributes();
 			}
-			console.log("addMessage",JSON.stringify(addMessage))
+//			console.log("addMessage",JSON.stringify(addMessage))
 			pubSub.publish("add", addMessage);
 		}
 		function hasAttributes() {

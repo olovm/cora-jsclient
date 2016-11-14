@@ -29,6 +29,8 @@ var CORA = (function(cora) {
 		// console.log("meatdataId in pChildRefHandler:"+metadataId)
 
 		var cMetadataElement = getMetadataById(metadataId);
+
+		// TODO: USE cParentMetadataChildRefPart AS cMetadataElement
 		// console.log(JSON.stringify(spec.cParentMetadata.getData()))
 
 		// PRESENTATION IS ASKING FOR METADATA, FOR ID AS WE USE THAT IN (VIEW MENUVIEW),
@@ -38,8 +40,16 @@ var CORA = (function(cora) {
 
 		if (cParentMetadataChildRefPart.getData() !== undefined) {
 
-			console.log("cParentMetadataChildRefPart in pChildRefHandler:"
-					+ JSON.stringify(cParentMetadataChildRefPart.getData()))
+			console.log("cMetadataElement in pChildRefHandler 1:"
+					+ JSON.stringify(cMetadataElement.getData()))
+			metadataId = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref");
+			cMetadataElement = getMetadataById(metadataId);
+			console.log("cMetadataElement in pChildRefHandler 2:"
+					+ JSON.stringify(cMetadataElement.getData()))
+
+			// console.log("cParentMetadataChildRefPart in pChildRefHandler:"
+			// + JSON.stringify(cParentMetadataChildRefPart.getData()))
+
 			var repeatMin = cParentMetadataChildRefPart
 					.getFirstAtomicValueByNameInData("repeatMin");
 			var repeatMax = cParentMetadataChildRefPart
