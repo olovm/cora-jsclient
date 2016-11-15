@@ -43,12 +43,13 @@ var CORA = (function(cora) {
 			if (hasAttributes()) {
 				addMessage.attributes = collectAttributes();
 			}
-//			console.log("addMessage",JSON.stringify(addMessage))
 			pubSub.publish("add", addMessage);
 		}
+		
 		function hasAttributes() {
 			return cMetadataElement.containsChildWithNameInData("attributeReferences");
 		}
+		
 		function collectAttributes() {
 			var collectedAttributes = {};
 			var attributeReferences = cMetadataElement

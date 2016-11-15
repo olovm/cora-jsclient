@@ -53,14 +53,14 @@ var CORA = (function(cora) {
 		function getView() {
 			return view;
 		}
-		function addViewToView(viewToAdd){
+		function addViewToView(viewToAdd) {
 			view.appendChild(viewToAdd);
 		}
 
 		return Object.freeze({
 			getView : getView,
 			addToolViewToToolHolder : addToolViewToToolHolder,
-			addViewToView:addViewToView
+			addViewToView : addViewToView
 		});
 	};
 	return cora;

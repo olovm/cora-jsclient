@@ -79,13 +79,6 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordViewerForLinkedRecord(data) {
-//			console.log("data",JSON.stringify(data))
-			var cData = CORA.coraData(data);
-//			var linkedRecordType = cData.getFirstAtomicValueByNameInData("linkedRecordType");
-//			console.log("linkedRecordType",linkedRecordType)
-//			var linkedRecordId = cData.getFirstAtomicValueByNameInData("linkedRecordId");
-//			console.log("linkedRecordId",linkedRecordId)
-
 			var linkedRecordPresentation = findPresentationForRecordType(data);
 
 			if (presentationExistsForLinkedRecordType(linkedRecordPresentation)) {

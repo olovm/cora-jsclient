@@ -185,6 +185,7 @@ var CORA = (function(cora) {
 				}
 			};
 		}
+
 		function createRecordHandlerFactory() {
 			return {
 				"factor" : function(recordHandlerSpec) {

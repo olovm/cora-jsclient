@@ -62,7 +62,7 @@ var CORA = (function(cora) {
 			function getPresentation(presentationId, metadataIdUsedInData) {
 				var spec = {
 					"presentationId" : presentationId,
-					"metadataIdUsedInData":metadataIdUsedInData,
+					"metadataIdUsedInData" : metadataIdUsedInData,
 					"metadataProvider" : metadataProvider,
 					"pubSub" : pubSub,
 					"textProvider" : textProvider,

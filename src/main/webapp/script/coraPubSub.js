@@ -20,7 +20,7 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.pubSub = function(){
+	cora.pubSub = function() {
 		var arbiter = Arbiter.create();
 
 		function subscribe(type, path, context, functionToCall) {
@@ -33,8 +33,8 @@ var CORA = (function(cora) {
 			if (!everyThingOk) {
 				var errorMessage = "";
 				arbiter.getErrorArray().forEach(function(error) {
-//					console.log(error.stack)
 					errorMessage += " " + error.message;
+					errorMessage += " " + error.stack;
 				});
 				throw new Error("Errors generated when publishing: " + errorMessage);
 			}

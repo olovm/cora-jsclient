@@ -24,41 +24,21 @@ var CORA = (function(cora) {
 			"metadataProvider" : spec.metadataProvider
 		});
 		var presentationId = findPresentationId(spec.cPresentation);
-		// console.log(presentationId)
 		var metadataId = getMetadataIdFromPresentation();
-		// console.log("meatdataId in pChildRefHandler:"+metadataId)
-
 		var cMetadataElement = getMetadataById(metadataId);
 
-		// TODO: USE cParentMetadataChildRefPart AS cMetadataElement
-		// console.log(JSON.stringify(spec.cParentMetadata.getData()))
-
-		// PRESENTATION IS ASKING FOR METADATA, FOR ID AS WE USE THAT IN (VIEW MENUVIEW),
-		// BUT METADATA FOR NEW DOES NOT HAVE ID.... THAT DOES NOT WORK... HOW TO SOLVE?
 		var cParentMetadataChildRefPart = metadataHelper.getChildRefPartOfMetadata(
 				spec.cParentMetadata, metadataId);
 
 		if (cParentMetadataChildRefPart.getData() !== undefined) {
-
-//			console.log("cMetadataElement in pChildRefHandler 1:"
-//					+ JSON.stringify(cMetadataElement.getData()))
 			metadataId = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref");
 			cMetadataElement = getMetadataById(metadataId);
-//			console.log("cMetadataElement in pChildRefHandler 2:"
-//					+ JSON.stringify(cMetadataElement.getData()))
-//		}
-			// console.log("cParentMetadataChildRefPart in pChildRefHandler:"
-			// + JSON.stringify(cParentMetadataChildRefPart.getData()))
 
 			var repeatMin = cParentMetadataChildRefPart
 					.getFirstAtomicValueByNameInData("repeatMin");
 			var repeatMax = cParentMetadataChildRefPart
 					.getFirstAtomicValueByNameInData("repeatMax");
-//		}else{
-//			var repeatMin = 0;
-//			var repeatMax = 0;
-//		}
-		
+
 			var isRepeating = calculateIsRepeating();
 			var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
@@ -77,7 +57,8 @@ var CORA = (function(cora) {
 			return {
 				getView : function() {
 					var spanNew = document.createElement("span");
-					spanNew.className = "fakePChildRefHandlerViewAsNoMetadataExistsFor "+metadataId;
+					spanNew.className = "fakePChildRefHandlerViewAsNoMetadataExistsFor "
+							+ metadataId;
 					return spanNew;
 				}
 			}
@@ -92,7 +73,6 @@ var CORA = (function(cora) {
 			if (presentationHasLinkedPresentationOf()) {
 				var presentationGroup = spec.cPresentation
 						.getFirstChildByNameInData("presentationOf");
-				// console.log(JSON.stringify(presentationGroup))
 				var cPresentationGroup = CORA.coraData(presentationGroup);
 				return cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 

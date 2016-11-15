@@ -1717,7 +1717,7 @@ QUnit.test("testWithMinimized", function(assert) {
 	var minimizeButton = repeatingButtonView.childNodes[1];
 	assert.strictEqual(minimizeButton.className, "minimizeButton");
 	assert.visible(minimizeButton, "minimizeButton should be visible");
-	
+
 	assert.deepEqual(this.presentationFactory.getMetadataIds()[0], "textVariableId");
 	assert.deepEqual(this.presentationFactory.getMetadataIds()[1], "textVariableId");
 	assert.deepEqual(this.presentationFactory.getMetadataIds().length, 2);
@@ -1812,7 +1812,6 @@ QUnit.test("testPresentationNonMatchingNameInDataAndAttributes", function(assert
 	var cParentMetadata = CORA.coraData(metadataProvider
 			.getMetadataById("presentationVarAttributeGroup"));
 	var cPresentation = CORA.coraData(metadataProvider.getMetadataById("recordInfoPGroup"));
-	// .coraData(metadataProvider.getMetadataById("pgGroupIdOneTextChildOutput"));
 
 	var spec = {
 		"parentPath" : {},
@@ -1824,18 +1823,10 @@ QUnit.test("testPresentationNonMatchingNameInDataAndAttributes", function(assert
 		"presentationFactory" : this.presentationFactory,
 		"jsBookkeeper" : this.jsBookkeeper
 	};
-	
+
 	var pChildRefHandler = CORA.pChildRefHandler(spec);
 	var view = pChildRefHandler.getView();
 	assert.strictEqual(view.className, "fakePChildRefHandlerViewAsNoMetadataExistsFor recordInfo");
-//	var error = false;
-//	try {
-//		var pChildRefHandler = CORA.pChildRefHandler(spec);
-//	} catch (e) {
-//		error = true;
-//	}
-//	assert.ok(error);
-
 });
 
 QUnit.test("testPresentationNonMatchingNameInDataAndAttributes2", function(assert) {
@@ -1856,12 +1847,6 @@ QUnit.test("testPresentationNonMatchingNameInDataAndAttributes2", function(asser
 	};
 	var pChildRefHandler = CORA.pChildRefHandler(spec);
 	var view = pChildRefHandler.getView();
-	assert.strictEqual(view.className, "fakePChildRefHandlerViewAsNoMetadataExistsFor recordInfoAttribute");
-//	var error = false;
-//	try {
-//		var pChildRefHandler = CORA.pChildRefHandler(spec);
-//	} catch (e) {
-//		error = true;
-//	}
-//	assert.ok(error);
+	assert.strictEqual(view.className,
+			"fakePChildRefHandlerViewAsNoMetadataExistsFor recordInfoAttribute");
 });
