@@ -40,13 +40,13 @@ var CORA = (function(cora) {
 
 		if (cParentMetadataChildRefPart.getData() !== undefined) {
 
-			console.log("cMetadataElement in pChildRefHandler 1:"
-					+ JSON.stringify(cMetadataElement.getData()))
+//			console.log("cMetadataElement in pChildRefHandler 1:"
+//					+ JSON.stringify(cMetadataElement.getData()))
 			metadataId = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref");
 			cMetadataElement = getMetadataById(metadataId);
-			console.log("cMetadataElement in pChildRefHandler 2:"
-					+ JSON.stringify(cMetadataElement.getData()))
-
+//			console.log("cMetadataElement in pChildRefHandler 2:"
+//					+ JSON.stringify(cMetadataElement.getData()))
+//		}
 			// console.log("cParentMetadataChildRefPart in pChildRefHandler:"
 			// + JSON.stringify(cParentMetadataChildRefPart.getData()))
 
@@ -54,6 +54,11 @@ var CORA = (function(cora) {
 					.getFirstAtomicValueByNameInData("repeatMin");
 			var repeatMax = cParentMetadataChildRefPart
 					.getFirstAtomicValueByNameInData("repeatMax");
+//		}else{
+//			var repeatMin = 0;
+//			var repeatMax = 0;
+//		}
+		
 			var isRepeating = calculateIsRepeating();
 			var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
@@ -72,7 +77,7 @@ var CORA = (function(cora) {
 			return {
 				getView : function() {
 					var spanNew = document.createElement("span");
-					spanNew.className = "fakePChildRefHandlerAsNoMetadataExists";
+					spanNew.className = "fakePChildRefHandlerViewAsNoMetadataExistsFor "+metadataId;
 					return spanNew;
 				}
 			}

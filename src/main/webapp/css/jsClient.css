@@ -222,6 +222,7 @@ to {
 	position: absolute;
 	overflow: scroll;
 	height: 100%;
+	width: 100%;
 }
 
 .workArea .workView .presentation {

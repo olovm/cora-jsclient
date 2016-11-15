@@ -33,7 +33,7 @@ var CORA = (function(cora) {
 			if (!everyThingOk) {
 				var errorMessage = "";
 				arbiter.getErrorArray().forEach(function(error) {
-					console.log(error.stack)
+//					console.log(error.stack)
 					errorMessage += " " + error.message;
 				});
 				throw new Error("Errors generated when publishing: " + errorMessage);

@@ -1780,7 +1780,6 @@ QUnit.test("testPresentationMatchingNameInData", function(assert) {
 	var pChildRefHandler = CORA.pChildRefHandler(spec);
 	var view = pChildRefHandler.getView();
 	this.fixture.appendChild(view);
-
 	assert.strictEqual(view.className, "pChildRefHandler recordInfoPGroup");
 });
 
@@ -1825,13 +1824,17 @@ QUnit.test("testPresentationNonMatchingNameInDataAndAttributes", function(assert
 		"presentationFactory" : this.presentationFactory,
 		"jsBookkeeper" : this.jsBookkeeper
 	};
-	var error = false;
-	try {
-		var pChildRefHandler = CORA.pChildRefHandler(spec);
-	} catch (e) {
-		error = true;
-	}
-	assert.ok(error);
+	
+	var pChildRefHandler = CORA.pChildRefHandler(spec);
+	var view = pChildRefHandler.getView();
+	assert.strictEqual(view.className, "fakePChildRefHandlerViewAsNoMetadataExistsFor recordInfo");
+//	var error = false;
+//	try {
+//		var pChildRefHandler = CORA.pChildRefHandler(spec);
+//	} catch (e) {
+//		error = true;
+//	}
+//	assert.ok(error);
 
 });
 
@@ -1851,11 +1854,14 @@ QUnit.test("testPresentationNonMatchingNameInDataAndAttributes2", function(asser
 		"presentationFactory" : this.presentationFactory,
 		"jsBookkeeper" : this.jsBookkeeper
 	};
-	var error = false;
-	try {
-		var pChildRefHandler = CORA.pChildRefHandler(spec);
-	} catch (e) {
-		error = true;
-	}
-	assert.ok(error);
+	var pChildRefHandler = CORA.pChildRefHandler(spec);
+	var view = pChildRefHandler.getView();
+	assert.strictEqual(view.className, "fakePChildRefHandlerViewAsNoMetadataExistsFor recordInfoAttribute");
+//	var error = false;
+//	try {
+//		var pChildRefHandler = CORA.pChildRefHandler(spec);
+//	} catch (e) {
+//		error = true;
+//	}
+//	assert.ok(error);
 });
