@@ -24,41 +24,43 @@ var CORA = (function(cora) {
 			"metadataProvider" : spec.metadataProvider
 		});
 		var presentationId = findPresentationId(spec.cPresentation);
-		var metadataId = getMetadataIdFromPresentation();
-		var cMetadataElement = getMetadataById(metadataId);
+		var metadataIdFromPresentation = getMetadataIdFromPresentation();
 
 		var cParentMetadataChildRefPart = metadataHelper.getChildRefPartOfMetadata(
-				spec.cParentMetadata, metadataId);
+				spec.cParentMetadata, metadataIdFromPresentation);
+		if (childRefFoundInCurrentlyUsedParentMetadata()) {
+			return createFakePChildRefHandlerAsWeDoNotHaveMetadataToWorkWith();
+		}
+		var metadataId = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref");
+		var cMetadataElement = getMetadataById(metadataId);
 
-		if (cParentMetadataChildRefPart.getData() !== undefined) {
-			metadataId = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref");
-			cMetadataElement = getMetadataById(metadataId);
+		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
+		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
 
-			var repeatMin = cParentMetadataChildRefPart
-					.getFirstAtomicValueByNameInData("repeatMin");
-			var repeatMax = cParentMetadataChildRefPart
-					.getFirstAtomicValueByNameInData("repeatMax");
+		var isRepeating = calculateIsRepeating();
+		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
 
-			var isRepeating = calculateIsRepeating();
-			var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
+		var noOfRepeating = 0;
+		var metadataHasAttributes = hasAttributes();
+		var collectedAttributes = collectAttributesForMetadataId(metadataId);
 
-			var noOfRepeating = 0;
-			var metadataHasAttributes = hasAttributes();
-			var collectedAttributes = collectAttributesForMetadataId(metadataId);
+		var pChildRefHandlerView = createPChildRefHandlerView();
+		spec.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
+		spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
 
-			var pChildRefHandlerView = createPChildRefHandlerView();
-			spec.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
-			spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
+		var numberOfFilesToUpload = 0;
+		var numberOfRecordsForFilesCreated = 0;
 
-			var numberOfFilesToUpload = 0;
-			var numberOfRecordsForFilesCreated = 0;
-		} else {
-			// create fake view as we have no metadata to work with...
+		function childRefFoundInCurrentlyUsedParentMetadata() {
+			return cParentMetadataChildRefPart.getData() === undefined;
+		}
+
+		function createFakePChildRefHandlerAsWeDoNotHaveMetadataToWorkWith() {
 			return {
 				getView : function() {
 					var spanNew = document.createElement("span");
 					spanNew.className = "fakePChildRefHandlerViewAsNoMetadataExistsFor "
-							+ metadataId;
+							+ metadataIdFromPresentation;
 					return spanNew;
 				}
 			}
