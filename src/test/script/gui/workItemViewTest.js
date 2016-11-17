@@ -46,6 +46,11 @@ QUnit.module("workItemViewTest.js", {
 	}
 });
 
+QUnit.test("getSpec", function(assert) {
+	var spec = this.workItemView.getSpec();
+	assert.strictEqual(spec, this.workItemViewSpec);
+});
+
 QUnit.test("init", function(assert) {
 	assert.strictEqual(this.view.nodeName, "SPAN");
 	assert.strictEqual(this.view.className, "workItem extraClassName");

@@ -28,9 +28,7 @@ var CORA = (function(cora) {
 		};
 
 		var workItemViewSpec = {
-			"dependencies" : spec.dependencies,
 			"extraClassName" : spec.extraClassName,
-			"holderFactory" : holderFactory
 		};
 
 		var workItemView = spec.workItemViewFactory.factor(workItemViewSpec);

@@ -154,11 +154,7 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordHandlerView() {
-			var workItemViewFactory = {
-				"factor" : function(workItemViewSpec) {
-					return CORA.workItemView(workItemViewSpec);
-				}
-			};
+			var workItemViewFactory = CORA.workItemViewFactory(spec.dependencies);
 			var recordHandlerViewSpec = {
 				"workItemViewFactory" : workItemViewFactory,
 				"extraClassName" : recordTypeRecordId
