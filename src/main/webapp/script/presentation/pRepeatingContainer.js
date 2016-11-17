@@ -53,7 +53,8 @@ var CORA = (function(cora) {
 				text.className = "text";
 				return text;
 			}
-			var presentation = presentationFactory.factor(path, cPresentationChild);
+			var presentation = presentationFactory.factor(path, spec.metadataIdUsedInData,
+					cPresentationChild);
 			return presentation.getView();
 		}
 		function getMetadataById(id) {

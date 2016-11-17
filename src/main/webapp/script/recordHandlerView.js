@@ -21,16 +21,8 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandlerView = function(spec) {
 
-		var holderFactory = {
-			"factor" : function(holderSpec) {
-				return CORA.holder(holderSpec);
-			}
-		};
-
 		var workItemViewSpec = {
-			"dependencies" : spec.dependencies,
-			"extraClassName" : spec.extraClassName,
-			"holderFactory" : holderFactory
+			"extraClassName" : spec.extraClassName
 		};
 
 		var workItemView = spec.workItemViewFactory.factor(workItemViewSpec);

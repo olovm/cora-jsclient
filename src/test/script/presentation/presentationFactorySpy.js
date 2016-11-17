@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -21,11 +22,17 @@ var CORATEST = (function(coraTest) {
 	coraTest.presentationFactorySpy = function() {
 		var path = undefined;
 		var cPresentation = undefined;
+		var paths = [];
 		var cPresentations = [];
-		function factor(pathIn, cPresentationIn) {
+		var cParentPresentations = [];
+		var metadataIds = [];
+		function factor(pathIn, metadataIdIn, cPresentationIn, cParentPresentationIn) {
 			path = pathIn;
+			paths.push(pathIn);
 			cPresentation = cPresentationIn;
 			cPresentations.push(cPresentationIn);
+			cParentPresentations.push(cParentPresentationIn);
+			metadataIds.push(metadataIdIn);
 			return {
 				"getView" : function() {
 					var span = document.createElement("span");
@@ -45,6 +52,12 @@ var CORATEST = (function(coraTest) {
 		function getCPresentations(){
 			return cPresentations;
 		}
+		function getCParentPresentations(){
+			return cParentPresentations;
+		}
+		function getMetadataIds(){
+			return metadataIds;
+		}
 		function getDataDivider(){
 			return "systemX";
 		}
@@ -54,6 +67,8 @@ var CORATEST = (function(coraTest) {
 			getPath:getPath,
 			getCPresentation: getCPresentation,
 			getCPresentations: getCPresentations,
+			getCParentPresentations: getCParentPresentations,
+			getMetadataIds:getMetadataIds,
 			getDataDivider : getDataDivider
 		});
 	};

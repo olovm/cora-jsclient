@@ -6905,7 +6905,7 @@ var CORATEST = (function(coraTest) {
 			} else {
 
 				// default:
-				console.log("Id(" + metadataId + ") not found in metadataProviderRealStub");
+//				console.log("Id(" + metadataId + ") not found in metadataProviderRealStub");
 				throw new Error("Id(" + metadataId + ") not found in metadataProviderRealStub");
 			}
 		}

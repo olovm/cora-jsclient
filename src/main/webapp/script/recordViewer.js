@@ -57,10 +57,11 @@ var CORA = (function(cora) {
 			var data = getDataPartOfRecordFromAnswer(answer);
 			try {
 				var recordGui = createRecordGui(spec.metadataId, data);
-				addToShowView(recordGui);
+				addToShowView(recordGui, spec.metadataId);
 				recordGui.initMetadataControllerStartingGui();
 			} catch (error) {
 				view.appendChild(document.createTextNode(error));
+				view.appendChild(document.createTextNode(error.stack));
 				view.appendChild(document.createTextNode(JSON.stringify(data)));
 			}
 			busy.hideWithEffect();
@@ -83,10 +84,10 @@ var CORA = (function(cora) {
 			return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
-		function addToShowView(recordGuiToAdd) {
+		function addToShowView(recordGuiToAdd, metadataIdUsedInData) {
 			var showViewId = spec.presentationId;
-			// console.log(showViewId)
-			var showView = recordGuiToAdd.getPresentation(showViewId).getView();
+			var showView = recordGuiToAdd.getPresentation(showViewId, metadataIdUsedInData)
+					.getView();
 			view.appendChild(showView);
 		}
 

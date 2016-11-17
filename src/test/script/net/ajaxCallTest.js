@@ -30,7 +30,7 @@ QUnit.module("ajaxCallTest.js", {
 		this.timeoutMethodWasCalled = timeoutMethodWasCalled;
 		function timeoutMethod(xhr) {
 			timeoutMethodWasCalled = true;
-			console.log("in timeout call")
+//			console.log("in timeout call")
 		}
 		this.timeoutMethod = timeoutMethod;
 

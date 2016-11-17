@@ -108,8 +108,9 @@ var CORA = (function(cora) {
 				var childAttributesToFind = collectAttributesAsObjectForMetadataId(childMetadataId);
 				var childNameInData = getNameInDataFromMetadataChildRef(metadataChildRef);
 				return childNameInData === nameInDataToFind
-						&& firstAttributesExistsInSecond(attributesToFind, childAttributesToFind);
+						&& firstAttributesExistsInSecond(childAttributesToFind, attributesToFind);
 			};
+
 			var children = cMetadata.getFirstChildByNameInData("childReferences").children;
 			var parentMetadataChildRef = children.find(findFunction);
 			return CORA.coraData(parentMetadataChildRef);

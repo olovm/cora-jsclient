@@ -29,7 +29,7 @@ var CORA = (function(cora) {
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
 		var cPresentationGroup = CORA.coraData(presentationGroup);
-		var metadataId  = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		var metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 		var cMetadataElement = getMetadataById(metadataId);
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
@@ -38,7 +38,6 @@ var CORA = (function(cora) {
 		var originalClassName = view.className;
 		var valueView = createValueView();
 		view.appendChild(valueView);
-
 
 		var state = "ok";
 		var previousValue = "";
@@ -92,9 +91,9 @@ var CORA = (function(cora) {
 		}
 
 		function getCollectionItemReferencesChildren() {
-			var cRefCollection = CORA.coraData(cMetadataElement.getFirstChildByNameInData("refCollection"));
-			var refCollectionId = cRefCollection
-					.getFirstAtomicValueByNameInData("linkedRecordId");
+			var cRefCollection = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("refCollection"));
+			var refCollectionId = cRefCollection.getFirstAtomicValueByNameInData("linkedRecordId");
 			var cMetadataCollection = getMetadataById(refCollectionId);
 			var collectionItemReferences = cMetadataCollection
 					.getFirstChildByNameInData("collectionItemReferences");
@@ -120,7 +119,7 @@ var CORA = (function(cora) {
 		function createInfo() {
 			var infoSpec = {
 				"appendTo" : view,
-				"afterLevelChange": updateView,
+				"afterLevelChange" : updateView,
 				"level1" : [ {
 					"className" : "textView",
 					"text" : text
@@ -250,15 +249,15 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type": "pCollVar",
-			getView: getView,
-			setValue: setValue,
-			handleMsg: handleMsg,
-			getText: getText,
-			getDefText: getDefText,
-			getState: getState,
-			onBlur: onBlur,
-			handleValidationError: handleValidationError
+			"type" : "pCollVar",
+			getView : getView,
+			setValue : setValue,
+			handleMsg : handleMsg,
+			getText : getText,
+			getDefText : getDefText,
+			getState : getState,
+			onBlur : onBlur,
+			handleValidationError : handleValidationError
 		});
 
 		view.modelObject = out;

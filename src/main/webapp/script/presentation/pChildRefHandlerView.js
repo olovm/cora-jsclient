@@ -74,7 +74,7 @@ var CORA = (function(cora) {
 			var button = document.createElement("input");
 			button.type = "file";
 			button.multiple = "true";
-			button.onchange = function(){
+			button.onchange = function() {
 				spec.handleFilesMethod(this.files);
 			};
 			return button;
