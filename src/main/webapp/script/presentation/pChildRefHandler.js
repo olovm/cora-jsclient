@@ -63,7 +63,7 @@ var CORA = (function(cora) {
 							+ metadataIdFromPresentation;
 					return spanNew;
 				}
-			}
+			};
 		}
 
 		function findPresentationId(cPresentationToSearch) {

@@ -25,7 +25,7 @@ var CORA = (function(cora) {
 
 		var my = {};
 		my.metadataId = spec.metadataIdUsedInData;
-		
+
 		my.cPresentation = cPresentation;
 		my.cParentPresentation = cParentPresentation;
 		my.createBaseViewHolder = createBaseViewHolder;

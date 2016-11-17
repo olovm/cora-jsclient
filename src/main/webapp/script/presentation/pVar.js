@@ -30,7 +30,7 @@ var CORA = (function(cora) {
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
 		var metadataId = spec.metadataIdUsedInData;
-		
+
 		var cMetadataElement = getMetadataById(metadataId);
 
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");

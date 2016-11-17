@@ -45,11 +45,11 @@ var CORA = (function(cora) {
 			}
 			pubSub.publish("add", addMessage);
 		}
-		
+
 		function hasAttributes() {
 			return cMetadataElement.containsChildWithNameInData("attributeReferences");
 		}
-		
+
 		function collectAttributes() {
 			var collectedAttributes = {};
 			var attributeReferences = cMetadataElement
@@ -69,8 +69,8 @@ var CORA = (function(cora) {
 		function initializeForMetadata() {
 			var nextLevelPath = createNextLevelPath();
 			var message = {
-					"data" : data,
-					"path" : nextLevelPath
+				"data" : data,
+				"path" : nextLevelPath
 			};
 			if (isGroup()) {
 				initializeMetadataGroup(nextLevelPath);

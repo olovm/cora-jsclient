@@ -114,8 +114,7 @@ body {
 	animation-iteration-count: infinite;
 }
 
-@
-keyframes rotation2 {
+@keyframes rotation2 {
 	from {transform: rotate(0deg);
 }
 
