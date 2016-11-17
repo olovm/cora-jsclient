@@ -23,7 +23,7 @@ body {
 }
 
 .holder.tool {
-	background-color: #0082c933;
+	background-color: rgba(0, 129, 198, 0.2);
 	display: block;
 	border: 1px solid black;
 	min-height: 5rem;

@@ -205,10 +205,10 @@ img {
 }
 .pVar:hover, .pCollVar:hover, .pVar.infoActive,
 .pGroup2:hover, .pGroup.infoActive {
-	background-color: #0082c91a;
+	background-color: rgba(0, 129, 198, 0.1);
 }
 .pGroup:hover, .repeatingElement:hover {
-	background-color: #0082c91a;
+	background-color: rgba(0, 129, 198, 0.1);
 }
 .pVar.infoActive  > .infoButton::before,
 .pCollVar.infoActive  > .infoButton::before,
