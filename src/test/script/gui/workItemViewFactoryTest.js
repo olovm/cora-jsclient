@@ -29,6 +29,13 @@ QUnit.test("init", function(assert) {
 	var dependencies = {};
 	var workItemViewFactory = CORA.workItemViewFactory(dependencies);
 	assert.ok(workItemViewFactory);
+	assert.strictEqual(workItemViewFactory.type, "workItemViewFactory");
+});
+
+QUnit.test("getDependencies", function(assert) {
+	var dependencies = {};
+	var workItemViewFactory = CORA.workItemViewFactory(dependencies);
+	assert.strictEqual(workItemViewFactory.getDependencies(), dependencies);
 });
 
 QUnit.test("factor", function(assert) {

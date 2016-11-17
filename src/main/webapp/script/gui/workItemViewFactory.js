@@ -32,8 +32,13 @@ var CORA = (function(cora) {
 			return CORA.workItemView(workItemViewSpec);
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
 		var out = Object.freeze({
 			"type" : "workItemViewFactory",
+			getDependencies : getDependencies,
 			factor : factor
 		});
 		return out;

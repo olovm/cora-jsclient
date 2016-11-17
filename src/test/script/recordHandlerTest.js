@@ -148,9 +148,11 @@ QUnit.test("initRecordHandlerView", function(assert) {
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var usedSpec = recordHandlerViewSpy.getSpec();
-	
+
 	assert.ok(usedSpec.workItemViewFactory.factor);
 	assert.strictEqual(usedSpec.workItemViewFactory.type, "workItemViewFactory");
+	assert.strictEqual(usedSpec.workItemViewFactory.getDependencies(),
+			this.recordHandlerSpec.dependencies);
 	assert.strictEqual(usedSpec.extraClassName, "recordType");
 
 	var editViewChild = recordHandlerViewSpy.getAddedEditView(0);
@@ -213,15 +215,14 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
-	
+
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
-	
+
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeMenuPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[2], "recordTypeGroup2");
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
-
 
 	var messageHolder = this.workView.childNodes[0];
 	assert.strictEqual(messageHolder.className, "messageHolder");
@@ -249,7 +250,6 @@ QUnit.test("initCheckActiveStatusOfMenuViewWhenNotActive", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
 	assert.strictEqual(this.menuView.className, "someClass changed");
 });
-
 
 QUnit.test("initCheckRemoveButtonInMenuView", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
@@ -286,7 +286,7 @@ QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 
 	assert.strictEqual(this.presentationIdUsed[1], "textMenuPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
-	
+
 	assert.strictEqual(this.menuView.textContent, "");
 	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
 });
@@ -343,10 +343,10 @@ QUnit.test("testUpdateCall", function(assert) {
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
-	
+
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
-	
+
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(1);
 	updateButtonSpec.onclickMethod();
@@ -440,10 +440,10 @@ QUnit.test("testUpdateCallValidationError", function(assert) {
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
-	
+
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
-	
+
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(1);
 	updateButtonSpec.onclickMethod();
@@ -468,10 +468,10 @@ QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeViewPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
-	
+
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeMenuPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
-	
+
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 
 	var editViewChild = recordHandlerViewSpy.getAddedEditView(0);
@@ -494,10 +494,10 @@ QUnit.test("testDeleteCall", function(assert) {
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
-	
+
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
-	
+
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var deleteButtonSpec = recordHandlerViewSpy.getAddedButton(0);
 	deleteButtonSpec.onclickMethod();
@@ -578,13 +578,13 @@ QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
-	
+
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeViewPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
-	
+
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeMenuPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[2], "recordTypeGroup2");
-	
+
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(0);
 	assert.strictEqual(updateButtonSpec.className, "update");
@@ -599,13 +599,13 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeNewGroup");
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormNewPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeNewGroup");
-	
+
 	assert.strictEqual(this.presentationIdUsed[1], "recordTypeMenuPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeNewGroup");
-	
+
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeViewPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[2], "recordTypeNewGroup");
-	
+
 	assert.strictEqual(this.menuView.textContent, "");
 	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
 });
