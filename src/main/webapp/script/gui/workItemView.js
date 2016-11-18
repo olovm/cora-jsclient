@@ -25,19 +25,13 @@ var CORA = (function(cora) {
 		var toolHolder;
 
 		function start() {
-			view = createSpanWithClassName("workItem " + spec.extraClassName);
+			view = CORA.gui.createSpanWithClassName("workItem " + spec.extraClassName);
 			topBar = createTopBarInView();
 			toolHolder = createToolHolderAndAppendButtonToTopBar();
 		}
 
-		function createSpanWithClassName(className) {
-			var spanNew = document.createElement("span");
-			spanNew.className = className;
-			return spanNew;
-		}
-
 		function createTopBarInView() {
-			var topBarNew = createSpanWithClassName("topBar");
+			var topBarNew = CORA.gui.createSpanWithClassName("topBar");
 			view.appendChild(topBarNew);
 
 			return topBarNew;
