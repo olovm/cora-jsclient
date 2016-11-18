@@ -20,26 +20,20 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeHandlerView = function(spec) {
 		var out;
-		var view = createSpanWithClassName("recordType");
+		var view = CORA.gui.createSpanWithClassName("recordType");
 
 		var header = createHeader();
 		view.appendChild(header);
 
-		var buttonView = createSpanWithClassName("buttonView");
+		var buttonView = CORA.gui.createSpanWithClassName("buttonView");
 		view.appendChild(buttonView);
 		possiblyCreateCreateButton();
 
-		var childrenView = createSpanWithClassName("childrenView");
+		var childrenView = CORA.gui.createSpanWithClassName("childrenView");
 		view.appendChild(childrenView);
 
-		function createSpanWithClassName(className) {
-			var spanNew = document.createElement("span");
-			spanNew.className = className;
-			return spanNew;
-		}
-
 		function createHeader() {
-			var headerNew = createSpanWithClassName("header");
+			var headerNew = CORA.gui.createSpanWithClassName("header");
 			headerNew.onclick = spec.fetchListMethod;
 			headerNew.textContent = spec.headerText;
 			return headerNew;
@@ -52,7 +46,7 @@ var CORA = (function(cora) {
 		}
 
 		function createCreateButton() {
-			var createButtonNew = createSpanWithClassName("createButton");
+			var createButtonNew = CORA.gui.createSpanWithClassName("createButton");
 			createButtonNew.onclick = function() {
 				spec.createNewMethod("new");
 			};
@@ -68,12 +62,12 @@ var CORA = (function(cora) {
 			item.menuView = createMenuView(text, item, onclickMethod);
 			childrenView.appendChild(item.menuView);
 
-			item.workView = createSpanWithClassName("workView");
+			item.workView = CORA.gui.createSpanWithClassName("workView");
 			return item;
 		}
 
 		function createMenuView(text, item, onclickMethod) {
-			var menuView = createSpanWithClassName("menuView");
+			var menuView = CORA.gui.createSpanWithClassName("menuView");
 			menuView.onclick = function() {
 				onclickMethod(item);
 			};

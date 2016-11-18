@@ -43,25 +43,19 @@ var CORA = (function(cora) {
 		}
 
 		function createMainView() {
-			var view = createSpanWithClassName("jsClient mainView");
+			var view = CORA.gui.createSpanWithClassName("jsClient mainView");
 
-			header = createSpanWithClassName("header");
+			header = CORA.gui.createSpanWithClassName("header");
 			header.textContent = spec.name;
 			view.appendChild(header);
 
-			sideBar = createSpanWithClassName("sideBar");
+			sideBar = CORA.gui.createSpanWithClassName("sideBar");
 			view.appendChild(sideBar);
 
-			workArea = createSpanWithClassName("workArea");
+			workArea = CORA.gui.createSpanWithClassName("workArea");
 			view.appendChild(workArea);
 
 			return view;
-		}
-
-		function createSpanWithClassName(className) {
-			var spanNew = document.createElement("span");
-			spanNew.className = className;
-			return spanNew;
 		}
 
 		function processRecordTypes() {
