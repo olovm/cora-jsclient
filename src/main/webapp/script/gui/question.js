@@ -28,13 +28,10 @@ var CORA = (function(cora) {
 		createAndAddButtons();
 
 		function createView() {
-			var viewNew = document.createElement("div");
-			viewNew.className = "question";
-			return viewNew;
+			return CORA.gui.createDivWithClassName("question");
 		}
 		function createTextView() {
-			var viewNew = document.createElement("div");
-			viewNew.className = "questionBox";
+			var viewNew = CORA.gui.createDivWithClassName("questionBox");
 			var textElement = document.createElement("text");
 			viewNew.appendChild(textElement);
 			textElement.innerHTML = spec.text;

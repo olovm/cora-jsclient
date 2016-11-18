@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -33,15 +34,13 @@ var CORA = (function(cora) {
 		}
 
 		function createBaseViewHolder() {
-			var newView = document.createElement("div");
-			newView.className = "presentation " + presentationId;
-			return newView;
+			return CORA.gui.createDivWithClassName("presentation " + presentationId);
 		}
 
 		function createViewForTopPGroup() {
-			var cPresentation = CORA.coraData(metadataProvider
-					.getMetadataById(presentationId));
-			var presentation = presentationFactory.factor({}, cPresentation,
+			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
+			var metadataIdUsedInData = spec.metadataIdUsedInData;
+			var presentation = presentationFactory.factor({}, metadataIdUsedInData, cPresentation,
 					undefined);
 			return presentation.getView();
 		}

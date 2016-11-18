@@ -59,9 +59,10 @@ var CORA = (function(cora) {
 			};
 			var presentationFactory = CORA.presentationFactory(specPresentationFactory);
 
-			function getPresentation(presentationId) {
+			function getPresentation(presentationId, metadataIdUsedInData) {
 				var spec = {
 					"presentationId" : presentationId,
+					"metadataIdUsedInData" : metadataIdUsedInData,
 					"metadataProvider" : metadataProvider,
 					"pubSub" : pubSub,
 					"textProvider" : textProvider,

@@ -37,13 +37,7 @@ var CORA = (function(cora) {
 		}
 
 		function createBaseView() {
-			return createSpanWithClassName("pChildRefHandler " + spec.presentationId);
-		}
-
-		function createSpanWithClassName(className) {
-			var spanNew = document.createElement("span");
-			spanNew.className = className;
-			return spanNew;
+			return CORA.gui.createSpanWithClassName("pChildRefHandler " + spec.presentationId);
 		}
 
 		function getView() {
@@ -51,7 +45,7 @@ var CORA = (function(cora) {
 		}
 
 		function createButtonView() {
-			var buttonViewNew = createSpanWithClassName("buttonView");
+			var buttonViewNew = CORA.gui.createSpanWithClassName("buttonView");
 			if (spec.upload !== "true") {
 				buttonViewNew.appendChild(createAddButton());
 			} else {
@@ -74,7 +68,7 @@ var CORA = (function(cora) {
 			var button = document.createElement("input");
 			button.type = "file";
 			button.multiple = "true";
-			button.onchange = function(){
+			button.onchange = function() {
 				spec.handleFilesMethod(this.files);
 			};
 			return button;
@@ -96,7 +90,7 @@ var CORA = (function(cora) {
 		}
 
 		function createChildrenView() {
-			var childrenViewNew = createSpanWithClassName("childrenView");
+			var childrenViewNew = CORA.gui.createSpanWithClassName("childrenView");
 			if (spec.isRepeating) {
 				addDragEventHandlers(childrenViewNew);
 			}

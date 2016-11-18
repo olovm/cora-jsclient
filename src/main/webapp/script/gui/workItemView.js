@@ -19,30 +19,35 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.workItemView = function(spec) {
+		var out;
+		var view;
+		var topBar;
+		var toolHolder;
 
-		var view = createSpanWithClassName("workItem " + spec.extraClassName);
-		var topBar = createTopBarInView();
-		var toolHolder = createToolHolder();
-
-		function createSpanWithClassName(className) {
-			var spanNew = document.createElement("span");
-			spanNew.className = className;
-			return spanNew;
+		function start() {
+			view = CORA.gui.createSpanWithClassName("workItem " + spec.extraClassName);
+			topBar = createTopBarInView();
+			toolHolder = createToolHolderAndAppendButtonToTopBar();
 		}
 
 		function createTopBarInView() {
-			var topBarNew = createSpanWithClassName("topBar");
+			var topBarNew = CORA.gui.createSpanWithClassName("topBar");
 			view.appendChild(topBarNew);
 
 			return topBarNew;
 		}
 
-		function createToolHolder() {
+		function createToolHolderAndAppendButtonToTopBar() {
+			var toolHolderNew = createToolHolderAndAppendToView();
+			topBar.appendChild(toolHolderNew.getButton());
+			return toolHolderNew;
+		}
+
+		function createToolHolderAndAppendToView() {
 			var toolHolderNew = spec.holderFactory.factor({
 				"className" : "tool",
 				"appendTo" : view
 			});
-			topBar.appendChild(toolHolderNew.getButton());
 			return toolHolderNew;
 		}
 
@@ -53,15 +58,23 @@ var CORA = (function(cora) {
 		function getView() {
 			return view;
 		}
-		function addViewToView(viewToAdd){
+
+		function addViewToView(viewToAdd) {
 			view.appendChild(viewToAdd);
 		}
 
-		return Object.freeze({
+		function getSpec() {
+			return spec;
+		}
+
+		out = Object.freeze({
 			getView : getView,
 			addToolViewToToolHolder : addToolViewToToolHolder,
-			addViewToView:addViewToView
+			addViewToView : addViewToView,
+			getSpec : getSpec
 		});
+		start();
+		return out;
 	};
 	return cora;
 }(CORA));

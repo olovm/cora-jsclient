@@ -21,33 +21,19 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandlerView = function(spec) {
 
-		var holderFactory = {
-			"factor" : function(holderSpec) {
-				return CORA.holder(holderSpec);
-			}
-		};
-
 		var workItemViewSpec = {
-			"dependencies" : spec.dependencies,
-			"extraClassName" : spec.extraClassName,
-			"holderFactory" : holderFactory
+			"extraClassName" : spec.extraClassName
 		};
 
 		var workItemView = spec.workItemViewFactory.factor(workItemViewSpec);
 		var view = workItemView.getView();
 
-		var editView = createSpanWithClassName("editView");
+		var editView = CORA.gui.createSpanWithClassName("editView");
 		workItemView.addViewToView(editView);
-		var showView = createSpanWithClassName("showView");
+		var showView = CORA.gui.createSpanWithClassName("showView");
 		workItemView.addViewToView(showView);
-		var buttonView = createSpanWithClassName("buttonView");
+		var buttonView = CORA.gui.createSpanWithClassName("buttonView");
 		workItemView.addViewToView(buttonView);
-
-		function createSpanWithClassName(className) {
-			var spanNew = document.createElement("span");
-			spanNew.className = className;
-			return spanNew;
-		}
 
 		function addToShowView(node) {
 			showView.appendChild(node);

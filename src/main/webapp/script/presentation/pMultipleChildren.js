@@ -116,9 +116,8 @@ var CORA = (function(cora) {
 		}
 
 		function createText(presRef) {
-			var textSpan = document.createElement("span");
+			var textSpan = CORA.gui.createSpanWithClassName("text");
 			textSpan.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
-			textSpan.className = "text";
 			return textSpan;
 		}
 
@@ -127,8 +126,8 @@ var CORA = (function(cora) {
 		}
 
 		function createSurroundingContainer(cChild) {
-			var surroundingContainer = presentationFactory.factor(path, cChild,
-					my.cParentPresentation);
+			var surroundingContainer = presentationFactory.factor(path, spec.metadataIdUsedInData,
+					cChild, my.cParentPresentation);
 			return surroundingContainer.getView();
 		}
 

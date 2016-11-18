@@ -88,6 +88,7 @@ var CORA = (function(cora) {
 				addRecordToWorkView(recordContainer.record);
 			} catch (e) {
 				workView.appendChild(document.createTextNode(e));
+				workView.appendChild(document.createTextNode(e.stack));
 			}
 		}
 
@@ -100,7 +101,7 @@ var CORA = (function(cora) {
 			var dataDivider = getDataDividerFromData(record.data);
 			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data, dataDivider);
 
-			var presentationView = recordGui.getPresentation(presentationId).getView();
+			var presentationView = recordGui.getPresentation(presentationId, metadataId).getView();
 			recordGui.initMetadataControllerStartingGui();
 			view.appendChild(presentationView);
 		}
@@ -111,8 +112,7 @@ var CORA = (function(cora) {
 		}
 
 		function createView(record) {
-			var newView = document.createElement("span");
-			newView.className = "listItem " + recordId;
+			var newView = CORA.gui.createSpanWithClassName("listItem " + recordId);
 			newView.onclick = function() {
 				spec.createRecordHandlerMethod("view", record);
 			};

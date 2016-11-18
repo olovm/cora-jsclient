@@ -60,7 +60,7 @@ QUnit.test("testFactorGetPresentation", function(assert) {
 	var metadataId = "groupIdOneTextChild";
 	var recordGui = this.recordGuiFactory.factor(metadataId, undefined);
 
-	var presentation = recordGui.getPresentation("pgGroupIdOneTextChild");
+	var presentation = recordGui.getPresentation("pgGroupIdOneTextChild", "groupIdOneTextChild");
 
 	assert.notStrictEqual(presentation.getView, undefined);
 

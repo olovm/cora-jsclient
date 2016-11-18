@@ -32,14 +32,11 @@ var CORA = (function(cora) {
 		}
 
 		function createView() {
-			var viewNew = document.createElement("div");
-			viewNew.className = "message " + spec.type.className;
-			return viewNew;
+			return CORA.gui.createDivWithClassName("message " + spec.type.className);
 		}
 
 		function createMessageText() {
-			var textNew = document.createElement("span");
-			textNew.className = "messageText";
+			var textNew = CORA.gui.createSpanWithClassName("messageText");
 			textNew.innerHTML = spec.message;
 			return textNew;
 		}

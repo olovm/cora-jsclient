@@ -45,7 +45,6 @@ QUnit.test("init", function(assert) {
 	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
 	var factoredWorkItemViewSpec = workItemViewSpy.getSpec();
 	assert.strictEqual(factoredWorkItemViewSpec.extraClassName, "extraClassName2");
-	assert.ok(factoredWorkItemViewSpec.holderFactory.factor);
 
 	var viewsAddedToView = workItemViewSpy.getViewsAddedToView();
 	assert.strictEqual(viewsAddedToView.length, 3);

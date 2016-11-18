@@ -31,8 +31,7 @@ var CORA = (function(cora) {
 		var view = createBaseView();
 
 		function createBaseView() {
-			var viewNew = document.createElement("span");
-			viewNew.className = "pRepeatingContainer " + presentationId;
+			var viewNew = CORA.gui.createSpanWithClassName("pRepeatingContainer " + presentationId);
 
 			var presentationChildren = cPresentation.getFirstChildByNameInData("childReferences").children;
 
@@ -48,12 +47,12 @@ var CORA = (function(cora) {
 			var cPresentationChild = getMetadataById(presRef);
 
 			if (cPresentationChild.getData().name === "text") {
-				var text = document.createElement("span");
+				var text = CORA.gui.createSpanWithClassName("text");
 				text.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
-				text.className = "text";
 				return text;
 			}
-			var presentation = presentationFactory.factor(path, cPresentationChild);
+			var presentation = presentationFactory.factor(path, spec.metadataIdUsedInData,
+					cPresentationChild);
 			return presentation.getView();
 		}
 		function getMetadataById(id) {

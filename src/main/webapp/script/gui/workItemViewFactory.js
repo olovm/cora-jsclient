@@ -18,27 +18,29 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.messageHolder = function() {
-		var view = createView();
+	cora.workItemViewFactory = function(dependencies) {
 
-		function createView() {
-			return CORA.gui.createDivWithClassName("messageHolder");
+		var holderFactory = {
+			"factor" : function(holderSpec) {
+				return CORA.holder(holderSpec);
+			}
+		};
+
+		function factor(workItemViewSpec) {
+			workItemViewSpec.dependencies = dependencies;
+			workItemViewSpec.holderFactory = holderFactory;
+			return CORA.workItemView(workItemViewSpec);
 		}
 
-		function createMessage(messageSpec) {
-			var message = CORA.message(messageSpec);
-			view.appendChild(message.getView());
-		}
-
-		function getView() {
-			return view;
+		function getDependencies() {
+			return dependencies;
 		}
 
 		var out = Object.freeze({
-			getView : getView,
-			createMessage : createMessage
+			"type" : "workItemViewFactory",
+			getDependencies : getDependencies,
+			factor : factor
 		});
-		view.modelObject = out;
 		return out;
 	};
 	return cora;

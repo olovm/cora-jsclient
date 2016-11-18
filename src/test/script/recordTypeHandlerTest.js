@@ -538,14 +538,12 @@ QUnit.test("testFactory", function(assert) {
 	};
 	var recordTypeHandler = CORA.recordTypeHandler(spec);
 
-//	var recordHandlerViewSpec = {
-//		"extraClassName" : "text",
-//	};
 	var workItemViewFactory = {
 		"factor" : function(workItemViewSpec) {
 			return CORA.workItemView(workItemViewSpec);
 		}
 	};
+	var workItemViewFactory = CORA.workItemViewFactory(spec);
 	var recordHandlerViewSpec = {
 		"workItemViewFactory" : workItemViewFactory,
 		"extraClassName" : "text"

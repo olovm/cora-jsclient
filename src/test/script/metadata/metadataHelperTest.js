@@ -128,6 +128,116 @@ QUnit.test("testGetChildRefPartOfMetadata", function(assert) {
 	};
 	assert.stringifyEqual(cParentMetadataChildRefPart.getData(), expectedData);
 });
+QUnit.test("testGetChildRefPartOfMetadata2", function(assert) {
+	var parentMetadata = {
+		"children" : [ {
+			"children" : [ {
+				"name" : "id",
+				"value" : "textSystemOneGroup"
+			}, {
+				"name" : "type",
+				"value" : "metadataGroup"
+			}, {
+				"name" : "createdBy",
+				"value" : "12345"
+			}, {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "system"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "cora"
+				} ],
+				"actionLinks" : {
+					"read" : {
+						"requestMethod" : "GET",
+						"rel" : "read",
+						"url" : "http://localhost:8080/therest/rest/record/system/cora",
+						"accept" : "application/uub+record+json"
+					}
+				},
+				"name" : "dataDivider"
+			} ],
+			"name" : "recordInfo"
+		}, {
+			"name" : "nameInData",
+			"value" : "text"
+		}, {
+			"name" : "textId",
+			"value" : "textSystemOneGroupText"
+		}, {
+			"name" : "defTextId",
+			"value" : "textSystemOneGroupDefText"
+		}, {
+			"name" : "refParentId",
+			"value" : "textDefaultAlternativeGroup"
+		}, {
+			"children" : [ {
+				"repeatId" : "1",
+				"children" : [ {
+					"name" : "ref",
+					"value" : "recordInfoTextGroup"
+				}, {
+					"name" : "repeatMin",
+					"value" : "1"
+				}, {
+					"name" : "repeatMax",
+					"value" : "1"
+				} ],
+				"name" : "childReference"
+			}, {
+				"repeatId" : "2",
+				"children" : [ {
+					"name" : "ref",
+					"value" : "textPartSvGroup"
+				}, {
+					"name" : "repeatMin",
+					"value" : "1"
+				}, {
+					"name" : "repeatMax",
+					"value" : "1"
+				} ],
+				"name" : "childReference"
+			}, {
+				"repeatId" : "3",
+				"children" : [ {
+					"name" : "ref",
+					"value" : "textPartEnGroup"
+				}, {
+					"name" : "repeatMin",
+					"value" : "0"
+				}, {
+					"name" : "repeatMax",
+					"value" : "1"
+				} ],
+				"name" : "childReference"
+			} ],
+			"name" : "childReferences"
+		} ],
+		"name" : "metadata",
+		"attributes" : {
+			"type" : "group"
+		}
+	};
+
+	var cParentMetadataChildRefPart = this.metadataHelper.getChildRefPartOfMetadata(CORA
+			.coraData(parentMetadata), "textPartDefaultGroup");
+	var expectedData = {
+		"repeatId" : "2",
+		"children" : [ {
+			"name" : "ref",
+			"value" : "textPartSvGroup"
+		}, {
+			"name" : "repeatMin",
+			"value" : "1"
+		}, {
+			"name" : "repeatMax",
+			"value" : "1"
+		} ],
+		"name" : "childReference"
+	};
+	assert.stringifyEqual(cParentMetadataChildRefPart.getData(), expectedData);
+});
 
 QUnit.test("testSameAttributeUndefined", function(assert) {
 	assert.ok(this.metadataHelper.firstAttributesExistsInSecond(undefined, undefined));
