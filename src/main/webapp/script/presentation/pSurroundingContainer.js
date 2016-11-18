@@ -35,9 +35,7 @@ var CORA = (function(cora) {
 
 		function createBaseViewHolder() {
 			var presentationId = parent.getPresentationId();
-			var newView = document.createElement("span");
-			newView.className = "pSurroundingContainer " + presentationId;
-			return newView;
+			return CORA.gui.createSpanWithClassName("pSurroundingContainer " + presentationId);
 		}
 
 		var out = Object.freeze({

@@ -54,8 +54,7 @@ var CORA = (function(cora) {
 		}
 
 		function createBaseView() {
-			var repeatingElement = document.createElement("span");
-			repeatingElement.className = "repeatingElement";
+			var repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");
 			if (spec.isRepeating) {
 				repeatingElement.ondragenter = ondragenterHandler;
 			}
@@ -78,8 +77,7 @@ var CORA = (function(cora) {
 		}
 
 		function createButtonView() {
-			var newButtonView = document.createElement("span");
-			newButtonView.className = "buttonView";
+			var newButtonView = CORA.gui.createSpanWithClassName("buttonView");
 			view.appendChild(newButtonView);
 
 			if (addRemoveButton()) {
@@ -104,8 +102,7 @@ var CORA = (function(cora) {
 			return CORA.gui.createRemoveButton(removeFunction);
 		}
 		function createDragButton() {
-			var createdDragButton = document.createElement("span");
-			createdDragButton.className = "dragButton";
+			var createdDragButton = CORA.gui.createSpanWithClassName("dragButton");
 			createdDragButton.onmousedown = function() {
 				view.draggable = "true";
 			};
@@ -148,8 +145,7 @@ var CORA = (function(cora) {
 		}
 
 		function createMinimizeMaximizeButtons() {
-			maximizeButton = document.createElement("span");
-			maximizeButton.className = "maximizeButton";
+			maximizeButton = CORA.gui.createSpanWithClassName("maximizeButton");
 			maximizeButton.onclick = function() {
 				toggleMinimizedShown("false");
 			};
@@ -159,8 +155,7 @@ var CORA = (function(cora) {
 				buttonView.appendChild(maximizeButton);
 			}
 
-			minimizeButton = document.createElement("span");
-			minimizeButton.className = "minimizeButton";
+			minimizeButton = CORA.gui.createSpanWithClassName("minimizeButton");
 			minimizeButton.onclick = function() {
 				toggleMinimizedShown("true");
 			};

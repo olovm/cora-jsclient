@@ -67,9 +67,7 @@ var CORA = (function(cora) {
 		}
 
 		function createBaseView() {
-			var viewNew = document.createElement("span");
-			viewNew.className = "infoView";
-			view = viewNew;
+			view = CORA.gui.createSpanWithClassName("infoView");
 		}
 
 		function addBaseViewAccordingToSpec() {
@@ -88,8 +86,7 @@ var CORA = (function(cora) {
 		}
 
 		function createViewPart(info) {
-			var viewPart = document.createElement("span");
-			viewPart.className = info.className;
+			var viewPart = CORA.gui.createSpanWithClassName(info.className);
 			viewPart.innerHTML = info.text;
 			view.appendChild(viewPart);
 		}

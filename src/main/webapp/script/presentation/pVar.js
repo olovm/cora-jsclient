@@ -65,9 +65,7 @@ var CORA = (function(cora) {
 		}
 
 		function createBaseView() {
-			var viewNew = document.createElement("span");
-			viewNew.className = "pVar " + presentationId;
-			return viewNew;
+			return CORA.gui.createSpanWithClassName("pVar " + presentationId);
 		}
 		function createValueView() {
 			if (mode === "input") {

@@ -112,8 +112,7 @@ var CORA = (function(cora) {
 		}
 
 		function createView(record) {
-			var newView = document.createElement("span");
-			newView.className = "listItem " + recordId;
+			var newView = CORA.gui.createSpanWithClassName("listItem " + recordId);
 			newView.onclick = function() {
 				spec.createRecordHandlerMethod("view", record);
 			};

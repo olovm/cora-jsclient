@@ -40,14 +40,11 @@ var CORA = (function(cora) {
 		spec.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
 
 		function createBaseView() {
-			var viewNew = document.createElement("span");
-			viewNew.className = "pRecordLink " + presentationId;
-			return viewNew;
+			return CORA.gui.createSpanWithClassName("pRecordLink " + presentationId);
 		}
 
 		function createValueView() {
-			var valueViewNew = document.createElement("span");
-			valueViewNew.className = "childrenView";
+			var valueViewNew = CORA.gui.createSpanWithClassName("childrenView");
 
 			if (mode === "input") {
 				createAndAddInputs(valueViewNew);

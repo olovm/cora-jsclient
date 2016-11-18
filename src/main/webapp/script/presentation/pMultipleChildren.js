@@ -116,9 +116,8 @@ var CORA = (function(cora) {
 		}
 
 		function createText(presRef) {
-			var textSpan = document.createElement("span");
+			var textSpan = CORA.gui.createSpanWithClassName("text");
 			textSpan.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
-			textSpan.className = "text";
 			return textSpan;
 		}
 

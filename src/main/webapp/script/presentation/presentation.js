@@ -34,9 +34,7 @@ var CORA = (function(cora) {
 		}
 
 		function createBaseViewHolder() {
-			var newView = document.createElement("div");
-			newView.className = "presentation " + presentationId;
-			return newView;
+			return CORA.gui.createDivWithClassName("presentation " + presentationId);
 		}
 
 		function createViewForTopPGroup() {

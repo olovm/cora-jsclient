@@ -20,8 +20,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordViewer = function(spec) {
 
-		var view = document.createElement("span");
-		view.className = "recordViewer";
+		var view = CORA.gui.createSpanWithClassName("recordViewer");
 
 		var messageHolder = CORA.messageHolder();
 		view.appendChild(messageHolder.getView());
