@@ -24,9 +24,7 @@ var CORA = (function(cora) {
 		var beforeShowFunction;
 
 		function createView() {
-			var viewNew = document.createElement("div");
-			viewNew.className = "busy hidden";
-			return viewNew;
+			return CORA.gui.createDivWithClassName("busy hidden");
 		}
 
 		function getView() {

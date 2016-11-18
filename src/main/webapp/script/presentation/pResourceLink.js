@@ -46,9 +46,7 @@ var CORA = (function(cora) {
 
 		function createBaseViewHolder() {
 			var presentationId = parent.getPresentationId();
-			var newView = document.createElement("div");
-			newView.className = "pResourceLink " + presentationId;
-			return newView;
+			return CORA.gui.createDivWithClassName("pResourceLink " + presentationId);
 		}
 
 		function presentationHasOutputFormat() {

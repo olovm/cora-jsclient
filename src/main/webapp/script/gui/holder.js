@@ -63,11 +63,7 @@ var CORA = (function(cora) {
 		}
 
 		function createBaseView() {
-			var viewNew = document.createElement("span");
-			var className = "holder";
-			className += getClassNameFromSpec();
-			viewNew.className = className;
-			return viewNew;
+			return CORA.gui.createSpanWithClassName("holder"+getClassNameFromSpec());
 		}
 
 		function addBaseViewAccordingToSpec() {

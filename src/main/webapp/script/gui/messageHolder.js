@@ -22,9 +22,7 @@ var CORA = (function(cora) {
 		var view = createView();
 
 		function createView() {
-			var viewNew = document.createElement("div");
-			viewNew.className = "messageHolder";
-			return viewNew;
+			return CORA.gui.createDivWithClassName("messageHolder");
 		}
 
 		function createMessage(messageSpec) {

@@ -62,3 +62,9 @@ QUnit.test("testCreateSpanWithClassName", function(assert) {
 	assert.strictEqual(span.nodeName, "SPAN");
 	assert.strictEqual(span.className, "className");
 });
+
+QUnit.test("testCreateDivWithClassName", function(assert) {
+	var div = CORA.gui.createDivWithClassName("className");
+	assert.strictEqual(div.nodeName, "DIV");
+	assert.strictEqual(div.className, "className");
+});

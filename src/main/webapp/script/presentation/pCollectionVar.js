@@ -55,9 +55,7 @@ var CORA = (function(cora) {
 		view.appendChild(infoButton);
 
 		function createBaseView() {
-			var viewNew = document.createElement("span");
-			viewNew.className = "pCollVar " + presentationId;
-			return viewNew;
+			return CORA.gui.createSpanWithClassName("pCollVar " + presentationId);
 		}
 		function createValueView() {
 			if (mode === "input") {
