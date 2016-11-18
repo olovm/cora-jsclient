@@ -43,7 +43,7 @@ var CORA = (function(cora) {
 		spanNew.className = className;
 		return spanNew;
 	};
-	
+
 	cora.gui.createDivWithClassName = function(className) {
 		var divNew = document.createElement("div");
 		divNew.className = className;
