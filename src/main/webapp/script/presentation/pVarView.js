@@ -21,9 +21,52 @@ var CORA = (function(cora) {
 	cora.pVarView = function(spec) {
 		var out;
 		var view;
+		var valueView;
 
 		function start() {
 			view = CORA.gui.createSpanWithClassName("pVar " + spec.presentationId);
+			createValueView();
+			view.appendChild(valueView);
+		}
+
+		function createValueView() {
+			if (spec.mode === "input") {
+				valueView = createTextTypeInput();
+			} else {
+				valueView = createOutput();
+			}
+		}
+
+		function createTextTypeInput() {
+			var inputNew = document.createElement("input");
+			inputNew.type = "text";
+			inputNew.setValue = function(value){
+				inputNew.value = value;
+			}
+			return inputNew;
+		}
+
+		function createOutput() {
+			if(spec.outputFormat === "image"){
+				return createOutputImage();
+			}
+			return createOutputText();
+		}
+		
+		function createOutputImage() {
+			var outputNew = document.createElement("img");
+			outputNew.setValue = function(value){
+				outputNew.src = value;
+			}
+			return outputNew;
+		}
+		
+		function createOutputText() {
+			var outputNew = document.createElement("span");
+			outputNew.setValue = function(value){
+				outputNew.textContent = value;
+			}
+			return outputNew;
 		}
 
 		function getView() {
@@ -33,11 +76,16 @@ var CORA = (function(cora) {
 		function getSpec() {
 			return spec;
 		}
-
+		
+		function setValue(value){
+			valueView.setValue(value);
+		}
+		
 		out = Object.freeze({
 			"type" : "pVarView",
 			getSpec : getSpec,
-			getView : getView
+			getView : getView,
+			setValue : setValue
 		});
 		start();
 		return out;

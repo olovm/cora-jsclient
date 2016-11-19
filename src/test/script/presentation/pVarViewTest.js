@@ -21,60 +21,95 @@
 QUnit.module("pVarViewTest.js", {
 	beforeEach : function() {
 		this.spec = {
+			"mode" : "input",
 			"presentationId" : "somePresentationId"
 		};
-		this.pVarView = CORA.pVarView(this.spec);
-
+		this.pVarView;
+		this.getPVarView = function() {
+			if (this.pVarView === undefined) {
+				this.pVarView = CORA.pVarView(this.spec);
+			}
+			return this.pVarView;
+		};
+		this.getView = function() {
+			if (this.pVarView === undefined) {
+				this.pVarView = CORA.pVarView(this.spec);
+			}
+			return this.pVarView.getView();
+		};
+		this.getValueView = function() {
+			if (this.pVarView === undefined) {
+				this.pVarView = CORA.pVarView(this.spec);
+			}
+			return this.pVarView.getView().childNodes[0];
+		};
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	assert.strictEqual(this.pVarView.type, "pVarView");
+	var pVarView = this.getPVarView();
+	assert.strictEqual(pVarView.type, "pVarView");
 	assert.ok(this.pVarView);
 });
 
 QUnit.test("getSpec", function(assert) {
-	assert.strictEqual(this.pVarView.getSpec(), this.spec);
+	var pVarView = this.getPVarView();
+	assert.strictEqual(pVarView.getSpec(), this.spec);
 });
 
 QUnit.test("getView", function(assert) {
-	var view = this.pVarView.getView();
+	var view = this.getView();
 	assert.strictEqual(view.nodeName, "SPAN");
 });
 
-// QUnit.test("init", function(assert) {
-// assert.strictEqual(this.view.nodeName, "SPAN");
-// assert.strictEqual(this.view.className, "workItem extraClassName");
-//
-// assert.strictEqual(this.view.childNodes.length, 2);
-//
-// assert.strictEqual(this.topBar.nodeName, "SPAN");
-// assert.strictEqual(this.topBar.className, "topBar");
-// assert.strictEqual(this.topBar.childNodes.length, 1);
-//
-// var factoredToolHolderSpec = this.factoredHolders[0].holderSpec;
-// assert.strictEqual(factoredToolHolderSpec.className, "tool");
-// assert.strictEqual(factoredToolHolderSpec.appendTo, this.view);
-//
-// assert.strictEqual(this.toolHolder.nodeName, "SPAN");
-// assert.strictEqual(this.toolHolder.className, "holder tool");
-// assert.strictEqual(this.toolHolder.childNodes.length, 0);
-// });
-//
-// QUnit.test("addToolViewToToolHolder", function(assert) {
-// var someToolView = document.createElement("span");
-// this.workItemView.addToolViewToToolHolder(someToolView);
-//
-// assert.strictEqual(this.toolHolder.childNodes.length, 1);
-// assert.strictEqual(this.toolHolder.childNodes[0], someToolView);
-// });
-//
-// QUnit.test("addViewToView", function(assert) {
-// var someView = document.createElement("span");
-// this.workItemView.addViewToView(someView);
-//	
-// assert.strictEqual(this.view.childNodes.length, 3);
-// assert.strictEqual(this.view.childNodes[2], someView);
-// });
+QUnit.test("testInput", function(assert) {
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.nodeName, "INPUT");
+	assert.strictEqual(valueView.type, "text");
+});
+
+QUnit.test("testOutputText", function(assert) {
+	this.spec.mode = "output";
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.nodeName, "SPAN");
+});
+
+QUnit.test("testOutputImage", function(assert) {
+	this.spec.mode = "output";
+	this.spec.outputFormat = "image";
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.nodeName, "IMG");
+});
+
+QUnit.test("testSetValueInput", function(assert) {
+	var pVarView = this.getPVarView();
+	var valueView = this.getValueView();
+
+	assert.strictEqual(valueView.value, "");
+	pVarView.setValue("a Value");
+	assert.strictEqual(valueView.value, "a Value");
+});
+
+QUnit.test("testSetValueOutputText", function(assert) {
+	this.spec.mode = "output";
+	var pVarView = this.getPVarView();
+	var valueView = this.getValueView();
+
+	assert.strictEqual(valueView.innerHTML, "");
+	pVarView.setValue("a Value");
+	assert.strictEqual(valueView.innerHTML, "a Value");
+});
+
+QUnit.test("testSetValueOutputImage", function(assert) {
+	this.spec.mode = "output";
+	this.spec.outputFormat = "image";
+	var pVarView = this.getPVarView();
+	var valueView = this.getValueView();
+	
+	assert.strictEqual(valueView.src, "");
+	pVarView.setValue("http://www.some.domain.nu/image01.jpg");
+	assert.strictEqual(valueView.src, "http://www.some.domain.nu/image01.jpg");
+});
+
