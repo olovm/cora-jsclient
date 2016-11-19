@@ -20,12 +20,12 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pVar = function(spec) {
+		var metadataProvider = spec.dependencies.metadataProvider;
+		var pubSub = spec.dependencies.pubSub;
+		var textProvider = spec.dependencies.textProvider;
+		var jsBookkeeper = spec.dependencies.jsBookkeeper;
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
-		var metadataProvider = spec.metadataProvider;
-		var pubSub = spec.pubSub;
-		var textProvider = spec.textProvider;
-		var jsBookkeeper = spec.jsBookkeeper;
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 

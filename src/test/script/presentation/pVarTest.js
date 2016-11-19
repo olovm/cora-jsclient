@@ -27,13 +27,15 @@ var CORATEST = (function(coraTest) {
 					.getMetadataById(pVarPresentationId));
 
 			var spec = {
+				"dependencies" : {
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"jsBookkeeper" : jsBookkeeper
+				},
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,
-				"cPresentation" : cPVarPresentation,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper
+				"cPresentation" : cPVarPresentation
 			};
 			var pVar = CORA.pVar(spec);
 			var view = pVar.getView();
@@ -146,7 +148,7 @@ QUnit.test("testGetRegexpShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", f
 	var presentationOf2 = pVarTextVariableId2.children[1].children[1].value;
 	var textVariableId2 = this.metadataProvider.getMetadataById(presentationOf2);
 	assert.strictEqual(textVariableId2.children[0].value, "(^[0-9A-Za-z]{2,50}$)");
-	
+
 	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId2");
 	assert.strictEqual(attachedPVar.pVar.getRegEx(), "^[0-9A-Öa-ö\\s!*.]{2,50}$");
 });

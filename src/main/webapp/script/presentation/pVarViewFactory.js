@@ -20,15 +20,8 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.pVarViewFactory = function(dependencies) {
 
-		var holderFactory = {
-			"factor" : function(holderSpec) {
-				return CORA.holder(holderSpec);
-			}
-		};
-
 		function factor(pVarViewSpec) {
 			pVarViewSpec.dependencies = dependencies;
-			pVarViewSpec.holderFactory = holderFactory;
 			return CORA.pVarView(pVarViewSpec);
 		}
 

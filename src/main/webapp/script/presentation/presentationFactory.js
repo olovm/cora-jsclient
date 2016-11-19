@@ -24,10 +24,6 @@ var CORA = (function(cora) {
 
 		function factor(path, metadataIdUsedInData, cPresentation, cParentPresentation) {
 			var specNew = {
-				"path" : path,
-				"metadataIdUsedInData" : metadataIdUsedInData,
-				"cPresentation" : cPresentation,
-				"cParentPresentation" : cParentPresentation,
 				"metadataProvider" : spec.metadataProvider,
 				"pubSub" : spec.pubSub,
 				"textProvider" : spec.textProvider,
@@ -36,7 +32,23 @@ var CORA = (function(cora) {
 				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"recordTypeProvider" : spec.recordTypeProvider,
-				"uploadManager" : spec.uploadManager
+				"uploadManager" : spec.uploadManager,
+				//dependencies are doubled as we move to usning them collected as dependencies
+				"dependencies" : {
+					"metadataProvider" : spec.metadataProvider,
+					"pubSub" : spec.pubSub,
+					"textProvider" : spec.textProvider,
+					"jsBookkeeper" : spec.jsBookkeeper,
+					"presentationFactory" : self,
+					"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
+					"recordGuiFactory" : spec.recordGuiFactory,
+					"recordTypeProvider" : spec.recordTypeProvider,
+					"uploadManager" : spec.uploadManager,
+				},
+				"path" : path,
+				"metadataIdUsedInData" : metadataIdUsedInData,
+				"cPresentation" : cPresentation,
+				"cParentPresentation" : cParentPresentation
 			};
 
 			var type = cPresentation.getData().attributes.type;
