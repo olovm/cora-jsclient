@@ -22,6 +22,7 @@ QUnit.module("pVarViewTest.js", {
 	beforeEach : function() {
 		this.spec = {
 			"mode" : "input",
+			"outputFormat" : "text",
 			"presentationId" : "somePresentationId"
 		};
 		this.pVarView;
@@ -70,6 +71,19 @@ QUnit.test("testInput", function(assert) {
 	assert.strictEqual(valueView.type, "text");
 });
 
+QUnit.test("testInputOnblur", function(assert) {
+	var valueFromView = "";
+	this.spec.onblurFunction = function(value) {
+		valueFromView = value;
+	};
+
+	var pVarView = this.getPVarView();
+	pVarView.setValue("a Value");
+	var valueView = this.getValueView();
+	valueView.onblur();
+	assert.strictEqual(valueFromView, "a Value");
+});
+
 QUnit.test("testOutputText", function(assert) {
 	this.spec.mode = "output";
 	var valueView = this.getValueView();
@@ -107,9 +121,8 @@ QUnit.test("testSetValueOutputImage", function(assert) {
 	this.spec.outputFormat = "image";
 	var pVarView = this.getPVarView();
 	var valueView = this.getValueView();
-	
+
 	assert.strictEqual(valueView.src, "");
 	pVarView.setValue("http://www.some.domain.nu/image01.jpg");
 	assert.strictEqual(valueView.src, "http://www.some.domain.nu/image01.jpg");
 });
-

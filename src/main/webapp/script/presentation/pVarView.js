@@ -32,6 +32,11 @@ var CORA = (function(cora) {
 		function createValueView() {
 			if (spec.mode === "input") {
 				valueView = createTextTypeInput();
+				if (spec.onblurFunction !== undefined) {
+					valueView.onblur = function(){
+						spec.onblurFunction(valueView.value);
+					}
+				}
 			} else {
 				valueView = createOutput();
 			}
@@ -40,30 +45,30 @@ var CORA = (function(cora) {
 		function createTextTypeInput() {
 			var inputNew = document.createElement("input");
 			inputNew.type = "text";
-			inputNew.setValue = function(value){
+			inputNew.setValue = function(value) {
 				inputNew.value = value;
 			}
 			return inputNew;
 		}
 
 		function createOutput() {
-			if(spec.outputFormat === "image"){
+			if (spec.outputFormat === "image") {
 				return createOutputImage();
 			}
 			return createOutputText();
 		}
-		
+
 		function createOutputImage() {
 			var outputNew = document.createElement("img");
-			outputNew.setValue = function(value){
+			outputNew.setValue = function(value) {
 				outputNew.src = value;
 			}
 			return outputNew;
 		}
-		
+
 		function createOutputText() {
 			var outputNew = document.createElement("span");
-			outputNew.setValue = function(value){
+			outputNew.setValue = function(value) {
 				outputNew.textContent = value;
 			}
 			return outputNew;
@@ -76,11 +81,11 @@ var CORA = (function(cora) {
 		function getSpec() {
 			return spec;
 		}
-		
-		function setValue(value){
+
+		function setValue(value) {
 			valueView.setValue(value);
 		}
-		
+
 		out = Object.freeze({
 			"type" : "pVarView",
 			getSpec : getSpec,
