@@ -123,11 +123,22 @@ var CORA = (function(cora) {
 		}
 
 		function setHeadersSpecifiedInSpec() {
-			if (spec.accept !== undefined) {
-				xhr.setRequestHeader("accept", spec.accept);
-			}
-			if (spec.contentType !== undefined) {
-				xhr.setRequestHeader("content-type", spec.contentType);
+			if (spec.requestHeaders) {
+
+				if (spec.requestHeaders.accept !== undefined) {
+					xhr.setRequestHeader("accept", spec.requestHeaders.accept);
+				}
+				if (spec.requestHeaders.contentType !== undefined) {
+					xhr.setRequestHeader("content-type", spec.requestHeaders.contentType);
+				}
+			} else {
+				// TODO: remove this when all use the factory (requestHeaders)
+				if (spec.accept !== undefined) {
+					xhr.setRequestHeader("accept", spec.accept);
+				}
+				if (spec.contentType !== undefined) {
+					xhr.setRequestHeader("content-type", spec.contentType);
+				}
 			}
 		}
 

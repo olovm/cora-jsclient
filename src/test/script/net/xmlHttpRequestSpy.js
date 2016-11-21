@@ -106,6 +106,7 @@ var CORATEST = (function(coraTest) {
 			},
 			addedEventListeners : listeners
 		};
+
 		var out = {
 			timeout : timeout,
 			status : status,
