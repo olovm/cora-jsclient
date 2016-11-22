@@ -18,60 +18,47 @@
  */
 "use strict";
 
-QUnit
-		.module(
-				"uploadManagerTest.js",
-				{
-					beforeEach : function() {
-						// var xmlHttpRequestFactoryMultipleSpy =
-						// CORATEST.xmlHttpRequestFactoryMultipleSpy();
-						// xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
+QUnit.module("uploadManagerTest.js", {
+	beforeEach : function() {
+		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+		var dependencies = {
+			"ajaxCallFactory" : this.ajaxCallFactorySpy
+		};
 
-						this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-						var dependencies = {
-							"ajaxCallFactory" : this.ajaxCallFactorySpy
-						};
+		var jsClient = {
+			showView : function() {
+			},
+			addGlobalView : function() {
+			}
+		}
+		var textProvider = CORATEST.textProviderStub();
 
-						var jsClient = {
-							showView : function() {
-							},
-							addGlobalView : function() {
-							}
-						}
-						var textProvider = CORATEST.textProviderStub();
+		var spec = {
+			"dependencies" : dependencies,
+			"jsClient" : jsClient,
+			"textProvider" : textProvider
 
-						var spec = {
-							// "xmlHttpRequestFactory" :
-							// xmlHttpRequestFactoryMultipleSpy,
-							"dependencies" : dependencies,
-							"jsClient" : jsClient,
-							"textProvider" : textProvider
-
-						};
-						this.uploadManager = CORA.uploadManager(spec);
-						var uploadLink = CORATEST.createUploadLink();
-						this.file = CORATEST.createFileForUpload();
-						this.uploadSpec = {
-							"uploadLink" : uploadLink,
-							"file" : this.file
-						}
-						// this.xmlHttpRequestFactoryMultipleSpy =
-						// xmlHttpRequestFactoryMultipleSpy;
-						this.assertAjaxCallSpecIsCorrect = function(assert, ajaxCallSpy) {
-							var ajaxCallSpec = ajaxCallSpy.getSpec();
-							assert
-									.strictEqual(ajaxCallSpec.url,
-											"http://localhost:8080/therest/rest/record/image/image:333759270435575/upload");
-							assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
-							assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
-							assert.strictEqual(ajaxCallSpec.loadMethod,
-									this.uploadManager.uploadFinished);
-							assert.strictEqual(ajaxCallSpec.data.get("file"), this.file);
-						}
-					},
-					afterEach : function() {
-					}
-				});
+		};
+		this.uploadManager = CORA.uploadManager(spec);
+		var uploadLink = CORATEST.createUploadLink();
+		this.file = CORATEST.createFileForUpload();
+		this.uploadSpec = {
+			"uploadLink" : uploadLink,
+			"file" : this.file
+		}
+		this.assertAjaxCallSpecIsCorrect = function(assert, ajaxCallSpy) {
+			var ajaxCallSpec = ajaxCallSpy.getSpec();
+			assert.strictEqual(ajaxCallSpec.url, "http://localhost:8080/therest/rest/record/"
+					+ "image/image:333759270435575/upload");
+			assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
+			assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
+			assert.strictEqual(ajaxCallSpec.loadMethod, this.uploadManager.uploadFinished);
+			assert.strictEqual(ajaxCallSpec.data.get("file"), this.file);
+		}
+	},
+	afterEach : function() {
+	}
+});
 
 QUnit.test("testInit", function(assert) {
 	assert.ok(this.uploadManager);
