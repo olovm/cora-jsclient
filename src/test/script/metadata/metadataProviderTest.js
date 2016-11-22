@@ -21,13 +21,9 @@
 
 QUnit.module("metadataProviderTest.js", {
 	beforeEach : function() {
-		var xmlHttpRequestFactoryMultipleSpy = CORATEST.xmlHttpRequestFactoryMultipleSpy();
-		xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
-		var responseText = JSON.stringify(CORATEST.metadataList);
-		xmlHttpRequestFactoryMultipleSpy.setResponseText(responseText);
-
+		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		var dependencies = {
-			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
+			"ajaxCallFactory" : this.ajaxCallFactorySpy
 		};
 		var metadataListLink = {
 			"requestMethod" : "GET",
@@ -61,102 +57,79 @@ QUnit.module("metadataProviderTest.js", {
 		this.textListLink = textListLink;
 		this.textListLinkJson = JSON.stringify(this.textListLink);
 
-		this.xmlHttpRequestFactoryMultipleSpy = xmlHttpRequestFactoryMultipleSpy;
+		this.metadataAnswer = {
+			"responseText" : JSON.stringify(CORATEST.metadataList)
+		};
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
+	function assertAjaxCallSpecIsCorrect(ajaxCallSpy, recordType) {
+		var ajaxCallSpec = ajaxCallSpy.getSpec();
+		assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/" + recordType
+				+ "/");
+		assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
+		assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
+		assert.strictEqual(ajaxCallSpec.loadMethod, metadataProvider.processFetchedMetadata);
+	}
 	var metadataProvider = CORA.metadataProvider(this.spec);
 
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
-	var xmlHttpRequestSpy1 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
-	var xmlHttpRequestSpy2 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(2);
+	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
+	assertAjaxCallSpecIsCorrect(ajaxCallSpy0, "metadata");
 
-	var openUrl0 = xmlHttpRequestSpy.getOpenUrl();
-	var openUrl1 = xmlHttpRequestSpy1.getOpenUrl();
-	var openUrl2 = xmlHttpRequestSpy2.getOpenUrl();
+	var ajaxCallSpy1 = this.ajaxCallFactorySpy.getFactored(1);
+	assertAjaxCallSpecIsCorrect(ajaxCallSpy1, "presentation");
 
-	assert.strictEqual(openUrl0.substring(0, openUrl0.indexOf("?")),
-			"http://epc.ub.uu.se/cora/rest/record/metadata/");
-	assert.strictEqual(openUrl1.substring(0, openUrl1.indexOf("?")),
-			"http://epc.ub.uu.se/cora/rest/record/presentation/");
-	assert.strictEqual(openUrl2.substring(0, openUrl2.indexOf("?")),
-			"http://epc.ub.uu.se/cora/rest/record/text/");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+recordList+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"], undefined);
-
+	var ajaxCallSpy2 = this.ajaxCallFactorySpy.getFactored(2);
+	assertAjaxCallSpecIsCorrect(ajaxCallSpy2, "text");
 });
 
-QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
+QUnit.test("callWhenReadyCalledWhenReady", function(assert) {
 	var providerStarted = false;
 	function providerReady() {
 		providerStarted = true;
 	}
-	
-	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
-	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
-	
-	var spec = this.spec;
-	spec.callWhenReady = providerReady;
-	var provider = CORA.metadataProvider(spec);
 
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
-	var xmlHttpRequestSpy1 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
-	var xmlHttpRequestSpy2 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(2);
+	this.spec.callWhenReady = providerReady;
+	var metadataProvider = CORA.metadataProvider(this.spec);
+
+	var metadataAnswer = {
+		"responseText" : JSON.stringify(CORATEST.metadataList)
+	};
 
 	assert.notOk(providerStarted);
-
-	xmlHttpRequestSpy.runLoadFunction();
-
-	assert.notOk(providerStarted);
-
-	xmlHttpRequestSpy2.runLoadFunction();
+	metadataProvider.processFetchedMetadata(metadataAnswer);
 
 	assert.notOk(providerStarted);
-	
-	xmlHttpRequestSpy1.runLoadFunction();
-	
+	metadataProvider.processFetchedMetadata(metadataAnswer);
+
+	assert.notOk(providerStarted);
+	metadataProvider.processFetchedMetadata(metadataAnswer);
+
 	assert.ok(providerStarted);
 });
 
-QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
+QUnit.test("callWhenReadyNotCalledWhenReadyIfUnspecified", function(assert) {
 	var providerStarted = false;
 	function providerReady() {
 		providerStarted = true;
 	}
-	
-	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
-	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
-	
-	var spec = this.spec;
-//	spec.callWhenReady = providerReady;
-	var provider = CORA.metadataProvider(spec);
 
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
-	var xmlHttpRequestSpy1 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
-	var xmlHttpRequestSpy2 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(2);
+	// this.spec.callWhenReady = providerReady;
+	var metadataProvider = CORA.metadataProvider(this.spec);
 
-	assert.notOk(providerStarted);
+	metadataProvider.processFetchedMetadata(this.metadataAnswer);
+	metadataProvider.processFetchedMetadata(this.metadataAnswer);
+	metadataProvider.processFetchedMetadata(this.metadataAnswer);
 
-	xmlHttpRequestSpy.runLoadFunction();
-
-	assert.notOk(providerStarted);
-
-	xmlHttpRequestSpy2.runLoadFunction();
-
-	assert.notOk(providerStarted);
-	
-	xmlHttpRequestSpy1.runLoadFunction();
-	
 	assert.notOk(providerStarted);
 });
 
 QUnit.test("testInitEnteredLinksIsNotChanged", function(assert) {
-	var provider = CORA.metadataProvider(this.spec);
+	var metadataProvider = CORA.metadataProvider(this.spec);
+
 	var metadataListLinkJson = this.metadataListLinkJson;
 	var metadataListLinkJsonAfter = JSON.stringify(this.metadataListLink);
 	assert.deepEqual(metadataListLinkJsonAfter, metadataListLinkJson);
@@ -171,7 +144,8 @@ QUnit.test("testInitEnteredLinksIsNotChanged", function(assert) {
 });
 
 QUnit.test("getMetadataById", function(assert) {
-	var provider = CORA.metadataProvider(this.spec);
+	var metadataProvider = CORA.metadataProvider(this.spec);
+	metadataProvider.processFetchedMetadata(this.metadataAnswer);
 	var expected = {
 		"children" : [ {
 			"name" : "nameInData",
@@ -231,15 +205,16 @@ QUnit.test("getMetadataById", function(assert) {
 			"type" : "group"
 		}
 	};
-	var x = provider.getMetadataById("textPartEnGroup");
+	var x = metadataProvider.getMetadataById("textPartEnGroup");
 	assert.stringifyEqual(x, expected);
 });
 
 QUnit.test("getMetadataByIdNotFound", function(assert) {
-	var provider = CORA.metadataProvider(this.spec);
+	var metadataProvider = CORA.metadataProvider(this.spec);
+	metadataProvider.processFetchedMetadata(this.metadataAnswer);
 	var error = false;
 	try {
-		var x = provider.getMetadataById("someNonExistingMetadataId");
+		var x = metadataProvider.getMetadataById("someNonExistingMetadataId");
 	} catch (e) {
 		error = true;
 	}

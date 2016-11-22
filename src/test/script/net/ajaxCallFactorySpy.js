@@ -26,15 +26,14 @@ var CORATEST = (function(coraTest) {
 			factoredAjaxCalls.push(factoredAjaxCall);
 			return factoredAjaxCall;
 		}
-		
-		function getFactored(number){
+
+		function getFactored(number) {
 			return factoredAjaxCalls[number];
 		}
-		
+
 		var out = Object.freeze({
 			factor : factor,
-
-			getFactored:getFactored
+			getFactored : getFactored
 		});
 		return out;
 	};

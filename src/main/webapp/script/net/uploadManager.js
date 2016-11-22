@@ -21,7 +21,6 @@ var CORA = (function(cora) {
 	cora.uploadManager = function(spec) {
 		var uploading = false;
 		var uploadQue = [];
-		var currentAjaxCall;
 		var viewSpec = {
 			"showWorkViewMethod" : spec.jsClient.showView,
 			"textProvider" : spec.textProvider
@@ -37,15 +36,15 @@ var CORA = (function(cora) {
 
 			var fileView = view.addFile(uploadSpec.file.name);
 			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : uploadLink.requestMethod,
+				"requestMethod" : uploadLink.requestMethod,
 				"url" : uploadLink.url,
 				"accept" : uploadLink.accept,
 				"loadMethod" : uploadFinished,
 				"errorMethod" : fileView.errorMethod,
 				"timeoutMethod" : fileView.timeoutMethod,
 				"data" : formData,
-				//long time needed as time between last progress and answer can be long (flusing)
+				// long time needed as time between last progress and answer can
+				// be long (flusing)
 				"timeoutInMS" : 600000,
 				"uploadProgressMethod" : fileView.progressMethod
 			};
@@ -61,24 +60,32 @@ var CORA = (function(cora) {
 		}
 
 		function possiblyStartNextUpload() {
-			if (uploading !== true) {
-				var callSpec = uploadQue.shift();
-				if (callSpec !== undefined) {
-					uploading = true;
-					view.activate();
-					currentAjaxCall = CORA.ajaxCall(callSpec);
-				}
+			if (getCurrentlyNotUploading()) {
+				startNextUploadIfThereIsMoreInQueue();
 			}
 		}
 
-		function getCurrentAjaxCall() {
-			return currentAjaxCall;
+		function getCurrentlyNotUploading() {
+			return uploading !== true;
+		}
+
+		function startNextUploadIfThereIsMoreInQueue() {
+			var callSpec = uploadQue.shift();
+			if (callSpec !== undefined) {
+				startNextUpload(callSpec);
+			}
+		}
+
+		function startNextUpload(callSpec) {
+			uploading = true;
+			view.activate();
+			spec.dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		var out = Object.freeze({
 			upload : upload,
 			view : view,
-			getCurrentAjaxCall : getCurrentAjaxCall
+			uploadFinished : uploadFinished
 		});
 
 		return out;

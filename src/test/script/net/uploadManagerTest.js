@@ -18,68 +18,75 @@
  */
 "use strict";
 
-QUnit.module("uploadManagerTest.js", {
-	beforeEach : function() {
-		var loadMethodWasCalled = false;
-		function loadMethod(xhr) {
-			loadMethodWasCalled = true;
-		}
-		var xmlHttpRequestFactoryMultipleSpy = CORATEST.xmlHttpRequestFactoryMultipleSpy();
-		xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
+QUnit
+		.module(
+				"uploadManagerTest.js",
+				{
+					beforeEach : function() {
+						// var xmlHttpRequestFactoryMultipleSpy =
+						// CORATEST.xmlHttpRequestFactoryMultipleSpy();
+						// xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
 
-		var jsClient = {
-			showView : function() {
-			},
-			addGlobalView : function() {
-			}
-		}
-		var textProvider = CORATEST.textProviderStub();
+						this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+						var dependencies = {
+							"ajaxCallFactory" : this.ajaxCallFactorySpy
+						};
 
-		var spec = {
-			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
-			"jsClient" : jsClient,
-			"textProvider" : textProvider
+						var jsClient = {
+							showView : function() {
+							},
+							addGlobalView : function() {
+							}
+						}
+						var textProvider = CORATEST.textProviderStub();
 
-		};
-		this.uploadManager = CORA.uploadManager(spec);
-		this.xmlHttpRequestFactoryMultipleSpy = xmlHttpRequestFactoryMultipleSpy;
-		this.loadMethodWasCalled = loadMethodWasCalled;
-	},
-	afterEach : function() {
-	}
-});
+						var spec = {
+							// "xmlHttpRequestFactory" :
+							// xmlHttpRequestFactoryMultipleSpy,
+							"dependencies" : dependencies,
+							"jsClient" : jsClient,
+							"textProvider" : textProvider
+
+						};
+						this.uploadManager = CORA.uploadManager(spec);
+						var uploadLink = CORATEST.createUploadLink();
+						this.file = CORATEST.createFileForUpload();
+						this.uploadSpec = {
+							"uploadLink" : uploadLink,
+							"file" : this.file
+						}
+						// this.xmlHttpRequestFactoryMultipleSpy =
+						// xmlHttpRequestFactoryMultipleSpy;
+						this.assertAjaxCallSpecIsCorrect = function(assert, ajaxCallSpy) {
+							var ajaxCallSpec = ajaxCallSpy.getSpec();
+							assert
+									.strictEqual(ajaxCallSpec.url,
+											"http://localhost:8080/therest/rest/record/image/image:333759270435575/upload");
+							assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
+							assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
+							assert.strictEqual(ajaxCallSpec.loadMethod,
+									this.uploadManager.uploadFinished);
+							assert.strictEqual(ajaxCallSpec.data.get("file"), this.file);
+						}
+					},
+					afterEach : function() {
+					}
+				});
 
 QUnit.test("testInit", function(assert) {
-
 	assert.ok(this.uploadManager);
 	assert.ok(this.uploadManager.view);
 	assert.strictEqual(this.uploadManager.view.getItem().menuView.className, "menuView");
-
 });
 
 QUnit.test("testUpload", function(assert) {
+
 	var uploadManager = this.uploadManager;
-	var loadMethodWasCalled = this.loadMethodWasCalled;
 
-	var uploadLink = CORATEST.createUploadLink();
-	var file = CORATEST.createFileForUpload();
-	var uploadSpec = {
-		"uploadLink" : uploadLink,
-		"file" : file
-	}
-	uploadManager.upload(uploadSpec);
+	uploadManager.upload(this.uploadSpec);
 
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
-
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl,
-			"http://localhost:8080/therest/rest/record/image/image:333759270435575/upload");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
-	var sentData = xmlHttpRequestSpy.getSentData();
-	assert.strictEqual(sentData.get("file"), file);
-	// assert.strictEqual(sentData.get("userId"), file);
+	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
+	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy0);
 });
 
 var CORATEST = (function(coraTest) {
@@ -106,76 +113,42 @@ var CORATEST = (function(coraTest) {
 
 QUnit.test("testUploadQue", function(assert) {
 	var uploadManager = this.uploadManager;
-	var loadMethodWasCalled = this.loadMethodWasCalled;
-	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
-	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
-
 	var menuView = this.uploadManager.view.getItem().menuView;
 	assert.strictEqual(menuView.className, "menuView");
 
-	var uploadLink = CORATEST.createUploadLink();
-	var file = CORATEST.createFileForUpload();
-	var uploadSpec = {
-		"uploadLink" : uploadLink,
-		"file" : file
-	}
-	uploadManager.upload(uploadSpec);
+	uploadManager.upload(this.uploadSpec);
+
+	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
+	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy0);
+
 	assert.strictEqual(menuView.className, "menuView uploading");
 
-	var xmlHttpRequestSpy = xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	uploadManager.upload(this.uploadSpec);
+	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(1), undefined);
+	uploadManager.uploadFinished();
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl,
-			"http://localhost:8080/therest/rest/record/image/image:333759270435575/upload");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
-	var sentData = xmlHttpRequestSpy.getSentData();
-	assert.strictEqual(sentData.get("file"), file);
+	var ajaxCallSpy1 = this.ajaxCallFactorySpy.getFactored(1);
+	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy1);
 
-	uploadManager.upload(uploadSpec);
-	assert.strictEqual(xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1), undefined);
-	xmlHttpRequestSpy.runLoadFunction();
-
-	var xmlHttpRequestSpy1 = xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
-	assert.ok(xmlHttpRequestSpy1);
-	xmlHttpRequestSpy1.runLoadFunction();
-
+	uploadManager.uploadFinished();
 	assert.strictEqual(menuView.className, "menuView");
 });
 
 QUnit.test("testUploadError", function(assert) {
 	var uploadManager = this.uploadManager;
-	var loadMethodWasCalled = this.loadMethodWasCalled;
-
-	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(400);
-
-	var uploadLink = CORATEST.createUploadLink();
-	var file = CORATEST.createFileForUpload();
-	var uploadSpec = {
-		"uploadLink" : uploadLink,
-		"file" : file
-	}
-	uploadManager.upload(uploadSpec);
+	uploadManager.upload(this.uploadSpec);
+	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
+	ajaxCallSpy0.getSpec().errorMethod(new Error("some error"));
 	var fileView = this.uploadManager.view.getItem().workView.firstChild;
 	assert.strictEqual(fileView.lastChild.textContent, "ERROR");
 });
 
 QUnit.test("testUploadTimeout", function(assert) {
 	var uploadManager = this.uploadManager;
-	var loadMethodWasCalled = this.loadMethodWasCalled;
-	this.xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
+	uploadManager.upload(this.uploadSpec);
+	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
+	ajaxCallSpy0.getSpec().timeoutMethod();
 
-	var uploadLink = CORATEST.createUploadLink();
-	var file = CORATEST.createFileForUpload();
-	var uploadSpec = {
-			"uploadLink" : uploadLink,
-			"file" : file
-	}
-	uploadManager.upload(uploadSpec);
-	
-	uploadManager.getCurrentAjaxCall().spec.timeoutMethod();
-	
 	var fileView = this.uploadManager.view.getItem().workView.firstChild;
 	assert.strictEqual(fileView.lastChild.textContent, "TIMEOUT");
 });
