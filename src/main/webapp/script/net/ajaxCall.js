@@ -124,12 +124,9 @@ var CORA = (function(cora) {
 
 		function setHeadersSpecifiedInSpec() {
 			if (spec.requestHeaders) {
-
-				if (spec.requestHeaders.accept !== undefined) {
-					xhr.setRequestHeader("accept", spec.requestHeaders.accept);
-				}
-				if (spec.requestHeaders.contentType !== undefined) {
-					xhr.setRequestHeader("content-type", spec.requestHeaders.contentType);
+				var keys = Object.keys(spec.requestHeaders);
+				for(let key of keys){
+					xhr.setRequestHeader(key, spec.requestHeaders[key]);
 				}
 			} else {
 				// TODO: remove this when all use the factory (requestHeaders)
@@ -151,6 +148,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
+			"type":"ajaxCall",
 			xhr : xhr,
 			spec : spec
 		});

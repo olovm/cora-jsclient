@@ -55,8 +55,9 @@ QUnit.module("ajaxCallTest.js", {
 			"method" : "GET",
 			"url" : "http://localhost:8080/therest/rest/record/recordType",
 			"requestHeaders" : {
-				"contentType" : "application/uub+record+json",
-				"accept" : "application/uub+record+json"
+				"content-type" : "application/uub+record+json",
+				"accept" : "application/uub+record+json",
+				"authToken" : "someRandomToken"
 			},
 			"loadMethod" : loadMethod,
 			"errorMethod" : errorMethod,
@@ -91,6 +92,12 @@ QUnit.module("ajaxCallTest.js", {
 	}
 });
 
+QUnit.test("init", function(assert) {
+	var ajaxCall = CORA.ajaxCall(this.spec);
+	assert.strictEqual(ajaxCall.type, "ajaxCall");
+	assert.strictEqual(ajaxCall.spec, this.spec);
+});
+
 QUnit.test("testXMLHttpRequestSetUpCorrect", function(assert) {
 	var ajaxCall = CORA.ajaxCall(this.spec);
 	assert.strictEqual(ajaxCall.spec, this.spec);
@@ -104,6 +111,7 @@ QUnit.test("testXMLHttpRequestSetUpCorrect", function(assert) {
 			"application/uub+record+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
 			"application/uub+record+json");
+	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["authToken"][0], "someRandomToken");
 	assert.ok(this.getLoadMethodWasCalled(), "loadMethod was called ok")
 });
 
