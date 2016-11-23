@@ -65,7 +65,9 @@ QUnit.test("factor", function(assert) {
 	var ajaxCallSpec = ajaxCall.spec;
 	assert.strictEqual(ajaxCallSpec.requestHeaders["Content-Type"], "application/uub+record+json");
 	assert.strictEqual(ajaxCallSpec.requestHeaders["Accept"], "application/uub+record+json");
-	assert.ok(ajaxCallSpec.requestHeaders.authToken === undefined);
+//	assert.ok(ajaxCallSpec.requestHeaders.authToken === undefined);
+	//TOKEN IS CURRENTLY SET TO fitnesseAdminToken
+	assert.ok(ajaxCallSpec.requestHeaders.authToken === "fitnesseAdminToken");
 	var xmlHttpRequestFactory = this.dependencies.xmlHttpRequestFactory;
 	assert.strictEqual(ajaxCallSpec.xmlHttpRequestFactory, xmlHttpRequestFactory);
 });
