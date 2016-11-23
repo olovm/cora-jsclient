@@ -20,8 +20,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.ajaxCallFactory = function(dependencies) {
-//		var authToken = "fitnesseAdminToken";
-		var authToken = "";
+		var authToken = "fitnesseAdminToken";
 
 		function factor(ajaxCallSpecIn) {
 		var	ajaxCallSpec = ajaxCallSpecIn;
