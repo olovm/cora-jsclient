@@ -98,10 +98,10 @@ var CORA = (function(cora) {
 		}
 
 		function open() {
-			if (spec.method === "GET") {
-				xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
+			if (spec.requestMethod === "GET") {
+				xhr.open(spec.requestMethod, spec.url + "?" + (new Date()).getTime());
 			} else {
-				xhr.open(spec.method, spec.url);
+				xhr.open(spec.requestMethod, spec.url);
 			}
 			timeProgress = performance.now();
 			intervalStart = performance.now();
@@ -123,11 +123,11 @@ var CORA = (function(cora) {
 		}
 
 		function setHeadersSpecifiedInSpec() {
-			if (spec.accept !== undefined) {
-				xhr.setRequestHeader("accept", spec.accept);
-			}
-			if (spec.contentType !== undefined) {
-				xhr.setRequestHeader("content-type", spec.contentType);
+			if (spec.requestHeaders) {
+				var keys = Object.keys(spec.requestHeaders);
+				for(let key of keys){
+					xhr.setRequestHeader(key, spec.requestHeaders[key]);
+				}
 			}
 		}
 
@@ -140,6 +140,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
+			"type":"ajaxCall",
 			xhr : xhr,
 			spec : spec
 		});

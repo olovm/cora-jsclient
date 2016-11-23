@@ -27,7 +27,6 @@ var CORA = (function(cora) {
 		var jsBookkeeper = spec.jsBookkeeper;
 		var presentationFactory = spec.presentationFactory;
 		var recordTypeProvider = spec.recordTypeProvider;
-		var xmlHttpRequestFactory = spec.xmlHttpRequestFactory;
 
 		var view;
 		var originalClassName;
@@ -133,6 +132,7 @@ var CORA = (function(cora) {
 
 		function createPChildRefHandler(cPresentationChild, cPresentationChildRef) {
 			var childRefHandlerSpec = {
+				"dependencies" : spec.dependencies,
 				"parentPath" : path,
 				"cParentMetadata" : getMetadataById(my.metadataId),
 				"cPresentation" : cPresentationChild,
@@ -143,7 +143,6 @@ var CORA = (function(cora) {
 				"jsBookkeeper" : jsBookkeeper,
 				"presentationFactory" : presentationFactory,
 				"recordTypeProvider" : recordTypeProvider,
-				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
 				"uploadManager" : spec.uploadManager
 			};
 

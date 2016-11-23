@@ -60,29 +60,41 @@ QUnit.module("recordViewerTest.js", {
 				return recordGui;
 			}
 		};
+
+		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+		var dependencies = {
+			"ajaxCallFactory" : this.ajaxCallFactorySpy
+		};
+		this.recordViewerSpec = {
+			"dependencies" : dependencies,
+			"read" : {
+				"requestMethod" : "GET",
+				"rel" : "read",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/system/cora",
+				"accept" : "application/uub+record+json"
+			},
+			"presentationId" : "somePresentationId",
+			"metadataId" : "someMetadataId",
+			"recordGuiFactory" : this.recordGuiFactorySpy,
+		};
+		this.answerCall = function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecord = JSON.stringify({
+				"record" : CORATEST.record
+			});
+			var answer = {
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecord
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("initCheckBusyAndMessageHolder", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-	}
-	var recordViewerSpec = {
-		"read" : {
-			"requestMethod" : "GET",
-			"rel" : "read",
-			"url" : "http://epc.ub.uu.se/cora/rest/record/system/cora",
-			"accept" : "application/uub+record+json"
-		},
-		"presentationId" : "somePresentationId",
-		"metadataId" : "someMetadataId",
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : this.recordGuiFactorySpy,
-//		"jsClient" : this.jsClientSpy
-	};
-	var recordViewer = CORA.recordViewer(recordViewerSpec);
+	var recordViewer = CORA.recordViewer(this.recordViewerSpec);
 	assert.notStrictEqual(recordViewer, undefined);
 
 	var view = recordViewer.getView();
@@ -96,102 +108,48 @@ QUnit.test("initCheckBusyAndMessageHolder", function(assert) {
 });
 
 QUnit.test("initCallToServer", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	var record = CORATEST.record;
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify({
-			"record" : record
-		});
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
-	var recordViewerSpec = {
-		"read" : {
-			"requestMethod" : "GET",
-			"rel" : "read",
-			"url" : "http://epc.ub.uu.se/cora/rest/record/system/cora",
-			"accept" : "application/uub+record+json"
-		},
-		"presentationId" : "somePresentationId",
-		"metadataId" : "someMetadataId",
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : this.recordGuiFactorySpy,
-//		"jsClient" : this.jsClientSpy
-	};
-	var recordViewer = CORA.recordViewer(recordViewerSpec);
+	var recordViewer = CORA.recordViewer(this.recordViewerSpec);
+	this.answerCall(0);
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
-			"http://epc.ub.uu.se/cora/rest/record/system/cora");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/system/cora");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
+	assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.contentType, undefined);
+	assert.strictEqual(ajaxCallSpec.data, undefined);
+	assert.strictEqual(ajaxCallSpec.loadMethod, recordViewer.processFetchedRecord);
 
 	var view = recordViewer.getView();
 	assert.strictEqual(view.childNodes.length, 3);
 
 	var busy = view.childNodes[1];
 	assert.strictEqual(busy.className, "busy toBeRemoved");
-	
+
 	assert.strictEqual(this.metadataIdUsed[0], "someMetadataId");
 	assert.strictEqual(this.dataDividerUsed[0], "cora");
-	
+
 });
 
 QUnit.test("errorMissingPresentation", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	var record = CORATEST.record;
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify({
-			"record" : record
-		});
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
 	var recordGuiFactorySpy = {
 		"factor" : function(metadataId, data) {
 			throw new Error("missing metadata");
 		}
 	};
-	var recordViewerSpec = {
-		"read" : {
-			"requestMethod" : "GET",
-			"rel" : "read",
-			"url" : "http://epc.ub.uu.se/cora/rest/record/system/cora",
-			"accept" : "application/uub+record+json"
-		},
-		"presentationId" : "somePresentationId",
-		"metadataId" : "someMetadataId",
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : recordGuiFactorySpy,
-//		"jsClient" : this.jsClientSpy
-	};
-	var recordViewer = CORA.recordViewer(recordViewerSpec);
+	this.recordViewerSpec.recordGuiFactory = recordGuiFactorySpy;
+	var recordViewer = CORA.recordViewer(this.recordViewerSpec);
+	this.answerCall(0);
 	var view = recordViewer.getView();
 	assert.strictEqual(view.childNodes[2].textContent.substring(0, 24), "Error: missing metadata");
 });
+
 QUnit.test("errorDataNotFound", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	var record = CORATEST.record;
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 404;
-		xmlHttpRequestSpy.responseText = JSON.stringify("Error, something went wrong");
-		xmlHttpRequestSpy.addedEventListeners["error"][0]();
-	}
-	var recordViewerSpec = {
-			"read" : {
-				"requestMethod" : "GET",
-				"rel" : "read",
-				"url" : "http://epc.ub.uu.se/cora/rest/record/system/cora",
-				"accept" : "application/uub+record+json"
-			},
-			"presentationId" : "somePresentationId",
-			"metadataId" : "someMetadataId",
-			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-			"recordGuiFactory" : this.recordGuiFactorySpy,
-//			"jsClient" : this.jsClientSpy
-	};
-	var recordViewer = CORA.recordViewer(recordViewerSpec);
+	var recordViewer = CORA.recordViewer(this.recordViewerSpec);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	ajaxCallSpy.getSpec().errorMethod({
+		"status" : 404
+	});
 	var view = recordViewer.getView();
 	assert.strictEqual(view.childNodes[0].textContent, "404");
 });
