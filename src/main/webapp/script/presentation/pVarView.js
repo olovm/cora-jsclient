@@ -31,17 +31,22 @@ var CORA = (function(cora) {
 
 		function createValueView() {
 			if (spec.mode === "input") {
-				valueView = createTextTypeInput();
-				if (spec.onblurFunction !== undefined) {
-					valueView.onblur = function(){
-						spec.onblurFunction(valueView.value);
-					}
-				}
+				valueView = createInput();
 			} else {
 				valueView = createOutput();
 			}
 		}
 
+		function createInput() {
+			valueView = createTextTypeInput();
+			if (spec.onblurFunction !== undefined) {
+				valueView.onblur = function(){
+					spec.onblurFunction(valueView.value);
+				}
+			}
+			return valueView;
+			
+		}
 		function createTextTypeInput() {
 			var inputNew = document.createElement("input");
 			inputNew.type = "text";
