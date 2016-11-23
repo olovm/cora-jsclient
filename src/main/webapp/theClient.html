@@ -55,18 +55,25 @@
 <script type="text/javascript" src="script/lib/arbiter.js"></script>
 <script type="text/javascript" src="script/lib/polyfillES6.js"></script>
 
-<script type="text/javascript" src="script/metadata/calculatePathForNewElement.js"></script>
+<script type="text/javascript"
+	src="script/metadata/calculatePathForNewElement.js"></script>
 <script type="text/javascript" src="script/metadata/coraData.js"></script>
 <script type="text/javascript" src="script/metadata/dataHolder.js"></script>
 <script type="text/javascript" src="script/metadata/jsBookkeeper.js"></script>
-<script type="text/javascript" src="script/metadata/metadataChildInitializer.js"></script>
-<script type="text/javascript" src="script/metadata/metadataChildValidator.js"></script>
-<script type="text/javascript" src="script/metadata/metadataController.js"></script>
+<script type="text/javascript"
+	src="script/metadata/metadataChildInitializer.js"></script>
+<script type="text/javascript"
+	src="script/metadata/metadataChildValidator.js"></script>
+<script type="text/javascript"
+	src="script/metadata/metadataController.js"></script>
 <script type="text/javascript" src="script/metadata/metadataHelper.js"></script>
 <script type="text/javascript" src="script/metadata/metadataProvider.js"></script>
-<script type="text/javascript" src="script/metadata/metadataRepeatInitializer.js"></script>
-<script type="text/javascript" src="script/metadata/metadataRepeatValidator.js"></script>
-<script type="text/javascript" src="script/metadata/metadataValidator.js"></script>
+<script type="text/javascript"
+	src="script/metadata/metadataRepeatInitializer.js"></script>
+<script type="text/javascript"
+	src="script/metadata/metadataRepeatValidator.js"></script>
+<script type="text/javascript"
+	src="script/metadata/metadataValidator.js"></script>
 <script type="text/javascript" src="script/metadata/textProvider.js"></script>
 
 <script type="text/javascript" src="script/net/ajaxCall.js"></script>
@@ -74,57 +81,70 @@
 <script type="text/javascript" src="script/net/uploadManagerView.js"></script>
 <script type="text/javascript" src="script/net/xmlHttpRequestFactory.js"></script>
 
-<script type="text/javascript" src="script/presentation/pChildRefHandler.js"></script>
-<script type="text/javascript" src="script/presentation/pChildRefHandlerView.js"></script>
-<script type="text/javascript" src="script/presentation/pCollectionVar.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pChildRefHandler.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pChildRefHandlerView.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pCollectionVar.js"></script>
 <script type="text/javascript" src="script/presentation/pGroup.js"></script>
-<script type="text/javascript" src="script/presentation/pMultipleChildren.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pMultipleChildren.js"></script>
 <script type="text/javascript" src="script/presentation/pRecordLink.js"></script>
-<script type="text/javascript" src="script/presentation/pRepeatingContainer.js"></script>
-<script type="text/javascript" src="script/presentation/pRepeatingElement.js"></script>
-<script type="text/javascript" src="script/presentation/pResourceLink.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pRepeatingContainer.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pRepeatingElement.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pResourceLink.js"></script>
 <script type="text/javascript" src="script/presentation/presentation.js"></script>
-<script type="text/javascript" src="script/presentation/presentationFactory.js"></script>
-<script type="text/javascript" src="script/presentation/pSurroundingContainer.js"></script>
+<script type="text/javascript"
+	src="script/presentation/presentationFactory.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pSurroundingContainer.js"></script>
 <script type="text/javascript" src="script/presentation/pVar.js"></script>
 
 <script type="text/javascript">
-	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
-// 	var baseUrl = "http://localhost:8080/therest/rest/";
- 
+	// 	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+	var baseUrl = "http://localhost:8080/therest/rest/";
+
 	window.onload = start;
 	var jsClientSpec;
 	function start() {
 		startDependencies();
 	}
-	
+
 	var metadataProviderStarted = false;
 	function metadataProviderReady() {
 		metadataProviderStarted = true;
 		possiblyStartJsClient();
 	}
-	
+
 	var textProviderStarted = false;
 	function textProviderReady() {
 		textProviderStarted = true;
 		possiblyStartJsClient();
 	}
-	
+
 	var recordTypeProviderStarted = false;
 	function recordTypeProviderReady() {
 		recordTypeProviderStarted = true;
 		possiblyStartJsClient();
 	}
-	
-	function possiblyStartJsClient(){
-		if(recordTypeProviderStarted && metadataProviderStarted && textProviderStarted){
+
+	function possiblyStartJsClient() {
+		if (recordTypeProviderStarted && metadataProviderStarted && textProviderStarted) {
 			startJsClient();
 		}
 	}
-	
+
 	function startDependencies() {
+		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
+		var ajaxCallFactoryDependencies = {
+			"xmlHttpRequestFactory" : xmlHttpRequestFactory
+		};
 		var dependencies = {
-			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+			"ajaxCallFactory" : CORA.AjaxCallFactory(ajaxCallFactoryDependencies),
 		};
 		var metadataListLink = {
 			"requestMethod" : "GET",
@@ -162,11 +182,11 @@
 		};
 
 		var textProvider = CORA.textProvider(textProviderSpec);
- 
+
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
-			"url" :  baseUrl + "record/recordType/",
+			"url" : baseUrl + "record/recordType/",
 			"accept" : "application/uub+recordList+json"
 		};
 		var recordTypeProviderSpec = {
@@ -175,7 +195,7 @@
 			"callWhenReady" : recordTypeProviderReady
 		};
 		var recordTypeProvider = CORA.recordTypeProvider(recordTypeProviderSpec);
-		
+
 		var jsClientDependencies = {
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,

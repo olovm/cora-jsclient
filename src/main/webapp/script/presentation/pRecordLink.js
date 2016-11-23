@@ -133,10 +133,10 @@ var CORA = (function(cora) {
 					.getFirstAtomicValueByNameInData("linkedRecordId");
 
 			return {
+				"dependencies":spec.dependencies,
 				"read" : readLink,
 				"presentationId" : linkedPresentationId,
 				"metadataId" : linkedMetadataId,
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory
 			};
 		}

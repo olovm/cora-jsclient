@@ -132,33 +132,28 @@ QUnit.module("jsClientTest.js", {
 				}
 			};
 		};
+		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+
+		this.dependencies = {
+			"ajaxCallFactory" : this.ajaxCallFactorySpy,
+			"metadataProvider" : CORATEST.metadataProviderRealStub(),
+			"textProvider" : CORATEST.textProviderRealStub(),
+			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
+			"presentationFactoryFactory" : "not implemented yet"
+		}
+		this.spec = {
+			"dependencies" : this.dependencies,
+			"name" : "The Client",
+			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+		};
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-	}
-
-	var dependencies = {
-		"metadataProvider" : CORATEST.metadataProviderRealStub(),
-		"textProvider" : CORATEST.textProviderRealStub(),
-		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"presentationFactoryFactory" : "not implemented yet"
-	}
-	var spec = {
-		"dependencies" : dependencies,
-		"name" : "The Client",
-		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-	var jsClient = CORA.jsClient(spec);
+	var jsClient = CORA.jsClient(this.spec);
 	var mainView = jsClient.getView();
-
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl, undefined);
 
 	assert.strictEqual(mainView.modelObject, jsClient);
 
@@ -166,7 +161,6 @@ QUnit.test("init", function(assert) {
 
 	var header = mainView.childNodes[0];
 	assert.strictEqual(header.className, "header");
-//	assert.strictEqual(header.textContent, "The Client");
 
 	var sideBar = mainView.childNodes[1];
 	assert.strictEqual(sideBar.className, "sideBar");
@@ -183,92 +177,42 @@ QUnit.test("init", function(assert) {
 });
 
 QUnit.test("addGlobalView", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-	}
-	
-	var dependencies = {
-			"metadataProvider" : CORATEST.metadataProviderRealStub(),
-			"textProvider" : CORATEST.textProviderRealStub(),
-			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-			"presentationFactoryFactory" : "not implemented yet"
-	}
-	var spec = {
-			"dependencies" : dependencies,
-			"name" : "The Client",
-			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-	var jsClient = CORA.jsClient(spec);
+	var jsClient = CORA.jsClient(this.spec);
 	var mainView = jsClient.getView();
-	
+
 	var header = mainView.childNodes[0];
 	assert.strictEqual(header.className, "header");
-//	assert.strictEqual(header.innerHTML, "The Client");
 
 	assert.strictEqual(header.childNodes.length, 2);
-	
+
 	var testView = CORA.gui.createSpanWithClassName("menuView");
 	jsClient.addGlobalView(testView);
 	assert.strictEqual(header.childNodes.length, 3);
-	
-	
+
 });
 
 QUnit.test("initRecordTypesAreSortedByType", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-	}
-	
-	var dependencies = {
-			"metadataProvider" : CORATEST.metadataProviderRealStub(),
-			"textProvider" : CORATEST.textProviderRealStub(),
-			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-			"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-			"presentationFactoryFactory" : "not implemented yet"
-	}
-	var spec = {
-			"dependencies" : dependencies,
-			"name" : "The Client",
-			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-	var jsClient = CORA.jsClient(spec);
+	var jsClient = CORA.jsClient(this.spec);
 	var mainView = jsClient.getView();
-	
+
 	var sideBar = mainView.childNodes[1];
 	assert.strictEqual(sideBar.className, "sideBar");
-	
+
 	var firstRecordType = sideBar.childNodes[0];
 	assert.strictEqual(firstRecordType.className, "recordType");
 	assert.strictEqual(firstRecordType.firstChild.textContent, "metadata");
-	
+
 	assert.strictEqual(sideBar.childNodes[1].firstChild.textContent, "metadataGroup");
 	assert.strictEqual(sideBar.childNodes[2].firstChild.textContent, "metadataCollectionItem");
-	
+
 	assert.strictEqual(sideBar.childNodes[7].firstChild.textContent, "presentation");
 	assert.strictEqual(sideBar.childNodes[8].firstChild.textContent, "presentationVar");
-	
+
 	assert.strictEqual(sideBar.childNodes[18].firstChild.textContent, "recordType");
 });
 
 QUnit.test("showView", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-	}
-
-	var dependencies = {
-		"metadataProvider" : CORATEST.metadataProviderRealStub(),
-		"textProvider" : CORATEST.textProviderRealStub(),
-		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"presentationFactoryFactory" : "not implemented yet"
-	};
-	var spec = {
-		"dependencies" : dependencies,
-		"name" : "The Client",
-		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-	var jsClient = CORA.jsClient(spec);
+	var jsClient = CORA.jsClient(this.spec);
 	var mainView = jsClient.getView();
 
 	var workAreaChildren = mainView.childNodes[2].childNodes;
@@ -308,25 +252,8 @@ QUnit.test("showView", function(assert) {
 
 QUnit.test("testFactories", function(assert) {
 	var recordTypeListData = CORATEST.recordTypeList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-	}
 
-	this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-	var dependencies = {
-		"metadataProvider" : CORATEST.metadataProviderRealStub(),
-		"textProvider" : CORATEST.textProviderRealStub(),
-		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"ajaxCallFactory" : this.ajaxCallFactorySpy,
-		"presentationFactoryFactory" : "not implemented yet"
-	}
-	var spec = {
-		"dependencies" : dependencies,
-		"name" : "The Client",
-		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-	var jsClient = CORA.jsClient(spec);
+	var jsClient = CORA.jsClient(this.spec);
 
 	var viewSpec = {
 		"headerText" : "some text",
@@ -338,8 +265,8 @@ QUnit.test("testFactories", function(assert) {
 	var workView = document.createElement("span");
 	var menuView = document.createElement("span");
 	var listHandlerSpec = {
+		"dependencies" : this.dependencies,
 		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"views" : {
 			"workView" : workView,
 			"menuView" : menuView
@@ -351,7 +278,7 @@ QUnit.test("testFactories", function(assert) {
 	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
 	var recordHandlerSpec = {
-			"dependencies" : dependencies,
+		"dependencies" : this.dependencies,
 		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
 		"recordTypeRecord" : this.record,
 		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
@@ -361,7 +288,6 @@ QUnit.test("testFactories", function(assert) {
 			"workView" : workView
 		},
 		"record" : this.record,
-//		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 	};
 	var recordHandler = jsClient.createRecordHandlerFactory().factor(recordHandlerSpec);
 
@@ -372,26 +298,8 @@ QUnit.test("testFactories", function(assert) {
 
 QUnit.test("getMetadataIdForRecordType", function(assert) {
 	var recordTypeListData = CORATEST.recordTypeList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
 
-	var dependencies = {
-		"metadataProvider" : CORATEST.metadataProviderRealStub(),
-		"textProvider" : CORATEST.textProviderRealStub(),
-		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"presentationFactoryFactory" : "not implemented yet"
-	}
-	var spec = {
-		"dependencies" : dependencies,
-		"name" : "The Client",
-		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-	var jsClient = CORA.jsClient(spec);
+	var jsClient = CORA.jsClient(this.spec);
 	var metadataId = jsClient.getMetadataIdForRecordTypeId("textSystemOne");
 	assert.strictEqual(metadataId, "textSystemOneGroup");
 });

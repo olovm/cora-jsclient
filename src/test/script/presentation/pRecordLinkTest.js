@@ -20,13 +20,17 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.attachedPRecordLinkFactory = function(metadataProvider, pubSub, textProvider,
-			presentationFactory, jsBookkeeper, fixture, xmlHttpRequestFactory, recordGuiFactory) {
+			presentationFactory, jsBookkeeper, fixture, ajaxCallFactory, recordGuiFactory) {
 		var factor = function(path, pRecordLinkPresentationId) {
 
 			var cPRecordLinkPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(pRecordLinkPresentationId));
 
+			var dependencies = {
+				"ajaxCallFactory" : ajaxCallFactory
+			};
 			var spec = {
+				"dependencies" : dependencies,
 				"path" : path,
 				"cPresentation" : cPRecordLinkPresentation,
 				"metadataProvider" : metadataProvider,
@@ -34,7 +38,6 @@ var CORATEST = (function(coraTest) {
 				"textProvider" : textProvider,
 				"presentationFactory" : presentationFactory,
 				"jsBookkeeper" : jsBookkeeper,
-				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
 				"recordGuiFactory" : recordGuiFactory
 			};
 			var pRecordLink = CORA.pRecordLink(spec);
@@ -80,17 +83,6 @@ QUnit.module("pRecordLinkTest.js", {
 		this.presentationIdUsed = [];
 		var presentationIdUsed = this.presentationIdUsed;
 
-		this.xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-		var xmlHttpRequestSpy = this.xmlHttpRequestSpy;
-		var record = CORATEST.record;
-		function sendFunction() {
-			xmlHttpRequestSpy.status = 200;
-			xmlHttpRequestSpy.responseText = JSON.stringify({
-				"record" : record
-			});
-			xmlHttpRequestSpy.addedEventListeners["load"][0]();
-		}
-
 		this.pubSub = CORATEST.pubSubSpy();
 		this.recordGui = {
 			"getPresentation" : function(presentationId) {
@@ -119,10 +111,10 @@ QUnit.module("pRecordLinkTest.js", {
 				return recordGui;
 			}
 		};
+		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		this.pRecordLinkFactory = CORATEST.attachedPRecordLinkFactory(this.metadataProvider,
 				this.pubSub, this.textProvider, this.presentationFactory, this.jsBookkeeper,
-				this.fixture, CORATEST.xmlHttpRequestFactorySpy(this.xmlHttpRequestSpy),
-				this.recordGuiFactorySpy);
+				this.fixture, this.ajaxCallFactorySpy, this.recordGuiFactorySpy);
 
 		this.getIdForGeneratedPresentationByNo = function(no) {
 			return CORA.coraData(
@@ -130,6 +122,18 @@ QUnit.module("pRecordLinkTest.js", {
 							.getFirstChildByNameInData("recordInfo"))
 					.getFirstAtomicValueByNameInData("id");
 		}
+		this.answerCall = function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecord = JSON.stringify({
+				"record" : CORATEST.record
+			});
+			var answer = {
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecord
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
+
 	},
 	afterEach : function() {
 	}
@@ -158,7 +162,8 @@ QUnit.test("testInitRecordLink", function(assert) {
 	var presentationOfLink = recordIdTextVarSpyDummyView.cPresentation
 			.getFirstChildByNameInData("presentationOf");
 	var cPresentationOfLink = CORA.coraData(presentationOfLink);
-	assert.strictEqual(cPresentationOfLink.getFirstAtomicValueByNameInData("linkedRecordId"), "linkedRecordIdTextVar");
+	assert.strictEqual(cPresentationOfLink.getFirstAtomicValueByNameInData("linkedRecordId"),
+			"linkedRecordIdTextVar");
 	var expectedPath = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -206,7 +211,8 @@ QUnit.test("testInitRecordLinkWithFinalValue", function(assert) {
 			.getFirstChildByNameInData("presentationOf");
 	var cPresentationOfLink = CORA.coraData(presentationOfLink);
 
-	assert.strictEqual(cPresentationOfLink.getFirstAtomicValueByNameInData("linkedRecordId"), "linkedRecordIdTextVar");
+	assert.strictEqual(cPresentationOfLink.getFirstAtomicValueByNameInData("linkedRecordId"),
+			"linkedRecordIdTextVar");
 	var expectedPath = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -244,9 +250,9 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 			.getFirstChildByNameInData("presentationOf");
 	var cPresentationOfLink = CORA.coraData(presentationOfLink);
 
-	assert.strictEqual(cPresentationOfLink
-			.getFirstAtomicValueByNameInData("linkedRecordId"), "linkedRepeatIdTextVar");
-	
+	assert.strictEqual(cPresentationOfLink.getFirstAtomicValueByNameInData("linkedRecordId"),
+			"linkedRepeatIdTextVar");
+
 	var expectedPath = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -283,8 +289,8 @@ QUnit.test("testInitRecordLinkOutput", function(assert) {
 			.getFirstChildByNameInData("presentationOf");
 	var cPresentationOfLink = CORA.coraData(presentationOfLink);
 
-	assert.strictEqual(cPresentationOfLink
-			.getFirstAtomicValueByNameInData("linkedRecordId"), "linkedRecordIdTextVar");
+	assert.strictEqual(cPresentationOfLink.getFirstAtomicValueByNameInData("linkedRecordId"),
+			"linkedRecordIdTextVar");
 	var expectedPath = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -323,8 +329,8 @@ QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
 			.getFirstChildByNameInData("presentationOf");
 	var cPresentationOfLink = CORA.coraData(presentationOfLink);
 
-	assert.strictEqual(cPresentationOfLink
-			.getFirstAtomicValueByNameInData("linkedRecordId"), "linkedRepeatIdTextVar");
+	assert.strictEqual(cPresentationOfLink.getFirstAtomicValueByNameInData("linkedRecordId"),
+			"linkedRepeatIdTextVar");
 	var expectedPath = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -340,6 +346,7 @@ QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
 QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", function(assert) {
 	var attachedPRecordLink = this.pRecordLinkFactory.factor({},
 			"myLinkPresentationOfLinkedRecordOutputPLink");
+
 	assert.strictEqual(attachedPRecordLink.pRecordLink.type, "pRecordLink");
 	assert.deepEqual(attachedPRecordLink.view.className,
 			"pRecordLink myLinkPresentationOfLinkedRecordOutputPLink");
@@ -382,10 +389,11 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", functio
 	};
 	var pRecordLink = attachedPRecordLink.pRecordLink;
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
+	this.answerCall(0);
 
 	assert.strictEqual(view.childNodes.length, 1);
 	assert.strictEqual(this.metadataIdUsed[0], "metadataTextVariableGroup");
-	
+
 	var linkedRecordPresentations = view.childNodes[0];
 	assert.strictEqual(linkedRecordPresentations.nodeName, "SPAN");
 	assert.strictEqual(linkedRecordPresentations.className, "recordViewer");

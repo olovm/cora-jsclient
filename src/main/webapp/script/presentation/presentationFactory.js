@@ -19,24 +19,24 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.presentationFactory = function(spec) {
+	cora.presentationFactory = function(dependencies) {
 		var self;
 
 		function factor(path, metadataIdUsedInData, cPresentation, cParentPresentation) {
 			var specNew = {
+				"dependencies" : dependencies,
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,
 				"cPresentation" : cPresentation,
 				"cParentPresentation" : cParentPresentation,
-				"metadataProvider" : spec.metadataProvider,
-				"pubSub" : spec.pubSub,
-				"textProvider" : spec.textProvider,
-				"jsBookkeeper" : spec.jsBookkeeper,
+				"metadataProvider" : dependencies.metadataProvider,
+				"pubSub" : dependencies.pubSub,
+				"textProvider" : dependencies.textProvider,
+				"jsBookkeeper" : dependencies.jsBookkeeper,
 				"presentationFactory" : self,
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"recordGuiFactory" : spec.recordGuiFactory,
-				"recordTypeProvider" : spec.recordTypeProvider,
-				"uploadManager" : spec.uploadManager
+				"recordGuiFactory" : dependencies.recordGuiFactory,
+				"recordTypeProvider" : dependencies.recordTypeProvider,
+				"uploadManager" : dependencies.uploadManager
 			};
 
 			var type = cPresentation.getData().attributes.type;
@@ -60,7 +60,7 @@ var CORA = (function(cora) {
 		}
 
 		function getDataDivider() {
-			return spec.dataDivider;
+			return dependencies.dataDivider;
 		}
 
 		var out = Object.freeze({

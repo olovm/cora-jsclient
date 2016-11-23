@@ -327,24 +327,23 @@ QUnit.test("headerOnClick", function(assert) {
 });
 
 QUnit.test("fetchList", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		// xmlHttpRequestSpy.status = 0;
-		// xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
-	}
 	var viewShowingInWorkView;
 	var jsClientSpy = {
 		"showView" : function(item) {
 			viewShowingInWorkView = item.workView;
 		}
 	};
+	this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+	var dependencies = {
+		"ajaxCallFactory" : this.ajaxCallFactorySpy
+	};
 
 	var spec = {
+		"dependencies" : dependencies,
 		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
 		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
 		"recordHandlerFactory" : this.createRecordHandlerFactory(),
 		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"jsClient" : jsClientSpy
 	};
 
@@ -371,9 +370,6 @@ QUnit.test("fetchList", function(assert) {
 });
 
 QUnit.test("showRecord", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-	}
 	var viewShowingInWorkView;
 	var jsClientSpy = {
 		"showView" : function(item) {
@@ -385,7 +381,6 @@ QUnit.test("showRecord", function(assert) {
 	var catchRecordTypeHandlerViewSpec;
 	var catchRecordListHandlerSpec;
 	var catchRecordHandlerSpec;
-	var xmlHttpRequestFactory = CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy);
 	var item = {
 		"workView" : workView,
 		"menuView" : menuView
@@ -413,7 +408,6 @@ QUnit.test("showRecord", function(assert) {
 			}
 		},
 		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : xmlHttpRequestFactory,
 		"jsClient" : jsClientSpy
 	};
 
@@ -424,18 +418,12 @@ QUnit.test("showRecord", function(assert) {
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeRecord, this.record);
 	assert.strictEqual(catchRecordHandlerSpec.presentationMode, "view");
 	assert.strictEqual(catchRecordHandlerSpec.record, this.record);
-	assert.strictEqual(catchRecordHandlerSpec.xmlHttpRequestFactory, xmlHttpRequestFactory);
 	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
 	assert.strictEqual(catchRecordHandlerSpec.views, item);
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
 });
 
 QUnit.test("showNew", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		// xmlHttpRequestSpy.status = 0;
-		// xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
-	}
 	var viewShowingInWorkView;
 	var jsClientSpy = {
 		"showView" : function(item) {
@@ -447,7 +435,6 @@ QUnit.test("showNew", function(assert) {
 	var catchRecordTypeHandlerViewSpec;
 	var catchRecordListHandlerSpec;
 	var catchRecordHandlerSpec;
-	var xmlHttpRequestFactory = CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy);
 	var item = {
 		"workView" : workView,
 		"menuView" : menuView
@@ -475,7 +462,6 @@ QUnit.test("showNew", function(assert) {
 			}
 		},
 		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : xmlHttpRequestFactory,
 		"jsClient" : jsClientSpy
 	};
 
@@ -486,31 +472,29 @@ QUnit.test("showNew", function(assert) {
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeRecord, this.record);
 	assert.strictEqual(catchRecordHandlerSpec.presentationMode, "new");
 	assert.strictEqual(catchRecordHandlerSpec.record, undefined);
-	assert.strictEqual(catchRecordHandlerSpec.xmlHttpRequestFactory, xmlHttpRequestFactory);
 	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
 	assert.strictEqual(catchRecordHandlerSpec.views, item);
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
 });
 
 QUnit.test("fetchListCheckAjaxParameters", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		// xmlHttpRequestSpy.status = 0;
-		// xmlHttpRequestSpy.addedEventListeners["timeout"][0]();
-	}
 	var viewShowingInWorkView;
 	var jsClientSpy = {
 		"showView" : function(view) {
 			viewShowingInWorkView = view;
 		}
 	};
-
+	this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+	var dependencies = {
+		"ajaxCallFactory" : this.ajaxCallFactorySpy
+	};
+	
 	var spec = {
+		"dependencies" : dependencies,
 		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
 		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
 		"recordHandlerFactory" : this.createRecordHandlerFactory(),
 		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 		"jsClient" : jsClientSpy,
 		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 	};
@@ -521,12 +505,13 @@ QUnit.test("fetchListCheckAjaxParameters", function(assert) {
 	var header = view.firstChild;
 	header.onclick();
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?") - 1),
-			"http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+recordList+json");
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
+	assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
+	assert.strictEqual(ajaxCallSpec.contentType, undefined);
+	assert.strictEqual(ajaxCallSpec.data, undefined);
 });
 
 QUnit.test("testFactory", function(assert) {
