@@ -125,6 +125,18 @@ QUnit.test("testSpecReturnedInCallToLoadMethod", function(assert) {
 	assert.stringifyEqual(specReturned, this.spec);
 });
 
+QUnit.test("testSpecReturnedInCallToLoadMethodNoSpecifiedProgressMethods", function(assert) {
+	var specReturned;
+	function loadMethod(answer) {
+		specReturned = answer.spec;
+	}
+	this.spec.loadMethod = loadMethod;
+	this.spec.downloadProgressMethod = undefined;
+	this.spec.uploadProgressMethod = undefined;
+	var ajaxCall = CORA.ajaxCall(this.spec);
+	assert.stringifyEqual(specReturned, this.spec);
+});
+
 QUnit.test("testCallErrorNot200answer406", function(assert) {
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(406);
 	var ajaxCall = CORA.ajaxCall(this.spec);

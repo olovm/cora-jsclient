@@ -77,6 +77,7 @@
 <script type="text/javascript" src="script/metadata/textProvider.js"></script>
 
 <script type="text/javascript" src="script/net/ajaxCall.js"></script>
+<script type="text/javascript" src="script/net/ajaxCallFactory.js"></script>
 <script type="text/javascript" src="script/net/uploadManager.js"></script>
 <script type="text/javascript" src="script/net/uploadManagerView.js"></script>
 <script type="text/javascript" src="script/net/xmlHttpRequestFactory.js"></script>
@@ -144,7 +145,7 @@
 			"xmlHttpRequestFactory" : xmlHttpRequestFactory
 		};
 		var dependencies = {
-			"ajaxCallFactory" : CORA.AjaxCallFactory(ajaxCallFactoryDependencies),
+			"ajaxCallFactory" : CORA.ajaxCallFactory(ajaxCallFactoryDependencies),
 		};
 		var metadataListLink = {
 			"requestMethod" : "GET",

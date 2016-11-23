@@ -22,6 +22,7 @@
 QUnit.module("ajaxCallFactoryTest.js", {
 	beforeEach : function() {
 		var xmlHttpRequestFactoryMultipleSpy = CORATEST.xmlHttpRequestFactoryMultipleSpy();
+		xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
 
 		function minimalDummyFunction() {
 		}
@@ -29,10 +30,8 @@ QUnit.module("ajaxCallFactoryTest.js", {
 		this.spec = {
 			"method" : "GET",
 			"url" : "http://localhost:8080/therest/rest/record/recordType",
-			"requestHeaders" : {
-				"content-type" : "application/uub+record+json",
-				"accept" : "application/uub+record+json",
-			},
+			"contentType" : "application/uub+record+json",
+			"accept" : "application/uub+record+json",
 			"loadMethod" : minimalDummyFunction,
 			"errorMethod" : minimalDummyFunction,
 			"timeoutMethod" : minimalDummyFunction,
@@ -59,14 +58,16 @@ QUnit.test("getDependencies", function(assert) {
 });
 
 QUnit.test("factor", function(assert) {
+
 	var ajaxCall = this.ajaxCallFactory.factor(this.spec);
 	assert.strictEqual(ajaxCall.type, "ajaxCall");
 
 	var ajaxCallSpec = ajaxCall.spec;
-	assert.strictEqual(ajaxCallSpec, this.spec);
+	assert.strictEqual(ajaxCallSpec.requestHeaders["Content-Type"], "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.requestHeaders["Accept"], "application/uub+record+json");
+	assert.ok(ajaxCallSpec.requestHeaders.authToken === undefined);
 	var xmlHttpRequestFactory = this.dependencies.xmlHttpRequestFactory;
 	assert.strictEqual(ajaxCallSpec.xmlHttpRequestFactory, xmlHttpRequestFactory);
-	assert.ok(ajaxCallSpec.requestHeaders.authToken === undefined);
 });
 
 QUnit.test("setToken", function(assert) {

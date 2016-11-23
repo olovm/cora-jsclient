@@ -20,9 +20,18 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.ajaxCallFactory = function(dependencies) {
+//		var authToken = "fitnesseAdminToken";
 		var authToken = "";
 
-		function factor(ajaxCallSpec) {
+		function factor(ajaxCallSpecIn) {
+			var ajaxCallSpec = JSON.parse(JSON.stringify(ajaxCallSpecIn));
+			ajaxCallSpec.requestHeaders = {};
+			if(ajaxCallSpec.contentType){
+				ajaxCallSpec.requestHeaders["Content-Type"]=ajaxCallSpec.contentType;
+			}
+			if(ajaxCallSpec.accept){
+				ajaxCallSpec.requestHeaders["Accept"]=ajaxCallSpec.accept;
+			}
 			addXmlHttpRequestFactoryToSpec(ajaxCallSpec);
 			possiblyAddAuthTokenToSpec(ajaxCallSpec);
 			return createNewAjaxCallUsingSpec(ajaxCallSpec);
