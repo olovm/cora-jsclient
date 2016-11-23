@@ -31,6 +31,18 @@ QUnit.test("testConstants", function(assert) {
 	assert.strictEqual(CORA.info.ALL, 2);
 });
 
+QUnit.test("initTestType", function(assert) {
+	var spec = {};
+	var info = CORA.info(spec);
+	assert.strictEqual(info.type, "info");
+});
+
+QUnit.test("initTestGetSpec", function(assert) {
+	var spec = {};
+	var info = CORA.info(spec);
+	assert.strictEqual(info.getSpec(), spec);
+});
+
 QUnit.test("initTestInitialState", function(assert) {
 	var spec = {};
 	var info = CORA.info(spec);
