@@ -155,7 +155,6 @@ var CORA = (function(cora) {
 				"recordTypeHandlerViewFactory" : createRecordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : createRecordListHandlerFactory(),
 				"recordHandlerFactory" : createRecordHandlerFactory(),
-				"xmlHttpRequestFactory" : spec.dependencies.xmlHttpRequestFactory,
 				"recordGuiFactory" : recordGuiFactory,
 				"recordTypeRecord" : record,
 				"jsClient" : mainView.modelObject,

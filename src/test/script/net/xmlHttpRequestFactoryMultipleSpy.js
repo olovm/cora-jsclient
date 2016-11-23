@@ -41,7 +41,7 @@ var CORATEST = (function(coraTest) {
 				xmlHttpRequestSpy.responseText = responseText;
 			}
 			if (sendResponse) {
-				if (responseStatus === 200) {
+				if (responseStatus === 200 || responseStatus === 201) {
 					xmlHttpRequestSpy.setSendFunction(function() {
 						xmlHttpRequestSpy.addedEventListeners["load"][0]();
 					});
@@ -72,11 +72,11 @@ var CORATEST = (function(coraTest) {
 		function getFactoredXmlHttpRequest(number) {
 			return factoredXmlHttpRequests[number];
 		}
-		
+
 		function setSendResponse(send) {
 			sendResponse = send;
 		}
-		
+
 		var out = Object.freeze({
 			setResponseStatus : setResponseStatus,
 			setResponseText : setResponseText,

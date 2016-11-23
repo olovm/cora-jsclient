@@ -404,8 +404,7 @@ var CORA = (function(cora) {
 			var createLink = getLinkedRecordTypeCreateLink();
 			var localFile = file;
 			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : createLink.requestMethod,
+				"requestMethod" : createLink.requestMethod,
 				"url" : createLink.url,
 				"contentType" : createLink.contentType,
 				"accept" : createLink.accept,
@@ -414,7 +413,7 @@ var CORA = (function(cora) {
 				"data" : JSON.stringify(data),
 				"file" : localFile
 			};
-			CORA.ajaxCall(callSpec);
+			spec.dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function createNewBinaryData() {

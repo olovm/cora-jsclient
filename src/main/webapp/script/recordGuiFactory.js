@@ -21,7 +21,6 @@ var CORA = (function(cora) {
 	cora.recordGuiFactory = function(dependencies) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
-		var xmlHttpRequestFactory = dependencies.xmlHttpRequestFactory;
 		var recordTypeProvider = dependencies.recordTypeProvider;
 		var uploadManager = dependencies.uploadManager;
 
@@ -47,11 +46,11 @@ var CORA = (function(cora) {
 			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
 
 			var specPresentationFactory = {
+				"dependencies" : dependencies,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper,
-				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
 				"recordGuiFactory" : self,
 				"recordTypeProvider" : recordTypeProvider,
 				"dataDivider" : dataDivider,

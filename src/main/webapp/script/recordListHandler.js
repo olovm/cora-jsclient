@@ -61,15 +61,14 @@ var CORA = (function(cora) {
 		function fetchDataFromServer(callAfterAnswer) {
 			var readLink = spec.recordTypeRecord.actionLinks.list;
 			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : readLink.requestMethod,
+				"requestMethod" : readLink.requestMethod,
 				"url" : readLink.url,
 				"contentType" : readLink.contentType,
 				"accept" : readLink.accept,
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
-			CORA.ajaxCall(callSpec);
+			spec.dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function processFetchedRecords(answer) {
@@ -142,7 +141,8 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			open : open
+			open : open,
+			processFetchedRecords:processFetchedRecords
 		});
 		return out;
 	};

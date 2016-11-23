@@ -31,11 +31,8 @@ var CORA = (function(cora) {
 
 		function callThroughAjax(linkSpec, callAfterAnswer) {
 			var ajaxCallSpec = createIndependentCopy(linkSpec);
-			// fix for requestMethod being called method
-			ajaxCallSpec.method = ajaxCallSpec.requestMethod;
-			ajaxCallSpec.xmlHttpRequestFactory = spec.dependencies.xmlHttpRequestFactory;
 			ajaxCallSpec.loadMethod = callAfterAnswer;
-			CORA.ajaxCall(ajaxCallSpec);
+			spec.dependencies.ajaxCallFactory.factor(ajaxCallSpec);
 		}
 
 		function createIndependentCopy(someObject) {
@@ -91,7 +88,8 @@ var CORA = (function(cora) {
 		}
 
 		return Object.freeze({
-			getTranslation : getTranslation
+			getTranslation : getTranslation,
+			processFetchedTextdata : processFetchedTextdata
 		});
 	};
 	return cora;

@@ -169,8 +169,7 @@ var CORA = (function(cora) {
 				var callAfterAnswer = resetViewsAndProcessFetchedRecord;
 				var createLink = spec.recordTypeRecord.actionLinks.create;
 				var callSpec = {
-					"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-					"method" : createLink.requestMethod,
+					"requestMethod" : createLink.requestMethod,
 					"url" : createLink.url,
 					"contentType" : createLink.contentType,
 					"accept" : createLink.accept,
@@ -178,7 +177,7 @@ var CORA = (function(cora) {
 					"errorMethod" : callError,
 					"data" : JSON.stringify(recordGuiNew.dataHolder.getData())
 				};
-				CORA.ajaxCall(callSpec);
+				spec.dependencies.ajaxCallFactory.factor(callSpec);
 			}
 		}
 
@@ -200,15 +199,14 @@ var CORA = (function(cora) {
 			busy.show();
 			var readLink = spec.record.actionLinks.read;
 			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : readLink.requestMethod,
+				"requestMethod" : readLink.requestMethod,
 				"url" : readLink.url,
 				"contentType" : readLink.contentType,
 				"accept" : readLink.accept,
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
-			CORA.ajaxCall(callSpec);
+			spec.dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function processFetchedRecord(answer) {
@@ -324,21 +322,21 @@ var CORA = (function(cora) {
 
 		}
 
+		function afterDelete() {
+			recordHandlerView.clearViews();
+			removeViewsFromParentNodes();
+		}
+
 		function sendDeleteDataToServer() {
 			busy.show();
-			var callAfterAnswer = function() {
-				recordHandlerView.clearViews();
-				removeViewsFromParentNodes();
-			};
 			var deleteLink = fetchedRecord.actionLinks["delete"];
 			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : deleteLink.requestMethod,
+				"requestMethod" : deleteLink.requestMethod,
 				"url" : deleteLink.url,
-				"loadMethod" : callAfterAnswer,
+				"loadMethod" : afterDelete,
 				"errorMethod" : callError
 			};
-			CORA.ajaxCall(callSpec);
+			spec.dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function removeViewsFromParentNodes() {
@@ -357,8 +355,7 @@ var CORA = (function(cora) {
 
 				var updateLink = fetchedRecord.actionLinks.update;
 				var callSpec = {
-					"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-					"method" : updateLink.requestMethod,
+					"requestMethod" : updateLink.requestMethod,
 					"url" : updateLink.url,
 					"contentType" : updateLink.contentType,
 					"accept" : updateLink.accept,
@@ -366,7 +363,7 @@ var CORA = (function(cora) {
 					"errorMethod" : callError,
 					"data" : JSON.stringify(recordGui.dataHolder.getData())
 				};
-				CORA.ajaxCall(callSpec);
+				spec.dependencies.ajaxCallFactory.factor(callSpec);
 			}
 		}
 
@@ -400,6 +397,9 @@ var CORA = (function(cora) {
 		}
 
 		return Object.freeze({
+			processFetchedRecord : processFetchedRecord,
+			resetViewsAndProcessFetchedRecord : resetViewsAndProcessFetchedRecord,
+			afterDelete : afterDelete,
 			handleMsg : handleMsg,
 			getDataIsChanged : getDataIsChanged,
 			copyData : copyData,

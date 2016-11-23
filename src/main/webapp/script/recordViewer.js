@@ -33,15 +33,14 @@ var CORA = (function(cora) {
 			busy.show();
 			var readLink = spec.read;
 			var callSpec = {
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
-				"method" : readLink.requestMethod,
+				"requestMethod" : readLink.requestMethod,
 				"url" : readLink.url,
 				"contentType" : readLink.contentType,
 				"accept" : readLink.accept,
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
-			CORA.ajaxCall(callSpec);
+			spec.dependencies.ajaxCallFactory.factor(callSpec);
 		}
 		function callError(answer) {
 			busy.hideWithEffect();
@@ -95,7 +94,8 @@ var CORA = (function(cora) {
 		}
 
 		return Object.freeze({
-			getView : getView
+			getView : getView,
+			processFetchedRecord:processFetchedRecord
 		});
 	};
 	return cora;

@@ -56,7 +56,6 @@ var CORA = (function(cora) {
 			var listHandlerSpec = {
 				"dependencies" : spec.dependencies,
 				"createRecordHandlerMethod" : createRecordHandler,
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"recordTypeRecord" : spec.recordTypeRecord,
 				"views" : views,
@@ -88,7 +87,6 @@ var CORA = (function(cora) {
 				"recordTypeRecord" : spec.recordTypeRecord,
 				"presentationMode" : presentationMode,
 				"record" : record,
-				"xmlHttpRequestFactory" : spec.xmlHttpRequestFactory,
 				"recordGuiFactory" : spec.recordGuiFactory,
 				"views" : views,
 				"jsClient" : spec.jsClient,
