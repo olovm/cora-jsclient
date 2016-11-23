@@ -72,14 +72,12 @@ var CORA = (function(cora) {
 			};
 		}
 
-		function handleErrorEvent(error) {
-			console.log("error:::::", error)
+		function handleErrorEvent() {
 			window.clearInterval(intervalId);
 			createReturnObjectAndCallErrorMethodFromSpec();
 		}
 
 		function createReturnObjectAndCallErrorMethodFromSpec() {
-			console.log("createReturnObjectAndCallErrorMethodFromSpec",createReturnObject())
 			spec.errorMethod(createReturnObject());
 		}
 
@@ -100,10 +98,10 @@ var CORA = (function(cora) {
 		}
 
 		function open() {
-			if (spec.method === "GET") {
-				xhr.open(spec.method, spec.url + "?" + (new Date()).getTime());
+			if (spec.requestMethod === "GET") {
+				xhr.open(spec.requestMethod, spec.url + "?" + (new Date()).getTime());
 			} else {
-				xhr.open(spec.method, spec.url);
+				xhr.open(spec.requestMethod, spec.url);
 			}
 			timeProgress = performance.now();
 			intervalStart = performance.now();
@@ -127,20 +125,9 @@ var CORA = (function(cora) {
 		function setHeadersSpecifiedInSpec() {
 			if (spec.requestHeaders) {
 				var keys = Object.keys(spec.requestHeaders);
-// console.log("keys",keys)
-
 				for(let key of keys){
- console.log("key",key,"spec.requestHeaders[key]",spec.requestHeaders[key])
 					xhr.setRequestHeader(key, spec.requestHeaders[key]);
 				}
-// } else {
-// // TODO: remove this when all use the factory (requestHeaders)
-// if (spec.accept !== undefined) {
-// xhr.setRequestHeader("accept", spec.accept);
-// }
-// if (spec.contentType !== undefined) {
-// xhr.setRequestHeader("content-type", spec.contentType);
-// }
 			}
 		}
 

@@ -24,7 +24,7 @@ var CORA = (function(cora) {
 
 		function factor(path, metadataIdUsedInData, cPresentation, cParentPresentation) {
 			var specNew = {
-				"dependencies" : dependencies,
+				"dependencies" : dependencies.dependencies,
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,
 				"cPresentation" : cPresentation,

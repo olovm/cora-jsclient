@@ -52,7 +52,7 @@ QUnit.module("ajaxCallTest.js", {
 
 		this.spec = {
 			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
-			"method" : "GET",
+			"requestMethod" : "GET",
 			"url" : "http://localhost:8080/therest/rest/record/recordType",
 			"requestHeaders" : {
 				"content-type" : "application/uub+record+json",
@@ -311,7 +311,7 @@ QUnit.test("testSendCreate", function(assert) {
 	};
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(201);
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("a dummy response");
-	this.spec.method = "POST";
+	this.spec.requestMethod = "POST";
 	this.spec.data = JSON.stringify(textData);
 	var ajaxCall = CORA.ajaxCall(this.spec);
 
@@ -331,7 +331,7 @@ QUnit.test("testSendCreate", function(assert) {
 });
 
 QUnit.test("testSendDelete", function(assert) {
-	this.spec.method = "DELETE";
+	this.spec.requestMethod = "DELETE";
 	this.spec.requestHeaders = null;
 
 	var ajaxCall = CORA.ajaxCall(this.spec);

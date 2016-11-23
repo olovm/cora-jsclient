@@ -76,3 +76,17 @@ QUnit.test("setToken", function(assert) {
 	var ajaxCallSpec = ajaxCall.spec;
 	assert.strictEqual(ajaxCallSpec.requestHeaders.authToken, "someToken");
 });
+QUnit.test("noAccept", function(assert) {
+	this.spec.accept = undefined;
+	var ajaxCall = this.ajaxCallFactory.factor(this.spec);
+	var ajaxCallSpec = ajaxCall.spec;
+	assert.strictEqual(ajaxCallSpec.requestHeaders["Content-Type"], "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.requestHeaders["Accept"], undefined);
+});
+QUnit.test("noContentType", function(assert) {
+	this.spec.contentType = undefined;
+	var ajaxCall = this.ajaxCallFactory.factor(this.spec);
+	var ajaxCallSpec = ajaxCall.spec;
+	assert.strictEqual(ajaxCallSpec.requestHeaders["Content-Type"], undefined);
+	assert.strictEqual(ajaxCallSpec.requestHeaders["Accept"], "application/uub+record+json");
+});

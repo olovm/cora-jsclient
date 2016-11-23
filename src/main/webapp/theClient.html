@@ -198,6 +198,7 @@
 		var recordTypeProvider = CORA.recordTypeProvider(recordTypeProviderSpec);
 
 		var jsClientDependencies = {
+			"ajaxCallFactory" : CORA.ajaxCallFactory(ajaxCallFactoryDependencies),
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
 			"recordTypeProvider" : recordTypeProvider,

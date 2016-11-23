@@ -24,7 +24,7 @@ var CORA = (function(cora) {
 		var authToken = "";
 
 		function factor(ajaxCallSpecIn) {
-			var ajaxCallSpec = JSON.parse(JSON.stringify(ajaxCallSpecIn));
+		var	ajaxCallSpec = ajaxCallSpecIn;
 			ajaxCallSpec.requestHeaders = {};
 			if(ajaxCallSpec.contentType){
 				ajaxCallSpec.requestHeaders["Content-Type"]=ajaxCallSpec.contentType;
