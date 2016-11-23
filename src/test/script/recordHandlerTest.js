@@ -86,13 +86,6 @@ QUnit.module("recordHandlerTest.js", {
 				return recordGui;
 			}
 		};
-		var xmlHttpRequestFactoryMultipleSpy = CORATEST.xmlHttpRequestFactoryMultipleSpy();
-		xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
-		var responseText = JSON.stringify({
-			"record" : this.record
-		});
-		xmlHttpRequestFactoryMultipleSpy.setResponseText(responseText);
-		this.xmlHttpRequestFactoryMultipleSpy = xmlHttpRequestFactoryMultipleSpy;
 
 		var recordTypeHandlerSpy = function(spec) {
 			var createdRecordHandlers = [];
@@ -115,7 +108,12 @@ QUnit.module("recordHandlerTest.js", {
 		this.recordTypeHandlerSpy1 = recordTypeHandlerSpy1;
 
 		this.recordHandlerViewFactorySpy = CORATEST.recordHandlerViewFactorySpy();
+		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+		var dependencies = {
+			"ajaxCallFactory" : this.ajaxCallFactorySpy
+		};
 		this.recordHandlerSpec = {
+			"dependencies" : dependencies,
 			"recordTypeHandler" : this.recordTypeHandlerSpy1,
 			"recordHandlerViewFactory" : this.recordHandlerViewFactorySpy,
 			"recordTypeRecord" : this.record,
@@ -127,10 +125,43 @@ QUnit.module("recordHandlerTest.js", {
 				"originalClassName" : "someClass"
 			},
 			"record" : this.record,
-			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
 			"recordGuiFactory" : this.recordGuiFactorySpy,
 			"jsClient" : this.jsClientSpy
 		};
+		this.answerCall = function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecord = JSON.stringify({
+				"record" : this.record
+			});
+			var answer = {
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecord
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
+		this.answerCallWithoutUpdateOrDeleteLink = function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecord = JSON.stringify({
+				"record" : this.recordWithoutUpdateOrDeleteLink
+			});
+			var answer = {
+					"spec" : ajaxCallSpy0.getSpec(),
+					"responseText" : jsonRecord
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
+		this.answerCallWithoutDeleteLink = function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecord = JSON.stringify({
+				"record" : this.recordWithoutDeleteLink
+			});
+			var answer = {
+					"spec" : ajaxCallSpy0.getSpec(),
+					"responseText" : jsonRecord
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
+
 	},
 	afterEach : function() {
 	}
@@ -145,6 +176,7 @@ QUnit.test("init", function(assert) {
 
 QUnit.test("initRecordHandlerView", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var usedSpec = recordHandlerViewSpy.getSpec();
@@ -163,17 +195,16 @@ QUnit.test("initRecordHandlerView", function(assert) {
 
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(0);
 	assert.strictEqual(updateButtonSpec.text, "DELETE");
-	// assert.strictEqual(updateButtonSpec.onclickMethod, recordHandler.sendDeleteDataToServer);
 	assert.strictEqual(updateButtonSpec.className, "delete");
 
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(1);
 	assert.strictEqual(updateButtonSpec.text, "UPDATE");
-	// assert.strictEqual(updateButtonSpec.onclickMethod, recordHandler.sendUpdateDataToServer);
 	assert.strictEqual(updateButtonSpec.className, "update");
 });
 
 QUnit.test("testShowData", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 
 	var showDataFunction = recordHandlerViewSpy.getShowDataFunction();
@@ -186,6 +217,7 @@ QUnit.test("testShowData", function(assert) {
 
 QUnit.test("testCopyAsNew", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 
 	var copyAsNewFunction = recordHandlerViewSpy.getCopyAsNewFunction();
@@ -200,18 +232,19 @@ QUnit.test("testCopyAsNew", function(assert) {
 
 QUnit.test("initCallToServer", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url,
 			"http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
+	assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.processFetchedRecord);
 });
 
 QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
@@ -253,6 +286,7 @@ QUnit.test("initCheckActiveStatusOfMenuViewWhenNotActive", function(assert) {
 
 QUnit.test("initCheckRemoveButtonInMenuView", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
 
 	var menuView = this.menuView;
 	var workView = this.workView;
@@ -269,6 +303,7 @@ QUnit.test("initCheckRemoveButtonInMenuView", function(assert) {
 QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 	this.recordHandlerSpec.recordTypeRecord = this.recordAbstract;
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var usedSpec = recordHandlerViewSpy.getSpec();
@@ -293,6 +328,7 @@ QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 
 QUnit.test("testInitSubscriptions", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
 
 	// subscription
 	var subscriptions = this.pubSub.getSubscriptions();
@@ -330,13 +366,14 @@ QUnit.test("testHandleMessage", function(assert) {
 QUnit.test("testUpdateCall", function(assert) {
 	this.recordHandlerSpec.presentationMode = "edit";
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
+
 
 	var validateWasCalled = false;
 	this.recordGui.validateData = function() {
 		validateWasCalled = true;
 		return true;
 	};
-	assert.strictEqual(this.recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 	assert.strictEqual(this.dataDividerUsed[0], "cora");
@@ -352,20 +389,21 @@ QUnit.test("testUpdateCall", function(assert) {
 	updateButtonSpec.onclickMethod();
 
 	assert.strictEqual(validateWasCalled, true);
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-			"application/uub+record+json");
-	assert.strictEqual(xmlHttpRequestSpy.getSentData(), "{}");
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url,
+			"http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
+	assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.contentType, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.data, "{}");
+	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.resetViewsAndProcessFetchedRecord);
 });
 
 QUnit.test("testUpdateThroughPubSubCall", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
 
 	var validateWasCalled = false;
 	this.recordGui.validateData = function() {
@@ -378,23 +416,24 @@ QUnit.test("testUpdateThroughPubSubCall", function(assert) {
 		"path" : {}
 	};
 	recordHandler.handleMsg(data, "updateRecord");
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
 
 	assert.strictEqual(validateWasCalled, true);
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-			"application/uub+record+json");
-	assert.strictEqual(xmlHttpRequestSpy.getSentData(), "{}");
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url,
+			"http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
+	assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.contentType, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.data, "{}");
+	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.resetViewsAndProcessFetchedRecord);
 });
 
 QUnit.test("testUpdateDataIsChanged", function(assert) {
 	this.recordHandlerSpec.presentationMode = "edit";
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
 
 	var validateWasCalled = false;
 	this.recordGui.validateData = function() {
@@ -417,6 +456,7 @@ QUnit.test("testUpdateDataIsChanged", function(assert) {
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(1);
 	updateButtonSpec.onclickMethod();
+	this.answerCall(1);
 
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
 });
@@ -424,17 +464,13 @@ QUnit.test("testUpdateDataIsChanged", function(assert) {
 QUnit.test("testUpdateCallValidationError", function(assert) {
 	this.recordHandlerSpec.presentationMode = "edit";
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	this.answerCall(0);
 
 	var validateWasCalled = false;
 	this.recordGui.validateData = function() {
 		validateWasCalled = true;
 		return false;
 	};
-	assert.strictEqual(this.recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
-
-	assert.strictEqual(xmlHttpRequestSpy.getSendWasCalled(), true);
-	xmlHttpRequestSpy.setSendWasCalled(false);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 
@@ -450,19 +486,16 @@ QUnit.test("testUpdateCallValidationError", function(assert) {
 
 	assert.strictEqual(validateWasCalled, true);
 
-	assert.strictEqual(xmlHttpRequestSpy.getSendWasCalled(), false);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
+	assert.strictEqual(ajaxCallSpy, undefined);
 });
 
 QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
 	this.recordHandlerSpec.presentationMode = "edit";
 	this.recordHandlerSpec.record = this.recordWithoutUpdateOrDeleteLink;
 
-	this.xmlHttpRequestFactoryMultipleSpy.setResponseText(JSON.stringify({
-		"record" : this.recordWithoutUpdateOrDeleteLink
-	}));
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
-
-	assert.strictEqual(this.recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
+	this.answerCallWithoutUpdateOrDeleteLink(0);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 
@@ -487,8 +520,7 @@ QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
 QUnit.test("testDeleteCall", function(assert) {
 	this.recordHandlerSpec.presentationMode = "edit";
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
-
-	assert.strictEqual(this.recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
+	this.answerCall(0);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 
@@ -502,34 +534,40 @@ QUnit.test("testDeleteCall", function(assert) {
 	var deleteButtonSpec = recordHandlerViewSpy.getAddedButton(0);
 	deleteButtonSpec.onclickMethod();
 
-	var xmlHttpRequestSpy2 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
-
 	var question = this.workView.lastChild;
 	assert.strictEqual(question.className, "question");
-	assert.strictEqual(xmlHttpRequestSpy2, undefined, "no delete call should have been made yet");
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
+	assert.strictEqual(ajaxCallSpy, undefined, "no delete call should have been made yet");
+	
 	var buttonNo = question.firstChild.childNodes[1];
 	assert.strictEqual(buttonNo.value, "Nej");
 	buttonNo.onclick();
 	var question = this.workView.lastChild;
 	assert.notVisible(question);
-	assert.strictEqual(xmlHttpRequestSpy2, undefined, "no delete call should have been made yet");
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
+	assert.strictEqual(ajaxCallSpy, undefined, "no delete call should have been made yet");
 
 	deleteButtonSpec.onclickMethod();
 	var question = this.workView.lastChild;
 	assert.strictEqual(question.className, "question");
-	assert.strictEqual(xmlHttpRequestSpy2, undefined, "no delete call should have been made yet");
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
+	assert.strictEqual(ajaxCallSpy, undefined, "no delete call should have been made yet");
 	var buttonYes = question.firstChild.childNodes[2];
 	assert.strictEqual(buttonYes.value, "Ja");
 	buttonYes.onclick();
 
-	xmlHttpRequestSpy2 = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(1);
-	var openUrl = xmlHttpRequestSpy2.getOpenUrl();
-	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
-	assert.strictEqual(xmlHttpRequestSpy2.getOpenMethod(), "DELETE");
-	assert.strictEqual(xmlHttpRequestSpy2.addedRequestHeaders["accept"], undefined);
-	assert.strictEqual(xmlHttpRequestSpy2.addedRequestHeaders["content-type"], undefined);
-	assert.strictEqual(xmlHttpRequestSpy2.getSentData(), undefined);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url,
+			"http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "DELETE");
+	assert.strictEqual(ajaxCallSpec.accept, undefined);
+	assert.strictEqual(ajaxCallSpec.contentType, undefined);
+	assert.strictEqual(ajaxCallSpec.data, undefined);
+	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.afterDelete);
+	this.answerCall(1);
 
+	
 	assert.ok(recordHandlerViewSpy.getClearViewsWasCalled());
 
 	var menuView = this.menuView;
@@ -547,6 +585,7 @@ QUnit.test("testDeleteCallNoParentsForViews", function(assert) {
 		"workView" : workView
 	};
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var deleteButtonSpec = recordHandlerViewSpy.getAddedButton(0);
@@ -555,6 +594,7 @@ QUnit.test("testDeleteCallNoParentsForViews", function(assert) {
 	var question = workView.lastChild;
 	var buttonYes = question.firstChild.childNodes[2];
 	buttonYes.onclick();
+	this.answerCall(1);
 
 	assert.ok(recordHandlerViewSpy.getClearViewsWasCalled());
 
@@ -566,15 +606,10 @@ QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
 	this.recordHandlerSpec.presentationMode = "edit";
 	this.recordHandlerSpec.record = this.recordWithoutDeleteLink;
 
-	this.xmlHttpRequestFactoryMultipleSpy.setResponseText(JSON.stringify({
-		"record" : this.recordWithoutDeleteLink
-	}));
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
-
-	assert.strictEqual(this.recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
+	this.answerCallWithoutDeleteLink(0);
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
-	// assert.strictEqual(this.workView.childNodes[3].className, "workItem recordType");
 
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
@@ -594,7 +629,8 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 	this.recordHandlerSpec.presentationMode = "new";
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
 
-	assert.strictEqual(this.recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), false);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	assert.strictEqual(ajaxCallSpy, undefined, "no call to server on new record");
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeNewGroup");
 	assert.strictEqual(this.presentationIdUsed[0], "recordTypeFormNewPGroup");
@@ -625,19 +661,18 @@ QUnit.test("testCreateNewCall", function(assert) {
 	assert.strictEqual(createButtonSpec.className, "create");
 	createButtonSpec.onclickMethod();
 
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
 	assert.strictEqual(validateWasCalled, true);
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/recordType/");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-			"application/uub+record+json");
-	assert.strictEqual(xmlHttpRequestSpy.getSentData(), "{}");
-
-	assert.strictEqual(this.recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), true);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url,
+			"http://epc.ub.uu.se/cora/rest/record/recordType/");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
+	assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.contentType, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.data, "{}");
+	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.resetViewsAndProcessFetchedRecord);
+	this.answerCall(0);
 
 	assert.ok(recordHandlerViewSpy.getClearViewsWasCalled());
 
@@ -662,17 +697,19 @@ QUnit.test("testCreateNewCallValidationError", function(assert) {
 	createButtonSpec.onclickMethod();
 
 	assert.strictEqual(validateWasCalled, true);
-	assert.strictEqual(this.recordHandlerSpec.xmlHttpRequestFactory.wasFactorCalled(), false);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	assert.strictEqual(ajaxCallSpy, undefined, "no create call should have been made yet");
 });
 
 QUnit.test("fetchListCheckError", function(assert) {
 	this.recordHandlerSpec.presentationMode = "view";
-	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(404);
-	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("Error, something went wrong");
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
-
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	ajaxCallSpy.getSpec().errorMethod({
+		"status" : 404
+	});
+	
 	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
-	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 });
 
 QUnit.test("checkRightGuiCreatedPresentationMetadataIsMissing", function(assert) {
@@ -685,6 +722,8 @@ QUnit.test("checkRightGuiCreatedPresentationMetadataIsMissing", function(assert)
 	this.recordHandlerSpec.recordGuiFactory = recordGuiFactorySpy;
 
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+	this.answerCall(0);
+
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 
 	assert.strictEqual(recordHandlerViewSpy.getAddedEditView(0).textContent.substring(0, 20),

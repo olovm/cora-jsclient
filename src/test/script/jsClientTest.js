@@ -312,11 +312,13 @@ QUnit.test("testFactories", function(assert) {
 	function sendFunction() {
 	}
 
+	this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 	var dependencies = {
 		"metadataProvider" : CORATEST.metadataProviderRealStub(),
 		"textProvider" : CORATEST.textProviderRealStub(),
 		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
 		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+		"ajaxCallFactory" : this.ajaxCallFactorySpy,
 		"presentationFactoryFactory" : "not implemented yet"
 	}
 	var spec = {
@@ -349,6 +351,7 @@ QUnit.test("testFactories", function(assert) {
 	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
 	var recordHandlerSpec = {
+			"dependencies" : dependencies,
 		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
 		"recordTypeRecord" : this.record,
 		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
@@ -358,7 +361,7 @@ QUnit.test("testFactories", function(assert) {
 			"workView" : workView
 		},
 		"record" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
+//		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
 	};
 	var recordHandler = jsClient.createRecordHandlerFactory().factor(recordHandlerSpec);
 
