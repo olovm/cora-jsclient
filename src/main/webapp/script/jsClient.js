@@ -33,6 +33,8 @@ var CORA = (function(cora) {
 		function start() {
 			mainView.appendChild(busy.getView());
 			var uploadManagerSpec = spec.dependencies;
+
+			uploadManagerSpec.dependencies = spec.dependencies;
 			uploadManagerSpec.jsClient = out;
 
 			var recordGuiFactorySpec = spec.dependencies;
