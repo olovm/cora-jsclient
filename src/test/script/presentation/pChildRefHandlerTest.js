@@ -26,85 +26,14 @@ var CORATEST = (function(coraTest) {
 			var cParentMetadata = CORA.coraData(metadataProvider.getMetadataById(parentMetadataId));
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
 
-			var record = {
-				"data" : {
-					"children" : [
-							{
-								"children" : [
-										{
-											"children" : [ {
-												"name" : "linkedRecordType",
-												"value" : "system"
-											}, {
-												"name" : "linkedRecordId",
-												"value" : "alvin"
-											} ],
-											"actionLinks" : {
-												"read" : {
-													"requestMethod" : "GET",
-													"rel" : "read",
-													"url" : "http://localhost:8080/therest/rest/record/system/alvin",
-													"accept" : "application/uub+record+json"
-												}
-											},
-											"name" : "dataDivider"
-										}, {
-											"name" : "id",
-											"value" : "image:333759270435575"
-										}, {
-											"name" : "type",
-											"value" : "image"
-										}, {
-											"name" : "createdBy",
-											"value" : "userId"
-										} ],
-								"name" : "recordInfo"
-							}, {
-								"name" : "fileName",
-								"value" : "someFileName"
-							}, {
-								"name" : "fileSize",
-								"value" : "1234567890"
-							} ],
-					"name" : "binary"
-				},
-				"actionLinks" : {
-					"read" : {
-						"requestMethod" : "GET",
-						"rel" : "read",
-						"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575",
-						"accept" : "application/uub+record+json"
-					},
-					"update" : {
-						"requestMethod" : "POST",
-						"rel" : "update",
-						"contentType" : "application/uub+record+json",
-						"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575",
-						"accept" : "application/uub+record+json"
-					},
-					"delete" : {
-						"requestMethod" : "DELETE",
-						"rel" : "delete",
-						"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575"
-					},
-					"upload" : {
-						"requestMethod" : "POST",
-						"rel" : "upload",
-						"contentType" : "multipart/form-data",
-						"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575/upload",
-						"accept" : "application/uub+record+json"
-					}
-				}
-			};
-
-			var xmlHttpRequestFactoryMultipleSpy = CORATEST.xmlHttpRequestFactoryMultipleSpy();
-			xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
-			xmlHttpRequestFactoryMultipleSpy.setResponseText(JSON.stringify({
-				"record" : record
-			}));
-
 			var uploadManager = CORATEST.uploadManagerSpy();
+
+			var ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+			var dependencies = {
+				"ajaxCallFactory" : ajaxCallFactorySpy
+			};
 			var spec = {
+				"dependencies" : dependencies,
 				"parentPath" : path,
 				"cParentMetadata" : cParentMetadata,
 				"cPresentation" : cPresentation,
@@ -114,7 +43,6 @@ var CORATEST = (function(coraTest) {
 				"presentationFactory" : presentationFactory,
 				"jsBookkeeper" : jsBookkeeper,
 				"recordTypeProvider" : recordTypeProvider,
-				"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
 				"uploadManager" : uploadManager
 			};
 
@@ -128,7 +56,7 @@ var CORATEST = (function(coraTest) {
 				pubSub : pubSub,
 				jsBookkeeper : jsBookkeeper,
 				view : view,
-				xmlHttpRequestFactoryMultipleSpy : xmlHttpRequestFactoryMultipleSpy,
+				ajaxCallFactorySpy : ajaxCallFactorySpy,
 				uploadManager : uploadManager
 			};
 
@@ -155,6 +83,178 @@ QUnit.module("pChildRefHandlerTest.js", {
 		this.attachedPChildRefHandlerFactory = CORATEST.attachedPChildRefHandlerFactory(
 				this.metadataProvider, this.pubSub, this.textProvider, this.presentationFactory,
 				this.jsBookkeeper, this.recordTypeProvider, this.fixture);
+
+		this.assertAjaxCallSpecIsCorrect = function(assert, ajaxCallSpy, recordType) {
+			var ajaxCallSpec = ajaxCallSpy.getSpec();
+			assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/"
+					+ recordType + "/");
+			assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
+			assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
+			assert.strictEqual(ajaxCallSpec.contentType, "application/uub+record+json");
+		}
+		this.record = {
+			"data" : {
+				"children" : [ {
+					"children" : [ {
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "system"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "alvin"
+						} ],
+						"actionLinks" : {
+							"read" : {
+								"requestMethod" : "GET",
+								"rel" : "read",
+								"url" : "http://localhost:8080/therest/rest/record/system/alvin",
+								"accept" : "application/uub+record+json"
+							}
+						},
+						"name" : "dataDivider"
+					}, {
+						"name" : "id",
+						"value" : "image:333759270435575"
+					}, {
+						"name" : "type",
+						"value" : "image"
+					}, {
+						"name" : "createdBy",
+						"value" : "userId"
+					} ],
+					"name" : "recordInfo"
+				}, {
+					"name" : "fileName",
+					"value" : "someFileName"
+				}, {
+					"name" : "fileSize",
+					"value" : "1234567890"
+				} ],
+				"name" : "binary"
+			},
+			"actionLinks" : {
+				"read" : {
+					"requestMethod" : "GET",
+					"rel" : "read",
+					"url" : "http://localhost:8080/therest/rest/record/image/"
+							+ "image:333759270435575",
+					"accept" : "application/uub+record+json"
+				},
+				"update" : {
+					"requestMethod" : "POST",
+					"rel" : "update",
+					"contentType" : "application/uub+record+json",
+					"url" : "http://localhost:8080/therest/rest/record/image/"
+							+ "image:333759270435575",
+					"accept" : "application/uub+record+json"
+				},
+				"delete" : {
+					"requestMethod" : "DELETE",
+					"rel" : "delete",
+					"url" : "http://localhost:8080/therest/rest/record/image/"
+							+ "image:333759270435575"
+				},
+				"upload" : {
+					"requestMethod" : "POST",
+					"rel" : "upload",
+					"contentType" : "multipart/form-data",
+					"url" : "http://localhost:8080/therest/rest/record/image/"
+							+ "image:333759270435575/upload",
+					"accept" : "application/uub+record+json"
+				}
+			}
+
+		};
+
+		this.answerCall = function(attachedPChildRefHandler, no) {
+			var ajaxCallSpy0 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecord = JSON.stringify({
+				"record" : this.record
+			});
+			var answer = {
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecord
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
+
+		this.data = {
+			"name" : "binary",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "dataDivider",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "system"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "systemX"
+					} ]
+				} ]
+			} ],
+			"attributes" : {
+				"type" : "image"
+			}
+		};
+		this.data2 = {
+			"name" : "binary",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "dataDivider",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "system"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "systemX"
+					} ]
+				} ]
+			} ],
+			"attributes" : {
+				"type" : "image"
+			}
+		};
+		this.data3 = {
+			"name" : "binary",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "dataDivider",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "system"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "systemX"
+					} ]
+				} ]
+			} ],
+			"attributes" : {
+				"type" : "image"
+			}
+		};
+		
+		this.files1 = [];
+		var file1 = {
+			"name" : "someFile.tif",
+			"size" : 1234567890
+		};
+		this.files1.push(file1);
+		
+		this.files1to3 = [];
+		this.files1to3.push(file1);
+		var file2 = {
+			"name" : "someFile2.tif",
+			"size" : 9876543210
+		};
+		this.files1to3.push(file2);
+		var file3 = {
+			"name" : "someFile3.tif",
+			"size" : 1122334455
+		};
+		this.files1to3.push(file3);
 	},
 	afterEach : function() {
 	}
@@ -482,47 +582,14 @@ QUnit.test("testHandleFilesSendingOneFile", function(assert) {
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
-	var files = [];
-	var file1 = {
-		"name" : "someFile.tif",
-		"size" : 1234567890
-	};
-	files.push(file1);
+	childRefHandler.handleFiles(this.files1);
 
-	childRefHandler.handleFiles(files);
+	var ajaxCallSpy0 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(0);
+	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy0, "image");
 
-	// var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(0);
+	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, childRefHandler.processNewBinary);
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/image/");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-			"application/uub+record+json");
-
-	var data = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "image"
-		}
-	};
-	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
+	assert.strictEqual(ajaxCallSpy0.getSpec().data, JSON.stringify(this.data));
 });
 
 QUnit.test("testHandleFilesSendingOneBinaryFile", function(assert) {
@@ -531,105 +598,38 @@ QUnit.test("testHandleFilesSendingOneBinaryFile", function(assert) {
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
-	var files = [];
-	var file1 = {
-		"name" : "someFile.tif",
-		"size" : 1234567890
-	};
-	files.push(file1);
+	childRefHandler.handleFiles(this.files1);
 
-	childRefHandler.handleFiles(files);
+	var ajaxCallSpy0 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(0);
+	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy0, "genericBinary");
 
-	// var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequest;
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(0);
+	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, childRefHandler.processNewBinary);
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/genericBinary/");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-			"application/uub+record+json");
-
-	var data = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "genericBinary"
-		}
-	};
-	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
+	var data = JSON.parse(JSON.stringify(this.data));
+	data.attributes.type = "genericBinary";
+	assert.strictEqual(ajaxCallSpy0.getSpec().data, JSON.stringify(data));
 });
 
-QUnit
-		.test(
-				"testHandleFilesSendingOneFileError",
-				function(assert) {
-					var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
-							"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
-					var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
-					var view = attachedPChildRefHandler.view;
+QUnit.test("testHandleFilesSendingOneFileError", function(assert) {
+	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
+			"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
+	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
+	var view = attachedPChildRefHandler.view;
 
-					var files = [];
-					var file1 = {
-						"name" : "someFile.tif",
-						"size" : 1234567890
-					};
-					files.push(file1);
+	childRefHandler.handleFiles(this.files1);
 
-					var xmlHttpRequestFactoryMultipleSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy;
-					xmlHttpRequestFactoryMultipleSpy.setResponseStatus(404);
-					xmlHttpRequestFactoryMultipleSpy.setResponseText(JSON
-							.stringify("Error, something went wrong"));
+	var ajaxCallSpy0 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(0);
+	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy0, "image");
 
-					childRefHandler.handleFiles(files);
+	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, childRefHandler.processNewBinary);
 
-					var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-							.getFactoredXmlHttpRequest(0);
+	ajaxCallSpy0.getSpec().errorMethod({
+		"status" : 404
+	});
 
-					var openUrl = xmlHttpRequestSpy.getOpenUrl();
-					assert.strictEqual(openUrl, "http://epc.ub.uu.se/cora/rest/record/image/");
-					assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
-					assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-							"application/uub+record+json");
-					assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-							"application/uub+record+json");
-
-					var data = {
-						"name" : "binary",
-						"children" : [ {
-							"name" : "recordInfo",
-							"children" : [ {
-								"name" : "dataDivider",
-								"children" : [ {
-									"name" : "linkedRecordType",
-									"value" : "system"
-								}, {
-									"name" : "linkedRecordId",
-									"value" : "systemX"
-								} ]
-							} ]
-						} ],
-						"attributes" : {
-							"type" : "image"
-						}
-					};
-					assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(data));
-					assert.strictEqual(view.firstChild.lastChild.innerHTML, "404");
-				});
+	assert.strictEqual(ajaxCallSpy0.getSpec().data, JSON.stringify(this.data));
+	assert.strictEqual(view.firstChild.lastChild.innerHTML, "404");
+});
 
 QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
@@ -637,17 +637,9 @@ QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
-	var files = [];
-	var file1 = {
-		"name" : "someFile.tif",
-		"size" : 1234567890
-	};
-	files.push(file1);
+	childRefHandler.handleFiles(this.files1);
 
-	childRefHandler.handleFiles(files);
-
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(0);
+	this.answerCall(attachedPChildRefHandler, 0);
 
 	var addData = {
 		"childReference" : {
@@ -692,27 +684,24 @@ QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 	assert.deepEqual(this.jsBookkeeper.getDataArray()[0], setValueData);
 
 });
+
 QUnit.test("testHandleFilesSavingMainRecordAfterReceiveAnswerForOneFile", function(assert) {
 	var attachedPChildRefHandler = this.attachedPChildRefHandlerFactory.factor({},
 			"groupIdOneChildOfBinaryRecordLinkChild", "myChildOfBinaryPLink");
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
-	var files = [];
-	var file1 = {
-		"name" : "someFile.tif",
-		"size" : 1234567890
-	};
-	files.push(file1);
+	childRefHandler.handleFiles(this.files1);
 
-	childRefHandler.handleFiles(files);
+	this.answerCall(attachedPChildRefHandler, 0);
 
 	var messages = attachedPChildRefHandler.pubSub.getMessages();
 	assert.deepEqual(messages.length, 1);
 	assert.deepEqual(messages[0].type, "updateRecord");
 
 	// send more files
-	childRefHandler.handleFiles(files);
+	childRefHandler.handleFiles(this.files1);
+	this.answerCall(attachedPChildRefHandler, 1);
 	assert.deepEqual(messages.length, 2);
 	assert.deepEqual(messages[0].type, "updateRecord");
 	assert.deepEqual(messages[1].type, "updateRecord");
@@ -725,97 +714,20 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
-	var files = [];
-	var file1 = {
-		"name" : "someFile.tif",
-		"size" : 1234567890
-	};
-	files.push(file1);
-	var file2 = {
-		"name" : "someFile2.tif",
-		"size" : 9876543210
-	};
-	files.push(file2);
-	var file3 = {
-		"name" : "someFile3.tif",
-		"size" : 1122334455
-	};
-	files.push(file3);
+	childRefHandler.handleFiles(this.files1to3);
 
-	childRefHandler.handleFiles(files);
+	var ajaxCallSpy0 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(0);
+	assert.strictEqual(ajaxCallSpy0.getSpec().data, JSON.stringify(this.data));
 
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(0);
-	var sentDataArray = xmlHttpRequestSpy.getSentDataArray();
+	var ajaxCallSpy1 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(1);
+	assert.strictEqual(ajaxCallSpy1.getSpec().data, JSON.stringify(this.data2));
 
-	var data = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "image"
-		}
-	};
-	assert.strictEqual(sentDataArray[0], JSON.stringify(data));
+	var ajaxCallSpy2 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(2);
+	assert.strictEqual(ajaxCallSpy2.getSpec().data, JSON.stringify(this.data3));
 
-	var data2 = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "image"
-		}
-	};
-	var xmlHttpRequestSpy2 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(1);
-	var sentDataArray2 = xmlHttpRequestSpy2.getSentDataArray();
-	assert.strictEqual(sentDataArray2[0], JSON.stringify(data2));
-
-	var data3 = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "image"
-		}
-	};
-	var xmlHttpRequestSpy3 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(2);
-	var sentDataArray3 = xmlHttpRequestSpy3.getSentDataArray();
-	assert.strictEqual(sentDataArray3[0], JSON.stringify(data3));
+	this.answerCall(attachedPChildRefHandler, 0);
+	this.answerCall(attachedPChildRefHandler, 1);
+	this.answerCall(attachedPChildRefHandler, 2);
 
 	var messages = attachedPChildRefHandler.pubSub.getMessages();
 	assert.deepEqual(messages.length, 1);
@@ -857,6 +769,22 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 	};
 	assert.deepEqual(uploadSpec2, expectedUploadSpec2);
 
+	var uploadSpec3 = uploadSpecs[2];
+	var expectedUploadSpec3 = {
+		"file" : {
+			"name" : "someFile3.tif",
+			"size" : 1122334455
+		},
+		"uploadLink" : {
+			"accept" : "application/uub+record+json",
+			"contentType" : "multipart/form-data",
+			"rel" : "upload",
+			"requestMethod" : "POST",
+			"url" : "http://localhost:8080/therest/rest/record/image/image:333759270435575/upload"
+		}
+	};
+	assert.deepEqual(uploadSpec3, expectedUploadSpec3);
+
 });
 
 QUnit.test("testHandleFilesSendingMoreFilesThanAllowed", function(assert) {
@@ -865,97 +793,19 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowed", function(assert) {
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
-	var files = [];
-	var file1 = {
-		"name" : "someFile.tif",
-		"size" : 1234567890
-	};
-	files.push(file1);
-	var file2 = {
-		"name" : "someFile2.tif",
-		"size" : 9876543210
-	};
-	files.push(file2);
-	var file3 = {
-		"name" : "someFile3.tif",
-		"size" : 1122334455
-	};
-	files.push(file3);
+	childRefHandler.handleFiles(this.files1to3);
 
-	childRefHandler.handleFiles(files);
+	var ajaxCallSpy0 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(0);
+	assert.strictEqual(ajaxCallSpy0.getSpec().data, JSON.stringify(this.data));
 
-	var data = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "image"
-		}
-	};
+	var ajaxCallSpy1 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(1);
+	assert.strictEqual(ajaxCallSpy1.getSpec().data, JSON.stringify(this.data2));
 
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(0);
-	var sentDataArray = xmlHttpRequestSpy.getSentDataArray();
-	assert.strictEqual(sentDataArray[0], JSON.stringify(data));
+	var ajaxCallSpy2 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(2);
+	assert.strictEqual(ajaxCallSpy2, undefined);
 
-	var data2 = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "image"
-		}
-	};
-	var xmlHttpRequestSpy2 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(1);
-	var sentDataArray2 = xmlHttpRequestSpy2.getSentDataArray();
-	assert.strictEqual(sentDataArray2[0], JSON.stringify(data2));
-
-	var data3 = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "image"
-		}
-	};
-
-	var xmlHttpRequestSpy3 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(2);
-	assert.strictEqual(xmlHttpRequestSpy3, undefined);
+	this.answerCall(attachedPChildRefHandler, 0);
+	this.answerCall(attachedPChildRefHandler, 1);
 
 	var messages = attachedPChildRefHandler.pubSub.getMessages();
 	assert.deepEqual(messages.length, 1);
@@ -969,42 +819,14 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowedDifferentRequest", functio
 	var childRefHandler = attachedPChildRefHandler.pChildRefHandler;
 	var view = attachedPChildRefHandler.view;
 
-	var files = [];
-	var file1 = {
-		"name" : "someFile.tif",
-		"size" : 1234567890
-	};
-	files.push(file1);
-	childRefHandler.handleFiles(files);
+	childRefHandler.handleFiles(this.files1);
 
-	var data = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "image"
-		}
-	};
+	var ajaxCallSpy0 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(0);
+	assert.strictEqual(ajaxCallSpy0.getSpec().data, JSON.stringify(this.data));
 
 	childRefHandler.handleMsg({
 		"metadataId" : "myChildOfBinaryLink"
 	}, "x/y/z/add");
-
-	var xmlHttpRequestSpy = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(0);
-	var sentDataArray = xmlHttpRequestSpy.getSentDataArray();
-	assert.strictEqual(sentDataArray[0], JSON.stringify(data));
 
 	var files2 = [];
 	var file2 = {
@@ -1019,53 +841,11 @@ QUnit.test("testHandleFilesSendingMoreFilesThanAllowedDifferentRequest", functio
 	files2.push(file3);
 	childRefHandler.handleFiles(files2);
 
-	var data2 = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "image"
-		}
-	};
-	var xmlHttpRequestSpy2 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(1);
-	var sentDataArray2 = xmlHttpRequestSpy2.getSentDataArray();
-	assert.strictEqual(sentDataArray2[0], JSON.stringify(data2));
+	var ajaxCallSpy1 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(1);
+	assert.strictEqual(ajaxCallSpy1.getSpec().data, JSON.stringify(this.data2));
 
-	var data3 = {
-		"name" : "binary",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "dataDivider",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "system"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "systemX"
-				} ]
-			} ]
-		} ],
-		"attributes" : {
-			"type" : "image"
-		}
-	};
-
-	var xmlHttpRequestSpy3 = attachedPChildRefHandler.xmlHttpRequestFactoryMultipleSpy
-			.getFactoredXmlHttpRequest(2);
-	assert.strictEqual(xmlHttpRequestSpy3, undefined);
+	var ajaxCallSpy2 = attachedPChildRefHandler.ajaxCallFactorySpy.getFactored(2);
+	assert.strictEqual(ajaxCallSpy2, undefined);
 
 });
 
@@ -1320,8 +1100,6 @@ QUnit.test("testRepeatingElement", function(assert) {
 		"name" : "linkedPath"
 	};
 	assert.deepEqual(firstSubsription.path, path);
-	// var pVar = attachedPVar.pVar;
-	// assert.ok(firstSubsription.functionToCall === repeatingElement.remove);
 
 });
 QUnit.test("testRepeatingElementRemoveButton", function(assert) {

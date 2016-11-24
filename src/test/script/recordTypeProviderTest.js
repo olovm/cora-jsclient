@@ -21,13 +21,9 @@
 
 QUnit.module("recordTypeProviderTest.js", {
 	beforeEach : function() {
-		var xmlHttpRequestFactoryMultipleSpy = CORATEST.xmlHttpRequestFactoryMultipleSpy();
-		xmlHttpRequestFactoryMultipleSpy.setResponseStatus(200);
-		var responseText = JSON.stringify(CORATEST.recordTypeList);
-		xmlHttpRequestFactoryMultipleSpy.setResponseText(responseText);
-		
+		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		var dependencies = {
-			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy
+			"ajaxCallFactory" : this.ajaxCallFactorySpy
 		};
 		this.dependencies = dependencies;
 
@@ -43,13 +39,20 @@ QUnit.module("recordTypeProviderTest.js", {
 			"dependencies" : dependencies,
 			"recordTypeListLink" : recordTypeListLink
 		};
-		
+
 		this.spec = spec;
 		this.recordTypeListLink = recordTypeListLink;
 		this.recordTypeListLinkJson = JSON.stringify(this.recordTypeListLink);
 
-		this.xmlHttpRequestFactoryMultipleSpy = xmlHttpRequestFactoryMultipleSpy;
-		
+		this.answerListCall = function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecordList = JSON.stringify(CORATEST.recordTypeList);
+			var answer = {
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecordList
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
 	},
 	afterEach : function() {
 	}
@@ -57,18 +60,15 @@ QUnit.module("recordTypeProviderTest.js", {
 
 QUnit.test("initCorrectRequestMade", function(assert) {
 	var provider = CORA.recordTypeProvider(this.spec);
-	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	var openUrls = xmlHttpRequestSpy.getOpenUrls();
-	var openUrl0 = openUrls[0];
-	assert.strictEqual(openUrl0.substring(0, openUrl0.indexOf("?")),
-			"http://epc.ub.uu.se/cora/rest/record/recordType/");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+recordList+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"], undefined);
-
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/recordType/");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
+	assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
+	assert.strictEqual(ajaxCallSpec.contentType, undefined);
+	assert.strictEqual(ajaxCallSpec.data, undefined);
+	assert.strictEqual(ajaxCallSpec.loadMethod, provider.processFetchedData);
 });
 
 QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
@@ -76,19 +76,14 @@ QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
 	function providerReady() {
 		providerStarted = true;
 	}
-	
-	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
-	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
-	
-	var spec = this.spec;
-	spec.callWhenReady = providerReady;
-	var provider = CORA.recordTypeProvider(spec);
 
-	var xmlHttpRequestSpy = xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
-	
+	this.spec.callWhenReady = providerReady;
+	var provider = CORA.recordTypeProvider(this.spec);
+
+
 	assert.notOk(providerStarted);
-
-	xmlHttpRequestSpy.runLoadFunction();
+	
+	this.answerListCall(0);
 	
 	assert.ok(providerStarted);
 });
@@ -98,19 +93,13 @@ QUnit.test("initCallWhenReadyNotCalledWhenReadyIfUnspecified", function(assert) 
 	function providerReady() {
 		providerStarted = true;
 	}
-	
-	var xmlHttpRequestFactoryMultipleSpy = this.xmlHttpRequestFactoryMultipleSpy;
-	xmlHttpRequestFactoryMultipleSpy.setSendResponse(false);
-	
-	var spec = this.spec;
-	var provider = CORA.recordTypeProvider(spec);
-	
-	var xmlHttpRequestSpy = xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
-	
+
+	var provider = CORA.recordTypeProvider(this.spec);
+
 	assert.notOk(providerStarted);
-	
-	xmlHttpRequestSpy.runLoadFunction();
-	
+
+	this.answerListCall(0);
+
 	assert.notOk(providerStarted);
 });
 
@@ -123,6 +112,8 @@ QUnit.test("testInitEnteredLinkIsNotChanged", function(assert) {
 
 QUnit.test("getRecordTypeById", function(assert) {
 	var provider = CORA.recordTypeProvider(this.spec);
+	this.answerListCall(0);
+	
 	var expected = {
 		"data" : {
 			"children" : [ {
@@ -248,6 +239,8 @@ QUnit.test("getRecordTypeById", function(assert) {
 
 QUnit.test("getRecordTypeByIdNotFound", function(assert) {
 	var provider = CORA.recordTypeProvider(this.spec);
+	this.answerListCall(0);
+	
 	var error = false;
 	try {
 		var x = provider.getRecordTypeById("someNonExistingRecordTypeId");
@@ -259,6 +252,8 @@ QUnit.test("getRecordTypeByIdNotFound", function(assert) {
 
 QUnit.test("getAllRecordTypes", function(assert) {
 	var provider = CORA.recordTypeProvider(this.spec);
+	this.answerListCall(0);
+	
 	var recordTypeList = provider.getAllRecordTypes();
 	assert.stringifyEqual(recordTypeList.length, 15);
 

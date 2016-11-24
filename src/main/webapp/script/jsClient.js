@@ -33,6 +33,8 @@ var CORA = (function(cora) {
 		function start() {
 			mainView.appendChild(busy.getView());
 			var uploadManagerSpec = spec.dependencies;
+
+			uploadManagerSpec.dependencies = spec.dependencies;
 			uploadManagerSpec.jsClient = out;
 
 			var recordGuiFactorySpec = spec.dependencies;
@@ -155,7 +157,6 @@ var CORA = (function(cora) {
 				"recordTypeHandlerViewFactory" : createRecordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : createRecordListHandlerFactory(),
 				"recordHandlerFactory" : createRecordHandlerFactory(),
-				"xmlHttpRequestFactory" : spec.dependencies.xmlHttpRequestFactory,
 				"recordGuiFactory" : recordGuiFactory,
 				"recordTypeRecord" : record,
 				"jsClient" : mainView.modelObject,

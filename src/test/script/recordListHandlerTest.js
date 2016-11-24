@@ -176,49 +176,85 @@ QUnit.module("recordListHandlerTest.js", {
 				return recordGui;
 			}
 		};
+
+
+		var listItemWorkView = document.createElement("span");
+		var listText;
+		function createListItem(listTextIn) {
+			listText = listTextIn;
+			return {
+				"workView" : listItemWorkView,
+				"menuView" : this.menuView
+			};
+		}
+		var createRecordHandlerMethodCalledWithPresentationMode;
+		var createRecordHandlerMethodCalledWithRecord;
+		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+var dependencies = {
+			"ajaxCallFactory" : this.ajaxCallFactorySpy
+		};
+		this.listHandlerSpec = {
+			"dependencies" : dependencies,
+			"jsClient" : this.jsClientSpy,
+			"recordGuiFactory" : this.recordGuiFactorySpy,
+			"recordTypeRecord" : this.record,
+			"createListItemMethod" : createListItem,
+			"createRecordHandlerMethod" : function(presentationMode, record) {
+				createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
+				createRecordHandlerMethodCalledWithRecord = record;
+			},
+			"views" : {
+				"workView" : this.workView,
+				"menuView" : this.menuView
+			},
+			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+		};
+		this.answerListCall = function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecordList = JSON.stringify(CORATEST.recordTypeList);
+			var answer = {
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecordList
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
+		this.answerListCallBrokenList = function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecordList = JSON.stringify(CORATEST.recordTypeBrokenList);
+			var answer = {
+					"spec" : ajaxCallSpy0.getSpec(),
+					"responseText" : jsonRecordList
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
+		this.getCreateRecordHandlerMethodCalledWithPresentationMode=function(){
+			return createRecordHandlerMethodCalledWithPresentationMode;
+		}
+		this.getCreateRecordHandlerMethodCalledWithRecord=function(){
+			return createRecordHandlerMethodCalledWithRecord;
+		}
+		this.firstRecord = CORATEST.recordTypeList.dataList.data[0].record;
+		
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-	}
-	var listHandlerSpec = {
-		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"views" : {
-			"workView" : this.workView,
-			"menuView" : this.menuView
-		},
-		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 
-	var openUrl = xmlHttpRequestSpy.getOpenUrl();
-	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?") - 1),
-			"http://epc.ub.uu.se/cora/rest/record/recordType");
-	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+recordList+json");
-	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"], undefined);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/recordType/");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
+	assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
+	assert.strictEqual(ajaxCallSpec.contentType, undefined);
+	assert.strictEqual(ajaxCallSpec.data, undefined);
+	assert.strictEqual(ajaxCallSpec.loadMethod, recordListHandler.processFetchedRecords);
 });
 
 QUnit.test("initCheckRemoveOnMenu", function(assert) {
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-	}
-	var listHandlerSpec = {
-		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"views" : {
-			"workView" : this.workView,
-			"menuView" : this.menuView
-		},
-		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 
 	var workView = this.workView;
 	var menuView = this.menuView;
@@ -234,28 +270,16 @@ QUnit.test("initCheckRemoveOnMenu", function(assert) {
 	assert.strictEqual(workView.parentNode, null);
 });
 
-QUnit.test("initCheckRemoveOnMenuWhereParentsExist", function(assert) {
-	var menuView = document.createElement("span");
+QUnit.test("initCheckRemoveOnMenuWhenViewsAreAddedToParents", function(assert) {
+	var menuView = this.menuView;
 	var menuViewParent = document.createElement("span");
 	menuViewParent.appendChild(menuView);
 
-	var workView = document.createElement("span");
+	var workView = this.workView;
 	var workViewParent = document.createElement("span");
 	workViewParent.appendChild(workView);
 
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-	}
-	var listHandlerSpec = {
-		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"views" : {
-			"workView" : workView,
-			"menuView" : menuView
-		},
-		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 
 	var removeButton = menuView.childNodes[1];
 	assert.strictEqual(removeButton.className, "removeButton");
@@ -267,49 +291,14 @@ QUnit.test("initCheckRemoveOnMenuWhereParentsExist", function(assert) {
 });
 
 QUnit.test("fetchListCheckGeneratedList", function(assert) {
-	var recordTypeListData = CORATEST.recordTypeList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
-
-	var listHandlerSpec = {
-		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : this.recordGuiFactorySpy,
-		"views" : {
-			"workView" : this.workView,
-			"menuView" : this.menuView
-		},
-		"jsClient" : this.jsClientSpy
-	};
-	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
-
+	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
+	this.answerListCall(0);
 	assert.strictEqual(this.workView.childNodes.length, 15);
 });
 
 QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
-	var recordTypeListData = CORATEST.recordTypeList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
-
-	var listHandlerSpec = {
-		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : this.recordGuiFactorySpy,
-		"views" : {
-			"workView" : this.workView,
-			"menuView" : this.menuView
-		},
-		"jsClient" : this.jsClientSpy
-	};
-	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
+	this.answerListCall(0);
 
 	var firstListItem = this.workView.childNodes[0];
 	assert.strictEqual(firstListItem.className, "listItem recordType");
@@ -317,151 +306,40 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 });
 
 QUnit.test("fetchListCheckError", function(assert) {
-	var recordTypeListData = CORATEST.recordTypeList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 404;
-		xmlHttpRequestSpy.responseText = JSON.stringify("Error, something went wrong");
-		xmlHttpRequestSpy.addedEventListeners["error"][0]();
-	}
-
-	var listHandlerSpec = {
-		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : this.recordGuiFactorySpy,
-		"views" : {
-			"workView" : this.workView,
-			"menuView" : this.menuView
-		},
-		"jsClient" : this.jsClientSpy
-	};
-	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	ajaxCallSpy.getSpec().errorMethod({
+		"status" : 404
+	});
 
 	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
 });
 
 QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(assert) {
-	var recordTypeListData = CORATEST.recordTypeList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
-
-	var listItemWorkView = document.createElement("span");
-	var listText;
-	function createListItem(listTextIn) {
-		listText = listTextIn;
-		return {
-			"workView" : listItemWorkView,
-			"menuView" : this.menuView
-		};
-	}
-	var createRecordHandlerMethodCalledWithPresentationMode;
-	var createRecordHandlerMethodCalledWithRecord;
-	var listHandlerSpec = {
-		"createListItemMethod" : createListItem,
-		"createRecordHandlerMethod" : function(presentationMode, record) {
-			createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
-			createRecordHandlerMethodCalledWithRecord = record;
-		},
-		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : this.recordGuiFactorySpy,
-		"views" : {
-			"workView" : this.workView,
-			"menuView" : this.menuView
-		},
-		"jsClient" : this.jsClientSpy
-	};
-	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
+	this.answerListCall(0);
 
 	var firstListItem = this.workView.childNodes[0];
 	firstListItem.onclick();
 
-	var firstRecord = recordTypeListData.dataList.data[0].record;
-	assert.stringifyEqual(createRecordHandlerMethodCalledWithPresentationMode, "view");
-	assert.stringifyEqual(createRecordHandlerMethodCalledWithRecord, firstRecord);
+	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithPresentationMode(), "view");
+	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithRecord(), this.firstRecord);
 });
 
 QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
-	var recordTypeListData = CORATEST.recordTypeList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
-	var listItemWorkView = document.createElement("span");
-	var listText;
-	function createListItem(listTextIn) {
-		listText = listTextIn;
-		return {
-			"workView" : listItemWorkView,
-			"menuView" : this.menuView
-		};
-	}
-	var createRecordHandlerMethodCalledWithPresentationMode;
-	var createRecordHandlerMethodCalledWithRecord;
+	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
+	this.answerListCall(0);
 
-	var listHandlerSpec = {
-		"createListItemMethod" : createListItem,
-		"createRecordHandlerMethod" : function(presentationMode, record) {
-			createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
-			createRecordHandlerMethodCalledWithRecord = record;
-		},
-		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : this.recordGuiFactorySpy,
-		"views" : {
-			"workView" : this.workView,
-			"menuView" : this.menuView
-		},
-		"jsClient" : this.jsClientSpy
-	};
-	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
 	assert.stringifyEqual(this.presentationIdUsed[0], "recordTypeListPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
 	assert.stringifyEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 	assert.strictEqual(this.dataDividerUsed[0], "cora");
 });
-QUnit.test("fetchListBroken", function(assert) {
-	var recordTypeListData = CORATEST.recordTypeBrokenList;
-	var xmlHttpRequestSpy = CORATEST.xmlHttpRequestSpy(sendFunction);
-	function sendFunction() {
-		xmlHttpRequestSpy.status = 200;
-		xmlHttpRequestSpy.responseText = JSON.stringify(recordTypeListData);
-		xmlHttpRequestSpy.addedEventListeners["load"][0]();
-	}
-	var listItemWorkView = document.createElement("span");
-	var listText;
-	function createListItem(listTextIn) {
-		listText = listTextIn;
-		return {
-			"workView" : listItemWorkView,
-			"menuView" : this.menuView
-		};
-	}
-	var createRecordHandlerMethodCalledWithPresentationMode;
-	var createRecordHandlerMethodCalledWithRecord;
 
-	var listHandlerSpec = {
-		"createListItemMethod" : createListItem,
-		"createRecordHandlerMethod" : function(presentationMode, record) {
-			createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
-			createRecordHandlerMethodCalledWithRecord = record;
-		},
-		"recordTypeRecord" : this.record,
-		"xmlHttpRequestFactory" : CORATEST.xmlHttpRequestFactorySpy(xmlHttpRequestSpy),
-		"recordGuiFactory" : this.recordGuiFactorySpy,
-		"views" : {
-			"workView" : this.workView,
-			"menuView" : this.menuView
-		},
-		"jsClient" : this.jsClientSpy
-	};
-	var recordListHandler = CORA.recordListHandler(listHandlerSpec);
+QUnit.test("fetchListBroken", function(assert) {
+	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
+	this.answerListCallBrokenList(0);
+
 	var firstListItem = this.workView.childNodes[0];
 	assert.strictEqual(this.workView.textContent.substring(0, 10), "TypeError:");
 });
