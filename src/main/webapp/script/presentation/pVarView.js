@@ -18,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pVarView = function(spec) {
+	cora.pVarView = function(dependencies, spec) {
 		var out;
 		var view;
 		var valueView;
@@ -40,13 +40,13 @@ var CORA = (function(cora) {
 		function createInput() {
 			valueView = createTextTypeInput();
 			if (spec.onblurFunction !== undefined) {
-				valueView.onblur = function(){
+				valueView.onblur = function() {
 					spec.onblurFunction(valueView.value);
 				}
 			}
 			return valueView;
-			
 		}
+
 		function createTextTypeInput() {
 			var inputNew = document.createElement("input");
 			inputNew.type = "text";
@@ -83,6 +83,10 @@ var CORA = (function(cora) {
 			return view;
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
 		function getSpec() {
 			return spec;
 		}
@@ -93,6 +97,7 @@ var CORA = (function(cora) {
 
 		out = Object.freeze({
 			"type" : "pVarView",
+			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
 			setValue : setValue

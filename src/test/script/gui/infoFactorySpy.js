@@ -18,7 +18,7 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.infoFactorySpy = function(spec) {
+	coraTest.infoFactorySpy = function() {
 		var factoredinfos = [];
 		function factor(infoSpec) {
 			var factoredinfo = CORATEST.infoSpy(infoSpec);

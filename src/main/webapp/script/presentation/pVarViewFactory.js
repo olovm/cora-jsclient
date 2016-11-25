@@ -21,8 +21,7 @@ var CORA = (function(cora) {
 	cora.pVarViewFactory = function(dependencies) {
 
 		function factor(pVarViewSpec) {
-			pVarViewSpec.dependencies = dependencies;
-			return CORA.pVarView(pVarViewSpec);
+			return CORA.pVarView(dependencies, pVarViewSpec);
 		}
 
 		function getDependencies() {

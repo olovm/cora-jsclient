@@ -46,7 +46,7 @@ QUnit.test("factor", function(assert) {
 	};
 	var pVarView = pVarViewFactory.factor(spec);
 	assert.ok(pVarView);
+	assert.strictEqual(pVarView.getDependencies(), dependencies);
 	var pVarViewSpec = pVarView.getSpec();
-	assert.strictEqual(pVarViewSpec.dependencies, dependencies);
 	assert.strictEqual(pVarViewSpec.extraClassName, spec.extraClassName);
 });

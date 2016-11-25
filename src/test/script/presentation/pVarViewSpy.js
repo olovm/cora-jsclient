@@ -18,7 +18,7 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.pVarViewSpy = function(spec) {
+	coraTest.pVarViewSpy = function(dependencies, spec) {
 		var addedViews = [];
 		var addedToolViews = [];
 		var showDataF = null;
@@ -28,11 +28,15 @@ var CORATEST = (function(coraTest) {
 		}
 
 
+		function getDependencies() {
+			return dependencies;
+		}
 		function getSpec() {
 			return spec;
 		}
 
 		var out = Object.freeze({
+			getDependencies:getDependencies,
 			getView : getView,
 			getSpec : getSpec
 		});

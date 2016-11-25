@@ -20,6 +20,9 @@
 
 QUnit.module("pVarViewTest.js", {
 	beforeEach : function() {
+		this.dependencies = {
+			"infoFactory" : CORATEST.infoFactorySpy()
+		};
 		this.spec = {
 			"mode" : "input",
 			"outputFormat" : "text",
@@ -28,19 +31,19 @@ QUnit.module("pVarViewTest.js", {
 		this.pVarView;
 		this.getPVarView = function() {
 			if (this.pVarView === undefined) {
-				this.pVarView = CORA.pVarView(this.spec);
+				this.pVarView = CORA.pVarView(this.dependencies, this.spec);
 			}
 			return this.pVarView;
 		};
 		this.getView = function() {
 			if (this.pVarView === undefined) {
-				this.pVarView = CORA.pVarView(this.spec);
+				this.pVarView = CORA.pVarView(this.dependencies, this.spec);
 			}
 			return this.pVarView.getView();
 		};
 		this.getValueView = function() {
 			if (this.pVarView === undefined) {
-				this.pVarView = CORA.pVarView(this.spec);
+				this.pVarView = CORA.pVarView(this.dependencies, this.spec);
 			}
 			return this.pVarView.getView().childNodes[0];
 		};
