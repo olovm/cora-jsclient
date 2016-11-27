@@ -47,25 +47,24 @@ var CORA = (function(cora) {
 
 		function addContainerContentFromElement(dataContainerPart, cMetadataElement) {
 			var type = cMetadataElement.getData().attributes.type;
-			console.log(JSON.stringify(cMetadataElement.getData()))
-			if (isGroup(type)||isResourceLink(type) || isRecordLink(type)) {
+			if (isTypeThatPossiblyHasAttributes(type)) {
 				addGroupParts(dataContainerPart, cMetadataElement);
 				return dataContainerPart;
 			}
-			//if (isRecordLink(type)) {
-			//	dataContainerPart.children = [];
-			//	return dataContainerPart;
-			//}
 
 			// it is a variable
 			dataContainerPart.value = "";
 			return dataContainerPart;
 		}
 
+		function isTypeThatPossiblyHasAttributes(type){
+			return isGroup(type)||isResourceLink(type) || isRecordLink(type);
+		}
+		
 		function isGroup(type) {
 			return type === "group";
 		}
-
+		
 		function addGroupParts(dataContainerPart, cMetadataElement) {
 			dataContainerPart.children = [];
 			if (cMetadataElement.containsChildWithNameInData("attributeReferences")) {
