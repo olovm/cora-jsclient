@@ -1858,6 +1858,54 @@ function MetadataProviderStub() {
 				} ]
 			};
 		}
+		if (idToGet === "groupIdOneRecordLinkWithAttributeChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myLinkWithAttribute", "1") ]
+				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "myLinkWithAttribute") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myLinkWithAttribute"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myLinkWithAttribute"
+				}, {
+					"name" : "textId",
+					"value" : "myLinkText"
+				}, {
+					"name" : "defTextId",
+					"value" : "myLinkDefText"
+				}, {
+					"name" : "linkedRecordType",
+					"value" : "metadataTextVariable"
+				}, {
+				      "name": "attributeReferences",
+				      "children": [
+				        {
+				          "name": "ref",
+				          "value": "binaryTypeImageCollectionVar",
+				          "repeatId": "0"
+				        }
+				      ]
+				    } ]
+			};
+		}
 
 		if (idToGet === "groupIdOneRecordLinkChildWithFinalValue") {
 			return {

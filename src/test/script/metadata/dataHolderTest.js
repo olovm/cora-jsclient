@@ -1178,6 +1178,66 @@ QUnit.test("testAddChildToGroupIdOneRecordLinkChild", function(assert) {
 	assert.stringifyEqual(dataHolder.getData(), expectedLinkedRecordType);
 });
 
+QUnit.test("testAddChildToGroupIdOneRecordLinkWithAttributeChild", function(assert) {
+	var dataHolder = this.newDataHolder("groupIdOneRecordLinkWithAttributeChild");
+	var path = {};
+	dataHolder.addChild(path, "myLinkWithAttribute");
+	var expected = {
+		"name" : "groupIdOneRecordLinkWithAttributeChild",
+		"children" : [ {
+			"name" : "myLinkWithAttribute",
+			"children" : [],
+			"attributes":{
+				"type":"image"
+			}
+		} ]
+	};
+	assert.stringifyEqual(dataHolder.getData(), expected);
+
+	var pathLinkedRecordType = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "myLinkWithAttribute"
+		},
+	      {
+	        "name": "attributes",
+	        "children": [
+	          {
+	            "name": "attribute",
+	            "repeatId": "1",
+	            "children": [
+	              {
+	                "name": "attributeName",
+	                "value": "type"
+	              },
+	              {
+	                "name": "attributeValue",
+	                "value": "image"
+	              }
+	            ]
+	          }
+	        ]
+	      } ]
+	};
+
+	dataHolder.addChild(pathLinkedRecordType, "linkedRecordTypeTextVar");
+	var expectedLinkedRecordType = {
+		"name" : "groupIdOneRecordLinkWithAttributeChild",
+		"children" : [ {
+			"name" : "myLinkWithAttribute",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : ""
+			} ],
+			"attributes":{
+				"type":"image"
+					}
+		} ]
+	};
+	assert.stringifyEqual(dataHolder.getData(), expectedLinkedRecordType);
+});
+
 QUnit.test("testAddChildToGroupIdOneResourceLinkChild", function(assert) {
 	var dataHolder = this.newDataHolder("groupIdOneResourceLinkChild");
 	var path = {};

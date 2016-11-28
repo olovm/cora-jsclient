@@ -28,7 +28,6 @@ var CORA = (function(cora) {
 
 		var factor = function(metadataId, data, dataDivider) {
 			var pubSub = CORA.pubSub();
-
 			var specDataHolder = {
 				"metadataId" : metadataId,
 				"metadataProvider" : metadataProvider,
