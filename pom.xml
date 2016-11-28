@@ -72,7 +72,7 @@
         <sonar.tests>src/test/script/</sonar.tests>
         <sonar.exclusions>src/main/webapp/script/lib/**</sonar.exclusions>
         <sonar.genericcoverage.unitTestReportPaths>karma-reports/TEST-generic.xml</sonar.genericcoverage.unitTestReportPaths>
-        <sonar.javascript.lcov.reportPath>karma-coverage/Firefox 50.0.0 (Ubuntu 0.0.0)/lcov.info</sonar.javascript.lcov.reportPath>
+        <sonar.javascript.lcov.reportPath>karma-coverage/Firefox 44.0.0 (Ubuntu 0.0.0)/lcov.info</sonar.javascript.lcov.reportPath>
         <fitnesse.version>20151230</fitnesse.version>
     </properties>
 
