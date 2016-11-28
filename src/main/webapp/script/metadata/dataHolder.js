@@ -60,11 +60,11 @@ var CORA = (function(cora) {
 		function isTypeThatPossiblyHasAttributes(type){
 			return isGroup(type)||isResourceLink(type) || isRecordLink(type);
 		}
-		
+
 		function isGroup(type) {
 			return type === "group";
 		}
-		
+
 		function addGroupParts(dataContainerPart, cMetadataElement) {
 			dataContainerPart.children = [];
 			if (cMetadataElement.containsChildWithNameInData("attributeReferences")) {
