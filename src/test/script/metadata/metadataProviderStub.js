@@ -3356,7 +3356,7 @@ function MetadataProviderStub() {
 			return {
 				"name" : "presentation",
 				"attributes" : {
-					"type" : "pVar"
+					"type" : "pCollVar"
 				},
 				"children" : [
 						{

@@ -18,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pResourceLink = function(spec) {
+	cora.pResourceLink = function(dependencies, spec) {
 		var cPresentation = spec.cPresentation;
 
 		var my = {};
@@ -88,9 +88,15 @@ var CORA = (function(cora) {
 		function setInfoInLinkedResourceView(dataFromMsg) {
 			if (hasOutputFormat) {
 				var url = dataFromMsg.data.actionLinks.read.url;
-				resourceView.src = url;
-				resourceView.href = url;
+				resourceView.href = url + "?" + getTokenRequestParameter();
+				resourceView.src = url + "?" + getTokenRequestParameter();
 			}
+		}
+
+		function getTokenRequestParameter() {
+			var tokenRequestParamenter = "authToken=";
+			tokenRequestParamenter += dependencies.loginManager.getCurrentAuthToken();
+			return tokenRequestParamenter;
 		}
 
 		function subscribeToLinkedResourceMessage() {
@@ -104,9 +110,12 @@ var CORA = (function(cora) {
 		function getView() {
 			return parent.getView();
 		}
-
+		function getDependencies() {
+			return dependencies;
+		}
 		var out = Object.freeze({
 			"type" : "pResourceLink",
+			getDependencies : getDependencies,
 			getView : getView,
 			handleMsg : handleMsg
 		});

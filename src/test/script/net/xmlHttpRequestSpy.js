@@ -31,6 +31,8 @@ var CORATEST = (function(coraTest) {
 		var status = 0;
 		var abortWasCalled = false;
 		var responseText;
+		var responseType;
+		var response;
 		var sendFunction;
 
 		setSendFunction(sendFunctionIn);
@@ -126,6 +128,8 @@ var CORATEST = (function(coraTest) {
 			abort : abort,
 			abortWasCalled : abortWasCalled,
 			responseText : responseText,
+			responseType : responseType,
+			response : response,
 			setSendFunction : setSendFunction,
 			runLoadFunction : runLoadFunction,
 			upload : upload

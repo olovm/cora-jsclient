@@ -28,7 +28,7 @@ QUnit.module("ajaxCallFactoryTest.js", {
 		}
 
 		this.spec = {
-			"method" : "GET",
+			"requestMethod" : "GET",
 			"url" : "http://localhost:8080/therest/rest/record/recordType",
 			"contentType" : "application/uub+record+json",
 			"accept" : "application/uub+record+json",
@@ -38,9 +38,10 @@ QUnit.module("ajaxCallFactoryTest.js", {
 			"downloadProgressMethod" : minimalDummyFunction,
 			"uploadProgressMethod" : minimalDummyFunction
 		};
-
+		this.loginManagerSpy = CORATEST.loginManagerSpy();
 		this.dependencies = {
-			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy
+			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
+			"loginManager" : this.loginManagerSpy
 		};
 		this.ajaxCallFactory = CORA.ajaxCallFactory(this.dependencies);
 	},
@@ -58,26 +59,29 @@ QUnit.test("getDependencies", function(assert) {
 });
 
 QUnit.test("factor", function(assert) {
-
 	var ajaxCall = this.ajaxCallFactory.factor(this.spec);
 	assert.strictEqual(ajaxCall.type, "ajaxCall");
 
 	var ajaxCallSpec = ajaxCall.spec;
 	assert.strictEqual(ajaxCallSpec.requestHeaders["Content-Type"], "application/uub+record+json");
 	assert.strictEqual(ajaxCallSpec.requestHeaders["Accept"], "application/uub+record+json");
-//	assert.ok(ajaxCallSpec.requestHeaders.authToken === undefined);
-	//TOKEN IS CURRENTLY SET TO fitnesseAdminToken
-	assert.ok(ajaxCallSpec.requestHeaders.authToken === "fitnesseAdminToken");
 	var xmlHttpRequestFactory = this.dependencies.xmlHttpRequestFactory;
 	assert.strictEqual(ajaxCallSpec.xmlHttpRequestFactory, xmlHttpRequestFactory);
 });
 
-QUnit.test("setToken", function(assert) {
-	this.ajaxCallFactory.setAuthToken("someToken");
+QUnit.test("factorWithToken", function(assert) {
 	var ajaxCall = this.ajaxCallFactory.factor(this.spec);
 	var ajaxCallSpec = ajaxCall.spec;
-	assert.strictEqual(ajaxCallSpec.requestHeaders.authToken, "someToken");
+	assert.ok(ajaxCallSpec.requestHeaders.authToken === "fitnesseAdminToken");
 });
+
+QUnit.test("factorWithoutToken", function(assert) {
+	this.loginManagerSpy.setCurrentAuthTokenExists(false);
+	var ajaxCall = this.ajaxCallFactory.factor(this.spec);
+	var ajaxCallSpec = ajaxCall.spec;
+	assert.ok(ajaxCallSpec.requestHeaders.authToken === undefined);
+});
+
 QUnit.test("noAccept", function(assert) {
 	this.spec.accept = undefined;
 	var ajaxCall = this.ajaxCallFactory.factor(this.spec);

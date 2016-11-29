@@ -62,11 +62,7 @@ QUnit.module("recordViewerTest.js", {
 		};
 
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-		var dependencies = {
-			"ajaxCallFactory" : this.ajaxCallFactorySpy
-		};
 		this.recordViewerSpec = {
-			"dependencies" : dependencies,
 			"read" : {
 				"requestMethod" : "GET",
 				"rel" : "read",
@@ -76,6 +72,7 @@ QUnit.module("recordViewerTest.js", {
 			"presentationId" : "somePresentationId",
 			"metadataId" : "someMetadataId",
 			"recordGuiFactory" : this.recordGuiFactorySpy,
+			"ajaxCallFactory" : this.ajaxCallFactorySpy
 		};
 		this.answerCall = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);

@@ -17,42 +17,25 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-var CORATEST = (function(coraTest) {
-	"use strict";
-	coraTest.presentationFactoryFactory = function(metadataProvider, pubSub, textProvider,
-			recordTypeProvider, dataDivider) {
-		var factor = function() {
-			var jsBookkeeper = CORATEST.jsBookkeeperSpy();
-			var specPresentationFactory = {
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper,
-				"recordTypeProvider" : recordTypeProvider,
-				"dataDivider" : dataDivider
-			};
-			return CORA.presentationFactory(specPresentationFactory);
-
-		};
-		return Object.freeze({
-			factor : factor
-		});
-	};
-
-	return coraTest;
-}(CORATEST || {}));
-
 QUnit.module("presentationFactoryTest.js", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
+		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
 		this.dataDivider = "systemX";
-		this.newPresentationFactoryFactory = CORATEST.presentationFactoryFactory(
-				this.metadataProvider, this.pubSub, this.textProvider, this.recordTypeProvider,
-				this.dataDivider);
-		this.newPresentationFactory = this.newPresentationFactoryFactory.factor();
+
+		this.dependencies = {
+				"metadataProvider" : this.metadataProvider,
+				"pubSub" : this.pubSub,
+				"textProvider" : this.textProvider,
+				"jsBookkeeper" : this.jsBookkeeper,
+				"recordTypeProvider" : this.recordTypeProvider,
+				"dataDivider" : this.dataDivider
+			};
+		this.newPresentationFactory =  CORA.presentationFactory(this.dependencies);
+		
 	},
 	afterEach : function() {
 	}
@@ -126,6 +109,7 @@ QUnit.test("testFactorPResourceLink", function(assert) {
 	var presentationIdToFactor = "masterPResLink";
 	var cPresentation = CORA
 			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
-	var pGroup = this.newPresentationFactory.factor({}, "groupIdTwoTextChildRepeat1to5", cPresentation);
-	assert.strictEqual(pGroup.type, "pResourceLink");
+	var pResourceLink = this.newPresentationFactory.factor({}, "groupIdTwoTextChildRepeat1to5", cPresentation);
+	assert.strictEqual(pResourceLink.type, "pResourceLink");
+	assert.strictEqual(pResourceLink.getDependencies(), this.dependencies );
 });

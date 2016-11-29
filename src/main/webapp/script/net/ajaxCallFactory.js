@@ -20,16 +20,14 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.ajaxCallFactory = function(dependencies) {
-		var authToken = "fitnesseAdminToken";
-
 		function factor(ajaxCallSpecIn) {
-		var	ajaxCallSpec = ajaxCallSpecIn;
+			var ajaxCallSpec = ajaxCallSpecIn;
 			ajaxCallSpec.requestHeaders = {};
-			if(ajaxCallSpec.contentType){
-				ajaxCallSpec.requestHeaders["Content-Type"]=ajaxCallSpec.contentType;
+			if (ajaxCallSpec.contentType) {
+				ajaxCallSpec.requestHeaders["Content-Type"] = ajaxCallSpec.contentType;
 			}
-			if(ajaxCallSpec.accept){
-				ajaxCallSpec.requestHeaders["Accept"]=ajaxCallSpec.accept;
+			if (ajaxCallSpec.accept) {
+				ajaxCallSpec.requestHeaders["Accept"] = ajaxCallSpec.accept;
 			}
 			addXmlHttpRequestFactoryToSpec(ajaxCallSpec);
 			possiblyAddAuthTokenToSpec(ajaxCallSpec);
@@ -42,12 +40,13 @@ var CORA = (function(cora) {
 
 		function possiblyAddAuthTokenToSpec(ajaxCallSpec) {
 			if (factoryHasToken()) {
-				ajaxCallSpec.requestHeaders.authToken = authToken;
+				ajaxCallSpec.requestHeaders.authToken = dependencies.loginManager
+						.getCurrentAuthToken();
 			}
 		}
 
 		function factoryHasToken() {
-			return authToken !== "";
+			return dependencies.loginManager.hasCurrentAuthToken();
 		}
 		function createNewAjaxCallUsingSpec(ajaxCallSpec) {
 			return CORA.ajaxCall(ajaxCallSpec);
@@ -57,15 +56,10 @@ var CORA = (function(cora) {
 			return dependencies;
 		}
 
-		function setAuthToken(authTokenIn) {
-			authToken = authTokenIn;
-		}
-
 		var out = Object.freeze({
 			"type" : "ajaxCallFactory",
 			getDependencies : getDependencies,
-			factor : factor,
-			setAuthToken : setAuthToken
+			factor : factor
 		});
 		return out;
 	};

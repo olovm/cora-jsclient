@@ -26,11 +26,7 @@ var CORATEST = (function(coraTest) {
 			var cPRecordLinkPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(pRecordLinkPresentationId));
 
-			var dependencies = {
-				"ajaxCallFactory" : ajaxCallFactory
-			};
 			var spec = {
-				"dependencies" : dependencies,
 				"path" : path,
 				"cPresentation" : cPRecordLinkPresentation,
 				"metadataProvider" : metadataProvider,
@@ -38,7 +34,8 @@ var CORATEST = (function(coraTest) {
 				"textProvider" : textProvider,
 				"presentationFactory" : presentationFactory,
 				"jsBookkeeper" : jsBookkeeper,
-				"recordGuiFactory" : recordGuiFactory
+				"recordGuiFactory" : recordGuiFactory,
+				"ajaxCallFactory" : ajaxCallFactory
 			};
 			var pRecordLink = CORA.pRecordLink(spec);
 			var view = pRecordLink.getView();

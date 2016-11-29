@@ -98,6 +98,43 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(ajaxCall.spec, this.spec);
 });
 
+QUnit.test("testResponseTypeNotSet", function(assert) {
+	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(201);
+	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("a dummy response text");
+	this.xmlHttpRequestFactoryMultipleSpy.setResponse("a dummy response");
+	
+	var ajaxCall = CORA.ajaxCall(this.spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	assert.strictEqual(xmlHttpRequestSpy.responseType, undefined);
+	assert.strictEqual(this.getAnswer().responseText, "a dummy response text");
+	assert.strictEqual(this.getAnswer().response, "a dummy response");
+});
+QUnit.test("testResponseTypeDocument", function(assert) {
+	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(201);
+	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("a dummy response text");
+	this.xmlHttpRequestFactoryMultipleSpy.setResponse("a dummy response");
+	
+	this.spec.responseType = "document";
+	var ajaxCall = CORA.ajaxCall(this.spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	assert.strictEqual(xmlHttpRequestSpy.responseType, "document");
+	assert.strictEqual(this.getAnswer().responseText, "a dummy response text");
+	assert.strictEqual(this.getAnswer().response, "a dummy response");
+});
+
+QUnit.test("testResponseType", function(assert) {
+	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(201);
+	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("a dummy response text");
+	this.xmlHttpRequestFactoryMultipleSpy.setResponse("a dummy response");
+	
+	this.spec.responseType = "blob";
+	var ajaxCall = CORA.ajaxCall(this.spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+	assert.strictEqual(xmlHttpRequestSpy.responseType, "blob");
+	assert.strictEqual(this.getAnswer().responseText, undefined);
+	assert.strictEqual(this.getAnswer().response, "a dummy response");
+});
+
 QUnit.test("testXMLHttpRequestSetUpCorrect", function(assert) {
 	var ajaxCall = CORA.ajaxCall(this.spec);
 	assert.strictEqual(ajaxCall.spec, this.spec);
@@ -310,7 +347,9 @@ QUnit.test("testSendCreate", function(assert) {
 		} ]
 	};
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(201);
-	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("a dummy response");
+	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("a dummy response text");
+	this.xmlHttpRequestFactoryMultipleSpy.setResponse("a dummy response");
+	
 	this.spec.requestMethod = "POST";
 	this.spec.data = JSON.stringify(textData);
 	var ajaxCall = CORA.ajaxCall(this.spec);
@@ -326,7 +365,8 @@ QUnit.test("testSendCreate", function(assert) {
 
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(textData));
 	assert.strictEqual(this.getAnswer().status, 201);
-	assert.strictEqual(this.getAnswer().responseText, "a dummy response");
+	assert.strictEqual(this.getAnswer().responseText, "a dummy response text");
+	assert.strictEqual(this.getAnswer().response, "a dummy response");
 	assert.ok(this.getLoadMethodWasCalled(), "loadMethod was called ok")
 });
 
