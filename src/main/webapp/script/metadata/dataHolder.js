@@ -47,18 +47,18 @@ var CORA = (function(cora) {
 
 		function addContainerContentFromElement(dataContainerPart, cMetadataElement) {
 			var type = cMetadataElement.getData().attributes.type;
-			if (isGroup(type)||isResourceLink(type)) {
+			if (isTypeThatPossiblyHasAttributes(type)) {
 				addGroupParts(dataContainerPart, cMetadataElement);
-				return dataContainerPart;
-			}
-			if (isRecordLink(type)) {
-				dataContainerPart.children = [];
 				return dataContainerPart;
 			}
 
 			// it is a variable
 			dataContainerPart.value = "";
 			return dataContainerPart;
+		}
+
+		function isTypeThatPossiblyHasAttributes(type){
+			return isGroup(type)||isResourceLink(type) || isRecordLink(type);
 		}
 
 		function isGroup(type) {
