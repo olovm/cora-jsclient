@@ -25,9 +25,46 @@ var CORA = (function(cora) {
 
 		function start() {
 			view = CORA.gui.createSpanWithClassName("pVar " + spec.presentationId);
+			var info = createInfo();
+
 			createValueView();
 			view.appendChild(valueView);
 		}
+		function createInfo() {
+			var infoSpec = {
+				"appendTo" : view,
+				// "afterLevelChange" : updateView,
+				"level1" : [ {
+					"className" : "textView",
+					"text" : spec.info.text
+				}, {
+					"className" : "defTextView",
+					"text" : spec.info.defText
+				} ],
+			};
+			if (spec.info.technicalInfo) {
+				infoSpec.level2 = [];
+
+				spec.info.technicalInfo.forEach(function(text) {
+
+					infoSpec.level2.push({
+						"className" : "technicalView",
+						"text" : text
+					});
+				});
+			}
+			return dependencies.infoFactory.factor(infoSpec);
+		}
+		// function updateView() {
+		// var className = originalClassName;
+		// if (state === "error") {
+		// className += " error";
+		// }
+		// if (info.getInfoLevel() !== 0) {
+		// className += " infoActive";
+		// }
+		// view.className = className;
+		// }
 
 		function createValueView() {
 			if (spec.mode === "input") {

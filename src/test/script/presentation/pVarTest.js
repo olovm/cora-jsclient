@@ -196,7 +196,7 @@ QUnit.test("testInitTextShowTextAreaFalse", function(assert) {
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
-QUnit.test("testInitInfoButtonTextVariable", function(assert) {
+QUnit.test("testInitfButtonTextVariable", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
 	assert.deepEqual(attachedPVar.view.className, "pVar pVarTextVariableId");

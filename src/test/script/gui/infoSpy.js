@@ -20,6 +20,17 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.infoSpy = function(spec) {
 		var spyView = document.createElement("span");
+		spyView.className = "infoSpySpan";
+		addBaseViewAccordingToSpec();
+
+		function addBaseViewAccordingToSpec() {
+			if (spec.appendTo !== undefined) {
+				spec.appendTo.appendChild(spyView);
+			}
+			if (spec.insertAfter !== undefined) {
+				spec.insertAfter.parentNode.insertBefore(spyView, spec.insertAfter.nextSibling);
+			}
+		}
 		function getView() {
 			return spyView;
 		}
@@ -27,10 +38,18 @@ var CORATEST = (function(coraTest) {
 			return spec;
 		}
 
+		function getButton() {
+			var infoButtonSpec = {
+				"className" : "infoButtonSpy"
+			};
+			return CORA.gui.createButton(infoButtonSpec);
+		}
+
 		var out = Object.freeze({
-			"type":infoSpy,
+			"type" : "infoSpy",
 			getSpec : getSpec,
-			getView : getView
+			getView : getView,
+			getButton : getButton
 		});
 		return out;
 	};

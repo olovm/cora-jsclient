@@ -20,33 +20,51 @@
 
 QUnit.module("pVarViewFactoryTest.js", {
 	beforeEach : function() {
+		this.dependencies = {
+			"infoFactory" : CORATEST.infoFactorySpy()
+		};
+		this.pVarViewFactory = CORA.pVarViewFactory(this.dependencies);
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	var dependencies = {};
-	var pVarViewFactory = CORA.pVarViewFactory(dependencies);
-	assert.ok(pVarViewFactory);
-	assert.strictEqual(pVarViewFactory.type, "pVarViewFactory");
+	assert.ok(this.pVarViewFactory);
+	assert.strictEqual(this.pVarViewFactory.type, "pVarViewFactory");
 });
 
 QUnit.test("getDependencies", function(assert) {
-	var dependencies = {};
-	var pVarViewFactory = CORA.pVarViewFactory(dependencies);
-	assert.strictEqual(pVarViewFactory.getDependencies(), dependencies);
+	assert.strictEqual(this.pVarViewFactory.getDependencies(), this.dependencies);
 });
 
-QUnit.test("factor", function(assert) {
-	var dependencies = {};
-	var pVarViewFactory = CORA.pVarViewFactory(dependencies);
+QUnit.test("factorTestDependencies", function(assert) {
 	var spec = {
-		"extraClassName" : "someClass"
+		"extraClassName" : "someClass",
+		"info" : {
+			"text" : "someText",
+			"defText" : "someDefText",
+			"technicalInfo" : [ "textId: " + "textId", "defTextId: " + "defTextId",
+					"metadataId: " + "metadataId" ]
+		}
 	};
-	var pVarView = pVarViewFactory.factor(spec);
+	var pVarView = this.pVarViewFactory.factor(spec);
 	assert.ok(pVarView);
-	assert.strictEqual(pVarView.getDependencies(), dependencies);
+	assert.strictEqual(pVarView.getDependencies(), this.dependencies);
+});
+
+QUnit.test("factorTestSpec", function(assert) {
+	var spec = {
+		"extraClassName" : "someClass",
+		"info" : {
+			"text" : "someText",
+			"defText" : "someDefText",
+			"technicalInfo" : [ "textId: " + "textId", "defTextId: " + "defTextId",
+					"metadataId: " + "metadataId" ]
+		}
+	};
+	var pVarView = this.pVarViewFactory.factor(spec);
+	assert.ok(pVarView);
 	var pVarViewSpec = pVarView.getSpec();
 	assert.strictEqual(pVarViewSpec.extraClassName, spec.extraClassName);
 });

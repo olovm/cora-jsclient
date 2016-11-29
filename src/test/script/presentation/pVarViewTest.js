@@ -26,8 +26,15 @@ QUnit.module("pVarViewTest.js", {
 		this.spec = {
 			"mode" : "input",
 			"outputFormat" : "text",
-			"presentationId" : "somePresentationId"
+			"presentationId" : "somePresentationId",
+			"info" : {
+				"text" : "someText",
+				"defText" : "someDefText",
+				"technicalInfo" : [ "textId: " + "textId", "defTextId: " + "defTextId",
+						"metadataId: " + "metadataId" ]
+			}
 		};
+
 		this.pVarView;
 		this.getPVarView = function() {
 			if (this.pVarView === undefined) {
@@ -45,7 +52,7 @@ QUnit.module("pVarViewTest.js", {
 			if (this.pVarView === undefined) {
 				this.pVarView = CORA.pVarView(this.dependencies, this.spec);
 			}
-			return this.pVarView.getView().childNodes[0];
+			return this.pVarView.getView().childNodes[1];
 		};
 	},
 	afterEach : function() {
@@ -63,9 +70,65 @@ QUnit.test("getSpec", function(assert) {
 	assert.strictEqual(pVarView.getSpec(), this.spec);
 });
 
+QUnit.test("getDependencies", function(assert) {
+	var pVarView = this.getPVarView();
+	assert.strictEqual(pVarView.getDependencies(), this.dependencies);
+});
+
 QUnit.test("getView", function(assert) {
 	var view = this.getView();
 	assert.strictEqual(view.nodeName, "SPAN");
+});
+
+QUnit.test("testInfoSpec", function(assert) {
+	var expectedSpec = {
+		"appendTo" : {},
+		"level1" : [ {
+			"className" : "textView",
+			"text" : "someText"
+		}, {
+			"className" : "defTextView",
+			"text" : "someDefText"
+		} ],
+		"level2" : [ {
+			"className" : "technicalView",
+			"text" : "textId: textId"
+		}, {
+			"className" : "technicalView",
+			"text" : "defTextId: defTextId"
+		}, {
+			"className" : "technicalView",
+			"text" : "metadataId: metadataId"
+		} ]
+	};
+	var pVarView = this.getPVarView();
+	var infoSpy = this.dependencies.infoFactory.getFactored(0);
+	var usedSpec = infoSpy.getSpec();
+	assert.stringifyEqual(usedSpec, expectedSpec);
+});
+
+QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
+	this.spec.info.technicalInfo = null;
+	var expectedSpec = {
+		"appendTo" : {},
+		"level1" : [ {
+			"className" : "textView",
+			"text" : "someText"
+		}, {
+			"className" : "defTextView",
+			"text" : "someDefText"
+		} ]
+	};
+	var pVarView = this.getPVarView();
+	var infoSpy = this.dependencies.infoFactory.getFactored(0);
+	var usedSpec = infoSpy.getSpec();
+	assert.stringifyEqual(usedSpec, expectedSpec);
+});
+
+QUnit.test("testInfoPlaced", function(assert) {
+	var view = this.getView();
+	var infoSpan = view.childNodes[0];
+	assert.equal(infoSpan.className, "infoSpySpan");
 });
 
 QUnit.test("testInput", function(assert) {
