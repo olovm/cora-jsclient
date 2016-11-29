@@ -166,6 +166,10 @@ var CORATEST = (function(coraTest) {
 				return "groupIdOneTextChild2Text";
 			case "groupIdOneTextChild2DefText":
 				return "groupIdOneTextChild2DefText";
+			case "groupIdOneChildOfBinaryRecordLinkChildText":
+				return "groupIdOneChildOfBinaryRecordLinkChildText";
+			case "groupIdOneChildOfBinaryRecordLinkChildDefText":
+				return "groupIdOneChildOfBinaryRecordLinkChildDefText";
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");

@@ -31,6 +31,7 @@ var CORA = (function(cora) {
 		open();
 		setTimeout();
 		setHeadersSpecifiedInSpec();
+		setResponseTypeSpecifiedInSpec();
 		sendRequest();
 
 		function factorXmlHttpRequestUsingFactoryFromSpec() {
@@ -65,11 +66,16 @@ var CORA = (function(cora) {
 		}
 
 		function createReturnObject() {
-			return {
+			var returnObject = {
+				"spec" : spec,
 				"status" : xhr.status,
-				"responseText" : xhr.responseText,
-				"spec" : spec
+				"response" : xhr.response
 			};
+			var responseType = spec.responseType;
+			if(responseType===undefined ||responseType==='document'){
+				returnObject.responseText = xhr.responseText;
+			}
+			return returnObject;
 		}
 
 		function handleErrorEvent() {
@@ -128,6 +134,11 @@ var CORA = (function(cora) {
 				for(let key of keys){
 					xhr.setRequestHeader(key, spec.requestHeaders[key]);
 				}
+			}
+		}
+		function setResponseTypeSpecifiedInSpec() {
+			if (spec.responseType) {
+				xhr.responseType = spec.responseType;
 			}
 		}
 

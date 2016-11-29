@@ -29,11 +29,7 @@ var CORATEST = (function(coraTest) {
 			var uploadManager = CORATEST.uploadManagerSpy();
 
 			var ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-			var dependencies = {
-				"ajaxCallFactory" : ajaxCallFactorySpy
-			};
 			var spec = {
-				"dependencies" : dependencies,
 				"parentPath" : path,
 				"cParentMetadata" : cParentMetadata,
 				"cPresentation" : cPresentation,
@@ -43,7 +39,8 @@ var CORATEST = (function(coraTest) {
 				"presentationFactory" : presentationFactory,
 				"jsBookkeeper" : jsBookkeeper,
 				"recordTypeProvider" : recordTypeProvider,
-				"uploadManager" : uploadManager
+				"uploadManager" : uploadManager,
+				"ajaxCallFactory" : ajaxCallFactorySpy
 			};
 
 			var pChildRefHandler = CORA.pChildRefHandler(spec);
@@ -235,14 +232,14 @@ QUnit.module("pChildRefHandlerTest.js", {
 				"type" : "image"
 			}
 		};
-		
+
 		this.files1 = [];
 		var file1 = {
 			"name" : "someFile.tif",
 			"size" : 1234567890
 		};
 		this.files1.push(file1);
-		
+
 		this.files1to3 = [];
 		this.files1to3.push(file1);
 		var file2 = {

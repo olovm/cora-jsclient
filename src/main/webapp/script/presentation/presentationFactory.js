@@ -24,7 +24,6 @@ var CORA = (function(cora) {
 
 		function factor(path, metadataIdUsedInData, cPresentation, cParentPresentation) {
 			var specNew = {
-				"dependencies" : dependencies.dependencies,
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,
 				"cPresentation" : cPresentation,
@@ -36,7 +35,8 @@ var CORA = (function(cora) {
 				"presentationFactory" : self,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"recordTypeProvider" : dependencies.recordTypeProvider,
-				"uploadManager" : dependencies.uploadManager
+				"uploadManager" : dependencies.uploadManager,
+				"ajaxCallFactory":dependencies.ajaxCallFactory
 			};
 
 			var type = cPresentation.getData().attributes.type;
@@ -49,7 +49,7 @@ var CORA = (function(cora) {
 			} else if (type === "pCollVar") {
 				return CORA.pCollectionVar(specNew);
 			} else if (type === "pResourceLink") {
-				return CORA.pResourceLink(specNew);
+				return CORA.pResourceLink(dependencies, specNew);
 			} else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {

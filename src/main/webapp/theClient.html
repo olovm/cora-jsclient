@@ -55,6 +55,8 @@
 <script type="text/javascript" src="script/lib/arbiter.js"></script>
 <script type="text/javascript" src="script/lib/polyfillES6.js"></script>
 
+<script type="text/javascript" src="script/login/loginManager.js"></script>
+
 <script type="text/javascript"
 	src="script/metadata/calculatePathForNewElement.js"></script>
 <script type="text/javascript" src="script/metadata/coraData.js"></script>
@@ -106,8 +108,8 @@
 <script type="text/javascript" src="script/presentation/pVar.js"></script>
 
 <script type="text/javascript">
-		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
-// 	var baseUrl = "http://localhost:8080/therest/rest/";
+	// 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+	var baseUrl = "http://localhost:8080/therest/rest/";
 
 	window.onload = start;
 	var jsClientSpec;
@@ -141,11 +143,16 @@
 
 	function startDependencies() {
 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
+		var loginManager = CORA.loginManager();
+		loginManager.setCurrentAuthToken("fitnesseAdminToken");
+		
 		var ajaxCallFactoryDependencies = {
-			"xmlHttpRequestFactory" : xmlHttpRequestFactory
+			"xmlHttpRequestFactory" : xmlHttpRequestFactory,
+			"loginManager" : loginManager
 		};
 		var dependencies = {
 			"ajaxCallFactory" : CORA.ajaxCallFactory(ajaxCallFactoryDependencies),
+			"loginManager" : loginManager
 		};
 		var metadataListLink = {
 			"requestMethod" : "GET",
@@ -199,6 +206,7 @@
 
 		var jsClientDependencies = {
 			"ajaxCallFactory" : CORA.ajaxCallFactory(ajaxCallFactoryDependencies),
+			"loginManager" : loginManager,
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
 			"recordTypeProvider" : recordTypeProvider,

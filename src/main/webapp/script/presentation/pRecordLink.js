@@ -132,11 +132,11 @@ var CORA = (function(cora) {
 			var linkedMetadataId = cPresentationOfLink
 					.getFirstAtomicValueByNameInData("linkedRecordId");
 			return {
-				"dependencies":spec.dependencies,
 				"read" : readLink,
 				"presentationId" : linkedPresentationId,
 				"metadataId" : linkedMetadataId,
-				"recordGuiFactory" : spec.recordGuiFactory
+				"recordGuiFactory" : spec.recordGuiFactory,
+				"ajaxCallFactory":spec.ajaxCallFactory
 			};
 		}
 

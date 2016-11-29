@@ -55,6 +55,7 @@ var CORA = (function(cora) {
 				var presentationChildren = my.cPresentation
 						.getFirstChildByNameInData("childReferences").children;
 				presentationChildren.forEach(function(presentationChildRef) {
+//					console.log("presentationChildRef",JSON.stringify(presentationChildRef))
 					viewNew.appendChild(createViewForChild(presentationChildRef));
 				});
 			}
@@ -132,7 +133,6 @@ var CORA = (function(cora) {
 
 		function createPChildRefHandler(cPresentationChild, cPresentationChildRef) {
 			var childRefHandlerSpec = {
-				"dependencies" : spec.dependencies,
 				"parentPath" : path,
 				"cParentMetadata" : getMetadataById(my.metadataId),
 				"cPresentation" : cPresentationChild,
@@ -143,7 +143,8 @@ var CORA = (function(cora) {
 				"jsBookkeeper" : jsBookkeeper,
 				"presentationFactory" : presentationFactory,
 				"recordTypeProvider" : recordTypeProvider,
-				"uploadManager" : spec.uploadManager
+				"uploadManager" : spec.uploadManager,
+				"ajaxCallFactory" : spec.ajaxCallFactory
 			};
 
 			if (childHasMinimizedPresenation(cPresentationChildRef)) {

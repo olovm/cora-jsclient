@@ -45,8 +45,8 @@ var CORA = (function(cora) {
 			};
 			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
 
-			var specPresentationFactory = {
-				"dependencies" : dependencies,
+			var dependenciesPresentationFactory = {
+				"loginManager" : dependencies.loginManager,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
@@ -54,9 +54,10 @@ var CORA = (function(cora) {
 				"recordGuiFactory" : self,
 				"recordTypeProvider" : recordTypeProvider,
 				"dataDivider" : dataDivider,
-				"uploadManager" : uploadManager
+				"uploadManager" : uploadManager,
+				"ajaxCallFactory":dependencies.ajaxCallFactory
 			};
-			var presentationFactory = CORA.presentationFactory(specPresentationFactory);
+			var presentationFactory = CORA.presentationFactory(dependenciesPresentationFactory);
 
 			function getPresentation(presentationId, metadataIdUsedInData) {
 				var spec = {

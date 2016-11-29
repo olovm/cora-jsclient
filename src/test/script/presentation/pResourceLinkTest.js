@@ -24,15 +24,10 @@ var CORATEST = (function(coraTest) {
 		var factor = function(presentationId) {
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
 
-			// var factor = function(path, pSurroundingContainerId,
-			// presentationParentId) {
-			// var cPSurroundingContainer = CORA.coraData(metadataProvider
-			// .getMetadataById(pSurroundingContainerId));
-			// var cParentPresentation = CORA.coraData(metadataProvider
-			// .getMetadataById(presentationParentId));
-
+			var dependencies = {
+				"loginManager" : CORATEST.loginManagerSpy()
+			};
 			var spec = {
-				// "presentationId" : presentationId,
 				"path" : {},
 				"cPresentation" : cPresentation,
 				"cParentPresentation" : undefined,
@@ -44,18 +39,7 @@ var CORATEST = (function(coraTest) {
 				"recordTypeProvider" : recordTypeProvider,
 				"dataDivider" : "systemX"
 			};
-			// var spec = {
-			// "path" : path,
-			// "cPresentation" : cPSurroundingContainer,
-			// "cParentPresentation" : cParentPresentation,
-			// "metadataProvider" : metadataProvider,
-			// "pubSub" : pubSub,
-			// "textProvider" : textProvider,
-			// "presentationFactory" : presentationFactory,
-			// "jsBookkeeper" : jsBookkeeper
-			//
-			// };
-			var pResourceLink = CORA.pResourceLink(spec);
+			var pResourceLink = CORA.pResourceLink(dependencies, spec);
 
 			var view = pResourceLink.getView();
 			fixture.appendChild(view);
@@ -203,7 +187,8 @@ QUnit.test("testOneChildHandleLinkedResource", function(assert) {
 	pResourceLink.handleMsg(CORATEST.resourceLinkDataFromMessage);
 
 	var image = view.childNodes[2];
-	assert.equal(image.src, "http://localhost:8080/therest/rest/record/image/image:123456/master");
+	assert.equal(image.src, "http://localhost:8080/therest/rest/record/image/image:123456/master"
+			+ "?authToken=fitnesseAdminToken");
 
 });
 
@@ -218,7 +203,8 @@ QUnit.test("testOneChildHandleLinkedResourceNoChildReferences", function(assert)
 	pResourceLink.handleMsg(CORATEST.resourceLinkDataFromMessage);
 
 	var image = view.childNodes[1];
-	assert.equal(image.src, "http://localhost:8080/therest/rest/record/image/image:123456/master");
+	assert.equal(image.src, "http://localhost:8080/therest/rest/record/image/image:123456/master"
+			+ "?authToken=fitnesseAdminToken");
 
 });
 
@@ -249,109 +235,9 @@ QUnit.test("testOneChildMasterPResLinkDownloadOutputFormat", function(assert) {
 
 	var link = view.childNodes[1];
 	assert.equal(link.nodeName, "A");
-	assert.equal(link.href, "http://localhost:8080/therest/rest/record/image/image:123456/master");
+	assert.equal(link.href, "http://localhost:8080/therest/rest/record/image/image:123456/master"
+			+ "?authToken=fitnesseAdminToken");
 	assert.equal(link.textContent, "Ladda ner");
 	assert.equal(link.target, "_blank");
 
 });
-// QUnit.test("testInitOneTextOneChild", function(assert) {
-// var attachedPResourceLink = this.newAttachedPResourceLink
-// .factor("pgGroupIdOneTextOneTextChild");
-// var view = attachedPResourceLink.view;
-//
-// assert.ok(view.childNodes.length === 3,
-// "pgGroupIdOneTextOneTextChild, should have two children");
-//
-// var text = view.childNodes[1];
-// assert.deepEqual(text.textContent, "En rubrik");
-//
-// var childRefHandler = view.childNodes[2];
-// assert.deepEqual(childRefHandler.className,
-// "pChildRefHandler pVarTextVariableId");
-// });
-//
-// QUnit.test("testInitOneCollectionChild", function(assert) {
-// var attachedPResourceLink = this.newAttachedPResourceLink
-// .factor("groupWithOneCollectionVarChildPResourceLink");
-// var view = attachedPResourceLink.view;
-//
-// assert.ok(view.childNodes.length === 3,
-// "pgGroupIdOneTextOneTextChild, should have two children");
-//
-// var text = view.childNodes[1];
-// assert.deepEqual(text.textContent, "En rubrik");
-//
-// var childRefHandler = view.childNodes[2];
-// assert.deepEqual(childRefHandler.className,
-// "pChildRefHandler userSuppliedIdCollectionVarPCollVar");
-// });
-//
-// QUnit.test("testInitTwoChildren",
-// function(assert) {
-// var attachedPResourceLink = this.newAttachedPResourceLink
-// .factor("pgGroupIdTwoTextChild");
-// var view = attachedPResourceLink.view;
-//
-// assert.ok(view.childNodes.length === 3);
-//
-// var childRefHandler = view.childNodes[1];
-// assert.deepEqual(childRefHandler.className,
-// "pChildRefHandler pVarTextVariableId");
-// var childRefHandler2 = view.childNodes[2];
-// assert.deepEqual(childRefHandler2.className,
-// "pChildRefHandler pVarTextVariableId2");
-// });
-//
-// QUnit.test("testInitOneChildMimimized", function(assert) {
-// var attachedPResourceLink = this.newAttachedPResourceLink
-// .factor("pgGroupIdOneTextChildMinimized");
-// var view = attachedPResourceLink.view;
-// var childRefHandler = view.childNodes[1];
-// var pChildRefHandler = childRefHandler.modelObject;
-// pChildRefHandler.add("groupIdOneTextChild",
-// "onelkadsjflökads jflköads jflökadsjfldasj lk");
-//
-// // minimizedPresentation
-// var repeatingElement = childRefHandler.childNodes[0].firstChild;
-// assert.strictEqual(repeatingElement.childNodes.length, 3);
-//
-// var repeatingButtonView = repeatingElement.childNodes[2];
-// assert
-// .visible(repeatingButtonView,
-// "repeatingButtonView should be visible");
-//
-// var maximizeButton = repeatingButtonView.childNodes[1];
-// assert.strictEqual(maximizeButton.className, "maximizeButton");
-// assert.notVisible(maximizeButton, "maximizeButton should be hidden");
-//
-// var minimizeButton = repeatingButtonView.childNodes[2];
-// assert.strictEqual(minimizeButton.className, "minimizeButton");
-// assert.visible(minimizeButton, "minimizeButton should be visible");
-// });
-//
-// QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
-// var attachedPResourceLink = this.newAttachedPResourceLink
-// .factor("pgGroupIdOneTextChildMinimizedDefault");
-// var view = attachedPResourceLink.view;
-// var childRefHandler = view.childNodes[1];
-// var pChildRefHandler = childRefHandler.modelObject;
-// pChildRefHandler.add("groupIdOneTextChild",
-// "onelkadsjflökads jflköads jflökadsjfldasj lk");
-//
-// // minimizedPresentation
-// var repeatingElement = childRefHandler.childNodes[0].firstChild;
-// assert.strictEqual(repeatingElement.childNodes.length, 3);
-//
-// var repeatingButtonView = repeatingElement.childNodes[2];
-// assert
-// .visible(repeatingButtonView,
-// "repeatingButtonView should be visible");
-//
-// var maximizeButton = repeatingButtonView.childNodes[0];
-// assert.strictEqual(maximizeButton.className, "maximizeButton");
-// assert.visible(maximizeButton, "maximizeButton should be shown");
-//
-// var minimizeButton = repeatingButtonView.childNodes[1];
-// assert.strictEqual(minimizeButton.className, "minimizeButton");
-// assert.notVisible(minimizeButton, "minimizeButton should be hidden");
-// });
