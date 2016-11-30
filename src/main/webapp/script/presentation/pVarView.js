@@ -42,18 +42,27 @@ var CORA = (function(cora) {
 					"text" : spec.info.defText
 				} ],
 			};
-			if (spec.info.technicalInfo) {
-				infoSpec.level2 = [];
-
-				spec.info.technicalInfo.forEach(function(text) {
-
-					infoSpec.level2.push({
-						"className" : "technicalView",
-						"text" : text
-					});
-				});
-			}
+			possiblyAddLevel2Info(infoSpec);
 			return dependencies.infoFactory.factor(infoSpec);
+		}
+		function possiblyAddLevel2Info(infoSpec) {
+			if (specInfoHasTechnicalInfo()) {
+				addLevelTechnicalInfoAsLevel2(infoSpec);
+			}
+		}
+		function specInfoHasTechnicalInfo() {
+			return spec.info.technicalInfo;
+		}
+
+		function addLevelTechnicalInfoAsLevel2(infoSpec) {
+			infoSpec.level2 = [];
+			spec.info.technicalInfo.forEach(function(text) {
+
+				infoSpec.level2.push({
+					"className" : "technicalView",
+					"text" : text
+				});
+			});
 		}
 		// function updateView() {
 		// var className = originalClassName;
