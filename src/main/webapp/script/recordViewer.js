@@ -40,7 +40,7 @@ var CORA = (function(cora) {
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
-			spec.dependencies.ajaxCallFactory.factor(callSpec);
+			spec.ajaxCallFactory.factor(callSpec);
 		}
 		function callError(answer) {
 			busy.hideWithEffect();

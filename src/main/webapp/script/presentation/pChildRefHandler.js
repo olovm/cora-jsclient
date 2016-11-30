@@ -413,7 +413,7 @@ var CORA = (function(cora) {
 				"data" : JSON.stringify(data),
 				"file" : localFile
 			};
-			spec.dependencies.ajaxCallFactory.factor(callSpec);
+			spec.ajaxCallFactory.factor(callSpec);
 		}
 
 		function createNewBinaryData() {

@@ -24,7 +24,6 @@ var CORA = (function(cora) {
 
 		function factor(path, metadataIdUsedInData, cPresentation, cParentPresentation) {
 			var specNew = {
-				"dependencies" : dependencies.dependencies,
 				"metadataProvider" : dependencies.metadataProvider,
 				"pubSub" : dependencies.pubSub,
 				"textProvider" : dependencies.textProvider,
@@ -33,6 +32,7 @@ var CORA = (function(cora) {
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"recordTypeProvider" : dependencies.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
+				"ajaxCallFactory":dependencies.ajaxCallFactory,
 				//dependencies are doubled as we move to usning them collected as dependencies
 				"dependencies" : {
 					"metadataProvider" : dependencies.metadataProvider,
@@ -44,6 +44,7 @@ var CORA = (function(cora) {
 					"recordGuiFactory" : dependencies.recordGuiFactory,
 					"recordTypeProvider" : dependencies.recordTypeProvider,
 					"uploadManager" : dependencies.uploadManager,
+					"ajaxCallFactory":dependencies.ajaxCallFactory
 				},
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,
@@ -61,7 +62,7 @@ var CORA = (function(cora) {
 			} else if (type === "pCollVar") {
 				return CORA.pCollectionVar(specNew);
 			} else if (type === "pResourceLink") {
-				return CORA.pResourceLink(specNew);
+				return CORA.pResourceLink(dependencies, specNew);
 			} else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {
