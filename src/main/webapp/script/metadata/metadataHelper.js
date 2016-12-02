@@ -118,7 +118,13 @@ var CORA = (function(cora) {
 
 		function getMetadataIdFromRef(metadataChildRef) {
 			var cMetadataChildRef = CORA.coraData(metadataChildRef);
-			var childMetadataId = cMetadataChildRef.getFirstAtomicValueByNameInData("ref");
+			var childMetadataId;
+			if(cMetadataChildRef.getFirstAtomicValueByNameInData("ref") !== undefined) {
+				childMetadataId = cMetadataChildRef.getFirstAtomicValueByNameInData("ref");
+			}else{
+				var cRef = CORA.coraData(cMetadataChildRef.getFirstChildByNameInData("ref"));
+				childMetadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
+			}
 			return childMetadataId;
 		}
 

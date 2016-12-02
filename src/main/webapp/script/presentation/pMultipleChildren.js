@@ -99,15 +99,27 @@ var CORA = (function(cora) {
 
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var ref = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
+			var ref;
+			if(cPresentationChildRef.getFirstAtomicValueByNameInData("ref") !== undefined){
+				ref = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
+				//console.log("i if");
+			}else {
+				//console.log("i else")
+				var cRef = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
+				ref = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
+			}
+			//console.log(ref);
 			var cPresentationChild = getMetadataById(ref);
 
+			//console.log("a");
 			if (childIsText(cPresentationChild)) {
 				return createText(ref);
 			}
+			//console.log("b");
 			if (childIsSurroundingContainer(cPresentationChild)) {
 				return createSurroundingContainer(cPresentationChild);
 			}
+			//console.log("c");
 			return createPChildRefHandler(cPresentationChild, cPresentationChildRef);
 		}
 

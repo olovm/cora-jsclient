@@ -1116,7 +1116,7 @@ function MetadataProviderStub() {
 				"name" : "metadata",
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("id", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "id", "1") ]
 
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("recordInfo")),
@@ -1138,7 +1138,7 @@ function MetadataProviderStub() {
 
 				}, {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("id", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "id", "1") ]
 
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("recordInfo")),
@@ -1385,13 +1385,13 @@ function MetadataProviderStub() {
 						{
 							"name" : "childReferences",
 							"children" : [
-									createChildReferenceWithRefAndRepeatId1to1("recordInfo", "1"),
-									createChildReferenceWithRefAndRepeatId1to1("nameInData", "2"),
-									createChildReferenceWithRefAndRepeatId1to1("textId", "3"),
-									createChildReferenceWithRefAndRepeatId1to1("defTextId", "4"),
+									createChildReferenceWithRefAndRepeatId1to1("metadataTextGroup", "recordInfo", "1"),
+									createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "nameInData", "2"),
+									createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "textId", "3"),
+									createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "defTextId", "4"),
 									createChildReferenceWithRefAndRepeatId1to1(
 											"attributeReferences", "5"),
-									createChildReferenceWithRefAndRepeatId1to1("childReferences",
+									createChildReferenceWithRefAndRepeatId1to1("metadataTextGroup", "childReferences",
 											"6") ]
 
 						} ]
@@ -1479,14 +1479,14 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("ref", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("repeatMin", "2"),
-							createChildReferenceWithRefAndRepeatId1to1("repeatMinKey", "3"),
-							createChildReferenceWithRefAndRepeatId1to1("repeatMax", "4"),
-							createChildReferenceWithRefAndRepeatId1to1("secret", "5"),
-							createChildReferenceWithRefAndRepeatId1to1("secretKey", "6"),
-							createChildReferenceWithRefAndRepeatId1to1("readOnly", "7"),
-							createChildReferenceWithRefAndRepeatId1to1("readOnlyKey", "8") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "ref", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "repeatMin", "2"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "repeatMinKey", "3"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "repeatMax", "4"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "secret", "5"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "secretKey", "6"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "readOnly", "7"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "readOnlyKey", "8") ]
 
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 
@@ -1837,7 +1837,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myLink", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataRecordLink", "myLink", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -1889,7 +1889,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myLinkWithAttribute", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataRecordLink", "myLinkWithAttribute", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -1938,7 +1938,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myFinalValueLink",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataRecordLink", "myFinalValueLink",
 							"1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
@@ -2114,7 +2114,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myPathLink", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataRecordLink", "myPathLink", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -6207,10 +6207,10 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [
-							createChildReferenceWithRefAndRepeatId1to1("streamIdTextVar", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("filenameTextVar", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("filesizeTextVar", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("mimeTypeTextVar", "1") ]
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "streamIdTextVar", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "filenameTextVar", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "filesizeTextVar", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "mimeTypeTextVar", "1") ]
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("metadataGroupForResourceLinkGroup"))
 			};
@@ -6294,7 +6294,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("masterResLink", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataRecordLink", "masterResLink", "1") ]
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("groupIdOneResourceLinkChild"))
 			};

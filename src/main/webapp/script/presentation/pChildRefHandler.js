@@ -31,7 +31,13 @@ var CORA = (function(cora) {
 		if (childRefFoundInCurrentlyUsedParentMetadata()) {
 			return createFakePChildRefHandlerAsWeDoNotHaveMetadataToWorkWith();
 		}
-		var metadataId = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref");
+		var metadataId;
+		if(cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref") !== undefined) {
+			metadataId = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref");
+		}else{
+			var cRef = CORA.coraData(cParentMetadataChildRefPart.getFirstChildByNameInData("ref"));
+			metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
 		var cMetadataElement = getMetadataById(metadataId);
 
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
