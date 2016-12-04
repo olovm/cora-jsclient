@@ -230,6 +230,7 @@ var CORA = (function(cora) {
 		}
 
 		function add(metadataIdToAdd, repeatId) {
+//			console.log("i add pChildRefHandler")
 			noOfRepeating++;
 			var newPath = calculateNewPath(metadataIdToAdd, repeatId);
 			var repeatingElement = createRepeatingElement(newPath);

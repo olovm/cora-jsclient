@@ -220,12 +220,23 @@ var CORA = (function(cora) {
 		}
 
 		function createRefWithRef(ref) {
+			console.log(ref)
 			return {
 				"name" : "childReference",
 				"repeatId" : 1,
 				"children" : [ {
 					"name" : "ref",
-					"value" : ref
+					"children": [ {
+						"name": "linkedRecordType",
+						"value": "metadataTextVariable"
+						},
+						{
+						"name": "linkedRecordId",
+						"value": ref
+						}
+					],"attributes": {
+						"type": "textVariable"
+					}
 				}, {
 					"name" : "repeatMin",
 					"value" : "1"

@@ -74,7 +74,18 @@ QUnit.test("testGetChildRefPartOfMetadata", function(assert) {
 				"repeatId" : "1",
 				"children" : [ {
 					"name" : "ref",
-					"value" : "textVariableId"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataTextVariable"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVariableId"
+						}
+					],"attributes": {
+						"type": "textVariable"
+					}
 				}, {
 					"name" : "repeatMin",
 					"value" : "1"
@@ -117,7 +128,18 @@ QUnit.test("testGetChildRefPartOfMetadata", function(assert) {
 		"repeatId" : "1",
 		"children" : [ {
 			"name" : "ref",
-			"value" : "textVariableId"
+			"children": [
+				{
+					"name": "linkedRecordType",
+					"value": "metadataTextVariable"
+				},
+				{
+					"name": "linkedRecordId",
+					"value": "textVariableId"
+				}
+			],"attributes": {
+				"type": "textVariable"
+			}
 		}, {
 			"name" : "repeatMin",
 			"value" : "1"
@@ -176,7 +198,18 @@ QUnit.test("testGetChildRefPartOfMetadata2", function(assert) {
 				"repeatId" : "1",
 				"children" : [ {
 					"name" : "ref",
-					"value" : "recordInfoTextGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "recordInfoTextGroup"
+						}
+					],"attributes": {
+						"type": "group"
+					}
 				}, {
 					"name" : "repeatMin",
 					"value" : "1"
@@ -189,7 +222,18 @@ QUnit.test("testGetChildRefPartOfMetadata2", function(assert) {
 				"repeatId" : "2",
 				"children" : [ {
 					"name" : "ref",
-					"value" : "textPartSvGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textPartSvGroup"
+						}
+					],"attributes": {
+						"type": "group"
+					}
 				}, {
 					"name" : "repeatMin",
 					"value" : "1"
@@ -202,7 +246,18 @@ QUnit.test("testGetChildRefPartOfMetadata2", function(assert) {
 				"repeatId" : "3",
 				"children" : [ {
 					"name" : "ref",
-					"value" : "textPartEnGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textPartEnGroup"
+						}
+					],"attributes": {
+						"type": "group"
+					}
 				}, {
 					"name" : "repeatMin",
 					"value" : "0"
@@ -226,7 +281,18 @@ QUnit.test("testGetChildRefPartOfMetadata2", function(assert) {
 		"repeatId" : "2",
 		"children" : [ {
 			"name" : "ref",
-			"value" : "textPartSvGroup"
+			"children": [
+				{
+					"name": "linkedRecordType",
+					"value": "metadataGroup"
+				},
+				{
+					"name": "linkedRecordId",
+					"value": "textPartSvGroup"
+				}
+			],"attributes": {
+				"type": "group"
+			}
 		}, {
 			"name" : "repeatMin",
 			"value" : "1"

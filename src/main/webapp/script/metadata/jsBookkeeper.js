@@ -34,7 +34,9 @@ var CORA = (function(cora) {
 			}
 
 			var cChildReference = CORA.coraData(childReference);
-			var ref = cChildReference.getFirstAtomicValueByNameInData('ref');
+//			var ref = cChildReference.getFirstAtomicValueByNameInData('ref');
+			var cRef = CORA.coraData(cChildReference.getFirstChildByNameInData("ref"));
+			var ref = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 			var repeatMax = cChildReference.getFirstAtomicValueByNameInData('repeatMax');
 			if (repeatMax === "1") {
 				CORA.metadataRepeatInitializer(ref, path, undefined, undefined,
