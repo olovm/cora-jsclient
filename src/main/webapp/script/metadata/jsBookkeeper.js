@@ -32,9 +32,7 @@ var CORA = (function(cora) {
 			if (path.children !== undefined) {
 				currentData = spec.dataHolder.findContainer(currentData, path);
 			}
-
 			var cChildReference = CORA.coraData(childReference);
-//			var ref = cChildReference.getFirstAtomicValueByNameInData('ref');
 			var cRef = CORA.coraData(cChildReference.getFirstChildByNameInData("ref"));
 			var ref = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 			var repeatMax = cChildReference.getFirstAtomicValueByNameInData('repeatMax');

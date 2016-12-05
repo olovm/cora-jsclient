@@ -25,19 +25,13 @@ var CORA = (function(cora) {
 		});
 		var presentationId = findPresentationId(spec.cPresentation);
 		var metadataIdFromPresentation = getMetadataIdFromPresentation();
-
 		var cParentMetadataChildRefPart = metadataHelper.getChildRefPartOfMetadata(
 				spec.cParentMetadata, metadataIdFromPresentation);
 		if (childRefFoundInCurrentlyUsedParentMetadata()) {
 			return createFakePChildRefHandlerAsWeDoNotHaveMetadataToWorkWith();
 		}
-		var metadataId;
-		if(cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref") !== undefined) {
-			metadataId = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref");
-		}else{
-			var cRef = CORA.coraData(cParentMetadataChildRefPart.getFirstChildByNameInData("ref"));
-			metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
-		}
+		var cRef = CORA.coraData(cParentMetadataChildRefPart.getFirstChildByNameInData("ref"));
+		var metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 		var cMetadataElement = getMetadataById(metadataId);
 
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
@@ -230,7 +224,6 @@ var CORA = (function(cora) {
 		}
 
 		function add(metadataIdToAdd, repeatId) {
-//			console.log("i add pChildRefHandler")
 			noOfRepeating++;
 			var newPath = calculateNewPath(metadataIdToAdd, repeatId);
 			var repeatingElement = createRepeatingElement(newPath);

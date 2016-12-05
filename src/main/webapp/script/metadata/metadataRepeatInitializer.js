@@ -220,7 +220,6 @@ var CORA = (function(cora) {
 		}
 
 		function createRefWithRef(ref) {
-			console.log(ref)
 			return {
 				"name" : "childReference",
 				"repeatId" : 1,

@@ -1599,8 +1599,19 @@ function MetadataProviderStub() {
 					"children" : [ {
 						"repeatId" : "1",
 						"children" : [ {
-							"name" : "ref",
-							"value" : "recordInfoPVarGroup"
+							"name": "ref",
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "recordInfoPVarGroup"
+								}
+							],"attributes": {
+								"type": "group"
+							}
 						// "value" : "recordInfo"
 						}, {
 							"name" : "repeatMin",
@@ -1658,8 +1669,19 @@ function MetadataProviderStub() {
 					"children" : [ {
 						"repeatId" : "1",
 						"children" : [ {
-							"name" : "ref",
-							"value" : "recordInfoPVarAttributeGroup"
+							"name": "ref",
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "recordInfoPVarAttributeGroup"
+								}
+							],"attributes": {
+								"type": "group"
+							}
 						// "value" : "recordInfo"
 						}, {
 							"name" : "repeatMin",
@@ -1754,7 +1776,18 @@ function MetadataProviderStub() {
 						"repeatId" : "1",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "idPVarTextVar"
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataTextVariable"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "idPVarTextVar"
+								}
+							],"attributes": {
+								"type": "textVariable"
+							}
 						}, {
 							"name" : "repeatMin",
 							"value" : "1"
@@ -1811,7 +1844,18 @@ function MetadataProviderStub() {
 						"repeatId" : "1",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "idPVarTextVar"
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataTextVariable"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "idPVarTextVar"
+								}
+							],"attributes": {
+								"type": "textVariable"
+							}
 						}, {
 							"name" : "repeatMin",
 							"value" : "1"
