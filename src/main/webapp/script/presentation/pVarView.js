@@ -22,10 +22,13 @@ var CORA = (function(cora) {
 		var out;
 		var view;
 		var valueView;
+		var baseClassName = "pVar " + spec.presentationId;
+		var info;
+		var state = "ok";
 
 		function start() {
-			view = CORA.gui.createSpanWithClassName("pVar " + spec.presentationId);
-			var info = createInfo();
+			view = CORA.gui.createSpanWithClassName(baseClassName);
+			info = createInfo();
 
 			createValueView();
 			view.appendChild(valueView);
@@ -33,7 +36,7 @@ var CORA = (function(cora) {
 		function createInfo() {
 			var infoSpec = {
 				"appendTo" : view,
-				// "afterLevelChange" : updateView,
+				"afterLevelChange" : updateClassName,
 				"level1" : [ {
 					"className" : "textView",
 					"text" : spec.info.text
@@ -64,16 +67,24 @@ var CORA = (function(cora) {
 				});
 			});
 		}
-		// function updateView() {
-		// var className = originalClassName;
-		// if (state === "error") {
-		// className += " error";
-		// }
-		// if (info.getInfoLevel() !== 0) {
-		// className += " infoActive";
-		// }
-		// view.className = className;
-		// }
+		function updateClassName() {
+			var className = baseClassName;
+			if (stateIndicatesError()) {
+				className += " error";
+			}
+			if (infoIsShown()) {
+				className += " infoActive";
+			}
+			view.className = className;
+		}
+
+		function stateIndicatesError() {
+			return state === "error";
+		}
+
+		function infoIsShown() {
+			return info.getInfoLevel() !== 0;
+		}
 
 		function createValueView() {
 			if (spec.mode === "input") {
@@ -141,12 +152,19 @@ var CORA = (function(cora) {
 			valueView.setValue(value);
 		}
 
+		function setState(stateIn) {
+			state = stateIn;
+			updateClassName();
+		}
+
 		out = Object.freeze({
 			"type" : "pVarView",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-			setValue : setValue
+			setValue : setValue,
+			updateClassName : updateClassName,
+			setState : setState
 		});
 		start();
 		return out;

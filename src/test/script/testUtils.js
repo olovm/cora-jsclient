@@ -26,5 +26,10 @@ var CORATEST = (function(coraTest) {
 		assert.equal(span.textContent, text);
 	};
 
+	coraTest.assertSpanHasClassName = function(span, className, assert) {
+		assert.equal(span.nodeName, "SPAN");
+		assert.equal(span.className, className);
+	};
+
 	return coraTest;
 }(CORATEST || {}));

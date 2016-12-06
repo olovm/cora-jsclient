@@ -22,6 +22,7 @@ var CORATEST = (function(coraTest) {
 		var spyView = document.createElement("span");
 		spyView.className = "infoSpySpan";
 		addBaseViewAccordingToSpec();
+		var infoLevel = 0;
 
 		function addBaseViewAccordingToSpec() {
 			if (spec.appendTo !== undefined) {
@@ -45,11 +46,21 @@ var CORATEST = (function(coraTest) {
 			return CORA.gui.createButton(infoButtonSpec);
 		}
 
+		function getInfoLevel() {
+			return infoLevel;
+		}
+
+		function setInfoLevel(level) {
+			infoLevel = level;
+		}
+
 		var out = Object.freeze({
 			"type" : "infoSpy",
 			getSpec : getSpec,
 			getView : getView,
-			getButton : getButton
+			getButton : getButton,
+			getInfoLevel : getInfoLevel,
+			setInfoLevel : setInfoLevel
 		});
 		return out;
 	};

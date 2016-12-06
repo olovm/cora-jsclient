@@ -80,6 +80,11 @@ QUnit.test("getView", function(assert) {
 	assert.strictEqual(view.nodeName, "SPAN");
 });
 
+QUnit.test("testClassName", function(assert) {
+	var view = this.getView();
+	assert.strictEqual(view.className, "pVar somePresentationId");
+});
+
 QUnit.test("testInfoSpec", function(assert) {
 	var expectedSpec = {
 		"appendTo" : {},
@@ -105,6 +110,9 @@ QUnit.test("testInfoSpec", function(assert) {
 	var infoSpy = this.dependencies.infoFactory.getFactored(0);
 	var usedSpec = infoSpy.getSpec();
 	assert.stringifyEqual(usedSpec, expectedSpec);
+	assert.strictEqual(usedSpec.appendTo, this.getView());
+	assert.strictEqual(usedSpec.afterLevelChange, pVarView.updateClassName);
+
 });
 
 QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
@@ -129,6 +137,36 @@ QUnit.test("testInfoPlaced", function(assert) {
 	var view = this.getView();
 	var infoSpan = view.childNodes[0];
 	assert.equal(infoSpan.className, "infoSpySpan");
+});
+
+QUnit.test("testActiveInfoShownInClassName", function(assert) {
+	var pVarView = this.getPVarView();
+	var view = this.getView();
+	var infoSpy = this.dependencies.infoFactory.getFactored(0);
+	assert.strictEqual(view.className, "pVar somePresentationId");
+	infoSpy.setInfoLevel(0);
+	pVarView.updateClassName();
+	assert.strictEqual(view.className, "pVar somePresentationId");
+	infoSpy.setInfoLevel(1);
+	pVarView.updateClassName();
+	assert.strictEqual(view.className, "pVar somePresentationId infoActive");
+	infoSpy.setInfoLevel(0);
+	pVarView.updateClassName();
+	assert.strictEqual(view.className, "pVar somePresentationId");
+});
+
+QUnit.test("testStateShownInClassName", function(assert) {
+	var pVarView = this.getPVarView();
+	var view = this.getView();
+	var infoSpy = this.dependencies.infoFactory.getFactored(0);
+	assert.strictEqual(view.className, "pVar somePresentationId");
+	pVarView.setState("error");
+	assert.strictEqual(view.className, "pVar somePresentationId error"); 
+	infoSpy.setInfoLevel(1);
+	pVarView.updateClassName();
+	assert.strictEqual(view.className, "pVar somePresentationId error infoActive");
+	pVarView.setState("ok");
+	assert.strictEqual(view.className, "pVar somePresentationId infoActive");
 });
 
 QUnit.test("testInput", function(assert) {
