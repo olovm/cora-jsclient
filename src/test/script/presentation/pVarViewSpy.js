@@ -23,10 +23,11 @@ var CORATEST = (function(coraTest) {
 		var addedToolViews = [];
 		var showDataF = null;
 		var view = document.createElement("span");
+		var state;
+		var value;
 		function getView() {
 			return view;
 		}
-
 
 		function getDependencies() {
 			return dependencies;
@@ -34,11 +35,27 @@ var CORATEST = (function(coraTest) {
 		function getSpec() {
 			return spec;
 		}
-
+		function setValue(valueIn) {
+			value = valueIn;
+		}
+		function getValue() {
+			return value;
+		}
+		function setState(stateIn) {
+			state = stateIn;
+		}
+		function getState() {
+			return state;
+		}
 		var out = Object.freeze({
-			getDependencies:getDependencies,
+			"type" : "pVarViewSpy",
+			getDependencies : getDependencies,
 			getView : getView,
-			getSpec : getSpec
+			getSpec : getSpec,
+			setValue : setValue,
+			etValue : getValue,
+			setState : setState,
+			getState : getState
 		});
 		return out;
 	};
