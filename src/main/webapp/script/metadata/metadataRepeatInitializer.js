@@ -225,7 +225,17 @@ var CORA = (function(cora) {
 				"repeatId" : 1,
 				"children" : [ {
 					"name" : "ref",
-					"value" : ref
+					"children": [ {
+						"name": "linkedRecordType",
+						"value": "metadataTextVariable"
+						},
+						{
+						"name": "linkedRecordId",
+						"value": ref
+						}
+					],"attributes": {
+						"type": "textVariable"
+					}
 				}, {
 					"name" : "repeatMin",
 					"value" : "1"

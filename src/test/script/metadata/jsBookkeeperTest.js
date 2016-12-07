@@ -78,7 +78,18 @@ QUnit.test("testAdd", function(assert) {
 		"repeatId" : "1",
 		"children" : [ {
 			"name" : "ref",
-			"value" : "textVariableId"
+			"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "metadataTextVariable"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "textVariableId"
+					}
+				],"attributes": {
+					"type": "textVariable"
+				}
 		}, {
 			"name" : "repeatMin",
 			"value" : "1"
@@ -205,7 +216,18 @@ QUnit.test("testAddRepeating", function(assert) {
 			"repeatId" : "1",
 			"children" : [ {
 				"name" : "ref",
-				"value" : "textVar"
+				"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataTextVariable"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVar"
+						}
+					],"attributes": {
+						"type": "textVariable"
+					}
 			}, {
 				"name" : "repeatMin",
 				"value" : "1"

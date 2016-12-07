@@ -25,13 +25,13 @@ var CORA = (function(cora) {
 		});
 		var presentationId = findPresentationId(spec.cPresentation);
 		var metadataIdFromPresentation = getMetadataIdFromPresentation();
-
 		var cParentMetadataChildRefPart = metadataHelper.getChildRefPartOfMetadata(
 				spec.cParentMetadata, metadataIdFromPresentation);
 		if (childRefFoundInCurrentlyUsedParentMetadata()) {
 			return createFakePChildRefHandlerAsWeDoNotHaveMetadataToWorkWith();
 		}
-		var metadataId = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("ref");
+		var cRef = CORA.coraData(cParentMetadataChildRefPart.getFirstChildByNameInData("ref"));
+		var metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 		var cMetadataElement = getMetadataById(metadataId);
 
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");

@@ -26,7 +26,8 @@ var CORA = (function(cora) {
 		var childReference = CORA.coraData(childReferenceIn);
 		var data = CORA.coraData(dataIn);
 
-		var ref = childReference.getFirstAtomicValueByNameInData('ref');
+		var cRef = CORA.coraData(childReference.getFirstChildByNameInData("ref"));
+		var ref = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 		var nameInData = getNameInDataForMetadataId(ref);
 		var attributes = getAttributesForMetadataId(ref);
 		var dataChildrenForMetadata = getDataChildrenForMetadata(nameInData, attributes);

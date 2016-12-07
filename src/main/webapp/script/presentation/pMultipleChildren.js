@@ -55,7 +55,6 @@ var CORA = (function(cora) {
 				var presentationChildren = my.cPresentation
 						.getFirstChildByNameInData("childReferences").children;
 				presentationChildren.forEach(function(presentationChildRef) {
-//					console.log("presentationChildRef",JSON.stringify(presentationChildRef))
 					viewNew.appendChild(createViewForChild(presentationChildRef));
 				});
 			}

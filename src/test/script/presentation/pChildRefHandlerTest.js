@@ -503,8 +503,20 @@ QUnit.test("testAddButtonFor1toX", function(assert) {
 	var addData = {
 		"childReference" : {
 			"children" : [ {
+				"attributes": {
+					"type": "textVariable"
+				},
 				"name" : "ref",
-				"value" : "textVariableId"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "metadataTextVariable"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "textVariableId"
+					}
+				]
 			}, {
 				"name" : "repeatMin",
 				"value" : "1"
@@ -541,8 +553,20 @@ QUnit.test("testAddButtonWithAttributes", function(assert) {
 		},
 		"childReference" : {
 			"children" : [ {
+				"attributes": {
+					"type": "textVariable"
+				},
 				"name" : "ref",
-				"value" : "textVarRepeat1to3InGroupOneAttribute"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "metadataTextVariable"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "textVarRepeat1to3InGroupOneAttribute"
+					}
+				]
 			}, {
 				"name" : "repeatMin",
 				"value" : "0"
@@ -641,8 +665,20 @@ QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 	var addData = {
 		"childReference" : {
 			"children" : [ {
+				"attributes": {
+					"type": "recordLink"
+				},
 				"name" : "ref",
-				"value" : "myChildOfBinaryLink"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "metadataRecordLink"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "myChildOfBinaryLink"
+					}
+				]
 			}, {
 				"name" : "repeatMin",
 				"value" : "0"
