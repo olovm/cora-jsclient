@@ -176,7 +176,18 @@ QUnit.test("getMetadataById", function(assert) {
 				"repeatId" : "1",
 				"children" : [ {
 					"name" : "ref",
-					"value" : "textTextVar"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataTextVariable"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textTextVar"
+						}
+					],"attributes": {
+						"type": "textVariable"
+					}
 				}, {
 					"name" : "repeatMin",
 					"value" : "1"

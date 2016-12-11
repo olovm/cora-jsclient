@@ -66,7 +66,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "idPVarTextVar"
+				                        "children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataTextVariable"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "idPVarTextVar"
+		             						}
+		             					],"attributes": {
+		             						"type": "textVariable"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",
@@ -84,7 +95,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "typeTextVar"
+				                        "children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataTextVariable"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "typeTextVar"
+		             						}
+		             					],"attributes": {
+		             						"type": "textVariable"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",
@@ -102,7 +124,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "createdByTextVar"
+				                        "children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataTextVariable"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "createdByTextVar"
+		             						}
+		             					],"attributes": {
+		             						"type": "textVariable"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",
@@ -190,7 +223,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "recordInfo"
+				                        "children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataGroup"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "recordInfo"
+		             						}
+		             					],"attributes": {
+		             						"type": "group"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",
@@ -208,7 +252,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "nameInDataTextVar"
+				                        "children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataTextVariable"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "nameInDataTextVar"
+		             						}
+		             					],"attributes": {
+		             						"type": "textVariable"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",
@@ -226,7 +281,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "textIdTextVar"
+				                        "children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataTextVariable"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "textIdTextVar"
+		             						}
+		             					],"attributes": {
+		             						"type": "textVariable"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",
@@ -244,7 +310,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "defTextIdTextVar"
+			                        	"children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataTextVariable"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "defTextIdTextVar"
+		             						}
+		             					],"attributes": {
+		             						"type": "textVariable"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",
@@ -262,7 +339,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "refParentIdTextVar"
+				                        "children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataTextVariable"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "refParentIdTextVar"
+		             						}
+		             					],"attributes": {
+		             						"type": "textVariable"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",
@@ -280,7 +368,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "attributeReferences"
+				                        "children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataGroup"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "attributeReferences"
+		             						}
+		             					],"attributes": {
+		             						"type": "group"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",
@@ -298,7 +397,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "childReferences"
+				                        "children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataGroup"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "childReferences"
+		             						}
+		             					],"attributes": {
+		             						"type": "group"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",
@@ -395,7 +505,18 @@ var CORATEST = (function(coraTest) {
 				                    "children": [
 				                      {
 				                        "name": "ref",
-				                        "value": "textTextVar"
+				                        "children": [
+		             						{
+		             							"name": "linkedRecordType",
+		             							"value": "metadataTextVariable"
+		             						},
+		             						{
+		             							"name": "linkedRecordId",
+		             							"value": "textTextVar"
+		             						}
+		             					],"attributes": {
+		             						"type": "textVariable"
+		             					}
 				                      },
 				                      {
 				                        "name": "repeatMin",

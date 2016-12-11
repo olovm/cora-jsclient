@@ -59,18 +59,41 @@ function MetadataProviderStub() {
 			"value" : id + "DefText"
 		} ];
 	}
-	function createChildReferenceWithRefAndRepeatId1to1(ref, repeatId) {
-		return createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(ref, repeatId, "1",
+	function createChildReferenceWithRefAndRepeatId1to1(refRecordType, ref, repeatId) {
+		var attribute = "metadataGroup";
+		if(refRecordType === "metadataCollectionVariable"){
+			attribute = "collectionVariable";
+		}else if(refRecordType === "metadataRecordLink"){
+			attribute = "recordLink";
+		}else if(refRecordType === "metadataResourceLink"){
+			attribute = "resourceLink";
+		}
+		else if(refRecordType === "metadataTextVariable"){
+			attribute = "textVariable";
+		}
+
+		return createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(refRecordType, ref, attribute, repeatId, "1",
 				"1");
 	}
-	function createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(ref, repeatId,
+	function createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(refRecordType, ref, attribute, repeatId,
 			repeatMin, repeatMax) {
 		return {
 			"name" : "childReference",
 			"repeatId" : repeatId,
 			"children" : [ {
-				"name" : "ref",
-				"value" : ref
+				"name": "ref",
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": refRecordType
+					},
+					{
+						"name": "linkedRecordId",
+						"value": ref
+					}
+				],"attributes": {
+					"type": attribute
+				}
 			}, {
 				"name" : "repeatMin",
 				"value" : repeatMin
@@ -342,7 +365,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
-							"userSuppliedIdCollectionVar", "1") ]
+							"metadataCollectionVariable", "userSuppliedIdCollectionVar", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -354,7 +377,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("textVariableId", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "textVariableId", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -366,7 +389,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("textVariableId", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "textVariableId", "1") ]
 				// }
 				// ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("groupIdOneTextChild"))
 				// } ].concat([ createRecordInfoJson(idToGet)
@@ -385,7 +408,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"yesNoUnknownVar", "1", "1", "X") ]
+							"metadataGroup", "yesNoUnknownVar", "group", "1", "1", "X") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -399,7 +422,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
-							"groupIdOneTextChild", "1") ]
+						"metadataTextVariable", "groupIdOneTextChild", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -413,8 +436,8 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [
-							createChildReferenceWithRefAndRepeatId1to1("textVariableId", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("textVariableId2", "1") ]
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "textVariableId", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "textVariableId2", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -429,7 +452,7 @@ function MetadataProviderStub() {
 					"children" : [
 
 					createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"groupIdTwoTextChild", "1", "1", "1") ]
+							"metadataTextVariable", "groupIdTwoTextChild", "textVariable", "1", "1", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -442,7 +465,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"textVariableId", "1", "1", "3") ]
+						"metadataTextVariable", "textVariableId", "textVariable", "1", "1", "3") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -456,9 +479,9 @@ function MetadataProviderStub() {
 					"name" : "childReferences",
 					"children" : [
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"textVariableId", "1", "1", "5"),
+								"metadataTextVariable", "textVariableId", "textVariable", "1", "1", "5"),
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"textVariableId2", "1", "1", "5") ]
+								"metadataTextVariable", "textVariableId2", "textVariable", "1", "1", "5") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -471,7 +494,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"textVariableId", "1", "1", "X") ]
+						"metadataTextVariable", "textVariableId", "textVariable", "1", "1", "X") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -484,7 +507,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"textVariableId", "1", "0", "1") ]
+						"metadataTextVariable", "textVariableId", "textVariable", "1", "0", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -497,7 +520,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"textVariableId", "1", "3", "3") ]
+						"metadataTextVariable", "textVariableId", "textVariable", "1", "3", "3") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -510,7 +533,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"textVariableId", "1", "1", "3") ]
+						"metadataTextVariable", "textVariableId", "textVariable", "1", "1", "3") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -523,7 +546,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"groupIdOneTextChild", "1", "3", "3") ]
+						"metadataTextVariable", "groupIdOneTextChild", "textVariable", "1", "3", "3") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -561,7 +584,7 @@ function MetadataProviderStub() {
 					"name" : "childReferences",
 					"children" : [
 
-					createChildReferenceWithRefAndRepeatId1to1("textVariableId", "1") ]
+					createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "textVariableId", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -575,7 +598,7 @@ function MetadataProviderStub() {
 					"name" : "childReferences",
 					"children" : [
 
-					createChildReferenceWithRefAndRepeatId1to1("groupIdOneTextChildOneAttribute",
+					createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "groupIdOneTextChildOneAttribute",
 							"1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
@@ -618,7 +641,7 @@ function MetadataProviderStub() {
 						{
 							"name" : "childReferences",
 							"children" : [ createChildReferenceWithRefAndRepeatId1to1(
-									"textVariableId", "1") ]
+								"metadataTextVariable", "textVariableId", "1") ]
 						} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
@@ -633,7 +656,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
-							"groupIdOneTextChildTwoAttributes", "1") ]
+						"metadataTextVariable", "groupIdOneTextChildTwoAttributes", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -649,7 +672,7 @@ function MetadataProviderStub() {
 					"children" : [
 
 					createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"groupIdOneTextChildOneAttribute", "1", "1", "3") ]
+						"metadataTextVariable", "groupIdOneTextChildOneAttribute", "textVariable", "1", "1", "3") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -665,7 +688,7 @@ function MetadataProviderStub() {
 					"children" : [
 
 					createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup", "1", "1", "3") ]
+						"metadataTextVariable", "textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup", "textVariable", "1", "1", "3") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -680,7 +703,7 @@ function MetadataProviderStub() {
 					"children" : [
 
 					createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"textVarRepeat1to3InGroupOneAttribute", "1", "0", "2") ]
+						"metadataTextVariable", "textVarRepeat1to3InGroupOneAttribute", "textVariable", "1", "0", "2") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -705,7 +728,7 @@ function MetadataProviderStub() {
 							"children" : [
 
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"textVar", "1", "1", "3") ]
+								"metadataTextVariable", "textVar", "textVariable", "1", "1", "3") ]
 						} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
@@ -731,7 +754,7 @@ function MetadataProviderStub() {
 							"children" : [
 
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"textVar", "1", "1", "3") ]
+								"metadataTextVariable", "textVar", "textVariable", "1", "1", "3") ]
 						} ]
 						// .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("textVarRepeat1to3InGroupOneAttribute"))
@@ -748,9 +771,9 @@ function MetadataProviderStub() {
 					"children" : [
 
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"textVarRepeat1to3InGroupOneAttribute", "1", "0", "2"),
+								"metadataTextVariable", "textVarRepeat1to3InGroupOneAttribute", "textVariable", "1", "0", "2"),
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"textVarRepeat1to3InGroupOtherAttribute", "1", "0", "2") ]
+								"metadataTextVariable", "textVarRepeat1to3InGroupOtherAttribute", "textVariable", "1", "0", "2") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -765,9 +788,9 @@ function MetadataProviderStub() {
 					"children" : [
 
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"textVarRepeat1to3InGroupOneAttribute", "1", "1", "1"),
+								"metadataTextVariable", "textVarRepeat1to3InGroupOneAttribute", "textVariable", "1", "1", "1"),
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"textVarRepeat1to3InGroupOtherAttribute", "1", "1", "1") ]
+								"metadataTextVariable", "textVarRepeat1to3InGroupOtherAttribute", "textVariable", "1", "1", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -782,7 +805,7 @@ function MetadataProviderStub() {
 					"children" : [
 
 					createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"textVarRepeat1to3InGroupParentAttribute", "1", "1", "X") ]
+						"metadataTextVariable", "textVarRepeat1to3InGroupParentAttribute", "textVariable", "1", "1", "X") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -807,7 +830,7 @@ function MetadataProviderStub() {
 							"children" : [
 
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"textVar", "1", "1", "3") ]
+								"metadataTextVariable", "textVar", "textVariable", "1", "1", "3") ]
 						} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("textVarRepeat1to3InGroupOneAttribute"))
 			};
@@ -1004,7 +1027,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataId", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataGroup", "metadataId", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -1027,8 +1050,8 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataId", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("presentationViewId", "2") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataTextGroup", "metadataId", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextGroup", "presentationViewId", "2") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -1052,22 +1075,22 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [
-							createChildReferenceWithRefAndRepeatId1to1("metadataId", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("recordInfo", "2")
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextGroup", "metadataId", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextGroup", "recordInfo", "2")
 
 							,
-							createChildReferenceWithRefAndRepeatId1to1("presentationViewId", "3"),
-							createChildReferenceWithRefAndRepeatId1to1("presentationFormId", "4"),
-							createChildReferenceWithRefAndRepeatId1to1("newMetadataId", "5"),
-							createChildReferenceWithRefAndRepeatId1to1("newPresentationFormId", "6"),
-							createChildReferenceWithRefAndRepeatId1to1("listPresentationViewId",
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "presentationViewId", "3"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "presentationFormId", "4"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "newMetadataId", "5"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "newPresentationFormId", "6"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "listPresentationViewId",
 									"7"),
-							createChildReferenceWithRefAndRepeatId1to1("searchMetadataId", "8"),
-							createChildReferenceWithRefAndRepeatId1to1("searchPresentationFormId",
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "searchMetadataId", "8"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "searchPresentationFormId",
 									"9"),
-							createChildReferenceWithRefAndRepeatId1to1("userSuppliedId", "10"),
-							createChildReferenceWithRefAndRepeatId1to1("permissionKey", "11"),
-							createChildReferenceWithRefAndRepeatId1to1("selfPresentationViewId",
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "userSuppliedId", "10"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "permissionKey", "11"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "selfPresentationViewId",
 									"12") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 
@@ -1080,7 +1103,7 @@ function MetadataProviderStub() {
 				"name" : "metadata",
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("id", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "id", "1") ]
 
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
 				"attributes" : {
@@ -1093,7 +1116,7 @@ function MetadataProviderStub() {
 				"name" : "metadata",
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("id", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "id", "1") ]
 
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("recordInfo")),
@@ -1115,7 +1138,7 @@ function MetadataProviderStub() {
 
 				}, {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("id", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "id", "1") ]
 
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("recordInfo")),
@@ -1362,13 +1385,13 @@ function MetadataProviderStub() {
 						{
 							"name" : "childReferences",
 							"children" : [
-									createChildReferenceWithRefAndRepeatId1to1("recordInfo", "1"),
-									createChildReferenceWithRefAndRepeatId1to1("nameInData", "2"),
-									createChildReferenceWithRefAndRepeatId1to1("textId", "3"),
-									createChildReferenceWithRefAndRepeatId1to1("defTextId", "4"),
+									createChildReferenceWithRefAndRepeatId1to1("metadataTextGroup", "recordInfo", "1"),
+									createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "nameInData", "2"),
+									createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "textId", "3"),
+									createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "defTextId", "4"),
 									createChildReferenceWithRefAndRepeatId1to1(
 											"attributeReferences", "5"),
-									createChildReferenceWithRefAndRepeatId1to1("childReferences",
+									createChildReferenceWithRefAndRepeatId1to1("metadataTextGroup", "childReferences",
 											"6") ]
 
 						} ]
@@ -1417,7 +1440,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"ref", "1", "1", "X") ]
+							"metadataTextVariable", "ref", "textVariable", "1", "1", "X") ]
 
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
@@ -1443,7 +1466,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"childReference", "1", "1", "X") ]
+							"metdataGroup", "childReference", "group", "1", "1", "X") ]
 
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
@@ -1456,14 +1479,14 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("ref", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("repeatMin", "2"),
-							createChildReferenceWithRefAndRepeatId1to1("repeatMinKey", "3"),
-							createChildReferenceWithRefAndRepeatId1to1("repeatMax", "4"),
-							createChildReferenceWithRefAndRepeatId1to1("secret", "5"),
-							createChildReferenceWithRefAndRepeatId1to1("secretKey", "6"),
-							createChildReferenceWithRefAndRepeatId1to1("readOnly", "7"),
-							createChildReferenceWithRefAndRepeatId1to1("readOnlyKey", "8") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "ref", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "repeatMin", "2"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "repeatMinKey", "3"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "repeatMax", "4"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "secret", "5"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "secretKey", "6"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "readOnly", "7"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "readOnlyKey", "8") ]
 
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 
@@ -1576,8 +1599,19 @@ function MetadataProviderStub() {
 					"children" : [ {
 						"repeatId" : "1",
 						"children" : [ {
-							"name" : "ref",
-							"value" : "recordInfoPVarGroup"
+							"name": "ref",
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "recordInfoPVarGroup"
+								}
+							],"attributes": {
+								"type": "group"
+							}
 						// "value" : "recordInfo"
 						}, {
 							"name" : "repeatMin",
@@ -1635,8 +1669,19 @@ function MetadataProviderStub() {
 					"children" : [ {
 						"repeatId" : "1",
 						"children" : [ {
-							"name" : "ref",
-							"value" : "recordInfoPVarAttributeGroup"
+							"name": "ref",
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "recordInfoPVarAttributeGroup"
+								}
+							],"attributes": {
+								"type": "group"
+							}
 						// "value" : "recordInfo"
 						}, {
 							"name" : "repeatMin",
@@ -1731,7 +1776,18 @@ function MetadataProviderStub() {
 						"repeatId" : "1",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "idPVarTextVar"
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataTextVariable"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "idPVarTextVar"
+								}
+							],"attributes": {
+								"type": "textVariable"
+							}
 						}, {
 							"name" : "repeatMin",
 							"value" : "1"
@@ -1788,7 +1844,18 @@ function MetadataProviderStub() {
 						"repeatId" : "1",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "idPVarTextVar"
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataTextVariable"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "idPVarTextVar"
+								}
+							],"attributes": {
+								"type": "textVariable"
+							}
 						}, {
 							"name" : "repeatMin",
 							"value" : "1"
@@ -1814,7 +1881,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myLink", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataRecordLink", "myLink", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -1827,7 +1894,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"myLink", "1", "0", "1") ]
+							"metadataRecordLink", "myLink", "recordLink", "1", "0", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -1866,7 +1933,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myLinkWithAttribute", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataRecordLink", "myLinkWithAttribute", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -1915,7 +1982,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myFinalValueLink",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataRecordLink", "myFinalValueLink",
 							"1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
@@ -1959,7 +2026,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"myChildOfBinaryLink", "one", "0", "X") ]
+							"metadataRecordLink", "myChildOfBinaryLink", "recordLink", "one", "0", "X") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -1999,7 +2066,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"myChildOfBinaryLink", "one", "0", "2") ]
+						"metadataRecordLink", "myChildOfBinaryLink", "recordLink", "one", "0", "2") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -2012,7 +2079,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"myBinaryLink", "one", "0", "X") ]
+						"metadataRecordLink", "myBinaryLink", "recordLink", "one", "0", "X") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -2052,7 +2119,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"myBinaryNoDataDividerLink", "one", "0", "X") ]
+						"metadataRecordLink", "myBinaryNoDataDividerLink", "recordLink", "one", "0", "X") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -2091,7 +2158,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("myPathLink", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataRecordLink", "myPathLink", "1") ]
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
 			};
 		}
@@ -6184,10 +6251,10 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [
-							createChildReferenceWithRefAndRepeatId1to1("streamIdTextVar", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("filenameTextVar", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("filesizeTextVar", "1"),
-							createChildReferenceWithRefAndRepeatId1to1("mimeTypeTextVar", "1") ]
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "streamIdTextVar", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "filenameTextVar", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "filesizeTextVar", "1"),
+							createChildReferenceWithRefAndRepeatId1to1("metadataTextVariable", "mimeTypeTextVar", "1") ]
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("metadataGroupForResourceLinkGroup"))
 			};
@@ -6271,7 +6338,7 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ createChildReferenceWithRefAndRepeatId1to1("masterResLink", "1") ]
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1("metadataRecordLink", "masterResLink", "1") ]
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("groupIdOneResourceLinkChild"))
 			};

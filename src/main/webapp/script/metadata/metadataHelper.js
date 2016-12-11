@@ -118,7 +118,8 @@ var CORA = (function(cora) {
 
 		function getMetadataIdFromRef(metadataChildRef) {
 			var cMetadataChildRef = CORA.coraData(metadataChildRef);
-			var childMetadataId = cMetadataChildRef.getFirstAtomicValueByNameInData("ref");
+			var cRef = CORA.coraData(cMetadataChildRef.getFirstChildByNameInData("ref"));
+			var childMetadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 			return childMetadataId;
 		}
 

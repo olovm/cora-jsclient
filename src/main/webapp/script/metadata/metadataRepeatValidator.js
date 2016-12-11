@@ -199,7 +199,17 @@ var CORA = (function(cora) {
 				"repeatId" : 1,
 				"children" : [ {
 					"name" : "ref",
-					"value" : ref
+					"children": [ {
+						"name": "linkedRecordType",
+						"value": "metadataTextVariable"
+					},
+						{
+							"name": "linkedRecordId",
+							"value": ref
+						}
+					],"attributes": {
+						"type": "textVariable"
+					}
 				}, {
 					"name" : "repeatMin",
 					"value" : "1"
@@ -207,6 +217,20 @@ var CORA = (function(cora) {
 					"name" : "repeatMax",
 					"value" : "1"
 				} ]
+                //
+                //
+				//"name" : "childReference",
+				//"repeatId" : 1,
+				//"children" : [ {
+				//	"name" : "ref",
+				//	"value" : ref
+				//}, {
+				//	"name" : "repeatMin",
+				//	"value" : "1"
+				//}, {
+				//	"name" : "repeatMax",
+				//	"value" : "1"
+				//} ]
 			};
 		}
 
