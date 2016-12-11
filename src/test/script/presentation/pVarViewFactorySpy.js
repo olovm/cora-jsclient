@@ -18,10 +18,11 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.pVarViewFactorySpy = function(spec) {
+	coraTest.pVarViewFactorySpy = function() {
 		var factoredpVarViews = [];
+		
 		function factor(pVarViewSpec) {
-			var factoredpVarView = CORATEST.pVarViewSpy(pVarViewSpec);
+			var factoredpVarView = CORATEST.pVarViewSpy({}, pVarViewSpec);
 			factoredpVarViews.push(factoredpVarView);
 			return factoredpVarView;
 		}
@@ -31,6 +32,7 @@ var CORATEST = (function(coraTest) {
 		}
 		
 		var out = Object.freeze({
+			"type":"pVarViewFactorySpy",
 			factor : factor,
 
 			getFactored:getFactored

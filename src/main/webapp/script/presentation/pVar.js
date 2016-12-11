@@ -36,16 +36,6 @@ var CORA = (function(cora) {
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var outputFormat = getOutputFormat();
 
-		var view = createBaseView();
-		var originalClassName = view.className;
-		var valueView = createValueView();
-		view.appendChild(valueView);
-
-		var state = "ok";
-		var previousValue = "";
-		pubSub.subscribe("setValue", path, undefined, handleMsg);
-		pubSub.subscribe("validationError", path, undefined, handleValidationError);
-
 		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
 		var text = textProvider.getTranslation(textId);
 
@@ -53,9 +43,32 @@ var CORA = (function(cora) {
 		var defText = textProvider.getTranslation(defTextId);
 
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
-		var info = createInfo();
-		var infoButton = info.getButton();
-		view.appendChild(infoButton);
+
+		var pVarViewSpec = {
+			"mode" : mode,
+			"inputType" : getInputType(),
+			"outputFormat" : outputFormat,
+			"presentationId" : presentationId,
+			"info" : {
+				"text" : text,
+				"defText" : defText,
+				"technicalInfo" : [ "textId: " + textId, "defTextId: " + defTextId,
+						"metadataId: " + metadataId, "regEx: " + regEx ]
+			},
+			"onblurFunction" : onBlur
+		};
+
+		if (cPresentation.containsChildWithNameInData("emptyTextId")) {
+			var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
+			var emptyText = textProvider.getTranslation(emptyTextId);
+			pVarViewSpec.placeholderText = emptyText;
+		}
+		var pVarView = spec.dependencies.pVarViewFactory.factor(pVarViewSpec);
+
+		var state = "ok";
+		var previousValue = "";
+		pubSub.subscribe("setValue", path, undefined, handleMsg);
+		pubSub.subscribe("validationError", path, undefined, handleValidationError);
 
 		function getOutputFormat() {
 			if (cPresentation.containsChildWithNameInData("outputFormat")) {
@@ -64,127 +77,21 @@ var CORA = (function(cora) {
 			return "text";
 		}
 
-		function createBaseView() {
-			return CORA.gui.createSpanWithClassName("pVar " + presentationId);
-		}
-		function createValueView() {
-			if (mode === "input") {
-				return createInput();
-			}
-			return createOutput();
-		}
-
-		function createInput() {
-			return createTextInput();
-		}
-
-		function createTextInput() {
-			var inputNew;
-			if (isTextArea()) {
-				inputNew = document.createElement("textarea");
-			} else {
-				inputNew = createTextTypeInput(inputNew);
-				possiblyAddPlaceholderText(inputNew);
-			}
-			return inputNew;
-		}
-
-		function isTextArea() {
-			var inputType;
+		function getInputType() {
 			if (cPresentation.containsChildWithNameInData("inputType")) {
-				inputType = cPresentation.getFirstAtomicValueByNameInData("inputType");
+				return cPresentation.getFirstAtomicValueByNameInData("inputType");
 			}
-			return inputType === "textarea";
-		}
-
-		function createTextTypeInput(inputNew) {
-			inputNew = document.createElement("input");
-			inputNew.type = "text";
-			return inputNew;
-		}
-
-		function possiblyAddPlaceholderText(inputNew) {
-			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
-				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
-				var emptyText = textProvider.getTranslation(emptyTextId);
-				inputNew.placeholder = emptyText;
-			}
-		}
-
-		function createOutput() {
-			if ("image" === outputFormat) {
-				return createOutputForImage();
-			}
-			var outputNew = document.createElement("span");
-			return outputNew;
-		}
-
-		function createOutputForImage() {
-			var outputNew = document.createElement("img");
-			return outputNew;
-		}
-		function createInfo() {
-			var infoSpec = {
-				"appendTo" : view,
-				"afterLevelChange" : updateView,
-				"level1" : [ {
-					"className" : "textView",
-					"text" : text
-				}, {
-					"className" : "defTextView",
-					"text" : defText
-				} ],
-				"level2" : [ {
-					"className" : "textIdView",
-					"text" : "textId: " + textId
-				}, {
-					"className" : "defTextIdView",
-					"text" : "defTextId: " + defTextId
-				}, {
-					"className" : "metadataIdView",
-					"text" : "metadataId: " + metadataId
-				} ]
-			};
-			infoSpec.level2.push({
-				"className" : "regExView",
-				"text" : "regEx: " + regEx
-			});
-			var newInfo = CORA.info(infoSpec);
-			return newInfo;
+			return "input";
 		}
 
 		function getView() {
-			return view;
+			return pVarView.getView();
 		}
 
 		function setValue(value) {
 			state = "ok";
 			previousValue = value;
-			if (mode === "input") {
-				valueView.value = value;
-			} else {
-				setValueForOutput(value);
-			}
-		}
-
-		function setValueForOutput(value) {
-			setValueForTextOutput(value);
-		}
-
-		function setValueForTextOutput(value) {
-			if ("image" === outputFormat) {
-				setValueForTextOutputImage(value);
-			} else {
-				setValueForTextOutputText(value);
-			}
-		}
-
-		function setValueForTextOutputImage(value) {
-			valueView.src = value;
-		}
-
-		function setValueForTextOutputText(value) {
-			valueView.textContent = value;
+			pVarView.setValue(value);
 		}
 
 		function handleMsg(dataFromMsg) {
@@ -213,21 +120,21 @@ var CORA = (function(cora) {
 			return regEx;
 		}
 
-		function onBlur() {
-			checkRegEx();
+		function onBlur(valueFromView) {
+			checkRegEx(valueFromView);
 			updateView();
-			if (state === "ok" && valueHasChanged()) {
+			if (state === "ok" && valueHasChanged(valueFromView)) {
 				var data = {
-					"data" : valueView.value,
+					"data" : valueFromView,
 					"path" : path
 				};
 				jsBookkeeper.setValue(data);
-				previousValue = valueView.value;
+				previousValue = valueFromView;
 			}
 		}
 
-		function checkRegEx() {
-			var value = valueView.value;
+		function checkRegEx(valueFromView) {
+			var value = valueFromView;
 			if (value.length === 0 || new RegExp(regEx).test(value)) {
 				state = "ok";
 			} else {
@@ -236,21 +143,11 @@ var CORA = (function(cora) {
 		}
 
 		function updateView() {
-			var className = originalClassName;
-			if (state === "error") {
-				className += " error";
-			}
-			if (info.getInfoLevel() !== 0) {
-				className += " infoActive";
-			}
-			view.className = className;
+			pVarView.setState(state);
 		}
 
-		function valueHasChanged() {
-			if (valueView.value !== previousValue) {
-				return true;
-			}
-			return false;
+		function valueHasChanged(valueFromView) {
+			return valueFromView !== previousValue;
 		}
 
 		function getState() {
@@ -275,10 +172,6 @@ var CORA = (function(cora) {
 			handleValidationError : handleValidationError
 		});
 
-		view.modelObject = out;
-		if (mode === "input") {
-			valueView.onblur = onBlur;
-		}
 		return out;
 	};
 	return cora;

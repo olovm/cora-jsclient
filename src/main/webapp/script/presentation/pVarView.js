@@ -32,6 +32,7 @@ var CORA = (function(cora) {
 
 			createValueView();
 			view.appendChild(valueView);
+			view.appendChild(info.getButton());
 		}
 		function createInfo() {
 			var infoSpec = {
@@ -101,16 +102,29 @@ var CORA = (function(cora) {
 					spec.onblurFunction(valueView.value);
 				}
 			}
+			possiblyAddPlaceholderText(valueView);
 			return valueView;
 		}
 
+		function possiblyAddPlaceholderText(inputNew) {
+			if (spec.placeholderText !== undefined) {
+				inputNew.placeholder = spec.placeholderText;
+			}
+		}
+
 		function createTextTypeInput() {
-			var inputNew = document.createElement("input");
-			inputNew.type = "text";
+			var inputNew = document.createElement(getInputTypeFromSpec());
 			inputNew.setValue = function(value) {
 				inputNew.value = value;
 			}
 			return inputNew;
+		}
+
+		function getInputTypeFromSpec() {
+			if (spec.inputType !== undefined) {
+				return spec.inputType;
+			}
+			return "input";
 		}
 
 		function createOutput() {

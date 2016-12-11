@@ -23,6 +23,12 @@ var CORA = (function(cora) {
 		var self;
 
 		function factor(path, metadataIdUsedInData, cPresentation, cParentPresentation) {
+
+			var pVarViewFactoryDependencies = {
+				"infoFactory" : CORA.infoFactory()
+			};
+			var pVarViewFactory = CORA.pVarViewFactory(pVarViewFactoryDependencies);
+
 			var specNew = {
 				"metadataProvider" : dependencies.metadataProvider,
 				"pubSub" : dependencies.pubSub,
@@ -32,8 +38,8 @@ var CORA = (function(cora) {
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"recordTypeProvider" : dependencies.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
-				"ajaxCallFactory":dependencies.ajaxCallFactory,
-				//dependencies are doubled as we move to usning them collected as dependencies
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				// dependencies are doubled as we move to usning them collected as dependencies
 				"dependencies" : {
 					"metadataProvider" : dependencies.metadataProvider,
 					"pubSub" : dependencies.pubSub,
@@ -44,7 +50,8 @@ var CORA = (function(cora) {
 					"recordGuiFactory" : dependencies.recordGuiFactory,
 					"recordTypeProvider" : dependencies.recordTypeProvider,
 					"uploadManager" : dependencies.uploadManager,
-					"ajaxCallFactory":dependencies.ajaxCallFactory
+					"ajaxCallFactory" : dependencies.ajaxCallFactory,
+					"pVarViewFactory" : pVarViewFactory
 				},
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,

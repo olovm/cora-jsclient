@@ -47,15 +47,19 @@ var CORATEST = (function(coraTest) {
 		function getState() {
 			return state;
 		}
+		function callOnblurWithValue(valueToSet){
+			spec.onblurFunction(valueToSet);
+		}
 		var out = Object.freeze({
 			"type" : "pVarViewSpy",
 			getDependencies : getDependencies,
 			getView : getView,
 			getSpec : getSpec,
 			setValue : setValue,
-			etValue : getValue,
+			getValue : getValue,
 			setState : setState,
-			getState : getState
+			getState : getState,
+			callOnblurWithValue:callOnblurWithValue
 		});
 		return out;
 	};

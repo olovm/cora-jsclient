@@ -25,6 +25,7 @@ QUnit.module("pVarViewTest.js", {
 		};
 		this.spec = {
 			"mode" : "input",
+			"inputType": "input",
 			"outputFormat" : "text",
 			"presentationId" : "somePresentationId",
 			"info" : {
@@ -114,6 +115,11 @@ QUnit.test("testInfoSpec", function(assert) {
 	assert.strictEqual(usedSpec.afterLevelChange, pVarView.updateClassName);
 
 });
+QUnit.test("testInfoButtonAddedToView", function(assert) {
+	var view = this.getView();
+	assert.strictEqual(view.childNodes[2].className, "infoButtonSpy");
+	
+});
 
 QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 	this.spec.info.technicalInfo = null;
@@ -173,6 +179,26 @@ QUnit.test("testInput", function(assert) {
 	var valueView = this.getValueView();
 	assert.strictEqual(valueView.nodeName, "INPUT");
 	assert.strictEqual(valueView.type, "text");
+});
+
+QUnit.test("testInputUnknownTypeIsText", function(assert) {
+	this.spec.inputType = undefined;
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.nodeName, "INPUT");
+	assert.strictEqual(valueView.type, "text");
+});
+
+QUnit.test("testInputTypeTextArea", function(assert) {
+	this.spec.inputType = "textarea";
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.nodeName, "TEXTAREA");
+	assert.strictEqual(valueView.type, "textarea");
+});
+
+QUnit.test("testInputPlaceholder", function(assert) {
+	this.spec.placeholderText = "placeholderText";
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.placeholder, "placeholderText");
 });
 
 QUnit.test("testInputOnblur", function(assert) {
