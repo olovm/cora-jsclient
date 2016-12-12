@@ -44,7 +44,7 @@ var CORA = (function(cora) {
 				}, {
 					"className" : "defTextView",
 					"text" : spec.info.defText
-				} ],
+				} ]
 			};
 			possiblyAddLevel2Info(infoSpec);
 			return dependencies.infoFactory.factor(infoSpec);
@@ -100,7 +100,7 @@ var CORA = (function(cora) {
 			if (spec.onblurFunction !== undefined) {
 				valueView.onblur = function() {
 					spec.onblurFunction(valueView.value);
-				}
+				};
 			}
 			possiblyAddPlaceholderText(valueView);
 			return valueView;
@@ -116,7 +116,7 @@ var CORA = (function(cora) {
 			var inputNew = document.createElement(getInputTypeFromSpec());
 			inputNew.setValue = function(value) {
 				inputNew.value = value;
-			}
+			};
 			return inputNew;
 		}
 
@@ -138,7 +138,7 @@ var CORA = (function(cora) {
 			var outputNew = document.createElement("img");
 			outputNew.setValue = function(value) {
 				outputNew.src = value;
-			}
+			};
 			return outputNew;
 		}
 
@@ -146,7 +146,7 @@ var CORA = (function(cora) {
 			var outputNew = document.createElement("span");
 			outputNew.setValue = function(value) {
 				outputNew.textContent = value;
-			}
+			};
 			return outputNew;
 		}
 
