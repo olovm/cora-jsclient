@@ -17,19 +17,30 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-var CORATEST = (function(coraTest) {
-	"use strict";
-	coraTest.testSpanWithClassNameOnlyContainsText = function(span, className, text, assert) {
-		assert.strictEqual(span.childNodes.length, 1);
-		assert.equal(span.nodeName, "SPAN");
-		assert.equal(span.className, className);
-		assert.equal(span.textContent, text);
-	};
 
-	coraTest.assertSpanHasClassName = function(span, className, assert) {
-		assert.equal(span.nodeName, "SPAN");
-		assert.equal(span.className, className);
-	};
+QUnit.module("infoFactoryTest.js", {
+	beforeEach : function() {
+		this.infoFactory = CORA.infoFactory();
+	},
+	afterEach : function() {
+	}
+});
 
-	return coraTest;
-}(CORATEST || {}));
+QUnit.test("init", function(assert) {
+	assert.ok(this.infoFactory);
+	assert.strictEqual(this.infoFactory.type, "infoFactory");
+});
+
+QUnit.test("testFactorType", function(assert) {
+	var info = this.infoFactory.factor({});
+	assert.ok(info);
+	assert.strictEqual(info.type, "info");
+});
+QUnit.test("factor", function(assert) {
+	var spec = {
+		"dummyKey" : "dummyVar"
+	};
+	var info = this.infoFactory.factor(spec);
+	var infoSpec = info.getSpec();
+	assert.strictEqual(infoSpec.extraClassName, spec.extraClassName);
+});

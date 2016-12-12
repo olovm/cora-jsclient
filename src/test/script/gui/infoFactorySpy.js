@@ -16,20 +16,26 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.testSpanWithClassNameOnlyContainsText = function(span, className, text, assert) {
-		assert.strictEqual(span.childNodes.length, 1);
-		assert.equal(span.nodeName, "SPAN");
-		assert.equal(span.className, className);
-		assert.equal(span.textContent, text);
-	};
+	coraTest.infoFactorySpy = function() {
+		var factoredinfos = [];
+		function factor(infoSpec) {
+			var factoredinfo = CORATEST.infoSpy(infoSpec);
+			factoredinfos.push(factoredinfo);
+			return factoredinfo;
+		}
+		
+		function getFactored(number){
+			return factoredinfos[number];
+		}
+		
+		var out = Object.freeze({
+			factor : factor,
 
-	coraTest.assertSpanHasClassName = function(span, className, assert) {
-		assert.equal(span.nodeName, "SPAN");
-		assert.equal(span.className, className);
+			getFactored:getFactored
+		});
+		return out;
 	};
-
 	return coraTest;
-}(CORATEST || {}));
+}(CORATEST));
