@@ -98,7 +98,13 @@ var CORA = (function(cora) {
 
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var ref = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
+			var ref;
+			if(cPresentationChildRef.getFirstAtomicValueByNameInData("ref") !== undefined){
+				ref = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
+			}else{
+				var cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
+				ref = cRefGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			}
 			var cPresentationChild = getMetadataById(ref);
 
 			if (childIsText(cPresentationChild)) {
