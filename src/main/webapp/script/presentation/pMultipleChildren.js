@@ -153,8 +153,8 @@ var CORA = (function(cora) {
 			};
 
 			if (childHasMinimizedPresenation(cPresentationChildRef)) {
-				var presRefMinimized = cPresentationChildRef
-						.getFirstAtomicValueByNameInData("refMinimized");
+				var cPresRefMinimizedGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refMinimized"));
+				var presRefMinimized = cPresRefMinimizedGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 				var cPresentationMinimized = getMetadataById(presRefMinimized);
 				childRefHandlerSpec.cPresentationMinimized = cPresentationMinimized;
 				var minimizedDefault = cPresentationChildRef
