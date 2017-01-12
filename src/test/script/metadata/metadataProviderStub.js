@@ -5242,7 +5242,19 @@ function MetadataProviderStub() {
 						"repeatId" : "1",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "aHeadlineText"
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "coraText"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "aHeadlineText"
+								}
+							],
+							"attributes": {
+								"type": "text"
+							}
 						}, {
 							"name" : "default",
 							"value" : "ref"
@@ -5409,7 +5421,19 @@ function MetadataProviderStub() {
 						"repeatId" : "1",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "aHeadlineText"
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "coraText"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "aHeadlineText"
+								}
+							],
+							"attributes": {
+								"type": "text"
+							}
 						}, {
 							"name" : "default",
 							"value" : "ref"
@@ -5419,7 +5443,19 @@ function MetadataProviderStub() {
 						"repeatId" : "2",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "pVarTextVariableId"
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "presentationVar"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "pVarTextVariableId"
+								}
+							],
+							"attributes": {
+								"type": "pVar"
+							}
 						}, {
 							"name" : "default",
 							"value" : "ref"
@@ -5429,7 +5465,19 @@ function MetadataProviderStub() {
 						"repeatId" : "3",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "pVarTextVariableId2"
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "presentationVar"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "pVarTextVariableId2"
+								}
+							],
+							"attributes": {
+								"type": "pVar"
+							}
 						}, {
 							"name" : "default",
 							"value" : "ref"
@@ -5516,7 +5564,19 @@ function MetadataProviderStub() {
 						"repeatId" : "1",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "aHeadlineText"
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "coraText"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "aHeadlineText"
+								}
+							],
+							"attributes": {
+								"type": "text"
+							}
 						}, {
 							"name" : "default",
 							"value" : "ref"
@@ -5526,7 +5586,20 @@ function MetadataProviderStub() {
 						"repeatId" : "2",
 						"children" : [ {
 							"name" : "ref",
-							"value" : "pTextVariablePlus2SContainer"
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "presentationSurroundingContainer"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "pTextVariablePlus2SContainer"
+								}
+							],
+							"attributes": {
+								"type": "container",
+								"repeat": "children"
+							}
 						}, {
 							"name" : "default",
 							"value" : "ref"
@@ -6937,7 +7010,19 @@ function MetadataProviderStub() {
 								"repeatId" : "1",
 								"children" : [ {
 									"name" : "ref",
-									"value" : "filenamePVar"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationVar"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "filenamePVar"
+										}
+									],
+									"attributes": {
+										"type": "pVar"
+									}
 								}, {
 									"name" : "default",
 									"value" : "ref"
@@ -7124,7 +7209,19 @@ function MetadataProviderStub() {
 								"repeatId" : "1",
 								"children" : [ {
 									"name" : "ref",
-									"value" : "filenamePVar"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationVar"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "filenamePVar"
+										}
+									],
+									"attributes": {
+										"type": "pVar"
+									}
 								}, {
 									"name" : "default",
 									"value" : "ref"
