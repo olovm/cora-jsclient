@@ -98,7 +98,9 @@ var CORA = (function(cora) {
 
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var ref = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
+			var cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
+			var	ref = cRefGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+
 			var cPresentationChild = getMetadataById(ref);
 
 			if (childIsText(cPresentationChild)) {
@@ -147,8 +149,8 @@ var CORA = (function(cora) {
 			};
 
 			if (childHasMinimizedPresenation(cPresentationChildRef)) {
-				var presRefMinimized = cPresentationChildRef
-						.getFirstAtomicValueByNameInData("refMinimized");
+				var cPresRefMinimizedGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refMinimized"));
+				var presRefMinimized = cPresRefMinimizedGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 				var cPresentationMinimized = getMetadataById(presRefMinimized);
 				childRefHandlerSpec.cPresentationMinimized = cPresentationMinimized;
 				var minimizedDefault = cPresentationChildRef

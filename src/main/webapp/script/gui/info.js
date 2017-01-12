@@ -19,7 +19,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.info = function(spec) {
-		var infoLevel =  cora.info.NONE;
+		var infoLevel = cora.info.NONE;
 		var button = createButton();
 		var view;
 
@@ -97,7 +97,13 @@ var CORA = (function(cora) {
 			infoLevel = 0;
 		}
 
+		function getSpec() {
+			return spec;
+		}
+
 		var out = Object.freeze({
+			"type" : "info",
+			getSpec : getSpec,
 			getButton : getButton,
 			showInfo : showInfo,
 			getView : getView,

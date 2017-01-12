@@ -43,9 +43,9 @@ var CORA = (function(cora) {
 		}
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var presRef = cPresentationChildRef.getFirstAtomicValueByNameInData("ref");
+			var cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
+			var presRef = cRefGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			var cPresentationChild = getMetadataById(presRef);
-
 			if (cPresentationChild.getData().name === "text") {
 				var text = CORA.gui.createSpanWithClassName("text");
 				text.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
