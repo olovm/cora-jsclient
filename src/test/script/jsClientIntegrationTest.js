@@ -91,7 +91,8 @@ QUnit.module("jsClientIntegrationTest.js", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORA.pubSub();
 		this.textProvider = CORATEST.textProviderStub();
-
+		this.pVarViewFactory = CORATEST.pVarViewFactorySpy();
+		
 		this.dependenciesFactory = CORATEST.dependenciesFactory(this.metadataProvider, this.pubSub,
 				this.textProvider);
 	},
@@ -114,17 +115,18 @@ QUnit.test("testIntegrateCoraPubSubPVar", function(assert) {
 		"path" : path,
 		"metadataIdUsedInData" : "textVariableId",
 		"cPresentation" : cPVarPresentation,
-		"metadataProvider" : this.metadataProvider,
-		"pubSub" : this.pubSub,
-		"textProvider" : this.textProvider
+		"dependencies":{
+			"metadataProvider" : this.metadataProvider,
+			"pubSub" : this.pubSub,
+			"textProvider" : this.textProvider,
+			"pVarViewFactory" : this.pVarViewFactory
+		},
 	};
 	var pVar = CORA.pVar(spec);
-	var view = pVar.getView();
-	this.fixture.appendChild(view);
-	var valueView = view.firstChild;
 
 	pVar.setValue("A Value");
-	assert.equal(valueView.innerHTML, "A Value");
+	var pVarViewSpy = this.pVarViewFactory.getFactored(0);
+	assert.equal(pVarViewSpy.getValue(), "A Value");
 
 	var type = "setValue";
 	var data = {
@@ -133,7 +135,7 @@ QUnit.test("testIntegrateCoraPubSubPVar", function(assert) {
 	};
 	this.pubSub.publish(type, data);
 
-	assert.equal(valueView.innerHTML, "A new value");
+	assert.equal(pVarViewSpy.getValue(), "A new value");
 });
 
 QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataController", function(assert) {
