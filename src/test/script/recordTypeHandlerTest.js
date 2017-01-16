@@ -41,26 +41,89 @@ QUnit
 									} ],
 									"name" : "recordInfo"
 								}, {
-									"name" : "metadataId",
-									"value" : "metadataCollectionItemGroup"
+									"name": "metadataId",
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "metadataGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemGroup"
+										}
+									]
 								}, {
 									"name" : "presentationViewId",
-									"value" : "metadataCollectionItemViewPGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemViewPGroup"
+										}
+									]
 								}, {
 									"name" : "presentationFormId",
-									"value" : "metadataCollectionItemFormPGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemFormPGroup"
+										}
+									]
 								}, {
 									"name" : "newMetadataId",
-									"value" : "metadataCollectionItemNewGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "metadataGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemNewGroup"
+										}
+									]
 								}, {
 									"name" : "newPresentationFormId",
-									"value" : "metadataCollectionItemFormNewPGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemFormNewPGroup"
+										}
+									]
 								}, {
 									"name" : "menuPresentationViewId",
-									"value" : "metadataCollectionItemMenuPGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemMenuPGroup"
+										}
+									]
 								}, {
 									"name" : "listPresentationViewId",
-									"value" : "metadataCollectionItemListPGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemListPGroup"
+										}
+									]
 								}, {
 									"name" : "searchMetadataId",
 									"value" : "metadataCollectionItemSearchGroup"
@@ -71,9 +134,6 @@ QUnit
 									"name" : "userSuppliedId",
 									"value" : "true"
 								}, {
-									"name" : "permissionKey",
-									"value" : "RECORDTYPE_METADATACOLLECTIONITEM"
-								}, {
 									"name" : "selfPresentationViewId",
 									"value" : "metadataCollectionItemViewSelfPGroup"
 								}, {
@@ -81,8 +141,43 @@ QUnit
 									"value" : "false"
 								}, {
 									"name" : "parentId",
-									"value" : "metadata"
-								} ],
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "recordType"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadata"
+										}
+									]
+								},
+									{
+										"name": "textId",
+										"children": [
+											{
+												"name": "linkedRecordType",
+												"value": "coraText"
+											},
+											{
+												"name": "linkedRecordId",
+												"value": "fdag"
+											}
+										]
+									},
+									{
+										"name": "defTextId",
+										"children": [
+											{
+												"name": "linkedRecordType",
+												"value": "coraText"
+											},
+											{
+												"name": "linkedRecordId",
+												"value": "adfg"
+											}
+										]
+									} ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
