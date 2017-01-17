@@ -453,7 +453,7 @@ QUnit.test("init", function(assert) {
 		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
 		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
 		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record,
+		"recordTypeRecord" : this.record
 	};
 	var recordTypeHandler = CORA.recordTypeHandler(spec);
 
@@ -480,7 +480,7 @@ QUnit.test("initWithCreateButton", function(assert) {
 		},
 		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
 		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record,
+		"recordTypeRecord" : this.record
 	};
 	var recordTypeHandler = CORA.recordTypeHandler(spec);
 	assert.notStrictEqual(catchRecordTypeHandlerViewSpec.createNewMethod, undefined);
@@ -496,7 +496,7 @@ QUnit.test("initWithoutCreateButton", function(assert) {
 		},
 		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
 		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.recordWithoutCreateLink,
+		"recordTypeRecord" : this.recordWithoutCreateLink
 	};
 	var recordTypeHandler = CORA.recordTypeHandler(spec);
 
@@ -712,7 +712,7 @@ QUnit.test("testFactory", function(assert) {
 		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
 		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
 		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record,
+		"recordTypeRecord" : this.record
 	};
 	var recordTypeHandler = CORA.recordTypeHandler(spec);
 
