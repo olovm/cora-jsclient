@@ -42,25 +42,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "presentationVarGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationVarGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "presentationVarViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationVarViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "presentationVarFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationVarFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "presentationVarNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationVarNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "presentationVarFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationVarFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "presentationVarMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationVarMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "presentationVarListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationVarListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "presentationVarSearchGroup"
@@ -71,9 +134,6 @@ var CORATEST = (function(coraTest) {
 					"name" : "userSuppliedId",
 					"value" : "true"
 				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_PRESENTATIONVAR"
-				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "presentationVarViewSelfPGroup"
 				}, {
@@ -81,7 +141,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "presentation"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentation"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -144,25 +213,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "metadataGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "metadataViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "metadataFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "metadataNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "metadataFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "metadataMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "metadataListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "metadataSearchGroup"
@@ -172,9 +304,6 @@ var CORATEST = (function(coraTest) {
 				}, {
 					"name" : "userSuppliedId",
 					"value" : "true"
-				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_METADATA"
 				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "metadataViewSelfPGroup"
@@ -243,25 +372,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "presentationSurroundingContainerGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationSurroundingContainerGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "presentationSurroundingContainerViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationSurroundingContainerViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "presentationSurroundingContainerFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationSurroundingContainerFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "presentationSurroundingContainerNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationSurroundingContainerNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "presentationSurroundingContainerFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationSurroundingContainerFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "presentationSurroundingContainerMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationSurroundingContainerMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "presentationSurroundingContainerListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationSurroundingContainerListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "presentationSurroundingContainerSearchGroup"
@@ -272,9 +464,6 @@ var CORATEST = (function(coraTest) {
 					"name" : "userSuppliedId",
 					"value" : "true"
 				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_PRESENTATIONSURROUNDINGCONTAINER"
-				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "presentationSurroundingContainerViewSelfPGroup"
 				}, {
@@ -282,7 +471,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "presentation"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentation"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -345,25 +543,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "textSystemOneGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textSystemOneGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "textSystemOneViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textSystemOneViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "textSystemOneFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textSystemOneFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "textSystemOneNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textSystemOneNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "textSystemOneFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textSystemOneFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "textSystemOneMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textSystemOneMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "textSystemOneListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textSystemOneListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "textSystemOneSearchGroup"
@@ -374,9 +635,6 @@ var CORATEST = (function(coraTest) {
 					"name" : "userSuppliedId",
 					"value" : "true"
 				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_TEXTSYSTEMONE"
-				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "textSystemOneViewSelfPGroup"
 				}, {
@@ -384,7 +642,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "text"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "text"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -447,25 +714,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "recordTypeGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "recordTypeGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "recordTypeViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "recordTypeViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "recordTypeFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "recordTypeFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "recordTypeNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "recordTypeNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "recordTypeFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "recordTypeFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "recordTypeMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "recordTypeMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "recordTypeListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "recordTypeListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "recordTypeSearchGroup"
@@ -475,9 +805,6 @@ var CORATEST = (function(coraTest) {
 				}, {
 					"name" : "userSuppliedId",
 					"value" : "true"
-				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_RECORDTYPE"
 				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "recordTypeViewSelfPGroup"
@@ -546,25 +873,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "metadataGroupGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataGroupGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "metadataGroupViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataGroupViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "metadataGroupFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataGroupFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "metadataGroupNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataGroupNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "metadataGroupFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataGroupFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "metadataGroupMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataGroupMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "metadataGroupListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataGroupListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "metadataGroupSearchGroup"
@@ -575,9 +965,6 @@ var CORATEST = (function(coraTest) {
 					"name" : "userSuppliedId",
 					"value" : "true"
 				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_METADATAGROUP"
-				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "metadataGroupViewSelfPGroup"
 				}, {
@@ -585,7 +972,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "metadata"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadata"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -648,25 +1044,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "metadataCollectionItemGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionItemGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "metadataCollectionItemViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionItemViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "metadataCollectionItemFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionItemFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "metadataCollectionItemNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionItemNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "metadataCollectionItemFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionItemFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "metadataCollectionItemMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionItemMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "metadataCollectionItemListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionItemListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "metadataCollectionItemSearchGroup"
@@ -677,9 +1136,6 @@ var CORATEST = (function(coraTest) {
 					"name" : "userSuppliedId",
 					"value" : "true"
 				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_METADATACOLLECTIONITEM"
-				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "metadataCollectionItemViewSelfPGroup"
 				}, {
@@ -687,7 +1143,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "metadata"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadata"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -750,25 +1215,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "presentationGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "presentationViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "presentationFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "presentationNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "presentationFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "presentationMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "presentationListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "presentationSearchGroup"
@@ -778,9 +1306,6 @@ var CORATEST = (function(coraTest) {
 				}, {
 					"name" : "userSuppliedId",
 					"value" : "true"
-				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_PRESENTATION"
 				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "presentationViewSelfPGroup"
@@ -849,25 +1374,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "metadataRecordLinkGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataRecordLinkGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "metadataRecordLinkViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionItemViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "metadataRecordLinkFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataRecordLinkFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "metadataRecordLinkNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataRecordLinkNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "metadataRecordLinkFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataRecordLinkFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "metadataRecordLinkMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataRecordLinkMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "metadataRecordLinkListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataRecordLinkListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "metadataRecordLinkSearchGroup"
@@ -888,7 +1476,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "metadata"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadata"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -951,25 +1548,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "metadataTextVariableGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataTextVariableGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "metadataTextVariableViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataTextVariableViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "metadataTextVariableFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataTextVariableFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "metadataTextVariableNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataTextVariableNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "metadataTextVariableFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataTextVariableFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "metadataTextVariableMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataTextVariableMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "metadataTextVariableListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataTextVariableListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "metadataTextVariableSearchGroup"
@@ -980,9 +1640,6 @@ var CORATEST = (function(coraTest) {
 					"name" : "userSuppliedId",
 					"value" : "true"
 				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_METADATATEXTVARIABLE"
-				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "metadataTextVariableViewSelfPGroup"
 				}, {
@@ -990,7 +1647,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "metadata"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadata"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -1053,25 +1719,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "presentationRepeatingContainerGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationRepeatingContainerGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "presentationRepeatingContainerViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationRepeatingContainerViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "presentationRepeatingContainerFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationRepeatingContainerFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "presentationRepeatingContainerNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationRepeatingContainerNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "presentationRepeatingContainerFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationRepeatingContainerFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "presentationRepeatingContainerMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationRepeatingContainerMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "presentationRepeatingContainerListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationRepeatingContainerListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "presentationRepeatingContainerSearchGroup"
@@ -1082,9 +1811,6 @@ var CORATEST = (function(coraTest) {
 					"name" : "userSuppliedId",
 					"value" : "true"
 				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_PRESENTATIONREPEATINGCONTAINER"
-				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "presentationRepeatingContainerViewSelfPGroup"
 				}, {
@@ -1092,7 +1818,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "presentation"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentation"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -1155,25 +1890,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "metadataCollectionVariableGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionVariableGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "metadataCollectionVariableViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionVariableViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "metadataCollectionVariableFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionVariableFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "metadataCollectionVariableNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionVariableNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "metadataCollectionVariableFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionVariableFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "metadataCollectionVariableMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionVariableMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "metadataCollectionVariableListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionVariableListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "metadataCollectionVariableSearchGroup"
@@ -1184,9 +1982,6 @@ var CORATEST = (function(coraTest) {
 					"name" : "userSuppliedId",
 					"value" : "true"
 				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_METADATACOLLECTIONVARIABLE"
-				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "metadataCollectionVariableViewSelfPGroup"
 				}, {
@@ -1194,7 +1989,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "metadata"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadata"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -1257,25 +2061,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "textGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "textViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "textFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "textNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "textFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "textMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "textListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "textListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "textSearchGroup"
@@ -1285,9 +2152,6 @@ var CORATEST = (function(coraTest) {
 				}, {
 					"name" : "userSuppliedId",
 					"value" : "true"
-				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_TEXT"
 				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "textViewSelfPGroup"
@@ -1356,25 +2220,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "presentationGroupGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationGroupGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "presentationGroupViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationGroupViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "presentationGroupFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationGroupFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "presentationGroupNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationGroupNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "presentationGroupFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationGroupFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "presentationGroupMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationGroupMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "presentationGroupListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentationGroupListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "presentationGroupSearchGroup"
@@ -1385,9 +2312,6 @@ var CORATEST = (function(coraTest) {
 					"name" : "userSuppliedId",
 					"value" : "true"
 				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_PRESENTATIONGROUP"
-				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "presentationGroupViewSelfPGroup"
 				}, {
@@ -1395,7 +2319,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "presentation"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "presentation"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -1458,25 +2391,88 @@ var CORATEST = (function(coraTest) {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "metadataItemCollectionGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataItemCollectionGroup"
+									}
+								]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "metadataItemCollectionViewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataItemCollectionViewPGroup"
+									}
+								]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "metadataItemCollectionFormPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataItemCollectionFormPGroup"
+									}
+								]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "metadataItemCollectionNewGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataItemCollectionNewGroup"
+									}
+								]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "metadataItemCollectionFormNewPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataItemCollectionFormNewPGroup"
+									}
+								]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "metadataItemCollectionMenuPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataItemCollectionMenuPGroup"
+									}
+								]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "metadataItemCollectionListPGroup"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataItemCollectionListPGroup"
+									}
+								]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "metadataItemCollectionSearchGroup"
@@ -1487,9 +2483,6 @@ var CORATEST = (function(coraTest) {
 					"name" : "userSuppliedId",
 					"value" : "true"
 				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_METADATAITEMCOLLECTION"
-				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "metadataItemCollectionViewSelfPGroup"
 				}, {
@@ -1497,7 +2490,16 @@ var CORATEST = (function(coraTest) {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"value" : "metadata"
+					"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadata"
+									}
+								]
 				} ],
 				"name" : "recordType"
 			},
@@ -1546,7 +2548,16 @@ var CORATEST = (function(coraTest) {
 			        "children": [
 			          {
 			            "name": "metadataId",
-			            "value": "imageGroup"
+			            "children": [
+										{
+											"name": "linkedRecordType",
+											"value": "metadataGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "imageGroup"
+										}
+									]
 			          },
 			          {
 			            "name": "abstract",
@@ -1554,7 +2565,16 @@ var CORATEST = (function(coraTest) {
 			          },
 			          {
 			            "name": "parentId",
-			            "value": "binary"
+			            "children": [
+										{
+											"name": "linkedRecordType",
+											"value": "recordType"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "binary"
+										}
+									]
 			          },
 			          {
 			            "children": [
@@ -1596,27 +2616,81 @@ var CORATEST = (function(coraTest) {
 			          },
 			          {
 			            "name": "presentationViewId",
-			            "value": "imageViewPGroup"
+			            "children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "imageViewPGroup"
+										}
+									]
 			          },
 			          {
 			            "name": "presentationFormId",
-			            "value": "imageFormPGroup"
+			            "children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "imageFormPGroup"
+										}
+									]
 			          },
 			          {
 			            "name": "newMetadataId",
-			            "value": "imageNewGroup"
+			            "children": [
+										{
+											"name": "linkedRecordType",
+											"value": "metadataGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "imageNewGroup"
+										}
+									]
 			          },
 			          {
 			            "name": "newPresentationFormId",
-			            "value": "imageFormNewPGroup"
+			            "children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "imageFormNewPGroup"
+										}
+									]
 			          },
 			          {
 			            "name": "menuPresentationViewId",
-			            "value": "imageMenuPGroup"
+			            "children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "imageMenuPGroup"
+										}
+									]
 			          },
 			          {
 			            "name": "listPresentationViewId",
-			            "value": "imageListPGroup"
+			            "children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "imageListPGroup"
+										}
+									]
 			          },
 			          {
 			            "name": "searchMetadataId",
@@ -1629,10 +2703,6 @@ var CORATEST = (function(coraTest) {
 			          {
 			            "name": "userSuppliedId",
 			            "value": "false"
-			          },
-			          {
-			            "name": "permissionKey",
-			            "value": "RECORDTYPE_IMAGE"
 			          },
 			          {
 			            "name": "selfPresentationViewId",
@@ -1692,7 +2762,16 @@ var CORATEST = (function(coraTest) {
 				"children": [
 					{
 						"name": "metadataId",
-						"value": "binaryGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "metadataGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "binaryGroup"
+										}
+									]
 					},
 					{
 						"name": "abstract",
@@ -1738,27 +2817,81 @@ var CORATEST = (function(coraTest) {
 					},
 					{
 						"name": "presentationViewId",
-						"value": "binaryViewPGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "binaryViewPGroup"
+										}
+									]
 					},
 					{
 						"name": "presentationFormId",
-						"value": "binaryFormPGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "binaryFormPGroup"
+										}
+									]
 					},
 					{
 						"name": "newMetadataId",
-						"value": "binaryNewGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "metadataGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "binaryNewGroup"
+										}
+									]
 					},
 					{
 						"name": "newPresentationFormId",
-						"value": "binaryFormNewPGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "binaryFormNewPGroup"
+										}
+									]
 					},
 					{
 						"name": "menuPresentationViewId",
-						"value": "binaryMenuPGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "binaryMenuPGroup"
+										}
+									]
 					},
 					{
 						"name": "listPresentationViewId",
-						"value": "binaryListPGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "binaryListPGroup"
+										}
+									]
 					},
 					{
 						"name": "searchMetadataId",
@@ -1771,10 +2904,6 @@ var CORATEST = (function(coraTest) {
 					{
 						"name": "userSuppliedId",
 						"value": "true"
-					},
-					{
-						"name": "permissionKey",
-						"value": "RECORDTYPE_BINARY"
 					},
 					{
 						"name": "selfPresentationViewId",
@@ -1827,7 +2956,16 @@ var CORATEST = (function(coraTest) {
 		        "children": [
 		          {
 		            "name": "metadataId",
-		            "value": "genericBinaryGroup"
+		            "children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "genericBinaryGroup"
+									}
+								]
 		          },
 		          {
 		            "name": "abstract",
@@ -1835,7 +2973,16 @@ var CORATEST = (function(coraTest) {
 		          },
 		          {
 		            "name": "parentId",
-		            "value": "binary"
+		            "children": [
+									{
+										"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "binary"
+									}
+								]
 		          },
 		          {
 		            "children": [
@@ -1877,27 +3024,81 @@ var CORATEST = (function(coraTest) {
 		          },
 		          {
 		            "name": "presentationViewId",
-		            "value": "genericBinaryViewPGroup"
+		            "children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "genericBinaryViewPGroup"
+									}
+								]
 		          },
 		          {
 		            "name": "presentationFormId",
-		            "value": "genericBinaryFormPGroup"
+		            "children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "genericBinaryFormPGroup"
+									}
+								]
 		          },
 		          {
 		            "name": "newMetadataId",
-		            "value": "genericBinaryNewGroup"
+		            "children": [
+									{
+										"name": "linkedRecordType",
+										"value": "metadataGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "genericBinaryNewGroup"
+									}
+								]
 		          },
 		          {
 		            "name": "newPresentationFormId",
-		            "value": "genericBinaryFormNewPGroup"
+		            "children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "genericBinaryFormNewPGroup"
+									}
+								]
 		          },
 		          {
 		            "name": "menuPresentationViewId",
-		            "value": "genericBinaryMenuPGroup"
+		            "children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "genericBinaryMenuPGroup"
+									}
+								]
 		          },
 		          {
 		            "name": "listPresentationViewId",
-		            "value": "genericBinaryListPGroup"
+		            "children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "genericBinaryListPGroup"
+									}
+								]
 		          },
 		          {
 		            "name": "searchMetadataId",
@@ -1910,10 +3111,6 @@ var CORATEST = (function(coraTest) {
 		          {
 		            "name": "userSuppliedId",
 		            "value": "false"
-		          },
-		          {
-		            "name": "permissionKey",
-		            "value": "RECORDTYPE_GENERIC_BINARY"
 		          },
 		          {
 		            "name": "selfPresentationViewId",
@@ -1973,7 +3170,16 @@ var CORATEST = (function(coraTest) {
 				"children": [
 					{
 						"name": "metadataId",
-						"value": "noDataDividerBinaryGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "metadataGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "noDataDividerBinaryGroup"
+										}
+									]
 					},
 					{
 						"name": "abstract",
@@ -1981,7 +3187,16 @@ var CORATEST = (function(coraTest) {
 					},
 					{
 						"name": "parentId",
-						"value": "binary"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "recordType"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "binary"
+										}
+									]
 					},
 					{
 						"children": [
@@ -2023,27 +3238,81 @@ var CORATEST = (function(coraTest) {
 					},
 					{
 						"name": "presentationViewId",
-						"value": "noDataDividerBinaryViewPGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "noDataDividerBinaryViewPGroup"
+										}
+									]
 					},
 					{
 						"name": "presentationFormId",
-						"value": "noDataDividerBinaryFormPGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "noDataDividerBinaryFormPGroup"
+										}
+									]
 					},
 					{
 						"name": "newMetadataId",
-						"value": "noDataDividerBinaryNewGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "metadataGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "noDataDividerBinaryNewGroup"
+										}
+									]
 					},
 					{
 						"name": "newPresentationFormId",
-						"value": "noDataDividerBinaryFormNewPGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "noDataDividerBinaryFormNewPGroup"
+										}
+									]
 					},
 					{
 						"name": "menuPresentationViewId",
-						"value": "noDataDividerBinaryMenuPGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "noDataDividerBinaryMenuPGroup"
+										}
+									]
 					},
 					{
 						"name": "listPresentationViewId",
-						"value": "noDataDividerBinaryListPGroup"
+						"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "noDataDividerBinaryListPGroup"
+										}
+									]
 					},
 					{
 						"name": "searchMetadataId",
@@ -2056,10 +3325,6 @@ var CORATEST = (function(coraTest) {
 					{
 						"name": "userSuppliedId",
 						"value": "false"
-					},
-					{
-						"name": "permissionKey",
-						"value": "RECORDTYPE_NO_DATA_DIVIDER_BINARY"
 					},
 					{
 						"name": "selfPresentationViewId",
