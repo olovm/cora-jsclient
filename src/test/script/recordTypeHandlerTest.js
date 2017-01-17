@@ -152,32 +152,32 @@ QUnit
 										}
 									]
 								},
-									{
-										"name": "textId",
-										"children": [
-											{
-												"name": "linkedRecordType",
-												"value": "coraText"
-											},
-											{
-												"name": "linkedRecordId",
-												"value": "fdag"
-											}
-										]
-									},
-									{
-										"name": "defTextId",
-										"children": [
-											{
-												"name": "linkedRecordType",
-												"value": "coraText"
-											},
-											{
-												"name": "linkedRecordId",
-												"value": "adfg"
-											}
-										]
-									} ],
+								{
+									"name": "textId",
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "coraText"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "fdagText"
+										}
+									]
+								},
+								{
+									"name": "defTextId",
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "coraText"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "adfgDefText"
+										}
+									]
+								} ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -239,25 +239,88 @@ QUnit
 									"name" : "recordInfo"
 								}, {
 									"name" : "metadataId",
-									"value" : "metadataCollectionItemGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "metadataGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemGroup"
+										}
+									]
 								}, {
 									"name" : "presentationViewId",
-									"value" : "metadataCollectionItemViewPGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemViewPGroup"
+										}
+									]
 								}, {
 									"name" : "presentationFormId",
-									"value" : "metadataCollectionItemFormPGroup"
+									"children": [
+											{
+												"name": "linkedRecordType",
+												"value": "presentationGroup"
+											},
+											{
+												"name": "linkedRecordId",
+												"value": "metadataCollectionItemFormPGroup"
+											}
+										]
 								}, {
 									"name" : "newMetadataId",
-									"value" : "metadataCollectionItemNewGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "metadataGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemNewGroup"
+										}
+									]
 								}, {
 									"name" : "newPresentationFormId",
-									"value" : "metadataCollectionItemFormNewPGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemFormNewPGroup"
+										}
+									]
 								}, {
 									"name" : "menuPresentationViewId",
-									"value" : "metadataCollectionItemMenuPGroup"
+									"children": [
+									{
+										"name": "linkedRecordType",
+										"value": "presentationGroup"
+									},
+									{
+										"name": "linkedRecordId",
+										"value": "metadataCollectionItemMenuPGroup"
+									}
+								]
 								}, {
 									"name" : "listPresentationViewId",
-									"value" : "metadataCollectionItemListPGroup"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "presentationGroup"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadataCollectionItemListPGroup"
+										}
+									]
 								}, {
 									"name" : "searchMetadataId",
 									"value" : "metadataCollectionItemSearchGroup"
@@ -278,7 +341,42 @@ QUnit
 									"value" : "false"
 								}, {
 									"name" : "parentId",
-									"value" : "metadata"
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "recordType"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "metadata"
+										}
+									]
+								},
+								{
+									"name": "textId",
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "coraText"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "fdagText"
+										}
+									]
+								},
+								{
+									"name": "defTextId",
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "coraText"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "adfgDefText"
+										}
+									]
 								} ],
 								"name" : "recordType"
 							},
@@ -410,7 +508,7 @@ QUnit.test("headerOnClick", function(assert) {
 		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
 		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
 		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record,
+		"recordTypeRecord" : this.record
 	};
 	var recordTypeHandler = CORA.recordTypeHandler(spec);
 
