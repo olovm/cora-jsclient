@@ -129,8 +129,12 @@ var CORA = (function(cora) {
 		}
 
 		function isChildOfCurrentElement(cChild, cRecordInfo) {
-			return cChild.getFirstAtomicValueByNameInData("parentId") === cRecordInfo
+			var cParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
+			return cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
 					.getFirstAtomicValueByNameInData("id");
+
+			//return cChild.getFirstAtomicValueByNameInData("parentId") === cRecordInfo
+			//		.getFirstAtomicValueByNameInData("id");
 		}
 
 		function createMetadataIdsForRecordType(recordTypes) {
