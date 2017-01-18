@@ -150,25 +150,88 @@ QUnit.test("getRecordTypeById", function(assert) {
 				"name" : "recordInfo"
 			}, {
 				"name" : "metadataId",
-				"value" : "textSystemOneGroup"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "metadataGroup"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "textSystemOneGroup"
+					}
+				]
 			}, {
 				"name" : "presentationViewId",
-				"value" : "textSystemOneViewPGroup"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "presentationGroup"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "textSystemOneViewPGroup"
+					}
+				]
 			}, {
 				"name" : "presentationFormId",
-				"value" : "textSystemOneFormPGroup"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "presentationGroup"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "textSystemOneFormPGroup"
+					}
+				]
 			}, {
 				"name" : "newMetadataId",
-				"value" : "textSystemOneNewGroup"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "metadataGroup"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "textSystemOneNewGroup"
+					}
+				]
 			}, {
 				"name" : "newPresentationFormId",
-				"value" : "textSystemOneFormNewPGroup"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "presentationGroup"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "textSystemOneFormNewPGroup"
+					}
+				]
 			}, {
 				"name" : "menuPresentationViewId",
-				"value" : "textSystemOneMenuPGroup"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "presentationGroup"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "textSystemOneMenuPGroup"
+					}
+				]
 			}, {
 				"name" : "listPresentationViewId",
-				"value" : "textSystemOneListPGroup"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "presentationGroup"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "textSystemOneListPGroup"
+					}
+				]
 			}, {
 				"name" : "searchMetadataId",
 				"value" : "textSystemOneSearchGroup"
@@ -179,9 +242,6 @@ QUnit.test("getRecordTypeById", function(assert) {
 				"name" : "userSuppliedId",
 				"value" : "true"
 			}, {
-				"name" : "permissionKey",
-				"value" : "RECORDTYPE_TEXTSYSTEMONE"
-			}, {
 				"name" : "selfPresentationViewId",
 				"value" : "textSystemOneViewSelfPGroup"
 			}, {
@@ -189,7 +249,16 @@ QUnit.test("getRecordTypeById", function(assert) {
 				"value" : "false"
 			}, {
 				"name" : "parentId",
-				"value" : "text"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "recordType"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "text"
+					}
+				]
 			} ],
 			"name" : "recordType"
 		},
