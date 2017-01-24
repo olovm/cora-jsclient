@@ -132,9 +132,6 @@ var CORA = (function(cora) {
 			var cParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
 			return cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
 					.getFirstAtomicValueByNameInData("id");
-
-			//return cChild.getFirstAtomicValueByNameInData("parentId") === cRecordInfo
-			//		.getFirstAtomicValueByNameInData("id");
 		}
 
 		function createMetadataIdsForRecordType(recordTypes) {
@@ -143,7 +140,6 @@ var CORA = (function(cora) {
 				var cRecord = CORA.coraData(record.data);
 				var cMetadataIdGroup = CORA.coraData(cRecord.getFirstChildByNameInData("metadataId"));
 				var metadataId = cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-//				var metadataId = cRecord.getFirstAtomicValueByNameInData("metadataId");
 				var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
 				var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 				metadataIds[id] = metadataId;

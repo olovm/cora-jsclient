@@ -279,7 +279,6 @@ var CORA = (function(cora) {
 		}
 
 		function notAbstractRecordRecordType() {
-			//var abstractValue = getRecordTypeRecordValue("abstract");
 			var abstractValue = cRecordTypeRecordData.getFirstAtomicValueByNameInData("abstract");
 			return "true" !== abstractValue;
 		}
