@@ -56,25 +56,88 @@ QUnit.module("recordListHandlerTest.js", {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"value" : "recordTypeGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "recordTypeGroup"
+						}
+					]
 				}, {
 					"name" : "presentationViewId",
-					"value" : "recordTypeViewPGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "presentationGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "recordTypeViewPGroup"
+						}
+					]
 				}, {
 					"name" : "presentationFormId",
-					"value" : "recordTypeFormPGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "presentationGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "recordTypeFormPGroup"
+						}
+					]
 				}, {
 					"name" : "newMetadataId",
-					"value" : "recordTypeNewGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "recordTypeNewGroup"
+						}
+					]
 				}, {
 					"name" : "newPresentationFormId",
-					"value" : "recordTypeFormNewPGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "presentationGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "recordTypeFormNewPGroup"
+						}
+					]
 				}, {
 					"name" : "menuPresentationViewId",
-					"value" : "recordTypeMenuPGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "presentationGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "recordTypeMenuPGroup"
+						}
+					]
 				}, {
 					"name" : "listPresentationViewId",
-					"value" : "recordTypeListPGroup"
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "presentationGroup"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "recordTypeListPGroup"
+						}
+					]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "recordTypeSearchGroup"
@@ -84,9 +147,6 @@ QUnit.module("recordListHandlerTest.js", {
 				}, {
 					"name" : "userSuppliedId",
 					"value" : "true"
-				}, {
-					"name" : "permissionKey",
-					"value" : "RECORDTYPE_RECORDTYPE"
 				}, {
 					"name" : "selfPresentationViewId",
 					"value" : "recordTypeViewSelfPGroup"
