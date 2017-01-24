@@ -180,17 +180,17 @@ var CORA = (function(cora) {
 			return hasParent(cRecordType)
 					&& parentIsBinary(cRecordType);
 		}
-		
+
 		function hasParent(cRecordType){
 			return cRecordType.containsChildWithNameInData("parentId");
 		}
-		
+
 		function parentIsBinary(cRecordType){
 			var cParentIdGroup = CORA.coraData(cRecordType.getFirstChildByNameInData("parentId"));
 			var parentId = cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-			return parentId === "binary"
+			return parentId === "binary";
 		}
-		
+
 		function getView() {
 			return pChildRefHandlerView.getView();
 		}
