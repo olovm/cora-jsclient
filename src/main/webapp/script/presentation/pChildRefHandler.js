@@ -177,8 +177,18 @@ var CORA = (function(cora) {
 		}
 
 		function isChildOfBinary(cRecordType) {
-			return cRecordType.containsChildWithNameInData("parentId")
-					&& cRecordType.getFirstAtomicValueByNameInData("parentId") === "binary";
+			return hasParent(cRecordType)
+					&& parentIsBinary(cRecordType);
+		}
+
+		function hasParent(cRecordType){
+			return cRecordType.containsChildWithNameInData("parentId");
+		}
+
+		function parentIsBinary(cRecordType){
+			var cParentIdGroup = CORA.coraData(cRecordType.getFirstChildByNameInData("parentId"));
+			var parentId = cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			return parentId === "binary";
 		}
 
 		function getView() {
@@ -447,7 +457,8 @@ var CORA = (function(cora) {
 		function getNewMetadataGroupFromRecordType() {
 			var recordType = getImplementingLinkedRecordType();
 			var cData = CORA.coraData(recordType.data);
-			var newMetadataId = cData.getFirstAtomicValueByNameInData("newMetadataId");
+			var newMetadataIdGroup = CORA.coraData(cData.getFirstChildByNameInData("newMetadataId"));
+			var newMetadataId = newMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			return getMetadataById(newMetadataId);
 		}
 

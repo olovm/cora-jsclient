@@ -2788,25 +2788,88 @@ var CORATEST = (function(coraTest) {
 				"name" : "recordInfo"
 			}, {
 				"name" : "metadataId",
-				"value" : "presentationVarGroup"
+				"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "presentationVarGroup"
+								}
+							]
 			}, {
 				"name" : "presentationViewId",
-				"value" : "presentationVarViewPGroup"
+				"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "presentationGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "presentationVarViewPGroup"
+								}
+							]
 			}, {
 				"name" : "presentationFormId",
-				"value" : "presentationVarFormPGroup"
+				"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "presentationGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "presentationVarFormPGroup"
+								}
+							]
 			}, {
 				"name" : "newMetadataId",
-				"value" : "presentationVarNewGroup"
+				"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "presentationVarNewGroup"
+								}
+							]
 			}, {
 				"name" : "newPresentationFormId",
-				"value" : "presentationVarFormNewPGroup"
+				"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "presentationGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "presentationVarFormNewPGroup"
+								}
+							]
 			}, {
 				"name" : "menuPresentationViewId",
-				"value" : "presentationVarMenuPGroup"
+				"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "presentationGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "presentationVarMenuPGroup"
+								}
+							]
 			}, {
 				"name" : "listPresentationViewId",
-				"value" : "presentationVarListPGroup"
+				"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "presentationGroup"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "presentationVarListPGroup"
+								}
+							]
 			}, {
 				"name" : "searchMetadataId",
 				"value" : "presentationVarSearchGroup"
@@ -2817,9 +2880,6 @@ var CORATEST = (function(coraTest) {
 				"name" : "userSuppliedId",
 				"value" : "true"
 			}, {
-				"name" : "permissionKey",
-				"value" : "RECORDTYPE_PRESENTATIONVAR"
-			}, {
 				"name" : "selfPresentationViewId",
 				"value" : "presentationVarViewSelfPGroup"
 			}, {
@@ -2827,7 +2887,16 @@ var CORATEST = (function(coraTest) {
 				"value" : "false"
 			}, {
 				"name" : "parentId",
-				"value" : "presentation"
+				"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "recordType"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "presentation"
+								}
+							]
 			} ],
 			"name" : "recordType"
 		};

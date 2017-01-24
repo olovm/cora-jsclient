@@ -77,10 +77,11 @@ var CORA = (function(cora) {
 		}
 
 		function getNewMetadataId() {
-			return getRecordTypeRecordValue("newMetadataId");
+			return getRecordTypeRecordValueFromRecordLink("newMetadataId");
 		}
-		function getRecordTypeRecordValue(id) {
-			return cRecordTypeRecordData.getFirstAtomicValueByNameInData(id);
+		function getRecordTypeRecordValueFromRecordLink(id) {
+			var cRecordLink = CORA.coraData(cRecordTypeRecordData.getFirstChildByNameInData(id));
+			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function createRecordGui(metadataId, data, dataDivider) {
@@ -137,7 +138,7 @@ var CORA = (function(cora) {
 		}
 
 		function getPresentationNewViewId() {
-			return getRecordTypeRecordValue("newPresentationFormId");
+			return getRecordTypeRecordValueFromRecordLink("newPresentationFormId");
 		}
 
 		function addRecordToMenuView(recordGuiToAdd, metadataIdUsedInData) {
@@ -278,7 +279,7 @@ var CORA = (function(cora) {
 		}
 
 		function notAbstractRecordRecordType() {
-			var abstractValue = getRecordTypeRecordValue("abstract");
+			var abstractValue = cRecordTypeRecordData.getFirstAtomicValueByNameInData("abstract");
 			return "true" !== abstractValue;
 		}
 
@@ -372,15 +373,15 @@ var CORA = (function(cora) {
 		}
 
 		function getPresentationViewId() {
-			return getRecordTypeRecordValue("presentationViewId");
+			return getRecordTypeRecordValueFromRecordLink("presentationViewId");
 		}
 
 		function getPresentationFormId() {
-			return getRecordTypeRecordValue("presentationFormId");
+			return getRecordTypeRecordValueFromRecordLink("presentationFormId");
 		}
 
 		function getMenuPresentationViewId() {
-			return getRecordTypeRecordValue("menuPresentationViewId");
+			return getRecordTypeRecordValueFromRecordLink("menuPresentationViewId");
 		}
 
 		function callError(answer) {

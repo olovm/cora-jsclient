@@ -129,7 +129,8 @@ var CORA = (function(cora) {
 		}
 
 		function isChildOfCurrentElement(cChild, cRecordInfo) {
-			return cChild.getFirstAtomicValueByNameInData("parentId") === cRecordInfo
+			var cParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
+			return cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
 					.getFirstAtomicValueByNameInData("id");
 		}
 
@@ -137,7 +138,8 @@ var CORA = (function(cora) {
 			var metadataIds = {};
 			recordTypes.forEach(function(record) {
 				var cRecord = CORA.coraData(record.data);
-				var metadataId = cRecord.getFirstAtomicValueByNameInData("metadataId");
+				var cMetadataIdGroup = CORA.coraData(cRecord.getFirstChildByNameInData("metadataId"));
+				var metadataId = cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 				var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
 				var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 				metadataIds[id] = metadataId;

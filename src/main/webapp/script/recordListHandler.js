@@ -120,7 +120,8 @@ var CORA = (function(cora) {
 
 		function getListPresentationFromRecordTypeRecord() {
 			var cData = CORA.coraData(spec.recordTypeRecord.data);
-			return cData.getFirstAtomicValueByNameInData("listPresentationViewId");
+			var cRecordLink = CORA.coraData(cData.getFirstChildByNameInData("listPresentationViewId"));
+			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function getDataDividerFromData(data) {
