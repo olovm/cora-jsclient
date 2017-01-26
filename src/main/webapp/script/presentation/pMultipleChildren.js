@@ -98,13 +98,20 @@ var CORA = (function(cora) {
 
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
-			var	ref = cRefGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			var	cRef;
+			if(cPresentationChildRef.containsChildWithNameInData("refGroup")){
+				var cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refGroup"));
+				cRef = CORA.coraData(cRefGroup.getFirstChildByNameInData("ref"));
+				
+			}else{
+				cRef = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
+			}
+			var	refId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 
-			var cPresentationChild = getMetadataById(ref);
+			var cPresentationChild = getMetadataById(refId);
 
 			if (childIsText(cPresentationChild)) {
-				return createText(ref);
+				return createText(refId);
 			}
 			if (childIsSurroundingContainer(cPresentationChild)) {
 				return createSurroundingContainer(cPresentationChild);
@@ -149,7 +156,8 @@ var CORA = (function(cora) {
 			};
 
 			if (childHasMinimizedPresenation(cPresentationChildRef)) {
-				var cPresRefMinimizedGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refMinimized"));
+				var cPresRefMinGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refMinGroup"));
+				var cPresRefMinimizedGroup = CORA.coraData(cPresRefMinGroup.getFirstChildByNameInData("ref"));
 				var presRefMinimized = cPresRefMinimizedGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 				var cPresentationMinimized = getMetadataById(presRefMinimized);
 				childRefHandlerSpec.cPresentationMinimized = cPresentationMinimized;
@@ -165,7 +173,7 @@ var CORA = (function(cora) {
 		}
 
 		function childHasMinimizedPresenation(cChildRef) {
-			return cChildRef.containsChildWithNameInData("refMinimized");
+			return cChildRef.containsChildWithNameInData("refMinGroup");
 		}
 
 		function getMetadataById(id) {

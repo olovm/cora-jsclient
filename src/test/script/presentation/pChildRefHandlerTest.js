@@ -506,6 +506,7 @@ QUnit.test("testAddButtonFor1toX", function(assert) {
 				"attributes": {
 					"type": "textVariable"
 				},
+				
 				"name" : "ref",
 				"children": [
 					{

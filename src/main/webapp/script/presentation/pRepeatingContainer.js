@@ -43,12 +43,19 @@ var CORA = (function(cora) {
 		}
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
-			var presRef = cRefGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-			var cPresentationChild = getMetadataById(presRef);
+			var	cRef;
+			if(cPresentationChildRef.containsChildWithNameInData("refGroup")){
+				var cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refGroup"));
+				cRef = CORA.coraData(cRefGroup.getFirstChildByNameInData("ref"));
+				
+			}else{
+				cRef = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
+			}
+			var refId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
+			var cPresentationChild = getMetadataById(refId);
 			if (cPresentationChild.getData().name === "text") {
 				var text = CORA.gui.createSpanWithClassName("text");
-				text.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
+				text.appendChild(document.createTextNode(textProvider.getTranslation(refId)));
 				return text;
 			}
 			var presentation = presentationFactory.factor(path, spec.metadataIdUsedInData,
