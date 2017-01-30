@@ -1379,18 +1379,6 @@ function MetadataProviderStub() {
                 }
             };
         }
-// if (idToGet === "recordTypeTypeCollection") {
-// return {
-// "name" : "metadata",
-// "children" : [ {
-// "ref" : "recordTypeTypeChoice1"
-// }
-// ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
-// "attributes" : {
-// "type" : "collection"
-// }
-// };
-// }
         if (idToGet === "recordTypeTypeCollection") {
             return {
                 "name": "metadata",
@@ -3345,22 +3333,6 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 },
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "idTextOutputPVar"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                     {
                                         "name": "default",
                                         "value": "ref"
@@ -3412,22 +3384,6 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 },
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "idTextOutputPVar"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                     {
                                         "name": "default",
                                         "value": "ref"
@@ -3967,22 +3923,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableId"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4033,22 +3973,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableIdOutput"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4098,22 +4022,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableIdOutputImage"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4164,22 +4072,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationCollectionVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "yesNoUnknownPCollVar"
-// }
-// ],
-// "attributes": {
-// "type": "pCollVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4235,26 +4127,6 @@ function MetadataProviderStub() {
                                         "name": "childReference",
                                         "repeatId": "1",
                                         "children": [
-                                            // {
-                                            // "name" : "ref",
-                                            // "children": [
-                                            // {
-                                            // "name":
-                                            // "linkedRecordType",
-                                            // "value":
-                                            // "textSystemOne"
-                                            // },
-                                            // {
-                                            // "name":
-                                            // "linkedRecordId",
-                                            // "value":
-                                            // "aHeadlineText"
-                                            // }
-                                            // ],
-                                            // "attributes": {
-                                            // "type": "text"
-                                            // }
-                                            // },
                                             {
                                                 "name": "refGroup",
                                                 "children": [
@@ -4290,26 +4162,6 @@ function MetadataProviderStub() {
                                         "name": "childReference",
                                         "repeatId": "2",
                                         "children": [
-                                            // {
-                                            // "name" : "ref",
-                                            // "children": [
-                                            // {
-                                            // "name":
-                                            // "linkedRecordType",
-                                            // "value":
-                                            // "presentationCollectionVar"
-                                            // },
-                                            // {
-                                            // "name":
-                                            // "linkedRecordId",
-                                            // "value":
-                                            // "userSuppliedIdCollectionVarPCollVar"
-                                            // }
-                                            // ],
-                                            // "attributes": {
-                                            // "type": "pCollVar"
-                                            // }
-                                            // },
                                             {
                                                 "name": "refGroup",
                                                 "children": [
@@ -4364,22 +4216,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "textSystemOne"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "aHeadlineText"
-// }
-// ],
-// "attributes": {
-// "type": "text"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4409,22 +4245,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableId"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4475,22 +4295,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "textSystemOne"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "aHeadlineText"
-// }
-// ],
-// "attributes": {
-// "type": "text"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4520,22 +4324,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableId"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4565,22 +4353,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableIdOutput"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4631,22 +4403,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableId"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4669,22 +4425,6 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 },
-// {
-// "name" : "refMinimized",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableIdOutput"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refMinGroup",
                                     "children": [{
@@ -4735,22 +4475,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableId"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4794,22 +4518,6 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 },
-// {
-// "name" : "refMinimized",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableIdOutput"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "default",
                                     "value": "refMinimized"
@@ -4866,22 +4574,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableId"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4911,22 +4603,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVariableId2"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -4978,22 +4654,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "textSystemOne"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "aHeadlineText"
-// }
-// ],
-// "attributes": {
-// "type": "text"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5023,22 +4683,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationGroup"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pgGroupIdOneTextOneTextChild"
-// }
-// ],
-// "attributes": {
-// "type": "pGroup"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5089,22 +4733,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "textSystemOne"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "aHeadlineText"
-// }
-// ],
-// "attributes": {
-// "type": "text"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5134,22 +4762,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "refTextVarPVar"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5199,22 +4811,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "textSystemOne"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "aHeadlineText"
-// }
-// ],
-// "attributes": {
-// "type": "text"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5244,22 +4840,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVar"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5310,22 +4890,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "textSystemOne"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "aHeadlineText"
-// }
-// ],
-// "attributes": {
-// "type": "text"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5355,22 +4919,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVarOutput"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5420,22 +4968,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "textSystemOne"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "aHeadlineText"
-// }
-// ],
-// "attributes": {
-// "type": "text"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5465,22 +4997,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVarOutput"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5531,22 +5047,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "textSystemOne"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "aHeadlineText"
-// }
-// ],
-// "attributes": {
-// "type": "text"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5576,22 +5076,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "presentationVar"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "pVarTextVar"
-// }
-// ],
-// "attributes": {
-// "type": "pVar"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5642,22 +5126,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-// {
-// "name" : "ref",
-// "children": [
-// {
-// "name": "linkedRecordType",
-// "value": "textSystemOne"
-// },
-// {
-// "name": "linkedRecordId",
-// "value": "aHeadlineText"
-// }
-// ],
-// "attributes": {
-// "type": "text"
-// }
-// },
                                 {
                                     "name": "refGroup",
                                     "children": [{
@@ -5714,26 +5182,6 @@ function MetadataProviderStub() {
                                         "name": "childReference",
                                         "repeatId": "1",
                                         "children": [
-                                            // {
-                                            // "name" : "ref",
-                                            // "children": [
-                                            // {
-                                            // "name":
-                                            // "linkedRecordType",
-                                            // "value":
-                                            // "textSystemOne"
-                                            // },
-                                            // {
-                                            // "name":
-                                            // "linkedRecordId",
-                                            // "value":
-                                            // "aHeadlineText"
-                                            // }
-                                            // ],
-                                            // "attributes": {
-                                            // "type": "text"
-                                            // }
-                                            // },
                                             {
                                                 "name": "refGroup",
                                                 "children": [
@@ -5769,26 +5217,6 @@ function MetadataProviderStub() {
                                         "name": "childReference",
                                         "repeatId": "2",
                                         "children": [
-                                            // {
-                                            // "name" : "ref",
-                                            // "children": [
-                                            // {
-                                            // "name":
-                                            // "linkedRecordType",
-                                            // "value":
-                                            // "presentationGroup"
-                                            // },
-                                            // {
-                                            // "name":
-                                            // "linkedRecordId",
-                                            // "value":
-                                            // "pgTextVarRepeat1to3InGroupOneAttribute"
-                                            // }
-                                            // ],
-                                            // "attributes": {
-                                            // "type": "pGroup"
-                                            // }
-                                            // },
                                             {
                                                 "name": "refGroup",
                                                 "children": [
@@ -5816,27 +5244,6 @@ function MetadataProviderStub() {
                                                         }
                                                     }]
                                             },
-                                            // {
-                                            // "name" :
-                                            // "refMinimized",
-                                            // "children": [
-                                            // {
-                                            // "name":
-                                            // "linkedRecordType",
-                                            // "value":
-                                            // "presentationGroup"
-                                            // },
-                                            // {
-                                            // "name":
-                                            // "linkedRecordId",
-                                            // "value":
-                                            // "pgTextVarRepeat1to3InGroupOneAttributeMinimized"
-                                            // }
-                                            // ],
-                                            // "attributes": {
-                                            // "type": "pGroup"
-                                            // }
-                                            // },
                                             {
                                                 "name": "refMinGroup",
                                                 "children": [
@@ -5873,21 +5280,6 @@ function MetadataProviderStub() {
                                         "name": "childReference",
                                         "repeatId": "3",
                                         "children": [
-//	{
-//		"name" : "ref",
-//		"children" : [
-//				{
-//					"name" : "linkedRecordType",
-//					"value" : "presentationGroup"
-//				},
-//				{
-//					"name" : "linkedRecordId",
-//					"value" : "pgTextVarRepeat1to3InGroupOtherAttribute"
-//				} ],
-//		"attributes" : {
-//			"type" : "pGroup"
-//		}
-//	},
                                             {
                                                 "name": "refGroup",
                                                 "children": [
@@ -5917,21 +5309,6 @@ function MetadataProviderStub() {
                                                     }
                                                 ]
                                             },
-//	{
-//		"name" : "refMinimized",
-//		"children" : [
-//				{
-//					"name" : "linkedRecordType",
-//					"value" : "presentationGroup"
-//				},
-//				{
-//					"name" : "linkedRecordId",
-//					"value" : "pgTextVarRepeat1to3InGroupOtherAttributeMinimized"
-//				} ],
-//		"attributes" : {
-//			"type" : "pGroup"
-//		}
-//	},
                                             {
                                                 "name": "refMinGroup",
                                                 "children": [
@@ -5995,21 +5372,6 @@ function MetadataProviderStub() {
                                         "name": "childReference",
                                         "repeatId": "1",
                                         "children": [
-//	{
-//		"name" : "ref",
-//		"children" : [
-//				{
-//					"name" : "linkedRecordType",
-//					"value" : "textSystemOne"
-//				},
-//				{
-//					"name" : "linkedRecordId",
-//					"value" : "aHeadlineText"
-//				} ],
-//		"attributes" : {
-//			"type" : "text"
-//		}
-//	},
                                             {
                                                 "name": "refGroup",
                                                 "children": [
@@ -6048,21 +5410,6 @@ function MetadataProviderStub() {
                                         "name": "childReference",
                                         "repeatId": "2",
                                         "children": [
-//	{
-//		"name" : "ref",
-//		"children" : [
-//				{
-//					"name" : "linkedRecordType",
-//					"value" : "presentationGroup"
-//				},
-//				{
-//					"name" : "linkedRecordId",
-//					"value" : "pgTextVarRepeat1to3InGroupParentAttribute"
-//				} ],
-//		"attributes" : {
-//			"type" : "pGroup"
-//		}
-//	},
                                             {
                                                 "name": "refGroup",
                                                 "children": [
@@ -6092,21 +5439,6 @@ function MetadataProviderStub() {
                                                     }
                                                 ]
                                             },
-//	{
-//		"name" : "refMinimized",
-//		"children" : [
-//				{
-//					"name" : "linkedRecordType",
-//					"value" : "presentationGroup"
-//				},
-//				{
-//					"name" : "linkedRecordId",
-//					"value" : "pgTextVarRepeat1to3InGroupParentAttributeMinimized"
-//				} ],
-//		"attributes" : {
-//			"type" : "pGroup"
-//		}
-//	},
                                             {
                                                 "name": "refMinGroup",
                                                 "children": [
@@ -6165,19 +5497,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "aHeadlineText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6215,19 +5534,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableId"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6286,19 +5592,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "aHeadlineText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6336,19 +5629,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableId"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6386,19 +5666,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableIdOutput"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6457,20 +5724,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [
-//               {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "aHeadlineText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6508,19 +5761,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableId"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6558,19 +5798,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableIdOutput"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6629,19 +5856,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "aHeadlineText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6679,19 +5893,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableId"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//}
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6729,19 +5930,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableIdOutput"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6802,19 +5990,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "coraText"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "aHeadlineText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6852,19 +6027,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableId"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -6923,19 +6085,6 @@ function MetadataProviderStub() {
                                         }
                                     ]
                                 },
-//{
-//	"name" : "refMinimzed",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableIdOutput"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "default",
                                     "value": "ref"
@@ -6944,19 +6093,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "3",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableIdOutput"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7015,19 +6151,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "aHeadlineText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7065,20 +6188,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationRepeatingContainer"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pTextVariableIdRContainer"
-//} ],
-//"attributes" : {
-//"type" : "container",
-//"repeat" : "this"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7149,19 +6258,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "coraText"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "aHeadlineText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7199,19 +6295,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableId"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7249,19 +6332,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "3",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pVarTextVariableId2"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7323,20 +6393,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationSurroundingContainer"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pTextVariablePlus2SContainer"
-//} ],
-//"attributes" : {
-//"type" : "container",
-//"repeat" : "children"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7405,19 +6461,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "coraText"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "aHeadlineText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7455,20 +6498,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationSurroundingContainer"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pTextVariablePlus2SContainer"
-//} ],
-//"attributes" : {
-//"type" : "container",
-//"repeat" : "children"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7528,20 +6557,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationSurroundingContainer"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "pTextVariablePlus2SContainer2"
-//} ],
-//"attributes" : {
-//"type" : "container",
-//"repeat" : "children"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7607,19 +6622,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "myHeadlineText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7657,19 +6659,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "2",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "myChildPVar"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7707,19 +6696,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "3",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationGroup"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "myChildPGroup"
-//} ],
-//"attributes" : {
-//"type" : "pGroup"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -7749,19 +6725,6 @@ function MetadataProviderStub() {
                                         }
                                     ]
                                 },
-//{
-//	"name" : "refMinimized",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationGroup"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "myChildMinPGroup"
-//} ],
-//"attributes" : {
-//"type" : "pGroup"
-//	}
-//},
                                 {
                                     "name": "refMinGroup",
                                     "children": [
@@ -8226,21 +7189,6 @@ function MetadataProviderStub() {
                                         "name": "childReference",
                                         "repeatId": "1",
                                         "children": [
-//	{
-//		"name" : "ref",
-//		"children" : [
-//				{
-//					"name" : "linkedRecordType",
-//					"value" : "presentationRecordLink"
-//				},
-//				{
-//					"name" : "linkedRecordId",
-//					"value" : "myPathLinkNoPresentationOfLinkedRecordPLink"
-//				} ],
-//		"attributes" : {
-//			"type" : "pRecordLink"
-//		}
-//	},
                                             {
                                                 "name": "refGroup",
                                                 "children": [
@@ -8279,21 +7227,6 @@ function MetadataProviderStub() {
                                         "name": "childReference",
                                         "repeatId": "1",
                                         "children": [
-//	{
-//		"name" : "ref",
-//		"children" : [
-//				{
-//					"name" : "linkedRecordType",
-//					"value" : "presentationRecordLink"
-//				},
-//				{
-//					"name" : "linkedRecordId",
-//					"value" : "myPathLinkNoPresentationOfLinkedRecordOutputPLink"
-//				} ],
-//		"attributes" : {
-//			"type" : "pRecordLink"
-//		}
-//	},
                                             {
                                                 "name": "refGroup",
                                                 "children": [
@@ -8351,19 +7284,6 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationRecordLink"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "myChildOfBinaryLinkPLink"
-//} ],
-//"attributes" : {
-//"type" : "pRecordLink"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8436,19 +7356,6 @@ function MetadataProviderStub() {
                         "children": [{
                             "repeatId": "0",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationGroup"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "recordInfoPGroup"
-//} ],
-//"attributes" : {
-//"type" : "pGroup"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8486,19 +7393,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "1",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "nameInDataTextVarText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8536,19 +7430,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "2",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "nameInDataTextVarOutputPVar"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8586,19 +7467,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "3",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "textIdTextVarText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8636,19 +7504,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "4",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "textIdTextVarOutputPVar"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8686,19 +7541,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "5",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "defTextIdTextVarText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8736,19 +7578,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "6",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "defTextIdTextVarOutputPVar"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8786,19 +7615,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "7",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "everythingRegExpTextVarText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8836,19 +7652,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "8",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "everythingRegExpTextVarOutputPVar"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8886,19 +7689,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "9",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "refParentIdTextVarText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8936,19 +7726,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "10",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "refParentIdTextVarOutputPVar"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -8986,19 +7763,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "11",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "textSystemOne"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "finalValueTextVarText"
-//} ],
-//"attributes" : {
-//"type" : "text"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
@@ -9036,19 +7800,6 @@ function MetadataProviderStub() {
                         }, {
                             "repeatId": "12",
                             "children": [
-//               {
-//"name" : "ref",
-//"children" : [ {
-//"name" : "linkedRecordType",
-//"value" : "presentationVar"
-//}, {
-//	"name" : "linkedRecordId",
-//"value" : "finalValueTextVarOutputPVar"
-//} ],
-//"attributes" : {
-//"type" : "pVar"
-//	}
-//},
                                 {
                                     "name": "refGroup",
                                     "children": [
