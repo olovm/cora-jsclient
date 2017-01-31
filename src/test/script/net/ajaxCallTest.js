@@ -306,23 +306,24 @@ QUnit.test("testTimeoutIsCalledAsUploadProgressIsCalledOnlyOnceUsingTimeout", fu
 	function assertFalse() {
 		assert.ok(false);
 	}
-	this.spec.timeoutInMS = 5;
+	this.spec.timeoutInMS = 50;
 	this.spec.loadMethod = assertFalse;
 	this.spec.errorMethod = assertFalse;
 
 	var ajaxCall = CORA.ajaxCall(this.spec);
 
+	var getTimeoutMethodWasCalled = this.getTimeoutMethodWasCalled;
+	function waitABitThenCheckThatTimeoutHasBeenCalled(){
+		window.setTimeout(function() {
+			assert.ok(getTimeoutMethodWasCalled(), "timeoutMethod should have been called");
+			done();
+		}, 100);
+	}
 	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
 	var intervalId = window.setTimeout(function() {
 		xmlHttpRequestSpy.upload.addedEventListeners["progress"][1]();
-	}, 1);
-
-	var getTimeoutMethodWasCalled = this.getTimeoutMethodWasCalled;
-	window.setTimeout(function() {
-		assert.ok(getTimeoutMethodWasCalled(), "timeoutMethod should have been called");
-		done();
-	}, 30);
-
+		waitABitThenCheckThatTimeoutHasBeenCalled();
+	}, 20); 
 });
 
 QUnit.test("testSendCreate", function(assert) {
