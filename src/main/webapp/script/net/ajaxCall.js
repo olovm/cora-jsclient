@@ -113,7 +113,7 @@ var CORA = (function(cora) {
 			intervalStart = timeProgress;
 		}
 
-		function setTimeout() { 
+		function setTimeout() {
 			intervalId = window.setInterval(handleTimeout, timeoutTime);
 		}
 
@@ -136,7 +136,7 @@ var CORA = (function(cora) {
 				}
 			}
 		}
-		
+
 		function setResponseTypeSpecifiedInSpec() {
 			if (spec.responseType) {
 				xhr.responseType = spec.responseType;
