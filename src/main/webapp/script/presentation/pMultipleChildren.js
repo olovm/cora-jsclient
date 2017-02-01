@@ -102,7 +102,6 @@ var CORA = (function(cora) {
 			if(cPresentationChildRef.containsChildWithNameInData("refGroup")){
 				var cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refGroup"));
 				cRef = CORA.coraData(cRefGroup.getFirstChildByNameInData("ref"));
-				
 			}else{
 				cRef = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
 			}
