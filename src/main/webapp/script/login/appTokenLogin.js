@@ -22,11 +22,11 @@ var CORA = (function(cora) {
 		var userId;
 		function login(userIdIn, appToken) {
 			userId = userIdIn;
-			var callSpec = createCallSpec(userId, appToken);
+			var callSpec = createCallSpec(appToken);
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
-		function createCallSpec(userId, appToken) {
+		function createCallSpec(appToken) {
 			var callSpec = {
 				"requestMethod" : spec.requestMethod,
 				"url" : spec.url + userId,
@@ -49,7 +49,6 @@ var CORA = (function(cora) {
 		}
 
 		function handleResponse(answer) {
-			var status = answer.status;
 			var data = JSON.parse(answer.responseText);
 			var cData = CORA.coraData(data);
 			var token = cData.getFirstAtomicValueByNameInData("id");
