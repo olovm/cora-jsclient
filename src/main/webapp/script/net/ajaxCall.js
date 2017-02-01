@@ -110,7 +110,7 @@ var CORA = (function(cora) {
 				xhr.open(spec.requestMethod, spec.url);
 			}
 			timeProgress = performance.now();
-			intervalStart = performance.now();
+			intervalStart = timeProgress;
 		}
 
 		function setTimeout() {
@@ -136,6 +136,7 @@ var CORA = (function(cora) {
 				}
 			}
 		}
+
 		function setResponseTypeSpecifiedInSpec() {
 			if (spec.responseType) {
 				xhr.responseType = spec.responseType;
