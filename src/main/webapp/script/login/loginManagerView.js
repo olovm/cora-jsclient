@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,25 +18,41 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.loginManager = function(dependencies) {
+	cora.loginManagerView = function(dependencies, spec) {
 		var out;
-		var loginManagerView;
-		
+		var view;
+		var valueView;
+		var baseClassName = "loginManagerView";
+
 		function start() {
-			loginManagerView = dependencies.loginManagerViewFactory.factor();
+			var buttonSpec = {
+				"className" : baseClassName,
+				"onclick" : toggleList,
+				"text" : dependencies.textProvider.getTranslation("theClient_loginMenuText")
+			};
+			view = CORA.gui.createButton(buttonSpec);
+		}
+		
+		function toggleList(){
+			
+		}
+		
+		function getHtml() {
+			return view;
 		}
 
 		function getDependencies() {
 			return dependencies;
 		}
 
-		function getHtml(){
-			return loginManagerView.getHtml();
+		function getSpec() {
+			return spec;
 		}
-		
+
 		out = Object.freeze({
-			"type" : "loginManager",
+			"type" : "loginManagerView",
 			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getHtml : getHtml
 		});
 		start();

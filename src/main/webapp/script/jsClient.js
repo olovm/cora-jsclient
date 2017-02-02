@@ -18,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.jsClient = function(spec) {
+	cora.jsClient = function(dependencies, spec) {
 		var out;
 		var recordTypeList = sortRecordTypesFromRecordTypeProvider();
 		var metadataIdsForRecordType = {};
@@ -29,15 +29,18 @@ var CORA = (function(cora) {
 		var busy = CORA.busy();
 
 		var recordGuiFactory;
-
+		var loginManager;
+		
 		function start() {
+			loginManager = dependencies.loginManagerFactory.factor();
+			addGlobalView(loginManager.getHtml());
 			mainView.appendChild(busy.getView());
-			var uploadManagerSpec = spec.dependencies;
+			var uploadManagerSpec = dependencies;
 
-			uploadManagerSpec.dependencies = spec.dependencies;
+			uploadManagerSpec.dependencies = dependencies;
 			uploadManagerSpec.jsClient = out;
 
-			var recordGuiFactorySpec = spec.dependencies;
+			var recordGuiFactorySpec = dependencies;
 			recordGuiFactorySpec.uploadManager = CORA.uploadManager(uploadManagerSpec);
 			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
 			processRecordTypes();
@@ -66,7 +69,7 @@ var CORA = (function(cora) {
 		}
 
 		function sortRecordTypesFromRecordTypeProvider() {
-			var allRecordTypes = spec.dependencies.recordTypeProvider.getAllRecordTypes();
+			var allRecordTypes = dependencies.recordTypeProvider.getAllRecordTypes();
 			var recordTypeLists = sortRecordTypesIntoLists(allRecordTypes);
 			var list = [];
 			recordTypeLists.abstractList.forEach(function(parent) {
@@ -155,7 +158,7 @@ var CORA = (function(cora) {
 
 		function addRecordTypeToSideBar(record) {
 			var specRecord = {
-				"dependencies" : spec.dependencies,
+				"dependencies" : dependencies,
 				"recordTypeHandlerViewFactory" : createRecordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : createRecordListHandlerFactory(),
 				"recordHandlerFactory" : createRecordHandlerFactory(),

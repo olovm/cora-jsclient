@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -20,6 +20,10 @@
 
 QUnit.module("loginManagerTest.js", {
 	beforeEach : function() {
+		this.dependencies = {
+			"loginManagerViewFactory" : CORATEST.loginManagerViewFactorySpy()
+		};
+		this.loginManager = CORA.loginManager(this.dependencies);
 
 	},
 	afterEach : function() {
@@ -27,29 +31,25 @@ QUnit.module("loginManagerTest.js", {
 });
 
 QUnit.test("init", function(assert) {
-	var loginManager = CORA.loginManager();
+	var loginManager = this.loginManager;
 	assert.strictEqual(loginManager.type, "loginManager");
 });
 
-QUnit.test("testGetCurrentAuthToken", function(assert) {
-	var loginManager = CORA.loginManager();
-	assert.strictEqual(loginManager.getCurrentAuthToken(), "");
+QUnit.test("testGetDependencies", function(assert) {
+	var loginManager = this.loginManager;
+	assert.strictEqual(loginManager.getDependencies(), this.dependencies);
 });
 
-QUnit.test("testHasCurrentAuthToken", function(assert) {
-	var loginManager = CORA.loginManager();
-	assert.notOk(loginManager.hasCurrentAuthToken());
+QUnit.test("testInitCreatesALoginManagerView", function(assert) {
+	var loginManager = this.loginManager;
+	var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
+	assert.ok(factoredView !== undefined);
 });
 
-QUnit.test("testSetCurrentAuthToken", function(assert) {
-	var loginManager = CORA.loginManager();
-	loginManager.setCurrentAuthToken("someToken");
-	assert.strictEqual(loginManager.getCurrentAuthToken(), "someToken");
-});
-
-QUnit.test("testSetCurrentAuthTokenResultsInHasTokenTrue", function(assert) {
-	var loginManager = CORA.loginManager();
-	loginManager.setCurrentAuthToken("someToken");
-	assert.ok(loginManager.hasCurrentAuthToken());
+QUnit.test("testInitCreatesALoginManagerViewsViewIsReturnedForGetHtml", function(assert) {
+	var loginManager = this.loginManager;
+	var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
+	var loginManagerHtml = loginManager.getHtml();
+	assert.strictEqual(loginManagerHtml, factoredView.getHtml());
 });
 

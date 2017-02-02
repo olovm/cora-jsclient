@@ -239,7 +239,8 @@ QUnit.test("initWithCreateButton", function(assert) {
 	var buttonView = view.childNodes[1];
 	var createButton = buttonView.childNodes[0];
 	assert.strictEqual(createButton.className, "createButton");
-	createButton.onclick();
+	var event = document.createEvent('Event');
+	createButton.onclick(event);
 	assert.strictEqual(presentationModeCalled, "new");
 	assert.strictEqual(createNewMethodIsCalled, true);
 });

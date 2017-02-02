@@ -25,7 +25,7 @@ var CORATEST = (function(coraTest) {
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
 
 			var dependencies = {
-				"loginManager" : CORATEST.loginManagerSpy()
+				"authTokenHolder" : CORATEST.authTokenHolderSpy()
 			};
 			var spec = {
 				"path" : {},

@@ -1,6 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
- * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -20,23 +19,15 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.loginManagerSpy = function() {
-		var currentAuthTokenExists = true;
-
-		function getCurrentAuthToken() {
-			// for now hard coded to fitnesseAdminToken
-			return "fitnesseAdminToken";
+		var html = CORA.gui.createSpanWithClassName("loginManagerSpy");
+		
+		function getHtml() {
+			return html;
 		}
-		function hasCurrentAuthToken() {
-			return currentAuthTokenExists;
-		}
-		function setCurrentAuthTokenExists(exists) {
-			currentAuthTokenExists = exists;
-		}
+		
 		var out = Object.freeze({
 			"type" : "loginManagerSpy",
-			getCurrentAuthToken : getCurrentAuthToken,
-			hasCurrentAuthToken : hasCurrentAuthToken,
-			setCurrentAuthTokenExists : setCurrentAuthTokenExists
+			getHtml : getHtml
 		});
 		return out;
 	};

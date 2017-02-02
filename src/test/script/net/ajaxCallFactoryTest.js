@@ -38,10 +38,10 @@ QUnit.module("ajaxCallFactoryTest.js", {
 			"downloadProgressMethod" : minimalDummyFunction,
 			"uploadProgressMethod" : minimalDummyFunction
 		};
-		this.loginManagerSpy = CORATEST.loginManagerSpy();
+		this.authTokenHolderSpy = CORATEST.authTokenHolderSpy();
 		this.dependencies = {
 			"xmlHttpRequestFactory" : xmlHttpRequestFactoryMultipleSpy,
-			"loginManager" : this.loginManagerSpy
+			"authTokenHolder" : this.authTokenHolderSpy
 		};
 		this.ajaxCallFactory = CORA.ajaxCallFactory(this.dependencies);
 	},
@@ -76,7 +76,7 @@ QUnit.test("factorWithToken", function(assert) {
 });
 
 QUnit.test("factorWithoutToken", function(assert) {
-	this.loginManagerSpy.setCurrentAuthTokenExists(false);
+	this.authTokenHolderSpy.setCurrentAuthTokenExists(false);
 	var ajaxCall = this.ajaxCallFactory.factor(this.spec);
 	var ajaxCallSpec = ajaxCall.spec;
 	assert.ok(ajaxCallSpec.requestHeaders.authToken === undefined);

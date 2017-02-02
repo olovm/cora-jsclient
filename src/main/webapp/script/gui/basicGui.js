@@ -27,8 +27,15 @@ var CORA = (function(cora) {
 			spec.onclick(event);
 		};
 		createdButton.onclick = onclickFunction;
+		possiblyAddText(spec, createdButton);
 		return createdButton;
 	};
+	
+	function possiblyAddText(spec, button){
+		if(spec.text !== undefined){
+			button.textContent = spec.text;
+		}
+	}
 
 	cora.gui.createRemoveButton = function(onclick) {
 		var spec = {

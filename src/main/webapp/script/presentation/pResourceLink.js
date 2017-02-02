@@ -95,7 +95,7 @@ var CORA = (function(cora) {
 
 		function getTokenRequestParameter() {
 			var tokenRequestParamenter = "authToken=";
-			tokenRequestParamenter += dependencies.loginManager.getCurrentAuthToken();
+			tokenRequestParamenter += dependencies.authTokenHolder.getCurrentAuthToken();
 			return tokenRequestParamenter;
 		}
 

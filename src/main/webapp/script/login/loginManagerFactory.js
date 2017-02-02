@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,28 +18,33 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.loginManager = function(dependencies) {
-		var out;
-		var loginManagerView;
-		
-		function start() {
-			loginManagerView = dependencies.loginManagerViewFactory.factor();
-		}
+	cora.loginManagerFactory = function(dependencies) {
 
 		function getDependencies() {
 			return dependencies;
 		}
 
-		function getHtml(){
-			return loginManagerView.getHtml();
+		function factor() {
+			var loginManagerViewFactoryDependencies = {
+				"textProvider" : dependencies.textProvider
+			};
+			var loginManagerDependencies = {
+				"textProvider" : dependencies.textProvider,
+				"loginManagerViewFactory" : CORA
+						.loginManagerViewFactory(loginManagerViewFactoryDependencies)
+			}
+			return CORA.loginManager(loginManagerDependencies);
 		}
-		
-		out = Object.freeze({
-			"type" : "loginManager",
+
+		// function createIndependentCopy(someObject) {
+		// return JSON.parse(JSON.stringify(someObject));
+		// }
+
+		var out = Object.freeze({
+			"type" : "loginManagerFactory",
 			getDependencies : getDependencies,
-			getHtml : getHtml
+			factor : factor
 		});
-		start();
 		return out;
 	};
 	return cora;

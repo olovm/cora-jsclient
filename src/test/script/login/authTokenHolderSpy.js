@@ -1,4 +1,5 @@
 /*
+ * Copyright 2016 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -16,31 +17,28 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.loginManager = function(dependencies) {
-		var out;
-		var loginManagerView;
-		
-		function start() {
-			loginManagerView = dependencies.loginManagerViewFactory.factor();
-		}
+	coraTest.authTokenHolderSpy = function() {
+		var currentAuthTokenExists = true;
 
-		function getDependencies() {
-			return dependencies;
+		function getCurrentAuthToken() {
+			// for now hard coded to fitnesseAdminToken
+			return "fitnesseAdminToken";
 		}
-
-		function getHtml(){
-			return loginManagerView.getHtml();
+		function hasCurrentAuthToken() {
+			return currentAuthTokenExists;
 		}
-		
-		out = Object.freeze({
-			"type" : "loginManager",
-			getDependencies : getDependencies,
-			getHtml : getHtml
+		function setCurrentAuthTokenExists(exists) {
+			currentAuthTokenExists = exists;
+		}
+		var out = Object.freeze({
+			"type" : "authTokenHolderSpy",
+			getCurrentAuthToken : getCurrentAuthToken,
+			hasCurrentAuthToken : hasCurrentAuthToken,
+			setCurrentAuthTokenExists : setCurrentAuthTokenExists
 		});
-		start();
 		return out;
 	};
-	return cora;
-}(CORA));
+	return coraTest;
+}(CORATEST));
