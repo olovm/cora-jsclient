@@ -115,14 +115,22 @@ body {
 }
 
 @keyframes rotation2 {
-	from {transform: rotate(0deg);
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(359deg);
+	}
 }
 
-to {
-	transform: rotate(359deg);
+.loginManagerView {
+	font-size: 1.1rem;
+	float: right;
+	margin-right: 0.4rem;
+	margin-top: 0.6rem;
+	cursor: pointer;
 }
 
-}
 .jsClient>.sideBar {
 	border-color: inherit;
 	border-right-style: solid;
