@@ -29,7 +29,7 @@ var CORATEST = (function(coraTest) {
 		function getFactored(number) {
 			return factoredLoginManagers[number];
 		}
-
+	
 		var out = Object.freeze({
 			factor : factor,
 			getFactored : getFactored

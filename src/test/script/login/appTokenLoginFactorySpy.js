@@ -18,27 +18,21 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.loginManagerViewSpy = function(spec) {
-//		var factoredLoginManagers = [];
-//		function factor(loginManagerViewSpec) {
-//			var factoredAjaxCall = CORATEST.loginManagerViewSpy(loginManagerViewSpec);
-//			factoredLoginManagers.push(factoredAjaxCall);
-//			return factoredAjaxCall;
-//		}
-//
-//		function getFactored(number) {
-//			return factoredLoginManagers[number];
-//		}
-		var html = CORA.gui.createSpanWithClassName("loginManagerViewSpy");
-		function getHtml(){
-			return html;
+	coraTest.appTokenLoginFactorySpy = function(spec) {
+		var listOfFactored = [];
+		function factor(factorSpec) {
+			var factored = CORATEST.appTokenLoginSpy(factorSpec);
+			listOfFactored.push(factored);
+			return factored;
 		}
-		function setLoginOptions(){
-			
+
+		function get(number) {
+			return listOfFactored[number];
 		}
+
 		var out = Object.freeze({
-			getHtml : getHtml,
-			setLoginOptions:setLoginOptions
+			factor : factor,
+			get : get
 		});
 		return out;
 	};

@@ -82,6 +82,8 @@ body {
 	border-color: inherit;
 	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
 	background-color: #0082c9;
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .jsClient>.header .menuView {
@@ -123,11 +125,32 @@ body {
 	}
 }
 
-.loginManagerView {
+.iconButton.loginManagerView {
+	transform: none;
 	font-size: 1.1rem;
 	float: right;
 	margin-right: 0.4rem;
 	margin-top: 0.6rem;
+	cursor: pointer;
+}
+
+.iconButton.loginManagerView:before,  .iconButton.loginManagerView:after{
+	background: none;
+}
+
+.holder.loginManagerView {
+	min-width: 10rem;
+	min-height: 10rem;
+	border: 1px solid black;
+	position: absolute;
+	top: 2.2rem;
+	right: 1rem;
+	z-index: 1000;
+	background: lightblue;
+}
+.loginManagerView .menuOption {
+	height: 2rem;
+	display: block;
 	cursor: pointer;
 }
 

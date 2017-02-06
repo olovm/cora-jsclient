@@ -21,23 +21,62 @@ var CORA = (function(cora) {
 	cora.loginManager = function(dependencies) {
 		var out;
 		var loginManagerView;
-		
+
 		function start() {
 			loginManagerView = dependencies.loginManagerViewFactory.factor();
+			// calculateListOfLogins
+			
+			var loginOptions = [ {
+				"text" : "appToken as 131313",
+				"call" : function(){appTokenLogin(0);}
+			}, {
+				"text" : "webRedirect uu",
+				"call" : appTokenLogin
+			}, {
+				"text" : "webRedirect gbg",
+				"call" : appTokenLogin
+			} ];
+
+			 loginManagerView.setLoginOptions(loginOptions);
+		}
+		function appTokenLogin(numberInList){
+			if(numberInList === 0 ){
+				alert(numberInList);
+				var spec = {
+						"requestMethod" : "POST",
+						"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/",
+						"accept" : "",
+						"authInfoCallback" : function(authInfoIn) {
+							authInfo = authInfoIn;
+						},
+						"errorCallback" : function(error) {
+							errorInfo = error;
+						},
+						"timeoutCallback" : function(timeout) {
+							timeoutInfo = timeout;
+						}
+					}
+				dependencies.appTokenLoginFactory.factor(spec);
+			}else{
+				
+				alert("hej 2");
+			}
+			
 		}
 
 		function getDependencies() {
 			return dependencies;
 		}
 
-		function getHtml(){
+		function getHtml() {
 			return loginManagerView.getHtml();
 		}
-		
+
 		out = Object.freeze({
 			"type" : "loginManager",
 			getDependencies : getDependencies,
-			getHtml : getHtml
+			getHtml : getHtml,
+			appTokenLogin:appTokenLogin
 		});
 		start();
 		return out;

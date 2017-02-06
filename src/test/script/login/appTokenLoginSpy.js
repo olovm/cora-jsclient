@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -16,31 +16,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
+var CORA = (function(cora) {
 	"use strict";
-	coraTest.loginManagerViewSpy = function(spec) {
-//		var factoredLoginManagers = [];
-//		function factor(loginManagerViewSpec) {
-//			var factoredAjaxCall = CORATEST.loginManagerViewSpy(loginManagerViewSpec);
-//			factoredLoginManagers.push(factoredAjaxCall);
-//			return factoredAjaxCall;
-//		}
-//
-//		function getFactored(number) {
-//			return factoredLoginManagers[number];
-//		}
-		var html = CORA.gui.createSpanWithClassName("loginManagerViewSpy");
-		function getHtml(){
-			return html;
+	cora.appTokenLoginSpy = function(dependencies, spec) {
+		var userId;
+		function login(userIdIn, appToken) {
 		}
-		function setLoginOptions(){
-			
+
+		function handleResponse(answer) {
+		}
+		function getDependencies() {
+			return dependencies;
+		}
+		function getSpec() {
+			return spec;
 		}
 		var out = Object.freeze({
-			getHtml : getHtml,
-			setLoginOptions:setLoginOptions
+			"type" : "appTokenLoginSpy",
+			login : login,
+			handleResponse : handleResponse,
+			getDependencies : getDependencies,
+			getSpec : getSpec
 		});
 		return out;
 	};
-	return coraTest;
-}(CORATEST));
+
+	return cora;
+}(CORA));

@@ -30,7 +30,8 @@ var CORA = (function(cora) {
 			className += getClassNameFromSpec();
 			var holderButtonSpec = {
 				"className" : className,
-				"onclick" : toggleHolder
+				"onclick" : toggleHolder,
+				"text" : spec.buttonText
 			};
 			return CORA.gui.createButton(holderButtonSpec);
 		}

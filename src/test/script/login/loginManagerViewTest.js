@@ -23,8 +23,7 @@ QUnit.module("loginManagerViewTest.js", {
 		this.dependencies = {
 			"textProvider" : CORATEST.textProviderSpy()
 		};
-		this.spec = {
-		};
+		this.spec = {};
 
 		this.loginManagerView;
 		this.getLoginManagerView = function() {
@@ -39,6 +38,12 @@ QUnit.module("loginManagerViewTest.js", {
 			}
 			return this.loginManagerView.getHtml();
 		};
+		this.getMenu = function() {
+			if (this.loginManagerView === undefined) {
+				this.loginManagerView = CORA.loginManagerView(this.dependencies, this.spec);
+			}
+			return this.loginManagerView.getMenu();
+		};
 	},
 	afterEach : function() {
 	}
@@ -50,15 +55,10 @@ QUnit.test("init", function(assert) {
 	assert.ok(this.loginManagerView);
 });
 
-//QUnit.test("getSpec", function(assert) {
-//	var pVarView = this.getPVarView();
-//	assert.strictEqual(pVarView.getSpec(), this.spec);
-//});
-//
-//QUnit.test("getDependencies", function(assert) {
-//	var pVarView = this.getPVarView();
-//	assert.strictEqual(pVarView.getDependencies(), this.dependencies);
-//});
+QUnit.test("getDependencies", function(assert) {
+	var loginManagerView = this.getLoginManagerView();
+	assert.strictEqual(loginManagerView.getDependencies(), this.dependencies);
+});
 
 QUnit.test("getHtml", function(assert) {
 	var view = this.getHtml();
@@ -67,183 +67,53 @@ QUnit.test("getHtml", function(assert) {
 
 QUnit.test("testClassName", function(assert) {
 	var view = this.getHtml();
-	assert.strictEqual(view.className, "loginManagerView");
+	assert.strictEqual(view.className, "iconButton loginManagerView");
 });
 
 QUnit.test("testText", function(assert) {
 	var view = this.getHtml();
 	assert.strictEqual(view.textContent, "theClient_loginMenuText");
-	assert.strictEqual(this.dependencies.textProvider.getFetchedTextIdNo(0), "theClient_loginMenuText");
-}); 
+	assert.strictEqual(this.dependencies.textProvider.getFetchedTextIdNo(0),
+			"theClient_loginMenuText");
+});
 
-//QUnit.test("testInfoSpec", function(assert) {
-//	var expectedSpec = {
-//		"appendTo" : {},
-//		"level1" : [ {
-//			"className" : "textView",
-//			"text" : "someText"
-//		}, {
-//			"className" : "defTextView",
-//			"text" : "someDefText"
-//		} ],
-//		"level2" : [ {
-//			"className" : "technicalView",
-//			"text" : "textId: textId"
-//		}, {
-//			"className" : "technicalView",
-//			"text" : "defTextId: defTextId"
-//		}, {
-//			"className" : "technicalView",
-//			"text" : "metadataId: metadataId"
-//		} ]
-//	};
-//	var pVarView = this.getPVarView();
-//	var infoSpy = this.dependencies.infoFactory.getFactored(0);
-//	var usedSpec = infoSpy.getSpec();
-//	assert.stringifyEqual(usedSpec, expectedSpec);
-//	assert.strictEqual(usedSpec.appendTo, this.getHtml());
-//	assert.strictEqual(usedSpec.afterLevelChange, pVarView.updateClassName);
-//
-//});
-//QUnit.test("testInfoButtonAddedToView", function(assert) {
-//	var view = this.getHtml();
-//	assert.strictEqual(view.childNodes[2].className, "infoButtonSpy");
-//
-//});
-//
-//QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
-//	this.spec.info.technicalInfo = null;
-//	var expectedSpec = {
-//		"appendTo" : {},
-//		"level1" : [ {
-//			"className" : "textView",
-//			"text" : "someText"
-//		}, {
-//			"className" : "defTextView",
-//			"text" : "someDefText"
-//		} ]
-//	};
-//	var pVarView = this.getPVarView();
-//	var infoSpy = this.dependencies.infoFactory.getFactored(0);
-//	var usedSpec = infoSpy.getSpec();
-//	assert.stringifyEqual(usedSpec, expectedSpec);
-//});
-//
-//QUnit.test("testInfoPlaced", function(assert) {
-//	var view = this.getHtml();
-//	var infoSpan = view.childNodes[0];
-//	assert.equal(infoSpan.className, "infoSpySpan");
-//});
-//
-//QUnit.test("testActiveInfoShownInClassName", function(assert) {
-//	var pVarView = this.getPVarView();
-//	var view = this.getHtml();
-//	var infoSpy = this.dependencies.infoFactory.getFactored(0);
-//	assert.strictEqual(view.className, "pVar somePresentationId");
-//	infoSpy.setInfoLevel(0);
-//	pVarView.updateClassName();
-//	assert.strictEqual(view.className, "pVar somePresentationId");
-//	infoSpy.setInfoLevel(1);
-//	pVarView.updateClassName();
-//	assert.strictEqual(view.className, "pVar somePresentationId infoActive");
-//	infoSpy.setInfoLevel(0);
-//	pVarView.updateClassName();
-//	assert.strictEqual(view.className, "pVar somePresentationId");
-//});
-//
-//QUnit.test("testStateShownInClassName", function(assert) {
-//	var pVarView = this.getPVarView();
-//	var view = this.getHtml();
-//	var infoSpy = this.dependencies.infoFactory.getFactored(0);
-//	assert.strictEqual(view.className, "pVar somePresentationId");
-//	pVarView.setState("error");
-//	assert.strictEqual(view.className, "pVar somePresentationId error");
-//	infoSpy.setInfoLevel(1);
-//	pVarView.updateClassName();
-//	assert.strictEqual(view.className,
-//			"pVar somePresentationId error infoActive");
-//	pVarView.setState("ok");
-//	assert.strictEqual(view.className, "pVar somePresentationId infoActive");
-//});
-//
-//QUnit.test("testInput", function(assert) {
-//	var valueView = this.getValueView();
-//	assert.strictEqual(valueView.nodeName, "INPUT");
-//	assert.strictEqual(valueView.type, "text");
-//});
-//
-//QUnit.test("testInputUnknownTypeIsText", function(assert) {
-//	this.spec.inputType = undefined;
-//	var valueView = this.getValueView();
-//	assert.strictEqual(valueView.nodeName, "INPUT");
-//	assert.strictEqual(valueView.type, "text");
-//});
-//
-//QUnit.test("testInputTypeTextArea", function(assert) {
-//	this.spec.inputType = "textarea";
-//	var valueView = this.getValueView();
-//	assert.strictEqual(valueView.nodeName, "TEXTAREA");
-//	assert.strictEqual(valueView.type, "textarea");
-//});
-//
-//QUnit.test("testInputPlaceholder", function(assert) {
-//	this.spec.placeholderText = "placeholderText";
-//	var valueView = this.getValueView();
-//	assert.strictEqual(valueView.placeholder, "placeholderText");
-//});
-//
-//QUnit.test("testInputOnblur", function(assert) {
-//	var valueFromView = "";
-//	this.spec.onblurFunction = function(value) {
-//		valueFromView = value;
-//	};
-//
-//	var pVarView = this.getPVarView();
-//	pVarView.setValue("a Value");
-//	var valueView = this.getValueView();
-//	valueView.onblur();
-//	assert.strictEqual(valueFromView, "a Value");
-//});
-//
-//QUnit.test("testOutputText", function(assert) {
-//	this.spec.mode = "output";
-//	var valueView = this.getValueView();
-//	assert.strictEqual(valueView.nodeName, "SPAN");
-//});
-//
-//QUnit.test("testOutputImage", function(assert) {
-//	this.spec.mode = "output";
-//	this.spec.outputFormat = "image";
-//	var valueView = this.getValueView();
-//	assert.strictEqual(valueView.nodeName, "IMG");
-//});
-//
-//QUnit.test("testSetValueInput", function(assert) {
-//	var pVarView = this.getPVarView();
-//	var valueView = this.getValueView();
-//
-//	assert.strictEqual(valueView.value, "");
-//	pVarView.setValue("a Value");
-//	assert.strictEqual(valueView.value, "a Value");
-//});
-//
-//QUnit.test("testSetValueOutputText", function(assert) {
-//	this.spec.mode = "output";
-//	var pVarView = this.getPVarView();
-//	var valueView = this.getValueView();
-//
-//	assert.strictEqual(valueView.innerHTML, "");
-//	pVarView.setValue("a Value");
-//	assert.strictEqual(valueView.innerHTML, "a Value");
-//});
-//
-//QUnit.test("testSetValueOutputImage", function(assert) {
-//	this.spec.mode = "output";
-//	this.spec.outputFormat = "image";
-//	var pVarView = this.getPVarView();
-//	var valueView = this.getValueView();
-//
-//	assert.strictEqual(valueView.src, "");
-//	pVarView.setValue("http://www.some.domain.nu/image01.jpg");
-//	assert.strictEqual(valueView.src, "http://www.some.domain.nu/image01.jpg");
-//});
+QUnit.test("testGetMenu", function(assert) {
+	var loginManagerView = this.getLoginManagerView();
+	var menu = loginManagerView.getMenu();
+	assert.strictEqual(menu.nodeName, "SPAN");
+	assert.strictEqual(menu.className, "holder loginManagerView");
+});
+
+QUnit.test("testSetLoginOptions", function(assert) {
+	var loginManagerView = this.getLoginManagerView();
+	var menu = this.getMenu();
+	var appTokenLoginRun = false;
+	var webRedirectLoginRun = false;
+	function testAppTokenLogin() {
+		appTokenLoginRun = true;
+	}
+	function testWebRedirectLogin() {
+		webRedirectLoginRun = true;
+	}
+	var loginOptions = [ {
+		"text" : "appToken",
+		"call" : testAppTokenLogin
+	}, {
+		"text" : "webRedirect uu",
+		"call" : testWebRedirectLogin
+	} ];
+	loginManagerView.setLoginOptions(loginOptions);
+	assert.strictEqual(menu.childNodes.length, 2);
+	assert.strictEqual(menu.childNodes[0].textContent, "appToken");
+	assert.strictEqual(menu.childNodes[1].textContent, "webRedirect uu");
+	
+	
+	var event = document.createEvent('Event');
+	menu.childNodes[0].onclick(event);
+	assert.ok(appTokenLoginRun);
+	
+	var event2 = document.createEvent('Event');
+	menu.childNodes[1].onclick(event2);
+	assert.ok(webRedirectLoginRun);
+	
+});

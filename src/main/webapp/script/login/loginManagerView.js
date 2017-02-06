@@ -18,23 +18,22 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.loginManagerView = function(dependencies, spec) {
+	cora.loginManagerView = function(dependencies) {
 		var out;
 		var view;
+		var menu;
 		var valueView;
 		var baseClassName = "loginManagerView";
 
 		function start() {
-			var buttonSpec = {
-				"className" : baseClassName,
-				"onclick" : toggleList,
-				"text" : dependencies.textProvider.getTranslation("theClient_loginMenuText")
+			var spec = {
+					"className" : baseClassName,
+					"buttonText" : dependencies.textProvider.getTranslation("theClient_loginMenuText"),
+					"appendTo" : document.body
 			};
-			view = CORA.gui.createButton(buttonSpec);
-		}
-		
-		function toggleList(){
-			
+			var holder = CORA.holder(spec);
+			view = holder.getButton();
+			menu = holder.getView();
 		}
 		
 		function getHtml() {
@@ -45,15 +44,30 @@ var CORA = (function(cora) {
 			return dependencies;
 		}
 
-		function getSpec() {
-			return spec;
+		function getMenu(){
+			return menu;
 		}
-
+		
+		function setLoginOptions(loginOptions){
+			loginOptions.forEach(addMenuElement);
+		}
+		
+		function addMenuElement (loginOption){
+			var buttonSpec = {
+				"className": "menuOption",
+				"text":loginOption.text,
+				"onclick":loginOption.call
+			};
+			var optionButton = CORA.gui.createButton(buttonSpec);
+			menu.appendChild(optionButton);
+		}
+		
 		out = Object.freeze({
 			"type" : "loginManagerView",
 			getDependencies : getDependencies,
-			getSpec : getSpec,
-			getHtml : getHtml
+			getHtml : getHtml,
+			getMenu:getMenu,
+			setLoginOptions:setLoginOptions
 		});
 		start();
 		return out;

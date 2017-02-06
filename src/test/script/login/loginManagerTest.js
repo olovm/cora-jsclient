@@ -21,7 +21,8 @@
 QUnit.module("loginManagerTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
-			"loginManagerViewFactory" : CORATEST.loginManagerViewFactorySpy()
+			"loginManagerViewFactory" : CORATEST.loginManagerViewFactorySpy(),
+			"appTokenLoginFactory" : CORATEST.appTokenLoginFactorySpy()
 		};
 		this.loginManager = CORA.loginManager(this.dependencies);
 
@@ -52,4 +53,12 @@ QUnit.test("testInitCreatesALoginManagerViewsViewIsReturnedForGetHtml", function
 	var loginManagerHtml = loginManager.getHtml();
 	assert.strictEqual(loginManagerHtml, factoredView.getHtml());
 });
+
+QUnit.test("testAppTokenLoginFactoryIsCalledOnAppTokenLogin", function(assert) {
+	var loginManager = this.loginManager;
+	loginManager.appTokenLogin(0);
+	var factored1 = this.dependencies.listOfFactored.getFactored(0);
+	assert.ok(factored1);
+});
+
 
