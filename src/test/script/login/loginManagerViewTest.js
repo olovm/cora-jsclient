@@ -44,6 +44,11 @@ QUnit.module("loginManagerViewTest.js", {
 			}
 			return this.loginManagerView.getMenu();
 		};
+		this.openMenu = function(){
+			var view = this.getHtml();
+			var event = document.createEvent('Event');
+			view.onclick(event);
+		};
 	},
 	afterEach : function() {
 	}
@@ -82,6 +87,10 @@ QUnit.test("testGetMenu", function(assert) {
 	var menu = loginManagerView.getMenu();
 	assert.strictEqual(menu.nodeName, "SPAN");
 	assert.strictEqual(menu.className, "holder loginManagerView");
+	
+	assert.notVisible(menu);
+	this.openMenu();
+	assert.visible(menu);
 });
 
 QUnit.test("testSetLoginOptions", function(assert) {
@@ -115,5 +124,24 @@ QUnit.test("testSetLoginOptions", function(assert) {
 	var event2 = document.createEvent('Event');
 	menu.childNodes[1].onclick(event2);
 	assert.ok(webRedirectLoginRun);
-	
 });
+
+QUnit.test("testSetUserId", function(assert) {
+	var loginManagerView = this.getLoginManagerView();
+	var menu = this.getMenu();
+	var view = this.getHtml();
+	loginManagerView.setUserId("someUserId");
+	assert.strictEqual(view.textContent, "someUserId");
+});
+
+QUnit.test("testSetUserIdMenuIsClosed", function(assert) {
+	var loginManagerView = this.getLoginManagerView();
+	var menu = this.getMenu();
+	var view = this.getHtml();
+	
+	this.openMenu();
+	
+	loginManagerView.setUserId("someUserId");
+	assert.notVisible(menu);
+});
+

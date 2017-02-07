@@ -36,7 +36,6 @@ QUnit.module("recordTypeProviderTest.js", {
 		this.recordTypeListLink = recordTypeListLink;
 
 		var spec = {
-			"dependencies" : dependencies,
 			"recordTypeListLink" : recordTypeListLink
 		};
 
@@ -59,7 +58,7 @@ QUnit.module("recordTypeProviderTest.js", {
 });
 
 QUnit.test("initCorrectRequestMade", function(assert) {
-	var provider = CORA.recordTypeProvider(this.spec);
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
 	var ajaxCallSpec = ajaxCallSpy.getSpec();
@@ -78,7 +77,7 @@ QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
 	}
 
 	this.spec.callWhenReady = providerReady;
-	var provider = CORA.recordTypeProvider(this.spec);
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 
 
 	assert.notOk(providerStarted);
@@ -94,7 +93,7 @@ QUnit.test("initCallWhenReadyNotCalledWhenReadyIfUnspecified", function(assert) 
 		providerStarted = true;
 	}
 
-	var provider = CORA.recordTypeProvider(this.spec);
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 
 	assert.notOk(providerStarted);
 
@@ -104,14 +103,14 @@ QUnit.test("initCallWhenReadyNotCalledWhenReadyIfUnspecified", function(assert) 
 });
 
 QUnit.test("testInitEnteredLinkIsNotChanged", function(assert) {
-	var provider = CORA.recordTypeProvider(this.spec);
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 	var recordTypeListLinkJson = this.recordTypeListLinkJson;
 	var recordTypeListLinkJsonAfter = JSON.stringify(this.recordTypeListLink);
 	assert.deepEqual(recordTypeListLinkJsonAfter, recordTypeListLinkJson);
 });
 
 QUnit.test("getRecordTypeById", function(assert) {
-	var provider = CORA.recordTypeProvider(this.spec);
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 	this.answerListCall(0);
 	
 	var expected = {
@@ -307,7 +306,7 @@ QUnit.test("getRecordTypeById", function(assert) {
 });
 
 QUnit.test("getRecordTypeByIdNotFound", function(assert) {
-	var provider = CORA.recordTypeProvider(this.spec);
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 	this.answerListCall(0);
 	
 	var error = false;
@@ -320,10 +319,26 @@ QUnit.test("getRecordTypeByIdNotFound", function(assert) {
 });
 
 QUnit.test("getAllRecordTypes", function(assert) {
-	var provider = CORA.recordTypeProvider(this.spec);
-	this.answerListCall(0);
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	this.answerListCall(0); 
 	
 	var recordTypeList = provider.getAllRecordTypes();
 	assert.stringifyEqual(recordTypeList.length, 15);
 
+});
+
+
+QUnit.test("testReload", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	var providerReloaded = false;
+	function callWhenProviderHasReloaded() {
+		providerReloaded = true;
+	}
+
+	assert.notOk(providerReloaded);
+	
+	provider.reload(callWhenProviderHasReloaded);
+
+	this.answerListCall(1);
+	assert.ok(providerReloaded);
 });

@@ -62,10 +62,22 @@ var CORA = (function(cora) {
 			spec.authInfoCallback(authInfo);
 		}
 
+		function getDependencies(){
+			//needed for tests
+			return dependencies;
+		}
+
+		function getSpec(){
+			//needed for tests
+			return spec;
+		}
+		
 		var out = Object.freeze({
 			"type" : "appTokenLogin",
 			login : login,
-			handleResponse : handleResponse
+			handleResponse : handleResponse,
+			getDependencies : getDependencies,
+			getSpec : getSpec
 		});
 		return out;
 	};

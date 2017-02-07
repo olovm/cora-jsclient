@@ -30,9 +30,15 @@ var CORA = (function(cora) {
 
 		var recordGuiFactory;
 		var loginManager;
-		
+
 		function start() {
-			loginManager = dependencies.loginManagerFactory.factor();
+			// send along object with methods for loginManager to call
+			var loginManagerSpec = {
+				"afterLoginMethod" : afterLogin
+			// "afterLogoutMethod":yy,
+			// "afterUserInactiveMethod":zz
+			};
+			loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
 			addGlobalView(loginManager.getHtml());
 			mainView.appendChild(busy.getView());
 			var uploadManagerSpec = dependencies;
@@ -139,14 +145,18 @@ var CORA = (function(cora) {
 
 		function createMetadataIdsForRecordType(recordTypes) {
 			var metadataIds = {};
-			recordTypes.forEach(function(record) {
-				var cRecord = CORA.coraData(record.data);
-				var cMetadataIdGroup = CORA.coraData(cRecord.getFirstChildByNameInData("metadataId"));
-				var metadataId = cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-				var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
-				var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
-				metadataIds[id] = metadataId;
-			});
+			recordTypes
+					.forEach(function(record) {
+						var cRecord = CORA.coraData(record.data);
+						var cMetadataIdGroup = CORA.coraData(cRecord
+								.getFirstChildByNameInData("metadataId"));
+						var metadataId = cMetadataIdGroup
+								.getFirstAtomicValueByNameInData("linkedRecordId");
+						var cRecordInfo = CORA.coraData(cRecord
+								.getFirstChildByNameInData("recordInfo"));
+						var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
+						metadataIds[id] = metadataId;
+					});
 			return metadataIds;
 		}
 
@@ -246,6 +256,13 @@ var CORA = (function(cora) {
 			header.appendChild(viewToAdd);
 		}
 
+		function afterLogin() {
+			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
+		}
+		function afterRecordTypeProviderReload() {
+			// update recordList, etc
+		}
+
 		out = Object.freeze({
 			getView : getView,
 			getRecordTypeList : getRecordTypeList,
@@ -254,7 +271,9 @@ var CORA = (function(cora) {
 			createRecordListHandlerFactory : createRecordListHandlerFactory,
 			createRecordHandlerFactory : createRecordHandlerFactory,
 			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
-			addGlobalView : addGlobalView
+			addGlobalView : addGlobalView,
+			afterLogin : afterLogin,
+			afterRecordTypeProviderReload : afterRecordTypeProviderReload
 		});
 		mainView.modelObject = out;
 		start();

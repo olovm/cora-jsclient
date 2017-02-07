@@ -21,7 +21,13 @@
 QUnit.module("loginManagerFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
-			"textProvider" : CORATEST.textProviderSpy()
+			"textProvider" : CORATEST.textProviderSpy(),
+			"appTokenLoginFactory" : {
+				"type" : "fakeAppTokenLoginFactory"
+			},
+			"authTokenHolder" : {
+				"type" : "fakeAuthTokenHolder"
+			}
 		};
 		this.loginManagerFactory = CORA.loginManagerFactory(this.dependencies);
 	},
@@ -38,11 +44,29 @@ QUnit.test("getDependencies", function(assert) {
 	assert.strictEqual(this.loginManagerFactory.getDependencies(), this.dependencies);
 });
 
-QUnit.test("factor", function(assert) {
-	var loginManager = this.loginManagerFactory.factor();
-	assert.strictEqual(loginManager.type, "loginManager");
-	
-	var loginManagerDependencies = loginManager.getDependencies();
-	assert.strictEqual(loginManagerDependencies.textProvider, this.dependencies.textProvider);
-	assert.strictEqual(loginManagerDependencies.loginManagerViewFactory.type, "loginManagerViewFactory");
-});
+QUnit.test("factor",	function(assert) {
+	var testCallHasBeenCalled = false;
+	function testCall(){
+		testCallHasBeenCalled = true;
+	}
+	var loginManagerSpec = {
+			"afterLoginMethod":testCall,
+//			"afterLogoutMethod":yy,
+//			"afterUserInactiveMethod":zz
+		};
+	var loginManager = this.loginManagerFactory.factor(loginManagerSpec);
+			assert.strictEqual(loginManager.type, "loginManager");
+
+			var loginManagerDependencies = loginManager.getDependencies();
+			assert.strictEqual(loginManagerDependencies.textProvider,
+					this.dependencies.textProvider);
+			assert.strictEqual(loginManagerDependencies.loginManagerViewFactory.type,
+					"loginManagerViewFactory");
+			assert.strictEqual(loginManagerDependencies.appTokenLoginFactory,
+					this.dependencies.appTokenLoginFactory);
+			assert.strictEqual(loginManagerDependencies.authTokenHolder,
+					this.dependencies.authTokenHolder);
+			
+			var loginManagerSpec = loginManager.getSpec();
+			assert.strictEqual(loginManagerSpec.afterLoginMethod, testCall);
+		});

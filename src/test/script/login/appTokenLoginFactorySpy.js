@@ -19,20 +19,27 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.appTokenLoginFactorySpy = function(spec) {
+		var dummyDependencies = {};
 		var listOfFactored = [];
+		var listOfSpec = [];
 		function factor(factorSpec) {
-			var factored = CORATEST.appTokenLoginSpy(factorSpec);
+			listOfSpec.push(factorSpec);
+			var factored = CORATEST.appTokenLoginSpy(dummyDependencies, factorSpec);
 			listOfFactored.push(factored);
 			return factored;
 		}
 
-		function get(number) {
+		function getFactored(number) {
 			return listOfFactored[number];
+		}
+		function getSpec(number) {
+			return listOfSpec[number];
 		}
 
 		var out = Object.freeze({
 			factor : factor,
-			get : get
+			getFactored : getFactored,
+			getSpec : getSpec
 		});
 		return out;
 	};

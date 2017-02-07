@@ -19,8 +19,9 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordTypeProvider = function(spec) {
-
+	cora.recordTypeProvider = function(dependencies, spec) {
+		var callWhenReady = spec.callWhenReady;
+		
 		var recordTypes = {};
 		fetchRecordTypeListAndThen(processFetchedData);
 
@@ -31,7 +32,7 @@ var CORA = (function(cora) {
 		function callThroughAjax(linkSpec, callAfterAnswer) {
 			var ajaxCallSpec = createIndependentCopy(linkSpec);
 			ajaxCallSpec.loadMethod = callAfterAnswer;
-			spec.dependencies.ajaxCallFactory.factor(ajaxCallSpec);
+			dependencies.ajaxCallFactory.factor(ajaxCallSpec);
 		}
 
 		function createIndependentCopy(someObject) {
@@ -40,8 +41,8 @@ var CORA = (function(cora) {
 
 		function processFetchedData(answer) {
 			createRecordTypeObjectFromAnswer(answer);
-			if (spec.callWhenReady) {
-				spec.callWhenReady();
+			if (callWhenReady) {
+				callWhenReady();
 			}
 		}
 
@@ -75,11 +76,17 @@ var CORA = (function(cora) {
 			});
 			return recordTypeList;
 		}
-
+		
+		function reload(callWhenReloadedMethodIn){
+			callWhenReady = callWhenReloadedMethodIn;
+			fetchRecordTypeListAndThen(processFetchedData);
+		}
+		
 		var out = Object.freeze({
 			getRecordTypeById : getRecordTypeById,
 			getAllRecordTypes : getAllRecordTypes,
-			processFetchedData : processFetchedData
+			processFetchedData : processFetchedData,
+			reload : reload
 		});
 		return out;
 	};

@@ -224,8 +224,9 @@ QUnit.test("init", function(assert) {
 
 QUnit.test("testInitCreatesALoginManager", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-	var factoredView = this.dependencies.loginManagerFactory.getFactored(0);
-	assert.ok(factoredView !== undefined);
+	var factored= this.dependencies.loginManagerFactory.getFactored(0);
+	assert.ok(factored !== undefined);
+	assert.strictEqual(this.dependencies.loginManagerFactory.getSpec(0).afterLoginMethod, jsClient.afterLogin);
 });
 
 QUnit.test("testInitCreatesALoginManagerAndAddsItsHtmlToTheHeader", function(assert) {
@@ -364,4 +365,19 @@ QUnit.test("getMetadataIdForRecordType", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var metadataId = jsClient.getMetadataIdForRecordTypeId("textSystemOne");
 	assert.strictEqual(metadataId, "textSystemOneGroup");
+});
+
+QUnit.test("afterLogin", function(assert) {
+	this.dependencies.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+
+	// var recordTypeListData = CORATEST.recordTypeList;
+	//	
+	// var jsClient = CORA.jsClient(this.dependencies, this.spec);
+
+	jsClient.afterLogin(); 
+
+	// var metadataId = jsClient.getMetadataIdForRecordTypeId("textSystemOne");
+	assert.strictEqual(this.dependencies.recordTypeProvider.getCallWhenReloadedMethod(),
+			jsClient.afterRecordTypeProviderReload);
 });

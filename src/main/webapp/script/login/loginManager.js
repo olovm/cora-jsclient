@@ -18,17 +18,19 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.loginManager = function(dependencies) {
+	cora.loginManager = function(dependencies, spec) {
 		var out;
 		var loginManagerView;
 
 		function start() {
 			loginManagerView = dependencies.loginManagerViewFactory.factor();
 			// calculateListOfLogins
-			
+
 			var loginOptions = [ {
 				"text" : "appToken as 131313",
-				"call" : function(){appTokenLogin(0);}
+				"call" : function() {
+					appTokenLogin(0);
+				}
 			}, {
 				"text" : "webRedirect uu",
 				"call" : appTokenLogin
@@ -37,31 +39,24 @@ var CORA = (function(cora) {
 				"call" : appTokenLogin
 			} ];
 
-			 loginManagerView.setLoginOptions(loginOptions);
+			loginManagerView.setLoginOptions(loginOptions);
 		}
-		function appTokenLogin(numberInList){
-			if(numberInList === 0 ){
-				alert(numberInList);
+		function appTokenLogin(numberInList) {
+			if (numberInList === 0) {
+				// alert(numberInList);
 				var spec = {
-						"requestMethod" : "POST",
-						"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/",
-						"accept" : "",
-						"authInfoCallback" : function(authInfoIn) {
-							authInfo = authInfoIn;
-						},
-						"errorCallback" : function(error) {
-							errorInfo = error;
-						},
-						"timeoutCallback" : function(timeout) {
-							timeoutInfo = timeout;
-						}
-					}
-				dependencies.appTokenLoginFactory.factor(spec);
-			}else{
-				
-				alert("hej 2");
+					"requestMethod" : "POST",
+					"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/",
+					"accept" : "",
+					"authInfoCallback" : appTokenAuthInfoCallback,
+					"errorCallback" : appTokenErrorCallback,
+					"timeoutCallback" : appTokenTimeoutCallback
+				};
+				var appTokenLogin = dependencies.appTokenLoginFactory.factor(spec);
+				appTokenLogin.login("131313", "e11264ff-bb40-4fd4-973b-7be6461f0958");
+			} else {
+				alert("hej 22");
 			}
-			
 		}
 
 		function getDependencies() {
@@ -72,11 +67,32 @@ var CORA = (function(cora) {
 			return loginManagerView.getHtml();
 		}
 
+		function appTokenAuthInfoCallback(authInfo) {
+			dependencies.authTokenHolder.setCurrentAuthToken(authInfo.token);
+			loginManagerView.setUserId(authInfo.userId);
+
+			// tell jsClient we have loged in...
+			spec.afterLoginMethod();
+		}
+		function appTokenErrorCallback() {
+
+		}
+		function appTokenTimeoutCallback() {
+
+		}
+		function getSpec() {
+			// needed for test
+			return spec;
+		}
 		out = Object.freeze({
 			"type" : "loginManager",
 			getDependencies : getDependencies,
 			getHtml : getHtml,
-			appTokenLogin:appTokenLogin
+			appTokenLogin : appTokenLogin,
+			appTokenAuthInfoCallback : appTokenAuthInfoCallback,
+			appTokenErrorCallback : appTokenErrorCallback,
+			appTokenTimeoutCallback : appTokenTimeoutCallback,
+			getSpec : getSpec
 		});
 		start();
 		return out;

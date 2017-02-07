@@ -20,7 +20,9 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.loginManagerFactorySpy = function(spec) {
 		var factoredLoginManagers = [];
+		var factoredSpec = [];
 		function factor(loginManagerSpec) {
+			factoredSpec.push(loginManagerSpec);
 			var factored = CORATEST.loginManagerSpy(loginManagerSpec);
 			factoredLoginManagers.push(factored);
 			return factored;
@@ -29,10 +31,14 @@ var CORATEST = (function(coraTest) {
 		function getFactored(number) {
 			return factoredLoginManagers[number];
 		}
+		function getSpec(number) {
+			return factoredSpec[number];
+		}
 
 		var out = Object.freeze({
 			factor : factor,
-			getFactored : getFactored
+			getFactored : getFactored,
+			getSpec : getSpec
 		});
 		return out;
 	};

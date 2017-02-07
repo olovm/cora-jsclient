@@ -24,21 +24,19 @@ var CORA = (function(cora) {
 			return dependencies;
 		}
 
-		function factor() {
+		function factor(loginManagerSpec) {
 			var loginManagerViewFactoryDependencies = {
 				"textProvider" : dependencies.textProvider
 			};
 			var loginManagerDependencies = {
 				"textProvider" : dependencies.textProvider,
 				"loginManagerViewFactory" : CORA
-						.loginManagerViewFactory(loginManagerViewFactoryDependencies)
+						.loginManagerViewFactory(loginManagerViewFactoryDependencies),
+				"appTokenLoginFactory" : dependencies.appTokenLoginFactory,
+				"authTokenHolder" : dependencies.authTokenHolder
 			}
-			return CORA.loginManager(loginManagerDependencies);
+			return CORA.loginManager(loginManagerDependencies, loginManagerSpec);
 		}
-
-		// function createIndependentCopy(someObject) {
-		// return JSON.parse(JSON.stringify(someObject));
-		// }
 
 		var out = Object.freeze({
 			"type" : "loginManagerFactory",
