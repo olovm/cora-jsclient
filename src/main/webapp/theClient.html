@@ -33,6 +33,8 @@
 <script type="text/javascript" src="script/aCoraNameSpace.js"></script>
 <script type="text/javascript" src="script/coraPubSub.js"></script>
 <script type="text/javascript" src="script/jsClient.js"></script>
+<script type="text/javascript" src="script/jsClientView.js"></script>
+<script type="text/javascript" src="script/jsClientViewFactory.js"></script>
 <script type="text/javascript" src="script/recordGuiFactory.js"></script>
 <script type="text/javascript" src="script/recordHandler.js"></script>
 <script type="text/javascript" src="script/recordHandlerView.js"></script>
@@ -157,7 +159,7 @@
 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 // 		var loginManager = CORA.loginManager();
 		
-		authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
+// 		authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
 // 		loginManager.setCurrentAuthToken("");
 		
 		var ajaxCallFactoryDependencies = {
@@ -240,6 +242,7 @@
 			"textProvider" : textProvider,
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+			"jsClientViewFactory": CORA.jsClientViewFactory({}),
 			"presentationFactoryFactory" : "not implemented yet"
 		}
 		jsClientSpec = {
