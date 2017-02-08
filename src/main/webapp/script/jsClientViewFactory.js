@@ -26,6 +26,7 @@ var CORA = (function(cora) {
 
 		function factor(spec) {
 			var jsClientViewDependencies = {
+					"messageHolderFactory" : dependencies.messageHolderFactory
 			}
 			return CORA.jsClientView(jsClientViewDependencies, spec);
 		}

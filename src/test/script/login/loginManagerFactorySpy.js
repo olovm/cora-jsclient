@@ -18,7 +18,7 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.loginManagerFactorySpy = function(spec) {
+	coraTest.loginManagerFactorySpy = function() {
 		var factoredLoginManagers = [];
 		var factoredSpec = [];
 		function factor(loginManagerSpec) {

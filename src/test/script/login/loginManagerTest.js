@@ -28,8 +28,16 @@ QUnit.module("loginManagerTest.js", {
 		this.afterLoginMethod = function() {
 
 		};
+		var errorMessage;
+		this.setErrorMessage = function(errorMessageIn) {
+			errorMessage = errorMessageIn;
+		}
+		this.getErrorMessage = function() {
+			return errorMessage;
+		}
 		this.spec = {
 			"afterLoginMethod" : this.afterLoginMethod,
+			"setErrorMessage" : this.setErrorMessage
 		// "afterLogoutMethod":yy,
 		// "afterUserInactiveMethod":zz
 		};
@@ -51,7 +59,7 @@ QUnit.test("testGetDependencies", function(assert) {
 });
 QUnit.test("testGetSpec", function(assert) {
 	var loginManager = this.loginManager;
-	assert.strictEqual(loginManager.getSpec(), this.spec); 
+	assert.strictEqual(loginManager.getSpec(), this.spec);
 });
 
 QUnit.test("testInitCreatesALoginManagerView", function(assert) {
@@ -119,4 +127,16 @@ QUnit.test("testUserIdIsSetInViewOnAppTokenLogin", function(assert) {
 	loginManager.appTokenAuthInfoCallback(authInfo);
 	var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
 	assert.strictEqual(factoredView.getUserId(0), "141414");
+});
+
+QUnit.test("testErrorMessage", function(assert) {
+	var loginManager = this.loginManager;
+	loginManager.appTokenErrorCallback();
+	assert.strictEqual(this.getErrorMessage(), "AppToken login failed!");
+});
+
+QUnit.test("testTimeoutMessage", function(assert) {
+	var loginManager = this.loginManager;
+	loginManager.appTokenTimeoutCallback();
+	assert.strictEqual(this.getErrorMessage(), "AppToken login timedout!");
 });

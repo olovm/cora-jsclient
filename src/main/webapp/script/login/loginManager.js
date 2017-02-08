@@ -60,10 +60,10 @@ var CORA = (function(cora) {
 			spec.afterLoginMethod();
 		}
 		function appTokenErrorCallback() {
-
+			spec.setErrorMessage("AppToken login failed!");
 		}
 		function appTokenTimeoutCallback() {
-
+			spec.setErrorMessage("AppToken login timedout!");
 		}
 		function getSpec() {
 			// needed for test

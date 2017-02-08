@@ -34,9 +34,8 @@ var CORA = (function(cora) {
 			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 
 			var loginManagerSpec = {
-				"afterLoginMethod" : afterLogin
-			// "afterLogoutMethod":yy,
-			// "afterUserInactiveMethod":zz
+				"afterLoginMethod" : afterLogin,
+				"setErrorMessage" : jsClientView.addErrorMessage
 			};
 			loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
 			jsClientView.addLoginManagerView(loginManager.getHtml());
@@ -45,7 +44,7 @@ var CORA = (function(cora) {
 				"addView" : jsClientView.addGlobalView,
 				"showView" : showView
 			};
-			
+
 			var recordGuiFactorySpec = dependencies;
 			recordGuiFactorySpec.uploadManager = CORA
 					.uploadManager(dependencies, uploadManagerSpec);

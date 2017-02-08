@@ -16,18 +16,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(cora) {
 	"use strict";
-	cora.messageHolder = function() {
+	cora.messageHolderSpy = function() {
 		var view = createView();
-
+		var createdMessages = [];
 		function createView() {
-			return CORA.gui.createDivWithClassName("messageHolder");
+			return CORA.gui.createDivWithClassName("messageHolderSpy");
 		}
 
 		function createMessage(messageSpec) {
-			var message = CORA.message(messageSpec);
-			view.appendChild(message.getView());
+			createdMessages.push(messageSpec);
+		}
+		function getCreatedMessageSpec(number) {
+			return createdMessages[number];
 		}
 
 		function getView() {
@@ -35,12 +37,12 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type" : "messageHolder",
 			getView : getView,
-			createMessage : createMessage
+			createMessage : createMessage,
+			getCreatedMessageSpec : getCreatedMessageSpec
 		});
 		view.modelObject = out;
 		return out;
 	};
 	return cora;
-}(CORA));
+}(CORATEST));

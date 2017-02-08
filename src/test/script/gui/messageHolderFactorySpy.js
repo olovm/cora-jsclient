@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -16,31 +16,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.messageHolder = function() {
-		var view = createView();
-
-		function createView() {
-			return CORA.gui.createDivWithClassName("messageHolder");
+	coraTest.messageHolderFactorySpy = function() {
+		var factoredList = [];
+		function factor(messageHolderSpec) {
+			var factored = CORATEST.messageHolderSpy(messageHolderSpec);
+			factoredList.push(factored);
+			return factored;
 		}
 
-		function createMessage(messageSpec) {
-			var message = CORA.message(messageSpec);
-			view.appendChild(message.getView());
+		function getFactored(number) {
+			return factoredList[number];
 		}
-
-		function getView() {
-			return view;
-		}
-
+	
 		var out = Object.freeze({
-			"type" : "messageHolder",
-			getView : getView,
-			createMessage : createMessage
+			factor : factor,
+			getFactored : getFactored
 		});
-		view.modelObject = out;
 		return out;
 	};
-	return cora;
-}(CORA));
+	return coraTest;
+}(CORATEST));

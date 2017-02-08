@@ -51,6 +51,7 @@
 <script type="text/javascript" src="script/gui/infoFactory.js"></script>
 <script type="text/javascript" src="script/gui/message.js"></script>
 <script type="text/javascript" src="script/gui/messageHolder.js"></script>
+<script type="text/javascript" src="script/gui/messageHolderFactory.js"></script>
 <script type="text/javascript" src="script/gui/question.js"></script>
 <script type="text/javascript" src="script/gui/workItemView.js"></script>
 <script type="text/javascript" src="script/gui/workItemViewFactory.js"></script>
@@ -159,7 +160,7 @@
 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 // 		var loginManager = CORA.loginManager();
 		
-// 		authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
+		authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
 // 		loginManager.setCurrentAuthToken("");
 		
 		var ajaxCallFactoryDependencies = {
@@ -233,7 +234,10 @@
 		};
 		var recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
 		
-		
+		var jsClientViewFactorySpec = {
+				"messageHolderFactory" : CORA.messageHolderFactory()
+			};
+
 		jsClientDependencies = {
 			"ajaxCallFactory" : ajaxCallFactory,
 			"authTokenHolder":authTokenHolder,
@@ -242,7 +246,7 @@
 			"textProvider" : textProvider,
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-			"jsClientViewFactory": CORA.jsClientViewFactory({}),
+			"jsClientViewFactory": CORA.jsClientViewFactory(jsClientViewFactorySpec),
 			"presentationFactoryFactory" : "not implemented yet"
 		}
 		jsClientSpec = {

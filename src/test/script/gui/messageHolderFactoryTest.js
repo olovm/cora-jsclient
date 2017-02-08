@@ -17,34 +17,20 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-
-QUnit.module("jsClientViewFactoryTest.js", {
+QUnit.module("messageHolderFactoryTest.js", {
 	beforeEach : function() {
-		this.dependencies = {
-				"messageHolderFactory" : CORATEST.messageHolderFactorySpy()
-		};
-		this.spec = {
-				"name" : "someName"
-		}
-		this.jsClientViewFactory = CORA.jsClientViewFactory(this.dependencies);
+		this.messageHolderFactory = CORA.messageHolderFactory();
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	assert.ok(this.jsClientViewFactory);
-	assert.strictEqual(this.jsClientViewFactory.type, "jsClientViewFactory");
-});
-
-QUnit.test("getDependencies", function(assert) {
-	assert.strictEqual(this.jsClientViewFactory.getDependencies(), this.dependencies);
+	assert.ok(this.messageHolderFactory);
+	assert.strictEqual(this.messageHolderFactory.type, "messageHolderFactory");
 });
 
 QUnit.test("factor", function(assert) {
-	var jsClientView = this.jsClientViewFactory.factor(this.spec);
-	assert.strictEqual(jsClientView.type, "jsClientView");
-
-	var jsClientViewSpec = jsClientView.getSpec();
-	assert.strictEqual(jsClientViewSpec, this.spec);
+	var messageHolder = this.messageHolderFactory.factor();
+	assert.strictEqual(messageHolder.type, "messageHolder");
 });

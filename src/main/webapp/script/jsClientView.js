@@ -24,13 +24,11 @@ var CORA = (function(cora) {
 		var header;
 		var recordTypesView;
 		var workArea;
-		var busy = CORA.busy();
+		var messageHolder;
 
 		function start() {
 			mainView = createMainView();
 			mainView.modelObject = out;
-
-			// mainView.appendChild(busy.getView());
 		}
 
 		function createMainView() {
@@ -45,7 +43,9 @@ var CORA = (function(cora) {
 
 			workArea = CORA.gui.createSpanWithClassName("workArea");
 			view.appendChild(workArea);
-
+			
+			messageHolder = dependencies.messageHolderFactory.factor();
+			
 			return view;
 		}
 
@@ -57,91 +57,59 @@ var CORA = (function(cora) {
 			return mainView;
 		}
 
-		var itemShowing = undefined;
-		function showView(itemToShow) {
-			clearWorkArea();
-			resetLastShowingMenuItem();
-			showNewWorkView(itemToShow);
-			updateShowingMenuItem(itemToShow);
-			itemShowing = itemToShow;
-		}
-
-		function clearWorkArea() {
-			if (itemShowing !== undefined) {
-				itemShowing.workView.style.display = "none";
-			}
-		}
-
-		function resetLastShowingMenuItem() {
-			if (itemShowing !== undefined) {
-				itemShowing.menuView.className = itemShowing.menuView.className.replace(" active",
-						"");
-				itemShowing.isActive = false;
-			}
-		}
-
-		function showNewWorkView(itemToShow) {
-			if (itemToShow.workView.parentNode !== workArea) {
-				workArea.appendChild(itemToShow.workView);
-				itemToShow.workView.scrollTop = 0;
-			}
-			itemToShow.workView.style.display = "";
-		}
-
-		function updateShowingMenuItem(itemToShow) {
-			itemToShow.isActive = true;
-			itemToShow.originalClassName = itemToShow.menuView.className;
-			itemToShow.menuView.className = itemToShow.menuView.className + " active";
-		}
-
-		function addGlobalView(viewToAdd) {
-			header.appendChild(viewToAdd);
-		}
-
 		function getRecordTypesView() {
 			return recordTypesView;
 		}
 
-		function clearRecordTypesView(){
+		function clearRecordTypesView() {
 			recordTypesView.innerHTML = "";
 		}
-		
-		function getWorkView(){
+
+		function getWorkView() {
 			return workArea;
 		}
-		
-		function addToWorkView(viewToAdd){
+
+		function addToWorkView(viewToAdd) {
 			workArea.appendChild(viewToAdd);
 		}
-		
-		function getSpec(){
+
+		function getSpec() {
 			return spec;
 		}
-		
-		function addLoginManagerView(viewToAdd){
+
+		function addLoginManagerView(viewToAdd) {
 			header.appendChild(viewToAdd);
 		}
-		
+
 		function addGlobalView(viewToAdd) {
 			header.appendChild(viewToAdd);
 		}
-		
-		function getHeader(){
+
+		function getHeader() {
 			return header;
 		}
-		
+
+		function addErrorMessage(errorText) {
+			var messageSpec = {
+				"message" : errorText,
+				"type" : CORA.message.ERROR
+			};
+			messageHolder.createMessage(messageSpec);
+		}
+
 		out = Object.freeze({
 			"type" : "jsClientView",
 			getView : getView,
 			addToRecordTypesView : addToRecordTypesView,
 			getRecordTypesView : getRecordTypesView,
 			clearRecordTypesView : clearRecordTypesView,
-			getWorkView:getWorkView,
-			addToWorkView:addToWorkView,
-			addLoginManagerView :addLoginManagerView,
+			getWorkView : getWorkView,
+			addToWorkView : addToWorkView,
+			addLoginManagerView : addLoginManagerView,
 			addGlobalView : addGlobalView,
 			getHeader : getHeader,
-			getSpec : getSpec
+			getSpec : getSpec,
+			addErrorMessage : addErrorMessage
 		});
 		start();
 

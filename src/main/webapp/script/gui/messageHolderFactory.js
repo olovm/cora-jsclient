@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,28 +18,16 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.messageHolder = function() {
-		var view = createView();
+	cora.messageHolderFactory = function() {
 
-		function createView() {
-			return CORA.gui.createDivWithClassName("messageHolder");
-		}
-
-		function createMessage(messageSpec) {
-			var message = CORA.message(messageSpec);
-			view.appendChild(message.getView());
-		}
-
-		function getView() {
-			return view;
+		function factor() {
+			return CORA.messageHolder();
 		}
 
 		var out = Object.freeze({
-			"type" : "messageHolder",
-			getView : getView,
-			createMessage : createMessage
+			"type" : "messageHolderFactory",
+			factor : factor
 		});
-		view.modelObject = out;
 		return out;
 	};
 	return cora;
