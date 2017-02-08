@@ -40,6 +40,13 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(mainView.modelObject, jsClientView);
 });
 
+QUnit.test("initCreatesMessageHolder", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	var messageHolder = this.dependencies.messageHolderFactory.getFactored(0);
+	
+	assert.strictEqual(jsClientView.getHeader().childNodes[1], messageHolder.getView());
+});
+
 QUnit.test("getViewWorkViewHeader", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 	var mainView = jsClientView.getView();
@@ -111,7 +118,7 @@ QUnit.test("testAddLoginManagerView", function(assert) {
 	var someView = CORA.gui.createSpanWithClassName("loginManagerView");
 	jsClientView.addLoginManagerView(someView);
 
-	assert.strictEqual(jsClientView.getHeader().childNodes[1], someView);
+	assert.strictEqual(jsClientView.getHeader().childNodes[2], someView);
 });
 
 QUnit.test("testAddGlobalView", function(assert) {
@@ -120,7 +127,7 @@ QUnit.test("testAddGlobalView", function(assert) {
 	var someView = CORA.gui.createSpanWithClassName("globalView");
 	jsClientView.addGlobalView(someView);
 
-	assert.strictEqual(jsClientView.getHeader().childNodes[1], someView);
+	assert.strictEqual(jsClientView.getHeader().childNodes[2], someView);
 });
 
 QUnit.test("testSetErrorMessage", function(assert) {

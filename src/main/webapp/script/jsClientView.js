@@ -43,9 +43,10 @@ var CORA = (function(cora) {
 
 			workArea = CORA.gui.createSpanWithClassName("workArea");
 			view.appendChild(workArea);
-			
+
 			messageHolder = dependencies.messageHolderFactory.factor();
-			
+			header.appendChild(messageHolder.getView());
+
 			return view;
 		}
 
