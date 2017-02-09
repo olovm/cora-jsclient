@@ -30,15 +30,15 @@ QUnit.module("appTokenLoginTest.js", {
 		var authInfo = {};
 		this.getAuthInfo = function() {
 			return authInfo;
-		}
+		};
 		var errorInfo = {};
 		this.getErrorInfo = function() {
 			return errorInfo;
-		}
+		};
 		var timeoutInfo = {};
 		this.getTimeoutInfo = function() {
 			return timeoutInfo;
-		}
+		};
 
 		this.spec = {
 			"requestMethod" : "POST",
@@ -53,7 +53,7 @@ QUnit.module("appTokenLoginTest.js", {
 			"timeoutCallback" : function(timeout) {
 				timeoutInfo = timeout;
 			}
-		}
+		};
 
 		this.appTokenLogin = CORA.appTokenLogin(this.dependencies, this.spec);
 
@@ -65,7 +65,7 @@ QUnit.module("appTokenLoginTest.js", {
 			assert.strictEqual(ajaxCallSpec.accept, "");
 			assert.strictEqual(ajaxCallSpec.loadMethod, this.appTokenLogin.handleResponse);
 			assert.strictEqual(ajaxCallSpec.data, "someAppToken");
-		}
+		};
 	},
 	afterEach : function() {
 	}

@@ -259,8 +259,7 @@ var jsClientSpec;
 	function startDependencies() {
 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 		var loginManager = CORA.loginManager();
-		loginManager.setCurrentAuthToken("fitnesseAdminToken");
-		
+
 		var ajaxCallFactoryDependencies = {
 			"xmlHttpRequestFactory" : xmlHttpRequestFactory,
 			"loginManager" : loginManager

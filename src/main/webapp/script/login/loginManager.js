@@ -33,7 +33,7 @@ var CORA = (function(cora) {
 			loginManagerView.setLoginOptions(loginOptions);
 		}
 		function appTokenLogin() {
-			var spec = {
+			var appTokenLoginFactorySpec = {
 				"requestMethod" : "POST",
 				"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/",
 				"accept" : "",
@@ -41,8 +41,8 @@ var CORA = (function(cora) {
 				"errorCallback" : appTokenErrorCallback,
 				"timeoutCallback" : appTokenTimeoutCallback
 			};
-			var appTokenLogin = dependencies.appTokenLoginFactory.factor(spec);
-			appTokenLogin.login("131313", "e11264ff-bb40-4fd4-973b-7be6461f0958");
+			var factoredAppTokenLogin = dependencies.appTokenLoginFactory.factor(appTokenLoginFactorySpec);
+			factoredAppTokenLogin.login("131313", "44c17361-ead7-43b5-a938-038765873037");
 		}
 
 		function getDependencies() {

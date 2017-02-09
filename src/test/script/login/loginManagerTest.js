@@ -102,7 +102,7 @@ QUnit.test("testAppTokenLoginCallsServerOnAppTokenLogin", function(assert) {
 	loginManager.appTokenLogin(0);
 	var factored0 = this.dependencies.appTokenLoginFactory.getFactored(0);
 	assert.strictEqual(factored0.getUserId(0), "131313");
-	assert.strictEqual(factored0.getAppToken(0), "e11264ff-bb40-4fd4-973b-7be6461f0958");
+	assert.strictEqual(factored0.getAppToken(0), "44c17361-ead7-43b5-a938-038765873037");
 });
 
 QUnit.test("testAuthTokenIsSetInAuthTokenHolderOnAppTokenLogin", function(assert) {

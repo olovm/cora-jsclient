@@ -71,8 +71,8 @@ var CORA = (function(cora) {
 			//needed for tests
 			return spec;
 		}
-		
-		var out = Object.freeze({
+
+        var out = Object.freeze({
 			"type" : "appTokenLogin",
 			login : login,
 			handleResponse : handleResponse,

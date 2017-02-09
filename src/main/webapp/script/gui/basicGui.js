@@ -30,7 +30,7 @@ var CORA = (function(cora) {
 		possiblyAddText(spec, createdButton);
 		return createdButton;
 	};
-	
+
 	function possiblyAddText(spec, button){
 		if(spec.text !== undefined){
 			button.textContent = spec.text;
