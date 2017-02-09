@@ -90,7 +90,8 @@ QUnit.test("testAppTokenLoginFactoryIsCalledOnAppTokenLogin", function(assert) {
 	// };
 	var spec0 = this.dependencies.appTokenLoginFactory.getSpec(0);
 	assert.strictEqual(spec0.requestMethod, "POST");
-	assert.strictEqual(spec0.url, "http://localhost:8080/apptokenverifier/rest/apptoken/");
+	assert.strictEqual(spec0.url, "http://epc.ub.uu.se/apptokenverifier/rest/apptoken/");
+	//assert.strictEqual(spec0.url, "http://localhost:8080/apptokenverifier/rest/apptoken/");
 	assert.strictEqual(spec0.accept, "");
 	assert.strictEqual(spec0.authInfoCallback, loginManager.appTokenAuthInfoCallback);
 	assert.strictEqual(spec0.errorCallback, loginManager.appTokenErrorCallback);
