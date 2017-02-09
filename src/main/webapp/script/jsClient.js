@@ -18,55 +18,48 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.jsClient = function(spec) {
+	cora.jsClient = function(dependencies, spec) {
 		var out;
 		var recordTypeList = sortRecordTypesFromRecordTypeProvider();
 		var metadataIdsForRecordType = {};
-		var mainView = createMainView();
-		var header;
-		var sideBar;
-		var workArea;
-		var busy = CORA.busy();
 
 		var recordGuiFactory;
+		var jsClientView;
+		var loginManager;
 
 		function start() {
-			mainView.appendChild(busy.getView());
-			var uploadManagerSpec = spec.dependencies;
+			var jsClientViewSpec = {
+				"name" : spec.name
+			};
+			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 
-			uploadManagerSpec.dependencies = spec.dependencies;
-			uploadManagerSpec.jsClient = out;
+			var loginManagerSpec = {
+				"afterLoginMethod" : afterLogin,
+				"setErrorMessage" : jsClientView.addErrorMessage
+			};
+			loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
+			jsClientView.addLoginManagerView(loginManager.getHtml());
 
-			var recordGuiFactorySpec = spec.dependencies;
-			recordGuiFactorySpec.uploadManager = CORA.uploadManager(uploadManagerSpec);
+			var uploadManagerSpec = {
+				"addView" : jsClientView.addGlobalView,
+				"showView" : showView
+			};
+
+			var recordGuiFactorySpec = dependencies;
+			recordGuiFactorySpec.uploadManager = CORA
+					.uploadManager(dependencies, uploadManagerSpec);
+			//
 			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
 			processRecordTypes();
 			addRecordTypesToSideBar(recordTypeList);
 		}
 
-		function createMainView() {
-			var view = CORA.gui.createSpanWithClassName("jsClient mainView");
-
-			header = CORA.gui.createSpanWithClassName("header");
-			header.textContent = spec.name;
-			view.appendChild(header);
-
-			sideBar = CORA.gui.createSpanWithClassName("sideBar");
-			view.appendChild(sideBar);
-
-			workArea = CORA.gui.createSpanWithClassName("workArea");
-			view.appendChild(workArea);
-
-			return view;
-		}
-
 		function processRecordTypes() {
 			metadataIdsForRecordType = createMetadataIdsForRecordType(recordTypeList);
-			busy.hideWithEffect();
 		}
 
 		function sortRecordTypesFromRecordTypeProvider() {
-			var allRecordTypes = spec.dependencies.recordTypeProvider.getAllRecordTypes();
+			var allRecordTypes = dependencies.recordTypeProvider.getAllRecordTypes();
 			var recordTypeLists = sortRecordTypesIntoLists(allRecordTypes);
 			var list = [];
 			recordTypeLists.abstractList.forEach(function(parent) {
@@ -136,14 +129,18 @@ var CORA = (function(cora) {
 
 		function createMetadataIdsForRecordType(recordTypes) {
 			var metadataIds = {};
-			recordTypes.forEach(function(record) {
-				var cRecord = CORA.coraData(record.data);
-				var cMetadataIdGroup = CORA.coraData(cRecord.getFirstChildByNameInData("metadataId"));
-				var metadataId = cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-				var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
-				var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
-				metadataIds[id] = metadataId;
-			});
+			recordTypes
+					.forEach(function(record) {
+						var cRecord = CORA.coraData(record.data);
+						var cMetadataIdGroup = CORA.coraData(cRecord
+								.getFirstChildByNameInData("metadataId"));
+						var metadataId = cMetadataIdGroup
+								.getFirstAtomicValueByNameInData("linkedRecordId");
+						var cRecordInfo = CORA.coraData(cRecord
+								.getFirstChildByNameInData("recordInfo"));
+						var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
+						metadataIds[id] = metadataId;
+					});
 			return metadataIds;
 		}
 
@@ -155,17 +152,17 @@ var CORA = (function(cora) {
 
 		function addRecordTypeToSideBar(record) {
 			var specRecord = {
-				"dependencies" : spec.dependencies,
+				"dependencies" : dependencies,
 				"recordTypeHandlerViewFactory" : createRecordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : createRecordListHandlerFactory(),
 				"recordHandlerFactory" : createRecordHandlerFactory(),
 				"recordGuiFactory" : recordGuiFactory,
 				"recordTypeRecord" : record,
-				"jsClient" : mainView.modelObject,
+				"jsClient" : out,
 				"baseUrl" : spec.baseUrl
 			};
 			var recordTypeHandler = CORA.recordTypeHandler(specRecord);
-			sideBar.appendChild(recordTypeHandler.getView());
+			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}
 
 		function createRecordTypeHandlerViewFactory() {
@@ -192,7 +189,8 @@ var CORA = (function(cora) {
 		}
 
 		function getView() {
-			return mainView;
+			return jsClientView.getView();
+			// return mainView;
 		}
 
 		function getRecordTypeList() {
@@ -223,8 +221,8 @@ var CORA = (function(cora) {
 		}
 
 		function showNewWorkView(itemToShow) {
-			if (itemToShow.workView.parentNode !== workArea) {
-				workArea.appendChild(itemToShow.workView);
+			if (itemToShow.workView.parentNode !== jsClientView.getWorkView()) {
+				jsClientView.addToWorkView(itemToShow.workView);
 				itemToShow.workView.scrollTop = 0;
 			}
 			itemToShow.workView.style.display = "";
@@ -239,8 +237,17 @@ var CORA = (function(cora) {
 		function getMetadataIdForRecordTypeId(recordTypeId) {
 			return metadataIdsForRecordType[recordTypeId];
 		}
-		function addGlobalView(viewToAdd) {
-			header.appendChild(viewToAdd);
+
+		function afterLogin() {
+			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
+		}
+
+		function afterRecordTypeProviderReload() {
+			// update recordList, etc
+			jsClientView.clearRecordTypesView();
+			recordTypeList = sortRecordTypesFromRecordTypeProvider();
+			processRecordTypes();
+			addRecordTypesToSideBar(recordTypeList);
 		}
 
 		out = Object.freeze({
@@ -251,9 +258,9 @@ var CORA = (function(cora) {
 			createRecordListHandlerFactory : createRecordListHandlerFactory,
 			createRecordHandlerFactory : createRecordHandlerFactory,
 			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
-			addGlobalView : addGlobalView
+			afterLogin : afterLogin,
+			afterRecordTypeProviderReload : afterRecordTypeProviderReload
 		});
-		mainView.modelObject = out;
 		start();
 
 		return out;

@@ -40,13 +40,13 @@ var CORA = (function(cora) {
 
 		function possiblyAddAuthTokenToSpec(ajaxCallSpec) {
 			if (factoryHasToken()) {
-				ajaxCallSpec.requestHeaders.authToken = dependencies.loginManager
+				ajaxCallSpec.requestHeaders.authToken = dependencies.authTokenHolder
 						.getCurrentAuthToken();
 			}
 		}
 
 		function factoryHasToken() {
-			return dependencies.loginManager.hasCurrentAuthToken();
+			return dependencies.authTokenHolder.hasCurrentAuthToken();
 		}
 		function createNewAjaxCallUsingSpec(ajaxCallSpec) {
 			return CORA.ajaxCall(ajaxCallSpec);

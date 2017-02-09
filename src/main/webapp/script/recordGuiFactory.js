@@ -45,7 +45,7 @@ var CORA = (function(cora) {
 			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
 
 			var dependenciesPresentationFactory = {
-				"loginManager" : dependencies.loginManager,
+				"authTokenHolder" : dependencies.authTokenHolder,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,

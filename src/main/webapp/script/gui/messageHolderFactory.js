@@ -16,20 +16,19 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
+var CORA = (function(cora) {
 	"use strict";
-	coraTest.loginManagerSpy = function() {
-		var html = CORA.gui.createSpanWithClassName("loginManagerSpy");
-		
-		function getHtml() {
-			return html;
+	cora.messageHolderFactory = function() {
+
+		function factor() {
+			return CORA.messageHolder();
 		}
-		
+
 		var out = Object.freeze({
-			"type" : "loginManagerSpy",
-			getHtml : getHtml
+			"type" : "messageHolderFactory",
+			factor : factor
 		});
 		return out;
 	};
-	return coraTest;
-}(CORATEST));
+	return cora;
+}(CORA));

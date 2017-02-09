@@ -35,6 +35,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
+			"type" : "messageHolder",
 			getView : getView,
 			createMessage : createMessage
 		});

@@ -18,28 +18,68 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.loginManager = function() {
+	cora.loginManager = function(dependencies, spec) {
+		var out;
+		var loginManagerView;
 
-		var authToken = "";
+		function start() {
+			loginManagerView = dependencies.loginManagerViewFactory.factor();
 
-		function getCurrentAuthToken() {
-			return authToken;
+			var loginOptions = [ {
+				"text" : "appToken as 131313",
+				"call" : appTokenLogin
+			} ];
+
+			loginManagerView.setLoginOptions(loginOptions);
+		}
+		function appTokenLogin() {
+			var appTokenLoginFactorySpec = {
+				"requestMethod" : "POST",
+				"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/",
+				"accept" : "",
+				"authInfoCallback" : appTokenAuthInfoCallback,
+				"errorCallback" : appTokenErrorCallback,
+				"timeoutCallback" : appTokenTimeoutCallback
+			};
+			var factoredAppTokenLogin = dependencies.appTokenLoginFactory.factor(appTokenLoginFactorySpec);
+			factoredAppTokenLogin.login("131313", "44c17361-ead7-43b5-a938-038765873037");
 		}
 
-		function hasCurrentAuthToken() {
-			return authToken !== "";
+		function getDependencies() {
+			return dependencies;
 		}
 
-		function setCurrentAuthToken(token) {
-			authToken = token;
+		function getHtml() {
+			return loginManagerView.getHtml();
 		}
 
-		var out = Object.freeze({
+		function appTokenAuthInfoCallback(authInfo) {
+			dependencies.authTokenHolder.setCurrentAuthToken(authInfo.token);
+			loginManagerView.setUserId(authInfo.userId);
+
+			spec.afterLoginMethod();
+		}
+		function appTokenErrorCallback() {
+			spec.setErrorMessage("AppToken login failed!");
+		}
+		function appTokenTimeoutCallback() {
+			spec.setErrorMessage("AppToken login timedout!");
+		}
+		function getSpec() {
+			// needed for test
+			return spec;
+		}
+		out = Object.freeze({
 			"type" : "loginManager",
-			getCurrentAuthToken : getCurrentAuthToken,
-			hasCurrentAuthToken : hasCurrentAuthToken,
-			setCurrentAuthToken : setCurrentAuthToken
+			getDependencies : getDependencies,
+			getHtml : getHtml,
+			appTokenLogin : appTokenLogin,
+			appTokenAuthInfoCallback : appTokenAuthInfoCallback,
+			appTokenErrorCallback : appTokenErrorCallback,
+			appTokenTimeoutCallback : appTokenTimeoutCallback,
+			getSpec : getSpec
 		});
+		start();
 		return out;
 	};
 	return cora;

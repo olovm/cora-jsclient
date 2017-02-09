@@ -46,11 +46,13 @@ var CORA = (function(cora) {
 		}
 
 		function createCreateButton() {
-			var createButtonNew = CORA.gui.createSpanWithClassName("createButton");
-			createButtonNew.onclick = function() {
-				spec.createNewMethod("new");
+			var buttonSpec = {
+					"className":"createButton",
+					"onclick":function() {
+						spec.createNewMethod("new");
+					}
 			};
-			return createButtonNew;
+			return CORA.gui.createButton(buttonSpec);
 		}
 
 		function getView() {

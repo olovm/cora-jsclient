@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,16 +18,21 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.loginManagerSpy = function() {
-		var html = CORA.gui.createSpanWithClassName("loginManagerSpy");
-		
-		function getHtml() {
-			return html;
+	coraTest.loginManagerViewFactorySpy = function(spec) {
+		var factoredLoginManagers = [];
+		function factor(loginManagerViewSpec) {
+			var factoredAjaxCall = CORATEST.loginManagerViewSpy(loginManagerViewSpec);
+			factoredLoginManagers.push(factoredAjaxCall);
+			return factoredAjaxCall;
 		}
-		
+
+		function getFactored(number) {
+			return factoredLoginManagers[number];
+		}
+	
 		var out = Object.freeze({
-			"type" : "loginManagerSpy",
-			getHtml : getHtml
+			factor : factor,
+			getFactored : getFactored
 		});
 		return out;
 	};

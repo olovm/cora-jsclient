@@ -132,6 +132,8 @@ var CORATEST = (function(coraTest) {
 				
 			case "theClient_uploadMenuText":
 				return "Uploads";
+			case "theClient_loginMenuText":
+				return "Login";
 			case "trueItemText":
 				return "true";
 			case "trueItemDefText":

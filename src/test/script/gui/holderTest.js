@@ -64,6 +64,18 @@ QUnit.test("initTestHolderWithClassName", function(assert) {
 	assert.equal(holderView.className, "holder tool");
 });
 
+QUnit.test("initTestHolderWithClassNameAndButtonText", function(assert) {
+	var spec = {
+			"className" : "tool",
+			"buttonText" : "someText"
+	};
+	var holder = CORA.holder(spec);
+	var holderButton = holder.getButton();
+	assert.equal(holderButton.nodeName, "SPAN");
+	assert.equal(holderButton.className, "iconButton tool");
+	assert.equal(holderButton.textContent, "someText");
+});
+
 QUnit.test("initTestOneButtonClickAfterOpenCloseCall", function(assert) {
 	var wasCalled = false;
 	function someFunction() {

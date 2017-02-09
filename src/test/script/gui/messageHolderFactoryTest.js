@@ -16,20 +16,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
-	"use strict";
-	coraTest.loginManagerSpy = function() {
-		var html = CORA.gui.createSpanWithClassName("loginManagerSpy");
-		
-		function getHtml() {
-			return html;
-		}
-		
-		var out = Object.freeze({
-			"type" : "loginManagerSpy",
-			getHtml : getHtml
-		});
-		return out;
-	};
-	return coraTest;
-}(CORATEST));
+"use strict";
+QUnit.module("messageHolderFactoryTest.js", {
+	beforeEach : function() {
+		this.messageHolderFactory = CORA.messageHolderFactory();
+	},
+	afterEach : function() {
+	}
+});
+
+QUnit.test("init", function(assert) {
+	assert.ok(this.messageHolderFactory);
+	assert.strictEqual(this.messageHolderFactory.type, "messageHolderFactory");
+});
+
+QUnit.test("factor", function(assert) {
+	var messageHolder = this.messageHolderFactory.factor();
+	assert.strictEqual(messageHolder.type, "messageHolder");
+});

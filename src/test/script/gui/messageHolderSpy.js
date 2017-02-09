@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -16,20 +16,33 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
+var CORATEST = (function(cora) {
 	"use strict";
-	coraTest.loginManagerSpy = function() {
-		var html = CORA.gui.createSpanWithClassName("loginManagerSpy");
-		
-		function getHtml() {
-			return html;
+	cora.messageHolderSpy = function() {
+		var view = createView();
+		var createdMessages = [];
+		function createView() {
+			return CORA.gui.createDivWithClassName("messageHolderSpy");
 		}
-		
+
+		function createMessage(messageSpec) {
+			createdMessages.push(messageSpec);
+		}
+		function getCreatedMessageSpec(number) {
+			return createdMessages[number];
+		}
+
+		function getView() {
+			return view;
+		}
+
 		var out = Object.freeze({
-			"type" : "loginManagerSpy",
-			getHtml : getHtml
+			getView : getView,
+			createMessage : createMessage,
+			getCreatedMessageSpec : getCreatedMessageSpec
 		});
+		view.modelObject = out;
 		return out;
 	};
-	return coraTest;
+	return cora;
 }(CORATEST));

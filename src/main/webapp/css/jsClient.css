@@ -82,6 +82,8 @@ body {
 	border-color: inherit;
 	text-shadow: 1px 1px 1px #000, 5px 5px 8px #0040f6;
 	background-color: #0082c9;
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .jsClient>.header .menuView {
@@ -115,15 +117,44 @@ body {
 }
 
 @keyframes rotation2 {
-	from {transform: rotate(0deg);
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(359deg);
+	}
 }
 
-to {
-	transform: rotate(359deg);
+.iconButton.loginManagerView {
+	transform: none;
+	font-size: 1.1rem;
+	float: right;
+	margin-right: 0.4rem;
+	margin-top: 0.6rem;
+	cursor: pointer;
 }
 
+.iconButton.loginManagerView:before,  .iconButton.loginManagerView:after{
+	background: none;
 }
-.jsClient>.sideBar {
+
+.holder.loginManagerView {
+	min-width: 10rem;
+	min-height: 10rem;
+	border: 1px solid black;
+	position: absolute;
+	top: 2.2rem;
+	right: 1rem;
+	z-index: 1000;
+	background: lightblue;
+}
+.loginManagerView .menuOption {
+	height: 2rem;
+	display: block;
+	cursor: pointer;
+}
+
+.jsClient>.recordTypesView {
 	border-color: inherit;
 	border-right-style: solid;
 	border-right-width: 1px;
@@ -135,7 +166,7 @@ to {
 	width: 20rem;
 }
 
-.sideBar>.recordType {
+.recordTypesView>.recordType {
 	display: block;
 	border-color: inherit;
 	margin-bottom: 1rem;
@@ -144,29 +175,29 @@ to {
 	position: relative;
 }
 
-.sideBar>.header {
+.recordTypesView>.header {
 	padding: .2rem;
 }
 
-.sideBar .changed:before {
+.recordTypesView .changed:before {
 	content: "* ";
 }
 
-.sideBar .header:hover, .sideBar .childrenView .menuView:hover {
+.recordTypesView .header:hover, .recordTypesView .childrenView .menuView:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-.sideBar .childrenView span, .sideBar .childrenView div {
+.recordTypesView .childrenView span, .recordTypesView .childrenView div {
 	text-decoration: inherit;
 }
 
-.sideBar .header {
+.recordTypesView .header {
 	border-bottom: 1px dashed;
 	border-color: inherit;
 }
 
-.sideBar .childrenView {
+.recordTypesView .childrenView {
 	display: block;
 	width: 100%;
 	border-color: inherit;
@@ -174,7 +205,7 @@ to {
 	font-size: .8rem;
 }
 
-.sideBar .childrenView>span {
+.recordTypesView .childrenView>span {
 	border-left: 1px solid;
 	border-right: 1px solid;
 	border-color: inherit;
@@ -182,21 +213,21 @@ to {
 	padding-left: .4rem;
 }
 
-.sideBar .childrenView>span:nth-child(even) {
+.recordTypesView .childrenView>span:nth-child(even) {
 	border-color: inherit;
 }
 
-.sideBar .childrenView>span:last-child {
+.recordTypesView .childrenView>span:last-child {
 	border-bottom: 1px solid;
 	border-color: inherit;
 }
 
-.sideBar .active, .header .active {
+.recordTypesView .active, .header .active {
 	font-weight: bold;
 	background-color: rgba(5, 131, 249, 0.49);
 }
 
-.sideBar>.recordType  span {
+.recordTypesView>.recordType  span {
 	display: block;
 }
 
@@ -228,7 +259,7 @@ to {
 	box-shadow: none;
 }
 
-.sideBar .menuView div, .jsClient .sideBar .menuView span {
+.recordTypesView .menuView div, .jsClient .recordTypesView .menuView span {
 	display: inline;
 	border: none;
 	padding: 0;
@@ -237,7 +268,7 @@ to {
 	margin: 0;
 }
 
-.sideBar .menuView .pVar span, .jsClient .sideBar .menuView .text {
+.recordTypesView .menuView .pVar span, .jsClient .recordTypesView .menuView .text {
 	max-width: calc(70% - 1rem - 30px);
 	overflow: hidden;
 	display: inline-block;
@@ -245,15 +276,15 @@ to {
 	white-space: pre;
 }
 
-.sideBar [class*='recordInfo'] .pVar span:before {
+.recordTypesView [class*='recordInfo'] .pVar span:before {
 	content: "(";
 }
 
-.sideBar [class*='recordInfo'] .pVar span:after {
+.recordTypesView [class*='recordInfo'] .pVar span:after {
 	content: ")";
 }
 
-.sideBar [class*='recordInfo'] .pVar span {
+.recordTypesView [class*='recordInfo'] .pVar span {
 	padding-right: 1rem;
 	width: 30%;
 	overflow: hidden;
@@ -262,7 +293,7 @@ to {
 	white-space: pre;
 }
 
-.sideBar .recordType .buttonView {
+.recordTypesView .recordType .buttonView {
 	min-width: 20px;
 	min-height: 20px;
 	position: absolute;
@@ -281,7 +312,7 @@ to {
 	margin-right: 2px;
 }
 
-.sideBar .recordType .buttonView>span::before, .sideBar .recordType .buttonView>span::after
+.recordTypesView .recordType .buttonView>span::before, .recordTypesView .recordType .buttonView>span::after
 	{
 	top: 3px;
 	right: 2px;

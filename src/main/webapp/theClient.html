@@ -33,6 +33,8 @@
 <script type="text/javascript" src="script/aCoraNameSpace.js"></script>
 <script type="text/javascript" src="script/coraPubSub.js"></script>
 <script type="text/javascript" src="script/jsClient.js"></script>
+<script type="text/javascript" src="script/jsClientView.js"></script>
+<script type="text/javascript" src="script/jsClientViewFactory.js"></script>
 <script type="text/javascript" src="script/recordGuiFactory.js"></script>
 <script type="text/javascript" src="script/recordHandler.js"></script>
 <script type="text/javascript" src="script/recordHandlerView.js"></script>
@@ -49,6 +51,7 @@
 <script type="text/javascript" src="script/gui/infoFactory.js"></script>
 <script type="text/javascript" src="script/gui/message.js"></script>
 <script type="text/javascript" src="script/gui/messageHolder.js"></script>
+<script type="text/javascript" src="script/gui/messageHolderFactory.js"></script>
 <script type="text/javascript" src="script/gui/question.js"></script>
 <script type="text/javascript" src="script/gui/workItemView.js"></script>
 <script type="text/javascript" src="script/gui/workItemViewFactory.js"></script>
@@ -56,7 +59,13 @@
 <script type="text/javascript" src="script/lib/arbiter.js"></script>
 <script type="text/javascript" src="script/lib/polyfillES6.js"></script>
 
+<script type="text/javascript" src="script/login/authTokenHolder.js"></script>
 <script type="text/javascript" src="script/login/loginManager.js"></script>
+<script type="text/javascript" src="script/login/loginManagerView.js"></script>
+<script type="text/javascript" src="script/login/loginManagerFactory.js"></script>
+<script type="text/javascript" src="script/login/loginManagerViewFactory.js"></script>
+<script type="text/javascript" src="script/login/appTokenLogin.js"></script>
+<script type="text/javascript" src="script/login/appTokenLoginFactory.js"></script>
 
 <script type="text/javascript"
 	src="script/metadata/calculatePathForNewElement.js"></script>
@@ -111,11 +120,13 @@
 <script type="text/javascript" src="script/presentation/pVarViewFactory.js"></script>
 
 <script type="text/javascript">
-	 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+ 	 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
 //	var baseUrl = "http://localhost:8080/therest/rest/";
 
 	window.onload = start;
 	var jsClientSpec;
+	var jsClientDependencies;
+	
 	function start() {
 		startDependencies();
 	}
@@ -145,17 +156,21 @@
 	}
 
 	function startDependencies() {
+		var authTokenHolder = CORA.authTokenHolder();
 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
-		var loginManager = CORA.loginManager();
-		loginManager.setCurrentAuthToken("fitnesseAdminToken");
-		
+
+		//TODO: use this if you want to be logged in at startup:
+		// authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
+
 		var ajaxCallFactoryDependencies = {
 			"xmlHttpRequestFactory" : xmlHttpRequestFactory,
-			"loginManager" : loginManager
+			"authTokenHolder" : authTokenHolder
 		};
+		var ajaxCallFactory = CORA.ajaxCallFactory(ajaxCallFactoryDependencies);
+		
 		var dependencies = {
 			"ajaxCallFactory" : CORA.ajaxCallFactory(ajaxCallFactoryDependencies),
-			"loginManager" : loginManager
+			"authTokenHolder" : authTokenHolder
 		};
 		var metadataListLink = {
 			"requestMethod" : "GET",
@@ -193,7 +208,19 @@
 		};
 
 		var textProvider = CORA.textProvider(textProviderSpec);
-
+	
+		var appTokenLoginFactoryDependencies = {
+			"ajaxCallFactory" : ajaxCallFactory,
+		};
+		var appTokenLoginFactory = CORA.appTokenLoginFactory(appTokenLoginFactoryDependencies);
+		
+		var loginManagerFactoryDependencies ={
+				"authTokenHolder":authTokenHolder,
+				"textProvider" : textProvider,
+				"appTokenLoginFactory" : appTokenLoginFactory
+		};
+		var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
+		
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
@@ -201,29 +228,33 @@
 			"accept" : "application/uub+recordList+json"
 		};
 		var recordTypeProviderSpec = {
-			"dependencies" : dependencies,
 			"recordTypeListLink" : recordTypeListLink,
 			"callWhenReady" : recordTypeProviderReady
 		};
-		var recordTypeProvider = CORA.recordTypeProvider(recordTypeProviderSpec);
+		var recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
+		
+		var jsClientViewFactorySpec = {
+				"messageHolderFactory" : CORA.messageHolderFactory()
+			};
 
-		var jsClientDependencies = {
-			"ajaxCallFactory" : CORA.ajaxCallFactory(ajaxCallFactoryDependencies),
-			"loginManager" : loginManager,
+		jsClientDependencies = {
+			"ajaxCallFactory" : ajaxCallFactory,
+			"authTokenHolder":authTokenHolder,
+			"loginManagerFactory" : loginManagerFactory,
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+			"jsClientViewFactory": CORA.jsClientViewFactory(jsClientViewFactorySpec),
 			"presentationFactoryFactory" : "not implemented yet"
 		}
 		jsClientSpec = {
-			"dependencies" : jsClientDependencies,
 			"name" : "The Client",
 			"baseUrl" : baseUrl
 		};
 	}
 	function startJsClient() {
-		var jsClient = CORA.jsClient(jsClientSpec);
+		var jsClient = CORA.jsClient(jsClientDependencies, jsClientSpec);
 		document.body.appendChild(jsClient.getView());
 	}
 

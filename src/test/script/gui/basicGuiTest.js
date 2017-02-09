@@ -43,6 +43,24 @@ QUnit.test("testCreateButton", function(assert) {
 	assert.strictEqual(clicked, true);
 });
 
+QUnit.test("testCreateButtonWithText", function(assert) {
+	var clicked = false;
+	var spec = {
+		"className" : "removeButton",
+		"onclick" : function() {
+			clicked = true;
+		},
+		"text" : "someText"
+	};
+	var button = CORA.gui.createButton(spec);
+	assert.strictEqual(button.className, "removeButton");
+
+	var event = document.createEvent('Event');
+	button.onclick(event);
+	assert.strictEqual(clicked, true);
+	assert.strictEqual(button.textContent, "someText");
+});
+
 QUnit.test("testCreateRemoveButton", function(assert) {
 	var clicked = false;
 

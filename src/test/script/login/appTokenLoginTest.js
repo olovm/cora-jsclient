@@ -23,24 +23,24 @@ QUnit.module("appTokenLoginTest.js", {
 
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 
-		var dependencies = {
+		this.dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy
 		};
 
 		var authInfo = {};
 		this.getAuthInfo = function() {
 			return authInfo;
-		}
+		};
 		var errorInfo = {};
 		this.getErrorInfo = function() {
 			return errorInfo;
-		}
+		};
 		var timeoutInfo = {};
 		this.getTimeoutInfo = function() {
 			return timeoutInfo;
-		}
+		};
 
-		var spec = {
+		this.spec = {
 			"requestMethod" : "POST",
 			"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/",
 			"accept" : "",
@@ -53,21 +53,19 @@ QUnit.module("appTokenLoginTest.js", {
 			"timeoutCallback" : function(timeout) {
 				timeoutInfo = timeout;
 			}
-		}
+		};
 
-		this.appTokenLogin = CORA.appTokenLogin(dependencies, spec);
+		this.appTokenLogin = CORA.appTokenLogin(this.dependencies, this.spec);
 
 		this.assertAjaxCallSpecIsCorrect = function(assert, ajaxCallSpy) {
 			var ajaxCallSpec = ajaxCallSpy.getSpec();
-			assert.strictEqual(ajaxCallSpec.url,
-					"http://localhost:8080/apptokenverifier/"
-							+ "rest/apptoken/someUserId");
+			assert.strictEqual(ajaxCallSpec.url, "http://localhost:8080/apptokenverifier/"
+					+ "rest/apptoken/someUserId");
 			assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
 			assert.strictEqual(ajaxCallSpec.accept, "");
-			assert.strictEqual(ajaxCallSpec.loadMethod,
-					this.appTokenLogin.handleResponse);
+			assert.strictEqual(ajaxCallSpec.loadMethod, this.appTokenLogin.handleResponse);
 			assert.strictEqual(ajaxCallSpec.data, "someAppToken");
-		}
+		};
 	},
 	afterEach : function() {
 	}
@@ -76,6 +74,16 @@ QUnit.module("appTokenLoginTest.js", {
 QUnit.test("init", function(assert) {
 	assert.ok(this.appTokenLogin);
 	assert.strictEqual(this.appTokenLogin.type, "appTokenLogin");
+});
+
+QUnit.test("getDependencies", function(assert) {
+	assert.ok(this.appTokenLogin);
+	assert.strictEqual(this.appTokenLogin.getDependencies(), this.dependencies);
+});
+
+QUnit.test("getSpec", function(assert) {
+	assert.ok(this.appTokenLogin);
+	assert.strictEqual(this.appTokenLogin.getSpec(), this.spec);
 });
 
 QUnit.test("testUpload", function(assert) {
@@ -120,14 +128,14 @@ QUnit.test("testGetError", function(assert) {
 	appTokenLogin.login("someUserId", "someAppToken");
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 	var errorMethod = ajaxCallSpy0.getSpec().errorMethod;
-	
+
 	var answer = {
-			"status" : 201,
-			"responseText" : "error"
+		"status" : 201,
+		"responseText" : "error"
 	};
 	errorMethod(answer);
 	var errorInfo = this.getErrorInfo();
-	
+
 	assert.strictEqual(errorInfo, answer);
 });
 
@@ -138,8 +146,8 @@ QUnit.test("testGetTimeOut", function(assert) {
 	var timeoutMethod = ajaxCallSpy0.getSpec().timeoutMethod;
 
 	var answer = {
-			"status" : 201,
-			"responseText" : "timeout"
+		"status" : 201,
+		"responseText" : "timeout"
 	};
 	timeoutMethod(answer);
 	var timeoutInfo = this.getTimeoutInfo();

@@ -18,16 +18,16 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.uploadManager = function(spec) {
+	cora.uploadManager = function(dependencies, spec) {
 		var uploading = false;
 		var uploadQue = [];
 		var viewSpec = {
-			"showWorkViewMethod" : spec.jsClient.showView,
-			"textProvider" : spec.textProvider
+			"showWorkViewMethod" : spec.showView,
+			"textProvider" : dependencies.textProvider
 		};
 		var view = CORA.uploadManagerView(viewSpec);
-
-		spec.jsClient.addGlobalView(view.getItem().menuView);
+ 
+		spec.addView(view.getItem().menuView);
 
 		function upload(uploadSpec) {
 			var uploadLink = uploadSpec.uploadLink;
@@ -79,7 +79,7 @@ var CORA = (function(cora) {
 		function startNextUpload(callSpec) {
 			uploading = true;
 			view.activate();
-			spec.dependencies.ajaxCallFactory.factor(callSpec);
+			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		var out = Object.freeze({

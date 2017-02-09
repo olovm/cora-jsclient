@@ -39,88 +39,67 @@ QUnit.module("jsClientTest.js", {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "metadataGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "metadataCollectionItemGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "metadataCollectionItemGroup"
+					} ]
 				}, {
 					"name" : "presentationViewId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "metadataCollectionItemViewPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "metadataCollectionItemViewPGroup"
+					} ]
 				}, {
 					"name" : "presentationFormId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "metadataCollectionItemFormPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "metadataCollectionItemFormPGroup"
+					} ]
 				}, {
 					"name" : "newMetadataId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "metadataGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "metadataCollectionItemNewGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "metadataCollectionItemNewGroup"
+					} ]
 				}, {
 					"name" : "newPresentationFormId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "metadataCollectionItemFormNewPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "metadataCollectionItemFormNewPGroup"
+					} ]
 				}, {
 					"name" : "menuPresentationViewId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "metadataCollectionItemMenuPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "metadataCollectionItemMenuPGroup"
+					} ]
 				}, {
 					"name" : "listPresentationViewId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "metadataCollectionItemListPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "metadataCollectionItemListPGroup"
+					} ]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "metadataCollectionItemSearchGroup"
@@ -138,16 +117,13 @@ QUnit.module("jsClientTest.js", {
 					"value" : "false"
 				}, {
 					"name" : "parentId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "recordType"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "metadata"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "recordType"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "metadata"
+					} ]
 				} ],
 				"name" : "recordType"
 			},
@@ -204,14 +180,15 @@ QUnit.module("jsClientTest.js", {
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 
 		this.dependencies = {
+			"loginManagerFactory" : CORATEST.loginManagerFactorySpy(),
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
 			"metadataProvider" : CORATEST.metadataProviderRealStub(),
 			"textProvider" : CORATEST.textProviderRealStub(),
 			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-			"presentationFactoryFactory" : "not implemented yet"
+			"presentationFactoryFactory" : "not implemented yet",
+			"jsClientViewFactory" : CORATEST.jsClientViewFactorySpy()
 		}
 		this.spec = {
-			"dependencies" : this.dependencies,
 			"name" : "The Client",
 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 		};
@@ -221,71 +198,66 @@ QUnit.module("jsClientTest.js", {
 });
 
 QUnit.test("init", function(assert) {
-	var jsClient = CORA.jsClient(this.spec);
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var mainView = jsClient.getView();
-
-	assert.strictEqual(mainView.modelObject, jsClient);
-
-	assert.strictEqual(mainView.className, "jsClient mainView");
-
-	var header = mainView.childNodes[0];
-	assert.strictEqual(header.className, "header");
-
-	var sideBar = mainView.childNodes[1];
-	assert.strictEqual(sideBar.className, "sideBar");
-
-	var workArea = mainView.childNodes[2];
-	assert.strictEqual(workArea.className, "workArea");
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	assert.strictEqual(jsClientView.getView(), mainView);
+	
+//	assert.strictEqual(mainView.modelObject, jsClient);
 
 	var recordTypeList = jsClient.getRecordTypeList();
 	assert.strictEqual(recordTypeList.length, 19);
 
-	var firstRecordType = sideBar.childNodes[0];
+	var firstRecordType = jsClientView.getRecordTypesView(0);
 	assert.strictEqual(firstRecordType.className, "recordType");
 	assert.strictEqual(firstRecordType.firstChild.textContent, "metadata");
+
+	var lastRecordType = jsClientView.getRecordTypesView(18);
+	assert.strictEqual(lastRecordType.className, "recordType");
+	assert.strictEqual(lastRecordType.firstChild.textContent, "recordType");
 });
 
-QUnit.test("addGlobalView", function(assert) {
-	var jsClient = CORA.jsClient(this.spec);
-	var mainView = jsClient.getView();
+QUnit.test("testInitCreatesALoginManager", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var factored= this.dependencies.loginManagerFactory.getFactored(0);
+	assert.ok(factored !== undefined);
+	assert.strictEqual(this.dependencies.loginManagerFactory.getSpec(0).afterLoginMethod, jsClient.afterLogin);
+});
 
-	var header = mainView.childNodes[0];
-	assert.strictEqual(header.className, "header");
-
-	assert.strictEqual(header.childNodes.length, 2);
-
-	var testView = CORA.gui.createSpanWithClassName("menuView");
-	jsClient.addGlobalView(testView);
-	assert.strictEqual(header.childNodes.length, 3);
-
+QUnit.test("testInitCreatesALoginManagerAndAddsItsHtmlToTheHeader", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	
+	assert.strictEqual(jsClientView.getLoginManagerView(0).className, "loginManagerSpy");
 });
 
 QUnit.test("initRecordTypesAreSortedByType", function(assert) {
-	var jsClient = CORA.jsClient(this.spec);
-	var mainView = jsClient.getView();
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	
+	var recordType = jsClientView.getRecordTypesView(0);
+	assert.strictEqual(recordType.firstChild.textContent, "metadata");
+	
+	recordType = jsClientView.getRecordTypesView(2);
+	assert.strictEqual(recordType.firstChild.textContent, "metadataCollectionItem");
 
-	var sideBar = mainView.childNodes[1];
-	assert.strictEqual(sideBar.className, "sideBar");
-
-	var firstRecordType = sideBar.childNodes[0];
-	assert.strictEqual(firstRecordType.className, "recordType");
-	assert.strictEqual(firstRecordType.firstChild.textContent, "metadata");
-
-	assert.strictEqual(sideBar.childNodes[1].firstChild.textContent, "metadataGroup");
-	assert.strictEqual(sideBar.childNodes[2].firstChild.textContent, "metadataCollectionItem");
-
-	assert.strictEqual(sideBar.childNodes[7].firstChild.textContent, "presentation");
-	assert.strictEqual(sideBar.childNodes[8].firstChild.textContent, "presentationVar");
-
-	assert.strictEqual(sideBar.childNodes[18].firstChild.textContent, "recordType");
+	recordType = jsClientView.getRecordTypesView(7);
+	assert.strictEqual(recordType.firstChild.textContent, "presentation");
+	
+	recordType = jsClientView.getRecordTypesView(8);
+	assert.strictEqual(recordType.firstChild.textContent, "presentationVar");
+	
+	recordType = jsClientView.getRecordTypesView(18);
+	assert.strictEqual(recordType.firstChild.textContent, "recordType");
 });
 
 QUnit.test("showView", function(assert) {
-	var jsClient = CORA.jsClient(this.spec);
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	
 	var mainView = jsClient.getView();
 
-	var workAreaChildren = mainView.childNodes[2].childNodes;
-	assert.strictEqual(workAreaChildren.length, 0);
+	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
 
 	var workView1 = document.createElement("span");
 	var menuView1 = document.createElement("span");
@@ -295,7 +267,8 @@ QUnit.test("showView", function(assert) {
 		"menuView" : menuView1
 	};
 	jsClient.showView(aView);
-	assert.strictEqual(workAreaChildren[0], aView.workView);
+	
+	assert.strictEqual(jsClientView.getAddedWorkView(0),  aView.workView);
 	assert.strictEqual(menuView1.className, "menuView1 active");
 	assert.strictEqual(menuView1.style.display, "");
 	assert.strictEqual(workView1.style.display, "");
@@ -309,6 +282,7 @@ QUnit.test("showView", function(assert) {
 	};
 	jsClient.showView(aDifferentView);
 
+	assert.strictEqual(jsClientView.getAddedWorkView(1),  aDifferentView.workView);
 	assert.strictEqual(menuView1.className, "menuView1");
 	assert.strictEqual(menuView2.className, "menuView2 active");
 	assert.strictEqual(workView1.style.display, "none");
@@ -322,7 +296,7 @@ QUnit.test("showView", function(assert) {
 QUnit.test("testFactories", function(assert) {
 	var recordTypeListData = CORATEST.recordTypeList;
 
-	var jsClient = CORA.jsClient(this.spec);
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 
 	var viewSpec = {
 		"headerText" : "some text",
@@ -368,7 +342,29 @@ QUnit.test("testFactories", function(assert) {
 QUnit.test("getMetadataIdForRecordType", function(assert) {
 	var recordTypeListData = CORATEST.recordTypeList;
 
-	var jsClient = CORA.jsClient(this.spec);
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var metadataId = jsClient.getMetadataIdForRecordTypeId("textSystemOne");
 	assert.strictEqual(metadataId, "textSystemOneGroup");
 });
+
+QUnit.test("testAfterLogin", function(assert) {
+	this.dependencies.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	jsClient.afterLogin(); 
+	assert.strictEqual(this.dependencies.recordTypeProvider.getCallWhenReloadedMethod(),
+			jsClient.afterRecordTypeProviderReload);
+});
+
+QUnit.test("testAfterRecordTypeProviderReload", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+
+	assert.strictEqual(jsClientView.getRecordTypesClearedNoOfTimes(), 0);
+	jsClient.afterRecordTypeProviderReload(); 
+	assert.strictEqual(jsClientView.getRecordTypesClearedNoOfTimes(), 1);
+	
+	var recordType = jsClientView.getRecordTypesView(0);
+	assert.strictEqual(recordType.firstChild.textContent, "metadata");
+});
+
+

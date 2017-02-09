@@ -21,8 +21,17 @@
 QUnit.module("uploadManagerTest.js", {
 	beforeEach : function() {
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+		var addedView;
+		this.addView = function(addedViewIn) {
+			addedView = addedViewIn;
+		}
+		this.getAddedView = function() {
+			return addedView;
+		}
+		var textProvider = CORATEST.textProviderStub();
 		var dependencies = {
-			"ajaxCallFactory" : this.ajaxCallFactorySpy
+			"ajaxCallFactory" : this.ajaxCallFactorySpy,
+			"textProvider" : textProvider
 		};
 
 		var jsClient = {
@@ -31,15 +40,13 @@ QUnit.module("uploadManagerTest.js", {
 			addGlobalView : function() {
 			}
 		}
-		var textProvider = CORATEST.textProviderStub();
 
 		var spec = {
-			"dependencies" : dependencies,
-			"jsClient" : jsClient,
-			"textProvider" : textProvider
-
+			"addView" : this.addView,
+			"showView": function() {
+			}
 		};
-		this.uploadManager = CORA.uploadManager(spec);
+		this.uploadManager = CORA.uploadManager(dependencies, spec);
 		var uploadLink = CORATEST.createUploadLink();
 		this.file = CORATEST.createFileForUpload();
 		this.uploadSpec = {
@@ -64,6 +71,9 @@ QUnit.test("testInit", function(assert) {
 	assert.ok(this.uploadManager);
 	assert.ok(this.uploadManager.view);
 	assert.strictEqual(this.uploadManager.view.getItem().menuView.className, "menuView");
+});
+QUnit.test("testInitAddedView", function(assert) {
+	assert.strictEqual(this.uploadManager.view.getItem().menuView, this.getAddedView());
 });
 
 QUnit.test("testUpload", function(assert) {
