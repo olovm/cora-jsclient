@@ -35,7 +35,8 @@ var CORA = (function(cora) {
 		function appTokenLogin() {
 			var appTokenLoginFactorySpec = {
 				"requestMethod" : "POST",
-				"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/",
+				//"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/",
+				"url" : "http://epc.ub.uu.se/apptokenverifier/rest/apptoken/",
 				"accept" : "",
 				"authInfoCallback" : appTokenAuthInfoCallback,
 				"errorCallback" : appTokenErrorCallback,

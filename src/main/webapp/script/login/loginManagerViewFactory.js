@@ -27,7 +27,7 @@ var CORA = (function(cora) {
 		function factor() {
 			var loginManagerViewDependencies = {
 				"textProvider" : dependencies.textProvider
-			}
+			};
 			return CORA.loginManagerView(loginManagerViewDependencies);
 		}
 

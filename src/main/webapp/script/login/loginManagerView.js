@@ -22,7 +22,6 @@ var CORA = (function(cora) {
 		var out;
 		var view;
 		var menu;
-		var valueView;
 		var baseClassName = "loginManagerView";
 		var holder;
 		function start() {
@@ -66,7 +65,7 @@ var CORA = (function(cora) {
 			view.textContent = userIdIn;
 			holder.toggleHolder();
 		}
-		
+
 		out = Object.freeze({
 			"type" : "loginManagerView",
 			getDependencies : getDependencies,
