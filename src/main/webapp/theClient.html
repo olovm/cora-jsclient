@@ -121,7 +121,10 @@
 
 <script type="text/javascript">
  	 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+			var appTokenBaseUrl = "http://epc.ub.uu.se/";
 //	var baseUrl = "http://localhost:8080/therest/rest/";
+//			var appTokenBaseUrl = "http://localhost:8089/";
+
 
 	window.onload = start;
 	var jsClientSpec;
@@ -250,7 +253,8 @@
 		}
 		jsClientSpec = {
 			"name" : "The Client",
-			"baseUrl" : baseUrl
+			"baseUrl" : baseUrl,
+			"appTokenBaseUrl" : appTokenBaseUrl
 		};
 	}
 	function startJsClient() {

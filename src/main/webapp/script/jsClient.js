@@ -35,7 +35,8 @@ var CORA = (function(cora) {
 
 			var loginManagerSpec = {
 				"afterLoginMethod" : afterLogin,
-				"setErrorMessage" : jsClientView.addErrorMessage
+				"setErrorMessage" : jsClientView.addErrorMessage,
+				"appTokenBaseUrl" : spec.appTokenBaseUrl
 			};
 			loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
 			jsClientView.addLoginManagerView(loginManager.getHtml());

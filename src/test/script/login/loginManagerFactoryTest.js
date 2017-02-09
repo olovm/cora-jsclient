@@ -51,6 +51,7 @@ QUnit.test("factor",	function(assert) {
 	}
 	var loginManagerSpec = {
 			"afterLoginMethod":testCall,
+			"appTokenBaseUrl" : "someAppTokenBaseUrl/"
 //			"afterLogoutMethod":yy,
 //			"afterUserInactiveMethod":zz
 		};
@@ -69,4 +70,5 @@ QUnit.test("factor",	function(assert) {
 			
 			var loginManagerSpec = loginManager.getSpec();
 			assert.strictEqual(loginManagerSpec.afterLoginMethod, testCall);
+			assert.strictEqual(loginManagerSpec.appTokenBaseUrl, "someAppTokenBaseUrl/");
 		});

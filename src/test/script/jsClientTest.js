@@ -190,7 +190,8 @@ QUnit.module("jsClientTest.js", {
 		}
 		this.spec = {
 			"name" : "The Client",
-			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+			"baseUrl" : "http://epc.ub.uu.se/cora/rest/",
+			"appTokenBaseUrl" : "someAppTokenBaseUrl/"
 		};
 	},
 	afterEach : function() {
@@ -222,6 +223,7 @@ QUnit.test("testInitCreatesALoginManager", function(assert) {
 	var factored= this.dependencies.loginManagerFactory.getFactored(0);
 	assert.ok(factored !== undefined);
 	assert.strictEqual(this.dependencies.loginManagerFactory.getSpec(0).afterLoginMethod, jsClient.afterLogin);
+	assert.strictEqual(this.dependencies.loginManagerFactory.getSpec(0).appTokenBaseUrl, "someAppTokenBaseUrl/");
 });
 
 QUnit.test("testInitCreatesALoginManagerAndAddsItsHtmlToTheHeader", function(assert) {
