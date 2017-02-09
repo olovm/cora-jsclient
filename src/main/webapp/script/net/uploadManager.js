@@ -26,7 +26,7 @@ var CORA = (function(cora) {
 			"textProvider" : dependencies.textProvider
 		};
 		var view = CORA.uploadManagerView(viewSpec);
- 
+
 		spec.addView(view.getItem().menuView);
 
 		function upload(uploadSpec) {

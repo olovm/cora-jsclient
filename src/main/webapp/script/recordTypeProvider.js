@@ -21,7 +21,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeProvider = function(dependencies, spec) {
 		var callWhenReady = spec.callWhenReady;
-		
+
 		var recordTypes = {};
 		fetchRecordTypeListAndThen(processFetchedData);
 
@@ -76,12 +76,12 @@ var CORA = (function(cora) {
 			});
 			return recordTypeList;
 		}
-		
+
 		function reload(callWhenReloadedMethodIn){
 			callWhenReady = callWhenReloadedMethodIn;
 			fetchRecordTypeListAndThen(processFetchedData);
 		}
-		
+
 		var out = Object.freeze({
 			getRecordTypeById : getRecordTypeById,
 			getAllRecordTypes : getAllRecordTypes,

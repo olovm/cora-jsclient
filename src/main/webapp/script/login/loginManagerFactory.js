@@ -34,7 +34,7 @@ var CORA = (function(cora) {
 						.loginManagerViewFactory(loginManagerViewFactoryDependencies),
 				"appTokenLoginFactory" : dependencies.appTokenLoginFactory,
 				"authTokenHolder" : dependencies.authTokenHolder
-			}
+			};
 			return CORA.loginManager(loginManagerDependencies, loginManagerSpec);
 		}
 

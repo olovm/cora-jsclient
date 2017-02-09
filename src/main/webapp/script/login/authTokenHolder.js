@@ -33,7 +33,7 @@ var CORA = (function(cora) {
 		function setCurrentAuthToken(token) {
 			authToken = token;
 		}
-		
+
 		out = Object.freeze({
 			"type" : "authTokenHolder",
 			getCurrentAuthToken : getCurrentAuthToken,
