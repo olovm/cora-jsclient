@@ -49,11 +49,11 @@ var CORA = (function(cora) {
 		}
 
 		function handleResponse(answer) {
-			var data = JSON.parse(answer.responseText);
+			var everything = JSON.parse(answer.responseText);
+			var data = everything.data;
 			var cData = CORA.coraData(data);
 			var token = cData.getFirstAtomicValueByNameInData("id");
-			var validForNoSeconds = cData
-					.getFirstAtomicValueByNameInData("validForNoSeconds");
+			var validForNoSeconds = cData.getFirstAtomicValueByNameInData("validForNoSeconds");
 			var authInfo = {
 				"userId" : userId,
 				"token" : token,
@@ -62,17 +62,17 @@ var CORA = (function(cora) {
 			spec.authInfoCallback(authInfo);
 		}
 
-		function getDependencies(){
-			//needed for tests
+		function getDependencies() {
+			// needed for tests
 			return dependencies;
 		}
 
-		function getSpec(){
-			//needed for tests
+		function getSpec() {
+			// needed for tests
 			return spec;
 		}
 
-        var out = Object.freeze({
+		var out = Object.freeze({
 			"type" : "appTokenLogin",
 			login : login,
 			handleResponse : handleResponse,

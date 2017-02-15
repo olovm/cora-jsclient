@@ -103,14 +103,23 @@ QUnit.test("testGetAuthTokenForAppToken", function(assert) {
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 	var loadMethod = ajaxCallSpy0.getSpec().loadMethod;
 	var tokenAnswer = {
-		"children" : [ {
-			"name" : "id",
-			"value" : "someAuthToken"
-		}, {
-			"name" : "validForNoSeconds",
-			"value" : "278"
-		} ],
-		"name" : "authToken"
+		"data" : {
+			"children" : [ {
+				"name" : "id",
+				"value" : "someAuthToken"
+			}, {
+				"name" : "validForNoSeconds",
+				"value" : "278"
+			} ],
+			"name" : "authToken"
+		}, 
+		"actionLinks" : {
+			"delete" : {
+				"requestMethod" : "DELETE",
+				"rel" : "delete",
+				"url" : "http://epc.ub.uu.se/apptokenverifier/rest/apptoken/131313"
+			}
+		}
 	};
 	var answer = {
 		"status" : 201,
