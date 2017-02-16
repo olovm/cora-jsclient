@@ -154,3 +154,67 @@ QUnit.test("initTestHolderTwoButtonClick", function(assert) {
 	var holderView = holder.getView();
 	assert.notVisible(holderView);
 });
+
+QUnit.test("initTestToggleHolder", function(assert) {
+	var spec = {
+			"appendTo" : this.fixture
+	};
+	var holder = CORA.holder(spec);
+	var holderView = holder.getView();
+	assert.notVisible(holderView);
+	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
+	
+
+	var event = document.createEvent('Event');
+	holder.toggleHolder(event);
+	
+	assert.visible(holderView);
+	assert.strictEqual(holder.getStatus(), CORA.holder.OPEN);
+	
+	holder.toggleHolder(event);
+	
+	assert.notVisible(holderView);
+	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
+});
+QUnit.test("initTestOpenCloseHolder", function(assert) {
+	var wasCalled = 0;
+	function someFunction() {
+		wasCalled++;
+	}
+	var spec = {
+		"afterOpenClose" : someFunction,
+		"appendTo" : this.fixture
+	};
+	var holder = CORA.holder(spec);
+	var holderView = holder.getView();
+	assert.notVisible(holderView);
+	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
+	assert.strictEqual(wasCalled, 1);
+	
+	var event = document.createEvent('Event');
+
+	holder.openHolder(event);
+	assert.visible(holderView);
+	assert.strictEqual(holder.getStatus(), CORA.holder.OPEN);
+	assert.strictEqual(wasCalled, 2);
+	
+	holder.openHolder(event);
+	assert.visible(holderView);
+	assert.strictEqual(holder.getStatus(), CORA.holder.OPEN);
+	assert.strictEqual(wasCalled, 3);
+	
+	holder.closeHolder(event);
+	assert.notVisible(holderView);
+	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
+	assert.strictEqual(wasCalled, 4);
+	
+	holder.closeHolder(event);
+	assert.notVisible(holderView);
+	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
+	assert.strictEqual(wasCalled, 5);
+	
+	holder.openHolder(event);
+	assert.visible(holderView);
+	assert.strictEqual(holder.getStatus(), CORA.holder.OPEN);
+	assert.strictEqual(wasCalled, 6);
+});

@@ -223,6 +223,7 @@ QUnit.test("testInitCreatesALoginManager", function(assert) {
 	var factored= this.dependencies.loginManagerFactory.getFactored(0);
 	assert.ok(factored !== undefined);
 	assert.strictEqual(this.dependencies.loginManagerFactory.getSpec(0).afterLoginMethod, jsClient.afterLogin);
+	assert.strictEqual(this.dependencies.loginManagerFactory.getSpec(0).afterLogoutMethod, jsClient.afterLogout);
 	assert.strictEqual(this.dependencies.loginManagerFactory.getSpec(0).appTokenBaseUrl, "someAppTokenBaseUrl/");
 });
 
@@ -353,6 +354,14 @@ QUnit.test("testAfterLogin", function(assert) {
 	this.dependencies.recordTypeProvider = CORATEST.recordTypeProviderSpy();
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	jsClient.afterLogin(); 
+	assert.strictEqual(this.dependencies.recordTypeProvider.getCallWhenReloadedMethod(),
+			jsClient.afterRecordTypeProviderReload);
+});
+
+QUnit.test("testAfterLogout", function(assert) {
+	this.dependencies.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	jsClient.afterLogout(); 
 	assert.strictEqual(this.dependencies.recordTypeProvider.getCallWhenReloadedMethod(),
 			jsClient.afterRecordTypeProviderReload);
 });

@@ -35,6 +35,7 @@ var CORA = (function(cora) {
 
 			var loginManagerSpec = {
 				"afterLoginMethod" : afterLogin,
+				"afterLogoutMethod" : afterLogout,
 				"setErrorMessage" : jsClientView.addErrorMessage,
 				"appTokenBaseUrl" : spec.appTokenBaseUrl
 			};
@@ -242,6 +243,9 @@ var CORA = (function(cora) {
 		function afterLogin() {
 			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
 		}
+		function afterLogout() {
+			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
+		}
 
 		function afterRecordTypeProviderReload() {
 			// update recordList, etc
@@ -260,6 +264,7 @@ var CORA = (function(cora) {
 			createRecordHandlerFactory : createRecordHandlerFactory,
 			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
 			afterLogin : afterLogin,
+			afterLogout : afterLogout,
 			afterRecordTypeProviderReload : afterRecordTypeProviderReload
 		});
 		start();

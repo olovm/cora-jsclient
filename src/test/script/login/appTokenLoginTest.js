@@ -130,6 +130,7 @@ QUnit.test("testGetAuthTokenForAppToken", function(assert) {
 	assert.strictEqual(authInfo.userId, "someUserId");
 	assert.strictEqual(authInfo.token, "someAuthToken");
 	assert.strictEqual(authInfo.validForNoSeconds, "278");
+	assert.stringifyEqual(authInfo.actionLinks, tokenAnswer.actionLinks);
 });
 
 QUnit.test("testGetError", function(assert) {
