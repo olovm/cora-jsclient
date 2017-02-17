@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pRepeatingElement = function(spec) {
+	cora.pRepeatingElement = function(dependencies, spec) {
 		var repeatMin = spec.repeatMin;
 		var repeatMax = spec.repeatMax;
 		var path = spec.path;
@@ -40,21 +40,16 @@ var CORA = (function(cora) {
 		var buttonView = createButtonView();
 
 		function calculateIsRepeating() {
-			if (repeatMax > 1 || repeatMax === "X") {
-				return true;
-			}
-			return false;
+			return repeatMax > 1 || repeatMax === "X";
 		}
 
 		function calculateIsStaticNoOfChildren() {
-			if (repeatMax === repeatMin) {
-				return true;
-			}
-			return false;
+			return repeatMax === repeatMin;
 		}
 
 		function createBaseView() {
-			var repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");
+			var repeatingElement = CORA.gui
+					.createSpanWithClassName("repeatingElement");
 			if (spec.isRepeating) {
 				repeatingElement.ondragenter = ondragenterHandler;
 			}
@@ -70,10 +65,7 @@ var CORA = (function(cora) {
 		}
 
 		function isZeroToOne() {
-			if (repeatMin === "0" && repeatMax === "1") {
-				return true;
-			}
-			return false;
+			return repeatMin === "0" && repeatMax === "1";
 		}
 
 		function createButtonView() {
@@ -102,7 +94,8 @@ var CORA = (function(cora) {
 			return CORA.gui.createRemoveButton(removeFunction);
 		}
 		function createDragButton() {
-			var createdDragButton = CORA.gui.createSpanWithClassName("dragButton");
+			var createdDragButton = CORA.gui
+					.createSpanWithClassName("dragButton");
 			createdDragButton.onmousedown = function() {
 				view.draggable = "true";
 			};
@@ -118,16 +111,23 @@ var CORA = (function(cora) {
 
 		function addPresentation(presentation) {
 			presentationMaximized = presentation.getView();
-			presentationMaximized.className = presentationMaximized.className + " maximized";
+			presentationMaximized.className = presentationMaximized.className
+					+ " maximized";
 			view.insertBefore(presentationMaximized, buttonView);
+			view.className = "repeatingElement " + spec.textStyle + " "
+					+ spec.childStyle;
 		}
 
-		function addPresentationMinimized(presentationMinimizedIn, minimizedDefault) {
+		function addPresentationMinimized(presentationMinimizedIn,
+				minimizedDefault) {
 			presentationMinimized = presentationMinimizedIn.getView();
-			presentationMinimized.className = presentationMinimized.className + " minimized";
+			presentationMinimized.className = presentationMinimized.className
+					+ " minimized";
 			view.insertBefore(presentationMinimized, buttonView);
 			createMinimizeMaximizeButtons();
 			toggleMinimizedShown(minimizedDefault);
+			view.className = "repeatingElement " + spec.textStyleMinimized
+					+ " " + spec.childStyleMinimized;
 		}
 
 		function toggleMinimizedShown(minimizedShown) {
@@ -136,11 +136,15 @@ var CORA = (function(cora) {
 				show(presentationMinimized);
 				show(maximizeButton);
 				hide(minimizeButton);
+				view.className = "repeatingElement " + spec.textStyleMinimized
+						+ " " + spec.childStyleMinimized;
 			} else {
 				show(presentationMaximized);
 				hide(presentationMinimized);
 				hide(maximizeButton);
 				show(minimizeButton);
+				view.className = "repeatingElement " + spec.textStyle + " "
+						+ spec.childStyle;
 			}
 		}
 
@@ -196,8 +200,17 @@ var CORA = (function(cora) {
 			return path;
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+		function getSpec() {
+			return spec;
+		}
+
 		var out = Object.freeze({
 			"type" : "pRepeatingElement",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			addPresentation : addPresentation,
 			addPresentationMinimized : addPresentationMinimized,

@@ -118,7 +118,7 @@ QUnit.test("testDraggingDragenterIsDragging", function(assert) {
 	beeingDragged.id = "beeingDragged";
 	beeingDragged.className = "eventSpy";
 
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({},{});
 	pChildRefHandlerView.setRepeatingElementDragOver(pRepeatingElementSpy);
 	pRepeatingElementSpy.id = "draggedOver";
 	spanHolder.appendChild(pRepeatingElementSpy.getView());
@@ -149,7 +149,7 @@ QUnit.test("testDraggingDragenterIsDraggingNoDragEnterRepeatingElement", functio
 	beeingDragged.id = "beeingDragged";
 	beeingDragged.className = "eventSpy";
 
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy.id = "draggedOver";
 	spanHolder.appendChild(pRepeatingElementSpy.getView());
 
@@ -174,12 +174,12 @@ QUnit.test("testDraggingDragenterIsDraggingTwoChildren", function(assert) {
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
 
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy.id = "draggedOver";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy.getView());
 
-	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy2.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy2.id = "draggedOver2";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy2.getView());
@@ -213,12 +213,12 @@ QUnit.test("testDraggingDragenterIsDraggingChangeOrder", function(assert) {
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
 
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy.id = "draggedOver";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy.getView());
 
-	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy2.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy2.id = "draggedOver2";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy2.getView());
@@ -257,12 +257,12 @@ QUnit.test("testDropHandlerDragging", function(assert) {
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
 
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy.id = "draggedOver";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy.getView());
 
-	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy2.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy2.id = "draggedOver2";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy2.getView());
@@ -288,12 +288,12 @@ QUnit.test("testDropHandlerNotDragging", function(assert) {
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
 
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy.id = "draggedOver";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy.getView());
 
-	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy2.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy2.id = "draggedOver2";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy2.getView());
@@ -319,12 +319,12 @@ QUnit.test("testDragendNotDragging", function(assert) {
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
 
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy.id = "draggedOver";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy.getView());
 
-	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy2.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy2.id = "draggedOver2";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy2.getView());
@@ -350,12 +350,12 @@ QUnit.test("testDragendDragging", function(assert) {
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
 
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy.id = "draggedOver";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy.getView());
 
-	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy2.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy2.id = "draggedOver2";
 	pChildRefHandlerView.addChild(pRepeatingElementSpy2.getView());
@@ -397,7 +397,7 @@ QUnit.test("testDragendDraggingChangeOrder", function(assert) {
 			"value" : "one"
 		} ]
 	};
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy.setPath(path1);
 	pRepeatingElementSpy.id = "draggedOver";
@@ -413,7 +413,7 @@ QUnit.test("testDragendDraggingChangeOrder", function(assert) {
 			"value" : "two"
 		} ]
 	};
-	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy();
+	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({},{});
 	pRepeatingElementSpy2.setParentModelObject(pChildRefHandlerView);
 	pRepeatingElementSpy2.setPath(path2);
 	pRepeatingElementSpy2.id = "draggedOver2";

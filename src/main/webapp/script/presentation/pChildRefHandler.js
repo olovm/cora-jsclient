@@ -36,6 +36,7 @@ var CORA = (function(cora) {
 
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
+		
 
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
@@ -266,9 +267,15 @@ var CORA = (function(cora) {
 				"path" : path,
 				"jsBookkeeper" : spec.jsBookkeeper,
 				"parentModelObject" : pChildRefHandlerView,
-				"isRepeating" : isRepeating
+				"isRepeating" : isRepeating,
+//				"textStyle" : "h5TextStyle",
+//				"childStyle" : "fourChildStyle",
+//				"textStyleMinimized" : "h8TextStyle",
+//				"childStyleMinimized" : "oneChildStyle" 
 			};
-			return CORA.pRepeatingElement(repeatingElementSpec);
+//			return CORA.pRepeatingElement({},repeatingElementSpec);
+//			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
+			return spec.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}
 
 		function addPresentationsToRepeatingElementsView(repeatingElement, metadataIdToAdd) {
