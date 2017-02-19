@@ -151,21 +151,23 @@ var CORA = (function(cora) {
 			var pRepeatingElementFactoryDependenceis = {
 				"infoFactory" : CORA.infoFactory()
 			};
+			var childRefHandlerDependencies = {
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"jsBookkeeper" : jsBookkeeper,
+					"presentationFactory" : presentationFactory,
+					"recordTypeProvider" : recordTypeProvider,
+					"uploadManager" : dependencies.uploadManager,
+					"ajaxCallFactory" : dependencies.ajaxCallFactory,
+					"pRepeatingElementFactory" : CORA
+					.pRepeatingElementFactory(pRepeatingElementFactoryDependenceis)
+			};
 			var childRefHandlerSpec = {
 				"parentPath" : path,
 				"cParentMetadata" : getMetadataById(my.metadataId),
 				"cPresentation" : cPresentationChild,
-				"cParentPresentation" : my.cParentPresentation,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper,
-				"presentationFactory" : presentationFactory,
-				"recordTypeProvider" : recordTypeProvider,
-				"uploadManager" : dependencies.uploadManager,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"pRepeatingElementFactory" : CORA
-						.pRepeatingElementFactory(pRepeatingElementFactoryDependenceis)
+				"cParentPresentation" : my.cParentPresentation
 			};
 
 			if (childHasMinimizedPresenation(cPresentationChildRef)) {
@@ -209,7 +211,7 @@ var CORA = (function(cora) {
 				// }
 			}
 
-			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
+			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerDependencies, childRefHandlerSpec);
 			return pChildRefHandler.getView();
 		}
 

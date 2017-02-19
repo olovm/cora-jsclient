@@ -19,9 +19,9 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pChildRefHandler = function(spec) {
+	cora.pChildRefHandler = function(dependencies, spec) {
 		var metadataHelper = CORA.metadataHelper({
-			"metadataProvider" : spec.metadataProvider
+			"metadataProvider" : dependencies.metadataProvider
 		});
 		var presentationId = findPresentationId(spec.cPresentation);
 //		console.log("spec.cPresentation", spec.cPresentation)
@@ -53,8 +53,8 @@ var CORA = (function(cora) {
 		var collectedAttributes = collectAttributesForMetadataId(metadataId);
 
 		var pChildRefHandlerView = createPChildRefHandlerView();
-		spec.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
-		spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
+		dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
+		dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
 
 		var numberOfFilesToUpload = 0;
 		var numberOfRecordsForFilesCreated = 0;
@@ -95,7 +95,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
+			return CORA.coraData(dependencies.metadataProvider.getMetadataById(id));
 		}
 
 		function collectAttributesForMetadataId(metadataIdIn) {
@@ -173,7 +173,7 @@ var CORA = (function(cora) {
 		}
 
 		function getRecordTypeById(id) {
-			return CORA.coraData(spec.recordTypeProvider.getRecordTypeById(id).data);
+			return CORA.coraData(dependencies.recordTypeProvider.getRecordTypeById(id).data);
 		}
 
 		function isBinaryOrChildOfBinary(cRecordInfo, cRecordType) {
@@ -259,7 +259,7 @@ var CORA = (function(cora) {
 		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
 				parentPath) {
 			var pathSpec = {
-				"metadataProvider" : spec.metadataProvider,
+				"metadataProvider" : dependencies.metadataProvider,
 				"metadataIdToAdd" : metadataIdToAdd,
 				"repeatId" : repeatId,
 				"parentPath" : parentPath
@@ -272,7 +272,7 @@ var CORA = (function(cora) {
 				"repeatMin" : repeatMin,
 				"repeatMax" : repeatMax,
 				"path" : path,
-				"jsBookkeeper" : spec.jsBookkeeper,
+				"jsBookkeeper" : dependencies.jsBookkeeper,
 				"parentModelObject" : pChildRefHandlerView,
 				"isRepeating" : isRepeating,
 //				"textStyle" : spec.textStyle,
@@ -282,7 +282,7 @@ var CORA = (function(cora) {
 			};
 //			return CORA.pRepeatingElement({},repeatingElementSpec);
 //			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
-			return spec.pRepeatingElementFactory.factor(repeatingElementSpec);
+			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}
 
 		function addPresentationsToRepeatingElementsView(repeatingElement, metadataIdToAdd) {
@@ -301,7 +301,7 @@ var CORA = (function(cora) {
 
 		function factorPresentation(path, cPresentation, metadataIdToAdd) {
 			var metadataIdUsedInData = metadataIdToAdd;
-			return spec.presentationFactory.factor(path, metadataIdUsedInData, cPresentation,
+			return dependencies.presentationFactory.factor(path, metadataIdUsedInData, cPresentation,
 					spec.cParentPresentation);
 		}
 
@@ -315,7 +315,7 @@ var CORA = (function(cora) {
 					pChildRefHandlerView.removeChild(repeatingElement.getView());
 					childRemoved();
 				};
-				spec.pubSub.subscribe("remove", repeatingElement.getPath(), undefined,
+				dependencies.pubSub.subscribe("remove", repeatingElement.getPath(), undefined,
 						removeFunction);
 			}
 		}
@@ -384,7 +384,7 @@ var CORA = (function(cora) {
 			if (metadataHasAttributes) {
 				data.attributes = collectedAttributes;
 			}
-			return spec.jsBookkeeper.add(data);
+			return dependencies.jsBookkeeper.add(data);
 		}
 
 		function childMoved(moveInfo) {
@@ -395,7 +395,7 @@ var CORA = (function(cora) {
 				"basePositionOnChild" : moveInfo.basePositionOnChild,
 				"newPosition" : moveInfo.newPosition
 			};
-			spec.jsBookkeeper.move(data);
+			dependencies.jsBookkeeper.move(data);
 		}
 
 		function handleFiles(files) {
@@ -437,7 +437,7 @@ var CORA = (function(cora) {
 				"data" : JSON.stringify(data),
 				"file" : localFile
 			};
-			spec.ajaxCallFactory.factor(callSpec);
+			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function createNewBinaryData() {
@@ -465,7 +465,7 @@ var CORA = (function(cora) {
 		}
 
 		function getDataDividerFromSpec() {
-			return spec.presentationFactory.getDataDivider();
+			return dependencies.presentationFactory.getDataDivider();
 		}
 
 		function getNewMetadataGroupFromRecordType() {
@@ -479,7 +479,7 @@ var CORA = (function(cora) {
 		function getImplementingLinkedRecordType() {
 			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
 			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);
-			return spec.recordTypeProvider.getRecordTypeById(recordTypeId);
+			return dependencies.recordTypeProvider.getRecordTypeById(recordTypeId);
 		}
 
 		function getLinkedRecordTypeCreateLink() {
@@ -515,7 +515,7 @@ var CORA = (function(cora) {
 				"data" : createdRecordId,
 				"path" : newPath
 			};
-			spec.jsBookkeeper.setValue(setValueData);
+			dependencies.jsBookkeeper.setValue(setValueData);
 			var formData = new FormData();
 			formData.append("file", answer.spec.file);
 			formData.append("userId", "aUserName");
@@ -526,7 +526,7 @@ var CORA = (function(cora) {
 				"uploadLink" : uploadLink,
 				"file" : answer.spec.file
 			};
-			spec.uploadManager.upload(uploadSpec);
+			dependencies.uploadManager.upload(uploadSpec);
 			saveMainRecordIfRecordsAreCreatedForAllFiles();
 		}
 
@@ -544,7 +544,7 @@ var CORA = (function(cora) {
 		function saveMainRecordIfRecordsAreCreatedForAllFiles() {
 			numberOfRecordsForFilesCreated++;
 			if (numberOfFilesToUpload === numberOfRecordsForFilesCreated) {
-				spec.pubSub.publish("updateRecord", {
+				dependencies.pubSub.publish("updateRecord", {
 					"data" : "",
 					"path" : {}
 				});
