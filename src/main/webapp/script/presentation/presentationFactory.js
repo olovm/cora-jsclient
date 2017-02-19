@@ -28,31 +28,20 @@ var CORA = (function(cora) {
 				"infoFactory" : CORA.infoFactory()
 			};
 			var pVarViewFactory = CORA.pVarViewFactory(pVarViewFactoryDependencies);
-
-			var specNew = {
+			var childDependencies ={
 				"metadataProvider" : dependencies.metadataProvider,
 				"pubSub" : dependencies.pubSub,
 				"textProvider" : dependencies.textProvider,
 				"jsBookkeeper" : dependencies.jsBookkeeper,
 				"presentationFactory" : self,
+				"xmlHttpRequestFactory" : dependencies.xmlHttpRequestFactory,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"recordTypeProvider" : dependencies.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				// dependencies are doubled as we move to usning them collected as dependencies
-				"dependencies" : {
-					"metadataProvider" : dependencies.metadataProvider,
-					"pubSub" : dependencies.pubSub,
-					"textProvider" : dependencies.textProvider,
-					"jsBookkeeper" : dependencies.jsBookkeeper,
-					"presentationFactory" : self,
-					"xmlHttpRequestFactory" : dependencies.xmlHttpRequestFactory,
-					"recordGuiFactory" : dependencies.recordGuiFactory,
-					"recordTypeProvider" : dependencies.recordTypeProvider,
-					"uploadManager" : dependencies.uploadManager,
-					"ajaxCallFactory" : dependencies.ajaxCallFactory,
-					"pVarViewFactory" : pVarViewFactory
-				},
+				"pVarViewFactory" : pVarViewFactory
+			};
+			var specNew = {
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,
 				"cPresentation" : cPresentation,
@@ -61,21 +50,21 @@ var CORA = (function(cora) {
 
 			var type = cPresentation.getData().attributes.type;
 			if (type === "pVar") {
-				return CORA.pVar(specNew);
+				return CORA.pVar(childDependencies, specNew);
 			} else if (type === "pGroup") {
-				return CORA.pGroup(specNew);
+				return CORA.pGroup(childDependencies, specNew);
 			} else if (type === "pRecordLink") {
-				return CORA.pRecordLink(specNew);
+				return CORA.pRecordLink(childDependencies, specNew);
 			} else if (type === "pCollVar") {
-				return CORA.pCollectionVar(specNew);
+				return CORA.pCollectionVar(childDependencies, specNew);
 			} else if (type === "pResourceLink") {
 				return CORA.pResourceLink(dependencies, specNew);
 			} else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {
-					return CORA.pRepeatingContainer(specNew);
+					return CORA.pRepeatingContainer(childDependencies, specNew);
 				}
-				return CORA.pSurroundingContainer(specNew);
+				return CORA.pSurroundingContainer(childDependencies, specNew);
 			}
 		}
 

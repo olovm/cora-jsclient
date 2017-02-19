@@ -18,13 +18,13 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pCollectionVar = function(spec) {
+	cora.pCollectionVar = function(dependencies, spec) {
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
-		var metadataProvider = spec.metadataProvider;
-		var pubSub = spec.pubSub;
-		var textProvider = spec.textProvider;
-		var jsBookkeeper = spec.jsBookkeeper;
+		var metadataProvider = dependencies.metadataProvider;
+		var pubSub = dependencies.pubSub;
+		var textProvider = dependencies.textProvider;
+		var jsBookkeeper = dependencies.jsBookkeeper;
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");

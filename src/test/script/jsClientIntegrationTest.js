@@ -111,18 +111,18 @@ QUnit.test("testIntegrateCoraPubSubPVar", function(assert) {
 
 	var cPVarPresentation = CORA.coraData(this.metadataProvider
 			.getMetadataById("pVarTextVariableIdOutput"));
-	var spec = {
-		"path" : path,
-		"metadataIdUsedInData" : "textVariableId",
-		"cPresentation" : cPVarPresentation,
-		"dependencies":{
+	var dependencies = {
 			"metadataProvider" : this.metadataProvider,
 			"pubSub" : this.pubSub,
 			"textProvider" : this.textProvider,
 			"pVarViewFactory" : this.pVarViewFactory
-		},
 	};
-	var pVar = CORA.pVar(spec);
+	var spec = {
+		"path" : path,
+		"metadataIdUsedInData" : "textVariableId",
+		"cPresentation" : cPVarPresentation
+	};
+	var pVar = CORA.pVar(dependencies, spec);
 
 	pVar.setValue("A Value");
 	var pVarViewSpy = this.pVarViewFactory.getFactored(0);

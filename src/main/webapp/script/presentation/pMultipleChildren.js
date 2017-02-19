@@ -19,14 +19,14 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pMultipleChildren = function(spec, my) {
+	cora.pMultipleChildren = function(dependencies, spec, my) {
 		var path = spec.path;
-		var metadataProvider = spec.metadataProvider;
-		var pubSub = spec.pubSub;
-		var textProvider = spec.textProvider;
-		var jsBookkeeper = spec.jsBookkeeper;
-		var presentationFactory = spec.presentationFactory;
-		var recordTypeProvider = spec.recordTypeProvider;
+		var metadataProvider = dependencies.metadataProvider;
+		var pubSub = dependencies.pubSub;
+		var textProvider = dependencies.textProvider;
+		var jsBookkeeper = dependencies.jsBookkeeper;
+		var presentationFactory = dependencies.presentationFactory;
+		var recordTypeProvider = dependencies.recordTypeProvider;
 
 		var view;
 		var originalClassName;
@@ -162,8 +162,8 @@ var CORA = (function(cora) {
 				"jsBookkeeper" : jsBookkeeper,
 				"presentationFactory" : presentationFactory,
 				"recordTypeProvider" : recordTypeProvider,
-				"uploadManager" : spec.uploadManager,
-				"ajaxCallFactory" : spec.ajaxCallFactory,
+				"uploadManager" : dependencies.uploadManager,
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"pRepeatingElementFactory" : CORA
 						.pRepeatingElementFactory(pRepeatingElementFactoryDependenceis)
 			};
@@ -186,6 +186,7 @@ var CORA = (function(cora) {
 				var repeatingElementFactorySpec = {
 					"infoFactory" : CORA.infoFactory()
 				};
+				//TODO: factories, can create "child" factories... so spy creates spy etc :)
 				childRefHandlerSpec.pRepeatingElementFactory = CORA
 						.pRepeatingElementFactory(repeatingElementFactorySpec);
 				// todo: add info about, from child to refGroup / refMinGroup
@@ -217,7 +218,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
+			return CORA.coraData(dependencies.metadataProvider.getMetadataById(id));
 		}
 
 		function getPresentationId() {

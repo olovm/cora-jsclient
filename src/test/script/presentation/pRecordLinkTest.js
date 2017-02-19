@@ -26,18 +26,20 @@ var CORATEST = (function(coraTest) {
 			var cPRecordLinkPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(pRecordLinkPresentationId));
 
+			var dependencies = {
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"presentationFactory" : presentationFactory,
+					"jsBookkeeper" : jsBookkeeper,
+					"recordGuiFactory" : recordGuiFactory,
+					"ajaxCallFactory" : ajaxCallFactory
+			}
 			var spec = {
 				"path" : path,
 				"cPresentation" : cPRecordLinkPresentation,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"presentationFactory" : presentationFactory,
-				"jsBookkeeper" : jsBookkeeper,
-				"recordGuiFactory" : recordGuiFactory,
-				"ajaxCallFactory" : ajaxCallFactory
 			};
-			var pRecordLink = CORA.pRecordLink(spec);
+			var pRecordLink = CORA.pRecordLink(dependencies, spec);
 			var view = pRecordLink.getView();
 			fixture.appendChild(view);
 			var childrenView = view.firstChild;

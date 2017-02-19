@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pGroup = function(spec) {
+	cora.pGroup = function(dependencies, spec) {
 		var cPresentation = spec.cPresentation;
 
 		var my = {};
@@ -29,7 +29,7 @@ var CORA = (function(cora) {
 		my.cParentPresentation = cPresentation;
 		my.createBaseViewHolder = createBaseViewHolder;
 
-		var parent = CORA.pMultipleChildren(spec, my);
+		var parent = CORA.pMultipleChildren(dependencies, spec, my);
 		parent.init();
 
 		function createBaseViewHolder() {

@@ -24,19 +24,26 @@ var CORA = (function(cora) {
 			"metadataProvider" : spec.metadataProvider
 		});
 		var presentationId = findPresentationId(spec.cPresentation);
+//		console.log("spec.cPresentation", spec.cPresentation)
 		var metadataIdFromPresentation = getMetadataIdFromPresentation();
 		var cParentMetadataChildRefPart = metadataHelper.getChildRefPartOfMetadata(
 				spec.cParentMetadata, metadataIdFromPresentation);
+//		console.log("cParentMetadataChildRefPart ",JSON.stringify(cParentMetadataChildRefPart.getData()))
 		if (childRefFoundInCurrentlyUsedParentMetadata()) {
 			return createFakePChildRefHandlerAsWeDoNotHaveMetadataToWorkWith();
 		}
 		var cRef = CORA.coraData(cParentMetadataChildRefPart.getFirstChildByNameInData("ref"));
+//		console.log("cRef: ", JSON.stringify(cRef.getData()))
 		var metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 		var cMetadataElement = getMetadataById(metadataId);
 
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
 		
+//		var textStyle = cParentMetadataChildRefPart.getFirstChildByNameInData("textStyle");
+//		var childStyle = cParentMetadataChildRefPart.getFirstChildByNameInData("childStyle");
+//		var textStyleMinimized = cParentMetadataChildRefPart.getFirstChildByNameInData("textStyle");
+//		var childStyleMinimized = cParentMetadataChildRefPart.getFirstChildByNameInData("childStyle");
 
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
@@ -268,10 +275,10 @@ var CORA = (function(cora) {
 				"jsBookkeeper" : spec.jsBookkeeper,
 				"parentModelObject" : pChildRefHandlerView,
 				"isRepeating" : isRepeating,
-//				"textStyle" : "h5TextStyle",
-//				"childStyle" : "fourChildStyle",
-//				"textStyleMinimized" : "h8TextStyle",
-//				"childStyleMinimized" : "oneChildStyle" 
+//				"textStyle" : spec.textStyle,
+//				"childStyle" : spec.childStyle,
+//				"textStyleMinimized" : spec.textStyleMinimized,
+//				"childStyleMinimized" : spec.childStyleMinimized 
 			};
 //			return CORA.pRepeatingElement({},repeatingElementSpec);
 //			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);

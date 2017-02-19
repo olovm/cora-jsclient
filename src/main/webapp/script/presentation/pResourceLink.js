@@ -40,7 +40,7 @@ var CORA = (function(cora) {
 			my.cParentPresentation = cPresentation;
 			my.createBaseViewHolder = createBaseViewHolder;
 
-			parent = CORA.pMultipleChildren(spec, my);
+			parent = CORA.pMultipleChildren(dependencies, spec, my);
 			parent.init();
 		}
 
@@ -75,7 +75,7 @@ var CORA = (function(cora) {
 
 		function createDownload() {
 			resourceView = document.createElement("a");
-			resourceView.appendChild(document.createTextNode(spec.textProvider
+			resourceView.appendChild(document.createTextNode(dependencies.textProvider
 					.getTranslation("resourceLinkDownloadText")));
 			resourceView.target = "_blank";
 		}
@@ -100,7 +100,7 @@ var CORA = (function(cora) {
 		}
 
 		function subscribeToLinkedResourceMessage() {
-			spec.pubSub.subscribe("linkedResource", spec.path, undefined, handleMsg);
+			dependencies.pubSub.subscribe("linkedResource", spec.path, undefined, handleMsg);
 		}
 
 		function handleMsg(dataFromMsg) {

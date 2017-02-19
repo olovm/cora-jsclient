@@ -24,17 +24,18 @@ var CORATEST = (function(coraTest) {
 		var factor = function(path, pRepeatingContainerId) {
 			var cPRepeatingContainer = CORA.coraData(metadataProvider
 					.getMetadataById(pRepeatingContainerId));
+			var dependencies = {
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"presentationFactory" : presentationFactory,
+					"jsBookkeeper" : jsBookkeeper
+			};
 			var spec = {
 				"path" : path,
 				"cPresentation" : cPRepeatingContainer,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"presentationFactory" : presentationFactory,
-				"jsBookkeeper" : jsBookkeeper
-
 			};
-			var pRepeatingContainer = CORA.pRepeatingContainer(spec);
+			var pRepeatingContainer = CORA.pRepeatingContainer(dependencies, spec);
 			var view = pRepeatingContainer.getView();
 			fixture.appendChild(view);
 			var valueView = view.firstChild;

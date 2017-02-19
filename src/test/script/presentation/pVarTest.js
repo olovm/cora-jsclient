@@ -25,19 +25,19 @@ var CORATEST = (function(coraTest) {
 		var factor = function(path, metadataIdUsedInData, pVarPresentationId) {
 			var cPVarPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(pVarPresentationId));
-			var spec = {
-				"dependencies" : {
+			var dependencies = {
 					"metadataProvider" : metadataProvider,
 					"pubSub" : pubSub,
 					"textProvider" : textProvider,
 					"jsBookkeeper" : jsBookkeeper,
 					"pVarViewFactory" : pVarViewFactory
-				},
+				};
+			var spec = {
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,
 				"cPresentation" : cPVarPresentation
 			};
-			var pVar = CORA.pVar(spec);
+			var pVar = CORA.pVar(dependencies, spec);
 			return {
 				spec : spec,
 				pVar : pVar,

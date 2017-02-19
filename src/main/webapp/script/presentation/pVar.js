@@ -19,11 +19,11 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pVar = function(spec) {
-		var metadataProvider = spec.dependencies.metadataProvider;
-		var pubSub = spec.dependencies.pubSub;
-		var textProvider = spec.dependencies.textProvider;
-		var jsBookkeeper = spec.dependencies.jsBookkeeper;
+	cora.pVar = function(dependencies, spec) {
+		var metadataProvider = dependencies.metadataProvider;
+		var pubSub = dependencies.pubSub;
+		var textProvider = dependencies.textProvider;
+		var jsBookkeeper = dependencies.jsBookkeeper;
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
@@ -63,7 +63,7 @@ var CORA = (function(cora) {
 			var emptyText = textProvider.getTranslation(emptyTextId);
 			pVarViewSpec.placeholderText = emptyText;
 		}
-		var pVarView = spec.dependencies.pVarViewFactory.factor(pVarViewSpec);
+		var pVarView = dependencies.pVarViewFactory.factor(pVarViewSpec);
 
 		var state = "ok";
 		var previousValue = "";

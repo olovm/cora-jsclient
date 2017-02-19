@@ -18,57 +18,6 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-//var CORATEST = (function(coraTest) {
-//	"use strict";
-//	coraTest.attachedPChildRefHandlerFactory = function(metadataProvider, pubSub, textProvider,
-//			presentationFactory, jsBookkeeper, recordTypeProvider, fixture) {
-//		var factor = function(path, parentMetadataId, presentationId) {
-//			var cParentMetadata = CORA.coraData(metadataProvider.getMetadataById(parentMetadataId));
-//			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
-//
-//			var uploadManager = CORATEST.uploadManagerSpy();
-//
-//			var ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-//			var pRepeatingElementFactory = CORATEST.pRepeatingElementFactorySpy();
-//			var spec = {
-//				"parentPath" : path,
-//				"cParentMetadata" : cParentMetadata,
-//				"cPresentation" : cPresentation,
-//				"metadataProvider" : metadataProvider,
-//				"pubSub" : pubSub,
-//				"textProvider" : textProvider,
-//				"presentationFactory" : presentationFactory,
-//				"jsBookkeeper" : jsBookkeeper,
-//				"recordTypeProvider" : recordTypeProvider,
-//				"uploadManager" : uploadManager,
-//				"ajaxCallFactory" : ajaxCallFactorySpy,
-//				"pRepeatingElementFactory":pRepeatingElementFactory
-//			};
-//
-//			var pChildRefHandler = CORA.pChildRefHandler(spec);
-//			var view = pChildRefHandler.getView();
-//			fixture.appendChild(view);
-//			return {
-//				pChildRefHandler : pChildRefHandler,
-//				fixture : fixture,
-//				metadataProvider : metadataProvider,
-//				pubSub : pubSub,
-//				jsBookkeeper : jsBookkeeper,
-//				view : view,
-//				ajaxCallFactorySpy : ajaxCallFactorySpy,
-//				uploadManager : uploadManager,
-//				pRepeatingElementFactory:pRepeatingElementFactory
-//			};
-//
-//		};
-//		return Object.freeze({
-//			factor : factor
-//		});
-//	};
-//
-//	return coraTest;
-//}(CORATEST || {}));
-
 QUnit.module("pChildRefHandlerTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");

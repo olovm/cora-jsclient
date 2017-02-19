@@ -24,20 +24,22 @@ var CORATEST = (function(coraTest) {
 			presentationFactory, jsBookkeeper, recordTypeProvider, fixture) {
 		var factor = function(presentationId, metadataIdUsedInData) {
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
+			var dependencies = {
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"presentationFactory" : presentationFactory,
+					"jsBookkeeper" : jsBookkeeper,
+					"recordTypeProvider" : recordTypeProvider
+			};
 			var spec = {
 				"metadataIdUsedInData" : metadataIdUsedInData,
 				"path" : {},
 				"cPresentation" : cPresentation,
 				"cParentPresentation" : undefined,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"presentationFactory" : presentationFactory,
-				"jsBookkeeper" : jsBookkeeper,
-				"recordTypeProvider" : recordTypeProvider,
 				"dataDivider" : "systemX"
 			};
-			var pGroup = CORA.pGroup(spec);
+			var pGroup = CORA.pGroup(dependencies, spec);
 
 			var view = pGroup.getView();
 			fixture.appendChild(view);

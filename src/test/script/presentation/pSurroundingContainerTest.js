@@ -28,20 +28,21 @@ var CORATEST = (function(coraTest) {
 					.getMetadataById(pSurroundingContainerId));
 			var cParentPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(presentationParentId));
+			var dependencies = {
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"presentationFactory" : presentationFactory,
+					"jsBookkeeper" : jsBookkeeper,
+					"recordTypeProvider" : recordTypeProvider
+			};
 			var spec = {
 				"metadataIdUsedInData" : metadataIdUsedInData,
 				"path" : path,
 				"cPresentation" : cPSurroundingContainer,
-				"cParentPresentation" : cParentPresentation,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"presentationFactory" : presentationFactory,
-				"jsBookkeeper" : jsBookkeeper,
-				"recordTypeProvider" : recordTypeProvider
-
+				"cParentPresentation" : cParentPresentation
 			};
-			var pSurroundingContainer = CORA.pSurroundingContainer(spec);
+			var pSurroundingContainer = CORA.pSurroundingContainer(dependencies, spec);
 			var view = pSurroundingContainer.getView();
 			fixture.appendChild(view);
 			var valueView = view.firstChild;

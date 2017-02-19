@@ -25,18 +25,18 @@ var CORATEST = (function(coraTest) {
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
 
 			var dependencies = {
-				"authTokenHolder" : CORATEST.authTokenHolderSpy()
-			};
-			var spec = {
-				"path" : {},
-				"cPresentation" : cPresentation,
-				"cParentPresentation" : undefined,
+				"authTokenHolder" : CORATEST.authTokenHolderSpy(),
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
 				"textProvider" : textProvider,
 				"presentationFactory" : presentationFactory,
 				"jsBookkeeper" : jsBookkeeper,
 				"recordTypeProvider" : recordTypeProvider,
+			};
+			var spec = {
+				"path" : {},
+				"cPresentation" : cPresentation,
+				"cParentPresentation" : undefined,
 				"dataDivider" : "systemX"
 			};
 			var pResourceLink = CORA.pResourceLink(dependencies, spec);
