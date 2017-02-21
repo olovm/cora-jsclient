@@ -112,7 +112,7 @@ QUnit.test("testInitLoginManagerViewSpec", function(assert) {
 	var factoredSpec = factoredView.getSpec();
 
 	var expectedLoginOptions = [ {
-		"text" : "appToken as 131313",
+		"text" : "appToken as 141414",
 		"call" : loginManager.appTokenLogin
 	} ];
 	var factoredLoginOptions = factoredSpec.loginOptions;
@@ -142,8 +142,8 @@ QUnit.test("testAppTokenLoginCallsServerOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;
 	loginManager.appTokenLogin(0);
 	var factored0 = this.dependencies.appTokenLoginFactory.getFactored(0);
-	assert.strictEqual(factored0.getUserId(0), "131313");
-	assert.strictEqual(factored0.getAppToken(0), "44c17361-ead7-43b5-a938-038765873037");
+	assert.strictEqual(factored0.getUserId(0), "141414");
+	assert.strictEqual(factored0.getAppToken(0), "63e6bd34-02a1-4c82-8001-158c104cae0e");
 });
 
 QUnit.test("testAuthTokenIsSetInAuthTokenHolderOnAppTokenLogin", function(assert) {
