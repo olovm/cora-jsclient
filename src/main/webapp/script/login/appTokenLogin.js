@@ -20,6 +20,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.appTokenLogin = function(dependencies, spec) {
 		var userId;
+
 		function login(userIdIn, appToken) {
 			userId = userIdIn;
 			var callSpec = createCallSpec(appToken);
@@ -57,7 +58,8 @@ var CORA = (function(cora) {
 			var authInfo = {
 				"userId" : userId,
 				"token" : token,
-				"validForNoSeconds" : validForNoSeconds
+				"validForNoSeconds" : validForNoSeconds,
+				"actionLinks" : everything.actionLinks
 			};
 			spec.authInfoCallback(authInfo);
 		}

@@ -35,7 +35,7 @@ var CORATEST = (function(coraTest) {
 		function setCurrentAuthTokenExists(exists) {
 			currentAuthTokenExists = exists;
 		}
-		function getToken(number){
+		function getToken(number) {
 			return tokens[number];
 		}
 		var out = Object.freeze({

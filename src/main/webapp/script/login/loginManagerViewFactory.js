@@ -24,11 +24,11 @@ var CORA = (function(cora) {
 			return dependencies;
 		}
 
-		function factor() {
+		function factor(spec) {
 			var loginManagerViewDependencies = {
 				"textProvider" : dependencies.textProvider
 			};
-			return CORA.loginManagerView(loginManagerViewDependencies);
+			return CORA.loginManagerView(loginManagerViewDependencies, spec);
 		}
 
 		var out = Object.freeze({

@@ -45,26 +45,33 @@ var CORA = (function(cora) {
 
 		function toggleHolder(event) {
 			if (status === cora.holder.OPEN) {
-				close();
+				close(event);
 			} else {
-				open();
+				open(event);
 			}
+		}
+
+		function open(event) {
+			status = cora.holder.OPEN;
+			view.style.display = view.previousDisplay;
+			possiblyCallAfterOpenClose(event);
+		}
+		function possiblyCallAfterOpenClose(event) {
 			if (spec.afterOpenClose !== undefined) {
 				spec.afterOpenClose(event);
 			}
 		}
-		function open() {
-			status = cora.holder.OPEN;
-			view.style.display = view.previousDisplay;
-		}
-		function close() {
+		function close(event) {
 			status = cora.holder.CLOSED;
-			view.previousDisplay = view.style.display;
+			if (view.style.display !== "none") {
+				view.previousDisplay = view.style.display;
+			}
 			view.style.display = "none";
+			possiblyCallAfterOpenClose(event);
 		}
 
 		function createBaseView() {
-			return CORA.gui.createSpanWithClassName("holder"+getClassNameFromSpec());
+			return CORA.gui.createSpanWithClassName("holder" + getClassNameFromSpec());
 		}
 
 		function addBaseViewAccordingToSpec() {
@@ -90,6 +97,8 @@ var CORA = (function(cora) {
 		var out = Object.freeze({
 			getButton : getButton,
 			toggleHolder : toggleHolder,
+			openHolder : open,
+			closeHolder : close,
 			getView : getView,
 			getStatus : getStatus
 		});

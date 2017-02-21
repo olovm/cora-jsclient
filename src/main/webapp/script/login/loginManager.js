@@ -21,28 +21,32 @@ var CORA = (function(cora) {
 	cora.loginManager = function(dependencies, spec) {
 		var out;
 		var loginManagerView;
+		var authInfo;
 
 		function start() {
-			loginManagerView = dependencies.loginManagerViewFactory.factor();
 
 			var loginOptions = [ {
-				"text" : "appToken as 141414",
+				"text" : "appToken as 131313",
 				"call" : appTokenLogin
 			} ];
-
-			loginManagerView.setLoginOptions(loginOptions);
+			var viewSpec = {
+				"loginOptions" : loginOptions,
+				"logoutMethod" : logout
+			};
+			loginManagerView = dependencies.loginManagerViewFactory.factor(viewSpec);
 		}
 		function appTokenLogin() {
 			var appTokenLoginFactorySpec = {
 				"requestMethod" : "POST",
-				"url" : spec.appTokenBaseUrl+"apptokenverifier/rest/apptoken/",
+				"url" : spec.appTokenBaseUrl + "apptokenverifier/rest/apptoken/",
 				"accept" : "",
 				"authInfoCallback" : appTokenAuthInfoCallback,
 				"errorCallback" : appTokenErrorCallback,
 				"timeoutCallback" : appTokenTimeoutCallback
 			};
-			var factoredAppTokenLogin = dependencies.appTokenLoginFactory.factor(appTokenLoginFactorySpec);
-			factoredAppTokenLogin.login("141414", "63e6bd34-02a1-4c82-8001-158c104cae0e");
+			var factoredAppTokenLogin = dependencies.appTokenLoginFactory
+					.factor(appTokenLoginFactorySpec);
+			factoredAppTokenLogin.login("131313", "44c17361-ead7-43b5-a938-038765873037");
 		}
 
 		function getDependencies() {
@@ -53,10 +57,11 @@ var CORA = (function(cora) {
 			return loginManagerView.getHtml();
 		}
 
-		function appTokenAuthInfoCallback(authInfo) {
+		function appTokenAuthInfoCallback(authInfoIn) {
+			authInfo = authInfoIn;
 			dependencies.authTokenHolder.setCurrentAuthToken(authInfo.token);
 			loginManagerView.setUserId(authInfo.userId);
-
+			loginManagerView.setState(CORA.loginManager.LOGGEDIN);
 			spec.afterLoginMethod();
 		}
 		function appTokenErrorCallback() {
@@ -65,22 +70,48 @@ var CORA = (function(cora) {
 		function appTokenTimeoutCallback() {
 			spec.setErrorMessage("AppToken login timedout!");
 		}
+
+		function logout() {
+			var deleteLink = authInfo.actionLinks['delete'];
+			var callSpec = {
+				"requestMethod" : deleteLink.requestMethod,
+				"url" : deleteLink.url,
+				"loadMethod" : logoutCallback,
+				"errorMethod" : appTokenErrorCallback,
+				"timeoutMethod" : appTokenTimeoutCallback,
+				"data" : authInfo.token,
+				"timeoutInMS" : 15000
+			};
+			dependencies.ajaxCallFactory.factor(callSpec);
+		}
+
+		function logoutCallback() {
+			loginManagerView.setState(CORA.loginManager.LOGGEDOUT);
+			dependencies.authTokenHolder.setCurrentAuthToken("");
+			spec.afterLogoutMethod();
+		}
+
 		function getSpec() {
 			// needed for test
 			return spec;
 		}
+
 		out = Object.freeze({
 			"type" : "loginManager",
 			getDependencies : getDependencies,
 			getHtml : getHtml,
 			appTokenLogin : appTokenLogin,
+			logout : logout,
 			appTokenAuthInfoCallback : appTokenAuthInfoCallback,
 			appTokenErrorCallback : appTokenErrorCallback,
 			appTokenTimeoutCallback : appTokenTimeoutCallback,
+			logoutCallback : logoutCallback,
 			getSpec : getSpec
 		});
 		start();
 		return out;
 	};
+	cora.loginManager.LOGGEDOUT = 0;
+	cora.loginManager.LOGGEDIN = 1;
 	return cora;
 }(CORA));

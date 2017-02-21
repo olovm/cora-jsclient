@@ -21,7 +21,7 @@ var CORATEST = (function(coraTest) {
 	coraTest.loginManagerViewFactorySpy = function(spec) {
 		var factoredLoginManagers = [];
 		function factor(loginManagerViewSpec) {
-			var factoredAjaxCall = CORATEST.loginManagerViewSpy(loginManagerViewSpec);
+			var factoredAjaxCall = CORATEST.loginManagerViewSpy({},loginManagerViewSpec);
 			factoredLoginManagers.push(factoredAjaxCall);
 			return factoredAjaxCall;
 		}
