@@ -561,8 +561,15 @@ var CORA = (function(cora) {
 			errorChild.innerHTML = messageSpec.message;
 			pChildRefHandlerView.addChild(errorChild);
 		}
-
+		function getDependencies(){
+			return dependencies;
+		}
+		function getSpec(){
+			return spec;
+		}
 		var out = Object.freeze({
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			add : add,
 			handleMsg : handleMsg,

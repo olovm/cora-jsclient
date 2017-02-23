@@ -27,8 +27,27 @@ var CORA = (function(cora) {
 			var pVarViewFactoryDependencies = {
 				"infoFactory" : CORA.infoFactory()
 			};
+			var pRepeatingElementFactoryDependencies = {
+				"infoFactory" : CORATEST.infoFactorySpy()
+			};
 			var pVarViewFactory = CORA.pVarViewFactory(pVarViewFactoryDependencies);
-			var childDependencies ={
+
+			var pChildRefHandlerFactoryDependencies = {
+				"metadataProvider" : dependencies.metadataProvider,
+				"pubSub" : dependencies.pubSub,
+				"textProvider" : dependencies.textProvider,
+				"presentationFactory" : self,
+				"jsBookkeeper" : dependencies.jsBookkeeper,
+				"recordTypeProvider" : dependencies.recordTypeProvider,
+				"uploadManager" : dependencies.uploadManager,
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"pRepeatingElementFactory" : CORA
+						.pRepeatingElementFactory(pRepeatingElementFactoryDependencies)
+			};
+			var pChildRefHandlerFactory = CORA
+					.pChildRefHandlerFactory(pChildRefHandlerFactoryDependencies);
+			
+			var childDependencies = {
 				"metadataProvider" : dependencies.metadataProvider,
 				"pubSub" : dependencies.pubSub,
 				"textProvider" : dependencies.textProvider,
@@ -39,7 +58,8 @@ var CORA = (function(cora) {
 				"recordTypeProvider" : dependencies.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"pVarViewFactory" : pVarViewFactory
+				"pVarViewFactory" : pVarViewFactory,
+				"pChildRefHandlerFactory" : pChildRefHandlerFactory
 			};
 			var specNew = {
 				"path" : path,

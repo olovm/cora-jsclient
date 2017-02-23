@@ -94,5 +94,5 @@ QUnit.test("testInit",
 			var recordInfo = requestedCPresentation.getFirstChildByNameInData("recordInfo");
 
 			var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
-			assert.strictEqual(presentationId, "pVarTextVariableId");
+			assert.strictEqual(presentationId, "pVarTextVariableIdOutput");
 		});

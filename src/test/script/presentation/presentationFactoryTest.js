@@ -32,7 +32,8 @@ QUnit.module("presentationFactoryTest.js", {
 				"textProvider" : this.textProvider,
 				"jsBookkeeper" : this.jsBookkeeper,
 				"recordTypeProvider" : this.recordTypeProvider,
-				"dataDivider" : this.dataDivider
+				"dataDivider" : this.dataDivider,
+				"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy()
 			};
 		this.newPresentationFactory =  CORA.presentationFactory(this.dependencies);
 		
@@ -76,6 +77,16 @@ QUnit.test("testFactorPGroup", function(assert) {
 	
 	var pGroup = this.newPresentationFactory.factor({}, "groupIdOneTextChild", cPresentation);
 	assert.strictEqual(pGroup.type, "pGroup");
+});
+
+QUnit.test("testFactorPGroupDependencies", function(assert) {
+	var presentationIdToFactor = "pgGroupIdOneTextChild";
+	var cPresentation = CORA
+	.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
+	
+	var pGroup = this.newPresentationFactory.factor({}, "groupIdOneTextChild", cPresentation);
+	var dependencies = pGroup.getDependencies();
+	assert.strictEqual(dependencies.pChildRefHandlerFactory.type, "pChildRefHandlerFactory");
 });
 
 QUnit.test("testFactorPRepeatingContainer", function(assert) {

@@ -308,7 +308,7 @@ QUnit.test("testInitTextOutput", function(assert) {
 		"inputType" : "input",
 		"mode" : "output",
 		"outputFormat" : "text",
-		"presentationId" : "pVarTextVariableId"
+		"presentationId" : "pVarTextVariableIdOutput"
 	};
 	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
 			"defTextId: textVariableIdDefText", "metadataId: textVariableId",

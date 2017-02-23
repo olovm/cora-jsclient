@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -18,79 +18,69 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-var CORATEST = (function(coraTest) {
-	"use strict";
-	coraTest.attachedPGroupFactory = function(metadataProvider, pubSub, textProvider,
-			presentationFactory, jsBookkeeper, recordTypeProvider, fixture) {
-		var factor = function(presentationId, metadataIdUsedInData) {
-			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
-			var dependencies = {
-					"metadataProvider" : metadataProvider,
-					"pubSub" : pubSub,
-					"textProvider" : textProvider,
-					"presentationFactory" : presentationFactory,
-					"jsBookkeeper" : jsBookkeeper,
-					"recordTypeProvider" : recordTypeProvider
-			};
-			var spec = {
-				"metadataIdUsedInData" : metadataIdUsedInData,
-				"path" : {},
-				"cPresentation" : cPresentation,
-				"cParentPresentation" : undefined,
-				"dataDivider" : "systemX"
-			};
-			var pGroup = CORA.pGroup(dependencies, spec);
-
-			var view = pGroup.getView();
-			fixture.appendChild(view);
-			return {
-				pGroup : pGroup,
-				fixture : fixture,
-				metadataProvider : metadataProvider,
-				pubSub : pubSub,
-				view : view
-			};
-
-		};
-		return Object.freeze({
-			factor : factor
-		});
-	};
-
-	return coraTest;
-}(CORATEST || {}));
 
 QUnit.module("pGroupTest.js", {
 	beforeEach : function() {
+		this.getId = function (cData){
+			var recordInfo = cData.getFirstChildByNameInData("recordInfo");
+			var id = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+			return id;
+		}
+		
 		this.fixture = document.getElementById("qunit-fixture");
-		this.metadataProvider = new MetadataProviderStub();
-		this.pubSub = CORATEST.pubSubSpy();
-		this.textProvider = CORATEST.textProviderStub();
-		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
-		this.presentationFactory = CORATEST.presentationFactorySpy();
-		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
-		this.newAttachedPGroup = CORATEST.attachedPGroupFactory(this.metadataProvider, this.pubSub,
-				this.textProvider, this.presentationFactory, this.jsBookkeeper,
-				this.recordTypeProvider, this.fixture);
+		this.dependencies = {
+			"metadataProvider" : new MetadataProviderStub(),
+			"pubSub" : CORATEST.pubSubSpy(),
+			"textProvider" : CORATEST.textProviderStub(),
+			"presentationFactory" : CORATEST.presentationFactorySpy(),
+			"jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
+			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
+			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy()
+		};
+		this.spec = {
+			"metadataIdUsedInData" : "groupIdOneTextChild",
+			"path" : {},
+			"cPresentation" : CORA.coraData(this.dependencies.metadataProvider
+					.getMetadataById("pgGroupIdOneTextChild")),
+			"cParentPresentation" : undefined,
+			"dataDivider" : "systemX"
+		};
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("testInit", function(assert) {
-	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild",
-			"groupIdOneTextChild");
-	assert.strictEqual(attachedPGroup.pGroup.type, "pGroup");
-	var view = attachedPGroup.view;
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
+
+	assert.strictEqual(pGroup.type, "pGroup");
 	assert.visible(view, "pGroup view should be visible");
 	var expectedClassName = 'pGroup pgGroupIdOneTextChild';
 	assert.deepEqual(view.className, expectedClassName);
 });
 
+QUnit.test("testSpec", function(assert) {
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
+	
+	assert.strictEqual(pGroup.getSpec(), this.spec);
+});
+
+QUnit.test("testDependencies", function(assert) {
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
+	
+	assert.strictEqual(pGroup.getDependencies(), this.dependencies);
+});
+
 QUnit.test("testInitInfo", function(assert) {
-	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild",
-			"groupIdOneTextChild");
-	var view = attachedPGroup.view;
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
 
 	var infoButton = view.childNodes[0];
 	assert.equal(infoButton.nodeName, "SPAN");
@@ -129,67 +119,77 @@ QUnit.test("testInitInfo", function(assert) {
 	assert.equal(view.childNodes.length, 2);
 });
 
-//recordInfoAttribute
-//recordInfoAttributePGroup
-//recordInfoPGroup
+// recordInfoAttribute
+// recordInfoAttributePGroup
+// recordInfoPGroup
 QUnit.test("testGetInfoShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", function(assert) {
-	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild",
-	"groupIdOneTextChild2");
-	var view = attachedPGroup.view;
-	
+	this.spec.metadataIdUsedInData = "groupIdOneTextChild2";
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
+
 	var infoButton = view.childNodes[0];
 	assert.equal(infoButton.nodeName, "SPAN");
 	assert.equal(infoButton.className, "infoButton");
-	
+
 	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 	assert.equal(view.childNodes.length, 2);
-	
+
 	var event = document.createEvent('Event');
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 3);
 	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
-	
+
 	var infoView = view.childNodes[1];
 	assert.equal(infoView.childNodes.length, 2);
 	assert.equal(infoView.nodeName, "SPAN");
 	assert.equal(infoView.className, "infoView");
-	
+
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[0], "textView",
 			"groupIdOneTextChild2Text", assert);
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
 			"groupIdOneTextChild2DefText", assert);
-	
+
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 3);
 	assert.equal(infoView.childNodes.length, 5);
-	
+
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
 			"textId: groupIdOneTextChild2Text", assert);
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[3], "defTextIdView",
 			"defTextId: groupIdOneTextChild2DefText", assert);
-	//this is the important part: groupIdOneTextChild2
+	// this is the important part: groupIdOneTextChild2
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
 			"metadataId: groupIdOneTextChild2", assert);
-	
+
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 2);
 });
 
 QUnit.test("testInitOneChild", function(assert) {
-	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChild",
-			"groupIdOneTextChild");
-	var view = attachedPGroup.view;
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
 
 	assert.ok(view.childNodes.length === 2, "pgGroupIdOneTextChild, should have two children");
 
-	var childRefHandler = view.childNodes[1];
-	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
+//	var childRefHandler = view.childNodes[1];
+	assert.strictEqual(view.childNodes[1].className, "pChildRefHandlerSpyView");
+	
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.deepEqual(factoredSpec.parentPath, this.spec.path);
+	
+	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdOneTextChild");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "pgGroupIdOneTextChild");
 });
 
 QUnit.test("testInitOneTextOneChild", function(assert) {
-	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextOneTextChild",
-			"groupIdOneTextChild");
-	var view = attachedPGroup.view;
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextOneTextChild"));
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
 
 	assert.ok(view.childNodes.length === 3,
 			"pgGroupIdOneTextOneTextChild, should have two children");
@@ -197,14 +197,26 @@ QUnit.test("testInitOneTextOneChild", function(assert) {
 	var text = view.childNodes[1];
 	assert.deepEqual(text.textContent, "En rubrik");
 
-	var childRefHandler = view.childNodes[2];
-	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
+//	var childRefHandler = view.childNodes[2];
+//	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
+	
+	assert.strictEqual(view.childNodes[2].className, "pChildRefHandlerSpyView");
+	
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.deepEqual(factoredSpec.parentPath, this.spec.path);
+	
+	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdOneTextChild");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "pgGroupIdOneTextOneTextChild");
 });
 
 QUnit.test("testInitOneCollectionChild", function(assert) {
-	var attachedPGroup = this.newAttachedPGroup.factor("groupWithOneCollectionVarChildPGroup",
-			"groupWithOneCollectionVarChildGroup");
-	var view = attachedPGroup.view;
+	this.spec.metadataIdUsedInData = "groupWithOneCollectionVarChildGroup";
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("groupWithOneCollectionVarChildPGroup"));
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
 
 	assert.ok(view.childNodes.length === 3,
 			"pgGroupIdOneTextOneTextChild, should have two children");
@@ -212,69 +224,126 @@ QUnit.test("testInitOneCollectionChild", function(assert) {
 	var text = view.childNodes[1];
 	assert.deepEqual(text.textContent, "En rubrik");
 
-	var childRefHandler = view.childNodes[2];
-	assert.deepEqual(childRefHandler.className,
-			"pChildRefHandler userSuppliedIdCollectionVarPCollVar");
+//	var childRefHandler = view.childNodes[2];
+//	assert.deepEqual(childRefHandler.className,
+//			"pChildRefHandler userSuppliedIdCollectionVarPCollVar");
+assert.strictEqual(view.childNodes[2].className, "pChildRefHandlerSpyView");
+	
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.deepEqual(factoredSpec.parentPath, this.spec.path);
+	
+	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupWithOneCollectionVarChildGroup");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "userSuppliedIdCollectionVarPCollVar");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "groupWithOneCollectionVarChildPGroup");
 });
 
 QUnit.test("testInitTwoChildren", function(assert) {
-	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdTwoTextChild",
-			"groupIdTwoTextChild");
-	var view = attachedPGroup.view;
+	this.spec.metadataIdUsedInData = "groupIdTwoTextChild";
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdTwoTextChild"));
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
 
 	assert.ok(view.childNodes.length === 3);
 
-	var childRefHandler = view.childNodes[1];
-	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
-	var childRefHandler2 = view.childNodes[2];
-	assert.deepEqual(childRefHandler2.className, "pChildRefHandler pVarTextVariableId2");
+//	var childRefHandler = view.childNodes[1];
+//	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
+//	var childRefHandler2 = view.childNodes[2];
+//	assert.deepEqual(childRefHandler2.className, "pChildRefHandler pVarTextVariableId2");
+	 
+assert.strictEqual(view.childNodes[2].className, "pChildRefHandlerSpyView");
+	
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.deepEqual(factoredSpec.parentPath, this.spec.path);
+	
+	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdTwoTextChild");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "pgGroupIdTwoTextChild");
+	
+	var factoredSpec2 = this.dependencies.pChildRefHandlerFactory.getSpec(1);
+	assert.deepEqual(factoredSpec2.parentPath, this.spec.path);
+	
+	assert.strictEqual(this.getId(factoredSpec2.cParentMetadata), "groupIdTwoTextChild");
+	assert.strictEqual(this.getId(factoredSpec2.cPresentation), "pVarTextVariableId2");
+	assert.strictEqual(this.getId(factoredSpec2.cParentPresentation), "pgGroupIdTwoTextChild");
+	
 });
 
 QUnit.test("testInitOneChildMimimized", function(assert) {
-	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimized",
-			"groupIdOneTextChildRepeat1to3");
-	var view = attachedPGroup.view;
-	var childRefHandler = view.childNodes[1];
-	var pChildRefHandler = childRefHandler.modelObject;
-	pChildRefHandler.add("groupIdOneTextChild", "onelkadsjflökads jflköads jflökadsjfldasj lk");
+	this.spec.metadataIdUsedInData = "groupIdOneTextChildRepeat1to3";
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextChildMinimized"));
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
 
-	// minimizedPresentation
-	var repeatingElement = childRefHandler.childNodes[0].firstChild;
-	assert.strictEqual(repeatingElement.childNodes.length, 3);
-
-	var repeatingButtonView = repeatingElement.childNodes[2];
-	assert.visible(repeatingButtonView, "repeatingButtonView should be visible");
-
-	var maximizeButton = repeatingButtonView.childNodes[1];
-	assert.strictEqual(maximizeButton.className, "maximizeButton");
-	assert.notVisible(maximizeButton, "maximizeButton should be hidden");
-
-	var minimizeButton = repeatingButtonView.childNodes[2];
-	assert.strictEqual(minimizeButton.className, "minimizeButton");
-	assert.visible(minimizeButton, "minimizeButton should be visible");
+//	var childRefHandler = view.childNodes[1];
+//	var pChildRefHandler = childRefHandler.modelObject;
+//	pChildRefHandler.add("groupIdOneTextChild", "onelkadsjflökads jflköads jflökadsjfldasj lk");
+//
+//	// minimizedPresentation
+//	var repeatingElement = childRefHandler.childNodes[0].firstChild;
+//	assert.strictEqual(repeatingElement.childNodes.length, 3);
+//
+//	var repeatingButtonView = repeatingElement.childNodes[2];
+//	assert.visible(repeatingButtonView, "repeatingButtonView should be visible");
+//
+//	var maximizeButton = repeatingButtonView.childNodes[1];
+//	assert.strictEqual(maximizeButton.className, "maximizeButton");
+//	assert.notVisible(maximizeButton, "maximizeButton should be hidden");
+//
+//	var minimizeButton = repeatingButtonView.childNodes[2];
+//	assert.strictEqual(minimizeButton.className, "minimizeButton");
+//	assert.visible(minimizeButton, "minimizeButton should be visible");
+	
+assert.strictEqual(view.childNodes[1].className, "pChildRefHandlerSpyView");
+	
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.deepEqual(factoredSpec.parentPath, this.spec.path);
+	
+	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdOneTextChildRepeat1to3");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "pgGroupIdOneTextChildMinimized");
+	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized), "pVarTextVariableIdOutput");
+	assert.strictEqual(factoredSpec.minimizedDefault, undefined);
 });
 
 QUnit.test("testInitOneChildMimimizedDefault", function(assert) {
-	var attachedPGroup = this.newAttachedPGroup.factor("pgGroupIdOneTextChildMinimizedDefault",
-			"groupIdOneTextChild");
-	var view = attachedPGroup.view;
-	var childRefHandler = view.childNodes[1];
-	var pChildRefHandler = childRefHandler.modelObject;
-	pChildRefHandler.add("groupIdOneTextChild", "onelkadsjflökads jflköads jflökadsjfldasj lk");
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextChildMinimizedDefault"));
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
 
-	// minimizedPresentation
-	var repeatingElement = childRefHandler.childNodes[0].firstChild;
-	assert.strictEqual(repeatingElement.childNodes.length, 3);
-
-	var repeatingButtonView = repeatingElement.childNodes[2];
-
-	assert.visible(repeatingButtonView, "repeatingButtonView should be visible");
-
-	var maximizeButton = repeatingButtonView.childNodes[0];
-	assert.strictEqual(maximizeButton.className, "maximizeButton");
-	assert.visible(maximizeButton, "maximizeButton should be shown");
-
-	var minimizeButton = repeatingButtonView.childNodes[1];
-	assert.strictEqual(minimizeButton.className, "minimizeButton");
-	assert.notVisible(minimizeButton, "minimizeButton should be hidden");
+//	var childRefHandler = view.childNodes[1];
+//	var pChildRefHandler = childRefHandler.modelObject;
+//	pChildRefHandler.add("groupIdOneTextChild", "onelkadsjflökads jflköads jflökadsjfldasj lk");
+//
+//	// minimizedPresentation
+//	var repeatingElement = childRefHandler.childNodes[0].firstChild;
+//	assert.strictEqual(repeatingElement.childNodes.length, 3);
+//
+//	var repeatingButtonView = repeatingElement.childNodes[2];
+//
+//	assert.visible(repeatingButtonView, "repeatingButtonView should be visible");
+//
+//	var maximizeButton = repeatingButtonView.childNodes[0];
+//	assert.strictEqual(maximizeButton.className, "maximizeButton");
+//	assert.visible(maximizeButton, "maximizeButton should be shown");
+//
+//	var minimizeButton = repeatingButtonView.childNodes[1];
+//	assert.strictEqual(minimizeButton.className, "minimizeButton");
+//	assert.notVisible(minimizeButton, "minimizeButton should be hidden");
+	
+assert.strictEqual(view.childNodes[1].className, "pChildRefHandlerSpyView");
+	
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.deepEqual(factoredSpec.parentPath, this.spec.path);
+	
+	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdOneTextChild");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "pgGroupIdOneTextChildMinimizedDefault");
+	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized), "pVarTextVariableIdOutput");
+	assert.strictEqual(factoredSpec.minimizedDefault, "true");
 });

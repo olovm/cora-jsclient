@@ -32,6 +32,7 @@ var CORATEST = (function(coraTest) {
 				"presentationFactory" : presentationFactory,
 				"jsBookkeeper" : jsBookkeeper,
 				"recordTypeProvider" : recordTypeProvider,
+				"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy()
 			};
 			var spec = {
 				"path" : {},
@@ -86,13 +87,13 @@ QUnit.test("testInit", function(assert) {
 	assert.deepEqual(view.className, expectedClassName);
 
 	var subscriptions = this.pubSub.getSubscriptions();
-	assert.deepEqual(subscriptions.length, 3);
-
-	var firstSubsription = subscriptions[2];
-	assert.strictEqual(firstSubsription.type, "linkedResource");
-	assert.deepEqual(firstSubsription.path, {});
-	var pResourceLink = attachedPResourceLink.pResourceLink;
-	assert.ok(firstSubsription.functionToCall === pResourceLink.handleMsg);
+//	assert.deepEqual(subscriptions.length, 3);
+//
+//	var firstSubsription = subscriptions[2];
+//	assert.strictEqual(firstSubsription.type, "linkedResource");
+//	assert.deepEqual(firstSubsription.path, {});
+//	var pResourceLink = attachedPResourceLink.pResourceLink;
+//	assert.ok(firstSubsription.functionToCall === pResourceLink.handleMsg);
 });
 
 QUnit.test("testInitInfo", function(assert) {
@@ -143,7 +144,8 @@ QUnit.test("testInitOneChild", function(assert) {
 	assert.deepEqual(view.childNodes.length, 3);
 
 	var childRefHandler = view.childNodes[1];
-	assert.deepEqual(childRefHandler.className, "pChildRefHandler filenamePVar");
+//	assert.deepEqual(childRefHandler.className, "pChildRefHandler filenamePVar");
+	assert.deepEqual(childRefHandler.className, "pChildRefHandlerSpyView");
 
 	var image = view.childNodes[2];
 	assert.equal(image.nodeName, "IMG");
@@ -219,7 +221,8 @@ QUnit.test("testOneChildMasterPResLinkNoOutputFormat", function(assert) {
 	pResourceLink.handleMsg(CORATEST.resourceLinkDataFromMessage);
 
 	var fileName = view.childNodes[1];
-	assert.equal(fileName.className, "pChildRefHandler filenamePVar");
+//	assert.equal(fileName.className, "pChildRefHandler filenamePVar");
+	assert.equal(fileName.className, "pChildRefHandlerSpyView");
 
 });
 

@@ -3642,7 +3642,7 @@ function MetadataProviderStub() {
                         "name": "recordInfo",
                         "children": [{
                             "name": "id",
-                            "value": "pVarTextVariableId"
+                            "value": "pVarTextVariableIdOutput"
                         }]
                     }, {
                         "children": [{
