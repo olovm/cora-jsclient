@@ -18,21 +18,24 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.loginManagerView = function(dependencies) {
+	cora.loginManagerView = function(dependencies, spec) {
 		var out;
 		var view;
 		var menu;
 		var baseClassName = "loginManagerView";
 		var holder;
+
 		function start() {
-			var spec = {
+			var holderSpec = {
 				"className" : baseClassName,
 				"buttonText" : dependencies.textProvider.getTranslation("theClient_loginMenuText"),
 				"appendTo" : document.body
 			};
-			holder = CORA.holder(spec);
+			holder = CORA.holder(holderSpec);
 			view = holder.getButton();
 			menu = holder.getView();
+
+			setLoginOptions();
 		}
 
 		function getHtml() {
@@ -43,12 +46,17 @@ var CORA = (function(cora) {
 			return dependencies;
 		}
 
+		function getSpec() {
+			return spec;
+		}
+
 		function getMenu() {
 			return menu;
 		}
 
-		function setLoginOptions(loginOptions) {
-			loginOptions.forEach(addMenuElement);
+		function setLoginOptions() {
+			menu.innerHTML = "";
+			spec.loginOptions.forEach(addMenuElement);
 		}
 
 		function addMenuElement(loginOption) {
@@ -61,17 +69,32 @@ var CORA = (function(cora) {
 			menu.appendChild(optionButton);
 		}
 
-		function setUserId(userIdIn){
+		function setUserId(userIdIn) {
 			view.textContent = userIdIn;
-			holder.toggleHolder();
+		}
+
+		function setState(stateIn) {
+			holder.closeHolder();
+			if (CORA.loginManager.LOGGEDIN === stateIn) {
+				menu.innerHTML = "";
+				var logoutOptions = [ {
+					"text" : dependencies.textProvider.getTranslation("theClient_logoutMenuText"),
+					"call" : spec.logoutMethod
+				} ];
+				logoutOptions.forEach(addMenuElement);
+			} else {
+				setLoginOptions();
+				view.textContent = dependencies.textProvider.getTranslation("theClient_loginMenuText");
+			}
 		}
 
 		out = Object.freeze({
 			"type" : "loginManagerView",
 			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getHtml : getHtml,
 			getMenu : getMenu,
-			setLoginOptions : setLoginOptions,
+			setState : setState,
 			setUserId : setUserId
 		});
 		start();

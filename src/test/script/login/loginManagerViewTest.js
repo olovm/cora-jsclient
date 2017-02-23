@@ -23,7 +23,39 @@ QUnit.module("loginManagerViewTest.js", {
 		this.dependencies = {
 			"textProvider" : CORATEST.textProviderSpy()
 		};
-		this.spec = {};
+		var logoutMethodHasBeenCalled = false;
+		function logoutMethod() {
+			logoutMethodHasBeenCalled = true;
+		}
+		this.getLogoutMethodHasBeenCalled = function() {
+			return logoutMethodHasBeenCalled;
+		}
+
+		var appTokenLoginRun = false;
+		var webRedirectLoginRun = false;
+		function testAppTokenLogin() {
+			appTokenLoginRun = true;
+		}
+		this.getAppTokenLoginRun = function() {
+			return appTokenLoginRun;
+		}
+		function testWebRedirectLogin() {
+			webRedirectLoginRun = true;
+		}
+		this.getWebRedirectLoginRun = function() {
+			return webRedirectLoginRun;
+		}
+		var loginOptions = [ {
+			"text" : "appToken",
+			"call" : testAppTokenLogin
+		}, {
+			"text" : "webRedirect uu",
+			"call" : testWebRedirectLogin
+		} ];
+		this.spec = {
+			"loginOptions" : loginOptions,
+			"logoutMethod" : logoutMethod
+		};
 
 		this.loginManagerView;
 		this.getLoginManagerView = function() {
@@ -44,7 +76,7 @@ QUnit.module("loginManagerViewTest.js", {
 			}
 			return this.loginManagerView.getMenu();
 		};
-		this.openMenu = function(){
+		this.openMenu = function() {
 			var view = this.getHtml();
 			var event = document.createEvent('Event');
 			view.onclick(event);
@@ -63,6 +95,11 @@ QUnit.test("init", function(assert) {
 QUnit.test("getDependencies", function(assert) {
 	var loginManagerView = this.getLoginManagerView();
 	assert.strictEqual(loginManagerView.getDependencies(), this.dependencies);
+});
+
+QUnit.test("getSpec", function(assert) {
+	var loginManagerView = this.getLoginManagerView();
+	assert.strictEqual(loginManagerView.getSpec(), this.spec);
 });
 
 QUnit.test("getHtml", function(assert) {
@@ -87,43 +124,26 @@ QUnit.test("testGetMenu", function(assert) {
 	var menu = loginManagerView.getMenu();
 	assert.strictEqual(menu.nodeName, "SPAN");
 	assert.strictEqual(menu.className, "holder loginManagerView");
-	
+
 	assert.notVisible(menu);
 	this.openMenu();
 	assert.visible(menu);
 });
 
-QUnit.test("testSetLoginOptions", function(assert) {
+QUnit.test("testLoginOptions", function(assert) {
 	var loginManagerView = this.getLoginManagerView();
 	var menu = this.getMenu();
-	var appTokenLoginRun = false;
-	var webRedirectLoginRun = false;
-	function testAppTokenLogin() {
-		appTokenLoginRun = true;
-	}
-	function testWebRedirectLogin() {
-		webRedirectLoginRun = true;
-	}
-	var loginOptions = [ {
-		"text" : "appToken",
-		"call" : testAppTokenLogin
-	}, {
-		"text" : "webRedirect uu",
-		"call" : testWebRedirectLogin
-	} ];
-	loginManagerView.setLoginOptions(loginOptions);
 	assert.strictEqual(menu.childNodes.length, 2);
 	assert.strictEqual(menu.childNodes[0].textContent, "appToken");
 	assert.strictEqual(menu.childNodes[1].textContent, "webRedirect uu");
-	
-	
+
 	var event = document.createEvent('Event');
 	menu.childNodes[0].onclick(event);
-	assert.ok(appTokenLoginRun);
-	
+	assert.ok(this.getAppTokenLoginRun());
+
 	var event2 = document.createEvent('Event');
 	menu.childNodes[1].onclick(event2);
-	assert.ok(webRedirectLoginRun);
+	assert.ok(this.getWebRedirectLoginRun());
 });
 
 QUnit.test("testSetUserId", function(assert) {
@@ -134,14 +154,51 @@ QUnit.test("testSetUserId", function(assert) {
 	assert.strictEqual(view.textContent, "someUserId");
 });
 
-QUnit.test("testSetUserIdMenuIsClosed", function(assert) {
+QUnit.test("testSetStateLoggedin", function(assert) {
 	var loginManagerView = this.getLoginManagerView();
 	var menu = this.getMenu();
-	var view = this.getHtml();
-	
 	this.openMenu();
-	
-	loginManagerView.setUserId("someUserId");
+	loginManagerView.setState(CORA.loginManager.LOGGEDIN);
 	assert.notVisible(menu);
+	assert.strictEqual(menu.childNodes.length, 1);
+	assert.strictEqual(menu.childNodes[0].textContent, "theClient_logoutMenuText");
+
+	var event2 = document.createEvent('Event');
+	menu.childNodes[0].onclick(event2);
+	assert.ok(this.getLogoutMethodHasBeenCalled());
+
 });
 
+QUnit.test("testSetStateLoggedout", function(assert) {
+	var loginManagerView = this.getLoginManagerView();
+	var menu = this.getMenu();
+	this.openMenu();
+	loginManagerView.setState(CORA.loginManager.LOGGEDOUT);
+	assert.notVisible(menu);
+
+	var view = this.getHtml();
+	assert.strictEqual(view.textContent, "theClient_loginMenuText");
+
+	assert.strictEqual(menu.childNodes.length, 2);
+	assert.strictEqual(menu.childNodes[0].textContent, "appToken");
+	assert.strictEqual(menu.childNodes[1].textContent, "webRedirect uu");
+});
+
+QUnit.test("testSetStateFirstLoggedinThenLoggedout", function(assert) {
+	var loginManagerView = this.getLoginManagerView();
+	var menu = this.getMenu();
+
+	loginManagerView.setState(CORA.loginManager.LOGGEDIN);
+	loginManagerView.setUserId("someUserId");
+	assert.strictEqual(menu.childNodes.length, 1);
+	assert.strictEqual(menu.childNodes[0].textContent, "theClient_logoutMenuText");
+
+	loginManagerView.setState(CORA.loginManager.LOGGEDOUT);
+
+	var view = this.getHtml();
+	assert.strictEqual(view.textContent, "theClient_loginMenuText");
+
+	assert.strictEqual(menu.childNodes.length, 2);
+	assert.strictEqual(menu.childNodes[0].textContent, "appToken");
+	assert.strictEqual(menu.childNodes[1].textContent, "webRedirect uu");
+});

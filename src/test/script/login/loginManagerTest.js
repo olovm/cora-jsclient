@@ -23,11 +23,25 @@ QUnit.module("loginManagerTest.js", {
 		this.dependencies = {
 			"loginManagerViewFactory" : CORATEST.loginManagerViewFactorySpy(),
 			"appTokenLoginFactory" : CORATEST.appTokenLoginFactorySpy(),
-			"authTokenHolder" : CORATEST.authTokenHolderSpy()
+			"authTokenHolder" : CORATEST.authTokenHolderSpy(),
+			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy()
 		};
+		var afterLoginMethodCalled = false;
 		this.afterLoginMethod = function() {
-
+			afterLoginMethodCalled = true;
 		};
+		this.afterLoginMethodWasCalled = function() {
+			return afterLoginMethodCalled;
+		}
+
+		var afterLogoutMethodCalled = false;
+		this.afterLogoutMethod = function() {
+			afterLogoutMethodCalled = true;
+		};
+		this.afterLogoutMethodWasCalled = function() {
+			return afterLogoutMethodCalled;
+		}
+
 		var errorMessage;
 		this.setErrorMessage = function(errorMessageIn) {
 			errorMessage = errorMessageIn;
@@ -37,16 +51,32 @@ QUnit.module("loginManagerTest.js", {
 		}
 		this.spec = {
 			"afterLoginMethod" : this.afterLoginMethod,
+			"afterLogoutMethod" : this.afterLogoutMethod,
 			"setErrorMessage" : this.setErrorMessage,
 			"appTokenBaseUrl" : "someAppTokenBaseUrl/"
-		// "afterLogoutMethod":yy,
-		// "afterUserInactiveMethod":zz
 		};
 		this.loginManager = CORA.loginManager(this.dependencies, this.spec);
 
+		this.authInfo = {
+			"userId" : "141414",
+			"token" : "fake authToken from here",
+			"validForNoSeconds" : "131",
+			"actionLinks" : {
+				"delete" : {
+					"requestMethod" : "DELETE",
+					"rel" : "delete",
+					"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/141414"
+				}
+			}
+		};
 	},
 	afterEach : function() {
 	}
+});
+
+QUnit.test("testConstants", function(assert) {
+	assert.strictEqual(CORA.loginManager.LOGGEDOUT, 0);
+	assert.strictEqual(CORA.loginManager.LOGGEDIN, 1);
 });
 
 QUnit.test("init", function(assert) {
@@ -76,22 +106,31 @@ QUnit.test("testInitCreatesALoginManagerViewsViewIsReturnedForGetHtml", function
 	assert.strictEqual(loginManagerHtml, factoredView.getHtml());
 });
 
+QUnit.test("testInitLoginManagerViewSpec", function(assert) {
+	var loginManager = this.loginManager;
+	var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
+	var factoredSpec = factoredView.getSpec();
+
+	var expectedLoginOptions = [ {
+		"text" : "appToken as 141414",
+		"call" : loginManager.appTokenLogin
+	} ];
+	var factoredLoginOptions = factoredSpec.loginOptions;
+
+	assert.strictEqual(factoredLoginOptions.length, 1);
+	assert.strictEqual(factoredLoginOptions[0].text, expectedLoginOptions[0].text);
+	assert.strictEqual(factoredLoginOptions[0].call, loginManager.appTokenLogin);
+
+	assert.strictEqual(factoredSpec.logoutMethod, loginManager.logout);
+});
+
 QUnit.test("testAppTokenLoginFactoryIsCalledOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;
 	loginManager.appTokenLogin(0);
 	var factored1 = this.dependencies.appTokenLoginFactory.getFactored(0);
 	assert.ok(factored1);
-	// var expectedSpec = {
-	// "requestMethod" : "POST",
-	// "url" : "http://localhost:8080/apptokenverifier/rest/apptoken/",
-	// "accept" : "",
-	// "authInfoCallback" : loginManager.appTokenAuthInfoCallback,
-	// "errorCallback" : loginManager.appTokenErrorCallback,
-	// "timeoutCallback" : loginManager.appTokenTimeoutCallback
-	// };
 	var spec0 = this.dependencies.appTokenLoginFactory.getSpec(0);
 	assert.strictEqual(spec0.requestMethod, "POST");
-	//assert.strictEqual(spec0.url, "http://epc.ub.uu.se/apptokenverifier/rest/apptoken/");
 	assert.strictEqual(spec0.url, "someAppTokenBaseUrl/apptokenverifier/rest/apptoken/");
 	assert.strictEqual(spec0.accept, "");
 	assert.strictEqual(spec0.authInfoCallback, loginManager.appTokenAuthInfoCallback);
@@ -103,32 +142,82 @@ QUnit.test("testAppTokenLoginCallsServerOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;
 	loginManager.appTokenLogin(0);
 	var factored0 = this.dependencies.appTokenLoginFactory.getFactored(0);
-	assert.strictEqual(factored0.getUserId(0), "131313");
-	assert.strictEqual(factored0.getAppToken(0), "44c17361-ead7-43b5-a938-038765873037");
+	assert.strictEqual(factored0.getUserId(0), "141414");
+	assert.strictEqual(factored0.getAppToken(0), "63e6bd34-02a1-4c82-8001-158c104cae0e");
 });
 
 QUnit.test("testAuthTokenIsSetInAuthTokenHolderOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;
-	var authInfo = {
-		"userId" : "131313",
-		"token" : "fake authToken from here",
-		"validForNoSeconds" : "131"
-	};
-	loginManager.appTokenAuthInfoCallback(authInfo);
+	loginManager.appTokenAuthInfoCallback(this.authInfo);
 	var authTokenHolder = this.dependencies.authTokenHolder;
 	assert.strictEqual(authTokenHolder.getToken(0), "fake authToken from here");
 });
 
 QUnit.test("testUserIdIsSetInViewOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;
-	var authInfo = {
-		"userId" : "141414",
-		"token" : "fake authToken from here",
-		"validForNoSeconds" : "131"
-	};
-	loginManager.appTokenAuthInfoCallback(authInfo);
+	loginManager.appTokenAuthInfoCallback(this.authInfo);
 	var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
 	assert.strictEqual(factoredView.getUserId(0), "141414");
+});
+
+QUnit.test("testLoggedinStateIsSetOnAppTokenLogin", function(assert) {
+	var loginManager = this.loginManager;
+	loginManager.appTokenAuthInfoCallback(this.authInfo);
+	var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
+	var stateSetInView = factoredView.getState();
+
+	assert.strictEqual(stateSetInView, CORA.loginManager.LOGGEDIN);
+});
+
+QUnit.test("testLoggedinSpecAfterLoginMethodIsCalledOnAppTokenLogin", function(assert) {
+	var loginManager = this.loginManager;
+	loginManager.appTokenAuthInfoCallback(this.authInfo);
+
+	assert.strictEqual(this.afterLoginMethodWasCalled(), true);
+});
+
+QUnit.test("testLogoutCallIsMadeOnAppTokenLogout", function(assert) {
+	var loginManager = this.loginManager;
+	loginManager.appTokenAuthInfoCallback(this.authInfo);
+	var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
+
+	loginManager.logout();
+
+	var ajaxCallSpy = this.dependencies.ajaxCallFactory.getFactored(0);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url, "http://localhost:8080/apptokenverifier/"
+			+ "rest/apptoken/141414");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "DELETE");
+	// assert.strictEqual(ajaxCallSpec.accept, "");
+	assert.strictEqual(ajaxCallSpec.loadMethod, loginManager.logoutCallback);
+	assert.strictEqual(ajaxCallSpec.data, "fake authToken from here");
+});
+
+QUnit.test("testLoggedoutStateIsSetOnAppTokenLogoutCallback", function(assert) {
+	var loginManager = this.loginManager;
+	loginManager.appTokenAuthInfoCallback(this.authInfo);
+	var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
+
+	loginManager.logoutCallback();
+	var stateSetInView = factoredView.getState();
+	assert.strictEqual(stateSetInView, CORA.loginManager.LOGGEDOUT);
+});
+
+QUnit.test("testLoggedoutSpecAfterLogoutMethodIsCalledOnAppTokenLogoutCallback", function(assert) {
+	var loginManager = this.loginManager;
+	loginManager.appTokenAuthInfoCallback(this.authInfo);
+	loginManager.logoutCallback();
+
+	assert.strictEqual(this.afterLogoutMethodWasCalled(), true);
+});
+
+QUnit.test("testAuthTokenIsRemovedOnAppTokenLogoutCallback", function(assert) {
+	var loginManager = this.loginManager;
+	loginManager.appTokenAuthInfoCallback(this.authInfo);
+	loginManager.logoutCallback();
+
+	var authTokenHolder = this.dependencies.authTokenHolder;
+	assert.strictEqual(authTokenHolder.getToken(1), "");
 });
 
 QUnit.test("testErrorMessage", function(assert) {

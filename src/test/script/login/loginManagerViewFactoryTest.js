@@ -39,9 +39,18 @@ QUnit.test("getDependencies", function(assert) {
 });
 
 QUnit.test("factor", function(assert) {
-	var loginManagerView = this.loginManagerViewFactory.factor();
+	var spec = {
+		"loginOptions" : [ {
+			"text" : "some login text",
+			"call" : function() {
+			}
+		} ]
+	};
+	var loginManagerView = this.loginManagerViewFactory.factor(spec);
 	assert.strictEqual(loginManagerView.type, "loginManagerView");
 
 	var loginManagerViewDependencies = loginManagerView.getDependencies();
 	assert.strictEqual(loginManagerViewDependencies.textProvider, this.dependencies.textProvider);
+	assert.strictEqual(loginManagerView.getSpec(), spec);
+
 });
