@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -29,26 +29,6 @@ var CORATEST = (function(coraTest) {
 		var showRemoveButtonCalled = 0;
 		var hideRemoveButtonCalled = 0;
 		var minimizedDefault;
-		// var dataTransfer = function() {
-		// var format = "";
-		// var data = "";
-		// function setData(formatIn, dataIn) {
-		// format = formatIn;
-		// data = dataIn;
-		// // console.log(formatIn + dataIn)
-		// }
-		// function getFormat(){
-		// return format;
-		// }
-		// function getData(){
-		// return data;
-		// }
-		// return {
-		// setData : setData,
-		// getFormat : getFormat,
-		// getData : getData
-		// };
-		// }();
 
 		function getView() {
 			return view;
@@ -107,11 +87,8 @@ var CORATEST = (function(coraTest) {
 		function getShowDragButtonCalled() {
 			return showDragButtonCalled;
 		}
-		// return Object.freeze({
 		var out = ({
 			"type" : "pRepeatingElementSpy",
-			// getDependencies : getDependencies,
-			// getSpec : getSpec,
 			getView : getView,
 			ondragenter : ondragenter,
 			setParentModelObject : setParentModelObject,

@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -24,26 +24,18 @@ var CORA = (function(cora) {
 			"metadataProvider" : dependencies.metadataProvider
 		});
 		var presentationId = findPresentationId(spec.cPresentation);
-//		console.log("spec.cPresentation", spec.cPresentation)
 		var metadataIdFromPresentation = getMetadataIdFromPresentation();
 		var cParentMetadataChildRefPart = metadataHelper.getChildRefPartOfMetadata(
 				spec.cParentMetadata, metadataIdFromPresentation);
-//		console.log("cParentMetadataChildRefPart ",JSON.stringify(cParentMetadataChildRefPart.getData()))
 		if (childRefFoundInCurrentlyUsedParentMetadata()) {
 			return createFakePChildRefHandlerAsWeDoNotHaveMetadataToWorkWith();
 		}
 		var cRef = CORA.coraData(cParentMetadataChildRefPart.getFirstChildByNameInData("ref"));
-//		console.log("cRef: ", JSON.stringify(cRef.getData()))
 		var metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 		var cMetadataElement = getMetadataById(metadataId);
 
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
-		
-//		var textStyle = cParentMetadataChildRefPart.getFirstChildByNameInData("textStyle");
-//		var childStyle = cParentMetadataChildRefPart.getFirstChildByNameInData("childStyle");
-//		var textStyleMinimized = cParentMetadataChildRefPart.getFirstChildByNameInData("textStyle");
-//		var childStyleMinimized = cParentMetadataChildRefPart.getFirstChildByNameInData("childStyle");
 
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
@@ -185,15 +177,14 @@ var CORA = (function(cora) {
 		}
 
 		function isChildOfBinary(cRecordType) {
-			return hasParent(cRecordType)
-					&& parentIsBinary(cRecordType);
+			return hasParent(cRecordType) && parentIsBinary(cRecordType);
 		}
 
-		function hasParent(cRecordType){
+		function hasParent(cRecordType) {
 			return cRecordType.containsChildWithNameInData("parentId");
 		}
 
-		function parentIsBinary(cRecordType){
+		function parentIsBinary(cRecordType) {
 			var cParentIdGroup = CORA.coraData(cRecordType.getFirstChildByNameInData("parentId"));
 			var parentId = cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			return parentId === "binary";
@@ -272,16 +263,13 @@ var CORA = (function(cora) {
 				"repeatMin" : repeatMin,
 				"repeatMax" : repeatMax,
 				"path" : path,
-				"jsBookkeeper" : dependencies.jsBookkeeper,
 				"parentModelObject" : pChildRefHandlerView,
 				"isRepeating" : isRepeating,
-//				"textStyle" : spec.textStyle,
-//				"childStyle" : spec.childStyle,
-//				"textStyleMinimized" : spec.textStyleMinimized,
-//				"childStyleMinimized" : spec.childStyleMinimized 
+				"textStyle" : spec.textStyle,
+				"childStyle" : spec.childStyle,
+				"textStyleMinimized" : spec.textStyleMinimized,
+				"childStyleMinimized" : spec.childStyleMinimized
 			};
-//			return CORA.pRepeatingElement({},repeatingElementSpec);
-//			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}
 
@@ -301,8 +289,8 @@ var CORA = (function(cora) {
 
 		function factorPresentation(path, cPresentation, metadataIdToAdd) {
 			var metadataIdUsedInData = metadataIdToAdd;
-			return dependencies.presentationFactory.factor(path, metadataIdUsedInData, cPresentation,
-					spec.cParentPresentation);
+			return dependencies.presentationFactory.factor(path, metadataIdUsedInData,
+					cPresentation, spec.cParentPresentation);
 		}
 
 		function hasMinimizedPresentation() {
@@ -471,8 +459,10 @@ var CORA = (function(cora) {
 		function getNewMetadataGroupFromRecordType() {
 			var recordType = getImplementingLinkedRecordType();
 			var cData = CORA.coraData(recordType.data);
-			var newMetadataIdGroup = CORA.coraData(cData.getFirstChildByNameInData("newMetadataId"));
-			var newMetadataId = newMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			var newMetadataIdGroup = CORA
+					.coraData(cData.getFirstChildByNameInData("newMetadataId"));
+			var newMetadataId = newMetadataIdGroup
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			return getMetadataById(newMetadataId);
 		}
 
@@ -561,10 +551,10 @@ var CORA = (function(cora) {
 			errorChild.innerHTML = messageSpec.message;
 			pChildRefHandlerView.addChild(errorChild);
 		}
-		function getDependencies(){
+		function getDependencies() {
 			return dependencies;
 		}
-		function getSpec(){
+		function getSpec() {
 			return spec;
 		}
 		var out = Object.freeze({

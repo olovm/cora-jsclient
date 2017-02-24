@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -144,7 +145,6 @@ QUnit.test("testInitOneChild", function(assert) {
 	assert.deepEqual(view.childNodes.length, 3);
 
 	var childRefHandler = view.childNodes[1];
-//	assert.deepEqual(childRefHandler.className, "pChildRefHandler filenamePVar");
 	assert.deepEqual(childRefHandler.className, "pChildRefHandlerSpyView");
 
 	var image = view.childNodes[2];
@@ -221,7 +221,6 @@ QUnit.test("testOneChildMasterPResLinkNoOutputFormat", function(assert) {
 	pResourceLink.handleMsg(CORATEST.resourceLinkDataFromMessage);
 
 	var fileName = view.childNodes[1];
-//	assert.equal(fileName.className, "pChildRefHandler filenamePVar");
 	assert.equal(fileName.className, "pChildRefHandlerSpyView");
 
 });

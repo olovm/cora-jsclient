@@ -1,5 +1,5 @@
 /*
- * Copyright 2015, 2016 Olov McKie
+ * Copyright 2015, 2016, 2017 Olov McKie
  * Copyright 2015 Uppsala University Library
  *
  * This file is part of Cora.
@@ -4407,10 +4407,10 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [{
                                         "name": "textStyle",
-                                        "value": "h2TextStyle"
+                                        "value": "h1TextStyle"
                                     }, {
                                         "name": "childStyle",
-                                        "value": "fourChildStyle"
+                                        "value": "oneChildStyle"
                                     }, {
                                         "name": "ref",
                                         "children": [{
@@ -4479,10 +4479,10 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [{
                                         "name": "textStyle",
-                                        "value": "h2TextStyle"
+                                        "value": "h5TextStyle"
                                     }, {
                                         "name": "childStyle",
-                                        "value": "fourChildStyle"
+                                        "value": "twoChildStyle"
                                     }, {
                                         "name": "ref",
                                         "children": [{
@@ -4500,10 +4500,10 @@ function MetadataProviderStub() {
                                     "name": "refMinGroup",
                                     "children": [{
                                         "name": "textStyle",
-                                        "value": "h2TextStyle"
+                                        "value": "h6TextStyle"
                                     }, {
                                         "name": "childStyle",
-                                        "value": "fourChildStyle"
+                                        "value": "tenChildStyle"
                                     }, {
                                         "name": "ref",
                                         "children": [{

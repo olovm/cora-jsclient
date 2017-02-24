@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -69,17 +69,6 @@ var CORATEST = (function(coraTest) {
 
 QUnit.module("pSurroundingContainerTest.js", {
 	beforeEach : function() {
-//		this.fixture = document.getElementById("qunit-fixture");
-//		this.metadataProvider = new MetadataProviderStub();
-//		this.pubSub = CORATEST.pubSubSpy();
-//		this.textProvider = CORATEST.textProviderStub();
-//		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
-//		this.presentationFactory = CORATEST.presentationFactorySpy();
-//		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
-//		this.pSurroundingContainerFactory = CORATEST.attachedPSurroundingContainerFactory(
-//				this.metadataProvider, this.pubSub, this.textProvider, this.presentationFactory,
-//				this.jsBookkeeper, this.recordTypeProvider, this.fixture);
-		
 		this.getId = function (cData){
 			var recordInfo = cData.getFirstChildByNameInData("recordInfo");
 			var id = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");

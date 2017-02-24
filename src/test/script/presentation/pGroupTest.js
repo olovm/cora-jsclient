@@ -119,9 +119,6 @@ QUnit.test("testInitInfo", function(assert) {
 	assert.equal(view.childNodes.length, 2);
 });
 
-// recordInfoAttribute
-// recordInfoAttributePGroup
-// recordInfoPGroup
 QUnit.test("testGetInfoShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", function(assert) {
 	this.spec.metadataIdUsedInData = "groupIdOneTextChild2";
 	var pGroup = CORA.pGroup(this.dependencies, this.spec);

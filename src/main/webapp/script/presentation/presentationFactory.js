@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -28,7 +28,8 @@ var CORA = (function(cora) {
 				"infoFactory" : CORA.infoFactory()
 			};
 			var pRepeatingElementFactoryDependencies = {
-				"infoFactory" : CORATEST.infoFactorySpy()
+				"infoFactory" : CORA.infoFactory(),
+				"jsBookkeeper" : dependencies.jsBookkeeper
 			};
 			var pVarViewFactory = CORA.pVarViewFactory(pVarViewFactoryDependencies);
 
@@ -46,7 +47,7 @@ var CORA = (function(cora) {
 			};
 			var pChildRefHandlerFactory = CORA
 					.pChildRefHandlerFactory(pChildRefHandlerFactoryDependencies);
-			
+
 			var childDependencies = {
 				"metadataProvider" : dependencies.metadataProvider,
 				"pubSub" : dependencies.pubSub,
@@ -59,7 +60,8 @@ var CORA = (function(cora) {
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"pVarViewFactory" : pVarViewFactory,
-				"pChildRefHandlerFactory" : pChildRefHandlerFactory
+				"pChildRefHandlerFactory" : pChildRefHandlerFactory,
+				"authTokenHolder" : dependencies.authTokenHolder
 			};
 			var specNew = {
 				"path" : path,
@@ -78,7 +80,7 @@ var CORA = (function(cora) {
 			} else if (type === "pCollVar") {
 				return CORA.pCollectionVar(childDependencies, specNew);
 			} else if (type === "pResourceLink") {
-				return CORA.pResourceLink(dependencies, specNew);
+				return CORA.pResourceLink(childDependencies, specNew);
 			} else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {

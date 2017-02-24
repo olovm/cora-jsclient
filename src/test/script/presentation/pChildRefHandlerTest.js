@@ -1048,7 +1048,6 @@ QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 
 	var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
 	var factoredSpec = this.dependencies.pRepeatingElementFactory.getSpec(0);
-	//TODO: better test of spec
 	assert.strictEqual(factoredSpec.repeatMin, "0");
 	assert.strictEqual(factoredSpec.repeatMax, "2");
 	assert.stringifyEqual(factoredSpec.path,  {
@@ -1080,7 +1079,13 @@ QUnit.test("testAddChildWithAttributesInPath", function(assert) {
 QUnit.test("testRepeatingElement", function(assert) {
 	this.spec.cParentMetadata= 
 		CORA.coraData(this.metadataProvider.getMetadataById("groupIdOneTextChildRepeat1to3"));
+	this.spec.textStyle = "textStyleTest";
+	this.spec.childStyle = "childStyleTest";
+	this.spec.textStyleMinimized = "textStyleMinimizedTest";
+	this.spec.childStyleMinimized = "childStyleMinimizedTest";
+	
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
+	
 	var view = pChildRefHandler.getView();
 	this.fixture.appendChild(view);
 
@@ -1091,7 +1096,6 @@ QUnit.test("testRepeatingElement", function(assert) {
 
 	var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
 	var factoredSpec = pRepeatingElementFactory.getSpec(0);
-	//TODO: better test of spec
 	assert.strictEqual(factoredSpec.repeatMin, "1");
 	assert.strictEqual(factoredSpec.repeatMax, "3");
 	assert.stringifyEqual(factoredSpec.path,  {
@@ -1104,6 +1108,13 @@ QUnit.test("testRepeatingElement", function(assert) {
 			"value" : "one"
 		} ]
 	});
+	//TODO: better test of spec 
+//	assert.strictEqual(factoredSpec.parentModelObject, view.modelObject);
+	assert.strictEqual(factoredSpec.isRepeating, true);
+	assert.strictEqual(factoredSpec.textStyle, this.spec.textStyle);
+	assert.strictEqual(factoredSpec.childStyle, this.spec.childStyle);
+	assert.strictEqual(factoredSpec.textStyleMinimized, this.spec.textStyleMinimized);
+	assert.strictEqual(factoredSpec.childStyleMinimized, this.spec.childStyleMinimized);
 
 	// subscription
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();

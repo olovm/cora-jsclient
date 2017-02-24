@@ -17,190 +17,114 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-var CORATEST = (function(coraTest) {
-	"use strict";
-	coraTest.attachedPRepeatingElementFactory = function(jsBookkeeper, fixture) {
-		var factor = function(repeatMin, repeatMax, path, parentModelObject) {
-			// {
-			// "name": "refMinGroup",
-			// "children": [
-			// {
-			// "name": "textStyle",
-			// "value": "h5TextStyle"
-			// },
-			// {
-			// "name": "childStyle",
-			// "value": "fourChildStyle"
-			// }
-			// ]
-			// }
-			var dependencies = {};
-			var spec = {
-				"repeatMin" : repeatMin,
-				"repeatMax" : repeatMax,
-				"path" : path,
-				"jsBookkeeper" : jsBookkeeper,
-				"parentModelObject" : parentModelObject,
-				"isRepeating" : Number(repeatMax) > 1 || repeatMax === "X",
-				"textStyle" : "h5TextStyle",
-				"childStyle" : "fourChildStyle",
-				"textStyleMinimized" : "h8TextStyle",
-				"childStyleMinimized" : "oneChildStyle"
-			// info about what to add driectly?
-			};
-			
-			var pRepeatingElement = CORA.pRepeatingElement(dependencies, spec);
-			var view = pRepeatingElement.getView();
-			fixture.appendChild(view);
-			return {
-				pRepeatingElement : pRepeatingElement,
-				fixture : fixture,
-				jsBookkeeper : jsBookkeeper,
-				view : view,
-				parentModelObject : parentModelObject,
-				dependencies :dependencies,
-				spec : spec
-			};
-
-		};
-		return Object.freeze({
-			factor : factor
-		});
-	};
-
-	return coraTest;
-}(CORATEST || {}));
-
 QUnit.module("pRepeatingElementTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 
-		this.pRepeatingElementFactory = CORATEST
-				.attachedPRepeatingElementFactory(this.jsBookkeeper,
-						this.fixture);
+		this.dependencies = {
+				"jsBookkeeper" : this.jsBookkeeper
+		};
+		this.spec = {
+			"repeatMin" : "1",
+			"repeatMax" : "2",
+			"path" : {},
+			"parentModelObject" : CORATEST.parentModelObjectSpy(),
+			"isRepeating" : Number("2") > 1 || " 2" === "X",
+			"textStyle" : "h5TextStyle",
+			"childStyle" : "fourChildStyle",
+			"textStyleMinimized" : "h8TextStyle",
+			"childStyleMinimized" : "oneChildStyle"
+		};
 	},
 	afterEach : function() {
 	}
 });
 
-QUnit
-		.test(
-				"testInit",
-				function(assert) {
-					var repeatMin = "1";
-					var repeatMax = "2";
-					var path = {};
-					var attachedPRepeatingElement = this.pRepeatingElementFactory
-							.factor(repeatMin, repeatMax, path);
-					var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
-					assert.strictEqual(pRepeatingElement.type,
-							"pRepeatingElement");
-					assert.deepEqual(attachedPRepeatingElement.view.className,
-							"repeatingElement");
-					var view = attachedPRepeatingElement.view;
-					assert
-							.ok(view.modelObject === pRepeatingElement,
-									"modelObject should be a pointer to the javascript object instance");
+QUnit.test("testInit", function(assert) {
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
 
-					assert.strictEqual(pRepeatingElement.getPath(), path);
+	assert.strictEqual(pRepeatingElement.type, "pRepeatingElement");
+	assert.deepEqual(view.className, "repeatingElement");
+	assert.ok(view.modelObject === pRepeatingElement,
+			"modelObject should be a pointer to the javascript object instance");
 
-					var repeatingElement = view;
-					assert.strictEqual(repeatingElement.className,
-							"repeatingElement");
-					var buttonView = repeatingElement.childNodes[0];
-					assert.strictEqual(buttonView.className, "buttonView");
+	assert.strictEqual(pRepeatingElement.getPath(), this.spec.path);
 
-					// remove button
-					var removeButton = buttonView.firstChild;
-					assert.strictEqual(removeButton.className, "removeButton");
+	var repeatingElement = view;
+	assert.strictEqual(repeatingElement.className, "repeatingElement");
+	var buttonView = repeatingElement.childNodes[0];
+	assert.strictEqual(buttonView.className, "buttonView");
 
-					// drag button
-					var removeButton = buttonView.childNodes[1];
-					assert.strictEqual(removeButton.className, "dragButton");
+	// remove button
+	var removeButton = buttonView.firstChild;
+	assert.strictEqual(removeButton.className, "removeButton");
 
-				});
+	// drag button
+	var removeButton = buttonView.childNodes[1];
+	assert.strictEqual(removeButton.className, "dragButton");
+
+});
 QUnit.test("testGetDependencies", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var dependencies = attachedPRepeatingElement.pRepeatingElement.getDependencies();
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
 
-	assert.strictEqual(dependencies, attachedPRepeatingElement.dependencies);
+	assert.strictEqual(pRepeatingElement.getDependencies(), this.dependencies);
 });
 
 QUnit.test("testGetSpec", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var spec = attachedPRepeatingElement.pRepeatingElement.getSpec();
-	
-	assert.strictEqual(spec, attachedPRepeatingElement.spec);
-});
-QUnit
-		.test(
-				"testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThis",
-				function(assert) {
-					var repeatMin = "1";
-					var repeatMax = "2";
-					var path = {};
-					var parentModelObjectSpy = CORATEST.parentModelObjectSpy();
-					var attachedPRepeatingElement = this.pRepeatingElementFactory
-							.factor(repeatMin, repeatMax, path,
-									parentModelObjectSpy);
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
 
-					var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
-					pRepeatingElement.getView().ondragenter();
-					assert.strictEqual(parentModelObjectSpy
-							.getRepeatingElementDragOver(), pRepeatingElement);
-				});
+	assert.strictEqual(pRepeatingElement.getSpec(), this.spec);
+});
+QUnit.test("testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThis", function(assert) {
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	pRepeatingElement.getView().ondragenter();
+	assert
+			.strictEqual(this.spec.parentModelObject.getRepeatingElementDragOver(),
+					pRepeatingElement);
+});
 
 QUnit.test("testButtonViewAndRemoveButton", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var view = attachedPRepeatingElement.view;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
 
-	var repeatingElement = view;
-	var buttonView = repeatingElement.childNodes[0];
+	var buttonView = view.childNodes[0];
 	var removeButton = buttonView.firstChild;
 	assert.strictEqual(removeButton.className, "removeButton");
 });
 
 QUnit.test("test1to1ShodHaveNoRemoveOrDragButton", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "1";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var view = attachedPRepeatingElement.view;
+	this.spec.repeatMax = "1";
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
 
-	var repeatingElement = view;
-	assert.strictEqual(repeatingElement.childNodes[0].childNodes.length, 0);
+	var buttonView = view.childNodes[0];
+	assert.strictEqual(buttonView.childNodes.length, 0);
 });
 
 QUnit.test("testRemoveButtonOnclick", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var view = attachedPRepeatingElement.view;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
 
-	var repeatingElement = view;
-	var buttonView = repeatingElement.childNodes[0];
+	var buttonView = view.childNodes[0];
 	var removeButton = buttonView.firstChild;
 
 	var event = document.createEvent('Event');
 	removeButton.onclick(event);
 	// subscription
-	var removes = attachedPRepeatingElement.jsBookkeeper.getRemoveDataArray();
+	var removes = this.dependencies.jsBookkeeper.getRemoveDataArray();
 	assert.deepEqual(removes.length, 1);
 
 	var firstRemove = removes[0];
@@ -210,15 +134,11 @@ QUnit.test("testRemoveButtonOnclick", function(assert) {
 });
 
 QUnit.test("testDragButtonOnmousedownOnmouseup", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var view = attachedPRepeatingElement.view;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
 
-	var repeatingElement = view;
-	var buttonView = repeatingElement.childNodes[0];
+	var buttonView = view.childNodes[0];
 	var dragButton = buttonView.lastChild;
 
 	assert.notOk(view.draggable);
@@ -229,20 +149,15 @@ QUnit.test("testDragButtonOnmousedownOnmouseup", function(assert) {
 });
 
 QUnit.test("testHideRemoveButton", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var view = attachedPRepeatingElement.view;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
 
-	var repeatingElement = view;
-	var buttonView = repeatingElement.childNodes[0];
+	var buttonView = view.childNodes[0];
 	var removeButton = buttonView.firstChild;
 
 	assert.visible(removeButton, "buttonView should be visible");
 
-	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
 	pRepeatingElement.hideRemoveButton();
 	assert.notVisible(removeButton, "buttonView should be hidden");
 
@@ -251,20 +166,15 @@ QUnit.test("testHideRemoveButton", function(assert) {
 });
 
 QUnit.test("testHideDragButton", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var view = attachedPRepeatingElement.view;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
 
-	var repeatingElement = view;
-	var buttonView = repeatingElement.childNodes[0];
+	var buttonView = view.childNodes[0];
 	var dragButton = buttonView.lastChild;
 
 	assert.visible(dragButton, "buttonView should be visible");
 
-	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
 	pRepeatingElement.hideDragButton();
 	assert.notVisible(dragButton, "buttonView should be hidden");
 
@@ -273,43 +183,53 @@ QUnit.test("testHideDragButton", function(assert) {
 });
 
 QUnit.test("testAddPresentation", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
-	var view = attachedPRepeatingElement.view;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
 	var presentation = CORATEST.presentationStub();
 
 	pRepeatingElement.addPresentation(presentation);
 
 	var presentationView = view.childNodes[0];
-	assert
-			.strictEqual(presentationView.className,
-					"presentationStub maximized");
+	assert.strictEqual(presentationView.className, "presentationStub maximized");
 	assert.visible(presentationView, "presentationView should be visible");
 	assert.strictEqual(view.childNodes.length, 2);
 	assert.deepEqual(view.className, "repeatingElement h5TextStyle fourChildStyle");
 });
 
+QUnit.test("testAddPresentationNoStyle", function(assert) {
+	this.spec.textStyle = undefined;
+	this.spec.childStyle = undefined;
+	this.spec.textStyleMinimized = undefined;
+	this.spec.childStyleMinimized = undefined;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	var presentation = CORATEST.presentationStub();
+
+	pRepeatingElement.addPresentation(presentation);
+
+	var presentationView = view.childNodes[0];
+	assert.strictEqual(presentationView.className, "presentationStub maximized");
+	assert.visible(presentationView, "presentationView should be visible");
+	assert.strictEqual(view.childNodes.length, 2);
+	assert.deepEqual(view.className, "repeatingElement");
+});
+
 QUnit.test("testAddPresentationMinimized", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
-	var view = attachedPRepeatingElement.view;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
 	var buttonView = view.childNodes[0];
 
 	var presentation = CORATEST.presentationStub("maximized");
 	pRepeatingElement.addPresentation(presentation);
 
 	var presentationView = view.childNodes[0];
-	assert
-			.strictEqual(presentationView.className,
-					"presentationStub maximized");
+	assert.strictEqual(presentationView.className, "presentationStub maximized");
 	assert.visible(presentationView, "presentationView should be visible");
 	assert.strictEqual(view.childNodes.length, 2);
 
@@ -318,10 +238,8 @@ QUnit.test("testAddPresentationMinimized", function(assert) {
 	assert.deepEqual(view.className, "repeatingElement h8TextStyle oneChildStyle");
 
 	var presentationMinimizedView = view.childNodes[1];
-	assert.strictEqual(presentationMinimizedView.className,
-			"presentationStub minimized");
-	assert.notVisible(presentationMinimizedView,
-			"presentationMinimizedView should be hidden");
+	assert.strictEqual(presentationMinimizedView.className, "presentationStub minimized");
+	assert.notVisible(presentationMinimizedView, "presentationMinimizedView should be hidden");
 
 	// test minimized/maximized button
 	var maximizeButton = buttonView.childNodes[1];
@@ -333,22 +251,17 @@ QUnit.test("testAddPresentationMinimized", function(assert) {
 });
 
 QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
-	var view = attachedPRepeatingElement.view;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
 	var buttonView = view.childNodes[0];
 
 	var presentation = CORATEST.presentationStub("maximized");
 	pRepeatingElement.addPresentation(presentation);
 
 	var presentationView = view.childNodes[0];
-	assert
-			.strictEqual(presentationView.className,
-					"presentationStub maximized");
+	assert.strictEqual(presentationView.className, "presentationStub maximized");
 	assert.visible(presentationView, "presentationView should be visible");
 	assert.strictEqual(view.childNodes.length, 2);
 
@@ -357,10 +270,8 @@ QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
 	assert.deepEqual(view.className, "repeatingElement h8TextStyle oneChildStyle");
 
 	var presentationMinimizedView = view.childNodes[1];
-	assert.strictEqual(presentationMinimizedView.className,
-			"presentationStub minimized");
-	assert.visible(presentationMinimizedView,
-			"presentationMinimizedView should be shown");
+	assert.strictEqual(presentationMinimizedView.className, "presentationStub minimized");
+	assert.visible(presentationMinimizedView, "presentationMinimizedView should be shown");
 	assert.notVisible(presentationView, "presentationView should be hidden");
 
 	// test minimized/maximized button
@@ -373,37 +284,28 @@ QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
 });
 
 QUnit.test("testAddPresentationMinimizedToggle", function(assert) {
-	var repeatMin = "1";
-	var repeatMax = "2";
-	var path = {};
-	var attachedPRepeatingElement = this.pRepeatingElementFactory.factor(
-			repeatMin, repeatMax, path);
-	var pRepeatingElement = attachedPRepeatingElement.pRepeatingElement;
-	var view = attachedPRepeatingElement.view;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
 	var buttonView = view.childNodes[0];
 
 	var presentation = CORATEST.presentationStub("maximized");
 	pRepeatingElement.addPresentation(presentation);
 
 	var presentationView = view.childNodes[0];
-	assert
-			.strictEqual(presentationView.className,
-					"presentationStub maximized");
+	assert.strictEqual(presentationView.className, "presentationStub maximized");
 	assert.visible(presentationView, "presentationView should be visible");
 	assert.strictEqual(view.childNodes.length, 2);
 	assert.deepEqual(view.className, "repeatingElement h5TextStyle fourChildStyle");
 
-	var presentationMinimized = CORATEST
-			.presentationStub("minimized maximized");
+	var presentationMinimized = CORATEST.presentationStub("minimized maximized");
 	pRepeatingElement.addPresentationMinimized(presentationMinimized, "true");
 	assert.deepEqual(view.className, "repeatingElement h8TextStyle oneChildStyle");
 
-
 	var presentationMinimizedView = view.childNodes[1];
-	assert.strictEqual(presentationMinimizedView.className,
-			"presentationStub minimized");
-	assert.visible(presentationMinimizedView,
-			"presentationMinimizedView should be shown");
+	assert.strictEqual(presentationMinimizedView.className, "presentationStub minimized");
+	assert.visible(presentationMinimizedView, "presentationMinimizedView should be shown");
 	assert.notVisible(presentationView, "presentationView should be hidden");
 
 	// test minimized/maximized button
@@ -416,17 +318,47 @@ QUnit.test("testAddPresentationMinimizedToggle", function(assert) {
 
 	maximizeButton.onclick();
 	assert.visible(presentationView, "presentationView should be visible");
-	assert.notVisible(presentationMinimizedView,
-			"presentationView should be hidden");
+	assert.notVisible(presentationMinimizedView, "presentationView should be hidden");
 	assert.notVisible(maximizeButton, "maximizeButton should be hidden");
 	assert.visible(minimizeButton, "minimizeButton should be shown");
 	assert.deepEqual(view.className, "repeatingElement h5TextStyle fourChildStyle");
 
 	minimizeButton.onclick();
 	assert.notVisible(presentationView, "presentationView should be hidden");
-	assert.visible(presentationMinimizedView,
-			"presentationMinimizedView should be shown");
+	assert.visible(presentationMinimizedView, "presentationMinimizedView should be shown");
 	assert.visible(maximizeButton, "maximizeButton should be shown");
 	assert.notVisible(minimizeButton, "minimizeButton should be hidden");
 	assert.deepEqual(view.className, "repeatingElement h8TextStyle oneChildStyle");
+});
+
+QUnit.test("testAddPresentationMinimizedToggleNoStyle", function(assert) {
+	this.spec.textStyle = undefined;
+	this.spec.childStyle = undefined;
+	this.spec.textStyleMinimized = undefined;
+	this.spec.childStyleMinimized = undefined;
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	var buttonView = view.childNodes[0];
+
+	var presentation = CORATEST.presentationStub("maximized");
+	pRepeatingElement.addPresentation(presentation);
+
+	var presentationView = view.childNodes[0];
+	assert.deepEqual(view.className, "repeatingElement");
+
+	var presentationMinimized = CORATEST.presentationStub("minimized maximized");
+	pRepeatingElement.addPresentationMinimized(presentationMinimized, "true");
+	assert.deepEqual(view.className, "repeatingElement");
+
+	var presentationMinimizedView = view.childNodes[1];
+	var maximizeButton = buttonView.childNodes[1];
+	var minimizeButton = buttonView.childNodes[2];
+
+	maximizeButton.onclick();
+	assert.deepEqual(view.className, "repeatingElement");
+
+	minimizeButton.onclick();
+	assert.deepEqual(view.className, "repeatingElement");
 });

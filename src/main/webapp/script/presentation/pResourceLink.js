@@ -1,6 +1,7 @@
 /*
  * Copyright 2016 Uppsala University Library
- *
+ * Copyright 2017 Olov McKie
+*
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify

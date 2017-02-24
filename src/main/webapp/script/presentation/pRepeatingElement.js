@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -20,10 +20,10 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pRepeatingElement = function(dependencies, spec) {
+		var jsBookkeeper = dependencies.jsBookkeeper;
 		var repeatMin = spec.repeatMin;
 		var repeatMax = spec.repeatMax;
 		var path = spec.path;
-		var jsBookkeeper = spec.jsBookkeeper;
 		var parentModelObject = spec.parentModelObject;
 
 		var isRepeating = calculateIsRepeating();
@@ -48,8 +48,7 @@ var CORA = (function(cora) {
 		}
 
 		function createBaseView() {
-			var repeatingElement = CORA.gui
-					.createSpanWithClassName("repeatingElement");
+			var repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");
 			if (spec.isRepeating) {
 				repeatingElement.ondragenter = ondragenterHandler;
 			}
@@ -94,8 +93,7 @@ var CORA = (function(cora) {
 			return CORA.gui.createRemoveButton(removeFunction);
 		}
 		function createDragButton() {
-			var createdDragButton = CORA.gui
-					.createSpanWithClassName("dragButton");
+			var createdDragButton = CORA.gui.createSpanWithClassName("dragButton");
 			createdDragButton.onmousedown = function() {
 				view.draggable = "true";
 			};
@@ -111,23 +109,35 @@ var CORA = (function(cora) {
 
 		function addPresentation(presentation) {
 			presentationMaximized = presentation.getView();
-			presentationMaximized.className = presentationMaximized.className
-					+ " maximized";
+			presentationMaximized.className = presentationMaximized.className + " maximized";
 			view.insertBefore(presentationMaximized, buttonView);
-			view.className = "repeatingElement " + spec.textStyle + " "
-					+ spec.childStyle;
+			view.className = "repeatingElement" + getTextStyleFromSpec() + getChildStyleFromSpec();
 		}
 
-		function addPresentationMinimized(presentationMinimizedIn,
-				minimizedDefault) {
+		function getTextStyleFromSpec() {
+			return spec.textStyle !== undefined ? " " + spec.textStyle : "";
+		}
+
+		function getChildStyleFromSpec() {
+			return spec.childStyle !== undefined ? " " + spec.childStyle : "";
+		}
+
+		function addPresentationMinimized(presentationMinimizedIn, minimizedDefault) {
 			presentationMinimized = presentationMinimizedIn.getView();
-			presentationMinimized.className = presentationMinimized.className
-					+ " minimized";
+			presentationMinimized.className = presentationMinimized.className + " minimized";
 			view.insertBefore(presentationMinimized, buttonView);
 			createMinimizeMaximizeButtons();
 			toggleMinimizedShown(minimizedDefault);
-			view.className = "repeatingElement " + spec.textStyleMinimized
-					+ " " + spec.childStyleMinimized;
+			view.className = "repeatingElement" + getTextStyleMinimizedFromSpec()
+					+ getChildStyleMinimizedFromSpec();
+		}
+
+		function getTextStyleMinimizedFromSpec() {
+			return spec.textStyleMinimized !== undefined ? " " + spec.textStyleMinimized : "";
+		}
+
+		function getChildStyleMinimizedFromSpec() {
+			return spec.childStyleMinimized !== undefined ? " " + spec.childStyleMinimized : "";
 		}
 
 		function toggleMinimizedShown(minimizedShown) {
@@ -136,15 +146,15 @@ var CORA = (function(cora) {
 				show(presentationMinimized);
 				show(maximizeButton);
 				hide(minimizeButton);
-				view.className = "repeatingElement " + spec.textStyleMinimized
-						+ " " + spec.childStyleMinimized;
+				view.className = "repeatingElement" + getTextStyleMinimizedFromSpec()
+						+ getChildStyleMinimizedFromSpec();
 			} else {
 				show(presentationMaximized);
 				hide(presentationMinimized);
 				hide(maximizeButton);
 				show(minimizeButton);
-				view.className = "repeatingElement " + spec.textStyle + " "
-						+ spec.childStyle;
+				view.className = "repeatingElement" + getTextStyleFromSpec()
+						+ getChildStyleFromSpec();
 			}
 		}
 
