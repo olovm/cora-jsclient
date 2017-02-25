@@ -23,7 +23,7 @@ QUnit.module("pRepeatingElementTest.js", {
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 
 		this.dependencies = {
-				"jsBookkeeper" : this.jsBookkeeper
+			"jsBookkeeper" : this.jsBookkeeper
 		};
 		this.spec = {
 			"repeatMin" : "1",
@@ -65,8 +65,8 @@ QUnit.test("testInit", function(assert) {
 	// drag button
 	var removeButton = buttonView.childNodes[1];
 	assert.strictEqual(removeButton.className, "dragButton");
-
 });
+
 QUnit.test("testGetDependencies", function(assert) {
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
@@ -94,6 +94,18 @@ QUnit.test("testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThis", f
 });
 
 QUnit.test("testButtonViewAndRemoveButton", function(assert) {
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	var buttonView = view.childNodes[0];
+	var removeButton = buttonView.firstChild;
+	assert.strictEqual(removeButton.className, "removeButton");
+});
+
+QUnit.test("test0to1ShouldHaveRemoveButton", function(assert) {
+	this.spec.repeatMin = "0";
+	this.spec.repeatMax = "1";
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
 	this.fixture.appendChild(view);
@@ -248,6 +260,31 @@ QUnit.test("testAddPresentationMinimized", function(assert) {
 	var minimizeButton = buttonView.childNodes[2];
 	assert.strictEqual(minimizeButton.className, "minimizeButton");
 	assert.visible(minimizeButton, "minimizeButton should be shown");
+});
+
+QUnit.test("testMinimizeMaximizeButtonShouldWorkWithoutDraghandle", function(assert) {
+	this.spec.repeatMin = "1";
+	this.spec.repeatMax = "1";
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	var buttonView = view.childNodes[0];
+
+	var presentation = CORATEST.presentationStub("maximized");
+	pRepeatingElement.addPresentation(presentation);
+
+	var presentationMinimized = CORATEST.presentationStub("minimized");
+	pRepeatingElement.addPresentationMinimized(presentationMinimized);
+
+	var maximizeButton = buttonView.childNodes[0];
+	assert.strictEqual(maximizeButton.className, "maximizeButton");
+	assert.notVisible(maximizeButton, "maximizeButton should be hidden");
+	var minimizeButton = buttonView.childNodes[1];
+	assert.strictEqual(minimizeButton.className, "minimizeButton");
+	assert.visible(minimizeButton, "minimizeButton should be shown");
+
+	assert.strictEqual(buttonView.childNodes.length, 2);
 });
 
 QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
