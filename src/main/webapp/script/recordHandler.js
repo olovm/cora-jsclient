@@ -212,6 +212,7 @@ var CORA = (function(cora) {
 
 		function processFetchedRecord(answer) {
 			fetchedRecord = getRecordPartFromAnswer(answer);
+			//TODO: data should be dataFromBeforeLogin or from answer depending on...
 			var data = getDataPartOfRecordFromAnswer(answer);
 			var dataDivider = getDataDividerFromData(data);
 			try {

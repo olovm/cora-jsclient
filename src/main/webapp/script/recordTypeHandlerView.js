@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,19 +18,26 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordTypeHandlerView = function(spec) {
+	cora.recordTypeHandlerView = function(dependencies, spec) {
 		var out;
-		var view = CORA.gui.createSpanWithClassName("recordType");
+		var view;
+		var header;
+		var buttonView;
+		var childrenView;
 
-		var header = createHeader();
-		view.appendChild(header);
+		function start() {
+			view = CORA.gui.createSpanWithClassName("recordType");
 
-		var buttonView = CORA.gui.createSpanWithClassName("buttonView");
-		view.appendChild(buttonView);
-		possiblyCreateCreateButton();
+			header = createHeader();
+			view.appendChild(header);
 
-		var childrenView = CORA.gui.createSpanWithClassName("childrenView");
-		view.appendChild(childrenView);
+			buttonView = CORA.gui.createSpanWithClassName("buttonView");
+			view.appendChild(buttonView);
+			possiblyCreateCreateButton();
+
+			childrenView = CORA.gui.createSpanWithClassName("childrenView");
+			view.appendChild(childrenView);
+		}
 
 		function createHeader() {
 			var headerNew = CORA.gui.createSpanWithClassName("header");
@@ -47,10 +54,10 @@ var CORA = (function(cora) {
 
 		function createCreateButton() {
 			var buttonSpec = {
-					"className":"createButton",
-					"onclick":function() {
-						spec.createNewMethod("new");
-					}
+				"className" : "createButton",
+				"onclick" : function() {
+					spec.createNewMethod("new");
+				}
 			};
 			return CORA.gui.createButton(buttonSpec);
 		}
@@ -59,29 +66,24 @@ var CORA = (function(cora) {
 			return view;
 		}
 
-		function createListItem(text, onclickMethod) {
-			var item = {};
-			item.menuView = createMenuView(text, item, onclickMethod);
-			childrenView.appendChild(item.menuView);
-
-			item.workView = CORA.gui.createSpanWithClassName("workView");
-			return item;
-		}
-
-		function createMenuView(text, item, onclickMethod) {
-			var menuView = CORA.gui.createSpanWithClassName("menuView");
-			menuView.onclick = function() {
-				onclickMethod(item);
-			};
-			menuView.textContent = text;
-			menuView.modelObject = item;
-			return menuView;
+//		function createManagedGuiItem(text, onclickMethod) {
+//			var item = dependencies.jsClient.createManagedGuiItem(onclickMethod);
+//			item.menuView.modelObject = item;
+//			item.menuView.textContent = text;
+//			childrenView.appendChild(item.menuView);
+//			return item;
+//		}
+		function addManagedGuiItem(managedGuiItem) {
+			managedGuiItem.menuView.modelObject = managedGuiItem;
+			childrenView.appendChild(managedGuiItem.menuView);
 		}
 
 		out = Object.freeze({
 			getView : getView,
-			createListItem : createListItem
+//			createManagedGuiItem : createManagedGuiItem,
+			addManagedGuiItem : addManagedGuiItem
 		});
+		start();
 		return out;
 	};
 	return cora;
