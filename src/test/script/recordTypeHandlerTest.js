@@ -489,7 +489,6 @@ QUnit.test("showNew", function(assert) {
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
 });
 
-
 QUnit.test("testFactory", function(assert) {
 	this.createRecordTypeHandlerViewFactory = function() {
 		var dependen = {
@@ -538,7 +537,5 @@ QUnit.test("testFactory", function(assert) {
 
 	var recordHandlerView = recordTypeHandler.createRecordHandlerViewFactory().factor(
 			recordHandlerViewSpec);
-
 	assert.notStrictEqual(recordHandlerView, undefined);
-
 });

@@ -66,13 +66,6 @@ var CORA = (function(cora) {
 			return view;
 		}
 
-//		function createManagedGuiItem(text, onclickMethod) {
-//			var item = dependencies.jsClient.createManagedGuiItem(onclickMethod);
-//			item.menuView.modelObject = item;
-//			item.menuView.textContent = text;
-//			childrenView.appendChild(item.menuView);
-//			return item;
-//		}
 		function addManagedGuiItem(managedGuiItem) {
 			managedGuiItem.menuView.modelObject = managedGuiItem;
 			childrenView.appendChild(managedGuiItem.menuView);
@@ -80,7 +73,6 @@ var CORA = (function(cora) {
 
 		out = Object.freeze({
 			getView : getView,
-//			createManagedGuiItem : createManagedGuiItem,
 			addManagedGuiItem : addManagedGuiItem
 		});
 		start();

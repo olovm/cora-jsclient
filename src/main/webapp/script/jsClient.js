@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -52,7 +52,6 @@ var CORA = (function(cora) {
 			var recordGuiFactorySpec = dependencies;
 			recordGuiFactorySpec.uploadManager = CORA
 					.uploadManager(dependencies, uploadManagerSpec);
-			//
 			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
 			processRecordTypes();
 			addRecordTypesToSideBar(recordTypeList);
@@ -162,7 +161,7 @@ var CORA = (function(cora) {
 				"recordGuiFactory" : recordGuiFactory,
 				"jsClient" : out,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory
-			}; 
+			};
 			var specRecord = {
 				"recordTypeRecord" : record,
 				"baseUrl" : spec.baseUrl
@@ -199,7 +198,6 @@ var CORA = (function(cora) {
 
 		function getView() {
 			return jsClientView.getView();
-			// return mainView;
 		}
 
 		function getRecordTypeList() {
@@ -254,7 +252,6 @@ var CORA = (function(cora) {
 		}
 
 		function afterRecordTypeProviderReload() {
-			// update recordList, etc
 			jsClientView.clearRecordTypesView();
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			processRecordTypes();

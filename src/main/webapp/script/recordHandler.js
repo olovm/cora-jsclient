@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  * Copyright 2016 Olov McKie
  *
  * This file is part of Cora.
@@ -212,7 +212,7 @@ var CORA = (function(cora) {
 
 		function processFetchedRecord(answer) {
 			fetchedRecord = getRecordPartFromAnswer(answer);
-			//TODO: data should be dataFromBeforeLogin or from answer depending on...
+			// data should be dataFromBeforeLogin or from answer depending on...
 			var data = getDataPartOfRecordFromAnswer(answer);
 			var dataDivider = getDataDividerFromData(data);
 			try {
