@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -23,7 +23,7 @@ var CORA = (function(cora) {
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
 		var viewSpec = {
-//			"dependencies" : dependencies,
+			// "dependencies" : dependencies,
 			"headerText" : recordId,
 			"fetchListMethod" : createRecordTypeList
 		};
@@ -63,16 +63,10 @@ var CORA = (function(cora) {
 				"jsClient" : dependencies.jsClient
 			};
 			dependencies.recordListHandlerFactory.factor(listHandlerSpec);
-		} 
+		}
 
-//		function createManagedGuiItem(text) {
-//			var item = recordTypeHandlerView.createManagedGuiItem(text, dependencies.jsClient.showView);
-//			dependencies.jsClient.showView(item);
-//			return item;
-//		}
 		function createManagedGuiItem(text) {
-//			var item = recordTypeHandlerView.createManagedGuiItem(text, dependencies.jsClient.showView);
-			var managedGuiItem = dependencies.jsClient.createManagedGuiItem(function(){});
+			var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
 			managedGuiItem.menuView.textContent = text;
 			recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
 			dependencies.jsClient.showView(managedGuiItem);
