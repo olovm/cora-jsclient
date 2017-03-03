@@ -30,7 +30,8 @@ QUnit.module("pChildRefHandlerFactoryTest.js", {
 				"recordTypeProvider" :  CORATEST.recordTypeProviderStub(),
 				"uploadManager" : CORATEST.uploadManagerSpy(),
 				"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-				"pRepeatingElementFactory" : CORATEST.pRepeatingElementFactorySpy()
+				"pRepeatingElementFactory" : CORATEST.pRepeatingElementFactorySpy(),
+				"pChildRefHandlerViewFactory": CORATEST.pChildRefHandlerViewFactorySpy()
 		};
 		this.spec = {
 			"parentPath" : {},

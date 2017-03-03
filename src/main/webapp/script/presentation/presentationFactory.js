@@ -43,7 +43,9 @@ var CORA = (function(cora) {
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"pRepeatingElementFactory" : CORA
-						.pRepeatingElementFactory(pRepeatingElementFactoryDependencies)
+						.pRepeatingElementFactory(pRepeatingElementFactoryDependencies),
+				"pChildRefHandlerViewFactory":CORA.pChildRefHandlerViewFactory()
+						
 			};
 			var pChildRefHandlerFactory = CORA
 					.pChildRefHandlerFactory(pChildRefHandlerFactoryDependencies);

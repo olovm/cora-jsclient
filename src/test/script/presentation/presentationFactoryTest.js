@@ -33,7 +33,8 @@ QUnit.module("presentationFactoryTest.js", {
 			"jsBookkeeper" : this.jsBookkeeper,
 			"recordTypeProvider" : this.recordTypeProvider,
 			"dataDivider" : this.dataDivider,
-			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy()
+			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy(),
+			"pChildRefHandlerViewFactory": CORATEST.pChildRefHandlerViewFactorySpy()
 		};
 		this.newPresentationFactory = CORA.presentationFactory(this.dependencies);
 

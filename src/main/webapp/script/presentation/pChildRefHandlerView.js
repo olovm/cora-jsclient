@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pChildRefHandlerView = function(spec) {
+	cora.pChildRefHandlerView = function(dependencies, spec) {
 		var view = createBaseView();
 		var childrenView = createChildrenView();
 		var buttonView;
@@ -290,8 +290,19 @@ var CORA = (function(cora) {
 				repeatingElements[key].modelObject.showDragButton();
 			});
 		}
-
+		
+		function getSpec(){
+			return spec;
+		}
+		
+		function getDependencies(){
+			return dependencies;
+		}
+		
 		var out = Object.freeze({
+			"type" : "pChildRefHandlerView",
+			getSpec : getSpec,
+			getDependencies: getDependencies,
 			getView : getView,
 			setRepeatingElementDragOver : setRepeatingElementDragOver,
 			addChild : addChild,

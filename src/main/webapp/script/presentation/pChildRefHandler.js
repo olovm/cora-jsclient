@@ -105,7 +105,8 @@ var CORA = (function(cora) {
 			} else if (showAddButton()) {
 				pChildRefHandlerViewSpec.addMethod = sendAdd;
 			}
-			return CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
+//			return CORA.pChildRefHandlerView({},pChildRefHandlerViewSpec);
+			return dependencies.pChildRefHandlerViewFactory.factor(pChildRefHandlerViewSpec);
 		}
 
 		function hasAttributes() {
