@@ -201,15 +201,17 @@ var CORA = (function(cora) {
 					"name" : "ref",
 					"children": [ {
 						"name": "linkedRecordType",
-						"value": "metadataTextVariable"
+						"value": "metadata"
 					},
 						{
 							"name": "linkedRecordId",
 							"value": ref
 						}
-					],"attributes": {
-						"type": "textVariable"
-					}
+					]
+				,
+//					"attributes": {
+//						"type": "textVariable"
+//					}
 				}, {
 					"name" : "repeatMin",
 					"value" : "1"

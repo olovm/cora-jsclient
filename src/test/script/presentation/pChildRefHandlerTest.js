@@ -503,15 +503,15 @@ QUnit.test("testAddButtonFor1toX", function(assert) {
 	var addData = {
 		"childReference" : {
 			"children" : [ {
-				"attributes": {
-					"type": "textVariable"
-				},
+//				"attributes": {
+//					"type": "textVariable"
+//				},
 				
 				"name" : "ref",
 				"children": [
 					{
 						"name": "linkedRecordType",
-						"value": "metadataTextVariable"
+						"value": "metadata"
 					},
 					{
 						"name": "linkedRecordId",
@@ -554,14 +554,14 @@ QUnit.test("testAddButtonWithAttributes", function(assert) {
 		},
 		"childReference" : {
 			"children" : [ {
-				"attributes": {
-					"type": "textVariable"
-				},
+//				"attributes": {
+//					"type": "textVariable"
+//				},
 				"name" : "ref",
 				"children": [
 					{
 						"name": "linkedRecordType",
-						"value": "metadataTextVariable"
+						"value": "metadata"
 					},
 					{
 						"name": "linkedRecordId",
@@ -666,14 +666,14 @@ QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 	var addData = {
 		"childReference" : {
 			"children" : [ {
-				"attributes": {
-					"type": "recordLink"
-				},
+//				"attributes": {
+//					"type": "recordLink"
+//				},
 				"name" : "ref",
 				"children": [
 					{
 						"name": "linkedRecordType",
-						"value": "metadataRecordLink"
+						"value": "metadata"
 					},
 					{
 						"name": "linkedRecordId",

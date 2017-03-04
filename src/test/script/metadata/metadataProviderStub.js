@@ -86,14 +86,15 @@ function MetadataProviderStub() {
                 "name": "ref",
                 "children": [{
                     "name": "linkedRecordType",
-                    "value": refRecordType
+                    "value": "metadata"
                 }, {
                     "name": "linkedRecordId",
                     "value": ref
-                }],
-                "attributes": {
-                    "type": attribute
-                }
+                }]
+//            ,
+//                "attributes": {
+//                    "type": attribute
+//                }
             }, {
                 "name": "repeatMin",
                 "value": repeatMin
@@ -1747,14 +1748,11 @@ function MetadataProviderStub() {
                             "name": "ref",
                             "children": [{
                                 "name": "linkedRecordType",
-                                "value": "metadataGroup"
+                                "value": "metadata"
                             }, {
                                 "name": "linkedRecordId",
                                 "value": "recordInfoPVarGroup"
-                            }],
-                            "attributes": {
-                                "type": "group"
-                            }
+                            }]
 // "value" : "recordInfo"
                         }, {
                             "name": "repeatMin",
@@ -1815,14 +1813,11 @@ function MetadataProviderStub() {
                             "name": "ref",
                             "children": [{
                                 "name": "linkedRecordType",
-                                "value": "metadataGroup"
+                                "value": "metadata"
                             }, {
                                 "name": "linkedRecordId",
                                 "value": "recordInfoPVarAttributeGroup"
-                            }],
-                            "attributes": {
-                                "type": "group"
-                            }
+                            }]
 // "value" : "recordInfo"
                         }, {
                             "name": "repeatMin",
@@ -1919,14 +1914,11 @@ function MetadataProviderStub() {
                             "name": "ref",
                             "children": [{
                                 "name": "linkedRecordType",
-                                "value": "metadataTextVariable"
+                                "value": "metadata"
                             }, {
                                 "name": "linkedRecordId",
                                 "value": "idPVarTextVar"
                             }],
-                            "attributes": {
-                                "type": "textVariable"
-                            }
                         }, {
                             "name": "repeatMin",
                             "value": "1"
@@ -1985,14 +1977,11 @@ function MetadataProviderStub() {
                             "name": "ref",
                             "children": [{
                                 "name": "linkedRecordType",
-                                "value": "metadataTextVariable"
+                                "value": "metadata"
                             }, {
                                 "name": "linkedRecordId",
                                 "value": "idPVarTextVar"
-                            }],
-                            "attributes": {
-                                "type": "textVariable"
-                            }
+                            }]
                         }, {
                             "name": "repeatMin",
                             "value": "1"
