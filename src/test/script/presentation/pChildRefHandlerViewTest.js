@@ -20,15 +20,17 @@
 "use strict";
 QUnit.module("pChildRefHandlerViewTest.js", {
 	beforeEach : function() {
+		this.fixture = document.getElementById("qunit-fixture");
 		this.dependencies = {};
 	},
 	afterEach : function() {
 	}
 });
 
-QUnit.test("testInit", function(assert) {
+QUnit.test("testInitNoAddButton", function(assert) {
 	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
+		"presentationId" : "pVarTextVariableId",
+		"isRepeating" : true
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
@@ -40,6 +42,69 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(view.childNodes.length, 1);
 	var childrenView = view.childNodes[0];
 	assert.strictEqual(childrenView.className, "childrenView");
+
+	var buttonView = view.childNodes[1];
+	assert.strictEqual(buttonView, undefined);
+});
+QUnit.test("testInitWithAddButton", function(assert) {
+	var pChildRefHandlerViewSpec = {
+		"presentationId" : "pVarTextVariableId",
+		"isRepeating" : true,
+		"addMethod" : function() {
+		}
+	};
+	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
+			pChildRefHandlerViewSpec);
+	var view = pChildRefHandlerView.getView();
+	assert.strictEqual(view.childNodes.length, 2);
+
+	var buttonView = view.childNodes[1];
+	assert.strictEqual(buttonView.className, "buttonView");
+});
+
+QUnit.test("testInitFile", function(assert) {
+	var handleFilesHasBeenCalled = false;
+	function handleFiles(files) {
+		handleFilesHasBeenCalled = true;
+	}
+	var pChildRefHandlerViewSpec = {
+		"presentationId" : "myChildOfBinaryPLink",
+		"isRepeating" : true,
+		"upload" : "true",
+		"handleFilesMethod" : handleFiles
+	};
+	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
+			pChildRefHandlerViewSpec);
+	var view = pChildRefHandlerView.getView();
+
+	var buttonView = view.childNodes[1];
+	assert.strictEqual(buttonView.className, "buttonView");
+	var button = buttonView.firstChild;
+	assert.strictEqual(button.type, "file");
+
+	button.onchange();
+	assert.ok(handleFilesHasBeenCalled);
+});
+
+QUnit.test("testHideShowButtonView", function(assert) {
+	var pChildRefHandlerViewSpec = {
+		"presentationId" : "pVarTextVariableId",
+		"isRepeating" : true,
+		"addMethod" : function() {
+		}
+	};
+	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
+			pChildRefHandlerViewSpec);
+	var view = pChildRefHandlerView.getView();
+	this.fixture.appendChild(view);
+
+	var buttonView = view.childNodes[1];
+	assert.visible(buttonView);
+	pChildRefHandlerView.hideButtonView();
+	assert.notVisible(buttonView);
+	pChildRefHandlerView.showButtonView();
+	assert.visible(buttonView);
+
 });
 
 QUnit.test("testGetSpec", function(assert) {
@@ -51,10 +116,95 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(pChildRefHandlerView.getSpec(), pChildRefHandlerViewSpec);
 });
 
-QUnit.test("testDraggingDragStart", function(assert) {
+QUnit.test("testAddChildAndRemoveChild", function(assert) {
 	var pChildRefHandlerViewSpec = {
 		"presentationId" : "pVarTextVariableId"
 	};
+	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
+			pChildRefHandlerViewSpec);
+	var view = pChildRefHandlerView.getView();
+	this.fixture.appendChild(view);
+	var childrenView = pChildRefHandlerView.getView().firstChild;
+
+	var childElement = document.createElement("span");
+	childElement.className = "repeatingElement";
+
+	assert.strictEqual(childrenView.firstChild, null);
+	pChildRefHandlerView.addChild(childElement);
+	assert.strictEqual(childrenView.firstChild, childElement);
+
+	pChildRefHandlerView.removeChild(childElement);
+	assert.strictEqual(childrenView.firstChild, null);
+});
+
+QUnit.test("testShowAndHideChildrensRemoveButton", function(assert) {
+	var pChildRefHandlerViewSpec = {
+		"presentationId" : "pVarTextVariableId"
+	};
+	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
+			pChildRefHandlerViewSpec);
+	var view = pChildRefHandlerView.getView();
+	this.fixture.appendChild(view);
+	var childrenView = pChildRefHandlerView.getView().firstChild;
+
+	var pRepeatingElementSpec = {
+		"path" : "xyz"
+	};
+	var childElement = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
+	pChildRefHandlerView.addChild(childElement.getView());
+	var childElement2 = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
+	pChildRefHandlerView.addChild(childElement2.getView());
+
+	assert.strictEqual(childElement.getHideRemoveButtonCalled(), 0);
+	assert.strictEqual(childElement.getShowRemoveButtonCalled(), 0);
+	assert.strictEqual(childElement2.getHideRemoveButtonCalled(), 0);
+	assert.strictEqual(childElement2.getShowRemoveButtonCalled(), 0);
+
+	pChildRefHandlerView.hideChildrensRemoveButton();
+	pChildRefHandlerView.showChildrensRemoveButton();
+
+	assert.strictEqual(childElement.getHideRemoveButtonCalled(), 1);
+	assert.strictEqual(childElement.getShowRemoveButtonCalled(), 1);
+	assert.strictEqual(childElement2.getHideRemoveButtonCalled(), 1);
+	assert.strictEqual(childElement2.getShowRemoveButtonCalled(), 1);
+});
+
+QUnit.test("testShowAndHideChildrensDragButton", function(assert) {
+	var pChildRefHandlerViewSpec = {
+			"presentationId" : "pVarTextVariableId"
+	};
+	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
+			pChildRefHandlerViewSpec);
+	var view = pChildRefHandlerView.getView();
+	this.fixture.appendChild(view);
+	var childrenView = pChildRefHandlerView.getView().firstChild;
+	
+	var pRepeatingElementSpec = {
+			"path" : "xyz"
+	};
+	var childElement = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
+	pChildRefHandlerView.addChild(childElement.getView());
+	var childElement2 = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
+	pChildRefHandlerView.addChild(childElement2.getView());
+	
+	assert.strictEqual(childElement.getHideDragButtonCalled(), 0);
+	assert.strictEqual(childElement.getShowDragButtonCalled(), 0);
+	assert.strictEqual(childElement2.getHideDragButtonCalled(), 0);
+	assert.strictEqual(childElement2.getShowDragButtonCalled(), 0);
+	
+	pChildRefHandlerView.hideChildrensDragButton();
+	pChildRefHandlerView.showChildrensDragButton();
+	
+	assert.strictEqual(childElement.getHideDragButtonCalled(), 1);
+	assert.strictEqual(childElement.getShowDragButtonCalled(), 1);
+	assert.strictEqual(childElement2.getHideDragButtonCalled(), 1);
+	assert.strictEqual(childElement2.getShowDragButtonCalled(), 1);
+});
+
+QUnit.test("testDraggingDragStart", function(assert) {
+	var pChildRefHandlerViewSpec = {
+		"presentationId" : "pVarTextVariableId"
+	}; 
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
 	var view = pChildRefHandlerView.getView();
@@ -588,22 +738,22 @@ QUnit.test("testHandleMoveMessageAfter", function(assert) {
 	assert.strictEqual(childrenView.childNodes[1], pRepeatingElementSpy.getView());
 });
 
- QUnit.test("testHandleMoveMessageBefore", function(assert) {
-var pChildRefHandlerViewSpec = {
+QUnit.test("testHandleMoveMessageBefore", function(assert) {
+	var pChildRefHandlerViewSpec = {
 		"presentationId" : "pVarTextVariableId"
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
 
 	var path2 = {
-			"name" : "linkedPath",
-			"children" : [ {
-				"name" : "nameInData",
-				"value" : "textVariableId"
-			}, {
-				"name" : "repeatId",
-				"value" : "two"
-			} ]
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		}, {
+			"name" : "repeatId",
+			"value" : "two"
+		} ]
 	};
 	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({}, {});
 	pRepeatingElementSpy2.setParentModelObject(pChildRefHandlerView);
@@ -611,7 +761,7 @@ var pChildRefHandlerViewSpec = {
 	pRepeatingElementSpy2.setPath(path2);
 	pChildRefHandlerView.addChild(pRepeatingElementSpy2.getView());
 	var childrenView = pChildRefHandlerView.getView().childNodes[0];
-	
+
 	var path = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -627,7 +777,6 @@ var pChildRefHandlerViewSpec = {
 	pRepeatingElementSpy.id = "one";
 	pRepeatingElementSpy.setPath(path);
 	pChildRefHandlerView.addChild(pRepeatingElementSpy.getView());
-
 
 	assert.strictEqual(childrenView.childNodes[0], pRepeatingElementSpy2.getView());
 	assert.strictEqual(childrenView.childNodes[1], pRepeatingElementSpy.getView());
@@ -662,28 +811,4 @@ var pChildRefHandlerViewSpec = {
 	assert.strictEqual(childrenView.childNodes[0], pRepeatingElementSpy.getView());
 	assert.strictEqual(childrenView.childNodes[1], pRepeatingElementSpy2.getView());
 
-});
-
-QUnit.test("testInit", function(assert) {
-	var handleFilesHasBeenCalled = false;
-	function handleFiles(files) {
-		handleFilesHasBeenCalled = true;
-	}
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "myChildOfBinaryPLink",
-		"isRepeating" : true,
-		"upload" : "true",
-		"handleFilesMethod" : handleFiles
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
-	var view = pChildRefHandlerView.getView();
-
-	var buttonView = view.childNodes[1];
-	assert.strictEqual(buttonView.className, "buttonView");
-	var button = buttonView.firstChild;
-	assert.strictEqual(button.type, "file");
-
-	button.onchange();
-	assert.ok(handleFilesHasBeenCalled);
 });

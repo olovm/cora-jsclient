@@ -325,6 +325,41 @@ QUnit.test("testChildMoved", function(assert) {
 
 	assert.deepEqual(this.dependencies.jsBookkeeper.getMoveDataArray()[0], moveData);
 });
+QUnit.test("testChildMovedUsingMessage", function(assert) {
+	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
+	var view = pChildRefHandler.getView();
+	this.fixture.appendChild(view);
+	
+	var moveMessageData = {
+			"path" : {},
+			"metadataId" : "textVariableId",
+			"moveChild" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVariableId"
+				}, {
+					"name" : "repeatId",
+					"value" : "one"
+				} ]
+			},
+			"basePositionOnChild" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVariableId"
+				}, {
+					"name" : "repeatId",
+					"value" : "two"
+				} ]
+			},
+			"newPosition" : "after"
+	};
+	pChildRefHandler.handleMsg(moveMessageData, "root/move");
+	var factoredView = this.dependencies.pChildRefHandlerViewFactory.getFactored(0);
+	
+	assert.deepEqual(factoredView.getMovedChild(0), moveMessageData);
+});
 
 QUnit.test("testInitRepeatingVariableNoOfChildren", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
