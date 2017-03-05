@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -26,6 +26,8 @@ var CORA = (function(cora) {
 		var recordGuiFactory;
 		var jsClientView;
 		var loginManager;
+		var managedGuiItemShowing = undefined;
+		var managedGuiItemList = [];
 
 		function start() {
 			var jsClientViewSpec = {
@@ -50,7 +52,6 @@ var CORA = (function(cora) {
 			var recordGuiFactorySpec = dependencies;
 			recordGuiFactorySpec.uploadManager = CORA
 					.uploadManager(dependencies, uploadManagerSpec);
-			//
 			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
 			processRecordTypes();
 			addRecordTypesToSideBar(recordTypeList);
@@ -131,19 +132,19 @@ var CORA = (function(cora) {
 
 		function createMetadataIdsForRecordType(recordTypes) {
 			var metadataIds = {};
-			recordTypes
-					.forEach(function(record) {
-						var cRecord = CORA.coraData(record.data);
-						var cMetadataIdGroup = CORA.coraData(cRecord
-								.getFirstChildByNameInData("metadataId"));
-						var metadataId = cMetadataIdGroup
-								.getFirstAtomicValueByNameInData("linkedRecordId");
-						var cRecordInfo = CORA.coraData(cRecord
-								.getFirstChildByNameInData("recordInfo"));
-						var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
-						metadataIds[id] = metadataId;
-					});
+			recordTypes.forEach(function(record) {
+				createMetadataIdForRecordType(metadataIds, record);
+			});
 			return metadataIds;
+		}
+
+		function createMetadataIdForRecordType(metadataIds, record) {
+			var cRecord = CORA.coraData(record.data);
+			var cMetadataIdGroup = CORA.coraData(cRecord.getFirstChildByNameInData("metadataId"));
+			var metadataId = cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
+			metadataIds[id] = metadataId;
 		}
 
 		function addRecordTypesToSideBar(recordTypes) {
@@ -153,24 +154,29 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordTypeToSideBar(record) {
-			var specRecord = {
-				"dependencies" : dependencies,
+			var dependenciesRecord = {
 				"recordTypeHandlerViewFactory" : createRecordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : createRecordListHandlerFactory(),
 				"recordHandlerFactory" : createRecordHandlerFactory(),
 				"recordGuiFactory" : recordGuiFactory,
-				"recordTypeRecord" : record,
 				"jsClient" : out,
+				"ajaxCallFactory" : dependencies.ajaxCallFactory
+			};
+			var specRecord = {
+				"recordTypeRecord" : record,
 				"baseUrl" : spec.baseUrl
 			};
-			var recordTypeHandler = CORA.recordTypeHandler(specRecord);
+			var recordTypeHandler = CORA.recordTypeHandler(dependenciesRecord, specRecord);
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}
 
 		function createRecordTypeHandlerViewFactory() {
 			return {
 				"factor" : function(viewSpec) {
-					return CORA.recordTypeHandlerView(viewSpec);
+					var dependen = {
+						"jsClient" : out
+					};
+					return CORA.recordTypeHandlerView(dependen, viewSpec);
 				}
 			};
 		}
@@ -192,48 +198,46 @@ var CORA = (function(cora) {
 
 		function getView() {
 			return jsClientView.getView();
-			// return mainView;
 		}
 
 		function getRecordTypeList() {
 			return recordTypeList;
 		}
 
-		var itemShowing = undefined;
-		function showView(itemToShow) {
+		function showView(managedGuiItem) {
 			clearWorkArea();
 			resetLastShowingMenuItem();
-			showNewWorkView(itemToShow);
-			updateShowingMenuItem(itemToShow);
-			itemShowing = itemToShow;
+			showNewWorkView(managedGuiItem);
+			updateShowingManagedGuiItem(managedGuiItem);
+			managedGuiItemShowing = managedGuiItem;
 		}
 
 		function clearWorkArea() {
-			if (itemShowing !== undefined) {
-				itemShowing.workView.style.display = "none";
+			if (managedGuiItemShowing !== undefined) {
+				managedGuiItemShowing.workView.style.display = "none";
 			}
 		}
 
 		function resetLastShowingMenuItem() {
-			if (itemShowing !== undefined) {
-				itemShowing.menuView.className = itemShowing.menuView.className.replace(" active",
-						"");
-				itemShowing.isActive = false;
+			if (managedGuiItemShowing !== undefined) {
+				managedGuiItemShowing.menuView.className = managedGuiItemShowing.menuView.className
+						.replace(" active", "");
+				managedGuiItemShowing.isActive = false;
 			}
 		}
 
-		function showNewWorkView(itemToShow) {
-			if (itemToShow.workView.parentNode !== jsClientView.getWorkView()) {
-				jsClientView.addToWorkView(itemToShow.workView);
-				itemToShow.workView.scrollTop = 0;
+		function showNewWorkView(managedGuiItem) {
+			if (managedGuiItem.workView.parentNode !== jsClientView.getWorkView()) {
+				jsClientView.addToWorkView(managedGuiItem.workView);
+				managedGuiItem.workView.scrollTop = 0;
 			}
-			itemToShow.workView.style.display = "";
+			managedGuiItem.workView.style.display = "";
 		}
 
-		function updateShowingMenuItem(itemToShow) {
-			itemToShow.isActive = true;
-			itemToShow.originalClassName = itemToShow.menuView.className;
-			itemToShow.menuView.className = itemToShow.menuView.className + " active";
+		function updateShowingManagedGuiItem(managedGuiItem) {
+			managedGuiItem.isActive = true;
+			managedGuiItem.originalClassName = managedGuiItem.menuView.className;
+			managedGuiItem.menuView.className = managedGuiItem.menuView.className + " active";
 		}
 
 		function getMetadataIdForRecordTypeId(recordTypeId) {
@@ -248,11 +252,29 @@ var CORA = (function(cora) {
 		}
 
 		function afterRecordTypeProviderReload() {
-			// update recordList, etc
 			jsClientView.clearRecordTypesView();
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			processRecordTypes();
 			addRecordTypesToSideBar(recordTypeList);
+			managedGuiItemList.forEach(handleManagedGuiItemAfterReload);
+		}
+
+		function handleManagedGuiItemAfterReload(managedGuiItemToHandle) {
+			managedGuiItemToHandle.handledBy(managedGuiItemToHandle);
+		}
+
+		function createManagedGuiItem(handledBy) {
+			var managedGuiItem = {
+				"handledBy" : handledBy,
+				"workView" : CORA.gui.createSpanWithClassName("workView"),
+				"menuView" : CORA.gui.createSpanWithClassName("menuView")
+			};
+			managedGuiItem.menuView.onclick = function() {
+				showView(managedGuiItem);
+			};
+
+			managedGuiItemList.push(managedGuiItem);
+			return managedGuiItem;
 		}
 
 		out = Object.freeze({
@@ -265,7 +287,8 @@ var CORA = (function(cora) {
 			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
 			afterLogin : afterLogin,
 			afterLogout : afterLogout,
-			afterRecordTypeProviderReload : afterRecordTypeProviderReload
+			afterRecordTypeProviderReload : afterRecordTypeProviderReload,
+			createManagedGuiItem : createManagedGuiItem
 		});
 		start();
 

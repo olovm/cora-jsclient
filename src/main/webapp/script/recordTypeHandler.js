@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,12 +18,12 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordTypeHandler = function(spec) {
+	cora.recordTypeHandler = function(dependencies, spec) {
 		var self;
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
 		var viewSpec = {
-			"dependencies" : spec.dependencies,
+			// "dependencies" : dependencies,
 			"headerText" : recordId,
 			"fetchListMethod" : createRecordTypeList
 		};
@@ -31,7 +31,7 @@ var CORA = (function(cora) {
 			viewSpec.createNewMethod = createRecordHandler;
 		}
 
-		var recordTypeHandlerView = spec.recordTypeHandlerViewFactory.factor(viewSpec);
+		var recordTypeHandlerView = dependencies.recordTypeHandlerViewFactory.factor(viewSpec);
 
 		function getView() {
 			return recordTypeHandlerView.getView();
@@ -52,27 +52,25 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordTypeList() {
-			var views = createItemViews("menuView");
+			var views = createManagedGuiItem("menuView");
 			var listHandlerSpec = {
-				"dependencies" : spec.dependencies,
+				"dependencies" : dependencies,
 				"createRecordHandlerMethod" : createRecordHandler,
-				"recordGuiFactory" : spec.recordGuiFactory,
+				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"recordTypeRecord" : spec.recordTypeRecord,
 				"views" : views,
 				"baseUrl" : spec.baseUrl,
-				"jsClient" : spec.jsClient
+				"jsClient" : dependencies.jsClient
 			};
-			spec.recordListHandlerFactory.factor(listHandlerSpec);
+			dependencies.recordListHandlerFactory.factor(listHandlerSpec);
 		}
 
-		function createItemViews(text) {
-			var item = recordTypeHandlerView.createListItem(text, onclickMethod);
-			spec.jsClient.showView(item);
-			return item;
-		}
-
-		function onclickMethod(item) {
-			spec.jsClient.showView(item);
+		function createManagedGuiItem(text) {
+			var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
+			managedGuiItem.menuView.textContent = text;
+			recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
+			dependencies.jsClient.showView(managedGuiItem);
+			return managedGuiItem;
 		}
 
 		function createRecordHandler(presentationMode, record) {
@@ -80,19 +78,19 @@ var CORA = (function(cora) {
 			if ("new" !== presentationMode) {
 				text = getIdFromRecord(record);
 			}
-			var views = createItemViews(text);
+			var views = createManagedGuiItem(text);
 			var recordHandlerSpec = {
-				"dependencies" : spec.dependencies,
+				"dependencies" : dependencies,
 				"recordHandlerViewFactory" : createRecordHandlerViewFactory(),
 				"recordTypeRecord" : spec.recordTypeRecord,
 				"presentationMode" : presentationMode,
 				"record" : record,
-				"recordGuiFactory" : spec.recordGuiFactory,
+				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"views" : views,
-				"jsClient" : spec.jsClient,
+				"jsClient" : dependencies.jsClient,
 				"recordTypeHandler" : self
 			};
-			spec.recordHandlerFactory.factor(recordHandlerSpec);
+			dependencies.recordHandlerFactory.factor(recordHandlerSpec);
 		}
 		function createRecordHandlerViewFactory() {
 			return {
