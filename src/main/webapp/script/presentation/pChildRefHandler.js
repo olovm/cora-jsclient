@@ -270,11 +270,7 @@ var CORA = (function(cora) {
 				"repeatMax" : repeatMax,
 				"path" : path,
 				"parentModelObject" : pChildRefHandlerView,
-				"isRepeating" : isRepeating,
-//				"textStyle" : spec.textStyle,
-//				"childStyle" : spec.childStyle,
-//				"textStyleMinimized" : spec.textStyleMinimized,
-//				"childStyleMinimized" : spec.childStyleMinimized
+				"isRepeating" : isRepeating
 			};
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}

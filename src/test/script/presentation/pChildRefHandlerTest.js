@@ -1477,47 +1477,6 @@ QUnit.test("testWithMinimizedDefault", function(assert) {
 	assert.ok(factored.getPresentationMinimized() !== undefined);
 	assert.strictEqual(factored.getMinimizedDefault(), "true");
 });
-//1
-//var factoredView = this.dependencies.pChildRefHandlerViewFactory.getFactored(0);
-//assert.strictEqual(view, factoredView.getView());
-//
-//var factoredSpec = this.dependencies.pChildRefHandlerViewFactory.getSpec(0);
-//var expectedSpec = {
-//"presentationId": "pVarTextVariableId",
-//"isRepeating": true
-//};
-//assert.stringifyEqual(factoredSpec, expectedSpec);
-//assert.strictEqual(factoredSpec.addMethod, pChildRefHandler.sendAdd);
-
-//2
-//var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
-//var factoredSpec = pRepeatingElementFactory.getSpec(0);
-//assert.strictEqual(factoredSpec.repeatMin, "1");
-//assert.strictEqual(factoredSpec.repeatMax, "3");
-//assert.stringifyEqual(factoredSpec.path, {
-//	"name" : "linkedPath",
-//	"children" : [ {
-//		"name" : "nameInData",
-//		"value" : "textVariableId"
-//	}, {
-//		"name" : "repeatId",
-//		"value" : "one"
-//	} ]
-//});
-////TODO: better test of spec
-////assert.strictEqual(factoredSpec.parentModelObject, view.modelObject);
-//assert.strictEqual(factoredSpec.isRepeating, true);
-//assert.strictEqual(factoredSpec.textStyle, this.spec.textStyle);
-//assert.strictEqual(factoredSpec.childStyle, this.spec.childStyle);
-//assert.strictEqual(factoredSpec.textStyleMinimized, this.spec.textStyleMinimized);
-//assert.strictEqual(factoredSpec.childStyleMinimized, this.spec.childStyleMinimized);
-
-//3
-//var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
-//var factored = pRepeatingElementFactory.getFactored(0);
-//assert.strictEqual(factored.getHideDragButtonCalled(), 1);
-//assert.strictEqual(factored.getShowDragButtonCalled(), 0);
-//
 QUnit.test("testPresentationMatchingNameInData", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("presentationVarGroup"));

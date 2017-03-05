@@ -30,11 +30,7 @@ QUnit.module("pRepeatingElementTest.js", {
 			"repeatMax" : "2",
 			"path" : {},
 			"parentModelObject" : CORATEST.parentModelObjectSpy(),
-			"isRepeating" : Number("2") > 1 || " 2" === "X",
-			"textStyle" : "h5TextStyle",
-			"childStyle" : "fourChildStyle",
-			"textStyleMinimized" : "h8TextStyle",
-			"childStyleMinimized" : "oneChildStyle"
+			"isRepeating" : Number("2") > 1 || " 2" === "X"
 		};
 	},
 	afterEach : function() {
