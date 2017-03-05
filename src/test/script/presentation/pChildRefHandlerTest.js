@@ -252,6 +252,8 @@ QUnit.test("testInit", function(assert) {
 });
 
 QUnit.test("testInitViewIsFromFactoredView", function(assert) {
+	this.spec.childStyle = "someChildStyle";
+	this.spec.textStyle = "someTextStyle";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 	var view = pChildRefHandler.getView();
 	this.fixture.appendChild(view);
@@ -262,7 +264,9 @@ QUnit.test("testInitViewIsFromFactoredView", function(assert) {
 	var factoredSpec = this.dependencies.pChildRefHandlerViewFactory.getSpec(0);
 	var expectedSpec = {
 		"presentationId" : "pVarTextVariableId",
-		"isRepeating" : false
+		"isRepeating" : false,
+		"textStyle" : "someTextStyle",
+		"childStyle" : "someChildStyle"
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 });
@@ -1102,10 +1106,10 @@ QUnit.test("testRepeatingElement", function(assert) {
 	});
 	// assert.strictEqual(factoredSpec.parentModelObject, view.modelObject);
 	assert.strictEqual(factoredSpec.isRepeating, true);
-	assert.strictEqual(factoredSpec.textStyle, this.spec.textStyle);
-	assert.strictEqual(factoredSpec.childStyle, this.spec.childStyle);
-	assert.strictEqual(factoredSpec.textStyleMinimized, this.spec.textStyleMinimized);
-	assert.strictEqual(factoredSpec.childStyleMinimized, this.spec.childStyleMinimized);
+	assert.strictEqual(factoredSpec.textStyle, undefined);
+	assert.strictEqual(factoredSpec.childStyle, undefined);
+	assert.strictEqual(factoredSpec.textStyleMinimized, undefined);
+	assert.strictEqual(factoredSpec.childStyleMinimized, undefined);
 
 	// subscription
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();

@@ -99,13 +99,18 @@ var CORA = (function(cora) {
 				"presentationId" : presentationId,
 				"isRepeating" : isRepeating
 			};
+			if(spec.textStyle !== undefined){
+				pChildRefHandlerViewSpec.textStyle = spec.textStyle;
+			}
+			if(spec.childStyle !== undefined){
+				pChildRefHandlerViewSpec.childStyle = spec.childStyle;
+			}
 			if (showFileUpload()) {
 				pChildRefHandlerViewSpec.upload = "true";
 				pChildRefHandlerViewSpec.handleFilesMethod = handleFiles;
 			} else if (showAddButton()) {
 				pChildRefHandlerViewSpec.addMethod = sendAdd;
 			}
-//			return CORA.pChildRefHandlerView({},pChildRefHandlerViewSpec);
 			return dependencies.pChildRefHandlerViewFactory.factor(pChildRefHandlerViewSpec);
 		}
 
@@ -266,10 +271,10 @@ var CORA = (function(cora) {
 				"path" : path,
 				"parentModelObject" : pChildRefHandlerView,
 				"isRepeating" : isRepeating,
-				"textStyle" : spec.textStyle,
-				"childStyle" : spec.childStyle,
-				"textStyleMinimized" : spec.textStyleMinimized,
-				"childStyleMinimized" : spec.childStyleMinimized
+//				"textStyle" : spec.textStyle,
+//				"childStyle" : spec.childStyle,
+//				"textStyleMinimized" : spec.textStyleMinimized,
+//				"childStyleMinimized" : spec.childStyleMinimized
 			};
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}

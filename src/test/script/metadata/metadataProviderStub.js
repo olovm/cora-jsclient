@@ -5729,6 +5729,100 @@ function MetadataProviderStub() {
                         }]
                     }])
                 };
+            case "pgGroupIdOneTextOneTextChildTwoAttributesNoTextStyle":
+            	return {
+            	"name": "presentation",
+            	"attributes": {
+            		"type": "pGroup"
+            	},
+            	"children": [createRecordInfoJson(idToGet)].concat([{
+            		"children": [{
+            			"name": "linkedRecordType",
+            			"value": "metadataGroup"
+            		}, {
+            			"name": "linkedRecordId",
+            			"value": "groupIdOneTextChildTwoAttributes"
+            		}],
+            		"name": "presentationOf"
+            	}, {
+            		"name": "childReferences",
+            		"children": [{
+            			"name": "childReference",
+            			"repeatId": "1",
+            			"children": [
+            				{
+            					"name": "refGroup",
+            					"children": [
+//            						{
+//            							"name": "textStyle",
+//            							"value": "h2TextStyle"
+//            						},
+//            						{
+//            							"name": "childStyle",
+//            							"value": "fourChildStyle"
+//            						},
+            						{
+            							"name": "ref",
+            							"children": [
+            								{
+            									"name": "linkedRecordType",
+            									"value": "textSystemOne"
+            								},
+            								{
+            									"name": "linkedRecordId",
+            									"value": "aHeadlineText"
+            								}
+            								],
+            								"attributes": {
+            									"type": "text"
+            								}
+            						}
+            						]
+            				},
+            				{
+            					"name": "default",
+            					"value": "ref"
+            				}]
+            		}, {
+            			"name": "childReference",
+            			"repeatId": "2",
+            			"children": [
+            				{
+            					"name": "refGroup",
+            					"children": [
+            						{
+            							"name": "textStyle",
+            							"value": "h2TextStyle"
+            						},
+            						{
+            							"name": "childStyle",
+            							"value": "fourChildStyle"
+            						},
+            						{
+            							"name": "ref",
+            							"children": [
+            								{
+            									"name": "linkedRecordType",
+            									"value": "presentationVar"
+            								},
+            								{
+            									"name": "linkedRecordId",
+            									"value": "pVarTextVariableId"
+            								}
+            								],
+            								"attributes": {
+            									"type": "pVar"
+            								}
+            						}
+            						]
+            				},
+            				{
+            					"name": "default",
+            					"value": "ref"
+            				}]
+            		}]
+            	}])
+            };
 
             case "pgGroupIdOneTextTwoTextChildrenRepeat1toX":
                 return {

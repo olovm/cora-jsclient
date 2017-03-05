@@ -81,7 +81,7 @@ QUnit.test("testFirstPChildRefHandlerSpec",
 			pMultipleChildren.init();
 			var view = pMultipleChildren.getView();
 			this.fixture.appendChild(view);
-
+			
 			var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
 			assert.strictEqual(factoredSpec.parentPath, this.spec.path);
 			assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
@@ -150,3 +150,25 @@ QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfo",
 			assert.strictEqual(factoredSpec.textStyleMinimized, undefined);
 			assert.strictEqual(factoredSpec.childStyleMinimized, undefined);
 		});
+QUnit.test("testText",
+		function(assert) {
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextOneTextChildTwoAttributes"));
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+	var view = pMultipleChildren.getView(); 
+	this.fixture.appendChild(view);
+	 
+	assert.strictEqual(view.childNodes[1].className, "text h2TextStyle fourChildStyle");
+});
+QUnit.test("testText",
+		function(assert) {
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextOneTextChildTwoAttributesNoTextStyle"));
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+	var view = pMultipleChildren.getView(); 
+	this.fixture.appendChild(view);
+	
+	assert.strictEqual(view.childNodes[1].className, "text");
+});

@@ -46,6 +46,20 @@ QUnit.test("testInitNoAddButton", function(assert) {
 	var buttonView = view.childNodes[1];
 	assert.strictEqual(buttonView, undefined);
 });
+
+QUnit.test("testInitWithStyle", function(assert) {
+	var pChildRefHandlerViewSpec = {
+		"presentationId" : "pVarTextVariableId",
+		"isRepeating" : true,
+		"textStyle" : "someTextStyle",
+		"childStyle" : "someChildStyle"
+	};
+	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
+			pChildRefHandlerViewSpec);
+	var view = pChildRefHandlerView.getView();
+	assert.deepEqual(view.className, "pChildRefHandler someTextStyle someChildStyle pVarTextVariableId");
+});
+
 QUnit.test("testInitWithAddButton", function(assert) {
 	var pChildRefHandlerViewSpec = {
 		"presentationId" : "pVarTextVariableId",
@@ -171,30 +185,30 @@ QUnit.test("testShowAndHideChildrensRemoveButton", function(assert) {
 
 QUnit.test("testShowAndHideChildrensDragButton", function(assert) {
 	var pChildRefHandlerViewSpec = {
-			"presentationId" : "pVarTextVariableId"
+		"presentationId" : "pVarTextVariableId"
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
 	var view = pChildRefHandlerView.getView();
 	this.fixture.appendChild(view);
 	var childrenView = pChildRefHandlerView.getView().firstChild;
-	
+
 	var pRepeatingElementSpec = {
-			"path" : "xyz"
+		"path" : "xyz"
 	};
 	var childElement = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
 	pChildRefHandlerView.addChild(childElement.getView());
 	var childElement2 = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
 	pChildRefHandlerView.addChild(childElement2.getView());
-	
+
 	assert.strictEqual(childElement.getHideDragButtonCalled(), 0);
 	assert.strictEqual(childElement.getShowDragButtonCalled(), 0);
 	assert.strictEqual(childElement2.getHideDragButtonCalled(), 0);
 	assert.strictEqual(childElement2.getShowDragButtonCalled(), 0);
-	
+
 	pChildRefHandlerView.hideChildrensDragButton();
 	pChildRefHandlerView.showChildrensDragButton();
-	
+
 	assert.strictEqual(childElement.getHideDragButtonCalled(), 1);
 	assert.strictEqual(childElement.getShowDragButtonCalled(), 1);
 	assert.strictEqual(childElement2.getHideDragButtonCalled(), 1);
@@ -204,7 +218,7 @@ QUnit.test("testShowAndHideChildrensDragButton", function(assert) {
 QUnit.test("testDraggingDragStart", function(assert) {
 	var pChildRefHandlerViewSpec = {
 		"presentationId" : "pVarTextVariableId"
-	}; 
+	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
 	var view = pChildRefHandlerView.getView();

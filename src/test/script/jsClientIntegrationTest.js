@@ -261,7 +261,7 @@ QUnit.test("testIntegrateRepeatingContainer",
 
 			var repeatingContainer = topPGroupView.childNodes[2];
 			assert.deepEqual(repeatingContainer.className,
-					"pChildRefHandler pTextVariableIdRContainer");
+					"pChildRefHandler h2TextStyle fourChildStyle pTextVariableIdRContainer");
 
 			var childrenView = repeatingContainer.firstChild;
 			var repeatingElement = childrenView.firstChild;

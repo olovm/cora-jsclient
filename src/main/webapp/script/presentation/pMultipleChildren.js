@@ -107,7 +107,7 @@ var CORA = (function(cora) {
 			var cPresentationChild = getMetadataById(refId);
 
 			if (childIsText(cPresentationChild)) {
-				return createText(refId);
+				return createText(refId, cPresentationChildRef);
 			}
 			if (childIsSurroundingContainer(cPresentationChild)) {
 				return createSurroundingContainer(cPresentationChild);
@@ -119,8 +119,17 @@ var CORA = (function(cora) {
 			return cChild.getData().name === "text";
 		}
 
-		function createText(presRef) {
-			var textSpan = CORA.gui.createSpanWithClassName("text");
+		function createText(presRef, cPresentationChildRef) {
+			var cRefGroup;
+			var textClassName = "text";
+			cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refGroup"));
+			if (cRefGroup.containsChildWithNameInData("textStyle")) {
+				textClassName += " " + cRefGroup.getFirstAtomicValueByNameInData("textStyle");
+			}
+			if (cRefGroup.containsChildWithNameInData("childStyle")) {
+				textClassName += " " + cRefGroup.getFirstAtomicValueByNameInData("childStyle");
+			}
+			var textSpan = CORA.gui.createSpanWithClassName(textClassName);
 			textSpan.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
 			return textSpan;
 		}
