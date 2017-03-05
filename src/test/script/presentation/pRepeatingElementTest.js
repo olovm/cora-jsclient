@@ -207,14 +207,10 @@ QUnit.test("testAddPresentation", function(assert) {
 	assert.strictEqual(presentationView.className, "presentationStub maximized");
 	assert.visible(presentationView, "presentationView should be visible");
 	assert.strictEqual(view.childNodes.length, 2);
-	assert.deepEqual(view.className, "repeatingElement h5TextStyle fourChildStyle");
+	assert.deepEqual(view.className, "repeatingElement");
 });
 
 QUnit.test("testAddPresentationNoStyle", function(assert) {
-	this.spec.textStyle = undefined;
-	this.spec.childStyle = undefined;
-	this.spec.textStyleMinimized = undefined;
-	this.spec.childStyleMinimized = undefined;
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
 	this.fixture.appendChild(view);
@@ -247,7 +243,7 @@ QUnit.test("testAddPresentationMinimized", function(assert) {
 
 	var presentationMinimized = CORATEST.presentationStub("minimized");
 	pRepeatingElement.addPresentationMinimized(presentationMinimized);
-	assert.deepEqual(view.className, "repeatingElement h8TextStyle oneChildStyle");
+	assert.deepEqual(view.className, "repeatingElement");
 
 	var presentationMinimizedView = view.childNodes[1];
 	assert.strictEqual(presentationMinimizedView.className, "presentationStub minimized");
@@ -304,7 +300,7 @@ QUnit.test("testAddPresentationMinimizedDefault", function(assert) {
 
 	var presentationMinimized = CORATEST.presentationStub("minimized");
 	pRepeatingElement.addPresentationMinimized(presentationMinimized, "true");
-	assert.deepEqual(view.className, "repeatingElement h8TextStyle oneChildStyle");
+	assert.deepEqual(view.className, "repeatingElement");
 
 	var presentationMinimizedView = view.childNodes[1];
 	assert.strictEqual(presentationMinimizedView.className, "presentationStub minimized");
@@ -334,11 +330,11 @@ QUnit.test("testAddPresentationMinimizedToggle", function(assert) {
 	assert.strictEqual(presentationView.className, "presentationStub maximized");
 	assert.visible(presentationView, "presentationView should be visible");
 	assert.strictEqual(view.childNodes.length, 2);
-	assert.deepEqual(view.className, "repeatingElement h5TextStyle fourChildStyle");
+	assert.deepEqual(view.className, "repeatingElement");
 
 	var presentationMinimized = CORATEST.presentationStub("minimized maximized");
 	pRepeatingElement.addPresentationMinimized(presentationMinimized, "true");
-	assert.deepEqual(view.className, "repeatingElement h8TextStyle oneChildStyle");
+	assert.deepEqual(view.className, "repeatingElement");
 
 	var presentationMinimizedView = view.childNodes[1];
 	assert.strictEqual(presentationMinimizedView.className, "presentationStub minimized");
@@ -358,21 +354,17 @@ QUnit.test("testAddPresentationMinimizedToggle", function(assert) {
 	assert.notVisible(presentationMinimizedView, "presentationView should be hidden");
 	assert.notVisible(maximizeButton, "maximizeButton should be hidden");
 	assert.visible(minimizeButton, "minimizeButton should be shown");
-	assert.deepEqual(view.className, "repeatingElement h5TextStyle fourChildStyle");
+	assert.deepEqual(view.className, "repeatingElement");
 
 	minimizeButton.onclick();
 	assert.notVisible(presentationView, "presentationView should be hidden");
 	assert.visible(presentationMinimizedView, "presentationMinimizedView should be shown");
 	assert.visible(maximizeButton, "maximizeButton should be shown");
 	assert.notVisible(minimizeButton, "minimizeButton should be hidden");
-	assert.deepEqual(view.className, "repeatingElement h8TextStyle oneChildStyle");
+	assert.deepEqual(view.className, "repeatingElement");
 });
 
 QUnit.test("testAddPresentationMinimizedToggleNoStyle", function(assert) {
-	this.spec.textStyle = undefined;
-	this.spec.childStyle = undefined;
-	this.spec.textStyleMinimized = undefined;
-	this.spec.childStyleMinimized = undefined;
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
 	this.fixture.appendChild(view);

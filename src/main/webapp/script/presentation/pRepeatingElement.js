@@ -111,15 +111,7 @@ var CORA = (function(cora) {
 			presentationMaximized = presentation.getView();
 			presentationMaximized.className = presentationMaximized.className + " maximized";
 			view.insertBefore(presentationMaximized, buttonView);
-			view.className = "repeatingElement" + getTextStyleFromSpec() + getChildStyleFromSpec();
-		}
-
-		function getTextStyleFromSpec() {
-			return spec.textStyle !== undefined ? " " + spec.textStyle : "";
-		}
-
-		function getChildStyleFromSpec() {
-			return spec.childStyle !== undefined ? " " + spec.childStyle : "";
+			view.className = "repeatingElement";
 		}
 
 		function addPresentationMinimized(presentationMinimizedIn, minimizedDefault) {
@@ -128,16 +120,6 @@ var CORA = (function(cora) {
 			view.insertBefore(presentationMinimized, buttonView);
 			createMinimizeMaximizeButtons();
 			toggleMinimizedShown(minimizedDefault);
-			view.className = "repeatingElement" + getTextStyleMinimizedFromSpec()
-					+ getChildStyleMinimizedFromSpec();
-		}
-
-		function getTextStyleMinimizedFromSpec() {
-			return spec.textStyleMinimized !== undefined ? " " + spec.textStyleMinimized : "";
-		}
-
-		function getChildStyleMinimizedFromSpec() {
-			return spec.childStyleMinimized !== undefined ? " " + spec.childStyleMinimized : "";
 		}
 
 		function toggleMinimizedShown(minimizedShown) {
@@ -146,15 +128,11 @@ var CORA = (function(cora) {
 				show(presentationMinimized);
 				show(maximizeButton);
 				hide(minimizeButton);
-				view.className = "repeatingElement" + getTextStyleMinimizedFromSpec()
-						+ getChildStyleMinimizedFromSpec();
 			} else {
 				show(presentationMaximized);
 				hide(presentationMinimized);
 				hide(maximizeButton);
 				show(minimizeButton);
-				view.className = "repeatingElement" + getTextStyleFromSpec()
-						+ getChildStyleFromSpec();
 			}
 		}
 
