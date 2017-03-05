@@ -336,7 +336,9 @@ textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::bef
 	margin: 4px;
 	display: inline-block;
 }
-
+.presentation .text.h1TextStyle {
+	font-size: 2rem;
+}
 .pRecordLink .text {
 	display: block;
 }
