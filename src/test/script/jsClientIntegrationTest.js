@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -111,18 +112,18 @@ QUnit.test("testIntegrateCoraPubSubPVar", function(assert) {
 
 	var cPVarPresentation = CORA.coraData(this.metadataProvider
 			.getMetadataById("pVarTextVariableIdOutput"));
-	var spec = {
-		"path" : path,
-		"metadataIdUsedInData" : "textVariableId",
-		"cPresentation" : cPVarPresentation,
-		"dependencies":{
+	var dependencies = {
 			"metadataProvider" : this.metadataProvider,
 			"pubSub" : this.pubSub,
 			"textProvider" : this.textProvider,
 			"pVarViewFactory" : this.pVarViewFactory
-		},
 	};
-	var pVar = CORA.pVar(spec);
+	var spec = {
+		"path" : path,
+		"metadataIdUsedInData" : "textVariableId",
+		"cPresentation" : cPVarPresentation
+	};
+	var pVar = CORA.pVar(dependencies, spec);
 
 	pVar.setValue("A Value");
 	var pVarViewSpy = this.pVarViewFactory.getFactored(0);
@@ -260,7 +261,7 @@ QUnit.test("testIntegrateRepeatingContainer",
 
 			var repeatingContainer = topPGroupView.childNodes[2];
 			assert.deepEqual(repeatingContainer.className,
-					"pChildRefHandler pTextVariableIdRContainer");
+					"pChildRefHandler h2TextStyle fourChildStyle pTextVariableIdRContainer");
 
 			var childrenView = repeatingContainer.firstChild;
 			var repeatingElement = childrenView.firstChild;

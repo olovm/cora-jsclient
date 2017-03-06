@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -18,10 +19,10 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pRecordLink = function(spec) {
+	cora.pRecordLink = function(dependencies, spec) {
 		var cPresentation = spec.cPresentation;
-		var metadataProvider = spec.metadataProvider;
-		var textProvider = spec.textProvider;
+		var metadataProvider = dependencies.metadataProvider;
+		var textProvider = dependencies.textProvider;
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
@@ -37,7 +38,7 @@ var CORA = (function(cora) {
 		var valueView = createValueView();
 		view.appendChild(valueView);
 
-		spec.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
+		dependencies.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
 
 		function createBaseView() {
 			return CORA.gui.createSpanWithClassName("pRecordLink " + presentationId);
@@ -135,8 +136,8 @@ var CORA = (function(cora) {
 				"read" : readLink,
 				"presentationId" : linkedPresentationId,
 				"metadataId" : linkedMetadataId,
-				"recordGuiFactory" : spec.recordGuiFactory,
-				"ajaxCallFactory":spec.ajaxCallFactory
+				"recordGuiFactory" : dependencies.recordGuiFactory,
+				"ajaxCallFactory":dependencies.ajaxCallFactory
 			};
 		}
 
@@ -170,7 +171,7 @@ var CORA = (function(cora) {
 			var childParentPath = calculateNewPath(id + "TextVar");
 			var cPresentationChild = CORA.coraData(metadataProvider
 					.getMetadataById(presentationIdToFactor));
-			var pVar = spec.presentationFactory.factor(childParentPath, metadataIdUsedInData,
+			var pVar = dependencies.presentationFactory.factor(childParentPath, metadataIdUsedInData,
 					cPresentationChild);
 			childViewNew.appendChild(pVar.getView());
 			return childViewNew;
@@ -185,7 +186,7 @@ var CORA = (function(cora) {
 
 		function calculateNewPath(metadataIdToAdd) {
 			var pathSpec = {
-				"metadataProvider" : spec.metadataProvider,
+				"metadataProvider" : dependencies.metadataProvider,
 				"metadataIdToAdd" : metadataIdToAdd,
 				"parentPath" : spec.path
 			};

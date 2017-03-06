@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -27,32 +27,45 @@ var CORA = (function(cora) {
 			var pVarViewFactoryDependencies = {
 				"infoFactory" : CORA.infoFactory()
 			};
+			var pRepeatingElementFactoryDependencies = {
+				"infoFactory" : CORA.infoFactory(),
+				"jsBookkeeper" : dependencies.jsBookkeeper
+			};
 			var pVarViewFactory = CORA.pVarViewFactory(pVarViewFactoryDependencies);
 
-			var specNew = {
+			var pChildRefHandlerFactoryDependencies = {
+				"metadataProvider" : dependencies.metadataProvider,
+				"pubSub" : dependencies.pubSub,
+				"textProvider" : dependencies.textProvider,
+				"presentationFactory" : self,
+				"jsBookkeeper" : dependencies.jsBookkeeper,
+				"recordTypeProvider" : dependencies.recordTypeProvider,
+				"uploadManager" : dependencies.uploadManager,
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"pRepeatingElementFactory" : CORA
+						.pRepeatingElementFactory(pRepeatingElementFactoryDependencies),
+				"pChildRefHandlerViewFactory":CORA.pChildRefHandlerViewFactory()
+						
+			};
+			var pChildRefHandlerFactory = CORA
+					.pChildRefHandlerFactory(pChildRefHandlerFactoryDependencies);
+
+			var childDependencies = {
 				"metadataProvider" : dependencies.metadataProvider,
 				"pubSub" : dependencies.pubSub,
 				"textProvider" : dependencies.textProvider,
 				"jsBookkeeper" : dependencies.jsBookkeeper,
 				"presentationFactory" : self,
+				"xmlHttpRequestFactory" : dependencies.xmlHttpRequestFactory,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"recordTypeProvider" : dependencies.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				// dependencies are doubled as we move to usning them collected as dependencies
-				"dependencies" : {
-					"metadataProvider" : dependencies.metadataProvider,
-					"pubSub" : dependencies.pubSub,
-					"textProvider" : dependencies.textProvider,
-					"jsBookkeeper" : dependencies.jsBookkeeper,
-					"presentationFactory" : self,
-					"xmlHttpRequestFactory" : dependencies.xmlHttpRequestFactory,
-					"recordGuiFactory" : dependencies.recordGuiFactory,
-					"recordTypeProvider" : dependencies.recordTypeProvider,
-					"uploadManager" : dependencies.uploadManager,
-					"ajaxCallFactory" : dependencies.ajaxCallFactory,
-					"pVarViewFactory" : pVarViewFactory
-				},
+				"pVarViewFactory" : pVarViewFactory,
+				"pChildRefHandlerFactory" : pChildRefHandlerFactory,
+				"authTokenHolder" : dependencies.authTokenHolder
+			};
+			var specNew = {
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,
 				"cPresentation" : cPresentation,
@@ -61,21 +74,21 @@ var CORA = (function(cora) {
 
 			var type = cPresentation.getData().attributes.type;
 			if (type === "pVar") {
-				return CORA.pVar(specNew);
+				return CORA.pVar(childDependencies, specNew);
 			} else if (type === "pGroup") {
-				return CORA.pGroup(specNew);
+				return CORA.pGroup(childDependencies, specNew);
 			} else if (type === "pRecordLink") {
-				return CORA.pRecordLink(specNew);
+				return CORA.pRecordLink(childDependencies, specNew);
 			} else if (type === "pCollVar") {
-				return CORA.pCollectionVar(specNew);
+				return CORA.pCollectionVar(childDependencies, specNew);
 			} else if (type === "pResourceLink") {
-				return CORA.pResourceLink(dependencies, specNew);
+				return CORA.pResourceLink(childDependencies, specNew);
 			} else {
 				var repeat = cPresentation.getData().attributes.repeat;
 				if (repeat === "this") {
-					return CORA.pRepeatingContainer(specNew);
+					return CORA.pRepeatingContainer(childDependencies, specNew);
 				}
-				return CORA.pSurroundingContainer(specNew);
+				return CORA.pSurroundingContainer(childDependencies, specNew);
 			}
 		}
 

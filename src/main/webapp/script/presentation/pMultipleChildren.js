@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,14 +19,10 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pMultipleChildren = function(spec, my) {
+	cora.pMultipleChildren = function(dependencies, spec, my) {
 		var path = spec.path;
-		var metadataProvider = spec.metadataProvider;
-		var pubSub = spec.pubSub;
-		var textProvider = spec.textProvider;
-		var jsBookkeeper = spec.jsBookkeeper;
-		var presentationFactory = spec.presentationFactory;
-		var recordTypeProvider = spec.recordTypeProvider;
+		var textProvider = dependencies.textProvider;
+		var presentationFactory = dependencies.presentationFactory;
 
 		var view;
 		var originalClassName;
@@ -98,19 +94,20 @@ var CORA = (function(cora) {
 
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var	cRef;
-			if(cPresentationChildRef.containsChildWithNameInData("refGroup")){
-				var cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refGroup"));
+			var cRef;
+			if (cPresentationChildRef.containsChildWithNameInData("refGroup")) {
+				var cRefGroup = CORA.coraData(cPresentationChildRef
+						.getFirstChildByNameInData("refGroup"));
 				cRef = CORA.coraData(cRefGroup.getFirstChildByNameInData("ref"));
-			}else{
+			} else {
 				cRef = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
 			}
-			var	refId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
+			var refId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 
 			var cPresentationChild = getMetadataById(refId);
 
 			if (childIsText(cPresentationChild)) {
-				return createText(refId);
+				return createText(refId, cPresentationChildRef);
 			}
 			if (childIsSurroundingContainer(cPresentationChild)) {
 				return createSurroundingContainer(cPresentationChild);
@@ -122,8 +119,17 @@ var CORA = (function(cora) {
 			return cChild.getData().name === "text";
 		}
 
-		function createText(presRef) {
-			var textSpan = CORA.gui.createSpanWithClassName("text");
+		function createText(presRef, cPresentationChildRef) {
+			var cRefGroup;
+			var textClassName = "text";
+			cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refGroup"));
+			if (cRefGroup.containsChildWithNameInData("textStyle")) {
+				textClassName += " " + cRefGroup.getFirstAtomicValueByNameInData("textStyle");
+			}
+			if (cRefGroup.containsChildWithNameInData("childStyle")) {
+				textClassName += " " + cRefGroup.getFirstAtomicValueByNameInData("childStyle");
+			}
+			var textSpan = CORA.gui.createSpanWithClassName(textClassName);
 			textSpan.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
 			return textSpan;
 		}
@@ -144,30 +150,48 @@ var CORA = (function(cora) {
 				"cParentMetadata" : getMetadataById(my.metadataId),
 				"cPresentation" : cPresentationChild,
 				"cParentPresentation" : my.cParentPresentation,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper,
-				"presentationFactory" : presentationFactory,
-				"recordTypeProvider" : recordTypeProvider,
-				"uploadManager" : spec.uploadManager,
-				"ajaxCallFactory" : spec.ajaxCallFactory
 			};
+			var cRefGroup;
+			if (cPresentationChildRef.containsChildWithNameInData("refGroup")) {
+				cRefGroup = CORA.coraData(cPresentationChildRef
+						.getFirstChildByNameInData("refGroup"));
+				if (cRefGroup.containsChildWithNameInData("textStyle")) {
+					childRefHandlerSpec.textStyle = cRefGroup
+							.getFirstAtomicValueByNameInData("textStyle");
+				}
+				if (cRefGroup.containsChildWithNameInData("childStyle")) {
+					childRefHandlerSpec.childStyle = cRefGroup
+							.getFirstAtomicValueByNameInData("childStyle");
+				}
+			}
 
 			if (childHasMinimizedPresenation(cPresentationChildRef)) {
-				var cPresRefMinGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refMinGroup"));
-				var cPresRefMinimizedGroup = CORA.coraData(cPresRefMinGroup.getFirstChildByNameInData("ref"));
-				var presRefMinimized = cPresRefMinimizedGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+				var cPresRefMinGroup = CORA.coraData(cPresentationChildRef
+						.getFirstChildByNameInData("refMinGroup"));
+				var cPresRefMinimizedGroup = CORA.coraData(cPresRefMinGroup
+						.getFirstChildByNameInData("ref"));
+				var presRefMinimized = cPresRefMinimizedGroup
+						.getFirstAtomicValueByNameInData("linkedRecordId");
 				var cPresentationMinimized = getMetadataById(presRefMinimized);
 				childRefHandlerSpec.cPresentationMinimized = cPresentationMinimized;
+
 				var minimizedDefault = cPresentationChildRef
 						.getFirstAtomicValueByNameInData("default");
 				if (minimizedDefault === "refMinimized") {
 					childRefHandlerSpec.minimizedDefault = "true";
 				}
+				if (cPresRefMinGroup.containsChildWithNameInData("textStyle")) {
+					childRefHandlerSpec.textStyleMinimized = cPresRefMinGroup
+							.getFirstAtomicValueByNameInData("textStyle");
+				}
+				if (cPresRefMinGroup.containsChildWithNameInData("childStyle")) {
+					childRefHandlerSpec.childStyleMinimized = cPresRefMinGroup
+							.getFirstAtomicValueByNameInData("childStyle");
+				}
 			}
 
-			var pChildRefHandler = CORA.pChildRefHandler(childRefHandlerSpec);
+			var pChildRefHandler = dependencies.pChildRefHandlerFactory.factor(childRefHandlerSpec);
+
 			return pChildRefHandler.getView();
 		}
 
@@ -176,11 +200,11 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
+			return CORA.coraData(dependencies.metadataProvider.getMetadataById(id));
 		}
 
 		function getPresentationId() {
-			var recordInfo = spec.cPresentation.getFirstChildByNameInData("recordInfo");
+			var recordInfo = my.cPresentation.getFirstChildByNameInData("recordInfo");
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
 

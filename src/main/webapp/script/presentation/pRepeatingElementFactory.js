@@ -1,6 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,39 +18,22 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pGroup = function(dependencies, spec) {
-		var cPresentation = spec.cPresentation;
+	cora.pRepeatingElementFactory = function(dependencies) {
 
-		var my = {};
-		my.metadataId = spec.metadataIdUsedInData;
-
-		my.cPresentation = cPresentation;
-		my.cParentPresentation = cPresentation;
-		my.createBaseViewHolder = createBaseViewHolder;
-
-		var parent = CORA.pMultipleChildren(dependencies, spec, my);
-		parent.init();
-
-		function createBaseViewHolder() {
-			var presentationId = parent.getPresentationId();
-			return CORA.gui.createDivWithClassName("pGroup " + presentationId);
+		function factor(pRepeatingElementSpec) {
+			return CORA.pRepeatingElement(dependencies, pRepeatingElementSpec);
 		}
 
-		function getSpec(){
-			return spec;
-		}
-		
-		function getDependencies(){
+		function getDependencies() {
 			return dependencies;
 		}
-		
-		return Object.freeze({
-			"type" : "pGroup",
-			getSpec : getSpec,
-			getDependencies : getDependencies,
-			getView : parent.getView,
-		});
 
+		var out = Object.freeze({
+			"type" : "pRepeatingElementFactory",
+			getDependencies : getDependencies,
+			factor : factor
+		});
+		return out;
 	};
 	return cora;
 }(CORA));

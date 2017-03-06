@@ -1,5 +1,5 @@
 /*
- * Copyright 2015, 2016 Olov McKie
+ * Copyright 2015, 2016, 2017 Olov McKie
  * Copyright 2015 Uppsala University Library
  *
  * This file is part of Cora.
@@ -3642,7 +3642,7 @@ function MetadataProviderStub() {
                         "name": "recordInfo",
                         "children": [{
                             "name": "id",
-                            "value": "pVarTextVariableId"
+                            "value": "pVarTextVariableIdOutput"
                         }]
                     }, {
                         "children": [{
@@ -4407,10 +4407,10 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [{
                                         "name": "textStyle",
-                                        "value": "h2TextStyle"
+                                        "value": "h1TextStyle"
                                     }, {
                                         "name": "childStyle",
-                                        "value": "fourChildStyle"
+                                        "value": "oneChildStyle"
                                     }, {
                                         "name": "ref",
                                         "children": [{
@@ -4479,10 +4479,10 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [{
                                         "name": "textStyle",
-                                        "value": "h2TextStyle"
+                                        "value": "h5TextStyle"
                                     }, {
                                         "name": "childStyle",
-                                        "value": "fourChildStyle"
+                                        "value": "twoChildStyle"
                                     }, {
                                         "name": "ref",
                                         "children": [{
@@ -4500,10 +4500,10 @@ function MetadataProviderStub() {
                                     "name": "refMinGroup",
                                     "children": [{
                                         "name": "textStyle",
-                                        "value": "h2TextStyle"
+                                        "value": "h6TextStyle"
                                     }, {
                                         "name": "childStyle",
-                                        "value": "fourChildStyle"
+                                        "value": "tenChildStyle"
                                     }, {
                                         "name": "ref",
                                         "children": [{
@@ -4525,6 +4525,65 @@ function MetadataProviderStub() {
                         }]
                     }])
                 };
+            case "pgGroupIdOneTextChildMinimizedDefaultNoStyleInfo":
+            	return {
+            	"name": "presentation",
+            	"attributes": {
+            		"type": "pGroup"
+            	},
+            	"children": [createRecordInfoJson(idToGet)].concat([{
+            		"children": [{
+            			"name": "linkedRecordType",
+            			"value": "metadataGroup"
+            		}, {
+            			"name": "linkedRecordId",
+            			"value": "groupIdOneTextChild"
+            		}],
+            		"name": "presentationOf"
+            	}, {
+            		"name": "childReferences",
+            		"children": [{
+            			"name": "childReference",
+            			"repeatId": "1",
+            			"children": [
+            				{
+            					"name": "refGroup",
+            					"children": [{
+            						"name": "ref",
+            						"children": [{
+            							"name": "linkedRecordType",
+            							"value": "presentationVar"
+            						}, {
+            							"name": "linkedRecordId",
+            							"value": "pVarTextVariableId"
+            						}],
+            						"attributes": {
+            							"type": "pVar"
+            						}
+            					}]
+            				}, {
+            					"name": "refMinGroup",
+            					"children": [ {
+            						"name": "ref",
+            						"children": [{
+            							"name": "linkedRecordType",
+            							"value": "presentationVar"
+            						}, {
+            							"name": "linkedRecordId",
+            							"value": "pVarTextVariableIdOutput"
+            						}],
+            						"attributes": {
+            							"type": "pVar"
+            						}
+            					}]
+            				},
+            				{
+            					"name": "default",
+            					"value": "refMinimized"
+            				}]
+            		}]
+            	}])
+            };
 
             case "pVarTextVariableId2":
                 return {
@@ -5104,6 +5163,106 @@ function MetadataProviderStub() {
                         }]
                     }])
                 };
+            case "pgTextVarRepeat1to3InGroupOtherAttributeAndMinimized":
+            	return {
+            	"name": "presentation",
+            	"attributes": {
+            		"type": "pGroup"
+            	},
+            	"children": [createRecordInfoJson(idToGet)].concat([{
+            		"children": [{
+            			"name": "linkedRecordType",
+            			"value": "metadataGroup"
+            		}, {
+            			"name": "linkedRecordId",
+            			"value": "textVarRepeat1to3InGroupOtherAttribute"
+            		}],
+            		"name": "presentationOf"
+            	}, {
+            		"name": "childReferences",
+            		"children": [{
+            			"name": "childReference",
+            			"repeatId": "1",
+            			"children": [
+            				{
+            					"name": "refGroup",
+            					"children": [{
+            						"name": "textStyle",
+            						"value": "h2TextStyle"
+            					}, {
+            						"name": "childStyle",
+            						"value": "fourChildStyle"
+            					}, {
+            						"name": "ref",
+            						"children": [{
+            							"name": "linkedRecordType",
+            							"value": "textSystemOne"
+            						}, {
+            							"name": "linkedRecordId",
+            							"value": "aHeadlineText"
+            						}],
+            						"attributes": {
+            							"type": "text"
+            						}
+            					}]
+            				}, {
+            					"name": "default",
+            					"value": "ref"
+            				}]
+            		}, {
+            			"name": "childReference",
+            			"repeatId": "2",
+            			"children": [
+            				{
+            					"name": "refGroup",
+            					"children": [{
+            						"name": "textStyle",
+            						"value": "h2TextStyle"
+            					}, {
+            						"name": "childStyle",
+            						"value": "fourChildStyle"
+            					}, {
+            						"name": "ref",
+            						"children": [{
+            							"name": "linkedRecordType",
+            							"value": "presentationVar"
+            						}, {
+            							"name": "linkedRecordId",
+            							"value": "pVarTextVar"
+            						}],
+            						"attributes": {
+            							"type": "pVar"
+            						}
+            					}]
+            				},
+                            {
+                                "name": "refMinGroup",
+                                "children": [{
+                                    "name": "textStyle",
+                                    "value": "h2TextStyleMIN"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyleMIN"
+                                }, {
+                                    "name": "ref",
+                                    "children": [{
+                                        "name": "linkedRecordType",
+                                        "value": "presentationVar"
+                                    }, {
+                                        "name": "linkedRecordId",
+                                        "value": "pVarTextVariableIdOutput"
+                                    }],
+                                    "attributes": {
+                                        "type": "pVar"
+                                    }
+                                }]
+                            }, {
+                                "name": "default",
+                                "value": "ref"
+                            }]
+            		}]
+            	}])
+            };
 
             case "pgTextVarRepeat1to3InGroupOtherAttributeMinimized":
                 return {
@@ -5570,6 +5729,100 @@ function MetadataProviderStub() {
                         }]
                     }])
                 };
+            case "pgGroupIdOneTextOneTextChildTwoAttributesNoTextStyle":
+            	return {
+            	"name": "presentation",
+            	"attributes": {
+            		"type": "pGroup"
+            	},
+            	"children": [createRecordInfoJson(idToGet)].concat([{
+            		"children": [{
+            			"name": "linkedRecordType",
+            			"value": "metadataGroup"
+            		}, {
+            			"name": "linkedRecordId",
+            			"value": "groupIdOneTextChildTwoAttributes"
+            		}],
+            		"name": "presentationOf"
+            	}, {
+            		"name": "childReferences",
+            		"children": [{
+            			"name": "childReference",
+            			"repeatId": "1",
+            			"children": [
+            				{
+            					"name": "refGroup",
+            					"children": [
+//            						{
+//            							"name": "textStyle",
+//            							"value": "h2TextStyle"
+//            						},
+//            						{
+//            							"name": "childStyle",
+//            							"value": "fourChildStyle"
+//            						},
+            						{
+            							"name": "ref",
+            							"children": [
+            								{
+            									"name": "linkedRecordType",
+            									"value": "textSystemOne"
+            								},
+            								{
+            									"name": "linkedRecordId",
+            									"value": "aHeadlineText"
+            								}
+            								],
+            								"attributes": {
+            									"type": "text"
+            								}
+            						}
+            						]
+            				},
+            				{
+            					"name": "default",
+            					"value": "ref"
+            				}]
+            		}, {
+            			"name": "childReference",
+            			"repeatId": "2",
+            			"children": [
+            				{
+            					"name": "refGroup",
+            					"children": [
+            						{
+            							"name": "textStyle",
+            							"value": "h2TextStyle"
+            						},
+            						{
+            							"name": "childStyle",
+            							"value": "fourChildStyle"
+            						},
+            						{
+            							"name": "ref",
+            							"children": [
+            								{
+            									"name": "linkedRecordType",
+            									"value": "presentationVar"
+            								},
+            								{
+            									"name": "linkedRecordId",
+            									"value": "pVarTextVariableId"
+            								}
+            								],
+            								"attributes": {
+            									"type": "pVar"
+            								}
+            						}
+            						]
+            				},
+            				{
+            					"name": "default",
+            					"value": "ref"
+            				}]
+            		}]
+            	}])
+            };
 
             case "pgGroupIdOneTextTwoTextChildrenRepeat1toX":
                 return {
