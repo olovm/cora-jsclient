@@ -37,19 +37,19 @@ var CORA = (function(cora) {
 			return CORA.gui.createDivWithClassName("pGroup " + presentationId);
 		}
 
-		function getSpec(){
+		function getSpec() {
 			return spec;
 		}
-		
-		function getDependencies(){
+
+		function getDependencies() {
 			return dependencies;
 		}
-		
+
 		return Object.freeze({
 			"type" : "pGroup",
 			getSpec : getSpec,
 			getDependencies : getDependencies,
-			getView : parent.getView,
+			getView : parent.getView
 		});
 
 	};

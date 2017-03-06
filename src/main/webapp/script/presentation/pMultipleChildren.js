@@ -149,7 +149,7 @@ var CORA = (function(cora) {
 				"parentPath" : path,
 				"cParentMetadata" : getMetadataById(my.metadataId),
 				"cPresentation" : cPresentationChild,
-				"cParentPresentation" : my.cParentPresentation,
+				"cParentPresentation" : my.cParentPresentation
 			};
 			var cRefGroup;
 			if (cPresentationChildRef.containsChildWithNameInData("refGroup")) {

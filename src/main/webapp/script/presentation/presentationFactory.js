@@ -44,9 +44,9 @@ var CORA = (function(cora) {
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"pRepeatingElementFactory" : CORA
 						.pRepeatingElementFactory(pRepeatingElementFactoryDependencies),
-				"pChildRefHandlerViewFactory":CORA.pChildRefHandlerViewFactory()
-						
+				"pChildRefHandlerViewFactory" : CORA.pChildRefHandlerViewFactory()
 			};
+
 			var pChildRefHandlerFactory = CORA
 					.pChildRefHandlerFactory(pChildRefHandlerFactoryDependencies);
 
