@@ -22,45 +22,6 @@ QUnit.module("pRecordLinkTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
 
-		this.presentation = {
-			"getView" : function() {
-				return document.createElement("span");
-			}
-		};
-
-		var presentation = this.presentation;
-		this.presentationIdUsed = [];
-		var presentationIdUsed = this.presentationIdUsed;
-
-		this.pubSub = CORATEST.pubSubSpy();
-		this.recordGui = {
-			"getPresentation" : function(presentationId) {
-				presentationIdUsed.push(presentationId);
-				return presentation;
-			},
-			"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
-			},
-			"dataHolder" : {
-				"getData" : function() {
-					return {};
-				}
-			},
-			"validateData" : function() {
-				return true;
-			},
-			"pubSub" : this.pubSub
-		};
-
-		var recordGui = this.recordGui;
-		this.metadataIdUsed = [];
-		var metadataIdUsed = this.metadataIdUsed;
-		this.recordGuiFactorySpy = {
-			"factor" : function(metadataId, data) {
-				metadataIdUsed.push(metadataId);
-				return recordGui;
-			}
-		};
-
 		this.getIdForGeneratedPresentationByNo2 = function(no) {
 			return CORA.coraData(
 					this.dependencies.presentationFactory.getCPresentations()[no]
@@ -85,7 +46,7 @@ QUnit.module("pRecordLinkTest.js", {
 			"textProvider" : CORATEST.textProviderStub(),
 			"presentationFactory" : CORATEST.presentationFactorySpy(),
 			"jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
-			"recordGuiFactory" : this.recordGuiFactorySpy,
+			"recordGuiFactory" :  CORATEST.recordGuiFactorySpy(),
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy()
 		}
 		this.spec = {
@@ -371,7 +332,8 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", functio
 	this.answerCall2(0);
 
 	assert.strictEqual(view.childNodes.length, 1);
-	assert.strictEqual(this.metadataIdUsed[0], "metadataTextVariableGroup");
+	
+	assert.strictEqual(this.dependencies.recordGuiFactory.getSpec(0).metadataId, "metadataTextVariableGroup");
 
 	var linkedRecordPresentations = view.childNodes[0];
 	assert.strictEqual(linkedRecordPresentations.nodeName, "SPAN");
