@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pChildRefHandlerView = function(spec) {
+	cora.pChildRefHandlerView = function(dependencies, spec) {
 		var view = createBaseView();
 		var childrenView = createChildrenView();
 		var buttonView;
@@ -37,7 +37,15 @@ var CORA = (function(cora) {
 		}
 
 		function createBaseView() {
-			return CORA.gui.createSpanWithClassName("pChildRefHandler " + spec.presentationId);
+			var newClassName = "pChildRefHandler";
+			if (spec.textStyle !== undefined) {
+				newClassName += " " + spec.textStyle;
+			}
+			if (spec.childStyle !== undefined) {
+				newClassName += " " + spec.childStyle;
+			}
+			newClassName += " " + spec.presentationId;
+			return CORA.gui.createSpanWithClassName(newClassName);
 		}
 
 		function getView() {
@@ -260,38 +268,41 @@ var CORA = (function(cora) {
 		}
 
 		function hideChildrensRemoveButton() {
+			callOnceOnEachRepeatingElement("hideRemoveButton");
+		}
+
+		function callOnceOnEachRepeatingElement(functionToRun) {
 			var repeatingElements = childrenView.childNodes;
 			var repeatingElementsKeys = Object.keys(repeatingElements);
 			repeatingElementsKeys.forEach(function(key) {
-				repeatingElements[key].modelObject.hideRemoveButton();
+				repeatingElements[key].modelObject[functionToRun]();
 			});
 		}
 
 		function showChildrensRemoveButton() {
-			var repeatingElements = childrenView.childNodes;
-			var repeatingElementsKeys = Object.keys(repeatingElements);
-			repeatingElementsKeys.forEach(function(key) {
-				repeatingElements[key].modelObject.showRemoveButton();
-			});
+			callOnceOnEachRepeatingElement("showRemoveButton");
 		}
 
 		function hideChildrensDragButton() {
-			var repeatingElements = childrenView.childNodes;
-			var repeatingElementsKeys = Object.keys(repeatingElements);
-			repeatingElementsKeys.forEach(function(key) {
-				repeatingElements[key].modelObject.hideDragButton();
-			});
+			callOnceOnEachRepeatingElement("hideDragButton");
 		}
 
 		function showChildrensDragButton() {
-			var repeatingElements = childrenView.childNodes;
-			var repeatingElementsKeys = Object.keys(repeatingElements);
-			repeatingElementsKeys.forEach(function(key) {
-				repeatingElements[key].modelObject.showDragButton();
-			});
+			callOnceOnEachRepeatingElement("showDragButton");
+		}
+
+		function getSpec() {
+			return spec;
+		}
+
+		function getDependencies() {
+			return dependencies;
 		}
 
 		var out = Object.freeze({
+			"type" : "pChildRefHandlerView",
+			getSpec : getSpec,
+			getDependencies : getDependencies,
 			getView : getView,
 			setRepeatingElementDragOver : setRepeatingElementDragOver,
 			addChild : addChild,

@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -18,12 +19,12 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pRepeatingContainer = function(spec) {
+	cora.pRepeatingContainer = function(dependencies, spec) {
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
-		var metadataProvider = spec.metadataProvider;
-		var textProvider = spec.textProvider;
-		var presentationFactory = spec.presentationFactory;
+		var metadataProvider = dependencies.metadataProvider;
+		var textProvider = dependencies.textProvider;
+		var presentationFactory = dependencies.presentationFactory;
 
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 

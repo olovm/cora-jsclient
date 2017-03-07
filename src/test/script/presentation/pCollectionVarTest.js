@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  * 
  *
  * This file is part of Cora.
@@ -25,16 +26,17 @@ var CORATEST = (function(coraTest) {
 		var factor = function(path, pCollectionVarPresentationId) {
 			var cPCollectionVarPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(pCollectionVarPresentationId));
-
+var dependencies ={
+		"metadataProvider" : metadataProvider,
+		"pubSub" : pubSub,
+		"textProvider" : textProvider,
+		"jsBookkeeper" : jsBookkeeper		
+};
 			var spec = {
 				"path" : path,
-				"cPresentation" : cPCollectionVarPresentation,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"jsBookkeeper" : jsBookkeeper
+				"cPresentation" : cPCollectionVarPresentation
 			};
-			var pCollectionVar = CORA.pCollectionVar(spec);
+			var pCollectionVar = CORA.pCollectionVar(dependencies, spec);
 			var view = pCollectionVar.getView();
 			fixture.appendChild(view);
 			var valueView = view.firstChild;

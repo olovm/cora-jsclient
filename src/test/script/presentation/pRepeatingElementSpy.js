@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -18,30 +18,17 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.pRepeatingElementSpy = function() {
+	coraTest.pRepeatingElementSpy = function(dependencies, spec) {
 		var view = document.createElement("span");
 		var parentModelObject;
-		var path;
-		// var dataTransfer = function() {
-		// var format = "";
-		// var data = "";
-		// function setData(formatIn, dataIn) {
-		// format = formatIn;
-		// data = dataIn;
-		// // console.log(formatIn + dataIn)
-		// }
-		// function getFormat(){
-		// return format;
-		// }
-		// function getData(){
-		// return data;
-		// }
-		// return {
-		// setData : setData,
-		// getFormat : getFormat,
-		// getData : getData
-		// };
-		// }();
+		var path = spec.path;
+		var presentation;
+		var presentationMinimized;
+		var showDragButtonCalled = 0;
+		var hideDragButtonCalled = 0;
+		var showRemoveButtonCalled = 0;
+		var hideRemoveButtonCalled = 0;
+		var minimizedDefault;
 
 		function getView() {
 			return view;
@@ -58,13 +45,68 @@ var CORATEST = (function(coraTest) {
 		function setPath(p) {
 			path = p;
 		}
-		// return Object.freeze({
+		function addPresentation(presentationIn) {
+			presentation = presentationIn;
+		}
+		function getPresentation() {
+			return presentation;
+		}
+		function addPresentationMinimized(presentationIn, minimizedDefaultIn) {
+			presentationMinimized = presentationIn;
+			minimizedDefault = minimizedDefaultIn;
+		}
+		function getPresentationMinimized() {
+			return presentationMinimized;
+		}
+		function getMinimizedDefault() {
+			return minimizedDefault;
+		}
+
+		function hideRemoveButton() {
+			hideRemoveButtonCalled++;
+		}
+		function showRemoveButton() {
+			showRemoveButtonCalled++;
+		}
+		function hideDragButton() {
+			hideDragButtonCalled++;
+		}
+		function showDragButton() {
+			showDragButtonCalled++;
+		}
+
+		function getHideRemoveButtonCalled() {
+			return hideRemoveButtonCalled;
+		}
+		function getShowRemoveButtonCalled() {
+			return showRemoveButtonCalled;
+		}
+		function getHideDragButtonCalled() {
+			return hideDragButtonCalled;
+		}
+		function getShowDragButtonCalled() {
+			return showDragButtonCalled;
+		}
 		var out = ({
+			"type" : "pRepeatingElementSpy",
 			getView : getView,
 			ondragenter : ondragenter,
 			setParentModelObject : setParentModelObject,
+			addPresentation : addPresentation,
+			addPresentationMinimized : addPresentationMinimized,
+			hideRemoveButton : hideRemoveButton,
+			showRemoveButton : showRemoveButton,
+			hideDragButton : hideDragButton,
+			showDragButton : showDragButton,
 			getPath : getPath,
-			setPath : setPath
+			setPath : setPath,
+			getHideRemoveButtonCalled : getHideRemoveButtonCalled,
+			getShowRemoveButtonCalled : getShowRemoveButtonCalled,
+			getHideDragButtonCalled : getHideDragButtonCalled,
+			getShowDragButtonCalled : getShowDragButtonCalled,
+			getPresentation : getPresentation,
+			getPresentationMinimized : getPresentationMinimized,
+			getMinimizedDefault : getMinimizedDefault
 		});
 		view.modelObject = out;
 		view.ondragenter = out.ondragenter;

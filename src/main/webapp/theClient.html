@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  ~ Copyright 2016 Olov McKie
-  ~ Copyright 2016 Uppsala University Library
+  ~ Copyright 2016, 2017 Olov McKie
+  ~ Copyright 2016, 2017 Uppsala University Library
   ~
   ~ This file is part of Cora.
   ~
@@ -97,7 +97,11 @@
 <script type="text/javascript"
 	src="script/presentation/pChildRefHandler.js"></script>
 <script type="text/javascript"
+	src="script/presentation/pChildRefHandlerFactory.js"></script>
+<script type="text/javascript"
 	src="script/presentation/pChildRefHandlerView.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pChildRefHandlerViewFactory.js"></script>
 <script type="text/javascript"
 	src="script/presentation/pCollectionVar.js"></script>
 <script type="text/javascript" src="script/presentation/pGroup.js"></script>
@@ -108,6 +112,8 @@
 	src="script/presentation/pRepeatingContainer.js"></script>
 <script type="text/javascript"
 	src="script/presentation/pRepeatingElement.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pRepeatingElementFactory.js"></script>
 <script type="text/javascript"
 	src="script/presentation/pResourceLink.js"></script>
 <script type="text/javascript" src="script/presentation/presentation.js"></script>
@@ -163,7 +169,7 @@
 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 
 		//TODO: use this if you want to be logged in at startup:
-		// authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
+// 		authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
 
 		var ajaxCallFactoryDependencies = {
 			"xmlHttpRequestFactory" : xmlHttpRequestFactory,

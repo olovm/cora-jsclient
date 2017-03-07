@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,9 +19,9 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pChildRefHandler = function(spec) {
+	cora.pChildRefHandler = function(dependencies, spec) {
 		var metadataHelper = CORA.metadataHelper({
-			"metadataProvider" : spec.metadataProvider
+			"metadataProvider" : dependencies.metadataProvider
 		});
 		var presentationId = findPresentationId(spec.cPresentation);
 		var metadataIdFromPresentation = getMetadataIdFromPresentation();
@@ -45,8 +45,8 @@ var CORA = (function(cora) {
 		var collectedAttributes = collectAttributesForMetadataId(metadataId);
 
 		var pChildRefHandlerView = createPChildRefHandlerView();
-		spec.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
-		spec.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
+		dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
+		dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
 
 		var numberOfFilesToUpload = 0;
 		var numberOfRecordsForFilesCreated = 0;
@@ -87,7 +87,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
+			return CORA.coraData(dependencies.metadataProvider.getMetadataById(id));
 		}
 
 		function collectAttributesForMetadataId(metadataIdIn) {
@@ -99,13 +99,19 @@ var CORA = (function(cora) {
 				"presentationId" : presentationId,
 				"isRepeating" : isRepeating
 			};
+			if(spec.textStyle !== undefined){
+				pChildRefHandlerViewSpec.textStyle = spec.textStyle;
+			}
+			if(spec.childStyle !== undefined){
+				pChildRefHandlerViewSpec.childStyle = spec.childStyle;
+			}
 			if (showFileUpload()) {
 				pChildRefHandlerViewSpec.upload = "true";
 				pChildRefHandlerViewSpec.handleFilesMethod = handleFiles;
 			} else if (showAddButton()) {
 				pChildRefHandlerViewSpec.addMethod = sendAdd;
 			}
-			return CORA.pChildRefHandlerView(pChildRefHandlerViewSpec);
+			return dependencies.pChildRefHandlerViewFactory.factor(pChildRefHandlerViewSpec);
 		}
 
 		function hasAttributes() {
@@ -165,7 +171,7 @@ var CORA = (function(cora) {
 		}
 
 		function getRecordTypeById(id) {
-			return CORA.coraData(spec.recordTypeProvider.getRecordTypeById(id).data);
+			return CORA.coraData(dependencies.recordTypeProvider.getRecordTypeById(id).data);
 		}
 
 		function isBinaryOrChildOfBinary(cRecordInfo, cRecordType) {
@@ -177,15 +183,14 @@ var CORA = (function(cora) {
 		}
 
 		function isChildOfBinary(cRecordType) {
-			return hasParent(cRecordType)
-					&& parentIsBinary(cRecordType);
+			return hasParent(cRecordType) && parentIsBinary(cRecordType);
 		}
 
-		function hasParent(cRecordType){
+		function hasParent(cRecordType) {
 			return cRecordType.containsChildWithNameInData("parentId");
 		}
 
-		function parentIsBinary(cRecordType){
+		function parentIsBinary(cRecordType) {
 			var cParentIdGroup = CORA.coraData(cRecordType.getFirstChildByNameInData("parentId"));
 			var parentId = cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			return parentId === "binary";
@@ -251,7 +256,7 @@ var CORA = (function(cora) {
 		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
 				parentPath) {
 			var pathSpec = {
-				"metadataProvider" : spec.metadataProvider,
+				"metadataProvider" : dependencies.metadataProvider,
 				"metadataIdToAdd" : metadataIdToAdd,
 				"repeatId" : repeatId,
 				"parentPath" : parentPath
@@ -264,11 +269,10 @@ var CORA = (function(cora) {
 				"repeatMin" : repeatMin,
 				"repeatMax" : repeatMax,
 				"path" : path,
-				"jsBookkeeper" : spec.jsBookkeeper,
 				"parentModelObject" : pChildRefHandlerView,
 				"isRepeating" : isRepeating
 			};
-			return CORA.pRepeatingElement(repeatingElementSpec);
+			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}
 
 		function addPresentationsToRepeatingElementsView(repeatingElement, metadataIdToAdd) {
@@ -287,8 +291,8 @@ var CORA = (function(cora) {
 
 		function factorPresentation(path, cPresentation, metadataIdToAdd) {
 			var metadataIdUsedInData = metadataIdToAdd;
-			return spec.presentationFactory.factor(path, metadataIdUsedInData, cPresentation,
-					spec.cParentPresentation);
+			return dependencies.presentationFactory.factor(path, metadataIdUsedInData,
+					cPresentation, spec.cParentPresentation);
 		}
 
 		function hasMinimizedPresentation() {
@@ -301,7 +305,7 @@ var CORA = (function(cora) {
 					pChildRefHandlerView.removeChild(repeatingElement.getView());
 					childRemoved();
 				};
-				spec.pubSub.subscribe("remove", repeatingElement.getPath(), undefined,
+				dependencies.pubSub.subscribe("remove", repeatingElement.getPath(), undefined,
 						removeFunction);
 			}
 		}
@@ -370,7 +374,7 @@ var CORA = (function(cora) {
 			if (metadataHasAttributes) {
 				data.attributes = collectedAttributes;
 			}
-			return spec.jsBookkeeper.add(data);
+			return dependencies.jsBookkeeper.add(data);
 		}
 
 		function childMoved(moveInfo) {
@@ -381,7 +385,7 @@ var CORA = (function(cora) {
 				"basePositionOnChild" : moveInfo.basePositionOnChild,
 				"newPosition" : moveInfo.newPosition
 			};
-			spec.jsBookkeeper.move(data);
+			dependencies.jsBookkeeper.move(data);
 		}
 
 		function handleFiles(files) {
@@ -423,7 +427,7 @@ var CORA = (function(cora) {
 				"data" : JSON.stringify(data),
 				"file" : localFile
 			};
-			spec.ajaxCallFactory.factor(callSpec);
+			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function createNewBinaryData() {
@@ -451,21 +455,23 @@ var CORA = (function(cora) {
 		}
 
 		function getDataDividerFromSpec() {
-			return spec.presentationFactory.getDataDivider();
+			return dependencies.presentationFactory.getDataDivider();
 		}
 
 		function getNewMetadataGroupFromRecordType() {
 			var recordType = getImplementingLinkedRecordType();
 			var cData = CORA.coraData(recordType.data);
-			var newMetadataIdGroup = CORA.coraData(cData.getFirstChildByNameInData("newMetadataId"));
-			var newMetadataId = newMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			var newMetadataIdGroup = CORA
+					.coraData(cData.getFirstChildByNameInData("newMetadataId"));
+			var newMetadataId = newMetadataIdGroup
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			return getMetadataById(newMetadataId);
 		}
 
 		function getImplementingLinkedRecordType() {
 			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
 			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);
-			return spec.recordTypeProvider.getRecordTypeById(recordTypeId);
+			return dependencies.recordTypeProvider.getRecordTypeById(recordTypeId);
 		}
 
 		function getLinkedRecordTypeCreateLink() {
@@ -501,7 +507,7 @@ var CORA = (function(cora) {
 				"data" : createdRecordId,
 				"path" : newPath
 			};
-			spec.jsBookkeeper.setValue(setValueData);
+			dependencies.jsBookkeeper.setValue(setValueData);
 			var formData = new FormData();
 			formData.append("file", answer.spec.file);
 			formData.append("userId", "aUserName");
@@ -512,7 +518,7 @@ var CORA = (function(cora) {
 				"uploadLink" : uploadLink,
 				"file" : answer.spec.file
 			};
-			spec.uploadManager.upload(uploadSpec);
+			dependencies.uploadManager.upload(uploadSpec);
 			saveMainRecordIfRecordsAreCreatedForAllFiles();
 		}
 
@@ -530,7 +536,7 @@ var CORA = (function(cora) {
 		function saveMainRecordIfRecordsAreCreatedForAllFiles() {
 			numberOfRecordsForFilesCreated++;
 			if (numberOfFilesToUpload === numberOfRecordsForFilesCreated) {
-				spec.pubSub.publish("updateRecord", {
+				dependencies.pubSub.publish("updateRecord", {
 					"data" : "",
 					"path" : {}
 				});
@@ -547,8 +553,15 @@ var CORA = (function(cora) {
 			errorChild.innerHTML = messageSpec.message;
 			pChildRefHandlerView.addChild(errorChild);
 		}
-
+		function getDependencies() {
+			return dependencies;
+		}
+		function getSpec() {
+			return spec;
+		}
 		var out = Object.freeze({
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			add : add,
 			handleMsg : handleMsg,

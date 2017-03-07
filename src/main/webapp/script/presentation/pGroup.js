@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pGroup = function(spec) {
+	cora.pGroup = function(dependencies, spec) {
 		var cPresentation = spec.cPresentation;
 
 		var my = {};
@@ -29,7 +29,7 @@ var CORA = (function(cora) {
 		my.cParentPresentation = cPresentation;
 		my.createBaseViewHolder = createBaseViewHolder;
 
-		var parent = CORA.pMultipleChildren(spec, my);
+		var parent = CORA.pMultipleChildren(dependencies, spec, my);
 		parent.init();
 
 		function createBaseViewHolder() {
@@ -37,8 +37,18 @@ var CORA = (function(cora) {
 			return CORA.gui.createDivWithClassName("pGroup " + presentationId);
 		}
 
+		function getSpec() {
+			return spec;
+		}
+
+		function getDependencies() {
+			return dependencies;
+		}
+
 		return Object.freeze({
 			"type" : "pGroup",
+			getSpec : getSpec,
+			getDependencies : getDependencies,
 			getView : parent.getView
 		});
 

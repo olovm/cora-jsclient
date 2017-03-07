@@ -69,7 +69,7 @@ var CORATEST = (function(coraTest) {
 			return recordTypesClearedNoOfTimes;
 		}
 		var out = Object.freeze({
-			"type" : "jsClientView",
+			"type" : "jsClientViewSpy",
 			getView : getView,
 			addToRecordTypesView : addToRecordTypesView,
 			getRecordTypesView : getRecordTypesView,
