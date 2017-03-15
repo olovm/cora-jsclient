@@ -41,6 +41,7 @@ QUnit.module("pRecordLinkTest.js", {
 		}
 
 		this.dependencies = {
+			"pRecordLinkViewFactory" : CORATEST.pRecordLinkViewFactorySpy(),
 			"metadataProvider" : new MetadataProviderStub(),
 			"pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderStub(),
@@ -106,6 +107,23 @@ QUnit.test("testInitRecordLink", function(assert) {
 	var pRecordLink = pRecordLink;
 	assert.ok(firstSubsription.functionToCall === pRecordLink.handleMsg);
 
+});
+QUnit.test("testGetDependencies", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	assert.strictEqual(pRecordLink.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testViewIsFactored", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	
+	var factoredView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var factoredViewSpec = this.dependencies.pRecordLinkViewFactory.getSpec(0);
+	
+	assert.strictEqual(pRecordLink.getView(), factoredView.getView());
 });
 
 QUnit.test("testInitRecordLinkWithFinalValue", function(assert) {
