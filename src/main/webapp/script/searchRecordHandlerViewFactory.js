@@ -18,22 +18,22 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.searchRecordHandlerFactory = function(dependencies) {
+	cora.searchRecordHandlerViewFactory = function(dependencies) {
 
 		function getDependencies() {
 			return dependencies;
 		}
 
 		function factor(spec) {
-			var searchRecordHandlerDependencies = {
+			var searchRecordHandlerViewDependencies = {
 					"messageHolderFactory" : dependencies.messageHolderFactory,
-					"searchRecordHandlerViewFactory" : dependencies.searchRecordHandlerViewFactory
+					"searchRecordHandlerViewViewFactory" : dependencies.searchRecordHandlerViewViewFactory
 			};
-			return CORA.searchRecordHandler(searchRecordHandlerDependencies, spec);
+			return CORA.searchRecordHandlerView(searchRecordHandlerViewDependencies, spec);
 		}
 
 		var out = Object.freeze({
-			"type" : "searchRecordHandlerFactory",
+			"type" : "searchRecordHandlerViewFactory",
 			getDependencies : getDependencies,
 			factor : factor
 		});

@@ -1,0 +1,342 @@
+/*
+ * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Uppsala University Library
+ *
+ * This file is part of Cora.
+ *
+ *     Cora is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     Cora is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
+ */
+"use strict";
+
+QUnit.module("searchProviderTest.js", {
+	beforeEach : function() {
+		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+		var dependencies = {
+			"ajaxCallFactory" : this.ajaxCallFactorySpy
+		};
+		this.dependencies = dependencies;
+
+		var recordTypeListLink = {
+			"requestMethod" : "GET",
+			"rel" : "list",
+			"url" : "http://epc.ub.uu.se/cora/rest/record/search/",
+			"accept" : "application/uub+recordList+json"
+		};
+		this.recordTypeListLink = recordTypeListLink;
+
+		var spec = {
+			"recordTypeListLink" : recordTypeListLink
+		};
+
+		this.spec = spec;
+		this.recordTypeListLink = recordTypeListLink;
+		this.recordTypeListLinkJson = JSON.stringify(this.recordTypeListLink);
+
+		this.answerListCall = function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonSearchRecordList = JSON.stringify(CORATEST.searchRecordList);
+			var answer = {
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonSearchRecordList
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
+	},
+	afterEach : function() {
+	}
+});
+
+QUnit.test("testInit", function(assert) {
+	var provider = CORA.searchProvider(this.dependencies, this.spec);
+	assert.strictEqual(provider.type, "searchProvider");
+});
+
+QUnit.test("testInitCorrectRequestMade", function(assert) {
+	var provider = CORA.searchProvider(this.dependencies, this.spec);
+
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/search/");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
+	assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
+	assert.strictEqual(ajaxCallSpec.contentType, undefined);
+	assert.strictEqual(ajaxCallSpec.data, undefined);
+	assert.strictEqual(ajaxCallSpec.loadMethod, provider.processFetchedData);
+});
+
+QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
+	var providerStarted = false;
+	function providerReady() {
+		providerStarted = true;
+	}
+	this.spec.callWhenReady = providerReady;
+	var provider = CORA.searchProvider(this.dependencies, this.spec);
+	assert.notOk(providerStarted);
+	
+	this.answerListCall(0);
+	assert.ok(providerStarted);
+});
+
+QUnit.test("initCallWhenReadyNotCalledWhenReadyIfUnspecified", function(assert) {
+	var providerStarted = false;
+	function providerReady() {
+		providerStarted = true;
+	}
+	var provider = CORA.searchProvider(this.dependencies, this.spec);
+	assert.notOk(providerStarted);
+
+	this.answerListCall(0);
+	assert.notOk(providerStarted);
+});
+
+QUnit.test("testInitEnteredLinkIsNotChanged", function(assert) {
+	var provider = CORA.searchProvider(this.dependencies, this.spec);
+	var recordTypeListLinkJson = this.recordTypeListLinkJson;
+	var recordTypeListLinkJsonAfter = JSON.stringify(this.recordTypeListLink);
+	assert.deepEqual(recordTypeListLinkJsonAfter, recordTypeListLinkJson);
+});
+
+//QUnit.test("getRecordTypeById", function(assert) {
+//	var provider = CORA.searchProvider(this.dependencies, this.spec);
+//	this.answerListCall(0);
+//	
+//	var expected = {
+//		"data" : {
+//			"children" : [ {
+//				"children" : [ {
+//					"name" : "id",
+//					"value" : "textSystemOne"
+//				}, {
+//					"name" : "type",
+//					"value" : "recordType"
+//				}, {
+//					"name" : "createdBy",
+//					"value" : "userId"
+//				}, {
+//					"name" : "updatedBy",
+//					"value" : "userId"
+//				}, {
+//					"children" : [ {
+//						"name" : "linkedRecordType",
+//						"value" : "system"
+//					}, {
+//						"name" : "linkedRecordId",
+//						"value" : "cora"
+//					} ],
+//					"actionLinks" : {
+//						"read" : {
+//							"requestMethod" : "GET",
+//							"rel" : "read",
+//							"url" : "http://localhost:8080/therest/rest/record/system/cora",
+//							"accept" : "application/uub+record+json"
+//						}
+//					},
+//					"name" : "dataDivider"
+//				} ],
+//				"name" : "recordInfo"
+//			}, {
+//				"name" : "metadataId",
+//				"children": [
+//					{
+//						"name": "linkedRecordType",
+//						"value": "metadataGroup"
+//					},
+//					{
+//						"name": "linkedRecordId",
+//						"value": "textSystemOneGroup"
+//					}
+//				]
+//			}, {
+//				"name" : "presentationViewId",
+//				"children": [
+//					{
+//						"name": "linkedRecordType",
+//						"value": "presentationGroup"
+//					},
+//					{
+//						"name": "linkedRecordId",
+//						"value": "textSystemOneViewPGroup"
+//					}
+//				]
+//			}, {
+//				"name" : "presentationFormId",
+//				"children": [
+//					{
+//						"name": "linkedRecordType",
+//						"value": "presentationGroup"
+//					},
+//					{
+//						"name": "linkedRecordId",
+//						"value": "textSystemOneFormPGroup"
+//					}
+//				]
+//			}, {
+//				"name" : "newMetadataId",
+//				"children": [
+//					{
+//						"name": "linkedRecordType",
+//						"value": "metadataGroup"
+//					},
+//					{
+//						"name": "linkedRecordId",
+//						"value": "textSystemOneNewGroup"
+//					}
+//				]
+//			}, {
+//				"name" : "newPresentationFormId",
+//				"children": [
+//					{
+//						"name": "linkedRecordType",
+//						"value": "presentationGroup"
+//					},
+//					{
+//						"name": "linkedRecordId",
+//						"value": "textSystemOneFormNewPGroup"
+//					}
+//				]
+//			}, {
+//				"name" : "menuPresentationViewId",
+//				"children": [
+//					{
+//						"name": "linkedRecordType",
+//						"value": "presentationGroup"
+//					},
+//					{
+//						"name": "linkedRecordId",
+//						"value": "textSystemOneMenuPGroup"
+//					}
+//				]
+//			}, {
+//				"name" : "listPresentationViewId",
+//				"children": [
+//					{
+//						"name": "linkedRecordType",
+//						"value": "presentationGroup"
+//					},
+//					{
+//						"name": "linkedRecordId",
+//						"value": "textSystemOneListPGroup"
+//					}
+//				]
+//			}, {
+//				"name" : "searchMetadataId",
+//				"value" : "textSystemOneSearchGroup"
+//			}, {
+//				"name" : "searchPresentationFormId",
+//				"value" : "textSystemOneFormSearchPGroup"
+//			}, {
+//				"name" : "userSuppliedId",
+//				"value" : "true"
+//			}, {
+//				"name" : "selfPresentationViewId",
+//				"value" : "textSystemOneViewSelfPGroup"
+//			}, {
+//				"name" : "abstract",
+//				"value" : "false"
+//			}, {
+//				"name" : "parentId",
+//				"children": [
+//					{
+//						"name": "linkedRecordType",
+//						"value": "recordType"
+//					},
+//					{
+//						"name": "linkedRecordId",
+//						"value": "text"
+//					}
+//				]
+//			} ],
+//			"name" : "recordType"
+//		},
+//		"actionLinks" : {
+//			"search" : {
+//				"requestMethod" : "GET",
+//				"rel" : "search",
+//				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+//				"accept" : "application/uub+recordList+json"
+//			},
+//			"read" : {
+//				"requestMethod" : "GET",
+//				"rel" : "read",
+//				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
+//				"accept" : "application/uub+record+json"
+//			},
+//			"update" : {
+//				"requestMethod" : "POST",
+//				"rel" : "update",
+//				"contentType" : "application/uub+record+json",
+//				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
+//				"accept" : "application/uub+record+json"
+//			},
+//			"create" : {
+//				"requestMethod" : "POST",
+//				"rel" : "create",
+//				"contentType" : "application/uub+record+json",
+//				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+//				"accept" : "application/uub+record+json"
+//			},
+//			"list" : {
+//				"requestMethod" : "GET",
+//				"rel" : "list",
+//				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+//				"accept" : "application/uub+recordList+json"
+//			},
+//			"delete" : {
+//				"requestMethod" : "DELETE",
+//				"rel" : "delete",
+//				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne"
+//			}
+//		}
+//	};
+//	var x = provider.getRecordTypeById("textSystemOne");
+//	assert.stringifyEqual(x, expected);
+//});
+//
+//QUnit.test("getRecordTypeByIdNotFound", function(assert) {
+//	var provider = CORA.searchProvider(this.dependencies, this.spec);
+//	this.answerListCall(0);
+//	
+//	var error = false;
+//	try {
+//		var x = provider.getRecordTypeById("someNonExistingRecordTypeId");
+//	} catch (e) {
+//		error = true;
+//	}
+//	assert.ok(error);
+//});
+//
+//QUnit.test("getAllRecordTypes", function(assert) {
+//	var provider = CORA.searchProvider(this.dependencies, this.spec);
+//	this.answerListCall(0); 
+//	
+//	var recordTypeList = provider.getAllRecordTypes();
+//	assert.stringifyEqual(recordTypeList.length, 15);
+//
+//});
+//
+//
+//QUnit.test("testReload", function(assert) {
+//	var provider = CORA.searchProvider(this.dependencies, this.spec);
+//	var providerReloaded = false;
+//	function callWhenProviderHasReloaded() {
+//		providerReloaded = true;
+//	}
+//
+//	assert.notOk(providerReloaded);
+//	
+//	provider.reload(callWhenProviderHasReloaded);
+//
+//	this.answerListCall(1);
+//	assert.ok(providerReloaded);
+//});

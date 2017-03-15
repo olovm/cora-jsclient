@@ -260,7 +260,6 @@ QUnit.test("initFactoresSearchRecordHandlersAndAddsToView", function(assert) {
 	assert.strictEqual(addedSearchRecordHandlerView3, factoredSearchRecordHandler3.getView());
 	var factoredSpec3 = this.dependencies.searchRecordHandlerFactory.getSpec(2);
 	assert.strictEqual(factoredSpec3.baseUrl, this.spec.baseUrl);
-	
 });
 
 QUnit.test("initRecordTypesAreSortedByType", function(assert) {

@@ -20,16 +20,15 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.searchRecordHandler = function(dependencies, spec) {
 		var self;
-		var recordId = getIdFromRecord(spec.recordTypeRecord);
+		var searchId = getIdFromRecord(spec.searchRecord);
 
 		var viewSpec = {
-			// "dependencies" : dependencies,
-			"headerText" : recordId,
-			"fetchListMethod" : createRecordTypeList
+			"headerText" : searchId,
+//			"fetchListMethod" : createRecordTypeList
 		};
-		if (recordTypeHasCreateLink()) {
-			viewSpec.createNewMethod = createRecordHandler;
-		}
+//		if (recordTypeHasCreateLink()) {
+//			viewSpec.createNewMethod = createRecordHandler;
+//		}
 
 		var searchRecordHandlerView = dependencies.searchRecordHandlerViewFactory.factor(viewSpec);
 
@@ -100,7 +99,18 @@ var CORA = (function(cora) {
 			};
 		}
 
+		function getSpec(){
+			return spec;
+		}
+		
+		function getDependencies(){
+			return dependencies;
+		}
+		
 		var out = Object.freeze({
+			"type":"searchRecordHandler",
+			getSpec : getSpec, 
+			getDependencies : getDependencies,
 			getView : getView,
 			createRecordTypeList : createRecordTypeList,
 			createRecordHandlerViewFactory : createRecordHandlerViewFactory,

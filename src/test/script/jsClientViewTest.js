@@ -78,7 +78,15 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(jsClientView.getSpec(), this.spec);
 });
 
-QUnit.test("testaddToRecordTypesView", function(assert) {
+QUnit.test("testAddToSearchesView", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	var aView = document.createElement("SPAN");
+	jsClientView.addToSearchesView(aView);
+	var searchesViewFirstChild = jsClientView.getSearchesView().childNodes[0];
+	assert.strictEqual(searchesViewFirstChild, aView);
+});
+
+QUnit.test("testAddToRecordTypesView", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 
 	var recordTypesView = jsClientView.getRecordTypesView();

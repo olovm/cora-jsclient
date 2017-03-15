@@ -39,13 +39,13 @@ var CORA = (function(cora) {
 			header = CORA.gui.createSpanWithClassName("header");
 			header.textContent = spec.name;
 			view.appendChild(header);
-			
+
 			sideBar = CORA.gui.createSpanWithClassName("sideBar");
 			view.appendChild(sideBar);
 
 			searchesView = CORA.gui.createSpanWithClassName("searchesView");
 			sideBar.appendChild(searchesView);
-			
+
 			recordTypesView = CORA.gui.createSpanWithClassName("recordTypesView");
 			sideBar.appendChild(recordTypesView);
 
@@ -56,6 +56,10 @@ var CORA = (function(cora) {
 			header.appendChild(messageHolder.getView());
 
 			return view;
+		}
+
+		function addToSearchesView(searchViewToAdd) {
+			searchesView.appendChild(searchViewToAdd);
 		}
 
 		function addToRecordTypesView(recordTypeView) {
@@ -93,20 +97,19 @@ var CORA = (function(cora) {
 		function getHeader() {
 			return header;
 		}
-		
+
 		function getSideBar() {
 			return sideBar;
 		}
-		
+
 		function getSearchesView() {
 			return searchesView;
 		}
-		
+
 		function getRecordTypesView() {
 			return recordTypesView;
 		}
 
-		
 		function addErrorMessage(errorText) {
 			var messageSpec = {
 				"message" : errorText,
@@ -118,6 +121,7 @@ var CORA = (function(cora) {
 		out = Object.freeze({
 			"type" : "jsClientView",
 			getView : getView,
+			addToSearchesView : addToSearchesView,
 			addToRecordTypesView : addToRecordTypesView,
 			clearRecordTypesView : clearRecordTypesView,
 			getWorkView : getWorkView,

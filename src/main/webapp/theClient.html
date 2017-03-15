@@ -44,6 +44,14 @@
 <script type="text/javascript" src="script/recordTypeProvider.js"></script>
 <script type="text/javascript" src="script/recordViewer.js"></script>
 
+<script type="text/javascript"
+	src="script/searchRecordHandlerFactory.js"></script>
+<script type="text/javascript" src="script/searchRecordHandler.js"></script>
+<script type="text/javascript"
+	src="script/searchRecordHandlerViewFactory.js"></script>
+<script type="text/javascript" src="script/searchRecordHandlerView.js"></script>
+<script type="text/javascript" src="script/searchProviderSpy.js"></script>
+
 <script type="text/javascript" src="script/gui/basicGui.js"></script>
 <script type="text/javascript" src="script/gui/busy.js"></script>
 <script type="text/javascript" src="script/gui/holder.js"></script>
@@ -63,9 +71,11 @@
 <script type="text/javascript" src="script/login/loginManager.js"></script>
 <script type="text/javascript" src="script/login/loginManagerView.js"></script>
 <script type="text/javascript" src="script/login/loginManagerFactory.js"></script>
-<script type="text/javascript" src="script/login/loginManagerViewFactory.js"></script>
+<script type="text/javascript"
+	src="script/login/loginManagerViewFactory.js"></script>
 <script type="text/javascript" src="script/login/appTokenLogin.js"></script>
-<script type="text/javascript" src="script/login/appTokenLoginFactory.js"></script>
+<script type="text/javascript"
+	src="script/login/appTokenLoginFactory.js"></script>
 
 <script type="text/javascript"
 	src="script/metadata/calculatePathForNewElement.js"></script>
@@ -119,23 +129,22 @@
 <script type="text/javascript" src="script/presentation/presentation.js"></script>
 <script type="text/javascript"
 	src="script/presentation/presentationFactory.js"></script>
-<script type="text/javascript"
-	src="script/presentation/pSurroundingContainer.js"></script>
+<script type="text/javascript"src="script/presentation/pSurroundingContainer.js"></script>
 <script type="text/javascript" src="script/presentation/pVar.js"></script>
 <script type="text/javascript" src="script/presentation/pVarView.js"></script>
-<script type="text/javascript" src="script/presentation/pVarViewFactory.js"></script>
+<script type="text/javascript"
+	src="script/presentation/pVarViewFactory.js"></script>
 
 <script type="text/javascript">
-//   	 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
-//  			var appTokenBaseUrl = "http://epc.ub.uu.se/";
-			var appTokenBaseUrl = "http://localhost:8080/";
+	//   	 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+	//  			var appTokenBaseUrl = "http://epc.ub.uu.se/";
+	var appTokenBaseUrl = "http://localhost:8080/";
 	var baseUrl = "http://localhost:8080/therest/rest/";
-
 
 	window.onload = start;
 	var jsClientSpec;
 	var jsClientDependencies;
-	
+
 	function start() {
 		startDependencies();
 	}
@@ -169,14 +178,14 @@
 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 
 		//TODO: use this if you want to be logged in at startup:
-// 		authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
+		// 		authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
 
 		var ajaxCallFactoryDependencies = {
 			"xmlHttpRequestFactory" : xmlHttpRequestFactory,
 			"authTokenHolder" : authTokenHolder
 		};
 		var ajaxCallFactory = CORA.ajaxCallFactory(ajaxCallFactoryDependencies);
-		
+
 		var dependencies = {
 			"ajaxCallFactory" : CORA.ajaxCallFactory(ajaxCallFactoryDependencies),
 			"authTokenHolder" : authTokenHolder
@@ -217,20 +226,20 @@
 		};
 
 		var textProvider = CORA.textProvider(textProviderSpec);
-	
+
 		var appTokenLoginFactoryDependencies = {
 			"ajaxCallFactory" : ajaxCallFactory,
 		};
 		var appTokenLoginFactory = CORA.appTokenLoginFactory(appTokenLoginFactoryDependencies);
-		
-		var loginManagerFactoryDependencies ={
-				"authTokenHolder":authTokenHolder,
-				"textProvider" : textProvider,
-				"appTokenLoginFactory" : appTokenLoginFactory,
-				"ajaxCallFactory" : ajaxCallFactory
+
+		var loginManagerFactoryDependencies = {
+			"authTokenHolder" : authTokenHolder,
+			"textProvider" : textProvider,
+			"appTokenLoginFactory" : appTokenLoginFactory,
+			"ajaxCallFactory" : ajaxCallFactory
 		};
 		var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
-		
+
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
@@ -242,20 +251,25 @@
 			"callWhenReady" : recordTypeProviderReady
 		};
 		var recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
-		
-		var jsClientViewFactorySpec = {
-				"messageHolderFactory" : CORA.messageHolderFactory()
-			};
 
+		var jsClientViewFactorySpec = {
+			"messageHolderFactory" : CORA.messageHolderFactory()
+		};
+		var searchRecordHandlerFactorySpec = {
+			"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory({})
+		};
 		jsClientDependencies = {
 			"ajaxCallFactory" : ajaxCallFactory,
-			"authTokenHolder":authTokenHolder,
+			"authTokenHolder" : authTokenHolder,
 			"loginManagerFactory" : loginManagerFactory,
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
+			"searchProvider" : CORATEST.searchProviderSpy(),
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-			"jsClientViewFactory": CORA.jsClientViewFactory(jsClientViewFactorySpec),
+			"jsClientViewFactory" : CORA.jsClientViewFactory(jsClientViewFactorySpec),
+			"searchRecordHandlerFactory" : CORA
+					.searchRecordHandlerFactory(searchRecordHandlerFactorySpec),
 			"presentationFactoryFactory" : "not implemented yet"
 		}
 		jsClientSpec = {
