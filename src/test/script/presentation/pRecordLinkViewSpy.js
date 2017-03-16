@@ -18,15 +18,17 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.pChildRefHandlerSpy = function(dependencies, spec) {
-		var added = [];
+	coraTest.pRecordLinkViewSpy = function(dependencies, spec) {
+		var addedChildren = [];
+		var addedLinkedPresentations = [];
 		var addedToolViews = [];
+		var childrenHidden = 0;
 		var showDataF = null;
-//		var view = document.createElement("span");
-		var view = CORA.gui.createSpanWithClassName("pChildRefHandlerSpyView");
+		// var view = document.createElement("span");
+		var view = CORA.gui.createSpanWithClassName("pRecordLinkViewSpyView");
 		var state;
 		var value;
-		
+
 		function getView() {
 			return view;
 		}
@@ -37,40 +39,40 @@ var CORATEST = (function(coraTest) {
 		function getSpec() {
 			return spec;
 		}
-		function add() {
+		function addChild(childToAdd) {
+			addedChildren.push(childToAdd);
 		}
-		function handleMsg() {
+		function getAddedChild(number) {
+			return addedChildren[number];
 		}
-		function isRepeating() {
+
+		function updateClassName() {
 		}
-		function isStaticNoOfChildren() {
+		function hideChildren() {
+			childrenHidden++;
 		}
-		function sendAdd() {
+		function getChildrenHidden() {
+			return childrenHidden;
 		}
-		function childRemoved() {
+		function addLinkedPresentation(presentationToAdd) {
+			addedLinkedPresentations.push(presentationToAdd);
 		}
-		function childMoved() {
+		function getAddedLinkedPresentation(number) {
+			return addedLinkedPresentations[number];
 		}
-		function handleFiles() {
-		}
-		function processNewBinary() {
-		}
-		
-		
+
 		var out = Object.freeze({
-			"type" : "pChildRefHandlerSpy",
+			"type" : "pRecordLinkViewSpy",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-			add : add,
-			handleMsg : handleMsg,
-			isRepeating : isRepeating,
-			isStaticNoOfChildren : isStaticNoOfChildren,
-			sendAdd : sendAdd,
-			childRemoved : childRemoved,
-			childMoved : childMoved,
-			handleFiles : handleFiles,
-			processNewBinary : processNewBinary
+			updateClassName : updateClassName,
+			addChild : addChild,
+			getAddedChild : getAddedChild,
+			hideChildren : hideChildren,
+			getChildrenHidden : getChildrenHidden,
+			addLinkedPresentation : addLinkedPresentation,
+			getAddedLinkedPresentation : getAddedLinkedPresentation
 		});
 		return out;
 	};

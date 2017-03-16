@@ -203,7 +203,7 @@ img {
 	min-height: 24px;
 	display: inline-block;
 }
-.pVar:hover, .pCollVar:hover, .pVar.infoActive,
+.pVar:hover, .pCollVar:hover, .pVar.infoActive, .pCollVar.infoActive, .pRecordLink.infoActive,
 .pGroup2:hover, .pGroup.infoActive {
 	background-color: rgba(0, 129, 198, 0.1);
 }
@@ -212,7 +212,8 @@ img {
 }
 .pVar.infoActive  > .infoButton::before,
 .pCollVar.infoActive  > .infoButton::before,
-.pGroup.infoActive  > .infoButton::before {
+.pGroup.infoActive  > .infoButton::before,
+.pRecordLink.infoActive  > .infoButton::before {
 	opacity: 1;
 }
 
@@ -229,25 +230,30 @@ img {
 	margin: .2em 0;
 }
 
+.workView .pRecordLink,
 .workView .pGroup {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-end;
 }
 
+.workView .pRecordLink > :nth-child(1n) ,
 .workView .pGroup > :nth-child(1n) {
 	flex: 1 0 100%;
 	order: 2;
 }
+.workView .pRecordLink > :nth-child(2),
 .workView .pGroup > :nth-child(2) {
 	flex: 1;
 	margin: .2em 0;
 	order: 0;
 }
+.workView .pRecordLink > :first-child,
 .workView .pGroup > :first-child {
 	flex: 0 1 0;
 	order: 1;
 }
+.workView .pRecordLink > :first-child + .childrenView,
 .workView .pGroup > :first-child + .pChildRefHandler{
 /* 	TODO: IS THIS OK? */
 	flex: 0 1 100%;
@@ -283,7 +289,8 @@ img {
 	display: none;
 }
 
-.workView .pVar:hover > .infoButton::before,  input:focus + .infoButton::before ,
+.workView .pVar:hover > .infoButton::before, .workView .pRecordLink:hover > .infoButton::before, 
+ input:focus + .infoButton::before ,
 .workView .pCollVar:hover > .infoButton::before,  select:focus + .infoButton::before,
 textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::before {
 	opacity: 1;

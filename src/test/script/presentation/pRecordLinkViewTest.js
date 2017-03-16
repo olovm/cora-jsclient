@@ -67,7 +67,7 @@ QUnit.test("testGetView", function(assert) {
 QUnit.test("testChildrenViewIsCreatedOnInit", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
-	var childrenView = view.childNodes[0];
+	var childrenView = view.childNodes[1];
 	assert.strictEqual(childrenView.className, "childrenView");
 });
 
@@ -76,7 +76,7 @@ QUnit.test("testAddChild", function(assert) {
 	var view = pRecordLinkView.getView();
 	var child = document.createElement("SPAN");
 	pRecordLinkView.addChild(child);
-	var childrenView = view.childNodes[0];
+	var childrenView = view.childNodes[1];
 	assert.strictEqual(childrenView.childNodes[0], child);
 });
 
@@ -86,7 +86,7 @@ QUnit.test("testHideChildrenView", function(assert) {
 	this.fixture.appendChild(view);
 	var child = document.createElement("SPAN");
 	pRecordLinkView.addChild(child);
-	var childrenView = view.childNodes[0];
+	var childrenView = view.childNodes[1];
 	assert.visible(childrenView);
 	pRecordLinkView.hideChildren();
 	assert.notVisible(childrenView);
@@ -97,12 +97,12 @@ QUnit.test("testAddLinkedPresentation", function(assert) {
 	var view = pRecordLinkView.getView();
 	var linkedPresentation = document.createElement("SPAN");
 	pRecordLinkView.addLinkedPresentation(linkedPresentation);
-	assert.strictEqual(view.childNodes[3], linkedPresentation);
+	assert.strictEqual(view.childNodes[2], linkedPresentation);
 });
 
 QUnit.test("testInfoSpec", function(assert) {
 	var expectedSpec = {
-		"appendTo" : {},
+//		"appendTo" : {},
 		"level1" : [ {
 			"className" : "textView",
 			"text" : "someText"
@@ -119,34 +119,34 @@ QUnit.test("testInfoSpec", function(assert) {
 		}, {
 			"className" : "technicalView",
 			"text" : "metadataId: metadataId"
-		} ]
+		} ],"insertAfter":{}
 	};
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
 	var infoSpy = this.dependencies.infoFactory.getFactored(0);
 	var usedSpec = infoSpy.getSpec();
 	assert.stringifyEqual(usedSpec, expectedSpec); 
-	assert.strictEqual(usedSpec.appendTo, view);
+	assert.strictEqual(usedSpec.insertAfter, infoSpy.getButton());
 	assert.strictEqual(usedSpec.afterLevelChange, pRecordLinkView.updateClassName);
 
 });
 QUnit.test("testInfoButtonAddedToView", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
-	assert.strictEqual(view.childNodes[2].className, "infoButtonSpy");
+	assert.strictEqual(view.childNodes[0].className, "infoButtonSpy");
 });
 
 QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 	this.spec.info.technicalInfo = null;
 	var expectedSpec = {
-		"appendTo" : {},
+//		"appendTo" : {},
 		"level1" : [ {
 			"className" : "textView",
 			"text" : "someText"
 		}, {
 			"className" : "defTextView",
 			"text" : "someDefText"
-		} ]
+		} ],"insertAfter":{}
 	};
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var infoSpy = this.dependencies.infoFactory.getFactored(0);
@@ -154,12 +154,12 @@ QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 	assert.stringifyEqual(usedSpec, expectedSpec);
 });
 
-QUnit.test("testInfoPlaced", function(assert) {
-	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
-	var view = pRecordLinkView.getView();
-	var infoSpan = view.childNodes[1];
-	assert.equal(infoSpan.className, "infoSpySpan");
-});
+//QUnit.test("testInfoPlaced", function(assert) {
+//	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+//	var view = pRecordLinkView.getView();
+//	var infoSpan = view.childNodes[0];
+//	assert.equal(infoSpan.className, "infoSpySpan");
+//});
 
 QUnit.test("testActiveInfoShownInClassName", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);

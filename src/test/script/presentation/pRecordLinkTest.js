@@ -69,18 +69,23 @@ QUnit.test("testInitRecordLink", function(assert) {
 	this.fixture.appendChild(view);
 
 	assert.strictEqual(pRecordLink.type, "pRecordLink");
-	assert.deepEqual(view.className, "pRecordLink myLinkNoPresentationOfLinkedRecordPLink");
+	// assert.deepEqual(view.className, "pRecordLink myLinkNoPresentationOfLinkedRecordPLink");
+	assert.deepEqual(view.className, "pRecordLinkViewSpyView");
 
-	assert.ok(view.modelObject === pRecordLink);
-	assert.ok(view.childNodes.length === 1);
+	// assert.ok(view.modelObject === pRecordLink);
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	// assert.strictEqual(view.childNodes.length, 1);
+	var recordIdView = pRecordLinkView.getAddedChild(0);
+	assert.strictEqual(recordIdView.className, "linkedRecordIdView"); 
+	assert.strictEqual(pRecordLinkView.getAddedChild(1), undefined);
 
-	assert.strictEqual(childrenView.nodeName, "SPAN");
-	assert.strictEqual(childrenView.className, "childrenView");
-	assert.strictEqual(childrenView.childNodes.length, 1);
-
-	var recordIdView = childrenView.childNodes[0];
-	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
-	var recordIdTextView = recordIdView.firstChild;
+//	assert.strictEqual(childrenView.nodeName, "SPAN");
+//	assert.strictEqual(childrenView.className, "childrenView");
+//	assert.strictEqual(childrenView.childNodes.length, 1);
+//
+//	var recordIdView = childrenView.childNodes[0];
+//	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
+	var recordIdTextView = recordIdView.firstChild; 
 
 	var recordIdTextVarSpyDummyView = recordIdView.childNodes[0];
 	var presentationOfLink = recordIdTextVarSpyDummyView.cPresentation
@@ -119,10 +124,10 @@ QUnit.test("testViewIsFactored", function(assert) {
 	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
 			.getMetadataById("myLinkNoPresentationOfLinkedRecordPLink"));
 	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
-	
+
 	var factoredView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
 	var factoredViewSpec = this.dependencies.pRecordLinkViewFactory.getSpec(0);
-	
+
 	assert.strictEqual(pRecordLink.getView(), factoredView.getView());
 });
 
@@ -134,21 +139,29 @@ QUnit.test("testInitRecordLinkWithFinalValue", function(assert) {
 	var childrenView = view.firstChild;
 	this.fixture.appendChild(view);
 
-	assert.strictEqual(pRecordLink.type, "pRecordLink");
-	assert.deepEqual(view.className,
-			"pRecordLink myLinkNoPresentationOfLinkedRecordWithFinalValuePLink");
-	assert.ok(view.modelObject === pRecordLink);
-	assert.ok(view.childNodes.length === 1);
-
-	var childrenView = childrenView;
-	assert.strictEqual(childrenView.nodeName, "SPAN");
-	assert.strictEqual(childrenView.className, "childrenView");
-	assert.strictEqual(childrenView.childNodes.length, 1);
-
-	var recordIdView = childrenView.childNodes[0];
-	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
-	var recordIdTextView = recordIdView.firstChild;
-
+//	assert.strictEqual(pRecordLink.type, "pRecordLink");
+//	assert.deepEqual(view.className,
+//			"pRecordLink myLinkNoPresentationOfLinkedRecordWithFinalValuePLink");
+//	assert.ok(view.modelObject === pRecordLink);
+//	assert.ok(view.childNodes.length === 1);
+//
+//	var childrenView = childrenView;
+//	assert.strictEqual(childrenView.nodeName, "SPAN");
+//	assert.strictEqual(childrenView.className, "childrenView");
+//	assert.strictEqual(childrenView.childNodes.length, 1);
+//
+//	var recordIdView = childrenView.childNodes[0];
+//	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
+//	var recordIdTextView = recordIdView.firstChild;
+	
+	
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var recordIdView = pRecordLinkView.getAddedChild(0);
+	assert.strictEqual(recordIdView.className, "linkedRecordIdView"); 
+	assert.strictEqual(pRecordLinkView.getAddedChild(1), undefined);
+	var recordIdTextView = recordIdView.firstChild; 
+	
+	
 	assert.stringifyEqual(this.getIdForGeneratedPresentationByNo2(0), "linkedRecordIdOutputPVar");
 
 	var recordIdTextVarSpyDummyView = recordIdView.childNodes[0];
@@ -176,19 +189,33 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 	var childrenView = view.firstChild;
 	this.fixture.appendChild(view);
 
-	assert.strictEqual(pRecordLink.type, "pRecordLink");
-	assert.deepEqual(view.className, "pRecordLink myPathLinkNoPresentationOfLinkedRecordPLink");
-	assert.ok(view.modelObject === pRecordLink);
-	assert.ok(view.childNodes.length === 1);
-
-	assert.strictEqual(childrenView.nodeName, "SPAN");
-	assert.strictEqual(childrenView.className, "childrenView");
-	assert.strictEqual(childrenView.childNodes.length, 2);
-
-	var repeatIdView = childrenView.childNodes[1];
-	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
-
-	var repeatIdTextView = repeatIdView.firstChild;
+//	assert.strictEqual(pRecordLink.type, "pRecordLink");
+//	assert.deepEqual(view.className, "pRecordLink myPathLinkNoPresentationOfLinkedRecordPLink");
+//	assert.ok(view.modelObject === pRecordLink);
+//	assert.ok(view.childNodes.length === 1);
+//
+//	assert.strictEqual(childrenView.nodeName, "SPAN");
+//	assert.strictEqual(childrenView.className, "childrenView");
+//	assert.strictEqual(childrenView.childNodes.length, 2);
+//
+//	var repeatIdView = childrenView.childNodes[1];
+//	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
+//
+//	var repeatIdTextView = repeatIdView.firstChild;
+	
+	 
+	
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var recordIdView = pRecordLinkView.getAddedChild(0);
+	assert.strictEqual(recordIdView.className, "linkedRecordIdView"); 
+	var recordIdTextView = recordIdView.firstChild; 
+	
+	var repeatIdView = pRecordLinkView.getAddedChild(1);
+	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView"); 
+	var repeatIdTextView = repeatIdView.firstChild; 
+	
+	assert.strictEqual(pRecordLinkView.getAddedChild(2), undefined);
+	
 	assert.strictEqual(repeatIdTextView.className, "text");
 	assert.strictEqual(repeatIdTextView.innerHTML, "RepeatId");
 
@@ -221,18 +248,41 @@ QUnit.test("testInitRecordLinkOutput", function(assert) {
 	var childrenView = view.firstChild;
 	this.fixture.appendChild(view);
 
-	assert.strictEqual(pRecordLink.type, "pRecordLink");
-	assert.deepEqual(view.className, "pRecordLink myLinkNoPresentationOfLinkedRecordOutputPLink");
-	assert.ok(view.modelObject === pRecordLink);
-	assert.ok(view.childNodes.length === 1);
-
-	var childrenView = childrenView;
-	assert.strictEqual(childrenView.nodeName, "SPAN");
-	assert.strictEqual(childrenView.className, "childrenView");
-	assert.strictEqual(childrenView.childNodes.length, 1);
-
-	var recordIdView = childrenView.childNodes[0];
-	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
+//	assert.strictEqual(pRecordLink.type, "pRecordLink");
+//	assert.deepEqual(view.className, "pRecordLink myLinkNoPresentationOfLinkedRecordOutputPLink");
+//	assert.ok(view.modelObject === pRecordLink);
+//	assert.ok(view.childNodes.length === 1);
+//
+//	var childrenView = childrenView;
+//	assert.strictEqual(childrenView.nodeName, "SPAN");
+//	assert.strictEqual(childrenView.className, "childrenView");
+//	assert.strictEqual(childrenView.childNodes.length, 1);
+//
+//	var recordIdView = childrenView.childNodes[0]; 
+//	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
+	
+	 
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var recordIdView = pRecordLinkView.getAddedChild(0);
+	assert.strictEqual(recordIdView.className, "linkedRecordIdView"); 
+	assert.strictEqual(pRecordLinkView.getAddedChild(1), undefined);
+	var recordIdTextView = recordIdView.firstChild; 
+	
+	
+//FOR LINKED PRESENATION:
+//	assert.strictEqual(pRecordLink.type, "pRecordLink");
+//	assert.deepEqual(view.className, "pRecordLinkViewSpyView");
+//
+//	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+//	assert.strictEqual(pRecordLinkView.getAddedChild(0), undefined);
+//	var linkedRecordView = pRecordLinkView.getAddedLinkedPresentation(0);
+//	assert.strictEqual(linkedRecordView.className, "linkedRecordIdView"); 
+	
+	
+	
+	
+	
+	
 
 	var recordIdTextVarSpyDummyView = recordIdView.childNodes[0];
 	var presentationOfLink = recordIdTextVarSpyDummyView.cPresentation
@@ -260,22 +310,43 @@ QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
 	var childrenView = view.firstChild;
 	this.fixture.appendChild(view);
 
-	assert.strictEqual(pRecordLink.type, "pRecordLink");
-	assert.deepEqual(view.className,
-			"pRecordLink myPathLinkNoPresentationOfLinkedRecordOutputPLink");
-	assert.ok(view.modelObject === pRecordLink);
-	assert.ok(view.childNodes.length === 1);
-
-	assert.strictEqual(childrenView.nodeName, "SPAN");
-	assert.strictEqual(childrenView.className, "childrenView");
-	assert.strictEqual(childrenView.childNodes.length, 2);
-
-	var repeatIdView = childrenView.childNodes[1];
-	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
-
-	var repeatIdTextView = repeatIdView.firstChild;
+//	assert.strictEqual(pRecordLink.type, "pRecordLink");
+//	assert.deepEqual(view.className,
+//			"pRecordLink myPathLinkNoPresentationOfLinkedRecordOutputPLink");
+//	assert.ok(view.modelObject === pRecordLink);
+//	assert.ok(view.childNodes.length === 1);
+//
+//	assert.strictEqual(childrenView.nodeName, "SPAN");
+//	assert.strictEqual(childrenView.className, "childrenView");
+//	assert.strictEqual(childrenView.childNodes.length, 2);
+//
+//	var repeatIdView = childrenView.childNodes[1];
+//	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
+	
+	
+	
+	
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var recordIdView = pRecordLinkView.getAddedChild(0);
+	assert.strictEqual(recordIdView.className, "linkedRecordIdView"); 
+	var recordIdTextView = recordIdView.firstChild; 
+	
+	var repeatIdView = pRecordLinkView.getAddedChild(1);
+	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView"); 
+	var repeatIdTextView = repeatIdView.firstChild; 
+	
+	assert.strictEqual(pRecordLinkView.getAddedChild(2), undefined);
+	
 	assert.strictEqual(repeatIdTextView.className, "text");
 	assert.strictEqual(repeatIdTextView.innerHTML, "RepeatId");
+	
+	
+	
+	
+
+//	var repeatIdTextView = repeatIdView.firstChild;
+//	assert.strictEqual(repeatIdTextView.className, "text");
+//	assert.strictEqual(repeatIdTextView.innerHTML, "RepeatId");
 
 	var repeatIdTextVarSpyDummyView = repeatIdView.childNodes[1];
 	var presentationOfLink = repeatIdTextVarSpyDummyView.cPresentation
@@ -304,12 +375,12 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", functio
 	var childrenView = view.firstChild;
 	this.fixture.appendChild(view);
 
-	assert.strictEqual(pRecordLink.type, "pRecordLink");
-	assert.deepEqual(view.className, "pRecordLink myLinkPresentationOfLinkedRecordOutputPLink");
-	assert.ok(view.modelObject === pRecordLink);
-	assert.strictEqual(view.childNodes.length, 1);
+//	assert.strictEqual(pRecordLink.type, "pRecordLink");
+//	assert.deepEqual(view.className, "pRecordLink myLinkPresentationOfLinkedRecordOutputPLink");
+//	assert.ok(view.modelObject === pRecordLink);
+//	assert.strictEqual(view.childNodes.length, 1);
 
-	var dataFromMsg = {
+	var dataFromMsg = { 
 		"data" : {
 			"children" : [ {
 				"name" : "linkedRecordType",
@@ -345,14 +416,26 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", functio
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
 	this.answerCall2(0);
 
-	assert.strictEqual(view.childNodes.length, 1);
+	
+	
+	
+	
+//FOR LINKED PRESENATION:
+	assert.strictEqual(pRecordLink.type, "pRecordLink");
+	assert.deepEqual(view.className, "pRecordLinkViewSpyView");
+
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var linkedRecordView = pRecordLinkView.getAddedLinkedPresentation(0);
+	assert.strictEqual(linkedRecordView.className, "recordViewer"); 
+	 
+	assert.strictEqual(pRecordLinkView.getChildrenHidden(), 1);
+	 
+	
+	
 
 	assert.strictEqual(this.dependencies.recordGuiFactory.getSpec(0).metadataId,
 			"metadataTextVariableGroup");
-
-	var linkedRecordPresentations = view.childNodes[0];
-	assert.strictEqual(linkedRecordPresentations.nodeName, "SPAN");
-	assert.strictEqual(linkedRecordPresentations.className, "recordViewer");
+ 
 });
 
 QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoData", function(assert) {
@@ -363,10 +446,10 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoData", f
 	var childrenView = view.firstChild;
 	this.fixture.appendChild(view);
 
-	assert.strictEqual(pRecordLink.type, "pRecordLink");
-	assert.deepEqual(view.className, "pRecordLink myLinkPresentationOfLinkedRecordOutputPLink");
-	assert.ok(view.modelObject === pRecordLink);
-	assert.strictEqual(view.childNodes.length, 1);
+//	assert.strictEqual(pRecordLink.type, "pRecordLink");
+//	assert.deepEqual(view.className, "pRecordLink myLinkPresentationOfLinkedRecordOutputPLink");
+//	assert.ok(view.modelObject === pRecordLink);
+//	assert.strictEqual(view.childNodes.length, 1);
 
 	var dataFromMsg = {
 		"path" : {
@@ -385,7 +468,16 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoData", f
 	};
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
 
-	assert.strictEqual(view.childNodes.length, 1);
+//	assert.strictEqual(view.childNodes.length, 1);
+	//FOR LINKED PRESENATION: 
+	assert.strictEqual(pRecordLink.type, "pRecordLink");
+	assert.deepEqual(view.className, "pRecordLinkViewSpyView");
+
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var linkedRecordView = pRecordLinkView.getAddedLinkedPresentation(0);
+	assert.strictEqual(linkedRecordView, undefined); 
+	 
+	assert.strictEqual(pRecordLinkView.getChildrenHidden(), 0);
 });
 
 QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoActionLinks", function(
@@ -397,10 +489,11 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoActionLi
 	var childrenView = view.firstChild;
 	this.fixture.appendChild(view);
 
-	assert.strictEqual(pRecordLink.type, "pRecordLink");
-	assert.deepEqual(view.className, "pRecordLink myLinkPresentationOfLinkedRecordOutputPLink");
-	assert.ok(view.modelObject === pRecordLink);
-	assert.strictEqual(view.childNodes.length, 1);
+//	assert.strictEqual(pRecordLink.type, "pRecordLink");
+//	// assert.deepEqual(view.className, "pRecordLink myLinkPresentationOfLinkedRecordOutputPLink");
+//	assert.deepEqual(view.className, "pRecordLinkViewSpyView");
+//	assert.ok(view.modelObject === pRecordLink);
+//	assert.strictEqual(view.childNodes.length, 1);
 
 	var dataFromMsg = {
 		"data" : {
@@ -429,8 +522,16 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoActionLi
 	};
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
 
-	assert.strictEqual(view.childNodes.length, 1);
+//	assert.strictEqual(view.childNodes.length, 1);
+	//FOR LINKED PRESENATION: 
+	assert.strictEqual(pRecordLink.type, "pRecordLink");
+	assert.deepEqual(view.className, "pRecordLinkViewSpyView");
 
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var linkedRecordView = pRecordLinkView.getAddedLinkedPresentation(0);
+	assert.strictEqual(linkedRecordView, undefined); 
+	 
+	assert.strictEqual(pRecordLinkView.getChildrenHidden(), 0);
 });
 
 QUnit
@@ -446,12 +547,12 @@ QUnit
 					var childrenView = view.firstChild;
 					this.fixture.appendChild(view);
 
-					assert.strictEqual(pRecordLink.type, "pRecordLink");
-					assert
-							.deepEqual(view.className,
-									"pRecordLink myLinkPresentationOfLinkedRecordOutputPLinkWrongLinkedRecordType");
-					assert.ok(view.modelObject === pRecordLink);
-					assert.strictEqual(view.childNodes.length, 1);
+//					assert.strictEqual(pRecordLink.type, "pRecordLink");
+//					assert
+//							.deepEqual(view.className,
+//									"pRecordLink myLinkPresentationOfLinkedRecordOutputPLinkWrongLinkedRecordType");
+//					assert.ok(view.modelObject === pRecordLink);
+//					assert.strictEqual(view.childNodes.length, 1);
 
 					var dataFromMsg = {
 						"data" : {
@@ -488,6 +589,15 @@ QUnit
 					};
 					pRecordLink.handleMsg(dataFromMsg, "linkedData");
 
-					assert.strictEqual(view.childNodes.length, 1);
+//					assert.strictEqual(view.childNodes.length, 1);
+					//FOR LINKED PRESENATION: 
+					assert.strictEqual(pRecordLink.type, "pRecordLink");
+					assert.deepEqual(view.className, "pRecordLinkViewSpyView");
+
+					var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+					var linkedRecordView = pRecordLinkView.getAddedLinkedPresentation(0);
+					assert.strictEqual(linkedRecordView, undefined); 
+					 
+					assert.strictEqual(pRecordLinkView.getChildrenHidden(), 0);
 
 				});

@@ -27,10 +27,10 @@ var CORA = (function(cora) {
 
 		function start() {
 			view = CORA.gui.createSpanWithClassName(baseClassName);
-			createChildrenView();
 			info = createInfo();
+			view.appendChild(info.getButton());
+			createChildrenView();
 
-			 view.appendChild(info.getButton());
 		}
 		
 		function createChildrenView() {
@@ -40,7 +40,7 @@ var CORA = (function(cora) {
 		
 		function createInfo() {
 			var infoSpec = {
-				"appendTo" : view,
+//				"appendTo" : view,
 				"afterLevelChange" : updateClassName,
 				"level1" : [ {
 					"className" : "textView",
@@ -51,7 +51,11 @@ var CORA = (function(cora) {
 				} ]
 			};
 			possiblyAddLevel2Info(infoSpec);
-			return dependencies.infoFactory.factor(infoSpec);
+//			return dependencies.infoFactory.factor(infoSpec);
+			 
+			var newInfo = dependencies.infoFactory.factor(infoSpec);
+			infoSpec.insertAfter = newInfo.getButton();
+			return newInfo;
 		}
 		function possiblyAddLevel2Info(infoSpec) {
 			if (specInfoHasTechnicalInfo()) {
