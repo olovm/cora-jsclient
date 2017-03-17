@@ -248,14 +248,14 @@ QUnit.test("initFactoresSearchRecordHandlersAndAddsToView", function(assert) {
 	assert.strictEqual(addedSearchRecordHandlerView, factoredSearchRecordHandler.getView());
 	var factoredSpec = this.dependencies.searchRecordHandlerFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.baseUrl, this.spec.baseUrl);
-	
-	var addedSearchRecordHandlerView2= jsClientView.getSearchesView(1);
+
+	var addedSearchRecordHandlerView2 = jsClientView.getSearchesView(1);
 	var factoredSearchRecordHandler2 = this.dependencies.searchRecordHandlerFactory.getFactored(1);
 	assert.strictEqual(addedSearchRecordHandlerView2, factoredSearchRecordHandler2.getView());
 	var factoredSpec2 = this.dependencies.searchRecordHandlerFactory.getSpec(1);
 	assert.strictEqual(factoredSpec2.baseUrl, this.spec.baseUrl);
-	
-	var addedSearchRecordHandlerView3= jsClientView.getSearchesView(2);
+
+	var addedSearchRecordHandlerView3 = jsClientView.getSearchesView(2);
 	var factoredSearchRecordHandler3 = this.dependencies.searchRecordHandlerFactory.getFactored(2);
 	assert.strictEqual(addedSearchRecordHandlerView3, factoredSearchRecordHandler3.getView());
 	var factoredSpec3 = this.dependencies.searchRecordHandlerFactory.getSpec(2);

@@ -172,6 +172,18 @@ var CORATEST = (function(coraTest) {
 				return "groupIdOneChildOfBinaryRecordLinkChildText";
 			case "groupIdOneChildOfBinaryRecordLinkChildDefText":
 				return "groupIdOneChildOfBinaryRecordLinkChildDefText";
+			case "myLinkText":
+				return "myLinkText";
+			case "myLinkDefText":
+				return "myLinkDefText";
+			case "myPathLinkText":
+				return "myPathLinkText";
+			case "myPathLinkDefText":
+				return "myPathLinkDefText";
+			case "myFinalValueLinkText":
+				return "myFinalValueLinkText";
+			case "myFinalValueLinkDefText":
+				return "myFinalValueLinkDefText";
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");

@@ -31,8 +31,13 @@ var CORA = (function(cora) {
 				"infoFactory" : CORA.infoFactory(),
 				"jsBookkeeper" : dependencies.jsBookkeeper
 			};
-			var pVarViewFactory = CORA.pVarViewFactory(pVarViewFactoryDependencies);
 
+			var pVarViewFactory = CORA.pVarViewFactory(pVarViewFactoryDependencies);
+			var pRecordLinkViewFactoryDependencies = {
+				"infoFactory" : CORA.infoFactory()
+			};
+			var pRecordLinkViewFactory = CORA
+					.pRecordLinkViewFactory(pRecordLinkViewFactoryDependencies);
 			var pChildRefHandlerFactoryDependencies = {
 				"metadataProvider" : dependencies.metadataProvider,
 				"pubSub" : dependencies.pubSub,
@@ -62,6 +67,7 @@ var CORA = (function(cora) {
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"pVarViewFactory" : pVarViewFactory,
+				"pRecordLinkViewFactory" : pRecordLinkViewFactory,
 				"pChildRefHandlerFactory" : pChildRefHandlerFactory,
 				"authTokenHolder" : dependencies.authTokenHolder
 			};
