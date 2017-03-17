@@ -34,7 +34,7 @@ QUnit.module("presentationFactoryTest.js", {
 			"recordTypeProvider" : this.recordTypeProvider,
 			"dataDivider" : this.dataDivider,
 			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy(),
-			"pChildRefHandlerViewFactory": CORATEST.pChildRefHandlerViewFactorySpy()
+			"pChildRefHandlerViewFactory" : CORATEST.pChildRefHandlerViewFactorySpy()
 		};
 		this.newPresentationFactory = CORA.presentationFactory(this.dependencies);
 
@@ -114,9 +114,11 @@ QUnit.test("testFactorPRecordLink", function(assert) {
 	var presentationIdToFactor = "myLinkNoPresentationOfLinkedRecordPLink";
 	var cPresentation = CORA
 			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
-	var pGroup = this.newPresentationFactory.factor({}, "groupIdTwoTextChildRepeat1to5",
+	var pRecordLink = this.newPresentationFactory.factor({}, "groupIdTwoTextChildRepeat1to5",
 			cPresentation);
-	assert.strictEqual(pGroup.type, "pRecordLink");
+	assert.strictEqual(pRecordLink.type, "pRecordLink");
+	assert.strictEqual(pRecordLink.getDependencies().pRecordLinkViewFactory.type,
+			"pRecordLinkViewFactory");
 });
 
 QUnit.test("testFactorPResourceLink", function(assert) {
@@ -126,6 +128,6 @@ QUnit.test("testFactorPResourceLink", function(assert) {
 	var pResourceLink = this.newPresentationFactory.factor({}, "groupIdTwoTextChildRepeat1to5",
 			cPresentation);
 	assert.strictEqual(pResourceLink.type, "pResourceLink");
-	var factoredDependecy = pResourceLink.getDependencies(); 
+	var factoredDependecy = pResourceLink.getDependencies();
 	assert.strictEqual(factoredDependecy.metadataProvider, this.dependencies.metadataProvider);
 });
