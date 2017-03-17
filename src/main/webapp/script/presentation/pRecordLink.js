@@ -23,7 +23,6 @@ var CORA = (function(cora) {
 		var cPresentation = spec.cPresentation;
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
-		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 
 		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
 		var cPresentationGroup = CORA.coraData(presentationGroup);
