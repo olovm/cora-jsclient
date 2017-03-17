@@ -26,7 +26,7 @@ var CORA = (function(cora) {
 		fetchRecordTypeListAndThen(processFetchedData);
 
 		function fetchRecordTypeListAndThen(callAfterAnswer) {
-			callThroughAjax(spec.recordTypeListLink, callAfterAnswer);
+			callThroughAjax(spec.searchRecordListLink, callAfterAnswer);
 		}
 
 		function callThroughAjax(linkSpec, callAfterAnswer) {
@@ -62,14 +62,14 @@ var CORA = (function(cora) {
 			return id;
 		}
 
-		function getRecordTypeById(recordTypeId) {
+		function getSearchById(recordTypeId) {
 			if (recordTypes[recordTypeId] !== undefined) {
 				return recordTypes[recordTypeId];
 			}
 			throw new Error("Id(" + recordTypeId + ") not found in searchProvider");
 		}
 
-		function getAllRecordTypes() {
+		function getAllSearches() {
 			var recordTypeList = [];
 			Object.keys(recordTypes).forEach(function(id) {
 				recordTypeList.push(recordTypes[id]);
@@ -84,8 +84,8 @@ var CORA = (function(cora) {
 
 		var out = Object.freeze({
 			type: "searchProvider",
-			getRecordTypeById : getRecordTypeById,
-			getAllRecordTypes : getAllRecordTypes,
+			getSearchById : getSearchById,
+			getAllSearches : getAllSearches,
 			processFetchedData : processFetchedData,
 			reload : reload
 		});

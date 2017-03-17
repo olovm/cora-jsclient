@@ -50,7 +50,7 @@
 <script type="text/javascript"
 	src="script/searchRecordHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/searchRecordHandlerView.js"></script>
-<script type="text/javascript" src="script/searchProviderSpy.js"></script>
+<script type="text/javascript" src="script/searchProvider.js"></script>
 
 <script type="text/javascript" src="script/gui/basicGui.js"></script>
 <script type="text/javascript" src="script/gui/busy.js"></script>
@@ -240,6 +240,23 @@
 		};
 		var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
 
+		
+		//searchProvider
+		var dependenciesSearchProvider = {
+			"ajaxCallFactory" : ajaxCallFactory
+		};
+		var searchRecordListLink = {
+			"requestMethod" : "GET",
+			"rel" : "list",
+			"url" : baseUrl + "record/search/",
+			"accept" : "application/uub+recordList+json"
+		};
+		var specSearchProvider = {
+			"searchRecordListLink" : searchRecordListLink
+		};
+		var searchProvider = CORA.searchProvider(dependenciesSearchProvider, specSearchProvider);
+		
+		
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
@@ -264,7 +281,7 @@
 			"loginManagerFactory" : loginManagerFactory,
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
-			"searchProvider" : CORATEST.searchProviderSpy(),
+			"searchProvider" : searchProvider,
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
 			"jsClientViewFactory" : CORA.jsClientViewFactory(jsClientViewFactorySpec),
