@@ -22,7 +22,7 @@ QUnit.module("pRecordLinkViewFactoryTest.js", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.dependencies = {
-			"infoFactory" : CORATEST.infoFactorySpy()
+				"infoFactory" : CORATEST.infoFactorySpy()
 		};
 		this.spec = {
 			"presentationId" : "somePresentationId",
@@ -41,7 +41,7 @@ QUnit.module("pRecordLinkViewFactoryTest.js", {
 
 QUnit.test("init", function(assert) {
 	assert.ok(this.pRecordLinkViewFactory);
-	assert.strictEqual(this.pRecordLinkViewFactory.type, "pRecordLinkViewFactory");
+	assert.strictEqual(this.pRecordLinkViewFactory.type, "pRecordLinkViewFactory"); 
 });
 
 QUnit.test("getDependencies", function(assert) {

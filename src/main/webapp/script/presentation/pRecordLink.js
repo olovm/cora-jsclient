@@ -36,20 +36,23 @@ var CORA = (function(cora) {
 
 		var view = createBaseView();
 		var valueView = createValueView();
-		// view.appendChild(valueView);
 
 		dependencies.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
 
 		function createBaseView() {
-			// return CORA.gui.createSpanWithClassName("pRecordLink " + presentationId);
+			var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
+			var text = textProvider.getTranslation(textId);
+			var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
+			var defText = textProvider.getTranslation(defTextId);
+			var linkedRecordType = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
 			var viewSpec = {
 				"presentationId" : "somePresentationId",
 				"mode" : "input",
 				"info" : {
-					"text" : "someText",
-					"defText" : "someDefText",
-					"technicalInfo" : [ "textId: " + "textId", "defTextId: " + "defTextId",
-							"metadataId: " + "metadataId" ]
+					"text" : text,
+					"defText" : defText,
+					"technicalInfo" : [ "textId: " + textId, "defTextId: " + defTextId,
+							"metadataId: " + metadataId, "linkedRecordType: " +linkedRecordType ]
 				}
 			};
 			return dependencies.pRecordLinkViewFactory.factor(viewSpec);
@@ -123,8 +126,6 @@ var CORA = (function(cora) {
 		}
 
 		function removeIdPresentations() {
-//			valueView.parentNode.removeChild(valueView);
-			//TODO: hide id stuff (hideChildren)
 			view.hideChildren();
 		}
 
@@ -134,7 +135,6 @@ var CORA = (function(cora) {
 			var recordViewer = CORA.recordViewer(recordViewerSpec);
 			var recordViewerView = recordViewer.getView();
 
-//			view.appendChild(recordViewerView);
 			view.addLinkedPresentation(recordViewerView);
 		}
 
@@ -166,12 +166,10 @@ var CORA = (function(cora) {
 				recordIdPVarId = "linkedRecordIdOutputPVar";
 			}
 			var recordIdViewNew = createChildView("linkedRecordId", recordIdPVarId);
-			// valueViewNew.appendChild(recordIdViewNew);
 			view.addChild(recordIdViewNew);
 
 			if (hasLinkedRepeatId) {
 				var repeatIdViewNew = createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
-				// valueViewNew.appendChild(repeatIdViewNew);
 				view.addChild(repeatIdViewNew);
 			}
 		}
@@ -211,13 +209,11 @@ var CORA = (function(cora) {
 
 		function createAndAddOutput(valueViewNew) {
 			var recordIdViewNew = createChildView("linkedRecordId", "linkedRecordIdOutputPVar");
-			// valueViewNew.appendChild(recordIdViewNew);
 			view.addChild(recordIdViewNew);
 
 			if (hasLinkedRepeatId) {
 				var repeatIdViewNew = createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar",
 						true);
-//				valueViewNew.appendChild(repeatIdViewNew);
 				view.addChild(repeatIdViewNew);
 			}
 		}
@@ -240,7 +236,6 @@ var CORA = (function(cora) {
 			getView : getView,
 			handleMsg : handleMsg
 		});
-		// view.modelObject = out;
 		return out;
 	};
 	return cora;
