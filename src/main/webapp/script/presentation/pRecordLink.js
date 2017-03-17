@@ -24,7 +24,6 @@ var CORA = (function(cora) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 
 		var presentationGroup = cPresentation.getFirstChildByNameInData("presentationOf");
 		var cPresentationGroup = CORA.coraData(presentationGroup);
@@ -35,7 +34,7 @@ var CORA = (function(cora) {
 		var hasLinkedRepeatId = cMetadataElement.containsChildWithNameInData("linkedPath");
 
 		var view = createBaseView();
-		var valueView = createValueView();
+		createValueView();
 
 		dependencies.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
 
@@ -44,7 +43,8 @@ var CORA = (function(cora) {
 			var text = textProvider.getTranslation(textId);
 			var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
 			var defText = textProvider.getTranslation(defTextId);
-			var linkedRecordType = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
+			var linkedRecordType = cMetadataElement
+					.getFirstAtomicValueByNameInData("linkedRecordType");
 			var viewSpec = {
 				"presentationId" : "somePresentationId",
 				"mode" : "input",
@@ -52,21 +52,18 @@ var CORA = (function(cora) {
 					"text" : text,
 					"defText" : defText,
 					"technicalInfo" : [ "textId: " + textId, "defTextId: " + defTextId,
-							"metadataId: " + metadataId, "linkedRecordType: " +linkedRecordType ]
+							"metadataId: " + metadataId, "linkedRecordType: " + linkedRecordType ]
 				}
 			};
 			return dependencies.pRecordLinkViewFactory.factor(viewSpec);
 		}
 
 		function createValueView() {
-			var valueViewNew = CORA.gui.createSpanWithClassName("childrenView");
-
 			if (mode === "input") {
-				createAndAddInputs(valueViewNew);
+				createAndAddInputs();
 			} else {
-				createAndAddOutput(valueViewNew);
+				createAndAddOutput();
 			}
-			return valueViewNew;
 		}
 
 		function handleMsg(dataFromMsg) {
@@ -160,7 +157,7 @@ var CORA = (function(cora) {
 			return cChildPresentation.getFirstAtomicValueByNameInData("presentationId");
 		}
 
-		function createAndAddInputs(valueViewNew) {
+		function createAndAddInputs() {
 			var recordIdPVarId = "linkedRecordIdPVar";
 			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
 				recordIdPVarId = "linkedRecordIdOutputPVar";
@@ -207,7 +204,7 @@ var CORA = (function(cora) {
 			return CORA.calculatePathForNewElement(pathSpec);
 		}
 
-		function createAndAddOutput(valueViewNew) {
+		function createAndAddOutput() {
 			var recordIdViewNew = createChildView("linkedRecordId", "linkedRecordIdOutputPVar");
 			view.addChild(recordIdViewNew);
 

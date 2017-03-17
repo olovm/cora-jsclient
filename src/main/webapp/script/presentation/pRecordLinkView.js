@@ -32,12 +32,12 @@ var CORA = (function(cora) {
 			createChildrenView();
 
 		}
-		
+
 		function createChildrenView() {
 			childrenView = CORA.gui.createSpanWithClassName("childrenView");
 			view.appendChild(childrenView);
 		}
-		
+
 		function createInfo() {
 			var infoSpec = {
 				"afterLevelChange" : updateClassName,
@@ -50,7 +50,7 @@ var CORA = (function(cora) {
 				} ]
 			};
 			possiblyAddLevel2Info(infoSpec);
-			 
+
 			var newInfo = dependencies.infoFactory.factor(infoSpec);
 			infoSpec.insertAfter = newInfo.getButton();
 			return newInfo;
@@ -98,18 +98,18 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
-		function addChild(childToAdd){
+		function addChild(childToAdd) {
 			childrenView.appendChild(childToAdd);
 		}
-		
-		function hideChildren(){
+
+		function hideChildren() {
 			childrenView.style.display = "none";
 		}
-		
-		function addLinkedPresentation(linkedPresentationToAdd){
+
+		function addLinkedPresentation(linkedPresentationToAdd) {
 			view.appendChild(linkedPresentationToAdd);
 		}
-		
+
 		out = Object.freeze({
 			"type" : "pRecordLinkView",
 			getDependencies : getDependencies,

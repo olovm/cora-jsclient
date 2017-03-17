@@ -31,10 +31,10 @@ var CORA = (function(cora) {
 				"infoFactory" : CORA.infoFactory(),
 				"jsBookkeeper" : dependencies.jsBookkeeper
 			};
-			
+
 			var pVarViewFactory = CORA.pVarViewFactory(pVarViewFactoryDependencies);
 			var pRecordLinkViewFactoryDependencies = {
-					"infoFactory" : CORA.infoFactory()
+				"infoFactory" : CORA.infoFactory()
 			};
 			var pRecordLinkViewFactory = CORA
 					.pRecordLinkViewFactory(pRecordLinkViewFactoryDependencies);
