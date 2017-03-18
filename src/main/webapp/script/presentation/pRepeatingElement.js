@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,11 +19,11 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.pRepeatingElement = function(spec) {
+	cora.pRepeatingElement = function(dependencies, spec) {
+		var jsBookkeeper = dependencies.jsBookkeeper;
 		var repeatMin = spec.repeatMin;
 		var repeatMax = spec.repeatMax;
 		var path = spec.path;
-		var jsBookkeeper = spec.jsBookkeeper;
 		var parentModelObject = spec.parentModelObject;
 
 		var isRepeating = calculateIsRepeating();
@@ -40,17 +40,11 @@ var CORA = (function(cora) {
 		var buttonView = createButtonView();
 
 		function calculateIsRepeating() {
-			if (repeatMax > 1 || repeatMax === "X") {
-				return true;
-			}
-			return false;
+			return repeatMax > 1 || repeatMax === "X";
 		}
 
 		function calculateIsStaticNoOfChildren() {
-			if (repeatMax === repeatMin) {
-				return true;
-			}
-			return false;
+			return repeatMax === repeatMin;
 		}
 
 		function createBaseView() {
@@ -70,10 +64,7 @@ var CORA = (function(cora) {
 		}
 
 		function isZeroToOne() {
-			if (repeatMin === "0" && repeatMax === "1") {
-				return true;
-			}
-			return false;
+			return repeatMin === "0" && repeatMax === "1";
 		}
 
 		function createButtonView() {
@@ -120,6 +111,7 @@ var CORA = (function(cora) {
 			presentationMaximized = presentation.getView();
 			presentationMaximized.className = presentationMaximized.className + " maximized";
 			view.insertBefore(presentationMaximized, buttonView);
+			view.className = "repeatingElement";
 		}
 
 		function addPresentationMinimized(presentationMinimizedIn, minimizedDefault) {
@@ -196,8 +188,17 @@ var CORA = (function(cora) {
 			return path;
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+		function getSpec() {
+			return spec;
+		}
+
 		var out = Object.freeze({
 			"type" : "pRepeatingElement",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			addPresentation : addPresentation,
 			addPresentationMinimized : addPresentationMinimized,

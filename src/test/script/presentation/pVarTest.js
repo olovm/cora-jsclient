@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -25,19 +25,19 @@ var CORATEST = (function(coraTest) {
 		var factor = function(path, metadataIdUsedInData, pVarPresentationId) {
 			var cPVarPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(pVarPresentationId));
-			var spec = {
-				"dependencies" : {
+			var dependencies = {
 					"metadataProvider" : metadataProvider,
 					"pubSub" : pubSub,
 					"textProvider" : textProvider,
 					"jsBookkeeper" : jsBookkeeper,
 					"pVarViewFactory" : pVarViewFactory
-				},
+				};
+			var spec = {
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,
 				"cPresentation" : cPVarPresentation
 			};
-			var pVar = CORA.pVar(spec);
+			var pVar = CORA.pVar(dependencies, spec);
 			return {
 				spec : spec,
 				pVar : pVar,
@@ -308,7 +308,7 @@ QUnit.test("testInitTextOutput", function(assert) {
 		"inputType" : "input",
 		"mode" : "output",
 		"outputFormat" : "text",
-		"presentationId" : "pVarTextVariableId"
+		"presentationId" : "pVarTextVariableIdOutput"
 	};
 	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
 			"defTextId: textVariableIdDefText", "metadataId: textVariableId",

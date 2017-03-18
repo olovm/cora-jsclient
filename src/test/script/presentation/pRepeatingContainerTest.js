@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -24,17 +25,18 @@ var CORATEST = (function(coraTest) {
 		var factor = function(path, pRepeatingContainerId) {
 			var cPRepeatingContainer = CORA.coraData(metadataProvider
 					.getMetadataById(pRepeatingContainerId));
+			var dependencies = {
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub,
+					"textProvider" : textProvider,
+					"presentationFactory" : presentationFactory,
+					"jsBookkeeper" : jsBookkeeper
+			};
 			var spec = {
 				"path" : path,
 				"cPresentation" : cPRepeatingContainer,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub,
-				"textProvider" : textProvider,
-				"presentationFactory" : presentationFactory,
-				"jsBookkeeper" : jsBookkeeper
-
 			};
-			var pRepeatingContainer = CORA.pRepeatingContainer(spec);
+			var pRepeatingContainer = CORA.pRepeatingContainer(dependencies, spec);
 			var view = pRepeatingContainer.getView();
 			fixture.appendChild(view);
 			var valueView = view.firstChild;
@@ -93,5 +95,5 @@ QUnit.test("testInit",
 			var recordInfo = requestedCPresentation.getFirstChildByNameInData("recordInfo");
 
 			var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
-			assert.strictEqual(presentationId, "pVarTextVariableId");
+			assert.strictEqual(presentationId, "pVarTextVariableIdOutput");
 		});

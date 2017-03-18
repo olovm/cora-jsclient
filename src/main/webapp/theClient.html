@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  ~ Copyright 2016 Olov McKie
-  ~ Copyright 2016 Uppsala University Library
+  ~ Copyright 2016, 2017 Olov McKie
+  ~ Copyright 2016, 2017 Uppsala University Library
   ~
   ~ This file is part of Cora.
   ~
@@ -67,25 +67,18 @@
 <script type="text/javascript" src="script/login/appTokenLogin.js"></script>
 <script type="text/javascript" src="script/login/appTokenLoginFactory.js"></script>
 
-<script type="text/javascript"
-	src="script/metadata/calculatePathForNewElement.js"></script>
+<script type="text/javascript" src="script/metadata/calculatePathForNewElement.js"></script>
 <script type="text/javascript" src="script/metadata/coraData.js"></script>
 <script type="text/javascript" src="script/metadata/dataHolder.js"></script>
 <script type="text/javascript" src="script/metadata/jsBookkeeper.js"></script>
-<script type="text/javascript"
-	src="script/metadata/metadataChildInitializer.js"></script>
-<script type="text/javascript"
-	src="script/metadata/metadataChildValidator.js"></script>
-<script type="text/javascript"
-	src="script/metadata/metadataController.js"></script>
+<script type="text/javascript" src="script/metadata/metadataChildInitializer.js"></script>
+<script type="text/javascript" src="script/metadata/metadataChildValidator.js"></script>
+<script type="text/javascript" src="script/metadata/metadataController.js"></script>
 <script type="text/javascript" src="script/metadata/metadataHelper.js"></script>
 <script type="text/javascript" src="script/metadata/metadataProvider.js"></script>
-<script type="text/javascript"
-	src="script/metadata/metadataRepeatInitializer.js"></script>
-<script type="text/javascript"
-	src="script/metadata/metadataRepeatValidator.js"></script>
-<script type="text/javascript"
-	src="script/metadata/metadataValidator.js"></script>
+<script type="text/javascript" src="script/metadata/metadataRepeatInitializer.js"></script>
+<script type="text/javascript" src="script/metadata/metadataRepeatValidator.js"></script>
+<script type="text/javascript" src="script/metadata/metadataValidator.js"></script>
 <script type="text/javascript" src="script/metadata/textProvider.js"></script>
 
 <script type="text/javascript" src="script/net/ajaxCall.js"></script>
@@ -94,27 +87,24 @@
 <script type="text/javascript" src="script/net/uploadManagerView.js"></script>
 <script type="text/javascript" src="script/net/xmlHttpRequestFactory.js"></script>
 
-<script type="text/javascript"
-	src="script/presentation/pChildRefHandler.js"></script>
-<script type="text/javascript"
-	src="script/presentation/pChildRefHandlerView.js"></script>
-<script type="text/javascript"
-	src="script/presentation/pCollectionVar.js"></script>
+<script type="text/javascript" src="script/presentation/pChildRefHandler.js"></script>
+<script type="text/javascript" src="script/presentation/pChildRefHandlerFactory.js"></script>
+<script type="text/javascript" src="script/presentation/pChildRefHandlerView.js"></script>
+<script type="text/javascript" src="script/presentation/pChildRefHandlerViewFactory.js"></script>
+<script type="text/javascript" src="script/presentation/pCollectionVar.js"></script>
 <script type="text/javascript" src="script/presentation/pGroup.js"></script>
-<script type="text/javascript"
-	src="script/presentation/pMultipleChildren.js"></script>
+<script type="text/javascript" src="script/presentation/pMultipleChildren.js"></script>
 <script type="text/javascript" src="script/presentation/pRecordLink.js"></script>
-<script type="text/javascript"
-	src="script/presentation/pRepeatingContainer.js"></script>
-<script type="text/javascript"
-	src="script/presentation/pRepeatingElement.js"></script>
-<script type="text/javascript"
-	src="script/presentation/pResourceLink.js"></script>
+<script type="text/javascript" src="script/presentation/pRecordLinkFactory.js"></script>
+<script type="text/javascript" src="script/presentation/pRecordLinkView.js"></script>
+<script type="text/javascript" src="script/presentation/pRecordLinkViewFactory.js"></script>
+<script type="text/javascript" src="script/presentation/pRepeatingContainer.js"></script>
+<script type="text/javascript" src="script/presentation/pRepeatingElement.js"></script>
+<script type="text/javascript" src="script/presentation/pRepeatingElementFactory.js"></script>
+<script type="text/javascript" src="script/presentation/pResourceLink.js"></script>
 <script type="text/javascript" src="script/presentation/presentation.js"></script>
-<script type="text/javascript"
-	src="script/presentation/presentationFactory.js"></script>
-<script type="text/javascript"
-	src="script/presentation/pSurroundingContainer.js"></script>
+<script type="text/javascript" src="script/presentation/presentationFactory.js"></script>
+<script type="text/javascript" src="script/presentation/pSurroundingContainer.js"></script>
 <script type="text/javascript" src="script/presentation/pVar.js"></script>
 <script type="text/javascript" src="script/presentation/pVarView.js"></script>
 <script type="text/javascript" src="script/presentation/pVarViewFactory.js"></script>
@@ -125,11 +115,19 @@
 // 	var baseUrl = "http://localhost:8080/therest/rest/";
 // 			var appTokenBaseUrl = "http://localhost:8080/";
 
+	  	 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+	 			var appTokenBaseUrl = "http://epc.ub.uu.se/";
+// 	var appTokenBaseUrl = "http://localhost:8080/";
+// 	var baseUrl = "http://localhost:8080/therest/rest/";
+	  	 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+	 			var appTokenBaseUrl = "http://epc.ub.uu.se/";
+// 	var appTokenBaseUrl = "http://localhost:8080/";
+// 	var baseUrl = "http://localhost:8080/therest/rest/";
 
 	window.onload = start;
 	var jsClientSpec;
 	var jsClientDependencies;
-	
+
 	function start() {
 		startDependencies();
 	}
@@ -163,14 +161,14 @@
 		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 
 		//TODO: use this if you want to be logged in at startup:
-		// authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
+		// 		authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
 
 		var ajaxCallFactoryDependencies = {
 			"xmlHttpRequestFactory" : xmlHttpRequestFactory,
 			"authTokenHolder" : authTokenHolder
 		};
 		var ajaxCallFactory = CORA.ajaxCallFactory(ajaxCallFactoryDependencies);
-		
+
 		var dependencies = {
 			"ajaxCallFactory" : CORA.ajaxCallFactory(ajaxCallFactoryDependencies),
 			"authTokenHolder" : authTokenHolder
@@ -211,20 +209,20 @@
 		};
 
 		var textProvider = CORA.textProvider(textProviderSpec);
-	
+
 		var appTokenLoginFactoryDependencies = {
 			"ajaxCallFactory" : ajaxCallFactory,
 		};
 		var appTokenLoginFactory = CORA.appTokenLoginFactory(appTokenLoginFactoryDependencies);
-		
-		var loginManagerFactoryDependencies ={
-				"authTokenHolder":authTokenHolder,
-				"textProvider" : textProvider,
-				"appTokenLoginFactory" : appTokenLoginFactory,
-				"ajaxCallFactory" : ajaxCallFactory
+
+		var loginManagerFactoryDependencies = {
+			"authTokenHolder" : authTokenHolder,
+			"textProvider" : textProvider,
+			"appTokenLoginFactory" : appTokenLoginFactory,
+			"ajaxCallFactory" : ajaxCallFactory
 		};
 		var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
-		
+
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
@@ -236,20 +234,20 @@
 			"callWhenReady" : recordTypeProviderReady
 		};
 		var recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
-		
+
 		var jsClientViewFactorySpec = {
-				"messageHolderFactory" : CORA.messageHolderFactory()
-			};
+			"messageHolderFactory" : CORA.messageHolderFactory()
+		};
 
 		jsClientDependencies = {
 			"ajaxCallFactory" : ajaxCallFactory,
-			"authTokenHolder":authTokenHolder,
+			"authTokenHolder" : authTokenHolder,
 			"loginManagerFactory" : loginManagerFactory,
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-			"jsClientViewFactory": CORA.jsClientViewFactory(jsClientViewFactorySpec),
+			"jsClientViewFactory" : CORA.jsClientViewFactory(jsClientViewFactorySpec),
 			"presentationFactoryFactory" : "not implemented yet"
 		}
 		jsClientSpec = {

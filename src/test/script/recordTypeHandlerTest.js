@@ -41,89 +41,68 @@ QUnit
 									} ],
 									"name" : "recordInfo"
 								}, {
-									"name": "metadataId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "metadataGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemGroup"
-										}
-									]
+									"name" : "metadataId",
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "metadataGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemGroup"
+									} ]
 								}, {
 									"name" : "presentationViewId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "presentationGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemViewPGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemViewPGroup"
+									} ]
 								}, {
 									"name" : "presentationFormId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "presentationGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemFormPGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemFormPGroup"
+									} ]
 								}, {
 									"name" : "newMetadataId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "metadataGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemNewGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "metadataGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemNewGroup"
+									} ]
 								}, {
 									"name" : "newPresentationFormId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "presentationGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemFormNewPGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemFormNewPGroup"
+									} ]
 								}, {
 									"name" : "menuPresentationViewId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "presentationGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemMenuPGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemMenuPGroup"
+									} ]
 								}, {
 									"name" : "listPresentationViewId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "presentationGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemListPGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemListPGroup"
+									} ]
 								}, {
 									"name" : "searchMetadataId",
 									"value" : "metadataCollectionItemSearchGroup"
@@ -141,42 +120,31 @@ QUnit
 									"value" : "false"
 								}, {
 									"name" : "parentId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "recordType"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadata"
-										}
-									]
-								},
-								{
-									"name": "textId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "coraText"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "fdagText"
-										}
-									]
-								},
-								{
-									"name": "defTextId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "coraText"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "adfgDefText"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "recordType"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadata"
+									} ]
+								}, {
+									"name" : "textId",
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "coraText"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "fdagText"
+									} ]
+								}, {
+									"name" : "defTextId",
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "coraText"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "adfgDefText"
+									} ]
 								} ],
 								"name" : "recordType"
 							},
@@ -239,88 +207,67 @@ QUnit
 									"name" : "recordInfo"
 								}, {
 									"name" : "metadataId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "metadataGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "metadataGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemGroup"
+									} ]
 								}, {
 									"name" : "presentationViewId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "presentationGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemViewPGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemViewPGroup"
+									} ]
 								}, {
 									"name" : "presentationFormId",
-									"children": [
-											{
-												"name": "linkedRecordType",
-												"value": "presentationGroup"
-											},
-											{
-												"name": "linkedRecordId",
-												"value": "metadataCollectionItemFormPGroup"
-											}
-										]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemFormPGroup"
+									} ]
 								}, {
 									"name" : "newMetadataId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "metadataGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemNewGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "metadataGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemNewGroup"
+									} ]
 								}, {
 									"name" : "newPresentationFormId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "presentationGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemFormNewPGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemFormNewPGroup"
+									} ]
 								}, {
 									"name" : "menuPresentationViewId",
-									"children": [
-									{
-										"name": "linkedRecordType",
-										"value": "presentationGroup"
-									},
-									{
-										"name": "linkedRecordId",
-										"value": "metadataCollectionItemMenuPGroup"
-									}
-								]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemMenuPGroup"
+									} ]
 								}, {
 									"name" : "listPresentationViewId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "presentationGroup"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadataCollectionItemListPGroup"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadataCollectionItemListPGroup"
+									} ]
 								}, {
 									"name" : "searchMetadataId",
 									"value" : "metadataCollectionItemSearchGroup"
@@ -341,42 +288,31 @@ QUnit
 									"value" : "false"
 								}, {
 									"name" : "parentId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "recordType"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "metadata"
-										}
-									]
-								},
-								{
-									"name": "textId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "coraText"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "fdagText"
-										}
-									]
-								},
-								{
-									"name": "defTextId",
-									"children": [
-										{
-											"name": "linkedRecordType",
-											"value": "coraText"
-										},
-										{
-											"name": "linkedRecordId",
-											"value": "adfgDefText"
-										}
-									]
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "recordType"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadata"
+									} ]
+								}, {
+									"name" : "textId",
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "coraText"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "fdagText"
+									} ]
+								}, {
+									"name" : "defTextId",
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "coraText"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "adfgDefText"
+									} ]
 								} ],
 								"name" : "recordType"
 							},
@@ -421,154 +357,63 @@ QUnit
 								}
 							}
 						};
-						this.createRecordTypeHandlerViewFactory = function() {
-							return {
-								"factor" : function(viewSpec) {
-									return CORA.recordTypeHandlerView(viewSpec);
-								}
-							};
-						}
-						this.createRecordListHandlerFactory = function() {
-							return {
-								"factor" : function(listHandlerSpec) {
-									return CORA.recordListHandler(listHandlerSpec);
-								}
-							};
-						}
-						this.createRecordHandlerFactory = function() {
-							return {
-								"factor" : function(recordHandlerSpec) {
-									return CORA.recordHandler(recordHandlerSpec);
-									;
-								}
-							};
-						}
+
+						this.dependencies = {
+							"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
+							"recordTypeHandlerViewFactory" : CORATEST
+									.recordTypeHandlerViewFactorySpy(),
+							"recordListHandlerFactory" : CORATEST.recordListHandlerFactorySpy(),
+							"recordHandlerFactory" : CORATEST.recordHandlerFactorySpy(),
+							"jsClient" : CORATEST.jsClientSpy()
+						};
+
+						this.spec = {
+							"recordTypeRecord" : this.record,
+							"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+						};
 					},
 					afterEach : function() {
 					}
 				});
 
 QUnit.test("init", function(assert) {
-	var spec = {
-		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
-		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
-		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record
-	};
-	var recordTypeHandler = CORA.recordTypeHandler(spec);
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 
 	var view = recordTypeHandler.getView();
-	assert.strictEqual(view.className, "recordType");
+	assert.strictEqual(view.className, "recordTypeFromRecordTypeHandlerSpy");
 
-	var header = view.firstChild;
-	assert.strictEqual(header.className, "header");
-	assert.strictEqual(header.textContent, "metadataCollectionItem");
-
-	var childrenView = view.childNodes[1];
-	assert.strictEqual(childrenView.className, "buttonView");
-	var childrenView = view.childNodes[2];
-	assert.strictEqual(childrenView.className, "childrenView");
+	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
+	assert.strictEqual(factoredViewSpec.fetchListMethod, recordTypeHandler.createRecordTypeList);
 });
 
 QUnit.test("initWithCreateButton", function(assert) {
-	var catchRecordTypeHandlerViewSpec;
-	var spec = {
-		"recordTypeHandlerViewFactory" : {
-			"factor" : function(spec) {
-				catchRecordTypeHandlerViewSpec = spec;
-			}
-		},
-		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
-		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record
-	};
-	var recordTypeHandler = CORA.recordTypeHandler(spec);
-	assert.notStrictEqual(catchRecordTypeHandlerViewSpec.createNewMethod, undefined);
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
+	assert.strictEqual(factoredViewSpec.createNewMethod, recordTypeHandler.createRecordHandler);
 });
 
 QUnit.test("initWithoutCreateButton", function(assert) {
-	var catchRecordTypeHandlerViewSpec;
-	var spec = {
-		"recordTypeHandlerViewFactory" : {
-			"factor" : function(spec) {
-				catchRecordTypeHandlerViewSpec = spec;
-			}
-		},
-		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
-		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.recordWithoutCreateLink
-	};
-	var recordTypeHandler = CORA.recordTypeHandler(spec);
-
-	assert.strictEqual(catchRecordTypeHandlerViewSpec.createNewMethod, undefined);
-});
-
-QUnit.test("headerOnClick", function(assert) {
-	var spec = {
-		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
-		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
-		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record
-	};
-	var recordTypeHandler = CORA.recordTypeHandler(spec);
-
-	var view = recordTypeHandler.getView();
-	assert.strictEqual(view.className, "recordType");
-
-	var header = view.firstChild;
-	assert.strictEqual(header.onclick, recordTypeHandler.createRecordTypeList);
+	this.spec.recordTypeRecord = this.recordWithoutCreateLink;
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
+	assert.strictEqual(factoredViewSpec.createNewMethod, undefined);
 });
 
 QUnit.test("fetchList", function(assert) {
-	var viewShowingInWorkView;
-	var jsClientSpy = {
-		"showView" : function(item) {
-			viewShowingInWorkView = item.workView;
-		}
-	};
-	this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-	var dependencies = {
-		"ajaxCallFactory" : this.ajaxCallFactorySpy
-	};
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 
-	var spec = {
-		"dependencies" : dependencies,
-		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
-		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
-		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record,
-		"jsClient" : jsClientSpy
-	};
-
-	var recordTypeHandler = CORA.recordTypeHandler(spec);
-
-	var view = recordTypeHandler.getView();
-	var header = view.firstChild;
-	header.onclick();
-
-	var childrenView = view.childNodes[2];
-	var menuView = childrenView.childNodes[0];
-
-	assert.strictEqual(menuView.textContent, "List");
-	assert.notStrictEqual(menuView.onclick, undefined);
-
-	var workView = menuView.modelObject.workView;
-	assert.notStrictEqual(workView, undefined);
-	assert.strictEqual(workView, viewShowingInWorkView);
-	assert.strictEqual(workView.className, "workView");
-
-	viewShowingInWorkView = undefined;
-	menuView.onclick();
-	assert.strictEqual(workView, viewShowingInWorkView);
+	recordTypeHandler.createRecordTypeList();
+	var factoredListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredListHandlerSpec.createRecordHandlerMethod, 
+			recordTypeHandler.createRecordHandler);
+	
+	assert.strictEqual(factoredListHandlerSpec.recordTypeRecord, this.record);
+	assert.strictEqual(factoredListHandlerSpec.views, 
+			this.dependencies.jsClient.getCreatedManagedGuiItem(0));
+	assert.strictEqual(factoredListHandlerSpec.baseUrl, this.spec.baseUrl);
 });
 
 QUnit.test("showRecord", function(assert) {
-	var viewShowingInWorkView;
-	var jsClientSpy = {
-		"showView" : function(item) {
-			viewShowingInWorkView = item.workView;
-		}
-	};
 	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
 	var catchRecordTypeHandlerViewSpec;
@@ -578,51 +423,34 @@ QUnit.test("showRecord", function(assert) {
 		"workView" : workView,
 		"menuView" : menuView
 	};
-	var createListItem = function() {
+	var createManagedGuiItem = function() {
 		return item;
 	}
-	var spec = {
-		"recordTypeHandlerViewFactory" : {
-			"factor" : function(spec) {
-				catchRecordTypeHandlerViewSpec = spec;
-				return {
-					"createListItem" : createListItem
-				}
-			}
-		},
-		"recordListHandlerFactory" : {
-			"factor" : function(spec) {
-				catchRecordListHandlerSpec = spec;
-			}
-		},
-		"recordHandlerFactory" : {
-			"factor" : function(spec) {
-				catchRecordHandlerSpec = spec;
-			}
-		},
-		"recordTypeRecord" : this.record,
-		"jsClient" : jsClientSpy
+	this.dependencies.recordTypeHandlerViewFactory = CORATEST.recordTypeHandlerViewFactorySpy();
+	this.dependencies.recordListHandlerFactory = {
+		"factor" : function(spec) {
+			catchRecordListHandlerSpec = spec;
+		}
+	};
+	this.dependencies.recordHandlerFactory = {
+		"factor" : function(spec) {
+			catchRecordHandlerSpec = spec;
+		}
 	};
 
-	var recordTypeHandler = CORA.recordTypeHandler(spec);
-	catchRecordTypeHandlerViewSpec.fetchListMethod();
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
+	spec.fetchListMethod();
 	catchRecordListHandlerSpec.createRecordHandlerMethod("view", this.record);
 
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeRecord, this.record);
 	assert.strictEqual(catchRecordHandlerSpec.presentationMode, "view");
 	assert.strictEqual(catchRecordHandlerSpec.record, this.record);
 	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
-	assert.strictEqual(catchRecordHandlerSpec.views, item);
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
 });
 
 QUnit.test("showNew", function(assert) {
-	var viewShowingInWorkView;
-	var jsClientSpy = {
-		"showView" : function(item) {
-			viewShowingInWorkView = item.workView;
-		}
-	};
 	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
 	var catchRecordTypeHandlerViewSpec;
@@ -632,94 +460,74 @@ QUnit.test("showNew", function(assert) {
 		"workView" : workView,
 		"menuView" : menuView
 	};
-	var createListItem = function() {
+	var createManagedGuiItem = function() {
 		return item;
 	}
-	var spec = {
-		"recordTypeHandlerViewFactory" : {
-			"factor" : function(spec) {
-				catchRecordTypeHandlerViewSpec = spec;
-				return {
-					"createListItem" : createListItem
-				}
-			}
-		},
-		"recordListHandlerFactory" : {
-			"factor" : function(spec) {
-				catchRecordListHandlerSpec = spec;
-			}
-		},
-		"recordHandlerFactory" : {
-			"factor" : function(spec) {
-				catchRecordHandlerSpec = spec;
-			}
-		},
-		"recordTypeRecord" : this.record,
-		"jsClient" : jsClientSpy
+
+	this.dependencies.recordTypeHandlerViewFactory = CORATEST.recordTypeHandlerViewFactorySpy();
+	this.dependencies.recordListHandlerFactory = {
+		"factor" : function(spec) {
+			catchRecordListHandlerSpec = spec;
+		}
+	};
+	this.dependencies.recordHandlerFactory = {
+		"factor" : function(spec) {
+			catchRecordHandlerSpec = spec;
+		}
 	};
 
-	var recordTypeHandler = CORA.recordTypeHandler(spec);
-	catchRecordTypeHandlerViewSpec.fetchListMethod();
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
+	spec.fetchListMethod();
+
 	catchRecordListHandlerSpec.createRecordHandlerMethod("new", undefined);
 
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeRecord, this.record);
 	assert.strictEqual(catchRecordHandlerSpec.presentationMode, "new");
 	assert.strictEqual(catchRecordHandlerSpec.record, undefined);
 	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
-	assert.strictEqual(catchRecordHandlerSpec.views, item);
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
 });
 
-QUnit.test("fetchListCheckAjaxParameters", function(assert) {
-	var viewShowingInWorkView;
-	var jsClientSpy = {
-		"showView" : function(view) {
-			viewShowingInWorkView = view;
-		}
-	};
-	this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-	var dependencies = {
-		"ajaxCallFactory" : this.ajaxCallFactorySpy
-	};
-	
-	var spec = {
-		"dependencies" : dependencies,
-		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
-		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
-		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record,
-		"jsClient" : jsClientSpy,
-		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-
-	var recordTypeHandler = CORA.recordTypeHandler(spec);
-
-	var view = recordTypeHandler.getView();
-	var header = view.firstChild;
-	header.onclick();
-
-	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
-	var ajaxCallSpec = ajaxCallSpy.getSpec();
-	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/");
-	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
-	assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
-	assert.strictEqual(ajaxCallSpec.contentType, undefined);
-	assert.strictEqual(ajaxCallSpec.data, undefined);
-});
-
 QUnit.test("testFactory", function(assert) {
-	var spec = {
-		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
-		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
-		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record
-	};
-	var recordTypeHandler = CORA.recordTypeHandler(spec);
+	this.createRecordTypeHandlerViewFactory = function() {
+		var dependen = {
+			"jsClient" : CORATEST.jsClientSpy()
+		};
+		return {
+			"factor" : function(viewSpec) {
+				return CORA.recordTypeHandlerView(dependen, viewSpec);
+			}
+		};
+	}
+	this.createRecordListHandlerFactory = function() {
+		return {
+			"factor" : function(listHandlerSpec) {
+				return CORA.recordListHandler(listHandlerSpec);
+			}
+		};
+	}
+	this.createRecordHandlerFactory = function() {
+		return {
+			"factor" : function(recordHandlerSpec) {
+				return CORA.recordHandler(recordHandlerSpec);
+				;
+			}
+		};
+	}
+	
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 
 	var workItemViewFactory = {
 		"factor" : function(workItemViewSpec) {
 			return CORA.workItemView(workItemViewSpec);
 		}
+	};
+	var spec = {
+		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
+		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
+		"recordHandlerFactory" : this.createRecordHandlerFactory(),
+		"recordTypeRecord" : this.record
 	};
 	var workItemViewFactory = CORA.workItemViewFactory(spec);
 	var recordHandlerViewSpec = {
@@ -729,7 +537,5 @@ QUnit.test("testFactory", function(assert) {
 
 	var recordHandlerView = recordTypeHandler.createRecordHandlerViewFactory().factor(
 			recordHandlerViewSpec);
-
 	assert.notStrictEqual(recordHandlerView, undefined);
-
 });

@@ -23,6 +23,10 @@ var CORATEST = (function(coraTest) {
 		spyView.className = "infoSpySpan";
 		addBaseViewAccordingToSpec();
 		var infoLevel = 0;
+		var infoButtonSpec = {
+			"className" : "infoButtonSpy"
+		};
+		var button = CORA.gui.createButton(infoButtonSpec);
 
 		function addBaseViewAccordingToSpec() {
 			if (spec.appendTo !== undefined) {
@@ -40,10 +44,7 @@ var CORATEST = (function(coraTest) {
 		}
 
 		function getButton() {
-			var infoButtonSpec = {
-				"className" : "infoButtonSpy"
-			};
-			return CORA.gui.createButton(infoButtonSpec);
+			return button;
 		}
 
 		function getInfoLevel() {
