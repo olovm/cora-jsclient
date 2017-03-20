@@ -35,14 +35,14 @@ var CORA = (function(cora) {
 //			view.appendChild(buttonView);
 //			possiblyCreateCreateButton();
 //
-//			childrenView = CORA.gui.createSpanWithClassName("childrenView");
-//			view.appendChild(childrenView);
+			childrenView = CORA.gui.createSpanWithClassName("childrenView");
+			view.appendChild(childrenView);
 		}
 
 		function createHeader() {
 			var headerNew = CORA.gui.createSpanWithClassName("header");
-			headerNew.onclick = spec.fetchListMethod;
-			headerNew.textContent = spec.headerText;
+			headerNew.onclick = spec.openSearchMethod;
+			headerNew.textContent = spec.headerText; 
 			return headerNew;
 		}
 
@@ -66,10 +66,10 @@ var CORA = (function(cora) {
 			return view;
 		}
 
-//		function addManagedGuiItem(managedGuiItem) {
-//			managedGuiItem.menuView.modelObject = managedGuiItem;
-//			childrenView.appendChild(managedGuiItem.menuView);
-//		}
+		function addManagedGuiItem(managedGuiItem) {
+			managedGuiItem.menuView.modelObject = managedGuiItem;
+			childrenView.appendChild(managedGuiItem.menuView);
+		}
 
 		function getDependencies(){
 			return dependencies;
@@ -84,7 +84,7 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-//			addManagedGuiItem : addManagedGuiItem
+			addManagedGuiItem : addManagedGuiItem
 		});
 		start();
 		return out;

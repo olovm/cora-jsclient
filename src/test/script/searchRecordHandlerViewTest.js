@@ -24,7 +24,7 @@ QUnit.module("searchRecordHandlerViewTest.js", {
 		};
 		this.spec = {
 			"headerText" : "some text",
-			"fetchListMethod" : function() {
+			"openSearchMethod" : function() {
 			}
 		};
 	},
@@ -42,12 +42,8 @@ QUnit.test("initAndGetView", function(assert) {
 	assert.strictEqual(header.className, "header");
 	assert.strictEqual(header.textContent, "some text");
 
-//	var buttonView = view.childNodes[1];
-//	assert.strictEqual(buttonView.className, "buttonView");
-//
-//	var childrenView = view.childNodes[2];
-//	assert.strictEqual(childrenView.className, "childrenView");
-//	assert.strictEqual(buttonView.childNodes.length, 0);
+	var childrenView = view.childNodes[1];
+	assert.strictEqual(childrenView.className, "childrenView");
 });
 
 QUnit.test("testGetDependencies", function(assert) {
@@ -60,40 +56,23 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(searchRecordHandlerView.getSpec(), this.spec);
 });
 
-//QUnit.test("initWithCreateButtonAsWeHaveACreateNewMethod", function(assert) {
-//	var createNewMethodIsCalled = false;
-//	var presentationModeCalled;
-//	function createNewMethod(presentationMode) {
-//		presentationModeCalled = presentationMode;
-//		createNewMethodIsCalled = true;
-//	}
-//	this.spec.createNewMethod = createNewMethod;
-//	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
-//
-//	var view = searchRecordHandlerView.getView();
-//
-//	var buttonView = view.childNodes[1];
-//	var createButton = buttonView.childNodes[0];
-//	assert.strictEqual(createButton.className, "createButton");
-//
-//	var event = document.createEvent('Event');
-//	createButton.onclick(event);
-//	assert.strictEqual(presentationModeCalled, "new");
-//	assert.strictEqual(createNewMethodIsCalled, true);
-//});
-//
-//QUnit.test("testAddManagedGuiItem", function(assert) {
-//	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
-//	var managedGuiItem = {
-//		"handledBy" : function() {
-//		},
-//		"workView" : CORA.gui.createSpanWithClassName("workView"),
-//		"menuView" : CORA.gui.createSpanWithClassName("menuView")
-//	};
-//	var createdManagedGuiItem = searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
-//	assert.strictEqual(managedGuiItem.menuView.modelObject, managedGuiItem);
-//	var view = searchRecordHandlerView.getView();
-//	var childrenView = view.childNodes[2];
-//	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.menuView);
-//
-//});
+QUnit.test("testMenuOnclick", function(assert) {
+	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
+	var header = searchRecordHandlerView.getView().firstChild;
+	assert.strictEqual(header.onclick, this.spec.openSearchMethod);
+});
+
+QUnit.test("testAddManagedGuiItem", function(assert) {
+	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
+	var managedGuiItem = {
+		"handledBy" : function() {
+		},
+		"workView" : CORA.gui.createSpanWithClassName("workView"),
+		"menuView" : CORA.gui.createSpanWithClassName("menuView")
+	};
+	var createdManagedGuiItem = searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
+	assert.strictEqual(managedGuiItem.menuView.modelObject, managedGuiItem);
+	var view = searchRecordHandlerView.getView();
+	var childrenView = view.childNodes[1];
+	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.menuView);
+});

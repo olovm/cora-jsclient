@@ -18,142 +18,148 @@
  */
 "use strict";
 
-QUnit.module("searchRecordHandlerFactoryTest.js", {
-	beforeEach : function() {
-		this.dependencies = {
-			"messageHolderFactory" : CORATEST.messageHolderFactorySpy(),
-			"searchRecordHandlerViewFactory" : CORATEST.searchRecordHandlerViewFactorySpy()
-		};
-		this.search = {
-				"data" : {
-					"children" : [
-							{
-								"children" : [ {
-									"name" : "linkedRecordType",
-									"value" : "metadataGroup"
-								}, {
-									"name" : "linkedRecordId",
-									"value" : "autocompleteSearchGroup"
-								} ],
-								"actionLinks" : {
-									"read" : {
-										"requestMethod" : "GET",
-										"rel" : "read",
-										"url" : "http://epc.ub.uu.se/therest/rest/record/metadataGroup/autocompleteSearchGroup",
-										"accept" : "application/uub+record+json"
-									}
-								},
-								"name" : "metadataId"
-							},
-							{
+QUnit
+		.module(
+				"searchRecordHandlerFactoryTest.js",
+				{
+					beforeEach : function() {
+						this.dependencies = {
+							"messageHolderFactory" : CORATEST.messageHolderFactorySpy(),
+							"searchRecordHandlerViewFactory" : CORATEST
+									.searchRecordHandlerViewFactorySpy()
+						};
+						this.search = {
+							"data" : {
 								"children" : [
-										{
-											"name" : "id",
-											"value" : "coraTextSearch"
-										},
-										{
-											"name" : "type",
-											"value" : "search"
-										},
-										{
-											"name" : "createdBy",
-											"value" : "141414"
-										},
 										{
 											"children" : [ {
 												"name" : "linkedRecordType",
-												"value" : "system"
+												"value" : "metadataGroup"
 											}, {
 												"name" : "linkedRecordId",
-												"value" : "cora"
+												"value" : "autocompleteSearchGroup"
 											} ],
 											"actionLinks" : {
 												"read" : {
 													"requestMethod" : "GET",
 													"rel" : "read",
-													"url" : "http://epc.ub.uu.se/therest/rest/record/system/cora",
+													"url" : "http://epc.ub.uu.se/therest/rest/record/metadataGroup/autocompleteSearchGroup",
 													"accept" : "application/uub+record+json"
 												}
 											},
-											"name" : "dataDivider"
+											"name" : "metadataId"
+										},
+										{
+											"children" : [
+													{
+														"name" : "id",
+														"value" : "coraTextSearch"
+													},
+													{
+														"name" : "type",
+														"value" : "search"
+													},
+													{
+														"name" : "createdBy",
+														"value" : "141414"
+													},
+													{
+														"children" : [ {
+															"name" : "linkedRecordType",
+															"value" : "system"
+														}, {
+															"name" : "linkedRecordId",
+															"value" : "cora"
+														} ],
+														"actionLinks" : {
+															"read" : {
+																"requestMethod" : "GET",
+																"rel" : "read",
+																"url" : "http://epc.ub.uu.se/therest/rest/record/system/cora",
+																"accept" : "application/uub+record+json"
+															}
+														},
+														"name" : "dataDivider"
+													} ],
+											"name" : "recordInfo"
+										},
+										{
+											"children" : [ {
+												"name" : "linkedRecordType",
+												"value" : "presentationGroup"
+											}, {
+												"name" : "linkedRecordId",
+												"value" : "autocompleteSearchPGroup"
+											} ],
+											"actionLinks" : {
+												"read" : {
+													"requestMethod" : "GET",
+													"rel" : "read",
+													"url" : "http://epc.ub.uu.se/therest/rest/record/presentationGroup/autocompleteSearchPGroup",
+													"accept" : "application/uub+record+json"
+												}
+											},
+											"name" : "presentationId"
+										},
+										{
+											"repeatId" : "0",
+											"children" : [ {
+												"name" : "linkedRecordType",
+												"value" : "recordType"
+											}, {
+												"name" : "linkedRecordId",
+												"value" : "coraText"
+											} ],
+											"actionLinks" : {
+												"read" : {
+													"requestMethod" : "GET",
+													"rel" : "read",
+													"url" : "http://epc.ub.uu.se/therest/rest/record/recordType/coraText",
+													"accept" : "application/uub+record+json"
+												}
+											},
+											"name" : "recordTypeToSearchIn"
 										} ],
-								"name" : "recordInfo"
+								"name" : "search"
 							},
-							{
-								"children" : [ {
-									"name" : "linkedRecordType",
-									"value" : "presentationGroup"
-								}, {
-									"name" : "linkedRecordId",
-									"value" : "autocompleteSearchPGroup"
-								} ],
-								"actionLinks" : {
-									"read" : {
-										"requestMethod" : "GET",
-										"rel" : "read",
-										"url" : "http://epc.ub.uu.se/therest/rest/record/presentationGroup/autocompleteSearchPGroup",
-										"accept" : "application/uub+record+json"
-									}
+							"actionLinks" : {
+								"search" : {
+									"requestMethod" : "GET",
+									"rel" : "search",
+									"url" : "http://epc.ub.uu.se/therest/rest/record/coraTextSearch/",
+									"accept" : "application/uub+recordList+json"
 								},
-								"name" : "presentationId"
-							},
-							{
-								"repeatId" : "0",
-								"children" : [ {
-									"name" : "linkedRecordType",
-									"value" : "recordType"
-								}, {
-									"name" : "linkedRecordId",
-									"value" : "coraText"
-								} ],
-								"actionLinks" : {
-									"read" : {
-										"requestMethod" : "GET",
-										"rel" : "read",
-										"url" : "http://epc.ub.uu.se/therest/rest/record/recordType/coraText",
-										"accept" : "application/uub+record+json"
-									}
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://epc.ub.uu.se/therest/rest/record/search/coraTextSearch",
+									"accept" : "application/uub+record+json"
 								},
-								"name" : "recordTypeToSearchIn"
-							} ],
-					"name" : "search"
-				},
-				"actionLinks" : {
-					"search" : {
-						"requestMethod" : "GET",
-						"rel" : "search",
-						"url" : "http://epc.ub.uu.se/therest/rest/record/coraTextSearch/",
-						"accept" : "application/uub+recordList+json"
+								"read_incoming_links" : {
+									"requestMethod" : "GET",
+									"rel" : "read_incoming_links",
+									"url" : "http://epc.ub.uu.se/therest/rest/record/search/coraTextSearch/incomingLinks",
+									"accept" : "application/uub+recordList+json"
+								},
+								"update" : {
+									"requestMethod" : "POST",
+									"rel" : "update",
+									"contentType" : "application/uub+record+json",
+									"url" : "http://epc.ub.uu.se/therest/rest/record/search/coraTextSearch",
+									"accept" : "application/uub+record+json"
+								}
+							}
+						};
+						this.spec = {
+							"searchRecord" : this.search,
+							"jsClient" : CORATEST.jsClientSpy()
+						}
+						this.searchRecordHandlerFactory = CORA
+								.searchRecordHandlerFactory(this.dependencies);
 					},
-					"read" : {
-						"requestMethod" : "GET",
-						"rel" : "read",
-						"url" : "http://epc.ub.uu.se/therest/rest/record/search/coraTextSearch",
-						"accept" : "application/uub+record+json"
-					},
-					"read_incoming_links" : {
-						"requestMethod" : "GET",
-						"rel" : "read_incoming_links",
-						"url" : "http://epc.ub.uu.se/therest/rest/record/search/coraTextSearch/incomingLinks",
-						"accept" : "application/uub+recordList+json"
-					},
-					"update" : {
-						"requestMethod" : "POST",
-						"rel" : "update",
-						"contentType" : "application/uub+record+json",
-						"url" : "http://epc.ub.uu.se/therest/rest/record/search/coraTextSearch",
-						"accept" : "application/uub+record+json"
+					afterEach : function() {
 					}
-				}
-			};
-		this.spec = {
-			"searchRecord" : this.search
-		}
-		this.searchRecordHandlerFactory = CORA.searchRecordHandlerFactory(this.dependencies);
-	},
-	afterEach : function() {
-	}
-});
+				});
 
 QUnit.test("init", function(assert) {
 	assert.ok(this.searchRecordHandlerFactory);
@@ -167,6 +173,13 @@ QUnit.test("getDependencies", function(assert) {
 QUnit.test("factor", function(assert) {
 	var searchRecordHandler = this.searchRecordHandlerFactory.factor(this.spec);
 	assert.strictEqual(searchRecordHandler.type, "searchRecordHandler");
+
+	var searchRecordHandlerDependencies = searchRecordHandler.getDependencies();
+	assert.strictEqual(searchRecordHandlerDependencies.messageHolderFactory,
+			this.dependencies.messageHolderFactory);
+	assert.strictEqual(searchRecordHandlerDependencies.searchRecordHandlerViewFactory,
+			this.dependencies.searchRecordHandlerViewFactory);
+	assert.strictEqual(searchRecordHandlerDependencies.jsClient, this.spec.jsClient);
 
 	var searchRecordHandlerSpec = searchRecordHandler.getSpec();
 	assert.strictEqual(searchRecordHandlerSpec, this.spec);

@@ -120,7 +120,6 @@
 	//  			var appTokenBaseUrl = "http://epc.ub.uu.se/";
 	var appTokenBaseUrl = "http://localhost:8080/";
 	var baseUrl = "http://localhost:8080/therest/rest/";
-
 	window.onload = start;
 	var jsClientSpec;
 	var jsClientDependencies;
@@ -141,6 +140,12 @@
 		possiblyStartJsClient();
 	}
 
+	var searchProviderStarted = false;
+	function searchProviderReady() {
+		searchProviderStarted = true;
+		possiblyStartJsClient();
+	}
+
 	var recordTypeProviderStarted = false;
 	function recordTypeProviderReady() {
 		recordTypeProviderStarted = true;
@@ -148,6 +153,7 @@
 	}
 
 	function possiblyStartJsClient() {
+// 		if (recordTypeProviderStarted && metadataProviderStarted && textProviderStarted && searchProviderStarted) {
 		if (recordTypeProviderStarted && metadataProviderStarted && textProviderStarted) {
 			startJsClient();
 		}
@@ -220,7 +226,6 @@
 		};
 		var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
 
-		//searchProvider
 		var dependenciesSearchProvider = {
 			"ajaxCallFactory" : ajaxCallFactory
 		};
@@ -231,7 +236,8 @@
 			"accept" : "application/uub+recordList+json"
 		};
 		var specSearchProvider = {
-			"searchRecordListLink" : searchRecordListLink
+			"searchRecordListLink" : searchRecordListLink,
+			"callWhenReady" : searchProviderReady
 		};
 		var searchProvider = CORA.searchProvider(dependenciesSearchProvider, specSearchProvider);
 
@@ -273,6 +279,7 @@
 			"appTokenBaseUrl" : appTokenBaseUrl
 		};
 	}
+	
 	function startJsClient() {
 		var jsClient = CORA.jsClient(jsClientDependencies, jsClientSpec);
 		document.body.appendChild(jsClient.getView());

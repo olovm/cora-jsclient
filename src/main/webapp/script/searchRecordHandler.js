@@ -19,16 +19,12 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.searchRecordHandler = function(dependencies, spec) {
-		var self;
 		var searchId = getIdFromRecord(spec.searchRecord);
 
 		var viewSpec = {
 			"headerText" : searchId,
-//			"fetchListMethod" : createRecordTypeList
+			"openSearchMethod" : openSearch
 		};
-//		if (recordTypeHasCreateLink()) {
-//			viewSpec.createNewMethod = createRecordHandler;
-//		}
 
 		var searchRecordHandlerView = dependencies.searchRecordHandlerViewFactory.factor(viewSpec);
 
@@ -36,32 +32,14 @@ var CORA = (function(cora) {
 			return searchRecordHandlerView.getView();
 		}
 
+		function openSearch() {
+			createManagedGuiItem("Search");
+		}
+
 		function getIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
-		}
-
-		function recordTypeHasCreateLink() {
-			var createLink = spec.recordTypeRecord.actionLinks.create;
-			if (createLink !== undefined) {
-				return true;
-			}
-			return false;
-		}
-
-		function createRecordTypeList() {
-			var views = createManagedGuiItem("menuView");
-			var listHandlerSpec = {
-				"dependencies" : dependencies,
-				"createRecordHandlerMethod" : createRecordHandler,
-				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"recordTypeRecord" : spec.recordTypeRecord,
-				"views" : views,
-				"baseUrl" : spec.baseUrl,
-				"jsClient" : dependencies.jsClient
-			};
-			dependencies.recordListHandlerFactory.factor(listHandlerSpec);
 		}
 
 		function createManagedGuiItem(text) {
@@ -72,51 +50,21 @@ var CORA = (function(cora) {
 			return managedGuiItem;
 		}
 
-		function createRecordHandler(presentationMode, record) {
-			var text = "New";
-			if ("new" !== presentationMode) {
-				text = getIdFromRecord(record);
-			}
-			var views = createManagedGuiItem(text);
-			var recordHandlerSpec = {
-				"dependencies" : dependencies,
-				"recordHandlerViewFactory" : createRecordHandlerViewFactory(),
-				"recordTypeRecord" : spec.recordTypeRecord,
-				"presentationMode" : presentationMode,
-				"record" : record,
-				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"views" : views,
-				"jsClient" : dependencies.jsClient,
-				"searchRecordHandler" : self
-			};
-			dependencies.recordHandlerFactory.factor(recordHandlerSpec);
-		}
-		function createRecordHandlerViewFactory() {
-			return {
-				"factor" : function(recordHandlerViewSpec) {
-					return CORA.recordHandlerView(recordHandlerViewSpec);
-				}
-			};
-		}
-
-		function getSpec(){
+		function getSpec() {
 			return spec;
 		}
-		
-		function getDependencies(){
+
+		function getDependencies() {
 			return dependencies;
 		}
-		
+
 		var out = Object.freeze({
-			"type":"searchRecordHandler",
-			getSpec : getSpec, 
+			"type" : "searchRecordHandler",
+			getSpec : getSpec,
 			getDependencies : getDependencies,
 			getView : getView,
-			createRecordTypeList : createRecordTypeList,
-			createRecordHandlerViewFactory : createRecordHandlerViewFactory,
-			createRecordHandler : createRecordHandler
+			openSearch : openSearch
 		});
-		self = out;
 		return out;
 	};
 	return cora;

@@ -158,7 +158,8 @@ var CORA = (function(cora) {
 		function addSearchToSideBar(search) {
 			var specSearch = {
 				"searchRecord" : search,
-				"baseUrl" : spec.baseUrl
+				"baseUrl" : spec.baseUrl,
+				"jsClient" : out
 			};
 			var searchRecordHandler = dependencies.searchRecordHandlerFactory.factor(specSearch);
 			jsClientView.addToSearchesView(searchRecordHandler.getView());

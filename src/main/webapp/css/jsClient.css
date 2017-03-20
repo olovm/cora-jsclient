@@ -206,7 +206,7 @@ body {
 	border-color: inherit;
 }
 
-.recordTypesView .childrenView {
+.sideBar .childrenView {
 	display: block;
 	width: 100%;
 	border-color: inherit;
@@ -214,7 +214,7 @@ body {
 	font-size: .8rem;
 }
 
-.recordTypesView .childrenView>span {
+.sideBar .childrenView>span {
 	border-left: 1px solid;
 	border-right: 1px solid;
 	border-color: inherit;
@@ -222,16 +222,16 @@ body {
 	padding-left: .4rem;
 }
 
-.recordTypesView .childrenView>span:nth-child(even) {
+.sideBar .childrenView>span:nth-child(even) {
 	border-color: inherit;
 }
 
-.recordTypesView .childrenView>span:last-child {
+.sideBar .childrenView>span:last-child {
 	border-bottom: 1px solid;
 	border-color: inherit;
 }
 
-.recordTypesView .active, .header .active {
+.sideBar .active, .header .active {
 	font-weight: bold;
 	background-color: rgba(5, 131, 249, 0.49);
 }
