@@ -294,6 +294,11 @@ var CORA = (function(cora) {
 			managedGuiItemList.push(managedGuiItem);
 			return managedGuiItem;
 		}
+		
+		
+		function hideAndRemoveView(managedGuiItem){
+			jsClientView.removeFromWorkView(managedGuiItem.workView);
+		}
 
 		out = Object.freeze({
 			getView : getView,
@@ -306,7 +311,8 @@ var CORA = (function(cora) {
 			afterLogin : afterLogin,
 			afterLogout : afterLogout,
 			afterRecordTypeProviderReload : afterRecordTypeProviderReload,
-			createManagedGuiItem : createManagedGuiItem
+			createManagedGuiItem : createManagedGuiItem,
+			hideAndRemoveView : hideAndRemoveView
 		});
 		start();
 

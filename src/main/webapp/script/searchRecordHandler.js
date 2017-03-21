@@ -45,11 +45,30 @@ var CORA = (function(cora) {
 		function createManagedGuiItem(text) {
 			var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
 			managedGuiItem.menuView.textContent = text;
+			managedGuiItem.menuView.appendChild(createRemoveButton(managedGuiItem));
 			searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
 			dependencies.jsClient.showView(managedGuiItem);
 			return managedGuiItem;
 		}
 
+		function createRemoveButton(managedGuiItem) {
+			return CORA.gui.createRemoveButton(function() {
+				removeViewsFromParentNodes(managedGuiItem);
+			});
+		}
+
+		function removeViewsFromParentNodes(managedGuiItem) {
+			// if (menuView.parentNode !== null) {
+			// menuView.parentNode.removeChild(menuView);
+			// }
+			searchRecordHandlerView.removeManagedGuiItem(managedGuiItem);
+
+			// if (workView.parentNode !== null) {
+			// workView.parentNode.removeChild(workView);
+			// }
+			dependencies.jsClient.hideAndRemoveView(managedGuiItem);
+		}
+		
 		function getSpec() {
 			return spec;
 		}

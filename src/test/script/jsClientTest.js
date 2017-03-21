@@ -323,6 +323,29 @@ QUnit.test("showView", function(assert) {
 	assert.strictEqual(workView1.style.display, "");
 	assert.strictEqual(workView2.style.display, "none");
 });
+QUnit.test("hideAndRemoveView", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	
+	var mainView = jsClient.getView();
+	
+	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
+	
+	var workView1 = document.createElement("span");
+	var menuView1 = document.createElement("span");
+	menuView1.className = "menuView1";
+	var aView = {
+			"workView" : workView1,
+			"menuView" : menuView1
+	};
+	jsClient.showView(aView);
+	
+	assert.strictEqual(jsClientView.getAddedWorkView(0), aView.workView);
+	
+	jsClient.hideAndRemoveView(aView);
+	assert.strictEqual(jsClientView.getRemovedWorkView(0), aView.workView);
+	
+});
 
 QUnit.test("testFactories", function(assert) {
 	var recordTypeListData = CORATEST.recordTypeList;

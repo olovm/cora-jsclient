@@ -49,7 +49,11 @@ var CORA = (function(cora) {
 			managedGuiItem.menuView.modelObject = managedGuiItem;
 			childrenView.appendChild(managedGuiItem.menuView);
 		}
-
+		
+		function removeManagedGuiItem(managedGuiItem) {
+			childrenView.removeChild(managedGuiItem.menuView);
+		}
+		
 		function getDependencies() {
 			return dependencies;
 		}
@@ -63,7 +67,8 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-			addManagedGuiItem : addManagedGuiItem
+			addManagedGuiItem : addManagedGuiItem,
+			removeManagedGuiItem : removeManagedGuiItem
 		});
 		start();
 		return out;

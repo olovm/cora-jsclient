@@ -118,6 +118,10 @@ var CORA = (function(cora) {
 			messageHolder.createMessage(messageSpec);
 		}
 
+		function removeFromWorkView(viewToRemove) {
+			workArea.removeChild(viewToRemove);
+		}
+
 		out = Object.freeze({
 			"type" : "jsClientView",
 			getView : getView,
@@ -133,7 +137,8 @@ var CORA = (function(cora) {
 			getRecordTypesView : getRecordTypesView,
 			getSearchesView : getSearchesView,
 			getSpec : getSpec,
-			addErrorMessage : addErrorMessage
+			addErrorMessage : addErrorMessage,
+			removeFromWorkView : removeFromWorkView
 		});
 		start();
 

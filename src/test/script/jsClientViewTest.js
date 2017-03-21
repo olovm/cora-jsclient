@@ -128,6 +128,22 @@ QUnit.test("testAddWorkView", function(assert) {
 	assert.strictEqual(firstWorkView.className, "recordType");
 });
 
+QUnit.test("testRemoveFromWorkView", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	
+	var workView = jsClientView.getWorkView();
+	var someView = CORA.gui.createSpanWithClassName("recordType");
+	jsClientView.addToWorkView(someView);
+	
+	var firstWorkView = workView.childNodes[0];
+	assert.strictEqual(firstWorkView, someView);
+	
+	jsClientView.removeFromWorkView(someView);
+	
+	var firstWorkView = workView.childNodes[0];
+	assert.strictEqual(firstWorkView, undefined);
+});
+
 QUnit.test("testAddLoginManagerView", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 

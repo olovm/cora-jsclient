@@ -76,3 +76,24 @@ QUnit.test("testAddManagedGuiItem", function(assert) {
 	var childrenView = view.childNodes[1];
 	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.menuView);
 });
+
+QUnit.test("testRemoveManagedGuiItem", function(assert) {
+	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
+	var managedGuiItem = {
+			"handledBy" : function() {
+			},
+			"workView" : CORA.gui.createSpanWithClassName("workView"),
+			"menuView" : CORA.gui.createSpanWithClassName("menuView")
+	};
+	var createdManagedGuiItem = searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
+	var view = searchRecordHandlerView.getView();
+	var childrenView = view.childNodes[1];
+	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.menuView);
+	
+	//remove
+	searchRecordHandlerView.removeManagedGuiItem(managedGuiItem);
+	assert.strictEqual(childrenView.childNodes[0], undefined);
+	
+});
+
+
