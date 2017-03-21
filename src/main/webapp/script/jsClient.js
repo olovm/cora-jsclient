@@ -165,8 +165,8 @@ var CORA = (function(cora) {
 			jsClientView.addToSearchesView(searchRecordHandler.getView());
 		}
 
-		function addRecordTypesToSideBar(recordTypeList) {
-			recordTypeList.forEach(function(record) {
+		function addRecordTypesToSideBar(recordTypeListIn) {
+			recordTypeListIn.forEach(function(record) {
 				addRecordTypeToSideBar(record);
 			});
 		}

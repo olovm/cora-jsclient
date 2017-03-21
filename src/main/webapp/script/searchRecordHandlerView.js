@@ -31,10 +31,6 @@ var CORA = (function(cora) {
 			header = createHeader();
 			view.appendChild(header);
 
-//			buttonView = CORA.gui.createSpanWithClassName("buttonView");
-//			view.appendChild(buttonView);
-//			possiblyCreateCreateButton();
-//
 			childrenView = CORA.gui.createSpanWithClassName("childrenView");
 			view.appendChild(childrenView);
 		}
@@ -45,22 +41,6 @@ var CORA = (function(cora) {
 			headerNew.textContent = spec.headerText; 
 			return headerNew;
 		}
-
-//		function possiblyCreateCreateButton() {
-//			if (spec.createNewMethod !== undefined) {
-//				buttonView.appendChild(createCreateButton());
-//			}
-//		}
-//
-//		function createCreateButton() {
-//			var buttonSpec = {
-//				"className" : "createButton",
-//				"onclick" : function() {
-//					spec.createNewMethod("new");
-//				}
-//			};
-//			return CORA.gui.createButton(buttonSpec);
-//		}
 
 		function getView() {
 			return view;
