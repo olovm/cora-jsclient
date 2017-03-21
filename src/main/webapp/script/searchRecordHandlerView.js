@@ -22,7 +22,6 @@ var CORA = (function(cora) {
 		var out;
 		var view;
 		var header;
-		var buttonView;
 		var childrenView;
 
 		function start() {
@@ -38,7 +37,7 @@ var CORA = (function(cora) {
 		function createHeader() {
 			var headerNew = CORA.gui.createSpanWithClassName("header");
 			headerNew.onclick = spec.openSearchMethod;
-			headerNew.textContent = spec.headerText; 
+			headerNew.textContent = spec.headerText;
 			return headerNew;
 		}
 
@@ -51,16 +50,16 @@ var CORA = (function(cora) {
 			childrenView.appendChild(managedGuiItem.menuView);
 		}
 
-		function getDependencies(){
+		function getDependencies() {
 			return dependencies;
 		}
-		
-		function getSpec(){
+
+		function getSpec() {
 			return spec;
 		}
-		
+
 		out = Object.freeze({
-			type:"searchRecordHandlerView",
+			type : "searchRecordHandlerView",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
