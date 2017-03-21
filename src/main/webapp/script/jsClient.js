@@ -20,7 +20,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.jsClient = function(dependencies, spec) {
 		var out;
-		var recordTypeList = sortRecordTypesFromRecordTypeProvider();
+		var recordTypeList;
 		var metadataIdsForRecordType = {};
 
 		var recordGuiFactory;
@@ -30,6 +30,7 @@ var CORA = (function(cora) {
 		var managedGuiItemList = [];
 
 		function start() {
+			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			var jsClientViewSpec = {
 				"name" : spec.name
 			};
@@ -54,6 +55,7 @@ var CORA = (function(cora) {
 					.uploadManager(dependencies, uploadManagerSpec);
 			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
 			processRecordTypes();
+			addSearchesToSideBar(dependencies.searchProvider.getAllSearches());
 			addRecordTypesToSideBar(recordTypeList);
 		}
 
@@ -147,8 +149,24 @@ var CORA = (function(cora) {
 			metadataIds[id] = metadataId;
 		}
 
-		function addRecordTypesToSideBar(recordTypes) {
-			recordTypes.forEach(function(record) {
+		function addSearchesToSideBar(searchList) {
+			searchList.forEach(function(search) {
+				addSearchToSideBar(search);
+			});
+		}
+
+		function addSearchToSideBar(search) {
+			var specSearch = {
+				"searchRecord" : search,
+				"baseUrl" : spec.baseUrl,
+				"jsClient" : out
+			};
+			var searchRecordHandler = dependencies.searchRecordHandlerFactory.factor(specSearch);
+			jsClientView.addToSearchesView(searchRecordHandler.getView());
+		}
+
+		function addRecordTypesToSideBar(recordTypeList) {
+			recordTypeList.forEach(function(record) {
 				addRecordTypeToSideBar(record);
 			});
 		}

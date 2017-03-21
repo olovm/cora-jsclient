@@ -19,6 +19,7 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.jsClientViewSpy = function(spec) {
+		var searchViews = [];
 		var recordTypeViews = [];
 		var loginManagerViews = [];
 		var workViews = [];
@@ -30,6 +31,12 @@ var CORATEST = (function(coraTest) {
 		var view = CORA.gui.createSpanWithClassName("jsClientViewSpy");
 		function getView() {
 			return view;
+		}
+		function addToSearchesView(searchView) {
+			searchViews.push(searchView);
+		}
+		function getSearchesView(number) {
+			return searchViews[number];
 		}
 		function addToRecordTypesView(recordTypeView) {
 			recordTypeViews.push(recordTypeView);
@@ -71,6 +78,8 @@ var CORATEST = (function(coraTest) {
 		var out = Object.freeze({
 			"type" : "jsClientViewSpy",
 			getView : getView,
+			addToSearchesView : addToSearchesView,
+			getSearchesView : getSearchesView,
 			addToRecordTypesView : addToRecordTypesView,
 			getRecordTypesView : getRecordTypesView,
 			addLoginManagerView : addLoginManagerView,

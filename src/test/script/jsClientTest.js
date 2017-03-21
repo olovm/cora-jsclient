@@ -184,9 +184,11 @@ QUnit.module("jsClientTest.js", {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
 			"metadataProvider" : CORATEST.metadataProviderRealStub(),
 			"textProvider" : CORATEST.textProviderRealStub(),
+			"searchProvider" : CORATEST.searchProviderSpy(),
 			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
 			"presentationFactoryFactory" : "not implemented yet",
-			"jsClientViewFactory" : CORATEST.jsClientViewFactorySpy()
+			"jsClientViewFactory" : CORATEST.jsClientViewFactorySpy(),
+			"searchRecordHandlerFactory" : CORATEST.searchRecordHandlerFactorySpy()
 		}
 		this.spec = {
 			"name" : "The Client",
@@ -235,6 +237,29 @@ QUnit.test("testInitCreatesALoginManagerAndAddsItsHtmlToTheHeader", function(ass
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 
 	assert.strictEqual(jsClientView.getLoginManagerView(0).className, "loginManagerSpy");
+});
+
+QUnit.test("initFactoresSearchRecordHandlersAndAddsToView", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+
+	var addedSearchRecordHandlerView = jsClientView.getSearchesView(0);
+	var factoredSearchRecordHandler = this.dependencies.searchRecordHandlerFactory.getFactored(0);
+	assert.strictEqual(addedSearchRecordHandlerView, factoredSearchRecordHandler.getView());
+	var factoredSpec = this.dependencies.searchRecordHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.baseUrl, this.spec.baseUrl);
+
+	var addedSearchRecordHandlerView2 = jsClientView.getSearchesView(1);
+	var factoredSearchRecordHandler2 = this.dependencies.searchRecordHandlerFactory.getFactored(1);
+	assert.strictEqual(addedSearchRecordHandlerView2, factoredSearchRecordHandler2.getView());
+	var factoredSpec2 = this.dependencies.searchRecordHandlerFactory.getSpec(1);
+	assert.strictEqual(factoredSpec2.baseUrl, this.spec.baseUrl);
+
+	var addedSearchRecordHandlerView3 = jsClientView.getSearchesView(2);
+	var factoredSearchRecordHandler3 = this.dependencies.searchRecordHandlerFactory.getFactored(2);
+	assert.strictEqual(addedSearchRecordHandlerView3, factoredSearchRecordHandler3.getView());
+	var factoredSpec3 = this.dependencies.searchRecordHandlerFactory.getSpec(2);
+	assert.strictEqual(factoredSpec3.baseUrl, this.spec.baseUrl);
 });
 
 QUnit.test("initRecordTypesAreSortedByType", function(assert) {
