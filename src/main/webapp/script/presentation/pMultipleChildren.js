@@ -33,8 +33,12 @@ var CORA = (function(cora) {
 		var defText;
 		var info;
 		var infoButton;
+		var nameInData;
+		
 		function init() {
 			cMetadataElement = getMetadataById(my.metadataId);
+			nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
+
 			textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
 			text = textProvider.getTranslation(textId);
 			defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
@@ -77,7 +81,13 @@ var CORA = (function(cora) {
 				}, {
 					"className" : "metadataIdView",
 					"text" : "metadataId: " + my.metadataId
-				} ]
+				} , {
+					"className" : "technicalView",
+					"text" : "nameInData: " + nameInData
+				} , {
+					"className" : "technicalView",
+					"text" : "presentationId: " + getPresentationId()
+				}]
 			};
 			var newInfo = CORA.info(infoSpec);
 			infoSpec.insertAfter = newInfo.getButton();

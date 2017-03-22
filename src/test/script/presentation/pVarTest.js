@@ -149,7 +149,8 @@ QUnit.test("testFactoredViewCorrectlyForInputTextVariable", function(assert) {
 	};
 	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
 			"defTextId: textVariableIdDefText", "metadataId: textVariableId",
-			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$");
+			"nameInData: textVariableId",
+			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", "presentationId: pVarTextVariableId");
 	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
 });
 
@@ -192,7 +193,8 @@ QUnit.test("testFactoredViewCorrectlyForInputTextAreaVariable", function(assert)
 	};
 	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
 			"defTextId: textVariableIdDefText", "metadataId: textVariableId",
-			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$");
+			"nameInData: textVariableId",
+			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", "presentationId: textVariableIdTextAreaPVar");
 	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
 });
 
@@ -217,7 +219,8 @@ QUnit.test("testInitTextNoInputTypeIsShownAsText", function(assert) {
 	};
 	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
 			"defTextId: textVariableIdDefText", "metadataId: textVariableId",
-			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$");
+			"nameInData: textVariableId",
+			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", "presentationId: textVariableIdShowTextAreaFalsePVar");
 	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
 
 	CORATEST.testVariableSubscription(attachedPVar, assert);
@@ -312,7 +315,8 @@ QUnit.test("testInitTextOutput", function(assert) {
 	};
 	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
 			"defTextId: textVariableIdDefText", "metadataId: textVariableId",
-			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$");
+			"nameInData: textVariableId",
+			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", "presentationId: pVarTextVariableIdOutput");
 	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
 
 	CORATEST.testVariableSubscription(attachedPVar, assert);
@@ -338,7 +342,8 @@ QUnit.test("testInitTextOutputFormatImage", function(assert) {
 	};
 	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
 			"defTextId: textVariableIdDefText", "metadataId: textVariableId",
-			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$");
+			"nameInData: textVariableId",
+			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", "presentationId: pVarTextVariableId");
 	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
 
 	CORATEST.testVariableSubscription(attachedPVar, assert);

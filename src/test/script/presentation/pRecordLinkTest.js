@@ -127,7 +127,7 @@ QUnit.test("testViewIsFactored", function(assert) {
 			"text" : "myLinkText",
 			"defText" : "myLinkDefText",
 			"technicalInfo" : [ "textId: " + "myLinkText", "defTextId: " + "myLinkDefText",
-					"metadataId: " + "myLink", "linkedRecordType: metadataTextVariable" ]
+					"metadataId: " + "myLink", "nameInData: myLink", "linkedRecordType: metadataTextVariable" ]
 		}
 	};
 	assert.stringifyEqual(factoredViewSpec, expectedInfoSpec);
