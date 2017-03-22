@@ -26,8 +26,11 @@ var CORA = (function(cora) {
 
 		function factor(spec) {
 			var searchRecordHandlerDependencies = {
-				"messageHolderFactory" : dependencies.messageHolderFactory,
-				"searchRecordHandlerViewFactory" : dependencies.searchRecordHandlerViewFactory,
+				"messageHolderFactory" : CORA.messageHolderFactory(),
+				"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory(),
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory({
+					"managedGuiItemViewFactory" : CORA.managedGuiItemViewFactory()
+				}),
 				"jsClient" : spec.jsClient
 			};
 			return CORA.searchRecordHandler(searchRecordHandlerDependencies, spec);

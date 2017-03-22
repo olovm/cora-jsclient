@@ -25,10 +25,7 @@ var CORA = (function(cora) {
 		}
 
 		function factor(spec) {
-			var searchRecordHandlerViewDependencies = {
-					"messageHolderFactory" : dependencies.messageHolderFactory,
-					"searchRecordHandlerViewViewFactory" : dependencies.searchRecordHandlerViewViewFactory
-			};
+			var searchRecordHandlerViewDependencies = {};
 			return CORA.searchRecordHandlerView(searchRecordHandlerViewDependencies, spec);
 		}
 

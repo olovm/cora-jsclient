@@ -240,7 +240,7 @@ var CORA = (function(cora) {
 			if (managedGuiItemShowing !== undefined) {
 				managedGuiItemShowing.menuView.className = managedGuiItemShowing.menuView.className
 						.replace(" active", "");
-				managedGuiItemShowing.isActive = false;
+//				managedGuiItemShowing.isActive = false;
 			}
 		}
 
@@ -253,8 +253,8 @@ var CORA = (function(cora) {
 		}
 
 		function updateShowingManagedGuiItem(managedGuiItem) {
-			managedGuiItem.isActive = true;
-			managedGuiItem.originalClassName = managedGuiItem.menuView.className;
+//			managedGuiItem.isActive = true;
+//			managedGuiItem.originalClassName = managedGuiItem.menuView.className;
 			managedGuiItem.menuView.className = managedGuiItem.menuView.className + " active";
 		}
 
@@ -294,9 +294,8 @@ var CORA = (function(cora) {
 			managedGuiItemList.push(managedGuiItem);
 			return managedGuiItem;
 		}
-		
-		
-		function hideAndRemoveView(managedGuiItem){
+
+		function hideAndRemoveView(managedGuiItem) {
 			jsClientView.removeFromWorkView(managedGuiItem.workView);
 		}
 

@@ -22,14 +22,10 @@ var CORATEST = (function(coraTest) {
 		var added = [];
 		var addedToolViews = [];
 		var showDataF = null;
-//		var view = document.createElement("span");
-		var view = CORA.gui.createSpanWithClassName("managedGuiItemSpyView");
+		var menuView = CORA.gui.createSpanWithClassName("menuViewSpy");
+		var workView = CORA.gui.createSpanWithClassName("menuViewSpy");
 		var state;
 		var value;
-		
-		function getView() {
-			return view;
-		}
 
 		function getDependencies() {
 			return dependencies;
@@ -37,40 +33,34 @@ var CORATEST = (function(coraTest) {
 		function getSpec() {
 			return spec;
 		}
-		function add() {
+		function getMenuView() {
+			return menuView;
 		}
-		function handleMsg() {
+
+		function getWorkView() {
+			return workView;
 		}
-		function isRepeating() {
+		function handleBy(someThing) {
+			// spec.handleBy(someThing);
 		}
-		function isStaticNoOfChildren() {
+
+		function addMenuPresentation(presentationToAdd) {
+			// managedGuiItemView.addMenuPresentation(presentationToAdd);
 		}
-		function sendAdd() {
+
+		function addWorkPresentation(presentationToAdd) {
+			// managedGuiItemView.addWorkPresentation(presentationToAdd);
 		}
-		function childRemoved() {
-		}
-		function childMoved() {
-		}
-		function handleFiles() {
-		}
-		function processNewBinary() {
-		}
-		
-		
+
 		var out = Object.freeze({
 			"type" : "managedGuiItemSpy",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
-			getView : getView,
-			add : add,
-			handleMsg : handleMsg,
-			isRepeating : isRepeating,
-			isStaticNoOfChildren : isStaticNoOfChildren,
-			sendAdd : sendAdd,
-			childRemoved : childRemoved,
-			childMoved : childMoved,
-			handleFiles : handleFiles,
-			processNewBinary : processNewBinary
+			getMenuView : getMenuView,
+			getWorkView : getWorkView,
+			handleBy : handleBy,
+			addMenuPresentation : addMenuPresentation,
+			addWorkPresentation : addWorkPresentation
 		});
 		return out;
 	};

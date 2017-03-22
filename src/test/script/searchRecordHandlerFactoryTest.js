@@ -24,7 +24,6 @@ QUnit
 				{
 					beforeEach : function() {
 						this.dependencies = {
-							"messageHolderFactory" : CORATEST.messageHolderFactorySpy(),
 							"searchRecordHandlerViewFactory" : CORATEST
 									.searchRecordHandlerViewFactorySpy()
 						};
@@ -175,11 +174,20 @@ QUnit.test("factor", function(assert) {
 	assert.strictEqual(searchRecordHandler.type, "searchRecordHandler");
 
 	var searchRecordHandlerDependencies = searchRecordHandler.getDependencies();
-	assert.strictEqual(searchRecordHandlerDependencies.messageHolderFactory,
-			this.dependencies.messageHolderFactory);
-	assert.strictEqual(searchRecordHandlerDependencies.searchRecordHandlerViewFactory,
-			this.dependencies.searchRecordHandlerViewFactory);
+	assert.strictEqual(searchRecordHandlerDependencies.messageHolderFactory.type,
+			"messageHolderFactory");
+
+	assert.strictEqual(searchRecordHandlerDependencies.searchRecordHandlerViewFactory.type,
+			"searchRecordHandlerViewFactory");
+
 	assert.strictEqual(searchRecordHandlerDependencies.jsClient, this.spec.jsClient);
+
+	var managedGuiItemFactory = searchRecordHandlerDependencies.managedGuiItemFactory;
+	assert.strictEqual(managedGuiItemFactory.type, "managedGuiItemFactory");
+
+	var managedGuiItemFactoryDependencies = managedGuiItemFactory.getDependencies();
+	var managedGuiItemViewFactory = managedGuiItemFactoryDependencies.managedGuiItemViewFactory;
+	assert.strictEqual(managedGuiItemViewFactory.type, "managedGuiItemViewFactory");
 
 	var searchRecordHandlerSpec = searchRecordHandler.getSpec();
 	assert.strictEqual(searchRecordHandlerSpec, this.spec);

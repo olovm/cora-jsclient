@@ -27,10 +27,14 @@ var CORA = (function(cora) {
 		var managedGuiItemView = dependencies.managedGuiItemViewFactory.factor(viewSpec);
 		managedGuiItemView.addMenuPresentation(spec.menuPresentation);
 		managedGuiItemView.addWorkPresentation(spec.workPresentation);
-
+		
+		var menuView = getMenuView();
+		var workView = getWorkView();
+		
 		function getMenuView() {
 			return managedGuiItemView.getMenuView();
 		}
+
 		function getWorkView() {
 			return managedGuiItemView.getWorkView();
 		}
@@ -38,6 +42,7 @@ var CORA = (function(cora) {
 		function getDependencies() {
 			return dependencies;
 		}
+
 		function getSpec() {
 			return spec;
 		}
@@ -46,13 +51,27 @@ var CORA = (function(cora) {
 			spec.handleBy(someThing);
 		}
 
+		function addMenuPresentation(presentationToAdd) {
+			managedGuiItemView.addMenuPresentation(presentationToAdd);
+		}
+
+		function addWorkPresentation(presentationToAdd) {
+			managedGuiItemView.addWorkPresentation(presentationToAdd);
+		}
+
 		var out = Object.freeze({
 			"type" : "managedGuiItem",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getMenuView : getMenuView,
 			getWorkView : getWorkView,
-			handleBy : handleBy
+			handleBy : handleBy,
+			addMenuPresentation : addMenuPresentation,
+			addWorkPresentation : addWorkPresentation,
+			//TEMP HACK should be replaced with getMenuView
+			menuView : menuView,
+			workView : workView,
+			
 		});
 
 		return out;

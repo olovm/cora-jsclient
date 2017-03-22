@@ -42,13 +42,35 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
+		// function createManagedGuiItem(text) {
+		// var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
+		// managedGuiItem.menuView.textContent = text;
+		// managedGuiItem.menuView.appendChild(createRemoveButton(managedGuiItem));
+		// searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
+		// dependencies.jsClient.showView(managedGuiItem);
+		// return managedGuiItem;
+		// }
 		function createManagedGuiItem(text) {
-			var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
-			managedGuiItem.menuView.textContent = text;
-			managedGuiItem.menuView.appendChild(createRemoveButton(managedGuiItem));
+			var menuPresentation = CORA.gui.createSpanWithClassName("search");
+			menuPresentation.textContent = text;
+			var managedGuiItem;
+			var managedGuiItemSpec = {
+				"handledBy" : function() {
+				},
+				"menuPresentation" : menuPresentation,
+				"workPresentation" : CORA.gui.createSpanWithClassName("workPresentation"),
+				"activateMethod" : function() {
+					dependencies.jsClient.showView(managedGuiItem);
+				},
+				"removeMenuMethod" : function() {
+					removeViewsFromParentNodes(managedGuiItem);
+				},
+				"removeWorkMethod" : function() {
+				}
+			};
+			managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 			searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
 			dependencies.jsClient.showView(managedGuiItem);
-			return managedGuiItem;
 		}
 
 		function createRemoveButton(managedGuiItem) {
@@ -68,7 +90,7 @@ var CORA = (function(cora) {
 			// }
 			dependencies.jsClient.hideAndRemoveView(managedGuiItem);
 		}
-		
+
 		function getSpec() {
 			return spec;
 		}
