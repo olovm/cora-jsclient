@@ -34,6 +34,7 @@ var CORA = (function(cora) {
 
 		var cMetadataElement = getMetadataById(metadataId);
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
+		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 
 		var view = createBaseView();
 		var originalClassName = view.className;
@@ -135,7 +136,13 @@ var CORA = (function(cora) {
 				}, {
 					"className" : "metadataIdView",
 					"text" : "metadataId: " + metadataId
-				} ]
+				}, {
+					"className" : "technicalView",
+					"text" : "nameInData: " + nameInData
+				} , {
+					"className" : "technicalView",
+					"text" : "presentationId: " + presentationId
+				}]
 			};
 			var newInfo = CORA.info(infoSpec);
 			return newInfo;

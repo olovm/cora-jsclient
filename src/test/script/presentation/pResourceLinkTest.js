@@ -125,7 +125,7 @@ QUnit.test("testInitInfo", function(assert) {
 
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 4);
-	assert.equal(infoView.childNodes.length, 5);
+	assert.equal(infoView.childNodes.length, 7);
 
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
 			"textId: metadataGroupForResourceLinkGroupText", assert);
@@ -133,6 +133,10 @@ QUnit.test("testInitInfo", function(assert) {
 			"defTextId: metadataGroupForResourceLinkGroupDefText", assert);
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
 			"metadataId: metadataGroupForResourceLinkGroup", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[5], "technicalView",
+			"nameInData: metadataGroupForResourceLinkGroup", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[6], "technicalView",
+			"presentationId: masterPResLink", assert);
 
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 3);

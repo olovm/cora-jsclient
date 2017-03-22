@@ -29,6 +29,7 @@ var CORA = (function(cora) {
 		var metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 		var cMetadataElement = getMetadataById(metadataId);
+		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var hasLinkedRepeatId = cMetadataElement.containsChildWithNameInData("linkedPath");
 
@@ -51,7 +52,8 @@ var CORA = (function(cora) {
 					"text" : text,
 					"defText" : defText,
 					"technicalInfo" : [ "textId: " + textId, "defTextId: " + defTextId,
-							"metadataId: " + metadataId, "linkedRecordType: " + linkedRecordType ]
+							"metadataId: " + metadataId, "nameInData: " + nameInData,
+							"linkedRecordType: " + linkedRecordType]
 				}
 			};
 			return dependencies.pRecordLinkViewFactory.factor(viewSpec);
