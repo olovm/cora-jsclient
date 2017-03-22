@@ -24,7 +24,7 @@ QUnit.module("managedGuiItemTest.js", {
 
 		this.metadataProvider = new MetadataProviderStub();
 		this.dependencies = {
-			"managedGuiItemViewFactory" : CORATEST.managedGuiItemViewFactorySpy(),
+			"managedGuiItemViewFactory" : CORATEST.standardFactorySpy("managedGuiItemViewSpy"),
 		};
 		this.spec = {
 			"handledBy" : function() {
@@ -56,12 +56,26 @@ QUnit.test("testInitMenuViewIsFromFactoredView", function(assert) {
 	assert.strictEqual(menuView, factoredView.getMenuView());
 });
 
+QUnit.test("testInitMenuPresentationViewIsFromSpec", function(assert) {
+	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+
+	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
+	assert.strictEqual(factoredView.getAddedMenuPresentation(0), this.spec.menuPresentation);
+});
+
 QUnit.test("testInitWorkViewIsFromFactoredView", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
 	var workView = managedGuiItem.getWorkView();
-	
+
 	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
 	assert.strictEqual(workView, factoredView.getWorkView());
+});
+
+QUnit.test("testInitWorkPresentationViewIsFromSpec", function(assert) {
+	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+
+	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
+	assert.strictEqual(factoredView.getAddedWorkPresentation(0), this.spec.workPresentation);
 });
 
 QUnit.test("testGetDependencies", function(assert) {
@@ -76,8 +90,8 @@ QUnit.test("testGetSpec", function(assert) {
 
 QUnit.test("testHandleBy", function(assert) {
 	var handleByIsCalled = false;
-	var handleByCalledWith  = "";
-	this.spec.handleBy = function(stuff){
+	var handleByCalledWith = "";
+	this.spec.handleBy = function(stuff) {
 		handleByIsCalled = true;
 		handleByCalledWith = stuff;
 	}
@@ -89,30 +103,33 @@ QUnit.test("testHandleBy", function(assert) {
 
 QUnit.test("testActivateMethodPassedOnToView", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
-	var workView = managedGuiItem.getWorkView();
-	
+
 	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
 	assert.strictEqual(factoredView.getSpec().activateMethod, this.spec.activateMethod);
 });
 
 QUnit.test("testRemoveMenuMethodPassedOnToView", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
-	var workView = managedGuiItem.getWorkView();
-	
+
 	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
 	assert.strictEqual(factoredView.getSpec().removeMenuMethod, this.spec.removeMenuMethod);
 });
 
 QUnit.test("testRemoveWorkMethodPassedOnToView", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
-	var workView = managedGuiItem.getWorkView();
-	
+
 	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
 	assert.strictEqual(factoredView.getSpec().removeWorkMethod, this.spec.removeWorkMethod);
 });
 
-
-
-
-
+// QUnit.test("testAddMenuPresentationPassedOnToView", function(assert) {
+// var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+//	
+// var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
+//	
+// managedGuiItem.addMenuPresentation();
+// CORA.gui.createSpanWithClassName("menuPresentation")
+// assert.strictEqual(factoredView..removeMenuMethod, this.spec.removeMenuMethod);
+//	
+// });
 

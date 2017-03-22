@@ -31,7 +31,7 @@ QUnit.module("managedGuiItemFactoryTest.js", {
 				"uploadManager" : CORATEST.uploadManagerSpy(),
 				"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
 				"pRepeatingElementFactory" : CORATEST.pRepeatingElementFactorySpy(),
-				"managedGuiItemViewFactory": CORATEST.managedGuiItemViewFactorySpy()
+				"managedGuiItemViewFactory": CORATEST.standardFactorySpy("managedGuiItemViewSpy")
 		};
 		this.spec = {
 			"parentPath" : {},

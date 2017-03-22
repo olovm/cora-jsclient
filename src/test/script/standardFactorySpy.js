@@ -18,20 +18,19 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.managedGuiItemFactorySpy = function() {
-		var factoredmanagedGuiItems = [];
+	coraTest.standardFactorySpy = function(toFactor) {
+		var factoredList = [];
 		var factoredSpec = [];
 
-		function factor(managedGuiItemSpec) {
-			factoredSpec.push(managedGuiItemSpec);
-			var factoredmanagedGuiItem = CORATEST.managedGuiItemSpy({},
-					managedGuiItemSpec);
-			factoredmanagedGuiItems.push(factoredmanagedGuiItem);
-			return factoredmanagedGuiItem;
+		function factor(standardSpec) {
+			factoredSpec.push(standardSpec);
+			var factored = CORATEST[toFactor]({}, standardSpec);
+			factoredList.push(factored);
+			return factored;
 		}
 
 		function getFactored(number) {
-			return factoredmanagedGuiItems[number];
+			return factoredList[number];
 		}
 
 		function getSpec(number) {
@@ -39,7 +38,7 @@ var CORATEST = (function(coraTest) {
 		}
 
 		var out = Object.freeze({
-			"type" : "managedGuiItemFactorySpy",
+			"type" : "standardFactorySpy",
 			factor : factor,
 			getFactored : getFactored,
 			getSpec : getSpec

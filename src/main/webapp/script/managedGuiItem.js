@@ -25,6 +25,8 @@ var CORA = (function(cora) {
 			"removeWorkMethod" : spec.removeWorkMethod
 		};
 		var managedGuiItemView = dependencies.managedGuiItemViewFactory.factor(viewSpec);
+		managedGuiItemView.addMenuPresentation(spec.menuPresentation);
+		managedGuiItemView.addWorkPresentation(spec.workPresentation);
 
 		function getMenuView() {
 			return managedGuiItemView.getMenuView();
