@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -96,7 +96,7 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsg(dataFromMsg, msg) {
-			if (initComplete) {
+			if (initComplete && msgChangesData(msg)) {
 				dataIsChanged = true;
 			}
 			if (messageSaysInitIsComplete(msg)) {
@@ -106,6 +106,10 @@ var CORA = (function(cora) {
 				sendUpdateDataToServer();
 			}
 			updateMenuClassName();
+		}
+
+		function msgChangesData(msg) {
+			return !msg.endsWith("add") && !msg.endsWith("initComplete")
 		}
 
 		function messageSaysInitIsComplete(msg) {
