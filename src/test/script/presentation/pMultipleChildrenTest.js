@@ -149,7 +149,35 @@ QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfo",
 			assert.strictEqual(factoredSpec.childStyle, undefined);
 			assert.strictEqual(factoredSpec.textStyleMinimized, undefined);
 			assert.strictEqual(factoredSpec.childStyleMinimized, undefined);
+			assert.strictEqual(factoredSpec.minNumberOfRepeatingToShow, undefined);
 		});
+QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfoMinNumberOfRepeatingToShow",
+		function(assert) {
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextChildMinimizedDefaultNoStyleInfoMinNumberOfRepeatingToShow"));
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+	var view = pMultipleChildren.getView(); 
+	this.fixture.appendChild(view);
+	
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
+	assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
+			"groupIdOneTextChildRepeat1to3");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
+	"pgGroupIdOneTextChildMinimized");
+	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
+	"pVarTextVariableIdOutput");
+	assert.strictEqual(factoredSpec.minimizedDefault, "true");
+	
+	assert.strictEqual(factoredSpec.textStyle, undefined);
+	assert.strictEqual(factoredSpec.childStyle, undefined);
+	assert.strictEqual(factoredSpec.textStyleMinimized, undefined);
+	assert.strictEqual(factoredSpec.childStyleMinimized, undefined);
+	
+	assert.strictEqual(factoredSpec.minNumberOfRepeatingToShow, "1");
+});
 QUnit.test("testText",
 		function(assert) {
 	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
