@@ -109,7 +109,7 @@ var CORA = (function(cora) {
 		}
 
 		function msgChangesData(msg) {
-			return !msg.endsWith("add") && !msg.endsWith("initComplete")
+			return !msg.endsWith("add") && !msg.endsWith("initComplete");
 		}
 
 		function messageSaysInitIsComplete(msg) {
