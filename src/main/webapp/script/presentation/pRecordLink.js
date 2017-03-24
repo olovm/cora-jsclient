@@ -29,6 +29,7 @@ var CORA = (function(cora) {
 		var metadataId = cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 		var cMetadataElement = getMetadataById(metadataId);
+		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var hasLinkedRepeatId = cMetadataElement.containsChildWithNameInData("linkedPath");
 
@@ -51,7 +52,8 @@ var CORA = (function(cora) {
 					"text" : text,
 					"defText" : defText,
 					"technicalInfo" : [ "textId: " + textId, "defTextId: " + defTextId,
-							"metadataId: " + metadataId, "linkedRecordType: " + linkedRecordType ]
+							"metadataId: " + metadataId, "nameInData: " + nameInData,
+							"linkedRecordType: " + linkedRecordType]
 				}
 			};
 			return dependencies.pRecordLinkViewFactory.factor(viewSpec);
@@ -73,7 +75,6 @@ var CORA = (function(cora) {
 			if (linkedRecordCanBeRead(dataFromMessage)) {
 				createRecordViewerForLinkedRecord(dataFromMessage.data);
 			}
-
 		}
 
 		function linkedRecordCanBeRead(dataFromMessage) {
@@ -161,12 +162,10 @@ var CORA = (function(cora) {
 			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
 				recordIdPVarId = "linkedRecordIdOutputPVar";
 			}
-			var recordIdViewNew = createChildView("linkedRecordId", recordIdPVarId);
-			view.addChild(recordIdViewNew);
+			createChildView("linkedRecordId", recordIdPVarId);
 
 			if (hasLinkedRepeatId) {
-				var repeatIdViewNew = createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
-				view.addChild(repeatIdViewNew);
+				createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
 			}
 		}
 
@@ -184,7 +183,7 @@ var CORA = (function(cora) {
 			var pVar = dependencies.presentationFactory.factor(childParentPath,
 					metadataIdUsedInData, cPresentationChild);
 			childViewNew.appendChild(pVar.getView());
-			return childViewNew;
+			view.addChild(childViewNew);
 		}
 
 		function createText(presRef) {
@@ -204,13 +203,10 @@ var CORA = (function(cora) {
 		}
 
 		function createAndAddOutput() {
-			var recordIdViewNew = createChildView("linkedRecordId", "linkedRecordIdOutputPVar");
-			view.addChild(recordIdViewNew);
+			createChildView("linkedRecordId", "linkedRecordIdOutputPVar");
 
 			if (hasLinkedRepeatId) {
-				var repeatIdViewNew = createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar",
-						true);
-				view.addChild(repeatIdViewNew);
+				createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar", true);
 			}
 		}
 

@@ -106,7 +106,7 @@ QUnit.test("testInitInfo", function(assert) {
 
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 3);
-	assert.equal(infoView.childNodes.length, 5);
+	assert.equal(infoView.childNodes.length, 7);
 
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
 			"textId: groupIdOneTextChildText", assert);
@@ -114,7 +114,10 @@ QUnit.test("testInitInfo", function(assert) {
 			"defTextId: groupIdOneTextChildDefText", assert);
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
 			"metadataId: groupIdOneTextChild", assert);
-
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[5], "technicalView",
+			"nameInData: groupIdOneTextChild", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[6], "technicalView",
+			"presentationId: pgGroupIdOneTextChild", assert);
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 2);
 });
@@ -149,7 +152,7 @@ QUnit.test("testGetInfoShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", fun
 
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 3);
-	assert.equal(infoView.childNodes.length, 5);
+	assert.equal(infoView.childNodes.length, 7);
 
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
 			"textId: groupIdOneTextChild2Text", assert);
@@ -158,7 +161,11 @@ QUnit.test("testGetInfoShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", fun
 	// this is the important part: groupIdOneTextChild2
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
 			"metadataId: groupIdOneTextChild2", assert);
-
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[5], "technicalView",
+			"nameInData: groupIdOneTextChild", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[6], "technicalView",
+			"presentationId: pgGroupIdOneTextChild", assert);
+	
 	infoButton.onclick(event);
 	assert.equal(view.childNodes.length, 2);
 });

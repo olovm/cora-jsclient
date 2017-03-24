@@ -47,6 +47,11 @@ var CORA = (function(cora) {
 		var pChildRefHandlerView = createPChildRefHandlerView();
 		dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
 		dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
+		var initCompleteSubscriptionId = "";
+		if (spec.minNumberOfRepeatingToShow !== undefined) {
+			initCompleteSubscriptionId = dependencies.pubSub.subscribe("initComplete", {},
+					undefined, initComplete);
+		}
 
 		var numberOfFilesToUpload = 0;
 		var numberOfRecordsForFilesCreated = 0;
@@ -99,10 +104,10 @@ var CORA = (function(cora) {
 				"presentationId" : presentationId,
 				"isRepeating" : isRepeating
 			};
-			if(spec.textStyle !== undefined){
+			if (spec.textStyle !== undefined) {
 				pChildRefHandlerViewSpec.textStyle = spec.textStyle;
 			}
-			if(spec.childStyle !== undefined){
+			if (spec.childStyle !== undefined) {
 				pChildRefHandlerViewSpec.childStyle = spec.childStyle;
 			}
 			if (showFileUpload()) {
@@ -374,7 +379,16 @@ var CORA = (function(cora) {
 			if (metadataHasAttributes) {
 				data.attributes = collectedAttributes;
 			}
-			return dependencies.jsBookkeeper.add(data);
+			var createdRepeatId = dependencies.jsBookkeeper.add(data);
+			sendInitComplete();
+			return createdRepeatId;
+		}
+
+		function sendInitComplete() {
+			dependencies.pubSub.publish("initComplete", {
+				"data" : "",
+				"path" : {}
+			});
 		}
 
 		function childMoved(moveInfo) {
@@ -553,6 +567,25 @@ var CORA = (function(cora) {
 			errorChild.innerHTML = messageSpec.message;
 			pChildRefHandlerView.addChild(errorChild);
 		}
+
+		function initComplete() {
+			unsubscribeFromInitComplete();
+			possiblyAddUpToMinNumberOfRepeatingToShow();
+		}
+
+		function unsubscribeFromInitComplete() {
+			dependencies.pubSub.unsubscribe(initCompleteSubscriptionId);
+		}
+
+		function possiblyAddUpToMinNumberOfRepeatingToShow() {
+			var numberLeftToAdd = Number(spec.minNumberOfRepeatingToShow) - noOfRepeating;
+			for (var i = 0; i < numberLeftToAdd; i++) {
+				if (!maxLimitOfChildrenReached()) {
+					sendAdd();
+				}
+			}
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -571,7 +604,8 @@ var CORA = (function(cora) {
 			childRemoved : childRemoved,
 			childMoved : childMoved,
 			handleFiles : handleFiles,
-			processNewBinary : processNewBinary
+			processNewBinary : processNewBinary,
+			initComplete : initComplete
 		});
 
 		pChildRefHandlerView.getView().modelObject = out;

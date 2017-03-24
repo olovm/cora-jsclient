@@ -146,7 +146,7 @@ QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
 	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$")
 			.test(attachedPCollectionVar.view.className));
 	assert.equal(view.childNodes.length, 3);
-	assert.equal(infoView.childNodes.length, 5);
+	assert.equal(infoView.childNodes.length, 7);
 
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[2], "textIdView",
 			"textId: userSuppliedIdCollectionVarText", assert);
@@ -154,6 +154,10 @@ QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
 			"defTextId: userSuppliedIdCollectionVarDefText", assert);
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[4], "metadataIdView",
 			"metadataId: userSuppliedIdCollectionVar", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[5], "technicalView",
+			"nameInData: userSuppliedId", assert);
+	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[6], "technicalView",
+			"presentationId: userSuppliedIdCollectionVarPCollVar", assert);
 
 	infoButton.onclick(event);
 	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$")

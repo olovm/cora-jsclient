@@ -44,6 +44,12 @@
 <script type="text/javascript" src="script/recordTypeProvider.js"></script>
 <script type="text/javascript" src="script/recordViewer.js"></script>
 
+<script type="text/javascript" src="script/searchRecordHandlerFactory.js"></script>
+<script type="text/javascript" src="script/searchRecordHandler.js"></script>
+<script type="text/javascript" src="script/searchRecordHandlerViewFactory.js"></script>
+<script type="text/javascript" src="script/searchRecordHandlerView.js"></script>
+<script type="text/javascript" src="script/searchProvider.js"></script>
+
 <script type="text/javascript" src="script/gui/basicGui.js"></script>
 <script type="text/javascript" src="script/gui/busy.js"></script>
 <script type="text/javascript" src="script/gui/holder.js"></script>
@@ -123,7 +129,6 @@
 	 			var appTokenBaseUrl = "http://epc.ub.uu.se/";
 // 	var appTokenBaseUrl = "http://localhost:8080/";
 // 	var baseUrl = "http://localhost:8080/therest/rest/";
-
 	window.onload = start;
 	var jsClientSpec;
 	var jsClientDependencies;
@@ -144,6 +149,12 @@
 		possiblyStartJsClient();
 	}
 
+	var searchProviderStarted = false;
+	function searchProviderReady() {
+		searchProviderStarted = true;
+		possiblyStartJsClient();
+	}
+
 	var recordTypeProviderStarted = false;
 	function recordTypeProviderReady() {
 		recordTypeProviderStarted = true;
@@ -151,7 +162,7 @@
 	}
 
 	function possiblyStartJsClient() {
-		if (recordTypeProviderStarted && metadataProviderStarted && textProviderStarted) {
+		if (recordTypeProviderStarted && metadataProviderStarted && textProviderStarted && searchProviderStarted) {
 			startJsClient();
 		}
 	}
@@ -223,6 +234,21 @@
 		};
 		var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
 
+		var dependenciesSearchProvider = {
+			"ajaxCallFactory" : ajaxCallFactory
+		};
+		var searchRecordListLink = {
+			"requestMethod" : "GET",
+			"rel" : "list",
+			"url" : baseUrl + "record/search/",
+			"accept" : "application/uub+recordList+json"
+		};
+		var specSearchProvider = {
+			"searchRecordListLink" : searchRecordListLink,
+			"callWhenReady" : searchProviderReady
+		};
+		var searchProvider = CORA.searchProvider(dependenciesSearchProvider, specSearchProvider);
+
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
@@ -238,16 +264,21 @@
 		var jsClientViewFactorySpec = {
 			"messageHolderFactory" : CORA.messageHolderFactory()
 		};
-
+		var searchRecordHandlerFactorySpec = {
+			"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory({})
+		};
 		jsClientDependencies = {
 			"ajaxCallFactory" : ajaxCallFactory,
 			"authTokenHolder" : authTokenHolder,
 			"loginManagerFactory" : loginManagerFactory,
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
+			"searchProvider" : searchProvider,
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
 			"jsClientViewFactory" : CORA.jsClientViewFactory(jsClientViewFactorySpec),
+			"searchRecordHandlerFactory" : CORA
+					.searchRecordHandlerFactory(searchRecordHandlerFactorySpec),
 			"presentationFactoryFactory" : "not implemented yet"
 		}
 		jsClientSpec = {
@@ -256,6 +287,7 @@
 			"appTokenBaseUrl" : appTokenBaseUrl
 		};
 	}
+	
 	function startJsClient() {
 		var jsClient = CORA.jsClient(jsClientDependencies, jsClientSpec);
 		document.body.appendChild(jsClient.getView());

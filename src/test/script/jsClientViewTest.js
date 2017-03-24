@@ -47,7 +47,7 @@ QUnit.test("initCreatesMessageHolder", function(assert) {
 	assert.strictEqual(jsClientView.getHeader().childNodes[1], messageHolder.getView());
 });
 
-QUnit.test("getViewWorkViewHeader", function(assert) {
+QUnit.test("testMainLayout", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 	var mainView = jsClientView.getView();
 	assert.strictEqual(mainView.className, "jsClient mainView");
@@ -56,10 +56,18 @@ QUnit.test("getViewWorkViewHeader", function(assert) {
 	assert.strictEqual(header.className, "header");
 	assert.strictEqual(header, mainView.childNodes[0]);
 
+	var sideBar = jsClientView.getSideBar();
+	assert.strictEqual(sideBar.className, "sideBar");
+	assert.strictEqual(sideBar, mainView.childNodes[1]); 
+
+	var searchesView = jsClientView.getSearchesView();
+	assert.strictEqual(searchesView.className, "searchesView");
+	assert.strictEqual(searchesView, sideBar.childNodes[0]);
+
 	var recordTypesView = jsClientView.getRecordTypesView();
 	assert.strictEqual(recordTypesView.className, "recordTypesView");
-	assert.strictEqual(recordTypesView, mainView.childNodes[1]);
-
+	assert.strictEqual(recordTypesView, sideBar.childNodes[1]);
+ 
 	var workArea = jsClientView.getWorkView();
 	assert.strictEqual(workArea.className, "workArea");
 	assert.strictEqual(workArea, mainView.childNodes[2]);
@@ -70,7 +78,15 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(jsClientView.getSpec(), this.spec);
 });
 
-QUnit.test("testaddToRecordTypesView", function(assert) {
+QUnit.test("testAddToSearchesView", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	var aView = document.createElement("SPAN");
+	jsClientView.addToSearchesView(aView);
+	var searchesViewFirstChild = jsClientView.getSearchesView().childNodes[0];
+	assert.strictEqual(searchesViewFirstChild, aView);
+});
+
+QUnit.test("testAddToRecordTypesView", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 
 	var recordTypesView = jsClientView.getRecordTypesView();

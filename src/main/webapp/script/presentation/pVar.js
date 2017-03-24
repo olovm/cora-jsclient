@@ -43,6 +43,7 @@ var CORA = (function(cora) {
 		var defText = textProvider.getTranslation(defTextId);
 
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
+		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 
 		var pVarViewSpec = {
 			"mode" : mode,
@@ -53,7 +54,8 @@ var CORA = (function(cora) {
 				"text" : text,
 				"defText" : defText,
 				"technicalInfo" : [ "textId: " + textId, "defTextId: " + defTextId,
-						"metadataId: " + metadataId, "regEx: " + regEx ]
+						"metadataId: " + metadataId, "nameInData: " + nameInData,
+						"regEx: " + regEx, "presentationId: " + presentationId ]
 			},
 			"onblurFunction" : onBlur
 		};

@@ -22,6 +22,8 @@ var CORA = (function(cora) {
 		var out;
 		var mainView;
 		var header;
+		var sideBar;
+		var searchesView;
 		var recordTypesView;
 		var workArea;
 		var messageHolder;
@@ -38,8 +40,14 @@ var CORA = (function(cora) {
 			header.textContent = spec.name;
 			view.appendChild(header);
 
+			sideBar = CORA.gui.createSpanWithClassName("sideBar");
+			view.appendChild(sideBar);
+
+			searchesView = CORA.gui.createSpanWithClassName("searchesView");
+			sideBar.appendChild(searchesView);
+
 			recordTypesView = CORA.gui.createSpanWithClassName("recordTypesView");
-			view.appendChild(recordTypesView);
+			sideBar.appendChild(recordTypesView);
 
 			workArea = CORA.gui.createSpanWithClassName("workArea");
 			view.appendChild(workArea);
@@ -50,16 +58,16 @@ var CORA = (function(cora) {
 			return view;
 		}
 
+		function addToSearchesView(searchViewToAdd) {
+			searchesView.appendChild(searchViewToAdd);
+		}
+
 		function addToRecordTypesView(recordTypeView) {
 			recordTypesView.appendChild(recordTypeView);
 		}
 
 		function getView() {
 			return mainView;
-		}
-
-		function getRecordTypesView() {
-			return recordTypesView;
 		}
 
 		function clearRecordTypesView() {
@@ -90,6 +98,18 @@ var CORA = (function(cora) {
 			return header;
 		}
 
+		function getSideBar() {
+			return sideBar;
+		}
+
+		function getSearchesView() {
+			return searchesView;
+		}
+
+		function getRecordTypesView() {
+			return recordTypesView;
+		}
+
 		function addErrorMessage(errorText) {
 			var messageSpec = {
 				"message" : errorText,
@@ -101,14 +121,17 @@ var CORA = (function(cora) {
 		out = Object.freeze({
 			"type" : "jsClientView",
 			getView : getView,
+			addToSearchesView : addToSearchesView,
 			addToRecordTypesView : addToRecordTypesView,
-			getRecordTypesView : getRecordTypesView,
 			clearRecordTypesView : clearRecordTypesView,
 			getWorkView : getWorkView,
 			addToWorkView : addToWorkView,
 			addLoginManagerView : addLoginManagerView,
 			addGlobalView : addGlobalView,
 			getHeader : getHeader,
+			getSideBar : getSideBar,
+			getRecordTypesView : getRecordTypesView,
+			getSearchesView : getSearchesView,
 			getSpec : getSpec,
 			addErrorMessage : addErrorMessage
 		});
