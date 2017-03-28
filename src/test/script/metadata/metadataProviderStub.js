@@ -3303,12 +3303,6 @@ function MetadataProviderStub() {
                                 "children": [{
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -3322,7 +3316,13 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 },
-                                    {
+                                {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                }, {
                                         "name": "default",
                                         "value": "ref"
                                     }]
@@ -3353,13 +3353,7 @@ function MetadataProviderStub() {
                                 "repeatId": "1",
                                 "children": [{
                                     "name": "refGroup",
-                                    "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
+                                    "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -3373,7 +3367,13 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 },
-                                    {
+                                {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },{
                                         "name": "default",
                                         "value": "ref"
                                     }]
@@ -3915,12 +3915,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -3933,6 +3927,12 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -3965,12 +3965,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -3983,6 +3977,12 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -4014,12 +4014,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4032,6 +4026,12 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -4064,12 +4064,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4082,6 +4076,12 @@ function MetadataProviderStub() {
                                             "type": "pCollVar"
                                         }
                                     }]
+                                }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -4120,14 +4120,6 @@ function MetadataProviderStub() {
                                                 "name": "refGroup",
                                                 "children": [
                                                     {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
-                                                    {
                                                         "name": "ref",
                                                         "children": [
                                                             {
@@ -4154,15 +4146,7 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "refGroup",
                                                 "children": [
-                                                    {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
-                                                    {
+                                                     {
                                                         "name": "ref",
                                                         "children": [
                                                             {
@@ -4177,7 +4161,15 @@ function MetadataProviderStub() {
                                                             "type": "pCollVar"
                                                         }
                                                     }]
-                                            }, {
+                                            },{
+                                                "name": "textStyle",
+                                                "value": "h2TextStyle"
+                                            },
+                                            {
+                                                "name": "childStyle",
+                                                "value": "fourChildStyle"
+                                            },
+                                             {
                                                 "name": "default",
                                                 "value": "ref"
                                             }]
@@ -4207,13 +4199,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
-                                    "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
+                                    "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4227,6 +4213,12 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },{
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -4236,13 +4228,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
-                                    "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
+                                    "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4256,6 +4242,12 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },{
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -4287,12 +4279,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4305,7 +4291,13 @@ function MetadataProviderStub() {
                                             "type": "text"
                                         }
                                     }]
+                                },{
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
                                 }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },  {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -4316,12 +4308,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4334,7 +4320,13 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                },{
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
                                 }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },  {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -4345,12 +4337,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4363,6 +4349,12 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -4395,12 +4387,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h1TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "oneChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4417,12 +4403,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refMinGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4435,6 +4415,12 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                }, {
+                                    "name": "textStyle",
+                                    "value": "h1TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "oneChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -4467,12 +4453,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h5TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "twoChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4488,12 +4468,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "refMinGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h6TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "tenChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4508,6 +4482,12 @@ function MetadataProviderStub() {
                                     }]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h5TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "twoChildStyle"
+                                }, {
                                     "name": "default",
                                     "value": "refMinimized"
                                 }]
@@ -4688,12 +4668,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4707,6 +4681,12 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                }, {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -4716,13 +4696,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
-                                    "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
+                                    "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4736,6 +4710,12 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },{
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -4767,13 +4747,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
-                                    "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
+                                    "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4786,6 +4760,12 @@ function MetadataProviderStub() {
                                             "type": "text"
                                         }
                                     }]
+                                },{
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -4796,13 +4776,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
-                                    "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
+                                    "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4816,6 +4790,12 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },{
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -4846,13 +4826,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
-                                    "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
+                                    "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4866,6 +4840,12 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },{
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -4876,12 +4856,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4894,7 +4868,13 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                },{
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
                                 }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },  {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -4925,12 +4905,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4943,7 +4917,13 @@ function MetadataProviderStub() {
                                             "type": "text"
                                         }
                                     }]
+                                },{
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
                                 }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },  {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -4954,12 +4934,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -4972,6 +4946,12 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -5004,12 +4984,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -5022,7 +4996,13 @@ function MetadataProviderStub() {
                                             "type": "text"
                                         }
                                     }]
+                                },{
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
                                 }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },  {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -5033,12 +5013,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -5051,6 +5025,12 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -5082,12 +5062,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -5101,6 +5075,12 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                }, {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -5111,12 +5091,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -5129,6 +5103,12 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -5160,13 +5140,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
-                                    "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
+                                    "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -5180,6 +5154,12 @@ function MetadataProviderStub() {
                                         }
                                     }]
                                 }, {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },{
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -5190,12 +5170,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -5208,7 +5182,13 @@ function MetadataProviderStub() {
                                             "type": "pVar"
                                         }
                                     }]
+                                },{
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
                                 }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },  {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -5238,13 +5218,7 @@ function MetadataProviderStub() {
             			"children": [
             				{
             					"name": "refGroup",
-            					"children": [{
-            						"name": "textStyle",
-            						"value": "h2TextStyle"
-            					}, {
-            						"name": "childStyle",
-            						"value": "fourChildStyle"
-            					}, {
+            					"children": [ {
             						"name": "ref",
             						"children": [{
             							"name": "linkedRecordType",
@@ -5258,6 +5232,12 @@ function MetadataProviderStub() {
             						}
             					}]
             				}, {
+        						"name": "textStyle",
+        						"value": "h2TextStyle"
+        					}, {
+        						"name": "childStyle",
+        						"value": "fourChildStyle"
+        					},{
             					"name": "default",
             					"value": "ref"
             				}]
@@ -5267,13 +5247,7 @@ function MetadataProviderStub() {
             			"children": [
             				{
             					"name": "refGroup",
-            					"children": [{
-            						"name": "textStyle",
-            						"value": "h2TextStyle"
-            					}, {
-            						"name": "childStyle",
-            						"value": "fourChildStyle"
-            					}, {
+            					"children": [ {
             						"name": "ref",
             						"children": [{
             							"name": "linkedRecordType",
@@ -5290,12 +5264,6 @@ function MetadataProviderStub() {
                             {
                                 "name": "refMinGroup",
                                 "children": [{
-                                    "name": "textStyle",
-                                    "value": "h2TextStyleMIN"
-                                }, {
-                                    "name": "childStyle",
-                                    "value": "fourChildStyleMIN"
-                                }, {
                                     "name": "ref",
                                     "children": [{
                                         "name": "linkedRecordType",
@@ -5309,6 +5277,12 @@ function MetadataProviderStub() {
                                     }
                                 }]
                             }, {
+        						"name": "textStyle",
+        						"value": "h2TextStyle"
+        					}, {
+        						"name": "childStyle",
+        						"value": "fourChildStyle"
+        					},{
                                 "name": "default",
                                 "value": "ref"
                             }]
@@ -5339,13 +5313,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
-                                    "children": [{
-                                        "name": "textStyle",
-                                        "value": "h2TextStyle"
-                                    }, {
-                                        "name": "childStyle",
-                                        "value": "fourChildStyle"
-                                    }, {
+                                    "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
@@ -5358,6 +5326,12 @@ function MetadataProviderStub() {
                                             "type": "text"
                                         }
                                     }]
+                                },{
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                }, {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 }, {
                                     "name": "default",
                                     "value": "ref"
@@ -5397,14 +5371,6 @@ function MetadataProviderStub() {
                                                 "name": "refGroup",
                                                 "children": [
                                                     {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
-                                                    {
                                                         "name": "ref",
                                                         "children": [
                                                             {
@@ -5419,7 +5385,15 @@ function MetadataProviderStub() {
                                                             "type": "text"
                                                         }
                                                     }]
-                                            }, {
+                                            },  {
+                                                "name": "textStyle",
+                                                "value": "h2TextStyle"
+                                            },
+                                            {
+                                                "name": "childStyle",
+                                                "value": "fourChildStyle"
+                                            },
+                                           {
                                                 "name": "default",
                                                 "value": "ref"
                                             }]
@@ -5431,14 +5405,6 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "refGroup",
                                                 "children": [
-                                                    {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
                                                     {
                                                         "name": "ref",
                                                         "children": [
@@ -5459,14 +5425,6 @@ function MetadataProviderStub() {
                                                 "name": "refMinGroup",
                                                 "children": [
                                                     {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
-                                                    {
                                                         "name": "ref",
                                                         "children": [
                                                             {
@@ -5483,6 +5441,14 @@ function MetadataProviderStub() {
                                                     }]
                                             },
                                             {
+                                                "name": "textStyle",
+                                                "value": "h2TextStyle"
+                                            },
+                                            {
+                                                "name": "childStyle",
+                                                "value": "fourChildStyle"
+                                            },
+                                             {
                                                 "name": "default",
                                                 "value": "refMinimized"
                                             }]
@@ -5494,15 +5460,7 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "refGroup",
                                                 "children": [
-                                                    {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
-                                                    {
+                                                   {
                                                         "name": "ref",
                                                         "children": [
                                                             {
@@ -5523,15 +5481,7 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "refMinGroup",
                                                 "children": [
-                                                    {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
-                                                    {
+                                                     {
                                                         "name": "ref",
                                                         "children": [
                                                             {
@@ -5550,6 +5500,14 @@ function MetadataProviderStub() {
                                                 ]
                                             },
                                             {
+                                                "name": "textStyle",
+                                                "value": "h2TextStyle"
+                                            },
+                                            {
+                                                "name": "childStyle",
+                                                "value": "fourChildStyle"
+                                            },
+                                           {
                                                 "name": "default",
                                                 "value": "ref"
                                             }]
@@ -5587,14 +5545,6 @@ function MetadataProviderStub() {
                                                 "name": "refGroup",
                                                 "children": [
                                                     {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
-                                                    {
                                                         "name": "ref",
                                                         "children": [
                                                             {
@@ -5613,6 +5563,14 @@ function MetadataProviderStub() {
                                                 ]
                                             },
                                             {
+                                                "name": "textStyle",
+                                                "value": "h2TextStyle"
+                                            },
+                                            {
+                                                "name": "childStyle",
+                                                "value": "fourChildStyle"
+                                            },
+                                           {
                                                 "name": "default",
                                                 "value": "ref"
                                             }]
@@ -5624,15 +5582,7 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "refGroup",
                                                 "children": [
-                                                    {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
-                                                    {
+                                                   {
                                                         "name": "ref",
                                                         "children": [
                                                             {
@@ -5654,14 +5604,6 @@ function MetadataProviderStub() {
                                                 "name": "refMinGroup",
                                                 "children": [
                                                     {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
-                                                    {
                                                         "name": "ref",
                                                         "children": [
                                                             {
@@ -5680,6 +5622,14 @@ function MetadataProviderStub() {
                                                 ]
                                             },
                                             {
+                                                "name": "textStyle",
+                                                "value": "h2TextStyle"
+                                            },
+                                            {
+                                                "name": "childStyle",
+                                                "value": "fourChildStyle"
+                                            },
+                                             {
                                                 "name": "default",
                                                 "value": "refMinimized"
                                             }]
@@ -5712,14 +5662,6 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [
                                         {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -5738,6 +5680,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -5748,14 +5698,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
                                         {
                                             "name": "ref",
                                             "children": [
@@ -5775,6 +5717,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -5843,14 +5793,6 @@ function MetadataProviderStub() {
             					"name": "refGroup",
             					"children": [
             						{
-            							"name": "textStyle",
-            							"value": "h2TextStyle"
-            						},
-            						{
-            							"name": "childStyle",
-            							"value": "fourChildStyle"
-            						},
-            						{
             							"name": "ref",
             							"children": [
             								{
@@ -5869,6 +5811,14 @@ function MetadataProviderStub() {
             						]
             				},
             				{
+    							"name": "textStyle",
+    							"value": "h2TextStyle"
+    						},
+    						{
+    							"name": "childStyle",
+    							"value": "fourChildStyle"
+    						},
+    							{
             					"name": "default",
             					"value": "ref"
             				}]
@@ -5900,15 +5850,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -5927,6 +5869,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                   {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -5937,14 +5887,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
                                         {
                                             "name": "ref",
                                             "children": [
@@ -5964,6 +5906,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -5974,14 +5924,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
                                         {
                                             "name": "ref",
                                             "children": [
@@ -6001,6 +5943,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6033,14 +5983,6 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [
                                         {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6059,6 +6001,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6069,15 +6019,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6096,6 +6038,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6106,14 +6056,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
                                         {
                                             "name": "ref",
                                             "children": [
@@ -6133,6 +6075,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6165,14 +6115,6 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [
                                         {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6191,6 +6133,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6201,15 +6151,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6228,6 +6170,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6238,14 +6188,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
                                         {
                                             "name": "ref",
                                             "children": [
@@ -6263,6 +6205,14 @@ function MetadataProviderStub() {
                                             }
                                         }
                                     ]
+                                },
+                                {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 },
                                 {
                                     "name": "default",
@@ -6299,14 +6249,6 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [
                                         {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6325,6 +6267,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                  {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6335,14 +6285,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
                                         {
                                             "name": "ref",
                                             "children": [
@@ -6365,14 +6307,6 @@ function MetadataProviderStub() {
                                     "name": "refMinGroup",
                                     "children": [
                                         {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6389,6 +6323,14 @@ function MetadataProviderStub() {
                                             }
                                         }
                                     ]
+                                },
+                                {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 },
                                 {
                                     "name": "default",
@@ -6401,15 +6343,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                          {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6428,6 +6362,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6460,14 +6402,6 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [
                                         {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6486,6 +6420,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6496,14 +6438,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
                                         {
                                             "name": "ref",
                                             "children": [
@@ -6524,6 +6458,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6567,14 +6509,6 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [
                                         {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6593,6 +6527,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6603,15 +6545,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6630,6 +6564,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                  {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6640,15 +6582,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6667,6 +6601,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                               {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6701,15 +6643,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6727,6 +6661,14 @@ function MetadataProviderStub() {
                                             }
                                         }
                                     ]
+                                },
+                                {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 },
                                 {
                                     "name": "default",
@@ -6769,15 +6711,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6796,6 +6730,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                              {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6806,15 +6748,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6832,6 +6766,14 @@ function MetadataProviderStub() {
                                             }
                                         }
                                     ]
+                                },
+                                {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 },
                                 {
                                     "name": "default",
@@ -6865,15 +6807,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6893,6 +6827,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                               {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6930,15 +6872,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -6957,6 +6891,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -6967,14 +6909,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
                                         {
                                             "name": "ref",
                                             "children": [
@@ -6994,6 +6928,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -7004,15 +6946,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7033,15 +6967,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refMinGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7058,6 +6984,14 @@ function MetadataProviderStub() {
                                             }
                                         }
                                     ]
+                                },
+                                {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 },
                                 {
                                     "name": "default",
@@ -7497,15 +7431,7 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "refGroup",
                                                 "children": [
-                                                    {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
-                                                    {
+                                                      {
                                                         "name": "ref",
                                                         "children": [
                                                             {
@@ -7524,6 +7450,14 @@ function MetadataProviderStub() {
                                                 ]
                                             },
                                             {
+                                                "name": "textStyle",
+                                                "value": "h2TextStyle"
+                                            },
+                                            {
+                                                "name": "childStyle",
+                                                "value": "fourChildStyle"
+                                            },
+                                           {
                                                 "name": "default",
                                                 "value": "ref"
                                             }]
@@ -7535,14 +7469,6 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "refGroup",
                                                 "children": [
-                                                    {
-                                                        "name": "textStyle",
-                                                        "value": "h2TextStyle"
-                                                    },
-                                                    {
-                                                        "name": "childStyle",
-                                                        "value": "fourChildStyle"
-                                                    },
                                                     {
                                                         "name": "ref",
                                                         "children": [
@@ -7562,6 +7488,14 @@ function MetadataProviderStub() {
                                                 ]
                                             },
                                             {
+                                                "name": "textStyle",
+                                                "value": "h2TextStyle"
+                                            },
+                                            {
+                                                "name": "childStyle",
+                                                "value": "fourChildStyle"
+                                            },
+                                           {
                                                 "name": "default",
                                                 "value": "ref"
                                             }]
@@ -7593,14 +7527,6 @@ function MetadataProviderStub() {
                                     "name": "refGroup",
                                     "children": [
                                         {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7619,6 +7545,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }]
@@ -7664,15 +7598,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7691,6 +7617,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -7701,15 +7635,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                          {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7728,6 +7654,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                             {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -7738,15 +7672,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                          {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7765,6 +7691,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                               {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -7775,15 +7709,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7802,6 +7728,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -7812,15 +7746,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7839,6 +7765,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -7849,15 +7783,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7876,6 +7802,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -7886,15 +7820,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7913,6 +7839,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                               {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -7923,15 +7857,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7950,6 +7876,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -7960,15 +7894,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -7987,6 +7913,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                  {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -7997,14 +7931,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
                                         {
                                             "name": "ref",
                                             "children": [
@@ -8024,6 +7950,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -8034,15 +7968,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                      {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -8061,6 +7987,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                                 {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -8071,15 +8005,7 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
-                                        {
+                                          {
                                             "name": "ref",
                                             "children": [
                                                 {
@@ -8098,6 +8024,14 @@ function MetadataProviderStub() {
                                     ]
                                 },
                                 {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
+                                },
+                             {
                                     "name": "default",
                                     "value": "ref"
                                 }],
@@ -8108,14 +8042,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "refGroup",
                                     "children": [
-                                        {
-                                            "name": "textStyle",
-                                            "value": "h2TextStyle"
-                                        },
-                                        {
-                                            "name": "childStyle",
-                                            "value": "fourChildStyle"
-                                        },
                                         {
                                             "name": "ref",
                                             "children": [
@@ -8133,6 +8059,14 @@ function MetadataProviderStub() {
                                             }
                                         }
                                     ]
+                                },
+                                {
+                                    "name": "textStyle",
+                                    "value": "h2TextStyle"
+                                },
+                                {
+                                    "name": "childStyle",
+                                    "value": "fourChildStyle"
                                 },
                                 {
                                     "name": "default",
