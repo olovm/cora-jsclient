@@ -275,11 +275,28 @@ img {
 
  .infoView {
 	flex: 0 0 100%;
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
 }
 
 .infoView span {
 	display: block;
 	font-size: 0.7rem;
+}
+
+.infoView::before {
+	display: inline;
+	content: "";
+	width: 12rem;
+	height: 12rem;
+	background: url("../images/icons2.svg") no-repeat scroll -50rem 0rem / 1456% auto rgba(255, 255, 0, 0);
+	z-index: -1;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	opacity: 0.1;
+	/* transform: scale(1); */
 }
 
 .jsClient .menuView .pVar .infoButton, .menuView .pVar:hover > .infoButton::before,
