@@ -33,8 +33,17 @@ var CORA = (function(cora) {
 		parent.init();
 
 		function createBaseViewHolder() {
+			var presentationStyle = getPresentationStyle();
 			var presentationId = parent.getPresentationId();
-			return CORA.gui.createDivWithClassName("pGroup " + presentationId);
+			return CORA.gui.createDivWithClassName("pGroup " + presentationStyle + presentationId);
+		}
+
+		function getPresentationStyle() {
+			var style = "";
+			if (cPresentation.containsChildWithNameInData("presentationStyle")) {
+				style = cPresentation.getFirstAtomicValueByNameInData("presentationStyle") + " ";
+			}
+			return style;
 		}
 
 		function getSpec() {
