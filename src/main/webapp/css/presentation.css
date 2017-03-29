@@ -275,11 +275,28 @@ img {
 
  .infoView {
 	flex: 0 0 100%;
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
 }
 
 .infoView span {
 	display: block;
 	font-size: 0.7rem;
+}
+
+.infoView::before {
+	display: inline;
+	content: "";
+	width: 12rem;
+	height: 12rem;
+	background: url("../images/icons2.svg") no-repeat scroll -50rem 0rem / 1456% auto rgba(255, 255, 0, 0);
+	z-index: -1;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	opacity: 0.1;
+	/* transform: scale(1); */
 }
 
 .jsClient .menuView .pVar .infoButton, .menuView .pVar:hover > .infoButton::before,
@@ -331,8 +348,40 @@ textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::bef
 	flex: 1 1 100%;
 	background-color: lightgreen;
 }
+.workView .pChildRefHandler.nineChildStyle {
+	flex: 1 1 90%;
+	background-color: lightyellow;
+}
+.workView .pChildRefHandler.eightChildStyle {
+	flex: 1 1 80%;
+	background-color: lightyellow;
+}
+.workView .pChildRefHandler.sevenChildStyle {
+	flex: 1 1 70%;
+	background-color: lightyellow;
+}
+.workView .pChildRefHandler.sixChildStyle {
+	flex: 1 1 60%;
+	background-color: lightyellow;
+}
+.workView .pChildRefHandler.fiveChildStyle {
+	flex: 1 1 50%;
+	background-color: lightyellow;
+}
+.workView .pChildRefHandler.fourChildStyle {
+	flex: 1 1 40%;
+	background-color: lightyellow;
+}
+.workView .pChildRefHandler.threeChildStyle {
+	flex: 1 1 30%;
+	background-color: lightyellow;
+}
 .workView .pChildRefHandler.twoChildStyle {
 	flex: 1 1 20%;
+	background-color: lightyellow;
+}
+.workView .pChildRefHandler.zeroChildStyle {
+	flex: 1;
 	background-color: lightyellow;
 }
 .minimized .buttonView {
@@ -345,6 +394,27 @@ textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::bef
 }
 .presentation .text.h1TextStyle {
 	font-size: 2rem;
+}
+.presentation .text.h2TextStyle {
+	font-size: 1.5rem;
+}
+.presentation .text.h3TextStyle {
+	font-size: 1rem;
+}
+.presentation .text.h4TextStyle {
+	font-size: 0.8rem;
+}
+.presentation .text.h5TextStyle {
+	font-size: 0.7rem;
+}
+.presentation .text.h6TextStyle {
+	font-size: 0.6rem;
+}
+.presentation .text.italicTextStyle {
+	font-style: italic;
+}
+.presentation .text.bodyTextStyle {
+/* 	font-size: 2rem; */
 }
 .pRecordLink .text {
 	display: block;
@@ -370,4 +440,21 @@ textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::bef
 	border-bottom: none;
 	padding-top: 0;
 	margin-top: 0;
+}
+.jsClient .workView .recordViewer {
+	flex: 1 0 calc(100% - 2px);
+	border: 1px dotted green;
+}
+
+.jsClient .workView .repeatingElement .compactChildStyle {
+	display: unset;
+}
+.jsClient .workView .repeatingElement .compactChildStyle .pGroup {
+	display: unset;
+}
+.jsClient .workView .repeatingElement .compactChildStyle span {
+	display: inline;
+}
+.jsClient .workView .repeatingElement .compactChildStyle .buttonView {
+	display: none;
 }
