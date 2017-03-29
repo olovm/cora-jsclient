@@ -461,7 +461,7 @@ body {
 
 .jsClient .showView .pGroup>.pChildRefHandler+.pChildRefHandler {
 	/* 	margin-top: .3rem; */
-	flex: 1;
+/* 	flex: 1; */
 }
 
 .jsClient .text {

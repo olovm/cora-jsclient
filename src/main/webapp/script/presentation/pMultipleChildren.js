@@ -161,6 +161,11 @@ var CORA = (function(cora) {
 				"cPresentation" : cPresentationChild,
 				"cParentPresentation" : my.cParentPresentation
 			};
+			if (cPresentationChildRef.containsChildWithNameInData("minNumberOfRepeatingToShow")) {
+
+				childRefHandlerSpec.minNumberOfRepeatingToShow = cPresentationChildRef
+						.getFirstAtomicValueByNameInData("minNumberOfRepeatingToShow");
+			}
 			var cRefGroup;
 			if (cPresentationChildRef.containsChildWithNameInData("refGroup")) {
 				cRefGroup = CORA.coraData(cPresentationChildRef

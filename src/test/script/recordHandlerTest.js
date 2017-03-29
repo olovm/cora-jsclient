@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -145,8 +145,8 @@ QUnit.module("recordHandlerTest.js", {
 				"record" : this.recordWithoutUpdateOrDeleteLink
 			});
 			var answer = {
-					"spec" : ajaxCallSpy0.getSpec(),
-					"responseText" : jsonRecord
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
 		}
@@ -156,8 +156,8 @@ QUnit.module("recordHandlerTest.js", {
 				"record" : this.recordWithoutDeleteLink
 			});
 			var answer = {
-					"spec" : ajaxCallSpy0.getSpec(),
-					"responseText" : jsonRecord
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
 		}
@@ -362,12 +362,37 @@ QUnit.test("testHandleMessage", function(assert) {
 	assert.strictEqual(recordHandler.getDataIsChanged(), true);
 	assert.strictEqual(this.menuView.className, "someClass changed active");
 });
+QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
+	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+
+	var data = {
+		"data" : "A new value",
+		"path" : {}
+	};
+	recordHandler.handleMsg(data, "setValue");
+	assert.strictEqual(recordHandler.getDataIsChanged(), false);
+
+	var data1 = {
+		"data" : "",
+		"path" : {}
+	};
+	recordHandler.handleMsg(data1, "initComplete");
+	assert.strictEqual(recordHandler.getDataIsChanged(), false);
+	assert.strictEqual(this.menuView.className, "someClass active");
+
+	recordHandler.handleMsg(data, "add");
+	assert.strictEqual(recordHandler.getDataIsChanged(), false);
+	assert.strictEqual(this.menuView.className, "someClass active");
+
+	recordHandler.handleMsg(data, "setValue");
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(this.menuView.className, "someClass changed active");
+});
 
 QUnit.test("testUpdateCall", function(assert) {
 	this.recordHandlerSpec.presentationMode = "edit";
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
 	this.answerCall(0);
-
 
 	var validateWasCalled = false;
 	this.recordGui.validateData = function() {
@@ -538,7 +563,7 @@ QUnit.test("testDeleteCall", function(assert) {
 	assert.strictEqual(question.className, "question");
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
 	assert.strictEqual(ajaxCallSpy, undefined, "no delete call should have been made yet");
-	
+
 	var buttonNo = question.firstChild.childNodes[1];
 	assert.strictEqual(buttonNo.value, "Nej");
 	buttonNo.onclick();
@@ -567,7 +592,6 @@ QUnit.test("testDeleteCall", function(assert) {
 	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.afterDelete);
 	this.answerCall(1);
 
-	
 	assert.ok(recordHandlerViewSpy.getClearViewsWasCalled());
 
 	var menuView = this.menuView;
@@ -665,8 +689,7 @@ QUnit.test("testCreateNewCall", function(assert) {
 
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
 	var ajaxCallSpec = ajaxCallSpy.getSpec();
-	assert.strictEqual(ajaxCallSpec.url,
-			"http://epc.ub.uu.se/cora/rest/record/recordType/");
+	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/recordType/");
 	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
 	assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
 	assert.strictEqual(ajaxCallSpec.contentType, "application/uub+record+json");
@@ -708,7 +731,7 @@ QUnit.test("fetchListCheckError", function(assert) {
 	ajaxCallSpy.getSpec().errorMethod({
 		"status" : 404
 	});
-	
+
 	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
 });
 

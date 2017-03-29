@@ -4573,6 +4573,69 @@ function MetadataProviderStub() {
             		}]
             	}])
             };
+            case "pgGroupIdOneTextChildMinimizedDefaultNoStyleInfoMinNumberOfRepeatingToShow":
+            	return {
+            	"name": "presentation",
+            	"attributes": {
+            		"type": "pGroup"
+            	},
+            	"children": [createRecordInfoJson(idToGet)].concat([{
+            		"children": [{
+            			"name": "linkedRecordType",
+            			"value": "metadataGroup"
+            		}, {
+            			"name": "linkedRecordId",
+            			"value": "groupIdOneTextChild"
+            		}],
+            		"name": "presentationOf"
+            	}, {
+            		"name": "childReferences",
+            		"children": [{
+            			"name": "childReference",
+            			"repeatId": "1",
+            			"children": [
+            				{
+            					"name": "refGroup",
+            					"children": [{
+            						"name": "ref",
+            						"children": [{
+            							"name": "linkedRecordType",
+            							"value": "presentationVar"
+            						}, {
+            							"name": "linkedRecordId",
+            							"value": "pVarTextVariableId"
+            						}],
+            						"attributes": {
+            							"type": "pVar"
+            						}
+            					}]
+            				}, {
+            					"name": "refMinGroup",
+            					"children": [ {
+            						"name": "ref",
+            						"children": [{
+            							"name": "linkedRecordType",
+            							"value": "presentationVar"
+            						}, {
+            							"name": "linkedRecordId",
+            							"value": "pVarTextVariableIdOutput"
+            						}],
+            						"attributes": {
+            							"type": "pVar"
+            						}
+            					}]
+            				},
+            				{
+            					"name": "default",
+            					"value": "refMinimized"
+            				},
+            	            {
+            		              "name": "minNumberOfRepeatingToShow",
+            		              "value": "1"
+            		            }]
+            		}]
+            	}])
+            };
 
             case "pVarTextVariableId2":
                 return {
