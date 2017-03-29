@@ -65,14 +65,47 @@ var CORA = (function(cora) {
 			dependencies.recordListHandlerFactory.factor(listHandlerSpec);
 		}
 
+//		function createManagedGuiItem(text) {
+//			var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
+//			managedGuiItem.menuView.textContent = text;
+//			recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
+//			dependencies.jsClient.showView(managedGuiItem);
+//			return managedGuiItem;
+//		}
 		function createManagedGuiItem(text) {
-			var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
-			managedGuiItem.menuView.textContent = text;
+			var menuPresentation = CORA.gui.createSpanWithClassName("menuView");
+			menuPresentation.textContent = text;
+			var managedGuiItem;
+			var managedGuiItemSpec = {
+				"handledBy" : function() {
+				},
+				"menuPresentation" : menuPresentation,
+				"workPresentation" : CORA.gui.createSpanWithClassName("workPresentation"),
+				"activateMethod" : function() {
+					dependencies.jsClient.showView(managedGuiItem);
+				},
+				"removeMenuMethod" : function() {
+					removeViewsFromParentNodes(managedGuiItem);
+				},
+				"removeWorkMethod" : function() {
+				}
+			};
+			managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 			recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
 			dependencies.jsClient.showView(managedGuiItem);
 			return managedGuiItem;
 		}
+		function removeViewsFromParentNodes(managedGuiItem) {
+			// if (menuView.parentNode !== null) {
+			// menuView.parentNode.removeChild(menuView);
+			// }
+			searchRecordHandlerView.removeManagedGuiItem(managedGuiItem);
 
+			// if (workView.parentNode !== null) {
+			// workView.parentNode.removeChild(workView);
+			// }
+			dependencies.jsClient.hideAndRemoveView(managedGuiItem);
+		}
 		function createRecordHandler(presentationMode, record) {
 			var text = "New";
 			if ("new" !== presentationMode) {

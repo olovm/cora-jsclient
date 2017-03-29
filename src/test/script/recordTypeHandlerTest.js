@@ -364,6 +364,8 @@ QUnit
 									.recordTypeHandlerViewFactorySpy(),
 							"recordListHandlerFactory" : CORATEST.recordListHandlerFactorySpy(),
 							"recordHandlerFactory" : CORATEST.recordHandlerFactorySpy(),
+							"managedGuiItemFactory" : CORATEST
+									.standardFactorySpy("managedGuiItemSpy"),
 							"jsClient" : CORATEST.jsClientSpy()
 						};
 
@@ -404,12 +406,12 @@ QUnit.test("fetchList", function(assert) {
 
 	recordTypeHandler.createRecordTypeList();
 	var factoredListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	assert.strictEqual(factoredListHandlerSpec.createRecordHandlerMethod, 
+	assert.strictEqual(factoredListHandlerSpec.createRecordHandlerMethod,
 			recordTypeHandler.createRecordHandler);
-	
+
 	assert.strictEqual(factoredListHandlerSpec.recordTypeRecord, this.record);
-	assert.strictEqual(factoredListHandlerSpec.views, 
-			this.dependencies.jsClient.getCreatedManagedGuiItem(0));
+	assert.strictEqual(factoredListHandlerSpec.views, this.dependencies.managedGuiItemFactory
+			.getFactored(0));
 	assert.strictEqual(factoredListHandlerSpec.baseUrl, this.spec.baseUrl);
 });
 
@@ -423,9 +425,6 @@ QUnit.test("showRecord", function(assert) {
 		"workView" : workView,
 		"menuView" : menuView
 	};
-	var createManagedGuiItem = function() {
-		return item;
-	}
 	this.dependencies.recordTypeHandlerViewFactory = CORATEST.recordTypeHandlerViewFactorySpy();
 	this.dependencies.recordListHandlerFactory = {
 		"factor" : function(spec) {
@@ -448,6 +447,8 @@ QUnit.test("showRecord", function(assert) {
 	assert.strictEqual(catchRecordHandlerSpec.record, this.record);
 	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
+	assert.strictEqual(catchRecordHandlerSpec.views, this.dependencies.managedGuiItemFactory
+			.getFactored(1));
 });
 
 QUnit.test("showNew", function(assert) {
@@ -460,10 +461,6 @@ QUnit.test("showNew", function(assert) {
 		"workView" : workView,
 		"menuView" : menuView
 	};
-	var createManagedGuiItem = function() {
-		return item;
-	}
-
 	this.dependencies.recordTypeHandlerViewFactory = CORATEST.recordTypeHandlerViewFactorySpy();
 	this.dependencies.recordListHandlerFactory = {
 		"factor" : function(spec) {
@@ -487,6 +484,8 @@ QUnit.test("showNew", function(assert) {
 	assert.strictEqual(catchRecordHandlerSpec.record, undefined);
 	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
+	assert.strictEqual(catchRecordHandlerSpec.views, this.dependencies.managedGuiItemFactory
+			.getFactored(1));
 });
 
 QUnit.test("testFactory", function(assert) {
@@ -515,7 +514,7 @@ QUnit.test("testFactory", function(assert) {
 			}
 		};
 	}
-	
+
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 
 	var workItemViewFactory = {

@@ -178,7 +178,8 @@ var CORA = (function(cora) {
 				"recordHandlerFactory" : createRecordHandlerFactory(),
 				"recordGuiFactory" : recordGuiFactory,
 				"jsClient" : out,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 			};
 			var specRecord = {
 				"recordTypeRecord" : record,
@@ -254,7 +255,7 @@ var CORA = (function(cora) {
 
 		function updateShowingManagedGuiItem(managedGuiItem) {
 //			managedGuiItem.isActive = true;
-//			managedGuiItem.originalClassName = managedGuiItem.menuView.className;
+			managedGuiItem.originalClassName = managedGuiItem.menuView.className;
 			managedGuiItem.menuView.className = managedGuiItem.menuView.className + " active";
 		}
 

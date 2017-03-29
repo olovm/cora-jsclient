@@ -185,10 +185,6 @@ QUnit.test("factor", function(assert) {
 	var managedGuiItemFactory = searchRecordHandlerDependencies.managedGuiItemFactory;
 	assert.strictEqual(managedGuiItemFactory.type, "managedGuiItemFactory");
 
-	var managedGuiItemFactoryDependencies = managedGuiItemFactory.getDependencies();
-	var managedGuiItemViewFactory = managedGuiItemFactoryDependencies.managedGuiItemViewFactory;
-	assert.strictEqual(managedGuiItemViewFactory.type, "managedGuiItemViewFactory");
-
 	var searchRecordHandlerSpec = searchRecordHandler.getSpec();
 	assert.strictEqual(searchRecordHandlerSpec, this.spec);
 });

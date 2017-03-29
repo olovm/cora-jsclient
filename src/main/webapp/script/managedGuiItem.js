@@ -25,12 +25,16 @@ var CORA = (function(cora) {
 			"removeWorkMethod" : spec.removeWorkMethod
 		};
 		var managedGuiItemView = dependencies.managedGuiItemViewFactory.factor(viewSpec);
-		managedGuiItemView.addMenuPresentation(spec.menuPresentation);
-		managedGuiItemView.addWorkPresentation(spec.workPresentation);
-		
+		if (spec.menuPresentation !== undefined) {
+			managedGuiItemView.addMenuPresentation(spec.menuPresentation);
+		}
+		if (spec.workPresentation !== undefined) {
+			managedGuiItemView.addWorkPresentation(spec.workPresentation);
+		}
+
 		var menuView = getMenuView();
 		var workView = getWorkView();
-		
+
 		function getMenuView() {
 			return managedGuiItemView.getMenuView();
 		}
@@ -68,10 +72,10 @@ var CORA = (function(cora) {
 			handleBy : handleBy,
 			addMenuPresentation : addMenuPresentation,
 			addWorkPresentation : addWorkPresentation,
-			//TEMP HACK should be replaced with getMenuView
+			// TEMP HACK should be replaced with getMenuView
 			menuView : menuView,
 			workView : workView,
-			
+
 		});
 
 		return out;

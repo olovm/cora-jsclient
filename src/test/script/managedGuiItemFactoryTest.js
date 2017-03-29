@@ -20,27 +20,8 @@
 
 QUnit.module("managedGuiItemFactoryTest.js", {
 	beforeEach : function() {
-		this.metadataProvider = new MetadataProviderStub();
-		this.dependencies = {
-				"metadataProvider" : this.metadataProvider,
-				"pubSub" : CORATEST.pubSubSpy(),
-				"textProvider" : CORATEST.textProviderStub(),
-				"presentationFactory" : CORATEST.presentationFactorySpy(),
-				"jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
-				"recordTypeProvider" :  CORATEST.recordTypeProviderStub(),
-				"uploadManager" : CORATEST.uploadManagerSpy(),
-				"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-				"pRepeatingElementFactory" : CORATEST.pRepeatingElementFactorySpy(),
-				"managedGuiItemViewFactory": CORATEST.standardFactorySpy("managedGuiItemViewSpy")
-		};
-		this.spec = {
-			"parentPath" : {},
-			"cParentMetadata" : CORA.coraData(this.metadataProvider.getMetadataById("groupIdOneTextChild")),
-			"cPresentation" : CORA.coraData(this.metadataProvider.getMetadataById("pVarTextVariableId")),
-			"cPresentationMinimized" : CORA.coraData(this.metadataProvider
-					.getMetadataById("pVarTextVariableIdOutput"))
-		};
-		this.managedGuiItemFactory = CORA.managedGuiItemFactory(this.dependencies);
+		this.spec = {};
+		this.managedGuiItemFactory = CORA.managedGuiItemFactory();
 	},
 	afterEach : function() {
 	}
@@ -51,14 +32,11 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(this.managedGuiItemFactory.type, "managedGuiItemFactory");
 });
 
-QUnit.test("getDependencies", function(assert) {
-	assert.strictEqual(this.managedGuiItemFactory.getDependencies(), this.dependencies);
-});
-
 QUnit.test("factorTestDependencies", function(assert) {
 	var managedGuiItem = this.managedGuiItemFactory.factor(this.spec);
 	assert.ok(managedGuiItem);
-	assert.strictEqual(managedGuiItem.getDependencies(), this.dependencies);
+	assert.strictEqual(managedGuiItem.getDependencies().managedGuiItemViewFactory.type,
+			"managedGuiItemViewFactory");
 });
 
 QUnit.test("factorTestSpec", function(assert) {

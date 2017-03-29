@@ -48,6 +48,17 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(managedGuiItem.type, "managedGuiItem");
 });
 
+QUnit.test("testInitNoPresentations", function(assert) {
+	this.spec.menuPresentation = undefined;
+	this.spec.workPresentation = undefined;
+	
+	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
+	assert.strictEqual(managedGuiItem.type, "managedGuiItem");
+	assert.strictEqual(factoredView.getAddedMenuPresentation(0), undefined);
+	assert.strictEqual(factoredView.getAddedWorkPresentation(0), undefined);
+});
+
 QUnit.test("testInitMenuViewIsFromFactoredView", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
 	var menuView = managedGuiItem.getMenuView();

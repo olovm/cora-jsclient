@@ -195,7 +195,8 @@ QUnit.test("testOpenSearchEnsureManagedGuiItemIsCreatedAndShownInJsClient", func
 	var searchRecordHandler = CORA.searchRecordHandler(this.dependencies, this.spec);
 	var factoredView = this.dependencies.searchRecordHandlerViewFactory.getFactored(0);
 	searchRecordHandler.openSearch();
-//	var createdManagedGuiItem = this.dependencies.jsClient.getCreatedManagedGuiItem(0);
+	// var createdManagedGuiItem =
+	// this.dependencies.jsClient.getCreatedManagedGuiItem(0);
 	var createdManagedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	assert.strictEqual(this.dependencies.jsClient.getViewShowingInWorkView(0),
 			createdManagedGuiItem.workView);
