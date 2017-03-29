@@ -428,3 +428,16 @@ textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::bef
 	flex: 1 0 calc(100% - 2px);
 	border: 1px dotted green;
 }
+
+.jsClient .workView .repeatingElement .compactChildStyle {
+	display: unset;
+}
+.jsClient .workView .repeatingElement .compactChildStyle .pGroup {
+	display: unset;
+}
+.jsClient .workView .repeatingElement .compactChildStyle span {
+	display: inline;
+}
+.jsClient .workView .repeatingElement .compactChildStyle .buttonView {
+	display: none;
+}
