@@ -133,11 +133,13 @@ var CORA = (function(cora) {
 			var cRefGroup;
 			var textClassName = "text";
 			cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refGroup"));
-			if (cRefGroup.containsChildWithNameInData("textStyle")) {
-				textClassName += " " + cRefGroup.getFirstAtomicValueByNameInData("textStyle");
+			if (cPresentationChildRef.containsChildWithNameInData("textStyle")) {
+				textClassName += " "
+						+ cPresentationChildRef.getFirstAtomicValueByNameInData("textStyle");
 			}
-			if (cRefGroup.containsChildWithNameInData("childStyle")) {
-				textClassName += " " + cRefGroup.getFirstAtomicValueByNameInData("childStyle");
+			if (cPresentationChildRef.containsChildWithNameInData("childStyle")) {
+				textClassName += " "
+						+ cPresentationChildRef.getFirstAtomicValueByNameInData("childStyle");
 			}
 			var textSpan = CORA.gui.createSpanWithClassName(textClassName);
 			textSpan.appendChild(document.createTextNode(textProvider.getTranslation(presRef)));
@@ -167,17 +169,13 @@ var CORA = (function(cora) {
 						.getFirstAtomicValueByNameInData("minNumberOfRepeatingToShow");
 			}
 			var cRefGroup;
-			if (cPresentationChildRef.containsChildWithNameInData("refGroup")) {
-				cRefGroup = CORA.coraData(cPresentationChildRef
-						.getFirstChildByNameInData("refGroup"));
-				if (cRefGroup.containsChildWithNameInData("textStyle")) {
-					childRefHandlerSpec.textStyle = cRefGroup
-							.getFirstAtomicValueByNameInData("textStyle");
-				}
-				if (cRefGroup.containsChildWithNameInData("childStyle")) {
-					childRefHandlerSpec.childStyle = cRefGroup
-							.getFirstAtomicValueByNameInData("childStyle");
-				}
+			if (cPresentationChildRef.containsChildWithNameInData("textStyle")) {
+				childRefHandlerSpec.textStyle = cPresentationChildRef
+						.getFirstAtomicValueByNameInData("textStyle");
+			}
+			if (cPresentationChildRef.containsChildWithNameInData("childStyle")) {
+				childRefHandlerSpec.childStyle = cPresentationChildRef
+						.getFirstAtomicValueByNameInData("childStyle");
 			}
 
 			if (childHasMinimizedPresenation(cPresentationChildRef)) {
@@ -194,14 +192,6 @@ var CORA = (function(cora) {
 						.getFirstAtomicValueByNameInData("default");
 				if (minimizedDefault === "refMinimized") {
 					childRefHandlerSpec.minimizedDefault = "true";
-				}
-				if (cPresRefMinGroup.containsChildWithNameInData("textStyle")) {
-					childRefHandlerSpec.textStyleMinimized = cPresRefMinGroup
-							.getFirstAtomicValueByNameInData("textStyle");
-				}
-				if (cPresRefMinGroup.containsChildWithNameInData("childStyle")) {
-					childRefHandlerSpec.childStyleMinimized = cPresRefMinGroup
-							.getFirstAtomicValueByNameInData("childStyle");
 				}
 			}
 

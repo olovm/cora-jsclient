@@ -39,10 +39,6 @@ QUnit.module("pMultipleChildrenTest.js", {
 		this.spec = {
 			"metadataIdUsedInData" : "groupIdOneTextChildRepeat1to3",
 			"path" : {},
-		// "cPresentation" : CORA.coraData(this.dependencies.metadataProvider
-		// .getMetadataById("pgGroupIdOneTextChildMinimized")),
-		// "cParentPresentation" : undefined,
-		// "dataDivider" : "systemX"
 		};
 		var createBaseViewHolder = function() {
 			return CORA.gui.createDivWithClassName("pMultipleChildren pGroup");
@@ -54,7 +50,6 @@ QUnit.module("pMultipleChildrenTest.js", {
 			// used in surroundingContainer
 			"cParentPresentation" : CORA.coraData(this.dependencies.metadataProvider
 					.getMetadataById("pgGroupIdOneTextChildMinimized")),
-			// "cParentPresentation" : this.spec.cPresentation,
 			"createBaseViewHolder" : createBaseViewHolder
 		};
 
@@ -95,8 +90,6 @@ QUnit.test("testFirstPChildRefHandlerSpec",
 
 			assert.strictEqual(factoredSpec.textStyle, "h1TextStyle");
 			assert.strictEqual(factoredSpec.childStyle, "oneChildStyle");
-			assert.strictEqual(factoredSpec.textStyleMinimized, "h2TextStyle");
-			assert.strictEqual(factoredSpec.childStyleMinimized, "fourChildStyle");
 		});
 
 QUnit.test("testFirstMinimizedDefaultPChildRefHandlerSpec",
@@ -121,8 +114,6 @@ QUnit.test("testFirstMinimizedDefaultPChildRefHandlerSpec",
 
 			assert.strictEqual(factoredSpec.textStyle, "h5TextStyle");
 			assert.strictEqual(factoredSpec.childStyle, "twoChildStyle");
-			assert.strictEqual(factoredSpec.textStyleMinimized, "h6TextStyle");
-			assert.strictEqual(factoredSpec.childStyleMinimized, "tenChildStyle");
 		});
 
 QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfo",
@@ -147,8 +138,6 @@ QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfo",
 
 			assert.strictEqual(factoredSpec.textStyle, undefined);
 			assert.strictEqual(factoredSpec.childStyle, undefined);
-			assert.strictEqual(factoredSpec.textStyleMinimized, undefined);
-			assert.strictEqual(factoredSpec.childStyleMinimized, undefined);
 			assert.strictEqual(factoredSpec.minNumberOfRepeatingToShow, undefined);
 		});
 QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfoMinNumberOfRepeatingToShow",
@@ -173,8 +162,6 @@ QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfoMinNumberOfRepeatingToShow",
 	
 	assert.strictEqual(factoredSpec.textStyle, undefined);
 	assert.strictEqual(factoredSpec.childStyle, undefined);
-	assert.strictEqual(factoredSpec.textStyleMinimized, undefined);
-	assert.strictEqual(factoredSpec.childStyleMinimized, undefined);
 	
 	assert.strictEqual(factoredSpec.minNumberOfRepeatingToShow, "1");
 });
