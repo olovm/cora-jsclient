@@ -458,3 +458,7 @@ textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::bef
 .jsClient .workView .repeatingElement .compactChildStyle .buttonView {
 	display: none;
 }
+
+.jsClient .showView .frame.pGroup {
+	border: 1px solid gray;
+}

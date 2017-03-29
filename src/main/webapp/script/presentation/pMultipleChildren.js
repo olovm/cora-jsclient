@@ -130,9 +130,7 @@ var CORA = (function(cora) {
 		}
 
 		function createText(presRef, cPresentationChildRef) {
-			var cRefGroup;
 			var textClassName = "text";
-			cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refGroup"));
 			if (cPresentationChildRef.containsChildWithNameInData("textStyle")) {
 				textClassName += " "
 						+ cPresentationChildRef.getFirstAtomicValueByNameInData("textStyle");
@@ -168,7 +166,6 @@ var CORA = (function(cora) {
 				childRefHandlerSpec.minNumberOfRepeatingToShow = cPresentationChildRef
 						.getFirstAtomicValueByNameInData("minNumberOfRepeatingToShow");
 			}
-			var cRefGroup;
 			if (cPresentationChildRef.containsChildWithNameInData("textStyle")) {
 				childRefHandlerSpec.textStyle = cPresentationChildRef
 						.getFirstAtomicValueByNameInData("textStyle");
