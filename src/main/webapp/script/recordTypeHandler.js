@@ -123,7 +123,9 @@ var CORA = (function(cora) {
 				"jsClient" : dependencies.jsClient,
 				"recordTypeHandler" : self
 			};
+			console.log("LJLKÖJLKJLKÖJLKJKJ")
 			dependencies.recordHandlerFactory.factor(recordHandlerSpec);
+			console.log("LJLKÖJLKJLKÖJLKJKJ 2 ")
 		}
 		function createRecordHandlerViewFactory() {
 			return {

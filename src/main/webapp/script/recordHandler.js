@@ -125,7 +125,7 @@ var CORA = (function(cora) {
 			if (dataIsChanged) {
 				className += ' changed';
 			}
-			views.originalClassName = className;
+//			views.originalClassName = className;
 
 			if (views.isActive) {
 				className += ' active';

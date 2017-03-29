@@ -255,7 +255,7 @@ var CORA = (function(cora) {
 
 		function updateShowingManagedGuiItem(managedGuiItem) {
 //			managedGuiItem.isActive = true;
-			managedGuiItem.originalClassName = managedGuiItem.menuView.className;
+//			managedGuiItem.originalClassName = m anagedGuiItem.menuView.className;
 			managedGuiItem.menuView.className = managedGuiItem.menuView.className + " active";
 		}
 
