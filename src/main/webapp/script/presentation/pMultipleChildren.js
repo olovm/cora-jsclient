@@ -168,7 +168,6 @@ var CORA = (function(cora) {
 				childRefHandlerSpec.minNumberOfRepeatingToShow = cPresentationChildRef
 						.getFirstAtomicValueByNameInData("minNumberOfRepeatingToShow");
 			}
-			var cRefGroup;
 			if (cPresentationChildRef.containsChildWithNameInData("textStyle")) {
 				childRefHandlerSpec.textStyle = cPresentationChildRef
 						.getFirstAtomicValueByNameInData("textStyle");
