@@ -130,7 +130,7 @@ var CORA = (function(cora) {
 			if (views.isActive) {
 				className += ' active';
 			}
-			menuView.className = className;
+//			menuView.className = className;
 		}
 
 		function addNewRecordToWorkView(recordGuiToAdd, metadataIdUsedInData) {
