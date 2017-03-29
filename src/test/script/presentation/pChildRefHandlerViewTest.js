@@ -57,7 +57,8 @@ QUnit.test("testInitWithStyle", function(assert) {
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
 	var view = pChildRefHandlerView.getView();
-	assert.deepEqual(view.className, "pChildRefHandler someTextStyle someChildStyle pVarTextVariableId");
+	assert.deepEqual(view.className,
+			"pChildRefHandler someTextStyle someChildStyle pVarTextVariableId");
 });
 
 QUnit.test("testInitWithAddButton", function(assert) {
@@ -65,7 +66,8 @@ QUnit.test("testInitWithAddButton", function(assert) {
 		"presentationId" : "pVarTextVariableId",
 		"isRepeating" : true,
 		"addMethod" : function() {
-		}
+		},
+		"addText" : "some add text"
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
@@ -74,6 +76,8 @@ QUnit.test("testInitWithAddButton", function(assert) {
 
 	var buttonView = view.childNodes[1];
 	assert.strictEqual(buttonView.className, "buttonView");
+	assert.strictEqual(buttonView.firstChild.type, "button");
+	assert.strictEqual(buttonView.firstChild.value, "some add text");
 });
 
 QUnit.test("testInitFile", function(assert) {
