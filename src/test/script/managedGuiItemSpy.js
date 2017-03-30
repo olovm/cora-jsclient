@@ -19,14 +19,13 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.managedGuiItemSpy = function(dependencies, spec) {
-		var added = [];
-		var addedToolViews = [];
-		var showDataF = null;
+		var addedMenuPresentations = [];
+		var addedWorkPresentations = [];
 		var menuView = CORA.gui.createSpanWithClassName("menuViewSpy");
 		var workView = CORA.gui.createSpanWithClassName("menuViewSpy");
-		var state;
-		var value;
-
+		var changed = false;
+		var active = false;
+		
 		function getDependencies() {
 			return dependencies;
 		}
@@ -45,13 +44,32 @@ var CORATEST = (function(coraTest) {
 		}
 
 		function addMenuPresentation(presentationToAdd) {
-			// managedGuiItemView.addMenuPresentation(presentationToAdd);
+			addedMenuPresentations.push(presentationToAdd);
 		}
 
+		function getAddedMenuPresentation(number){
+			return addedMenuPresentations[number];
+		}
+		
 		function addWorkPresentation(presentationToAdd) {
-			// managedGuiItemView.addWorkPresentation(presentationToAdd);
+			addedWorkPresentations.push(presentationToAdd);
 		}
-
+		
+		function getAddedWorkPresentation(number){
+			return addedWorkPresentations[number];
+		}
+		function setChanged(changedIn){
+			changed = changedIn;
+		}
+		function getChanged(){
+			return changed;
+		}
+		function setActive(activeIn){
+			active = activeIn
+		}
+		function getActive(){
+			return active;
+		}
 		var out = Object.freeze({
 			"type" : "managedGuiItemSpy",
 			getDependencies : getDependencies,
@@ -60,8 +78,15 @@ var CORATEST = (function(coraTest) {
 			getWorkView : getWorkView,
 			handleBy : handleBy,
 			addMenuPresentation : addMenuPresentation,
-			addWorkPresentation : addWorkPresentation
+			getAddedMenuPresentation:getAddedMenuPresentation,
+			addWorkPresentation : addWorkPresentation,
+			getAddedWorkPresentation:getAddedWorkPresentation,
+			setChanged:setChanged,
+			getChanged:getChanged,
+			setActive:setActive,
+			getActive:getActive
 		});
+		
 		return out;
 	};
 	return coraTest;

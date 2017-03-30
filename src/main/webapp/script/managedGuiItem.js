@@ -62,7 +62,12 @@ var CORA = (function(cora) {
 		function addWorkPresentation(presentationToAdd) {
 			managedGuiItemView.addWorkPresentation(presentationToAdd);
 		}
-
+		function setChanged(changedIn){
+			//TODO:
+		}
+		function setActive(activeIn){
+			//TODO:
+		}
 		var out = Object.freeze({
 			"type" : "managedGuiItem",
 			getDependencies : getDependencies,
@@ -72,6 +77,8 @@ var CORA = (function(cora) {
 			handleBy : handleBy,
 			addMenuPresentation : addMenuPresentation,
 			addWorkPresentation : addWorkPresentation,
+			setChanged:setChanged,
+			setActive:setActive,
 			// TEMP HACK should be replaced with getMenuView
 			menuView : menuView,
 			workView : workView,

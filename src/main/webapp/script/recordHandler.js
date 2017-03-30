@@ -25,18 +25,21 @@ var CORA = (function(cora) {
 
 		var views = spec.views;
 
-		var workView = views.workView;
-		var menuView = views.menuView;
-		var menuViewOrgClassName = views.originalClassName;
+		var workView = views.getWorkView();
+		var menuView = views.getMenuView();
+//		var menuViewOrgClassName = views.originalClassName;
 
 		var messageHolder = CORA.messageHolder();
-		workView.appendChild(messageHolder.getView());
+//		workView.appendChild(messageHolder.getView());
+		views.addWorkPresentation(messageHolder.getView());
 
 		var recordHandlerView = createRecordHandlerView();
-		workView.appendChild(recordHandlerView.getView());
+//		workView.appendChild(recordHandlerView.getView());
+		views.addWorkPresentation(recordHandlerView.getView());
 
 		var busy = CORA.busy();
-		workView.appendChild(busy.getView());
+//		workView.appendChild(busy.getView());
+		views.addWorkPresentation(busy.getView());
 
 		var recordGuiNew;
 		var recordGui;
@@ -98,6 +101,7 @@ var CORA = (function(cora) {
 		function handleMsg(dataFromMsg, msg) {
 			if (initComplete && msgChangesData(msg)) {
 				dataIsChanged = true;
+				views.setChanged(true);
 			}
 			if (messageSaysInitIsComplete(msg)) {
 				initComplete = true;
@@ -121,15 +125,16 @@ var CORA = (function(cora) {
 		}
 
 		function updateMenuClassName() {
-			var className = menuViewOrgClassName;
-			if (dataIsChanged) {
-				className += ' changed';
-			}
+//			var className = menuViewOrgClassName;
+//			if (dataIsChanged) {
+//				className += ' changed';
+				
+//			}
 //			views.originalClassName = className;
 
-			if (views.isActive) {
-				className += ' active';
-			}
+//			if (views.isActive) {
+//				className += ' active';
+//			}
 //			menuView.className = className;
 		}
 
@@ -149,9 +154,10 @@ var CORA = (function(cora) {
 			var menuPresentationViewId = getMenuPresentationViewId();
 			var menuPresentationView = recordGuiToAdd.getPresentation(menuPresentationViewId,
 					metadataIdUsedInData).getView();
-			menuView.textContent = "";
-			menuView.appendChild(menuPresentationView);
-			menuView.appendChild(createRemoveButton());
+//			menuView.textContent = "";
+//			menuView.appendChild(menuPresentationView);
+//			menuView.appendChild(createRemoveButton());
+			views.addMenuPresentation(menuPresentationView);
 		}
 
 		function createRemoveButton() {
@@ -324,8 +330,8 @@ var CORA = (function(cora) {
 			};
 			var question = CORA.question(questionSpec);
 			var questionView = question.getView();
-			workView.appendChild(questionView);
-
+//			workView.appendChild(questionView);
+			views.addWorkPresentation(questionView);
 		}
 
 		function afterDelete() {

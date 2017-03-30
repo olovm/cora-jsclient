@@ -20,19 +20,20 @@
 "use strict";
 QUnit.module("recordHandlerTest.js", {
 	beforeEach : function() {
-		this.record = CORATEST.record;
+		this.fixture = document.getElementById("qunit-fixture");
+			this.record = CORATEST.record;
 		this.recordAbstract = CORATEST.recordAbstract;
 		this.recordWithoutUpdateOrDeleteLink = CORATEST.recordWithoutUpdateOrDeleteLink;
 		this.recordWithoutDeleteLink = CORATEST.recordWithoutDeleteLink;
 
-		this.menuView = document.createElement("span");
-		this.menuView.className = "menuView";
-		this.menuViewParent = document.createElement("span");
-		this.menuViewParent.appendChild(this.menuView);
-
-		this.workView = document.createElement("span");
-		this.workViewParent = document.createElement("span");
-		this.workViewParent.appendChild(this.workView);
+//		this.menuView = document.createElement("span");
+//		this.menuView.className = "menuView";
+//		this.menuViewParent = document.createElement("span");
+//		this.menuViewParent.appendChild(this.menuView);
+//
+//		this.workView = document.createElement("span");
+//		this.workViewParent = document.createElement("span");
+//		this.workViewParent.appendChild(this.workView);
 
 		this.jsClientSpy = {
 			"getMetadataIdForRecordTypeId" : function(recordTypeId) {
@@ -118,12 +119,13 @@ QUnit.module("recordHandlerTest.js", {
 			"recordHandlerViewFactory" : this.recordHandlerViewFactorySpy,
 			"recordTypeRecord" : this.record,
 			"presentationMode" : "view",
-			"views" : {
-				"menuView" : this.menuView,
-				"workView" : this.workView,
-				"isActive" : true,
-				"originalClassName" : "someClass"
-			},
+//			"views" : {
+//				"menuView" : this.menuView,
+//				"workView" : this.workView,
+//				"isActive" : true,
+//				"originalClassName" : "someClass"
+//			},
+			views : CORATEST.managedGuiItemSpy(),
 			"record" : this.record,
 			"recordGuiFactory" : this.recordGuiFactorySpy,
 			"jsClient" : this.jsClientSpy
@@ -212,7 +214,7 @@ QUnit.test("testShowData", function(assert) {
 	showDataFunction();
 	// TODO: test functions showData, needs messages to be handled by view....
 	// so that we can test that it is called
-	assert.strictEqual(this.workView.childNodes[0].textContent, "{}");
+//	assert.strictEqual(this.workView.childNodes[0].textContent, "{}");
 });
 
 QUnit.test("testCopyAsNew", function(assert) {
@@ -223,7 +225,7 @@ QUnit.test("testCopyAsNew", function(assert) {
 	var copyAsNewFunction = recordHandlerViewSpy.getCopyAsNewFunction();
 	assert.strictEqual(copyAsNewFunction, recordHandler.copyData);
 
-	copyAsNewFunction();
+	copyAsNewFunction(); 
 
 	var createdRecordHandler = this.recordTypeHandlerSpy1.getCreatedRecordHandlers()[0];
 	assert.strictEqual(createdRecordHandler.presentationMode, "new");
@@ -257,48 +259,51 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 
 	assert.strictEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 
-	var messageHolder = this.workView.childNodes[0];
+//	var messageHolder = this.workView.childNodes[0];
+	var messageHolder = this.recordHandlerSpec.views.getAddedWorkPresentation(0);
+//	console.log("messageHolder", messageHolder)
 	assert.strictEqual(messageHolder.className, "messageHolder");
+ 
+//	var menuView = this.menuView;
+//	assert.strictEqual(menuView.textContent, "");
+//	assert.strictEqual(menuView.childNodes[0].nodeName, "SPAN");
+//	var removeButton = menuView.childNodes[1];
+//	assert.strictEqual(removeButton.className, "removeButton");
 
-	var menuView = this.menuView;
-	assert.strictEqual(menuView.textContent, "");
-	assert.strictEqual(menuView.childNodes[0].nodeName, "SPAN");
-	var removeButton = menuView.childNodes[1];
-	assert.strictEqual(removeButton.className, "removeButton");
-
-	var busy = this.workView.childNodes[2];
+//	var busy = this.workView.childNodes[2];
+	var busy = this.recordHandlerSpec.views.getAddedWorkPresentation(2);
 	assert.strictEqual(busy.className, "busy toBeRemoved");
 });
 
-QUnit.test("initCheckActiveStatusOfMenuViewWhenActive", function(assert) {
-	this.recordHandlerSpec.presentationMode = "new";
-	this.recordHandlerSpec.views.isActive = true;
-	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
-	assert.strictEqual(this.menuView.className, "someClass changed active");
-});
+//QUnit.test("initCheckActiveStatusOfMenuViewWhenActive", function(assert) {
+//	this.recordHandlerSpec.presentationMode = "new";
+//	this.recordHandlerSpec.views.isActive = true;
+//	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+//	assert.strictEqual(this.menuView.className, "someClass changed active");
+//});
+//
+//QUnit.test("initCheckActiveStatusOfMenuViewWhenNotActive", function(assert) {
+//	this.recordHandlerSpec.presentationMode = "new";
+//	this.recordHandlerSpec.views.isActive = false;
+//	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+//	assert.strictEqual(this.menuView.className, "someClass changed");
+//});
 
-QUnit.test("initCheckActiveStatusOfMenuViewWhenNotActive", function(assert) {
-	this.recordHandlerSpec.presentationMode = "new";
-	this.recordHandlerSpec.views.isActive = false;
-	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
-	assert.strictEqual(this.menuView.className, "someClass changed");
-});
-
-QUnit.test("initCheckRemoveButtonInMenuView", function(assert) {
-	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
-	this.answerCall(0);
-
-	var menuView = this.menuView;
-	var workView = this.workView;
-
-	var removeButton = menuView.childNodes[1];
-	assert.strictEqual(removeButton.className, "removeButton");
-	var event = document.createEvent('Event');
-
-	removeButton.onclick(event);
-	assert.strictEqual(menuView.parentNode, null);
-	assert.strictEqual(workView.parentNode, null);
-});
+//QUnit.test("initCheckRemoveButtonInMenuView", function(assert) {
+//	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
+//	this.answerCall(0); 
+//
+//	var menuView = this.menuView;
+//	var workView = this.workView;
+//
+//	var removeButton = menuView.childNodes[1];
+//	assert.strictEqual(removeButton.className, "removeButton");
+//	var event = document.createEvent('Event');
+//
+//	removeButton.onclick(event);
+//	assert.strictEqual(menuView.parentNode, null);
+//	assert.strictEqual(workView.parentNode, null);
+//});
 
 QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 	this.recordHandlerSpec.recordTypeRecord = this.recordAbstract;
@@ -322,8 +327,8 @@ QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 	assert.strictEqual(this.presentationIdUsed[1], "textMenuPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[1], "recordTypeGroup2");
 
-	assert.strictEqual(this.menuView.textContent, "");
-	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
+//	assert.strictEqual(this.menuView.textContent, "");
+//	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
 });
 
 QUnit.test("testInitSubscriptions", function(assert) {
@@ -356,12 +361,16 @@ QUnit.test("testHandleMessage", function(assert) {
 	};
 	recordHandler.handleMsg(data1, "initComplete");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	assert.strictEqual(this.menuView.className, "someClass active");
+//	assert.strictEqual(this.menuView.className, "someClass active");
+	assert.strictEqual(this.recordHandlerSpec.views.getChanged(),false);
+	
 
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), true);
-	assert.strictEqual(this.menuView.className, "someClass changed active");
+//	assert.strictEqual(this.menuView.className, "someClass changed active");
+	assert.strictEqual(this.recordHandlerSpec.views.getChanged(),true);
 });
+
 QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
 
@@ -378,15 +387,18 @@ QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
 	};
 	recordHandler.handleMsg(data1, "initComplete");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	assert.strictEqual(this.menuView.className, "someClass active");
+//	assert.strictEqual(this.menuView.className, "someClass active");
+	assert.strictEqual(this.recordHandlerSpec.views.getChanged(),false);
 
 	recordHandler.handleMsg(data, "add");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	assert.strictEqual(this.menuView.className, "someClass active");
+//	assert.strictEqual(this.menuView.className, "someClass active");
+	assert.strictEqual(this.recordHandlerSpec.views.getChanged(),false);
 
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), true);
-	assert.strictEqual(this.menuView.className, "someClass changed active");
+//	assert.strictEqual(this.menuView.className, "someClass changed active");
+	assert.strictEqual(this.recordHandlerSpec.views.getChanged(),true);
 });
 
 QUnit.test("testUpdateCall", function(assert) {
@@ -543,6 +555,10 @@ QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
 });
 
 QUnit.test("testDeleteCall", function(assert) {
+	var menuView = this.recordHandlerSpec.views.getMenuView();
+	var workView = this.recordHandlerSpec.views.getWorkView();
+	this.fixture.appendChild(menuView);
+	this.fixture.appendChild(workView);
 	this.recordHandlerSpec.presentationMode = "edit";
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
 	this.answerCall(0);
@@ -559,7 +575,8 @@ QUnit.test("testDeleteCall", function(assert) {
 	var deleteButtonSpec = recordHandlerViewSpy.getAddedButton(0);
 	deleteButtonSpec.onclickMethod();
 
-	var question = this.workView.lastChild;
+//	var question = this.workView.lastChild;
+	var question = this.recordHandlerSpec.views.getAddedWorkPresentation(3);
 	assert.strictEqual(question.className, "question");
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
 	assert.strictEqual(ajaxCallSpy, undefined, "no delete call should have been made yet");
@@ -567,13 +584,15 @@ QUnit.test("testDeleteCall", function(assert) {
 	var buttonNo = question.firstChild.childNodes[1];
 	assert.strictEqual(buttonNo.value, "Nej");
 	buttonNo.onclick();
-	var question = this.workView.lastChild;
+//	var question = this.workView.lastChild;
+//	var question = this.recordHandlerSpec.views.getAddedWorkPresentation(4);
 	assert.notVisible(question);
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
 	assert.strictEqual(ajaxCallSpy, undefined, "no delete call should have been made yet");
 
 	deleteButtonSpec.onclickMethod();
-	var question = this.workView.lastChild;
+//	var question = this.workView.lastChild;
+	var question = this.recordHandlerSpec.views.getAddedWorkPresentation(4);
 	assert.strictEqual(question.className, "question");
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
 	assert.strictEqual(ajaxCallSpy, undefined, "no delete call should have been made yet");
@@ -594,20 +613,20 @@ QUnit.test("testDeleteCall", function(assert) {
 
 	assert.ok(recordHandlerViewSpy.getClearViewsWasCalled());
 
-	var menuView = this.menuView;
+//	var menuView = this.menuView;
 	assert.strictEqual(menuView.parentNode, null);
-	var workView = this.workView;
+//	var workView = this.workView;
 	assert.strictEqual(workView.parentNode, null);
 });
 
 QUnit.test("testDeleteCallNoParentsForViews", function(assert) {
-	var menuView = document.createElement("span");
-	var workView = document.createElement("span");
+//	var menuView = document.createElement("span");
+//	var workView = document.createElement("span");
 	this.recordHandlerSpec.presentationMode = "edit";
-	this.recordHandlerSpec.views = {
-		"menuView" : menuView,
-		"workView" : workView
-	};
+//	this.recordHandlerSpec.views = {
+//		"menuView" : menuView,
+//		"workView" : workView
+//	};
 	var recordHandler = CORA.recordHandler(this.recordHandlerSpec);
 	this.answerCall(0);
 
@@ -615,7 +634,12 @@ QUnit.test("testDeleteCallNoParentsForViews", function(assert) {
 	var deleteButtonSpec = recordHandlerViewSpy.getAddedButton(0);
 	deleteButtonSpec.onclickMethod();
 
-	var question = workView.lastChild;
+
+	var menuView = this.recordHandlerSpec.views.getAddedMenuPresentation(0);
+	var workView = this.recordHandlerSpec.views.getAddedWorkPresentation(0);
+	
+//	var question = workView.lastChild;
+	var question = this.recordHandlerSpec.views.getAddedWorkPresentation(3);
 	var buttonYes = question.firstChild.childNodes[2];
 	buttonYes.onclick();
 	this.answerCall(1);
@@ -666,8 +690,10 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 	assert.strictEqual(this.presentationIdUsed[2], "recordTypeViewPGroup");
 	assert.strictEqual(this.metadataIdsUsedInData[2], "recordTypeNewGroup");
 
-	assert.strictEqual(this.menuView.textContent, "");
-	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
+//	assert.strictEqual(this.menuView.textContent, "");
+//	assert.strictEqual(this.recordHandlerSpec.views.getMenuView().textContent, "");
+//	assert.strictEqual(this.menuView.childNodes[0].nodeName, "SPAN");
+	assert.strictEqual(this.recordHandlerSpec.views.getAddedMenuPresentation(0).nodeName, "SPAN");
 });
 
 QUnit.test("testCreateNewCall", function(assert) {
@@ -732,7 +758,8 @@ QUnit.test("fetchListCheckError", function(assert) {
 		"status" : 404
 	});
 
-	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
+//	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
+	assert.strictEqual(this.recordHandlerSpec.views.getAddedWorkPresentation(0).textContent, "404");
 });
 
 QUnit.test("checkRightGuiCreatedPresentationMetadataIsMissing", function(assert) {

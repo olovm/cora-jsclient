@@ -380,10 +380,11 @@ QUnit.test("testFactories", function(assert) {
 		"recordTypeRecord" : this.record,
 		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
 		"presentationMode" : "view",
-		"views" : {
-			"menuView" : menuView,
-			"workView" : workView
-		},
+//		"views" : {
+//			"menuView" : menuView,
+//			"workView" : workView
+//		},
+		"views" : CORATEST.managedGuiItemSpy(),
 		"record" : this.record,
 	};
 	var recordHandler = jsClient.createRecordHandlerFactory().factor(recordHandlerSpec);

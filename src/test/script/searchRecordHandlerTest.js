@@ -162,7 +162,7 @@ QUnit
 					afterEach : function() {
 					}
 				});
-
+ 
 QUnit.test("init", function(assert) {
 	var searchRecordHandler = CORA.searchRecordHandler(this.dependencies, this.spec);
 	assert.strictEqual(searchRecordHandler.type, "searchRecordHandler");
