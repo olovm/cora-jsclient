@@ -290,38 +290,47 @@ QUnit.test("showView", function(assert) {
 
 	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
 
-	var workView1 = document.createElement("span");
-	var menuView1 = document.createElement("span");
-	menuView1.className = "menuView1";
-	var aView = {
-		"workView" : workView1,
-		"menuView" : menuView1
-	};
+//	var workView1 = document.createElement("span");
+//	var menuView1 = document.createElement("span");
+//	menuView1.className = "menuView1";
+//	var aView = {
+//		"workView" : workView1,
+//		"menuView" : menuView1
+//	};
+	var aView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(aView.getActive(), false);
 	jsClient.showView(aView);
 
-	assert.strictEqual(jsClientView.getAddedWorkView(0), aView.workView);
-	assert.strictEqual(menuView1.className, "menuView1 active");
-	assert.strictEqual(menuView1.style.display, "");
-	assert.strictEqual(workView1.style.display, "");
+	assert.strictEqual(jsClientView.getAddedWorkView(0), aView.getWorkView());
+	assert.strictEqual(aView.getActive(), true);
+//	assert.strictEqual(menuView1.className, "menuView1 active");
+//	assert.strictEqual(menuView1.style.display, "");
+//	assert.strictEqual(workView1.style.display, "");
 
-	var workView2 = document.createElement("span");
-	var menuView2 = document.createElement("span");
-	menuView2.className = "menuView2";
-	var aDifferentView = {
-		"workView" : workView2,
-		"menuView" : menuView2
-	};
+//	var workView2 = document.createElement("span");
+//	var menuView2 = document.createElement("span");
+//	menuView2.className = "menuView2";
+//	var aDifferentView = {
+//		"workView" : workView2,
+//		"menuView" : menuView2
+//	};
+	var aDifferentView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(aDifferentView.getActive(), false);
 	jsClient.showView(aDifferentView);
 
-	assert.strictEqual(jsClientView.getAddedWorkView(1), aDifferentView.workView);
-	assert.strictEqual(menuView1.className, "menuView1");
-	assert.strictEqual(menuView2.className, "menuView2 active");
-	assert.strictEqual(workView1.style.display, "none");
-	assert.strictEqual(workView2.style.display, "");
+	assert.strictEqual(jsClientView.getAddedWorkView(1), aDifferentView.getWorkView());
+	assert.strictEqual(aView.getActive(), false);
+	assert.strictEqual(aDifferentView.getActive(), true);
+//	assert.strictEqual(menuView1.className, "menuView1");
+//	assert.strictEqual(menuView2.className, "menuView2 active");
+//	assert.strictEqual(workView1.style.display, "none");
+//	assert.strictEqual(workView2.style.display, "");
 
 	jsClient.showView(aView);
-	assert.strictEqual(workView1.style.display, "");
-	assert.strictEqual(workView2.style.display, "none");
+	assert.strictEqual(aView.getActive(), true);
+	assert.strictEqual(aDifferentView.getActive(), false);
+//	assert.strictEqual(workView1.style.display, "");
+//	assert.strictEqual(workView2.style.display, "none");
 });
 QUnit.test("hideAndRemoveView", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);

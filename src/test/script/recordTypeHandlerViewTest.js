@@ -83,16 +83,17 @@ QUnit.test("initWithCreateButtonAsWeHaveACreateNewMethod", function(assert) {
 
 QUnit.test("testAddManagedGuiItem", function(assert) {
 	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
-	var managedGuiItem = {
-		"handledBy" : function() {
-		},
-		"workView" : CORA.gui.createSpanWithClassName("workView"),
-		"menuView" : CORA.gui.createSpanWithClassName("menuView")
-	};
+//	var managedGuiItem = {
+//		"handledBy" : function() {
+//		},
+//		"workView" : CORA.gui.createSpanWithClassName("workView"),
+//		"menuView" : CORA.gui.createSpanWithClassName("menuView")
+//	};
+	var managedGuiItem = CORATEST.managedGuiItemSpy();
 	var createdManagedGuiItem = recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
-	assert.strictEqual(managedGuiItem.menuView.modelObject, managedGuiItem);
+//	assert.strictEqual(managedGuiItem.menuView.modelObject, managedGuiItem);
 	var view = recordTypeHandlerView.getView();
 	var childrenView = view.childNodes[2];
-	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.menuView);
+	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.getMenuView());
 
 });

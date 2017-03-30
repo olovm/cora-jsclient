@@ -80,8 +80,8 @@ var CORA = (function(cora) {
 			setChanged:setChanged,
 			setActive:setActive,
 			// TEMP HACK should be replaced with getMenuView
-			menuView : menuView,
-			workView : workView,
+//			menuView : menuView,
+//			workView : workView,
 
 		});
 

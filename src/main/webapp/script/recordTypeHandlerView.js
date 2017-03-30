@@ -67,8 +67,8 @@ var CORA = (function(cora) {
 		}
 
 		function addManagedGuiItem(managedGuiItem) {
-			managedGuiItem.menuView.modelObject = managedGuiItem;
-			childrenView.appendChild(managedGuiItem.menuView);
+//			managedGuiItem.menuView.modelObject = managedGuiItem;
+			childrenView.appendChild(managedGuiItem.getMenuView());
 		}
 
 		out = Object.freeze({

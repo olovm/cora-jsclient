@@ -241,22 +241,25 @@ var CORA = (function(cora) {
 			if (managedGuiItemShowing !== undefined) {
 				managedGuiItemShowing.menuView.className = managedGuiItemShowing.menuView.className
 						.replace(" active", "");
-//				managedGuiItemShowing.isActive = false;
+				// managedGuiItemShowing.isActive = false;
 			}
 		}
 
 		function showNewWorkView(managedGuiItem) {
-			if (managedGuiItem.workView.parentNode !== jsClientView.getWorkView()) {
-				jsClientView.addToWorkView(managedGuiItem.workView);
-				managedGuiItem.workView.scrollTop = 0;
+			if (managedGuiItem.getWorkView().parentNode !== jsClientView.getWorkView()) {
+				jsClientView.addToWorkView(managedGuiItem.getWorkView());
+				managedGuiItem.getWorkView().scrollTop = 0;
 			}
-			managedGuiItem.workView.style.display = "";
+			managedGuiItem.getWorkView().style.display = "";
 		}
 
 		function updateShowingManagedGuiItem(managedGuiItem) {
-//			managedGuiItem.isActive = true;
-//			managedGuiItem.originalClassName = m anagedGuiItem.menuView.className;
-			managedGuiItem.menuView.className = managedGuiItem.menuView.className + " active";
+			managedGuiItem.setActive(true);
+			// managedGuiItem.isActive = true;
+			// managedGuiItem.originalClassName = m
+			// anagedGuiItem.menuView.className;
+			// managedGuiItem.menuView.className =
+			// managedGuiItem.menuView.className + " active";
 		}
 
 		function getMetadataIdForRecordTypeId(recordTypeId) {
