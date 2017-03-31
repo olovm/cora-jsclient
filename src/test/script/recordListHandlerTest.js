@@ -56,88 +56,67 @@ QUnit.module("recordListHandlerTest.js", {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "metadataGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeGroup"
+					} ]
 				}, {
 					"name" : "presentationViewId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeViewPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeViewPGroup"
+					} ]
 				}, {
 					"name" : "presentationFormId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeFormPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeFormPGroup"
+					} ]
 				}, {
 					"name" : "newMetadataId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "metadataGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeNewGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeNewGroup"
+					} ]
 				}, {
 					"name" : "newPresentationFormId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeFormNewPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeFormNewPGroup"
+					} ]
 				}, {
 					"name" : "menuPresentationViewId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeMenuPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeMenuPGroup"
+					} ]
 				}, {
 					"name" : "listPresentationViewId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeListPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeListPGroup"
+					} ]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "recordTypeSearchGroup"
@@ -237,7 +216,6 @@ QUnit.module("recordListHandlerTest.js", {
 			}
 		};
 
-
 		var listItemWorkView = document.createElement("span");
 		var listText;
 		function createListItem(listTextIn) {
@@ -250,7 +228,7 @@ QUnit.module("recordListHandlerTest.js", {
 		var createRecordHandlerMethodCalledWithPresentationMode;
 		var createRecordHandlerMethodCalledWithRecord;
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-var dependencies = {
+		var dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy
 		};
 		this.listHandlerSpec = {
@@ -263,12 +241,13 @@ var dependencies = {
 				createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
 				createRecordHandlerMethodCalledWithRecord = record;
 			},
-			"views" : {
-				"workView" : this.workView,
-				"menuView" : this.menuView
-			},
+//			"views" : {
+//				"workView" : this.workView,
+//				"menuView" : this.menuView
+//			},
+			"views" :  CORATEST.managedGuiItemSpy(),
 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-		};
+		}; 
 		this.answerListCall = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecordList = JSON.stringify(CORATEST.recordTypeList);
@@ -282,19 +261,19 @@ var dependencies = {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecordList = JSON.stringify(CORATEST.recordTypeBrokenList);
 			var answer = {
-					"spec" : ajaxCallSpy0.getSpec(),
-					"responseText" : jsonRecordList
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecordList
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
 		}
-		this.getCreateRecordHandlerMethodCalledWithPresentationMode=function(){
+		this.getCreateRecordHandlerMethodCalledWithPresentationMode = function() {
 			return createRecordHandlerMethodCalledWithPresentationMode;
 		}
-		this.getCreateRecordHandlerMethodCalledWithRecord=function(){
+		this.getCreateRecordHandlerMethodCalledWithRecord = function() {
 			return createRecordHandlerMethodCalledWithRecord;
 		}
 		this.firstRecord = CORATEST.recordTypeList.dataList.data[0].record;
-		
+
 	},
 	afterEach : function() {
 	}
@@ -316,51 +295,54 @@ QUnit.test("init", function(assert) {
 QUnit.test("initCheckRemoveOnMenu", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 
-	var workView = this.workView;
-	var menuView = this.menuView;
+//	var workView = this.workView;
+//	var menuView = this.menuView;
 
-	assert.strictEqual(menuView.textContent, "List");
+	assert.strictEqual(this.listHandlerSpec.views.getAddedMenuPresentation(0).textContent, "List");
 
-	var removeButton = menuView.childNodes[1];
-	assert.strictEqual(removeButton.className, "removeButton");
-	var event = document.createEvent('Event');
-
-	removeButton.onclick(event);
-	assert.strictEqual(menuView.parentNode, null);
-	assert.strictEqual(workView.parentNode, null);
+//	var removeButton = menuView.childNodes[1];
+//	assert.strictEqual(removeButton.className, "removeButton");
+//	var event = document.createEvent('Event');
+//
+//	removeButton.onclick(event);
+//	assert.strictEqual(menuView.parentNode, null);
+//	assert.strictEqual(workView.parentNode, null);
 });
 
-QUnit.test("initCheckRemoveOnMenuWhenViewsAreAddedToParents", function(assert) {
-	var menuView = this.menuView;
-	var menuViewParent = document.createElement("span");
-	menuViewParent.appendChild(menuView);
-
-	var workView = this.workView;
-	var workViewParent = document.createElement("span");
-	workViewParent.appendChild(workView);
-
-	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
-
-	var removeButton = menuView.childNodes[1];
-	assert.strictEqual(removeButton.className, "removeButton");
-	var event = document.createEvent('Event');
-
-	removeButton.onclick(event);
-	assert.strictEqual(menuView.parentNode, null);
-	assert.strictEqual(workView.parentNode, null);
-});
+//QUnit.test("initCheckRemoveOnMenuWhenViewsAreAddedToParents", function(assert) {
+//	var menuView = this.menuView;
+//	var menuViewParent = document.createElement("span");
+//	menuViewParent.appendChild(menuView);
+//
+//	var workView = this.workView;
+//	var workViewParent = document.createElement("span");
+//	workViewParent.appendChild(workView);
+//
+//	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
+//
+//	var removeButton = menuView.childNodes[1];
+//	assert.strictEqual(removeButton.className, "removeButton");
+//	var event = document.createEvent('Event');
+//
+//	removeButton.onclick(event);
+//	assert.strictEqual(menuView.parentNode, null);
+//	assert.strictEqual(workView.parentNode, null);
+//});
 
 QUnit.test("fetchListCheckGeneratedList", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 	this.answerListCall(0);
-	assert.strictEqual(this.workView.childNodes.length, 15);
+//	assert.strictEqual(this.workView.childNodes.length, 15);
+	var lastListItem = this.listHandlerSpec.views.getAddedWorkPresentation(14);
+	assert.ok(lastListItem !== undefined);
 });
 
 QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 	this.answerListCall(0);
 
-	var firstListItem = this.workView.childNodes[0];
+//	var firstListItem = this.workView.childNodes[0];
+	var firstListItem = this.listHandlerSpec.views.getAddedWorkPresentation(0);
 	assert.strictEqual(firstListItem.className, "listItem recordType");
 	assert.notStrictEqual(firstListItem.onclick, undefined);
 });
@@ -372,16 +354,20 @@ QUnit.test("fetchListCheckError", function(assert) {
 		"status" : 404
 	});
 
-	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
+//	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
+	var addedPresentation = this.listHandlerSpec.views.getAddedWorkPresentation(0);
+	assert.strictEqual(addedPresentation.childNodes[0].textContent, "404");
 });
 
 QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 	this.answerListCall(0);
 
-	var firstListItem = this.workView.childNodes[0];
+//	var firstListItem = this.workView.childNodes[0];
+	var firstListItem = this.listHandlerSpec.views.getAddedWorkPresentation(0);
 	firstListItem.onclick();
 
+	
 	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithPresentationMode(), "view");
 	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithRecord(), this.firstRecord);
 });
@@ -400,6 +386,6 @@ QUnit.test("fetchListBroken", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 	this.answerListCallBrokenList(0);
 
-	var firstListItem = this.workView.childNodes[0];
-	assert.strictEqual(this.workView.textContent.substring(0, 10), "TypeError:");
-});
+	var firstListItem = this.listHandlerSpec.views.getAddedWorkPresentation(1);
+	assert.strictEqual(firstListItem.textContent.substring(0, 10), "TypeError:"); 
+}); 

@@ -375,10 +375,11 @@ QUnit.test("testFactories", function(assert) {
 	var listHandlerSpec = {
 		"dependencies" : this.dependencies,
 		"recordTypeRecord" : this.record,
-		"views" : {
-			"workView" : workView,
-			"menuView" : menuView
-		},
+//		"views" : {
+//			"workView" : workView,
+//			"menuView" : menuView
+//		},
+		"views" : CORATEST.managedGuiItemSpy(),
 		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 	};
 	var recordListHandler = jsClient.createRecordListHandlerFactory().factor(listHandlerSpec);
