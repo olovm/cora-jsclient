@@ -40,8 +40,8 @@ var CORA = (function(cora) {
 		}
 
 		function addTextToMenuView() {
-			menuView.textContent = "";
-			menuView.textContent = "List";
+//			menuView.textContent = "";
+//			menuView.textContent = "List";
 		}
 
 		function addRemoveButtonToMenuView() {

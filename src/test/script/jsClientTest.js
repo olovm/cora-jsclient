@@ -188,7 +188,8 @@ QUnit.module("jsClientTest.js", {
 			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
 			"presentationFactoryFactory" : "not implemented yet",
 			"jsClientViewFactory" : CORATEST.jsClientViewFactorySpy(),
-			"searchRecordHandlerFactory" : CORATEST.searchRecordHandlerFactorySpy()
+			"searchRecordHandlerFactory" : CORATEST.searchRecordHandlerFactorySpy(),
+			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 		}
 		this.spec = {
 			"name" : "The Client",
@@ -290,30 +291,30 @@ QUnit.test("showView", function(assert) {
 
 	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
 
-//	var workView1 = document.createElement("span");
-//	var menuView1 = document.createElement("span");
-//	menuView1.className = "menuView1";
-//	var aView = {
-//		"workView" : workView1,
-//		"menuView" : menuView1
-//	};
+	// var workView1 = document.createElement("span");
+	// var menuView1 = document.createElement("span");
+	// menuView1.className = "menuView1";
+	// var aView = {
+	// "workView" : workView1,
+	// "menuView" : menuView1
+	// };
 	var aView = CORATEST.managedGuiItemSpy();
 	assert.strictEqual(aView.getActive(), false);
 	jsClient.showView(aView);
 
 	assert.strictEqual(jsClientView.getAddedWorkView(0), aView.getWorkView());
 	assert.strictEqual(aView.getActive(), true);
-//	assert.strictEqual(menuView1.className, "menuView1 active");
-//	assert.strictEqual(menuView1.style.display, "");
-//	assert.strictEqual(workView1.style.display, "");
+	// assert.strictEqual(menuView1.className, "menuView1 active");
+	// assert.strictEqual(menuView1.style.display, "");
+	// assert.strictEqual(workView1.style.display, "");
 
-//	var workView2 = document.createElement("span");
-//	var menuView2 = document.createElement("span");
-//	menuView2.className = "menuView2";
-//	var aDifferentView = {
-//		"workView" : workView2,
-//		"menuView" : menuView2
-//	};
+	// var workView2 = document.createElement("span");
+	// var menuView2 = document.createElement("span");
+	// menuView2.className = "menuView2";
+	// var aDifferentView = {
+	// "workView" : workView2,
+	// "menuView" : menuView2
+	// };
 	var aDifferentView = CORATEST.managedGuiItemSpy();
 	assert.strictEqual(aDifferentView.getActive(), false);
 	jsClient.showView(aDifferentView);
@@ -321,39 +322,40 @@ QUnit.test("showView", function(assert) {
 	assert.strictEqual(jsClientView.getAddedWorkView(1), aDifferentView.getWorkView());
 	assert.strictEqual(aView.getActive(), false);
 	assert.strictEqual(aDifferentView.getActive(), true);
-//	assert.strictEqual(menuView1.className, "menuView1");
-//	assert.strictEqual(menuView2.className, "menuView2 active");
-//	assert.strictEqual(workView1.style.display, "none");
-//	assert.strictEqual(workView2.style.display, "");
+	// assert.strictEqual(menuView1.className, "menuView1");
+	// assert.strictEqual(menuView2.className, "menuView2 active");
+	// assert.strictEqual(workView1.style.display, "none");
+	// assert.strictEqual(workView2.style.display, "");
 
 	jsClient.showView(aView);
 	assert.strictEqual(aView.getActive(), true);
 	assert.strictEqual(aDifferentView.getActive(), false);
-//	assert.strictEqual(workView1.style.display, "");
-//	assert.strictEqual(workView2.style.display, "none");
+	// assert.strictEqual(workView1.style.display, "");
+	// assert.strictEqual(workView2.style.display, "none");
 });
 QUnit.test("hideAndRemoveView", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
-	
+
 	var mainView = jsClient.getView();
-	
+
 	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
-	
+
 	var workView1 = document.createElement("span");
 	var menuView1 = document.createElement("span");
 	menuView1.className = "menuView1";
-	var aView = {
-			"workView" : workView1,
-			"menuView" : menuView1
-	};
+	// var aView = {
+	// "workView" : workView1,
+	// "menuView" : menuView1
+	// };
+	var aView = CORATEST.managedGuiItemSpy();
 	jsClient.showView(aView);
-	
-	assert.strictEqual(jsClientView.getAddedWorkView(0), aView.workView);
-	
+
+	assert.strictEqual(jsClientView.getAddedWorkView(0), aView.getWorkView());
+
 	jsClient.hideAndRemoveView(aView);
-	assert.strictEqual(jsClientView.getRemovedWorkView(0), aView.workView);
-	
+	assert.strictEqual(jsClientView.getRemovedWorkView(0), aView.getWorkView());
+
 });
 
 QUnit.test("testFactories", function(assert) {
@@ -389,10 +391,10 @@ QUnit.test("testFactories", function(assert) {
 		"recordTypeRecord" : this.record,
 		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
 		"presentationMode" : "view",
-//		"views" : {
-//			"menuView" : menuView,
-//			"workView" : workView
-//		},
+		// "views" : {
+		// "menuView" : menuView,
+		// "workView" : workView
+		// },
 		"views" : CORATEST.managedGuiItemSpy(),
 		"record" : this.record,
 	};
@@ -444,36 +446,37 @@ QUnit.test("testCreateManagedGuiItem", function(assert) {
 	var handledBy = function() {
 	};
 	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
-	assert.strictEqual(managedGuiItem.handledBy, handledBy);
+	var spec  = this.dependencies.managedGuiItemFactory.getSpec(0);
+	assert.strictEqual(spec.handledBy, handledBy);
 
-	assert.strictEqual(managedGuiItem.menuView.nodeName, "SPAN");
-	assert.strictEqual(managedGuiItem.menuView.className, "menuView");
-
-	assert.strictEqual(managedGuiItem.workView.nodeName, "SPAN");
-	assert.strictEqual(managedGuiItem.workView.className, "workView");
+//	assert.strictEqual(managedGuiItem.menuView.nodeName, "SPAN");
+//	assert.strictEqual(managedGuiItem.menuView.className, "menuView");
+//
+//	assert.strictEqual(managedGuiItem.workView.nodeName, "SPAN");
+//	assert.strictEqual(managedGuiItem.workView.className, "workView");
 });
 
-QUnit.test("testCreateManagedGuiItemMenuViewOnclick", function(assert) {
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
-	var handledBy = function() {
-	};
-	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
+//QUnit.test("testCreateManagedGuiItemMenuViewOnclick", function(assert) {
+//	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+//	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+//	var handledBy = function() {
+//	};
+//	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
+//
+//	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
+//	var event = document.createEvent('Event');
+//	managedGuiItem.getMenuView().onclick(event);
+//	assert.strictEqual(jsClientView.getAddedWorkView(0), managedGuiItem.workView);
+//	assert.strictEqual(managedGuiItem.getMenuView().className, "menuView active");
+//});
 
-	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
-	var event = document.createEvent('Event');
-	managedGuiItem.menuView.onclick(event);
-	assert.strictEqual(jsClientView.getAddedWorkView(0), managedGuiItem.workView);
-	assert.strictEqual(managedGuiItem.menuView.className, "menuView active");
-});
-
-QUnit.test("testCreateManagedGuiItemHandledOnReload", function(assert) {
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-	var handledByCalledWith = [];
-	var handledBy = function(managedGuiItemIn) {
-		handledByCalledWith.push(managedGuiItemIn);
-	}
-	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
-	jsClient.afterRecordTypeProviderReload();
-	assert.strictEqual(handledByCalledWith.length, 1);
-});
+//QUnit.test("testCreateManagedGuiItemHandledOnReload", function(assert) {
+//	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+//	var handledByCalledWith = [];
+//	var handledBy = function(managedGuiItemIn) {
+//		handledByCalledWith.push(managedGuiItemIn);
+//	}
+//	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
+//	jsClient.afterRecordTypeProviderReload();
+//	assert.strictEqual(handledByCalledWith.length, 1);
+//});
