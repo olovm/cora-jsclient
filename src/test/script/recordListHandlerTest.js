@@ -263,10 +263,11 @@ var dependencies = {
 				createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
 				createRecordHandlerMethodCalledWithRecord = record;
 			},
-			"views" : {
-				"workView" : this.workView,
-				"menuView" : this.menuView
-			},
+//			"views" : {
+//				"workView" : this.workView,
+//				"menuView" : this.menuView 
+//			},
+			"views": CORATEST.managedGuiItemSpy(),
 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 		};
 		this.answerListCall = function(no) {
@@ -316,51 +317,56 @@ QUnit.test("init", function(assert) {
 QUnit.test("initCheckRemoveOnMenu", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 
-	var workView = this.workView;
-	var menuView = this.menuView;
+//	var workView = this.workView;
+//	var menuView = this.menuView;
 
-	assert.strictEqual(menuView.textContent, "List");
+//	assert.strictEqual(menuView.textContent, "List");
+	assert.strictEqual(this.listHandlerSpec.views.getAddedMenuPresentation(0).textContent, "List");
+	
 
-	var removeButton = menuView.childNodes[1];
-	assert.strictEqual(removeButton.className, "removeButton");
-	var event = document.createEvent('Event');
-
-	removeButton.onclick(event);
-	assert.strictEqual(menuView.parentNode, null);
-	assert.strictEqual(workView.parentNode, null);
+//	var removeButton = menuView.childNodes[1];
+//	assert.strictEqual(removeButton.className, "removeButton");
+//	var event = document.createEvent('Event');
+//
+//	removeButton.onclick(event);
+//	assert.strictEqual(menuView.parentNode, null);
+//	assert.strictEqual(workView.parentNode, null);
 });
 
-QUnit.test("initCheckRemoveOnMenuWhenViewsAreAddedToParents", function(assert) {
-	var menuView = this.menuView;
-	var menuViewParent = document.createElement("span");
-	menuViewParent.appendChild(menuView);
-
-	var workView = this.workView;
-	var workViewParent = document.createElement("span");
-	workViewParent.appendChild(workView);
-
-	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
-
-	var removeButton = menuView.childNodes[1];
-	assert.strictEqual(removeButton.className, "removeButton");
-	var event = document.createEvent('Event');
-
-	removeButton.onclick(event);
-	assert.strictEqual(menuView.parentNode, null);
-	assert.strictEqual(workView.parentNode, null);
-});
+//QUnit.test("initCheckRemoveOnMenuWhenViewsAreAddedToParents", function(assert) {
+//	var menuView = this.menuView;
+//	var menuViewParent = document.createElement("span");
+//	menuViewParent.appendChild(menuView);
+//
+//	var workView = this.workView;
+//	var workViewParent = document.createElement("span");
+//	workViewParent.appendChild(workView);
+//
+//	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
+//
+//	var removeButton = menuView.childNodes[1];
+//	assert.strictEqual(removeButton.className, "removeButton");
+//	var event = document.createEvent('Event');
+//
+//	removeButton.onclick(event);
+//	assert.strictEqual(menuView.parentNode, null);
+//	assert.strictEqual(workView.parentNode, null);
+//});
 
 QUnit.test("fetchListCheckGeneratedList", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 	this.answerListCall(0);
-	assert.strictEqual(this.workView.childNodes.length, 15);
+//	assert.strictEqual(this.workView.childNodes.length, 15);
+	assert.ok(this.listHandlerSpec.views.getAddedWorkPresentation(14) !== undefined);
+	assert.ok(this.listHandlerSpec.views.getAddedWorkPresentation(15) === undefined);
 });
 
 QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 	this.answerListCall(0);
 
-	var firstListItem = this.workView.childNodes[0];
+//	var firstListItem = this.workView.childNodes[0];
+	var firstListItem = this.listHandlerSpec.views.getAddedWorkPresentation(0);
 	assert.strictEqual(firstListItem.className, "listItem recordType");
 	assert.notStrictEqual(firstListItem.onclick, undefined);
 });
@@ -371,15 +377,18 @@ QUnit.test("fetchListCheckError", function(assert) {
 	ajaxCallSpy.getSpec().errorMethod({
 		"status" : 404
 	});
-
-	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
+	var addedItem = this.listHandlerSpec.views.getAddedWorkPresentation(0);
+	
+//	assert.strictEqual(this.workView.childNodes[0].textContent, "404");
+	assert.strictEqual(addedItem.textContent, "404");
 });
 
 QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 	this.answerListCall(0);
 
-	var firstListItem = this.workView.childNodes[0];
+//	var firstListItem = this.workView.childNodes[0];
+	var firstListItem = this.listHandlerSpec.views.getAddedWorkPresentation(0);
 	firstListItem.onclick();
 
 	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithPresentationMode(), "view");
@@ -394,12 +403,13 @@ QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
 	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
 	assert.stringifyEqual(this.metadataIdUsed[0], "recordTypeGroup2");
 	assert.strictEqual(this.dataDividerUsed[0], "cora");
-});
+}); 
 
 QUnit.test("fetchListBroken", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.listHandlerSpec);
 	this.answerListCallBrokenList(0);
 
-	var firstListItem = this.workView.childNodes[0];
-	assert.strictEqual(this.workView.textContent.substring(0, 10), "TypeError:");
+//	var firstListItem = this.workView.childNodes[0];
+	var firstListItem = this.listHandlerSpec.views.getAddedWorkPresentation(1);
+	assert.strictEqual(firstListItem.textContent.substring(0, 10), "TypeError:");
 });

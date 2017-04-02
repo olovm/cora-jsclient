@@ -19,8 +19,11 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordListHandler = function(spec) {
-		var workView = spec.views.workView;
-		var menuView = spec.views.menuView;
+//		var workView = spec.views.workView;
+//		var menuView = spec.views.menuView;
+		var workView = spec.views.getWorkView();
+		var menuView = spec.views.getMenuView();
+		
 
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
@@ -36,18 +39,21 @@ var CORA = (function(cora) {
 
 		function addTextAndButtonToMenuView() {
 			addTextToMenuView();
-			addRemoveButtonToMenuView();
+//			addRemoveButtonToMenuView();
 		}
 
 		function addTextToMenuView() {
-			menuView.textContent = "";
-			menuView.textContent = "List";
+//			menuView.textContent = "";
+//			menuView.textContent = "List";
+			var menuPresentation = CORA.gui.createSpanWithClassName("");
+			menuPresentation.textContent = "List";
+			spec.views.addMenuPresentation(menuPresentation);
 		}
 
-		function addRemoveButtonToMenuView() {
-			var removeButton = CORA.gui.createRemoveButton(removeViewsFromParentNodes);
-			menuView.appendChild(removeButton);
-		}
+//		function addRemoveButtonToMenuView() {
+//			var removeButton = CORA.gui.createRemoveButton(removeViewsFromParentNodes);
+//			menuView.appendChild(removeButton);
+//		}
 
 		function removeViewsFromParentNodes() {
 			if (menuView.parentNode !== null) {
@@ -86,14 +92,17 @@ var CORA = (function(cora) {
 			try {
 				addRecordToWorkView(recordContainer.record);
 			} catch (e) {
-				workView.appendChild(document.createTextNode(e));
-				workView.appendChild(document.createTextNode(e.stack));
+//				workView.appendChild(document.createTextNode(e));
+//				workView.appendChild(document.createTextNode(e.stack));
+				spec.views.addWorkPresentation(document.createTextNode(e));
+				spec.views.addWorkPresentation(document.createTextNode(e.stack));
 			}
 		}
 
 		function addRecordToWorkView(record) {
 			var view = createView(record);
-			workView.appendChild(view);
+//			workView.appendChild(view);
+			spec.views.addWorkPresentation(view);
 			var recordTypeId = getRecordTypeId(record);
 			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
 			var presentationId = getListPresentationFromRecordTypeRecord();
@@ -133,7 +142,9 @@ var CORA = (function(cora) {
 
 		function callError(answer) {
 			var messageHolder = CORA.messageHolder();
-			workView.appendChild(messageHolder.getView());
+//			workView.appendChild(messageHolder.getView());
+			spec.views.addWorkPresentation(messageHolder.getView());
+			
 			var messageSpec = {
 				"message" : answer.status,
 				"type" : CORA.message.ERROR

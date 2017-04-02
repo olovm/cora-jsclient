@@ -34,7 +34,8 @@ var CORA = (function(cora) {
 			var jsClientViewSpec = {
 				"name" : spec.name
 			};
-			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
+			jsClientView = dependencies.jsClientViewFactory
+					.factor(jsClientViewSpec);
 
 			var loginManagerSpec = {
 				"afterLoginMethod" : afterLogin,
@@ -42,7 +43,8 @@ var CORA = (function(cora) {
 				"setErrorMessage" : jsClientView.addErrorMessage,
 				"appTokenBaseUrl" : spec.appTokenBaseUrl
 			};
-			loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
+			loginManager = dependencies.loginManagerFactory
+					.factor(loginManagerSpec);
 			jsClientView.addLoginManagerView(loginManager.getHtml());
 
 			var uploadManagerSpec = {
@@ -51,8 +53,8 @@ var CORA = (function(cora) {
 			};
 
 			var recordGuiFactorySpec = dependencies;
-			recordGuiFactorySpec.uploadManager = CORA
-					.uploadManager(dependencies, uploadManagerSpec);
+			recordGuiFactorySpec.uploadManager = CORA.uploadManager(
+					dependencies, uploadManagerSpec);
 			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
 			processRecordTypes();
 			addSearchesToSideBar(dependencies.searchProvider.getAllSearches());
@@ -64,13 +66,16 @@ var CORA = (function(cora) {
 		}
 
 		function sortRecordTypesFromRecordTypeProvider() {
-			var allRecordTypes = dependencies.recordTypeProvider.getAllRecordTypes();
+			var allRecordTypes = dependencies.recordTypeProvider
+					.getAllRecordTypes();
 			var recordTypeLists = sortRecordTypesIntoLists(allRecordTypes);
 			var list = [];
-			recordTypeLists.abstractList.forEach(function(parent) {
-				list.push(parent);
-				addChildrenOfCurrentParentToList(parent, recordTypeLists, list);
-			});
+			recordTypeLists.abstractList
+					.forEach(function(parent) {
+						list.push(parent);
+						addChildrenOfCurrentParentToList(parent,
+								recordTypeLists, list);
+					});
 
 			list = list.concat(recordTypeLists.noParentList);
 			return list;
@@ -83,22 +88,26 @@ var CORA = (function(cora) {
 			recordTypeLists.noParentList = [];
 
 			unsortedRecordTypes.forEach(function(recordType) {
-				separateAbstractAndNonAbstractRecordTypes(recordTypeLists, recordType);
+				separateAbstractAndNonAbstractRecordTypes(recordTypeLists,
+						recordType);
 			});
 			return recordTypeLists;
 		}
 
-		function separateAbstractAndNonAbstractRecordTypes(recordTypeLists, record) {
+		function separateAbstractAndNonAbstractRecordTypes(recordTypeLists,
+				record) {
 			var cRecord = CORA.coraData(record.data);
 
 			if (isAbstract(cRecord)) {
 				recordTypeLists.abstractList.push(record);
 			} else {
-				separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record);
+				separateChildrenAndStandaloneRecordTypes(recordTypeLists,
+						cRecord, record);
 			}
 		}
 
-		function separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record) {
+		function separateChildrenAndStandaloneRecordTypes(recordTypeLists,
+				cRecord, record) {
 			if (elementHasParent(cRecord)) {
 				recordTypeLists.childList.push(record);
 			} else {
@@ -112,7 +121,8 @@ var CORA = (function(cora) {
 
 		function addChildrenOfCurrentParentToList(parent, recordTypeLists, list) {
 			var cParent = CORA.coraData(parent.data);
-			var cRecordInfo = CORA.coraData(cParent.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = CORA.coraData(cParent
+					.getFirstChildByNameInData("recordInfo"));
 
 			recordTypeLists.childList.forEach(function(child) {
 				var cChild = CORA.coraData(child.data);
@@ -127,8 +137,10 @@ var CORA = (function(cora) {
 		}
 
 		function isChildOfCurrentElement(cChild, cRecordInfo) {
-			var cParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
-			return cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
+			var cParentIdGroup = CORA.coraData(cChild
+					.getFirstChildByNameInData("parentId"));
+			return cParentIdGroup
+					.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
 					.getFirstAtomicValueByNameInData("id");
 		}
 
@@ -142,9 +154,12 @@ var CORA = (function(cora) {
 
 		function createMetadataIdForRecordType(metadataIds, record) {
 			var cRecord = CORA.coraData(record.data);
-			var cMetadataIdGroup = CORA.coraData(cRecord.getFirstChildByNameInData("metadataId"));
-			var metadataId = cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+			var cMetadataIdGroup = CORA.coraData(cRecord
+					.getFirstChildByNameInData("metadataId"));
+			var metadataId = cMetadataIdGroup
+					.getFirstAtomicValueByNameInData("linkedRecordId");
+			var cRecordInfo = CORA.coraData(cRecord
+					.getFirstChildByNameInData("recordInfo"));
 			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			metadataIds[id] = metadataId;
 		}
@@ -161,7 +176,8 @@ var CORA = (function(cora) {
 				"baseUrl" : spec.baseUrl,
 				"jsClient" : out
 			};
-			var searchRecordHandler = dependencies.searchRecordHandlerFactory.factor(specSearch);
+			var searchRecordHandler = dependencies.searchRecordHandlerFactory
+					.factor(specSearch);
 			jsClientView.addToSearchesView(searchRecordHandler.getView());
 		}
 
@@ -185,7 +201,8 @@ var CORA = (function(cora) {
 				"recordTypeRecord" : record,
 				"baseUrl" : spec.baseUrl
 			};
-			var recordTypeHandler = CORA.recordTypeHandler(dependenciesRecord, specRecord);
+			var recordTypeHandler = CORA.recordTypeHandler(dependenciesRecord,
+					specRecord);
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}
 
@@ -233,20 +250,22 @@ var CORA = (function(cora) {
 
 		function clearWorkArea() {
 			if (managedGuiItemShowing !== undefined) {
-				managedGuiItemShowing.workView.style.display = "none";
+				managedGuiItemShowing.getWorkView().style.display = "none";
 			}
 		}
 
 		function resetLastShowingMenuItem() {
 			if (managedGuiItemShowing !== undefined) {
-				managedGuiItemShowing.menuView.className = managedGuiItemShowing.menuView.className
-						.replace(" active", "");
+//				managedGuiItemShowing.getMenuView().className = managedGuiItemShowing
+//						.getMenuView().className.replace(" active", "");
 				// managedGuiItemShowing.isActive = false;
+				managedGuiItemShowing.setActive(false);
 			}
 		}
 
 		function showNewWorkView(managedGuiItem) {
-			if (managedGuiItem.getWorkView().parentNode !== jsClientView.getWorkView()) {
+			if (managedGuiItem.getWorkView().parentNode !== jsClientView
+					.getWorkView()) {
 				jsClientView.addToWorkView(managedGuiItem.getWorkView());
 				managedGuiItem.getWorkView().scrollTop = 0;
 			}
@@ -267,10 +286,12 @@ var CORA = (function(cora) {
 		}
 
 		function afterLogin() {
-			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
+			dependencies.recordTypeProvider
+					.reload(afterRecordTypeProviderReload);
 		}
 		function afterLogout() {
-			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
+			dependencies.recordTypeProvider
+					.reload(afterRecordTypeProviderReload);
 		}
 
 		function afterRecordTypeProviderReload() {
@@ -300,23 +321,24 @@ var CORA = (function(cora) {
 		}
 
 		function hideAndRemoveView(managedGuiItem) {
-			jsClientView.removeFromWorkView(managedGuiItem.workView);
+			jsClientView.removeFromWorkView(managedGuiItem.getWorkView());
 		}
 
-		out = Object.freeze({
-			getView : getView,
-			getRecordTypeList : getRecordTypeList,
-			showView : showView,
-			createRecordTypeHandlerViewFactory : createRecordTypeHandlerViewFactory,
-			createRecordListHandlerFactory : createRecordListHandlerFactory,
-			createRecordHandlerFactory : createRecordHandlerFactory,
-			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
-			afterLogin : afterLogin,
-			afterLogout : afterLogout,
-			afterRecordTypeProviderReload : afterRecordTypeProviderReload,
-			createManagedGuiItem : createManagedGuiItem,
-			hideAndRemoveView : hideAndRemoveView
-		});
+		out = Object
+				.freeze({
+					getView : getView,
+					getRecordTypeList : getRecordTypeList,
+					showView : showView,
+					createRecordTypeHandlerViewFactory : createRecordTypeHandlerViewFactory,
+					createRecordListHandlerFactory : createRecordListHandlerFactory,
+					createRecordHandlerFactory : createRecordHandlerFactory,
+					getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
+					afterLogin : afterLogin,
+					afterLogout : afterLogout,
+					afterRecordTypeProviderReload : afterRecordTypeProviderReload,
+					createManagedGuiItem : createManagedGuiItem,
+					hideAndRemoveView : hideAndRemoveView
+				});
 		start();
 
 		return out;
