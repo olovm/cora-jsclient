@@ -62,6 +62,22 @@ var CORA = (function(cora) {
 			workView.appendChild(presentationToAdd);
 		}
 
+		function clearMenuView() {
+			var tempButton = menuView.lastChild;
+			clearNodeChildren(menuView);
+			menuView.appendChild(tempButton);
+		}
+
+		function clearNodeChildren(node) {
+			while (node.lastChild) {
+				node.removeChild(node.lastChild);
+			}
+		}
+
+		function clearWorkView() {
+			clearNodeChildren(workView);
+		}
+
 		var out = Object.freeze({
 			"type" : "managedGuiItemView",
 			getDependencies : getDependencies,
@@ -70,6 +86,8 @@ var CORA = (function(cora) {
 			getWorkView : getWorkView,
 			addMenuPresentation : addMenuPresentation,
 			addWorkPresentation : addWorkPresentation,
+			clearMenuView : clearMenuView,
+			clearWorkView : clearWorkView
 		});
 		return out;
 	};

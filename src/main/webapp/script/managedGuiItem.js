@@ -79,9 +79,6 @@ var CORA = (function(cora) {
 			addWorkPresentation : addWorkPresentation,
 			setChanged:setChanged,
 			setActive:setActive,
-			// TEMP HACK should be replaced with getMenuView
-//			menuView : menuView,
-//			workView : workView,
 
 		});
 
