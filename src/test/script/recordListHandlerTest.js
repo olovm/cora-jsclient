@@ -56,88 +56,67 @@ QUnit.module("recordListHandlerTest.js", {
 					"name" : "recordInfo"
 				}, {
 					"name" : "metadataId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "metadataGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeGroup"
+					} ]
 				}, {
 					"name" : "presentationViewId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeViewPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeViewPGroup"
+					} ]
 				}, {
 					"name" : "presentationFormId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeFormPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeFormPGroup"
+					} ]
 				}, {
 					"name" : "newMetadataId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "metadataGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeNewGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeNewGroup"
+					} ]
 				}, {
 					"name" : "newPresentationFormId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeFormNewPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeFormNewPGroup"
+					} ]
 				}, {
 					"name" : "menuPresentationViewId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeMenuPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeMenuPGroup"
+					} ]
 				}, {
 					"name" : "listPresentationViewId",
-					"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "presentationGroup"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "recordTypeListPGroup"
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordTypeListPGroup"
+					} ]
 				}, {
 					"name" : "searchMetadataId",
 					"value" : "recordTypeSearchGroup"
@@ -237,7 +216,6 @@ QUnit.module("recordListHandlerTest.js", {
 			}
 		};
 
-
 		var listItemWorkView = document.createElement("span");
 		var listText;
 		function createListItem(listTextIn) {
@@ -250,7 +228,7 @@ QUnit.module("recordListHandlerTest.js", {
 		var createRecordHandlerMethodCalledWithPresentationMode;
 		var createRecordHandlerMethodCalledWithRecord;
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-var dependencies = {
+		var dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy
 		};
 		this.listHandlerSpec = {
@@ -269,7 +247,7 @@ var dependencies = {
 //			},
 			"views": CORATEST.managedGuiItemSpy(),
 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-		};
+		}; 
 		this.answerListCall = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecordList = JSON.stringify(CORATEST.recordTypeList);
@@ -283,19 +261,19 @@ var dependencies = {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecordList = JSON.stringify(CORATEST.recordTypeBrokenList);
 			var answer = {
-					"spec" : ajaxCallSpy0.getSpec(),
-					"responseText" : jsonRecordList
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecordList
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
 		}
-		this.getCreateRecordHandlerMethodCalledWithPresentationMode=function(){
+		this.getCreateRecordHandlerMethodCalledWithPresentationMode = function() {
 			return createRecordHandlerMethodCalledWithPresentationMode;
 		}
-		this.getCreateRecordHandlerMethodCalledWithRecord=function(){
+		this.getCreateRecordHandlerMethodCalledWithRecord = function() {
 			return createRecordHandlerMethodCalledWithRecord;
 		}
 		this.firstRecord = CORATEST.recordTypeList.dataList.data[0].record;
-		
+
 	},
 	afterEach : function() {
 	}
@@ -391,6 +369,7 @@ QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(asse
 	var firstListItem = this.listHandlerSpec.views.getAddedWorkPresentation(0);
 	firstListItem.onclick();
 
+	
 	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithPresentationMode(), "view");
 	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithRecord(), this.firstRecord);
 });

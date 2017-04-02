@@ -256,8 +256,9 @@ var CORA = (function(cora) {
 
 		function resetLastShowingMenuItem() {
 			if (managedGuiItemShowing !== undefined) {
-//				managedGuiItemShowing.getMenuView().className = managedGuiItemShowing
-//						.getMenuView().className.replace(" active", "");
+				// managedGuiItemShowing.getMenuView().className =
+				// managedGuiItemShowing
+				// .getMenuView().className.replace(" active", "");
 				// managedGuiItemShowing.isActive = false;
 				managedGuiItemShowing.setActive(false);
 			}
@@ -267,8 +268,10 @@ var CORA = (function(cora) {
 			if (managedGuiItem.getWorkView().parentNode !== jsClientView
 					.getWorkView()) {
 				jsClientView.addToWorkView(managedGuiItem.getWorkView());
-				managedGuiItem.getWorkView().scrollTop = 0;
+				// TODO: should be handled by managedGuiItem on first active...
+				// managedGuiItem.getWorkView().scrollTop = 0;
 			}
+			// TODO: should be handled by managedGuiItem on active...
 			managedGuiItem.getWorkView().style.display = "";
 		}
 
@@ -306,17 +309,46 @@ var CORA = (function(cora) {
 			managedGuiItemToHandle.handledBy(managedGuiItemToHandle);
 		}
 
+		// function createManagedGuiItem(handledBy) {
+		// var managedGuiItem = {
+		// "handledBy" : handledBy,
+		// "workView" : CORA.gui.createSpanWithClassName("workView"),
+		// "menuView" : CORA.gui.createSpanWithClassName("menuView")
+		// };
+		// managedGuiItem.menuView.onclick = function() {
+		// showView(managedGuiItem);
+		// };
+		//
+		// managedGuiItemList.push(managedGuiItem);
+		// return managedGuiItem;
+		// }
 		function createManagedGuiItem(handledBy) {
-			var managedGuiItem = {
+			var menuPresentation = CORA.gui.createSpanWithClassName("menuView");
+			// menuPresentation.textContent = text;
+			var managedGuiItem;
+			var managedGuiItemSpec = {
 				"handledBy" : handledBy,
-				"workView" : CORA.gui.createSpanWithClassName("workView"),
-				"menuView" : CORA.gui.createSpanWithClassName("menuView")
+				"menuPresentation" : menuPresentation,
+				"workPresentation" : CORA.gui
+						.createSpanWithClassName("workPresentation"),
+				"activateMethod" : function() {
+					// dependencies.jsClient.showView(managedGuiItem);
+					showView(managedGuiItem);
+				},
+				"removeMenuMethod" : function() {
+					// removeViewsFromParentNodes(managedGuiItem);
+				},
+				"removeWorkMethod" : function() {
+				}
 			};
-			managedGuiItem.menuView.onclick = function() {
-				showView(managedGuiItem);
-			};
+			managedGuiItem = dependencies.managedGuiItemFactory
+					.factor(managedGuiItemSpec);
+			// recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
+
+			// showView(managedGuiItem);
 
 			managedGuiItemList.push(managedGuiItem);
+
 			return managedGuiItem;
 		}
 

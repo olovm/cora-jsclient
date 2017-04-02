@@ -19,11 +19,17 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordListHandler = function(spec) {
-//		var workView = spec.views.workView;
-//		var menuView = spec.views.menuView;
+//<<<<<<< HEAD
+// var workView = spec.views.workView;
+// var menuView = spec.views.menuView;
 		var workView = spec.views.getWorkView();
 		var menuView = spec.views.getMenuView();
 		
+//=======
+//		var views = spec.views;
+//		var workView = spec.views.getWorkView();
+//		var menuView = spec.views.getMenuView();
+//>>>>>>> branch 'CORA-316' of https:// github.com/olovm/cora-jsclient.git
 
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
@@ -39,21 +45,27 @@ var CORA = (function(cora) {
 
 		function addTextAndButtonToMenuView() {
 			addTextToMenuView();
-//			addRemoveButtonToMenuView();
+// addRemoveButtonToMenuView();
 		}
 
 		function addTextToMenuView() {
-//			menuView.textContent = "";
-//			menuView.textContent = "List";
+// menuView.textContent = "";
+//<<<<<<< HEAD
+// menuView.textContent = "List";
 			var menuPresentation = CORA.gui.createSpanWithClassName("");
 			menuPresentation.textContent = "List";
 			spec.views.addMenuPresentation(menuPresentation);
+//=======
+//			var menuPresentation = CORA.gui.createSpanWithClassName("list");
+//			menuPresentation.textContent = "List";
+//			views.addMenuPresentation(menuPresentation);
+//>>>>>>> branch 'CORA-316' of https:// github.com/olovm/cora-jsclient.git
 		}
 
-//		function addRemoveButtonToMenuView() {
-//			var removeButton = CORA.gui.createRemoveButton(removeViewsFromParentNodes);
-//			menuView.appendChild(removeButton);
-//		}
+// function addRemoveButtonToMenuView() {
+// var removeButton = CORA.gui.createRemoveButton(removeViewsFromParentNodes);
+// menuView.appendChild(removeButton);
+// }
 
 		function removeViewsFromParentNodes() {
 			if (menuView.parentNode !== null) {
@@ -92,17 +104,26 @@ var CORA = (function(cora) {
 			try {
 				addRecordToWorkView(recordContainer.record);
 			} catch (e) {
-//				workView.appendChild(document.createTextNode(e));
-//				workView.appendChild(document.createTextNode(e.stack));
+// workView.appendChild(document.createTextNode(e));
+// workView.appendChild(document.createTextNode(e.stack));
+//<<<<<<< HEAD
 				spec.views.addWorkPresentation(document.createTextNode(e));
 				spec.views.addWorkPresentation(document.createTextNode(e.stack));
+//=======C
+//				views.addWorkPresentation(document.createTextNode(e));
+//				views.addWorkPresentation(document.createTextNode(e.stack));
+//>>>>>>> branch 'CORA-316' of https:// github.com/olovm/cora-jsclient.git
 			}
 		}
 
 		function addRecordToWorkView(record) {
 			var view = createView(record);
-//			workView.appendChild(view);
+// workView.appendChild(view);
+//<<<<<<< HEAD
 			spec.views.addWorkPresentation(view);
+//=======
+//			views.addWorkPresentation(view);
+//>>>>>>> branch 'CORA-316' of https:// github.com/olovm/cora-jsclient.git
 			var recordTypeId = getRecordTypeId(record);
 			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
 			var presentationId = getListPresentationFromRecordTypeRecord();
@@ -142,9 +163,13 @@ var CORA = (function(cora) {
 
 		function callError(answer) {
 			var messageHolder = CORA.messageHolder();
-//			workView.appendChild(messageHolder.getView());
+// workView.appendChild(messageHolder.getView());
+//<<<<<<< HEAD
 			spec.views.addWorkPresentation(messageHolder.getView());
 			
+//=======
+//			views.addWorkPresentation(messageHolder.getView());
+//>>>>>>> branch 'CORA-316' of https:// github.com/olovm/cora-jsclient.git
 			var messageSpec = {
 				"message" : answer.status,
 				"type" : CORA.message.ERROR
