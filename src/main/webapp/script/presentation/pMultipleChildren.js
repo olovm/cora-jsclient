@@ -198,7 +198,8 @@ var CORA = (function(cora) {
 		}
 
 		function childHasMinimizedPresenation(cChildRef) {
-			return cChildRef.containsChildWithNameInData("refMinGroup");
+			return cChildRef.getNoOfChildrenWithNameInData("refGroup") === 2;
+			//return cChildRef.containsChildWithNameInData("refMinGroup");
 		}
 
 		function getMetadataById(id) {

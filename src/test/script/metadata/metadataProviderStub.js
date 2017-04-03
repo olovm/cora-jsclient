@@ -3302,17 +3302,18 @@ function MetadataProviderStub() {
                                 "repeatId": "1",
                                 "children": [{
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "idTextOutputPVar"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 },
@@ -3322,10 +3323,7 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                        "name": "default",
-                                        "value": "ref"
-                                    }]
+                                }]
                             }]
                         }])
                 };
@@ -3353,11 +3351,12 @@ function MetadataProviderStub() {
                                 "repeatId": "1",
                                 "children": [{
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "idTextOutputPVar"
@@ -3373,10 +3372,7 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },{
-                                        "name": "default",
-                                        "value": "ref"
-                                    }]
+                                }]
                             }]
                         }])
                 };
@@ -3914,17 +3910,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVariableId"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -3933,9 +3930,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -3966,17 +3960,18 @@ function MetadataProviderStub() {
             			"children": [
             				{
             					"name": "refGroup",
+                                "repeatId": "0",
             					"children": [{
             						"name": "ref",
             						"children": [{
             							"name": "linkedRecordType",
-            							"value": "presentationVar"
+            							"value": "presentation"
             						}, {
             							"name": "linkedRecordId",
             							"value": "pVarTextVariableId"
             						}],
             						"attributes": {
-            							"type": "pVar"
+            							"type": "presentation"
             						}
             					}]
             				}, {
@@ -3985,9 +3980,6 @@ function MetadataProviderStub() {
             				}, {
             					"name": "childStyle",
             					"value": "fourChildStyle"
-            				}, {
-            					"name": "default",
-            					"value": "ref"
             				}]
             		}]
             	}])
@@ -4016,17 +4008,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVariableIdOutput"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -4035,9 +4028,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -4065,14 +4055,15 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
-                                            "value": "pVarTextVariableIdOutputImage"
+                                            "value": "presentation"
                                         }],
                                         "attributes": {
                                             "type": "pVar"
@@ -4084,9 +4075,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -4115,17 +4103,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationCollectionVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "yesNoUnknownPCollVar"
                                         }],
                                         "attributes": {
-                                            "type": "pCollVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -4134,9 +4123,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -4170,6 +4156,7 @@ function MetadataProviderStub() {
                                         "children": [
                                             {
                                                 "name": "refGroup",
+                                                "repeatId": "0",
                                                 "children": [
                                                     {
                                                         "name": "ref",
@@ -4186,9 +4173,6 @@ function MetadataProviderStub() {
                                                             "type": "text"
                                                         }
                                                     }]
-                                            }, {
-                                                "name": "default",
-                                                "value": "ref"
                                             }]
                                     },
                                     {
@@ -4197,20 +4181,21 @@ function MetadataProviderStub() {
                                         "children": [
                                             {
                                                 "name": "refGroup",
+                                                "repeatId": "0",
                                                 "children": [
                                                      {
                                                         "name": "ref",
                                                         "children": [
                                                             {
                                                                 "name": "linkedRecordType",
-                                                                "value": "presentationCollectionVar"
+                                                                "value": "presentation"
                                                             },
                                                             {
                                                                 "name": "linkedRecordId",
                                                                 "value": "userSuppliedIdCollectionVarPCollVar"
                                                             }],
                                                         "attributes": {
-                                                            "type": "pCollVar"
+                                                            "type": "presentation"
                                                         }
                                                     }]
                                             },{
@@ -4220,10 +4205,6 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "childStyle",
                                                 "value": "fourChildStyle"
-                                            },
-                                             {
-                                                "name": "default",
-                                                "value": "ref"
                                             }]
                                     }]
                             }])
@@ -4251,6 +4232,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [ {
                                         "name": "ref",
                                         "children": [{
@@ -4270,9 +4252,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },{
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -4280,17 +4259,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVariableId"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -4299,9 +4279,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },{
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -4330,6 +4307,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
@@ -4349,9 +4327,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },  {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -4359,17 +4334,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVariableId"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 },{
@@ -4378,9 +4354,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },  {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -4388,14 +4361,15 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
-                                            "value": "pVarTextVariableIdOutput"
+                                            "value": "presentation"
                                         }],
                                         "attributes": {
                                             "type": "pVar"
@@ -4407,9 +4381,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -4438,33 +4409,35 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVariableId"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 },
                                 {
-                                    "name": "refMinGroup",
+                                    "name": "refGroup",
+                                    "repeatId": "1",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVariableIdOutput"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -4473,9 +4446,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "oneChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -4504,32 +4474,35 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "1",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
-                                        }, {
-                                            "name": "linkedRecordId",
-                                            "value": "pVarTextVariableId"
-                                        }],
-                                        "attributes": {
-                                            "type": "pVar"
-                                        }
-                                    }]
-                                }, {
-                                    "name": "refMinGroup",
-                                    "children": [{
-                                        "name": "ref",
-                                        "children": [{
-                                            "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVariableIdOutput"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
+                                        }
+                                    }]
+                                },
+                                {
+                                    "name": "refGroup",
+                                    "repeatId": "0",
+                                    "children": [{
+                                        "name": "ref",
+                                        "children": [{
+                                            "name": "linkedRecordType",
+                                            "value": "presentation"
+                                        }, {
+                                            "name": "linkedRecordId",
+                                            "value": "pVarTextVariableId"
+                                        }],
+                                        "attributes": {
+                                            "type": "presentation"
                                         }
                                     }]
                                 },
@@ -4539,9 +4512,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "twoChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "refMinimized"
                                 }]
                         }]
                     }])
@@ -4567,40 +4537,38 @@ function MetadataProviderStub() {
             			"name": "childReference",
             			"repeatId": "1",
             			"children": [
-            				{
+                            {
+                                "name": "refGroup",
+                                "children": [ {
+                                    "name": "ref",
+                                    "children": [{
+                                        "name": "linkedRecordType",
+                                        "value": "presentation"
+                                    }, {
+                                        "name": "linkedRecordId",
+                                        "value": "pVarTextVariableIdOutput"
+                                    }],
+                                    "attributes": {
+                                        "type": "presentation"
+                                    }
+                                }]
+                            },
+                            {
             					"name": "refGroup",
+                                "repeatId": "0",
             					"children": [{
             						"name": "ref",
             						"children": [{
             							"name": "linkedRecordType",
-            							"value": "presentationVar"
+            							"value": "presentation"
             						}, {
             							"name": "linkedRecordId",
             							"value": "pVarTextVariableId"
             						}],
             						"attributes": {
-            							"type": "pVar"
+            							"type": "presentation"
             						}
             					}]
-            				}, {
-            					"name": "refMinGroup",
-            					"children": [ {
-            						"name": "ref",
-            						"children": [{
-            							"name": "linkedRecordType",
-            							"value": "presentationVar"
-            						}, {
-            							"name": "linkedRecordId",
-            							"value": "pVarTextVariableIdOutput"
-            						}],
-            						"attributes": {
-            							"type": "pVar"
-            						}
-            					}]
-            				},
-            				{
-            					"name": "default",
-            					"value": "refMinimized"
             				}]
             		}]
             	}])
@@ -4626,45 +4594,43 @@ function MetadataProviderStub() {
             			"name": "childReference",
             			"repeatId": "1",
             			"children": [
-            				{
+                            {
+                                "name": "refGroup",
+                                "repeatId": "1",
+                                "children": [ {
+                                    "name": "ref",
+                                    "children": [{
+                                        "name": "linkedRecordType",
+                                        "value": "presentation"
+                                    }, {
+                                        "name": "linkedRecordId",
+                                        "value": "pVarTextVariableIdOutput"
+                                    }],
+                                    "attributes": {
+                                        "type": "presentation"
+                                    }
+                                }]
+                            },{
             					"name": "refGroup",
+                                "repeatId": "0",
             					"children": [{
             						"name": "ref",
             						"children": [{
             							"name": "linkedRecordType",
-            							"value": "presentationVar"
+            							"value": "presentation"
             						}, {
             							"name": "linkedRecordId",
             							"value": "pVarTextVariableId"
             						}],
             						"attributes": {
-            							"type": "pVar"
+            							"type": "presentation"
             						}
             					}]
-            				}, {
-            					"name": "refMinGroup",
-            					"children": [ {
-            						"name": "ref",
-            						"children": [{
-            							"name": "linkedRecordType",
-            							"value": "presentationVar"
-            						}, {
-            							"name": "linkedRecordId",
-            							"value": "pVarTextVariableIdOutput"
-            						}],
-            						"attributes": {
-            							"type": "pVar"
-            						}
-            					}]
-            				},
-            				{
-            					"name": "default",
-            					"value": "refMinimized"
             				},
             	            {
-            		              "name": "minNumberOfRepeatingToShow",
-            		              "value": "1"
-            		            }]
+                              "name": "minNumberOfRepeatingToShow",
+                              "value": "1"
+                            }]
             		}]
             	}])
             };
@@ -4719,17 +4685,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVariableId"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -4738,9 +4705,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -4748,17 +4712,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVariableId2"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -4767,9 +4732,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },{
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -4799,6 +4761,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [ {
                                         "name": "ref",
                                         "children": [{
@@ -4818,9 +4781,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -4828,17 +4788,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [ {
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationGroup"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pgGroupIdOneTextOneTextChild"
                                         }],
                                         "attributes": {
-                                            "type": "pGroup"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -4847,9 +4808,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },{
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -4878,6 +4836,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [ {
                                         "name": "ref",
                                         "children": [{
@@ -4897,9 +4856,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },{
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -4907,17 +4863,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "refTextVarPVar"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 },{
@@ -4926,9 +4883,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },  {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -4956,6 +4910,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
@@ -4975,9 +4930,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },  {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -4985,17 +4937,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVar"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -5004,9 +4957,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -5035,6 +4985,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
@@ -5054,9 +5005,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },  {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -5064,17 +5012,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVarOutput"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -5083,9 +5032,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -5113,6 +5059,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
@@ -5132,9 +5079,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -5142,17 +5086,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVarOutput"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 }, {
@@ -5161,9 +5106,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -5192,6 +5134,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [ {
                                         "name": "ref",
                                         "children": [{
@@ -5211,9 +5154,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },{
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -5221,17 +5161,18 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [{
                                         "name": "ref",
                                         "children": [{
                                             "name": "linkedRecordType",
-                                            "value": "presentationVar"
+                                            "value": "presentation"
                                         }, {
                                             "name": "linkedRecordId",
                                             "value": "pVarTextVar"
                                         }],
                                         "attributes": {
-                                            "type": "pVar"
+                                            "type": "presentation"
                                         }
                                     }]
                                 },{
@@ -5240,9 +5181,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },  {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -5270,6 +5208,7 @@ function MetadataProviderStub() {
             			"children": [
             				{
             					"name": "refGroup",
+                                "repeatId": "0",
             					"children": [ {
             						"name": "ref",
             						"children": [{
@@ -5289,43 +5228,42 @@ function MetadataProviderStub() {
         					}, {
         						"name": "childStyle",
         						"value": "fourChildStyle"
-        					},{
-            					"name": "default",
-            					"value": "ref"
-            				}]
+        					}]
             		}, {
             			"name": "childReference",
             			"repeatId": "2",
             			"children": [
             				{
             					"name": "refGroup",
+                                "repeatId": "0",
             					"children": [ {
             						"name": "ref",
             						"children": [{
             							"name": "linkedRecordType",
-            							"value": "presentationVar"
+            							"value": "presentation"
             						}, {
             							"name": "linkedRecordId",
             							"value": "pVarTextVar"
             						}],
             						"attributes": {
-            							"type": "pVar"
+            							"type": "presentation"
             						}
             					}]
             				},
                             {
-                                "name": "refMinGroup",
+                                "name": "refGroup",
+                                "repeatId": "1",
                                 "children": [{
                                     "name": "ref",
                                     "children": [{
                                         "name": "linkedRecordType",
-                                        "value": "presentationVar"
+                                        "value": "presentation"
                                     }, {
                                         "name": "linkedRecordId",
                                         "value": "pVarTextVariableIdOutput"
                                     }],
                                     "attributes": {
-                                        "type": "pVar"
+                                        "type": "presentation"
                                     }
                                 }]
                             }, {
@@ -5334,10 +5272,7 @@ function MetadataProviderStub() {
         					}, {
         						"name": "childStyle",
         						"value": "fourChildStyle"
-        					},{
-                                "name": "default",
-                                "value": "ref"
-                            }]
+        					}]
             		}]
             	}])
             };
@@ -5365,6 +5300,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [ {
                                         "name": "ref",
                                         "children": [{
@@ -5384,9 +5320,6 @@ function MetadataProviderStub() {
                                 }, {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                }, {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -5421,6 +5354,7 @@ function MetadataProviderStub() {
                                         "children": [
                                             {
                                                 "name": "refGroup",
+                                                "repeatId": "0",
                                                 "children": [
                                                     {
                                                         "name": "ref",
@@ -5444,10 +5378,6 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "childStyle",
                                                 "value": "fourChildStyle"
-                                            },
-                                           {
-                                                "name": "default",
-                                                "value": "ref"
                                             }]
                                     },
                                     {
@@ -5456,42 +5386,45 @@ function MetadataProviderStub() {
                                         "children": [
                                             {
                                                 "name": "refGroup",
+                                                "repeatId": "1",
                                                 "children": [
                                                     {
                                                         "name": "ref",
                                                         "children": [
                                                             {
                                                                 "name": "linkedRecordType",
-                                                                "value": "presentationGroup"
-                                                            },
-                                                            {
-                                                                "name": "linkedRecordId",
-                                                                "value": "pgTextVarRepeat1to3InGroupOneAttribute"
-                                                            }],
-                                                        "attributes": {
-                                                            "type": "pGroup"
-                                                        }
-                                                    }]
-                                            },
-                                            {
-                                                "name": "refMinGroup",
-                                                "children": [
-                                                    {
-                                                        "name": "ref",
-                                                        "children": [
-                                                            {
-                                                                "name": "linkedRecordType",
-                                                                "value": "presentationGroup"
+                                                                "value": "presentation"
                                                             },
                                                             {
                                                                 "name": "linkedRecordId",
                                                                 "value": "pgTextVarRepeat1to3InGroupOneAttributeMinimized"
                                                             }],
                                                         "attributes": {
-                                                            "type": "pGroup"
+                                                            "type": "presentation"
                                                         }
                                                     }]
                                             },
+                                            {
+                                                "name": "refGroup",
+                                                "repeatId": "0",
+                                                "children": [
+                                                    {
+                                                        "name": "ref",
+                                                        "children": [
+                                                            {
+                                                                "name": "linkedRecordType",
+                                                                "value": "presentation"
+                                                            },
+                                                            {
+                                                                "name": "linkedRecordId",
+                                                                "value": "pgTextVarRepeat1to3InGroupOneAttribute"
+                                                            }],
+                                                        "attributes": {
+                                                            "type": "presentation"
+                                                        }
+                                                    }]
+                                            },
+
                                             {
                                                 "name": "textStyle",
                                                 "value": "h2TextStyle"
@@ -5499,10 +5432,6 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "childStyle",
                                                 "value": "fourChildStyle"
-                                            },
-                                             {
-                                                "name": "default",
-                                                "value": "refMinimized"
                                             }]
                                     },
                                     {
@@ -5511,13 +5440,14 @@ function MetadataProviderStub() {
                                         "children": [
                                             {
                                                 "name": "refGroup",
+                                                "repeatId": "0",
                                                 "children": [
                                                    {
                                                         "name": "ref",
                                                         "children": [
                                                             {
                                                                 "name": "linkedRecordType",
-                                                                "value": "presentationGroup"
+                                                                "value": "presentation"
                                                             },
                                                             {
                                                                 "name": "linkedRecordId",
@@ -5525,20 +5455,21 @@ function MetadataProviderStub() {
                                                             }
                                                         ],
                                                         "attributes": {
-                                                            "type": "pGroup"
+                                                            "type": "presentation"
                                                         }
                                                     }
                                                 ]
                                             },
                                             {
-                                                "name": "refMinGroup",
+                                                "name": "refGroup",
+                                                "repeatId": "1",
                                                 "children": [
                                                      {
                                                         "name": "ref",
                                                         "children": [
                                                             {
                                                                 "name": "linkedRecordType",
-                                                                "value": "presentationGroup"
+                                                                "value": "presentation"
                                                             },
                                                             {
                                                                 "name": "linkedRecordId",
@@ -5546,7 +5477,7 @@ function MetadataProviderStub() {
                                                             }
                                                         ],
                                                         "attributes": {
-                                                            "type": "pGroup"
+                                                            "type": "presentation"
                                                         }
                                                     }
                                                 ]
@@ -5558,10 +5489,6 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "childStyle",
                                                 "value": "fourChildStyle"
-                                            },
-                                           {
-                                                "name": "default",
-                                                "value": "ref"
                                             }]
                                     }]
                             }])
@@ -5595,6 +5522,7 @@ function MetadataProviderStub() {
                                         "children": [
                                             {
                                                 "name": "refGroup",
+                                                "repeatId": "0",
                                                 "children": [
                                                     {
                                                         "name": "ref",
@@ -5621,10 +5549,6 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "childStyle",
                                                 "value": "fourChildStyle"
-                                            },
-                                           {
-                                                "name": "default",
-                                                "value": "ref"
                                             }]
                                     },
                                     {
@@ -5633,34 +5557,14 @@ function MetadataProviderStub() {
                                         "children": [
                                             {
                                                 "name": "refGroup",
-                                                "children": [
-                                                   {
-                                                        "name": "ref",
-                                                        "children": [
-                                                            {
-                                                                "name": "linkedRecordType",
-                                                                "value": "presentationGroup"
-                                                            },
-                                                            {
-                                                                "name": "linkedRecordId",
-                                                                "value": "pgTextVarRepeat1to3InGroupParentAttribute"
-                                                            }
-                                                        ],
-                                                        "attributes": {
-                                                            "type": "pGroup"
-                                                        }
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                "name": "refMinGroup",
+                                                "repeatId": "1",
                                                 "children": [
                                                     {
                                                         "name": "ref",
                                                         "children": [
                                                             {
                                                                 "name": "linkedRecordType",
-                                                                "value": "presentationGroup"
+                                                                "value": "presentation"
                                                             },
                                                             {
                                                                 "name": "linkedRecordId",
@@ -5668,7 +5572,28 @@ function MetadataProviderStub() {
                                                             }
                                                         ],
                                                         "attributes": {
-                                                            "type": "pGroup"
+                                                            "type": "presentation"
+                                                        }
+                                                    }
+                                                ]
+                                            },{
+                                                "name": "refGroup",
+                                                "repeatId": "0",
+                                                "children": [
+                                                   {
+                                                        "name": "ref",
+                                                        "children": [
+                                                            {
+                                                                "name": "linkedRecordType",
+                                                                "value": "presentation"
+                                                            },
+                                                            {
+                                                                "name": "linkedRecordId",
+                                                                "value": "pgTextVarRepeat1to3InGroupParentAttribute"
+                                                            }
+                                                        ],
+                                                        "attributes": {
+                                                            "type": "presentation"
                                                         }
                                                     }
                                                 ]
@@ -5680,10 +5605,6 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "childStyle",
                                                 "value": "fourChildStyle"
-                                            },
-                                             {
-                                                "name": "default",
-                                                "value": "refMinimized"
                                             }]
                                     }]
                             }])
@@ -5712,6 +5633,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
@@ -5738,10 +5660,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -5749,13 +5667,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -5763,7 +5682,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -5775,10 +5694,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -5806,6 +5721,7 @@ function MetadataProviderStub() {
             			"children": [
             				{
             					"name": "refGroup",
+                                "repeatId": "0",
             					"children": [
 //            						{
 //            							"name": "textStyle",
@@ -5832,10 +5748,6 @@ function MetadataProviderStub() {
             								}
             						}
             						]
-            				},
-            				{
-            					"name": "default",
-            					"value": "ref"
             				}]
             		}, {
             			"name": "childReference",
@@ -5843,13 +5755,14 @@ function MetadataProviderStub() {
             			"children": [
             				{
             					"name": "refGroup",
+                                "repeatId": "0",
             					"children": [
             						{
             							"name": "ref",
             							"children": [
             								{
             									"name": "linkedRecordType",
-            									"value": "presentationVar"
+            									"value": "presentation"
             								},
             								{
             									"name": "linkedRecordId",
@@ -5857,7 +5770,7 @@ function MetadataProviderStub() {
             								}
             								],
             								"attributes": {
-            									"type": "pVar"
+            									"type": "presentation"
             								}
             						}
             						]
@@ -5869,11 +5782,7 @@ function MetadataProviderStub() {
     						{
     							"name": "childStyle",
     							"value": "fourChildStyle"
-    						},
-    							{
-            					"name": "default",
-            					"value": "ref"
-            				}]
+    						}]
             		}]
             	}])
             };
@@ -5901,6 +5810,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                        {
                                             "name": "ref",
@@ -5927,10 +5837,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                   {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -5938,13 +5844,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -5952,7 +5859,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -5964,10 +5871,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -5975,13 +5878,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -5989,7 +5893,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -6001,10 +5905,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -6033,6 +5933,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
@@ -6059,10 +5960,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6070,13 +5967,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6084,7 +5982,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -6096,10 +5994,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6107,13 +6001,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6121,7 +6016,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -6133,10 +6028,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -6165,6 +6056,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
@@ -6191,10 +6083,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6202,13 +6090,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6216,7 +6105,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -6228,10 +6117,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6239,13 +6124,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6253,7 +6139,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -6265,10 +6151,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -6299,6 +6181,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
@@ -6325,10 +6208,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                  {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6336,13 +6215,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6350,20 +6230,21 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
                                 },
                                 {
-                                    "name": "refMinGroup",
+                                    "name": "refGroup",
+                                    "repeatId": "1",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6371,7 +6252,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -6383,10 +6264,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6394,13 +6271,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                           {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6408,7 +6286,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -6420,10 +6298,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }]
@@ -6452,6 +6326,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
@@ -6478,10 +6353,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6489,13 +6360,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationRepeatingContainer"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6503,7 +6375,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "container",
+                                                "type": "presentation",
                                                 "repeat": "this"
                                             }
                                         }
@@ -6516,10 +6388,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -6559,6 +6427,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
@@ -6585,10 +6454,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6596,13 +6461,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6610,7 +6476,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -6622,10 +6488,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                  {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6633,13 +6495,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                          {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6647,7 +6510,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -6659,10 +6522,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                               {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }]
@@ -6694,13 +6553,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                          {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationSurroundingContainer"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6708,7 +6568,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "container",
+                                                "type": "presentation",
                                                 "repeat": "children"
                                             }
                                         }
@@ -6721,10 +6581,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -6762,6 +6618,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                          {
                                             "name": "ref",
@@ -6788,10 +6645,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                              {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6799,13 +6652,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                          {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationSurroundingContainer"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6813,7 +6667,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "container",
+                                                "type": "presentation",
                                                 "repeat": "children"
                                             }
                                         }
@@ -6826,10 +6680,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }]
@@ -6858,13 +6708,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                          {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationSurroundingContainer"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6872,7 +6723,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "container",
+                                                "type": "presentation",
                                                 "repeat": "children"
                                             }
                                         }
@@ -6885,10 +6736,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                               {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -6923,6 +6770,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                        {
                                             "name": "ref",
@@ -6949,10 +6797,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6960,13 +6804,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -6974,7 +6819,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -6986,10 +6831,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }, {
                             "name": "childReference",
@@ -6997,34 +6838,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "1",
                                     "children": [
-                                       {
+                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationGroup"
-                                                },
-                                                {
-                                                    "name": "linkedRecordId",
-                                                    "value": "myChildPGroup"
-                                                }
-                                            ],
-                                            "attributes": {
-                                                "type": "pGroup"
-                                            }
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "refMinGroup",
-                                    "children": [
-                                       {
-                                            "name": "ref",
-                                            "children": [
-                                                {
-                                                    "name": "linkedRecordType",
-                                                    "value": "presentationGroup"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -7032,11 +6853,34 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pGroup"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
                                 },
+                                {
+                                    "name": "refGroup",
+                                    "repeatId": "0",
+                                    "children": [
+                                       {
+                                            "name": "ref",
+                                            "children": [
+                                                {
+                                                    "name": "linkedRecordType",
+                                                    "value": "presentation"
+                                                },
+                                                {
+                                                    "name": "linkedRecordId",
+                                                    "value": "myChildPGroup"
+                                                }
+                                            ],
+                                            "attributes": {
+                                                "type": "presentation"
+                                            }
+                                        }
+                                    ]
+                                },
+
                                 {
                                     "name": "textStyle",
                                     "value": "h2TextStyle"
@@ -7044,10 +6888,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "refMinimized"
                                 }]
                         }]
                     }]
@@ -7482,13 +7322,14 @@ function MetadataProviderStub() {
                                         "children": [
                                             {
                                                 "name": "refGroup",
+                                                "repeatId": "0",
                                                 "children": [
                                                       {
                                                         "name": "ref",
                                                         "children": [
                                                             {
                                                                 "name": "linkedRecordType",
-                                                                "value": "presentationRecordLink"
+                                                                "value": "presentation"
                                                             },
                                                             {
                                                                 "name": "linkedRecordId",
@@ -7496,7 +7337,7 @@ function MetadataProviderStub() {
                                                             }
                                                         ],
                                                         "attributes": {
-                                                            "type": "pRecordLink"
+                                                            "type": "presentation"
                                                         }
                                                     }
                                                 ]
@@ -7508,10 +7349,6 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "childStyle",
                                                 "value": "fourChildStyle"
-                                            },
-                                           {
-                                                "name": "default",
-                                                "value": "ref"
                                             }]
                                     },
                                     {
@@ -7520,13 +7357,14 @@ function MetadataProviderStub() {
                                         "children": [
                                             {
                                                 "name": "refGroup",
+                                                "repeatId": "0",
                                                 "children": [
                                                     {
                                                         "name": "ref",
                                                         "children": [
                                                             {
                                                                 "name": "linkedRecordType",
-                                                                "value": "presentationRecordLink"
+                                                                "value": "presentation"
                                                             },
                                                             {
                                                                 "name": "linkedRecordId",
@@ -7534,7 +7372,7 @@ function MetadataProviderStub() {
                                                             }
                                                         ],
                                                         "attributes": {
-                                                            "type": "pRecordLink"
+                                                            "type": "presentation"
                                                         }
                                                     }
                                                 ]
@@ -7546,10 +7384,6 @@ function MetadataProviderStub() {
                                             {
                                                 "name": "childStyle",
                                                 "value": "fourChildStyle"
-                                            },
-                                           {
-                                                "name": "default",
-                                                "value": "ref"
                                             }]
                                     }]
                             }])
@@ -7577,13 +7411,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationRecordLink"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -7591,7 +7426,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pRecordLink"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -7603,10 +7438,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }]
                         }]
                     }])
@@ -7649,13 +7480,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                          {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationGroup"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -7663,7 +7495,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pGroup"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -7675,10 +7507,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -7686,6 +7514,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                           {
                                             "name": "ref",
@@ -7712,10 +7541,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                             {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -7723,13 +7548,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                           {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -7737,7 +7563,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -7749,10 +7575,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                               {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -7760,6 +7582,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                        {
                                             "name": "ref",
@@ -7786,10 +7609,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -7797,13 +7616,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -7811,7 +7631,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -7823,10 +7643,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -7834,6 +7650,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                          {
                                             "name": "ref",
@@ -7860,10 +7677,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -7871,13 +7684,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                          {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -7885,7 +7699,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -7897,10 +7711,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                               {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -7908,6 +7718,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                        {
                                             "name": "ref",
@@ -7934,10 +7745,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -7945,13 +7752,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                        {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -7959,7 +7767,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -7971,10 +7779,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                  {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -7982,6 +7786,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
@@ -8008,10 +7813,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -8019,13 +7820,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                       {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -8033,7 +7835,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -8045,10 +7847,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                 {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -8056,6 +7854,7 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                           {
                                             "name": "ref",
@@ -8082,10 +7881,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                             {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }, {
@@ -8093,13 +7888,14 @@ function MetadataProviderStub() {
                             "children": [
                                 {
                                     "name": "refGroup",
+                                    "repeatId": "0",
                                     "children": [
                                         {
                                             "name": "ref",
                                             "children": [
                                                 {
                                                     "name": "linkedRecordType",
-                                                    "value": "presentationVar"
+                                                    "value": "presentation"
                                                 },
                                                 {
                                                     "name": "linkedRecordId",
@@ -8107,7 +7903,7 @@ function MetadataProviderStub() {
                                                 }
                                             ],
                                             "attributes": {
-                                                "type": "pVar"
+                                                "type": "presentation"
                                             }
                                         }
                                     ]
@@ -8119,10 +7915,6 @@ function MetadataProviderStub() {
                                 {
                                     "name": "childStyle",
                                     "value": "fourChildStyle"
-                                },
-                                {
-                                    "name": "default",
-                                    "value": "ref"
                                 }],
                             "name": "childReference"
                         }],
