@@ -107,6 +107,24 @@ QUnit.test("testAddWorkPresentation", function(assert) {
 	assert.strictEqual(workView.childNodes[1], presentation2);
 });
 
+QUnit.test("testUpdateMenuView", function(assert) {
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
+	var menuView = managedGuiItemView.getMenuView();
+	assert.strictEqual(menuView.className, "menuView");
+	
+	managedGuiItemView.updateMenuView({"active":false, "changed":false});
+	assert.strictEqual(menuView.className, "menuView");
+	
+	managedGuiItemView.updateMenuView({"active":true, "changed":false});
+	assert.strictEqual(menuView.className, "menuView active");
+	
+	managedGuiItemView.updateMenuView({"active":true, "changed":true});
+	assert.strictEqual(menuView.className, "menuView changed active");
+
+	managedGuiItemView.updateMenuView({"active":false, "changed":true});
+	assert.strictEqual(menuView.className, "menuView changed");
+});
+
 QUnit.test("testClearMenuView", function(assert) {
 	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var menuView = managedGuiItemView.getMenuView();

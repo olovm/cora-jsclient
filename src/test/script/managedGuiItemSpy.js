@@ -25,6 +25,8 @@ var CORATEST = (function(coraTest) {
 		var workView = CORA.gui.createSpanWithClassName("menuViewSpy");
 		var changed = false;
 		var active = false;
+		var menuViewCleared = 0;
+		var workViewCleared = 0;
 		
 		function getDependencies() {
 			return dependencies;
@@ -70,6 +72,18 @@ var CORATEST = (function(coraTest) {
 		function getActive(){
 			return active;
 		}
+		function clearMenuView(){
+			menuViewCleared++;
+		}
+		function getMenuViewCleared() {
+			return menuViewCleared;
+		}
+		function clearWorkView(){
+			workViewCleared++;
+		}
+		function getWorkViewCleared() {
+			return workViewCleared;
+		}
 		var out = Object.freeze({
 			"type" : "managedGuiItemSpy",
 			getDependencies : getDependencies,
@@ -84,7 +98,11 @@ var CORATEST = (function(coraTest) {
 			setChanged:setChanged,
 			getChanged:getChanged,
 			setActive:setActive,
-			getActive:getActive
+			getActive:getActive,
+			clearMenuView : clearMenuView,
+			getMenuViewCleared : getMenuViewCleared,
+			clearWorkView : clearWorkView,
+			getWorkViewCleared : getWorkViewCleared
 		});
 		
 		return out;

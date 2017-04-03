@@ -21,11 +21,12 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.managedGuiItemView = function(dependencies, spec) {
 
+		var originalMenuViewClassName = "menuView";
 		var menuView = createMenuView();
 		var workView = CORA.gui.createSpanWithClassName("workView");
 
 		function createMenuView() {
-			var newMenuView = CORA.gui.createSpanWithClassName("menuView");
+			var newMenuView = CORA.gui.createSpanWithClassName(originalMenuViewClassName);
 			newMenuView.onclick = spec.activateMethod;
 			newMenuView.appendChild(createRemoveButton());
 			return newMenuView;
@@ -62,6 +63,17 @@ var CORA = (function(cora) {
 			workView.appendChild(presentationToAdd);
 		}
 
+		function updateMenuView(state) {
+			var className = originalMenuViewClassName;
+			if(state.changed){
+				className += " changed";
+			}
+			if(state.active){
+				className += " active";
+			}
+			menuView.className = className;
+		}
+
 		function clearMenuView() {
 			var tempButton = menuView.lastChild;
 			clearNodeChildren(menuView);
@@ -86,6 +98,7 @@ var CORA = (function(cora) {
 			getWorkView : getWorkView,
 			addMenuPresentation : addMenuPresentation,
 			addWorkPresentation : addWorkPresentation,
+			updateMenuView : updateMenuView,
 			clearMenuView : clearMenuView,
 			clearWorkView : clearWorkView
 		});

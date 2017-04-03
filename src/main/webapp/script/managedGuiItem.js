@@ -1,5 +1,6 @@
 /*
  * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -24,7 +25,8 @@ var CORA = (function(cora) {
 			"removeMenuMethod" : spec.removeMenuMethod,
 			"removeWorkMethod" : spec.removeWorkMethod
 		};
-		var managedGuiItemView = dependencies.managedGuiItemViewFactory.factor(viewSpec);
+		var managedGuiItemView = dependencies.managedGuiItemViewFactory
+				.factor(viewSpec);
 		if (spec.menuPresentation !== undefined) {
 			managedGuiItemView.addMenuPresentation(spec.menuPresentation);
 		}
@@ -34,6 +36,9 @@ var CORA = (function(cora) {
 
 		var menuView = getMenuView();
 		var workView = getWorkView();
+
+		var active = false;
+		var changed = false;
 
 		function getMenuView() {
 			return managedGuiItemView.getMenuView();
@@ -62,12 +67,31 @@ var CORA = (function(cora) {
 		function addWorkPresentation(presentationToAdd) {
 			managedGuiItemView.addWorkPresentation(presentationToAdd);
 		}
-		function setChanged(changedIn){
-			//TODO:
+		function setChanged(changedIn) {
+			changed = changedIn;
+			updateViewState();
 		}
-		function setActive(activeIn){
-			//TODO:
+
+		function updateViewState() {
+			var state = {
+				"active" : active,
+				"changed" : changed
+			};
+			managedGuiItemView.updateMenuView(state);
 		}
+		function setActive(activeIn) {
+			active = activeIn;
+			updateViewState();
+		}
+
+		function clearMenuView() {
+			managedGuiItemView.clearMenuView();
+		}
+
+		function clearWorkView() {
+			managedGuiItemView.clearWorkView();
+		}
+
 		var out = Object.freeze({
 			"type" : "managedGuiItem",
 			getDependencies : getDependencies,
@@ -77,9 +101,10 @@ var CORA = (function(cora) {
 			handleBy : handleBy,
 			addMenuPresentation : addMenuPresentation,
 			addWorkPresentation : addWorkPresentation,
-			setChanged:setChanged,
-			setActive:setActive,
-
+			setChanged : setChanged,
+			setActive : setActive,
+			clearMenuView : clearMenuView,
+			clearWorkView : clearWorkView
 		});
 
 		return out;
