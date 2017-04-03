@@ -26,17 +26,15 @@ var CORA = (function(cora) {
 		var workView = CORA.gui.createSpanWithClassName("workView");
 
 		function createMenuView() {
-			var newMenuView = CORA.gui.createSpanWithClassName(originalMenuViewClassName);
+			var newMenuView = CORA.gui
+					.createSpanWithClassName(originalMenuViewClassName);
 			newMenuView.onclick = spec.activateMethod;
 			newMenuView.appendChild(createRemoveButton());
 			return newMenuView;
 		}
 
 		function createRemoveButton() {
-			return CORA.gui.createRemoveButton(function() {
-				spec.removeMenuMethod();
-				spec.removeWorkMethod();
-			});
+			return CORA.gui.createRemoveButton(spec.removeMethod);
 		}
 
 		function getSpec() {
@@ -65,10 +63,10 @@ var CORA = (function(cora) {
 
 		function updateMenuView(state) {
 			var className = originalMenuViewClassName;
-			if(state.changed){
+			if (state.changed) {
 				className += " changed";
 			}
-			if(state.active){
+			if (state.active) {
 				className += " active";
 			}
 			menuView.className = className;

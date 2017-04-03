@@ -131,22 +131,28 @@ QUnit.test("testActivateMethodPassedOnToView", function(assert) {
 			this.spec.activateMethod);
 });
 
-QUnit.test("testRemoveMenuMethodPassedOnToView", function(assert) {
+QUnit.test("testRemoveMethodAddedToView", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
 
 	var factoredView = this.dependencies.managedGuiItemViewFactory
 			.getFactored(0);
-	assert.strictEqual(factoredView.getSpec().removeMenuMethod,
-			this.spec.removeMenuMethod);
+	assert.strictEqual(factoredView.getSpec().removeMethod,
+			managedGuiItem.remove);
 });
 
-QUnit.test("testRemoveWorkMethodPassedOnToView", function(assert) {
+QUnit.test("testRemoveMethod", function(assert) {
+	var removeMenuMethodHasBeenCalled = false;
+	this.spec.removeMenuMethod = function() {
+		removeMenuMethodHasBeenCalled = true;
+	}
+	var removeWorkMethodHasBeenCalled = false;
+	this.spec.removeWorkMethod = function() {
+		removeWorkMethodHasBeenCalled = true;
+	}
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
-
-	var factoredView = this.dependencies.managedGuiItemViewFactory
-			.getFactored(0);
-	assert.strictEqual(factoredView.getSpec().removeWorkMethod,
-			this.spec.removeWorkMethod);
+	managedGuiItem.remove();
+	assert.ok(removeMenuMethodHasBeenCalled);
+	assert.ok(removeWorkMethodHasBeenCalled);
 });
 
 QUnit.test("testAddMenuPresentationPassedOnToView", function(assert) {
@@ -190,22 +196,34 @@ QUnit.test("testSetChangedPassedOnToView", function(assert) {
 			.getFactored(0);
 
 	assert.strictEqual(factoredView.getState(), undefined);
-	 managedGuiItem.setChanged(false);
-	 assert.stringifyEqual(factoredView.getState(), {"active": false, "changed": false});
-	 managedGuiItem.setChanged(true);
-	 assert.stringifyEqual(factoredView.getState(), {"active": false, "changed": true});
+	managedGuiItem.setChanged(false);
+	assert.stringifyEqual(factoredView.getState(), {
+		"active" : false,
+		"changed" : false
+	});
+	managedGuiItem.setChanged(true);
+	assert.stringifyEqual(factoredView.getState(), {
+		"active" : false,
+		"changed" : true
+	});
 });
 
 QUnit.test("testSetActivePassedOnToView", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
 	var factoredView = this.dependencies.managedGuiItemViewFactory
-	.getFactored(0);
-	
+			.getFactored(0);
+
 	assert.strictEqual(factoredView.getState(), undefined);
 	managedGuiItem.setActive(false);
-	assert.stringifyEqual(factoredView.getState(), {"active": false, "changed": false});
+	assert.stringifyEqual(factoredView.getState(), {
+		"active" : false,
+		"changed" : false
+	});
 	managedGuiItem.setActive(true);
-	assert.stringifyEqual(factoredView.getState(), {"active": true, "changed": false});
+	assert.stringifyEqual(factoredView.getState(), {
+		"active" : true,
+		"changed" : false
+	});
 });
 
 QUnit.test("testClearMenuViewPassedOnToView", function(assert) {

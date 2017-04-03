@@ -22,30 +22,30 @@ var CORA = (function(cora) {
 	cora.managedGuiItem = function(dependencies, spec) {
 		var viewSpec = {
 			"activateMethod" : spec.activateMethod,
-			"removeMenuMethod" : spec.removeMenuMethod,
-			"removeWorkMethod" : spec.removeWorkMethod
+			"removeMethod" : remove
 		};
-		var managedGuiItemView = dependencies.managedGuiItemViewFactory
-				.factor(viewSpec);
+		var view = dependencies.managedGuiItemViewFactory.factor(viewSpec);
 		if (spec.menuPresentation !== undefined) {
-			managedGuiItemView.addMenuPresentation(spec.menuPresentation);
+			view.addMenuPresentation(spec.menuPresentation);
 		}
 		if (spec.workPresentation !== undefined) {
-			managedGuiItemView.addWorkPresentation(spec.workPresentation);
+			view.addWorkPresentation(spec.workPresentation);
 		}
-
-		var menuView = getMenuView();
-		var workView = getWorkView();
 
 		var active = false;
 		var changed = false;
 
+		function remove() {
+			spec.removeMenuMethod();
+			spec.removeWorkMethod();
+		}
+
 		function getMenuView() {
-			return managedGuiItemView.getMenuView();
+			return view.getMenuView();
 		}
 
 		function getWorkView() {
-			return managedGuiItemView.getWorkView();
+			return view.getWorkView();
 		}
 
 		function getDependencies() {
@@ -61,12 +61,13 @@ var CORA = (function(cora) {
 		}
 
 		function addMenuPresentation(presentationToAdd) {
-			managedGuiItemView.addMenuPresentation(presentationToAdd);
+			view.addMenuPresentation(presentationToAdd);
 		}
 
 		function addWorkPresentation(presentationToAdd) {
-			managedGuiItemView.addWorkPresentation(presentationToAdd);
+			view.addWorkPresentation(presentationToAdd);
 		}
+
 		function setChanged(changedIn) {
 			changed = changedIn;
 			updateViewState();
@@ -77,7 +78,7 @@ var CORA = (function(cora) {
 				"active" : active,
 				"changed" : changed
 			};
-			managedGuiItemView.updateMenuView(state);
+			view.updateMenuView(state);
 		}
 		function setActive(activeIn) {
 			active = activeIn;
@@ -85,11 +86,11 @@ var CORA = (function(cora) {
 		}
 
 		function clearMenuView() {
-			managedGuiItemView.clearMenuView();
+			view.clearMenuView();
 		}
 
 		function clearWorkView() {
-			managedGuiItemView.clearWorkView();
+			view.clearWorkView();
 		}
 
 		var out = Object.freeze({
@@ -99,6 +100,7 @@ var CORA = (function(cora) {
 			getMenuView : getMenuView,
 			getWorkView : getWorkView,
 			handleBy : handleBy,
+			remove : remove,
 			addMenuPresentation : addMenuPresentation,
 			addWorkPresentation : addWorkPresentation,
 			setChanged : setChanged,
