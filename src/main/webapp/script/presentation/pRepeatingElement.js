@@ -114,12 +114,12 @@ var CORA = (function(cora) {
 			view.className = "repeatingElement";
 		}
 
-		function addPresentationMinimized(presentationMinimizedIn, minimizedDefault) {
+		function addPresentationMinimized(presentationMinimizedIn) {
 			presentationMinimized = presentationMinimizedIn.getView();
 			presentationMinimized.className = presentationMinimized.className + " minimized";
 			view.insertBefore(presentationMinimized, buttonView);
 			createMinimizeMaximizeButtons();
-			toggleMinimizedShown(minimizedDefault);
+			toggleMinimizedShown("false");
 		}
 
 		function toggleMinimizedShown(minimizedShown) {

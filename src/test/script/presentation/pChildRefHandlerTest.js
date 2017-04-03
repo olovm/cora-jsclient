@@ -1492,7 +1492,6 @@ QUnit.test("testWithMinimized", function(assert) {
 QUnit.test("testWithMinimizedDefault", function(assert) {
 	this.spec.cPresentationMinimized = CORA.coraData(this.metadataProvider
 			.getMetadataById("pVarTextVariableIdOutput"));
-	this.spec.minimizedDefault = "true";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 	var view = pChildRefHandler.getView();
 	this.fixture.appendChild(view);
@@ -1501,7 +1500,6 @@ QUnit.test("testWithMinimizedDefault", function(assert) {
 
 	var factored = this.dependencies.pRepeatingElementFactory.getFactored(0);
 	assert.ok(factored.getPresentationMinimized() !== undefined);
-	assert.strictEqual(factored.getMinimizedDefault(), "true");
 });
 QUnit.test("testPresentationMatchingNameInData", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
