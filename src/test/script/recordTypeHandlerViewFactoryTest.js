@@ -18,42 +18,42 @@
  */
 "use strict";
 
-QUnit.module("recordTypeHandlerViewFactoryTest.js", {
+QUnit.module("managedGuiItemViewFactoryTest.js", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.dependencies = {};
 		this.spec = {
 			"presentationId" : "pVarTextVariableId"
 		};
-		this.recordTypeHandlerViewFactory = CORA.recordTypeHandlerViewFactory(this.dependencies);
+		this.managedGuiItemViewFactory = CORA.managedGuiItemViewFactory(this.dependencies);
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	assert.ok(this.recordTypeHandlerViewFactory);
-	assert.strictEqual(this.recordTypeHandlerViewFactory.type, "recordTypeHandlerViewFactory");
+	assert.ok(this.managedGuiItemViewFactory);
+	assert.strictEqual(this.managedGuiItemViewFactory.type, "managedGuiItemViewFactory");
 });
 
 QUnit.test("getDependencies", function(assert) {
-	assert.strictEqual(this.recordTypeHandlerViewFactory.getDependencies(), this.dependencies);
+	assert.strictEqual(this.managedGuiItemViewFactory.getDependencies(), this.dependencies);
 });
 
 QUnit.test("factorTestDependencies", function(assert) {
-	var recordTypeHandlerView = this.recordTypeHandlerViewFactory.factor(this.spec);
-	assert.ok(recordTypeHandlerView);
-	assert.strictEqual(recordTypeHandlerView.getDependencies(), this.dependencies);
+	var managedGuiItemView = this.managedGuiItemViewFactory.factor(this.spec);
+	assert.ok(managedGuiItemView);
+	assert.strictEqual(managedGuiItemView.getDependencies(), this.dependencies);
 });
 
 QUnit.test("factorTestType", function(assert) {
-	var recordTypeHandlerView = this.recordTypeHandlerViewFactory.factor(this.spec);
-	assert.ok(recordTypeHandlerView);
-	assert.strictEqual(recordTypeHandlerView.type, "recordTypeHandlerView");
+	var managedGuiItemView = this.managedGuiItemViewFactory.factor(this.spec);
+	assert.ok(managedGuiItemView);
+	assert.strictEqual(managedGuiItemView.type, "managedGuiItemView");
 });
 
 QUnit.test("factorTestSpec", function(assert) {
-	var recordTypeHandlerView = this.recordTypeHandlerViewFactory.factor(this.spec);
-	var recordTypeHandlerViewSpec = recordTypeHandlerView.getSpec();
-	assert.strictEqual(recordTypeHandlerViewSpec, this.spec);
+	var managedGuiItemView = this.managedGuiItemViewFactory.factor(this.spec);
+	var managedGuiItemViewSpec = managedGuiItemView.getSpec();
+	assert.strictEqual(managedGuiItemViewSpec, this.spec);
 });

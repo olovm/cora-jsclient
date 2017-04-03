@@ -160,9 +160,9 @@ var CORA = (function(cora) {
 			views.addMenuPresentation(menuPresentationView);
 		}
 
-		function createRemoveButton() {
-			return CORA.gui.createRemoveButton(removeViewsFromParentNodes);
-		}
+//		function createRemoveButton() {
+//			return CORA.gui.createRemoveButton(removeViewsFromParentNodes);
+//		}
 
 		function createRecordHandlerView() {
 			var workItemViewFactory = CORA.workItemViewFactory(spec.dependencies);

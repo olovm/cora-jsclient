@@ -190,7 +190,7 @@ var CORA = (function(cora) {
 
 		function addRecordTypeToSideBar(record) {
 			var dependenciesRecord = {
-				"recordTypeHandlerViewFactory" : createRecordTypeHandlerViewFactory(),
+				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : createRecordListHandlerFactory(),
 				"recordHandlerFactory" : createRecordHandlerFactory(),
 				"recordGuiFactory" : recordGuiFactory,
@@ -207,16 +207,6 @@ var CORA = (function(cora) {
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}
 
-		function createRecordTypeHandlerViewFactory() {
-			return {
-				"factor" : function(viewSpec) {
-					var dependen = {
-						"jsClient" : out
-					};
-					return CORA.recordTypeHandlerView(dependen, viewSpec);
-				}
-			};
-		}
 		function createRecordListHandlerFactory() {
 			return {
 				"factor" : function(listHandlerSpec) {
@@ -362,7 +352,7 @@ var CORA = (function(cora) {
 					getView : getView,
 					getRecordTypeList : getRecordTypeList,
 					showView : showView,
-					createRecordTypeHandlerViewFactory : createRecordTypeHandlerViewFactory,
+//					createRecordTypeHandlerViewFactory : createRecordTypeHandlerViewFactory,
 					createRecordListHandlerFactory : createRecordListHandlerFactory,
 					createRecordHandlerFactory : createRecordHandlerFactory,
 					getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,

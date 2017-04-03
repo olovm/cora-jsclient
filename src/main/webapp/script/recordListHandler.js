@@ -20,22 +20,12 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordListHandler = function(spec) {
-//<<<<<<< HEAD
-// var workView = spec.views.workView;
-// var menuView = spec.views.menuView;
 		var workView = spec.views.getWorkView();
 		var menuView = spec.views.getMenuView();
 		
-//=======
-//		var views = spec.views;
-//		var workView = spec.views.getWorkView();
-//		var menuView = spec.views.getMenuView();
-//>>>>>>> branch 'CORA-316' of https:// github.com/olovm/cora-jsclient.git
-
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
-		addTextAndButtonToMenuView();
-
+		addTextToMenuView();
 		fetchDataFromServer(processFetchedRecords);
 
 		function getIdFromRecord(record) {
@@ -44,29 +34,11 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		function addTextAndButtonToMenuView() {
-			addTextToMenuView();
-// addRemoveButtonToMenuView();
-		}
-
 		function addTextToMenuView() {
-// menuView.textContent = "";
-//<<<<<<< HEAD
-// menuView.textContent = "List";
 			var menuPresentation = CORA.gui.createSpanWithClassName("");
 			menuPresentation.textContent = "List";
 			spec.views.addMenuPresentation(menuPresentation);
-//=======
-//			var menuPresentation = CORA.gui.createSpanWithClassName("list");
-//			menuPresentation.textContent = "List";
-//			views.addMenuPresentation(menuPresentation);
-//>>>>>>> branch 'CORA-316' of https:// github.com/olovm/cora-jsclient.git
 		}
-
-// function addRemoveButtonToMenuView() {
-// var removeButton = CORA.gui.createRemoveButton(removeViewsFromParentNodes);
-// menuView.appendChild(removeButton);
-// }
 
 		function removeViewsFromParentNodes() {
 			if (menuView.parentNode !== null) {

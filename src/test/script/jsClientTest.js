@@ -363,12 +363,12 @@ QUnit.test("testFactories", function(assert) {
 
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 
-	var viewSpec = {
-		"headerText" : "some text",
-		"fetchListMethod" : function() {
-		}
-	};
-	var recordTypeHandlerView = jsClient.createRecordTypeHandlerViewFactory().factor(viewSpec);
+//	var viewSpec = {
+//		"headerText" : "some text",
+//		"fetchListMethod" : function() {
+//		}
+//	};
+//	var recordTypeHandlerView = jsClient.createRecordTypeHandlerViewFactory().factor(viewSpec);
 
 	var workView = document.createElement("span");
 	var menuView = document.createElement("span");
@@ -402,7 +402,7 @@ QUnit.test("testFactories", function(assert) {
 	};
 	var recordHandler = jsClient.createRecordHandlerFactory().factor(recordHandlerSpec);
 
-	assert.notStrictEqual(recordTypeHandlerView, undefined);
+//	assert.notStrictEqual(recordTypeHandlerView, undefined);
 	assert.notStrictEqual(recordListHandler, undefined);
 	assert.notStrictEqual(recordHandler, undefined);
 });
