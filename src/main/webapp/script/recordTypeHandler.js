@@ -23,7 +23,6 @@ var CORA = (function(cora) {
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
 		var viewSpec = {
-			// "dependencies" : dependencies,
 			"headerText" : recordId,
 			"fetchListMethod" : createRecordTypeList
 		};

@@ -24,67 +24,8 @@ QUnit
 				"recordListHandlerTest.js",
 				{
 					beforeEach : function() {
-//						this.record = CORATEST.recordTypeRecord;
 						this.record = CORATEST.recordTypeList.dataList.data[4].record;
-						this.workView = document.createElement("span");
-						this.menuView = document.createElement("span");
-//						this.jsClientSpy = {
-//							"getMetadataIdForRecordTypeId" : function(
-//									recordTypeId) {
-//								return "recordTypeGroup2";
-//							}
-//						};
 
-						this.presentation = {
-							"getView" : function() {
-								return document.createElement("span");
-							}
-						};
-
-						var presentation = this.presentation;
-						this.presentationIdUsed = [];
-						var presentationIdUsed = this.presentationIdUsed;
-						this.metadataIdsUsedInData = [];
-						var metadataIdsUsedInData = this.metadataIdsUsedInData;
-						this.recordGui = {
-							"getPresentation" : function(presentationId,
-									metadataIdUsedInData) {
-								presentationIdUsed.push(presentationId);
-								metadataIdsUsedInData
-										.push(metadataIdUsedInData);
-								return presentation;
-							},
-							"initMetadataControllerStartingGui" : function initMetadataControllerStartingGui() {
-							},
-							"dataHolder" : {
-								"getData" : function() {
-									return {};
-								}
-							}
-						};
-
-						var recordGui = this.recordGui;
-						this.metadataIdUsed = [];
-						var metadataIdUsed = this.metadataIdUsed;
-						this.dataDividerUsed = [];
-						var dataDividerUsed = this.dataDividerUsed;
-						this.recordGuiFactorySpy = {
-							"factor" : function(metadataId, data, dataDivider) {
-								metadataIdUsed.push(metadataId);
-								dataDividerUsed.push(dataDivider);
-								return recordGui;
-							}
-						};
-
-						var listItemWorkView = document.createElement("span");
-						var listText;
-						function createListItem(listTextIn) {
-							listText = listTextIn;
-							return {
-								"workView" : listItemWorkView,
-								"menuView" : this.menuView
-							};
-						}
 						var createRecordHandlerMethodCalledWithPresentationMode;
 						var createRecordHandlerMethodCalledWithRecord;
 						this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
@@ -97,21 +38,13 @@ QUnit
 						};
 						this.dependencies = dependencies;
 						this.listHandlerSpec = {
-							"dependencies" : dependencies,
-//							"jsClient" : this.jsClientSpy,
-							// "recordGuiFactory" : this.recordGuiFactorySpy,
 							"recordTypeRecord" : this.record,
-							"createListItemMethod" : createListItem,
 							"createRecordHandlerMethod" : function(
 									presentationMode, record) {
 								createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
 								createRecordHandlerMethodCalledWithRecord = record;
 							},
 							"jsClient" : CORATEST.jsClientSpy(),
-							// "views" : {
-							// "workView" : this.workView,
-							// "menuView" : this.menuView
-							// },
 							"views" : CORATEST.managedGuiItemSpy(),
 							"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 						};
