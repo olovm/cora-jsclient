@@ -51,15 +51,6 @@ var CORA = (function(cora) {
 			managedGuiItem.addMenuPresentation(menuPresentation);
 		}
 
-		function removemanagedGuiItemFromParentNodes() {
-			if (menuView.parentNode !== null) {
-				menuView.parentNode.removeChild(menuView);
-			}
-			if (workView.parentNode !== null) {
-				workView.parentNode.removeChild(workView);
-			}
-		}
-
 		function fetchDataFromServer(callAfterAnswer) {
 			var readLink = spec.recordTypeRecord.actionLinks.list;
 			var callSpec = {
