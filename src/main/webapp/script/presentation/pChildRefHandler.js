@@ -292,8 +292,7 @@ var CORA = (function(cora) {
 			if (hasMinimizedPresentation()) {
 				var presentationMinimized = factorPresentation(path, spec.cPresentationMinimized,
 						metadataIdToAdd);
-				repeatingElement.addPresentationMinimized(presentationMinimized,
-						spec.minimizedDefault);
+				repeatingElement.addPresentationMinimized(presentationMinimized);
 			}
 		}
 
