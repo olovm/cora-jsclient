@@ -98,6 +98,14 @@ var CORA = (function(cora) {
 			view.clearWorkView();
 		}
 
+		function hideWorkView() {
+			view.hideWorkView();
+		}
+
+		function showWorkView() {
+			view.showWorkView();
+		}
+
 		out = Object.freeze({
 			"type" : "managedGuiItem",
 			getDependencies : getDependencies,
@@ -111,7 +119,9 @@ var CORA = (function(cora) {
 			setChanged : setChanged,
 			setActive : setActive,
 			clearMenuView : clearMenuView,
-			clearWorkView : clearWorkView
+			clearWorkView : clearWorkView,
+			hideWorkView : hideWorkView,
+			showWorkView : showWorkView
 		});
 
 		return out;

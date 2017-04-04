@@ -26,8 +26,7 @@ var CORA = (function(cora) {
 		var workView = CORA.gui.createSpanWithClassName("workView");
 
 		function createMenuView() {
-			var newMenuView = CORA.gui
-					.createSpanWithClassName(originalMenuViewClassName);
+			var newMenuView = CORA.gui.createSpanWithClassName(originalMenuViewClassName);
 			newMenuView.onclick = spec.activateMethod;
 			newMenuView.appendChild(createRemoveButton());
 			return newMenuView;
@@ -88,6 +87,14 @@ var CORA = (function(cora) {
 			clearNodeChildren(workView);
 		}
 
+		function hideWorkView() {
+			workView.style.display = "none";
+		}
+
+		function showWorkView() {
+			workView.style.display = "";
+		}
+
 		var out = Object.freeze({
 			"type" : "managedGuiItemView",
 			getDependencies : getDependencies,
@@ -98,7 +105,9 @@ var CORA = (function(cora) {
 			addWorkPresentation : addWorkPresentation,
 			updateMenuView : updateMenuView,
 			clearMenuView : clearMenuView,
-			clearWorkView : clearWorkView
+			clearWorkView : clearWorkView,
+			hideWorkView : hideWorkView,
+			showWorkView : showWorkView
 		});
 		return out;
 	};

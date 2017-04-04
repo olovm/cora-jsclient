@@ -22,15 +22,14 @@ var CORATEST = (function(coraTest) {
 		var addedChildren = [];
 		var removedChildren = [];
 		var movedChildren = [];
-		var menuView = CORA.gui
-				.createSpanWithClassName("managedGuiItemMenuViewSpyView");
-		var workView = CORA.gui
-				.createSpanWithClassName("managedGuiItemWorkViewSpyView");
+		var menuView = CORA.gui.createSpanWithClassName("managedGuiItemMenuViewSpyView");
+		var workView = CORA.gui.createSpanWithClassName("managedGuiItemWorkViewSpyView");
 		var addedMenuPresentations = [];
 		var addedWorkPresentations = [];
 		var menuViewCleared = 0;
 		var workViewCleared = 0;
-
+		var hidden = 0;
+		var shown = 0;
 		var state;
 
 		function getMenuView() {
@@ -78,6 +77,19 @@ var CORATEST = (function(coraTest) {
 		function getState() {
 			return state;
 		}
+		function hideWorkView() {
+			hidden++;
+		}
+		function getHidden() {
+			return hidden;
+		}
+		
+		function showWorkView(){
+			shown++
+		}
+		function getShown(){
+			return shown;
+		}
 		var out = Object.freeze({
 			"type" : "managedGuiItemViewSpy",
 			getDependencies : getDependencies,
@@ -93,7 +105,11 @@ var CORATEST = (function(coraTest) {
 			clearMenuView : clearMenuView,
 			getMenuViewCleared : getMenuViewCleared,
 			clearWorkView : clearWorkView,
-			getWorkViewCleared : getWorkViewCleared
+			getWorkViewCleared : getWorkViewCleared,
+			hideWorkView : hideWorkView,
+			getHidden : getHidden,
+			showWorkView:showWorkView,
+			getShown:getShown
 		});
 		return out;
 	};

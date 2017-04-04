@@ -181,3 +181,29 @@ QUnit.test("testClearWorkView", function(assert) {
 	managedGuiItemView.clearWorkView();
 	assert.strictEqual(workView.childNodes[0], undefined);
 });
+
+QUnit.test("testHideWorkView", function(assert) {
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
+			this.spec);
+	var workView = managedGuiItemView.getWorkView();
+	assert.strictEqual(workView.style.display, "");
+	
+	managedGuiItemView.hideWorkView();
+	
+	assert.strictEqual(workView.style.display, "none");
+});
+
+QUnit.test("testShowWorkView", function(assert) {
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
+			this.spec);
+	var workView = managedGuiItemView.getWorkView();
+	assert.strictEqual(workView.style.display, "");
+	
+	managedGuiItemView.showWorkView();
+
+	managedGuiItemView.hideWorkView();
+	assert.strictEqual(workView.style.display, "none");
+
+	managedGuiItemView.showWorkView();
+	assert.strictEqual(workView.style.display, "");
+});
