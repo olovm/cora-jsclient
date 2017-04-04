@@ -24,7 +24,8 @@ QUnit
 				"recordListHandlerTest.js",
 				{
 					beforeEach : function() {
-						this.record = CORATEST.recordTypeRecord;
+//						this.record = CORATEST.recordTypeRecord;
+						this.record = CORATEST.recordTypeList.dataList.data[4].record;
 						this.workView = document.createElement("span");
 						this.menuView = document.createElement("span");
 //						this.jsClientSpy = {

@@ -18,25 +18,28 @@
  */
 "use strict";
 
-QUnit.module("recordListHandlerFactoryTest.js", {
-	beforeEach : function() {
-		this.metadataProvider = new MetadataProviderStub();
-		this.dependencies = {
-			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-			"managedGuiItemFactory" : CORATEST
-					.standardFactorySpy("managedGuiItemSpy")
-		};
-		this.spec = {
-			"presentationId" : "pVarTextVariableId",
-			"recordTypeRecord" : CORATEST.recordTypeRecord,
-			"jsClient" : CORATEST.jsClientSpy()
-		};
-		this.recordListHandlerFactory = CORA
-				.recordListHandlerFactory(this.dependencies);
-	},
-	afterEach : function() {
-	}
-});
+QUnit
+		.module(
+				"recordListHandlerFactoryTest.js",
+				{
+					beforeEach : function() {
+						this.metadataProvider = new MetadataProviderStub();
+						this.dependencies = {
+							"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
+							"managedGuiItemFactory" : CORATEST
+									.standardFactorySpy("managedGuiItemSpy")
+						};
+						this.spec = {
+							"presentationId" : "pVarTextVariableId",
+							"recordTypeRecord" : CORATEST.recordTypeList.dataList.data[4].record,
+							"jsClient" : CORATEST.jsClientSpy()
+						};
+						this.recordListHandlerFactory = CORA
+								.recordListHandlerFactory(this.dependencies);
+					},
+					afterEach : function() {
+					}
+				});
 
 QUnit.test("init", function(assert) {
 	assert.ok(this.recordListHandlerFactory);
