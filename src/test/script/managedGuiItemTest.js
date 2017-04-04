@@ -122,13 +122,17 @@ QUnit.test("testHandleBy", function(assert) {
 	assert.strictEqual(handleByCalledWith, "someThing");
 });
 
-QUnit.test("testActivateMethodPassedOnToView", function(assert) {
+QUnit.test("testActivateMethodPassedOnToViewCallsMethodWithSelf", function(
+		assert) {
+	var calledWithManagedGuiItem;
+	this.spec.activateMethod = function(managedGuiItem) {
+		calledWithManagedGuiItem = managedGuiItem;
+	}
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
 
-	var factoredView = this.dependencies.managedGuiItemViewFactory
-			.getFactored(0);
-	assert.strictEqual(factoredView.getSpec().activateMethod,
-			this.spec.activateMethod);
+	var factoredSpec = this.dependencies.managedGuiItemViewFactory.getSpec(0);
+	factoredSpec.activateMethod();
+	assert.strictEqual(calledWithManagedGuiItem, managedGuiItem);
 });
 
 QUnit.test("testRemoveMethodAddedToView", function(assert) {

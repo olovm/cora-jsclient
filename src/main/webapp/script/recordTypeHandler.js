@@ -30,7 +30,8 @@ var CORA = (function(cora) {
 			viewSpec.createNewMethod = createRecordHandler;
 		}
 
-		var recordTypeHandlerView = dependencies.recordTypeHandlerViewFactory.factor(viewSpec);
+		var recordTypeHandlerView = dependencies.recordTypeHandlerViewFactory
+				.factor(viewSpec);
 
 		function getView() {
 			return recordTypeHandlerView.getView();
@@ -38,7 +39,8 @@ var CORA = (function(cora) {
 
 		function getIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = CORA.coraData(cData
+					.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
@@ -51,26 +53,25 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordTypeList() {
-			var views = createManagedGuiItem("menuView");
+			// var views = createManagedGuiItem("menuView2");
 			var listHandlerSpec = {
-				"dependencies" : dependencies,
+				// TODO: should be a factory instead
 				"createRecordHandlerMethod" : createRecordHandler,
-				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"recordTypeRecord" : spec.recordTypeRecord,
-				"views" : views,
 				"baseUrl" : spec.baseUrl,
-				"jsClient" : dependencies.jsClient
+				"jsClient" : dependencies.jsClient,
+				"addToRecordTypeHandlerMethod" : addManagedGuiItem
 			};
 			dependencies.recordListHandlerFactory.factor(listHandlerSpec);
 		}
 
-//		function createManagedGuiItem(text) {
-//			var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
-//			managedGuiItem.menuView.textContent = text;
-//			recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
-//			dependencies.jsClient.showView(managedGuiItem);
-//			return managedGuiItem;
-//		}
+		// function createManagedGuiItem(text) {
+		// var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
+		// managedGuiItem.menuView.textContent = text;
+		// recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
+		// dependencies.jsClient.showView(managedGuiItem);
+		// return managedGuiItem;
+		// }
 		function createManagedGuiItem(text) {
 			var menuPresentation = CORA.gui.createSpanWithClassName("menuView");
 			menuPresentation.textContent = text;
@@ -79,7 +80,8 @@ var CORA = (function(cora) {
 				"handledBy" : function() {
 				},
 				"menuPresentation" : menuPresentation,
-				"workPresentation" : CORA.gui.createSpanWithClassName("workPresentation"),
+				"workPresentation" : CORA.gui
+						.createSpanWithClassName("workPresentation"),
 				"activateMethod" : function() {
 					dependencies.jsClient.showView(managedGuiItem);
 				},
@@ -89,7 +91,8 @@ var CORA = (function(cora) {
 				"removeWorkMethod" : function() {
 				}
 			};
-			managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
+			managedGuiItem = dependencies.managedGuiItemFactory
+					.factor(managedGuiItemSpec);
 			recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
 			dependencies.jsClient.showView(managedGuiItem);
 			return managedGuiItem;
@@ -132,11 +135,16 @@ var CORA = (function(cora) {
 			};
 		}
 
+		function addManagedGuiItem(managedGuiItem) {
+			recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
+		}
+
 		var out = Object.freeze({
 			getView : getView,
 			createRecordTypeList : createRecordTypeList,
 			createRecordHandlerViewFactory : createRecordHandlerViewFactory,
-			createRecordHandler : createRecordHandler
+			createRecordHandler : createRecordHandler,
+			addManagedGuiItem : addManagedGuiItem
 		});
 		self = out;
 		return out;

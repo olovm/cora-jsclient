@@ -81,7 +81,7 @@ QUnit.test("initWithoutCreateButton", function(assert) {
 	assert.strictEqual(factoredViewSpec.createNewMethod, undefined);
 });
 
-QUnit.test("fetchList", function(assert) {
+QUnit.test("fetchListCheckSpec", function(assert) {
 	var recordTypeHandler = CORA
 			.recordTypeHandler(this.dependencies, this.spec);
 
@@ -92,8 +92,10 @@ QUnit.test("fetchList", function(assert) {
 			recordTypeHandler.createRecordHandler);
 
 	assert.strictEqual(factoredListHandlerSpec.recordTypeRecord, this.record);
-	assert.strictEqual(factoredListHandlerSpec.views,
-			this.dependencies.managedGuiItemFactory.getFactored(0));
+	// assert.strictEqual(factoredListHandlerSpec.views,
+	// this.dependencies.managedGuiItemFactory.getFactored(0));
+	assert.strictEqual(factoredListHandlerSpec.addToRecordTypeHandlerMethod,
+			recordTypeHandler.addManagedGuiItem);
 	assert.strictEqual(factoredListHandlerSpec.baseUrl, this.spec.baseUrl);
 });
 
@@ -132,8 +134,8 @@ QUnit.test("showRecord", function(assert) {
 	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler,
 			recordTypeHandler);
-	assert.strictEqual(catchRecordHandlerSpec.views,
-			this.dependencies.managedGuiItemFactory.getFactored(1));
+	// assert.strictEqual(catchRecordHandlerSpec.views,
+	// this.dependencies.managedGuiItemFactory.getFactored(1));
 });
 
 QUnit.test("showNew", function(assert) {
@@ -172,8 +174,8 @@ QUnit.test("showNew", function(assert) {
 	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
 	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler,
 			recordTypeHandler);
-	assert.strictEqual(catchRecordHandlerSpec.views,
-			this.dependencies.managedGuiItemFactory.getFactored(1));
+	// assert.strictEqual(catchRecordHandlerSpec.views,
+	// this.dependencies.managedGuiItemFactory.getFactored(1));
 });
 
 QUnit.test("testFactory", function(assert) {

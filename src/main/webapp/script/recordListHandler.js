@@ -27,8 +27,10 @@ var CORA = (function(cora) {
 			// .createSpanWithClassName("menuPresentation"),
 			// "workPresentation" : CORA.gui
 			// .createSpanWithClassName("workPresentation"),
-			"activateMethod" : function() {
-			},
+//			"activateMethod" : function() {
+//				spec.jsClient.showView(views);
+//			},
+			"activateMethod" : spec.jsClient.showView,
 			"removeMenuMethod" : function() {
 			},
 			"removeWorkMethod" : function() {
@@ -36,7 +38,10 @@ var CORA = (function(cora) {
 		};
 		var views = dependencies.managedGuiItemFactory
 				.factor(managedGuiItemSpec);
+
+		spec.addToRecordTypeHandlerMethod(views);
 		spec.jsClient.showView(views);
+
 		var workView = views.getWorkView();
 		var menuView = views.getMenuView();
 

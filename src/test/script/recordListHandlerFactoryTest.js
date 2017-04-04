@@ -32,7 +32,10 @@ QUnit
 						this.spec = {
 							"presentationId" : "pVarTextVariableId",
 							"recordTypeRecord" : CORATEST.recordTypeList.dataList.data[4].record,
-							"jsClient" : CORATEST.jsClientSpy()
+							"jsClient" : CORATEST.jsClientSpy(),
+							"addToRecordTypeHandlerMethod": function(managedGuiItem){
+								//we do not check anything here
+							}
 						};
 						this.recordListHandlerFactory = CORA
 								.recordListHandlerFactory(this.dependencies);

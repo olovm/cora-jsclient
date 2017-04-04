@@ -37,6 +37,10 @@ QUnit
 
 						};
 						this.dependencies = dependencies;
+						
+						var addedManagedGuiItem;
+						
+						
 						this.listHandlerSpec = {
 							"recordTypeRecord" : this.record,
 							"createRecordHandlerMethod" : function(
@@ -46,8 +50,17 @@ QUnit
 							},
 							"jsClient" : CORATEST.jsClientSpy(),
 							"views" : CORATEST.managedGuiItemSpy(),
-							"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+							"baseUrl" : "http://epc.ub.uu.se/cora/rest/",
+							"addToRecordTypeHandlerMethod" : function(managedGuiItem){
+								addedManagedGuiItem = managedGuiItem;
+							}
 						};
+						
+						this.getAddedManagedGuiItem = function(){
+							return addedManagedGuiItem;
+						}
+						
+						
 						this.answerListCall = function(no) {
 							var ajaxCallSpy0 = this.ajaxCallFactorySpy
 									.getFactored(no);
@@ -116,16 +129,31 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(ajaxCallSpec.loadMethod,
 			recordListHandler.processFetchedRecords);
 });
+
 QUnit.test("initTestManagedGuiItemFactoryCalled", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.dependencies,
 			this.listHandlerSpec);
 
 	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory
 			.getFactored(0);
-	var managedGuiItemSpySpec = managedGuiItemSpy.getSpec(0);
-	// assert.strictEqual(managedGuiItemSpySpec.x, "");
+	var managedGuiItemSpec = managedGuiItemSpy.getSpec(0);
+	 assert.strictEqual(managedGuiItemSpec.activateMethod, this.listHandlerSpec.jsClient.showView);
 	assert.ok(managedGuiItemSpy !== undefined);
 });
+
+QUnit.test("initTestManagedGuiItemAddedToRecordTypeHandler", function(assert) {
+	var recordListHandler = CORA.recordListHandler(this.dependencies,
+			this.listHandlerSpec);
+	var addedManagedGuiItem = this.getAddedManagedGuiItem();
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory
+	.getFactored(0);
+//	var managedGuiItemSpySpec = managedGuiItemSpy.getSpec(0);
+	// assert.strictEqual(managedGuiItemSpySpec.x, "");
+//	assert.ok(managedGuiItemSpy !== undefined);
+	 assert.strictEqual(addedManagedGuiItem, managedGuiItemSpy);
+});
+
+
 
 QUnit.test("initCheckRemoveOnMenu", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.dependencies,

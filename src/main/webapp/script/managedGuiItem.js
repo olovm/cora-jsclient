@@ -20,8 +20,9 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.managedGuiItem = function(dependencies, spec) {
+		var out;
 		var viewSpec = {
-			"activateMethod" : spec.activateMethod,
+			"activateMethod" : activate,
 			"removeMethod" : remove
 		};
 		var view = dependencies.managedGuiItemViewFactory.factor(viewSpec);
@@ -34,6 +35,10 @@ var CORA = (function(cora) {
 
 		var active = false;
 		var changed = false;
+
+		function activate() {
+			spec.activateMethod(out);
+		}
 
 		function remove() {
 			spec.removeMenuMethod();
@@ -93,7 +98,7 @@ var CORA = (function(cora) {
 			view.clearWorkView();
 		}
 
-		var out = Object.freeze({
+		out = Object.freeze({
 			"type" : "managedGuiItem",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
