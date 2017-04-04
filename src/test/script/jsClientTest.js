@@ -370,20 +370,20 @@ QUnit.test("testFactories", function(assert) {
 //	};
 //	var recordTypeHandlerView = jsClient.createRecordTypeHandlerViewFactory().factor(viewSpec);
 
-	var workView = document.createElement("span");
-	var menuView = document.createElement("span");
-	var listHandlerSpec = {
-		"dependencies" : this.dependencies,
-		"recordTypeRecord" : this.record,
-//		"views" : {
-//			"workView" : workView,
-//			"menuView" : menuView
-//		},
-		"views" : CORATEST.managedGuiItemSpy(),
-		
-		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-	};
-	var recordListHandler = jsClient.createRecordListHandlerFactory().factor(listHandlerSpec);
+//	var workView = document.createElement("span");
+//	var menuView = document.createElement("span");
+//	var listHandlerSpec = {
+//		"dependencies" : this.dependencies,
+//		"recordTypeRecord" : this.record,
+////		"views" : {
+////			"workView" : workView,
+////			"menuView" : menuView
+////		},
+//		"views" : CORATEST.managedGuiItemSpy(),
+//		
+//		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+//	};
+//	var recordListHandler = jsClient.createRecordListHandlerFactory().factor(listHandlerSpec);
 
 	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
@@ -403,7 +403,7 @@ QUnit.test("testFactories", function(assert) {
 	var recordHandler = jsClient.createRecordHandlerFactory().factor(recordHandlerSpec);
 
 //	assert.notStrictEqual(recordTypeHandlerView, undefined);
-	assert.notStrictEqual(recordListHandler, undefined);
+//	assert.notStrictEqual(recordListHandler, undefined);
 	assert.notStrictEqual(recordHandler, undefined);
 });
 

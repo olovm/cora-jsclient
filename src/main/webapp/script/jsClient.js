@@ -189,9 +189,14 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordTypeToSideBar(record) {
+			var depRecordListHandlerFactory = {
+					"ajaxCallFactory" : dependencies.ajaxCallFactory,
+					"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+			};
 			var dependenciesRecord = {
 				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
-				"recordListHandlerFactory" : createRecordListHandlerFactory(),
+//				"recordListHandlerFactory" : createRecordListHandlerFactory(),
+				"recordListHandlerFactory" : CORA.recordListHandlerFactory(depRecordListHandlerFactory),
 				"recordHandlerFactory" : createRecordHandlerFactory(),
 				"recordGuiFactory" : recordGuiFactory,
 				"jsClient" : out,
@@ -207,13 +212,13 @@ var CORA = (function(cora) {
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}
 
-		function createRecordListHandlerFactory() {
-			return {
-				"factor" : function(listHandlerSpec) {
-					return CORA.recordListHandler(listHandlerSpec);
-				}
-			};
-		}
+//		function createRecordListHandlerFactory() {
+//			return {
+//				"factor" : function(listHandlerSpec) {
+//					return CORA.recordListHandler(listHandlerSpec);
+//				}
+//			};
+//		}
 
 		function createRecordHandlerFactory() {
 			return {
@@ -353,7 +358,7 @@ var CORA = (function(cora) {
 					getRecordTypeList : getRecordTypeList,
 					showView : showView,
 //					createRecordTypeHandlerViewFactory : createRecordTypeHandlerViewFactory,
-					createRecordListHandlerFactory : createRecordListHandlerFactory,
+//					createRecordListHandlerFactory : createRecordListHandlerFactory,
 					createRecordHandlerFactory : createRecordHandlerFactory,
 					getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
 					afterLogin : afterLogin,

@@ -19,10 +19,27 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordListHandler = function(spec) {
-		var workView = spec.views.getWorkView();
-		var menuView = spec.views.getMenuView();
-		
+	cora.recordListHandler = function(dependencies, spec) {
+		var managedGuiItemSpec = {
+			"handledBy" : function() {
+			},
+			// "menuPresentation" : CORA.gui
+			// .createSpanWithClassName("menuPresentation"),
+			// "workPresentation" : CORA.gui
+			// .createSpanWithClassName("workPresentation"),
+			"activateMethod" : function() {
+			},
+			"removeMenuMethod" : function() {
+			},
+			"removeWorkMethod" : function() {
+			}
+		};
+		var views = dependencies.managedGuiItemFactory
+				.factor(managedGuiItemSpec);
+		spec.jsClient.showView(views);
+		var workView = views.getWorkView();
+		var menuView = views.getMenuView();
+
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
 		addTextToMenuView();
@@ -30,14 +47,15 @@ var CORA = (function(cora) {
 
 		function getIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = CORA.coraData(cData
+					.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
 		function addTextToMenuView() {
 			var menuPresentation = CORA.gui.createSpanWithClassName("");
 			menuPresentation.textContent = "List";
-			spec.views.addMenuPresentation(menuPresentation);
+			views.addMenuPresentation(menuPresentation);
 		}
 
 		function removeViewsFromParentNodes() {
@@ -59,7 +77,7 @@ var CORA = (function(cora) {
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
-			spec.dependencies.ajaxCallFactory.factor(callSpec);
+			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function processFetchedRecords(answer) {
@@ -77,44 +95,53 @@ var CORA = (function(cora) {
 			try {
 				addRecordToWorkView(recordContainer.record);
 			} catch (e) {
-// workView.appendChild(document.createTextNode(e));
-// workView.appendChild(document.createTextNode(e.stack));
-//<<<<<<< HEAD
-				spec.views.addWorkPresentation(document.createTextNode(e));
-				spec.views.addWorkPresentation(document.createTextNode(e.stack));
-//=======C
-//				views.addWorkPresentation(document.createTextNode(e));
-//				views.addWorkPresentation(document.createTextNode(e.stack));
-//>>>>>>> branch 'CORA-316' of https:// github.com/olovm/cora-jsclient.git
+				// workView.appendChild(document.createTextNode(e));
+				// workView.appendChild(document.createTextNode(e.stack));
+				// <<<<<<< HEAD
+				views.addWorkPresentation(document.createTextNode(e));
+				views.addWorkPresentation(document.createTextNode(e.stack));
+				// =======C
+				// views.addWorkPresentation(document.createTextNode(e));
+				// views.addWorkPresentation(document.createTextNode(e.stack));
+				// >>>>>>> branch 'CORA-316' of https://
+				// github.com/olovm/cora-jsclient.git
 			}
 		}
 
 		function addRecordToWorkView(record) {
 			var view = createView(record);
-// workView.appendChild(view);
-//<<<<<<< HEAD
-			spec.views.addWorkPresentation(view);
-//=======
-//			views.addWorkPresentation(view);
-//>>>>>>> branch 'CORA-316' of https:// github.com/olovm/cora-jsclient.git
+			// workView.appendChild(view);
+			// <<<<<<< HEAD
+			console.log("here")
+			views.addWorkPresentation(view);
+			console.log("here2", views)
+			// =======
+			// views.addWorkPresentation(view);
+			// >>>>>>> branch 'CORA-316' of https://
+			// github.com/olovm/cora-jsclient.git
 			var recordTypeId = getRecordTypeId(record);
-			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
+			var metadataId = spec.jsClient
+					.getMetadataIdForRecordTypeId(recordTypeId);
 			var presentationId = getListPresentationFromRecordTypeRecord();
 			var dataDivider = getDataDividerFromData(record.data);
-			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data, dataDivider);
+			var recordGui = spec.recordGuiFactory.factor(metadataId,
+					record.data, dataDivider);
 
-			var presentationView = recordGui.getPresentation(presentationId, metadataId).getView();
+			var presentationView = recordGui.getPresentation(presentationId,
+					metadataId).getView();
 			recordGui.initMetadataControllerStartingGui();
-			view.appendChild(presentationView);
+			view.appendChild(presentationView);	
 		}
 		function getRecordTypeId(record) {
 			var cData = CORA.coraData(record.data);
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = CORA.coraData(cData
+					.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("type");
 		}
 
 		function createView(record) {
-			var newView = CORA.gui.createSpanWithClassName("listItem " + recordId);
+			var newView = CORA.gui.createSpanWithClassName("listItem "
+					+ recordId);
 			newView.onclick = function() {
 				spec.createRecordHandlerMethod("view", record);
 			};
@@ -123,26 +150,32 @@ var CORA = (function(cora) {
 
 		function getListPresentationFromRecordTypeRecord() {
 			var cData = CORA.coraData(spec.recordTypeRecord.data);
-			var cRecordLink = CORA.coraData(cData.getFirstChildByNameInData("listPresentationViewId"));
-			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
+			var cRecordLink = CORA.coraData(cData
+					.getFirstChildByNameInData("listPresentationViewId"));
+			return cRecordLink
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function getDataDividerFromData(data) {
 			var cData = CORA.coraData(data);
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			var cDataDivider = CORA.coraData(cRecordInfo.getFirstChildByNameInData("dataDivider"));
-			return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
+			var cRecordInfo = CORA.coraData(cData
+					.getFirstChildByNameInData("recordInfo"));
+			var cDataDivider = CORA.coraData(cRecordInfo
+					.getFirstChildByNameInData("dataDivider"));
+			return cDataDivider
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function callError(answer) {
 			var messageHolder = CORA.messageHolder();
-// workView.appendChild(messageHolder.getView());
-//<<<<<<< HEAD
-			spec.views.addWorkPresentation(messageHolder.getView());
-			
-//=======
-//			views.addWorkPresentation(messageHolder.getView());
-//>>>>>>> branch 'CORA-316' of https:// github.com/olovm/cora-jsclient.git
+			// workView.appendChild(messageHolder.getView());
+			// <<<<<<< HEAD
+			views.addWorkPresentation(messageHolder.getView());
+
+			// =======
+			// views.addWorkPresentation(messageHolder.getView());
+			// >>>>>>> branch 'CORA-316' of https://
+			// github.com/olovm/cora-jsclient.git
 			var messageSpec = {
 				"message" : answer.status,
 				"type" : CORA.message.ERROR
@@ -150,9 +183,19 @@ var CORA = (function(cora) {
 			messageHolder.createMessage(messageSpec);
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
 		var out = Object.freeze({
+			"type" : "recordListHandler",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			open : open,
-			processFetchedRecords:processFetchedRecords
+			processFetchedRecords : processFetchedRecords
 		});
 		return out;
 	};
