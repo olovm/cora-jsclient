@@ -35,8 +35,7 @@ var CORA = (function(cora) {
 			var jsClientViewSpec = {
 				"name" : spec.name
 			};
-			jsClientView = dependencies.jsClientViewFactory
-					.factor(jsClientViewSpec);
+			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 
 			var loginManagerSpec = {
 				"afterLoginMethod" : afterLogin,
@@ -44,8 +43,7 @@ var CORA = (function(cora) {
 				"setErrorMessage" : jsClientView.addErrorMessage,
 				"appTokenBaseUrl" : spec.appTokenBaseUrl
 			};
-			loginManager = dependencies.loginManagerFactory
-					.factor(loginManagerSpec);
+			loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
 			jsClientView.addLoginManagerView(loginManager.getHtml());
 
 			var uploadManagerSpec = {
@@ -54,8 +52,8 @@ var CORA = (function(cora) {
 			};
 
 			var recordGuiFactorySpec = dependencies;
-			recordGuiFactorySpec.uploadManager = CORA.uploadManager(
-					dependencies, uploadManagerSpec);
+			recordGuiFactorySpec.uploadManager = CORA
+					.uploadManager(dependencies, uploadManagerSpec);
 			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
 			processRecordTypes();
 			addSearchesToSideBar(dependencies.searchProvider.getAllSearches());
@@ -67,16 +65,13 @@ var CORA = (function(cora) {
 		}
 
 		function sortRecordTypesFromRecordTypeProvider() {
-			var allRecordTypes = dependencies.recordTypeProvider
-					.getAllRecordTypes();
+			var allRecordTypes = dependencies.recordTypeProvider.getAllRecordTypes();
 			var recordTypeLists = sortRecordTypesIntoLists(allRecordTypes);
 			var list = [];
-			recordTypeLists.abstractList
-					.forEach(function(parent) {
-						list.push(parent);
-						addChildrenOfCurrentParentToList(parent,
-								recordTypeLists, list);
-					});
+			recordTypeLists.abstractList.forEach(function(parent) {
+				list.push(parent);
+				addChildrenOfCurrentParentToList(parent, recordTypeLists, list);
+			});
 
 			list = list.concat(recordTypeLists.noParentList);
 			return list;
@@ -89,26 +84,22 @@ var CORA = (function(cora) {
 			recordTypeLists.noParentList = [];
 
 			unsortedRecordTypes.forEach(function(recordType) {
-				separateAbstractAndNonAbstractRecordTypes(recordTypeLists,
-						recordType);
+				separateAbstractAndNonAbstractRecordTypes(recordTypeLists, recordType);
 			});
 			return recordTypeLists;
 		}
 
-		function separateAbstractAndNonAbstractRecordTypes(recordTypeLists,
-				record) {
+		function separateAbstractAndNonAbstractRecordTypes(recordTypeLists, record) {
 			var cRecord = CORA.coraData(record.data);
 
 			if (isAbstract(cRecord)) {
 				recordTypeLists.abstractList.push(record);
 			} else {
-				separateChildrenAndStandaloneRecordTypes(recordTypeLists,
-						cRecord, record);
+				separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record);
 			}
 		}
 
-		function separateChildrenAndStandaloneRecordTypes(recordTypeLists,
-				cRecord, record) {
+		function separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record) {
 			if (elementHasParent(cRecord)) {
 				recordTypeLists.childList.push(record);
 			} else {
@@ -122,8 +113,7 @@ var CORA = (function(cora) {
 
 		function addChildrenOfCurrentParentToList(parent, recordTypeLists, list) {
 			var cParent = CORA.coraData(parent.data);
-			var cRecordInfo = CORA.coraData(cParent
-					.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = CORA.coraData(cParent.getFirstChildByNameInData("recordInfo"));
 
 			recordTypeLists.childList.forEach(function(child) {
 				var cChild = CORA.coraData(child.data);
@@ -138,10 +128,8 @@ var CORA = (function(cora) {
 		}
 
 		function isChildOfCurrentElement(cChild, cRecordInfo) {
-			var cParentIdGroup = CORA.coraData(cChild
-					.getFirstChildByNameInData("parentId"));
-			return cParentIdGroup
-					.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
+			var cParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
+			return cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
 					.getFirstAtomicValueByNameInData("id");
 		}
 
@@ -155,12 +143,9 @@ var CORA = (function(cora) {
 
 		function createMetadataIdForRecordType(metadataIds, record) {
 			var cRecord = CORA.coraData(record.data);
-			var cMetadataIdGroup = CORA.coraData(cRecord
-					.getFirstChildByNameInData("metadataId"));
-			var metadataId = cMetadataIdGroup
-					.getFirstAtomicValueByNameInData("linkedRecordId");
-			var cRecordInfo = CORA.coraData(cRecord
-					.getFirstChildByNameInData("recordInfo"));
+			var cMetadataIdGroup = CORA.coraData(cRecord.getFirstChildByNameInData("metadataId"));
+			var metadataId = cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
 			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			metadataIds[id] = metadataId;
 		}
@@ -177,8 +162,7 @@ var CORA = (function(cora) {
 				"baseUrl" : spec.baseUrl,
 				"jsClient" : out
 			};
-			var searchRecordHandler = dependencies.searchRecordHandlerFactory
-					.factor(specSearch);
+			var searchRecordHandler = dependencies.searchRecordHandlerFactory.factor(specSearch);
 			jsClientView.addToSearchesView(searchRecordHandler.getView());
 		}
 
@@ -190,13 +174,14 @@ var CORA = (function(cora) {
 
 		function addRecordTypeToSideBar(record) {
 			var depRecordListHandlerFactory = {
-					"ajaxCallFactory" : dependencies.ajaxCallFactory,
-					"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-					"recordGuiFactory": recordGuiFactory
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+				"recordGuiFactory" : recordGuiFactory
 			};
 			var dependenciesRecord = {
 				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
-				"recordListHandlerFactory" : CORA.recordListHandlerFactory(depRecordListHandlerFactory),
+				"recordListHandlerFactory" : CORA
+						.recordListHandlerFactory(depRecordListHandlerFactory),
 				"recordHandlerFactory" : createRecordHandlerFactory(),
 				"recordGuiFactory" : recordGuiFactory,
 				"jsClient" : out,
@@ -207,8 +192,7 @@ var CORA = (function(cora) {
 				"recordTypeRecord" : record,
 				"baseUrl" : spec.baseUrl
 			};
-			var recordTypeHandler = CORA.recordTypeHandler(dependenciesRecord,
-					specRecord);
+			var recordTypeHandler = CORA.recordTypeHandler(dependenciesRecord, specRecord);
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}
 
@@ -229,47 +213,39 @@ var CORA = (function(cora) {
 		}
 
 		function showView(managedGuiItem) {
-			clearWorkArea();
 			resetLastShowingMenuItem();
 			showNewWorkView(managedGuiItem);
 			updateShowingManagedGuiItem(managedGuiItem);
 			managedGuiItemShowing = managedGuiItem;
 		}
 
-		function clearWorkArea() {
-			if (managedGuiItemShowing !== undefined) {
-				managedGuiItemShowing.getWorkView().style.display = "none";
-			}
-		}
-
 		function resetLastShowingMenuItem() {
 			if (managedGuiItemShowing !== undefined) {
-				// managedGuiItemShowing.getMenuView().className =
-				// managedGuiItemShowing
-				// .getMenuView().className.replace(" active", "");
-				// managedGuiItemShowing.isActive = false;
 				managedGuiItemShowing.setActive(false);
+				managedGuiItemShowing.hideWorkView();
 			}
 		}
 
 		function showNewWorkView(managedGuiItem) {
-			if (managedGuiItem.getWorkView().parentNode !== jsClientView
-					.getWorkView()) {
+			if (managedGuiItem.getWorkView().parentNode !== jsClientView.getWorkView()) {
 				jsClientView.addToWorkView(managedGuiItem.getWorkView());
 				// TODO: should be handled by managedGuiItem on first active...
 				// managedGuiItem.getWorkView().scrollTop = 0;
 			}
-			// TODO: should be handled by managedGuiItem on active...
-			managedGuiItem.getWorkView().style.display = "";
+			managedGuiItem.showWorkView();
+
+			removeManagedGuiItemFromList(managedGuiItem);
+			managedGuiItemList.push(managedGuiItem);
+		}
+
+		function removeManagedGuiItemFromList(managedGuiItem) {
+			if (managedGuiItemList.indexOf(managedGuiItem) > 0) {
+				managedGuiItemList.splice(managedGuiItemList.indexOf(managedGuiItem), 1);
+			}
 		}
 
 		function updateShowingManagedGuiItem(managedGuiItem) {
 			managedGuiItem.setActive(true);
-			// managedGuiItem.isActive = true;
-			// managedGuiItem.originalClassName = m
-			// anagedGuiItem.menuView.className;
-			// managedGuiItem.menuView.className =
-			// managedGuiItem.menuView.className + " active";
 		}
 
 		function getMetadataIdForRecordTypeId(recordTypeId) {
@@ -277,12 +253,10 @@ var CORA = (function(cora) {
 		}
 
 		function afterLogin() {
-			dependencies.recordTypeProvider
-					.reload(afterRecordTypeProviderReload);
+			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
 		}
 		function afterLogout() {
-			dependencies.recordTypeProvider
-					.reload(afterRecordTypeProviderReload);
+			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
 		}
 
 		function afterRecordTypeProviderReload() {
@@ -297,43 +271,22 @@ var CORA = (function(cora) {
 			managedGuiItemToHandle.handledBy(managedGuiItemToHandle);
 		}
 
-		// function createManagedGuiItem(handledBy) {
-		// var managedGuiItem = {
-		// "handledBy" : handledBy,
-		// "workView" : CORA.gui.createSpanWithClassName("workView"),
-		// "menuView" : CORA.gui.createSpanWithClassName("menuView")
-		// };
-		// managedGuiItem.menuView.onclick = function() {
-		// showView(managedGuiItem);
-		// };
-		//
-		// managedGuiItemList.push(managedGuiItem);
-		// return managedGuiItem;
-		// }
 		function createManagedGuiItem(handledBy) {
 			var menuPresentation = CORA.gui.createSpanWithClassName("menuView");
-			// menuPresentation.textContent = text;
 			var managedGuiItem;
 			var managedGuiItemSpec = {
 				"handledBy" : handledBy,
 				"menuPresentation" : menuPresentation,
-				"workPresentation" : CORA.gui
-						.createSpanWithClassName("workPresentation"),
+				"workPresentation" : CORA.gui.createSpanWithClassName("workPresentation"),
 				"activateMethod" : function() {
-					// dependencies.jsClient.showView(managedGuiItem);
 					showView(managedGuiItem);
 				},
 				"removeMenuMethod" : function() {
-					// removeViewsFromParentNodes(managedGuiItem);
 				},
 				"removeWorkMethod" : function() {
 				}
 			};
-			managedGuiItem = dependencies.managedGuiItemFactory
-					.factor(managedGuiItemSpec);
-			// recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
-
-			// showView(managedGuiItem);
+			managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 
 			managedGuiItemList.push(managedGuiItem);
 
@@ -344,21 +297,27 @@ var CORA = (function(cora) {
 			jsClientView.removeFromWorkView(managedGuiItem.getWorkView());
 		}
 
-		out = Object
-				.freeze({
-					getView : getView,
-					getRecordTypeList : getRecordTypeList,
-					showView : showView,
-//					createRecordTypeHandlerViewFactory : createRecordTypeHandlerViewFactory,
-//					createRecordListHandlerFactory : createRecordListHandlerFactory,
-					createRecordHandlerFactory : createRecordHandlerFactory,
-					getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
-					afterLogin : afterLogin,
-					afterLogout : afterLogout,
-					afterRecordTypeProviderReload : afterRecordTypeProviderReload,
-					createManagedGuiItem : createManagedGuiItem,
-					hideAndRemoveView : hideAndRemoveView
-				});
+		function viewRemoved(managedGuiItem) {
+			removeManagedGuiItemFromList(managedGuiItem);
+			var previous = managedGuiItemList.pop();
+			if (previous) {
+				showView(previous);
+			}
+		}
+
+		out = Object.freeze({
+			getView : getView,
+			getRecordTypeList : getRecordTypeList,
+			showView : showView,
+			createRecordHandlerFactory : createRecordHandlerFactory,
+			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
+			afterLogin : afterLogin,
+			afterLogout : afterLogout,
+			afterRecordTypeProviderReload : afterRecordTypeProviderReload,
+			createManagedGuiItem : createManagedGuiItem,
+			hideAndRemoveView : hideAndRemoveView,
+			viewRemoved : viewRemoved
+		});
 		start();
 
 		return out;

@@ -23,27 +23,16 @@ var CORA = (function(cora) {
 		var managedGuiItemSpec = {
 			"handledBy" : function() {
 			},
-			// "menuPresentation" : CORA.gui
-			// .createSpanWithClassName("menuPresentation"),
-			// "workPresentation" : CORA.gui
-			// .createSpanWithClassName("workPresentation"),
-//			"activateMethod" : function() {
-//				spec.jsClient.showView(views);
-//			},
 			"activateMethod" : spec.jsClient.showView,
-			"removeMenuMethod" : function() {
-			},
-			"removeWorkMethod" : function() {
-			}
+			"removeMethod" : spec.jsClient.viewRemoved
 		};
-		var views = dependencies.managedGuiItemFactory
-				.factor(managedGuiItemSpec);
+		var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 
-		spec.addToRecordTypeHandlerMethod(views);
-		spec.jsClient.showView(views);
+		spec.addToRecordTypeHandlerMethod(managedGuiItem);
+		spec.jsClient.showView(managedGuiItem);
 
-		var workView = views.getWorkView();
-		var menuView = views.getMenuView();
+		var workView = managedGuiItem.getWorkView();
+		var menuView = managedGuiItem.getMenuView();
 
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
@@ -52,18 +41,17 @@ var CORA = (function(cora) {
 
 		function getIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
-			var cRecordInfo = CORA.coraData(cData
-					.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
 		function addTextToMenuView() {
 			var menuPresentation = CORA.gui.createSpanWithClassName("");
 			menuPresentation.textContent = "List";
-			views.addMenuPresentation(menuPresentation);
+			managedGuiItem.addMenuPresentation(menuPresentation);
 		}
 
-		function removeViewsFromParentNodes() {
+		function removemanagedGuiItemFromParentNodes() {
 			if (menuView.parentNode !== null) {
 				menuView.parentNode.removeChild(menuView);
 			}
@@ -100,53 +88,33 @@ var CORA = (function(cora) {
 			try {
 				addRecordToWorkView(recordContainer.record);
 			} catch (e) {
-				// workView.appendChild(document.createTextNode(e));
-				// workView.appendChild(document.createTextNode(e.stack));
-				// <<<<<<< HEAD
-				views.addWorkPresentation(document.createTextNode(e));
-				views.addWorkPresentation(document.createTextNode(e.stack));
-				// =======C
-				// views.addWorkPresentation(document.createTextNode(e));
-				// views.addWorkPresentation(document.createTextNode(e.stack));
-				// >>>>>>> branch 'CORA-316' of https://
-				// github.com/olovm/cora-jsclient.git
+				managedGuiItem.addWorkPresentation(document.createTextNode(e));
+				managedGuiItem.addWorkPresentation(document.createTextNode(e.stack));
 			}
 		}
 
 		function addRecordToWorkView(record) {
 			var view = createView(record);
-			// workView.appendChild(view);
-			// <<<<<<< HEAD
-			views.addWorkPresentation(view);
-			// =======
-			// views.addWorkPresentation(view);
-			// >>>>>>> branch 'CORA-316' of https://
-			// github.com/olovm/cora-jsclient.git
+			managedGuiItem.addWorkPresentation(view);
 			var recordTypeId = getRecordTypeId(record);
-			// console.log("here")
-			var metadataId = spec.jsClient
-					.getMetadataIdForRecordTypeId(recordTypeId);
+			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
 			var presentationId = getListPresentationFromRecordTypeRecord();
 			var dataDivider = getDataDividerFromData(record.data);
-			// console.log("recordGuiFactory",dependencies.recordGuiFactory)
-			var recordGui = dependencies.recordGuiFactory.factor(metadataId,
-					record.data, dataDivider);
+			var recordGui = dependencies.recordGuiFactory.factor(metadataId, record.data,
+					dataDivider);
 
-			var presentationView = recordGui.getPresentation(presentationId,
-					metadataId).getView();
+			var presentationView = recordGui.getPresentation(presentationId, metadataId).getView();
 			recordGui.initMetadataControllerStartingGui();
 			view.appendChild(presentationView);
 		}
 		function getRecordTypeId(record) {
 			var cData = CORA.coraData(record.data);
-			var cRecordInfo = CORA.coraData(cData
-					.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("type");
 		}
 
 		function createView(record) {
-			var newView = CORA.gui.createSpanWithClassName("listItem "
-					+ recordId);
+			var newView = CORA.gui.createSpanWithClassName("listItem " + recordId);
 			newView.onclick = function() {
 				spec.createRecordHandlerMethod("view", record);
 			};
@@ -157,30 +125,19 @@ var CORA = (function(cora) {
 			var cData = CORA.coraData(spec.recordTypeRecord.data);
 			var cRecordLink = CORA.coraData(cData
 					.getFirstChildByNameInData("listPresentationViewId"));
-			return cRecordLink
-					.getFirstAtomicValueByNameInData("linkedRecordId");
+			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function getDataDividerFromData(data) {
 			var cData = CORA.coraData(data);
-			var cRecordInfo = CORA.coraData(cData
-					.getFirstChildByNameInData("recordInfo"));
-			var cDataDivider = CORA.coraData(cRecordInfo
-					.getFirstChildByNameInData("dataDivider"));
-			return cDataDivider
-					.getFirstAtomicValueByNameInData("linkedRecordId");
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			var cDataDivider = CORA.coraData(cRecordInfo.getFirstChildByNameInData("dataDivider"));
+			return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function callError(answer) {
 			var messageHolder = CORA.messageHolder();
-			// workView.appendChild(messageHolder.getView());
-			// <<<<<<< HEAD
-			views.addWorkPresentation(messageHolder.getView());
-
-			// =======
-			// views.addWorkPresentation(messageHolder.getView());
-			// >>>>>>> branch 'CORA-316' of https://
-			// github.com/olovm/cora-jsclient.git
+			managedGuiItem.addWorkPresentation(messageHolder.getView());
 			var messageSpec = {
 				"message" : answer.status,
 				"type" : CORA.message.ERROR

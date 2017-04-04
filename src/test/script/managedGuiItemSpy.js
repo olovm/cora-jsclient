@@ -27,7 +27,10 @@ var CORATEST = (function(coraTest) {
 		var active = false;
 		var menuViewCleared = 0;
 		var workViewCleared = 0;
-		
+
+		var workViewHidden = 0;
+		var workViewShown = 0;
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -49,41 +52,55 @@ var CORATEST = (function(coraTest) {
 			addedMenuPresentations.push(presentationToAdd);
 		}
 
-		function getAddedMenuPresentation(number){
+		function getAddedMenuPresentation(number) {
 			return addedMenuPresentations[number];
 		}
-		
+
 		function addWorkPresentation(presentationToAdd) {
 			addedWorkPresentations.push(presentationToAdd);
 		}
-		
-		function getAddedWorkPresentation(number){
+
+		function getAddedWorkPresentation(number) {
 			return addedWorkPresentations[number];
 		}
-		function setChanged(changedIn){
+		function setChanged(changedIn) {
 			changed = changedIn;
 		}
-		function getChanged(){
+		function getChanged() {
 			return changed;
 		}
-		function setActive(activeIn){
+		function setActive(activeIn) {
 			active = activeIn
 		}
-		function getActive(){
+		function getActive() {
 			return active;
 		}
-		function clearMenuView(){
+		function clearMenuView() {
 			menuViewCleared++;
 		}
 		function getMenuViewCleared() {
 			return menuViewCleared;
 		}
-		function clearWorkView(){
+		function clearWorkView() {
 			workViewCleared++;
 		}
 		function getWorkViewCleared() {
 			return workViewCleared;
 		}
+
+		function hideWorkView() {
+			workViewHidden++;
+		}
+		function getWorkViewHidden() {
+			return workViewHidden;
+		}
+		function showWorkView() {
+			workViewShown++;
+		}
+		function getWorkViewShown() {
+			return workViewShown;
+		}
+
 		var out = Object.freeze({
 			"type" : "managedGuiItemSpy",
 			getDependencies : getDependencies,
@@ -92,19 +109,23 @@ var CORATEST = (function(coraTest) {
 			getWorkView : getWorkView,
 			handleBy : handleBy,
 			addMenuPresentation : addMenuPresentation,
-			getAddedMenuPresentation:getAddedMenuPresentation,
+			getAddedMenuPresentation : getAddedMenuPresentation,
 			addWorkPresentation : addWorkPresentation,
-			getAddedWorkPresentation:getAddedWorkPresentation,
-			setChanged:setChanged,
-			getChanged:getChanged,
-			setActive:setActive,
-			getActive:getActive,
+			getAddedWorkPresentation : getAddedWorkPresentation,
+			setChanged : setChanged,
+			getChanged : getChanged,
+			setActive : setActive,
+			getActive : getActive,
 			clearMenuView : clearMenuView,
 			getMenuViewCleared : getMenuViewCleared,
 			clearWorkView : clearWorkView,
-			getWorkViewCleared : getWorkViewCleared
+			getWorkViewCleared : getWorkViewCleared,
+			hideWorkView : hideWorkView,
+			getWorkViewHidden : getWorkViewHidden,
+			showWorkView : showWorkView,
+			getWorkViewShown : getWorkViewShown
 		});
-		
+
 		return out;
 	};
 	return coraTest;

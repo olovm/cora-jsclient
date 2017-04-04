@@ -20,156 +20,7 @@
 
 QUnit.module("jsClientTest.js", {
 	beforeEach : function() {
-		this.record = {
-			"data" : {
-				"children" : [ {
-					"children" : [ {
-						"name" : "id",
-						"value" : "metadataCollectionItem"
-					}, {
-						"name" : "type",
-						"value" : "recordType"
-					}, {
-						"name" : "createdBy",
-						"value" : "userId"
-					}, {
-						"name" : "updatedBy",
-						"value" : "userId"
-					} ],
-					"name" : "recordInfo"
-				}, {
-					"name" : "metadataId",
-					"children" : [ {
-						"name" : "linkedRecordType",
-						"value" : "metadataGroup"
-					}, {
-						"name" : "linkedRecordId",
-						"value" : "metadataCollectionItemGroup"
-					} ]
-				}, {
-					"name" : "presentationViewId",
-					"children" : [ {
-						"name" : "linkedRecordType",
-						"value" : "presentationGroup"
-					}, {
-						"name" : "linkedRecordId",
-						"value" : "metadataCollectionItemViewPGroup"
-					} ]
-				}, {
-					"name" : "presentationFormId",
-					"children" : [ {
-						"name" : "linkedRecordType",
-						"value" : "presentationGroup"
-					}, {
-						"name" : "linkedRecordId",
-						"value" : "metadataCollectionItemFormPGroup"
-					} ]
-				}, {
-					"name" : "newMetadataId",
-					"children" : [ {
-						"name" : "linkedRecordType",
-						"value" : "metadataGroup"
-					}, {
-						"name" : "linkedRecordId",
-						"value" : "metadataCollectionItemNewGroup"
-					} ]
-				}, {
-					"name" : "newPresentationFormId",
-					"children" : [ {
-						"name" : "linkedRecordType",
-						"value" : "presentationGroup"
-					}, {
-						"name" : "linkedRecordId",
-						"value" : "metadataCollectionItemFormNewPGroup"
-					} ]
-				}, {
-					"name" : "menuPresentationViewId",
-					"children" : [ {
-						"name" : "linkedRecordType",
-						"value" : "presentationGroup"
-					}, {
-						"name" : "linkedRecordId",
-						"value" : "metadataCollectionItemMenuPGroup"
-					} ]
-				}, {
-					"name" : "listPresentationViewId",
-					"children" : [ {
-						"name" : "linkedRecordType",
-						"value" : "presentationGroup"
-					}, {
-						"name" : "linkedRecordId",
-						"value" : "metadataCollectionItemListPGroup"
-					} ]
-				}, {
-					"name" : "searchMetadataId",
-					"value" : "metadataCollectionItemSearchGroup"
-				}, {
-					"name" : "searchPresentationFormId",
-					"value" : "metadataCollectionItemFormSearchPGroup"
-				}, {
-					"name" : "userSuppliedId",
-					"value" : "true"
-				}, {
-					"name" : "selfPresentationViewId",
-					"value" : "metadataCollectionItemViewSelfPGroup"
-				}, {
-					"name" : "abstract",
-					"value" : "false"
-				}, {
-					"name" : "parentId",
-					"children" : [ {
-						"name" : "linkedRecordType",
-						"value" : "recordType"
-					}, {
-						"name" : "linkedRecordId",
-						"value" : "metadata"
-					} ]
-				} ],
-				"name" : "recordType"
-			},
-			"actionLinks" : {
-				"search" : {
-					"requestMethod" : "GET",
-					"rel" : "search",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+recordList+json"
-				},
-				"read" : {
-					"requestMethod" : "GET",
-					"rel" : "read",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem",
-					"accept" : "application/uub+record+json"
-				},
-				"update" : {
-					"requestMethod" : "POST",
-					"rel" : "update",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem",
-					"accept" : "application/uub+record+json"
-				},
-				"create" : {
-					"requestMethod" : "POST",
-					"rel" : "create",
-					"contentType" : "application/uub+record+json",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+record+json"
-				},
-				"list" : {
-					"requestMethod" : "GET",
-					"rel" : "list",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-					"accept" : "application/uub+recordList+json"
-				},
-				"delete" : {
-					"requestMethod" : "DELETE",
-					"rel" : "delete",
-					"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/"
-							+ "metadataCollectionItem"
-				}
-			}
-		};
+		this.record = CORATEST.recordTypeList.dataList.data[4].record;
 		this.createRecordHandlerViewFactory = function() {
 			return {
 				"factor" : function(recordHandlerViewSpec) {
@@ -287,52 +138,39 @@ QUnit.test("showView", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 
-	var mainView = jsClient.getView();
-
 	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
 
-	// var workView1 = document.createElement("span");
-	// var menuView1 = document.createElement("span");
-	// menuView1.className = "menuView1";
-	// var aView = {
-	// "workView" : workView1,
-	// "menuView" : menuView1
-	// };
 	var aView = CORATEST.managedGuiItemSpy();
 	assert.strictEqual(aView.getActive(), false);
-	jsClient.showView(aView);
+	assert.strictEqual(aView.getWorkViewShown(), 0);
 
+	jsClient.showView(aView);
 	assert.strictEqual(jsClientView.getAddedWorkView(0), aView.getWorkView());
 	assert.strictEqual(aView.getActive(), true);
-	// assert.strictEqual(menuView1.className, "menuView1 active");
-	// assert.strictEqual(menuView1.style.display, "");
-	// assert.strictEqual(workView1.style.display, "");
+	assert.strictEqual(aView.getWorkViewShown(), 1);
+	assert.strictEqual(aView.getWorkViewHidden(), 0);
 
-//	var workView2 = document.createElement("span");
-//	var menuView2 = document.createElement("span");
-//	menuView2.className = "menuView2";
-//	var aDifferentView = {
-//		"workView" : workView2,
-//		"menuView" : menuView2 
-//	};
 	var aDifferentView = CORATEST.managedGuiItemSpy();
 	assert.strictEqual(aDifferentView.getActive(), false);
-	jsClient.showView(aDifferentView);
 
+	jsClient.showView(aDifferentView);
 	assert.strictEqual(jsClientView.getAddedWorkView(1), aDifferentView.getWorkView());
 	assert.strictEqual(aView.getActive(), false);
+	assert.strictEqual(aView.getWorkViewHidden(), 1);
+	assert.strictEqual(aView.getWorkViewShown(), 1);
 	assert.strictEqual(aDifferentView.getActive(), true);
-	// assert.strictEqual(menuView1.className, "menuView1");
-	// assert.strictEqual(menuView2.className, "menuView2 active");
-	// assert.strictEqual(workView1.style.display, "none");
-	// assert.strictEqual(workView2.style.display, "");
+	assert.strictEqual(aDifferentView.getWorkViewHidden(), 0);
+	assert.strictEqual(aDifferentView.getWorkViewShown(), 1);
 
 	jsClient.showView(aView);
 	assert.strictEqual(aView.getActive(), true);
+	assert.strictEqual(aView.getWorkViewHidden(), 1);
+	assert.strictEqual(aView.getWorkViewShown(), 2);
 	assert.strictEqual(aDifferentView.getActive(), false);
-	// assert.strictEqual(workView1.style.display, "");
-	// assert.strictEqual(workView2.style.display, "none");
+	assert.strictEqual(aDifferentView.getWorkViewHidden(), 1);
+	assert.strictEqual(aDifferentView.getWorkViewShown(), 1);
 });
+
 QUnit.test("hideAndRemoveView", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
@@ -341,13 +179,6 @@ QUnit.test("hideAndRemoveView", function(assert) {
 
 	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
 
-//	var workView1 = document.createElement("span");
-//	var menuView1 = document.createElement("span");
-//	menuView1.className = "menuView1";
-//	var aView = {
-//			"workView" : workView1,
-//			"menuView" : menuView1
-//	};
 	var aView = CORATEST.managedGuiItemSpy();
 	jsClient.showView(aView);
 	
@@ -355,35 +186,48 @@ QUnit.test("hideAndRemoveView", function(assert) {
 	
 	jsClient.hideAndRemoveView(aView);
 	assert.strictEqual(jsClientView.getRemovedWorkView(0), aView.getWorkView());
-	
 });
+QUnit.test("testViewRemoved", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	
+	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
+
+	var aView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(aView.getActive(), false);
+	assert.strictEqual(aView.getWorkViewShown(), 0);
+
+	jsClient.showView(aView);
+	assert.strictEqual(jsClientView.getAddedWorkView(0), aView.getWorkView());
+	assert.strictEqual(aView.getActive(), true);
+	assert.strictEqual(aView.getWorkViewShown(), 1);
+	assert.strictEqual(aView.getWorkViewHidden(), 0);
+
+	var aDifferentView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(aDifferentView.getActive(), false);
+
+	jsClient.showView(aDifferentView);
+	assert.strictEqual(jsClientView.getAddedWorkView(1), aDifferentView.getWorkView());
+	assert.strictEqual(aView.getActive(), false);
+	assert.strictEqual(aView.getWorkViewHidden(), 1);
+	assert.strictEqual(aView.getWorkViewShown(), 1);
+	assert.strictEqual(aDifferentView.getActive(), true);
+	assert.strictEqual(aDifferentView.getWorkViewHidden(), 0);
+	assert.strictEqual(aDifferentView.getWorkViewShown(), 1);
+
+	jsClient.viewRemoved(aDifferentView);
+	assert.strictEqual(aView.getActive(), true);
+	assert.strictEqual(aView.getWorkViewHidden(), 1);
+	assert.strictEqual(aView.getWorkViewShown(), 2);
+});
+
+
 
 QUnit.test("testFactories", function(assert) {
 	var recordTypeListData = CORATEST.recordTypeList;
 
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 
-//	var viewSpec = {
-//		"headerText" : "some text",
-//		"fetchListMethod" : function() {
-//		}
-//	};
-//	var recordTypeHandlerView = jsClient.createRecordTypeHandlerViewFactory().factor(viewSpec);
-
-//	var workView = document.createElement("span");
-//	var menuView = document.createElement("span");
-//	var listHandlerSpec = {
-//		"dependencies" : this.dependencies,
-//		"recordTypeRecord" : this.record,
-////		"views" : {
-////			"workView" : workView,
-////			"menuView" : menuView
-////		},
-//		"views" : CORATEST.managedGuiItemSpy(),
-//		
-//		"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-//	};
-//	var recordListHandler = jsClient.createRecordListHandlerFactory().factor(listHandlerSpec);
 
 	var menuView = document.createElement("span");
 	var workView = document.createElement("span");
@@ -393,17 +237,11 @@ QUnit.test("testFactories", function(assert) {
 		"recordTypeRecord" : this.record,
 		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
 		"presentationMode" : "view",
-		// "views" : {
-		// "menuView" : menuView,
-		// "workView" : workView
-		// },
 		"views" : CORATEST.managedGuiItemSpy(),
 		"record" : this.record,
 	};
 	var recordHandler = jsClient.createRecordHandlerFactory().factor(recordHandlerSpec);
 
-//	assert.notStrictEqual(recordTypeHandlerView, undefined);
-//	assert.notStrictEqual(recordListHandler, undefined);
 	assert.notStrictEqual(recordHandler, undefined);
 });
 

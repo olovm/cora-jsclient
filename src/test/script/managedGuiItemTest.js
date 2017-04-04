@@ -33,10 +33,8 @@ QUnit.module("managedGuiItemTest.js", {
 			"workPresentation" : CORA.gui.createSpanWithClassName("workPresentation"),
 			"activateMethod" : function() {
 			},
-			"removeMenuMethod" : function() {
+			"removeMethod" : function() {
 			},
-			"removeWorkMethod" : function() {
-			}
 		};
 	},
 	afterEach : function() {
@@ -131,19 +129,25 @@ QUnit.test("testRemoveMethodAddedToView", function(assert) {
 	assert.strictEqual(factoredView.getSpec().removeMethod, managedGuiItem.remove);
 });
 
-QUnit.test("testRemoveMethod", function(assert) {
-	var removeMenuMethodHasBeenCalled = false;
-	this.spec.removeMenuMethod = function() {
-		removeMenuMethodHasBeenCalled = true;
-	}
-	var removeWorkMethodHasBeenCalled = false;
-	this.spec.removeWorkMethod = function() {
-		removeWorkMethodHasBeenCalled = true;
+QUnit.test("testRemoveMethodPassedOnToViewCallsMethodWithSelf", function(assert) {
+	var calledWithManagedGuiItem;
+	this.spec.removeMethod = function(managedGuiItem) {
+		calledWithManagedGuiItem = managedGuiItem;
 	}
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+
+	var factoredSpec = this.dependencies.managedGuiItemViewFactory.getSpec(0);
+	factoredSpec.removeMethod();
+	assert.strictEqual(calledWithManagedGuiItem, managedGuiItem);
+});
+
+QUnit.test("testRemoveMethodCallsRemoveOnView", function(assert) {
+	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
+
+	assert.strictEqual(factoredView.getRemoved(), 0);
 	managedGuiItem.remove();
-	assert.ok(removeMenuMethodHasBeenCalled);
-	assert.ok(removeWorkMethodHasBeenCalled);
+	assert.strictEqual(factoredView.getRemoved(), 1);
 });
 
 QUnit.test("testAddMenuPresentationPassedOnToView", function(assert) {
@@ -236,7 +240,7 @@ QUnit.test("testHideWorkView", function(assert) {
 QUnit.test("testShowWorkView", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
 	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
-	
+
 	assert.strictEqual(factoredView.getShown(), 0);
 	managedGuiItem.showWorkView();
 	assert.strictEqual(factoredView.getShown(), 1);

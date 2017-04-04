@@ -95,6 +95,15 @@ var CORA = (function(cora) {
 			workView.style.display = "";
 		}
 
+		function removeViews() {
+			if (menuView.parentNode) {
+				menuView.parentNode.removeChild(menuView);
+			}
+			if (workView.parentNode) {
+				workView.parentNode.removeChild(workView);
+			}
+		}
+
 		var out = Object.freeze({
 			"type" : "managedGuiItemView",
 			getDependencies : getDependencies,
@@ -107,7 +116,8 @@ var CORA = (function(cora) {
 			clearMenuView : clearMenuView,
 			clearWorkView : clearWorkView,
 			hideWorkView : hideWorkView,
-			showWorkView : showWorkView
+			showWorkView : showWorkView,
+			removeViews : removeViews
 		});
 		return out;
 	};

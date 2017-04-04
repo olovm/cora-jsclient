@@ -30,6 +30,7 @@ var CORATEST = (function(coraTest) {
 		var workViewCleared = 0;
 		var hidden = 0;
 		var shown = 0;
+		var removed = 0;
 		var state;
 
 		function getMenuView() {
@@ -83,13 +84,20 @@ var CORATEST = (function(coraTest) {
 		function getHidden() {
 			return hidden;
 		}
-		
-		function showWorkView(){
+
+		function showWorkView() {
 			shown++
 		}
-		function getShown(){
+		function getShown() {
 			return shown;
 		}
+		function removeViews() {
+			removed++;
+		}
+		function getRemoved() {
+			return removed;
+		}
+
 		var out = Object.freeze({
 			"type" : "managedGuiItemViewSpy",
 			getDependencies : getDependencies,
@@ -108,8 +116,10 @@ var CORATEST = (function(coraTest) {
 			getWorkViewCleared : getWorkViewCleared,
 			hideWorkView : hideWorkView,
 			getHidden : getHidden,
-			showWorkView:showWorkView,
-			getShown:getShown
+			showWorkView : showWorkView,
+			getShown : getShown,
+			removeViews : removeViews,
+			getRemoved : getRemoved
 		});
 		return out;
 	};

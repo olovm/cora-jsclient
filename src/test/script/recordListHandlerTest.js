@@ -138,6 +138,7 @@ QUnit.test("initTestManagedGuiItemFactoryCalled", function(assert) {
 			.getFactored(0);
 	var managedGuiItemSpec = managedGuiItemSpy.getSpec(0);
 	 assert.strictEqual(managedGuiItemSpec.activateMethod, this.listHandlerSpec.jsClient.showView);
+	 assert.strictEqual(managedGuiItemSpec.removeMethod, this.listHandlerSpec.jsClient.removeView);
 	assert.ok(managedGuiItemSpy !== undefined);
 });
 

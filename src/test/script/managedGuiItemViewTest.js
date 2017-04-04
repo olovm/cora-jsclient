@@ -34,51 +34,44 @@ QUnit.module("managedGuiItemViewTest.js", {
 });
 
 QUnit.test("testInit", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	assert.strictEqual(managedGuiItemView.type, "managedGuiItemView");
 });
 
 QUnit.test("testGetMenuView", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var menuView = managedGuiItemView.getMenuView();
 	assert.strictEqual(menuView.className, "menuView");
 });
 
 QUnit.test("testMenuOnclickCallsActivateMethod", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var menuView = managedGuiItemView.getMenuView();
 	assert.strictEqual(menuView.onclick, this.spec.activateMethod);
 });
 
-QUnit.test("testMenuViewHasRemoveButtonThatCallsRemoveMethods",
-		function(assert) {
-			var removeMethodHasBeenCalled = false;
-			this.spec.removeMethod = function() {
-				removeMethodHasBeenCalled = true;
-			}
+QUnit.test("testMenuViewHasRemoveButtonThatCallsRemoveMethods", function(assert) {
+	var removeMethodHasBeenCalled = false;
+	this.spec.removeMethod = function() {
+		removeMethodHasBeenCalled = true;
+	}
 
-			var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-					this.spec);
-			var menuView = managedGuiItemView.getMenuView();
-			assert.strictEqual(menuView.lastChild.className, "removeButton");
-			var event = document.createEvent("Event");
-			menuView.lastChild.onclick(event);
-			assert.ok(removeMethodHasBeenCalled);
-		});
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
+	var menuView = managedGuiItemView.getMenuView();
+	assert.strictEqual(menuView.lastChild.className, "removeButton");
+	var event = document.createEvent("Event");
+	menuView.lastChild.onclick(event);
+	assert.ok(removeMethodHasBeenCalled);
+});
 
 QUnit.test("testGetWorkView", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var workView = managedGuiItemView.getWorkView();
 	assert.strictEqual(workView.className, "workView");
 });
 
 QUnit.test("testAddMenuPresentation", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var menuView = managedGuiItemView.getMenuView();
 	assert.strictEqual(menuView.childNodes[0].className, "removeButton");
 
@@ -95,8 +88,7 @@ QUnit.test("testAddMenuPresentation", function(assert) {
 });
 
 QUnit.test("testAddWorkPresentation", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var workView = managedGuiItemView.getWorkView();
 	assert.strictEqual(workView.childNodes[0], undefined);
 
@@ -111,8 +103,7 @@ QUnit.test("testAddWorkPresentation", function(assert) {
 });
 
 QUnit.test("testUpdateMenuView", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var menuView = managedGuiItemView.getMenuView();
 	assert.strictEqual(menuView.className, "menuView");
 
@@ -142,8 +133,7 @@ QUnit.test("testUpdateMenuView", function(assert) {
 });
 
 QUnit.test("testClearMenuView", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var menuView = managedGuiItemView.getMenuView();
 	assert.strictEqual(menuView.childNodes[0].className, "removeButton");
 
@@ -164,8 +154,7 @@ QUnit.test("testClearMenuView", function(assert) {
 });
 
 QUnit.test("testClearWorkView", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var workView = managedGuiItemView.getWorkView();
 	assert.strictEqual(workView.childNodes[0], undefined);
 
@@ -183,22 +172,20 @@ QUnit.test("testClearWorkView", function(assert) {
 });
 
 QUnit.test("testHideWorkView", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var workView = managedGuiItemView.getWorkView();
 	assert.strictEqual(workView.style.display, "");
-	
+
 	managedGuiItemView.hideWorkView();
-	
+
 	assert.strictEqual(workView.style.display, "none");
 });
 
 QUnit.test("testShowWorkView", function(assert) {
-	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies,
-			this.spec);
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
 	var workView = managedGuiItemView.getWorkView();
 	assert.strictEqual(workView.style.display, "");
-	
+
 	managedGuiItemView.showWorkView();
 
 	managedGuiItemView.hideWorkView();
@@ -206,4 +193,35 @@ QUnit.test("testShowWorkView", function(assert) {
 
 	managedGuiItemView.showWorkView();
 	assert.strictEqual(workView.style.display, "");
+});
+
+QUnit.test("testRemoveViews", function(assert) {
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
+	var menuView = managedGuiItemView.getMenuView();
+	var workView = managedGuiItemView.getWorkView();
+
+	this.fixture.appendChild(menuView);
+	this.fixture.appendChild(workView);
+
+	assert.strictEqual(this.fixture.childNodes.length, 2);
+
+	managedGuiItemView.removeViews();
+
+	assert.strictEqual(this.fixture.childNodes.length, 0);
+
+	assert.strictEqual(menuView.parentNode, null);
+	assert.strictEqual(workView.parentNode, null);
+});
+
+QUnit.test("testRemoveViewsNotAddedToParentShouldNotCrash", function(assert) {
+	var managedGuiItemView = CORA.managedGuiItemView(this.dependencies, this.spec);
+	var menuView = managedGuiItemView.getMenuView();
+	var workView = managedGuiItemView.getWorkView();
+
+	managedGuiItemView.removeViews();
+
+	assert.strictEqual(this.fixture.childNodes.length, 0);
+
+	assert.strictEqual(menuView.parentNode, null);
+	assert.strictEqual(workView.parentNode, null);
 });

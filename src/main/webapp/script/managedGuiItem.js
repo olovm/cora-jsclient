@@ -41,8 +41,8 @@ var CORA = (function(cora) {
 		}
 
 		function remove() {
-			spec.removeMenuMethod();
-			spec.removeWorkMethod();
+			view.removeViews();
+			spec.removeMethod(out);
 		}
 
 		function getMenuView() {
