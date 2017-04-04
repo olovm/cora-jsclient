@@ -46,12 +46,18 @@ var CORATEST = (function(coraTest) {
 		function getCreatedManagedGuiItem(number) {
 			return createdManagedGuiItem[number];
 		}
+		
+		function getMetadataIdForRecordTypeId(recordTypeId){
+			return recordTypeId+"Group";
+		}
+		
 		var out = Object.freeze({
 			"type" : "jsClientSpy",
 			showView : showView,
 			getViewShowingInWorkView : getViewShowingInWorkView,
 			createManagedGuiItem : createManagedGuiItem,
-			getCreatedManagedGuiItem : getCreatedManagedGuiItem
+			getCreatedManagedGuiItem : getCreatedManagedGuiItem,
+			getMetadataIdForRecordTypeId:getMetadataIdForRecordTypeId
 		});
 
 		return out;

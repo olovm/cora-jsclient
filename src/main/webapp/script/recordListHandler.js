@@ -112,25 +112,25 @@ var CORA = (function(cora) {
 			var view = createView(record);
 			// workView.appendChild(view);
 			// <<<<<<< HEAD
-			console.log("here")
 			views.addWorkPresentation(view);
-			console.log("here2", views)
 			// =======
 			// views.addWorkPresentation(view);
 			// >>>>>>> branch 'CORA-316' of https://
 			// github.com/olovm/cora-jsclient.git
 			var recordTypeId = getRecordTypeId(record);
+			// console.log("here")
 			var metadataId = spec.jsClient
 					.getMetadataIdForRecordTypeId(recordTypeId);
 			var presentationId = getListPresentationFromRecordTypeRecord();
 			var dataDivider = getDataDividerFromData(record.data);
-			var recordGui = spec.recordGuiFactory.factor(metadataId,
+			// console.log("recordGuiFactory",dependencies.recordGuiFactory)
+			var recordGui = dependencies.recordGuiFactory.factor(metadataId,
 					record.data, dataDivider);
 
 			var presentationView = recordGui.getPresentation(presentationId,
 					metadataId).getView();
 			recordGui.initMetadataControllerStartingGui();
-			view.appendChild(presentationView);	
+			view.appendChild(presentationView);
 		}
 		function getRecordTypeId(record) {
 			var cData = CORA.coraData(record.data);

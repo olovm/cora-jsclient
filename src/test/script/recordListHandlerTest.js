@@ -27,12 +27,12 @@ QUnit
 						this.record = CORATEST.recordTypeRecord;
 						this.workView = document.createElement("span");
 						this.menuView = document.createElement("span");
-						this.jsClientSpy = {
-							"getMetadataIdForRecordTypeId" : function(
-									recordTypeId) {
-								return "recordTypeGroup2";
-							}
-						};
+//						this.jsClientSpy = {
+//							"getMetadataIdForRecordTypeId" : function(
+//									recordTypeId) {
+//								return "recordTypeGroup2";
+//							}
+//						};
 
 						this.presentation = {
 							"getView" : function() {
@@ -90,13 +90,15 @@ QUnit
 						var dependencies = {
 							"ajaxCallFactory" : this.ajaxCallFactorySpy,
 							"managedGuiItemFactory" : CORATEST
-									.standardFactorySpy("managedGuiItemSpy")
+									.standardFactorySpy("managedGuiItemSpy"),
+							"recordGuiFactory" : CORATEST.recordGuiFactorySpy()
+
 						};
 						this.dependencies = dependencies;
 						this.listHandlerSpec = {
 							"dependencies" : dependencies,
-							"jsClient" : this.jsClientSpy,
-							"recordGuiFactory" : this.recordGuiFactorySpy,
+//							"jsClient" : this.jsClientSpy,
+							// "recordGuiFactory" : this.recordGuiFactorySpy,
 							"recordTypeRecord" : this.record,
 							"createListItemMethod" : createListItem,
 							"createRecordHandlerMethod" : function(
@@ -104,7 +106,7 @@ QUnit
 								createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
 								createRecordHandlerMethodCalledWithRecord = record;
 							},
-							"jsClient": CORATEST.jsClientSpy(),
+							"jsClient" : CORATEST.jsClientSpy(),
 							// "views" : {
 							// "workView" : this.workView,
 							// "menuView" : this.menuView
@@ -170,7 +172,7 @@ QUnit.test("init", function(assert) {
 			this.listHandlerSpec);
 
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
-	var ajaxCallSpec = ajaxCallSpy.getSpec(); 
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
 	assert.strictEqual(ajaxCallSpec.url,
 			"http://epc.ub.uu.se/cora/rest/record/recordType/");
 	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
@@ -245,10 +247,9 @@ QUnit.test("fetchListCheckGeneratedList", function(assert) {
 	// .getAddedWorkPresentation(14) !== undefined);
 	// assert.ok(this.listHandlerSpec.views
 	// .getAddedWorkPresentation(15) === undefined);
-	assert.ok(this.dependencies.managedGuiItemFactory.getFactored(0)
-			.getAddedWorkPresentation(14) !== undefined);
-	assert.ok(this.dependencies.managedGuiItemFactory.getFactored(0)
-			.getAddedWorkPresentation(15) === undefined);
+	var factoredManagedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	assert.ok(factoredManagedGuiItem.getAddedWorkPresentation(14) !== undefined);
+	assert.ok(factoredManagedGuiItem.getAddedWorkPresentation(15) === undefined);
 });
 
 QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
@@ -260,7 +261,7 @@ QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
 	// var firstListItem =
 	// this.listHandlerSpec.views.getAddedWorkPresentation(0);
 	var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
-			.getAddedWorkPresentation(1);
+			.getAddedWorkPresentation(0);
 	assert.strictEqual(firstListItem.className, "listItem recordType");
 	assert.notStrictEqual(firstListItem.onclick, undefined);
 });
@@ -304,10 +305,13 @@ QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
 			this.listHandlerSpec);
 	this.answerListCall(0);
 
-	assert.stringifyEqual(this.presentationIdUsed[0], "recordTypeListPGroup");
-	assert.strictEqual(this.metadataIdsUsedInData[0], "recordTypeGroup2");
-	assert.stringifyEqual(this.metadataIdUsed[0], "recordTypeGroup2");
-	assert.strictEqual(this.dataDividerUsed[0], "cora");
+	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.metadataId, "recordTypeGroup");
+	assert.strictEqual(factoredSpec.dataDivider, "cora");
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.stringifyEqual(factoredRecordGui.getPresentationIdUsed(0), "recordTypeListPGroup");
+	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(0), "recordTypeGroup");
 });
 
 QUnit.test("fetchListBroken", function(assert) {

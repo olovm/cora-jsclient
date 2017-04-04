@@ -20,6 +20,8 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	// coraTest.recordGuiSpy = function(dependencies, spec) {
 	coraTest.recordGuiSpy = function(metadataId, data, dataDivider) {
+		var presentationIdUsed = [];
+		var metadataIdsUsedInData = [];
 
 		function getDependencies() {
 			return dependencies;
@@ -42,28 +44,36 @@ var CORATEST = (function(coraTest) {
 		function getPresentation(presentationId, metadataIdUsedInData) {
 			presentationIdUsed.push(presentationId);
 			metadataIdsUsedInData.push(metadataIdUsedInData);
-			return presentation;
+			return CORATEST.presentationStub(presentationId);
 		}
 		function initMetadataControllerStartingGui() {
 		}
 		function validateData() {
 			return true;
 		}
+		function getPresentationIdUsed(number) {
+			return presentationIdUsed[number];
+		}
+		function getMetadataIdsUsedInData(number) {
+			return metadataIdsUsedInData[number];
+		}
+		var out = Object
+				.freeze({
+					"type" : "recordGuiSpy",
+					getDependencies : getDependencies,
+					getSpec : getSpec,
 
-		var out = Object.freeze({
-			"type" : "recordGuiSpy",
-			getDependencies : getDependencies,
-			getSpec : getSpec,
-
-			pubSub : pubSub,
-			// jsBookkeeper : jsBookkeeper,
-			// presentationFactory : presentationFactory,
-			dataHolder : dataHolder,
-			// getMetadataController : getMetadataController,
-			getPresentation : getPresentation,
-			initMetadataControllerStartingGui : initMetadataControllerStartingGui,
-			validateData : validateData
-		});
+					pubSub : pubSub,
+					// jsBookkeeper : jsBookkeeper,
+					// presentationFactory : presentationFactory,
+					dataHolder : dataHolder,
+					// getMetadataController : getMetadataController,
+					getPresentation : getPresentation,
+					initMetadataControllerStartingGui : initMetadataControllerStartingGui,
+					validateData : validateData,
+					getPresentationIdUsed : getPresentationIdUsed,
+					getMetadataIdsUsedInData : getMetadataIdsUsedInData
+				});
 		return out;
 	};
 	return coraTest;

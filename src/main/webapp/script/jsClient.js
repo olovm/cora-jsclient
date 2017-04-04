@@ -192,10 +192,10 @@ var CORA = (function(cora) {
 			var depRecordListHandlerFactory = {
 					"ajaxCallFactory" : dependencies.ajaxCallFactory,
 					"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+					"recordGuiFactory": recordGuiFactory
 			};
 			var dependenciesRecord = {
 				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
-//				"recordListHandlerFactory" : createRecordListHandlerFactory(),
 				"recordListHandlerFactory" : CORA.recordListHandlerFactory(depRecordListHandlerFactory),
 				"recordHandlerFactory" : createRecordHandlerFactory(),
 				"recordGuiFactory" : recordGuiFactory,
@@ -211,14 +211,6 @@ var CORA = (function(cora) {
 					specRecord);
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}
-
-//		function createRecordListHandlerFactory() {
-//			return {
-//				"factor" : function(listHandlerSpec) {
-//					return CORA.recordListHandler(listHandlerSpec);
-//				}
-//			};
-//		}
 
 		function createRecordHandlerFactory() {
 			return {

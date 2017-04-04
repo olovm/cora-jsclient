@@ -62,7 +62,6 @@ var CORA = (function(cora) {
 				"baseUrl" : spec.baseUrl,
 				"jsClient" : dependencies.jsClient
 			};
-			console.log("createing recordLIstHandler from recordTypeHandler")
 			dependencies.recordListHandlerFactory.factor(listHandlerSpec);
 		}
 
