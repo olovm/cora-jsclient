@@ -105,12 +105,11 @@ QUnit.test("testFirstMinimizedDefaultPChildRefHandlerSpec",
 			assert.strictEqual(factoredSpec.parentPath, this.spec.path);
 			assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
 					"groupIdOneTextChildRepeat1to3");
-			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
 			assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 					"pgGroupIdOneTextChildMinimized");
 			assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
-					"pVarTextVariableIdOutput");
-			assert.strictEqual(factoredSpec.minimizedDefault, "true");
+					"pVarTextVariableId");
 
 			assert.strictEqual(factoredSpec.textStyle, "h5TextStyle");
 			assert.strictEqual(factoredSpec.childStyle, "twoChildStyle");
@@ -129,12 +128,11 @@ QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfo",
 			assert.strictEqual(factoredSpec.parentPath, this.spec.path);
 			assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
 					"groupIdOneTextChildRepeat1to3");
-			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
 			assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 					"pgGroupIdOneTextChildMinimized");
 			assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
-					"pVarTextVariableIdOutput");
-			assert.strictEqual(factoredSpec.minimizedDefault, "true");
+				"pVarTextVariableId");
 
 			assert.strictEqual(factoredSpec.textStyle, undefined);
 			assert.strictEqual(factoredSpec.childStyle, undefined);
@@ -153,13 +151,12 @@ QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfoMinNumberOfRepeatingToShow",
 	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
 	assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
 			"groupIdOneTextChildRepeat1to3");
-	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
 	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 	"pgGroupIdOneTextChildMinimized");
 	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
-	"pVarTextVariableIdOutput");
-	assert.strictEqual(factoredSpec.minimizedDefault, "true");
-	
+		"pVarTextVariableId");
+
 	assert.strictEqual(factoredSpec.textStyle, undefined);
 	assert.strictEqual(factoredSpec.childStyle, undefined);
 	

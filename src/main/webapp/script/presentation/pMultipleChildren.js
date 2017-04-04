@@ -175,9 +175,9 @@ var CORA = (function(cora) {
 						.getFirstAtomicValueByNameInData("childStyle");
 			}
 
-			if (childHasMinimizedPresenation(cPresentationChildRef)) {
-				var cPresRefMinGroup = CORA.coraData(cPresentationChildRef
-						.getFirstChildByNameInData("refMinGroup"));
+			if (childHasMinimizedPresentation(cPresentationChildRef)) {
+				var cPresRefMinGroup = CORA.coraData(cPresentationChildRef.getChildByNameInDataAndIndex("refGroup", 1));
+
 				var cPresRefMinimizedGroup = CORA.coraData(cPresRefMinGroup
 						.getFirstChildByNameInData("ref"));
 				var presRefMinimized = cPresRefMinimizedGroup
@@ -185,11 +185,6 @@ var CORA = (function(cora) {
 				var cPresentationMinimized = getMetadataById(presRefMinimized);
 				childRefHandlerSpec.cPresentationMinimized = cPresentationMinimized;
 
-				var minimizedDefault = cPresentationChildRef
-						.getFirstAtomicValueByNameInData("default");
-				if (minimizedDefault === "refMinimized") {
-					childRefHandlerSpec.minimizedDefault = "true";
-				}
 			}
 
 			var pChildRefHandler = dependencies.pChildRefHandlerFactory.factor(childRefHandlerSpec);
@@ -197,8 +192,8 @@ var CORA = (function(cora) {
 			return pChildRefHandler.getView();
 		}
 
-		function childHasMinimizedPresenation(cChildRef) {
-			return cChildRef.containsChildWithNameInData("refMinGroup");
+		function childHasMinimizedPresentation(cChildRef) {
+			return cChildRef.getNoOfChildrenWithNameInData("refGroup") === 2;
 		}
 
 		function getMetadataById(id) {

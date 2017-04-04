@@ -287,7 +287,7 @@ QUnit.test("testInitTwoChildren", function(assert) {
 
 });
 
-QUnit.test("testInitOneChildMimimized",
+QUnit.test("testInitOneChildMinimized",
 		function(assert) {
 			this.spec.metadataIdUsedInData = "groupIdOneTextChildRepeat1to3";
 			this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
@@ -295,26 +295,6 @@ QUnit.test("testInitOneChildMimimized",
 			var pGroup = CORA.pGroup(this.dependencies, this.spec);
 			var view = pGroup.getView();
 			this.fixture.appendChild(view);
-
-			// var childRefHandler = view.childNodes[1];
-			// var pChildRefHandler = childRefHandler.modelObject;
-			// pChildRefHandler.add("groupIdOneTextChild", "onelkadsjflökads jflköads
-			// jflökadsjfldasj lk");
-			//
-			// // minimizedPresentation
-			// var repeatingElement = childRefHandler.childNodes[0].firstChild;
-			// assert.strictEqual(repeatingElement.childNodes.length, 3);
-			//
-			// var repeatingButtonView = repeatingElement.childNodes[2];
-			// assert.visible(repeatingButtonView, "repeatingButtonView should be visible");
-			//
-			// var maximizeButton = repeatingButtonView.childNodes[1];
-			// assert.strictEqual(maximizeButton.className, "maximizeButton");
-			// assert.notVisible(maximizeButton, "maximizeButton should be hidden");
-			//
-			// var minimizeButton = repeatingButtonView.childNodes[2];
-			// assert.strictEqual(minimizeButton.className, "minimizeButton");
-			// assert.visible(minimizeButton, "minimizeButton should be visible");
 
 			assert.strictEqual(view.childNodes[1].className, "pChildRefHandlerSpyView");
 
@@ -331,7 +311,7 @@ QUnit.test("testInitOneChildMimimized",
 			assert.strictEqual(factoredSpec.minimizedDefault, undefined);
 		});
 
-QUnit.test("testInitOneChildMimimizedDefault",
+QUnit.test("testInitOneChildMinimizedDefault",
 		function(assert) {
 			this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
 					.getMetadataById("pgGroupIdOneTextChildMinimizedDefault"));
@@ -339,37 +319,15 @@ QUnit.test("testInitOneChildMimimizedDefault",
 			var view = pGroup.getView();
 			this.fixture.appendChild(view);
 
-			// var childRefHandler = view.childNodes[1];
-			// var pChildRefHandler = childRefHandler.modelObject;
-			// pChildRefHandler.add("groupIdOneTextChild", "onelkadsjflökads jflköads
-			// jflökadsjfldasj lk");
-			//
-			// // minimizedPresentation
-			// var repeatingElement = childRefHandler.childNodes[0].firstChild;
-			// assert.strictEqual(repeatingElement.childNodes.length, 3);
-			//
-			// var repeatingButtonView = repeatingElement.childNodes[2];
-			//
-			// assert.visible(repeatingButtonView, "repeatingButtonView should be visible");
-			//
-			// var maximizeButton = repeatingButtonView.childNodes[0];
-			// assert.strictEqual(maximizeButton.className, "maximizeButton");
-			// assert.visible(maximizeButton, "maximizeButton should be shown");
-			//
-			// var minimizeButton = repeatingButtonView.childNodes[1];
-			// assert.strictEqual(minimizeButton.className, "minimizeButton");
-			// assert.notVisible(minimizeButton, "minimizeButton should be hidden");
-
 			assert.strictEqual(view.childNodes[1].className, "pChildRefHandlerSpyView");
 
 			var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
 			assert.deepEqual(factoredSpec.parentPath, this.spec.path);
 
 			assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdOneTextChild");
-			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
 			assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 					"pgGroupIdOneTextChildMinimizedDefault");
 			assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
-					"pVarTextVariableIdOutput");
-			assert.strictEqual(factoredSpec.minimizedDefault, "true");
+				"pVarTextVariableId");
 		});
