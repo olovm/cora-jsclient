@@ -23,19 +23,29 @@ var CORA = (function(cora) {
 		var cRecordTypeRecordData = CORA.coraData(spec.recordTypeRecord.data);
 		var recordTypeRecordId = getIdFromRecord(spec.recordTypeRecord);
 
-		var views = spec.views;
+		var managedGuiItemSpec = {
+				"handledBy" : function() {
+				},
+				"activateMethod" : spec.jsClient.showView,
+				"removeMethod" : spec.jsClient.viewRemoved
+			};
+//		var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
+			var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
+//var managedGuiItem = spec.managedGuiItem;
+			spec.addToRecordTypeHandlerMethod(managedGuiItem);
+			spec.jsClient.showView(managedGuiItem);
 
-		var workView = views.getWorkView();
-		var menuView = views.getMenuView();
+		var workView = managedGuiItem.getWorkView();
+		var menuView = managedGuiItem.getMenuView();
 
 		var messageHolder = CORA.messageHolder();
-		views.addWorkPresentation(messageHolder.getView());
+		managedGuiItem.addWorkPresentation(messageHolder.getView());
 
 		var recordHandlerView = createRecordHandlerView();
-		views.addWorkPresentation(recordHandlerView.getView());
+		managedGuiItem.addWorkPresentation(recordHandlerView.getView());
 
 		var busy = CORA.busy();
-		views.addWorkPresentation(busy.getView());
+		managedGuiItem.addWorkPresentation(busy.getView());
 
 		var recordGuiNew;
 		var recordGui;
@@ -97,7 +107,7 @@ var CORA = (function(cora) {
 		function handleMsg(dataFromMsg, msg) {
 			if (initComplete && msgChangesData(msg)) {
 				dataIsChanged = true;
-				views.setChanged(true);
+				managedGuiItem.setChanged(true);
 			}
 			if (messageSaysInitIsComplete(msg)) {
 				initComplete = true;
@@ -126,9 +136,9 @@ var CORA = (function(cora) {
 //				className += ' changed';
 				
 //			}
-//			views.originalClassName = className;
+//			managedGuiItem.originalClassName = className;
 
-//			if (views.isActive) {
+//			if (managedGuiItem.isActive) {
 //				className += ' active';
 //			}
 //			menuView.className = className;
@@ -153,12 +163,9 @@ var CORA = (function(cora) {
 //			menuView.textContent = "";
 //			menuView.appendChild(menuPresentationView);
 //			menuView.appendChild(createRemoveButton());
-			views.addMenuPresentation(menuPresentationView);
+			managedGuiItem.addMenuPresentation(menuPresentationView);
 		}
 
-//		function createRemoveButton() {
-//			return CORA.gui.createRemoveButton(removeViewsFromParentNodes);
-//		}
 
 		function createRecordHandlerView() {
 			var workItemViewFactory = CORA.workItemViewFactory(spec.dependencies);
@@ -327,12 +334,13 @@ var CORA = (function(cora) {
 			var question = CORA.question(questionSpec);
 			var questionView = question.getView();
 //			workView.appendChild(questionView);
-			views.addWorkPresentation(questionView);
+			managedGuiItem.addWorkPresentation(questionView);
 		}
 
 		function afterDelete() {
-			recordHandlerView.clearViews();
-			removeViewsFromParentNodes();
+//			recordHandlerView.clearViews();
+//			removeViewsFromParentNodes();
+			managedGuiItem.remove();
 		}
 
 		function sendDeleteDataToServer() {

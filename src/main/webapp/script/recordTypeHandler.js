@@ -72,31 +72,31 @@ var CORA = (function(cora) {
 		// dependencies.jsClient.showView(managedGuiItem);
 		// return managedGuiItem;
 		// }
-		function createManagedGuiItem(text) {
-			var menuPresentation = CORA.gui.createSpanWithClassName("menuView");
-			menuPresentation.textContent = text;
-			var managedGuiItem;
-			var managedGuiItemSpec = {
-				"handledBy" : function() {
-				},
-				"menuPresentation" : menuPresentation,
-				"workPresentation" : CORA.gui
-						.createSpanWithClassName("workPresentation"),
-				"activateMethod" : function() {
-					dependencies.jsClient.showView(managedGuiItem);
-				},
-				"removeMenuMethod" : function() {
-					removeViewsFromParentNodes(managedGuiItem);
-				},
-				"removeWorkMethod" : function() {
-				}
-			};
-			managedGuiItem = dependencies.managedGuiItemFactory
-					.factor(managedGuiItemSpec);
-			recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
-			dependencies.jsClient.showView(managedGuiItem);
-			return managedGuiItem;
-		}
+//		function createManagedGuiItem(text) {
+//			var menuPresentation = CORA.gui.createSpanWithClassName("menuView");
+//			menuPresentation.textContent = text;
+//			var managedGuiItem;
+//			var managedGuiItemSpec = {
+//				"handledBy" : function() {
+//				},
+//				"menuPresentation" : menuPresentation,
+//				"workPresentation" : CORA.gui
+//						.createSpanWithClassName("workPresentation"),
+//				"activateMethod" : function() {
+//					dependencies.jsClient.showView(managedGuiItem);
+//				},
+//				"removeMenuMethod" : function() {
+//					removeViewsFromParentNodes(managedGuiItem);
+//				},
+//				"removeWorkMethod" : function() {
+//				}
+//			};
+//			managedGuiItem = dependencies.managedGuiItemFactory
+//					.factor(managedGuiItemSpec);
+//			recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
+//			dependencies.jsClient.showView(managedGuiItem);
+//			return managedGuiItem;
+//		}
 		function removeViewsFromParentNodes(managedGuiItem) {
 			// if (menuView.parentNode !== null) {
 			// menuView.parentNode.removeChild(menuView);
@@ -113,7 +113,7 @@ var CORA = (function(cora) {
 			if ("new" !== presentationMode) {
 				text = getIdFromRecord(record);
 			}
-			var views = createManagedGuiItem(text);
+//			var views = createManagedGuiItem(text);
 			var recordHandlerSpec = {
 				"dependencies" : dependencies,
 				"recordHandlerViewFactory" : createRecordHandlerViewFactory(),
@@ -121,9 +121,10 @@ var CORA = (function(cora) {
 				"presentationMode" : presentationMode,
 				"record" : record,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"views" : views,
+//				"views" : views,
 				"jsClient" : dependencies.jsClient,
-				"recordTypeHandler" : self
+				"recordTypeHandler" : self,
+				"addToRecordTypeHandlerMethod" : addManagedGuiItem
 			};
 			dependencies.recordHandlerFactory.factor(recordHandlerSpec);
 		}
