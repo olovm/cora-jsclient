@@ -178,11 +178,16 @@ var CORA = (function(cora) {
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"recordGuiFactory" : recordGuiFactory
 			};
+			var depRecordHandler = {
+					"ajaxCallFactory" : dependencies.ajaxCallFactory,
+					"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+					"recordGuiFactory" : recordGuiFactory
+			};
 			var dependenciesRecord = {
 				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : CORA
 						.recordListHandlerFactory(depRecordListHandlerFactory),
-				"recordHandlerFactory" : createRecordHandlerFactory(),
+				"recordHandlerFactory" : createRecordHandlerFactory(depRecordHandler),
 				"recordGuiFactory" : recordGuiFactory,
 				"jsClient" : out,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
@@ -196,10 +201,10 @@ var CORA = (function(cora) {
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}
 
-		function createRecordHandlerFactory() {
+		function createRecordHandlerFactory(dependencies) {
 			return {
 				"factor" : function(recordHandlerSpec) {
-					return CORA.recordHandler(recordHandlerSpec);
+					return CORA.recordHandler(dependencies, recordHandlerSpec);
 				}
 			};
 		}
@@ -239,7 +244,7 @@ var CORA = (function(cora) {
 		}
 
 		function removeManagedGuiItemFromList(managedGuiItem) {
-			if (managedGuiItemList.indexOf(managedGuiItem) > 0) {
+			if (managedGuiItemList.indexOf(managedGuiItem) >= 0) {
 				managedGuiItemList.splice(managedGuiItemList.indexOf(managedGuiItem), 1);
 			}
 		}
@@ -289,7 +294,6 @@ var CORA = (function(cora) {
 			managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 
 			managedGuiItemList.push(managedGuiItem);
-
 			return managedGuiItem;
 		}
 

@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordHandler = function(spec) {
+	cora.recordHandler = function(dependencies, spec) {
 		var cRecordTypeRecordData = CORA.coraData(spec.recordTypeRecord.data);
 		var recordTypeRecordId = getIdFromRecord(spec.recordTypeRecord);
 
