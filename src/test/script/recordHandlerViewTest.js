@@ -22,11 +22,13 @@
 QUnit.module("recordHandlerViewTest.js", {
 	beforeEach : function() {
 		this.workItemViewFactory = CORATEST.workItemViewFactorySpy();
+		this.dependencies = {
+				"workItemViewFactory" : this.workItemViewFactory
+		};
 		this.recordHandlerViewSpec = {
-			"workItemViewFactory" : this.workItemViewFactory,
 			"extraClassName" : "extraClassName2"
 		};
-		this.recordHandlerView = CORA.recordHandlerView(this.recordHandlerViewSpec);
+		this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.recordHandlerViewSpec);
 
 		var workItemViewSpy = this.workItemViewFactory.getFactored(0);
 		var viewsAddedToView = workItemViewSpy.getViewsAddedToView();

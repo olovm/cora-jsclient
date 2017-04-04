@@ -111,24 +111,18 @@ QUnit.module("recordHandlerTest.js", {
 		this.recordHandlerViewFactorySpy = CORATEST.recordHandlerViewFactorySpy();
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		var dependencies = {
-			"ajaxCallFactory" : this.ajaxCallFactorySpy
+			"ajaxCallFactory" : this.ajaxCallFactorySpy, 
+			"recordGuiFactory" : this.recordGuiFactorySpy,
+			"recordHandlerViewFactory" : this.recordHandlerViewFactorySpy,
 		};
 		this.dependencies = dependencies;
 		this.recordHandlerSpec = {
 			"dependencies" : dependencies,
 			"recordTypeHandler" : this.recordTypeHandlerSpy1,
-			"recordHandlerViewFactory" : this.recordHandlerViewFactorySpy,
 			"recordTypeRecord" : this.record,
 			"presentationMode" : "view",
-//			"views" : {
-//				"menuView" : this.menuView,
-//				"workView" : this.workView,
-//				"isActive" : true,
-//				"originalClassName" : "someClass"
-//			},
 			views : CORATEST.managedGuiItemSpy(),
 			"record" : this.record,
-			"recordGuiFactory" : this.recordGuiFactorySpy,
 			"jsClient" : this.jsClientSpy
 		};
 		this.answerCall = function(no) {
@@ -770,7 +764,7 @@ QUnit.test("checkRightGuiCreatedPresentationMetadataIsMissing", function(assert)
 		}
 	};
 	this.recordHandlerSpec.presentationMode = "view";
-	this.recordHandlerSpec.recordGuiFactory = recordGuiFactorySpy;
+	this.dependencies.recordGuiFactory = recordGuiFactorySpy;
 
 	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
 	this.answerCall(0);
@@ -788,7 +782,7 @@ QUnit.test("rightGuiCreatedPresentationMetadataIsMissingForNew", function(assert
 		}
 	};
 	this.recordHandlerSpec.presentationMode = "new";
-	this.recordHandlerSpec.recordGuiFactory = recordGuiFactorySpy;
+	this.dependencies.recordGuiFactory = recordGuiFactorySpy;
 
 	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);

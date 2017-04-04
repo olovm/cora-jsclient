@@ -130,7 +130,13 @@ var CORA = (function(cora) {
 		function createRecordHandlerViewFactory() {
 			return {
 				"factor" : function(recordHandlerViewSpec) {
-					return CORA.recordHandlerView(recordHandlerViewSpec);
+					var dep = {
+//							"workItemViewFactory" : this.workItemViewFactory
+							"workItemViewFactory" : CORA.workItemViewFactory(dependencies)
+					
+					};
+					
+					return CORA.recordHandlerView(dep, recordHandlerViewSpec);
 				}
 			};
 		}

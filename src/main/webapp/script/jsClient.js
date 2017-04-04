@@ -178,10 +178,14 @@ var CORA = (function(cora) {
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"recordGuiFactory" : recordGuiFactory
 			};
+			var depRecordHandlerViewF ={
+					"workItemViewFactory":CORA.workItemViewFactory()
+			};
 			var depRecordHandler = {
 					"ajaxCallFactory" : dependencies.ajaxCallFactory,
 					"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-					"recordGuiFactory" : recordGuiFactory
+					"recordGuiFactory" : recordGuiFactory,
+					"recordHandlerViewFactory":CORA.recordHandlerViewFactory(depRecordHandlerViewF)
 			};
 			var dependenciesRecord = {
 				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),

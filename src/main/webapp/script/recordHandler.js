@@ -27,18 +27,14 @@ var CORA = (function(cora) {
 
 		var workView = views.getWorkView();
 		var menuView = views.getMenuView();
-//		var menuViewOrgClassName = views.originalClassName;
 
 		var messageHolder = CORA.messageHolder();
-//		workView.appendChild(messageHolder.getView());
 		views.addWorkPresentation(messageHolder.getView());
 
 		var recordHandlerView = createRecordHandlerView();
-//		workView.appendChild(recordHandlerView.getView());
 		views.addWorkPresentation(recordHandlerView.getView());
 
 		var busy = CORA.busy();
-//		workView.appendChild(busy.getView());
 		views.addWorkPresentation(busy.getView());
 
 		var recordGuiNew;
@@ -88,7 +84,7 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordGui(metadataId, data, dataDivider) {
-			var createdRecordGui = spec.recordGuiFactory.factor(metadataId, data, dataDivider);
+			var createdRecordGui = dependencies.recordGuiFactory.factor(metadataId, data, dataDivider);
 			var pubSub = createdRecordGui.pubSub;
 			subscribeToAllMessagesForAllPaths(pubSub);
 			return createdRecordGui;
@@ -170,7 +166,7 @@ var CORA = (function(cora) {
 				"workItemViewFactory" : workItemViewFactory,
 				"extraClassName" : recordTypeRecordId
 			};
-			return spec.recordHandlerViewFactory.factor(recordHandlerViewSpec);
+			return dependencies.recordHandlerViewFactory.factor(recordHandlerViewSpec);
 		}
 
 		function sendNewDataToServer() {
