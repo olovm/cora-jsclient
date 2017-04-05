@@ -62,7 +62,15 @@ var CORA = (function(cora) {
 				"addToRecordTypeHandlerMethod" : addManagedGuiItem,
 				"recordTypeRecordId" : recordId,
 				"listLink" : spec.recordTypeRecord.actionLinks.list,
-				"listPresentationViewId" : getListPresentationFromRecordTypeRecord()
+				"listPresentationViewId" : getListPresentationFromRecordTypeRecord(),
+				//
+				"createLink" : spec.recordTypeRecord.actionLinks.create,
+				"newMetadataId" : getRecordTypeRecordValueFromRecordLink("newMetadataId"),
+				"newPresentationFormId" : getRecordTypeRecordValueFromRecordLink("newPresentationFormId"),
+				"presentationViewId" : getRecordTypeRecordValueFromRecordLink("presentationViewId"),
+				"presentationFormId" : getRecordTypeRecordValueFromRecordLink("presentationFormId"),
+				"menuPresentationViewId" : getRecordTypeRecordValueFromRecordLink("menuPresentationViewId"),
+				"abstract" : cRecordTypeRecordData.getFirstAtomicValueByNameInData("abstract")
 			};
 			dependencies.recordListHandlerFactory.factor(listHandlerSpec);
 		}
@@ -76,13 +84,14 @@ var CORA = (function(cora) {
 
 		function createRecordHandler(presentationMode, record) {
 			var recordHandlerSpec = {
-//				"recordTypeRecord" : spec.recordTypeRecord,
 				"presentationMode" : presentationMode,
 				"record" : record,
 				"jsClient" : dependencies.jsClient,
 				"recordTypeHandler" : self,
 				"addToRecordTypeHandlerMethod" : addManagedGuiItem,
+				"createRecordHandlerMethod": createRecordHandler,
 				"recordTypeRecordId" : recordId,
+				//
 				"createLink" : spec.recordTypeRecord.actionLinks.create,
 				"newMetadataId" : getRecordTypeRecordValueFromRecordLink("newMetadataId"),
 				"newPresentationFormId" : getRecordTypeRecordValueFromRecordLink("newPresentationFormId"),

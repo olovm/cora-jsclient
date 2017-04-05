@@ -98,9 +98,44 @@ var CORA = (function(cora) {
 		function createView(record) {
 			var newView = CORA.gui.createSpanWithClassName("listItem " + recordId);
 			newView.onclick = function() {
-				spec.createRecordHandlerMethod("view", record);
+// spec.createRecordHandlerMethod("view", record);
+				createRecordHandler("view", record);
 			};
 			return newView;
+		}
+		
+		function createRecordHandler(presentationMode, record) {
+			var recordHandlerSpec = {
+					"createRecordHandlerMethod" : createRecordHandler,
+					"presentationMode" : presentationMode,
+				"record" : record,
+// "jsClient" : dependencies.jsClient,
+				"jsClient" :spec.jsClient,
+				"recordTypeHandler" : self,
+// "addToRecordTypeHandlerMethod" : addManagedGuiItem,
+				"addToRecordTypeHandlerMethod" : spec.addToRecordTypeHandlerMethod,
+				"recordTypeRecordId" : recordId,
+// "createLink" : spec.recordTypeRecord.actionLinks.create,
+// "newMetadataId" : getRecordTypeRecordValueFromRecordLink("newMetadataId"),
+// "newPresentationFormId" :
+// getRecordTypeRecordValueFromRecordLink("newPresentationFormId"),
+// "presentationViewId" :
+// getRecordTypeRecordValueFromRecordLink("presentationViewId"),
+// "presentationFormId" :
+// getRecordTypeRecordValueFromRecordLink("presentationFormId"),
+// "menuPresentationViewId" :
+// getRecordTypeRecordValueFromRecordLink("menuPresentationViewId"),
+// "abstract" :
+// cRecordTypeRecordData.getFirstAtomicValueByNameInData("abstract")
+				"createLink" : spec.createLink,
+				"newMetadataId" : spec.newMetadataId,
+				"newPresentationFormId" : spec.newPresentationFormId,
+				"presentationViewId" : spec.presentationViewId,
+				"presentationFormId" : spec.presentationFormId,
+				"menuPresentationViewId" : spec.menuPresentationViewId,
+				"abstract" : spec.abstract
+			};
+			dependencies.recordHandlerFactory.factor(recordHandlerSpec);
 		}
 
 		function getDataDividerFromData(data) {

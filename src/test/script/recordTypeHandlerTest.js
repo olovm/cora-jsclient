@@ -17,6 +17,28 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.assertCorrectFactoredSpec = function(assert, factoredSpec) {
+		assert.strictEqual(factoredSpec.recordTypeRecordId, "metadataCollectionItem");
+		var expectedCreateLink = {
+				"requestMethod" : "POST",
+				"rel" : "create",
+				"contentType" : "application/uub+record+json",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/uub+record+json"
+		};
+		assert.stringifyEqual(factoredSpec.createLink, expectedCreateLink);
+		assert.strictEqual(factoredSpec.newMetadataId, "metadataCollectionItemNewGroup");
+		assert.strictEqual(factoredSpec.newPresentationFormId, "metadataCollectionItemFormNewPGroup");
+		assert.strictEqual(factoredSpec.presentationViewId, "metadataCollectionItemViewPGroup");
+		assert.strictEqual(factoredSpec.presentationFormId, "metadataCollectionItemFormPGroup");
+		assert.strictEqual(factoredSpec.menuPresentationViewId, "metadataCollectionItemMenuPGroup");
+		assert.strictEqual(factoredSpec.abstract, "false");
+	};
+
+	return coraTest;
+}(CORATEST || {}));
 
 QUnit.module("recordTypeHandlerTest.js", {
 	beforeEach : function() {
@@ -70,8 +92,8 @@ QUnit.test("fetchListCheckSpec", function(assert) {
 
 	recordTypeHandler.createRecordTypeList();
 	var factoredSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	assert.strictEqual(factoredSpec.createRecordHandlerMethod,
-			recordTypeHandler.createRecordHandler);
+//	assert.strictEqual(factoredSpec.createRecordHandlerMethod,
+//			recordTypeHandler.createRecordHandler);
 
 	assert.strictEqual(factoredSpec.addToRecordTypeHandlerMethod,
 			recordTypeHandler.addManagedGuiItem);
@@ -87,7 +109,11 @@ QUnit.test("fetchListCheckSpec", function(assert) {
 	assert.stringifyEqual(factoredSpec.listLink, expectedListLink);
 	assert.strictEqual(factoredSpec.listPresentationViewId, "metadataCollectionItemListPGroup");
 
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
+	
 });
+
+
 
 QUnit.test("showRecord", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
@@ -100,24 +126,8 @@ QUnit.test("showRecord", function(assert) {
 	assert.strictEqual(factoredSpec.presentationMode, "view");
 	assert.strictEqual(factoredSpec.record, this.record);
 	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
-	// assert.strictEqual(factoredSpec.views,
-	// this.dependencies.managedGuiItemFactory.getFactored(1));
 
-	assert.strictEqual(factoredSpec.recordTypeRecordId, "metadataCollectionItem");
-	var expectedCreateLink = {
-		"requestMethod" : "POST",
-		"rel" : "create",
-		"contentType" : "application/uub+record+json",
-		"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-		"accept" : "application/uub+record+json"
-	};
-	assert.stringifyEqual(factoredSpec.createLink, expectedCreateLink);
-	assert.strictEqual(factoredSpec.newMetadataId, "metadataCollectionItemNewGroup");
-	assert.strictEqual(factoredSpec.newPresentationFormId, "metadataCollectionItemFormNewPGroup");
-	assert.strictEqual(factoredSpec.presentationViewId, "metadataCollectionItemViewPGroup");
-	assert.strictEqual(factoredSpec.presentationFormId, "metadataCollectionItemFormPGroup");
-	assert.strictEqual(factoredSpec.menuPresentationViewId, "metadataCollectionItemMenuPGroup");
-	assert.strictEqual(factoredSpec.abstract, "false");
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
 });
 
 QUnit.test("showNew", function(assert) {
@@ -132,23 +142,8 @@ QUnit.test("showNew", function(assert) {
 	assert.strictEqual(factoredSpec.presentationMode, "new");
 	assert.strictEqual(factoredSpec.record, undefined);
 	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
-	// assert.strictEqual(factoredSpec.views,
-	// this.dependencies.managedGuiItemFactory.getFactored(1));
-	assert.strictEqual(factoredSpec.recordTypeRecordId, "metadataCollectionItem");
-	var expectedCreateLink = {
-			"requestMethod" : "POST",
-			"rel" : "create",
-			"contentType" : "application/uub+record+json",
-			"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-			"accept" : "application/uub+record+json"
-	};
-	assert.stringifyEqual(factoredSpec.createLink, expectedCreateLink);
-	assert.strictEqual(factoredSpec.newMetadataId, "metadataCollectionItemNewGroup");
-	assert.strictEqual(factoredSpec.newPresentationFormId, "metadataCollectionItemFormNewPGroup");
-	assert.strictEqual(factoredSpec.presentationViewId, "metadataCollectionItemViewPGroup");
-	assert.strictEqual(factoredSpec.presentationFormId, "metadataCollectionItemFormPGroup");
-	assert.strictEqual(factoredSpec.menuPresentationViewId, "metadataCollectionItemMenuPGroup");
-	assert.strictEqual(factoredSpec.abstract, "false");
+
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
 });
 
 // QUnit.test("testFactory", function(assert) {

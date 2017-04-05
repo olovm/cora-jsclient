@@ -173,27 +173,31 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordTypeToSideBar(record) {
-			var depRecordListHandlerFactory = {
+			var depRecordHandler = {
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"recordGuiFactory" : recordGuiFactory
 			};
+			var recordHandlerFactory = CORA.recordHandlerFactory(depRecordHandler);
 
-			var depRecordHandler = {
-					"ajaxCallFactory" : dependencies.ajaxCallFactory,
-					"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-					"recordGuiFactory" : recordGuiFactory,
+			var depRecordListHandlerFactory = {
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+				"recordGuiFactory" : recordGuiFactory,
+				"recordHandlerFactory" : recordHandlerFactory
 			};
-			
+
 			var dependenciesRecord = {
 				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : CORA
 						.recordListHandlerFactory(depRecordListHandlerFactory),
-				"recordHandlerFactory" : CORA.recordHandlerFactory(depRecordHandler),
+				// "recordHandlerFactory" :
+				// CORA.recordHandlerFactory(depRecordHandler),
+				"recordHandlerFactory" : recordHandlerFactory,
 				"recordGuiFactory" : recordGuiFactory,
 				"jsClient" : out,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
 			};
 			var specRecord = {
 				"recordTypeRecord" : record,

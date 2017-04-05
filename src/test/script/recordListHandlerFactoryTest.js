@@ -18,59 +18,52 @@
  */
 "use strict";
 
-QUnit
-		.module(
-				"recordListHandlerFactoryTest.js",
-				{
-					beforeEach : function() {
-						this.metadataProvider = new MetadataProviderStub();
-						this.dependencies = {
-							"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-							"managedGuiItemFactory" : CORATEST
-									.standardFactorySpy("managedGuiItemSpy")
-						};
-						this.spec = {
-							"presentationId" : "pVarTextVariableId",
-							"recordTypeRecord" : CORATEST.recordTypeList.dataList.data[4].record,
-							"jsClient" : CORATEST.jsClientSpy(),
-							"addToRecordTypeHandlerMethod": function(managedGuiItem){
-								//we do not check anything here
-							},
-							"recordTypeRecordId" : "recordType",
-							"listLink" : {
-								"requestMethod" : "GET",
-								"rel" : "list",
-								"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-								"accept" : "application/uub+recordList+json"
-							},
-							"listPresentationViewId" : "metadataCollectionItemListPGroup"
-						};
-						this.recordListHandlerFactory = CORA
-								.recordListHandlerFactory(this.dependencies);
-					},
-					afterEach : function() {
-					}
-				});
+QUnit.module("recordListHandlerFactoryTest.js", {
+	beforeEach : function() {
+		this.metadataProvider = new MetadataProviderStub();
+		this.dependencies = {
+			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
+			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
+			"recordHandlerFactory": CORATEST.standardFactorySpy("recordHandlerSpy")
+		};
+		this.spec = {
+			"presentationId" : "pVarTextVariableId",
+			"recordTypeRecord" : CORATEST.recordTypeList.dataList.data[4].record,
+			"jsClient" : CORATEST.jsClientSpy(),
+			"addToRecordTypeHandlerMethod" : function(managedGuiItem) {
+				// we do not check anything here
+			},
+			"recordTypeRecordId" : "recordType",
+			"listLink" : {
+				"requestMethod" : "GET",
+				"rel" : "list",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/uub+recordList+json"
+			},
+			"listPresentationViewId" : "metadataCollectionItemListPGroup"
+		};
+		this.recordListHandlerFactory = CORA.recordListHandlerFactory(this.dependencies);
+	},
+	afterEach : function() {
+	}
+});
 
 QUnit.test("init", function(assert) {
 	assert.ok(this.recordListHandlerFactory);
-	assert.strictEqual(this.recordListHandlerFactory.type,
-			"recordListHandlerFactory");
+	assert.strictEqual(this.recordListHandlerFactory.type, "recordListHandlerFactory");
 });
 
 QUnit.test("getDependencies", function(assert) {
-	assert.strictEqual(this.recordListHandlerFactory.getDependencies(),
-			this.dependencies);
+	assert.strictEqual(this.recordListHandlerFactory.getDependencies(), this.dependencies);
 });
 
 QUnit.test("factorTestDependencies", function(assert) {
 	var recordListHandler = this.recordListHandlerFactory.factor(this.spec);
-	assert.ok(recordListHandler);
-	// assert.strictEqual(recordListHandler.getDependencies(),
-	// this.dependencies);
-	assert.strictEqual(
-			recordListHandler.getDependencies().managedGuiItemFactory.type,
-			"managedGuiItemFactory");
+	var factoredDep = recordListHandler.getDependencies();
+	assert.strictEqual(factoredDep.ajaxCallFactory, this.dependencies.ajaxCallFactory);
+	assert.strictEqual(factoredDep.recordGuiFactory, this.dependencies.recordGuiFactory);
+	assert.strictEqual(factoredDep.recordHandlerFactory, this.dependencies.recordHandlerFactory);
+	assert.strictEqual(factoredDep.managedGuiItemFactory.type, "managedGuiItemFactory");
 });
 
 QUnit.test("factorTestType", function(assert) {
