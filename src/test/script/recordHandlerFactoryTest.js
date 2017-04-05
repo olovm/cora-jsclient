@@ -40,7 +40,8 @@ QUnit.module("recordHandlerFactoryTest.js", {
 			"recordTypeRecord" : CORATEST.record,
 			"presentationMode" : "view",
 			"views" : CORATEST.managedGuiItemSpy(),
-			"record" : CORATEST.record,
+//			"record" : CORATEST.record,
+			"record" : CORATEST.recordTypeList.dataList.data[4].record,
 			"jsClient" : CORATEST.jsClientSpy(),
 			"addToRecordTypeHandlerMethod" : function() {
 			}

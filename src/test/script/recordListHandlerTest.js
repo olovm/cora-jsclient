@@ -37,7 +37,6 @@ QUnit.module("recordListHandlerTest.js", {
 		var addedManagedGuiItem;
 
 		this.listHandlerSpec = {
-			"recordTypeRecord" : this.record,
 			"createRecordHandlerMethod" : function(presentationMode, record) {
 				createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
 				createRecordHandlerMethodCalledWithRecord = record;
@@ -47,7 +46,15 @@ QUnit.module("recordListHandlerTest.js", {
 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/",
 			"addToRecordTypeHandlerMethod" : function(managedGuiItem) {
 				addedManagedGuiItem = managedGuiItem;
-			}
+			},
+			"recordTypeRecordId" : "recordType",
+			"listLink" : {
+				"requestMethod" : "GET",
+				"rel" : "list",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/uub+recordList+json"
+			},
+			"listPresentationViewId" : "recordTypeListPGroup"
 		};
 
 		this.getAddedManagedGuiItem = function() {

@@ -22,6 +22,7 @@ var CORA = (function(cora) {
 	cora.recordTypeHandler = function(dependencies, spec) {
 		var self;
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
+		var cRecordTypeRecordData = CORA.coraData(spec.recordTypeRecord.data);
 
 		var viewSpec = {
 			"headerText" : recordId,
@@ -53,41 +54,49 @@ var CORA = (function(cora) {
 
 		function createRecordTypeList() {
 			var listHandlerSpec = {
-				// TODO: should be a factory instead, part of the recordListHandlerFactory
+				// TODO: should be a factory instead, part of the
+				// recordListHandlerFactory
 				"createRecordHandlerMethod" : createRecordHandler,
-				"recordTypeRecord" : spec.recordTypeRecord,
 				"baseUrl" : spec.baseUrl,
 				"jsClient" : dependencies.jsClient,
-				"addToRecordTypeHandlerMethod" : addManagedGuiItem
+				"addToRecordTypeHandlerMethod" : addManagedGuiItem,
+				"recordTypeRecordId" : recordId,
+				"listLink" : spec.recordTypeRecord.actionLinks.list,
+				"listPresentationViewId" : getListPresentationFromRecordTypeRecord()
 			};
 			dependencies.recordListHandlerFactory.factor(listHandlerSpec);
 		}
 
+		function getListPresentationFromRecordTypeRecord() {
+			var cData = CORA.coraData(spec.recordTypeRecord.data);
+			var cRecordLink = CORA.coraData(cData
+					.getFirstChildByNameInData("listPresentationViewId"));
+			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+
 		function createRecordHandler(presentationMode, record) {
-			var text = "New";
-			if ("new" !== presentationMode) {
-				text = getIdFromRecord(record);
-			}
 			var recordHandlerSpec = {
-				"dependencies" : dependencies,
-				// TODO: use factory...
-				"recordHandlerViewFactory" : createRecordHandlerViewFactory(),
-				"recordTypeRecord" : spec.recordTypeRecord,
+//				"recordTypeRecord" : spec.recordTypeRecord,
 				"presentationMode" : presentationMode,
 				"record" : record,
-				"recordGuiFactory" : dependencies.recordGuiFactory,
-				// "views" : views,
 				"jsClient" : dependencies.jsClient,
 				"recordTypeHandler" : self,
-				"addToRecordTypeHandlerMethod" : addManagedGuiItem
+				"addToRecordTypeHandlerMethod" : addManagedGuiItem,
+				"recordTypeRecordId" : recordId,
+				"createLink" : spec.recordTypeRecord.actionLinks.create,
+				"newMetadataId" : getRecordTypeRecordValueFromRecordLink("newMetadataId"),
+				"newPresentationFormId" : getRecordTypeRecordValueFromRecordLink("newPresentationFormId"),
+				"presentationViewId" : getRecordTypeRecordValueFromRecordLink("presentationViewId"),
+				"presentationFormId" : getRecordTypeRecordValueFromRecordLink("presentationFormId"),
+				"menuPresentationViewId" : getRecordTypeRecordValueFromRecordLink("menuPresentationViewId"),
+				"abstract" : cRecordTypeRecordData.getFirstAtomicValueByNameInData("abstract")
 			};
 			dependencies.recordHandlerFactory.factor(recordHandlerSpec);
 		}
-		function createRecordHandlerViewFactory() {
-			var dep = {
-				"workItemViewFactory" : CORA.workItemViewFactory(dependencies)
-			};
-			return CORA.recordHandlerViewFactory(dep);
+
+		function getRecordTypeRecordValueFromRecordLink(id) {
+			var cRecordLink = CORA.coraData(cRecordTypeRecordData.getFirstChildByNameInData(id));
+			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function addManagedGuiItem(managedGuiItem) {
@@ -97,7 +106,6 @@ var CORA = (function(cora) {
 		var out = Object.freeze({
 			getView : getView,
 			createRecordTypeList : createRecordTypeList,
-			createRecordHandlerViewFactory : createRecordHandlerViewFactory,
 			createRecordHandler : createRecordHandler,
 			addManagedGuiItem : addManagedGuiItem
 		});

@@ -31,19 +31,10 @@ var CORA = (function(cora) {
 		spec.addToRecordTypeHandlerMethod(managedGuiItem);
 		spec.jsClient.showView(managedGuiItem);
 
-		var workView = managedGuiItem.getWorkView();
-		var menuView = managedGuiItem.getMenuView();
-
-		var recordId = getIdFromRecord(spec.recordTypeRecord);
+		var recordId = spec.recordTypeRecordId;
 
 		addTextToMenuView();
 		fetchDataFromServer(processFetchedRecords);
-
-		function getIdFromRecord(record) {
-			var cData = CORA.coraData(record.data);
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			return cRecordInfo.getFirstAtomicValueByNameInData("id");
-		}
 
 		function addTextToMenuView() {
 			var menuPresentation = CORA.gui.createSpanWithClassName("");
@@ -52,12 +43,12 @@ var CORA = (function(cora) {
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
-			var readLink = spec.recordTypeRecord.actionLinks.list;
+			var listLink = spec.listLink;
 			var callSpec = {
-				"requestMethod" : readLink.requestMethod,
-				"url" : readLink.url,
-				"contentType" : readLink.contentType,
-				"accept" : readLink.accept,
+				"requestMethod" : listLink.requestMethod,
+				"url" : listLink.url,
+				"contentType" : listLink.contentType,
+				"accept" : listLink.accept,
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
@@ -89,7 +80,7 @@ var CORA = (function(cora) {
 			managedGuiItem.addWorkPresentation(view);
 			var recordTypeId = getRecordTypeId(record);
 			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
-			var presentationId = getListPresentationFromRecordTypeRecord();
+			var presentationId = spec.listPresentationViewId;
 			var dataDivider = getDataDividerFromData(record.data);
 			var recordGui = dependencies.recordGuiFactory.factor(metadataId, record.data,
 					dataDivider);
@@ -110,13 +101,6 @@ var CORA = (function(cora) {
 				spec.createRecordHandlerMethod("view", record);
 			};
 			return newView;
-		}
-
-		function getListPresentationFromRecordTypeRecord() {
-			var cData = CORA.coraData(spec.recordTypeRecord.data);
-			var cRecordLink = CORA.coraData(cData
-					.getFirstChildByNameInData("listPresentationViewId"));
-			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function getDataDividerFromData(data) {

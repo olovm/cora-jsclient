@@ -35,7 +35,15 @@ QUnit
 							"jsClient" : CORATEST.jsClientSpy(),
 							"addToRecordTypeHandlerMethod": function(managedGuiItem){
 								//we do not check anything here
-							}
+							},
+							"recordTypeRecordId" : "recordType",
+							"listLink" : {
+								"requestMethod" : "GET",
+								"rel" : "list",
+								"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+								"accept" : "application/uub+recordList+json"
+							},
+							"listPresentationViewId" : "metadataCollectionItemListPGroup"
 						};
 						this.recordListHandlerFactory = CORA
 								.recordListHandlerFactory(this.dependencies);

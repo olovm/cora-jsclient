@@ -21,19 +21,10 @@
 QUnit.module("recordHandlerTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
-		this.record = CORATEST.record;
-		this.recordAbstract = CORATEST.recordAbstract;
+//		this.record = CORATEST.record;
+		this.record = CORATEST.recordTypeList.dataList.data[4].record;
 		this.recordWithoutUpdateOrDeleteLink = CORATEST.recordWithoutUpdateOrDeleteLink;
 		this.recordWithoutDeleteLink = CORATEST.recordWithoutDeleteLink;
-
-		// this.menuView = document.createElement("span");
-		// this.menuView.className = "menuView";
-		// this.menuViewParent = document.createElement("span");
-		// this.menuViewParent.appendChild(this.menuView);
-		//
-		// this.workView = document.createElement("span");
-		// this.workViewParent = document.createElement("span");
-		// this.workViewParent.appendChild(this.workView);
 
 		this.jsClientSpy = {
 			"getMetadataIdForRecordTypeId" : function(recordTypeId) {
@@ -117,9 +108,9 @@ QUnit.module("recordHandlerTest.js", {
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
 		};
 		this.dependencies = dependencies;
-		
+
 		var addedManagedGuiItem;
-		
+
 		this.recordHandlerSpec = {
 			"dependencies" : dependencies,
 			"recordTypeHandler" : this.recordTypeHandlerSpy1,
@@ -131,7 +122,21 @@ QUnit.module("recordHandlerTest.js", {
 			"jsClient" : CORATEST.jsClientSpy(),
 			"addToRecordTypeHandlerMethod" : function(managedGuiItem) {
 				addedManagedGuiItem = managedGuiItem;
-			}
+			},
+			"recordTypeRecordId" : "metadataCollectionItem",
+			"createLink" : {
+				"requestMethod" : "POST",
+				"rel" : "create",
+				"contentType" : "application/uub+record+json",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/uub+record+json"
+			},
+			"newMetadataId" : "recordTypeNewGroup",
+			"newPresentationFormId" : "recordTypeFormNewPGroup",
+			"presentationViewId" : "recordTypeViewPGroup",
+			"presentationFormId" : "recordTypeFormPGroup",
+			"menuPresentationViewId" : "recordTypeMenuPGroup",
+			"abstract" : "false"
 		};
 
 		this.getAddedManagedGuiItem = function() {
@@ -194,7 +199,6 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(recordHandler.getSpec(), this.recordHandlerSpec);
 });
 
-
 QUnit.test("initTestManagedGuiItemFactoryCalled",
 		function(assert) {
 			var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
@@ -216,14 +220,16 @@ QUnit.test("initTestManagedGuiItemAddedToRecordTypeHandler", function(assert) {
 });
 
 QUnit.test("initRecordHandlerView", function(assert) {
+	this.recordHandlerSpec.recordTypeRecordId = "recordType";
 	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
 	this.answerCall(0);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var usedSpec = recordHandlerViewSpy.getSpec();
 
-//	assert.ok(usedSpec.workItemViewFactory.factor);
-//	assert.strictEqual(usedSpec.workItemViewFactory.type, "workItemViewFactory");
+	// assert.ok(usedSpec.workItemViewFactory.factor);
+	// assert.strictEqual(usedSpec.workItemViewFactory.type,
+	// "workItemViewFactory");
 	assert.strictEqual(usedSpec.extraClassName, "recordType");
 
 	var editViewChild = recordHandlerViewSpy.getAddedEditView(0);
@@ -351,13 +357,16 @@ QUnit.test("initCheckRightGuiCreatedView", function(assert) {
 // });
 
 QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
-	this.recordHandlerSpec.recordTypeRecord = this.recordAbstract;
+	this.recordHandlerSpec.recordTypeRecordId = "text";
+	this.recordHandlerSpec.menuPresentationViewId = "textMenuPGroup";
+	this.recordHandlerSpec.abstract = "true";
+//	this.recordHandlerSpec.recordTypeRecord = this.recordAbstract;
 	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
 	this.answerCall(0);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var usedSpec = recordHandlerViewSpy.getSpec();
-//	assert.ok(usedSpec.workItemViewFactory.factor);
+	// assert.ok(usedSpec.workItemViewFactory.factor);
 	assert.strictEqual(usedSpec.extraClassName, "text");
 
 	var editViewChild = recordHandlerViewSpy.getAddedEditView(0);
