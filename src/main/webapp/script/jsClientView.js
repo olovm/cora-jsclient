@@ -122,8 +122,17 @@ var CORA = (function(cora) {
 			workArea.removeChild(viewToRemove);
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
 		out = Object.freeze({
 			"type" : "jsClientView",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			addToSearchesView : addToSearchesView,
 			addToRecordTypesView : addToRecordTypesView,

@@ -22,16 +22,12 @@ var CORATEST = (function(coraTest) {
 		var factoredrecordGuis = [];
 		var factoredSpec = [];
 
-		// function factor(recordGuiSpec) {
 		function factor(metadataId, data, dataDivider) {
-			// factoredSpec.push(recordGuiSpec);
 			factoredSpec.push({
 				"metadataId" : metadataId,
 				"data" : data,
 				"dataDivider" : dataDivider
 			});
-			// var factoredrecordGui = CORATEST.recordGuiSpy({},
-			// recordGuiSpec);
 			var factoredrecordGui = CORATEST.recordGuiSpy(metadataId, data, dataDivider);
 			factoredrecordGuis.push(factoredrecordGui);
 			return factoredrecordGui;

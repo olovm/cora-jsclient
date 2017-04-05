@@ -259,9 +259,6 @@
 		};
 		var recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
 
-		var jsClientViewFactorySpec = {
-			"messageHolderFactory" : CORA.messageHolderFactory()
-		};
 		var searchRecordHandlerFactorySpec = {
 			"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory({})
 		};
@@ -274,7 +271,7 @@
 			"searchProvider" : searchProvider,
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-			"jsClientViewFactory" : CORA.jsClientViewFactory(jsClientViewFactorySpec),
+			"jsClientViewFactory" : CORA.jsClientViewFactory(),
 			"searchRecordHandlerFactory" : CORA
 					.searchRecordHandlerFactory(searchRecordHandlerFactorySpec),
 			"presentationFactoryFactory" : "not implemented yet"
