@@ -20,68 +20,80 @@
 
 QUnit.module("workItemViewTest.js", {
 	beforeEach : function() {
-		var factoredHolders = [];
-		this.factoredHolders = factoredHolders;
-		this.holderFactory = {
-			"factor" : function(holderSpec) {
-				var factoredHolder = CORA.holder(holderSpec);
-				factoredHolders.push({
-					"holderSpec" : holderSpec,
-					"factoredHolder" : factoredHolder
-				});
-				return factoredHolder;
-			}
+		// var factoredHolders = [];
+		// this.factoredHolders = factoredHolders;
+		// this.holderFactory = {
+		// "factor" : function(holderSpec) {
+		// var factoredHolder = CORA.holder(holderSpec);
+		// factoredHolders.push({
+		// "holderSpec" : holderSpec,
+		// "factoredHolder" : factoredHolder
+		// });
+		// return factoredHolder;
+		// }
+		// };
+
+		this.dependencies = {
+			"holderFactory" : CORATEST.standardFactorySpy("holderSpy")
 		};
 
 		this.workItemViewSpec = {
-			"extraClassName" : "extraClassName",
-			"holderFactory" : this.holderFactory
+			"extraClassName" : "extraClassName"
 		};
-		this.workItemView = CORA.workItemView(this.workItemViewSpec);
-		this.view = this.workItemView.getView();
-		this.topBar = this.view.childNodes[0];
-		this.toolHolder = this.view.childNodes[1];
 	},
 	afterEach : function() {
 	}
 });
 
+QUnit.test("testInit", function(assert) {
+	var workItemView = CORA.workItemView(this.dependencies, this.workItemViewSpec);
+	assert.strictEqual(workItemView.type, "workItemView");
+});
+
+QUnit.test("getDependencies", function(assert) {
+	var workItemView = CORA.workItemView(this.dependencies, this.workItemViewSpec);
+	assert.strictEqual(workItemView.getDependencies(), this.dependencies);
+});
+
 QUnit.test("getSpec", function(assert) {
-	var spec = this.workItemView.getSpec();
-	assert.strictEqual(spec, this.workItemViewSpec);
+	var workItemView = CORA.workItemView(this.dependencies, this.workItemViewSpec);
+	assert.strictEqual(workItemView.getSpec(), this.workItemViewSpec);
 });
 
 QUnit.test("init", function(assert) {
-	assert.strictEqual(this.view.nodeName, "SPAN");
-	assert.strictEqual(this.view.className, "workItem extraClassName");
+	var workItemView = CORA.workItemView(this.dependencies, this.workItemViewSpec);
+	var view = workItemView.getView();
+	assert.strictEqual(view.nodeName, "SPAN");
+	assert.strictEqual(view.className, "workItem extraClassName");
 
-	assert.strictEqual(this.view.childNodes.length, 2);
+	assert.strictEqual(view.childNodes.length, 1);
 
-	assert.strictEqual(this.topBar.nodeName, "SPAN");
-	assert.strictEqual(this.topBar.className, "topBar");
-	assert.strictEqual(this.topBar.childNodes.length, 1);
+	var topBar = view.childNodes[0];
+	assert.strictEqual(topBar.nodeName, "SPAN");
+	assert.strictEqual(topBar.className, "topBar");
+	assert.strictEqual(topBar.childNodes.length, 1);
 
-	var factoredToolHolderSpec = this.factoredHolders[0].holderSpec;
+	var factoredToolHolderSpec = this.dependencies.holderFactory.getSpec(0);
 	assert.strictEqual(factoredToolHolderSpec.className, "tool");
-	assert.strictEqual(factoredToolHolderSpec.appendTo, this.view);
-
-	assert.strictEqual(this.toolHolder.nodeName, "SPAN");
-	assert.strictEqual(this.toolHolder.className, "holder tool");
-	assert.strictEqual(this.toolHolder.childNodes.length, 0);
+	assert.strictEqual(factoredToolHolderSpec.appendTo, view);
 });
 
 QUnit.test("addToolViewToToolHolder", function(assert) {
+	var workItemView = CORA.workItemView(this.dependencies, this.workItemViewSpec);
 	var someToolView = document.createElement("span");
-	this.workItemView.addToolViewToToolHolder(someToolView);
+	workItemView.addToolViewToToolHolder(someToolView);
 
-	assert.strictEqual(this.toolHolder.childNodes.length, 1);
-	assert.strictEqual(this.toolHolder.childNodes[0], someToolView);
+	var toolHolder = this.dependencies.holderFactory.getFactored(0).getView();
+	assert.strictEqual(toolHolder.childNodes.length, 1);
+	assert.strictEqual(toolHolder.childNodes[0], someToolView);
 });
 
 QUnit.test("addViewToView", function(assert) {
+	var workItemView = CORA.workItemView(this.dependencies, this.workItemViewSpec);
 	var someView = document.createElement("span");
-	this.workItemView.addViewToView(someView);
-	
-	assert.strictEqual(this.view.childNodes.length, 3);
-	assert.strictEqual(this.view.childNodes[2], someView);
+	workItemView.addViewToView(someView);
+
+	var view = workItemView.getView();
+	assert.strictEqual(view.childNodes.length, 2);
+	assert.strictEqual(view.childNodes[1], someView);
 });

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Olov McKie
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,18 +18,14 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordHandlerViewFactory = function() {
+	cora.holderFactory = function() {
 
-		var dependencies = {
-			"workItemViewFactory" : CORA.workItemViewFactory()
-		};
-
-		function factor(recordHandlerViewSpec) {
-			return CORA.recordHandlerView(dependencies, recordHandlerViewSpec);
+		function factor(spec) {
+			return CORA.holder(spec);
 		}
 
 		var out = Object.freeze({
-			"type" : "recordHandlerViewFactory",
+			"type" : "holderFactory",
 			factor : factor
 		});
 		return out;

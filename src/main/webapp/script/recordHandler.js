@@ -24,16 +24,14 @@ var CORA = (function(cora) {
 		var recordTypeRecordId = getIdFromRecord(spec.recordTypeRecord);
 
 		var managedGuiItemSpec = {
-				"handledBy" : function() {
-				},
-				"activateMethod" : spec.jsClient.showView,
-				"removeMethod" : spec.jsClient.viewRemoved
-			};
-//		var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-			var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-//var managedGuiItem = spec.managedGuiItem;
-			spec.addToRecordTypeHandlerMethod(managedGuiItem);
-			spec.jsClient.showView(managedGuiItem);
+			"handledBy" : function() {
+			},
+			"activateMethod" : spec.jsClient.showView,
+			"removeMethod" : spec.jsClient.viewRemoved
+		};
+		var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
+		spec.addToRecordTypeHandlerMethod(managedGuiItem);
+		spec.jsClient.showView(managedGuiItem);
 
 		var workView = managedGuiItem.getWorkView();
 		var menuView = managedGuiItem.getMenuView();
@@ -94,7 +92,8 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordGui(metadataId, data, dataDivider) {
-			var createdRecordGui = dependencies.recordGuiFactory.factor(metadataId, data, dataDivider);
+			var createdRecordGui = dependencies.recordGuiFactory.factor(metadataId, data,
+					dataDivider);
 			var pubSub = createdRecordGui.pubSub;
 			subscribeToAllMessagesForAllPaths(pubSub);
 			return createdRecordGui;
@@ -131,17 +130,17 @@ var CORA = (function(cora) {
 		}
 
 		function updateMenuClassName() {
-//			var className = menuViewOrgClassName;
-//			if (dataIsChanged) {
-//				className += ' changed';
-				
-//			}
-//			managedGuiItem.originalClassName = className;
+			// var className = menuViewOrgClassName;
+			// if (dataIsChanged) {
+			// className += ' changed';
 
-//			if (managedGuiItem.isActive) {
-//				className += ' active';
-//			}
-//			menuView.className = className;
+			// }
+			// managedGuiItem.originalClassName = className;
+
+			// if (managedGuiItem.isActive) {
+			// className += ' active';
+			// }
+			// menuView.className = className;
 		}
 
 		function addNewRecordToWorkView(recordGuiToAdd, metadataIdUsedInData) {
@@ -160,17 +159,17 @@ var CORA = (function(cora) {
 			var menuPresentationViewId = getMenuPresentationViewId();
 			var menuPresentationView = recordGuiToAdd.getPresentation(menuPresentationViewId,
 					metadataIdUsedInData).getView();
-//			menuView.textContent = "";
-//			menuView.appendChild(menuPresentationView);
-//			menuView.appendChild(createRemoveButton());
+			// menuView.textContent = "";
+			// menuView.appendChild(menuPresentationView);
+			// menuView.appendChild(createRemoveButton());
 			managedGuiItem.addMenuPresentation(menuPresentationView);
 		}
 
-
 		function createRecordHandlerView() {
-			var workItemViewFactory = CORA.workItemViewFactory(spec.dependencies);
+			// var workItemViewFactory =
+			// CORA.workItemViewFactory(spec.dependencies);
 			var recordHandlerViewSpec = {
-				"workItemViewFactory" : workItemViewFactory,
+				// "workItemViewFactory" : workItemViewFactory,
 				"extraClassName" : recordTypeRecordId
 			};
 			return dependencies.recordHandlerViewFactory.factor(recordHandlerViewSpec);
@@ -191,7 +190,7 @@ var CORA = (function(cora) {
 					"errorMethod" : callError,
 					"data" : JSON.stringify(recordGuiNew.dataHolder.getData())
 				};
-				spec.dependencies.ajaxCallFactory.factor(callSpec);
+				dependencies.ajaxCallFactory.factor(callSpec);
 			}
 		}
 
@@ -220,7 +219,7 @@ var CORA = (function(cora) {
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
-			spec.dependencies.ajaxCallFactory.factor(callSpec);
+			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function processFetchedRecord(answer) {
@@ -333,13 +332,13 @@ var CORA = (function(cora) {
 			};
 			var question = CORA.question(questionSpec);
 			var questionView = question.getView();
-//			workView.appendChild(questionView);
+			// workView.appendChild(questionView);
 			managedGuiItem.addWorkPresentation(questionView);
 		}
 
 		function afterDelete() {
-//			recordHandlerView.clearViews();
-//			removeViewsFromParentNodes();
+			// recordHandlerView.clearViews();
+			// removeViewsFromParentNodes();
 			managedGuiItem.remove();
 		}
 
@@ -352,7 +351,7 @@ var CORA = (function(cora) {
 				"loadMethod" : afterDelete,
 				"errorMethod" : callError
 			};
-			spec.dependencies.ajaxCallFactory.factor(callSpec);
+			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function removeViewsFromParentNodes() {
@@ -379,7 +378,7 @@ var CORA = (function(cora) {
 					"errorMethod" : callError,
 					"data" : JSON.stringify(recordGui.dataHolder.getData())
 				};
-				spec.dependencies.ajaxCallFactory.factor(callSpec);
+				dependencies.ajaxCallFactory.factor(callSpec);
 			}
 		}
 
@@ -412,7 +411,18 @@ var CORA = (function(cora) {
 			return dataIsChanged;
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		return Object.freeze({
+			"type" : "recordHandler",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			processFetchedRecord : processFetchedRecord,
 			resetViewsAndProcessFetchedRecord : resetViewsAndProcessFetchedRecord,
 			afterDelete : afterDelete,

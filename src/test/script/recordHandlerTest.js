@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -180,9 +180,21 @@ QUnit.module("recordHandlerTest.js", {
 QUnit.test("init", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
 
-	assert.notStrictEqual(recordHandler, undefined);
+	assert.strictEqual(recordHandler.type, "recordHandler");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
 });
+
+QUnit.test("testGetDependencies", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
+	assert.strictEqual(recordHandler.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
+	assert.strictEqual(recordHandler.getSpec(), this.recordHandlerSpec);
+});
+
+
 QUnit.test("initTestManagedGuiItemFactoryCalled",
 		function(assert) {
 			var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
@@ -210,10 +222,8 @@ QUnit.test("initRecordHandlerView", function(assert) {
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var usedSpec = recordHandlerViewSpy.getSpec();
 
-	assert.ok(usedSpec.workItemViewFactory.factor);
-	assert.strictEqual(usedSpec.workItemViewFactory.type, "workItemViewFactory");
-	assert.strictEqual(usedSpec.workItemViewFactory.getDependencies(),
-			this.recordHandlerSpec.dependencies);
+//	assert.ok(usedSpec.workItemViewFactory.factor);
+//	assert.strictEqual(usedSpec.workItemViewFactory.type, "workItemViewFactory");
 	assert.strictEqual(usedSpec.extraClassName, "recordType");
 
 	var editViewChild = recordHandlerViewSpy.getAddedEditView(0);
@@ -347,7 +357,7 @@ QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var usedSpec = recordHandlerViewSpy.getSpec();
-	assert.ok(usedSpec.workItemViewFactory.factor);
+//	assert.ok(usedSpec.workItemViewFactory.factor);
 	assert.strictEqual(usedSpec.extraClassName, "text");
 
 	var editViewChild = recordHandlerViewSpy.getAddedEditView(0);

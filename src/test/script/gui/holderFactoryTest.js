@@ -1,5 +1,4 @@
 /*
- * Copyright 2016 Olov McKie
  * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
@@ -18,31 +17,28 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-
-QUnit.module("workItemViewFactoryTest.js", {
+QUnit.module("holderFactoryTest.js", {
 	beforeEach : function() {
+		this.spec = {};
 	},
 	afterEach : function() {
 	}
 });
 
-QUnit.test("init", function(assert) {
-	var workItemViewFactory = CORA.workItemViewFactory();
-	assert.ok(workItemViewFactory);
-	assert.strictEqual(workItemViewFactory.type, "workItemViewFactory");
+QUnit.test("testInit", function(assert) {
+	var holderFactory = CORA.holderFactory();
+	assert.ok(holderFactory);
+	assert.strictEqual(holderFactory.type, "holderFactory");
 });
 
-QUnit.test("factor", function(assert) {
-	var workItemViewFactory = CORA.workItemViewFactory();
-	var spec = {
-	};
-	var workItemView = workItemViewFactory.factor(spec);
-	assert.strictEqual(workItemView.getSpec(), spec);
+QUnit.test("testFactor", function(assert) {
+	var holderFactory = CORA.holderFactory();
+	var holder = holderFactory.factor(this.spec);
+	assert.strictEqual(holder.type, "holder");
 });
 
-QUnit.test("testFactoredDependencies", function(assert) {
-	var workItemViewFactory = CORA.workItemViewFactory();
-	var workItemView = workItemViewFactory.factor({});
-
-	assert.strictEqual(workItemView.getDependencies().holderFactory.type, "holderFactory");
+QUnit.test("testFactorSpec", function(assert) {
+	var holderFactory = CORA.holderFactory();
+	var holder = holderFactory.factor(this.spec);
+	assert.strictEqual(holder.getSpec(), this.spec);
 });

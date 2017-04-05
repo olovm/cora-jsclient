@@ -20,42 +20,37 @@
 
 QUnit.module("recordHandlerViewFactoryTest.js", {
 	beforeEach : function() {
-		this.metadataProvider = new MetadataProviderStub();
 		this.dependencies = {
 			"workItemViewFactory" : CORATEST.workItemViewFactorySpy()
 		};
 		this.spec = {
-			"presentationId" : "pVarTextVariableId"
+			"extraClassName" : "someClassname"
 		};
-		this.recordHandlerViewFactory = CORA.recordHandlerViewFactory(this.dependencies);
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	assert.ok(this.recordHandlerViewFactory);
-	assert.strictEqual(this.recordHandlerViewFactory.type, "recordHandlerViewFactory");
-});
-
-QUnit.test("getDependencies", function(assert) {
-	assert.strictEqual(this.recordHandlerViewFactory.getDependencies(), this.dependencies);
+	var recordHandlerViewFactory = CORA.recordHandlerViewFactory();
+	assert.strictEqual(recordHandlerViewFactory.type, "recordHandlerViewFactory");
 });
 
 QUnit.test("factorTestDependencies", function(assert) {
-	var recordHandlerView = this.recordHandlerViewFactory.factor(this.spec);
-	assert.ok(recordHandlerView);
-	assert.strictEqual(recordHandlerView.getDependencies(), this.dependencies);
+	var recordHandlerViewFactory = CORA.recordHandlerViewFactory();
+	var recordHandlerView = recordHandlerViewFactory.factor(this.spec);
+	assert.strictEqual(recordHandlerView.getDependencies().workItemViewFactory.type,
+			"workItemViewFactory");
 });
 
 QUnit.test("factorTestType", function(assert) {
-	var recordHandlerView = this.recordHandlerViewFactory.factor(this.spec);
-	assert.ok(recordHandlerView);
+	var recordHandlerViewFactory = CORA.recordHandlerViewFactory();
+	var recordHandlerView = recordHandlerViewFactory.factor(this.spec);
 	assert.strictEqual(recordHandlerView.type, "recordHandlerView");
 });
 
 QUnit.test("factorTestSpec", function(assert) {
-	var recordHandlerView = this.recordHandlerViewFactory.factor(this.spec);
-	var recordHandlerViewSpec = recordHandlerView.getSpec();
-	assert.strictEqual(recordHandlerViewSpec, this.spec);
+	var recordHandlerViewFactory = CORA.recordHandlerViewFactory();
+	var recordHandlerView = recordHandlerViewFactory.factor(this.spec);
+	assert.strictEqual(recordHandlerView.getSpec(), this.spec);
 });

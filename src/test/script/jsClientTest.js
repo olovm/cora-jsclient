@@ -221,30 +221,6 @@ QUnit.test("testViewRemoved", function(assert) {
 	assert.strictEqual(aView.getWorkViewShown(), 2);
 });
 
-
-
-//QUnit.test("testFactories", function(assert) {
-//	var recordTypeListData = CORATEST.recordTypeList;
-//
-//	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-//
-//
-//	var menuView = document.createElement("span");
-//	var workView = document.createElement("span");
-//	var recordHandlerSpec = {
-//		"dependencies" : this.dependencies,
-//		"recordHandlerViewFactory" : this.createRecordHandlerViewFactory(),
-//		"recordTypeRecord" : this.record,
-//		"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-//		"presentationMode" : "view",
-//		"views" : CORATEST.managedGuiItemSpy(),
-//		"record" : this.record,
-//	};
-//	var recordHandler = jsClient.createRecordHandlerFactory().factor(recordHandlerSpec);
-//
-//	assert.notStrictEqual(recordHandler, undefined);
-//});
-
 QUnit.test("getMetadataIdForRecordType", function(assert) {
 	var recordTypeListData = CORATEST.recordTypeList;
 

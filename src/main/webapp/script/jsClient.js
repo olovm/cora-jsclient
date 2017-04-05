@@ -178,20 +178,18 @@ var CORA = (function(cora) {
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"recordGuiFactory" : recordGuiFactory
 			};
-			var depRecordHandlerViewF ={
-					"workItemViewFactory":CORA.workItemViewFactory()
-			};
+
 			var depRecordHandler = {
 					"ajaxCallFactory" : dependencies.ajaxCallFactory,
 					"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 					"recordGuiFactory" : recordGuiFactory,
-					"recordHandlerViewFactory":CORA.recordHandlerViewFactory(depRecordHandlerViewF)
 			};
+			
 			var dependenciesRecord = {
 				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : CORA
 						.recordListHandlerFactory(depRecordListHandlerFactory),
-				"recordHandlerFactory" : createRecordHandlerFactory(depRecordHandler),
+				"recordHandlerFactory" : CORA.recordHandlerFactory(depRecordHandler),
 				"recordGuiFactory" : recordGuiFactory,
 				"jsClient" : out,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
@@ -203,14 +201,6 @@ var CORA = (function(cora) {
 			};
 			var recordTypeHandler = CORA.recordTypeHandler(dependenciesRecord, specRecord);
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
-		}
-
-		function createRecordHandlerFactory(dependencies) {
-			return {
-				"factor" : function(recordHandlerSpec) {
-					return CORA.recordHandler(dependencies, recordHandlerSpec);
-				}
-			};
 		}
 
 		function getView() {
@@ -317,7 +307,6 @@ var CORA = (function(cora) {
 			getView : getView,
 			getRecordTypeList : getRecordTypeList,
 			showView : showView,
-			createRecordHandlerFactory : createRecordHandlerFactory,
 			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
 			afterLogin : afterLogin,
 			afterLogout : afterLogout,

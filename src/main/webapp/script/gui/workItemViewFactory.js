@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,27 +19,18 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.workItemViewFactory = function(dependencies) {
+	cora.workItemViewFactory = function() {
 
-		var holderFactory = {
-			"factor" : function(holderSpec) {
-				return CORA.holder(holderSpec);
-			}
+		var dependencies = {
+			"holderFactory" : CORA.holderFactory()
 		};
 
-		function factor(workItemViewSpec) {
-			workItemViewSpec.dependencies = dependencies;
-			workItemViewSpec.holderFactory = holderFactory;
-			return CORA.workItemView(workItemViewSpec);
-		}
-
-		function getDependencies() {
-			return dependencies;
+		function factor(spec) {
+			return CORA.workItemView(dependencies, spec);
 		}
 
 		var out = Object.freeze({
 			"type" : "workItemViewFactory",
-			getDependencies : getDependencies,
 			factor : factor
 		});
 		return out;
