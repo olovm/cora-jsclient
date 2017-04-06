@@ -188,3 +188,17 @@ QUnit.test("factor", function(assert) {
 	var searchRecordHandlerSpec = searchRecordHandler.getSpec();
 	assert.strictEqual(searchRecordHandlerSpec, this.spec);
 });
+
+
+QUnit.test("testFactorAddedDependencies", function(assert) {
+// var searchHandlerFactory = CORA.searchHandlerFactory();
+// var searchHandler = searchHandlerFactory.factor(this.spec);
+// var addedDep = searchHandler.getDependencies();
+// assert.strictEqual(addedDep.searchHandlerViewFactory.type, "searchHandlerViewFactory");
+// assert.strictEqual(addedDep.managedGuiItemFactory.type, "managedGuiItemFactory");
+	var searchRecordHandlerFactory = CORA.searchRecordHandlerFactory(this.dependencies);
+});
+// ,
+// "searchHandlerFactory":CORA.searchHandlerFactory()
+// assert.strictEqual(addedDep.managedGuiItemFactory.type, "managedGuiItemFactory");
+

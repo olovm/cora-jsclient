@@ -52,7 +52,6 @@ QUnit.module("recordTypeHandlerTest.js", {
 			"recordTypeHandlerViewFactory" : CORATEST.standardFactorySpy("recordTypeHandlerViewSpy"),
 			"recordListHandlerFactory" : CORATEST.standardFactorySpy("recordListHandlerSpy"),
 			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
-			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 			"jsClient" : CORATEST.jsClientSpy()
 		};
 
@@ -93,8 +92,6 @@ QUnit.test("fetchListCheckSpec", function(assert) {
 
 	recordTypeHandler.createRecordTypeList();
 	var factoredSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-//	assert.strictEqual(factoredSpec.createRecordHandlerMethod,
-//			recordTypeHandler.createRecordHandler);
 
 	assert.strictEqual(factoredSpec.addToRecordTypeHandlerMethod,
 			recordTypeHandler.addManagedGuiItem);
@@ -109,11 +106,7 @@ QUnit.test("fetchListCheckSpec", function(assert) {
 	};
 	assert.stringifyEqual(factoredSpec.listLink, expectedListLink);
 	assert.strictEqual(factoredSpec.listPresentationViewId, "metadataCollectionItemListPGroup");
-
-	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
 });
-
-
 
 QUnit.test("showRecord", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
@@ -145,60 +138,6 @@ QUnit.test("showNew", function(assert) {
 
 	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
 });
-
-// QUnit.test("testFactory", function(assert) {
-// this.createRecordTypeHandlerViewFactory = function() {
-// var dependen = {
-// "jsClient" : CORATEST.jsClientSpy()
-// };
-// return {
-// "factor" : function(viewSpec) {
-// return CORA.recordTypeHandlerView(dependen, viewSpec);
-// }
-// };
-// }
-// this.createRecordListHandlerFactory = function() {
-// return {
-// "factor" : function(listHandlerSpec) {
-// return CORA.recordListHandler(listHandlerSpec);
-// }
-// };
-// }
-// this.createRecordHandlerFactory = function() {
-// return {
-// "factor" : function(recordHandlerSpec) {
-// return CORA.recordHandler(recordHandlerSpec);
-// ;
-// }
-// };
-// }
-//
-// var recordTypeHandler = CORA
-// .recordTypeHandler(this.dependencies, this.spec);
-//
-// var workItemViewFactory = {
-// "factor" : function(workItemViewSpec) {
-// return CORA.workItemView(workItemViewSpec);
-// }
-// };
-// var spec = {
-// "recordTypeHandlerViewFactory" : this
-// .createRecordTypeHandlerViewFactory(),
-// "recordListHandlerFactory" : this.createRecordListHandlerFactory(),
-// "recordHandlerFactory" : this.createRecordHandlerFactory(),
-// "recordTypeRecord" : this.record
-// };
-// var workItemViewFactory = CORA.workItemViewFactory(spec);
-// var recordHandlerViewSpec = {
-// "workItemViewFactory" : workItemViewFactory,
-// "extraClassName" : "text"
-// };
-//
-// var recordHandlerView = recordTypeHandler.createRecordHandlerViewFactory()
-// .factor(recordHandlerViewSpec);
-// assert.notStrictEqual(recordHandlerView, undefined);
-// });
-
 
 QUnit.test("initAddManagedGuiItemPassedOnToView", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);

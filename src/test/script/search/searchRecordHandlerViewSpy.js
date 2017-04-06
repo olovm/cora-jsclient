@@ -29,14 +29,8 @@ var CORATEST = (function(coraTest) {
 		function getGetViewCalled() {
 			return getViewCalled;
 		}
-		function addManagedGuiItem(handledBy) {
-			var managedGuiItem = {
-				"handledBy" : handledBy,
-				"workView" : CORA.gui.createSpanWithClassName("workView"),
-				"menuView" : CORA.gui.createSpanWithClassName("menuView")
-			};
+		function addManagedGuiItem(managedGuiItem) {
 			addedManagedGuiItem.push(managedGuiItem);
-			return managedGuiItem;
 		}
 
 		function getAddedManagedGuiItem(number) {

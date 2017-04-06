@@ -243,8 +243,6 @@ var CORA = (function(cora) {
 		}
 
 		function copyData() {
-// spec.recordTypeHandler.createRecordHandler("new",
-// recordGui.dataHolder.getData());
 			spec.createRecordHandlerMethod("new", recordGui.dataHolder.getData());
 		}
 

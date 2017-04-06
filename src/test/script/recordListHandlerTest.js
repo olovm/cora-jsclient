@@ -225,32 +225,12 @@ QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(asse
 	var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
 	this.answerListCall(0);
 
-	// var firstListItem = this.workView.childNodes[0];
-	// var firstListItem =
-	// this.spec.views.getAddedWorkPresentation(0);
 	var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
 			.getAddedWorkPresentation(0);
 	firstListItem.onclick();
 
-//	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithPresentationMode(), "view");
-//	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithRecord(), this.firstRecord);
-	
-	var factoredSpec =  this.dependencies.recordHandlerFactory.getSpec(0);
-	assert.stringifyEqual(factoredSpec.presentationMode, "view");
-	assert.stringifyEqual(factoredSpec.record, this.firstRecord);
-	//
-	assert.stringifyEqual(factoredSpec.jsClient, this.spec.jsClient);
-//	assert.stringifyEqual(factoredSpec.recordTypeHandler, this.spec.recordTypeHandler);
-	assert.stringifyEqual(factoredSpec.addToRecordTypeHandlerMethod, this.spec.addToRecordTypeHandlerMethod);
-	assert.stringifyEqual(factoredSpec.recordTypeRecordId, this.spec.recordTypeRecordId);
-	assert.stringifyEqual(factoredSpec.createLink, this.spec.createLink);
-	assert.stringifyEqual(factoredSpec.newMetadataId, this.spec.newMetadataId);
-	assert.stringifyEqual(factoredSpec.newPresentationFormId, this.spec.newPresentationFormId);
-	assert.stringifyEqual(factoredSpec.presentationViewId, this.spec.presentationViewId);
-	assert.stringifyEqual(factoredSpec.presentationFormId, this.spec.presentationFormId);
-	assert.stringifyEqual(factoredSpec.menuPresentationViewId, this.spec.menuPresentationViewId);
-	assert.stringifyEqual(factoredSpec.abstract, this.spec.abstract);
-	
+	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithPresentationMode(), "view");
+	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithRecord(), this.firstRecord);
 });
 
 QUnit.test("fetchListCheckUsedPresentationId", function(assert) {

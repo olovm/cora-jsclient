@@ -26,18 +26,9 @@ QUnit.module("searchRecordHandlerTest.js", {
 			"searchRecordHandlerViewFactory" : CORATEST
 					.standardFactorySpy("searchRecordHandlerViewSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
-			"jsClient" : CORATEST.jsClientSpy()
+			"jsClient" : CORATEST.jsClientSpy(),
+			"searchHandlerFactory" : CORATEST.standardFactorySpy("searchHandlerSpy")
 		};
-		// this.dependencies = {
-		// "ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-		// "recordTypeHandlerViewFactory" :
-		// CORATEST.recordTypeHandlerViewFactorySpy(),
-		// "recordListHandlerFactory" : CORATEST.recordListHandlerFactorySpy(),
-		// "recordHandlerFactory" : CORATEST.recordHandlerFactorySpy(),
-		// "managedGuiItemFactory" :
-		// CORATEST.standardFactorySpy("managedGuiItemSpy"),
-		// "jsClient" : CORATEST.jsClientSpy()
-		// };
 		this.spec = {
 			"searchRecord" : this.search,
 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
@@ -75,13 +66,25 @@ QUnit.test("testViewSpec", function(assert) {
 	assert.strictEqual(factoredSpec.openSearchMethod, searchRecordHandler.openSearch);
 });
 
-QUnit.test("testOpenSearchEnsureManagedGuiItemIsCreatedAndShownInJsClient", function(assert) {
+QUnit.test("testAddManagedGuiItemPassedOnToView", function(assert) {
 	var searchRecordHandler = CORA.searchRecordHandler(this.dependencies, this.spec);
 	var factoredView = this.dependencies.searchRecordHandlerViewFactory.getFactored(0);
+	var aItem = CORATEST.managedGuiItemSpy();
+	searchRecordHandler.addManagedGuiItem(aItem);
+	assert.strictEqual(factoredView.getAddedManagedGuiItem(0), aItem);
+});
+
+QUnit.test("testOpenSearchFactorSearchHandler", function(assert) {
+	var searchRecordHandler = CORA.searchRecordHandler(this.dependencies, this.spec);
 	searchRecordHandler.openSearch();
-	// var createdManagedGuiItem =
-	// this.dependencies.jsClient.getCreatedManagedGuiItem(0);
-	var createdManagedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
-	assert.strictEqual(this.dependencies.jsClient.getViewShowingInWorkView(0),
-			createdManagedGuiItem.workView);
+	var factoredSpec = this.dependencies.searchHandlerFactory.getSpec(0);
+
+	assert.strictEqual(factoredSpec.addToSearchRecordHandlerMethod,
+			searchRecordHandler.addManagedGuiItem);
+	assert.strictEqual(factoredSpec.showViewMethod, this.dependencies.jsClient.showView);
+	assert.strictEqual(factoredSpec.removeViewMethod, this.dependencies.jsClient.viewRemoved);
+	// var factoredView = this.dependencies.searchRecordHandlerViewFactory.getFactored(0);
+	// var aItem = CORATEST.managedGuiItemSpy();
+	// searchRecordHandler.addManagedGuiItem(aItem);
+	// assert.strictEqual(factoredView.getAddedManagedGuiItem(0), aItem);
 });

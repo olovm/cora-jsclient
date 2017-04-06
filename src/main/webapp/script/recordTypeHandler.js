@@ -51,23 +51,13 @@ var CORA = (function(cora) {
 
 		function createRecordTypeList() {
 			var listHandlerSpec = {
-				// TODO: should be a factory instead, part of the
-				// recordListHandlerFactory
 				"createRecordHandlerMethod" : createRecordHandler,
 				"baseUrl" : spec.baseUrl,
 				"jsClient" : dependencies.jsClient,
 				"addToRecordTypeHandlerMethod" : addManagedGuiItem,
 				"recordTypeRecordId" : recordId,
 				"listLink" : spec.recordTypeRecord.actionLinks.list,
-				"listPresentationViewId" : getListPresentationFromRecordTypeRecord(),
-				//
-				"createLink" : spec.recordTypeRecord.actionLinks.create,
-				"newMetadataId" : getLinkValueFromRecordTypeRecord("newMetadataId"),
-				"newPresentationFormId" : getLinkValueFromRecordTypeRecord("newPresentationFormId"),
-				"presentationViewId" : getLinkValueFromRecordTypeRecord("presentationViewId"),
-				"presentationFormId" : getLinkValueFromRecordTypeRecord("presentationFormId"),
-				"menuPresentationViewId" : getLinkValueFromRecordTypeRecord("menuPresentationViewId"),
-				"abstract" : cRecordTypeRecordData.getFirstAtomicValueByNameInData("abstract")
+				"listPresentationViewId" : getListPresentationFromRecordTypeRecord()
 			};
 			dependencies.recordListHandlerFactory.factor(listHandlerSpec);
 		}
@@ -88,7 +78,6 @@ var CORA = (function(cora) {
 				"addToRecordTypeHandlerMethod" : addManagedGuiItem,
 				"createRecordHandlerMethod" : createRecordHandler,
 				"recordTypeRecordId" : recordId,
-				//
 				"createLink" : spec.recordTypeRecord.actionLinks.create,
 				"newMetadataId" : getLinkValueFromRecordTypeRecord("newMetadataId"),
 				"newPresentationFormId" : getLinkValueFromRecordTypeRecord("newPresentationFormId"),

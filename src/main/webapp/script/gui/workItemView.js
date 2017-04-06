@@ -66,7 +66,7 @@ var CORA = (function(cora) {
 		function getDependencies() {
 			return dependencies;
 		}
-		
+
 		function getSpec() {
 			return spec;
 		}

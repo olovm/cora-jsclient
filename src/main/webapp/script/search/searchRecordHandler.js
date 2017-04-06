@@ -34,7 +34,12 @@ var CORA = (function(cora) {
 		}
 
 		function openSearch() {
-			createManagedGuiItem("Search");
+			var searchHandlerSpec = {
+				"addToSearchRecordHandlerMethod" : addManagedGuiItem,
+				"showViewMethod" : dependencies.jsClient.showView,
+				"removeViewMethod" : dependencies.jsClient.viewRemoved
+			};
+			dependencies.searchHandlerFactory.factor(searchHandlerSpec);
 		}
 
 		function getIdFromRecord(record) {
@@ -43,51 +48,8 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		// function createManagedGuiItem(text) {
-		// var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
-		// managedGuiItem.menuView.textContent = text;
-		// managedGuiItem.menuView.appendChild(createRemoveButton(managedGuiItem));
-		// view.addManagedGuiItem(managedGuiItem);
-		// dependencies.jsClient.showView(managedGuiItem);
-		// return managedGuiItem;
-		// }
-		function createManagedGuiItem(text) {
-			var menuPresentation = CORA.gui.createSpanWithClassName("search");
-			menuPresentation.textContent = text;
-			var managedGuiItem;
-			var managedGuiItemSpec = {
-				"menuPresentation" : menuPresentation,
-				"workPresentation" : CORA.gui.createSpanWithClassName("workPresentation"),
-				"activateMethod" : function() {
-					dependencies.jsClient.showView(managedGuiItem);
-				},
-				"removeMenuMethod" : function() {
-					removeViewsFromParentNodes(managedGuiItem);
-				},
-				"removeWorkMethod" : function() {
-				}
-			};
-			managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
+		function addManagedGuiItem(managedGuiItem) {
 			view.addManagedGuiItem(managedGuiItem);
-			dependencies.jsClient.showView(managedGuiItem);
-		}
-
-		function createRemoveButton(managedGuiItem) {
-			return CORA.gui.createRemoveButton(function() {
-				removeViewsFromParentNodes(managedGuiItem);
-			});
-		}
-
-		function removeViewsFromParentNodes(managedGuiItem) {
-			// if (menuView.parentNode !== null) {
-			// menuView.parentNode.removeChild(menuView);
-			// }
-			view.removeManagedGuiItem(managedGuiItem);
-
-			// if (workView.parentNode !== null) {
-			// workView.parentNode.removeChild(workView);
-			// }
-			dependencies.jsClient.hideAndRemoveView(managedGuiItem);
 		}
 
 		function getSpec() {
@@ -103,7 +65,8 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getDependencies : getDependencies,
 			getView : getView,
-			openSearch : openSearch
+			openSearch : openSearch,
+			addManagedGuiItem : addManagedGuiItem
 		});
 		return out;
 	};
