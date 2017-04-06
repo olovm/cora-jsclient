@@ -30,10 +30,29 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(searchHandlerView.type, "searchHandlerView");
 });
 
+QUnit.test("testInitSearchFormHolderCreated", function(assert) {
+	var searchHandlerView = CORA.searchHandlerView();
+	var view = searchHandlerView.getView();
+	var searchFormHolder = view.firstChild;
+	assert.strictEqual(searchFormHolder.nodeName, "SPAN");
+	assert.strictEqual(searchFormHolder.className, "searchFormHolder");
+});
+
 QUnit.test("getView", function(assert) {
 	var searchHandlerView = CORA.searchHandlerView();
 	var view = searchHandlerView.getView();
 	assert.strictEqual(view.nodeName, "SPAN");
 	assert.strictEqual(view.className, "workItem search");
+});
+
+QUnit.test("testInitSearchFormHolderCreated", function(assert) {
+	var searchHandlerView = CORA.searchHandlerView();
+	var searchFormHolder = searchHandlerView.getView().firstChild;
+	assert.strictEqual(searchFormHolder.childNodes.length, 0);
+	
+	var aPresentation = CORA.gui.createSpanWithClassName("some"); 
+	searchHandlerView.addPresentationToSearchFormHolder(aPresentation);
+	assert.strictEqual(searchFormHolder.childNodes.length, 1);
+	assert.strictEqual(searchFormHolder.firstChild, aPresentation);
 });
 

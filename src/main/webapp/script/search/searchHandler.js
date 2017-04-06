@@ -29,7 +29,7 @@ var CORA = (function(cora) {
 
 		managedGuiItem.addWorkPresentation(view.getView());
 		spec.addToSearchRecordHandlerMethod(managedGuiItem);
-		// spec.showViewMethod(managedGuiItem);
+		spec.showViewMethod(managedGuiItem);
 
 		function getDependencies() {
 			return dependencies;

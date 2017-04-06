@@ -24,6 +24,10 @@ QUnit.module("searchHandlerTest.js", {
 		this.getAddedManagedGuiItem = function(number) {
 			return addedManagedGuiItem[number];
 		}
+		var addedToShowView = [];
+		this.getAddedToShowView = function(number) {
+			return addedToShowView[number];
+		}
 		this.dependencies = {
 			"searchHandlerViewFactory" : CORATEST.standardFactorySpy("searchHandlerViewSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
@@ -32,7 +36,8 @@ QUnit.module("searchHandlerTest.js", {
 			"addToSearchRecordHandlerMethod" : function(managedGuiItem) {
 				addedManagedGuiItem.push(managedGuiItem);
 			},
-			"showViewMethod" : function() {
+			"showViewMethod" : function(managedGuiItem) {
+				addedToShowView.push(managedGuiItem);
 			},
 			"removeViewMethod" : function() {
 			}
@@ -69,7 +74,6 @@ QUnit.test("testInitManagedGuiItemCreatedUsingFactory", function(assert) {
 
 QUnit.test("testInitViewAddedToManagedGuiItemsMenuView", function(assert) {
 	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
-	// var factoredView = this.dependencies.searchHandlerViewFactory.getFactored(0).getView();
 	var addedManagedGuiItem = this.getAddedManagedGuiItem(0);
 	var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	assert.strictEqual(factoredItem, addedManagedGuiItem);
@@ -80,4 +84,11 @@ QUnit.test("testInitViewAddedToManagedGuiItemsWorkView", function(assert) {
 	var factoredView = this.dependencies.searchHandlerViewFactory.getFactored(0).getView();
 	var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	assert.strictEqual(factoredItem.getAddedWorkPresentation(0), factoredView);
+});
+
+QUnit.test("testInitViewShowViewMethodCalled", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var addedToShowView = this.getAddedToShowView(0);
+	var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	assert.strictEqual(factoredItem, addedToShowView);
 });

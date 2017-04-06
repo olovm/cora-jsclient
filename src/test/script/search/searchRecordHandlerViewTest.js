@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -20,8 +21,7 @@
 
 QUnit.module("searchRecordHandlerViewTest.js", {
 	beforeEach : function() {
-		this.dependencies = {
-		};
+		this.dependencies = {};
 		this.spec = {
 			"headerText" : "some text",
 			"openSearchMethod" : function() {
@@ -50,11 +50,11 @@ QUnit.test("testGetView", function(assert) {
 	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
 	var view = searchRecordHandlerView.getView();
 	assert.strictEqual(view.className, "searchRecord");
-	
+
 	var header = view.firstChild;
 	assert.strictEqual(header.className, "header");
 	assert.strictEqual(header.textContent, "some text");
-	
+
 	var childrenView = view.childNodes[1];
 	assert.strictEqual(childrenView.className, "childrenView");
 });
@@ -67,36 +67,22 @@ QUnit.test("testMenuOnclick", function(assert) {
 
 QUnit.test("testAddManagedGuiItem", function(assert) {
 	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
-	var managedGuiItem = {
-		"handledBy" : function() {
-		},
-		"workView" : CORA.gui.createSpanWithClassName("workView"),
-		"menuView" : CORA.gui.createSpanWithClassName("menuView")
-	};
+	var managedGuiItem = CORATEST.managedGuiItemSpy();
 	var createdManagedGuiItem = searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
-	assert.strictEqual(managedGuiItem.menuView.modelObject, managedGuiItem);
 	var view = searchRecordHandlerView.getView();
 	var childrenView = view.childNodes[1];
-	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.menuView);
+	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.getMenuView());
 });
 
 QUnit.test("testRemoveManagedGuiItem", function(assert) {
 	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
-	var managedGuiItem = {
-			"handledBy" : function() {
-			},
-			"workView" : CORA.gui.createSpanWithClassName("workView"),
-			"menuView" : CORA.gui.createSpanWithClassName("menuView")
-	};
+	var managedGuiItem = CORATEST.managedGuiItemSpy();
 	var createdManagedGuiItem = searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
 	var view = searchRecordHandlerView.getView();
 	var childrenView = view.childNodes[1];
-	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.menuView);
-	
-	//remove
+	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.getMenuView());
+
+	// remove
 	searchRecordHandlerView.removeManagedGuiItem(managedGuiItem);
 	assert.strictEqual(childrenView.childNodes[0], undefined);
-	
 });
-
-

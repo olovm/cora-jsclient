@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -29,7 +30,8 @@ var CORA = (function(cora) {
 				"messageHolderFactory" : CORA.messageHolderFactory(),
 				"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory(),
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"jsClient" : spec.jsClient
+				"jsClient" : spec.jsClient,
+				"searchHandlerFactory" : CORA.searchHandlerFactory()
 			};
 			return CORA.searchRecordHandler(searchRecordHandlerDependencies, spec);
 		}
