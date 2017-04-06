@@ -262,37 +262,12 @@ var CORA = (function(cora) {
 			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
 		}
 
-		function afterRecordTypeProviderReload() {
+		function afterRecordTypeProviderReload() { 
 			jsClientView.clearRecordTypesView();
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			processRecordTypes();
 			addRecordTypesToSideBar(recordTypeList);
-			managedGuiItemList.forEach(handleManagedGuiItemAfterReload);
-		}
-
-		function handleManagedGuiItemAfterReload(managedGuiItemToHandle) {
-			managedGuiItemToHandle.handledBy(managedGuiItemToHandle);
-		}
-
-		function createManagedGuiItem(handledBy) {
-			var menuPresentation = CORA.gui.createSpanWithClassName("menuView");
-			var managedGuiItem;
-			var managedGuiItemSpec = {
-				"handledBy" : handledBy,
-				"menuPresentation" : menuPresentation,
-				"workPresentation" : CORA.gui.createSpanWithClassName("workPresentation"),
-				"activateMethod" : function() {
-					showView(managedGuiItem);
-				},
-				"removeMenuMethod" : function() {
-				},
-				"removeWorkMethod" : function() {
-				}
-			};
-			managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-
-			managedGuiItemList.push(managedGuiItem);
-			return managedGuiItem;
+//			managedGuiItemList.forEach(handleManagedGuiItemAfterReload);
 		}
 
 		function hideAndRemoveView(managedGuiItem) {
@@ -304,7 +279,10 @@ var CORA = (function(cora) {
 			var previous = managedGuiItemList.pop();
 			if (previous) {
 				showView(previous);
+			}else{
+				resetLastShowingMenuItem();
 			}
+			
 		}
 
 		out = Object.freeze({
@@ -315,7 +293,6 @@ var CORA = (function(cora) {
 			afterLogin : afterLogin,
 			afterLogout : afterLogout,
 			afterRecordTypeProviderReload : afterRecordTypeProviderReload,
-			createManagedGuiItem : createManagedGuiItem,
 			hideAndRemoveView : hideAndRemoveView,
 			viewRemoved : viewRemoved
 		});

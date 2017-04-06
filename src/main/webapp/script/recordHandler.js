@@ -23,8 +23,6 @@ var CORA = (function(cora) {
 		var recordTypeRecordId = spec.recordTypeRecordId;
 
 		var managedGuiItemSpec = {
-			"handledBy" : function() {
-			},
 			"activateMethod" : spec.jsClient.showView,
 			"removeMethod" : spec.jsClient.viewRemoved
 		};
@@ -66,7 +64,7 @@ var CORA = (function(cora) {
 				addToShowView(recordGuiNew, metadataId);
 				recordGuiNew.initMetadataControllerStartingGui();
 				dataIsChanged = true;
-//				updateMenuClassName();
+				managedGuiItem.setChanged(dataIsChanged);
 			} catch (error) {
 				createRawDataWorkView("something went wrong, probably missing metadata, " + error);
 				recordHandlerView.addToEditView(document.createTextNode(error.stack));
@@ -88,7 +86,7 @@ var CORA = (function(cora) {
 		function handleMsg(dataFromMsg, msg) {
 			if (initComplete && msgChangesData(msg)) {
 				dataIsChanged = true;
-				managedGuiItem.setChanged(true);
+				managedGuiItem.setChanged(dataIsChanged);
 			}
 			if (messageSaysInitIsComplete(msg)) {
 				initComplete = true;
@@ -96,7 +94,6 @@ var CORA = (function(cora) {
 			if (messageSaysUpdateRecord(msg)) {
 				sendUpdateDataToServer();
 			}
-//			updateMenuClassName();
 		}
 
 		function msgChangesData(msg) {
@@ -111,20 +108,6 @@ var CORA = (function(cora) {
 			return msg.endsWith("updateRecord");
 		}
 
-		function updateMenuClassName() {
-			// var className = menuViewOrgClassName;
-			// if (dataIsChanged) {
-			// className += ' changed';
-
-			// }
-			// managedGuiItem.originalClassName = className;
-
-			// if (managedGuiItem.isActive) {
-			// className += ' active';
-			// }
-			// menuView.className = className;
-		}
-
 		function addNewRecordToWorkView(recordGuiToAdd, metadataIdUsedInData) {
 			var newPresentationFormId = spec.newPresentationFormId;
 			var presentationView = recordGuiToAdd.getPresentation(newPresentationFormId,
@@ -137,9 +120,7 @@ var CORA = (function(cora) {
 			var menuPresentationViewId = spec.menuPresentationViewId;
 			var menuPresentationView = recordGuiToAdd.getPresentation(menuPresentationViewId,
 					metadataIdUsedInData).getView();
-			// menuView.textContent = "";
-			// menuView.appendChild(menuPresentationView);
-			// menuView.appendChild(createRemoveButton());
+			managedGuiItem.clearMenuView();
 			managedGuiItem.addMenuPresentation(menuPresentationView);
 		}
 
@@ -179,7 +160,7 @@ var CORA = (function(cora) {
 			messageHolder.createMessage(messageSpec);
 			initComplete = false;
 			dataIsChanged = false;
-//			updateMenuClassName();
+			managedGuiItem.setChanged(dataIsChanged);
 			processFetchedRecord(answer);
 		}
 
@@ -210,8 +191,7 @@ var CORA = (function(cora) {
 				addRecordToMenuView(recordGui, metadataId);
 				recordGui.initMetadataControllerStartingGui();
 			} catch (error) {
-				// print raw data if we crash when creating data, (missing
-				// metadata)
+				// print raw data if we crash when creating data, (missing metadata)
 				createRawDataWorkView(data);
 				recordHandlerView.addToEditView(document.createTextNode(error.stack));
 			}
@@ -263,7 +243,8 @@ var CORA = (function(cora) {
 		}
 
 		function copyData() {
-//			spec.recordTypeHandler.createRecordHandler("new", recordGui.dataHolder.getData());
+// spec.recordTypeHandler.createRecordHandler("new",
+// recordGui.dataHolder.getData());
 			spec.createRecordHandlerMethod("new", recordGui.dataHolder.getData());
 		}
 

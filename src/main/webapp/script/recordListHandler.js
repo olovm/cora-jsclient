@@ -21,8 +21,6 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordListHandler = function(dependencies, spec) {
 		var managedGuiItemSpec = {
-			"handledBy" : function() {
-			},
 			"activateMethod" : spec.jsClient.showView,
 			"removeMethod" : spec.jsClient.viewRemoved
 		};

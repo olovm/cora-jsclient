@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -21,7 +22,7 @@ var CORATEST = (function(coraTest) {
 	coraTest.jsClientSpy = function(dependencies, spec) {
 		var viewsShowingInWorkView = [];
 		var createdManagedGuiItem = [];
-		var createdManagedGuiItemHandledBy = [];
+//		var createdManagedGuiItemHandledBy = [];
 		function getRecordTypesClearedNoOfTimes() {
 			return recordTypesClearedNoOfTimes;
 		}

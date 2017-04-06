@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.managedGuiItemView = function(dependencies, spec) {
+	cora.managedGuiItemView = function( spec) {
 
 		var originalMenuViewClassName = "menuView";
 		var menuView = createMenuView();
@@ -38,10 +38,6 @@ var CORA = (function(cora) {
 
 		function getSpec() {
 			return spec;
-		}
-
-		function getDependencies() {
-			return dependencies;
 		}
 
 		function getMenuView() {
@@ -106,7 +102,6 @@ var CORA = (function(cora) {
 
 		var out = Object.freeze({
 			"type" : "managedGuiItemView",
-			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getMenuView : getMenuView,
 			getWorkView : getWorkView,

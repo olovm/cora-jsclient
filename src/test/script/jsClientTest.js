@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -215,10 +216,21 @@ QUnit.test("testViewRemoved", function(assert) {
 	assert.strictEqual(aDifferentView.getWorkViewHidden(), 0);
 	assert.strictEqual(aDifferentView.getWorkViewShown(), 1);
 
+	var aThirdView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(aThirdView.getActive(), false);
+	jsClient.showView(aThirdView);
+	assert.strictEqual(jsClientView.getAddedWorkView(2), aThirdView.getWorkView());
+	
+	jsClient.showView(aDifferentView);
+	jsClient.viewRemoved(aThirdView);
+	
 	jsClient.viewRemoved(aDifferentView);
 	assert.strictEqual(aView.getActive(), true);
 	assert.strictEqual(aView.getWorkViewHidden(), 1);
 	assert.strictEqual(aView.getWorkViewShown(), 2);
+	
+	jsClient.viewRemoved(aView);
+	assert.strictEqual(aView.getActive(), false);
 });
 
 QUnit.test("getMetadataIdForRecordType", function(assert) {
@@ -257,20 +269,20 @@ QUnit.test("testAfterRecordTypeProviderReload", function(assert) {
 	assert.strictEqual(recordType.firstChild.textContent, "metadata");
 });
 
-QUnit.test("testCreateManagedGuiItem", function(assert) {
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-	var handledBy = function() {
-	};
-	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
-	var spec  = this.dependencies.managedGuiItemFactory.getSpec(0);
-	assert.strictEqual(spec.handledBy, handledBy);
-
-//	assert.strictEqual(managedGuiItem.menuView.nodeName, "SPAN");
-//	assert.strictEqual(managedGuiItem.menuView.className, "menuView");
+//QUnit.test("testCreateManagedGuiItem", function(assert) {
+//	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+//	var handledBy = function() {
+//	};
+//	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
+//	var spec  = this.dependencies.managedGuiItemFactory.getSpec(0);
+//	assert.strictEqual(spec.handledBy, handledBy);
 //
-//	assert.strictEqual(managedGuiItem.workView.nodeName, "SPAN");
-//	assert.strictEqual(managedGuiItem.workView.className, "workView");
-});
+////	assert.strictEqual(managedGuiItem.menuView.nodeName, "SPAN");
+////	assert.strictEqual(managedGuiItem.menuView.className, "menuView");
+////
+////	assert.strictEqual(managedGuiItem.workView.nodeName, "SPAN");
+////	assert.strictEqual(managedGuiItem.workView.className, "workView");
+//});
 
 //QUnit.test("testCreateManagedGuiItemMenuViewOnclick", function(assert) {
 //	var jsClient = CORA.jsClient(this.dependencies, this.spec);
@@ -285,14 +297,17 @@ QUnit.test("testCreateManagedGuiItem", function(assert) {
 //	assert.strictEqual(jsClientView.getAddedWorkView(0), managedGuiItem.workView);
 //	assert.strictEqual(managedGuiItem.menuView.className, "menuView active");
 //});
-//
+
 //QUnit.test("testCreateManagedGuiItemHandledOnReload", function(assert) {
 //	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-//	var handledByCalledWith = [];
-//	var handledBy = function(managedGuiItemIn) {
-//		handledByCalledWith.push(managedGuiItemIn);
-//	}
-//	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
+////	var handledByCalledWith = [];
+////	var handledBy = function(managedGuiItemIn) {
+////		handledByCalledWith.push(managedGuiItemIn);
+////	}
+////	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
+//	var managedGuiItem = CORATEST.managedGuiItemSpy();
+//	jsClient.showView(managedGuiItem);
 //	jsClient.afterRecordTypeProviderReload();
-//	assert.strictEqual(handledByCalledWith.length, 1);
+////	assert.strictEqual(handledByCalledWith.length, 1);
+//	assert.strictEqual(managedGuiItem.getHandledBy(0), "");
 //});

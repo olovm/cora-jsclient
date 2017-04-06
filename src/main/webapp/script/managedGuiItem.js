@@ -61,10 +61,6 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
-		function handleBy(someThing) {
-			spec.handleBy(someThing);
-		}
-
 		function addMenuPresentation(presentationToAdd) {
 			view.addMenuPresentation(presentationToAdd);
 		}
@@ -112,7 +108,6 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getMenuView : getMenuView,
 			getWorkView : getWorkView,
-			handleBy : handleBy,
 			remove : remove,
 			addMenuPresentation : addMenuPresentation,
 			addWorkPresentation : addWorkPresentation,

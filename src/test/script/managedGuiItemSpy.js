@@ -45,10 +45,6 @@ var CORATEST = (function(coraTest) {
 		function getWorkView() {
 			return workView;
 		}
-		function handleBy(someThing) {
-			// spec.handleBy(someThing);
-		}
-
 		function addMenuPresentation(presentationToAdd) {
 			addedMenuPresentations.push(presentationToAdd);
 		}
@@ -113,7 +109,6 @@ var CORATEST = (function(coraTest) {
 			getSpec : getSpec,
 			getMenuView : getMenuView,
 			getWorkView : getWorkView,
-			handleBy : handleBy,
 			addMenuPresentation : addMenuPresentation,
 			getAddedMenuPresentation : getAddedMenuPresentation,
 			addWorkPresentation : addWorkPresentation,

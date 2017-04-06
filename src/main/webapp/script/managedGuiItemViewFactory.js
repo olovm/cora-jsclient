@@ -18,19 +18,14 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.managedGuiItemViewFactory = function(dependencies) {
+	cora.managedGuiItemViewFactory = function() {
 
 		function factor(managedGuiItemViewSpec) {
-			return CORA.managedGuiItemView(dependencies, managedGuiItemViewSpec);
-		}
-
-		function getDependencies() {
-			return dependencies;
+			return CORA.managedGuiItemView( managedGuiItemViewSpec);
 		}
 
 		var out = Object.freeze({
 			"type" : "managedGuiItemViewFactory",
-			getDependencies : getDependencies,
 			factor : factor
 		});
 		return out;

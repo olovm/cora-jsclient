@@ -195,9 +195,12 @@ QUnit.module("recordHandlerTest.js", {
 
 QUnit.test("init", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
-
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+	
 	assert.strictEqual(recordHandler.type, "recordHandler");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
+
 });
 
 QUnit.test("testGetDependencies", function(assert) {
@@ -417,13 +420,15 @@ QUnit.test("testInitSubscriptions", function(assert) {
 
 QUnit.test("testHandleMessage", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
-
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+	
 	var data = {
 		"data" : "A new value",
 		"path" : {}
 	};
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
 
 	var data1 = {
 		"data" : "",
@@ -431,19 +436,21 @@ QUnit.test("testHandleMessage", function(assert) {
 	};
 	recordHandler.handleMsg(data1, "initComplete");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	// assert.strictEqual(this.menuView.className, "someClass active");
+	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
 	assert.strictEqual(this.recordHandlerSpec.views.getChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
 
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), true);
-	// assert.strictEqual(this.menuView.className, "someClass changed active");
-	// assert.strictEqual(this.recordHandlerSpec.views.getChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
 	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	assert.strictEqual(managedGuiItem.getChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
 });
 
 QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
 
 	var data = {
 		"data" : "A new value",
@@ -451,6 +458,7 @@ QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
 	};
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
 
 	var data1 = {
 		"data" : "",
@@ -458,20 +466,15 @@ QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
 	};
 	recordHandler.handleMsg(data1, "initComplete");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	// assert.strictEqual(this.menuView.className, "someClass active");
-	assert.strictEqual(this.recordHandlerSpec.views.getChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
 
 	recordHandler.handleMsg(data, "add");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	// assert.strictEqual(this.menuView.className, "someClass active");
-	assert.strictEqual(this.recordHandlerSpec.views.getChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
 
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), true);
-	// assert.strictEqual(this.menuView.className, "someClass changed active");
-	// assert.strictEqual(this.recordHandlerSpec.views.getChanged(), true);
-	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
-	assert.strictEqual(managedGuiItem.getChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
 });
 
 QUnit.test("testUpdateCall", function(assert) {
@@ -543,6 +546,7 @@ QUnit.test("testUpdateThroughPubSubCall", function(assert) {
 QUnit.test("testUpdateDataIsChanged", function(assert) {
 	this.recordHandlerSpec.presentationMode = "edit";
 	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
 	this.answerCall(0);
 
 	var validateWasCalled = false;
@@ -562,6 +566,7 @@ QUnit.test("testUpdateDataIsChanged", function(assert) {
 	};
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(1);
@@ -569,6 +574,13 @@ QUnit.test("testUpdateDataIsChanged", function(assert) {
 	this.answerCall(1);
 
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
+	
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	assert.strictEqual(managedGuiItem.getMenuViewCleared(), 2);
+	var item = managedGuiItem.getAddedMenuPresentation(1);
+	assert.strictEqual(item.nodeName, "SPAN");
+	assert.strictEqual(managedGuiItem.getAddedMenuPresentation(2), undefined);
 });
 
 QUnit.test("testUpdateCallValidationError", function(assert) {
@@ -761,6 +773,10 @@ QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
 QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 	this.recordHandlerSpec.presentationMode = "new";
 	var recordHandler = CORA.recordHandler(this.dependencies, this.recordHandlerSpec);
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+	
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
 
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
 	assert.strictEqual(ajaxCallSpy, undefined, "no call to server on new record");

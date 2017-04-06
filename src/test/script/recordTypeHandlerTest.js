@@ -1,5 +1,6 @@
 /*
  * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -198,3 +199,12 @@ QUnit.test("showNew", function(assert) {
 // .factor(recordHandlerViewSpec);
 // assert.notStrictEqual(recordHandlerView, undefined);
 // });
+
+
+QUnit.test("initAddManagedGuiItemPassedOnToView", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	var factoredView = this.dependencies.recordTypeHandlerViewFactory.getFactored(0);
+	var aItem = CORATEST.managedGuiItemSpy();
+	recordTypeHandler.addManagedGuiItem(aItem);
+	assert.strictEqual(factoredView.getAddedManagedGuiItem(0), aItem);
+});

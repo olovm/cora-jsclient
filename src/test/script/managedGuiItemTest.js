@@ -27,8 +27,6 @@ QUnit.module("managedGuiItemTest.js", {
 			"managedGuiItemViewFactory" : CORATEST.standardFactorySpy("managedGuiItemViewSpy"),
 		};
 		this.spec = {
-			"handledBy" : function() {
-			},
 			"menuPresentation" : CORA.gui.createSpanWithClassName("menuPresentation"),
 			"workPresentation" : CORA.gui.createSpanWithClassName("workPresentation"),
 			"activateMethod" : function() {
@@ -95,19 +93,6 @@ QUnit.test("testGetDependencies", function(assert) {
 QUnit.test("testGetSpec", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
 	assert.strictEqual(managedGuiItem.getSpec(), this.spec);
-});
-
-QUnit.test("testHandleBy", function(assert) {
-	var handleByIsCalled = false;
-	var handleByCalledWith = "";
-	this.spec.handleBy = function(stuff) {
-		handleByIsCalled = true;
-		handleByCalledWith = stuff;
-	}
-	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
-	managedGuiItem.handleBy("someThing");
-	assert.ok(handleByIsCalled);
-	assert.strictEqual(handleByCalledWith, "someThing");
 });
 
 QUnit.test("testActivateMethodPassedOnToViewCallsMethodWithSelf", function(assert) {
