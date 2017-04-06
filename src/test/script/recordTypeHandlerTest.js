@@ -49,9 +49,9 @@ QUnit.module("recordTypeHandlerTest.js", {
 
 		this.dependencies = {
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-			"recordTypeHandlerViewFactory" : CORATEST.recordTypeHandlerViewFactorySpy(),
-			"recordListHandlerFactory" : CORATEST.recordListHandlerFactorySpy(),
-			"recordHandlerFactory" : CORATEST.recordHandlerFactorySpy(),
+			"recordTypeHandlerViewFactory" : CORATEST.standardFactorySpy("recordTypeHandlerViewSpy"),
+			"recordListHandlerFactory" : CORATEST.standardFactorySpy("recordListHandlerSpy"),
+			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 			"jsClient" : CORATEST.jsClientSpy()
 		};
@@ -111,7 +111,6 @@ QUnit.test("fetchListCheckSpec", function(assert) {
 	assert.strictEqual(factoredSpec.listPresentationViewId, "metadataCollectionItemListPGroup");
 
 	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
-	
 });
 
 

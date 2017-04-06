@@ -25,7 +25,7 @@ QUnit
 					beforeEach : function() {
 						this.dependencies = {
 							"searchRecordHandlerViewFactory" : CORATEST
-									.searchRecordHandlerViewFactorySpy()
+									.standardFactorySpy("searchRecordHandlerViewSpy")
 						};
 						this.search = {
 							"data" : {

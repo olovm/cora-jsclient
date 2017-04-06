@@ -40,7 +40,7 @@ QUnit.module("jsClientTest.js", {
 			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
 			"presentationFactoryFactory" : "not implemented yet",
 			"jsClientViewFactory" : CORATEST.jsClientViewFactorySpy(),
-			"searchRecordHandlerFactory" : CORATEST.searchRecordHandlerFactorySpy(),
+			"searchRecordHandlerFactory" : CORATEST.standardFactorySpy("searchRecordHandlerSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 		}
 		this.spec = {

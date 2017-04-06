@@ -99,7 +99,7 @@ QUnit.module("recordHandlerTest.js", {
 		var recordTypeHandlerSpy1 = recordTypeHandlerSpy({});
 		this.recordTypeHandlerSpy1 = recordTypeHandlerSpy1;
 
-		this.recordHandlerViewFactorySpy = CORATEST.recordHandlerViewFactorySpy();
+		this.recordHandlerViewFactorySpy = CORATEST.standardFactorySpy("recordHandlerViewSpy");
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		var dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
@@ -239,11 +239,8 @@ QUnit.test("initRecordHandlerView", function(assert) {
 	this.answerCall(0);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
-	var usedSpec = recordHandlerViewSpy.getSpec();
+	var usedSpec = this.recordHandlerViewFactorySpy.getSpec(0);
 
-	// assert.ok(usedSpec.workItemViewFactory.factor);
-	// assert.strictEqual(usedSpec.workItemViewFactory.type,
-	// "workItemViewFactory");
 	assert.strictEqual(usedSpec.extraClassName, "recordType");
 
 	var editViewChild = recordHandlerViewSpy.getAddedEditView(0);
@@ -384,8 +381,9 @@ QUnit.test("initCheckRightGuiCreatedViewAbstractRecordType", function(assert) {
 	this.answerCall(0);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
-	var usedSpec = recordHandlerViewSpy.getSpec();
-	// assert.ok(usedSpec.workItemViewFactory.factor);
+//	var usedSpec = recordHandlerViewSpy.getSpec();
+	var usedSpec = this.recordHandlerViewFactorySpy.getSpec(0);
+// assert.ok(usedSpec.workItemViewFactory.factor);
 	assert.strictEqual(usedSpec.extraClassName, "text");
 
 	var editViewChild = recordHandlerViewSpy.getAddedEditView(0);

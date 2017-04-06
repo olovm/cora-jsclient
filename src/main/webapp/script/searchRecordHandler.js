@@ -27,10 +27,10 @@ var CORA = (function(cora) {
 			"openSearchMethod" : openSearch
 		};
 
-		var searchRecordHandlerView = dependencies.searchRecordHandlerViewFactory.factor(viewSpec);
+		var view = dependencies.searchRecordHandlerViewFactory.factor(viewSpec);
 
 		function getView() {
-			return searchRecordHandlerView.getView();
+			return view.getView();
 		}
 
 		function openSearch() {
@@ -47,7 +47,7 @@ var CORA = (function(cora) {
 		// var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
 		// managedGuiItem.menuView.textContent = text;
 		// managedGuiItem.menuView.appendChild(createRemoveButton(managedGuiItem));
-		// searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
+		// view.addManagedGuiItem(managedGuiItem);
 		// dependencies.jsClient.showView(managedGuiItem);
 		// return managedGuiItem;
 		// }
@@ -68,7 +68,7 @@ var CORA = (function(cora) {
 				}
 			};
 			managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-			searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
+			view.addManagedGuiItem(managedGuiItem);
 			dependencies.jsClient.showView(managedGuiItem);
 		}
 
@@ -82,7 +82,7 @@ var CORA = (function(cora) {
 			// if (menuView.parentNode !== null) {
 			// menuView.parentNode.removeChild(menuView);
 			// }
-			searchRecordHandlerView.removeManagedGuiItem(managedGuiItem);
+			view.removeManagedGuiItem(managedGuiItem);
 
 			// if (workView.parentNode !== null) {
 			// workView.parentNode.removeChild(workView);

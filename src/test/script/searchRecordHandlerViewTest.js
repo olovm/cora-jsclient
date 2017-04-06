@@ -31,19 +31,9 @@ QUnit.module("searchRecordHandlerViewTest.js", {
 	afterEach : function() {
 	}
 });
-QUnit.test("initAndGetView", function(assert) {
+QUnit.test("testInit", function(assert) {
 	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
 	assert.strictEqual(searchRecordHandlerView.type, "searchRecordHandlerView");
-
-	var view = searchRecordHandlerView.getView();
-	assert.strictEqual(view.className, "searchRecord");
-
-	var header = view.firstChild;
-	assert.strictEqual(header.className, "header");
-	assert.strictEqual(header.textContent, "some text");
-
-	var childrenView = view.childNodes[1];
-	assert.strictEqual(childrenView.className, "childrenView");
 });
 
 QUnit.test("testGetDependencies", function(assert) {
@@ -54,6 +44,19 @@ QUnit.test("testGetDependencies", function(assert) {
 QUnit.test("testGetSpec", function(assert) {
 	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
 	assert.strictEqual(searchRecordHandlerView.getSpec(), this.spec);
+});
+
+QUnit.test("testGetView", function(assert) {
+	var searchRecordHandlerView = CORA.searchRecordHandlerView(this.dependencies, this.spec);
+	var view = searchRecordHandlerView.getView();
+	assert.strictEqual(view.className, "searchRecord");
+	
+	var header = view.firstChild;
+	assert.strictEqual(header.className, "header");
+	assert.strictEqual(header.textContent, "some text");
+	
+	var childrenView = view.childNodes[1];
+	assert.strictEqual(childrenView.className, "childrenView");
 });
 
 QUnit.test("testMenuOnclick", function(assert) {
