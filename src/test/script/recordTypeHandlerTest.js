@@ -123,6 +123,22 @@ QUnit.test("showRecord", function(assert) {
 	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
 });
 
+QUnit.test("createRecordHandlerInBackground", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
+	spec.fetchListMethod();
+	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
+	catchRecordListHandlerSpec.createRecordHandlerMethod("view", this.record, "true");
+	
+	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.loadInBackground, "true");
+	assert.strictEqual(factoredSpec.presentationMode, "view");
+	assert.strictEqual(factoredSpec.record, this.record);
+	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
+	
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
+});
+
 QUnit.test("showNew", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);

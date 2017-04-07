@@ -25,6 +25,8 @@ QUnit.module("recordListHandlerTest.js", {
 
 		var createRecordHandlerMethodCalledWithPresentationMode;
 		var createRecordHandlerMethodCalledWithRecord;
+		var createRecordHandlerMethodCalledWithLoadInBackground;
+		
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		var dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
@@ -37,9 +39,10 @@ QUnit.module("recordListHandlerTest.js", {
 		var addedManagedGuiItem;
 
 		this.spec = {
-			"createRecordHandlerMethod" : function(presentationMode, record) {
+			"createRecordHandlerMethod" : function(presentationMode, record, loadInBackground) {
 				createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
 				createRecordHandlerMethodCalledWithRecord = record;
+				createRecordHandlerMethodCalledWithLoadInBackground = loadInBackground;
 			},
 			"jsClient" : CORATEST.jsClientSpy(),
 			"views" : CORATEST.managedGuiItemSpy(),
@@ -84,6 +87,9 @@ QUnit.module("recordListHandlerTest.js", {
 		}
 		this.getCreateRecordHandlerMethodCalledWithRecord = function() {
 			return createRecordHandlerMethodCalledWithRecord;
+		}
+		this.getCreateRecordHandlerMethodCalledWithLoadInBackground = function() {
+			return createRecordHandlerMethodCalledWithLoadInBackground;
 		}
 		this.firstRecord = CORATEST.recordTypeList.dataList.data[0].record;
 
@@ -227,10 +233,25 @@ QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(asse
 
 	var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
 			.getAddedWorkPresentation(0);
-	firstListItem.onclick();
+	var event = document.createEvent('Event');
+	firstListItem.onclick(event);
 
 	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithPresentationMode(), "view");
 	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithRecord(), this.firstRecord);
+	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithLoadInBackground(), "false");
+});
+
+QUnit.test("fetchListCheckGeneratedListClickableLoadInBackground", function(assert) {
+	var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
+	this.answerListCall(0);
+	
+	var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
+	.getAddedWorkPresentation(0);
+	var event = document.createEvent('Event');
+	event.ctrlKey = true;
+	firstListItem.onclick(event);
+	
+	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithLoadInBackground(), "true");
 });
 
 QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
