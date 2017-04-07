@@ -24,10 +24,10 @@ var CORA = (function(cora) {
 		function getDependencies() {
 			return dependencies;
 		}
-		
+
 		function factor(spec) {
 			var searchHandlerDep = {
-					"recordGuiFactory" : spec.recordGuiFactory	
+				"recordGuiFactory" : spec.recordGuiFactory
 			};
 			var searchRecordHandlerDependencies = {
 				"messageHolderFactory" : CORA.messageHolderFactory(),

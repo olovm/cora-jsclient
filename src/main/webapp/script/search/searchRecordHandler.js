@@ -28,7 +28,7 @@ var CORA = (function(cora) {
 		};
 
 		var view = dependencies.searchRecordHandlerViewFactory.factor(viewSpec);
-		
+
 		function getIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
@@ -45,7 +45,7 @@ var CORA = (function(cora) {
 				"showViewMethod" : dependencies.jsClient.showView,
 				"removeViewMethod" : dependencies.jsClient.viewRemoved,
 				"metadataId" : getLinkValueFromSearchRecord("metadataId"),
-				"presentationId" : getLinkValueFromSearchRecord("presentationId"),
+				"presentationId" : getLinkValueFromSearchRecord("presentationId")
 			};
 			dependencies.searchHandlerFactory.factor(searchHandlerSpec);
 		}

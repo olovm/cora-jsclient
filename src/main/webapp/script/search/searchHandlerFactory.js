@@ -29,11 +29,11 @@ var CORA = (function(cora) {
 			};
 			return CORA.searchHandler(dep, spec);
 		}
-		
+
 		function getDependencies() {
 			return dependencies;
 		}
-		
+
 		var out = Object.freeze({
 			"type" : "searchHandlerFactory",
 			getDependencies : getDependencies,

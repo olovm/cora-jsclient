@@ -192,8 +192,6 @@ var CORA = (function(cora) {
 				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
 				"recordListHandlerFactory" : CORA
 						.recordListHandlerFactory(depRecordListHandlerFactory),
-				// "recordHandlerFactory" :
-				// CORA.recordHandlerFactory(depRecordHandler),
 				"recordHandlerFactory" : recordHandlerFactory,
 				"recordGuiFactory" : recordGuiFactory,
 				"jsClient" : out,
@@ -233,8 +231,6 @@ var CORA = (function(cora) {
 		function showNewWorkView(managedGuiItem) {
 			if (managedGuiItem.getWorkView().parentNode !== jsClientView.getWorkView()) {
 				jsClientView.addToWorkView(managedGuiItem.getWorkView());
-				// TODO: should be handled by managedGuiItem on first active...
-				// managedGuiItem.getWorkView().scrollTop = 0;
 			}
 			managedGuiItem.showWorkView();
 
@@ -268,7 +264,6 @@ var CORA = (function(cora) {
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			processRecordTypes();
 			addRecordTypesToSideBar(recordTypeList);
-			// managedGuiItemList.forEach(handleManagedGuiItemAfterReload);
 		}
 
 		function hideAndRemoveView(managedGuiItem) {
