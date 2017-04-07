@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -20,21 +21,55 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.searchHandler = function(dependencies, spec) {
 
-		var view = dependencies.searchHandlerViewFactory.factor();
-		var managedGuiItemSpec = {
-			"activateMethod" : spec.showViewMethod,
-			"removeMethod" : spec.removeViewMethod
-		};
-		var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
+		var view;
+		var managedGuiItem;
+		var recordGui;
 
-		managedGuiItem.addWorkPresentation(view.getView());
-		spec.addToSearchRecordHandlerMethod(managedGuiItem);
-		spec.showViewMethod(managedGuiItem);
+		function start() {
+			view = dependencies.searchHandlerViewFactory.factor();
+			var managedGuiItemSpec = {
+				"activateMethod" : spec.showViewMethod,
+				"removeMethod" : spec.removeViewMethod
+			};
+			managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
+
+			managedGuiItem.addWorkPresentation(view.getView());
+			spec.addToSearchRecordHandlerMethod(managedGuiItem);
+			spec.showViewMethod(managedGuiItem);
+
+			createGui();
+		}
+
+		function createGui() {
+			try {
+				var metadataId = spec.metadataId;
+				recordGui = createRecordGui(metadataId);
+				addNewRecordToWorkView(recordGui, metadataId);
+				recordGui.initMetadataControllerStartingGui();
+			} catch (error) {
+				createRawDataWorkView("something went wrong, probably missing metadata, " + error);
+				view.addPresentationToSearchFormHolder(document.createTextNode(error.stack));
+			}
+		}
+
+		function createRecordGui(metadataId, data, dataDivider) {
+			return dependencies.recordGuiFactory.factor(metadataId, data, dataDivider);
+		}
+
+		function addNewRecordToWorkView(recordGuiToAdd, metadataIdUsedInData) {
+			var presentationView = recordGuiToAdd.getPresentation(spec.presentationId,
+					metadataIdUsedInData).getView();
+			view.addPresentationToSearchFormHolder(presentationView);
+		}
+
+		function createRawDataWorkView(data) {
+			view.addPresentationToSearchFormHolder(document.createTextNode(JSON.stringify(data)));
+		}
 
 		function getDependencies() {
 			return dependencies;
 		}
-
+		start();
 		return Object.freeze({
 			"type" : "searchHandler",
 			getDependencies : getDependencies

@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -30,7 +31,8 @@ QUnit.module("searchHandlerTest.js", {
 		}
 		this.dependencies = {
 			"searchHandlerViewFactory" : CORATEST.standardFactorySpy("searchHandlerViewSpy"),
-			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
+			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
+			"recordGuiFactory" : CORATEST.recordGuiFactorySpy()
 		}
 		this.spec = {
 			"addToSearchRecordHandlerMethod" : function(managedGuiItem) {
@@ -40,7 +42,9 @@ QUnit.module("searchHandlerTest.js", {
 				addedToShowView.push(managedGuiItem);
 			},
 			"removeViewMethod" : function() {
-			}
+			},
+			"metadataId" : "someMetadataId",
+			"presentationId" : "somePresentationId"
 		}
 	},
 	afterEach : function() {
@@ -86,9 +90,53 @@ QUnit.test("testInitViewAddedToManagedGuiItemsWorkView", function(assert) {
 	assert.strictEqual(factoredItem.getAddedWorkPresentation(0), factoredView);
 });
 
-QUnit.test("testInitViewShowViewMethodCalled", function(assert) {
+QUnit.test("testInitShowViewMethodCalled", function(assert) {
 	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
 	var addedToShowView = this.getAddedToShowView(0);
 	var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	assert.strictEqual(factoredItem, addedToShowView);
+});
+
+QUnit.test("testInitRecordGuiFactoryCalled", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.metadataId, "someMetadataId");
+});
+
+QUnit.test("testInitRecordGuiGetPresentationCalled", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(factoredGui.getPresentationIdUsed(0), "somePresentationId");
+	assert.strictEqual(factoredGui.getMetadataIdsUsedInData(0), "someMetadataId");
+});
+
+QUnit.test("testInitRecordGuiGetPresentationAddedToFormView", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+
+	assert.strictEqual(this.dependencies.searchHandlerViewFactory.getFactored(0)
+			.getPresentationsAddedToSearchForm(0), factoredGui.getReturnedPresentations(0)
+			.getView());
+});
+
+QUnit.test("testInitRecordGuiStartedGui", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(factoredGui.getInitCalled(), 1);
+});
+
+QUnit.test("testInitRecordGuiErrorsShownInForm", function(assert) {
+	var recordGuiFactoryBroken = {
+		"factor" : function(metadataId, data) {
+			throw new Error("missing metadata");
+		}
+	};
+	this.dependencies.recordGuiFactory = recordGuiFactoryBroken;
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredView = this.dependencies.searchHandlerViewFactory.getFactored(0);
+
+	assert.strictEqual(factoredView.getPresentationsAddedToSearchForm(0).textContent,
+			"\"something went wrong, probably missing metadata, " + "Error: missing metadata\"");
+	assert.strictEqual(factoredView.getPresentationsAddedToSearchForm(1).textContent.substring(0,
+			29), "recordGuiFactoryBroken.factor");
 });

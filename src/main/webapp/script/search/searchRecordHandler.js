@@ -13,7 +13,7 @@
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU General Public License for more details.
- *§
+ *
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,6 +28,12 @@ var CORA = (function(cora) {
 		};
 
 		var view = dependencies.searchRecordHandlerViewFactory.factor(viewSpec);
+		
+		function getIdFromRecord(record) {
+			var cData = CORA.coraData(record.data);
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			return cRecordInfo.getFirstAtomicValueByNameInData("id");
+		}
 
 		function getView() {
 			return view.getView();
@@ -37,15 +43,17 @@ var CORA = (function(cora) {
 			var searchHandlerSpec = {
 				"addToSearchRecordHandlerMethod" : addManagedGuiItem,
 				"showViewMethod" : dependencies.jsClient.showView,
-				"removeViewMethod" : dependencies.jsClient.viewRemoved
+				"removeViewMethod" : dependencies.jsClient.viewRemoved,
+				"metadataId" : getLinkValueFromSearchRecord("metadataId"),
+				"presentationId" : getLinkValueFromSearchRecord("presentationId"),
 			};
 			dependencies.searchHandlerFactory.factor(searchHandlerSpec);
 		}
 
-		function getIdFromRecord(record) {
-			var cData = CORA.coraData(record.data);
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			return cRecordInfo.getFirstAtomicValueByNameInData("id");
+		function getLinkValueFromSearchRecord(id) {
+			var cSearchRecordData = CORA.coraData(spec.searchRecord.data);
+			var cRecordLink = CORA.coraData(cSearchRecordData.getFirstChildByNameInData(id));
+			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function addManagedGuiItem(managedGuiItem) {

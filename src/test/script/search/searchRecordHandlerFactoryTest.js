@@ -29,7 +29,8 @@ QUnit.module("searchRecordHandlerFactoryTest.js", {
 
 		this.spec = {
 			"searchRecord" : this.search,
-			"jsClient" : CORATEST.jsClientSpy()
+			"jsClient" : CORATEST.jsClientSpy(),
+			"recordGuiFactory" : CORATEST.recordGuiFactorySpy()
 		}
 		this.searchRecordHandlerFactory = CORA.searchRecordHandlerFactory(this.dependencies);
 	},
@@ -63,5 +64,7 @@ QUnit.test("testFactorAddedDependencies", function(assert) {
 	assert.strictEqual(addedDep.managedGuiItemFactory.type, "managedGuiItemFactory");
 	assert.strictEqual(addedDep.jsClient, this.spec.jsClient);
 	assert.strictEqual(addedDep.searchHandlerFactory.type, "searchHandlerFactory");
+	assert.strictEqual(addedDep.searchHandlerFactory.getDependencies().recordGuiFactory,
+			this.spec.recordGuiFactory);
 
 });

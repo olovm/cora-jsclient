@@ -1,5 +1,6 @@
 /*
  * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -83,8 +84,7 @@ QUnit.test("testOpenSearchFactorSearchHandler", function(assert) {
 			searchRecordHandler.addManagedGuiItem);
 	assert.strictEqual(factoredSpec.showViewMethod, this.dependencies.jsClient.showView);
 	assert.strictEqual(factoredSpec.removeViewMethod, this.dependencies.jsClient.viewRemoved);
-	// var factoredView = this.dependencies.searchRecordHandlerViewFactory.getFactored(0);
-	// var aItem = CORATEST.managedGuiItemSpy();
-	// searchRecordHandler.addManagedGuiItem(aItem);
-	// assert.strictEqual(factoredView.getAddedManagedGuiItem(0), aItem);
+	
+	assert.strictEqual(factoredSpec.metadataId, "autocompleteSearchGroup");
+	assert.strictEqual(factoredSpec.presentationId, "autocompleteSearchPGroup");
 });

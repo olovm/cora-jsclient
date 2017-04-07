@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -20,13 +21,18 @@
 
 QUnit.module("searchHandlerFactoryTest.js", {
 	beforeEach : function() {
+		this.dependencies = {
+				"recordGuiFactory" : CORATEST.recordGuiFactorySpy()
+		};
 		this.spec = {
 			"addToSearchRecordHandlerMethod" : function() {
 			},
 			"showViewMethod" : function() {
 			},
 			"removeViewMethod" : function() {
-			}
+			},
+			"metadataId" : "someMetadataId",
+			"presentationId" : "somePresentationId"
 		}
 	},
 	afterEach : function() {
@@ -34,22 +40,26 @@ QUnit.module("searchHandlerFactoryTest.js", {
 });
 
 QUnit.test("init", function(assert) {
-	var searchHandlerFactory = CORA.searchHandlerFactory();
+	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
 	assert.strictEqual(searchHandlerFactory.type, "searchHandlerFactory");
 });
 
+QUnit.test("getDependencies", function(assert) {
+	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
+	assert.strictEqual(searchHandlerFactory.getDependencies(), this.dependencies);
+});
+
 QUnit.test("testFactor", function(assert) {
-	var searchHandlerFactory = CORA.searchHandlerFactory();
+	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
 	var searchHandler = searchHandlerFactory.factor(this.spec);
 	assert.strictEqual(searchHandler.type, "searchHandler");
 });
 
 QUnit.test("testFactorAddedDependencies", function(assert) {
-	var searchHandlerFactory = CORA.searchHandlerFactory();
+	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
 	var searchHandler = searchHandlerFactory.factor(this.spec);
 	var addedDep = searchHandler.getDependencies();
 	assert.strictEqual(addedDep.searchHandlerViewFactory.type, "searchHandlerViewFactory");
 	assert.strictEqual(addedDep.managedGuiItemFactory.type, "managedGuiItemFactory");
+	assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
 });
-
-

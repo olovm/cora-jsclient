@@ -160,7 +160,8 @@ var CORA = (function(cora) {
 			var specSearch = {
 				"searchRecord" : search,
 				"baseUrl" : spec.baseUrl,
-				"jsClient" : out
+				"jsClient" : out,
+				"recordGuiFactory" : recordGuiFactory
 			};
 			var searchRecordHandler = dependencies.searchRecordHandlerFactory.factor(specSearch);
 			jsClientView.addToSearchesView(searchRecordHandler.getView());
@@ -262,12 +263,12 @@ var CORA = (function(cora) {
 			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
 		}
 
-		function afterRecordTypeProviderReload() { 
+		function afterRecordTypeProviderReload() {
 			jsClientView.clearRecordTypesView();
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			processRecordTypes();
 			addRecordTypesToSideBar(recordTypeList);
-//			managedGuiItemList.forEach(handleManagedGuiItemAfterReload);
+			// managedGuiItemList.forEach(handleManagedGuiItemAfterReload);
 		}
 
 		function hideAndRemoveView(managedGuiItem) {
@@ -279,10 +280,10 @@ var CORA = (function(cora) {
 			var previous = managedGuiItemList.pop();
 			if (previous) {
 				showView(previous);
-			}else{
+			} else {
 				resetLastShowingMenuItem();
 			}
-			
+
 		}
 
 		out = Object.freeze({

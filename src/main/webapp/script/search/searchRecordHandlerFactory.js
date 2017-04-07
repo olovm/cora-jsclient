@@ -24,14 +24,17 @@ var CORA = (function(cora) {
 		function getDependencies() {
 			return dependencies;
 		}
-
+		
 		function factor(spec) {
+			var searchHandlerDep = {
+					"recordGuiFactory" : spec.recordGuiFactory	
+			};
 			var searchRecordHandlerDependencies = {
 				"messageHolderFactory" : CORA.messageHolderFactory(),
 				"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory(),
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"jsClient" : spec.jsClient,
-				"searchHandlerFactory" : CORA.searchHandlerFactory()
+				"searchHandlerFactory" : CORA.searchHandlerFactory(searchHandlerDep)
 			};
 			return CORA.searchRecordHandler(searchRecordHandlerDependencies, spec);
 		}

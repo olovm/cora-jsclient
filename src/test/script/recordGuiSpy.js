@@ -22,7 +22,8 @@ var CORATEST = (function(coraTest) {
 	coraTest.recordGuiSpy = function(metadataId, data, dataDivider) {
 		var presentationIdUsed = [];
 		var metadataIdsUsedInData = [];
-
+		var returnedPresentations = [];
+		var initCalled = 0;
 		function getDependencies() {
 			return dependencies;
 		}
@@ -44,9 +45,15 @@ var CORATEST = (function(coraTest) {
 		function getPresentation(presentationId, metadataIdUsedInData) {
 			presentationIdUsed.push(presentationId);
 			metadataIdsUsedInData.push(metadataIdUsedInData);
-			return CORATEST.presentationStub(presentationId);
+			var pres = CORATEST.presentationStub(presentationId);
+			returnedPresentations.push(pres);
+			return pres;
 		}
 		function initMetadataControllerStartingGui() {
+			initCalled++;
+		}
+		function getInitCalled() {
+			return initCalled;
 		}
 		function validateData() {
 			return true;
@@ -57,23 +64,27 @@ var CORATEST = (function(coraTest) {
 		function getMetadataIdsUsedInData(number) {
 			return metadataIdsUsedInData[number];
 		}
-		var out = Object
-				.freeze({
-					"type" : "recordGuiSpy",
-					getDependencies : getDependencies,
-					getSpec : getSpec,
+		function getReturnedPresentations(number) {
+			return returnedPresentations[number];
+		}
+		var out = Object.freeze({
+			"type" : "recordGuiSpy",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 
-					pubSub : pubSub,
-					// jsBookkeeper : jsBookkeeper,
-					// presentationFactory : presentationFactory,
-					dataHolder : dataHolder,
-					// getMetadataController : getMetadataController,
-					getPresentation : getPresentation,
-					initMetadataControllerStartingGui : initMetadataControllerStartingGui,
-					validateData : validateData,
-					getPresentationIdUsed : getPresentationIdUsed,
-					getMetadataIdsUsedInData : getMetadataIdsUsedInData
-				});
+			pubSub : pubSub,
+			// jsBookkeeper : jsBookkeeper,
+			// presentationFactory : presentationFactory,
+			dataHolder : dataHolder,
+			// getMetadataController : getMetadataController,
+			getPresentation : getPresentation,
+			initMetadataControllerStartingGui : initMetadataControllerStartingGui,
+			getInitCalled : getInitCalled,
+			validateData : validateData,
+			getPresentationIdUsed : getPresentationIdUsed,
+			getMetadataIdsUsedInData : getMetadataIdsUsedInData,
+			getReturnedPresentations : getReturnedPresentations
+		});
 		return out;
 	};
 	return coraTest;
