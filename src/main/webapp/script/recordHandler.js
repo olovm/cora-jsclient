@@ -28,7 +28,9 @@ var CORA = (function(cora) {
 		};
 		var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 		spec.addToRecordTypeHandlerMethod(managedGuiItem);
-		spec.jsClient.showView(managedGuiItem);
+		if(!spec.loadInBackground){
+			spec.jsClient.showView(managedGuiItem);
+		}
 
 		var messageHolder = CORA.messageHolder();
 		managedGuiItem.addWorkPresentation(messageHolder.getView());

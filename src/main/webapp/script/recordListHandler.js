@@ -95,8 +95,13 @@ var CORA = (function(cora) {
 
 		function createView(record) {
 			var newView = CORA.gui.createSpanWithClassName("listItem " + recordId);
-			newView.onclick = function() {
-				spec.createRecordHandlerMethod("view", record);
+			newView.onclick = function(event) {
+//				if(event.ctrlKey){
+//					console.log("no open on ctrl click.... ha ah")
+//				}else{
+//					
+					spec.createRecordHandlerMethod("view", record);
+//				}
 			};
 			return newView;
 		}

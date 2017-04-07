@@ -27,7 +27,7 @@ var CORATEST = (function(coraTest) {
 			return recordTypesClearedNoOfTimes;
 		}
 		function showView(managedGuiItem) {
-			viewsShowingInWorkView.push(managedGuiItem.workView);
+			viewsShowingInWorkView.push(managedGuiItem);
 		}
 
 		function getViewShowingInWorkView(number) {

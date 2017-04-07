@@ -65,7 +65,7 @@ QUnit.module("recordTypeHandlerTest.js", {
 });
 
 QUnit.test("init", function(assert) {
-	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 
 	var view = recordTypeHandler.getView();
 	assert.strictEqual(view.className, "recordTypeFromRecordTypeHandlerSpy");
