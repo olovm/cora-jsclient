@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -18,57 +19,38 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordListHandler = function(spec) {
-		var workView = spec.views.workView;
-		var menuView = spec.views.menuView;
+	cora.recordListHandler = function(dependencies, spec) {
+		var managedGuiItemSpec = {
+			"activateMethod" : spec.jsClient.showView,
+			"removeMethod" : spec.jsClient.viewRemoved
+		};
+		var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 
-		var recordId = getIdFromRecord(spec.recordTypeRecord);
+		spec.addToRecordTypeHandlerMethod(managedGuiItem);
+		spec.jsClient.showView(managedGuiItem);
 
-		addTextAndButtonToMenuView();
+		var recordId = spec.recordTypeRecordId;
 
+		addTextToMenuView();
 		fetchDataFromServer(processFetchedRecords);
 
-		function getIdFromRecord(record) {
-			var cData = CORA.coraData(record.data);
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			return cRecordInfo.getFirstAtomicValueByNameInData("id");
-		}
-
-		function addTextAndButtonToMenuView() {
-			addTextToMenuView();
-			addRemoveButtonToMenuView();
-		}
-
 		function addTextToMenuView() {
-			menuView.textContent = "";
-			menuView.textContent = "List";
-		}
-
-		function addRemoveButtonToMenuView() {
-			var removeButton = CORA.gui.createRemoveButton(removeViewsFromParentNodes);
-			menuView.appendChild(removeButton);
-		}
-
-		function removeViewsFromParentNodes() {
-			if (menuView.parentNode !== null) {
-				menuView.parentNode.removeChild(menuView);
-			}
-			if (workView.parentNode !== null) {
-				workView.parentNode.removeChild(workView);
-			}
+			var menuPresentation = CORA.gui.createSpanWithClassName("");
+			menuPresentation.textContent = "List";
+			managedGuiItem.addMenuPresentation(menuPresentation);
 		}
 
 		function fetchDataFromServer(callAfterAnswer) {
-			var readLink = spec.recordTypeRecord.actionLinks.list;
+			var listLink = spec.listLink;
 			var callSpec = {
-				"requestMethod" : readLink.requestMethod,
-				"url" : readLink.url,
-				"contentType" : readLink.contentType,
-				"accept" : readLink.accept,
+				"requestMethod" : listLink.requestMethod,
+				"url" : listLink.url,
+				"contentType" : listLink.contentType,
+				"accept" : listLink.accept,
 				"loadMethod" : callAfterAnswer,
 				"errorMethod" : callError
 			};
-			spec.dependencies.ajaxCallFactory.factor(callSpec);
+			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function processFetchedRecords(answer) {
@@ -86,19 +68,20 @@ var CORA = (function(cora) {
 			try {
 				addRecordToWorkView(recordContainer.record);
 			} catch (e) {
-				workView.appendChild(document.createTextNode(e));
-				workView.appendChild(document.createTextNode(e.stack));
+				managedGuiItem.addWorkPresentation(document.createTextNode(e));
+				managedGuiItem.addWorkPresentation(document.createTextNode(e.stack));
 			}
 		}
 
 		function addRecordToWorkView(record) {
 			var view = createView(record);
-			workView.appendChild(view);
+			managedGuiItem.addWorkPresentation(view);
 			var recordTypeId = getRecordTypeId(record);
 			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
-			var presentationId = getListPresentationFromRecordTypeRecord();
+			var presentationId = spec.listPresentationViewId;
 			var dataDivider = getDataDividerFromData(record.data);
-			var recordGui = spec.recordGuiFactory.factor(metadataId, record.data, dataDivider);
+			var recordGui = dependencies.recordGuiFactory.factor(metadataId, record.data,
+					dataDivider);
 
 			var presentationView = recordGui.getPresentation(presentationId, metadataId).getView();
 			recordGui.initMetadataControllerStartingGui();
@@ -118,12 +101,6 @@ var CORA = (function(cora) {
 			return newView;
 		}
 
-		function getListPresentationFromRecordTypeRecord() {
-			var cData = CORA.coraData(spec.recordTypeRecord.data);
-			var cRecordLink = CORA.coraData(cData.getFirstChildByNameInData("listPresentationViewId"));
-			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
-		}
-
 		function getDataDividerFromData(data) {
 			var cData = CORA.coraData(data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
@@ -133,7 +110,7 @@ var CORA = (function(cora) {
 
 		function callError(answer) {
 			var messageHolder = CORA.messageHolder();
-			workView.appendChild(messageHolder.getView());
+			managedGuiItem.addWorkPresentation(messageHolder.getView());
 			var messageSpec = {
 				"message" : answer.status,
 				"type" : CORA.message.ERROR
@@ -141,9 +118,19 @@ var CORA = (function(cora) {
 			messageHolder.createMessage(messageSpec);
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
 		var out = Object.freeze({
+			"type" : "recordListHandler",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			open : open,
-			processFetchedRecords:processFetchedRecords
+			processFetchedRecords : processFetchedRecords
 		});
 		return out;
 	};

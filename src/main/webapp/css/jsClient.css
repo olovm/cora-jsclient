@@ -193,6 +193,10 @@ body {
 	content: "* ";
 }
 
+.sideBar .menuView {
+	min-height: 1rem;
+}
+
 .sideBar .header:hover, .sideBar .childrenView .menuView:hover {
 	text-decoration: underline;
 	cursor: pointer;

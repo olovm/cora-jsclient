@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -16,35 +16,19 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
+var CORA = (function(cora) {
 	"use strict";
-	coraTest.searchRecordHandlerFactorySpy = function() {
-		var dummyDependencies = {};
-		var listOfFactored = [];
-		var listOfSpec = [];
+	cora.searchHandlerViewFactory = function() {
 
-		function factor(factorSpec) {
-			listOfSpec.push(factorSpec);
-			var factored = CORATEST.searchRecordHandlerSpy(dummyDependencies, factorSpec);
-			listOfFactored.push(factored);
-			return factored;
-		}
-
-		function getFactored(number) {
-			return listOfFactored[number];
-		}
-
-		function getSpec(number) {
-			return listOfSpec[number];
+		function factor() {
+			return CORA.searchHandlerView();
 		}
 
 		var out = Object.freeze({
-			"type" : "searchRecordHandlerFactorySpy",
-			factor : factor,
-			getFactored : getFactored,
-			getSpec : getSpec
+			"type" : "searchHandlerViewFactory",
+			factor : factor
 		});
 		return out;
 	};
-	return coraTest;
-}(CORATEST));
+	return cora;
+}(CORA));

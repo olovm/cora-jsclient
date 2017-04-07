@@ -77,7 +77,8 @@ QUnit.module("recordViewerTest.js", {
 		this.answerCall = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecord = JSON.stringify({
-				"record" : CORATEST.record
+//				"record" : CORATEST.record
+				"record" : CORATEST.recordTypeList.dataList.data[4].record
 			});
 			var answer = {
 				"spec" : ajaxCallSpy0.getSpec(),

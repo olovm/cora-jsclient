@@ -20,7 +20,10 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	// coraTest.recordGuiSpy = function(dependencies, spec) {
 	coraTest.recordGuiSpy = function(metadataId, data, dataDivider) {
-
+		var presentationIdUsed = [];
+		var metadataIdsUsedInData = [];
+		var returnedPresentations = [];
+		var initCalled = 0;
 		function getDependencies() {
 			return dependencies;
 		}
@@ -42,14 +45,28 @@ var CORATEST = (function(coraTest) {
 		function getPresentation(presentationId, metadataIdUsedInData) {
 			presentationIdUsed.push(presentationId);
 			metadataIdsUsedInData.push(metadataIdUsedInData);
-			return presentation;
+			var pres = CORATEST.presentationStub(presentationId);
+			returnedPresentations.push(pres);
+			return pres;
 		}
 		function initMetadataControllerStartingGui() {
+			initCalled++;
+		}
+		function getInitCalled() {
+			return initCalled;
 		}
 		function validateData() {
 			return true;
 		}
-
+		function getPresentationIdUsed(number) {
+			return presentationIdUsed[number];
+		}
+		function getMetadataIdsUsedInData(number) {
+			return metadataIdsUsedInData[number];
+		}
+		function getReturnedPresentations(number) {
+			return returnedPresentations[number];
+		}
 		var out = Object.freeze({
 			"type" : "recordGuiSpy",
 			getDependencies : getDependencies,
@@ -62,7 +79,11 @@ var CORATEST = (function(coraTest) {
 			// getMetadataController : getMetadataController,
 			getPresentation : getPresentation,
 			initMetadataControllerStartingGui : initMetadataControllerStartingGui,
-			validateData : validateData
+			getInitCalled : getInitCalled,
+			validateData : validateData,
+			getPresentationIdUsed : getPresentationIdUsed,
+			getMetadataIdsUsedInData : getMetadataIdsUsedInData,
+			getReturnedPresentations : getReturnedPresentations
 		});
 		return out;
 	};

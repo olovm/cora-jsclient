@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -16,25 +16,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
+var CORA = (function(cora) {
 	"use strict";
-	coraTest.recordHandlerViewFactorySpy = function(spec) {
-		var factoredRecordHandlerViews = [];
+	cora.recordHandlerViewFactory = function() {
+
+		var dependencies = {
+			"workItemViewFactory" : CORA.workItemViewFactory()
+		};
+
 		function factor(recordHandlerViewSpec) {
-			var factoredRecordHandlerView = CORATEST.recordHandlerViewSpy(recordHandlerViewSpec);
-			factoredRecordHandlerViews.push(factoredRecordHandlerView);
-			return factoredRecordHandlerView;
-		}
-		function getFactored(number) {
-			return factoredRecordHandlerViews[number];
+			return CORA.recordHandlerView(dependencies, recordHandlerViewSpec);
 		}
 
 		var out = Object.freeze({
-			factor : factor,
-
-			getFactored : getFactored
+			"type" : "recordHandlerViewFactory",
+			factor : factor
 		});
 		return out;
 	};
-	return coraTest;
-}(CORATEST));
+	return cora;
+}(CORA));

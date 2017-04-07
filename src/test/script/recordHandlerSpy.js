@@ -18,10 +18,10 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.recordHandlderSpy = function(dependencies, spec) {
+	coraTest.recordHandlerSpy = function(dependencies, spec) {
 
 		return Object.freeze({
-			"type" : "recordHandlderSpy"
+			"type" : "recordHandlerSpy"
 		});
 	};
 	return coraTest;

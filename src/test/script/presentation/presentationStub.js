@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,15 +20,15 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.presentationStub = function(id) {
+		var view = document.createElement("span");
+		view.className = "presentationStub";
+		if (id !== undefined) {
+			view.id = id;
+		}
+		view.style.minHeight = "2px";
+		view.style.minWidth = "2px";
+		view.style.display = "block";
 		function getView() {
-			var view=document.createElement("span");
-			view.className = "presentationStub";
-			if(id!==undefined){
-				view.id = id;
-			}
-			view.style.minHeight = "2px";
-			view.style.minWidth= "2px";
-			view.style.display="block";
 			return view;
 		}
 
