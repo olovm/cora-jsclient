@@ -20,6 +20,9 @@
 
 QUnit.module("searchHandlerViewFactoryTest.js", {
 	beforeEach : function() {
+		this.spec = {
+			"searchButtonText" : "buttonText"
+		};
 	},
 	afterEach : function() {
 	}
@@ -44,3 +47,9 @@ QUnit.test("factorTestDependencies", function(assert) {
 	assert.strictEqual(searchHandlerView.getDependencies().messageHolderFactory.type,
 			"messageHolderFactory");
 });
+
+//QUnit.test("factorTestSpec", function(assert) {
+//	var searchHandlerViewFactory = CORA.searchHandlerViewFactory();
+//	var searchHandlerView = searchHandlerViewFactory.factor(this.spec);
+//	assert.strictEqual(searchHandlerView.getSpec(),this.spec);
+//});

@@ -24,6 +24,9 @@ QUnit.module("searchHandlerViewTest.js", {
 			"workItemViewFactory" : CORATEST.standardFactorySpy("workItemViewSpy"),
 			"messageHolderFactory" : CORATEST.standardFactorySpy("messageHolderSpy")
 		};
+		this.spec = {
+			"searchButtonText" : "buttonText"
+		}
 	},
 	afterEach : function() {
 	}
@@ -65,9 +68,26 @@ QUnit.test("testInitButtonViewCreatedAndAddedToFormHolder", function(assert) {
 	assert.strictEqual(buttonView.className, "buttonView");
 });
 
+QUnit.test("testInitSearchButtonCreatedAndAddedButtonView", function(assert) {
+	var searchHandlerView = CORA.searchHandlerView(this.dependencies);
+	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0);
+	var searchFormHolder = factoredWorkItemView.getViewsAddedToView(0);
+	var buttonView = searchFormHolder.lastChild;
+	var searchButton = buttonView.lastChild;
+	assert.strictEqual(searchButton.nodeName, "INPUT");
+	assert.strictEqual(searchButton.type, "button");
+//	assert.strictEqual(searchButton.value, this.spec.searchButtonText);
+	// assert.strictEqual(buttonView.className, "buttonView");
+});
+
 QUnit.test("testGetDependencies", function(assert) {
 	var searchHandlerView = CORA.searchHandlerView(this.dependencies);
 	assert.strictEqual(searchHandlerView.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
+	assert.strictEqual(searchHandlerView.getSpec(), this.spec);
 });
 
 QUnit.test("testAddPresentationToSearchFormHolder", function(assert) {

@@ -18,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.searchHandlerView = function(dependencies) {
+	cora.searchHandlerView = function(dependencies, spec) {
 		var view;
 		var searchFormHolder;
 		var buttonView;
@@ -28,6 +28,7 @@ var CORA = (function(cora) {
 			view = workItemView.getView();
 			createSearchFormHolderAndAddTo(workItemView);
 			createButtonViewAndAddTo(searchFormHolder);
+			createSearchButtonIn(buttonView);
 		}
 
 		function createWorkItemView() {
@@ -45,6 +46,22 @@ var CORA = (function(cora) {
 		function createButtonViewAndAddTo(addTo) {
 			buttonView = CORA.gui.createSpanWithClassName("buttonView");
 			addTo.appendChild(buttonView);
+		}
+
+		function createSearchButtonIn(buttonView) {
+			var searchButton = createButton();
+			buttonView.appendChild(searchButton);
+		}
+		
+		function createButton(text, onclickMethod, className) {
+			var button = document.createElement("input");
+			button.type = "button";
+			button.value = text;
+			button.onclick = onclickMethod;
+			if (undefined !== className) {
+				button.className = className;
+			}
+			return button;
 		}
 
 		function getView() {
