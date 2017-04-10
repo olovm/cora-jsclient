@@ -85,12 +85,15 @@ QUnit.test("testHideChildrenView", function(assert) {
 	var view = pRecordLinkView.getView();
 	this.fixture.appendChild(view);
 	var child = document.createElement("SPAN");
+	var content = document.createTextNode(JSON
+			.stringify("content needed for span to be visible in chrome"));
+	child.appendChild(content);
 	pRecordLinkView.addChild(child);
 	var childrenView = view.childNodes[1];
 	assert.visible(childrenView);
 	pRecordLinkView.hideChildren();
 	assert.notVisible(childrenView);
-}); 
+});
 
 QUnit.test("testAddLinkedPresentation", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
@@ -102,30 +105,31 @@ QUnit.test("testAddLinkedPresentation", function(assert) {
 
 QUnit.test("testInfoSpec", function(assert) {
 	var expectedSpec = {
-//		"appendTo" : {},
+		// "appendTo" : {},
 		"level1" : [ {
 			"className" : "textView",
 			"text" : "someText"
 		}, {
 			"className" : "defTextView",
 			"text" : "someDefText"
-		} ], 
+		} ],
 		"level2" : [ {
 			"className" : "technicalView",
-			"text" : "textId: textId" 
+			"text" : "textId: textId"
 		}, {
 			"className" : "technicalView",
 			"text" : "defTextId: defTextId"
 		}, {
 			"className" : "technicalView",
 			"text" : "metadataId: metadataId"
-		} ],"insertAfter":{}
+		} ],
+		"insertAfter" : {}
 	};
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
 	var infoSpy = this.dependencies.infoFactory.getFactored(0);
 	var usedSpec = infoSpy.getSpec();
-	assert.stringifyEqual(usedSpec, expectedSpec); 
+	assert.stringifyEqual(usedSpec, expectedSpec);
 	assert.strictEqual(usedSpec.insertAfter, infoSpy.getButton());
 	assert.strictEqual(usedSpec.afterLevelChange, pRecordLinkView.updateClassName);
 
@@ -139,14 +143,15 @@ QUnit.test("testInfoButtonAddedToView", function(assert) {
 QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 	this.spec.info.technicalInfo = null;
 	var expectedSpec = {
-//		"appendTo" : {},
+		// "appendTo" : {},
 		"level1" : [ {
 			"className" : "textView",
 			"text" : "someText"
 		}, {
 			"className" : "defTextView",
 			"text" : "someDefText"
-		} ],"insertAfter":{}
+		} ],
+		"insertAfter" : {}
 	};
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var infoSpy = this.dependencies.infoFactory.getFactored(0);
@@ -154,12 +159,12 @@ QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 	assert.stringifyEqual(usedSpec, expectedSpec);
 });
 
-//QUnit.test("testInfoPlaced", function(assert) {
-//	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
-//	var view = pRecordLinkView.getView();
-//	var infoSpan = view.childNodes[0];
-//	assert.equal(infoSpan.className, "infoSpySpan");
-//});
+// QUnit.test("testInfoPlaced", function(assert) {
+// var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+// var view = pRecordLinkView.getView();
+// var infoSpan = view.childNodes[0];
+// assert.equal(infoSpan.className, "infoSpySpan");
+// });
 
 QUnit.test("testActiveInfoShownInClassName", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
@@ -175,15 +180,13 @@ QUnit.test("testActiveInfoShownInClassName", function(assert) {
 	infoSpy.setInfoLevel(0);
 	pRecordLinkView.updateClassName();
 	assert.strictEqual(view.className, "pRecordLink somePresentationId");
-}); 
+});
 
-
-
-//QUnit.test("testInputCreated", function(assert) {
-//	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
-//	var view = pRecordLinkView.getView();
-//	this.dependencies.presentationFactory : CORATEST.presentationFactorySpy(),
+// QUnit.test("testInputCreated", function(assert) {
+// var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+// var view = pRecordLinkView.getView();
+// this.dependencies.presentationFactory : CORATEST.presentationFactorySpy(),
 //	
-//	assert.strictEqual(view.className, "pRecordLink somePresentationId");
+// assert.strictEqual(view.className, "pRecordLink somePresentationId");
 //	
-//});
+// });
