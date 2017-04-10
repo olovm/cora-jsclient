@@ -20,8 +20,13 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.searchHandlerViewFactory = function() {
 
+		var dep = {
+			"workItemViewFactory" : CORA.workItemViewFactory(),
+			"messageHolderFactory" : CORA.messageHolderFactory()
+		};
+		
 		function factor() {
-			return CORA.searchHandlerView();
+			return CORA.searchHandlerView(dep);
 		}
 
 		var out = Object.freeze({

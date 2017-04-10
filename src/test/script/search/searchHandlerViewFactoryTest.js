@@ -35,3 +35,12 @@ QUnit.test("testFactor", function(assert) {
 	var searchHandlerView = searchHandlerViewFactory.factor();
 	assert.strictEqual(searchHandlerView.type, "searchHandlerView");
 });
+
+QUnit.test("factorTestDependencies", function(assert) {
+	var searchHandlerViewFactory = CORA.searchHandlerViewFactory();
+	var searchHandlerView = searchHandlerViewFactory.factor();
+	assert.strictEqual(searchHandlerView.getDependencies().workItemViewFactory.type,
+			"workItemViewFactory");
+	assert.strictEqual(searchHandlerView.getDependencies().messageHolderFactory.type,
+			"messageHolderFactory");
+});

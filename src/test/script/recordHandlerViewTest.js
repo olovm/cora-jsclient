@@ -32,12 +32,11 @@ QUnit.module("recordHandlerViewTest.js", {
 				this.recordHandlerViewSpec);
 
 		var workItemViewSpy = this.workItemViewFactory.getFactored(0);
-		var viewsAddedToView = workItemViewSpy.getViewsAddedToView();
 		this.viewsToolAddedToView = workItemViewSpy.getToolViewsAddedToView();
 
-		this.editView = viewsAddedToView[0];
-		this.showView = viewsAddedToView[1];
-		this.buttonView = viewsAddedToView[2];
+		this.editView = workItemViewSpy.getViewsAddedToView(0);
+		this.showView = workItemViewSpy.getViewsAddedToView(1);
+		this.buttonView = workItemViewSpy.getViewsAddedToView(2);
 
 	},
 	afterEach : function() {
@@ -49,18 +48,17 @@ QUnit.test("init", function(assert) {
 	var factoredWorkItemViewSpec = workItemViewSpy.getSpec();
 	assert.strictEqual(factoredWorkItemViewSpec.extraClassName, "extraClassName2");
 
-	var viewsAddedToView = workItemViewSpy.getViewsAddedToView();
-	assert.strictEqual(viewsAddedToView.length, 3);
+	assert.strictEqual(workItemViewSpy.getViewsAddedToView(4), undefined);
 
-	var editView = viewsAddedToView[0];
+	var editView = workItemViewSpy.getViewsAddedToView(0);
 	assert.strictEqual(editView.nodeName, "SPAN");
 	assert.strictEqual(editView.className, "editView");
 
-	var showView = viewsAddedToView[1];
+	var showView =workItemViewSpy.getViewsAddedToView(1);
 	assert.strictEqual(showView.nodeName, "SPAN");
 	assert.strictEqual(showView.className, "showView");
 
-	var buttonView = viewsAddedToView[2];
+	var buttonView = workItemViewSpy.getViewsAddedToView(2);
 	assert.strictEqual(buttonView.nodeName, "SPAN");
 	assert.strictEqual(buttonView.className, "buttonView");
 });

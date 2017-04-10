@@ -41,8 +41,8 @@ var CORATEST = (function(coraTest) {
 			return spec;
 		}
 
-		function getViewsAddedToView() {
-			return addedViews;
+		function getViewsAddedToView(number) {
+			return addedViews[number];
 		}
 		function getToolViewsAddedToView() {
 			return addedToolViews;
