@@ -159,6 +159,5 @@ var CORATEST = (function(coraTest) {
 			}
 		}
 	};
-	// coraTest.record = {};
 	return coraTest;
 }(CORATEST));

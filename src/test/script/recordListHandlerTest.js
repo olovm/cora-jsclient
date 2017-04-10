@@ -271,8 +271,6 @@ QUnit.test("fetchListBroken", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
 	this.answerListCallBrokenList(0);
 
-	// var firstListItem =
-	// this.spec.views.getAddedWorkPresentation(1);
 	var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
 			.getAddedWorkPresentation(1);
 	assert.strictEqual(firstListItem.textContent.substring(0, 10), "TypeError:");
