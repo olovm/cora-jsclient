@@ -24,7 +24,7 @@ var CORA = (function(cora) {
 			"workItemViewFactory" : CORA.workItemViewFactory(),
 			"messageHolderFactory" : CORA.messageHolderFactory()
 		};
-		
+
 		function factor() {
 			return CORA.searchHandlerView(dep);
 		}

@@ -36,7 +36,7 @@ QUnit.test("testInit", function(assert) {
 
 QUnit.test("testInitFactoredWorkItemViewSpec", function(assert) {
 	var searchHandlerView = CORA.searchHandlerView(this.dependencies);
-	var factoredSpec= this.dependencies.workItemViewFactory.getSpec(0);
+	var factoredSpec = this.dependencies.workItemViewFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.extraClassName, "search");
 });
 
@@ -44,7 +44,7 @@ QUnit.test("testInitViewIsFactoredWorkItemView", function(assert) {
 	var searchHandlerView = CORA.searchHandlerView(this.dependencies);
 	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0).getView();
 	var view = searchHandlerView.getView();
-	
+
 	assert.strictEqual(view, factoredWorkItemView);
 });
 
@@ -56,19 +56,28 @@ QUnit.test("testInitSearchFormHolderCreated", function(assert) {
 	assert.strictEqual(searchFormHolder.className, "searchFormHolder");
 });
 
+QUnit.test("testInitButtonViewCreatedAndAddedToFormHolder", function(assert) {
+	var searchHandlerView = CORA.searchHandlerView(this.dependencies);
+	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0);
+	var searchFormHolder = factoredWorkItemView.getViewsAddedToView(0);
+	var buttonView = searchFormHolder.lastChild;
+	assert.strictEqual(buttonView.nodeName, "SPAN");
+	assert.strictEqual(buttonView.className, "buttonView");
+});
+
 QUnit.test("testGetDependencies", function(assert) {
 	var searchHandlerView = CORA.searchHandlerView(this.dependencies);
 	assert.strictEqual(searchHandlerView.getDependencies(), this.dependencies);
 });
 
-QUnit.test("testInitSearchFormHolderCreated", function(assert) {
+QUnit.test("testAddPresentationToSearchFormHolder", function(assert) {
 	var searchHandlerView = CORA.searchHandlerView(this.dependencies);
 	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0);
 	var searchFormHolder = factoredWorkItemView.getViewsAddedToView(0);
-	assert.strictEqual(searchFormHolder.childNodes.length, 0);
+	assert.strictEqual(searchFormHolder.childNodes.length, 1);
 
 	var aPresentation = CORA.gui.createSpanWithClassName("some");
 	searchHandlerView.addPresentationToSearchFormHolder(aPresentation);
-	assert.strictEqual(searchFormHolder.childNodes.length, 1);
+	assert.strictEqual(searchFormHolder.childNodes.length, 2);
 	assert.strictEqual(searchFormHolder.firstChild, aPresentation);
 });

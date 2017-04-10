@@ -21,17 +21,30 @@ var CORA = (function(cora) {
 	cora.searchHandlerView = function(dependencies) {
 		var view;
 		var searchFormHolder;
+		var buttonView;
 
 		function start() {
+			var workItemView = createWorkItemView();
+			view = workItemView.getView();
+			createSearchFormHolderAndAddTo(workItemView);
+			createButtonViewAndAddTo(searchFormHolder);
+		}
+
+		function createWorkItemView() {
 			var workItemViewSpec = {
 				"extraClassName" : "search"
 			};
+			return dependencies.workItemViewFactory.factor(workItemViewSpec);
+		}
 
-			var workItemView = dependencies.workItemViewFactory.factor(workItemViewSpec);
-			view = workItemView.getView();
-
+		function createSearchFormHolderAndAddTo(addTo) {
 			searchFormHolder = CORA.gui.createSpanWithClassName("searchFormHolder");
-			workItemView.addViewToView(searchFormHolder);
+			addTo.addViewToView(searchFormHolder);
+		}
+
+		function createButtonViewAndAddTo(addTo) {
+			buttonView = CORA.gui.createSpanWithClassName("buttonView");
+			addTo.appendChild(buttonView);
 		}
 
 		function getView() {
@@ -39,7 +52,7 @@ var CORA = (function(cora) {
 		}
 
 		function addPresentationToSearchFormHolder(presentationToAdd) {
-			searchFormHolder.appendChild(presentationToAdd);
+			searchFormHolder.insertBefore(presentationToAdd, searchFormHolder.lastChild);
 		}
 
 		function getDependencies() {
