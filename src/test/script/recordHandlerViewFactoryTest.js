@@ -41,6 +41,8 @@ QUnit.test("factorTestDependencies", function(assert) {
 	var recordHandlerView = recordHandlerViewFactory.factor(this.spec);
 	assert.strictEqual(recordHandlerView.getDependencies().workItemViewFactory.type,
 			"workItemViewFactory");
+	assert.strictEqual(recordHandlerView.getDependencies().messageHolderFactory.type,
+	"messageHolderFactory");
 });
 
 QUnit.test("factorTestType", function(assert) {

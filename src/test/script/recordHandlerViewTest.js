@@ -23,12 +23,13 @@ QUnit.module("recordHandlerViewTest.js", {
 	beforeEach : function() {
 		this.workItemViewFactory = CORATEST.workItemViewFactorySpy();
 		this.dependencies = {
-				"workItemViewFactory" : this.workItemViewFactory
+			"workItemViewFactory" : this.workItemViewFactory
 		};
 		this.recordHandlerViewSpec = {
 			"extraClassName" : "extraClassName2"
 		};
-		this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.recordHandlerViewSpec);
+		this.recordHandlerView = CORA.recordHandlerView(this.dependencies,
+				this.recordHandlerViewSpec);
 
 		var workItemViewSpy = this.workItemViewFactory.getFactored(0);
 		var viewsAddedToView = workItemViewSpy.getViewsAddedToView();
@@ -141,7 +142,6 @@ QUnit.test("testSetShowDataFunction", function(assert) {
 	recordHandlerView.setShowDataFunction(dataFunction);
 
 	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
-	
 
 	var button = this.viewsToolAddedToView[0];
 	assert.strictEqual(button.nodeName, "INPUT");
@@ -164,7 +164,7 @@ QUnit.test("testSetCopyAsNewFunction", function(assert) {
 	recordHandlerView.setCopyAsNewFunction(dataFunction);
 
 	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
-	
+
 	var button = this.viewsToolAddedToView[0];
 	assert.strictEqual(button.nodeName, "INPUT");
 	assert.strictEqual(button.type, "button");
