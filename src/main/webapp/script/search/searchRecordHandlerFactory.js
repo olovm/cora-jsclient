@@ -27,6 +27,7 @@ var CORA = (function(cora) {
 
 		function factor(spec) {
 			var searchHandlerDep = {
+				"textProvider" : dependencies.textProvider,
 				"recordGuiFactory" : spec.recordGuiFactory
 			};
 			var searchRecordHandlerDependencies = {

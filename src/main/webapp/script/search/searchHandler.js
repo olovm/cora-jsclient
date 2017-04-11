@@ -26,7 +26,10 @@ var CORA = (function(cora) {
 		var recordGui;
 
 		function start() {
-			view = dependencies.searchHandlerViewFactory.factor();
+			var viewSpec = {
+				"searchButtonText" : dependencies.textProvider.getTranslation("")
+			}
+			view = dependencies.searchHandlerViewFactory.factor(viewSpec);
 			var managedGuiItemSpec = {
 				"activateMethod" : spec.showViewMethod,
 				"removeMethod" : spec.removeViewMethod
