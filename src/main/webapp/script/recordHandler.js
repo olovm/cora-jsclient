@@ -48,9 +48,6 @@ var CORA = (function(cora) {
 			busy = CORA.busy();
 			managedGuiItem.addWorkPresentation(busy.getView());
 
-			// recordHandlerView.setShowDataFunction(showData);
-			// recordHandlerView.setCopyAsNewFunction(copyData);
-
 			createNewOrFetchDataFromServerForExistingRecord();
 		}
 

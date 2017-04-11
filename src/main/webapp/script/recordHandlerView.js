@@ -95,9 +95,7 @@ var CORA = (function(cora) {
 			addToShowView : addToShowView,
 			addToEditView : addToEditView,
 			addButton : addButton,
-			clearViews : clearViews,
-//			setShowDataFunction : setShowDataFunction,
-//			setCopyAsNewFunction : setCopyAsNewFunction
+			clearViews : clearViews
 		});
 	};
 	return cora;
