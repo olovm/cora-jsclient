@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -35,21 +36,21 @@ QUnit.test("testInit", function(assert) {
 
 QUnit.test("testFactor", function(assert) {
 	var searchHandlerViewFactory = CORA.searchHandlerViewFactory();
-	var searchHandlerView = searchHandlerViewFactory.factor();
+	var searchHandlerView = searchHandlerViewFactory.factor(this.spec);
 	assert.strictEqual(searchHandlerView.type, "searchHandlerView");
 });
 
 QUnit.test("factorTestDependencies", function(assert) {
 	var searchHandlerViewFactory = CORA.searchHandlerViewFactory();
-	var searchHandlerView = searchHandlerViewFactory.factor();
+	var searchHandlerView = searchHandlerViewFactory.factor(this.spec);
 	assert.strictEqual(searchHandlerView.getDependencies().workItemViewFactory.type,
 			"workItemViewFactory");
 	assert.strictEqual(searchHandlerView.getDependencies().messageHolderFactory.type,
 			"messageHolderFactory");
 });
 
-//QUnit.test("factorTestSpec", function(assert) {
-//	var searchHandlerViewFactory = CORA.searchHandlerViewFactory();
-//	var searchHandlerView = searchHandlerViewFactory.factor(this.spec);
-//	assert.strictEqual(searchHandlerView.getSpec(),this.spec);
-//});
+QUnit.test("factorTestSpec", function(assert) {
+	var searchHandlerViewFactory = CORA.searchHandlerViewFactory();
+	var searchHandlerView = searchHandlerViewFactory.factor(this.spec);
+	assert.strictEqual(searchHandlerView.getSpec(), this.spec);
+});
