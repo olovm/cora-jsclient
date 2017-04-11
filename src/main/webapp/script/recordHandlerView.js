@@ -35,6 +35,9 @@ var CORA = (function(cora) {
 		var buttonView = CORA.gui.createSpanWithClassName("buttonView");
 		workItemView.addViewToView(buttonView);
 
+		setShowDataFunction(spec.showDataMethod);
+		setCopyAsNewFunction(spec.copyDataMethod);
+
 		function addToShowView(node) {
 			showView.appendChild(node);
 		}
@@ -93,8 +96,8 @@ var CORA = (function(cora) {
 			addToEditView : addToEditView,
 			addButton : addButton,
 			clearViews : clearViews,
-			setShowDataFunction : setShowDataFunction,
-			setCopyAsNewFunction : setCopyAsNewFunction
+//			setShowDataFunction : setShowDataFunction,
+//			setCopyAsNewFunction : setCopyAsNewFunction
 		});
 	};
 	return cora;

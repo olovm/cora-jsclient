@@ -59,7 +59,7 @@ QUnit.module("recordHandlerTest.js", {
 			},
 			"pubSub" : this.pubSub
 		};
-
+		// this.recordGui = recordGuiSpy();
 		var recordGui = this.recordGui;
 		this.metadataIdUsed = [];
 		var metadataIdUsed = this.metadataIdUsed;
@@ -72,6 +72,8 @@ QUnit.module("recordHandlerTest.js", {
 				return recordGui;
 			}
 		};
+		// this.recordGuiFactorySpy = CORATEST.standardFactorySpy("recordGuiSpy");
+		// this.recordGuiFactorySpy = CORATEST.recordGuiFactorySpy();
 
 		var recordTypeHandlerSpy = function(spec) {
 			var createdRecordHandlers = [];
@@ -236,39 +238,122 @@ QUnit.test("initTestManagedGuiItemAddedNotShowOnLoad", function(assert) {
 	assert.strictEqual(undefined, this.spec.jsClient.getViewShowingInWorkView(0));
 });
 
-QUnit.test("initRecordHandlerView", function(assert) {
+QUnit.test("testInitRecordHandlerViewSpec", function(assert) {
+	// TODO: move to init
+	this.dependencies.recordGuiFactory = CORATEST.recordGuiFactorySpy();
+	
+	this.spec.recordTypeRecordId = "recordType";
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+	
+	var usedSpec = this.recordHandlerViewFactorySpy.getSpec(0);
+	assert.strictEqual(usedSpec.extraClassName, "recordType");
+	//TODO: test that buttons are added on init in view...
+	assert.strictEqual(usedSpec.showDataMethod, recordHandler.showData);
+	assert.strictEqual(usedSpec.copyDataMethod, recordHandler.copyData);
+});
+
+QUnit.test("testInitRecordHandlerViewFormFactoredAndAdded", function(assert) {
+	// TODO: move to init
+	this.dependencies.recordGuiFactory = CORATEST.recordGuiFactorySpy();
+
+	this.spec.recordTypeRecordId = "recordType";
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+
+	var presentationFormIdUsed = factoredRecordGui.getPresentationIdUsed(0);
+	assert.strictEqual(presentationFormIdUsed, this.spec.presentationFormId);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var factoredForm = factoredRecordGui.getReturnedPresentations(0);
+	assert.strictEqual(factoredForm.getView(), recordHandlerViewSpy.getAddedEditView(0));
+});
+
+QUnit.test("testInitRecordHandlerViewNewFormFactoredAndAdded", function(assert) {
+	// TODO: move to init
+	this.dependencies.recordGuiFactory = CORATEST.recordGuiFactorySpy();
+	
+	this.spec.presentationMode = "new";
+	this.spec.recordTypeRecordId = "recordType";
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+	
+	var presentationFormIdUsed = factoredRecordGui.getPresentationIdUsed(0);
+	assert.strictEqual(presentationFormIdUsed, this.spec.newPresentationFormId);
+	
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var factoredForm = factoredRecordGui.getReturnedPresentations(0);
+	assert.strictEqual(factoredForm.getView(), recordHandlerViewSpy.getAddedEditView(0));
+});
+
+QUnit.test("testInitRecordHandlerViewViewFactoredAndAdded", function(assert) {
+	// TODO: move to init
+	this.dependencies.recordGuiFactory = CORATEST.recordGuiFactorySpy();
+
+	this.spec.recordTypeRecordId = "recordType";
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+
+	var presentationViewIdUsed = factoredRecordGui.getPresentationIdUsed(1);
+	assert.strictEqual(presentationViewIdUsed, this.spec.presentationViewId);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var factoredView = factoredRecordGui.getReturnedPresentations(1);
+	assert.strictEqual(factoredView.getView(), recordHandlerViewSpy.getAddedShowView(0));
+});
+
+QUnit.test("testInitRecordHandlerViewMenuFactoredAndAdded", function(assert) {
+	// TODO: move to init
+	this.dependencies.recordGuiFactory = CORATEST.recordGuiFactorySpy();
+
+	this.spec.recordTypeRecordId = "recordType";
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+
+	var presentationMenuViewIdUsed = factoredRecordGui.getPresentationIdUsed(2);
+	assert.strictEqual(presentationMenuViewIdUsed, this.spec.menuPresentationViewId);
+
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+	var factoredView = factoredRecordGui.getReturnedPresentations(2);
+	assert.strictEqual(factoredView.getView(), managedGuiItemSpy.getAddedMenuPresentation(0));
+});
+
+QUnit.test("testInitRecordHandlerViewButtonCreated", function(assert) {
+	// TODO: move to init
+	this.dependencies.recordGuiFactory = CORATEST.recordGuiFactorySpy();
 	this.spec.recordTypeRecordId = "recordType";
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	this.answerCall(0);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
-	var usedSpec = this.recordHandlerViewFactorySpy.getSpec(0);
 
-	assert.strictEqual(usedSpec.extraClassName, "recordType");
-
-	var editViewChild = recordHandlerViewSpy.getAddedEditView(0);
-	assert.strictEqual(editViewChild.className, "fakePresentation");
-
-	var showViewChild = recordHandlerViewSpy.getAddedShowView(0);
-	assert.strictEqual(showViewChild.className, "fakePresentation");
-
-	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(0);
-	assert.strictEqual(updateButtonSpec.text, "DELETE");
-	assert.strictEqual(updateButtonSpec.className, "delete");
+	var deleteButtonSpec = recordHandlerViewSpy.getAddedButton(0);
+	assert.strictEqual(deleteButtonSpec.text, "DELETE");
+	assert.strictEqual(deleteButtonSpec.className, "delete");
+	assert.strictEqual(deleteButtonSpec.onclickMethod, recordHandler.shouldRecordBeDeleted);
 
 	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(1);
 	assert.strictEqual(updateButtonSpec.text, "UPDATE");
 	assert.strictEqual(updateButtonSpec.className, "update");
+	assert.strictEqual(updateButtonSpec.onclickMethod, recordHandler.sendUpdateDataToServer);
 });
 
 QUnit.test("testShowData", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	this.answerCall(0);
-	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
-
-	var showDataFunction = recordHandlerViewSpy.getShowDataFunction();
-	assert.strictEqual(showDataFunction, recordHandler.showData);
-	showDataFunction();
+	recordHandler.showData();
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	var messageHolder = managedGuiItem.getAddedWorkPresentation(0);
+	
+	assert.strictEqual(messageHolder.className, "messageHolder");
+	//TODO: move to messageHolderFactory and check generated data 
 });
 
 QUnit.test("testCopyAsNew", function(assert) {
@@ -276,10 +361,7 @@ QUnit.test("testCopyAsNew", function(assert) {
 	this.answerCall(0);
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 
-	var copyAsNewFunction = recordHandlerViewSpy.getCopyAsNewFunction();
-	assert.strictEqual(copyAsNewFunction, recordHandler.copyData);
-
-	copyAsNewFunction();
+	recordHandler.copyData();
 
 	assert.strictEqual(this.getCreateRecordHandlerMethodCalledWithPresentationMode(), "new");
 	assert.strictEqual(this.getCreateRecordHandlerMethodCalledWithRecord(), this.dataHolderData);
@@ -453,6 +535,10 @@ QUnit.test("testUpdateCall", function(assert) {
 	assert.strictEqual(ajaxCallSpec.contentType, "application/uub+record+json");
 	assert.strictEqual(ajaxCallSpec.data, "{}");
 	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.resetViewsAndProcessFetchedRecord);
+
+	var recordHandlerViewSpy2 = this.recordHandlerViewFactorySpy.getFactored(1);
+	// var question = managedGuiItem.getAddedWorkPresentation(4);
+
 });
 
 QUnit.test("testUpdateThroughPubSubCall", function(assert) {

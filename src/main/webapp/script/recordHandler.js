@@ -20,6 +20,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandler = function(dependencies, spec) {
+		var presentationMode = spec.presentationMode;
 		var managedGuiItem;
 		var messageHolder;
 		var recordHandlerView;
@@ -47,8 +48,8 @@ var CORA = (function(cora) {
 			busy = CORA.busy();
 			managedGuiItem.addWorkPresentation(busy.getView());
 
-			recordHandlerView.setShowDataFunction(showData);
-			recordHandlerView.setCopyAsNewFunction(copyData);
+			// recordHandlerView.setShowDataFunction(showData);
+			// recordHandlerView.setCopyAsNewFunction(copyData);
 
 			createNewOrFetchDataFromServerForExistingRecord();
 		}
@@ -63,13 +64,15 @@ var CORA = (function(cora) {
 
 		function createRecordHandlerView() {
 			var recordHandlerViewSpec = {
-				"extraClassName" : spec.recordTypeRecordId
+				"extraClassName" : spec.recordTypeRecordId,
+				"showDataMethod" : showData,
+				"copyDataMethod" : copyData
 			};
 			return dependencies.recordHandlerViewFactory.factor(recordHandlerViewSpec);
 		}
 
 		function createNewOrFetchDataFromServerForExistingRecord() {
-			if ("new" === spec.presentationMode) {
+			if ("new" === presentationMode) {
 				createGuiForNew(spec.record);
 			} else {
 				fetchDataFromServer(processFetchedRecord);
@@ -177,6 +180,7 @@ var CORA = (function(cora) {
 		}
 
 		function resetViewsAndProcessFetchedRecord(answer) {
+			presentationMode = "edit";
 			busy.hideWithEffect();
 			recordHandlerView.clearViews();
 			var messageSpec = {
@@ -203,8 +207,8 @@ var CORA = (function(cora) {
 			};
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}
-		function processFetchedRecord(answer) {
 
+		function processFetchedRecord(answer) {
 			try {
 				fetchedRecord = getRecordPartFromAnswer(answer);
 				// data should be dataFromBeforeLogin or from answer depending on...
@@ -285,10 +289,6 @@ var CORA = (function(cora) {
 
 		function addToEditView(recordGuiToAdd, metadataIdUsedInData) {
 			var editViewId = spec.presentationFormId;
-			if (spec.presentationMode === "new") {
-				editViewId = spec.newPresentationFormId;
-
-			}
 
 			var editView = recordGuiToAdd.getPresentation(editViewId, metadataIdUsedInData)
 					.getView();
@@ -375,7 +375,9 @@ var CORA = (function(cora) {
 			handleMsg : handleMsg,
 			getDataIsChanged : getDataIsChanged,
 			copyData : copyData,
-			showData : showData
+			showData : showData,
+			sendUpdateDataToServer : sendUpdateDataToServer,
+			shouldRecordBeDeleted : shouldRecordBeDeleted
 		});
 	};
 	return cora;
