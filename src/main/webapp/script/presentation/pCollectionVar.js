@@ -108,9 +108,9 @@ var CORA = (function(cora) {
 			var value = item.getFirstAtomicValueByNameInData("nameInData");
 
 			var cTextIdGroup = CORA.coraData(item.getFirstChildByNameInData("textId"));
-			var textId = cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			var textIdToTranslate = cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
-			var optionText = textProvider.getTranslation(textId);
+			var optionText = textProvider.getTranslation(textIdToTranslate);
 
 			return new Option(optionText, value);
 		}
@@ -198,8 +198,8 @@ var CORA = (function(cora) {
 
 			var item = getMetadataById(itemRefId);
 			var cTextIdGroup = CORA.coraData(item.getFirstChildByNameInData("textId"));
-			var textId = cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-			var outputText = textProvider.getTranslation(textId);
+			var textIdToTranslate = cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			var outputText = textProvider.getTranslation(textIdToTranslate);
 			valueView.textContent = outputText;
 		}
 
