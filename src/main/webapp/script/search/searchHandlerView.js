@@ -54,11 +54,11 @@ var CORA = (function(cora) {
 			buttonViewToAddTo.appendChild(searchButton);
 		}
 
-		function createButton(text, onclickMethod) {
+		function createButton() {
 			var button = document.createElement("input");
 			button.type = "button";
 			button.value = dependencies.textProvider.getTranslation("theClient_searchButtonText");
-			button.onclick = onclickMethod;
+			button.onclick = spec.searchMethod;
 			button.className = "searchButton";
 			return button;
 		}

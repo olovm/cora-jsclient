@@ -26,7 +26,8 @@ QUnit.module("searchHandlerViewFactoryTest.js", {
 		};
 
 		this.spec = {
-			"searchButtonText" : "buttonText"
+			"searchMethod" : function() {
+			}
 		};
 	},
 	afterEach : function() {

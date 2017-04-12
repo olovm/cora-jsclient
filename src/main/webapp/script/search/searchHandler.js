@@ -27,8 +27,8 @@ var CORA = (function(cora) {
 
 		function start() {
 			var viewSpec = {
-//				"searchButtonText" : dependencies.textProvider.getTranslation("")
-			}
+				"searchMethod" : search
+			};
 			view = dependencies.searchHandlerViewFactory.factor(viewSpec);
 			var managedGuiItemSpec = {
 				"activateMethod" : spec.showViewMethod,
@@ -69,13 +69,18 @@ var CORA = (function(cora) {
 			view.addPresentationToSearchFormHolder(document.createTextNode(JSON.stringify(data)));
 		}
 
+		function search() {
+
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
 		start();
 		return Object.freeze({
 			"type" : "searchHandler",
-			getDependencies : getDependencies
+			getDependencies : getDependencies,
+			search : search
 		});
 	};
 	return cora;
