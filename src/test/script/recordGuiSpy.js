@@ -36,10 +36,11 @@ var CORATEST = (function(coraTest) {
 			};
 		}
 		var pubSub = CORATEST.pubSubSpy();
-
+		
+		var dataHolderData = {};
 		var dataHolder = {
 			"getData" : function() {
-				return dataHolderData;
+				 return dataHolderData;
 			}
 		};
 		function getPresentation(presentationId, metadataIdUsedInData) {

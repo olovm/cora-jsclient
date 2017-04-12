@@ -54,7 +54,7 @@ var CORA = (function(cora) {
 				"recordTypeProvider" : recordTypeProvider,
 				"dataDivider" : dataDivider,
 				"uploadManager" : uploadManager,
-				"ajaxCallFactory":dependencies.ajaxCallFactory
+				"ajaxCallFactory" : dependencies.ajaxCallFactory
 			};
 			var presentationFactory = CORA.presentationFactory(dependenciesPresentationFactory);
 

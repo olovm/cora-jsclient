@@ -84,9 +84,9 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function tryToCreateGuiForNew(oldData) {
+		function tryToCreateGuiForNew(copiedData) {
 			var metadataId = spec.newMetadataId;
-			recordGui = createRecordGui(metadataId, oldData);
+			recordGui = createRecordGui(metadataId, copiedData);
 			addNewRecordToWorkView(recordGui, metadataId);
 			addRecordToMenuView(recordGui, metadataId);
 			recordGui.initMetadataControllerStartingGui();
@@ -177,7 +177,6 @@ var CORA = (function(cora) {
 		}
 
 		function resetViewsAndProcessFetchedRecord(answer) {
-			presentationMode = "edit";
 			busy.hideWithEffect();
 			recordHandlerView.clearViews();
 			var messageSpec = {
@@ -244,7 +243,7 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordToWorkView(recordGuiToAdd, metadataIdUsedInData) {
-			if (notAbstractRecordRecordType()) {
+			if (recordRecordTypeIsNotAbstract()) {
 
 				if (recordHasDeleteLink()) {
 					recordHandlerView.addButton("DELETE", shouldRecordBeDeleted, "delete");
@@ -270,7 +269,7 @@ var CORA = (function(cora) {
 			spec.createRecordHandlerMethod("new", recordGui.dataHolder.getData());
 		}
 
-		function notAbstractRecordRecordType() {
+		function recordRecordTypeIsNotAbstract() {
 			return "true" !== spec["abstract"];
 		}
 
