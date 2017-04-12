@@ -21,6 +21,10 @@
 
 QUnit.module("searchHandlerViewFactoryTest.js", {
 	beforeEach : function() {
+		this.dependencies = {
+			"textProvider" : CORATEST.textProviderSpy()
+		};
+
 		this.spec = {
 			"searchButtonText" : "buttonText"
 		};
@@ -30,27 +34,34 @@ QUnit.module("searchHandlerViewFactoryTest.js", {
 });
 
 QUnit.test("testInit", function(assert) {
-	var searchHandlerViewFactory = CORA.searchHandlerViewFactory();
+	var searchHandlerViewFactory = CORA.searchHandlerViewFactory(this.dependencies);
 	assert.strictEqual(searchHandlerViewFactory.type, "searchHandlerViewFactory");
 });
 
+QUnit.test("testGetDependencies", function(assert) {
+	var searchHandlerViewFactory = CORA.searchHandlerViewFactory(this.dependencies);
+	assert.strictEqual(searchHandlerViewFactory.getDependencies(), this.dependencies);
+});
+
 QUnit.test("testFactor", function(assert) {
-	var searchHandlerViewFactory = CORA.searchHandlerViewFactory();
+	var searchHandlerViewFactory = CORA.searchHandlerViewFactory(this.dependencies);
 	var searchHandlerView = searchHandlerViewFactory.factor(this.spec);
 	assert.strictEqual(searchHandlerView.type, "searchHandlerView");
 });
 
 QUnit.test("factorTestDependencies", function(assert) {
-	var searchHandlerViewFactory = CORA.searchHandlerViewFactory();
+	var searchHandlerViewFactory = CORA.searchHandlerViewFactory(this.dependencies);
 	var searchHandlerView = searchHandlerViewFactory.factor(this.spec);
 	assert.strictEqual(searchHandlerView.getDependencies().workItemViewFactory.type,
 			"workItemViewFactory");
 	assert.strictEqual(searchHandlerView.getDependencies().messageHolderFactory.type,
 			"messageHolderFactory");
+	assert.strictEqual(searchHandlerView.getDependencies().textProvider,
+			this.dependencies.textProvider);
 });
 
 QUnit.test("factorTestSpec", function(assert) {
-	var searchHandlerViewFactory = CORA.searchHandlerViewFactory();
+	var searchHandlerViewFactory = CORA.searchHandlerViewFactory(this.dependencies);
 	var searchHandlerView = searchHandlerViewFactory.factor(this.spec);
 	assert.strictEqual(searchHandlerView.getSpec(), this.spec);
 });

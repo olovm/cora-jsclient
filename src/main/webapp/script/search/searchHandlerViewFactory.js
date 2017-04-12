@@ -19,9 +19,10 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.searchHandlerViewFactory = function() {
+	cora.searchHandlerViewFactory = function(dependencies) {
 
 		var dep = {
+			"textProvider" : dependencies.textProvider,
 			"workItemViewFactory" : CORA.workItemViewFactory(),
 			"messageHolderFactory" : CORA.messageHolderFactory()
 		};
@@ -30,8 +31,13 @@ var CORA = (function(cora) {
 			return CORA.searchHandlerView(dep, spec);
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
 		var out = Object.freeze({
 			"type" : "searchHandlerViewFactory",
+			getDependencies : getDependencies,
 			factor : factor
 		});
 		return out;

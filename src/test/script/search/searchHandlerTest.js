@@ -33,7 +33,7 @@ QUnit.module("searchHandlerTest.js", {
 			"searchHandlerViewFactory" : CORATEST.standardFactorySpy("searchHandlerViewSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 			"recordGuiFactory" : CORATEST.recordGuiFactorySpy(),
-			"textProvider" : CORATEST.textProviderSpy()
+//			"textProvider" : CORATEST.textProviderSpy()
 		}
 		this.spec = {
 			"addToSearchRecordHandlerMethod" : function(managedGuiItem) {
@@ -68,11 +68,11 @@ QUnit.test("testInitViewCreatedUsingFactory", function(assert) {
 	assert.strictEqual(factoredView.type, "searchHandlerViewSpy");
 });
 
-QUnit.test("testInitViewSpec", function(assert) {
-	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
-	var factoredSpec = this.dependencies.searchHandlerViewFactory.getSpec(0);
-	assert.strictEqual(factoredSpec.searchButtonText, this.dependencies.textProvider.getTranslation(""));
-});
+//QUnit.test("testInitViewSpec", function(assert) {
+//	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+//	var factoredSpec = this.dependencies.searchHandlerViewFactory.getSpec(0);
+////	assert.strictEqual(factoredSpec.searchButtonText, this.dependencies.textProvider.getTranslation(""));
+//});
 
 QUnit.test("testInitManagedGuiItemCreatedUsingFactory", function(assert) {
 	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);

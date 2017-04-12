@@ -22,11 +22,14 @@ var CORA = (function(cora) {
 	cora.searchHandlerFactory = function(dependencies) {
 
 		function factor(spec) {
-			var dep = {
-				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(),
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"recordGuiFactory" : dependencies.recordGuiFactory,
+			var viewDep = {
 				"textProvider" : dependencies.textProvider
+			};
+
+			var dep = {
+				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(viewDep),
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+				"recordGuiFactory" : dependencies.recordGuiFactory
 			};
 			return CORA.searchHandler(dep, spec);
 		}

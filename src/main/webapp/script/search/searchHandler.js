@@ -27,7 +27,7 @@ var CORA = (function(cora) {
 
 		function start() {
 			var viewSpec = {
-				"searchButtonText" : dependencies.textProvider.getTranslation("")
+//				"searchButtonText" : dependencies.textProvider.getTranslation("")
 			}
 			view = dependencies.searchHandlerViewFactory.factor(viewSpec);
 			var managedGuiItemSpec = {

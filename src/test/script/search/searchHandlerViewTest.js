@@ -23,11 +23,10 @@ QUnit.module("searchHandlerViewTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
 			"workItemViewFactory" : CORATEST.standardFactorySpy("workItemViewSpy"),
-			"messageHolderFactory" : CORATEST.standardFactorySpy("messageHolderSpy")
+			"messageHolderFactory" : CORATEST.standardFactorySpy("messageHolderSpy"),
+			"textProvider" : CORATEST.textProviderSpy()
 		};
-		this.spec = {
-			"searchButtonText" : "buttonText"
-		}
+		this.spec = {}
 	},
 	afterEach : function() {
 	}
@@ -87,8 +86,9 @@ QUnit.test("testInitSearchButtonCreatedAndAddedButtonView", function(assert) {
 	var searchButton = buttonView.lastChild;
 	assert.strictEqual(searchButton.nodeName, "INPUT");
 	assert.strictEqual(searchButton.type, "button");
-	 assert.strictEqual(searchButton.value, this.spec.searchButtonText);
-	 assert.strictEqual(searchButton.className, "searchButton");
+	assert.strictEqual(searchButton.value, this.dependencies.textProvider
+			.getTranslation("theClient_searchButtonText"));
+	assert.strictEqual(searchButton.className, "searchButton");
 });
 
 QUnit.test("testGetSpec", function(assert) {

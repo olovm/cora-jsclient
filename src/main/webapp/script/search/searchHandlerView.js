@@ -49,15 +49,15 @@ var CORA = (function(cora) {
 			addTo.appendChild(buttonView);
 		}
 
-		function createSearchButtonIn(buttonView) {
+		function createSearchButtonIn(buttonViewToAddTo) {
 			var searchButton = createButton();
-			buttonView.appendChild(searchButton);
+			buttonViewToAddTo.appendChild(searchButton);
 		}
 
 		function createButton(text, onclickMethod) {
 			var button = document.createElement("input");
 			button.type = "button";
-			button.value = spec.searchButtonText;
+			button.value = dependencies.textProvider.getTranslation("theClient_searchButtonText");
 			button.onclick = onclickMethod;
 			button.className = "searchButton";
 			return button;
