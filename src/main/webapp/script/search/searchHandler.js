@@ -70,7 +70,7 @@ var CORA = (function(cora) {
 		}
 
 		function search() {
-
+			recordGui.validateData();
 		}
 
 		function getDependencies() {

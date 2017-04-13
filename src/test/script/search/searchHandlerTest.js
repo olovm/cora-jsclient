@@ -149,6 +149,9 @@ QUnit.test("testInitRecordGuiErrorsShownInForm", function(assert) {
 
 QUnit.test("testSearch", function(assert) {
 	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
 	searchHandler.search();
-//	assert.strictEqual(factoredSpec.searchMethod, searchHandler.search);
+	assert.strictEqual(factoredGui.getDataValidated(), 1);
+	
 });

@@ -24,6 +24,7 @@ var CORATEST = (function(coraTest) {
 		var metadataIdsUsedInData = [];
 		var returnedPresentations = [];
 		var initCalled = 0;
+		var dataValidated = 0;
 		function getDependencies() {
 			return dependencies;
 		}
@@ -36,11 +37,11 @@ var CORATEST = (function(coraTest) {
 			};
 		}
 		var pubSub = CORATEST.pubSubSpy();
-		
+
 		var dataHolderData = {};
 		var dataHolder = {
 			"getData" : function() {
-				 return dataHolderData;
+				return dataHolderData;
 			}
 		};
 		function getPresentation(presentationId, metadataIdUsedInData) {
@@ -56,9 +57,16 @@ var CORATEST = (function(coraTest) {
 		function getInitCalled() {
 			return initCalled;
 		}
+
 		function validateData() {
+			dataValidated++;
 			return true;
 		}
+
+		function getDataValidated() {
+			return dataValidated;
+		}
+
 		function getPresentationIdUsed(number) {
 			return presentationIdUsed[number];
 		}
@@ -82,6 +90,7 @@ var CORATEST = (function(coraTest) {
 			initMetadataControllerStartingGui : initMetadataControllerStartingGui,
 			getInitCalled : getInitCalled,
 			validateData : validateData,
+			getDataValidated : getDataValidated,
 			getPresentationIdUsed : getPresentationIdUsed,
 			getMetadataIdsUsedInData : getMetadataIdsUsedInData,
 			getReturnedPresentations : getReturnedPresentations
