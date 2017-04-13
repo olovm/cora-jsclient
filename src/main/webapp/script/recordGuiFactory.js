@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -26,7 +26,11 @@ var CORA = (function(cora) {
 
 		var self;
 
-		var factor = function(metadataId, data, dataDivider) {
+		var factor = function(spec) {
+			var metadataId = spec.metadataId;
+			var data = spec.data;
+			var dataDivider = spec.dataDivider;
+
 			var pubSub = CORA.pubSub();
 			var specDataHolder = {
 				"metadataId" : metadataId,
@@ -59,7 +63,7 @@ var CORA = (function(cora) {
 			var presentationFactory = CORA.presentationFactory(dependenciesPresentationFactory);
 
 			function getPresentation(presentationId, metadataIdUsedInData) {
-				var spec = {
+				var spec1 = {
 					"presentationId" : presentationId,
 					"metadataIdUsedInData" : metadataIdUsedInData,
 					"metadataProvider" : metadataProvider,
@@ -68,7 +72,7 @@ var CORA = (function(cora) {
 					"jsBookkeeper" : jsBookkeeper,
 					"presentationFactory" : presentationFactory
 				};
-				return CORA.presentation(spec);
+				return CORA.presentation(spec1);
 			}
 
 			var metadataController;
@@ -87,13 +91,13 @@ var CORA = (function(cora) {
 			}
 
 			function validateData() {
-				var spec = {
+				var spec2 = {
 					"metadataId" : metadataId,
 					"data" : dataHolder.getData(),
 					"metadataProvider" : metadataProvider,
 					"pubSub" : pubSub
 				};
-				return CORA.metadataValidator(spec);
+				return CORA.metadataValidator(spec2);
 			}
 
 			return Object.freeze({

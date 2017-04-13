@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -54,7 +54,11 @@ QUnit.module("recordViewerTest.js", {
 		this.dataDividerUsed = [];
 		var dataDividerUsed = this.dataDividerUsed;
 		this.recordGuiFactorySpy = {
-			"factor" : function(metadataId, data, dataDivider) {
+			"factor" : function(spec) {
+				var metadataId = spec.metadataId;
+				var data = spec.data;
+				var dataDivider = spec.dataDivider;
+
 				metadataIdUsed.push(metadataId);
 				dataDividerUsed.push(dataDivider);
 				return recordGui;
@@ -77,7 +81,7 @@ QUnit.module("recordViewerTest.js", {
 		this.answerCall = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecord = JSON.stringify({
-//				"record" : CORATEST.record
+				// "record" : CORATEST.record
 				"record" : CORATEST.recordTypeList.dataList.data[4].record
 			});
 			var answer = {

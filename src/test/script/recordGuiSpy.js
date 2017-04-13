@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,13 +19,14 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	// coraTest.recordGuiSpy = function(dependencies, spec) {
-	coraTest.recordGuiSpy = function(metadataId, data, dataDivider) {
+	coraTest.recordGuiSpy = function() {
+
 		var presentationIdUsed = [];
 		var metadataIdsUsedInData = [];
 		var returnedPresentations = [];
 		var initCalled = 0;
 		var dataValidated = 0;
+		var validateAnswer = true;
 		function getDependencies() {
 			return dependencies;
 		}
@@ -60,9 +62,11 @@ var CORATEST = (function(coraTest) {
 
 		function validateData() {
 			dataValidated++;
-			return true;
+			return validateAnswer;
 		}
-
+		function setValidateAnswer(answer) {
+			validateAnswer = answer;
+		}
 		function getDataValidated() {
 			return dataValidated;
 		}
@@ -91,6 +95,7 @@ var CORATEST = (function(coraTest) {
 			getInitCalled : getInitCalled,
 			validateData : validateData,
 			getDataValidated : getDataValidated,
+			setValidateAnswer : setValidateAnswer,
 			getPresentationIdUsed : getPresentationIdUsed,
 			getMetadataIdsUsedInData : getMetadataIdsUsedInData,
 			getReturnedPresentations : getReturnedPresentations

@@ -56,7 +56,12 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordGui(metadataId, data, dataDivider) {
-			return dependencies.recordGuiFactory.factor(metadataId, data, dataDivider);
+			var recordGuiSpec = {
+				"metadataId" : metadataId,
+				"data" : data,
+				"dataDivider" : dataDivider
+			};
+			return dependencies.recordGuiFactory.factor(recordGuiSpec);
 		}
 
 		function addNewRecordToWorkView(recordGuiToAdd, metadataIdUsedInData) {
