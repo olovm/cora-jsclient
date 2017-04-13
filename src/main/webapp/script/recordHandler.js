@@ -95,8 +95,6 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordGui(metadataId, data, dataDivider) {
-			// var createdRecordGui = dependencies.recordGuiFactory.factor(metadataId, data,
-			// dataDivider);
 			var recordGuiSpec = {
 				"metadataId" : metadataId,
 				"data" : data,

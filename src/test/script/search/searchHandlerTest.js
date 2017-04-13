@@ -32,8 +32,8 @@ QUnit.module("searchHandlerTest.js", {
 		this.dependencies = {
 			"searchHandlerViewFactory" : CORATEST.standardFactorySpy("searchHandlerViewSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
-			"recordGuiFactory" : CORATEST.recordGuiFactorySpy(),
-//			"textProvider" : CORATEST.textProviderSpy()
+			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
+			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy")
 		}
 		this.spec = {
 			"addToSearchRecordHandlerMethod" : function(managedGuiItem) {
@@ -45,7 +45,13 @@ QUnit.module("searchHandlerTest.js", {
 			"removeViewMethod" : function() {
 			},
 			"metadataId" : "someMetadataId",
-			"presentationId" : "somePresentationId"
+			"presentationId" : "somePresentationId",
+			"searchLink" : {
+				"requestMethod" : "GET",
+				"rel" : "search",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/coraTextSearch/",
+				"accept" : "application/uub+recordList+json"
+			}
 		}
 	},
 	afterEach : function() {
@@ -153,5 +159,27 @@ QUnit.test("testSearch", function(assert) {
 	assert.strictEqual(factoredGui.getDataValidated(), 0);
 	searchHandler.search();
 	assert.strictEqual(factoredGui.getDataValidated(), 1);
+
+	var ajaxCallSpec = this.dependencies.ajaxCallFactory.getSpec(0);
+	assert.strictEqual(ajaxCallSpec.url, this.spec.searchLink.url);
+	assert.strictEqual(ajaxCallSpec.requestMethod, this.spec.searchLink.requestMethod);
+	assert.strictEqual(ajaxCallSpec.accept, this.spec.searchLink.accept);
+	assert.strictEqual(ajaxCallSpec.contentType, undefined);
+
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(ajaxCallSpec.data, JSON.stringify(factoredGui.dataHolder.getData()));
+	// assert.strictEqual(ajaxCallSpec.loadMethod, );
+	// assert.strictEqual(ajaxCallSpec.errorMethod, );
+});
+
+QUnit.test("testSearchNotValidDataNoAjaxCall", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	factoredGui.setValidateAnswer(false);
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	searchHandler.search();
+	assert.strictEqual(factoredGui.getDataValidated(), 1);
 	
+	var ajaxCallSpec = this.dependencies.ajaxCallFactory.getSpec(0);
+	assert.strictEqual(ajaxCallSpec, undefined);
 });

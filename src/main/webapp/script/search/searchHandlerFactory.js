@@ -29,7 +29,8 @@ var CORA = (function(cora) {
 			var dep = {
 				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(viewDep),
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"recordGuiFactory" : dependencies.recordGuiFactory
+				"recordGuiFactory" : dependencies.recordGuiFactory,
+				"ajaxCallFactory" : dependencies.ajaxCallFactory
 			};
 			return CORA.searchHandler(dep, spec);
 		}

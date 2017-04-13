@@ -75,7 +75,20 @@ var CORA = (function(cora) {
 		}
 
 		function search() {
-			recordGui.validateData();
+			if (recordGui.validateData()) {
+
+				var link = spec.searchLink;
+				var callSpec = {
+					"url" : link.url,
+					"requestMethod" : link.requestMethod,
+					"accept" : link.accept,
+					"data" : JSON.stringify(recordGui.dataHolder.getData())
+				// "loadMethod" : callAfterAnswer,
+				// "errorMethod" : callError,
+
+				};
+				dependencies.ajaxCallFactory.factor(callSpec);
+			}
 		}
 
 		function getDependencies() {
