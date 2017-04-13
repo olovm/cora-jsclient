@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -22,7 +22,7 @@ QUnit.module("recordGuiFactoryTest.js", {
 		var dependencies = {
 			"metadataProvider" : new MetadataProviderStub(),
 			"textProvider" : CORATEST.textProviderStub(),
-			
+
 		}
 		this.recordGuiFactory = CORA.recordGuiFactory(dependencies);
 	},
@@ -35,14 +35,20 @@ QUnit.test("testInit", function(assert) {
 });
 
 QUnit.test("testFactorTestDataDivider", function(assert) {
-	var metadataId = "groupIdOneTextChild";
-	var recordGui = this.recordGuiFactory.factor(metadataId, undefined, "systemY");
-	assert.strictEqual(recordGui.presentationFactory.getDataDivider(), "systemY");
+	var spec = {
+		"metadataId" : "groupIdOneTextChild",
+		// "data" : data,
+		"dataDivider" : "systemY"
+	};
+	var recordGui = this.recordGuiFactory.factor(spec);
+	assert.strictEqual(recordGui.presentationFactory.getDataDivider(), spec.dataDivider);
 });
 
 QUnit.test("testFactor", function(assert) {
-	var metadataId = "groupIdOneTextChild";
-	var recordGui = this.recordGuiFactory.factor(metadataId, undefined);
+	var spec = {
+		"metadataId" : "groupIdOneTextChild"
+	};
+	var recordGui = this.recordGuiFactory.factor(spec);
 
 	assert.notStrictEqual(recordGui.getPresentation, undefined);
 	assert.notStrictEqual(recordGui.initMetadataControllerStartingGui, undefined);
@@ -57,8 +63,10 @@ QUnit.test("testFactor", function(assert) {
 });
 
 QUnit.test("testFactorGetPresentation", function(assert) {
-	var metadataId = "groupIdOneTextChild";
-	var recordGui = this.recordGuiFactory.factor(metadataId, undefined);
+	var spec = {
+		"metadataId" : "groupIdOneTextChild"
+	};
+	var recordGui = this.recordGuiFactory.factor(spec);
 
 	var presentation = recordGui.getPresentation("pgGroupIdOneTextChild", "groupIdOneTextChild");
 
@@ -67,20 +75,24 @@ QUnit.test("testFactorGetPresentation", function(assert) {
 });
 
 QUnit.test("testFactorInitMetadataControllerStartingGui", function(assert) {
-	var metadataId = "groupIdOneTextChild";
-	var recordGui = this.recordGuiFactory.factor(metadataId, undefined);
+	var spec = {
+		"metadataId" : "groupIdOneTextChild"
+	};
+	var recordGui = this.recordGuiFactory.factor(spec);
 
 	recordGui.initMetadataControllerStartingGui();
 	assert.notStrictEqual(recordGui.getMetadataController(), undefined);
 });
 
 QUnit.test("testFactorValidateData", function(assert) {
-	var metadataId = "groupIdOneTextChild";
-	var recordGui = this.recordGuiFactory.factor(metadataId, undefined);
+	var spec = {
+		"metadataId" : "groupIdOneTextChild"
+	};
+	var recordGui = this.recordGuiFactory.factor(spec);
 	recordGui.initMetadataControllerStartingGui();
-	
+
 	var validData = recordGui.validateData();
-	
+
 	assert.notStrictEqual(validData, undefined);
-	
+
 });

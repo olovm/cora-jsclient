@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -71,7 +71,12 @@ var CORA = (function(cora) {
 
 		function createRecordGui(metadataId, data) {
 			var dataDivider = getDataDividerFromData(data);
-			var createdRecordGui = spec.recordGuiFactory.factor(metadataId, data, dataDivider);
+			var recordGuiSpec = {
+				"metadataId" : metadataId,
+				"data" : data,
+				"dataDivider" : dataDivider
+			};
+			var createdRecordGui = spec.recordGuiFactory.factor(recordGuiSpec);
 			return createdRecordGui;
 		}
 
@@ -95,7 +100,7 @@ var CORA = (function(cora) {
 
 		return Object.freeze({
 			getView : getView,
-			processFetchedRecord:processFetchedRecord
+			processFetchedRecord : processFetchedRecord
 		});
 	};
 	return cora;

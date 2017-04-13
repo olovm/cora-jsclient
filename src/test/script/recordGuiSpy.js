@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,12 +19,14 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	// coraTest.recordGuiSpy = function(dependencies, spec) {
-	coraTest.recordGuiSpy = function(metadataId, data, dataDivider) {
+	coraTest.recordGuiSpy = function() {
+
 		var presentationIdUsed = [];
 		var metadataIdsUsedInData = [];
 		var returnedPresentations = [];
 		var initCalled = 0;
+		var dataValidated = 0;
+		var validateAnswer = true;
 		function getDependencies() {
 			return dependencies;
 		}
@@ -36,11 +39,11 @@ var CORATEST = (function(coraTest) {
 			};
 		}
 		var pubSub = CORATEST.pubSubSpy();
-		
+
 		var dataHolderData = {};
 		var dataHolder = {
 			"getData" : function() {
-				 return dataHolderData;
+				return dataHolderData;
 			}
 		};
 		function getPresentation(presentationId, metadataIdUsedInData) {
@@ -56,9 +59,18 @@ var CORATEST = (function(coraTest) {
 		function getInitCalled() {
 			return initCalled;
 		}
+
 		function validateData() {
-			return true;
+			dataValidated++;
+			return validateAnswer;
 		}
+		function setValidateAnswer(answer) {
+			validateAnswer = answer;
+		}
+		function getDataValidated() {
+			return dataValidated;
+		}
+
 		function getPresentationIdUsed(number) {
 			return presentationIdUsed[number];
 		}
@@ -82,6 +94,8 @@ var CORATEST = (function(coraTest) {
 			initMetadataControllerStartingGui : initMetadataControllerStartingGui,
 			getInitCalled : getInitCalled,
 			validateData : validateData,
+			getDataValidated : getDataValidated,
+			setValidateAnswer : setValidateAnswer,
 			getPresentationIdUsed : getPresentationIdUsed,
 			getMetadataIdsUsedInData : getMetadataIdsUsedInData,
 			getReturnedPresentations : getReturnedPresentations

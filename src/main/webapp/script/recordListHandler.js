@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -80,9 +80,12 @@ var CORA = (function(cora) {
 			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
 			var presentationId = spec.listPresentationViewId;
 			var dataDivider = getDataDividerFromData(record.data);
-			var recordGui = dependencies.recordGuiFactory.factor(metadataId, record.data,
-					dataDivider);
-
+			var recordGuiSpec = {
+				"metadataId" : metadataId,
+				"data" : record.data,
+				"dataDivider" : dataDivider
+			};
+			var recordGui = dependencies.recordGuiFactory.factor(recordGuiSpec);
 			var presentationView = recordGui.getPresentation(presentationId, metadataId).getView();
 			recordGui.initMetadataControllerStartingGui();
 			view.appendChild(presentationView);
@@ -97,9 +100,9 @@ var CORA = (function(cora) {
 			var newView = CORA.gui.createSpanWithClassName("listItem " + recordId);
 			newView.onclick = function(event) {
 				var loadInBackground = "false";
-				 if(event.ctrlKey){
-					 loadInBackground = "true";
-				 }
+				if (event.ctrlKey) {
+					loadInBackground = "true";
+				}
 				spec.createRecordHandlerMethod("view", record, loadInBackground);
 			};
 			return newView;
