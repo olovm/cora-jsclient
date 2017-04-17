@@ -33,7 +33,8 @@ var CORA = (function(cora) {
 		var cRef = CORA.coraData(cParentMetadataChildRefPart.getFirstChildByNameInData("ref"));
 		var metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 		var cMetadataElement = getMetadataById(metadataId);
-		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
+		
+		var textId = getTextId(cMetadataElement)	;	
 		var text = dependencies.textProvider.getTranslation(textId);
 
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
@@ -71,6 +72,14 @@ var CORA = (function(cora) {
 					return spanNew;
 				}
 			};
+		}
+		
+		function getTextId(cMetadataElement){
+			if(cMetadataElement.getFirstAtomicValueByNameInData("textId") !== undefined){
+				return cMetadataElement.getFirstAtomicValueByNameInData("textId");
+			}
+			var cTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("textId"));
+			return cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function findPresentationId(cPresentationToSearch) {

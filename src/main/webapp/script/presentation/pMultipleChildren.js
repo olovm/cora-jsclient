@@ -38,10 +38,20 @@ var CORA = (function(cora) {
 		function init() {
 			cMetadataElement = getMetadataById(my.metadataId);
 			nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
-
-			textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
+			
+			if(cMetadataElement.getFirstAtomicValueByNameInData("textId") !== undefined){
+				textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
+			}else{
+				var cTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("textId"));
+				textId = cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			}	
 			text = textProvider.getTranslation(textId);
-			defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
+			if(cMetadataElement.getFirstAtomicValueByNameInData("defTextId") !== undefined){
+				defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
+			}else{
+				var cDefTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("defTextId"));
+				defTextId = cDefTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			}	
 			defText = textProvider.getTranslation(defTextId);
 
 			var viewNew = my.createBaseViewHolder();
