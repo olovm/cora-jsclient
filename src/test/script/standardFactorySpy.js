@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -18,28 +18,27 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.recordListHandlerFactorySpy = function() {
-		var dummyDependencies = {};
-		var listOfFactored = [];
-		var listOfSpec = [];
+	coraTest.standardFactorySpy = function(toFactor) {
+		var factoredList = [];
+		var factoredSpec = [];
 
-		function factor(factorSpec) {
-			listOfSpec.push(factorSpec);
-			var factored = CORATEST.recordListHandlerSpy(dummyDependencies, factorSpec);
-			listOfFactored.push(factored);
+		function factor(standardSpec) {
+			factoredSpec.push(standardSpec);
+			var factored = CORATEST[toFactor]({}, standardSpec);
+			factoredList.push(factored);
 			return factored;
 		}
 
 		function getFactored(number) {
-			return listOfFactored[number];
+			return factoredList[number];
 		}
 
 		function getSpec(number) {
-			return listOfSpec[number];
+			return factoredSpec[number];
 		}
 
 		var out = Object.freeze({
-			"type" : "recordListHandlerFactorySpy",
+			"type" : "standardFactorySpy",
 			factor : factor,
 			getFactored : getFactored,
 			getSpec : getSpec

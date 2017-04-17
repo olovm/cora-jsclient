@@ -67,11 +67,21 @@ var CORA = (function(cora) {
 		}
 
 		function addManagedGuiItem(managedGuiItem) {
-			managedGuiItem.menuView.modelObject = managedGuiItem;
-			childrenView.appendChild(managedGuiItem.menuView);
+			childrenView.appendChild(managedGuiItem.getMenuView());
+		}
+
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
 		}
 
 		out = Object.freeze({
+			"type" : "recordTypeHandlerView",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			addManagedGuiItem : addManagedGuiItem
 		});

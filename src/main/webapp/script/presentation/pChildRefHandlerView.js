@@ -67,7 +67,7 @@ var CORA = (function(cora) {
 		function createAddButton() {
 			var button = document.createElement("input");
 			button.type = "button";
-			button.value = "ADD";
+			button.value = spec.addText;
 			button.onclick = spec.addMethod;
 			return button;
 		}

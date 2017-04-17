@@ -33,6 +33,8 @@ var CORA = (function(cora) {
 		var cRef = CORA.coraData(cParentMetadataChildRefPart.getFirstChildByNameInData("ref"));
 		var metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 		var cMetadataElement = getMetadataById(metadataId);
+		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
+		var text = dependencies.textProvider.getTranslation(textId);
 
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
 		var repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
@@ -102,7 +104,8 @@ var CORA = (function(cora) {
 		function createPChildRefHandlerView() {
 			var pChildRefHandlerViewSpec = {
 				"presentationId" : presentationId,
-				"isRepeating" : isRepeating
+				"isRepeating" : isRepeating,
+				"addText" : "+ " + text
 			};
 			if (spec.textStyle !== undefined) {
 				pChildRefHandlerViewSpec.textStyle = spec.textStyle;
@@ -289,8 +292,7 @@ var CORA = (function(cora) {
 			if (hasMinimizedPresentation()) {
 				var presentationMinimized = factorPresentation(path, spec.cPresentationMinimized,
 						metadataIdToAdd);
-				repeatingElement.addPresentationMinimized(presentationMinimized,
-						spec.minimizedDefault);
+				repeatingElement.addPresentationMinimized(presentationMinimized);
 			}
 		}
 

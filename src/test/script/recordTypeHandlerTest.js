@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -17,367 +18,54 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.assertCorrectFactoredSpec = function(assert, factoredSpec) {
+		assert.strictEqual(factoredSpec.recordTypeRecordId, "metadataCollectionItem");
+		var expectedCreateLink = {
+				"requestMethod" : "POST",
+				"rel" : "create",
+				"contentType" : "application/uub+record+json",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/uub+record+json"
+		};
+		assert.stringifyEqual(factoredSpec.createLink, expectedCreateLink);
+		assert.strictEqual(factoredSpec.newMetadataId, "metadataCollectionItemNewGroup");
+		assert.strictEqual(factoredSpec.newPresentationFormId, "metadataCollectionItemFormNewPGroup");
+		assert.strictEqual(factoredSpec.presentationViewId, "metadataCollectionItemViewPGroup");
+		assert.strictEqual(factoredSpec.presentationFormId, "metadataCollectionItemFormPGroup");
+		assert.strictEqual(factoredSpec.menuPresentationViewId, "metadataCollectionItemMenuPGroup");
+		assert.strictEqual(factoredSpec.abstract, "false");
+	};
 
-QUnit
-		.module(
-				"recordTypeHandlerTest.js",
-				{
-					beforeEach : function() {
-						this.record = {
-							"data" : {
-								"children" : [ {
-									"children" : [ {
-										"name" : "id",
-										"value" : "metadataCollectionItem"
-									}, {
-										"name" : "type",
-										"value" : "recordType"
-									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									}, {
-										"name" : "updatedBy",
-										"value" : "userId"
-									} ],
-									"name" : "recordInfo"
-								}, {
-									"name" : "metadataId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "metadataGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemGroup"
-									} ]
-								}, {
-									"name" : "presentationViewId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemViewPGroup"
-									} ]
-								}, {
-									"name" : "presentationFormId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemFormPGroup"
-									} ]
-								}, {
-									"name" : "newMetadataId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "metadataGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemNewGroup"
-									} ]
-								}, {
-									"name" : "newPresentationFormId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemFormNewPGroup"
-									} ]
-								}, {
-									"name" : "menuPresentationViewId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemMenuPGroup"
-									} ]
-								}, {
-									"name" : "listPresentationViewId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemListPGroup"
-									} ]
-								}, {
-									"name" : "searchMetadataId",
-									"value" : "metadataCollectionItemSearchGroup"
-								}, {
-									"name" : "searchPresentationFormId",
-									"value" : "metadataCollectionItemFormSearchPGroup"
-								}, {
-									"name" : "userSuppliedId",
-									"value" : "true"
-								}, {
-									"name" : "selfPresentationViewId",
-									"value" : "metadataCollectionItemViewSelfPGroup"
-								}, {
-									"name" : "abstract",
-									"value" : "false"
-								}, {
-									"name" : "parentId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "recordType"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadata"
-									} ]
-								}, {
-									"name" : "textId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "coraText"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "fdagText"
-									} ]
-								}, {
-									"name" : "defTextId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "coraText"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "adfgDefText"
-									} ]
-								} ],
-								"name" : "recordType"
-							},
-							"actionLinks" : {
-								"search" : {
-									"requestMethod" : "GET",
-									"rel" : "search",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
-									"accept" : "application/uub+recordList+json"
-								},
-								"read" : {
-									"requestMethod" : "GET",
-									"rel" : "read",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem",
-									"accept" : "application/uub+record+json"
-								},
-								"update" : {
-									"requestMethod" : "POST",
-									"rel" : "update",
-									"contentType" : "application/uub+record+json",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem",
-									"accept" : "application/uub+record+json"
-								},
-								"create" : {
-									"requestMethod" : "POST",
-									"rel" : "create",
-									"contentType" : "application/uub+record+json",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
-									"accept" : "application/uub+record+json"
-								},
-								"list" : {
-									"requestMethod" : "GET",
-									"rel" : "list",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
-									"accept" : "application/uub+recordList+json"
-								},
-								"delete" : {
-									"requestMethod" : "DELETE",
-									"rel" : "delete",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem"
-								}
-							}
-						};
-						this.recordWithoutCreateLink = {
-							"data" : {
-								"children" : [ {
-									"children" : [ {
-										"name" : "id",
-										"value" : "metadataCollectionItem"
-									}, {
-										"name" : "type",
-										"value" : "recordType"
-									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									}, {
-										"name" : "updatedBy",
-										"value" : "userId"
-									} ],
-									"name" : "recordInfo"
-								}, {
-									"name" : "metadataId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "metadataGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemGroup"
-									} ]
-								}, {
-									"name" : "presentationViewId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemViewPGroup"
-									} ]
-								}, {
-									"name" : "presentationFormId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemFormPGroup"
-									} ]
-								}, {
-									"name" : "newMetadataId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "metadataGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemNewGroup"
-									} ]
-								}, {
-									"name" : "newPresentationFormId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemFormNewPGroup"
-									} ]
-								}, {
-									"name" : "menuPresentationViewId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemMenuPGroup"
-									} ]
-								}, {
-									"name" : "listPresentationViewId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationGroup"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadataCollectionItemListPGroup"
-									} ]
-								}, {
-									"name" : "searchMetadataId",
-									"value" : "metadataCollectionItemSearchGroup"
-								}, {
-									"name" : "searchPresentationFormId",
-									"value" : "metadataCollectionItemFormSearchPGroup"
-								}, {
-									"name" : "userSuppliedId",
-									"value" : "true"
-								}, {
-									"name" : "permissionKey",
-									"value" : "RECORDTYPE_METADATACOLLECTIONITEM"
-								}, {
-									"name" : "selfPresentationViewId",
-									"value" : "metadataCollectionItemViewSelfPGroup"
-								}, {
-									"name" : "abstract",
-									"value" : "false"
-								}, {
-									"name" : "parentId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "recordType"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "metadata"
-									} ]
-								}, {
-									"name" : "textId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "coraText"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "fdagText"
-									} ]
-								}, {
-									"name" : "defTextId",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "coraText"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "adfgDefText"
-									} ]
-								} ],
-								"name" : "recordType"
-							},
-							"actionLinks" : {
-								"search" : {
-									"requestMethod" : "GET",
-									"rel" : "search",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
-									"accept" : "application/uub+recordList+json"
-								},
-								"read" : {
-									"requestMethod" : "GET",
-									"rel" : "read",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem",
-									"accept" : "application/uub+record+json"
-								},
-								"update" : {
-									"requestMethod" : "POST",
-									"rel" : "update",
-									"contentType" : "application/uub+record+json",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem",
-									"accept" : "application/uub+record+json"
-								},
-								// "create": {
-								// "requestMethod": "POST",
-								// "rel": "create",
-								// "contentType": "application/uub+record+json",
-								// "url":
-								// "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
-								// "accept": "application/uub+record+json"
-								// },
-								"list" : {
-									"requestMethod" : "GET",
-									"rel" : "list",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/metadataCollectionItem/",
-									"accept" : "application/uub+recordList+json"
-								},
-								"delete" : {
-									"requestMethod" : "DELETE",
-									"rel" : "delete",
-									"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/metadataCollectionItem"
-								}
-							}
-						};
+	return coraTest;
+}(CORATEST || {}));
 
-						this.dependencies = {
-							"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-							"recordTypeHandlerViewFactory" : CORATEST
-									.recordTypeHandlerViewFactorySpy(),
-							"recordListHandlerFactory" : CORATEST.recordListHandlerFactorySpy(),
-							"recordHandlerFactory" : CORATEST.recordHandlerFactorySpy(),
-							"jsClient" : CORATEST.jsClientSpy()
-						};
+QUnit.module("recordTypeHandlerTest.js", {
+	beforeEach : function() {
+		this.record = CORATEST.recordTypeList.dataList.data[6].record;
+		this.recordWithoutCreateLink = JSON.parse(JSON.stringify(this.record));
+		this.recordWithoutCreateLink.actionLinks.create = undefined;
 
-						this.spec = {
-							"recordTypeRecord" : this.record,
-							"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-						};
-					},
-					afterEach : function() {
-					}
-				});
+		this.dependencies = {
+			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
+			"recordTypeHandlerViewFactory" : CORATEST.standardFactorySpy("recordTypeHandlerViewSpy"),
+			"recordListHandlerFactory" : CORATEST.standardFactorySpy("recordListHandlerSpy"),
+			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
+			"jsClient" : CORATEST.jsClientSpy()
+		};
+
+		this.spec = {
+			"recordTypeRecord" : this.record,
+			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
+		};
+	},
+	afterEach : function() {
+	}
+});
 
 QUnit.test("init", function(assert) {
-	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 
 	var view = recordTypeHandler.getView();
 	assert.strictEqual(view.className, "recordTypeFromRecordTypeHandlerSpy");
@@ -399,143 +87,78 @@ QUnit.test("initWithoutCreateButton", function(assert) {
 	assert.strictEqual(factoredViewSpec.createNewMethod, undefined);
 });
 
-QUnit.test("fetchList", function(assert) {
+QUnit.test("fetchListCheckSpec", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 
 	recordTypeHandler.createRecordTypeList();
-	var factoredListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	assert.strictEqual(factoredListHandlerSpec.createRecordHandlerMethod, 
-			recordTypeHandler.createRecordHandler);
-	
-	assert.strictEqual(factoredListHandlerSpec.recordTypeRecord, this.record);
-	assert.strictEqual(factoredListHandlerSpec.views, 
-			this.dependencies.jsClient.getCreatedManagedGuiItem(0));
-	assert.strictEqual(factoredListHandlerSpec.baseUrl, this.spec.baseUrl);
+	var factoredSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
+
+	assert.strictEqual(factoredSpec.addToRecordTypeHandlerMethod,
+			recordTypeHandler.addManagedGuiItem);
+	assert.strictEqual(factoredSpec.baseUrl, this.spec.baseUrl);
+
+	assert.strictEqual(factoredSpec.recordTypeRecordId, "metadataCollectionItem");
+	var expectedListLink = {
+		"requestMethod" : "GET",
+		"rel" : "list",
+		"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+		"accept" : "application/uub+recordList+json"
+	};
+	assert.stringifyEqual(factoredSpec.listLink, expectedListLink);
+	assert.strictEqual(factoredSpec.listPresentationViewId, "metadataCollectionItemListPGroup");
 });
 
 QUnit.test("showRecord", function(assert) {
-	var menuView = document.createElement("span");
-	var workView = document.createElement("span");
-	var catchRecordTypeHandlerViewSpec;
-	var catchRecordListHandlerSpec;
-	var catchRecordHandlerSpec;
-	var item = {
-		"workView" : workView,
-		"menuView" : menuView
-	};
-	var createManagedGuiItem = function() {
-		return item;
-	}
-	this.dependencies.recordTypeHandlerViewFactory = CORATEST.recordTypeHandlerViewFactorySpy();
-	this.dependencies.recordListHandlerFactory = {
-		"factor" : function(spec) {
-			catchRecordListHandlerSpec = spec;
-		}
-	};
-	this.dependencies.recordHandlerFactory = {
-		"factor" : function(spec) {
-			catchRecordHandlerSpec = spec;
-		}
-	};
-
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
 	spec.fetchListMethod();
+	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
 	catchRecordListHandlerSpec.createRecordHandlerMethod("view", this.record);
 
-	assert.strictEqual(catchRecordHandlerSpec.recordTypeRecord, this.record);
-	assert.strictEqual(catchRecordHandlerSpec.presentationMode, "view");
-	assert.strictEqual(catchRecordHandlerSpec.record, this.record);
-	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
-	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
+	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.presentationMode, "view");
+	assert.strictEqual(factoredSpec.record, this.record);
+	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
+
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
+});
+
+QUnit.test("createRecordHandlerInBackground", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
+	spec.fetchListMethod();
+	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
+	catchRecordListHandlerSpec.createRecordHandlerMethod("view", this.record, "true");
+	
+	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.loadInBackground, "true");
+	assert.strictEqual(factoredSpec.presentationMode, "view");
+	assert.strictEqual(factoredSpec.record, this.record);
+	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
+	
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
 });
 
 QUnit.test("showNew", function(assert) {
-	var menuView = document.createElement("span");
-	var workView = document.createElement("span");
-	var catchRecordTypeHandlerViewSpec;
-	var catchRecordListHandlerSpec;
-	var catchRecordHandlerSpec;
-	var item = {
-		"workView" : workView,
-		"menuView" : menuView
-	};
-	var createManagedGuiItem = function() {
-		return item;
-	}
-
-	this.dependencies.recordTypeHandlerViewFactory = CORATEST.recordTypeHandlerViewFactorySpy();
-	this.dependencies.recordListHandlerFactory = {
-		"factor" : function(spec) {
-			catchRecordListHandlerSpec = spec;
-		}
-	};
-	this.dependencies.recordHandlerFactory = {
-		"factor" : function(spec) {
-			catchRecordHandlerSpec = spec;
-		}
-	};
-
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
 	spec.fetchListMethod();
 
+	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
 	catchRecordListHandlerSpec.createRecordHandlerMethod("new", undefined);
 
-	assert.strictEqual(catchRecordHandlerSpec.recordTypeRecord, this.record);
-	assert.strictEqual(catchRecordHandlerSpec.presentationMode, "new");
-	assert.strictEqual(catchRecordHandlerSpec.record, undefined);
-	assert.strictEqual(catchRecordHandlerSpec.recordGuiFactory, undefined);
-	assert.strictEqual(catchRecordHandlerSpec.recordTypeHandler, recordTypeHandler);
+	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.presentationMode, "new");
+	assert.strictEqual(factoredSpec.record, undefined);
+	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
+
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
 });
 
-QUnit.test("testFactory", function(assert) {
-	this.createRecordTypeHandlerViewFactory = function() {
-		var dependen = {
-			"jsClient" : CORATEST.jsClientSpy()
-		};
-		return {
-			"factor" : function(viewSpec) {
-				return CORA.recordTypeHandlerView(dependen, viewSpec);
-			}
-		};
-	}
-	this.createRecordListHandlerFactory = function() {
-		return {
-			"factor" : function(listHandlerSpec) {
-				return CORA.recordListHandler(listHandlerSpec);
-			}
-		};
-	}
-	this.createRecordHandlerFactory = function() {
-		return {
-			"factor" : function(recordHandlerSpec) {
-				return CORA.recordHandler(recordHandlerSpec);
-				;
-			}
-		};
-	}
-	
+QUnit.test("initAddManagedGuiItemPassedOnToView", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
-
-	var workItemViewFactory = {
-		"factor" : function(workItemViewSpec) {
-			return CORA.workItemView(workItemViewSpec);
-		}
-	};
-	var spec = {
-		"recordTypeHandlerViewFactory" : this.createRecordTypeHandlerViewFactory(),
-		"recordListHandlerFactory" : this.createRecordListHandlerFactory(),
-		"recordHandlerFactory" : this.createRecordHandlerFactory(),
-		"recordTypeRecord" : this.record
-	};
-	var workItemViewFactory = CORA.workItemViewFactory(spec);
-	var recordHandlerViewSpec = {
-		"workItemViewFactory" : workItemViewFactory,
-		"extraClassName" : "text"
-	};
-
-	var recordHandlerView = recordTypeHandler.createRecordHandlerViewFactory().factor(
-			recordHandlerViewSpec);
-	assert.notStrictEqual(recordHandlerView, undefined);
+	var factoredView = this.dependencies.recordTypeHandlerViewFactory.getFactored(0);
+	var aItem = CORATEST.managedGuiItemSpy();
+	recordTypeHandler.addManagedGuiItem(aItem);
+	assert.strictEqual(factoredView.getAddedManagedGuiItem(0), aItem);
 });

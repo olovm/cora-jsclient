@@ -1,5 +1,6 @@
 /*
  * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -26,15 +27,7 @@ var CORA = (function(cora) {
 			"openSearchMethod" : openSearch
 		};
 
-		var searchRecordHandlerView = dependencies.searchRecordHandlerViewFactory.factor(viewSpec);
-
-		function getView() {
-			return searchRecordHandlerView.getView();
-		}
-
-		function openSearch() {
-			createManagedGuiItem("Search");
-		}
+		var view = dependencies.searchRecordHandlerViewFactory.factor(viewSpec);
 
 		function getIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
@@ -42,12 +35,29 @@ var CORA = (function(cora) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
 		}
 
-		function createManagedGuiItem(text) {
-			var managedGuiItem = dependencies.jsClient.createManagedGuiItem();
-			managedGuiItem.menuView.textContent = text;
-			searchRecordHandlerView.addManagedGuiItem(managedGuiItem);
-			dependencies.jsClient.showView(managedGuiItem);
-			return managedGuiItem;
+		function getView() {
+			return view.getView();
+		}
+
+		function openSearch() {
+			var searchHandlerSpec = {
+				"addToSearchRecordHandlerMethod" : addManagedGuiItem,
+				"showViewMethod" : dependencies.jsClient.showView,
+				"removeViewMethod" : dependencies.jsClient.viewRemoved,
+				"metadataId" : getLinkValueFromSearchRecord("metadataId"),
+				"presentationId" : getLinkValueFromSearchRecord("presentationId")
+			};
+			dependencies.searchHandlerFactory.factor(searchHandlerSpec);
+		}
+
+		function getLinkValueFromSearchRecord(id) {
+			var cSearchRecordData = CORA.coraData(spec.searchRecord.data);
+			var cRecordLink = CORA.coraData(cSearchRecordData.getFirstChildByNameInData(id));
+			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+
+		function addManagedGuiItem(managedGuiItem) {
+			view.addManagedGuiItem(managedGuiItem);
 		}
 
 		function getSpec() {
@@ -63,7 +73,8 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getDependencies : getDependencies,
 			getView : getView,
-			openSearch : openSearch
+			openSearch : openSearch,
+			addManagedGuiItem : addManagedGuiItem
 		});
 		return out;
 	};

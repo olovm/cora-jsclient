@@ -20,13 +20,10 @@
 
 QUnit.module("jsClientViewFactoryTest.js", {
 	beforeEach : function() {
-		this.dependencies = {
-				"messageHolderFactory" : CORATEST.messageHolderFactorySpy()
-		};
 		this.spec = {
 				"name" : "someName"
 		}
-		this.jsClientViewFactory = CORA.jsClientViewFactory(this.dependencies);
+		this.jsClientViewFactory = CORA.jsClientViewFactory();
 	},
 	afterEach : function() {
 	}
@@ -37,14 +34,12 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(this.jsClientViewFactory.type, "jsClientViewFactory");
 });
 
-QUnit.test("getDependencies", function(assert) {
-	assert.strictEqual(this.jsClientViewFactory.getDependencies(), this.dependencies);
-});
-
 QUnit.test("factor", function(assert) {
 	var jsClientView = this.jsClientViewFactory.factor(this.spec);
 	assert.strictEqual(jsClientView.type, "jsClientView");
 
-	var jsClientViewSpec = jsClientView.getSpec();
-	assert.strictEqual(jsClientViewSpec, this.spec);
+	assert.strictEqual(jsClientView.getSpec(), this.spec);
+	
+	var dependencies = jsClientView.getDependencies();
+	assert.strictEqual(dependencies.messageHolderFactory.type, "messageHolderFactory");
 });

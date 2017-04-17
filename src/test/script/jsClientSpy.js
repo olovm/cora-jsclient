@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -21,12 +22,12 @@ var CORATEST = (function(coraTest) {
 	coraTest.jsClientSpy = function(dependencies, spec) {
 		var viewsShowingInWorkView = [];
 		var createdManagedGuiItem = [];
-		var createdManagedGuiItemHandledBy = [];
+//		var createdManagedGuiItemHandledBy = [];
 		function getRecordTypesClearedNoOfTimes() {
 			return recordTypesClearedNoOfTimes;
 		}
 		function showView(managedGuiItem) {
-			viewsShowingInWorkView.push(managedGuiItem.workView);
+			viewsShowingInWorkView.push(managedGuiItem);
 		}
 
 		function getViewShowingInWorkView(number) {
@@ -46,12 +47,18 @@ var CORATEST = (function(coraTest) {
 		function getCreatedManagedGuiItem(number) {
 			return createdManagedGuiItem[number];
 		}
+		
+		function getMetadataIdForRecordTypeId(recordTypeId){
+			return recordTypeId+"Group";
+		}
+		
 		var out = Object.freeze({
 			"type" : "jsClientSpy",
 			showView : showView,
 			getViewShowingInWorkView : getViewShowingInWorkView,
 			createManagedGuiItem : createManagedGuiItem,
-			getCreatedManagedGuiItem : getCreatedManagedGuiItem
+			getCreatedManagedGuiItem : getCreatedManagedGuiItem,
+			getMetadataIdForRecordTypeId:getMetadataIdForRecordTypeId
 		});
 
 		return out;

@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -26,29 +27,22 @@ QUnit.module("workItemViewFactoryTest.js", {
 });
 
 QUnit.test("init", function(assert) {
-	var dependencies = {};
-	var workItemViewFactory = CORA.workItemViewFactory(dependencies);
+	var workItemViewFactory = CORA.workItemViewFactory();
 	assert.ok(workItemViewFactory);
 	assert.strictEqual(workItemViewFactory.type, "workItemViewFactory");
 });
 
-QUnit.test("getDependencies", function(assert) {
-	var dependencies = {};
-	var workItemViewFactory = CORA.workItemViewFactory(dependencies);
-	assert.strictEqual(workItemViewFactory.getDependencies(), dependencies);
-});
-
 QUnit.test("factor", function(assert) {
-	var dependencies = {};
-	var workItemViewFactory = CORA.workItemViewFactory(dependencies);
+	var workItemViewFactory = CORA.workItemViewFactory();
 	var spec = {
-		"extraClassName" : "someClass"
 	};
 	var workItemView = workItemViewFactory.factor(spec);
-	assert.ok(workItemView);
-	var workItemViewSpec = workItemView.getSpec();
-	assert.strictEqual(workItemViewSpec.dependencies, dependencies);
-	assert.strictEqual(workItemViewSpec.extraClassName, spec.extraClassName);
-	assert.ok(workItemViewSpec.holderFactory);
-	
+	assert.strictEqual(workItemView.getSpec(), spec);
+});
+
+QUnit.test("testFactoredDependencies", function(assert) {
+	var workItemViewFactory = CORA.workItemViewFactory();
+	var workItemView = workItemViewFactory.factor({});
+
+	assert.strictEqual(workItemView.getDependencies().holderFactory.type, "holderFactory");
 });

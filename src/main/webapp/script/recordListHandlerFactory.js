@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -16,35 +16,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
+var CORA = (function(cora) {
 	"use strict";
-	coraTest.recordHandlerFactorySpy = function() {
-		var dummyDependencies = {};
-		var listOfFactored = [];
-		var listOfSpec = [];
+	cora.recordListHandlerFactory = function(dependencies) {
 
-		function factor(factorSpec) {
-			listOfSpec.push(factorSpec);
-			var factored = CORATEST.recordHandlerSpy(dummyDependencies, factorSpec);
-			listOfFactored.push(factored);
-			return factored;
+		function factor(recordListHandlerSpec) {
+			var dep = {
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"recordGuiFactory" : dependencies.recordGuiFactory,
+				"recordHandlerFactory" : dependencies.recordHandlerFactory,
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
+			};
+			return CORA.recordListHandler(dep, recordListHandlerSpec);
 		}
 
-		function getFactored(number) {
-			return listOfFactored[number];
-		}
-
-		function getSpec(number) {
-			return listOfSpec[number];
+		function getDependencies() {
+			return dependencies;
 		}
 
 		var out = Object.freeze({
-			"type" : "recordHandlerFactorySpy",
-			factor : factor,
-			getFactored : getFactored,
-			getSpec : getSpec
+			"type" : "recordListHandlerFactory",
+			getDependencies : getDependencies,
+			factor : factor
 		});
 		return out;
 	};
-	return coraTest;
-}(CORATEST));
+	return cora;
+}(CORA));

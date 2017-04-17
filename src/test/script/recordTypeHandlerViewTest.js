@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -31,9 +32,24 @@ QUnit.module("recordTypeHandlerViewTest.js", {
 	afterEach : function() {
 	}
 });
+
+QUnit.test("testType", function(assert) {
+	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
+	assert.strictEqual(recordTypeHandlerView.type, "recordTypeHandlerView");
+});
+
+QUnit.test("testGetDependencies", function(assert) {
+	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
+	assert.strictEqual(recordTypeHandlerView.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
+	assert.strictEqual(recordTypeHandlerView.getSpec(), this.spec);
+});
+
 QUnit.test("initAndGetView", function(assert) {
 	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
-
 	var view = recordTypeHandlerView.getView();
 	assert.strictEqual(view.className, "recordType");
 
@@ -83,16 +99,10 @@ QUnit.test("initWithCreateButtonAsWeHaveACreateNewMethod", function(assert) {
 
 QUnit.test("testAddManagedGuiItem", function(assert) {
 	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
-	var managedGuiItem = {
-		"handledBy" : function() {
-		},
-		"workView" : CORA.gui.createSpanWithClassName("workView"),
-		"menuView" : CORA.gui.createSpanWithClassName("menuView")
-	};
+	var managedGuiItem = CORATEST.managedGuiItemSpy();
 	var createdManagedGuiItem = recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
-	assert.strictEqual(managedGuiItem.menuView.modelObject, managedGuiItem);
 	var view = recordTypeHandlerView.getView();
 	var childrenView = view.childNodes[2];
-	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.menuView);
+	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.getMenuView());
 
 });

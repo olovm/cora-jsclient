@@ -18,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.workItemView = function(spec) {
+	cora.workItemView = function(dependencies, spec) {
 		var out;
 		var view;
 		var topBar;
@@ -44,7 +44,7 @@ var CORA = (function(cora) {
 		}
 
 		function createToolHolderAndAppendToView() {
-			var toolHolderNew = spec.holderFactory.factor({
+			var toolHolderNew = dependencies.holderFactory.factor({
 				"className" : "tool",
 				"appendTo" : view
 			});
@@ -63,15 +63,21 @@ var CORA = (function(cora) {
 			view.appendChild(viewToAdd);
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
 		function getSpec() {
 			return spec;
 		}
 
 		out = Object.freeze({
+			"type" : "workItemView",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			addToolViewToToolHolder : addToolViewToToolHolder,
-			addViewToView : addViewToView,
-			getSpec : getSpec
+			addViewToView : addViewToView
 		});
 		start();
 		return out;

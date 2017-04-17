@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,13 +19,13 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordHandlerView = function(spec) {
+	cora.recordHandlerView = function(dependencies, spec) {
 
 		var workItemViewSpec = {
 			"extraClassName" : spec.extraClassName
 		};
 
-		var workItemView = spec.workItemViewFactory.factor(workItemViewSpec);
+		var workItemView = dependencies.workItemViewFactory.factor(workItemViewSpec);
 		var view = workItemView.getView();
 
 		var editView = CORA.gui.createSpanWithClassName("editView");
@@ -34,6 +34,9 @@ var CORA = (function(cora) {
 		workItemView.addViewToView(showView);
 		var buttonView = CORA.gui.createSpanWithClassName("buttonView");
 		workItemView.addViewToView(buttonView);
+
+		setShowDataFunction(spec.showDataMethod);
+		setCopyAsNewFunction(spec.copyDataMethod);
 
 		function addToShowView(node) {
 			showView.appendChild(node);
@@ -78,15 +81,21 @@ var CORA = (function(cora) {
 			var button = createButton("Copy as new", functionToCall, "copyAsNew");
 			workItemView.addToolViewToToolHolder(button);
 		}
-
+		function getDependencies() {
+			return dependencies;
+		}
+		function getSpec() {
+			return spec;
+		}
 		return Object.freeze({
+			"type" : "recordHandlerView",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			addToShowView : addToShowView,
 			addToEditView : addToEditView,
 			addButton : addButton,
-			clearViews : clearViews,
-			setShowDataFunction : setShowDataFunction,
-			setCopyAsNewFunction : setCopyAsNewFunction
+			clearViews : clearViews
 		});
 	};
 	return cora;

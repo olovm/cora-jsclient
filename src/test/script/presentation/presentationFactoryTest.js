@@ -122,6 +122,7 @@ QUnit.test("testFactorPRecordLink", function(assert) {
 });
 
 QUnit.test("testFactorPResourceLink", function(assert) {
+	this.dependencies.textProvider = CORATEST.textProviderSpy();
 	var presentationIdToFactor = "masterPResLink";
 	var cPresentation = CORA
 			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));

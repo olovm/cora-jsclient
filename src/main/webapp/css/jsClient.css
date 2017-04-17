@@ -8,6 +8,7 @@ body {
 	margin: 0px;
 	height: 100%;
 	padding: 0px;
+	font-family: 'Open Sans',sans-serif;
 }
 
 .topBar {
@@ -63,7 +64,7 @@ body {
 	position: relative;
 	display: block;
 	overflow: hidden;
-	background: linear-gradient(to bottom, #eaeaea 0%, #f9fafb 100%);
+	background: linear-gradient(to bottom, #f2f2f2 0%, #f9fafb 100%);
 }
 
 .progress {
@@ -192,6 +193,10 @@ body {
 	content: "* ";
 }
 
+.sideBar .menuView {
+	min-height: 1rem;
+}
+
 .sideBar .header:hover, .sideBar .childrenView .menuView:hover {
 	text-decoration: underline;
 	cursor: pointer;
@@ -259,7 +264,7 @@ body {
 .workArea .workView .workItem {
 	display: block;
 	position: absolute;
-	overflow: scroll;
+	overflow: auto;
 	height: 100%;
 	width: 100%;
 }
@@ -465,9 +470,10 @@ body {
 }
 
 .jsClient .text {
-	font-weight: bold;
+/* 	font-weight: bold; */
 	margin: 0;
 	margin-top: 0.5rem;
+	color: #575757;
 }
 
 .jsClient .showView .pSurroundingContainer {

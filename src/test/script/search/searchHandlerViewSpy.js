@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -16,29 +17,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.searchRecordHandlerFactory = function(dependencies) {
+	coraTest.searchHandlerViewSpy = function() {
 
-		function getDependencies() {
-			return dependencies;
+		var view = CORA.gui.createSpanWithClassName("spyView");
+		var presentationsAddedToSearchForm = [];
+
+		function getView() {
+			return view;
 		}
 
-		function factor(spec) {
-			var searchRecordHandlerDependencies = {
-				"messageHolderFactory" : dependencies.messageHolderFactory,
-				"searchRecordHandlerViewFactory" : dependencies.searchRecordHandlerViewFactory,
-				"jsClient" : spec.jsClient
-			};
-			return CORA.searchRecordHandler(searchRecordHandlerDependencies, spec);
+		function addPresentationToSearchFormHolder(presentationToAdd) {
+			presentationsAddedToSearchForm.push(presentationToAdd);
+		}
+		function getPresentationsAddedToSearchForm(number) {
+			return presentationsAddedToSearchForm[number];
 		}
 
-		var out = Object.freeze({
-			"type" : "searchRecordHandlerFactory",
-			getDependencies : getDependencies,
-			factor : factor
+		return Object.freeze({
+			"type" : "searchHandlerViewSpy",
+			getView : getView,
+			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder,
+			getPresentationsAddedToSearchForm : getPresentationsAddedToSearchForm
 		});
-		return out;
 	};
-	return cora;
-}(CORA));
+	return coraTest;
+}(CORATEST || {}));

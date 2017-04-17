@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -82,10 +83,6 @@ var CORA = (function(cora) {
 			workArea.appendChild(viewToAdd);
 		}
 
-		function getSpec() {
-			return spec;
-		}
-
 		function addLoginManagerView(viewToAdd) {
 			header.appendChild(viewToAdd);
 		}
@@ -118,8 +115,21 @@ var CORA = (function(cora) {
 			messageHolder.createMessage(messageSpec);
 		}
 
+		function removeFromWorkView(viewToRemove) {
+			workArea.removeChild(viewToRemove);
+		}
+
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
 		out = Object.freeze({
 			"type" : "jsClientView",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			addToSearchesView : addToSearchesView,
 			addToRecordTypesView : addToRecordTypesView,
@@ -132,8 +142,8 @@ var CORA = (function(cora) {
 			getSideBar : getSideBar,
 			getRecordTypesView : getRecordTypesView,
 			getSearchesView : getSearchesView,
-			getSpec : getSpec,
-			addErrorMessage : addErrorMessage
+			addErrorMessage : addErrorMessage,
+			removeFromWorkView : removeFromWorkView
 		});
 		start();
 

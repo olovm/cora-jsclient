@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -36,6 +37,18 @@ QUnit.test("initTestInitialState", function(assert) {
 	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
 });
 
+QUnit.test("initTestType", function(assert) {
+	var spec = {};
+	var holder = CORA.holder(spec);
+	assert.strictEqual(holder.type, "holder");
+});
+
+QUnit.test("initGetSpec", function(assert) {
+	var spec = {};
+	var holder = CORA.holder(spec);
+	assert.strictEqual(holder.getSpec(), spec);
+});
+
 QUnit.test("initTestHolder", function(assert) {
 	var spec = {};
 	var holder = CORA.holder(spec);
@@ -66,8 +79,8 @@ QUnit.test("initTestHolderWithClassName", function(assert) {
 
 QUnit.test("initTestHolderWithClassNameAndButtonText", function(assert) {
 	var spec = {
-			"className" : "tool",
-			"buttonText" : "someText"
+		"className" : "tool",
+		"buttonText" : "someText"
 	};
 	var holder = CORA.holder(spec);
 	var holderButton = holder.getButton();
@@ -133,7 +146,7 @@ QUnit.test("initTestHolderOneButtonClick", function(assert) {
 	button.onclick(event);
 
 	assert.strictEqual(holder.getStatus(), CORA.holder.OPEN);
-	
+
 	var holderView = holder.getView();
 	assert.visible(holderView);
 });
@@ -150,29 +163,28 @@ QUnit.test("initTestHolderTwoButtonClick", function(assert) {
 	button.onclick(event);
 
 	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
-	
+
 	var holderView = holder.getView();
 	assert.notVisible(holderView);
 });
 
 QUnit.test("initTestToggleHolder", function(assert) {
 	var spec = {
-			"appendTo" : this.fixture
+		"appendTo" : this.fixture
 	};
 	var holder = CORA.holder(spec);
 	var holderView = holder.getView();
 	assert.notVisible(holderView);
 	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
-	
 
 	var event = document.createEvent('Event');
 	holder.toggleHolder(event);
-	
+
 	assert.visible(holderView);
 	assert.strictEqual(holder.getStatus(), CORA.holder.OPEN);
-	
+
 	holder.toggleHolder(event);
-	
+
 	assert.notVisible(holderView);
 	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
 });
@@ -190,29 +202,29 @@ QUnit.test("initTestOpenCloseHolder", function(assert) {
 	assert.notVisible(holderView);
 	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
 	assert.strictEqual(wasCalled, 1);
-	
+
 	var event = document.createEvent('Event');
 
 	holder.openHolder(event);
 	assert.visible(holderView);
 	assert.strictEqual(holder.getStatus(), CORA.holder.OPEN);
 	assert.strictEqual(wasCalled, 2);
-	
+
 	holder.openHolder(event);
 	assert.visible(holderView);
 	assert.strictEqual(holder.getStatus(), CORA.holder.OPEN);
 	assert.strictEqual(wasCalled, 3);
-	
+
 	holder.closeHolder(event);
 	assert.notVisible(holderView);
 	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
 	assert.strictEqual(wasCalled, 4);
-	
+
 	holder.closeHolder(event);
 	assert.notVisible(holderView);
 	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
 	assert.strictEqual(wasCalled, 5);
-	
+
 	holder.openHolder(event);
 	assert.visible(holderView);
 	assert.strictEqual(holder.getStatus(), CORA.holder.OPEN);

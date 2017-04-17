@@ -1,6 +1,7 @@
 /*
  * Copyright 2016 Olov McKie
- *
+ * Copyright 2017 Uppsala University Library
+*
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -94,7 +95,13 @@ var CORA = (function(cora) {
 			return status;
 		}
 
+		function getSpec() {
+			return spec;
+		}
+
 		var out = Object.freeze({
+			"type" : "holder",
+			getSpec : getSpec,
 			getButton : getButton,
 			toggleHolder : toggleHolder,
 			openHolder : open,

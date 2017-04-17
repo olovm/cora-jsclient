@@ -40,6 +40,16 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(mainView.modelObject, jsClientView);
 });
 
+QUnit.test("testGetDependencies", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	assert.strictEqual(jsClientView.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	assert.strictEqual(jsClientView.getSpec(), this.spec);
+});
+
 QUnit.test("initCreatesMessageHolder", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 	var messageHolder = this.dependencies.messageHolderFactory.getFactored(0);
@@ -126,6 +136,22 @@ QUnit.test("testAddWorkView", function(assert) {
 	var firstWorkView = workView.childNodes[0];
 	assert.strictEqual(firstWorkView, someView);
 	assert.strictEqual(firstWorkView.className, "recordType");
+});
+
+QUnit.test("testRemoveFromWorkView", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	
+	var workView = jsClientView.getWorkView();
+	var someView = CORA.gui.createSpanWithClassName("recordType");
+	jsClientView.addToWorkView(someView);
+	
+	var firstWorkView = workView.childNodes[0];
+	assert.strictEqual(firstWorkView, someView);
+	
+	jsClientView.removeFromWorkView(someView);
+	
+	var firstWorkView = workView.childNodes[0];
+	assert.strictEqual(firstWorkView, undefined);
 });
 
 QUnit.test("testAddLoginManagerView", function(assert) {

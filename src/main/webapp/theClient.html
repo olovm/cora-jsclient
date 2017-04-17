@@ -35,24 +35,37 @@
 <script type="text/javascript" src="script/jsClient.js"></script>
 <script type="text/javascript" src="script/jsClientView.js"></script>
 <script type="text/javascript" src="script/jsClientViewFactory.js"></script>
+<script type="text/javascript" src="script/managedGuiItem.js"></script>
+<script type="text/javascript" src="script/managedGuiItemView.js"></script>
+<script type="text/javascript" src="script/managedGuiItemFactory.js"></script>
+<script type="text/javascript" src="script/managedGuiItemViewFactory.js"></script>
 <script type="text/javascript" src="script/recordGuiFactory.js"></script>
 <script type="text/javascript" src="script/recordHandler.js"></script>
+<script type="text/javascript" src="script/recordHandlerFactory.js"></script>
 <script type="text/javascript" src="script/recordHandlerView.js"></script>
+<script type="text/javascript" src="script/recordHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/recordListHandler.js"></script>
+<script type="text/javascript" src="script/recordListHandlerFactory.js"></script>
 <script type="text/javascript" src="script/recordTypeHandler.js"></script>
 <script type="text/javascript" src="script/recordTypeHandlerView.js"></script>
+<script type="text/javascript" src="script/recordTypeHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/recordTypeProvider.js"></script>
 <script type="text/javascript" src="script/recordViewer.js"></script>
 
-<script type="text/javascript" src="script/searchRecordHandlerFactory.js"></script>
-<script type="text/javascript" src="script/searchRecordHandler.js"></script>
-<script type="text/javascript" src="script/searchRecordHandlerViewFactory.js"></script>
-<script type="text/javascript" src="script/searchRecordHandlerView.js"></script>
-<script type="text/javascript" src="script/searchProvider.js"></script>
+<script type="text/javascript" src="script/search/searchHandler.js"></script>
+<script type="text/javascript" src="script/search/searchHandlerFactory.js"></script>
+<script type="text/javascript" src="script/search/searchHandlerView.js"></script>
+<script type="text/javascript" src="script/search/searchHandlerViewFactory.js"></script>
+<script type="text/javascript" src="script/search/searchRecordHandlerFactory.js"></script>
+<script type="text/javascript" src="script/search/searchRecordHandler.js"></script>
+<script type="text/javascript" src="script/search/searchRecordHandlerViewFactory.js"></script>
+<script type="text/javascript" src="script/search/searchRecordHandlerView.js"></script>
+<script type="text/javascript" src="script/search/searchProvider.js"></script>
 
 <script type="text/javascript" src="script/gui/basicGui.js"></script>
 <script type="text/javascript" src="script/gui/busy.js"></script>
 <script type="text/javascript" src="script/gui/holder.js"></script>
+<script type="text/javascript" src="script/gui/holderFactory.js"></script>
 <script type="text/javascript" src="script/gui/info.js"></script>
 <script type="text/javascript" src="script/gui/infoFactory.js"></script>
 <script type="text/javascript" src="script/gui/message.js"></script>
@@ -253,9 +266,6 @@
 		};
 		var recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
 
-		var jsClientViewFactorySpec = {
-			"messageHolderFactory" : CORA.messageHolderFactory()
-		};
 		var searchRecordHandlerFactorySpec = {
 			"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory({})
 		};
@@ -268,7 +278,7 @@
 			"searchProvider" : searchProvider,
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-			"jsClientViewFactory" : CORA.jsClientViewFactory(jsClientViewFactorySpec),
+			"jsClientViewFactory" : CORA.jsClientViewFactory(),
 			"searchRecordHandlerFactory" : CORA
 					.searchRecordHandlerFactory(searchRecordHandlerFactorySpec),
 			"presentationFactoryFactory" : "not implemented yet"

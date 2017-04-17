@@ -1,5 +1,6 @@
 /*
  * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -46,8 +47,11 @@ var CORA = (function(cora) {
 		}
 
 		function addManagedGuiItem(managedGuiItem) {
-			managedGuiItem.menuView.modelObject = managedGuiItem;
-			childrenView.appendChild(managedGuiItem.menuView);
+			childrenView.appendChild(managedGuiItem.getMenuView());
+		}
+
+		function removeManagedGuiItem(managedGuiItem) {
+			childrenView.removeChild(managedGuiItem.getMenuView());
 		}
 
 		function getDependencies() {
@@ -63,7 +67,8 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-			addManagedGuiItem : addManagedGuiItem
+			addManagedGuiItem : addManagedGuiItem,
+			removeManagedGuiItem : removeManagedGuiItem
 		});
 		start();
 		return out;
