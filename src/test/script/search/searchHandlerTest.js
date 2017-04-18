@@ -49,7 +49,7 @@ QUnit.module("searchHandlerTest.js", {
 			"searchLink" : {
 				"requestMethod" : "GET",
 				"rel" : "search",
-				"url" : "http://epc.ub.uu.se/cora/rest/record/coraTextSearch/",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/searchResult/coraTextSearch",
 				"accept" : "application/uub+recordList+json"
 			}
 		}

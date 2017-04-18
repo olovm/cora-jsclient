@@ -83,14 +83,16 @@ var CORA = (function(cora) {
 		function sendSearchQueryToServer() {
 			var link = spec.searchLink;
 			var callSpec = {
+//					"url" : link.url + "?searchData="+encodeURIComponent(JSON.stringify(recordGui.dataHolder.getData())),
+//					"url" : link.url + "?searchData=x",
 				"url" : link.url,
 				"requestMethod" : link.requestMethod,
 				"accept" : link.accept,
 				"data" : JSON.stringify(recordGui.dataHolder.getData())
 			// "loadMethod" : callAfterAnswer,
 			// "errorMethod" : callError,
-
 			};
+//			console.log("data:",JSON.stringify(recordGui.dataHolder.getData()));
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
