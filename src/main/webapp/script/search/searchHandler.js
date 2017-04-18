@@ -26,45 +26,61 @@ var CORA = (function(cora) {
 		var recordGui;
 
 		function start() {
+			view = createView();
+			managedGuiItem = createManagedGuiItem();
+			managedGuiItem.addWorkPresentation(view.getView());
+			addSearchToSearchRecordHandler(managedGuiItem);
+			showSearchInJsClient(managedGuiItem);
+			tryToCreateSearchForm();
+		}
+
+		function createView() {
 			var viewSpec = {
 				"searchMethod" : search
 			};
-			view = dependencies.searchHandlerViewFactory.factor(viewSpec);
+			return dependencies.searchHandlerViewFactory.factor(viewSpec);
+		}
+
+		function createManagedGuiItem() {
 			var managedGuiItemSpec = {
 				"activateMethod" : spec.showViewMethod,
 				"removeMethod" : spec.removeViewMethod
 			};
-			managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-
-			managedGuiItem.addWorkPresentation(view.getView());
-			spec.addToSearchRecordHandlerMethod(managedGuiItem);
-			spec.showViewMethod(managedGuiItem);
-
-			createGui();
+			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 		}
 
-		function createGui() {
+		function addSearchToSearchRecordHandler(managedGuiItemToAdd) {
+			spec.addToSearchRecordHandlerMethod(managedGuiItemToAdd);
+		}
+
+		function showSearchInJsClient(managedGuiItemToShow) {
+			spec.showViewMethod(managedGuiItemToShow);
+		}
+
+		function tryToCreateSearchForm() {
 			try {
-				var metadataId = spec.metadataId;
-				recordGui = createRecordGui(metadataId);
-				addNewRecordToWorkView(recordGui, metadataId);
-				recordGui.initMetadataControllerStartingGui();
+				createSearchForm();
 			} catch (error) {
 				createRawDataWorkView("something went wrong, probably missing metadata, " + error);
 				view.addPresentationToSearchFormHolder(document.createTextNode(error.stack));
 			}
 		}
 
-		function createRecordGui(metadataId, data, dataDivider) {
+		function createSearchForm() {
+			var metadataId = spec.metadataId;
+			recordGui = createRecordGui(metadataId);
+			addSearchFormFromRecordGuiToView(recordGui, metadataId);
+			recordGui.initMetadataControllerStartingGui();
+		}
+
+		function createRecordGui(metadataId) {
 			var recordGuiSpec = {
-				"metadataId" : metadataId,
-				"data" : data,
-				"dataDivider" : dataDivider
+				"metadataId" : metadataId
 			};
 			return dependencies.recordGuiFactory.factor(recordGuiSpec);
 		}
 
-		function addNewRecordToWorkView(recordGuiToAdd, metadataIdUsedInData) {
+		function addSearchFormFromRecordGuiToView(recordGuiToAdd, metadataIdUsedInData) {
 			var presentationView = recordGuiToAdd.getPresentation(spec.presentationId,
 					metadataIdUsedInData).getView();
 			view.addPresentationToSearchFormHolder(presentationView);
@@ -83,16 +99,13 @@ var CORA = (function(cora) {
 		function sendSearchQueryToServer() {
 			var link = spec.searchLink;
 			var callSpec = {
-//					"url" : link.url + "?searchData="+encodeURIComponent(JSON.stringify(recordGui.dataHolder.getData())),
-//					"url" : link.url + "?searchData=x",
 				"url" : link.url,
 				"requestMethod" : link.requestMethod,
 				"accept" : link.accept,
-				"data" : JSON.stringify(recordGui.dataHolder.getData())
-			// "loadMethod" : callAfterAnswer,
-			// "errorMethod" : callError,
+				"parameters" : {
+					"searchData" : JSON.stringify(recordGui.dataHolder.getData())
+				}
 			};
-//			console.log("data:",JSON.stringify(recordGui.dataHolder.getData()));
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 

@@ -167,9 +167,10 @@ QUnit.test("testSearch", function(assert) {
 	assert.strictEqual(ajaxCallSpec.contentType, undefined);
 
 	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
-	assert.strictEqual(ajaxCallSpec.data, JSON.stringify(factoredGui.dataHolder.getData()));
-	// assert.strictEqual(ajaxCallSpec.loadMethod, );
-	// assert.strictEqual(ajaxCallSpec.errorMethod, );
+	assert.strictEqual(ajaxCallSpec.data, undefined);
+	assert.stringifyEqual(ajaxCallSpec.parameters, {
+		"searchData" : JSON.stringify(factoredGui.dataHolder.getData())
+	});
 });
 
 QUnit.test("testSearchNotValidDataNoAjaxCall", function(assert) {
@@ -179,7 +180,7 @@ QUnit.test("testSearchNotValidDataNoAjaxCall", function(assert) {
 	assert.strictEqual(factoredGui.getDataValidated(), 0);
 	searchHandler.search();
 	assert.strictEqual(factoredGui.getDataValidated(), 1);
-	
+
 	var ajaxCallSpec = this.dependencies.ajaxCallFactory.getSpec(0);
 	assert.strictEqual(ajaxCallSpec, undefined);
 });
