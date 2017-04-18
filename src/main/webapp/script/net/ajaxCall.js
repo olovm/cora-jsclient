@@ -72,7 +72,7 @@ var CORA = (function(cora) {
 				"response" : xhr.response
 			};
 			var responseType = spec.responseType;
-			if(responseType===undefined ||responseType==='document'){
+			if (responseType === undefined || responseType === 'document') {
 				returnObject.responseText = xhr.responseText;
 			}
 			return returnObject;
@@ -105,10 +105,41 @@ var CORA = (function(cora) {
 
 		function open() {
 			if (spec.requestMethod === "GET") {
-				xhr.open(spec.requestMethod, spec.url + "?" + (new Date()).getTime());
+				xhr.open(spec.requestMethod, createUrl());
 			} else {
 				xhr.open(spec.requestMethod, spec.url);
 			}
+			startTimers();
+		}
+
+		function createUrl() {
+			var url = spec.url + "?";
+			url += possiblyCreateUrlParameters();
+			url += "preventCache=" + (new Date()).getTime();
+			return url;
+		}
+
+		function possiblyCreateUrlParameters() {
+			if (spec.parameters !== undefined) {
+				return createUrlParameters();
+			}
+			return "";
+		}
+
+		function createUrlParameters() {
+			var url = "";
+			var keys = Object.keys(spec.parameters);
+			for (var i = 0; i < keys.length; i++) {
+				url += createUrlParameter(keys[i]);
+			}
+			return url;
+		}
+
+		function createUrlParameter(key) {
+			return key + "=" + encodeURIComponent(spec.parameters[key]) + "&";
+		}
+
+		function startTimers() {
 			timeProgress = performance.now();
 			intervalStart = timeProgress;
 		}
@@ -131,8 +162,8 @@ var CORA = (function(cora) {
 		function setHeadersSpecifiedInSpec() {
 			if (spec.requestHeaders) {
 				var keys = Object.keys(spec.requestHeaders);
-				for(let key of keys){
-					xhr.setRequestHeader(key, spec.requestHeaders[key]);
+				for (var i = 0; i < keys.length; i++) {
+					xhr.setRequestHeader(keys[i], spec.requestHeaders[keys[i]]);
 				}
 			}
 		}
@@ -152,7 +183,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type":"ajaxCall",
+			"type" : "ajaxCall",
 			xhr : xhr,
 			spec : spec
 		});

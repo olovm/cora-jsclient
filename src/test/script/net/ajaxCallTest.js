@@ -102,7 +102,7 @@ QUnit.test("testResponseTypeNotSet", function(assert) {
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(201);
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("a dummy response text");
 	this.xmlHttpRequestFactoryMultipleSpy.setResponse("a dummy response");
-	
+
 	var ajaxCall = CORA.ajaxCall(this.spec);
 	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
 	assert.strictEqual(xmlHttpRequestSpy.responseType, undefined);
@@ -113,7 +113,7 @@ QUnit.test("testResponseTypeDocument", function(assert) {
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(201);
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("a dummy response text");
 	this.xmlHttpRequestFactoryMultipleSpy.setResponse("a dummy response");
-	
+
 	this.spec.responseType = "document";
 	var ajaxCall = CORA.ajaxCall(this.spec);
 	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
@@ -126,7 +126,7 @@ QUnit.test("testResponseType", function(assert) {
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(201);
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("a dummy response text");
 	this.xmlHttpRequestFactoryMultipleSpy.setResponse("a dummy response");
-	
+
 	this.spec.responseType = "blob";
 	var ajaxCall = CORA.ajaxCall(this.spec);
 	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
@@ -137,12 +137,13 @@ QUnit.test("testResponseType", function(assert) {
 
 QUnit.test("testXMLHttpRequestSetUpCorrect", function(assert) {
 	var ajaxCall = CORA.ajaxCall(this.spec);
-	assert.strictEqual(ajaxCall.spec, this.spec);
 
 	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
 	var openUrl = xmlHttpRequestSpy.getOpenUrl();
 	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
 			"http://localhost:8080/therest/rest/record/recordType");
+	assert.strictEqual(openUrl.substring(openUrl.indexOf("?"), openUrl.lastIndexOf("=")),
+			"?preventCache");
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
 			"application/uub+record+json");
@@ -150,6 +151,52 @@ QUnit.test("testXMLHttpRequestSetUpCorrect", function(assert) {
 			"application/uub+record+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["authToken"][0], "someRandomToken");
 	assert.ok(this.getLoadMethodWasCalled(), "loadMethod was called ok")
+});
+
+QUnit.test("testXMLHttpRequestSetUpWithRequestParameter", function(assert) {
+	this.spec.parameters = {
+		"someParameterName" : "someParameterValue"
+	};
+	var ajaxCall = CORA.ajaxCall(this.spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
+			"http://localhost:8080/therest/rest/record/recordType");
+
+	assert.strictEqual(openUrl.substring(openUrl.indexOf("?"), openUrl.lastIndexOf("=")),
+			"?someParameterName=someParameterValue&preventCache");
+});
+
+QUnit.test("testXMLHttpRequestSetUpWithRequestParameters", function(assert) {
+	this.spec.parameters = {
+		"someParameterName" : "someParameterValue",
+		"key2" : "value2"
+	};
+	var ajaxCall = CORA.ajaxCall(this.spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
+			"http://localhost:8080/therest/rest/record/recordType");
+
+	assert.strictEqual(openUrl.substring(openUrl.indexOf("?"), openUrl.lastIndexOf("=")),
+			"?someParameterName=someParameterValue&key2=value2&preventCache");
+});
+
+QUnit.test("testXMLHttpRequestSetUpWithRequestParameterIsUrlEncoded", function(assert) {
+	this.spec.parameters = {
+		"someParameterName" : "va&lue"
+	};
+	var ajaxCall = CORA.ajaxCall(this.spec);
+	var xmlHttpRequestSpy = this.xmlHttpRequestFactoryMultipleSpy.getFactoredXmlHttpRequest(0);
+
+	var openUrl = xmlHttpRequestSpy.getOpenUrl();
+	assert.strictEqual(openUrl.substring(0, openUrl.indexOf("?")),
+			"http://localhost:8080/therest/rest/record/recordType");
+
+	assert.strictEqual(openUrl.substring(openUrl.indexOf("?"), openUrl.lastIndexOf("=")),
+			"?someParameterName=" + encodeURIComponent("va&lue") + "&preventCache");
 });
 
 QUnit.test("testSpecReturnedInCallToLoadMethod", function(assert) {
@@ -313,7 +360,7 @@ QUnit.test("testTimeoutIsCalledAsUploadProgressIsCalledOnlyOnceUsingTimeout", fu
 	var ajaxCall = CORA.ajaxCall(this.spec);
 
 	var getTimeoutMethodWasCalled = this.getTimeoutMethodWasCalled;
-	function waitABitThenCheckThatTimeoutHasBeenCalled(){
+	function waitABitThenCheckThatTimeoutHasBeenCalled() {
 		window.setTimeout(function() {
 			assert.ok(getTimeoutMethodWasCalled(), "timeoutMethod should have been called");
 			done();
@@ -323,7 +370,7 @@ QUnit.test("testTimeoutIsCalledAsUploadProgressIsCalledOnlyOnceUsingTimeout", fu
 	var intervalId = window.setTimeout(function() {
 		xmlHttpRequestSpy.upload.addedEventListeners["progress"][1]();
 		waitABitThenCheckThatTimeoutHasBeenCalled();
-	}, 20); 
+	}, 20);
 });
 
 QUnit.test("testSendCreate", function(assert) {
@@ -350,7 +397,7 @@ QUnit.test("testSendCreate", function(assert) {
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseStatus(201);
 	this.xmlHttpRequestFactoryMultipleSpy.setResponseText("a dummy response text");
 	this.xmlHttpRequestFactoryMultipleSpy.setResponse("a dummy response");
-	
+
 	this.spec.requestMethod = "POST";
 	this.spec.data = JSON.stringify(textData);
 	var ajaxCall = CORA.ajaxCall(this.spec);
