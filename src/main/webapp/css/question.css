@@ -42,3 +42,7 @@
 .question .questionBox :last-child {
 	float: right;
 }
+
+.question input {
+	margin: 0 1rem;
+}

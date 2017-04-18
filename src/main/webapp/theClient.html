@@ -129,15 +129,41 @@
 <script type="text/javascript" src="script/presentation/pVarViewFactory.js"></script>
 
 <script type="text/javascript">
-		  	 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
-		 			var appTokenBaseUrl = "http://epc.ub.uu.se/";
-// 	var appTokenBaseUrl = "http://localhost:8080/";
-// 	var baseUrl = "http://localhost:8080/therest/rest/";
+	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+	var appTokenBaseUrl = "http://epc.ub.uu.se/";
 	window.onload = start;
 	var jsClientSpec;
 	var jsClientDependencies;
 
 	function start() {
+		askForServerToUse();
+	}
+	
+	function askForServerToUse() {
+		var questionSpec = {
+			"text" : "Vilket server vill du använda?",
+			"buttons" : [ {
+				"text" : "Uppsala Universitetsbibliotek",
+				"onclickFunction" : useUb
+			}, {
+				"text" : "localhost",
+				"onclickFunction" : useLocalhost
+			} ]
+		};
+		var question = CORA.question(questionSpec);
+		var questionView = question.getView();
+		document.body.appendChild(questionView);
+	}
+
+	function useUb() {
+		baseUrl = "http://epc.ub.uu.se/cora/rest/";
+		appTokenBaseUrl = "http://epc.ub.uu.se/";
+		startDependencies();
+	}
+
+	function useLocalhost() {
+		appTokenBaseUrl = "http://localhost:8080/";
+		baseUrl = "http://localhost:8080/therest/rest/";
 		startDependencies();
 	}
 
