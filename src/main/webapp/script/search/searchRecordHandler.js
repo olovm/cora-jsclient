@@ -47,6 +47,7 @@ var CORA = (function(cora) {
 				"metadataId" : getLinkValueFromSearchRecord("metadataId"),
 				"presentationId" : getLinkValueFromSearchRecord("presentationId")
 			};
+			possiblyAddSearchLinkToSpec(searchHandlerSpec);
 			dependencies.searchHandlerFactory.factor(searchHandlerSpec);
 		}
 
@@ -54,6 +55,10 @@ var CORA = (function(cora) {
 			var cSearchRecordData = CORA.coraData(spec.searchRecord.data);
 			var cRecordLink = CORA.coraData(cSearchRecordData.getFirstChildByNameInData(id));
 			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+
+		function possiblyAddSearchLinkToSpec(searchHandlerSpec) {
+			searchHandlerSpec.searchLink = spec.searchRecord.actionLinks.search;
 		}
 
 		function addManagedGuiItem(managedGuiItem) {

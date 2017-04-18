@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -18,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.searchHandlerView = function(dependencies) {
+	cora.searchHandlerView = function(dependencies, spec) {
 		var view;
 		var searchFormHolder;
 		var buttonView;
@@ -28,6 +29,7 @@ var CORA = (function(cora) {
 			view = workItemView.getView();
 			createSearchFormHolderAndAddTo(workItemView);
 			createButtonViewAndAddTo(searchFormHolder);
+			createSearchButtonIn(buttonView);
 		}
 
 		function createWorkItemView() {
@@ -47,6 +49,20 @@ var CORA = (function(cora) {
 			addTo.appendChild(buttonView);
 		}
 
+		function createSearchButtonIn(buttonViewToAddTo) {
+			var searchButton = createButton();
+			buttonViewToAddTo.appendChild(searchButton);
+		}
+
+		function createButton() {
+			var button = document.createElement("input");
+			button.type = "button";
+			button.value = dependencies.textProvider.getTranslation("theClient_searchButtonText");
+			button.onclick = spec.searchMethod;
+			button.className = "searchButton";
+			return button;
+		}
+
 		function getView() {
 			return view;
 		}
@@ -59,10 +75,15 @@ var CORA = (function(cora) {
 			return dependencies;
 		}
 
+		function getSpec() {
+			return spec;
+		}
+
 		start();
 		return Object.freeze({
 			"type" : "searchHandlerView",
 			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder
 		});

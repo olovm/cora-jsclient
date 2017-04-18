@@ -121,7 +121,7 @@ var CORATEST = (function(coraTest) {
 								"search" : {
 									"requestMethod" : "GET",
 									"rel" : "search",
-									"url" : "http://epc.ub.uu.se/therest/rest/record/coraTextSearch/",
+									"url" : "http://epc.ub.uu.se/therest/rest/record/searchResult/coraTextSearch",
 									"accept" : "application/uub+recordList+json"
 								},
 								"read" : {

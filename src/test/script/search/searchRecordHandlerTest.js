@@ -84,7 +84,8 @@ QUnit.test("testOpenSearchFactorSearchHandler", function(assert) {
 			searchRecordHandler.addManagedGuiItem);
 	assert.strictEqual(factoredSpec.showViewMethod, this.dependencies.jsClient.showView);
 	assert.strictEqual(factoredSpec.removeViewMethod, this.dependencies.jsClient.viewRemoved);
-	
+
 	assert.strictEqual(factoredSpec.metadataId, "autocompleteSearchGroup");
 	assert.strictEqual(factoredSpec.presentationId, "autocompleteSearchPGroup");
+	assert.strictEqual(factoredSpec.searchLink, this.search.actionLinks.search);
 });

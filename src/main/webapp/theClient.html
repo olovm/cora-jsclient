@@ -129,10 +129,10 @@
 <script type="text/javascript" src="script/presentation/pVarViewFactory.js"></script>
 
 <script type="text/javascript">
-	  	 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
-	 			var appTokenBaseUrl = "http://epc.ub.uu.se/";
-// 	var appTokenBaseUrl = "http://localhost:8080/";
-// 	var baseUrl = "http://localhost:8080/therest/rest/";
+	// 	  	 		var baseUrl = "http://epc.ub.uu.se/cora/rest/";
+	// 	 			var appTokenBaseUrl = "http://epc.ub.uu.se/";
+	var appTokenBaseUrl = "http://localhost:8080/";
+	var baseUrl = "http://localhost:8080/therest/rest/";
 	window.onload = start;
 	var jsClientSpec;
 	var jsClientDependencies;
@@ -166,7 +166,8 @@
 	}
 
 	function possiblyStartJsClient() {
-		if (recordTypeProviderStarted && metadataProviderStarted && textProviderStarted && searchProviderStarted) {
+		if (recordTypeProviderStarted && metadataProviderStarted && textProviderStarted
+				&& searchProviderStarted) {
 			startJsClient();
 		}
 	}
@@ -265,8 +266,10 @@
 		};
 		var recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
 
-		var searchRecordHandlerFactorySpec = {
-			"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory({})
+		var searchRecordHandlerFactoryDep = {
+			"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory({}),
+			"textProvider" : textProvider,
+			"ajaxCallFactory" : ajaxCallFactory
 		};
 		jsClientDependencies = {
 			"ajaxCallFactory" : ajaxCallFactory,
@@ -279,7 +282,7 @@
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
 			"jsClientViewFactory" : CORA.jsClientViewFactory(),
 			"searchRecordHandlerFactory" : CORA
-					.searchRecordHandlerFactory(searchRecordHandlerFactorySpec),
+					.searchRecordHandlerFactory(searchRecordHandlerFactoryDep),
 			"presentationFactoryFactory" : "not implemented yet"
 		}
 		jsClientSpec = {
@@ -288,7 +291,7 @@
 			"appTokenBaseUrl" : appTokenBaseUrl
 		};
 	}
-	
+
 	function startJsClient() {
 		var jsClient = CORA.jsClient(jsClientDependencies, jsClientSpec);
 		document.body.appendChild(jsClient.getView());
