@@ -115,6 +115,13 @@ QUnit.test("initFactoresSearchRecordHandlersAndAddsToView", function(assert) {
 	assert.strictEqual(factoredSpec3.baseUrl, this.spec.baseUrl);
 });
 
+QUnit.test("initFactoresSearchRecordHandlersSearchWithoutSearchLinkIsNotAdded", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	
+	var factoredSearchRecordHandler4 = this.dependencies.searchRecordHandlerFactory.getFactored(3);
+	assert.strictEqual(factoredSearchRecordHandler4, undefined);
+});
+
 QUnit.test("initRecordTypesAreSortedByType", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
