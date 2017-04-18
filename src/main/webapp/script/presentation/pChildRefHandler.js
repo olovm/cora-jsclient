@@ -33,8 +33,8 @@ var CORA = (function(cora) {
 		var cRef = CORA.coraData(cParentMetadataChildRefPart.getFirstChildByNameInData("ref"));
 		var metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 		var cMetadataElement = getMetadataById(metadataId);
-		
-		var textId = getTextId(cMetadataElement)	;	
+
+		var textId = getTextId(cMetadataElement);
 		var text = dependencies.textProvider.getTranslation(textId);
 
 		var repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
@@ -73,12 +73,12 @@ var CORA = (function(cora) {
 				}
 			};
 		}
-		
-		function getTextId(cMetadataElement){
-			if(cMetadataElement.getFirstAtomicValueByNameInData("textId") !== undefined){
-				return cMetadataElement.getFirstAtomicValueByNameInData("textId");
+
+		function getTextId(cMetadataElementIn){
+			if(cMetadataElementIn.getFirstAtomicValueByNameInData("textId") !== undefined){
+				return cMetadataElementIn.getFirstAtomicValueByNameInData("textId");
 			}
-			var cTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("textId"));
+			var cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData("textId"));
 			return cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 

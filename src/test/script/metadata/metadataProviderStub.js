@@ -256,7 +256,6 @@ function MetadataProviderStub() {
                     }, {
                         "name": "ref",
                         "repeatId": "1",
-                        "repeatId": "0",
                         "children": [{
                             "name": "linkedRecordType",
                             "value": "metadataCollectionItem"

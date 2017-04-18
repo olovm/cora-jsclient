@@ -38,7 +38,7 @@ var CORA = (function(cora) {
 		function init() {
 			cMetadataElement = getMetadataById(my.metadataId);
 			nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
-			
+
 			var cTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("textId"));
 			textId = cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			text = textProvider.getTranslation(textId);
