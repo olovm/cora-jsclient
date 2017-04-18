@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -256,4 +256,25 @@ QUnit.test("initTestInfoViewAppendToThreeButtonClick", function(assert) {
 	var infoView = info.getView();
 	var infoFromFixture = this.fixture.firstChild;
 	assert.strictEqual(infoView, infoFromFixture);
+});
+
+QUnit.test("initOnclickOnInfoPart", function(assert) {
+	var spec = {
+		"appendTo" : this.fixture,
+		"level1" : [ {
+			"className" : "textView",
+			"text" : "someText",
+			"onclickMethod" : function() {
+			}
+		} ]
+	};
+	var info = CORA.info(spec);
+
+	var event = document.createEvent('Event');
+	var button = info.getButton();
+	button.onclick(event);
+
+	var firstInfoPart = info.getView().firstChild;
+	assert.equal(firstInfoPart.onclick, spec.level1[0].onclickMethod);
+	assert.equal(firstInfoPart.className, "textView clickable");
 });

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -88,7 +88,15 @@ var CORA = (function(cora) {
 		function createViewPart(info) {
 			var viewPart = CORA.gui.createSpanWithClassName(info.className);
 			viewPart.innerHTML = info.text;
+			addOnClickIfSpecifiedInSpec(info.onclickMethod, viewPart);
 			view.appendChild(viewPart);
+		}
+
+		function addOnClickIfSpecifiedInSpec(onclickMethod, viewPart) {
+			if (onclickMethod !== undefined) {
+				viewPart.onclick = onclickMethod;
+				viewPart.className = viewPart.className + " clickable";
+			}
 		}
 
 		function resetInfo() {
