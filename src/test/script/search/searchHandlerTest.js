@@ -32,7 +32,8 @@ QUnit.module("searchHandlerTest.js", {
 		this.dependencies = {
 			"searchHandlerViewFactory" : CORATEST.standardFactorySpy("searchHandlerViewSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
-			"recordGuiFactory" : CORATEST.recordGuiFactorySpy()
+			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
+			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy")
 		}
 		this.spec = {
 			"addToSearchRecordHandlerMethod" : function(managedGuiItem) {
@@ -44,7 +45,13 @@ QUnit.module("searchHandlerTest.js", {
 			"removeViewMethod" : function() {
 			},
 			"metadataId" : "someMetadataId",
-			"presentationId" : "somePresentationId"
+			"presentationId" : "somePresentationId",
+			"searchLink" : {
+				"requestMethod" : "GET",
+				"rel" : "search",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/searchResult/coraTextSearch",
+				"accept" : "application/uub+recordList+json"
+			}
 		}
 	},
 	afterEach : function() {
@@ -65,6 +72,12 @@ QUnit.test("testInitViewCreatedUsingFactory", function(assert) {
 	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
 	var factoredView = this.dependencies.searchHandlerViewFactory.getFactored(0);
 	assert.strictEqual(factoredView.type, "searchHandlerViewSpy");
+});
+
+QUnit.test("testInitViewSpec", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredSpec = this.dependencies.searchHandlerViewFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.searchMethod, searchHandler.search);
 });
 
 QUnit.test("testInitManagedGuiItemCreatedUsingFactory", function(assert) {
@@ -138,4 +151,36 @@ QUnit.test("testInitRecordGuiErrorsShownInForm", function(assert) {
 	assert.strictEqual(factoredView.getPresentationsAddedToSearchForm(0).textContent,
 			"\"something went wrong, probably missing metadata, " + "Error: missing metadata\"");
 	assert.ok(factoredView.getPresentationsAddedToSearchForm(1).textContent.length > 10);
+});
+
+QUnit.test("testSearch", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	searchHandler.search();
+	assert.strictEqual(factoredGui.getDataValidated(), 1);
+
+	var ajaxCallSpec = this.dependencies.ajaxCallFactory.getSpec(0);
+	assert.strictEqual(ajaxCallSpec.url, this.spec.searchLink.url);
+	assert.strictEqual(ajaxCallSpec.requestMethod, this.spec.searchLink.requestMethod);
+	assert.strictEqual(ajaxCallSpec.accept, this.spec.searchLink.accept);
+	assert.strictEqual(ajaxCallSpec.contentType, undefined);
+
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(ajaxCallSpec.data, undefined);
+	assert.stringifyEqual(ajaxCallSpec.parameters, {
+		"searchData" : JSON.stringify(factoredGui.dataHolder.getData())
+	});
+});
+
+QUnit.test("testSearchNotValidDataNoAjaxCall", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	factoredGui.setValidateAnswer(false);
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	searchHandler.search();
+	assert.strictEqual(factoredGui.getDataValidated(), 1);
+
+	var ajaxCallSpec = this.dependencies.ajaxCallFactory.getSpec(0);
+	assert.strictEqual(ajaxCallSpec, undefined);
 });

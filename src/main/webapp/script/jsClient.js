@@ -56,7 +56,7 @@ var CORA = (function(cora) {
 					.uploadManager(dependencies, uploadManagerSpec);
 			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
 			processRecordTypes();
-			addSearchesToSideBar(dependencies.searchProvider.getAllSearches());
+			addSearchesUserIsAuthorizedToUseToSideBar(dependencies.searchProvider.getAllSearches());
 			addRecordTypesToSideBar(recordTypeList);
 		}
 
@@ -150,20 +150,34 @@ var CORA = (function(cora) {
 			metadataIds[id] = metadataId;
 		}
 
-		function addSearchesToSideBar(searchList) {
+		function addSearchesUserIsAuthorizedToUseToSideBar(searchList) {
 			searchList.forEach(function(search) {
-				addSearchToSideBar(search);
+				possiblyCreateAndAddSearchRecordHandlerToSideBar(search);
 			});
 		}
 
-		function addSearchToSideBar(search) {
+		function possiblyCreateAndAddSearchRecordHandlerToSideBar(search) {
+			if (userIsAuthorizedToUseSearch(search)) {
+				var searchRecordHandler = createSearchRecordHandler(search);
+				addSearchRecordHandlerToSideBar(searchRecordHandler);
+			}
+		}
+
+		function userIsAuthorizedToUseSearch(search) {
+			return search.actionLinks.search !== undefined;
+		}
+
+		function createSearchRecordHandler(search) {
 			var specSearch = {
 				"searchRecord" : search,
 				"baseUrl" : spec.baseUrl,
 				"jsClient" : out,
 				"recordGuiFactory" : recordGuiFactory
 			};
-			var searchRecordHandler = dependencies.searchRecordHandlerFactory.factor(specSearch);
+			return dependencies.searchRecordHandlerFactory.factor(specSearch);
+		}
+
+		function addSearchRecordHandlerToSideBar(searchRecordHandler) {
 			jsClientView.addToSearchesView(searchRecordHandler.getView());
 		}
 

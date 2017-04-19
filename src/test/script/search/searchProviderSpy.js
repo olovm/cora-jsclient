@@ -120,7 +120,7 @@ var CORATEST = (function(coraTest) {
 				"search" : {
 					"requestMethod" : "GET",
 					"rel" : "search",
-					"url" : "http://epc.ub.uu.se/therest/rest/record/coraTextSearch/",
+					"url" : "http://epc.ub.uu.se/therest/rest/record/searchResult/coraTextSearch",
 					"accept" : "application/uub+recordList+json"
 				},
 				"read" : {
@@ -242,7 +242,7 @@ var CORATEST = (function(coraTest) {
 				"search" : {
 					"requestMethod" : "GET",
 					"rel" : "search",
-					"url" : "http://epc.ub.uu.se/therest/rest/record/someSearch/",
+					"url" : "http://epc.ub.uu.se/therest/rest/record/searchResult/someSearch",
 					"accept" : "application/uub+recordList+json"
 				},
 				"read" : {
@@ -363,7 +363,7 @@ var CORATEST = (function(coraTest) {
 				"search" : {
 					"requestMethod" : "GET",
 					"rel" : "search",
-					"url" : "http://epc.ub.uu.se/therest/rest/record/metadataItemCollectionSearch/",
+					"url" : "http://epc.ub.uu.se/therest/rest/record/searchResult/metadataItemCollectionSearch",
 					"accept" : "application/uub+recordList+json"
 				},
 				"read" : {
@@ -386,6 +386,128 @@ var CORATEST = (function(coraTest) {
 					"accept" : "application/uub+record+json"
 				}
 			}
+		};
+		searchArray["searchWithoutSearchLink"] = {
+				"data" : {
+					"children" : [
+						{
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "metadataGroup"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "autocompleteSearchGroup"
+							} ],
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://epc.ub.uu.se/therest/rest/record/metadataGroup/autocompleteSearchGroup",
+									"accept" : "application/uub+record+json"
+								}
+							},
+							"name" : "metadataId"
+						},
+						{
+							"children" : [
+								{
+									"name" : "id",
+									"value" : "searchWithoutSearchLink"
+								},
+								{
+									"name" : "type",
+									"value" : "search"
+								},
+								{
+									"name" : "createdBy",
+									"value" : "141414"
+								},
+								{
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "system"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "cora"
+									} ],
+									"actionLinks" : {
+										"read" : {
+											"requestMethod" : "GET",
+											"rel" : "read",
+											"url" : "http://epc.ub.uu.se/therest/rest/record/system/cora",
+											"accept" : "application/uub+record+json"
+										}
+									},
+									"name" : "dataDivider"
+								} ],
+								"name" : "recordInfo"
+						},
+						{
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "presentationGroup"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "autocompleteSearchPGroup"
+							} ],
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://epc.ub.uu.se/therest/rest/record/presentationGroup/autocompleteSearchPGroup",
+									"accept" : "application/uub+record+json"
+								}
+							},
+							"name" : "presentationId"
+						},
+						{
+							"repeatId" : "0",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "recordType"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "metadataItemCollection"
+							} ],
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://epc.ub.uu.se/therest/rest/record/recordType/metadataItemCollection",
+									"accept" : "application/uub+record+json"
+								}
+							},
+							"name" : "recordTypeToSearchIn"
+						} ],
+						"name" : "search"
+				},
+				"actionLinks" : {
+//					"search" : {
+//						"requestMethod" : "GET",
+//						"rel" : "search",
+//						"url" : "http://epc.ub.uu.se/therest/rest/record/searchResult/metadataItemCollectionSearch",
+//						"accept" : "application/uub+recordList+json"
+//					},
+					"read" : {
+						"requestMethod" : "GET",
+						"rel" : "read",
+						"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataItemCollectionSearch",
+						"accept" : "application/uub+record+json"
+					},
+					"read_incoming_links" : {
+						"requestMethod" : "GET",
+						"rel" : "read_incoming_links",
+						"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataItemCollectionSearch/incomingLinks",
+						"accept" : "application/uub+recordList+json"
+					},
+					"update" : {
+						"requestMethod" : "POST",
+						"rel" : "update",
+						"contentType" : "application/uub+record+json",
+						"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataItemCollectionSearch",
+						"accept" : "application/uub+record+json"
+					}
+				}
 		};
 
 		function getSearchById(searchId) {
