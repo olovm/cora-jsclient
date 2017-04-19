@@ -33,7 +33,8 @@ var CORA = (function(cora) {
 		function start() {
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			var jsClientViewSpec = {
-				"name" : spec.name
+				"name" : spec.name,
+				"serverAddress" : spec.baseUrl
 			};
 			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 

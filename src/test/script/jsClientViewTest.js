@@ -25,7 +25,8 @@ QUnit.module("jsClientViewTest.js", {
 			"messageHolderFactory" : CORATEST.messageHolderFactorySpy()
 		};
 		this.spec = {
-			"name" : "The Client"
+			"name" : "The Client",
+			"serverAddress" : "http://epc.ub.uu.se/cora/rest/"
 		};
 	},
 	afterEach : function() {
@@ -53,7 +54,7 @@ QUnit.test("testGetSpec", function(assert) {
 QUnit.test("initCreatesMessageHolder", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 	var messageHolder = this.dependencies.messageHolderFactory.getFactored(0);
-	
+
 	assert.strictEqual(jsClientView.getHeader().childNodes[1], messageHolder.getView());
 });
 
@@ -68,7 +69,7 @@ QUnit.test("testMainLayout", function(assert) {
 
 	var sideBar = jsClientView.getSideBar();
 	assert.strictEqual(sideBar.className, "sideBar");
-	assert.strictEqual(sideBar, mainView.childNodes[1]); 
+	assert.strictEqual(sideBar, mainView.childNodes[1]);
 
 	var searchesView = jsClientView.getSearchesView();
 	assert.strictEqual(searchesView.className, "searchesView");
@@ -77,10 +78,14 @@ QUnit.test("testMainLayout", function(assert) {
 	var recordTypesView = jsClientView.getRecordTypesView();
 	assert.strictEqual(recordTypesView.className, "recordTypesView");
 	assert.strictEqual(recordTypesView, sideBar.childNodes[1]);
- 
+
 	var workArea = jsClientView.getWorkView();
 	assert.strictEqual(workArea.className, "workArea");
 	assert.strictEqual(workArea, mainView.childNodes[2]);
+
+	var serverAddress = mainView.childNodes[3];
+	assert.strictEqual(serverAddress.className, "serverAddress");
+	assert.strictEqual(serverAddress.textContent, this.spec.serverAddress);
 });
 
 QUnit.test("testGetSpec", function(assert) {
@@ -140,16 +145,16 @@ QUnit.test("testAddWorkView", function(assert) {
 
 QUnit.test("testRemoveFromWorkView", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
-	
+
 	var workView = jsClientView.getWorkView();
 	var someView = CORA.gui.createSpanWithClassName("recordType");
 	jsClientView.addToWorkView(someView);
-	
+
 	var firstWorkView = workView.childNodes[0];
 	assert.strictEqual(firstWorkView, someView);
-	
+
 	jsClientView.removeFromWorkView(someView);
-	
+
 	var firstWorkView = workView.childNodes[0];
 	assert.strictEqual(firstWorkView, undefined);
 });
