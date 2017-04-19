@@ -57,9 +57,9 @@ QUnit.module("recordHandlerTest.js", {
 			"createLink" : {
 				"requestMethod" : "POST",
 				"rel" : "create",
-				"contentType" : "application/uub+record+json",
+				"contentType" : "application/vnd.uub.record+json",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-				"accept" : "application/uub+record+json"
+				"accept" : "application/vnd.uub.record+json"
 			},
 			"newMetadataId" : "recordTypeNewGroup",
 			"newPresentationFormId" : "recordTypeFormNewPGroup",
@@ -311,7 +311,7 @@ QUnit.test("initCallToServer", function(assert) {
 	assert.strictEqual(ajaxCallSpec.url,
 			"http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
 	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
-	assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
 	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.processFetchedRecord);
 });
 
@@ -423,8 +423,8 @@ QUnit.test("testUpdateCall", function(assert) {
 	assert.strictEqual(ajaxCallSpec.url,
 			"http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
 	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
-	assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
-	assert.strictEqual(ajaxCallSpec.contentType, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
+	assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
 	assert.strictEqual(ajaxCallSpec.data, "{}");
 	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.resetViewsAndProcessFetchedRecord);
 
@@ -450,8 +450,8 @@ QUnit.test("testUpdateThroughPubSubCall", function(assert) {
 	assert.strictEqual(ajaxCallSpec.url,
 			"http://epc.ub.uu.se/cora/rest/record/recordType/recordType");
 	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
-	assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
-	assert.strictEqual(ajaxCallSpec.contentType, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
+	assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
 	assert.strictEqual(ajaxCallSpec.data, "{}");
 	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.resetViewsAndProcessFetchedRecord);
 });
@@ -719,8 +719,8 @@ QUnit.test("testCreateNewCall", function(assert) {
 	var ajaxCallSpec = ajaxCallSpy.getSpec();
 	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/recordType/");
 	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
-	assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
-	assert.strictEqual(ajaxCallSpec.contentType, "application/uub+record+json");
+	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
+	assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
 	assert.strictEqual(ajaxCallSpec.data, "{}");
 	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.resetViewsAndProcessFetchedRecord);
 	this.answerCall(0);

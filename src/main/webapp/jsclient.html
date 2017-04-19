@@ -272,19 +272,19 @@ var jsClientSpec;
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : baseUrl + "record/metadata/",
-			"accept" : "application/uub+recordList+json"
+			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var presentationListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : baseUrl + "record/presentation/",
-			"accept" : "application/uub+recordList+json"
+			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var textListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : baseUrl + "record/text/",
-			"accept" : "application/uub+recordList+json"
+			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var metadataProviderSpec = {
 			"dependencies" : dependencies,
@@ -309,7 +309,7 @@ var jsClientSpec;
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : baseUrl + "record/recordType/",
-			"accept" : "application/uub+recordList+json"
+			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var recordTypeProviderSpec = {
 			"dependencies" : dependencies,
@@ -359,8 +359,8 @@ var jsClientSpec;
 			},
 			"requestMethod" : "GET",
 			"requestHeaders" : {
-				"content-type" : "application/uub+record+json",
-				"accept" : "application/uub+record+json"
+				"content-type" : "application/vnd.uub.record+json",
+				"accept" : "application/vnd.uub.record+json"
 			},
 			"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
 			"loadMethod" : loadMethod,

@@ -31,7 +31,7 @@ QUnit.module("searchProviderTest.js", {
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : "http://epc.ub.uu.se/cora/rest/record/search/",
-			"accept" : "application/uub+recordList+json"
+			"accept" : "application/vnd.uub.recordList+json"
 		};
 		this.searchRecordListLink = searchRecordListLink;
 
@@ -69,7 +69,7 @@ QUnit.test("testInitCorrectRequestMade", function(assert) {
 	var ajaxCallSpec = ajaxCallSpy.getSpec();
 	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/search/");
 	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
-	assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
+	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.recordList+json");
 	assert.strictEqual(ajaxCallSpec.contentType, undefined);
 	assert.strictEqual(ajaxCallSpec.data, undefined);
 	assert.strictEqual(ajaxCallSpec.loadMethod, provider.processFetchedData);
@@ -130,7 +130,7 @@ QUnit
 												"requestMethod" : "GET",
 												"rel" : "read",
 												"url" : "http://epc.ub.uu.se/therest/rest/record/metadataGroup/autocompleteSearchGroup",
-												"accept" : "application/uub+record+json"
+												"accept" : "application/vnd.uub.record+json"
 											}
 										},
 										"name" : "metadataId"
@@ -162,7 +162,7 @@ QUnit
 															"requestMethod" : "GET",
 															"rel" : "read",
 															"url" : "http://epc.ub.uu.se/therest/rest/record/system/cora",
-															"accept" : "application/uub+record+json"
+															"accept" : "application/vnd.uub.record+json"
 														}
 													},
 													"name" : "dataDivider"
@@ -182,7 +182,7 @@ QUnit
 												"requestMethod" : "GET",
 												"rel" : "read",
 												"url" : "http://epc.ub.uu.se/therest/rest/record/presentationGroup/autocompleteSearchPGroup",
-												"accept" : "application/uub+record+json"
+												"accept" : "application/vnd.uub.record+json"
 											}
 										},
 										"name" : "presentationId"
@@ -201,7 +201,7 @@ QUnit
 												"requestMethod" : "GET",
 												"rel" : "read",
 												"url" : "http://epc.ub.uu.se/therest/rest/record/recordType/coraText",
-												"accept" : "application/uub+record+json"
+												"accept" : "application/vnd.uub.record+json"
 											}
 										},
 										"name" : "recordTypeToSearchIn"
@@ -213,26 +213,26 @@ QUnit
 								"requestMethod" : "GET",
 								"rel" : "search",
 								"url" : "http://epc.ub.uu.se/therest/rest/record/searchResult/coraTextSearch",
-								"accept" : "application/uub+recordList+json"
+								"accept" : "application/vnd.uub.recordList+json"
 							},
 							"read" : {
 								"requestMethod" : "GET",
 								"rel" : "read",
 								"url" : "http://epc.ub.uu.se/therest/rest/record/search/coraTextSearch",
-								"accept" : "application/uub+record+json"
+								"accept" : "application/vnd.uub.record+json"
 							},
 							"read_incoming_links" : {
 								"requestMethod" : "GET",
 								"rel" : "read_incoming_links",
 								"url" : "http://epc.ub.uu.se/therest/rest/record/search/coraTextSearch/incomingLinks",
-								"accept" : "application/uub+recordList+json"
+								"accept" : "application/vnd.uub.recordList+json"
 							},
 							"update" : {
 								"requestMethod" : "POST",
 								"rel" : "update",
-								"contentType" : "application/uub+record+json",
+								"contentType" : "application/vnd.uub.record+json",
 								"url" : "http://epc.ub.uu.se/therest/rest/record/search/coraTextSearch",
-								"accept" : "application/uub+record+json"
+								"accept" : "application/vnd.uub.record+json"
 							}
 						}
 					};

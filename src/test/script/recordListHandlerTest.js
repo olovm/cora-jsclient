@@ -55,7 +55,7 @@ QUnit.module("recordListHandlerTest.js", {
 				"requestMethod" : "GET",
 				"rel" : "list",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-				"accept" : "application/uub+recordList+json"
+				"accept" : "application/vnd.uub.recordList+json"
 			},
 			"listPresentationViewId" : "recordTypeListPGroup"
 		};
@@ -120,7 +120,7 @@ QUnit.test("init", function(assert) {
 	var ajaxCallSpec = ajaxCallSpy.getSpec();
 	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/recordType/");
 	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
-	assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
+	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.recordList+json");
 	assert.strictEqual(ajaxCallSpec.contentType, undefined);
 	assert.strictEqual(ajaxCallSpec.data, undefined);
 	assert.strictEqual(ajaxCallSpec.loadMethod, recordListHandler.processFetchedRecords);

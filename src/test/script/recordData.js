@@ -47,7 +47,7 @@ var CORATEST = (function(coraTest) {
 			              "requestMethod": "GET",
 			              "rel": "read",
 			              "url": "http://localhost:8080/therest/rest/record/system/cora",
-			              "accept": "application/uub+record+json"
+			              "accept": "application/vnd.uub.record+json"
 			            }
 			          },
 			          "name": "dataDivider"
@@ -81,7 +81,7 @@ var CORATEST = (function(coraTest) {
 				"requestMethod" : "GET",
 				"rel" : "read",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/textSystemOne/svEnText",
-				"accept" : "application/uub+record+json"
+				"accept" : "application/vnd.uub.record+json"
 			}
 		}
 	};
@@ -114,7 +114,7 @@ var CORATEST = (function(coraTest) {
 			              "requestMethod": "GET",
 			              "rel": "read",
 			              "url": "http://localhost:8080/therest/rest/record/system/cora",
-			              "accept": "application/uub+record+json"
+			              "accept": "application/vnd.uub.record+json"
 			            }
 			          },
 			          "name": "dataDivider"
@@ -147,15 +147,15 @@ var CORATEST = (function(coraTest) {
 			"update" : {
 				"requestMethod" : "POST",
 				"rel" : "update",
-				"contentType" : "application/uub+record+json",
+				"contentType" : "application/vnd.uub.record+json",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/textSystemOne/svEnText",
-				"accept" : "application/uub+record+json"
+				"accept" : "application/vnd.uub.record+json"
 			},
 			"read" : {
 				"requestMethod" : "GET",
 				"rel" : "read",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/textSystemOne/svEnText",
-				"accept" : "application/uub+record+json"
+				"accept" : "application/vnd.uub.record+json"
 			}
 		}
 	};

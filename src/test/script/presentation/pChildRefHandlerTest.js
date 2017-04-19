@@ -50,8 +50,8 @@ QUnit.module("pChildRefHandlerTest.js", {
 			assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/"
 					+ recordType + "/");
 			assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
-			assert.strictEqual(ajaxCallSpec.accept, "application/uub+record+json");
-			assert.strictEqual(ajaxCallSpec.contentType, "application/uub+record+json");
+			assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
+			assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
 		}
 		this.record = {
 			"data" : {
@@ -69,7 +69,7 @@ QUnit.module("pChildRefHandlerTest.js", {
 								"requestMethod" : "GET",
 								"rel" : "read",
 								"url" : "http://localhost:8080/therest/rest/record/system/alvin",
-								"accept" : "application/uub+record+json"
+								"accept" : "application/vnd.uub.record+json"
 							}
 						},
 						"name" : "dataDivider"
@@ -99,15 +99,15 @@ QUnit.module("pChildRefHandlerTest.js", {
 					"rel" : "read",
 					"url" : "http://localhost:8080/therest/rest/record/image/"
 							+ "image:333759270435575",
-					"accept" : "application/uub+record+json"
+					"accept" : "application/vnd.uub.record+json"
 				},
 				"update" : {
 					"requestMethod" : "POST",
 					"rel" : "update",
-					"contentType" : "application/uub+record+json",
+					"contentType" : "application/vnd.uub.record+json",
 					"url" : "http://localhost:8080/therest/rest/record/image/"
 							+ "image:333759270435575",
-					"accept" : "application/uub+record+json"
+					"accept" : "application/vnd.uub.record+json"
 				},
 				"delete" : {
 					"requestMethod" : "DELETE",
@@ -121,7 +121,7 @@ QUnit.module("pChildRefHandlerTest.js", {
 					"contentType" : "multipart/form-data",
 					"url" : "http://localhost:8080/therest/rest/record/image/"
 							+ "image:333759270435575/upload",
-					"accept" : "application/uub+record+json"
+					"accept" : "application/vnd.uub.record+json"
 				}
 			}
 
@@ -771,7 +771,7 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 			"size" : 1234567890
 		},
 		"uploadLink" : {
-			"accept" : "application/uub+record+json",
+			"accept" : "application/vnd.uub.record+json",
 			"contentType" : "multipart/form-data",
 			"rel" : "upload",
 			"requestMethod" : "POST",
@@ -787,7 +787,7 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 			"size" : 9876543210
 		},
 		"uploadLink" : {
-			"accept" : "application/uub+record+json",
+			"accept" : "application/vnd.uub.record+json",
 			"contentType" : "multipart/form-data",
 			"rel" : "upload",
 			"requestMethod" : "POST",
@@ -803,7 +803,7 @@ QUnit.test("testHandleFilesSendingMoreThanOneFile", function(assert) {
 			"size" : 1122334455
 		},
 		"uploadLink" : {
-			"accept" : "application/uub+record+json",
+			"accept" : "application/vnd.uub.record+json",
 			"contentType" : "multipart/form-data",
 			"rel" : "upload",
 			"requestMethod" : "POST",

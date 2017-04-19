@@ -29,19 +29,19 @@ QUnit.module("metadataProviderTest.js", {
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : "http://epc.ub.uu.se/cora/rest/record/metadata/",
-			"accept" : "application/uub+recordList+json"
+			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var presentationListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : "http://epc.ub.uu.se/cora/rest/record/presentation/",
-			"accept" : "application/uub+recordList+json"
+			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var textListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
-			"accept" : "application/uub+recordList+json"
+			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var spec = {
 			"dependencies" : dependencies,
@@ -71,7 +71,7 @@ QUnit.test("init", function(assert) {
 		assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/" + recordType
 				+ "/");
 		assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
-		assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
+		assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.recordList+json");
 		assert.strictEqual(ajaxCallSpec.loadMethod, metadataProvider.processFetchedMetadata);
 	}
 	var metadataProvider = CORA.metadataProvider(this.spec);

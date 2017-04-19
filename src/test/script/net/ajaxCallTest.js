@@ -55,8 +55,8 @@ QUnit.module("ajaxCallTest.js", {
 			"requestMethod" : "GET",
 			"url" : "http://localhost:8080/therest/rest/record/recordType",
 			"requestHeaders" : {
-				"content-type" : "application/uub+record+json",
-				"accept" : "application/uub+record+json",
+				"content-type" : "application/vnd.uub.record+json",
+				"accept" : "application/vnd.uub.record+json",
 				"authToken" : "someRandomToken"
 			},
 			"loadMethod" : loadMethod,
@@ -146,9 +146,9 @@ QUnit.test("testXMLHttpRequestSetUpCorrect", function(assert) {
 			"?preventCache");
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "GET");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
+			"application/vnd.uub.record+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-			"application/uub+record+json");
+			"application/vnd.uub.record+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["authToken"][0], "someRandomToken");
 	assert.ok(this.getLoadMethodWasCalled(), "loadMethod was called ok")
 });
@@ -407,9 +407,9 @@ QUnit.test("testSendCreate", function(assert) {
 	assert.strictEqual(openUrl, "http://localhost:8080/therest/rest/record/recordType");
 	assert.strictEqual(xmlHttpRequestSpy.getOpenMethod(), "POST");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["accept"][0],
-			"application/uub+record+json");
+			"application/vnd.uub.record+json");
 	assert.strictEqual(xmlHttpRequestSpy.addedRequestHeaders["content-type"][0],
-			"application/uub+record+json");
+			"application/vnd.uub.record+json");
 
 	assert.strictEqual(xmlHttpRequestSpy.getSentData(), JSON.stringify(textData));
 	assert.strictEqual(this.getAnswer().status, 201);

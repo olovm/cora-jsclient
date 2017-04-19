@@ -25,9 +25,9 @@ var CORATEST = (function(coraTest) {
 		var expectedCreateLink = {
 				"requestMethod" : "POST",
 				"rel" : "create",
-				"contentType" : "application/uub+record+json",
+				"contentType" : "application/vnd.uub.record+json",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-				"accept" : "application/uub+record+json"
+				"accept" : "application/vnd.uub.record+json"
 		};
 		assert.stringifyEqual(factoredSpec.createLink, expectedCreateLink);
 		assert.strictEqual(factoredSpec.newMetadataId, "metadataCollectionItemNewGroup");
@@ -102,7 +102,7 @@ QUnit.test("fetchListCheckSpec", function(assert) {
 		"requestMethod" : "GET",
 		"rel" : "list",
 		"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-		"accept" : "application/uub+recordList+json"
+		"accept" : "application/vnd.uub.recordList+json"
 	};
 	assert.stringifyEqual(factoredSpec.listLink, expectedListLink);
 	assert.strictEqual(factoredSpec.listPresentationViewId, "metadataCollectionItemListPGroup");

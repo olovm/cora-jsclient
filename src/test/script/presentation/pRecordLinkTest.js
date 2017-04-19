@@ -305,7 +305,7 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", functio
 					"requestMethod" : "GET",
 					"rel" : "read",
 					"url" : "http://localhost:8080/therest/rest/record/system/cora",
-					"accept" : "application/uub+record+json"
+					"accept" : "application/vnd.uub.record+json"
 				}
 			},
 			"name" : "dataDivider"
@@ -451,7 +451,7 @@ QUnit
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/system/cora",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								}
 							},
 							"name" : "dataDivider"
