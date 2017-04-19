@@ -56,6 +56,10 @@ var CORA = (function(cora) {
 			messageHolder = dependencies.messageHolderFactory.factor();
 			header.appendChild(messageHolder.getView());
 
+			var serverAddress = CORA.gui.createSpanWithClassName("serverAddress");
+			serverAddress.textContent = spec.serverAddress;
+			view.appendChild(serverAddress);
+
 			return view;
 		}
 

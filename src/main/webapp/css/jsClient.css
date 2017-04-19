@@ -487,3 +487,10 @@ body {
 	display: block;
 	height: 2rem;
 }
+
+.jsClient .serverAddress {
+	position: absolute;
+	bottom: 0rem;
+	right: 1rem;
+	color: gray;
+}

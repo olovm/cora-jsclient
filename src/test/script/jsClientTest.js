@@ -39,7 +39,7 @@ QUnit.module("jsClientTest.js", {
 			"searchProvider" : CORATEST.searchProviderSpy(),
 			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
 			"presentationFactoryFactory" : "not implemented yet",
-			"jsClientViewFactory" : CORATEST.jsClientViewFactorySpy(),
+			"jsClientViewFactory" : CORATEST.standardFactorySpy("jsClientViewSpy"),
 			"searchRecordHandlerFactory" : CORATEST.standardFactorySpy("searchRecordHandlerSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 		}
@@ -71,6 +71,14 @@ QUnit.test("init", function(assert) {
 	var lastRecordType = jsClientView.getRecordTypesView(18);
 	assert.strictEqual(lastRecordType.className, "recordType");
 	assert.strictEqual(lastRecordType.firstChild.textContent, "recordType");
+});
+
+QUnit.test("testViewSpec", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientViewSpec = this.dependencies.jsClientViewFactory.getSpec(0);
+	
+	assert.strictEqual(jsClientViewSpec.name, this.spec.name);
+	assert.strictEqual(jsClientViewSpec.serverAddress, this.spec.baseUrl);
 });
 
 QUnit.test("testInitCreatesALoginManager", function(assert) {
