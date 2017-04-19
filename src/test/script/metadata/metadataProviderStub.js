@@ -2669,7 +2669,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -2790,7 +2790,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -2855,7 +2855,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -2922,7 +2922,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -3044,7 +3044,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -3120,7 +3120,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -3215,7 +3215,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -3301,7 +3301,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -3388,7 +3388,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -3453,7 +3453,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -3532,7 +3532,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -3601,7 +3601,7 @@ function MetadataProviderStub() {
                                         "requestMethod": "GET",
                                         "rel": "read",
                                         "url": "http://localhost:8080/therest/rest/record/system/cora",
-                                        "accept": "application/uub+record+json"
+                                        "accept": "application/vnd.uub.record+json"
                                     }
                                 },
                                 "name": "dataDivider"
@@ -3860,7 +3860,7 @@ function MetadataProviderStub() {
                                     "requestMethod": "GET",
                                     "rel": "read",
                                     "url": "http://localhost:8080/therest/rest/record/metadataCollectionVariable/userSuppliedIdCollectionVar",
-                                    "accept": "application/uub+record+json"
+                                    "accept": "application/vnd.uub.record+json"
                                 }
                             },
                             "name": "presentationOf"
@@ -3896,7 +3896,7 @@ function MetadataProviderStub() {
                                     "requestMethod": "GET",
                                     "rel": "read",
                                     "url": "http://localhost:8080/therest/rest/record/metadataCollectionVariable/userSuppliedIdCollectionVar",
-                                    "accept": "application/uub+record+json"
+                                    "accept": "application/vnd.uub.record+json"
                                 }
                             },
                             "name": "presentationOf"
@@ -3932,7 +3932,7 @@ function MetadataProviderStub() {
                                     "requestMethod": "GET",
                                     "rel": "read",
                                     "url": "http://localhost:8080/therest/rest/record/metadataTextVariable/textVariableId",
-                                    "accept": "application/uub+record+json"
+                                    "accept": "application/vnd.uub.record+json"
                                 }
                             },
                             "name": "presentationOf"
@@ -3974,7 +3974,7 @@ function MetadataProviderStub() {
                                     "requestMethod": "GET",
                                     "rel": "read",
                                     "url": "http://localhost:8080/therest/rest/record/metadataTextVariable/textVariableId",
-                                    "accept": "application/uub+record+json"
+                                    "accept": "application/vnd.uub.record+json"
                                 }
                             },
                             "name": "presentationOf"
@@ -4073,7 +4073,7 @@ function MetadataProviderStub() {
                                     "requestMethod": "GET",
                                     "rel": "read",
                                     "url": "http://localhost:8080/therest/rest/record/metadataCollectionVariable/userSuppliedIdCollectionVar",
-                                    "accept": "application/uub+record+json"
+                                    "accept": "application/vnd.uub.record+json"
                                 }
                             },
                             "name": "presentationOf"
@@ -8684,7 +8684,7 @@ function MetadataProviderStub() {
                                             "requestMethod": "GET",
                                             "rel": "read",
                                             "url": "http://epc.ub.uu.se/cora/rest/record/system/cora",
-                                            "accept": "application/uub+record+json"
+                                            "accept": "application/vnd.uub.record+json"
                                         }
                                     },
                                     "name": "dataDivider"
@@ -8710,7 +8710,7 @@ function MetadataProviderStub() {
                                     "requestMethod": "GET",
                                     "rel": "read",
                                     "url": "http://localhost:8080/therest/rest/record/metadataResourceLink/masterResLink",
-                                    "accept": "application/uub+record+json"
+                                    "accept": "application/vnd.uub.record+json"
                                 }
                             },
                             "name": "presentationOf"
@@ -8767,7 +8767,7 @@ function MetadataProviderStub() {
                                             "requestMethod": "GET",
                                             "rel": "read",
                                             "url": "http://epc.ub.uu.se/cora/rest/record/system/cora",
-                                            "accept": "application/uub+record+json"
+                                            "accept": "application/vnd.uub.record+json"
                                         }
                                     },
                                     "name": "dataDivider"
@@ -8793,7 +8793,7 @@ function MetadataProviderStub() {
                                     "requestMethod": "GET",
                                     "rel": "read",
                                     "url": "http://localhost:8080/therest/rest/record/metadataResourceLink/masterResLink",
-                                    "accept": "application/uub+record+json"
+                                    "accept": "application/vnd.uub.record+json"
                                 }
                             },
                             "name": "presentationOf"
@@ -8828,7 +8828,7 @@ function MetadataProviderStub() {
                                             "requestMethod": "GET",
                                             "rel": "read",
                                             "url": "http://epc.ub.uu.se/cora/rest/record/system/cora",
-                                            "accept": "application/uub+record+json"
+                                            "accept": "application/vnd.uub.record+json"
                                         }
                                     },
                                     "name": "dataDivider"
@@ -8854,7 +8854,7 @@ function MetadataProviderStub() {
                                     "requestMethod": "GET",
                                     "rel": "read",
                                     "url": "http://localhost:8080/therest/rest/record/metadataResourceLink/masterResLink",
-                                    "accept": "application/uub+record+json"
+                                    "accept": "application/vnd.uub.record+json"
                                 }
                             },
                             "name": "presentationOf"
@@ -8889,7 +8889,7 @@ function MetadataProviderStub() {
                                             "requestMethod": "GET",
                                             "rel": "read",
                                             "url": "http://epc.ub.uu.se/cora/rest/record/system/cora",
-                                            "accept": "application/uub+record+json"
+                                            "accept": "application/vnd.uub.record+json"
                                         }
                                     },
                                     "name": "dataDivider"
@@ -8915,7 +8915,7 @@ function MetadataProviderStub() {
                                     "requestMethod": "GET",
                                     "rel": "read",
                                     "url": "http://localhost:8080/therest/rest/record/metadataResourceLink/masterResLink",
-                                    "accept": "application/uub+record+json"
+                                    "accept": "application/vnd.uub.record+json"
                                 }
                             },
                             "name": "presentationOf"
@@ -8969,7 +8969,7 @@ function MetadataProviderStub() {
                                             "requestMethod": "GET",
                                             "rel": "read",
                                             "url": "http://epc.ub.uu.se/cora/rest/record/system/cora",
-                                            "accept": "application/uub+record+json"
+                                            "accept": "application/vnd.uub.record+json"
                                         }
                                     },
                                     "name": "dataDivider"

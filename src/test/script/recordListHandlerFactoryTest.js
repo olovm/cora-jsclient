@@ -38,7 +38,7 @@ QUnit.module("recordListHandlerFactoryTest.js", {
 				"requestMethod" : "GET",
 				"rel" : "list",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-				"accept" : "application/uub+recordList+json"
+				"accept" : "application/vnd.uub.recordList+json"
 			},
 			"listPresentationViewId" : "metadataCollectionItemListPGroup"
 		};

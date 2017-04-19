@@ -29,7 +29,7 @@ QUnit.module("textProviderTest.js", {
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
-			"accept" : "application/uub+recordList+json"
+			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var spec = {
 			"dependencies" : dependencies,
@@ -55,7 +55,7 @@ QUnit.test("testInit", function(assert) {
 		assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/" + recordType
 				+ "/");
 		assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
-		assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
+		assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.recordList+json");
 		assert.strictEqual(ajaxCallSpec.loadMethod, textProvider.processFetchedTextdata);
 	}
 	var textProvider = CORA.textProvider(this.spec);

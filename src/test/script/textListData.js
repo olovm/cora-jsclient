@@ -55,14 +55,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationOfTextVarText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationOfTextVarText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -105,14 +105,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/refMinimizedItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/refMinimizedItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -155,14 +155,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/modeCollectionTextVarText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/modeCollectionTextVarText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -205,14 +205,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/imageItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/imageItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -257,14 +257,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationChildReferencesGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationChildReferencesGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -307,14 +307,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/refItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/refItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -357,14 +357,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textPartEnPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textPartEnPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -407,14 +407,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/recordInfoNewTextPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/recordInfoNewTextPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -457,14 +457,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textPartSvPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textPartSvPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -507,14 +507,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textSystemOneNewPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textSystemOneNewPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -557,14 +557,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textPartAlternativePGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textPartAlternativePGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -607,14 +607,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/emptyTextIdTextVarText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/emptyTextIdTextVarText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -657,14 +657,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationVarIdText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationVarIdText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -707,14 +707,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -757,14 +757,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/initialEmptyValueText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/initialEmptyValueText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -817,14 +817,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/1Text",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/1Text",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -867,14 +867,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationChildReferenceMinimizedRefText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationChildReferenceMinimizedRefText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -917,14 +917,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/recordTypePGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/recordTypePGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -967,14 +967,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/recordInfoTextPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/recordInfoTextPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1017,14 +1017,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/outputFormatVarText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/outputFormatVarText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1067,14 +1067,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationGroupIdText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationGroupIdText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1117,14 +1117,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/soundItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/soundItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1167,14 +1167,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textPartDefaultPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textPartDefaultPGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1217,14 +1217,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/inputItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/inputItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1267,14 +1267,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/outputItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/outputItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1317,14 +1317,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textSystemOnePGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/textSystemOnePGroupText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1367,14 +1367,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/videoItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/videoItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1417,14 +1417,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/defaultPresentationCollectionText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/defaultPresentationCollectionText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1467,14 +1467,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/downloadItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/downloadItemText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",
@@ -1517,14 +1517,14 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "GET",
 									"rel" : "read",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationChildReferenceRefText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"update" : {
 									"requestMethod" : "POST",
 									"rel" : "update",
-									"contentType" : "application/uub+record+json",
+									"contentType" : "application/vnd.uub.record+json",
 									"url" : "http://localhost:8080/therest/rest/record/textSystemOne/presentationChildReferenceRefText",
-									"accept" : "application/uub+record+json"
+									"accept" : "application/vnd.uub.record+json"
 								},
 								"delete" : {
 									"requestMethod" : "DELETE",

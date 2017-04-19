@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -31,7 +31,7 @@ QUnit.module("recordTypeProviderTest.js", {
 			"requestMethod" : "GET",
 			"rel" : "list",
 			"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-			"accept" : "application/uub+recordList+json"
+			"accept" : "application/vnd.uub.recordList+json"
 		};
 		this.recordTypeListLink = recordTypeListLink;
 
@@ -64,7 +64,7 @@ QUnit.test("initCorrectRequestMade", function(assert) {
 	var ajaxCallSpec = ajaxCallSpy.getSpec();
 	assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/recordType/");
 	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
-	assert.strictEqual(ajaxCallSpec.accept, "application/uub+recordList+json");
+	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.recordList+json");
 	assert.strictEqual(ajaxCallSpec.contentType, undefined);
 	assert.strictEqual(ajaxCallSpec.data, undefined);
 	assert.strictEqual(ajaxCallSpec.loadMethod, provider.processFetchedData);
@@ -79,11 +79,10 @@ QUnit.test("initCallWhenReadyCalledWhenReady", function(assert) {
 	this.spec.callWhenReady = providerReady;
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 
-
 	assert.notOk(providerStarted);
-	
+
 	this.answerListCall(0);
-	
+
 	assert.ok(providerStarted);
 });
 
@@ -112,7 +111,7 @@ QUnit.test("testInitEnteredLinkIsNotChanged", function(assert) {
 QUnit.test("getRecordTypeById", function(assert) {
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 	this.answerListCall(0);
-	
+
 	var expected = {
 		"data" : {
 			"children" : [ {
@@ -141,7 +140,7 @@ QUnit.test("getRecordTypeById", function(assert) {
 							"requestMethod" : "GET",
 							"rel" : "read",
 							"url" : "http://localhost:8080/therest/rest/record/system/cora",
-							"accept" : "application/uub+record+json"
+							"accept" : "application/vnd.uub.record+json"
 						}
 					},
 					"name" : "dataDivider"
@@ -149,88 +148,67 @@ QUnit.test("getRecordTypeById", function(assert) {
 				"name" : "recordInfo"
 			}, {
 				"name" : "metadataId",
-				"children": [
-					{
-						"name": "linkedRecordType",
-						"value": "metadataGroup"
-					},
-					{
-						"name": "linkedRecordId",
-						"value": "textSystemOneGroup"
-					}
-				]
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataGroup"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "textSystemOneGroup"
+				} ]
 			}, {
 				"name" : "presentationViewId",
-				"children": [
-					{
-						"name": "linkedRecordType",
-						"value": "presentationGroup"
-					},
-					{
-						"name": "linkedRecordId",
-						"value": "textSystemOneViewPGroup"
-					}
-				]
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "presentationGroup"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "textSystemOneViewPGroup"
+				} ]
 			}, {
 				"name" : "presentationFormId",
-				"children": [
-					{
-						"name": "linkedRecordType",
-						"value": "presentationGroup"
-					},
-					{
-						"name": "linkedRecordId",
-						"value": "textSystemOneFormPGroup"
-					}
-				]
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "presentationGroup"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "textSystemOneFormPGroup"
+				} ]
 			}, {
 				"name" : "newMetadataId",
-				"children": [
-					{
-						"name": "linkedRecordType",
-						"value": "metadataGroup"
-					},
-					{
-						"name": "linkedRecordId",
-						"value": "textSystemOneNewGroup"
-					}
-				]
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataGroup"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "textSystemOneNewGroup"
+				} ]
 			}, {
 				"name" : "newPresentationFormId",
-				"children": [
-					{
-						"name": "linkedRecordType",
-						"value": "presentationGroup"
-					},
-					{
-						"name": "linkedRecordId",
-						"value": "textSystemOneFormNewPGroup"
-					}
-				]
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "presentationGroup"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "textSystemOneFormNewPGroup"
+				} ]
 			}, {
 				"name" : "menuPresentationViewId",
-				"children": [
-					{
-						"name": "linkedRecordType",
-						"value": "presentationGroup"
-					},
-					{
-						"name": "linkedRecordId",
-						"value": "textSystemOneMenuPGroup"
-					}
-				]
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "presentationGroup"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "textSystemOneMenuPGroup"
+				} ]
 			}, {
 				"name" : "listPresentationViewId",
-				"children": [
-					{
-						"name": "linkedRecordType",
-						"value": "presentationGroup"
-					},
-					{
-						"name": "linkedRecordId",
-						"value": "textSystemOneListPGroup"
-					}
-				]
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "presentationGroup"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "textSystemOneListPGroup"
+				} ]
 			}, {
 				"name" : "searchMetadataId",
 				"value" : "textSystemOneSearchGroup"
@@ -248,16 +226,13 @@ QUnit.test("getRecordTypeById", function(assert) {
 				"value" : "false"
 			}, {
 				"name" : "parentId",
-				"children": [
-					{
-						"name": "linkedRecordType",
-						"value": "recordType"
-					},
-					{
-						"name": "linkedRecordId",
-						"value": "text"
-					}
-				]
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "recordType"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "text"
+				} ]
 			} ],
 			"name" : "recordType"
 		},
@@ -266,33 +241,33 @@ QUnit.test("getRecordTypeById", function(assert) {
 				"requestMethod" : "GET",
 				"rel" : "search",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-				"accept" : "application/uub+recordList+json"
+				"accept" : "application/vnd.uub.recordList+json"
 			},
 			"read" : {
 				"requestMethod" : "GET",
 				"rel" : "read",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
-				"accept" : "application/uub+record+json"
+				"accept" : "application/vnd.uub.record+json"
 			},
 			"update" : {
 				"requestMethod" : "POST",
 				"rel" : "update",
-				"contentType" : "application/uub+record+json",
+				"contentType" : "application/vnd.uub.record+json",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
-				"accept" : "application/uub+record+json"
+				"accept" : "application/vnd.uub.record+json"
 			},
 			"create" : {
 				"requestMethod" : "POST",
 				"rel" : "create",
-				"contentType" : "application/uub+record+json",
+				"contentType" : "application/vnd.uub.record+json",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-				"accept" : "application/uub+record+json"
+				"accept" : "application/vnd.uub.record+json"
 			},
 			"list" : {
 				"requestMethod" : "GET",
 				"rel" : "list",
 				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-				"accept" : "application/uub+recordList+json"
+				"accept" : "application/vnd.uub.recordList+json"
 			},
 			"delete" : {
 				"requestMethod" : "DELETE",
@@ -308,7 +283,7 @@ QUnit.test("getRecordTypeById", function(assert) {
 QUnit.test("getRecordTypeByIdNotFound", function(assert) {
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 	this.answerListCall(0);
-	
+
 	var error = false;
 	try {
 		var x = provider.getRecordTypeById("someNonExistingRecordTypeId");
@@ -320,13 +295,12 @@ QUnit.test("getRecordTypeByIdNotFound", function(assert) {
 
 QUnit.test("getAllRecordTypes", function(assert) {
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
-	this.answerListCall(0); 
-	
+	this.answerListCall(0);
+
 	var recordTypeList = provider.getAllRecordTypes();
 	assert.stringifyEqual(recordTypeList.length, 15);
 
 });
-
 
 QUnit.test("testReload", function(assert) {
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
@@ -336,7 +310,7 @@ QUnit.test("testReload", function(assert) {
 	}
 
 	assert.notOk(providerReloaded);
-	
+
 	provider.reload(callWhenProviderHasReloaded);
 
 	this.answerListCall(1);
