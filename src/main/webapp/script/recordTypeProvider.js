@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Olov McKie
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -20,10 +20,13 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeProvider = function(dependencies, spec) {
-		var callWhenReady = spec.callWhenReady;
 
-		var recordTypes = {};
-		fetchRecordTypeListAndThen(processFetchedData);
+		var callWhenReady = spec.callWhenReady;
+		var allRecordTypesById = {};
+
+		function start() {
+			fetchRecordTypeListAndThen(processFetchedData);
+		}
 
 		function fetchRecordTypeListAndThen(callAfterAnswer) {
 			callThroughAjax(spec.recordTypeListLink, callAfterAnswer);
@@ -40,18 +43,18 @@ var CORA = (function(cora) {
 		}
 
 		function processFetchedData(answer) {
-			createRecordTypeObjectFromAnswer(answer);
+			populateAllRecordTypesByIdFromAnswer(answer);
 			if (callWhenReady) {
 				callWhenReady();
 			}
 		}
 
-		function createRecordTypeObjectFromAnswer(answer) {
-			var data = JSON.parse(answer.responseText).dataList.data;
-			data.forEach(function(recordContainer) {
+		function populateAllRecordTypesByIdFromAnswer(answer) {
+			var listOfAllRecordTypesAsRecords = JSON.parse(answer.responseText).dataList.data;
+			listOfAllRecordTypesAsRecords.forEach(function(recordContainer) {
 				var record = recordContainer.record;
 				var recordId = getIdFromRecordData(record.data);
-				recordTypes[recordId] = record;
+				allRecordTypesById[recordId] = record;
 			});
 		}
 
@@ -63,21 +66,21 @@ var CORA = (function(cora) {
 		}
 
 		function getRecordTypeById(recordTypeId) {
-			if (recordTypes[recordTypeId] !== undefined) {
-				return recordTypes[recordTypeId];
+			if (allRecordTypesById[recordTypeId] !== undefined) {
+				return allRecordTypesById[recordTypeId];
 			}
 			throw new Error("Id(" + recordTypeId + ") not found in recordTypeProvider");
 		}
 
 		function getAllRecordTypes() {
 			var recordTypeList = [];
-			Object.keys(recordTypes).forEach(function(id) {
-				recordTypeList.push(recordTypes[id]);
+			Object.keys(allRecordTypesById).forEach(function(id) {
+				recordTypeList.push(allRecordTypesById[id]);
 			});
 			return recordTypeList;
 		}
 
-		function reload(callWhenReloadedMethodIn){
+		function reload(callWhenReloadedMethodIn) {
 			callWhenReady = callWhenReloadedMethodIn;
 			fetchRecordTypeListAndThen(processFetchedData);
 		}
@@ -88,6 +91,7 @@ var CORA = (function(cora) {
 			processFetchedData : processFetchedData,
 			reload : reload
 		});
+		start();
 		return out;
 	};
 	return cora;
