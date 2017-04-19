@@ -20,19 +20,33 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordListHandler = function(dependencies, spec) {
-		var managedGuiItemSpec = {
-			"activateMethod" : spec.jsClient.showView,
-			"removeMethod" : spec.jsClient.viewRemoved
-		};
-		var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-
-		spec.addToRecordTypeHandlerMethod(managedGuiItem);
-		spec.jsClient.showView(managedGuiItem);
-
+		var managedGuiItem;
 		var recordId = spec.recordTypeRecordId;
 
-		addTextToMenuView();
-		fetchDataFromServer(processFetchedRecords);
+		function start() {
+			managedGuiItem = createManagedGuiItem();
+			addToRecordTypeHandler(managedGuiItem);
+			showViewInClient(managedGuiItem);
+
+			addTextToMenuView();
+			fetchDataFromServer(processFetchedRecords);
+		}
+
+		function createManagedGuiItem() {
+			var managedGuiItemSpec = {
+				"activateMethod" : spec.jsClient.showView,
+				"removeMethod" : spec.jsClient.viewRemoved
+			};
+			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
+		}
+
+		function addToRecordTypeHandler(managedGuiItemToAdd) {
+			spec.addToRecordTypeHandlerMethod(managedGuiItemToAdd);
+		}
+
+		function showViewInClient(managedGuiItemToShow) {
+			spec.jsClient.showView(managedGuiItemToShow);
+		}
 
 		function addTextToMenuView() {
 			var menuPresentation = CORA.gui.createSpanWithClassName("");
@@ -76,6 +90,7 @@ var CORA = (function(cora) {
 		function addRecordToWorkView(record) {
 			var view = createView(record);
 			managedGuiItem.addWorkPresentation(view);
+
 			var recordTypeId = getRecordTypeId(record);
 			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
 			var presentationId = spec.listPresentationViewId;
@@ -88,8 +103,10 @@ var CORA = (function(cora) {
 			var recordGui = dependencies.recordGuiFactory.factor(recordGuiSpec);
 			var presentationView = recordGui.getPresentation(presentationId, metadataId).getView();
 			recordGui.initMetadataControllerStartingGui();
+
 			view.appendChild(presentationView);
 		}
+
 		function getRecordTypeId(record) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
@@ -103,7 +120,7 @@ var CORA = (function(cora) {
 				if (event.ctrlKey) {
 					loadInBackground = "true";
 				}
-				spec.createRecordHandlerMethod("view", record, loadInBackground);
+				spec.openRecordMethod("view", record, loadInBackground);
 			};
 			return newView;
 		}
@@ -139,6 +156,9 @@ var CORA = (function(cora) {
 			open : open,
 			processFetchedRecords : processFetchedRecords
 		});
+
+		start();
+
 		return out;
 	};
 	return cora;

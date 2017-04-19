@@ -271,7 +271,7 @@ var CORA = (function(cora) {
 		}
 
 		function copyData() {
-			spec.createRecordHandlerMethod("new", recordGui.dataHolder.getData());
+			spec.openRecordMethod("new", recordGui.dataHolder.getData());
 		}
 
 		function recordRecordTypeIsNotAbstract() {

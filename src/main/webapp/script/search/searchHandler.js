@@ -104,7 +104,10 @@ var CORA = (function(cora) {
 				"accept" : link.accept,
 				"parameters" : {
 					"searchData" : JSON.stringify(recordGui.dataHolder.getData())
-				}
+				},
+			// "loadMethod" : function(answer) {
+			// alert(JSON.stringify(answer));
+			// }
 			};
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}

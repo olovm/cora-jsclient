@@ -113,7 +113,7 @@ QUnit.test("showRecord", function(assert) {
 	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
 	spec.fetchListMethod();
 	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	catchRecordListHandlerSpec.createRecordHandlerMethod("view", this.record);
+	catchRecordListHandlerSpec.openRecordMethod("view", this.record);
 
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.presentationMode, "view");
@@ -128,7 +128,7 @@ QUnit.test("createRecordHandlerInBackground", function(assert) {
 	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
 	spec.fetchListMethod();
 	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	catchRecordListHandlerSpec.createRecordHandlerMethod("view", this.record, "true");
+	catchRecordListHandlerSpec.openRecordMethod("view", this.record, "true");
 	
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.loadInBackground, "true");
@@ -145,7 +145,7 @@ QUnit.test("showNew", function(assert) {
 	spec.fetchListMethod();
 
 	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	catchRecordListHandlerSpec.createRecordHandlerMethod("new", undefined);
+	catchRecordListHandlerSpec.openRecordMethod("new", undefined);
 
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.presentationMode, "new");

@@ -23,6 +23,7 @@ var CORA = (function(cora) {
 		var view;
 		var searchFormHolder;
 		var buttonView;
+		var resultHolder;
 
 		function start() {
 			var workItemView = createWorkItemView();
@@ -30,6 +31,7 @@ var CORA = (function(cora) {
 			createSearchFormHolderAndAddTo(workItemView);
 			createButtonViewAndAddTo(searchFormHolder);
 			createSearchButtonIn(buttonView);
+			createResultHolderAndAddTo(workItemView);
 		}
 
 		function createWorkItemView() {
@@ -61,6 +63,11 @@ var CORA = (function(cora) {
 			button.onclick = spec.searchMethod;
 			button.className = "searchButton";
 			return button;
+		}
+
+		function createResultHolderAndAddTo(addTo) {
+			resultHolder = CORA.gui.createSpanWithClassName("resultHolder");
+			addTo.addViewToView(resultHolder);
 		}
 
 		function getView() {

@@ -100,6 +100,14 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(searchHandlerView.getSpec(), this.spec);
 });
 
+QUnit.test("testInitResultViewCreatedAndAddedToWorkItemView", function(assert) {
+	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
+	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0);
+	var resultHolder = factoredWorkItemView.getViewsAddedToView(1);
+	assert.strictEqual(resultHolder.nodeName, "SPAN");
+	assert.strictEqual(resultHolder.className, "resultHolder");
+});
+
 QUnit.test("testAddPresentationToSearchFormHolder", function(assert) {
 	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
 	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0);

@@ -51,7 +51,7 @@ var CORA = (function(cora) {
 
 		function createRecordTypeList() {
 			var listHandlerSpec = {
-				"createRecordHandlerMethod" : createRecordHandler,
+				"openRecordMethod" : createRecordHandler,
 				"baseUrl" : spec.baseUrl,
 				"jsClient" : dependencies.jsClient,
 				"addToRecordTypeHandlerMethod" : addManagedGuiItem,
@@ -77,7 +77,7 @@ var CORA = (function(cora) {
 				"jsClient" : dependencies.jsClient,
 				"recordTypeHandler" : self,
 				"addToRecordTypeHandlerMethod" : addManagedGuiItem,
-				"createRecordHandlerMethod" : createRecordHandler,
+				"openRecordMethod" : createRecordHandler,
 				"recordTypeRecordId" : recordId,
 				"createLink" : spec.recordTypeRecord.actionLinks.create,
 				"newMetadataId" : getLinkValueFromRecordTypeRecord("newMetadataId"),
