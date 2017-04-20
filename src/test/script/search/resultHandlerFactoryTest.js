@@ -1,6 +1,5 @@
 /*
  * Copyright 2017 Uppsala University Library
- * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -22,6 +21,7 @@
 QUnit.module("resultHandlerFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
+			"resultHandlerViewFactory" : CORATEST.standardFactorySpy("resultHandlerViewSpy")
 		// "recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
 		// "textProvider" : CORATEST.textProviderSpy(),
 		// "ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
@@ -51,13 +51,13 @@ QUnit.test("init", function(assert) {
 // var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
 // assert.strictEqual(resultHandlerFactory.getDependencies(), this.dependencies);
 // });
-//
-// QUnit.test("testFactor", function(assert) {
-// var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
-// var resultHandler = resultHandlerFactory.factor(this.spec);
-// assert.strictEqual(resultHandler.type, "resultHandler");
-// });
-//
+
+QUnit.test("testFactor", function(assert) {
+	var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
+	var resultHandler = resultHandlerFactory.factor(this.spec);
+	assert.strictEqual(resultHandler.type, "resultHandler");
+});
+
 // QUnit.test("testFactorAddedDependencies", function(assert) {
 // var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
 // var resultHandler = resultHandlerFactory.factor(this.spec);

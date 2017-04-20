@@ -27,7 +27,7 @@ var CORA = (function(cora) {
 			};
 
 			var dep = {
-			// "resultHandlerViewFactory" : CORA.resultHandlerViewFactory(viewDep),
+				"resultHandlerViewFactory" : CORA.resultHandlerViewFactory(viewDep),
 			// "managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 			// "recordGuiFactory" : dependencies.recordGuiFactory,
 			// "ajaxCallFactory" : dependencies.ajaxCallFactory
