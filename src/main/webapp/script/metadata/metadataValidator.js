@@ -22,7 +22,6 @@ var CORA = (function(cora) {
 	cora.metadataValidator = function(spec) {
 		var topLevelMetadataId = spec.metadataId;
 		var topLevelData = spec.data;
-		var result = validateFirstLevel();
 
 		function validateFirstLevel() {
 			var childrenResult = true;
@@ -33,7 +32,7 @@ var CORA = (function(cora) {
 			topLevelChildReferences.children.forEach(function(childReference) {
 				var childResult = CORA.metadataChildValidator(childReference, topLevelPath,
 						topLevelData, spec.metadataProvider, spec.pubSub);
-				if(!childResult.everythingOkBelow){
+				if (!childResult.everythingOkBelow) {
 					childrenResult = false;
 				}
 			});
@@ -44,7 +43,16 @@ var CORA = (function(cora) {
 			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}
 
-		return result;
+		function getSpec() {
+			return spec;
+		}
+
+		var out = Object.freeze({
+			"type" : "metadataValidator",
+			validate : validateFirstLevel,
+			getSpec : getSpec
+		});
+		return out;
 	};
 	return cora;
 }(CORA));

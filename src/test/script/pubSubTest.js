@@ -35,7 +35,7 @@ QUnit.module("coraPubSubTest.js", {
 });
 
 QUnit.test("testInit", function(assert) {
-	assert.ok(this.pubSub !== undefined);
+	assert.strictEqual(this.pubSub.type , "pubSub");
 });
 
 QUnit.test("testSubscribe", function(assert) {

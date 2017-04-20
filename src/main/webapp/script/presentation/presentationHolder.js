@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.presentation = function(spec) {
+	cora.presentationHolder = function(spec) {
 		var presentationId = spec.presentationId;
 		var metadataProvider = spec.metadataProvider;
 		var pubSub = spec.pubSub;
@@ -57,7 +57,13 @@ var CORA = (function(cora) {
 			return view;
 		}
 
+		function getSpec() {
+			return spec;
+		}
+
 		return Object.freeze({
+			"type" : "presentationHolder",
+			getSpec : getSpec,
 			getPresentationId : getPresentationId,
 			getPubSub : getPubSub,
 			getView : getView

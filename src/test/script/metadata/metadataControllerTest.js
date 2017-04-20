@@ -1,6 +1,6 @@
 /*
  * Copyright 2015, 2016 Olov McKie
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  * 
  * This file is part of Cora.
  *
@@ -47,6 +47,14 @@ var CORATEST = (function(coraTest) {
 
 QUnit.module("metadataControllerTest.js", {
 	beforeEach : function() {
+		var metadataProvider = new MetadataProviderStub();
+		this.spec = {
+			"metadataId" : "groupIdOneTextChild",
+			"data" : undefined,
+			"metadataProvider" : metadataProvider,
+			"pubSub" : CORATEST.pubSubSpy()
+		};
+
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();
 		this.metadataControllerFactory = CORATEST.metadataControllerFactory(this.metadataProvider,
@@ -57,6 +65,16 @@ QUnit.module("metadataControllerTest.js", {
 });
 
 QUnit.test("testInit", function(assert) {
+	var metadataController = CORA.metadataController(this.spec);
+	assert.strictEqual(metadataController.type, "metadataController");
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var metadataController = CORA.metadataController(this.spec);
+	assert.strictEqual(metadataController.getSpec(), this.spec);
+});
+
+QUnit.test("testInit2", function(assert) {
 	var metadataController = this.metadataControllerFactory
 			.factor("groupIdOneTextChild", undefined);
 	assert.ok(metadataController !== undefined);
@@ -1831,241 +1849,244 @@ QUnit.test("testInitGroupWithOneResourceLink", function(assert) {
 	assert.equal(messages.length, 7);
 });
 
-QUnit.test("testInitGroupWithOneResourceLinkWithData", function(assert) {
-	var data = {
-		"name" : "groupIdOneResourceLinkChild",
-		"children" : [ {
-			"name" : "master",
-			"children" : [ {
-				"name" : "streamId",
-				"value" : "binary:123456789"
-			}, {
-				"name" : "filename",
-				"value" : "adele.png"
-			}, {
-				"name" : "filesize",
-				"value" : "12345"
-			}, {
-				"name" : "mimeType",
-				"value" : "application/png"
-			} ],
-			"actionLinks" : {
-				"read" : {
-					"requestMethod" : "GET",
-					"rel" : "read",
-					"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
-					"accept" : "application/octet-stream"
-				}
-			}
-		} ]
-	};
-	this.metadataControllerFactory.factor("groupIdOneResourceLinkChild", data);
-	var messages = this.pubSub.getMessages();
+QUnit
+		.test(
+				"testInitGroupWithOneResourceLinkWithData",
+				function(assert) {
+					var data = {
+						"name" : "groupIdOneResourceLinkChild",
+						"children" : [ {
+							"name" : "master",
+							"children" : [ {
+								"name" : "streamId",
+								"value" : "binary:123456789"
+							}, {
+								"name" : "filename",
+								"value" : "adele.png"
+							}, {
+								"name" : "filesize",
+								"value" : "12345"
+							}, {
+								"name" : "mimeType",
+								"value" : "application/png"
+							} ],
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
+									"accept" : "application/octet-stream"
+								}
+							}
+						} ]
+					};
+					this.metadataControllerFactory.factor("groupIdOneResourceLinkChild", data);
+					var messages = this.pubSub.getMessages();
 
-	var expectedAddForResourceLink = {
-		"type" : "add",
-		"message" : {
-			"metadataId" : "masterResLink",
-			"path" : {},
-			"nameInData" : "master"
-		}
-	};
-	assert.stringifyEqual(messages[0], expectedAddForResourceLink);
+					var expectedAddForResourceLink = {
+						"type" : "add",
+						"message" : {
+							"metadataId" : "masterResLink",
+							"path" : {},
+							"nameInData" : "master"
+						}
+					};
+					assert.stringifyEqual(messages[0], expectedAddForResourceLink);
 
-	var expectedAddForStreamId = {
-		"type" : "add",
-		"message" : {
-			"metadataId" : "streamIdTextVar",
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "master"
-				} ]
-			},
-			"nameInData" : "streamId"
-		}
-	};
-	assert.stringifyEqual(messages[1], expectedAddForStreamId);
+					var expectedAddForStreamId = {
+						"type" : "add",
+						"message" : {
+							"metadataId" : "streamIdTextVar",
+							"path" : {
+								"name" : "linkedPath",
+								"children" : [ {
+									"name" : "nameInData",
+									"value" : "master"
+								} ]
+							},
+							"nameInData" : "streamId"
+						}
+					};
+					assert.stringifyEqual(messages[1], expectedAddForStreamId);
 
-	var expectedSetValueForStreamId = {
-		"type" : "setValue",
-		"message" : {
-			"data" : "binary:123456789",
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "master"
-				}, {
-					"name" : "linkedPath",
-					"children" : [ {
-						"name" : "nameInData",
-						"value" : "streamId"
-					} ]
-				} ]
-			}
-		}
-	};
-	assert.stringifyEqual(messages[2], expectedSetValueForStreamId);
+					var expectedSetValueForStreamId = {
+						"type" : "setValue",
+						"message" : {
+							"data" : "binary:123456789",
+							"path" : {
+								"name" : "linkedPath",
+								"children" : [ {
+									"name" : "nameInData",
+									"value" : "master"
+								}, {
+									"name" : "linkedPath",
+									"children" : [ {
+										"name" : "nameInData",
+										"value" : "streamId"
+									} ]
+								} ]
+							}
+						}
+					};
+					assert.stringifyEqual(messages[2], expectedSetValueForStreamId);
 
-	var expectedAddForFilename = {
-		"type" : "add",
-		"message" : {
-			"metadataId" : "filenameTextVar",
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "master"
-				} ]
-			},
-			"nameInData" : "filename"
-		}
-	};
-	assert.stringifyEqual(messages[3], expectedAddForFilename);
+					var expectedAddForFilename = {
+						"type" : "add",
+						"message" : {
+							"metadataId" : "filenameTextVar",
+							"path" : {
+								"name" : "linkedPath",
+								"children" : [ {
+									"name" : "nameInData",
+									"value" : "master"
+								} ]
+							},
+							"nameInData" : "filename"
+						}
+					};
+					assert.stringifyEqual(messages[3], expectedAddForFilename);
 
-	var expectedSetValueForFilename = {
-		"type" : "setValue",
-		"message" : {
-			"data" : "adele.png",
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "master"
-				}, {
-					"name" : "linkedPath",
-					"children" : [ {
-						"name" : "nameInData",
-						"value" : "filename"
-					} ]
-				} ]
-			}
-		}
-	};
-	assert.stringifyEqual(messages[4], expectedSetValueForFilename);
+					var expectedSetValueForFilename = {
+						"type" : "setValue",
+						"message" : {
+							"data" : "adele.png",
+							"path" : {
+								"name" : "linkedPath",
+								"children" : [ {
+									"name" : "nameInData",
+									"value" : "master"
+								}, {
+									"name" : "linkedPath",
+									"children" : [ {
+										"name" : "nameInData",
+										"value" : "filename"
+									} ]
+								} ]
+							}
+						}
+					};
+					assert.stringifyEqual(messages[4], expectedSetValueForFilename);
 
-	var expectedAddForFilesize = {
-		"type" : "add",
-		"message" : {
-			"metadataId" : "filesizeTextVar",
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "master"
-				} ]
-			},
-			"nameInData" : "filesize"
-		}
-	};
-	assert.stringifyEqual(messages[5], expectedAddForFilesize);
+					var expectedAddForFilesize = {
+						"type" : "add",
+						"message" : {
+							"metadataId" : "filesizeTextVar",
+							"path" : {
+								"name" : "linkedPath",
+								"children" : [ {
+									"name" : "nameInData",
+									"value" : "master"
+								} ]
+							},
+							"nameInData" : "filesize"
+						}
+					};
+					assert.stringifyEqual(messages[5], expectedAddForFilesize);
 
-	var expectedSetValueForFilesize = {
-		"type" : "setValue",
-		"message" : {
-			"data" : "12345",
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "master"
-				}, {
-					"name" : "linkedPath",
-					"children" : [ {
-						"name" : "nameInData",
-						"value" : "filesize"
-					} ]
-				} ]
-			}
-		}
-	};
-	assert.stringifyEqual(messages[6], expectedSetValueForFilesize);
+					var expectedSetValueForFilesize = {
+						"type" : "setValue",
+						"message" : {
+							"data" : "12345",
+							"path" : {
+								"name" : "linkedPath",
+								"children" : [ {
+									"name" : "nameInData",
+									"value" : "master"
+								}, {
+									"name" : "linkedPath",
+									"children" : [ {
+										"name" : "nameInData",
+										"value" : "filesize"
+									} ]
+								} ]
+							}
+						}
+					};
+					assert.stringifyEqual(messages[6], expectedSetValueForFilesize);
 
-	var expectedAddForMimeType = {
-		"type" : "add",
-		"message" : {
-			"metadataId" : "mimeTypeTextVar",
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "master"
-				} ]
-			},
-			"nameInData" : "mimeType"
-		}
-	};
-	assert.stringifyEqual(messages[7], expectedAddForMimeType);
+					var expectedAddForMimeType = {
+						"type" : "add",
+						"message" : {
+							"metadataId" : "mimeTypeTextVar",
+							"path" : {
+								"name" : "linkedPath",
+								"children" : [ {
+									"name" : "nameInData",
+									"value" : "master"
+								} ]
+							},
+							"nameInData" : "mimeType"
+						}
+					};
+					assert.stringifyEqual(messages[7], expectedAddForMimeType);
 
-	var expectedSetValueForMimeType = {
-		"type" : "setValue",
-		"message" : {
-			"data" : "application/png",
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "master"
-				}, {
-					"name" : "linkedPath",
-					"children" : [ {
-						"name" : "nameInData",
-						"value" : "mimeType"
-					} ]
-				} ]
-			}
-		}
-	};
-	assert.stringifyEqual(messages[8], expectedSetValueForMimeType);
+					var expectedSetValueForMimeType = {
+						"type" : "setValue",
+						"message" : {
+							"data" : "application/png",
+							"path" : {
+								"name" : "linkedPath",
+								"children" : [ {
+									"name" : "nameInData",
+									"value" : "master"
+								}, {
+									"name" : "linkedPath",
+									"children" : [ {
+										"name" : "nameInData",
+										"value" : "mimeType"
+									} ]
+								} ]
+							}
+						}
+					};
+					assert.stringifyEqual(messages[8], expectedSetValueForMimeType);
 
-	var expectedLinkedData = {
-		"type" : "linkedResource",
-		"message" : {
-			"data" : {
-				"name" : "master",
-				"children" : [ {
-					"name" : "streamId",
-					"value" : "binary:123456789"
-				}, {
-					"name" : "filename",
-					"value" : "adele.png"
-				}, {
-					"name" : "filesize",
-					"value" : "12345"
-				}, {
-					"name" : "mimeType",
-					"value" : "application/png"
-				} ],
-				"actionLinks" : {
-					"read" : {
-						"requestMethod" : "GET",
-						"rel" : "read",
-						"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
-						"accept" : "application/octet-stream"
-					}
-				}
-			},
-			"path" : {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "master"
-				} ]
-			}
-		}
-	};
-	assert.stringifyEqual(messages[9], expectedLinkedData);
+					var expectedLinkedData = {
+						"type" : "linkedResource",
+						"message" : {
+							"data" : {
+								"name" : "master",
+								"children" : [ {
+									"name" : "streamId",
+									"value" : "binary:123456789"
+								}, {
+									"name" : "filename",
+									"value" : "adele.png"
+								}, {
+									"name" : "filesize",
+									"value" : "12345"
+								}, {
+									"name" : "mimeType",
+									"value" : "application/png"
+								} ],
+								"actionLinks" : {
+									"read" : {
+										"requestMethod" : "GET",
+										"rel" : "read",
+										"url" : "http://localhost:8080/therest/rest/record/image/image:123456/master",
+										"accept" : "application/octet-stream"
+									}
+								}
+							},
+							"path" : {
+								"name" : "linkedPath",
+								"children" : [ {
+									"name" : "nameInData",
+									"value" : "master"
+								} ]
+							}
+						}
+					};
+					assert.stringifyEqual(messages[9], expectedLinkedData);
 
-	var expectedLinkedData = {
-		"type" : "initComplete",
-		"message" : {
-			"data" : "",
-			"path" : {}
-		}
-	};
-	assert.stringifyEqual(messages[10], expectedLinkedData);
+					var expectedLinkedData = {
+						"type" : "initComplete",
+						"message" : {
+							"data" : "",
+							"path" : {}
+						}
+					};
+					assert.stringifyEqual(messages[10], expectedLinkedData);
 
-	assert.equal(messages.length, 11);
-});
+					assert.equal(messages.length, 11);
+				});
