@@ -102,7 +102,13 @@ var CORA = (function(cora) {
 			return dependencies.dataDivider;
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
 		var out = Object.freeze({
+			"type" : "presentationFactory",
+			getDependencies : getDependencies,
 			getDataDivider : getDataDivider,
 			factor : factor
 		});

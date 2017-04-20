@@ -56,61 +56,13 @@ var CORA = (function(cora) {
 				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper,
 				"recordGuiFactory" : self,
-				"recordTypeProvider" : recordTypeProvider,
+				"recordTypeProvider" : dependencies.recordTypeProvider,
 				"dataDivider" : dataDivider,
-				"uploadManager" : uploadManager,
+				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory
 			};
 			var presentationFactory = CORA.presentationFactory(dependenciesPresentationFactory);
 
-			// function getPresentationHolder(presentationId, metadataIdUsedInData) {
-			// var spec1 = {
-			// "presentationId" : presentationId,
-			// "metadataIdUsedInData" : metadataIdUsedInData,
-			// "metadataProvider" : metadataProvider,
-			// "pubSub" : pubSub,
-			// "textProvider" : textProvider,
-			// "jsBookkeeper" : jsBookkeeper,
-			// "presentationFactory" : presentationFactory
-			// };
-			// return CORA.presentation(spec1);
-			// }
-			//
-			// var metadataController;
-			// function initMetadataControllerStartingGui() {
-			// var specMetadataController = {
-			// "metadataId" : metadataId,
-			// "data" : data,
-			// "metadataProvider" : metadataProvider,
-			// "pubSub" : pubSub
-			// };
-			// metadataController = CORA.metadataController(specMetadataController);
-			// }
-			//
-			// function getMetadataController() {
-			// return metadataController;
-			// }
-			//
-			// function validateData() {
-			// var spec2 = {
-			// "metadataId" : metadataId,
-			// "data" : dataHolder.getData(),
-			// "metadataProvider" : metadataProvider,
-			// "pubSub" : pubSub
-			// };
-			// return CORA.metadataValidator(spec2);
-			// }
-
-			// return Object.freeze({
-			// pubSub : pubSub,
-			// jsBookkeeper : jsBookkeeper,
-			// presentationFactory : presentationFactory,
-			// dataHolder : dataHolder,
-			// getMetadataController : getMetadataController,
-			// getPresentationHolder : getPresentationHolder,
-			// initMetadataControllerStartingGui : initMetadataControllerStartingGui,
-			// validateData : validateData
-			// });
 			var dependenciesCF = {
 				"metadataProvider" : dependencies.metadataProvider,
 				"pubSub" : pubSub
@@ -126,23 +78,14 @@ var CORA = (function(cora) {
 			var dependenciesRG = {
 				"metadataProvider" : dependencies.metadataProvider,
 				"textProvider" : dependencies.textProvider,
-				// "recordTypeProvider" : CORATEST.recordTypeProviderSpy(),
-				// "uploadManager" : CORATEST.uploadManagerSpy(),
-				//
 				"pubSub" : pubSub,
 				"dataHolder" : dataHolder,
 				"jsBookkeeper" : jsBookkeeper,
 				"presentationFactory" : presentationFactory,
 				"metadataControllerFactory" : metadataControllerFactory,
-				// "metadataValidatorFactory" : CORATEST.standardFactorySpy("metadataValidatorSpy"),
 				"metadataValidatorFactory" : metadataValidatorFactory,
 				"presentationHolderFactory" : CORA.presentationHolderFactory()
 			};
-			// var specRG = {
-			// "metadataId" : "someMetadataId",
-			// "data" : {},
-			// "dataDivider" : "someDataDivider",
-			// };
 			return CORA.recordGui(dependenciesRG, spec);
 
 		};

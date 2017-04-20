@@ -21,6 +21,12 @@
 
 QUnit.module("dataHolderTest.js", {
 	beforeEach : function() {
+		this.spec = {
+				"metadataId" : "recordTypeOnlyMetadataIdChild",
+				"metadataProvider" : new MetadataProviderStub(),
+				"pubSub" : CORATEST.pubSubSpy()
+		};
+
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();
 		this.newDataHolder = function(metadataId) {
@@ -37,6 +43,16 @@ QUnit.module("dataHolderTest.js", {
 });
 
 QUnit.test("testInit", function(assert) {
+	var dataHolder = CORA.dataHolder(this.spec);
+	assert.strictEqual(dataHolder.type, "dataHolder");
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var dataHolder = CORA.dataHolder(this.spec);
+	assert.strictEqual(dataHolder.getSpec(), this.spec);
+});
+
+QUnit.test("testInit2", function(assert) {
 	var dataHolder = this.newDataHolder("recordTypeOnlyMetadataIdChild");
 
 	// subscription
@@ -1096,7 +1112,7 @@ QUnit.test("testHandleMessageMoveAfterLast", function(assert) {
 			} ]
 		} ]
 	};
-//	console.log(JSON.stringify(dataHolder.getData()))
+// console.log(JSON.stringify(dataHolder.getData()))
 	assert.stringifyEqual(dataHolder.getData(), expected);
 });
 

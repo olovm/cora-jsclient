@@ -21,8 +21,10 @@ QUnit.module("recordGuiFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
 			"metadataProvider" : new MetadataProviderStub(),
-			// "metadataProvider" : CORATEST.metadataProviderSpy(),
 			"textProvider" : CORATEST.textProviderStub(),
+			"authTokenHolder" : CORATEST.authTokenHolderSpy(),
+			"uploadManager" : CORATEST.uploadManagerSpy(),
+			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy()
 		};
 		this.spec = {
 			"metadataId" : "groupIdOneTextChild",
@@ -56,15 +58,56 @@ QUnit.test("testFactorDependencies", function(assert) {
 	assert.strictEqual(factoredDependencies.metadataProvider, this.dependencies.metadataProvider);
 	assert.strictEqual(factoredDependencies.textProvider, this.dependencies.textProvider);
 });
-// TODO: test pubSub, dataHolder, jsBookkeeper, presentationFactory
+
+QUnit.test("testFactorDependencyPubSub", function(assert) {
+	var recordGui = this.recordGuiFactory.factor(this.spec);
+	var pubSub = recordGui.getDependencies().pubSub;
+	assert.strictEqual(pubSub.type, "pubSub");
+});
+
+QUnit.test("testFactorDependencyDataHolder", function(assert) {
+	var recordGui = this.recordGuiFactory.factor(this.spec);
+	var dataHolder = recordGui.getDependencies().dataHolder;
+	assert.strictEqual(dataHolder.type, "dataHolder");
+	var specDH = dataHolder.getSpec();
+	assert.strictEqual(specDH.metadataId, this.spec.metadataId);
+	assert.strictEqual(specDH.metadataProvider, this.dependencies.metadataProvider);
+	assert.strictEqual(specDH.pubSub, recordGui.getDependencies().pubSub);
+});
+
+QUnit.test("testFactorDependencyJsBookkeeper", function(assert) {
+	var recordGui = this.recordGuiFactory.factor(this.spec);
+	var jsBookkeeper = recordGui.getDependencies().jsBookkeeper;
+	assert.strictEqual(jsBookkeeper.type, "jsBookkeeper");
+	var specBK = jsBookkeeper.getSpec();
+	assert.strictEqual(specBK.metadataId, this.spec.metadataId);
+	assert.strictEqual(specBK.metadataProvider, this.dependencies.metadataProvider);
+	assert.strictEqual(specBK.pubSub, recordGui.getDependencies().pubSub);
+	assert.strictEqual(specBK.textProvider, this.dependencies.textProvider);
+	assert.strictEqual(specBK.dataHolder, recordGui.getDependencies().dataHolder);
+});
+
+QUnit.test("testFactorDependencyPresentationFactory", function(assert) {
+	var recordGui = this.recordGuiFactory.factor(this.spec);
+	var presentationFactory = recordGui.getDependencies().presentationFactory;
+	assert.strictEqual(presentationFactory.type, "presentationFactory");
+	var dependenciesPF = presentationFactory.getDependencies();
+	assert.strictEqual(dependenciesPF.authTokenHolder, this.dependencies.authTokenHolder);
+	assert.strictEqual(dependenciesPF.metadataProvider, this.dependencies.metadataProvider);
+	assert.strictEqual(dependenciesPF.pubSub, recordGui.getDependencies().pubSub);
+	assert.strictEqual(dependenciesPF.textProvider, this.dependencies.textProvider);
+	assert.strictEqual(dependenciesPF.jsBookkeeper, recordGui.getDependencies().jsBookkeeper);
+	assert.strictEqual(dependenciesPF.recordGuiFactory, this.recordGuiFactory);
+	assert.strictEqual(dependenciesPF.recordTypeProvider, this.dependencies.recordTypeProvider);
+	assert.strictEqual(dependenciesPF.dataDivider, this.spec.dataDivider);
+	assert.strictEqual(dependenciesPF.uploadManager, this.dependencies.uploadManager);
+	assert.strictEqual(dependenciesPF.ajaxCallFactory, this.dependencies.ajaxCallFactory);
+});
 
 QUnit.test("testFactorDependencyPresentationHolderFactory", function(assert) {
 	var recordGui = this.recordGuiFactory.factor(this.spec);
 	var presentationHolderFactory = recordGui.getDependencies().presentationHolderFactory;
 	assert.strictEqual(presentationHolderFactory.type, "presentationHolderFactory");
-	// var dependenciesPH = presentationHolderFactory.getDependencies();
-	// assert.strictEqual(dependenciesPH.metadataProvider, this.dependencies.metadataProvider);
-	// assert.strictEqual(dependenciesPH.pubSub.type, "pubSub");
 });
 
 QUnit.test("testFactorDependencyMetadataController", function(assert) {

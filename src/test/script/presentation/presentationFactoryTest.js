@@ -43,6 +43,16 @@ QUnit.module("presentationFactoryTest.js", {
 	}
 });
 
+QUnit.test("testInit", function(assert) {
+	var presentationFactory = CORA.presentationFactory(this.dependencies);
+	assert.strictEqual(presentationFactory.type, "presentationFactory");
+});
+
+QUnit.test("testGetDependencies", function(assert) {
+	var presentationFactory = CORA.presentationFactory(this.dependencies);
+	assert.strictEqual(presentationFactory.getDependencies(), this.dependencies);
+});
+
 QUnit.test("testFactorPVar", function(assert) {
 	assert.strictEqual(this.newPresentationFactory.getDataDivider(), "systemX");
 });
