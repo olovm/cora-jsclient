@@ -63,7 +63,7 @@ var CORA = (function(cora) {
 			};
 			var presentationFactory = CORA.presentationFactory(dependenciesPresentationFactory);
 
-			// function getPresentation(presentationId, metadataIdUsedInData) {
+			// function getPresentationHolder(presentationId, metadataIdUsedInData) {
 			// var spec1 = {
 			// "presentationId" : presentationId,
 			// "metadataIdUsedInData" : metadataIdUsedInData,
@@ -107,7 +107,7 @@ var CORA = (function(cora) {
 			// presentationFactory : presentationFactory,
 			// dataHolder : dataHolder,
 			// getMetadataController : getMetadataController,
-			// getPresentation : getPresentation,
+			// getPresentationHolder : getPresentationHolder,
 			// initMetadataControllerStartingGui : initMetadataControllerStartingGui,
 			// validateData : validateData
 			// });

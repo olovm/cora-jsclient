@@ -138,7 +138,7 @@ var CORA = (function(cora) {
 
 		function addNewRecordToWorkView(recordGuiToAdd, metadataIdUsedInData) {
 			var newPresentationFormId = spec.newPresentationFormId;
-			var presentationView = recordGuiToAdd.getPresentation(newPresentationFormId,
+			var presentationView = recordGuiToAdd.getPresentationHolder(newPresentationFormId,
 					metadataIdUsedInData).getView();
 			recordHandlerView.addToEditView(presentationView);
 			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
@@ -147,7 +147,7 @@ var CORA = (function(cora) {
 
 		function addRecordToMenuView(recordGuiToAdd, metadataIdUsedInData) {
 			var menuPresentationViewId = spec.menuPresentationViewId;
-			var menuPresentationView = recordGuiToAdd.getPresentation(menuPresentationViewId,
+			var menuPresentationView = recordGuiToAdd.getPresentationHolder(menuPresentationViewId,
 					metadataIdUsedInData).getView();
 			managedGuiItem.clearMenuView();
 			managedGuiItem.addMenuPresentation(menuPresentationView);
@@ -291,7 +291,7 @@ var CORA = (function(cora) {
 		function addToEditView(recordGuiToAdd, metadataIdUsedInData) {
 			var editViewId = spec.presentationFormId;
 
-			var editView = recordGuiToAdd.getPresentation(editViewId, metadataIdUsedInData)
+			var editView = recordGuiToAdd.getPresentationHolder(editViewId, metadataIdUsedInData)
 					.getView();
 			recordHandlerView.addToEditView(editView);
 		}
@@ -299,7 +299,7 @@ var CORA = (function(cora) {
 		function addToShowView(recordGuiToAdd, metadataIdUsedInData) {
 			var showViewId = spec.presentationViewId;
 
-			var showView = recordGuiToAdd.getPresentation(showViewId, metadataIdUsedInData)
+			var showView = recordGuiToAdd.getPresentationHolder(showViewId, metadataIdUsedInData)
 					.getView();
 			recordHandlerView.addToShowView(showView);
 		}

@@ -76,14 +76,14 @@ QUnit.test("testGetjsBookkeeper", function(assert) {
 QUnit.test("testGetPresentationHolder", function(assert) {
 	// Yes the method should be called getPresentationHolder
 	var recordGui = CORA.recordGui(this.dependencies, this.spec);
-	var presentation = recordGui.getPresentation("presentationId", "metadataIdUsedInData");
+	var presentation = recordGui.getPresentationHolder("presentationId", "metadataIdUsedInData");
 	var factoredPresentation = this.dependencies.presentationHolderFactory.getFactored(0);
 	assert.strictEqual(presentation, factoredPresentation);
 });
 
 QUnit.test("testGetPresentationHolderHasCorrectSpec", function(assert) {
 	var recordGui = CORA.recordGui(this.dependencies, this.spec);
-	var presentation = recordGui.getPresentation("presentationId", "metadataIdUsedInData");
+	var presentation = recordGui.getPresentationHolder("presentationId", "metadataIdUsedInData");
 	var factoredSpec = this.dependencies.presentationHolderFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.presentationId, "presentationId");
 	assert.strictEqual(factoredSpec.metadataIdUsedInData, "metadataIdUsedInData");

@@ -24,7 +24,7 @@ var CORA = (function(cora) {
 		var jsBookkeeper = dependencies.jsBookkeeper;
 		var metadataController;
 
-		function getPresentation(presentationId, metadataIdUsedInData) {
+		function getPresentationHolder(presentationId, metadataIdUsedInData) {
 			var spec1 = {
 				"presentationId" : presentationId,
 				"metadataIdUsedInData" : metadataIdUsedInData,
@@ -76,7 +76,7 @@ var CORA = (function(cora) {
 			jsBookkeeper : jsBookkeeper,
 			// presentationFactory : presentationFactory,
 			// getMetadataController : getMetadataController,
-			getPresentation : getPresentation,
+			getPresentationHolder : getPresentationHolder,
 			initMetadataControllerStartingGui : initMetadataControllerStartingGui,
 			validateData : validateData
 		});
