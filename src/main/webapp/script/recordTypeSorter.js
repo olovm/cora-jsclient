@@ -18,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordTypeSorter = function(dependencies, spec) {
+	cora.recordTypeSorter = function() {
 		function start() {
 		}
 		var out = Object.freeze({

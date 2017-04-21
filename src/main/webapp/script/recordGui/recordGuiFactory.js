@@ -21,14 +21,11 @@ var CORA = (function(cora) {
 	cora.recordGuiFactory = function(dependencies) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
-		var recordTypeProvider = dependencies.recordTypeProvider;
-		var uploadManager = dependencies.uploadManager;
 
 		var self;
 
 		var factor = function(spec) {
 			var metadataId = spec.metadataId;
-			var data = spec.data;
 			var dataDivider = spec.dataDivider;
 
 			var pubSub = CORA.pubSub();

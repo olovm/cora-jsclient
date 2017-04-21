@@ -21,9 +21,6 @@ var CORA = (function(cora) {
 	cora.presentationHolderFactory = function(dependencies) {
 
 		var factor = function(spec) {
-			// spec.metadataProvider = dependencies.metadataProvider;
-			// spec.pubSub = dependencies.pubSub;
-			// return CORA.p(spec);
 			return CORA.presentationHolder(spec);
 		};
 
