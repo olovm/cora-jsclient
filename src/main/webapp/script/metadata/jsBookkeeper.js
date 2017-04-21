@@ -79,7 +79,13 @@ var CORA = (function(cora) {
 			pubSub.publish("move", data);
 		}
 
+		function getSpec() {
+			return spec;
+		}
+
 		return Object.freeze({
+			"type" : "jsBookkeeper",
+			getSpec : getSpec,
 			setValue : setValue,
 			add : add,
 			remove : remove,

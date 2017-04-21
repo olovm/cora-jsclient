@@ -31,7 +31,7 @@ QUnit.module("recordViewerTest.js", {
 		var presentationIdUsed = this.presentationIdUsed;
 		this.pubSub = CORATEST.pubSubSpy();
 		this.recordGui = {
-			"getPresentation" : function(presentationId) {
+			"getPresentationHolder" : function(presentationId) {
 				presentationIdUsed.push(presentationId);
 				return presentation;
 			},

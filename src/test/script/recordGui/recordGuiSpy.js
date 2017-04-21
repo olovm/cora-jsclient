@@ -46,7 +46,7 @@ var CORATEST = (function(coraTest) {
 				return dataHolderData;
 			}
 		};
-		function getPresentation(presentationId, metadataIdUsedInData) {
+		function getPresentationHolder(presentationId, metadataIdUsedInData) {
 			presentationIdUsed.push(presentationId);
 			metadataIdsUsedInData.push(metadataIdUsedInData);
 			var pres = CORATEST.presentationStub(presentationId);
@@ -90,7 +90,7 @@ var CORATEST = (function(coraTest) {
 			// presentationFactory : presentationFactory,
 			dataHolder : dataHolder,
 			// getMetadataController : getMetadataController,
-			getPresentation : getPresentation,
+			getPresentationHolder : getPresentationHolder,
 			initMetadataControllerStartingGui : initMetadataControllerStartingGui,
 			getInitCalled : getInitCalled,
 			validateData : validateData,

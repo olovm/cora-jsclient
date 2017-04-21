@@ -86,7 +86,7 @@ var CORA = (function(cora) {
 				"dataDivider" : dataDivider
 			};
 			var recordGui = dependencies.recordGuiFactory.factor(recordGuiSpec);
-			var presentationView = recordGui.getPresentation(presentationId, metadataId).getView();
+			var presentationView = recordGui.getPresentationHolder(presentationId, metadataId).getView();
 			recordGui.initMetadataControllerStartingGui();
 			view.appendChild(presentationView);
 		}

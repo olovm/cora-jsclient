@@ -29,7 +29,7 @@ var CORATEST = (function(coraTest) {
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub
 			};
-			var validationResult = CORA.metadataValidator(spec);
+			var validationResult = CORA.metadataValidator(spec).validate();
 			return {
 				validationResult : validationResult,
 				metadataProvider : metadataProvider,
@@ -47,6 +47,14 @@ var CORATEST = (function(coraTest) {
 
 QUnit.module("metadataValidatorTest.js", {
 	beforeEach : function() {
+		var metadataProvider = new MetadataProviderStub();
+		this.spec = {
+			"metadataId" : "groupIdOneTextChild",
+			"data" : undefined,
+			"metadataProvider" : metadataProvider,
+			"pubSub" : CORATEST.pubSubSpy()
+		};
+
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();
 		this.metadataValidatorFactory = CORATEST.metadataValidatorFactory(this.metadataProvider,
@@ -54,6 +62,16 @@ QUnit.module("metadataValidatorTest.js", {
 	},
 	afterEach : function() {
 	}
+});
+
+QUnit.test("testInit", function(assert) {
+	var metadataValidator = CORA.metadataValidator(this.spec);
+	assert.strictEqual(metadataValidator.type, "metadataValidator");
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var metadataValidator = CORA.metadataValidator(this.spec);
+	assert.strictEqual(metadataValidator.getSpec(), this.spec);
 });
 
 QUnit.test("testValidateGroupIdOneTextChild1to1WithData", function(assert) {
@@ -1467,20 +1485,20 @@ QUnit.test("testValidateGroupId0to1RecordLinkWithDataEmptyValue", function(asser
 		}
 	};
 	var expectedMessage2 = {
+		"type" : "remove",
+		"message" : {
 			"type" : "remove",
-			"message" : {
-				"type" : "remove",
-				"path" : {
-					"name" : "linkedPath",
-					"children" : [
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [
 
-					{
-						"name" : "nameInData",
-						"value" : "myLink"
-					} ]
-				}
+				{
+					"name" : "nameInData",
+					"value" : "myLink"
+				} ]
 			}
-		};
+		}
+	};
 	assert.stringifyEqual(messages[0], expectedMessage);
 	assert.stringifyEqual(messages[1], expectedMessage2);
 });
