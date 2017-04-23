@@ -22,7 +22,6 @@ var CORA = (function(cora) {
 	cora.jsClient = function(dependencies, spec) {
 		var out;
 		var recordTypeList;
-		var metadataIdsForRecordType = {};
 
 		var recordGuiFactory;
 		var jsClientView;
@@ -56,13 +55,8 @@ var CORA = (function(cora) {
 			recordGuiFactorySpec.uploadManager = CORA
 					.uploadManager(dependencies, uploadManagerSpec);
 			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
-			processRecordTypes();
 			addSearchesUserIsAuthorizedToUseToSideBar(dependencies.searchProvider.getAllSearches());
 			addRecordTypesToSideBar(recordTypeList);
-		}
-
-		function processRecordTypes() {
-			metadataIdsForRecordType = createMetadataIdsForRecordType(recordTypeList);
 		}
 
 		function sortRecordTypesFromRecordTypeProvider() {
@@ -132,14 +126,6 @@ var CORA = (function(cora) {
 			var cParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
 			return cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
 					.getFirstAtomicValueByNameInData("id");
-		}
-
-		function createMetadataIdsForRecordType(recordTypes) {
-			var metadataIds = {};
-			recordTypes.forEach(function(record) {
-				createMetadataIdForRecordType(metadataIds, record);
-			});
-			return metadataIds;
 		}
 
 		function createMetadataIdForRecordType(metadataIds, record) {
@@ -263,8 +249,8 @@ var CORA = (function(cora) {
 			managedGuiItem.setActive(true);
 		}
 
-		function getMetadataIdForRecordTypeId(recordTypeId) {
-			return metadataIdsForRecordType[recordTypeId];
+		function getMetadataForRecordTypeId(recordTypeId) {
+			return dependencies.recordTypeProvider.getMetadataByRecordTypeId(recordTypeId);
 		}
 
 		function afterLogin() {
@@ -277,7 +263,6 @@ var CORA = (function(cora) {
 		function afterRecordTypeProviderReload() {
 			jsClientView.clearRecordTypesView();
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
-			processRecordTypes();
 			addRecordTypesToSideBar(recordTypeList);
 		}
 
@@ -293,14 +278,13 @@ var CORA = (function(cora) {
 			} else {
 				resetLastShowingMenuItem();
 			}
-
 		}
 
 		out = Object.freeze({
 			getView : getView,
 			getRecordTypeList : getRecordTypeList,
 			showView : showView,
-			getMetadataIdForRecordTypeId : getMetadataIdForRecordTypeId,
+			getMetadataForRecordTypeId : getMetadataForRecordTypeId,
 			afterLogin : afterLogin,
 			afterLogout : afterLogout,
 			afterRecordTypeProviderReload : afterRecordTypeProviderReload,

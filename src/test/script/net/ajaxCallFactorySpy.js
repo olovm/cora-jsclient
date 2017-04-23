@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -22,7 +22,7 @@ var CORATEST = (function(coraTest) {
 	coraTest.ajaxCallFactorySpy = function(spec) {
 		var factoredAjaxCalls = [];
 		function factor(ajaxCallSpec) {
-			var factoredAjaxCall = CORATEST.ajaxCallSpy(ajaxCallSpec);
+			var factoredAjaxCall = CORATEST.ajaxCallSpy({}, ajaxCallSpec);
 			factoredAjaxCalls.push(factoredAjaxCall);
 			return factoredAjaxCall;
 		}

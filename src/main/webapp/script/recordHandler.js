@@ -224,7 +224,7 @@ var CORA = (function(cora) {
 			var cData = CORA.coraData(data);
 			var dataDivider = getDataDividerFromData(cData);
 			var recordTypeId = getRecordTypeIdFromData(cData);
-			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
+			var metadataId = spec.jsClient.getMetadataForRecordTypeId(recordTypeId).metadataId;
 			recordGui = createRecordGui(metadataId, data, dataDivider);
 			addRecordToWorkView(recordGui, metadataId);
 			addRecordToMenuView(recordGui, metadataId);

@@ -77,7 +77,7 @@ var CORA = (function(cora) {
 			var view = createView(record);
 			managedGuiItem.addWorkPresentation(view);
 			var recordTypeId = getRecordTypeId(record);
-			var metadataId = spec.jsClient.getMetadataIdForRecordTypeId(recordTypeId);
+			var metadataId = spec.jsClient.getMetadataForRecordTypeId(recordTypeId).metadataId;
 			var presentationId = spec.listPresentationViewId;
 			var dataDivider = getDataDividerFromData(record.data);
 			var recordGuiSpec = {
@@ -86,7 +86,8 @@ var CORA = (function(cora) {
 				"dataDivider" : dataDivider
 			};
 			var recordGui = dependencies.recordGuiFactory.factor(recordGuiSpec);
-			var presentationView = recordGui.getPresentationHolder(presentationId, metadataId).getView();
+			var presentationView = recordGui.getPresentationHolder(presentationId, metadataId)
+					.getView();
 			recordGui.initMetadataControllerStartingGui();
 			view.appendChild(presentationView);
 		}

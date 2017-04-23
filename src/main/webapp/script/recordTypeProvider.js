@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
@@ -22,7 +22,9 @@ var CORA = (function(cora) {
 	cora.recordTypeProvider = function(dependencies, spec) {
 
 		var callWhenReady = spec.callWhenReady;
+		var allRecordTypes = [];
 		var allRecordTypesById = {};
+		var metadataByRecordTypeId = {};
 
 		function start() {
 			fetchRecordTypeListAndThen(processFetchedData);
@@ -53,9 +55,19 @@ var CORA = (function(cora) {
 			var listOfAllRecordTypesAsRecords = JSON.parse(answer.responseText).dataList.data;
 			listOfAllRecordTypesAsRecords.forEach(function(recordContainer) {
 				var record = recordContainer.record;
-				var recordId = getIdFromRecordData(record.data);
-				allRecordTypesById[recordId] = record;
+				addRecordToAllRecordTypes(record);
+				addRecordToTypesById(record);
 			});
+		}
+
+		function addRecordToAllRecordTypes(record) {
+			allRecordTypes.push(record);
+		}
+
+		function addRecordToTypesById(record) {
+			var recordId = getIdFromRecordData(record.data);
+			allRecordTypesById[recordId] = record;
+			addToMetadataByRecordTypeId(recordId, record.data);
 		}
 
 		function getIdFromRecordData(recordData) {
@@ -63,6 +75,31 @@ var CORA = (function(cora) {
 			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
 			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			return id;
+		}
+
+		function addToMetadataByRecordTypeId(recordId, record) {
+			var cRecord = CORA.coraData(record);
+			var metadata = {
+				"metadataId" : getLinkValueFromRecord("metadataId", cRecord),
+				"presentationViewId" : getLinkValueFromRecord("presentationViewId", cRecord),
+				"presentationFormId" : getLinkValueFromRecord("presentationFormId", cRecord),
+				"newMetadataId" : getLinkValueFromRecord("newMetadataId", cRecord),
+				"newPresentationFormId" : getLinkValueFromRecord("newPresentationFormId", cRecord),
+				"menuPresentationViewId" : getLinkValueFromRecord("menuPresentationViewId", cRecord),
+				"listPresentationViewId" : getLinkValueFromRecord("listPresentationViewId", cRecord),
+				"search" : getLinkValueFromRecord("search", cRecord),
+				"userSuppliedId" : cRecord.getFirstAtomicValueByNameInData("userSuppliedId"),
+				"abstract" : cRecord.getFirstAtomicValueByNameInData("abstract"),
+				"parentId" : getLinkValueFromRecord("parentId", cRecord),
+			};
+			metadataByRecordTypeId[recordId] = metadata;
+		}
+		function getLinkValueFromRecord(id, cRecord) {
+			if (cRecord.containsChildWithNameInData(id)) {
+
+				var cRecordLink = CORA.coraData(cRecord.getFirstChildByNameInData(id));
+				return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
+			}
 		}
 
 		function getRecordTypeById(recordTypeId) {
@@ -73,11 +110,7 @@ var CORA = (function(cora) {
 		}
 
 		function getAllRecordTypes() {
-			var recordTypeList = [];
-			Object.keys(allRecordTypesById).forEach(function(id) {
-				recordTypeList.push(allRecordTypesById[id]);
-			});
-			return recordTypeList;
+			return allRecordTypes;
 		}
 
 		function reload(callWhenReloadedMethodIn) {
@@ -85,11 +118,19 @@ var CORA = (function(cora) {
 			fetchRecordTypeListAndThen(processFetchedData);
 		}
 
+		function getMetadataByRecordTypeId(recordTypeId) {
+			if (metadataByRecordTypeId[recordTypeId] !== undefined) {
+				return metadataByRecordTypeId[recordTypeId];
+			}
+			throw new Error("Id(" + recordTypeId + ") not found in recordTypeProvider");
+		}
+
 		var out = Object.freeze({
 			getRecordTypeById : getRecordTypeById,
 			getAllRecordTypes : getAllRecordTypes,
 			processFetchedData : processFetchedData,
-			reload : reload
+			reload : reload,
+			getMetadataByRecordTypeId : getMetadataByRecordTypeId
 		});
 		start();
 		return out;

@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -23,6 +24,7 @@ var CORATEST = (function(coraTest) {
 
 		var recordTypeArray = [];
 		var callWhenReloadedMethod;
+		var fetchedMetadataByRecordTypeId = [];
 
 		function getRecordTypeById(recordTypeId) {
 			if (recordTypeArray[recordTypeId] !== undefined) {
@@ -52,13 +54,24 @@ var CORATEST = (function(coraTest) {
 		function getCallWhenReloadedMethod() {
 			return callWhenReloadedMethod;
 		}
+		var metadata = {};
+		function getMetadataByRecordTypeId(recordTypeId) {
+			fetchedMetadataByRecordTypeId.push(recordTypeId);
+			return metadata;
+		}
+		function getFetchedMetadataByRecordTypeId(number) {
+			return fetchedMetadataByRecordTypeId[number];
+		}
+
 		return Object.freeze({
 			"type" : "recordTypeProviderSpy",
 			getRecordTypeById : getRecordTypeById,
 			getAllRecordTypes : getAllRecordTypes,
 			processFetchedData : processFetchedData,
 			reload : reload,
-			getCallWhenReloadedMethod : getCallWhenReloadedMethod
+			getCallWhenReloadedMethod : getCallWhenReloadedMethod,
+			getMetadataByRecordTypeId : getMetadataByRecordTypeId,
+			getFetchedMetadataByRecordTypeId : getFetchedMetadataByRecordTypeId
 		});
 	};
 	return coraTest;
