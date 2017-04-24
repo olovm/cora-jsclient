@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
@@ -21,7 +21,8 @@
 
 QUnit.module("recordTypeProviderTest.js", {
 	beforeEach : function() {
-		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+		// this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+		this.ajaxCallFactorySpy = CORATEST.standardFactorySpy("ajaxCallSpy");
 		var dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy
 		};
@@ -210,11 +211,14 @@ QUnit.test("getRecordTypeById", function(assert) {
 					"value" : "textSystemOneListPGroup"
 				} ]
 			}, {
-				"name" : "searchMetadataId",
-				"value" : "textSystemOneSearchGroup"
-			}, {
-				"name" : "searchPresentationFormId",
-				"value" : "textSystemOneFormSearchPGroup"
+				"name" : "search",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "search"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "presentationVarSearch"
+				} ]
 			}, {
 				"name" : "userSuppliedId",
 				"value" : "true"
@@ -304,15 +308,76 @@ QUnit.test("getAllRecordTypes", function(assert) {
 
 QUnit.test("testReload", function(assert) {
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	this.answerListCall(0);
 	var providerReloaded = false;
 	function callWhenProviderHasReloaded() {
 		providerReloaded = true;
 	}
 
 	assert.notOk(providerReloaded);
+	assert.strictEqual(provider.getAllRecordTypes().length, 15);
 
 	provider.reload(callWhenProviderHasReloaded);
 
 	this.answerListCall(1);
+	assert.strictEqual(provider.getAllRecordTypes().length, 15);
 	assert.ok(providerReloaded);
+	assert.strictEqual(this.ajaxCallFactorySpy.getSpec(1).loadMethod, this.ajaxCallFactorySpy
+			.getSpec(0).loadMethod);
+	assert.strictEqual(this.ajaxCallFactorySpy.getSpec(1).loadMethod, provider.processFetchedData);
+});
+
+QUnit.test("getMetadataByRecordTypeId", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	this.answerListCall(0);
+
+	var expected = {
+		"metadataId" : "textSystemOneGroup",
+		"presentationViewId" : "textSystemOneViewPGroup",
+		"presentationFormId" : "textSystemOneFormPGroup",
+		"newMetadataId" : "textSystemOneNewGroup",
+		"newPresentationFormId" : "textSystemOneFormNewPGroup",
+		"menuPresentationViewId" : "textSystemOneMenuPGroup",
+		"listPresentationViewId" : "textSystemOneListPGroup",
+		"search" : "presentationVarSearch",
+		"userSuppliedId" : "true",
+		"abstract" : "false",
+		"parentId" : "text",
+		"actionLinks" : {}
+	};
+	var x = provider.getMetadataByRecordTypeId("textSystemOne");
+	assert.stringifyEqual(x, expected);
+});
+QUnit.test("getMetadataByRecordTypeIdNoParentId", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	this.answerListCall(0);
+
+	var expected = {
+		"metadataId" : "metadataGroup",
+		"presentationViewId" : "metadataViewPGroup",
+		"presentationFormId" : "metadataFormPGroup",
+		"newMetadataId" : "metadataNewGroup",
+		"newPresentationFormId" : "metadataFormNewPGroup",
+		"menuPresentationViewId" : "metadataMenuPGroup",
+		"listPresentationViewId" : "metadataListPGroup",
+		"search" : "presentationVarSearch",
+		"userSuppliedId" : "true",
+		"abstract" : "true",
+		"actionLinks" : {}
+	};
+	var x = provider.getMetadataByRecordTypeId("metadata");
+	assert.stringifyEqual(x, expected);
+});
+
+QUnit.test("getMetadataByRecordTypeIdNotFound", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	this.answerListCall(0);
+
+	var error = false;
+	try {
+		var x = provider.getMetadataByRecordTypeId("someNonExistingRecordTypeId");
+	} catch (e) {
+		error = true;
+	}
+	assert.ok(error);
 });

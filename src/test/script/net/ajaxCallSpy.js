@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -19,7 +19,7 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.ajaxCallSpy = function(spec) {
+	coraTest.ajaxCallSpy = function(dependencies, spec) {
 
 		function getSpec() {
 			return spec;
