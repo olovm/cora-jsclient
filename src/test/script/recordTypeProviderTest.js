@@ -308,16 +308,19 @@ QUnit.test("getAllRecordTypes", function(assert) {
 
 QUnit.test("testReload", function(assert) {
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	this.answerListCall(0);
 	var providerReloaded = false;
 	function callWhenProviderHasReloaded() {
 		providerReloaded = true;
 	}
 
 	assert.notOk(providerReloaded);
+	assert.strictEqual(provider.getAllRecordTypes().length, 15);
 
 	provider.reload(callWhenProviderHasReloaded);
 
 	this.answerListCall(1);
+	assert.strictEqual(provider.getAllRecordTypes().length, 15);
 	assert.ok(providerReloaded);
 	assert.strictEqual(this.ajaxCallFactorySpy.getSpec(1).loadMethod, this.ajaxCallFactorySpy
 			.getSpec(0).loadMethod);
@@ -339,7 +342,8 @@ QUnit.test("getMetadataByRecordTypeId", function(assert) {
 		"search" : "presentationVarSearch",
 		"userSuppliedId" : "true",
 		"abstract" : "false",
-		"parentId" : "text"
+		"parentId" : "text",
+		"actionLinks" : {}
 	};
 	var x = provider.getMetadataByRecordTypeId("textSystemOne");
 	assert.stringifyEqual(x, expected);
@@ -359,6 +363,7 @@ QUnit.test("getMetadataByRecordTypeIdNoParentId", function(assert) {
 		"search" : "presentationVarSearch",
 		"userSuppliedId" : "true",
 		"abstract" : "true",
+		"actionLinks" : {}
 	};
 	var x = provider.getMetadataByRecordTypeId("metadata");
 	assert.stringifyEqual(x, expected);

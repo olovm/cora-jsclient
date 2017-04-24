@@ -52,12 +52,19 @@ var CORA = (function(cora) {
 		}
 
 		function populateAllRecordTypesByIdFromAnswer(answer) {
+			resetHolders();
 			var listOfAllRecordTypesAsRecords = JSON.parse(answer.responseText).dataList.data;
 			listOfAllRecordTypesAsRecords.forEach(function(recordContainer) {
 				var record = recordContainer.record;
 				addRecordToAllRecordTypes(record);
 				addRecordToTypesById(record);
 			});
+		}
+
+		function resetHolders() {
+			allRecordTypes = [];
+			allRecordTypesById = {};
+			metadataByRecordTypeId = {};
 		}
 
 		function addRecordToAllRecordTypes(record) {
@@ -91,6 +98,7 @@ var CORA = (function(cora) {
 				"userSuppliedId" : cRecord.getFirstAtomicValueByNameInData("userSuppliedId"),
 				"abstract" : cRecord.getFirstAtomicValueByNameInData("abstract"),
 				"parentId" : getLinkValueFromRecord("parentId", cRecord),
+				"actionLinks" : {}
 			};
 			metadataByRecordTypeId[recordId] = metadata;
 		}

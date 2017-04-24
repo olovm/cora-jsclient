@@ -128,15 +128,6 @@ var CORA = (function(cora) {
 					.getFirstAtomicValueByNameInData("id");
 		}
 
-		function createMetadataIdForRecordType(metadataIds, record) {
-			var cRecord = CORA.coraData(record.data);
-			var cMetadataIdGroup = CORA.coraData(cRecord.getFirstChildByNameInData("metadataId"));
-			var metadataId = cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
-			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
-			metadataIds[id] = metadataId;
-		}
-
 		function addSearchesUserIsAuthorizedToUseToSideBar(searchList) {
 			searchList.forEach(function(search) {
 				possiblyCreateAndAddSearchRecordHandlerToSideBar(search);
