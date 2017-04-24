@@ -2253,11 +2253,30 @@ function MetadataProviderStub() {
                     "name": "nameInData",
                     "value": "myLink"
                 }, {
-                    "name": "textId",
-                    "value": "myLinkText"
-                }, {
-                    "name": "defTextId",
-                    "value": "myLinkDefText"
+                	"children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myLinkText"
+                        }
+                    ],
+                    "name": "textId"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myLinkDefText"
+                        }
+                    ],
+                    "name": "defTextId"
                 }, {
                     "name": "linkedRecordType",
                     "value": "metadataTextVariable"
@@ -2294,11 +2313,30 @@ function MetadataProviderStub() {
                     "name": "nameInData",
                     "value": "myLinkWithAttribute"
                 }, {
-                    "name": "textId",
-                    "value": "myLinkText"
-                }, {
-                    "name": "defTextId",
-                    "value": "myLinkDefText"
+                	"children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myLinkText"
+                        }
+                    ],
+                    "name": "textId"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myLinkDefText"
+                        }
+                    ],
+                    "name": "defTextId"
                 }, {
                     "name": "linkedRecordType",
                     "value": "metadataTextVariable"
@@ -2343,11 +2381,30 @@ function MetadataProviderStub() {
                     "name": "nameInData",
                     "value": "myFinalValueLink"
                 }, {
-                    "name": "textId",
-                    "value": "myFinalValueLinkText"
-                }, {
-                    "name": "defTextId",
-                    "value": "myFinalValueLinkDefText"
+                	"children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myFinalValueLinkText"
+                        }
+                    ],
+                    "name": "textId"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myFinalValueLinkDefText"
+                        }
+                    ],
+                    "name": "defTextId"
                 }, {
                     "name": "linkedRecordType",
                     "value": "metadataTextVariable"
@@ -2388,11 +2445,30 @@ function MetadataProviderStub() {
                     "name": "nameInData",
                     "value": "myChildOfBinaryLink"
                 }, {
-                    "name": "textId",
-                    "value": "myChildOfBinaryLinkText"
-                }, {
-                    "name": "defTextId",
-                    "value": "myChildOfBinaryLinkDefText"
+                	"children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myChildOfBinaryLinkText"
+                        }
+                    ],
+                    "name": "textId"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myChildOfBinaryLinkDefText"
+                        }
+                    ],
+                    "name": "defTextId"
                 }, {
                     "name": "linkedRecordType",
                     "value": "image"
@@ -2445,11 +2521,30 @@ function MetadataProviderStub() {
                     "name": "nameInData",
                     "value": "myBinaryLink"
                 }, {
-                    "name": "textId",
-                    "value": "myBinaryLinkText"
-                }, {
-                    "name": "defTextId",
-                    "value": "myBinaryLinkDefText"
+                	"children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myBinaryLinkText"
+                        }
+                    ],
+                    "name": "textId"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myBinaryLinkDefText"
+                        }
+                    ],
+                    "name": "defTextId"
                 }, {
                     "name": "linkedRecordType",
                     "value": "binary"
@@ -2487,11 +2582,30 @@ function MetadataProviderStub() {
                     "name": "nameInData",
                     "value": "myBinaryNoDataDividerLink"
                 }, {
-                    "name": "textId",
-                    "value": "myBinaryNoDataDividerLinkText"
-                }, {
-                    "name": "defTextId",
-                    "value": "myBinaryNoDataDividerLinkDefText"
+                	"children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myBinaryNoDataDividerLinkText"
+                        }
+                    ],
+                    "name": "textId"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myBinaryNoDataDividerLinkDefText"
+                        }
+                    ],
+                    "name": "defTextId"
                 }, {
                     "name": "linkedRecordType",
                     "value": "noDataDividerBinary"
@@ -2528,11 +2642,30 @@ function MetadataProviderStub() {
                     "name": "nameInData",
                     "value": "myPathLink"
                 }, {
-                    "name": "textId",
-                    "value": "myPathLinkText"
-                }, {
-                    "name": "defTextId",
-                    "value": "myPathLinkDefText"
+                	"children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myPathLinkText"
+                        }
+                    ],
+                    "name": "textId"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "myPathLinkDefText"
+                        }
+                    ],
+                    "name": "defTextId"
                 }, {
                     "name": "linkedRecordType",
                     "value": "metadataTextVariable"
@@ -3404,11 +3537,30 @@ function MetadataProviderStub() {
                         "name": "nameInData",
                         "value": "dataDivider"
                     }, {
-                        "name": "textId",
-                        "value": "dataDividerCoraLinkText"
-                    }, {
-                        "name": "defTextId",
-                        "value": "dataDividerCoraLinkDefText"
+                    	"children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "text"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "dataDividerCoraLinkText"
+                            }
+                        ],
+                        "name": "textId"
+                    },
+                    {
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "text"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "dataDividerCoraLinkDefText"
+                            }
+                        ],
+                        "name": "defTextId"
                     }, {
                         "name": "linkedRecordType",
                         "value": "system"
