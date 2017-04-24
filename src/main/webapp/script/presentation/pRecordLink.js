@@ -44,7 +44,7 @@ var CORA = (function(cora) {
 
 			var defTextId =  extractTextId("defTextId");
 			var defText = textProvider.getTranslation(defTextId);
-			
+
 			var linkedRecordType = cMetadataElement
 					.getFirstAtomicValueByNameInData("linkedRecordType");
 			var viewSpec = {
@@ -60,11 +60,10 @@ var CORA = (function(cora) {
 			};
 			return dependencies.pRecordLinkViewFactory.factor(viewSpec);
 		}
-		
+
 		function extractTextId(textNameInData){
 			var cTextIdGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData(textNameInData));
 			return  cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-			 
 		}
 
 		function createValueView() {
