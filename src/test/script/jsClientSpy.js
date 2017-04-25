@@ -22,7 +22,9 @@ var CORATEST = (function(coraTest) {
 	coraTest.jsClientSpy = function(dependencies, spec) {
 		var viewsShowingInWorkView = [];
 		var createdManagedGuiItem = [];
-//		var createdManagedGuiItemHandledBy = [];
+		var fetchedMetadataByRecordTypeId = [];
+
+		// var createdManagedGuiItemHandledBy = [];
 		function getRecordTypesClearedNoOfTimes() {
 			return recordTypesClearedNoOfTimes;
 		}
@@ -47,18 +49,36 @@ var CORATEST = (function(coraTest) {
 		function getCreatedManagedGuiItem(number) {
 			return createdManagedGuiItem[number];
 		}
-		
-		function getMetadataIdForRecordTypeId(recordTypeId){
-			return recordTypeId+"Group";
+		function getMetadataForRecordTypeId(recordTypeId) {
+			// return recordTypeId + "Group";
+			fetchedMetadataByRecordTypeId.push(recordTypeId);
+			var metadata = {
+				"metadataId" : recordTypeId + "Group",
+				"presentationViewId" : recordTypeId + "ViewPGroup",
+				"presentationFormId" : recordTypeId + "FormPGroup",
+				"newMetadataId" : recordTypeId + "NewGroup",
+				"newPresentationFormId" : recordTypeId + "FormNewPGroup",
+				"menuPresentationViewId" : recordTypeId + "MenuPGroup",
+				"listPresentationViewId" : recordTypeId + "ListPGroup",
+				"search" : recordTypeId + "Search",
+				"userSuppliedId" : "true",
+				"abstract" : "false",
+				"parentId" : "text"
+			};
+			return metadata;
 		}
-		
+		function getFetchedMetadataByRecordTypeId(number) {
+			return fetchedMetadataByRecordTypeId[number];
+		}
+
 		var out = Object.freeze({
 			"type" : "jsClientSpy",
 			showView : showView,
 			getViewShowingInWorkView : getViewShowingInWorkView,
 			createManagedGuiItem : createManagedGuiItem,
 			getCreatedManagedGuiItem : getCreatedManagedGuiItem,
-			getMetadataIdForRecordTypeId:getMetadataIdForRecordTypeId
+			getMetadataForRecordTypeId : getMetadataForRecordTypeId,
+			getFetchedMetadataByRecordTypeId : getFetchedMetadataByRecordTypeId
 		});
 
 		return out;

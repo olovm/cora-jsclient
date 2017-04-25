@@ -55,7 +55,7 @@ var CORATEST = (function(coraTest) {
 				"jsBookkeeper" : jsBookkeeper,
 				"presentationFactory" : presentationFactory
 			};
-			var presentation = CORA.presentation(spec);
+			var presentation = CORA.presentationHolder(spec);
 
 			// // log all messages
 			// pubSub.subscribe("*", {}, undefined, function(dataFromMsg, msg) {
@@ -93,7 +93,7 @@ QUnit.module("jsClientIntegrationTest.js", {
 		this.pubSub = CORA.pubSub();
 		this.textProvider = CORATEST.textProviderStub();
 		this.pVarViewFactory = CORATEST.pVarViewFactorySpy();
-		
+
 		this.dependenciesFactory = CORATEST.dependenciesFactory(this.metadataProvider, this.pubSub,
 				this.textProvider);
 	},
@@ -113,10 +113,10 @@ QUnit.test("testIntegrateCoraPubSubPVar", function(assert) {
 	var cPVarPresentation = CORA.coraData(this.metadataProvider
 			.getMetadataById("pVarTextVariableIdOutput"));
 	var dependencies = {
-			"metadataProvider" : this.metadataProvider,
-			"pubSub" : this.pubSub,
-			"textProvider" : this.textProvider,
-			"pVarViewFactory" : this.pVarViewFactory
+		"metadataProvider" : this.metadataProvider,
+		"pubSub" : this.pubSub,
+		"textProvider" : this.textProvider,
+		"pVarViewFactory" : this.pVarViewFactory
 	};
 	var spec = {
 		"path" : path,

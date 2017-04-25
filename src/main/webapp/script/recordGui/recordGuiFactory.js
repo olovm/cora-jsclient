@@ -21,17 +21,15 @@ var CORA = (function(cora) {
 	cora.recordGuiFactory = function(dependencies) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
-		var recordTypeProvider = dependencies.recordTypeProvider;
-		var uploadManager = dependencies.uploadManager;
 
 		var self;
 
 		var factor = function(spec) {
 			var metadataId = spec.metadataId;
-			var data = spec.data;
 			var dataDivider = spec.dataDivider;
 
 			var pubSub = CORA.pubSub();
+
 			var specDataHolder = {
 				"metadataId" : metadataId,
 				"metadataProvider" : metadataProvider,
@@ -55,63 +53,41 @@ var CORA = (function(cora) {
 				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper,
 				"recordGuiFactory" : self,
-				"recordTypeProvider" : recordTypeProvider,
+				"recordTypeProvider" : dependencies.recordTypeProvider,
 				"dataDivider" : dataDivider,
-				"uploadManager" : uploadManager,
+				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory
 			};
 			var presentationFactory = CORA.presentationFactory(dependenciesPresentationFactory);
 
-			function getPresentation(presentationId, metadataIdUsedInData) {
-				var spec1 = {
-					"presentationId" : presentationId,
-					"metadataIdUsedInData" : metadataIdUsedInData,
-					"metadataProvider" : metadataProvider,
-					"pubSub" : pubSub,
-					"textProvider" : textProvider,
-					"jsBookkeeper" : jsBookkeeper,
-					"presentationFactory" : presentationFactory
-				};
-				return CORA.presentation(spec1);
-			}
+			var dependenciesCF = {
+				"metadataProvider" : dependencies.metadataProvider,
+				"pubSub" : pubSub
+			};
+			var metadataControllerFactory = CORA.metadataControllerFactory(dependenciesCF);
 
-			var metadataController;
-			function initMetadataControllerStartingGui() {
-				var specMetadataController = {
-					"metadataId" : metadataId,
-					"data" : data,
-					"metadataProvider" : metadataProvider,
-					"pubSub" : pubSub
-				};
-				metadataController = CORA.metadataController(specMetadataController);
-			}
+			var dependenciesMV = {
+				"metadataProvider" : dependencies.metadataProvider,
+				"pubSub" : pubSub
+			};
+			var metadataValidatorFactory = CORA.metadataValidatorFactory(dependenciesMV);
 
-			function getMetadataController() {
-				return metadataController;
-			}
+			var dependenciesRG = {
+				"metadataProvider" : dependencies.metadataProvider,
+				"textProvider" : dependencies.textProvider,
+				"pubSub" : pubSub,
+				"dataHolder" : dataHolder,
+				"jsBookkeeper" : jsBookkeeper,
+				"presentationFactory" : presentationFactory,
+				"metadataControllerFactory" : metadataControllerFactory,
+				"metadataValidatorFactory" : metadataValidatorFactory,
+				"presentationHolderFactory" : CORA.presentationHolderFactory()
+			};
+			return CORA.recordGui(dependenciesRG, spec);
 
-			function validateData() {
-				var spec2 = {
-					"metadataId" : metadataId,
-					"data" : dataHolder.getData(),
-					"metadataProvider" : metadataProvider,
-					"pubSub" : pubSub
-				};
-				return CORA.metadataValidator(spec2);
-			}
-
-			return Object.freeze({
-				pubSub : pubSub,
-				jsBookkeeper : jsBookkeeper,
-				presentationFactory : presentationFactory,
-				dataHolder : dataHolder,
-				getMetadataController : getMetadataController,
-				getPresentation : getPresentation,
-				initMetadataControllerStartingGui : initMetadataControllerStartingGui,
-				validateData : validateData
-			});
 		};
 		var out = Object.freeze({
+			"type" : "recordGuiFactory",
 			factor : factor
 		});
 		self = out;

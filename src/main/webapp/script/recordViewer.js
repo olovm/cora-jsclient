@@ -89,7 +89,7 @@ var CORA = (function(cora) {
 
 		function addToShowView(recordGuiToAdd, metadataIdUsedInData) {
 			var showViewId = spec.presentationId;
-			var showView = recordGuiToAdd.getPresentation(showViewId, metadataIdUsedInData)
+			var showView = recordGuiToAdd.getPresentationHolder(showViewId, metadataIdUsedInData)
 					.getView();
 			view.appendChild(showView);
 		}

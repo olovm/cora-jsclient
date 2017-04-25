@@ -107,6 +107,7 @@ var CORA = (function(cora) {
 		}
 
 		return Object.freeze({
+			"type" : "pubSub",
 			subscribe : subscribe,
 			unsubscribe : unsubscribe,
 			unsubscribePathBelow : unsubscribePathBelow,

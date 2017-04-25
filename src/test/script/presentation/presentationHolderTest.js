@@ -32,7 +32,7 @@ var CORATEST = (function(coraTest) {
 				"jsBookkeeper" : jsBookkeeper
 
 			};
-			var presentation = CORA.presentation(spec);
+			var presentation = CORA.presentationHolder(spec);
 
 			var view = presentation.getView();
 			fixture.appendChild(view);
@@ -56,6 +56,15 @@ var CORATEST = (function(coraTest) {
 
 QUnit.module("presentationTest.js", {
 	beforeEach : function() {
+		this.spec = {
+			"presentationId" : "pgGroupIdOneTextChild",
+			"metadataProvider" : new MetadataProviderStub(),
+			"pubSub" : CORATEST.pubSubSpy(),
+			"textProvider" : CORATEST.textProviderStub(),
+			"presentationFactory" : CORATEST.presentationFactorySpy(),
+			"jsBookkeeper" : CORATEST.jsBookkeeperSpy()
+		};
+
 		this.fixture = document.getElementById("qunit-fixture");
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();
@@ -68,6 +77,16 @@ QUnit.module("presentationTest.js", {
 	},
 	afterEach : function() {
 	}
+});
+
+QUnit.test("testInit", function(assert) {
+	var presentationHolder = CORA.presentationHolder(this.spec);
+	assert.strictEqual(presentationHolder.type, "presentationHolder");
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var presentationHolder = CORA.presentationHolder(this.spec);
+	assert.strictEqual(presentationHolder.getSpec(), this.spec);
 });
 
 QUnit.test("testInit", function(assert) {

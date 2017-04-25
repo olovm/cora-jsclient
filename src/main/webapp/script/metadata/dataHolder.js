@@ -57,8 +57,8 @@ var CORA = (function(cora) {
 			return dataContainerPart;
 		}
 
-		function isTypeThatPossiblyHasAttributes(type){
-			return isGroup(type)||isResourceLink(type) || isRecordLink(type);
+		function isTypeThatPossiblyHasAttributes(type) {
+			return isGroup(type) || isResourceLink(type) || isRecordLink(type);
 		}
 
 		function isGroup(type) {
@@ -227,7 +227,13 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function getSpec() {
+			return spec;
+		}
+
 		return Object.freeze({
+			"type" : "dataHolder",
+			getSpec : getSpec,
 			handleMsg : handleMsg,
 			getData : getData,
 			setValue : setValue,

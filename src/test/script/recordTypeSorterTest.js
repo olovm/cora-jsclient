@@ -1,6 +1,5 @@
 /*
- * Copyright 2016, 2017 Olov McKie
- * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -17,25 +16,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
-	"use strict";
-	coraTest.ajaxCallFactorySpy = function(spec) {
-		var factoredAjaxCalls = [];
-		function factor(ajaxCallSpec) {
-			var factoredAjaxCall = CORATEST.ajaxCallSpy({}, ajaxCallSpec);
-			factoredAjaxCalls.push(factoredAjaxCall);
-			return factoredAjaxCall;
-		}
+"use strict";
 
-		function getFactored(number) {
-			return factoredAjaxCalls[number];
-		}
+QUnit.module("recordTypeSorterTest.js", {
+	beforeEach : function() {
+//		this.record = CORATEST.recordTypeList.dataList.data[4].record;
+	},
+	afterEach : function() {
+	}
+});
 
-		var out = Object.freeze({
-			factor : factor,
-			getFactored : getFactored
-		});
-		return out;
-	};
-	return coraTest;
-}(CORATEST));
+QUnit.test("init", function(assert) {
+	var sorter = CORA.recordTypeSorter();
+	assert.strictEqual(sorter.type, "recordTypeSorter");
+});
+

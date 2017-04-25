@@ -1,7 +1,6 @@
 /*
- * Copyright 2016, 2017 Olov McKie
- * Copyright 2016 Uppsala University Library
- *
+ * Copyright 2017 Uppsala University Library
+ * 
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -19,23 +18,11 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.ajaxCallFactorySpy = function(spec) {
-		var factoredAjaxCalls = [];
-		function factor(ajaxCallSpec) {
-			var factoredAjaxCall = CORATEST.ajaxCallSpy({}, ajaxCallSpec);
-			factoredAjaxCalls.push(factoredAjaxCall);
-			return factoredAjaxCall;
-		}
+	coraTest.presentationHolderSpy = function(spec) {
 
-		function getFactored(number) {
-			return factoredAjaxCalls[number];
-		}
-
-		var out = Object.freeze({
-			factor : factor,
-			getFactored : getFactored
+		return Object.freeze({
+			"type" : "presentationHolderSpy"
 		});
-		return out;
 	};
 	return coraTest;
-}(CORATEST));
+}(CORATEST || {}));

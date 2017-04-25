@@ -76,7 +76,7 @@ QUnit.test("init", function(assert) {
 QUnit.test("testViewSpec", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientViewSpec = this.dependencies.jsClientViewFactory.getSpec(0);
-	
+
 	assert.strictEqual(jsClientViewSpec.name, this.spec.name);
 	assert.strictEqual(jsClientViewSpec.serverAddress, this.spec.baseUrl);
 });
@@ -125,7 +125,7 @@ QUnit.test("initFactoresSearchRecordHandlersAndAddsToView", function(assert) {
 
 QUnit.test("initFactoresSearchRecordHandlersSearchWithoutSearchLinkIsNotAdded", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-	
+
 	var factoredSearchRecordHandler4 = this.dependencies.searchRecordHandlerFactory.getFactored(3);
 	assert.strictEqual(factoredSearchRecordHandler4, undefined);
 });
@@ -197,16 +197,16 @@ QUnit.test("hideAndRemoveView", function(assert) {
 
 	var aView = CORATEST.managedGuiItemSpy();
 	jsClient.showView(aView);
-	
+
 	assert.strictEqual(jsClientView.getAddedWorkView(0), aView.getWorkView());
-	
+
 	jsClient.hideAndRemoveView(aView);
 	assert.strictEqual(jsClientView.getRemovedWorkView(0), aView.getWorkView());
 });
 QUnit.test("testViewRemoved", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
-	
+
 	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
 
 	var aView = CORATEST.managedGuiItemSpy();
@@ -235,25 +235,30 @@ QUnit.test("testViewRemoved", function(assert) {
 	assert.strictEqual(aThirdView.getActive(), false);
 	jsClient.showView(aThirdView);
 	assert.strictEqual(jsClientView.getAddedWorkView(2), aThirdView.getWorkView());
-	
+
 	jsClient.showView(aDifferentView);
 	jsClient.viewRemoved(aThirdView);
-	
+
 	jsClient.viewRemoved(aDifferentView);
 	assert.strictEqual(aView.getActive(), true);
 	assert.strictEqual(aView.getWorkViewHidden(), 1);
 	assert.strictEqual(aView.getWorkViewShown(), 2);
-	
+
 	jsClient.viewRemoved(aView);
 	assert.strictEqual(aView.getActive(), false);
 });
 
-QUnit.test("getMetadataIdForRecordType", function(assert) {
+QUnit.test("getMetadataIdForRecordTypeIsPassedOnToRecordProvider", function(assert) {
+	this.dependencies.recordTypeProvider = CORATEST.recordTypeProviderSpy();
 	var recordTypeListData = CORATEST.recordTypeList;
 
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-	var metadataId = jsClient.getMetadataIdForRecordTypeId("textSystemOne");
-	assert.strictEqual(metadataId, "textSystemOneGroup");
+	var metadata = jsClient.getMetadataForRecordTypeId("textSystemOne");
+
+	assert.strictEqual(this.dependencies.recordTypeProvider.getFetchedMetadataByRecordTypeId(0),
+			"textSystemOne");
+	assert.strictEqual(metadata, this.dependencies.recordTypeProvider
+			.getMetadataByRecordTypeId("textSystemOne"));
 });
 
 QUnit.test("testAfterLogin", function(assert) {
@@ -284,45 +289,45 @@ QUnit.test("testAfterRecordTypeProviderReload", function(assert) {
 	assert.strictEqual(recordType.firstChild.textContent, "metadata");
 });
 
-//QUnit.test("testCreateManagedGuiItem", function(assert) {
-//	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-//	var handledBy = function() {
-//	};
-//	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
-//	var spec  = this.dependencies.managedGuiItemFactory.getSpec(0);
-//	assert.strictEqual(spec.handledBy, handledBy);
+// QUnit.test("testCreateManagedGuiItem", function(assert) {
+// var jsClient = CORA.jsClient(this.dependencies, this.spec);
+// var handledBy = function() {
+// };
+// var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
+// var spec = this.dependencies.managedGuiItemFactory.getSpec(0);
+// assert.strictEqual(spec.handledBy, handledBy);
 //
-////	assert.strictEqual(managedGuiItem.menuView.nodeName, "SPAN");
-////	assert.strictEqual(managedGuiItem.menuView.className, "menuView");
-////
-////	assert.strictEqual(managedGuiItem.workView.nodeName, "SPAN");
-////	assert.strictEqual(managedGuiItem.workView.className, "workView");
-//});
+// // assert.strictEqual(managedGuiItem.menuView.nodeName, "SPAN");
+// // assert.strictEqual(managedGuiItem.menuView.className, "menuView");
+// //
+// // assert.strictEqual(managedGuiItem.workView.nodeName, "SPAN");
+// // assert.strictEqual(managedGuiItem.workView.className, "workView");
+// });
 
-//QUnit.test("testCreateManagedGuiItemMenuViewOnclick", function(assert) {
-//	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-//	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
-//	var handledBy = function() {
-//	};
-//	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
+// QUnit.test("testCreateManagedGuiItemMenuViewOnclick", function(assert) {
+// var jsClient = CORA.jsClient(this.dependencies, this.spec);
+// var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+// var handledBy = function() {
+// };
+// var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
 //
-//	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
-//	var event = document.createEvent('Event');
-//	managedGuiItem.menuView.onclick(event);
-//	assert.strictEqual(jsClientView.getAddedWorkView(0), managedGuiItem.workView);
-//	assert.strictEqual(managedGuiItem.menuView.className, "menuView active");
-//});
+// assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
+// var event = document.createEvent('Event');
+// managedGuiItem.menuView.onclick(event);
+// assert.strictEqual(jsClientView.getAddedWorkView(0), managedGuiItem.workView);
+// assert.strictEqual(managedGuiItem.menuView.className, "menuView active");
+// });
 
-//QUnit.test("testCreateManagedGuiItemHandledOnReload", function(assert) {
-//	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-////	var handledByCalledWith = [];
-////	var handledBy = function(managedGuiItemIn) {
-////		handledByCalledWith.push(managedGuiItemIn);
-////	}
-////	var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
-//	var managedGuiItem = CORATEST.managedGuiItemSpy();
-//	jsClient.showView(managedGuiItem);
-//	jsClient.afterRecordTypeProviderReload();
-////	assert.strictEqual(handledByCalledWith.length, 1);
-//	assert.strictEqual(managedGuiItem.getHandledBy(0), "");
-//});
+// QUnit.test("testCreateManagedGuiItemHandledOnReload", function(assert) {
+// var jsClient = CORA.jsClient(this.dependencies, this.spec);
+// // var handledByCalledWith = [];
+// // var handledBy = function(managedGuiItemIn) {
+// // handledByCalledWith.push(managedGuiItemIn);
+// // }
+// // var managedGuiItem = jsClient.createManagedGuiItem(handledBy);
+// var managedGuiItem = CORATEST.managedGuiItemSpy();
+// jsClient.showView(managedGuiItem);
+// jsClient.afterRecordTypeProviderReload();
+// // assert.strictEqual(handledByCalledWith.length, 1);
+// assert.strictEqual(managedGuiItem.getHandledBy(0), "");
+// });

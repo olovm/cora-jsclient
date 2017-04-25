@@ -1,5 +1,6 @@
 /*
  * Copyright 2015 Olov McKie
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -43,7 +44,15 @@ var CORA = (function(cora) {
 		function getMetadataById(id) {
 			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}
-		return Object.freeze({});
+
+		function getSpec() {
+			return spec;
+		}
+
+		return Object.freeze({
+			"type" : "metadataController",
+			getSpec : getSpec
+		});
 	};
 	return cora;
 }(CORA));

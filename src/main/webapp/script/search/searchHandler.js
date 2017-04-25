@@ -81,7 +81,7 @@ var CORA = (function(cora) {
 		}
 
 		function addSearchFormFromRecordGuiToView(recordGuiToAdd, metadataIdUsedInData) {
-			var presentationView = recordGuiToAdd.getPresentation(spec.presentationId,
+			var presentationView = recordGuiToAdd.getPresentationHolder(spec.presentationId,
 					metadataIdUsedInData).getView();
 			view.addPresentationToSearchFormHolder(presentationView);
 		}

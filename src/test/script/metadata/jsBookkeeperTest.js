@@ -40,6 +40,14 @@ var CORATEST = (function(coraTest) {
 
 QUnit.module("jsBookkeeperTest.js", {
 	beforeEach : function() {
+		this.spec = {
+			"metadataId" : "groupIdOneTextChild",
+			"metadataProvider" : new MetadataProviderStub(),
+			"pubSub" : CORATEST.pubSubSpy(),
+			"textProvider" : CORATEST.textProviderStub(),
+			"dataHolder" : CORATEST.dataHolderStub()
+		};
+
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
@@ -49,6 +57,16 @@ QUnit.module("jsBookkeeperTest.js", {
 	},
 	afterEach : function() {
 	}
+});
+
+QUnit.test("testInit", function(assert) {
+	var jsBookkeeper = CORA.jsBookkeeper(this.spec);
+	assert.strictEqual(jsBookkeeper.type, "jsBookkeeper");
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var jsBookkeeper = CORA.jsBookkeeper(this.spec);
+	assert.strictEqual(jsBookkeeper.getSpec(), this.spec);
 });
 
 QUnit.test("testSetValue", function(assert) {
@@ -78,18 +96,16 @@ QUnit.test("testAdd", function(assert) {
 		"repeatId" : "1",
 		"children" : [ {
 			"name" : "ref",
-			"children": [
-					{
-						"name": "linkedRecordType",
-						"value": "metadataTextVariable"
-					},
-					{
-						"name": "linkedRecordId",
-						"value": "textVariableId"
-					}
-				],"attributes": {
-					"type": "textVariable"
-				}
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : "metadataTextVariable"
+			}, {
+				"name" : "linkedRecordId",
+				"value" : "textVariableId"
+			} ],
+			"attributes" : {
+				"type" : "textVariable"
+			}
 		}, {
 			"name" : "repeatMin",
 			"value" : "1"
@@ -109,14 +125,15 @@ QUnit.test("testAdd", function(assert) {
 		"type" : "add",
 		"message" : {
 			"metadataId" : "textVariableId",
-			"path" : {},"nameInData":"textVariableId"
+			"path" : {},
+			"nameInData" : "textVariableId"
 		}
 	};
 	assert.stringifyEqual(messages[0], expectedMessage);
 
 	assert.equal(messages.length, 1);
 	assert.strictEqual(calculatedRepeatId, undefined);
-	
+
 });
 QUnit.test("testAddRepeating", function(assert) {
 	var currentData = {
@@ -178,7 +195,7 @@ QUnit.test("testAddRepeating", function(assert) {
 			"name" : "textVar",
 			"value" : "three",
 			"repeatId" : "1"
-		}],
+		} ],
 		"attributes" : {
 			"anAttribute" : "aFinalValue"
 		},
@@ -216,18 +233,16 @@ QUnit.test("testAddRepeating", function(assert) {
 			"repeatId" : "1",
 			"children" : [ {
 				"name" : "ref",
-				"children": [
-						{
-							"name": "linkedRecordType",
-							"value": "metadataTextVariable"
-						},
-						{
-							"name": "linkedRecordId",
-							"value": "textVar"
-						}
-					],"attributes": {
-						"type": "textVariable"
-					}
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataTextVariable"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "textVar"
+				} ],
+				"attributes" : {
+					"type" : "textVariable"
+				}
 			}, {
 				"name" : "repeatMin",
 				"value" : "1"
