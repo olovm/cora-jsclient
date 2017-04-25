@@ -46,10 +46,12 @@ var CORA = (function(cora) {
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
 		pubSub.subscribe("validationError", path, undefined, handleValidationError);
 
-		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
+		var cTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("textId"));
+		var textId = cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		var text = textProvider.getTranslation(textId);
 
-		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
+		var cDefTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("defTextId"));
+		var defTextId = cDefTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		var defText = textProvider.getTranslation(defTextId);
 
 		var info = createInfo();
