@@ -46,18 +46,17 @@ var CORA = (function(cora) {
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
 		pubSub.subscribe("validationError", path, undefined, handleValidationError);
 
-		var cTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("textId"));
-		var textId = cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		var textId = getTextId(cMetadataElement, "textId");
 		var text = textProvider.getTranslation(textId);
 
-		var cDefTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("defTextId"));
-		var defTextId = cDefTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		var defTextId = getTextId(cMetadataElement, "defTextId");
 		var defText = textProvider.getTranslation(defTextId);
 
 		var info = createInfo();
 		var infoButton = info.getButton();
 		view.appendChild(infoButton);
 
+		
 		function createBaseView() {
 			return CORA.gui.createSpanWithClassName("pCollVar " + presentationId);
 		}
@@ -154,6 +153,11 @@ var CORA = (function(cora) {
 			return newInfo;
 		}
 
+		function getTextId(cMetadataElementIn, nameInData){
+			var cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData(nameInData));
+			return cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+		
 		function getView() {
 			return view;
 		}
