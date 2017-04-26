@@ -66,7 +66,7 @@ var CORA = (function(cora) {
 		}
 
 		function createResultHolderAndAddTo(addTo) {
-			resultHolder = CORA.gui.createSpanWithClassName("resultHolder");
+			resultHolder = CORA.gui.createSpanWithClassName("searchResultHolder");
 			addTo.addViewToView(resultHolder);
 		}
 
@@ -76,6 +76,10 @@ var CORA = (function(cora) {
 
 		function addPresentationToSearchFormHolder(presentationToAdd) {
 			searchFormHolder.insertBefore(presentationToAdd, searchFormHolder.lastChild);
+		}
+
+		function addSearchResultToSearchResultHolder(resultToAdd) {
+			resultHolder.appendChild(resultToAdd);
 		}
 
 		function getDependencies() {
@@ -92,7 +96,8 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder
+			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder,
+			addSearchResultToSearchResultHolder : addSearchResultToSearchResultHolder
 		});
 	};
 	return cora;

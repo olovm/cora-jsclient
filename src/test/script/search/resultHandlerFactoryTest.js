@@ -21,9 +21,9 @@
 QUnit.module("resultHandlerFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
-			"resultHandlerViewFactory" : CORATEST.standardFactorySpy("resultHandlerViewSpy")
-		// "recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
-		// "textProvider" : CORATEST.textProviderSpy(),
+			// "resultHandlerViewFactory" : CORATEST.standardFactorySpy("resultHandlerViewSpy")
+			// "recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
+			"textProvider" : CORATEST.textProviderSpy(),
 		// "ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
 		// "managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 		};
@@ -58,14 +58,14 @@ QUnit.test("testFactor", function(assert) {
 	assert.strictEqual(resultHandler.type, "resultHandler");
 });
 
-// QUnit.test("testFactorAddedDependencies", function(assert) {
-// var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
-// var resultHandler = resultHandlerFactory.factor(this.spec);
-// var addedDep = resultHandler.getDependencies();
-// assert.strictEqual(addedDep.resultHandlerViewFactory.type, "resultHandlerViewFactory");
-// assert.strictEqual(addedDep.resultHandlerViewFactory.getDependencies().textProvider,
-// this.dependencies.textProvider);
-// assert.strictEqual(addedDep.managedGuiItemFactory.type, "managedGuiItemFactory");
-// assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
-// assert.strictEqual(addedDep.ajaxCallFactory, this.dependencies.ajaxCallFactory);
-// });
+QUnit.test("testFactorAddedDependencies", function(assert) {
+	var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
+	var resultHandler = resultHandlerFactory.factor(this.spec);
+	var addedDep = resultHandler.getDependencies();
+	assert.strictEqual(addedDep.resultHandlerViewFactory.type, "resultHandlerViewFactory");
+	// assert.strictEqual(addedDep.resultHandlerViewFactory.getDependencies().textProvider,
+	// this.dependencies.textProvider);
+	// assert.strictEqual(addedDep.managedGuiItemFactory.type, "managedGuiItemFactory");
+	// assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
+	// assert.strictEqual(addedDep.ajaxCallFactory, this.dependencies.ajaxCallFactory);
+});

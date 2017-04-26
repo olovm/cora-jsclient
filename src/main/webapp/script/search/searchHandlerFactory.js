@@ -25,12 +25,15 @@ var CORA = (function(cora) {
 			var viewDep = {
 				"textProvider" : dependencies.textProvider
 			};
-
+			var dependenciesRH = {
+				"textProvider" : dependencies.textProvider
+			};
 			var dep = {
 				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(viewDep),
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"resultHandlerFactory" : CORA.resultHandlerFactory(dependenciesRH)
 			};
 			return CORA.searchHandler(dep, spec);
 		}

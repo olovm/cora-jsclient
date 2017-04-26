@@ -111,18 +111,18 @@ var CORA = (function(cora) {
 		// };
 		// dependencies.ajaxCallFactory.factor(callSpec);
 		// }
-		//
-		// function getDependencies() {
-		// return dependencies;
-		// }
+
+		function getDependencies() {
+			return dependencies;
+		}
 		function getView() {
 			return view.getView();
 		}
 		start();
 		return Object.freeze({
 			"type" : "resultHandler",
-			getView : getView
-		// getDependencies : getDependencies,
+			getView : getView,
+			getDependencies : getDependencies,
 		// search : search
 		});
 	};

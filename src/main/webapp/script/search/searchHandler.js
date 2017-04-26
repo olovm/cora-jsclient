@@ -105,21 +105,27 @@ var CORA = (function(cora) {
 				"parameters" : {
 					"searchData" : JSON.stringify(recordGui.dataHolder.getData())
 				},
-			// "loadMethod" : function(answer) {
-			// alert(JSON.stringify(answer));
-			// }
+				"loadMethod" : handleSearchResult
 			};
 			dependencies.ajaxCallFactory.factor(callSpec);
+		}
+
+		function handleSearchResult(answerIn) {
+			var resultHandler = dependencies.resultHandlerFactory.factor();
+			view.addSearchResultToSearchResultHolder(resultHandler.getView());
 		}
 
 		function getDependencies() {
 			return dependencies;
 		}
+
 		start();
+
 		return Object.freeze({
 			"type" : "searchHandler",
 			getDependencies : getDependencies,
-			search : search
+			search : search,
+			handleSearchResult : handleSearchResult
 		});
 	};
 	return cora;

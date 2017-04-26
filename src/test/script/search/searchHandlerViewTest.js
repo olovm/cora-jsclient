@@ -103,9 +103,9 @@ QUnit.test("testGetSpec", function(assert) {
 QUnit.test("testInitResultViewCreatedAndAddedToWorkItemView", function(assert) {
 	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
 	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0);
-	var resultHolder = factoredWorkItemView.getViewsAddedToView(1);
-	assert.strictEqual(resultHolder.nodeName, "SPAN");
-	assert.strictEqual(resultHolder.className, "resultHolder");
+	var searchResultHolder = factoredWorkItemView.getViewsAddedToView(1);
+	assert.strictEqual(searchResultHolder.nodeName, "SPAN");
+	assert.strictEqual(searchResultHolder.className, "searchResultHolder");
 });
 
 QUnit.test("testAddPresentationToSearchFormHolder", function(assert) {
@@ -118,4 +118,16 @@ QUnit.test("testAddPresentationToSearchFormHolder", function(assert) {
 	searchHandlerView.addPresentationToSearchFormHolder(aPresentation);
 	assert.strictEqual(searchFormHolder.childNodes.length, 2);
 	assert.strictEqual(searchFormHolder.firstChild, aPresentation);
+});
+
+QUnit.test("testAddSearchResultToSearchResultHolder", function(assert) {
+	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
+	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0);
+	var searchResultHolder = factoredWorkItemView.getViewsAddedToView(1);
+	assert.strictEqual(searchResultHolder.childNodes.length, 0);
+
+	var aResult = CORA.gui.createSpanWithClassName("some");
+	searchHandlerView.addSearchResultToSearchResultHolder(aResult);
+	assert.strictEqual(searchResultHolder.childNodes.length, 1);
+	assert.strictEqual(searchResultHolder.firstChild, aResult);
 });

@@ -63,11 +63,11 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(resultHandler.type, "resultHandler");
 });
 
-// QUnit.test("testGetDependencies", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// assert.strictEqual(resultHandler.getDependencies(), this.dependencies);
-// });
-//
+QUnit.test("testGetDependencies", function(assert) {
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+	assert.strictEqual(resultHandler.getDependencies(), this.dependencies);
+});
+
 QUnit.test("testInitViewCreatedUsingFactory", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	var factoredView = this.dependencies.resultHandlerViewFactory.getFactored(0);

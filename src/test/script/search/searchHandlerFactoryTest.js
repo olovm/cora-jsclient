@@ -69,3 +69,11 @@ QUnit.test("testFactorAddedDependencies", function(assert) {
 	assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
 	assert.strictEqual(addedDep.ajaxCallFactory, this.dependencies.ajaxCallFactory);
 });
+QUnit.test("testFactorAddedDependenciesResultHandlerFactory", function(assert) {
+	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
+	var searchHandler = searchHandlerFactory.factor(this.spec);
+	var addedDep = searchHandler.getDependencies();
+	assert.strictEqual(addedDep.resultHandlerFactory.type, "resultHandlerFactory");
+	var dependenciesRH = addedDep.resultHandlerFactory.getDependencies();
+	assert.strictEqual(dependenciesRH.textProvider, this.dependencies.textProvider);
+});
