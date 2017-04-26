@@ -157,7 +157,7 @@ function MetadataProviderStub() {
                     "name": "regEx",
                     "value": "^[0-9A-Öa-ö\\s!*.]{2,50}$"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -171,7 +171,7 @@ function MetadataProviderStub() {
                     "name": "regEx",
                     "value": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -190,12 +190,32 @@ function MetadataProviderStub() {
                 }, {
                     "name": "nameInData",
                     "value": "yesNoUnknownVar"
-                }, {
-                    "name": "textId",
-                    "value": "yesNoUnknownVarText"
-                }, {
-                    "name": "defTextId",
-                    "value": "yesNoUnknownVarDefText"
+                }, 
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "yesNoUnknownVarText"
+                        }
+                    ],
+                    "name": "textId"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "yesNoUnknownVarDefText"
+                        }
+                    ],
+                    "name": "defTextId"
                 }, {
                     "children": [{
                         "name": "linkedRecordType",
@@ -1056,7 +1076,7 @@ function MetadataProviderStub() {
                     "name": "regEx",
                     "value": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 
             };
         }
@@ -1249,7 +1269,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1279,7 +1299,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1398,7 +1418,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1410,7 +1430,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1422,7 +1442,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1434,7 +1454,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1446,7 +1466,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1458,7 +1478,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1470,7 +1490,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1482,7 +1502,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "^true$|^false$"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1494,7 +1514,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[A-Z\_]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1506,7 +1526,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1657,7 +1677,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1669,7 +1689,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1681,7 +1701,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1713,7 +1733,7 @@ function MetadataProviderStub() {
                     "name": "regEx",
                     "value": "(^[0-9A-Za-z]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet))
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
             };
         }
         if (idToGet === "childReferences") {
@@ -1769,7 +1789,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9\_]{1,3}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1781,7 +1801,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[A-Z\_]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1793,7 +1813,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[0-9|X\_]{1,3}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1805,7 +1825,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "^true$|^false$"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1817,7 +1837,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[A-Z\_]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1829,7 +1849,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "^true$|^false$"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -1841,7 +1861,7 @@ function MetadataProviderStub() {
                 "children": [{
                     "regEx": "(^[A-Z\_]{2,50}$)"
                 }]
-                    .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(idToGet)),
+                    .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
                 "attributes": {
                     "type": "textVariable"
                 }
@@ -2035,12 +2055,32 @@ function MetadataProviderStub() {
                 }, {
                     "name": "nameInData",
                     "value": "id"
-                }, {
-                    "name": "textId",
-                    "value": "idTextVarText"
-                }, {
-                    "name": "defTextId",
-                    "value": "idTextVarDefText"
+                }, 
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "idTextVarText"
+                        }
+                    ],
+                    "name": "textId"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "linkedRecordType",
+                            "value": "text"
+                        },
+                        {
+                            "name": "linkedRecordId",
+                            "value": "idTextVarDefText"
+                        }
+                    ],
+                    "name": "defTextId"
                 }, {
                     "name": "regEx",
                     "value": "(^[0-9A-Za-z:-_]{2,50}$)"
@@ -2688,7 +2728,7 @@ function MetadataProviderStub() {
                     "value": "^[0-9A-Öa-ö\\s!*.]{2,50}$"
                 }]
                     .concat([createRecordInfoJson(idToGet)]
-                        .concat(createNameInDataTextIdDefTextIdWithNameInDataAndId(
+                        .concat(createNameInDataLinkedTextIdDefTextIdWithNameInDataAndId(
                             "linkedRecordType", idToGet))),
                 "attributes": {
                     "type": "textVariable"
@@ -2750,7 +2790,7 @@ function MetadataProviderStub() {
                     "value": "^[0-9A-Öa-ö\\s!*.]{2,50}$"
                 }]
                     .concat([createRecordInfoJson(idToGet)]
-                        .concat(createNameInDataTextIdDefTextIdWithNameInDataAndId(
+                        .concat(createNameInDataLinkedTextIdDefTextIdWithNameInDataAndId(
                             "linkedRecordId", idToGet))),
                 "attributes": {
                     "type": "textVariable"
@@ -9264,7 +9304,7 @@ function MetadataProviderStub() {
                         "name": "regEx",
                         "value": "(^[0-9A-Za-z]{2,50}$)"
                     }]
-                        .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("streamId"))
+                        .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId("streamId"))
 
                 };
             case "filenameTextVar":
@@ -9277,7 +9317,7 @@ function MetadataProviderStub() {
                         "name": "regEx",
                         "value": "(^[0-9A-Za-z]{2,50}$)"
                     }]
-                        .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("filename"))
+                        .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId("filename"))
 
                 };
             case "filesizeTextVar":
@@ -9290,7 +9330,7 @@ function MetadataProviderStub() {
                         "name": "regEx",
                         "value": "(^[0-9A-Za-z]{2,50}$)"
                     }]
-                        .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("filesize"))
+                        .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId("filesize"))
                 };
             case "mimeTypeTextVar":
                 return {
@@ -9302,7 +9342,7 @@ function MetadataProviderStub() {
                         "name": "regEx",
                         "value": "(^[0-9A-Za-z]{2,50}$)"
                     }]
-                        .concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId("mimeType"))
+                        .concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId("mimeType"))
                 };
             case "groupIdOneResourceLinkChild":
                 return {
