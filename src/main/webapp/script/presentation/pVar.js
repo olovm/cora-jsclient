@@ -45,7 +45,6 @@ var CORA = (function(cora) {
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 
-		
 		var pVarViewSpec = {
 			"mode" : mode,
 			"inputType" : getInputType(),
@@ -86,9 +85,9 @@ var CORA = (function(cora) {
 			}
 			return "input";
 		}
-		
-		function getTextId(cMetadataElementIn, nameInData){
-			var cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData(nameInData));
+
+		function getTextId(cMetadataElementIn, textNameInData){
+			var cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData(textNameInData));
 			return cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 

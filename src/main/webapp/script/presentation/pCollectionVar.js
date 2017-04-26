@@ -56,7 +56,6 @@ var CORA = (function(cora) {
 		var infoButton = info.getButton();
 		view.appendChild(infoButton);
 
-		
 		function createBaseView() {
 			return CORA.gui.createSpanWithClassName("pCollVar " + presentationId);
 		}
@@ -153,11 +152,11 @@ var CORA = (function(cora) {
 			return newInfo;
 		}
 
-		function getTextId(cMetadataElementIn, nameInData){
-			var cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData(nameInData));
+		function getTextId(cMetadataElementIn, textNameInData){
+			var cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData(textNameInData));
 			return cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
-		
+
 		function getView() {
 			return view;
 		}
