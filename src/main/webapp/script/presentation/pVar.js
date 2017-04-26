@@ -36,10 +36,10 @@ var CORA = (function(cora) {
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var outputFormat = getOutputFormat();
 
-		var textId = cMetadataElement.getFirstAtomicValueByNameInData("textId");
+		var textId = getTextId(cMetadataElement, "textId");
 		var text = textProvider.getTranslation(textId);
 
-		var defTextId = cMetadataElement.getFirstAtomicValueByNameInData("defTextId");
+		var defTextId = getTextId(cMetadataElement, "defTextId");
 		var defText = textProvider.getTranslation(defTextId);
 
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
@@ -84,6 +84,11 @@ var CORA = (function(cora) {
 				return cPresentation.getFirstAtomicValueByNameInData("inputType");
 			}
 			return "input";
+		}
+
+		function getTextId(cMetadataElementIn, textNameInData){
+			var cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData(textNameInData));
+			return cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function getView() {
