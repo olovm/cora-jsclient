@@ -9233,11 +9233,30 @@ function MetadataProviderStub() {
                             "name": "nameInData",
                             "value": "master"
                         }, {
-                            "name": "textId",
-                            "value": "masterResLinkText"
-                        }, {
-                            "name": "defTextId",
-                            "value": "masterResLinkDefText"
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "text"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "masterResLinkText"
+                                }
+                            ],
+                            "name": "textId"
+                        },
+                        {
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "text"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "masterResLinkDefText"
+                                }
+                            ],
+                            "name": "defTextId"
                         }],
                     "name": "metadata",
                     "attributes": {
