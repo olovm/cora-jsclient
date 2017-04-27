@@ -111,7 +111,10 @@ var CORA = (function(cora) {
 		}
 
 		function handleSearchResult(answerIn) {
-			var resultHandler = dependencies.resultHandlerFactory.factor();
+			var resultHandlerSpec = {
+				"dataList" : JSON.parse(answerIn.responseText).dataList
+			};
+			var resultHandler = dependencies.resultHandlerFactory.factor(resultHandlerSpec);
 			view.addSearchResultToSearchResultHolder(resultHandler.getView());
 		}
 

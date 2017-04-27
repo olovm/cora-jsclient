@@ -21,21 +21,12 @@
 QUnit.module("resultHandlerFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
-			// "resultHandlerViewFactory" : CORATEST.standardFactorySpy("resultHandlerViewSpy")
-			// "recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
 			"textProvider" : CORATEST.textProviderSpy(),
-		// "ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
-		// "managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
+			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
+			"jsClient" : CORATEST.jsClientSpy()
 		};
 		this.spec = {
-		// "addToSearchRecordHandlerMethod" : function() {
-		// },
-		// "showViewMethod" : function() {
-		// },
-		// "removeViewMethod" : function() {
-		// },
-		// "metadataId" : "someMetadataId",
-		// "presentationId" : "somePresentationId"
+			"dataList" : CORATEST.searchRecordList.dataList
 		}
 	},
 	afterEach : function() {
@@ -63,9 +54,7 @@ QUnit.test("testFactorAddedDependencies", function(assert) {
 	var resultHandler = resultHandlerFactory.factor(this.spec);
 	var addedDep = resultHandler.getDependencies();
 	assert.strictEqual(addedDep.resultHandlerViewFactory.type, "resultHandlerViewFactory");
-	// assert.strictEqual(addedDep.resultHandlerViewFactory.getDependencies().textProvider,
-	// this.dependencies.textProvider);
-	// assert.strictEqual(addedDep.managedGuiItemFactory.type, "managedGuiItemFactory");
-	// assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
-	// assert.strictEqual(addedDep.ajaxCallFactory, this.dependencies.ajaxCallFactory);
+	assert.strictEqual(addedDep.textProvider, this.dependencies.textProvider);
+	assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
+	assert.strictEqual(addedDep.jsClient, this.dependencies.jsClient);
 });

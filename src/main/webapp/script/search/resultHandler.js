@@ -27,6 +27,7 @@ var CORA = (function(cora) {
 
 		function start() {
 			view = createView();
+			createAndAddPresentationsForEachResultItem();
 			// managedGuiItem = createManagedGuiItem();
 			// managedGuiItem.addWorkPresentation(view.getView());
 			// addSearchToSearchRecordHandler(managedGuiItem);
@@ -36,10 +37,59 @@ var CORA = (function(cora) {
 
 		function createView() {
 			var viewSpec = {
-			// "searchMethod" : search
+				"ofText" : dependencies.textProvider.getTranslation("theClient_resultListOfText"),
+				"fromNo" : spec.dataList.fromNo,
+				"toNo" : spec.dataList.toNo,
+				"totalNo" : spec.dataList.totalNo
 			};
 			return dependencies.resultHandlerViewFactory.factor(viewSpec);
 		}
+
+		function createAndAddPresentationsForEachResultItem() {
+			var data = spec.dataList.data;
+			data.forEach(tryToAddResultItemToView);
+		}
+		function tryToAddResultItemToView(recordContainer) {
+			// try {
+			addResultItemToWorkView(recordContainer.record.data);
+			// } catch (e) {
+			// managedGuiItem.addWorkPresentation(document.createTextNode(e));
+			// managedGuiItem.addWorkPresentation(document.createTextNode(e.stack));
+			// }
+		}
+		function addResultItemToWorkView(result) {
+			// var result = spec.dataList.data[0].record.data;
+			var recordTypeId = getRecordTypeIdFromRecord(result);
+			var recordTypeMetadata = dependencies.jsClient.getMetadataForRecordTypeId(recordTypeId)
+			var metadataId = recordTypeMetadata.metadataId;
+			var dataDivider = getDataDividerFromData(result);
+
+			var recordGuiSpec = {
+				"metadataId" : metadataId,
+				"data" : result,
+				"dataDivider" : dataDivider
+			};
+			var recordGui = dependencies.recordGuiFactory.factor(recordGuiSpec);
+
+			var listPresentationId = recordTypeMetadata.listPresentationViewId;
+			var listPresentation = recordGui.getPresentationHolder(listPresentationId, metadataId);
+			recordGui.initMetadataControllerStartingGui();
+			view.addChildPresentation(listPresentation.getView());
+		}
+
+		function getRecordTypeIdFromRecord(record) {
+			var cData = CORA.coraData(record);
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			return cRecordInfo.getFirstAtomicValueByNameInData("type");
+		}
+
+		function getDataDividerFromData(data) {
+			var cData = CORA.coraData(data);
+			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			var cDataDivider = CORA.coraData(cRecordInfo.getFirstChildByNameInData("dataDivider"));
+			return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+
 		//
 		// function createManagedGuiItem() {
 		// var managedGuiItemSpec = {
@@ -118,11 +168,18 @@ var CORA = (function(cora) {
 		function getView() {
 			return view.getView();
 		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		start();
+
 		return Object.freeze({
 			"type" : "resultHandler",
 			getView : getView,
 			getDependencies : getDependencies,
+			getSpec : getSpec
 		// search : search
 		});
 	};

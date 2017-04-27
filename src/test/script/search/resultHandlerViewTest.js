@@ -27,9 +27,11 @@ QUnit.module("resultHandlerViewTest.js", {
 		// "textProvider" : CORATEST.textProviderSpy()
 		};
 		this.spec = {
-			"searchMethod" : function() {
-			}
-		}
+			"ofText" : "av",
+			"fromNo" : "1",
+			"toNo" : "15",
+			"totalNo" : "1520000"
+		};
 	},
 	afterEach : function() {
 	}
@@ -47,12 +49,32 @@ QUnit.test("testGetView", function(assert) {
 	assert.strictEqual(view.className, "resultHolder");
 });
 
+QUnit.test("testInfoPartOfView", function(assert) {
+	var resultHandlerView = CORA.resultHandlerView(this.dependencies, this.spec);
+	var infoHolder = resultHandlerView.getView().firstChild;
+	assert.strictEqual(infoHolder.nodeName, "SPAN");
+	assert.strictEqual(infoHolder.className, "infoHolder");
+});
+
+QUnit.test("testInfoPartContainsInfo", function(assert) {
+	var resultHandlerView = CORA.resultHandlerView(this.dependencies, this.spec);
+	var infoHolder = resultHandlerView.getView().firstChild;
+	assert.strictEqual(infoHolder.textContent, "1 - 15 av 1520000");
+});
+
+QUnit.test("testResultsPartOfView", function(assert) {
+	var resultHandlerView = CORA.resultHandlerView(this.dependencies, this.spec);
+	var resultsHolder = resultHandlerView.getView().childNodes[1];
+	assert.strictEqual(resultsHolder.nodeName, "SPAN");
+	assert.strictEqual(resultsHolder.className, "resultsHolder");
+});
+
 QUnit.test("testAddChildPresentation", function(assert) {
 	var resultHandlerView = CORA.resultHandlerView(this.dependencies, this.spec);
-	var view = resultHandlerView.getView();
+	var resultsHolder = resultHandlerView.getView().childNodes[1];
 	var childToAdd = document.createElement("span");
 	resultHandlerView.addChildPresentation(childToAdd);
-	assert.strictEqual(view.firstChild, childToAdd);
+	assert.strictEqual(resultsHolder.firstChild, childToAdd);
 });
 
 // QUnit.test("testGetDependencies", function(assert) {

@@ -22,15 +22,13 @@ var CORA = (function(cora) {
 	cora.resultHandlerFactory = function(dependencies) {
 
 		function factor(spec) {
-			var viewDep = {
-				"textProvider" : dependencies.textProvider
-			};
+			var viewDep = {};
 
 			var dep = {
 				"resultHandlerViewFactory" : CORA.resultHandlerViewFactory(viewDep),
-			// "managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-			// "recordGuiFactory" : dependencies.recordGuiFactory,
-			// "ajaxCallFactory" : dependencies.ajaxCallFactory
+				"textProvider" : dependencies.textProvider,
+				"recordGuiFactory" : dependencies.recordGuiFactory,
+				"jsClient" : dependencies.jsClient,
 			};
 			return CORA.resultHandler(dep, spec);
 		}

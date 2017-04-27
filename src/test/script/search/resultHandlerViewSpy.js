@@ -21,24 +21,24 @@ var CORATEST = (function(coraTest) {
 	coraTest.resultHandlerViewSpy = function() {
 
 		var view = CORA.gui.createSpanWithClassName("spyView");
-		var presentationsAddedToSearchForm = [];
+		var presentationsAdded = [];
 
 		function getView() {
 			return view;
 		}
 
-		function addPresentationToSearchFormHolder(presentationToAdd) {
-			presentationsAddedToSearchForm.push(presentationToAdd);
+		function addChildPresentation(presentationToAdd) {
+			presentationsAdded.push(presentationToAdd);
 		}
-		function getPresentationsAddedToSearchForm(number) {
-			return presentationsAddedToSearchForm[number];
+		function getAddedPresentation(number) {
+			return presentationsAdded[number];
 		}
 
 		return Object.freeze({
 			"type" : "resultHandlerViewSpy",
 			getView : getView,
-			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder,
-			getPresentationsAddedToSearchForm : getPresentationsAddedToSearchForm
+			addChildPresentation : addChildPresentation,
+			getAddedPresentation : getAddedPresentation
 		});
 	};
 	return coraTest;

@@ -91,8 +91,10 @@ var CORA = (function(cora) {
 			var view = createView(record);
 			managedGuiItem.addWorkPresentation(view);
 
-			var recordTypeId = getRecordTypeId(record);
+			var recordTypeId = getRecordTypeIdFromRecord(record);
 			var metadataId = spec.jsClient.getMetadataForRecordTypeId(recordTypeId).metadataId;
+			// var listPresentationId =
+			// spec.jsClient.getMetadataForRecordTypeId(recordTypeId).listPresentationId;
 			var presentationId = spec.listPresentationViewId;
 			var dataDivider = getDataDividerFromData(record.data);
 			var recordGuiSpec = {
@@ -108,7 +110,7 @@ var CORA = (function(cora) {
 			view.appendChild(presentationView);
 		}
 
-		function getRecordTypeId(record) {
+		function getRecordTypeIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("type");

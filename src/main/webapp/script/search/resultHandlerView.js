@@ -21,12 +21,15 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.resultHandlerView = function(dependencies, spec) {
 		var view;
+		var resultsHolder;
 		// var searchFormHolder;
 		// var buttonView;
 		// var resultHolder;
 
 		function start() {
 			view = createView();
+			createInfo();
+			createResultsHolder();
 			// var workItemView = createWorkItemView();
 			// view = workItemView.getView();
 			// createSearchFormHolderAndAddTo(workItemView);
@@ -34,9 +37,23 @@ var CORA = (function(cora) {
 			// createSearchButtonIn(buttonView);
 			// createResultHolderAndAddTo(workItemView);
 		}
+
 		function createView() {
 			return CORA.gui.createSpanWithClassName("resultHolder");
 		}
+
+		function createResultsHolder() {
+			resultsHolder = CORA.gui.createSpanWithClassName("resultsHolder");
+			view.appendChild(resultsHolder);
+		}
+
+		function createInfo() {
+			var infoHolder = CORA.gui.createSpanWithClassName("infoHolder");
+			view.appendChild(infoHolder);
+			infoHolder.textContent = spec.fromNo + " - " + spec.toNo + " " + spec.ofText + " "
+					+ spec.totalNo;
+		}
+
 		// function createWorkItemView() {
 		// var workItemViewSpec = {
 		// "extraClassName" : "search"
@@ -74,7 +91,7 @@ var CORA = (function(cora) {
 		// }
 
 		function addChildPresentation(presentationToAdd) {
-			view.appendChild(presentationToAdd);
+			resultsHolder.appendChild(presentationToAdd);
 		}
 
 		function getView() {
