@@ -35,6 +35,10 @@
 <script type="text/javascript" src="script/jsClient.js"></script>
 <script type="text/javascript" src="script/jsClientView.js"></script>
 <script type="text/javascript" src="script/jsClientViewFactory.js"></script>
+<script type="text/javascript" src="script/jsClient/openGuiItemHandler.js"></script>
+<script type="text/javascript" src="script/jsClient/openGuiItemHandlerView.js"></script>
+<script type="text/javascript" src="script/jsClient/openGuiItemHandlerFactory.js"></script>
+<script type="text/javascript" src="script/jsClient/openGuiItemHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/managedGuiItem.js"></script>
 <script type="text/javascript" src="script/managedGuiItemView.js"></script>
 <script type="text/javascript" src="script/managedGuiItemFactory.js"></script>
@@ -314,6 +318,9 @@
 			"textProvider" : textProvider,
 			"ajaxCallFactory" : ajaxCallFactory
 		};
+		var openGuiItemHandlerFactoryDep = {
+			"textProvider" : textProvider,
+		};
 		jsClientDependencies = {
 			"ajaxCallFactory" : ajaxCallFactory,
 			"authTokenHolder" : authTokenHolder,
@@ -324,6 +331,7 @@
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
 			"jsClientViewFactory" : CORA.jsClientViewFactory(),
+			"openGuiItemHandlerFactory":CORA.openGuiItemHandlerFactory(openGuiItemHandlerFactoryDep),
 			"searchRecordHandlerFactory" : CORA
 					.searchRecordHandlerFactory(searchRecordHandlerFactoryDep),
 			"presentationFactoryFactory" : "not implemented yet"

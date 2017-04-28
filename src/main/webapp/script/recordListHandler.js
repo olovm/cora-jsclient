@@ -36,7 +36,7 @@ var CORA = (function(cora) {
 
 		function addTextToMenuView() {
 			var menuPresentation = CORA.gui.createSpanWithClassName("");
-			menuPresentation.textContent = "List";
+			menuPresentation.textContent = "List (" + recordId + ")";
 			managedGuiItem.addMenuPresentation(menuPresentation);
 		}
 

@@ -26,13 +26,13 @@ QUnit.module("recordListHandlerTest.js", {
 		var createRecordHandlerMethodCalledWithPresentationMode;
 		var createRecordHandlerMethodCalledWithRecord;
 		var createRecordHandlerMethodCalledWithLoadInBackground;
-		
+
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		var dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 			"recordGuiFactory" : CORATEST.recordGuiFactorySpy(),
-			"recordHandlerFactory": CORATEST.standardFactorySpy("recordHandlerSpy")
+			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy")
 		};
 		this.dependencies = dependencies;
 
@@ -154,7 +154,7 @@ QUnit.test("initCheckRemoveOnMenu", function(assert) {
 	// this.spec.views.getAddedMenuPresentation(0).textContent,
 	// "List");
 	assert.strictEqual(this.dependencies.managedGuiItemFactory.getFactored(0)
-			.getAddedMenuPresentation(0).textContent, "List");
+			.getAddedMenuPresentation(0).textContent, "List (recordType)");
 
 	// var removeButton = menuView.childNodes[1];
 	// assert.strictEqual(removeButton.className, "removeButton");
@@ -244,13 +244,13 @@ QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(asse
 QUnit.test("fetchListCheckGeneratedListClickableLoadInBackground", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
 	this.answerListCall(0);
-	
+
 	var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
-	.getAddedWorkPresentation(0);
+			.getAddedWorkPresentation(0);
 	var event = document.createEvent('Event');
 	event.ctrlKey = true;
 	firstListItem.onclick(event);
-	
+
 	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithLoadInBackground(), "true");
 });
 

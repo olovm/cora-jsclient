@@ -24,6 +24,7 @@ var CORA = (function(cora) {
 		var mainView;
 		var header;
 		var sideBar;
+		var openGuiItemsView;
 		var searchesView;
 		var recordTypesView;
 		var workArea;
@@ -61,6 +62,10 @@ var CORA = (function(cora) {
 			view.appendChild(serverAddress);
 
 			return view;
+		}
+
+		function addOpenGuiItemHandlerView(viewToAdd) {
+			sideBar.insertAdjacentElement('afterbegin', viewToAdd);
 		}
 
 		function addToSearchesView(searchViewToAdd) {
@@ -135,6 +140,7 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
+			addOpenGuiItemHandlerView : addOpenGuiItemHandlerView,
 			addToSearchesView : addToSearchesView,
 			addToRecordTypesView : addToRecordTypesView,
 			clearRecordTypesView : clearRecordTypesView,
@@ -144,8 +150,8 @@ var CORA = (function(cora) {
 			addGlobalView : addGlobalView,
 			getHeader : getHeader,
 			getSideBar : getSideBar,
-			getRecordTypesView : getRecordTypesView,
 			getSearchesView : getSearchesView,
+			getRecordTypesView : getRecordTypesView,
 			addErrorMessage : addErrorMessage,
 			removeFromWorkView : removeFromWorkView
 		});

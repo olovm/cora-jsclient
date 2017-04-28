@@ -25,9 +25,9 @@ var CORA = (function(cora) {
 
 		var recordGuiFactory;
 		var jsClientView;
-		var loginManager;
 		var managedGuiItemShowing = undefined;
 		var managedGuiItemList = [];
+		var openGuiItemHandler;
 
 		function start() {
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
@@ -43,7 +43,7 @@ var CORA = (function(cora) {
 				"setErrorMessage" : jsClientView.addErrorMessage,
 				"appTokenBaseUrl" : spec.appTokenBaseUrl
 			};
-			loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
+			var loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
 			jsClientView.addLoginManagerView(loginManager.getHtml());
 
 			var uploadManagerSpec = {
@@ -55,6 +55,8 @@ var CORA = (function(cora) {
 			recordGuiFactorySpec.uploadManager = CORA
 					.uploadManager(dependencies, uploadManagerSpec);
 			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
+
+			createAndAddOpenGuiItemHandlerToSideBar();
 			addSearchesUserIsAuthorizedToUseToSideBar(dependencies.searchProvider.getAllSearches());
 			addRecordTypesToSideBar(recordTypeList);
 		}
@@ -126,6 +128,11 @@ var CORA = (function(cora) {
 			var cParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
 			return cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
 					.getFirstAtomicValueByNameInData("id");
+		}
+
+		function createAndAddOpenGuiItemHandlerToSideBar() {
+			openGuiItemHandler = dependencies.openGuiItemHandlerFactory.factor();
+			jsClientView.addOpenGuiItemHandlerView(openGuiItemHandler.getView());
 		}
 
 		function addSearchesUserIsAuthorizedToUseToSideBar(searchList) {
@@ -211,6 +218,7 @@ var CORA = (function(cora) {
 			showNewWorkView(managedGuiItem);
 			updateShowingManagedGuiItem(managedGuiItem);
 			managedGuiItemShowing = managedGuiItem;
+			// openGuiItemHandler.addManagedGuiItem(managedGuiItem);
 		}
 
 		function resetLastShowingMenuItem() {

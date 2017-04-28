@@ -42,6 +42,7 @@ QUnit.module("jsClientTest.js", {
 			"jsClientViewFactory" : CORATEST.standardFactorySpy("jsClientViewSpy"),
 			"searchRecordHandlerFactory" : CORATEST.standardFactorySpy("searchRecordHandlerSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
+			"openGuiItemHandlerFactory" : CORATEST.standardFactorySpy("openGuiItemHandlerSpy")
 		}
 		this.spec = {
 			"name" : "The Client",
@@ -98,6 +99,27 @@ QUnit.test("testInitCreatesALoginManagerAndAddsItsHtmlToTheHeader", function(ass
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 
 	assert.strictEqual(jsClientView.getLoginManagerView(0).className, "loginManagerSpy");
+});
+
+QUnit.test("testInitCreatesAOpenGuiItemHandler", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var factored = this.dependencies.openGuiItemHandlerFactory.getFactored(0);
+	assert.strictEqual(factored.type, "openGuiItemHandlerSpy");
+	// assert.strictEqual(this.dependencies.loginManagerFactory.getSpec(0).afterLoginMethod,
+	// jsClient.afterLogin);
+	// assert.strictEqual(this.dependencies.loginManagerFactory.getSpec(0).afterLogoutMethod,
+	// jsClient.afterLogout);
+	// assert.strictEqual(this.dependencies.loginManagerFactory.getSpec(0).appTokenBaseUrl,
+	// "someAppTokenBaseUrl/");
+});
+
+QUnit.test("testInitAddsItsOpenGuiItemHandlerToView", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	var openGuiItemHandlerView = this.dependencies.openGuiItemHandlerFactory.getFactored(0);
+
+	assert.strictEqual(jsClientView.getAddedOpenGuiItemHandlerView(0), openGuiItemHandlerView
+			.getView());
 });
 
 QUnit.test("initFactoresSearchRecordHandlersAndAddsToView", function(assert) {
