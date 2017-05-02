@@ -19,36 +19,29 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.openGuiItemHandlerSpy = function(dependencies, spec) {
-//		var addedManagedGuiItem = [];
+		var addedManagedGuiItem = [];
 		var getViewCalled = 0;
 		var view = CORA.gui.createSpanWithClassName("openGuiItemHandlerSpy");
+
 		function getView() {
 			getViewCalled++;
 			return view;
 		}
-//		function getGetViewCalled() {
-//			return getViewCalled;
-//		}
-//		function addManagedGuiItem(handledBy) {
-//			var managedGuiItem = {
-//				"handledBy" : handledBy,
-//				"workView" : CORA.gui.createSpanWithClassName("workView"),
-//				"menuView" : CORA.gui.createSpanWithClassName("menuView")
-//			};
-//			addedManagedGuiItem.push(managedGuiItem);
-//			return managedGuiItem;
-//		}
-//
-//		function getAddedManagedGuiItem(number) {
-//			return addedManagedGuiItem[number];
-//		}
+
+		function addManagedGuiItem(managedGuiItem) {
+			addedManagedGuiItem.push(managedGuiItem);
+			return managedGuiItem;
+		}
+
+		function getAddedManagedGuiItem(number) {
+			return addedManagedGuiItem[number];
+		}
 
 		return Object.freeze({
 			"type" : "openGuiItemHandlerSpy",
 			getView : getView,
-//			getGetViewCalled : getGetViewCalled,
-//			addManagedGuiItem : addManagedGuiItem,
-//			getAddedManagedGuiItem : getAddedManagedGuiItem
+			addManagedGuiItem : addManagedGuiItem,
+			getAddedManagedGuiItem : getAddedManagedGuiItem
 		});
 	};
 	return coraTest;

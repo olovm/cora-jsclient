@@ -51,10 +51,9 @@ var CORA = (function(cora) {
 				"showView" : showView
 			};
 
-			var recordGuiFactorySpec = dependencies;
-			recordGuiFactorySpec.uploadManager = CORA
-					.uploadManager(dependencies, uploadManagerSpec);
-			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
+			var recordGuiFactoryDep = dependencies;
+			recordGuiFactoryDep.uploadManager = CORA.uploadManager(dependencies, uploadManagerSpec);
+			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);
 
 			createAndAddOpenGuiItemHandlerToSideBar();
 			addSearchesUserIsAuthorizedToUseToSideBar(dependencies.searchProvider.getAllSearches());
@@ -201,7 +200,8 @@ var CORA = (function(cora) {
 				"recordTypeRecord" : record,
 				"baseUrl" : spec.baseUrl
 			};
-			var recordTypeHandler = CORA.recordTypeHandler(dependenciesRecord, specRecord);
+			// var recordTypeHandler = CORA.recordTypeHandler(dependenciesRecord, specRecord);
+			var recordTypeHandler = dependencies.recordTypeHandlerFactory.factor(specRecord);
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}
 
@@ -218,7 +218,7 @@ var CORA = (function(cora) {
 			showNewWorkView(managedGuiItem);
 			updateShowingManagedGuiItem(managedGuiItem);
 			managedGuiItemShowing = managedGuiItem;
-			// openGuiItemHandler.addManagedGuiItem(managedGuiItem);
+			openGuiItemHandler.addManagedGuiItem(managedGuiItem);
 		}
 
 		function resetLastShowingMenuItem() {
