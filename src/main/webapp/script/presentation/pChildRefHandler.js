@@ -75,9 +75,6 @@ var CORA = (function(cora) {
 		}
 
 		function getTextId(cMetadataElementIn){
-			if(cMetadataElementIn.getFirstAtomicValueByNameInData("textId") !== undefined){
-				return cMetadataElementIn.getFirstAtomicValueByNameInData("textId");
-			}
 			var cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData("textId"));
 			return cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
