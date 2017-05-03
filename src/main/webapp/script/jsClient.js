@@ -189,6 +189,9 @@ var CORA = (function(cora) {
 			showNewWorkView(managedGuiItem);
 			updateShowingManagedGuiItem(managedGuiItem);
 			managedGuiItemShowing = managedGuiItem;
+		}
+
+		function addGuiItem(managedGuiItem) {
 			openGuiItemHandler.addManagedGuiItem(managedGuiItem);
 		}
 
@@ -259,7 +262,8 @@ var CORA = (function(cora) {
 			afterLogout : afterLogout,
 			afterRecordTypeProviderReload : afterRecordTypeProviderReload,
 			hideAndRemoveView : hideAndRemoveView,
-			viewRemoved : viewRemoved
+			viewRemoved : viewRemoved,
+			addGuiItem : addGuiItem
 		});
 		start();
 

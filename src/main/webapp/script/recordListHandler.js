@@ -26,7 +26,8 @@ var CORA = (function(cora) {
 		};
 		var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 
-		spec.addToRecordTypeHandlerMethod(managedGuiItem);
+		// spec.addToRecordTypeHandlerMethod(managedGuiItem);
+		spec.jsClient.addGuiItem(managedGuiItem);
 		spec.jsClient.showView(managedGuiItem);
 
 		var recordId = spec.recordTypeRecordId;

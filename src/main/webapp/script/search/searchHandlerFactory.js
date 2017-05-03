@@ -30,7 +30,8 @@ var CORA = (function(cora) {
 				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(viewDep),
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"jsClient" : dependencies.jsClient
 			};
 			return CORA.searchHandler(dep, spec);
 		}

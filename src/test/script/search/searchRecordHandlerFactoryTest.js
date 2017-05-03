@@ -78,4 +78,7 @@ QUnit.test("testFactorAddedDependenciesSearchHandlerFactory", function(assert) {
 			this.dependencies.textProvider);
 	assert.strictEqual(addedDep.searchHandlerFactory.getDependencies().ajaxCallFactory,
 			this.dependencies.ajaxCallFactory);
+	assert
+			.strictEqual(addedDep.searchHandlerFactory.getDependencies().jsClient,
+					this.spec.jsClient);
 });

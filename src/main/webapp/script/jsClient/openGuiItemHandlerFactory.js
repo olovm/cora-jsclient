@@ -26,18 +26,10 @@ var CORA = (function(cora) {
 		}
 
 		function factor(spec) {
-			var searchHandlerDep = {
-			// "textProvider" : dependencies.textProvider,
-			// "ajaxCallFactory" : dependencies.ajaxCallFactory,
-			// "recordGuiFactory" : spec.recordGuiFactory
-			};
+			var searchHandlerDep = {};
 			var openGuiItemHandlerDependencies = {
 				"textProvider" : dependencies.textProvider,
-				// "messageHolderFactory" : CORA.messageHolderFactory(),
 				"openGuiItemHandlerViewFactory" : CORA.openGuiItemHandlerViewFactory(),
-			// "managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-			// "jsClient" : spec.jsClient,
-			// "searchHandlerFactory" : CORA.searchHandlerFactory(searchHandlerDep)
 			};
 			return CORA.openGuiItemHandler(openGuiItemHandlerDependencies, spec);
 		}

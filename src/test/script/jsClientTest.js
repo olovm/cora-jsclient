@@ -235,11 +235,11 @@ QUnit.test("showView", function(assert) {
 	var aView = CORATEST.managedGuiItemSpy();
 	assert.strictEqual(aView.getActive(), false);
 	assert.strictEqual(aView.getWorkViewShown(), 0);
-	assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(0), undefined);
+	// assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(0), undefined);
 
 	jsClient.showView(aView);
 	assert.strictEqual(jsClientView.getAddedWorkView(0), aView.getWorkView());
-	assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(0), aView);
+	// assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(0), aView);
 	assert.strictEqual(aView.getActive(), true);
 	assert.strictEqual(aView.getWorkViewShown(), 1);
 	assert.strictEqual(aView.getWorkViewHidden(), 0);
@@ -249,7 +249,7 @@ QUnit.test("showView", function(assert) {
 
 	jsClient.showView(aDifferentView);
 	assert.strictEqual(jsClientView.getAddedWorkView(1), aDifferentView.getWorkView());
-	assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(1), aDifferentView);
+	// assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(1), aDifferentView);
 	assert.strictEqual(aView.getActive(), false);
 	assert.strictEqual(aView.getWorkViewHidden(), 1);
 	assert.strictEqual(aView.getWorkViewShown(), 1);
@@ -258,13 +258,31 @@ QUnit.test("showView", function(assert) {
 	assert.strictEqual(aDifferentView.getWorkViewShown(), 1);
 
 	jsClient.showView(aView);
-	assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(2), aView);
+	// assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(2), aView);
 	assert.strictEqual(aView.getActive(), true);
 	assert.strictEqual(aView.getWorkViewHidden(), 1);
 	assert.strictEqual(aView.getWorkViewShown(), 2);
 	assert.strictEqual(aDifferentView.getActive(), false);
 	assert.strictEqual(aDifferentView.getWorkViewHidden(), 1);
 	assert.strictEqual(aDifferentView.getWorkViewShown(), 1);
+});
+QUnit.test("testAddGuiItem", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	var openGuiItemHandler = this.dependencies.openGuiItemHandlerFactory.getFactored(0);
+
+	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
+
+	var aView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(0), undefined);
+
+	jsClient.addGuiItem(aView);
+	assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(0), aView);
+
+	var aDifferentView = CORATEST.managedGuiItemSpy();
+
+	jsClient.addGuiItem(aDifferentView);
+	assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(1), aDifferentView);
 });
 
 QUnit.test("hideAndRemoveView", function(assert) {
