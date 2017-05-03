@@ -23,7 +23,6 @@ QUnit.module("uploadManagerViewTest.js", {
 		var item = {};
 		var textProvider = CORATEST.textProviderStub();
 		this.spec = {
-			"showWorkViewMethod" : showWorkViewMethod,
 			"textProvider" : textProvider
 		};
 		function showWorkViewMethod(itemIn) {
@@ -43,33 +42,26 @@ QUnit.test("testInit", function(assert) {
 	assert.ok(uploadManagerView);
 });
 
-QUnit.test("testGetItem", function(assert) {
+QUnit.test("testGetMenuView", function(assert) {
 	var uploadManagerView = CORA.uploadManagerView(this.spec);
-
-	var item = uploadManagerView.getItem();
-	var menuView = item.menuView;
+	var menuView = uploadManagerView.getMenuView();
 	assert.strictEqual(menuView.className, "menuView");
-	assert.strictEqual(menuView.textContent, "Uploads");
-
-	var workView = item.workView;
-	assert.strictEqual(workView.className, "workView");
+	assert.strictEqual(menuView.nodeName, "SPAN");
+	assert.strictEqual(menuView.textContent, this.spec.textProvider
+			.getTranslation("theClient_uploadMenuText"));
 });
 
-QUnit.test("testOnClickMenuView", function(assert) {
+QUnit.test("testGetWorkView", function(assert) {
 	var uploadManagerView = CORA.uploadManagerView(this.spec);
-
-	var item = uploadManagerView.getItem();
-	var menuView = item.menuView;
-	menuView.onclick();
-
-	assert.strictEqual(this.getSetItem(), item);
+	var workView = uploadManagerView.getWorkView();
+	assert.strictEqual(workView.className, "workView");
+	assert.strictEqual(workView.nodeName, "SPAN");
 });
 
 QUnit.test("addFile", function(assert) {
 	var uploadManagerView = CORA.uploadManagerView(this.spec);
 
-	var item = uploadManagerView.getItem();
-	var workView = item.workView;
+	var workView = uploadManagerView.getWorkView();
 
 	assert.strictEqual(workView.children.length, 0);
 	var uploadItem = uploadManagerView.addFile("name1");
@@ -93,9 +85,9 @@ QUnit.test("progressEvent", function(assert) {
 	assert.strictEqual(uploadItem.progress.value, 0);
 
 	var event2 = {
-			"lengthComputable" : true,
-			"total":100,
-			"loaded":50
+		"lengthComputable" : true,
+		"total" : 100,
+		"loaded" : 50
 	};
 	uploadItem.progressMethod(event2);
 	assert.strictEqual(uploadItem.progress.value, 50);
@@ -104,8 +96,7 @@ QUnit.test("progressEvent", function(assert) {
 QUnit.test("activateDeactivate", function(assert) {
 	var uploadManagerView = CORA.uploadManagerView(this.spec);
 
-	var item = uploadManagerView.getItem();
-	var menuView = item.menuView;
+	var menuView = uploadManagerView.getMenuView();
 
 	assert.strictEqual(menuView.className, "menuView");
 	uploadManagerView.activate();

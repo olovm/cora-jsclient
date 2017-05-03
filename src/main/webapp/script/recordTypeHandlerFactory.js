@@ -37,7 +37,7 @@ var CORA = (function(cora) {
 
 			var dep = {
 				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"jsClient" : dependencies.jsClient,
+				"jsClient" : recordTypeHandlerSpec.jsClient,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),

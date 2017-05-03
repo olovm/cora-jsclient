@@ -24,18 +24,10 @@ QUnit.module("recordTypeHandlerFactoryTest.js", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.dependencies = {
 			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
-
-			//
-			"recordTypeHandlerViewFactory" : CORATEST
-					.standardFactorySpy("recordTypeHandlerViewSpy"),
-			"recordListHandlerFactory" : CORATEST.standardFactorySpy("recordListHandlerSpy"),
-			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
-			"jsClient" : {},
-
 			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
-			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
 		};
 		this.spec = {
+			"jsClient" : {},
 			"recordTypeRecord" : this.record,
 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 		};
@@ -64,7 +56,7 @@ QUnit.test("factorTestUsedIncomingDependencies", function(assert) {
 	var recordTypeHandler = this.recordTypeHandlerFactory.factor(this.spec);
 	var createdDependencies = recordTypeHandler.getDependencies();
 	assert.strictEqual(createdDependencies.recordGuiFactory, this.dependencies.recordGuiFactory);
-	assert.strictEqual(createdDependencies.jsClient, this.dependencies.jsClient);
+	assert.strictEqual(createdDependencies.jsClient, this.spec.jsClient);
 	assert.strictEqual(createdDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory);
 });
 

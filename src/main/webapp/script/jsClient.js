@@ -23,7 +23,7 @@ var CORA = (function(cora) {
 		var out;
 		var recordTypeList;
 
-		var recordGuiFactory;
+		// var recordGuiFactory;
 		var jsClientView;
 		var managedGuiItemShowing = undefined;
 		var managedGuiItemList = [];
@@ -46,15 +46,11 @@ var CORA = (function(cora) {
 			var loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
 			jsClientView.addLoginManagerView(loginManager.getHtml());
 
-			var uploadManagerSpec = {
-				"addView" : jsClientView.addGlobalView,
-				"showView" : showView
-			};
+			// var recordGuiFactoryDep = dependencies;
+			// recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);
 
-			var recordGuiFactoryDep = dependencies;
-			recordGuiFactoryDep.uploadManager = CORA.uploadManager(dependencies, uploadManagerSpec);
-			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);
-
+			jsClientView
+					.addGlobalView(dependencies.uploadManager.getManagedGuiItem().getMenuView());
 			createAndAddOpenGuiItemHandlerToSideBar();
 			addSearchesUserIsAuthorizedToUseToSideBar(dependencies.searchProvider.getAllSearches());
 			addRecordTypesToSideBar(recordTypeList);
@@ -156,7 +152,6 @@ var CORA = (function(cora) {
 				"searchRecord" : search,
 				"baseUrl" : spec.baseUrl,
 				"jsClient" : out,
-				"recordGuiFactory" : recordGuiFactory
 			};
 			return dependencies.searchRecordHandlerFactory.factor(specSearch);
 		}
@@ -172,35 +167,11 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordTypeToSideBar(record) {
-			var depRecordHandler = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"recordGuiFactory" : recordGuiFactory
-			};
-			var recordHandlerFactory = CORA.recordHandlerFactory(depRecordHandler);
-
-			var depRecordListHandlerFactory = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"recordGuiFactory" : recordGuiFactory,
-				"recordHandlerFactory" : recordHandlerFactory
-			};
-
-			var dependenciesRecord = {
-				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
-				"recordListHandlerFactory" : CORA
-						.recordListHandlerFactory(depRecordListHandlerFactory),
-				"recordHandlerFactory" : recordHandlerFactory,
-				"recordGuiFactory" : recordGuiFactory,
-				"jsClient" : out,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
-			};
 			var specRecord = {
+				"jsClient" : out,
 				"recordTypeRecord" : record,
 				"baseUrl" : spec.baseUrl
 			};
-			// var recordTypeHandler = CORA.recordTypeHandler(dependenciesRecord, specRecord);
 			var recordTypeHandler = dependencies.recordTypeHandlerFactory.factor(specRecord);
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}

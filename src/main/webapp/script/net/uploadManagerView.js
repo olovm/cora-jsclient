@@ -22,25 +22,12 @@ var CORA = (function(cora) {
 		var out;
 
 		var workView = CORA.gui.createSpanWithClassName("workView");
-		var item = {
-			"workView" : workView
-		};
-		var menuView = createMenuView(spec.textProvider.getTranslation("theClient_uploadMenuText"),
-				item, spec.showWorkViewMethod);
+		var menuView = createMenuView(spec.textProvider.getTranslation("theClient_uploadMenuText"));
 
-		function createMenuView(text, itemIn, onclickMethod) {
+		function createMenuView(text) {
 			var menuViewNew = CORA.gui.createSpanWithClassName("menuView");
-			menuViewNew.onclick = function() {
-				onclickMethod(itemIn);
-			};
 			menuViewNew.textContent = text;
-			menuViewNew.modelObject = itemIn;
-			item.menuView = menuViewNew;
 			return menuViewNew;
-		}
-
-		function getItem() {
-			return item;
 		}
 
 		function addFile(name) {
@@ -80,8 +67,15 @@ var CORA = (function(cora) {
 			menuView.className = menuView.className.replace(" uploading", "");
 		}
 
+		function getMenuView() {
+			return menuView;
+		}
+		function getWorkView() {
+			return workView;
+		}
 		out = Object.freeze({
-			getItem : getItem,
+			getMenuView : getMenuView,
+			getWorkView : getWorkView,
 			addFile : addFile,
 			activate : activate,
 			deactivate : deactivate

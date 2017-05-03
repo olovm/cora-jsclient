@@ -21,18 +21,13 @@
 QUnit.module("uploadManagerTest.js", {
 	beforeEach : function() {
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-		var addedView;
-		this.addView = function(addedViewIn) {
-			addedView = addedViewIn;
-		}
-		this.getAddedView = function() {
-			return addedView;
-		}
 		var textProvider = CORATEST.textProviderStub();
 		var dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
-			"textProvider" : textProvider
+			"textProvider" : textProvider,
+			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
 		};
+		this.dependencies = dependencies;
 
 		var jsClient = {
 			showView : function() {
@@ -42,10 +37,11 @@ QUnit.module("uploadManagerTest.js", {
 		}
 
 		var spec = {
-			"addView" : this.addView,
-			"showView": function() {
+			"showView" : function() {
 			}
 		};
+		this.spec = spec;
+
 		this.uploadManager = CORA.uploadManager(dependencies, spec);
 		var uploadLink = CORATEST.createUploadLink();
 		this.file = CORATEST.createFileForUpload();
@@ -68,12 +64,35 @@ QUnit.module("uploadManagerTest.js", {
 });
 
 QUnit.test("testInit", function(assert) {
-	assert.ok(this.uploadManager);
-	assert.ok(this.uploadManager.view);
-	assert.strictEqual(this.uploadManager.view.getItem().menuView.className, "menuView");
+	assert.strictEqual(this.uploadManager.type, "uploadManager");
 });
-QUnit.test("testInitAddedView", function(assert) {
-	assert.strictEqual(this.uploadManager.view.getItem().menuView, this.getAddedView());
+
+QUnit.test("testGetDependencies", function(assert) {
+	assert.strictEqual(this.uploadManager.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	assert.strictEqual(this.uploadManager.getSpec(), this.spec);
+});
+
+QUnit.test("testInitCreatesManagedGuiItem", function(assert) {
+	var factoredManagedGuiItemSpec = this.dependencies.managedGuiItemFactory.getSpec(0);
+	assert.strictEqual(factoredManagedGuiItemSpec.activateMethod, this.spec.showView);
+});
+
+QUnit.test("testInitAddsViewsToManagedGuiItem", function(assert) {
+	var factoredManagedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	// should realy be a view factory
+	var uploadManagerView = this.uploadManager.view;
+	assert.strictEqual(factoredManagedGuiItem.getAddedMenuPresentation(0), uploadManagerView
+			.getMenuView());
+	assert.strictEqual(factoredManagedGuiItem.getAddedWorkPresentation(0), uploadManagerView
+			.getWorkView());
+});
+
+QUnit.test("testGetManagedGuiItem", function(assert) {
+	assert.strictEqual(this.uploadManager.getManagedGuiItem(),
+			this.dependencies.managedGuiItemFactory.getFactored(0));
 });
 
 QUnit.test("testUpload", function(assert) {
@@ -110,7 +129,7 @@ var CORATEST = (function(coraTest) {
 
 QUnit.test("testUploadQue", function(assert) {
 	var uploadManager = this.uploadManager;
-	var menuView = this.uploadManager.view.getItem().menuView;
+	var menuView = this.uploadManager.view.getMenuView();
 	assert.strictEqual(menuView.className, "menuView");
 
 	uploadManager.upload(this.uploadSpec);
@@ -136,7 +155,7 @@ QUnit.test("testUploadError", function(assert) {
 	uploadManager.upload(this.uploadSpec);
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 	ajaxCallSpy0.getSpec().errorMethod(new Error("some error"));
-	var fileView = this.uploadManager.view.getItem().workView.firstChild;
+	var fileView = this.uploadManager.view.getWorkView().firstChild;
 	assert.strictEqual(fileView.lastChild.textContent, "ERROR");
 });
 
@@ -146,6 +165,6 @@ QUnit.test("testUploadTimeout", function(assert) {
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 	ajaxCallSpy0.getSpec().timeoutMethod();
 
-	var fileView = this.uploadManager.view.getItem().workView.firstChild;
+	var fileView = this.uploadManager.view.getWorkView().firstChild;
 	assert.strictEqual(fileView.lastChild.textContent, "TIMEOUT");
 });
