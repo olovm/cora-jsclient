@@ -56,7 +56,7 @@ var CORA = (function(cora) {
 		function createManagedGuiItem() {
 			var managedGuiItemSpec = {
 				"activateMethod" : spec.showView,
-			// "removeMethod" : spec.jsClient.viewRemoved
+				"disableRemove" : "true"
 			};
 			var createdMGI = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 			createdMGI.addMenuPresentation(view.getMenuView());

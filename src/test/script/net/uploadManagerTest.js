@@ -78,6 +78,7 @@ QUnit.test("testGetSpec", function(assert) {
 QUnit.test("testInitCreatesManagedGuiItem", function(assert) {
 	var factoredManagedGuiItemSpec = this.dependencies.managedGuiItemFactory.getSpec(0);
 	assert.strictEqual(factoredManagedGuiItemSpec.activateMethod, this.spec.showView);
+	assert.strictEqual(factoredManagedGuiItemSpec.disableRemove, "true");
 });
 
 QUnit.test("testInitAddsViewsToManagedGuiItem", function(assert) {

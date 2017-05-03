@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.managedGuiItemView = function( spec) {
+	cora.managedGuiItemView = function(spec) {
 
 		var originalMenuViewClassName = "menuView";
 		var menuView = createMenuView();
@@ -28,12 +28,18 @@ var CORA = (function(cora) {
 		function createMenuView() {
 			var newMenuView = CORA.gui.createSpanWithClassName(originalMenuViewClassName);
 			newMenuView.onclick = spec.activateMethod;
-			newMenuView.appendChild(createRemoveButton());
+			possiblyCreateRemoveButton(newMenuView);
 			return newMenuView;
 		}
 
-		function createRemoveButton() {
-			return CORA.gui.createRemoveButton(spec.removeMethod);
+		function possiblyCreateRemoveButton(addToView) {
+			if (spec.removeMethod !== undefined) {
+				createRemoveButton(addToView);
+			}
+		}
+		function createRemoveButton(addToView) {
+			var newButton = CORA.gui.createRemoveButton(spec.removeMethod);
+			addToView.appendChild(newButton);
 		}
 
 		function getSpec() {
