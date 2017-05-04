@@ -20,46 +20,16 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.openGuiItemHandler = function(dependencies, spec) {
-		// var searchId = getIdFromRecord(spec.openGuiItem);
 
 		var viewSpec = {
-			"headerText" : dependencies.textProvider.getTranslation("theClient_openedText"),
-		// "openSearchMethod" : openSearch
+			"headerText" : dependencies.textProvider.getTranslation("theClient_openedText")
 		};
 
 		var view = dependencies.openGuiItemHandlerViewFactory.factor(viewSpec);
 
-		// function getIdFromRecord(record) {
-		// var cData = CORA.coraData(record.data);
-		// var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-		// return cRecordInfo.getFirstAtomicValueByNameInData("id");
-		// }
-
 		function getView() {
 			return view.getView();
 		}
-
-		// function openSearch() {
-		// var searchHandlerSpec = {
-		// "addToopenGuiItemHandlerMethod" : addManagedGuiItem,
-		// "showViewMethod" : dependencies.jsClient.showView,
-		// "removeViewMethod" : dependencies.jsClient.viewRemoved,
-		// "metadataId" : getLinkValueFromopenGuiItem("metadataId"),
-		// "presentationId" : getLinkValueFromopenGuiItem("presentationId")
-		// };
-		// possiblyAddSearchLinkToSpec(searchHandlerSpec);
-		// dependencies.searchHandlerFactory.factor(searchHandlerSpec);
-		// }
-		//
-		// function getLinkValueFromopenGuiItem(id) {
-		// var copenGuiItemData = CORA.coraData(spec.openGuiItem.data);
-		// var cRecordLink = CORA.coraData(copenGuiItemData.getFirstChildByNameInData(id));
-		// return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
-		// }
-		//
-		// function possiblyAddSearchLinkToSpec(searchHandlerSpec) {
-		// searchHandlerSpec.searchLink = spec.openGuiItem.actionLinks.search;
-		// }
 
 		function addManagedGuiItem(managedGuiItem) {
 			view.addManagedGuiItem(managedGuiItem);
@@ -78,7 +48,6 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getDependencies : getDependencies,
 			getView : getView,
-			// openSearch : openSearch,
 			addManagedGuiItem : addManagedGuiItem
 		});
 		return out;

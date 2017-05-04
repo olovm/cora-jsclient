@@ -23,7 +23,6 @@ var CORA = (function(cora) {
 		var out;
 		var recordTypeList;
 
-		// var recordGuiFactory;
 		var jsClientView;
 		var managedGuiItemShowing = undefined;
 		var managedGuiItemList = [];
@@ -45,9 +44,6 @@ var CORA = (function(cora) {
 			};
 			var loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
 			jsClientView.addLoginManagerView(loginManager.getHtml());
-
-			// var recordGuiFactoryDep = dependencies;
-			// recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);
 
 			jsClientView
 					.addGlobalView(dependencies.uploadManager.getManagedGuiItem().getMenuView());
@@ -151,7 +147,7 @@ var CORA = (function(cora) {
 			var specSearch = {
 				"searchRecord" : search,
 				"baseUrl" : spec.baseUrl,
-				"jsClient" : out,
+				"jsClient" : out
 			};
 			return dependencies.searchRecordHandlerFactory.factor(specSearch);
 		}

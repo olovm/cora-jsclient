@@ -24,7 +24,6 @@ var CORA = (function(cora) {
 		var mainView;
 		var header;
 		var sideBar;
-		var openGuiItemsView;
 		var searchesView;
 		var recordTypesView;
 		var workArea;

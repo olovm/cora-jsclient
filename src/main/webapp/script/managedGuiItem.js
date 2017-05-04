@@ -22,7 +22,7 @@ var CORA = (function(cora) {
 	cora.managedGuiItem = function(dependencies, spec) {
 		var out;
 		var viewSpec = {
-			"activateMethod" : activate,
+			"activateMethod" : activate
 		};
 
 		if (spec.disableRemove !== "true") {

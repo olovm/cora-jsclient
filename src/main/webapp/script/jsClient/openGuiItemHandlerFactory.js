@@ -26,10 +26,9 @@ var CORA = (function(cora) {
 		}
 
 		function factor(spec) {
-			var searchHandlerDep = {};
 			var openGuiItemHandlerDependencies = {
 				"textProvider" : dependencies.textProvider,
-				"openGuiItemHandlerViewFactory" : CORA.openGuiItemHandlerViewFactory(),
+				"openGuiItemHandlerViewFactory" : CORA.openGuiItemHandlerViewFactory()
 			};
 			return CORA.openGuiItemHandler(openGuiItemHandlerDependencies, spec);
 		}
