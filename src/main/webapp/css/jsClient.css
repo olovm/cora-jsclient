@@ -171,12 +171,18 @@ body {
 	border-color: inherit;
 }
 
-.searchesView {
+.openGuiItemHandlerView, .searchesView {
 	border-bottom: 1px solid;
 	display: block;
-	
 }
-.recordTypesView>.recordType, .searchesView>.searchRecord {
+.openGuiItemHandlerView {
+	padding-top: .5rem;	
+	padding-bottom: 1rem;	
+}
+.openGuiItemHandlerView .header{
+	font-weight: bold;
+}
+.openGuiItemHandlerView>.recordType, .recordTypesView>.recordType, .searchesView>.searchRecord {
 	display: block;
 	border-color: inherit;
 	margin-bottom: 1rem;
@@ -185,11 +191,11 @@ body {
 	position: relative;
 }
 
-.recordTypesView>.header {
+.openGuiItemHandlerView>.header , .recordTypesView>.header {
 	padding: .2rem;
 }
 
-.recordTypesView .changed:before {
+.openGuiItemHandlerView .changed:before , .recordTypesView .changed:before {
 	content: "* ";
 }
 
@@ -202,6 +208,7 @@ body {
 	cursor: pointer;
 }
 
+.openGuiItemHandlerView .childrenView span, .openGuiItemHandlerView .childrenView div, 
 .recordTypesView .childrenView span, .recordTypesView .childrenView div {
 	text-decoration: inherit;
 }
@@ -241,7 +248,7 @@ body {
 	background-color: rgba(5, 131, 249, 0.49);
 }
 
-.recordTypesView>.recordType  span, .searchesView>.searchRecord  span {
+.openGuiItemHandlerView .menuView , .recordTypesView>.recordType  span, .searchesView>.searchRecord  span {
 	display: block;
 }
 
@@ -273,7 +280,8 @@ body {
 	box-shadow: none;
 }
 
-.recordTypesView .menuView div, .jsClient .recordTypesView .menuView span {
+.openGuiItemHandlerView .menuView div, .jsClient .openGuiItemHandlerView .menuView span,
+ .recordTypesView .menuView div, .jsClient .recordTypesView .menuView span {
 	display: inline;
 	border: none;
 	padding: 0;
@@ -282,6 +290,7 @@ body {
 	margin: 0;
 }
 
+.openGuiItemHandlerView .menuView .pVar span, .jsClient .openGuiItemHandlerView .menuView .text , 
 .recordTypesView .menuView .pVar span, .jsClient .recordTypesView .menuView .text {
 	max-width: calc(70% - 1rem - 30px);
 	overflow: hidden;
@@ -290,15 +299,15 @@ body {
 	white-space: pre;
 }
 
-.recordTypesView [class*='recordInfo'] .pVar span:before {
+.openGuiItemHandlerView [class*='recordInfo'] .pVar span:before , .recordTypesView [class*='recordInfo'] .pVar span:before {
 	content: "(";
 }
 
-.recordTypesView [class*='recordInfo'] .pVar span:after {
+.openGuiItemHandlerView [class*='recordInfo'] .pVar span:after , .recordTypesView [class*='recordInfo'] .pVar span:after {
 	content: ")";
 }
 
-.recordTypesView [class*='recordInfo'] .pVar span {
+.openGuiItemHandlerView [class*='recordInfo'] .pVar span, .recordTypesView [class*='recordInfo'] .pVar span {
 	padding-right: 1rem;
 	width: 30%;
 	overflow: hidden;
@@ -307,7 +316,7 @@ body {
 	white-space: pre;
 }
 
-.recordTypesView .recordType .buttonView {
+.openGuiItemHandlerView .recordType .buttonView , .recordTypesView .recordType .buttonView {
 	min-width: 20px;
 	min-height: 20px;
 	position: absolute;
@@ -325,7 +334,7 @@ body {
 	position: relative;
 	margin-right: 2px;
 }
-
+.openGuiItemHandlerView .recordType .buttonView>span::before, .openGuiItemHandlerView .recordType .buttonView>span::after,
 .recordTypesView .recordType .buttonView>span::before, .recordTypesView .recordType .buttonView>span::after
 	{
 	top: 3px;

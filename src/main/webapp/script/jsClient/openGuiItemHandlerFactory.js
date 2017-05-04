@@ -19,29 +19,23 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.searchHandlerFactory = function(dependencies) {
-
-		function factor(spec) {
-			var viewDep = {
-				"textProvider" : dependencies.textProvider
-			};
-
-			var dep = {
-				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(viewDep),
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"jsClient" : dependencies.jsClient
-			};
-			return CORA.searchHandler(dep, spec);
-		}
+	cora.openGuiItemHandlerFactory = function(dependencies) {
 
 		function getDependencies() {
 			return dependencies;
 		}
 
+		function factor(spec) {
+			var searchHandlerDep = {};
+			var openGuiItemHandlerDependencies = {
+				"textProvider" : dependencies.textProvider,
+				"openGuiItemHandlerViewFactory" : CORA.openGuiItemHandlerViewFactory(),
+			};
+			return CORA.openGuiItemHandler(openGuiItemHandlerDependencies, spec);
+		}
+
 		var out = Object.freeze({
-			"type" : "searchHandlerFactory",
+			"type" : "openGuiItemHandlerFactory",
 			getDependencies : getDependencies,
 			factor : factor
 		});
