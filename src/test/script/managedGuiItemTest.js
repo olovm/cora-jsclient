@@ -32,7 +32,7 @@ QUnit.module("managedGuiItemTest.js", {
 			"activateMethod" : function() {
 			},
 			"removeMethod" : function() {
-			},
+			}
 		};
 	},
 	afterEach : function() {
@@ -133,6 +133,14 @@ QUnit.test("testRemoveMethodCallsRemoveOnView", function(assert) {
 	assert.strictEqual(factoredView.getRemoved(), 0);
 	managedGuiItem.remove();
 	assert.strictEqual(factoredView.getRemoved(), 1);
+});
+
+QUnit.test("testDisableRemoveNoRemoveFunctionToView", function(assert) {
+	this.spec.disableRemove = "true";
+	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+	var factoredSpec = this.dependencies.managedGuiItemViewFactory.getSpec(0);
+
+	assert.strictEqual(factoredSpec.removeMethod, undefined);
 });
 
 QUnit.test("testAddMenuPresentationPassedOnToView", function(assert) {

@@ -21,30 +21,31 @@
 
 QUnit.module("searchHandlerTest.js", {
 	beforeEach : function() {
-		var addedManagedGuiItem = [];
-		this.getAddedManagedGuiItem = function(number) {
-			return addedManagedGuiItem[number];
-		}
-		var addedToShowView = [];
-		this.getAddedToShowView = function(number) {
-			return addedToShowView[number];
-		}
+		// var addedManagedGuiItem = [];
+		// this.getAddedManagedGuiItem = function(number) {
+		// return addedManagedGuiItem[number];
+		// }
+		// var addedToShowView = [];
+		// this.getAddedToShowView = function(number) {
+		// return addedToShowView[number];
+		// }
 		this.dependencies = {
 			"searchHandlerViewFactory" : CORATEST.standardFactorySpy("searchHandlerViewSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
 			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
-			"resultHandlerFactory" : CORATEST.standardFactorySpy("resultHandlerSpy")
+			"resultHandlerFactory" : CORATEST.standardFactorySpy("resultHandlerSpy"),
+			"jsClient" : CORATEST.jsClientSpy()
 		}
 		this.spec = {
-			"addToSearchRecordHandlerMethod" : function(managedGuiItem) {
-				addedManagedGuiItem.push(managedGuiItem);
-			},
-			"showViewMethod" : function(managedGuiItem) {
-				addedToShowView.push(managedGuiItem);
-			},
-			"removeViewMethod" : function() {
-			},
+			// "addToSearchRecordHandlerMethod" : function(managedGuiItem) {
+			// addedManagedGuiItem.push(managedGuiItem);
+			// },
+			// "showViewMethod" : function(managedGuiItem) {
+			// addedToShowView.push(managedGuiItem);
+			// },
+			// "removeViewMethod" : function() {
+			// },
 			"metadataId" : "someMetadataId",
 			"presentationId" : "somePresentationId",
 			"searchLink" : {
@@ -86,15 +87,14 @@ QUnit.test("testInitManagedGuiItemCreatedUsingFactory", function(assert) {
 	var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	assert.strictEqual(factoredItem.type, "managedGuiItemSpy");
 	var factoredItemSpec = this.dependencies.managedGuiItemFactory.getSpec(0);
-	assert.strictEqual(factoredItemSpec.activateMethod, this.spec.showViewMethod);
-	assert.strictEqual(factoredItemSpec.removeMethod, this.spec.removeViewMethod);
+	assert.strictEqual(factoredItemSpec.activateMethod, this.dependencies.jsClient.showView);
+	assert.strictEqual(factoredItemSpec.removeMethod, this.dependencies.jsClient.viewRemoved);
 });
 
-QUnit.test("testInitViewAddedToManagedGuiItemsMenuView", function(assert) {
+QUnit.test("testInitMenuViewAddedToManagedGuiItemsMenuView", function(assert) {
 	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
-	var addedManagedGuiItem = this.getAddedManagedGuiItem(0);
 	var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
-	assert.strictEqual(factoredItem, addedManagedGuiItem);
+	assert.strictEqual(factoredItem.getAddedMenuPresentation(0).textContent, "search");
 });
 
 QUnit.test("testInitViewAddedToManagedGuiItemsWorkView", function(assert) {
@@ -104,11 +104,16 @@ QUnit.test("testInitViewAddedToManagedGuiItemsWorkView", function(assert) {
 	assert.strictEqual(factoredItem.getAddedWorkPresentation(0), factoredView);
 });
 
-QUnit.test("testInitShowViewMethodCalled", function(assert) {
+QUnit.test("initTestManagedGuiItemAddGuiItemCalled", function(assert) {
 	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
-	var addedToShowView = this.getAddedToShowView(0);
-	var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
-	assert.strictEqual(factoredItem, addedToShowView);
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	assert.strictEqual(this.dependencies.jsClient.getAddedGuiItem(0), managedGuiItem);
+});
+
+QUnit.test("initTestManagedGuiItemShownInJsClientOnLoad", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+	assert.strictEqual(managedGuiItemSpy, this.dependencies.jsClient.getViewShowingInWorkView(0));
 });
 
 QUnit.test("testInitRecordGuiFactoryCalled", function(assert) {

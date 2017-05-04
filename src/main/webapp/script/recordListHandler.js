@@ -25,7 +25,7 @@ var CORA = (function(cora) {
 
 		function start() {
 			managedGuiItem = createManagedGuiItem();
-			addToRecordTypeHandler(managedGuiItem);
+			addToViewToJsClient(managedGuiItem);
 			showViewInClient(managedGuiItem);
 
 			addTextToMenuView();
@@ -40,8 +40,8 @@ var CORA = (function(cora) {
 			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 		}
 
-		function addToRecordTypeHandler(managedGuiItemToAdd) {
-			spec.addToRecordTypeHandlerMethod(managedGuiItemToAdd);
+		function addToViewToJsClient(managedGuiItemToAdd) {
+			spec.jsClient.addGuiItem(managedGuiItem);
 		}
 
 		function showViewInClient(managedGuiItemToShow) {
@@ -50,7 +50,7 @@ var CORA = (function(cora) {
 
 		function addTextToMenuView() {
 			var menuPresentation = CORA.gui.createSpanWithClassName("");
-			menuPresentation.textContent = "List";
+			menuPresentation.textContent = "List (" + recordId + ")";
 			managedGuiItem.addMenuPresentation(menuPresentation);
 		}
 

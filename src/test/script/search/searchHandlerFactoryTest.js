@@ -26,14 +26,15 @@ QUnit.module("searchHandlerFactoryTest.js", {
 			"textProvider" : CORATEST.textProviderSpy(),
 			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
+			"jsClient" : CORATEST.jsClientSpy()
 		};
 		this.spec = {
-			"addToSearchRecordHandlerMethod" : function() {
-			},
-			"showViewMethod" : function() {
-			},
-			"removeViewMethod" : function() {
-			},
+			// "addToSearchRecordHandlerMethod" : function() {
+			// },
+			// "showViewMethod" : function() {
+			// },
+			// "removeViewMethod" : function() {
+			// },
 			"metadataId" : "someMetadataId",
 			"presentationId" : "somePresentationId"
 		}
@@ -58,7 +59,16 @@ QUnit.test("testFactor", function(assert) {
 	assert.strictEqual(searchHandler.type, "searchHandler");
 });
 
-QUnit.test("testFactorAddedDependencies", function(assert) {
+QUnit.test("testFactorAddedIncomingDependencies", function(assert) {
+	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
+	var searchHandler = searchHandlerFactory.factor(this.spec);
+	var addedDep = searchHandler.getDependencies();
+	assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
+	assert.strictEqual(addedDep.ajaxCallFactory, this.dependencies.ajaxCallFactory);
+	assert.strictEqual(addedDep.jsClient, this.dependencies.jsClient);
+});
+
+QUnit.test("testFactorAddedCreatedDependencies", function(assert) {
 	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
 	var searchHandler = searchHandlerFactory.factor(this.spec);
 	var addedDep = searchHandler.getDependencies();
@@ -66,8 +76,6 @@ QUnit.test("testFactorAddedDependencies", function(assert) {
 	assert.strictEqual(addedDep.searchHandlerViewFactory.getDependencies().textProvider,
 			this.dependencies.textProvider);
 	assert.strictEqual(addedDep.managedGuiItemFactory.type, "managedGuiItemFactory");
-	assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
-	assert.strictEqual(addedDep.ajaxCallFactory, this.dependencies.ajaxCallFactory);
 });
 QUnit.test("testFactorAddedDependenciesResultHandlerFactory", function(assert) {
 	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);

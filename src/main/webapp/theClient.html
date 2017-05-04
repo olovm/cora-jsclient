@@ -35,6 +35,10 @@
 <script type="text/javascript" src="script/jsClient.js"></script>
 <script type="text/javascript" src="script/jsClientView.js"></script>
 <script type="text/javascript" src="script/jsClientViewFactory.js"></script>
+<script type="text/javascript" src="script/jsClient/openGuiItemHandler.js"></script>
+<script type="text/javascript" src="script/jsClient/openGuiItemHandlerView.js"></script>
+<script type="text/javascript" src="script/jsClient/openGuiItemHandlerFactory.js"></script>
+<script type="text/javascript" src="script/jsClient/openGuiItemHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/managedGuiItem.js"></script>
 <script type="text/javascript" src="script/managedGuiItemView.js"></script>
 <script type="text/javascript" src="script/managedGuiItemFactory.js"></script>
@@ -46,6 +50,7 @@
 <script type="text/javascript" src="script/recordListHandler.js"></script>
 <script type="text/javascript" src="script/recordListHandlerFactory.js"></script>
 <script type="text/javascript" src="script/recordTypeHandler.js"></script>
+<script type="text/javascript" src="script/recordTypeHandlerFactory.js"></script>
 <script type="text/javascript" src="script/recordTypeHandlerView.js"></script>
 <script type="text/javascript" src="script/recordTypeHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/recordTypeProvider.js"></script>
@@ -108,6 +113,7 @@
 <script type="text/javascript" src="script/net/ajaxCall.js"></script>
 <script type="text/javascript" src="script/net/ajaxCallFactory.js"></script>
 <script type="text/javascript" src="script/net/uploadManager.js"></script>
+<script type="text/javascript" src="script/net/uploadManagerFactory.js"></script>
 <script type="text/javascript" src="script/net/uploadManagerView.js"></script>
 <script type="text/javascript" src="script/net/xmlHttpRequestFactory.js"></script>
 
@@ -144,11 +150,21 @@
 	window.onload = start;
 	var jsClientSpec;
 	var jsClientDependencies;
+	var jsClient;
+	var jsClientView;
+	var authTokenHolder;
+	var xmlHttpRequestFactory;
+	var ajaxCallFactory;
+	var metadataProvider;
+	var textProvider;
+	var searchProvider;
+	var recordTypeProvider;
+	var uploadManager;
 
 	function start() {
 		askForServerToUse();
 	}
-	
+
 	function askForServerToUse() {
 		var questionSpec = {
 			"text" : "Vilken server vill du använda?",
@@ -158,12 +174,10 @@
 			}, {
 				"text" : "localhost",
 				"onclickFunction" : useLocalhost
-			},
-				{
-					"text" : "localhost8089",
-					"onclickFunction" : useLocalhost2
-				}
-			]
+			}, {
+				"text" : "localhost8089",
+				"onclickFunction" : useLocalhost2
+			} ]
 		};
 		var question = CORA.question(questionSpec);
 		var questionView = question.getView();
@@ -220,8 +234,8 @@
 	}
 
 	function startDependencies() {
-		var authTokenHolder = CORA.authTokenHolder();
-		var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
+		authTokenHolder = CORA.authTokenHolder();
+		xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 
 		//TODO: use this if you want to be logged in at startup:
 		// 		authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
@@ -230,10 +244,10 @@
 			"xmlHttpRequestFactory" : xmlHttpRequestFactory,
 			"authTokenHolder" : authTokenHolder
 		};
-		var ajaxCallFactory = CORA.ajaxCallFactory(ajaxCallFactoryDependencies);
+		ajaxCallFactory = CORA.ajaxCallFactory(ajaxCallFactoryDependencies);
 
 		var dependencies = {
-			"ajaxCallFactory" : CORA.ajaxCallFactory(ajaxCallFactoryDependencies),
+			"ajaxCallFactory" : ajaxCallFactory,
 			"authTokenHolder" : authTokenHolder
 		};
 		var metadataListLink = {
@@ -262,7 +276,7 @@
 			"callWhenReady" : metadataProviderReady
 		};
 
-		var metadataProvider = CORA.metadataProvider(metadataProviderSpec);
+		metadataProvider = CORA.metadataProvider(metadataProviderSpec);
 
 		var textProviderSpec = {
 			"dependencies" : dependencies,
@@ -271,20 +285,7 @@
 			"callWhenReady" : textProviderReady
 		};
 
-		var textProvider = CORA.textProvider(textProviderSpec);
-
-		var appTokenLoginFactoryDependencies = {
-			"ajaxCallFactory" : ajaxCallFactory,
-		};
-		var appTokenLoginFactory = CORA.appTokenLoginFactory(appTokenLoginFactoryDependencies);
-
-		var loginManagerFactoryDependencies = {
-			"authTokenHolder" : authTokenHolder,
-			"textProvider" : textProvider,
-			"appTokenLoginFactory" : appTokenLoginFactory,
-			"ajaxCallFactory" : ajaxCallFactory
-		};
-		var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
+		textProvider = CORA.textProvider(textProviderSpec);
 
 		var dependenciesSearchProvider = {
 			"ajaxCallFactory" : ajaxCallFactory
@@ -299,7 +300,7 @@
 			"searchRecordListLink" : searchRecordListLink,
 			"callWhenReady" : searchProviderReady
 		};
-		var searchProvider = CORA.searchProvider(dependenciesSearchProvider, specSearchProvider);
+		searchProvider = CORA.searchProvider(dependenciesSearchProvider, specSearchProvider);
 
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
@@ -311,12 +312,65 @@
 			"recordTypeListLink" : recordTypeListLink,
 			"callWhenReady" : recordTypeProviderReady
 		};
-		var recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
+		recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
+
+	}
+
+	function startJsClientDependencies() {
+		var appTokenLoginFactoryDependencies = {
+			"ajaxCallFactory" : ajaxCallFactory,
+		};
+		var appTokenLoginFactory = CORA.appTokenLoginFactory(appTokenLoginFactoryDependencies);
+
+		var loginManagerFactoryDependencies = {
+			"authTokenHolder" : authTokenHolder,
+			"textProvider" : textProvider,
+			"appTokenLoginFactory" : appTokenLoginFactory,
+			"ajaxCallFactory" : ajaxCallFactory
+		};
+		var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
+
+		var openGuiItemHandlerFactoryDep = {
+			"textProvider" : textProvider,
+		};
+
+		var uploadManagerSpec = {
+			// 			"addView" : function() {
+			// 				jsClientView.addGlobalView
+			// 			},
+			"showView" : function(viewToShow) {
+				jsClient.showView(viewToShow);
+			}
+		};
+		var uploadManagerDep = {
+			"textProvider" : textProvider,
+			"ajaxCallFactory" : ajaxCallFactory
+		};
+		var uploadManagerFactory = CORA.uploadManagerFactory(uploadManagerDep);
+		uploadManager = uploadManagerFactory.factor(uploadManagerSpec);
+		var recordGuiFactoryDep = {
+			"textProvider" : textProvider,
+			"ajaxCallFactory" : ajaxCallFactory,
+			"metadataProvider" : metadataProvider,
+			"authTokenHolder" : authTokenHolder,
+			"recordTypeProvider" : recordTypeProvider,
+			// 			"uploadManager" : CORA.uploadManager(uploadManagerDep, uploadManagerSpec),
+			"uploadManager" : uploadManager
+		};
+		recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);
 
 		var searchRecordHandlerFactoryDep = {
 			"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory({}),
 			"textProvider" : textProvider,
-			"ajaxCallFactory" : ajaxCallFactory
+			"ajaxCallFactory" : ajaxCallFactory,
+			//
+			"recordGuiFactory" : recordGuiFactory
+		};
+
+		var dependenciesRTH = {
+			"recordGuiFactory" : recordGuiFactory,
+			"jsClient" : jsClient,
+			"ajaxCallFactory" : ajaxCallFactory,
 		};
 		jsClientDependencies = {
 			"ajaxCallFactory" : ajaxCallFactory,
@@ -328,8 +382,12 @@
 			"recordTypeProvider" : recordTypeProvider,
 			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
 			"jsClientViewFactory" : CORA.jsClientViewFactory(),
+			"openGuiItemHandlerFactory" : CORA
+					.openGuiItemHandlerFactory(openGuiItemHandlerFactoryDep),
 			"searchRecordHandlerFactory" : CORA
 					.searchRecordHandlerFactory(searchRecordHandlerFactoryDep),
+			"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH),
+			"uploadManager" : uploadManager,
 			"presentationFactoryFactory" : "not implemented yet"
 		}
 		jsClientSpec = {
@@ -340,7 +398,9 @@
 	}
 
 	function startJsClient() {
-		var jsClient = CORA.jsClient(jsClientDependencies, jsClientSpec);
+		startJsClientDependencies();
+		jsClient = CORA.jsClient(jsClientDependencies, jsClientSpec);
+		jsClientView = jsClient.getView();
 		document.body.appendChild(jsClient.getView());
 	}
 

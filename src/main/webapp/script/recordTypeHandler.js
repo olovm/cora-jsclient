@@ -99,7 +99,18 @@ var CORA = (function(cora) {
 			view.addManagedGuiItem(managedGuiItem);
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		var out = Object.freeze({
+			"type" : "recordTypeHandler",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			createRecordTypeList : createRecordTypeList,
 			createRecordHandler : createRecordHandler,

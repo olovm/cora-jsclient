@@ -25,14 +25,14 @@ QUnit.module("searchRecordHandlerFactoryTest.js", {
 			"searchRecordHandlerViewFactory" : CORATEST
 					.standardFactorySpy("searchRecordHandlerViewSpy"),
 			"textProvider" : CORATEST.textProviderSpy(),
-			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy")
+			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
+			"recordGuiFactory" : CORATEST.recordGuiFactorySpy()
 		};
 		this.search = CORATEST.searchRecordList.dataList.data[0].record;
 
 		this.spec = {
 			"searchRecord" : this.search,
-			"jsClient" : CORATEST.jsClientSpy(),
-			"recordGuiFactory" : CORATEST.recordGuiFactorySpy()
+			"jsClient" : CORATEST.jsClientSpy()
 		}
 		this.searchRecordHandlerFactory = CORA.searchRecordHandlerFactory(this.dependencies);
 	},
@@ -73,9 +73,12 @@ QUnit.test("testFactorAddedDependenciesSearchHandlerFactory", function(assert) {
 	var addedDep = searchRecordHandler.getDependencies();
 	assert.strictEqual(addedDep.searchHandlerFactory.type, "searchHandlerFactory");
 	assert.strictEqual(addedDep.searchHandlerFactory.getDependencies().recordGuiFactory,
-			this.spec.recordGuiFactory);
+			this.dependencies.recordGuiFactory);
 	assert.strictEqual(addedDep.searchHandlerFactory.getDependencies().textProvider,
 			this.dependencies.textProvider);
 	assert.strictEqual(addedDep.searchHandlerFactory.getDependencies().ajaxCallFactory,
 			this.dependencies.ajaxCallFactory);
+	assert
+			.strictEqual(addedDep.searchHandlerFactory.getDependencies().jsClient,
+					this.spec.jsClient);
 });

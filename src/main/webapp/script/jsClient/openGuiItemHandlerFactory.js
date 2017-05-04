@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -16,30 +17,28 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
+var CORA = (function(cora) {
 	"use strict";
-	coraTest.uploadManagerSpy = function() {
-		var uploadWasCalled = false;
-		var uploadSpecs = [];
-		function upload(uploadSpec) {
-			uploadWasCalled = true;
-			uploadSpecs.push(uploadSpec);
+	cora.openGuiItemHandlerFactory = function(dependencies) {
+
+		function getDependencies() {
+			return dependencies;
 		}
 
-		function wasUploadCalled() {
-			return uploadWasCalled;
+		function factor(spec) {
+			var openGuiItemHandlerDependencies = {
+				"textProvider" : dependencies.textProvider,
+				"openGuiItemHandlerViewFactory" : CORA.openGuiItemHandlerViewFactory()
+			};
+			return CORA.openGuiItemHandler(openGuiItemHandlerDependencies, spec);
 		}
-		var item = CORATEST.managedGuiItemSpy();
-		function getManagedGuiItem() {
-			return item;
-		}
+
 		var out = Object.freeze({
-			upload : upload,
-			wasUploadCalled : wasUploadCalled,
-			uploadSpecs : uploadSpecs,
-			getManagedGuiItem : getManagedGuiItem
+			"type" : "openGuiItemHandlerFactory",
+			getDependencies : getDependencies,
+			factor : factor
 		});
 		return out;
 	};
-	return coraTest;
-}(CORATEST));
+	return cora;
+}(CORA));

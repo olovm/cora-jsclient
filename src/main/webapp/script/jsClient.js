@@ -23,11 +23,10 @@ var CORA = (function(cora) {
 		var out;
 		var recordTypeList;
 
-		var recordGuiFactory;
 		var jsClientView;
-		var loginManager;
 		var managedGuiItemShowing = undefined;
 		var managedGuiItemList = [];
+		var openGuiItemHandler;
 
 		function start() {
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
@@ -43,18 +42,12 @@ var CORA = (function(cora) {
 				"setErrorMessage" : jsClientView.addErrorMessage,
 				"appTokenBaseUrl" : spec.appTokenBaseUrl
 			};
-			loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
+			var loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
 			jsClientView.addLoginManagerView(loginManager.getHtml());
 
-			var uploadManagerSpec = {
-				"addView" : jsClientView.addGlobalView,
-				"showView" : showView
-			};
-
-			var recordGuiFactorySpec = dependencies;
-			recordGuiFactorySpec.uploadManager = CORA
-					.uploadManager(dependencies, uploadManagerSpec);
-			recordGuiFactory = CORA.recordGuiFactory(recordGuiFactorySpec);
+			jsClientView
+					.addGlobalView(dependencies.uploadManager.getManagedGuiItem().getMenuView());
+			createAndAddOpenGuiItemHandlerToSideBar();
 			addSearchesUserIsAuthorizedToUseToSideBar(dependencies.searchProvider.getAllSearches());
 			addRecordTypesToSideBar(recordTypeList);
 		}
@@ -128,6 +121,11 @@ var CORA = (function(cora) {
 					.getFirstAtomicValueByNameInData("id");
 		}
 
+		function createAndAddOpenGuiItemHandlerToSideBar() {
+			openGuiItemHandler = dependencies.openGuiItemHandlerFactory.factor();
+			jsClientView.addOpenGuiItemHandlerView(openGuiItemHandler.getView());
+		}
+
 		function addSearchesUserIsAuthorizedToUseToSideBar(searchList) {
 			searchList.forEach(function(search) {
 				possiblyCreateAndAddSearchRecordHandlerToSideBar(search);
@@ -149,8 +147,7 @@ var CORA = (function(cora) {
 			var specSearch = {
 				"searchRecord" : search,
 				"baseUrl" : spec.baseUrl,
-				"jsClient" : out,
-				"recordGuiFactory" : recordGuiFactory
+				"jsClient" : out
 			};
 			return dependencies.searchRecordHandlerFactory.factor(specSearch);
 		}
@@ -166,35 +163,12 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordTypeToSideBar(record) {
-			var depRecordHandler = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"recordGuiFactory" : recordGuiFactory
-			};
-			var recordHandlerFactory = CORA.recordHandlerFactory(depRecordHandler);
-
-			var depRecordListHandlerFactory = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"recordGuiFactory" : recordGuiFactory,
-				"recordHandlerFactory" : recordHandlerFactory
-			};
-
-			var dependenciesRecord = {
-				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
-				"recordListHandlerFactory" : CORA
-						.recordListHandlerFactory(depRecordListHandlerFactory),
-				"recordHandlerFactory" : recordHandlerFactory,
-				"recordGuiFactory" : recordGuiFactory,
-				"jsClient" : out,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
-			};
 			var specRecord = {
+				"jsClient" : out,
 				"recordTypeRecord" : record,
 				"baseUrl" : spec.baseUrl
 			};
-			var recordTypeHandler = CORA.recordTypeHandler(dependenciesRecord, specRecord);
+			var recordTypeHandler = dependencies.recordTypeHandlerFactory.factor(specRecord);
 			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 		}
 
@@ -211,6 +185,10 @@ var CORA = (function(cora) {
 			showNewWorkView(managedGuiItem);
 			updateShowingManagedGuiItem(managedGuiItem);
 			managedGuiItemShowing = managedGuiItem;
+		}
+
+		function addGuiItem(managedGuiItem) {
+			openGuiItemHandler.addManagedGuiItem(managedGuiItem);
 		}
 
 		function resetLastShowingMenuItem() {
@@ -280,7 +258,8 @@ var CORA = (function(cora) {
 			afterLogout : afterLogout,
 			afterRecordTypeProviderReload : afterRecordTypeProviderReload,
 			hideAndRemoveView : hideAndRemoveView,
-			viewRemoved : viewRemoved
+			viewRemoved : viewRemoved,
+			addGuiItem : addGuiItem
 		});
 		start();
 

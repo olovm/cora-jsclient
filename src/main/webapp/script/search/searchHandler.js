@@ -20,18 +20,26 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.searchHandler = function(dependencies, spec) {
-
+		var menuView;
 		var view;
 		var managedGuiItem;
 		var recordGui;
 
 		function start() {
+			menuView = createMenuView();
 			view = createView();
 			managedGuiItem = createManagedGuiItem();
+			managedGuiItem.addMenuPresentation(menuView);
 			managedGuiItem.addWorkPresentation(view.getView());
 			addSearchToSearchRecordHandler(managedGuiItem);
 			showSearchInJsClient(managedGuiItem);
 			tryToCreateSearchForm();
+		}
+
+		function createMenuView() {
+			var createdView = CORA.gui.createSpanWithClassName("");
+			createdView.textContent = "search";
+			return createdView;
 		}
 
 		function createView() {
@@ -43,18 +51,18 @@ var CORA = (function(cora) {
 
 		function createManagedGuiItem() {
 			var managedGuiItemSpec = {
-				"activateMethod" : spec.showViewMethod,
-				"removeMethod" : spec.removeViewMethod
+				"activateMethod" : dependencies.jsClient.showView,
+				"removeMethod" : dependencies.jsClient.viewRemoved
 			};
 			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 		}
 
 		function addSearchToSearchRecordHandler(managedGuiItemToAdd) {
-			spec.addToSearchRecordHandlerMethod(managedGuiItemToAdd);
+			dependencies.jsClient.addGuiItem(managedGuiItemToAdd);
 		}
 
 		function showSearchInJsClient(managedGuiItemToShow) {
-			spec.showViewMethod(managedGuiItemToShow);
+			dependencies.jsClient.showView(managedGuiItemToShow);
 		}
 
 		function tryToCreateSearchForm() {

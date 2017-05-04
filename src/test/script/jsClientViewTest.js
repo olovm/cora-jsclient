@@ -93,6 +93,15 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(jsClientView.getSpec(), this.spec);
 });
 
+QUnit.test("testAddToOpenGuiItemsView", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	var aView = document.createElement("SPAN");
+	jsClientView.addOpenGuiItemHandlerView(aView);
+
+	var sideBar = jsClientView.getSideBar();
+	assert.strictEqual(aView, sideBar.childNodes[0]);
+});
+
 QUnit.test("testAddToSearchesView", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 	var aView = document.createElement("SPAN");

@@ -22,9 +22,13 @@ var CORA = (function(cora) {
 	cora.managedGuiItem = function(dependencies, spec) {
 		var out;
 		var viewSpec = {
-			"activateMethod" : activate,
-			"removeMethod" : remove
+			"activateMethod" : activate
 		};
+
+		if (spec.disableRemove !== "true") {
+			viewSpec.removeMethod = remove;
+		}
+
 		var view = dependencies.managedGuiItemViewFactory.factor(viewSpec);
 		if (spec.menuPresentation !== undefined) {
 			view.addMenuPresentation(spec.menuPresentation);

@@ -27,7 +27,7 @@ var CORA = (function(cora) {
 		};
 		var view = CORA.uploadManagerView(viewSpec);
 
-		spec.addView(view.getItem().menuView);
+		var managedGuiItem = createManagedGuiItem();
 
 		function upload(uploadSpec) {
 			var uploadLink = uploadSpec.uploadLink;
@@ -51,6 +51,17 @@ var CORA = (function(cora) {
 			uploadQue.push(callSpec);
 			possiblyStartNextUpload();
 
+		}
+
+		function createManagedGuiItem() {
+			var managedGuiItemSpec = {
+				"activateMethod" : spec.showView,
+				"disableRemove" : "true"
+			};
+			var createdMGI = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
+			createdMGI.addMenuPresentation(view.getMenuView());
+			createdMGI.addWorkPresentation(view.getWorkView());
+			return createdMGI;
 		}
 
 		function uploadFinished() {
@@ -82,10 +93,23 @@ var CORA = (function(cora) {
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+		function getSpec() {
+			return spec;
+		}
+		function getManagedGuiItem() {
+			return managedGuiItem;
+		}
 		var out = Object.freeze({
+			"type" : "uploadManager",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
+			getManagedGuiItem : getManagedGuiItem,
 			upload : upload,
-			view : view,
-			uploadFinished : uploadFinished
+			uploadFinished : uploadFinished,
+			view : view
 		});
 
 		return out;

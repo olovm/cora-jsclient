@@ -150,11 +150,10 @@ QUnit.test("initTestManagedGuiItemFactoryCalled", function(assert) {
 	assert.ok(managedGuiItemSpy !== undefined);
 });
 
-QUnit.test("initTestManagedGuiItemAddedToRecordTypeHandler", function(assert) {
+QUnit.test("initTestManagedGuiItemAddGuiItemCalled", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
-	var addedManagedGuiItem = this.getAddedManagedGuiItem();
-	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
-	assert.strictEqual(addedManagedGuiItem, managedGuiItemSpy);
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	assert.strictEqual(this.spec.jsClient.getAddedGuiItem(0), managedGuiItem);
 });
 
 QUnit.test("initTestManagedGuiItemAddedShowOnLoad", function(assert) {
