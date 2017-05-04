@@ -26,17 +26,17 @@ QUnit.module("recordListHandlerTest.js", {
 		var createRecordHandlerMethodCalledWithPresentationMode;
 		var createRecordHandlerMethodCalledWithRecord;
 		var createRecordHandlerMethodCalledWithLoadInBackground;
-		
+
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		var dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 			"recordGuiFactory" : CORATEST.recordGuiFactorySpy(),
-			"recordHandlerFactory": CORATEST.standardFactorySpy("recordHandlerSpy")
+			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy")
 		};
 		this.dependencies = dependencies;
 
-		var addedManagedGuiItem;
+		// var addedManagedGuiItem;
 
 		this.spec = {
 			"createRecordHandlerMethod" : function(presentationMode, record, loadInBackground) {
@@ -47,9 +47,9 @@ QUnit.module("recordListHandlerTest.js", {
 			"jsClient" : CORATEST.jsClientSpy(),
 			"views" : CORATEST.managedGuiItemSpy(),
 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/",
-			"addToRecordTypeHandlerMethod" : function(managedGuiItem) {
-				addedManagedGuiItem = managedGuiItem;
-			},
+			// "addToRecordTypeHandlerMethod" : function(managedGuiItem) {
+			// addedManagedGuiItem = managedGuiItem;
+			// },
 			"recordTypeRecordId" : "recordType",
 			"listLink" : {
 				"requestMethod" : "GET",
@@ -60,9 +60,9 @@ QUnit.module("recordListHandlerTest.js", {
 			"listPresentationViewId" : "recordTypeListPGroup"
 		};
 
-		this.getAddedManagedGuiItem = function() {
-			return addedManagedGuiItem;
-		}
+		// this.getAddedManagedGuiItem = function() {
+		// return addedManagedGuiItem;
+		// }
 
 		this.answerListCall = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
@@ -136,12 +136,24 @@ QUnit.test("initTestManagedGuiItemFactoryCalled", function(assert) {
 	assert.ok(managedGuiItemSpy !== undefined);
 });
 
-QUnit.test("initTestManagedGuiItemAddedToRecordTypeHandler", function(assert) {
+QUnit.test("initTestManagedGuiItemAddGuiItemCalled", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-	var addedManagedGuiItem = this.getAddedManagedGuiItem();
-	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
-	assert.strictEqual(addedManagedGuiItem, managedGuiItemSpy);
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	assert.strictEqual(this.spec.jsClient.getAddedGuiItem(0), managedGuiItem);
 });
+
+QUnit.test("initTestManagedGuiItemShowViewCalled", function(assert) {
+	var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	assert.strictEqual(this.spec.jsClient.getViewShowingInWorkView(0), managedGuiItem);
+});
+
+// QUnit.test("initTestManagedGuiItemAddedToRecordTypeHandler", function(assert) {
+// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
+// var addedManagedGuiItem = this.getAddedManagedGuiItem();
+// var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+// assert.strictEqual(addedManagedGuiItem, managedGuiItemSpy);
+// });
 
 QUnit.test("initCheckRemoveOnMenu", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
@@ -154,7 +166,7 @@ QUnit.test("initCheckRemoveOnMenu", function(assert) {
 	// this.spec.views.getAddedMenuPresentation(0).textContent,
 	// "List");
 	assert.strictEqual(this.dependencies.managedGuiItemFactory.getFactored(0)
-			.getAddedMenuPresentation(0).textContent, "List");
+			.getAddedMenuPresentation(0).textContent, "List (recordType)");
 
 	// var removeButton = menuView.childNodes[1];
 	// assert.strictEqual(removeButton.className, "removeButton");
@@ -244,13 +256,13 @@ QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(asse
 QUnit.test("fetchListCheckGeneratedListClickableLoadInBackground", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
 	this.answerListCall(0);
-	
+
 	var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
-	.getAddedWorkPresentation(0);
+			.getAddedWorkPresentation(0);
 	var event = document.createEvent('Event');
 	event.ctrlKey = true;
 	firstListItem.onclick(event);
-	
+
 	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithLoadInBackground(), "true");
 });
 

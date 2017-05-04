@@ -26,7 +26,7 @@ var CORA = (function(cora) {
 		};
 		var managedGuiItem = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 
-		spec.addToRecordTypeHandlerMethod(managedGuiItem);
+		spec.jsClient.addGuiItem(managedGuiItem);
 		spec.jsClient.showView(managedGuiItem);
 
 		var recordId = spec.recordTypeRecordId;
@@ -36,7 +36,7 @@ var CORA = (function(cora) {
 
 		function addTextToMenuView() {
 			var menuPresentation = CORA.gui.createSpanWithClassName("");
-			menuPresentation.textContent = "List";
+			menuPresentation.textContent = "List (" + recordId + ")";
 			managedGuiItem.addMenuPresentation(menuPresentation);
 		}
 

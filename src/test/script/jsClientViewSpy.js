@@ -24,6 +24,9 @@ var CORATEST = (function(coraTest) {
 		var loginManagerViews = [];
 		var workViews = [];
 		var removedWorkViews = [];
+		var openGuiItemHandlerViews = [];
+		var addedGlobalViews = [];
+
 		var recordTypesClearedNoOfTimes = 0;
 		var html = CORA.gui.createSpanWithClassName("jsClientViewSpy");
 		function getHtml() {
@@ -66,9 +69,14 @@ var CORATEST = (function(coraTest) {
 		function getWorkView() {
 			return workView;
 		}
-		function addGlobalView() {
+		function addGlobalView(viewToAdd) {
 			// return workView;
+			addedGlobalViews.push(viewToAdd);
 		}
+		function getAddedGlobalView(number) {
+			return addedGlobalViews[number];
+		}
+
 		function clearRecordTypesView() {
 			recordTypesClearedNoOfTimes++;
 			recordTypeViews = [];
@@ -76,12 +84,19 @@ var CORATEST = (function(coraTest) {
 		function getRecordTypesClearedNoOfTimes() {
 			return recordTypesClearedNoOfTimes;
 		}
-		
-		function removeFromWorkView(viewToRemove){
+
+		function removeFromWorkView(viewToRemove) {
 			removedWorkViews.push(viewToRemove);
 		}
-		function getRemovedWorkView(number){
+		function getRemovedWorkView(number) {
 			return removedWorkViews[number];
+		}
+
+		function addOpenGuiItemHandlerView(viewToRemove) {
+			openGuiItemHandlerViews.push(viewToRemove);
+		}
+		function getAddedOpenGuiItemHandlerView(number) {
+			return openGuiItemHandlerViews[number];
 		}
 		var out = Object.freeze({
 			"type" : "jsClientViewSpy",
@@ -98,8 +113,11 @@ var CORATEST = (function(coraTest) {
 			addToWorkView : addToWorkView,
 			getAddedWorkView : getAddedWorkView,
 			addGlobalView : addGlobalView,
+			getAddedGlobalView : getAddedGlobalView,
 			removeFromWorkView : removeFromWorkView,
-			getRemovedWorkView : getRemovedWorkView
+			getRemovedWorkView : getRemovedWorkView,
+			addOpenGuiItemHandlerView : addOpenGuiItemHandlerView,
+			getAddedOpenGuiItemHandlerView : getAddedOpenGuiItemHandlerView
 		});
 
 		return out;

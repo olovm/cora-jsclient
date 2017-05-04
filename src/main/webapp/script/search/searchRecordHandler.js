@@ -41,9 +41,6 @@ var CORA = (function(cora) {
 
 		function openSearch() {
 			var searchHandlerSpec = {
-				"addToSearchRecordHandlerMethod" : addManagedGuiItem,
-				"showViewMethod" : dependencies.jsClient.showView,
-				"removeViewMethod" : dependencies.jsClient.viewRemoved,
 				"metadataId" : getLinkValueFromSearchRecord("metadataId"),
 				"presentationId" : getLinkValueFromSearchRecord("presentationId")
 			};

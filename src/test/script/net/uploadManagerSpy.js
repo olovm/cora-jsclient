@@ -29,10 +29,15 @@ var CORATEST = (function(coraTest) {
 		function wasUploadCalled() {
 			return uploadWasCalled;
 		}
+		var item = CORATEST.managedGuiItemSpy();
+		function getManagedGuiItem() {
+			return item;
+		}
 		var out = Object.freeze({
 			upload : upload,
 			wasUploadCalled : wasUploadCalled,
-			uploadSpecs : uploadSpecs
+			uploadSpecs : uploadSpecs,
+			getManagedGuiItem : getManagedGuiItem
 		});
 		return out;
 	};

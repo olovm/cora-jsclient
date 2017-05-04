@@ -65,11 +65,26 @@ QUnit.module("recordTypeHandlerTest.js", {
 });
 
 QUnit.test("init", function(assert) {
-var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	assert.strictEqual(recordTypeHandler.type, "recordTypeHandler");
+});
 
+QUnit.test("testGetDependencies", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	assert.strictEqual(recordTypeHandler.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	assert.strictEqual(recordTypeHandler.getSpec(), this.spec);
+});
+
+QUnit.test("initViewClassName", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	
 	var view = recordTypeHandler.getView();
 	assert.strictEqual(view.className, "recordTypeFromRecordTypeHandlerSpy");
-
+	
 	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
 	assert.strictEqual(factoredViewSpec.fetchListMethod, recordTypeHandler.createRecordTypeList);
 });

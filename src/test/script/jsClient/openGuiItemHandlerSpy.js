@@ -18,19 +18,19 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.recordTypeHandlerViewSpy = function(dependencies, spec) {
+	coraTest.openGuiItemHandlerSpy = function(dependencies, spec) {
 		var addedManagedGuiItem = [];
 		var getViewCalled = 0;
-		var view = CORA.gui.createSpanWithClassName("recordTypeFromRecordTypeHandlerSpy");
+		var view = CORA.gui.createSpanWithClassName("openGuiItemHandlerSpy");
+
 		function getView() {
 			getViewCalled++;
 			return view;
 		}
-		function getGetViewCalled() {
-			return getViewCalled;
-		}
+
 		function addManagedGuiItem(managedGuiItem) {
 			addedManagedGuiItem.push(managedGuiItem);
+			return managedGuiItem;
 		}
 
 		function getAddedManagedGuiItem(number) {
@@ -38,9 +38,8 @@ var CORATEST = (function(coraTest) {
 		}
 
 		return Object.freeze({
-			"type" : "recordTypeHandlerViewSpy",
+			"type" : "openGuiItemHandlerSpy",
 			getView : getView,
-			getGetViewCalled : getGetViewCalled,
 			addManagedGuiItem : addManagedGuiItem,
 			getAddedManagedGuiItem : getAddedManagedGuiItem
 		});

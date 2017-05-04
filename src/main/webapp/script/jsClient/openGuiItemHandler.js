@@ -1,6 +1,7 @@
 /*
- * Copyright 2017 Uppsala University Library
- * 
+ * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
+ *
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -16,34 +17,40 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
+var CORA = (function(cora) {
 	"use strict";
-	coraTest.recordTypeHandlerViewSpy = function(dependencies, spec) {
-		var addedManagedGuiItem = [];
-		var getViewCalled = 0;
-		var view = CORA.gui.createSpanWithClassName("recordTypeFromRecordTypeHandlerSpy");
+	cora.openGuiItemHandler = function(dependencies, spec) {
+
+		var viewSpec = {
+			"headerText" : dependencies.textProvider.getTranslation("theClient_openedText")
+		};
+
+		var view = dependencies.openGuiItemHandlerViewFactory.factor(viewSpec);
+
 		function getView() {
-			getViewCalled++;
-			return view;
+			return view.getView();
 		}
-		function getGetViewCalled() {
-			return getViewCalled;
-		}
+
 		function addManagedGuiItem(managedGuiItem) {
-			addedManagedGuiItem.push(managedGuiItem);
+			view.addManagedGuiItem(managedGuiItem);
 		}
 
-		function getAddedManagedGuiItem(number) {
-			return addedManagedGuiItem[number];
+		function getSpec() {
+			return spec;
 		}
 
-		return Object.freeze({
-			"type" : "recordTypeHandlerViewSpy",
+		function getDependencies() {
+			return dependencies;
+		}
+
+		var out = Object.freeze({
+			"type" : "openGuiItemHandler",
+			getSpec : getSpec,
+			getDependencies : getDependencies,
 			getView : getView,
-			getGetViewCalled : getGetViewCalled,
-			addManagedGuiItem : addManagedGuiItem,
-			getAddedManagedGuiItem : getAddedManagedGuiItem
+			addManagedGuiItem : addManagedGuiItem
 		});
+		return out;
 	};
-	return coraTest;
-}(CORATEST || {}));
+	return cora;
+}(CORA));

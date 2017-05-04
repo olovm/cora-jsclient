@@ -63,6 +63,10 @@ var CORA = (function(cora) {
 			return view;
 		}
 
+		function addOpenGuiItemHandlerView(viewToAdd) {
+			sideBar.insertAdjacentElement('afterbegin', viewToAdd);
+		}
+
 		function addToSearchesView(searchViewToAdd) {
 			searchesView.appendChild(searchViewToAdd);
 		}
@@ -135,6 +139,7 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
+			addOpenGuiItemHandlerView : addOpenGuiItemHandlerView,
 			addToSearchesView : addToSearchesView,
 			addToRecordTypesView : addToRecordTypesView,
 			clearRecordTypesView : clearRecordTypesView,
@@ -144,8 +149,8 @@ var CORA = (function(cora) {
 			addGlobalView : addGlobalView,
 			getHeader : getHeader,
 			getSideBar : getSideBar,
-			getRecordTypesView : getRecordTypesView,
 			getSearchesView : getSearchesView,
+			getRecordTypesView : getRecordTypesView,
 			addErrorMessage : addErrorMessage,
 			removeFromWorkView : removeFromWorkView
 		});

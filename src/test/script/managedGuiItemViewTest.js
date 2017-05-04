@@ -63,6 +63,12 @@ QUnit.test("testMenuViewHasRemoveButtonThatCallsRemoveMethods", function(assert)
 	menuView.lastChild.onclick(event);
 	assert.ok(removeMethodHasBeenCalled);
 });
+QUnit.test("testMenuViewHasNoRemoveButtonIfNoRemoveMethod", function(assert) {
+	this.spec.removeMethod = undefined;
+	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
+	var menuView = managedGuiItemView.getMenuView();
+	assert.strictEqual(menuView.childNodes.length, 0);
+});
 
 QUnit.test("testGetWorkView", function(assert) {
 	var managedGuiItemView = CORA.managedGuiItemView(this.spec);

@@ -33,8 +33,7 @@ var CORA = (function(cora) {
 		function start() {
 			managedGuiItem = createManagedGuiItem();
 
-			spec.addToRecordTypeHandlerMethod(managedGuiItem);
-
+			spec.jsClient.addGuiItem(managedGuiItem);
 			if (spec.loadInBackground !== "true") {
 				spec.jsClient.showView(managedGuiItem);
 			}

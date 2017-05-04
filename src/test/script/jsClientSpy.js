@@ -23,6 +23,7 @@ var CORATEST = (function(coraTest) {
 		var viewsShowingInWorkView = [];
 		var createdManagedGuiItem = [];
 		var fetchedMetadataByRecordTypeId = [];
+		var addedGuiItem = [];
 
 		// var createdManagedGuiItemHandledBy = [];
 		function getRecordTypesClearedNoOfTimes() {
@@ -70,6 +71,12 @@ var CORATEST = (function(coraTest) {
 		function getFetchedMetadataByRecordTypeId(number) {
 			return fetchedMetadataByRecordTypeId[number];
 		}
+		function addGuiItem(itemToAdd) {
+			addedGuiItem.push(itemToAdd);
+		}
+		function getAddedGuiItem(number) {
+			return addedGuiItem[number];
+		}
 
 		var out = Object.freeze({
 			"type" : "jsClientSpy",
@@ -78,7 +85,9 @@ var CORATEST = (function(coraTest) {
 			createManagedGuiItem : createManagedGuiItem,
 			getCreatedManagedGuiItem : getCreatedManagedGuiItem,
 			getMetadataForRecordTypeId : getMetadataForRecordTypeId,
-			getFetchedMetadataByRecordTypeId : getFetchedMetadataByRecordTypeId
+			getFetchedMetadataByRecordTypeId : getFetchedMetadataByRecordTypeId,
+			addGuiItem : addGuiItem,
+			getAddedGuiItem : getAddedGuiItem
 		});
 
 		return out;

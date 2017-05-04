@@ -1,6 +1,5 @@
 /*
  * Copyright 2017 Uppsala University Library
- * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,21 +18,33 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.searchHandlerFactory = function(dependencies) {
+	cora.recordTypeHandlerFactory = function(dependencies) {
 
-		function factor(spec) {
-			var viewDep = {
-				"textProvider" : dependencies.textProvider
+		function factor(recordTypeHandlerSpec) {
+			var depRecordHandler = {
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"recordGuiFactory" : dependencies.recordGuiFactory,
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
+			};
+			var recordHandlerFactory = CORA.recordHandlerFactory(depRecordHandler);
+
+			var depRecordListHandler = {
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"recordGuiFactory" : dependencies.recordGuiFactory,
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+				"recordHandlerFactory" : recordHandlerFactory
 			};
 
 			var dep = {
-				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(viewDep),
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"recordGuiFactory" : dependencies.recordGuiFactory,
+				"jsClient" : recordTypeHandlerSpec.jsClient,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"jsClient" : dependencies.jsClient
+				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+				"recordHandlerFactory" : recordHandlerFactory,
+				"recordListHandlerFactory" : CORA.recordListHandlerFactory(depRecordListHandler)
 			};
-			return CORA.searchHandler(dep, spec);
+			return CORA.recordTypeHandler(dep, recordTypeHandlerSpec);
 		}
 
 		function getDependencies() {
@@ -41,7 +52,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type" : "searchHandlerFactory",
+			"type" : "recordTypeHandlerFactory",
 			getDependencies : getDependencies,
 			factor : factor
 		});
