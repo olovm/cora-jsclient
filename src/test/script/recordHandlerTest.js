@@ -40,8 +40,8 @@ QUnit.module("recordHandlerTest.js", {
 		this.dependencies = dependencies;
 
 		var addedManagedGuiItem;
-		var createRecordHandlerMethodCalledWithPresentationMode;
-		var createRecordHandlerMethodCalledWithRecord;
+		var openRecordMethodCalledWithPresentationMode;
+		var openRecordMethodCalledWithRecord;
 
 		this.spec = {
 			"dependencies" : dependencies,
@@ -67,16 +67,16 @@ QUnit.module("recordHandlerTest.js", {
 			"presentationFormId" : "recordTypeFormPGroup",
 			"menuPresentationViewId" : "recordTypeMenuPGroup",
 			"abstract" : "false",
-			"createRecordHandlerMethod" : function(presentationMode, record) {
-				createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
-				createRecordHandlerMethodCalledWithRecord = record;
+			"openRecordMethod" : function(presentationMode, record) {
+				openRecordMethodCalledWithPresentationMode = presentationMode;
+				openRecordMethodCalledWithRecord = record;
 			}
 		};
-		this.getCreateRecordHandlerMethodCalledWithPresentationMode = function() {
-			return createRecordHandlerMethodCalledWithPresentationMode;
+		this.getopenRecordMethodCalledWithPresentationMode = function() {
+			return openRecordMethodCalledWithPresentationMode;
 		}
-		this.getCreateRecordHandlerMethodCalledWithRecord = function() {
-			return createRecordHandlerMethodCalledWithRecord;
+		this.getopenRecordMethodCalledWithRecord = function() {
+			return openRecordMethodCalledWithRecord;
 		}
 		this.getAddedManagedGuiItem = function() {
 			return addedManagedGuiItem;
@@ -297,9 +297,9 @@ QUnit.test("testCopyAsNew", function(assert) {
 
 	recordHandler.copyData();
 
-	assert.strictEqual(this.getCreateRecordHandlerMethodCalledWithPresentationMode(), "new");
+	assert.strictEqual(this.getopenRecordMethodCalledWithPresentationMode(), "new");
 	var dataHolderData = this.dependencies.recordGuiFactory.getFactored(0).dataHolder.getData();
-	assert.strictEqual(this.getCreateRecordHandlerMethodCalledWithRecord(), dataHolderData);
+	assert.strictEqual(this.getopenRecordMethodCalledWithRecord(), dataHolderData);
 });
 
 QUnit.test("initCallToServer", function(assert) {
