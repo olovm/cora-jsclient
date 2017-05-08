@@ -74,7 +74,7 @@ var CORA = (function(cora) {
 		function addRecordToTypesById(record) {
 			var recordId = getIdFromRecordData(record.data);
 			allRecordTypesById[recordId] = record;
-			addToMetadataByRecordTypeId(recordId, record.data);
+			addToMetadataByRecordTypeId(recordId, record);
 		}
 
 		function getIdFromRecordData(recordData) {
@@ -85,7 +85,7 @@ var CORA = (function(cora) {
 		}
 
 		function addToMetadataByRecordTypeId(recordId, record) {
-			var cRecord = CORA.coraData(record);
+			var cRecord = CORA.coraData(record.data);
 			var metadata = {
 				"metadataId" : getLinkValueFromRecord("metadataId", cRecord),
 				"presentationViewId" : getLinkValueFromRecord("presentationViewId", cRecord),
@@ -98,7 +98,7 @@ var CORA = (function(cora) {
 				"userSuppliedId" : cRecord.getFirstAtomicValueByNameInData("userSuppliedId"),
 				"abstract" : cRecord.getFirstAtomicValueByNameInData("abstract"),
 				"parentId" : getLinkValueFromRecord("parentId", cRecord),
-				"actionLinks" : {}
+				"actionLinks" : record.actionLinks
 			};
 			metadataByRecordTypeId[recordId] = metadata;
 		}

@@ -20,6 +20,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandlerFactory = function(dependencies) {
+		var out;
 
 		var dep = {
 			"recordHandlerViewFactory" : CORA.recordHandlerViewFactory(),
@@ -28,6 +29,7 @@ var CORA = (function(cora) {
 			"managedGuiItemFactory" : dependencies.managedGuiItemFactory
 		};
 		function factor(recordHandlerSpec) {
+			dep.recordHandlerFactory = out;
 			return CORA.recordHandler(dep, recordHandlerSpec);
 		}
 
@@ -35,7 +37,7 @@ var CORA = (function(cora) {
 			return dependencies;
 		}
 
-		var out = Object.freeze({
+		out = Object.freeze({
 			"type" : "recordHandlerFactory",
 			getDependencies : getDependencies,
 			factor : factor

@@ -54,7 +54,6 @@ var CORA = (function(cora) {
 				"openRecordMethod" : createRecordHandler,
 				"baseUrl" : spec.baseUrl,
 				"jsClient" : dependencies.jsClient,
-				"addToRecordTypeHandlerMethod" : addManagedGuiItem,
 				"recordTypeRecordId" : recordId,
 				"listLink" : spec.recordTypeRecord.actionLinks.list,
 				"listPresentationViewId" : getListPresentationFromRecordTypeRecord()
@@ -76,27 +75,10 @@ var CORA = (function(cora) {
 				"record" : record,
 				"jsClient" : dependencies.jsClient,
 				"recordTypeHandler" : self,
-				"addToRecordTypeHandlerMethod" : addManagedGuiItem,
-				"openRecordMethod" : createRecordHandler,
-				"recordTypeRecordId" : recordId,
-				"createLink" : spec.recordTypeRecord.actionLinks.create,
-				"newMetadataId" : getLinkValueFromRecordTypeRecord("newMetadataId"),
-				"newPresentationFormId" : getLinkValueFromRecordTypeRecord("newPresentationFormId"),
-				"presentationViewId" : getLinkValueFromRecordTypeRecord("presentationViewId"),
-				"presentationFormId" : getLinkValueFromRecordTypeRecord("presentationFormId"),
-				"menuPresentationViewId" : getLinkValueFromRecordTypeRecord("menuPresentationViewId"),
-				"abstract" : cRecordTypeRecordData.getFirstAtomicValueByNameInData("abstract")
+				// "openRecordMethod" : createRecordHandler,
+				"recordTypeRecordIdForNew" : recordId
 			};
 			dependencies.recordHandlerFactory.factor(recordHandlerSpec);
-		}
-
-		function getLinkValueFromRecordTypeRecord(id) {
-			var cRecordLink = CORA.coraData(cRecordTypeRecordData.getFirstChildByNameInData(id));
-			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
-		}
-
-		function addManagedGuiItem(managedGuiItem) {
-			view.addManagedGuiItem(managedGuiItem);
 		}
 
 		function getDependencies() {
@@ -113,8 +95,7 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getView : getView,
 			createRecordTypeList : createRecordTypeList,
-			createRecordHandler : createRecordHandler,
-			addManagedGuiItem : addManagedGuiItem
+			createRecordHandler : createRecordHandler
 		});
 		self = out;
 		return out;

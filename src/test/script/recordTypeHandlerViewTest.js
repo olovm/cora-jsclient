@@ -21,8 +21,7 @@
 
 QUnit.module("recordTypeHandlerViewTest.js", {
 	beforeEach : function() {
-		this.dependencies = {
-		};
+		this.dependencies = {};
 		this.spec = {
 			"headerText" : "some text",
 			"fetchListMethod" : function() {
@@ -59,10 +58,6 @@ QUnit.test("initAndGetView", function(assert) {
 
 	var buttonView = view.childNodes[1];
 	assert.strictEqual(buttonView.className, "buttonView");
-
-	var childrenView = view.childNodes[2];
-	assert.strictEqual(childrenView.className, "childrenView");
-	assert.strictEqual(buttonView.childNodes.length, 0);
 });
 
 QUnit.test("initWithCreateButtonAsWeHaveACreateNewMethod", function(assert) {
@@ -85,24 +80,4 @@ QUnit.test("initWithCreateButtonAsWeHaveACreateNewMethod", function(assert) {
 	createButton.onclick(event);
 	assert.strictEqual(presentationModeCalled, "new");
 	assert.strictEqual(createNewMethodIsCalled, true);
-});
-
-//QUnit.test("testCreateManagedGuiItem", function(assert) {
-//	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
-//	var someFunction = function() {
-//	};
-//	var createdManagedGuiItem = recordTypeHandlerView
-//			.createManagedGuiItem("someText", someFunction);
-//	assert.strictEqual(this.dependencies.jsClient.getCreatedManagedGuiItem(0).handledBy,
-//			someFunction);
-//});
-
-QUnit.test("testAddManagedGuiItem", function(assert) {
-	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
-	var managedGuiItem = CORATEST.managedGuiItemSpy();
-	var createdManagedGuiItem = recordTypeHandlerView.addManagedGuiItem(managedGuiItem);
-	var view = recordTypeHandlerView.getView();
-	var childrenView = view.childNodes[2];
-	assert.strictEqual(childrenView.childNodes[0], managedGuiItem.getMenuView());
-
 });

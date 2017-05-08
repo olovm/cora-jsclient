@@ -23,7 +23,6 @@ var CORA = (function(cora) {
 		var view;
 		var header;
 		var buttonView;
-		var childrenView;
 
 		function start() {
 			view = CORA.gui.createSpanWithClassName("recordType");
@@ -34,9 +33,6 @@ var CORA = (function(cora) {
 			buttonView = CORA.gui.createSpanWithClassName("buttonView");
 			view.appendChild(buttonView);
 			possiblyCreateCreateButton();
-
-			childrenView = CORA.gui.createSpanWithClassName("childrenView");
-			view.appendChild(childrenView);
 		}
 
 		function createHeader() {
@@ -66,10 +62,6 @@ var CORA = (function(cora) {
 			return view;
 		}
 
-		function addManagedGuiItem(managedGuiItem) {
-			childrenView.appendChild(managedGuiItem.getMenuView());
-		}
-
 		function getDependencies() {
 			return dependencies;
 		}
@@ -82,8 +74,7 @@ var CORA = (function(cora) {
 			"type" : "recordTypeHandlerView",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
-			getView : getView,
-			addManagedGuiItem : addManagedGuiItem
+			getView : getView
 		});
 		start();
 		return out;
