@@ -243,7 +243,8 @@ var CORA = (function(cora) {
 
 		function getRecordTypeIdFromData(cData) {
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			return cRecordInfo.getFirstAtomicValueByNameInData("type");
+			var cTypeGroup = CORA.coraData(cRecordInfo.getFirstChildByNameInData("type"));
+			return cTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function addRecordToWorkView(recordGuiToAdd, metadataIdUsedInData) {

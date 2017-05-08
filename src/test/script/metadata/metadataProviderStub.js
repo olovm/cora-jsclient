@@ -36,8 +36,17 @@ function MetadataProviderStub() {
                 "name": "id",
                 "value": id
             }, {
-                "name": "type",
-                "value": "metadataGroup"
+                "children": [
+                    {
+                        "name": "linkedRecordType",
+                        "value": "recordType"
+                    },
+                    {
+                        "name": "linkedRecordId",
+                        "value": "metadataGroup"
+                    }
+                ],
+                "name": "type"
             }, {
                 "name": "createdBy",
                 "value": "userId"
@@ -1877,8 +1886,17 @@ function MetadataProviderStub() {
                         "name": "id",
                         "value": "presentationVarGroup"
                     }, {
-                        "name": "type",
-                        "value": "metadataGroup"
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "metadataGroup"
+                            }
+                        ],
+                        "name": "type"
                     }, {
                         "name": "createdBy",
                         "value": "userId"
@@ -1961,8 +1979,17 @@ function MetadataProviderStub() {
                         "name": "id",
                         "value": "presentationVarAttributeGroup"
                     }, {
-                        "name": "type",
-                        "value": "metadataGroup"
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "metadataGroup"
+                            }
+                        ],
+                        "name": "type"
                     }, {
                         "name": "createdBy",
                         "value": "userId"
@@ -2042,8 +2069,17 @@ function MetadataProviderStub() {
                         "name": "id",
                         "value": "idTextVar"
                     }, {
-                        "name": "type",
-                        "value": "metadataTextVariable"
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "metadataTextVariable"
+                            }
+                        ],
+                        "name": "type"
                     }, {
                         "name": "createdBy",
                         "value": "userId"
@@ -2098,8 +2134,17 @@ function MetadataProviderStub() {
                         "name": "id",
                         "value": "recordInfoPVarGroup"
                     }, {
-                        "name": "type",
-                        "value": "metadataGroup"
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "metadataGroup"
+                            }
+                        ],
+                        "name": "type"
                     }, {
                         "name": "createdBy",
                         "value": "userId"
@@ -2173,8 +2218,17 @@ function MetadataProviderStub() {
                         "name": "id",
                         "value": "recordInfoPVarAttributeGroup"
                     }, {
-                        "name": "type",
-                        "value": "metadataGroup"
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "metadataGroup"
+                            }
+                        ],
+                        "name": "type"
                     }, {
                         "name": "createdBy",
                         "value": "userId"
@@ -2822,8 +2876,17 @@ function MetadataProviderStub() {
                                 "value": "imageNewGroup"
                             },
                             {
-                                "name": "type",
-                                "value": "metadataGroup"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataGroup"
+                                    }
+                                ],
+                                "name": "type"
                             },
                             {
                                 "name": "createdBy",
@@ -2968,8 +3031,17 @@ function MetadataProviderStub() {
                                 },
                                 "name": "dataDivider"
                             }, {
-                                "name": "type",
-                                "value": "metadataCollectionVariable"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataCollectionVariable"
+                                    }
+                                ],
+                                "name": "type"
                             }, {
                                 "name": "createdBy",
                                 "value": "userId"
@@ -3052,8 +3124,17 @@ function MetadataProviderStub() {
                                 },
                                 "name": "dataDivider"
                             }, {
-                                "name": "type",
-                                "value": "metadataCollectionVariable"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataCollectionVariable"
+                                    }
+                                ],
+                                "name": "type"
                             }, {
                                 "name": "createdBy",
                                 "value": "userId"
@@ -3113,8 +3194,17 @@ function MetadataProviderStub() {
                                 "value": "genericBinaryNewGroup"
                             },
                             {
-                                "name": "type",
-                                "value": "metadataGroup"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataGroup"
+                                    }
+                                ],
+                                "name": "type"
                             },
                             {
                                 "name": "createdBy",
@@ -3259,9 +3349,18 @@ function MetadataProviderStub() {
                                     }
                                 },
                                 "name": "dataDivider"
-                            }, {
-                                "name": "type",
-                                "value": "metadataCollectionVariable"
+                            },  {
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataCollectionVariable"
+                                    }
+                                ],
+                                "name": "type"
                             }, {
                                 "name": "createdBy",
                                 "value": "userId"
@@ -3329,8 +3428,17 @@ function MetadataProviderStub() {
                                 "value": "noDataDividerBinaryNewGroup"
                             },
                             {
-                                "name": "type",
-                                "value": "metadataGroup"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataGroup"
+                                    }
+                                ],
+                                "name": "type"
                             },
                             {
                                 "name": "createdBy",
@@ -3449,8 +3557,17 @@ function MetadataProviderStub() {
                                 },
                                 "name": "dataDivider"
                             }, {
-                                "name": "type",
-                                "value": "metadataGroup"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataGroup"
+                                    }
+                                ],
+                                "name": "type"
                             }, {
                                 "name": "createdBy",
                                 "value": "userId"
@@ -3535,8 +3652,17 @@ function MetadataProviderStub() {
                                 },
                                 "name": "dataDivider"
                             }, {
-                                "name": "type",
-                                "value": "metadataGroup"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataGroup"
+                                    }
+                                ],
+                                "name": "type"
                             }, {
                                 "name": "createdBy",
                                 "value": "userId"
@@ -3622,8 +3748,17 @@ function MetadataProviderStub() {
                                 },
                                 "name": "dataDivider"
                             }, {
-                                "name": "type",
-                                "value": "metadataRecordLink"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataRecordLink"
+                                    }
+                                ],
+                                "name": "type"
                             }, {
                                 "name": "createdBy",
                                 "value": "userId"
@@ -3681,8 +3816,17 @@ function MetadataProviderStub() {
                                 "value": "trueFalseCollection"
                             },
                             {
-                                "name": "type",
-                                "value": "metadataItemCollection"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataItemCollection"
+                                    }
+                                ],
+                                "name": "type"
                             },
                             {
                                 "name": "createdBy",
@@ -3785,8 +3929,17 @@ function MetadataProviderStub() {
                                 },
                                 "name": "dataDivider"
                             }, {
-                                "name": "type",
-                                "value": "metadataCollectionItem"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataItemCollection"
+                                    }
+                                ],
+                                "name": "type"
                             }, {
                                 "name": "createdBy",
                                 "value": "userId"
@@ -3854,8 +4007,17 @@ function MetadataProviderStub() {
                                 },
                                 "name": "dataDivider"
                             }, {
-                                "name": "type",
-                                "value": "metadataCollectionItem"
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "recordType"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "metadataCollectionItem"
+                                    }
+                                ],
+                                "name": "type"
                             }, {
                                 "name": "createdBy",
                                 "value": "userId"
@@ -8070,8 +8232,17 @@ function MetadataProviderStub() {
                             "name": "id",
                             "value": "metadataTextVariableViewPGroup"
                         }, {
-                            "name": "type",
-                            "value": "presentationGroup"
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "presentationGroup"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "userId"
@@ -8937,8 +9108,17 @@ function MetadataProviderStub() {
                                     },
                                     "name": "dataDivider"
                                 }, {
-                                    "name": "type",
-                                    "value": "presentationResourceLink"
+                                    "children": [
+                                        {
+                                            "name": "linkedRecordType",
+                                            "value": "recordType"
+                                        },
+                                        {
+                                            "name": "linkedRecordId",
+                                            "value": "presentationResourceLink"
+                                        }
+                                    ],
+                                    "name": "type"
                                 }, {
                                     "name": "createdBy",
                                     "value": "userId"
@@ -9020,8 +9200,17 @@ function MetadataProviderStub() {
                                     },
                                     "name": "dataDivider"
                                 }, {
-                                    "name": "type",
-                                    "value": "presentationResourceLink"
+                                    "children": [
+                                        {
+                                            "name": "linkedRecordType",
+                                            "value": "recordType"
+                                        },
+                                        {
+                                            "name": "linkedRecordId",
+                                            "value": "presentationResourceLink"
+                                        }
+                                    ],
+                                    "name": "type"
                                 }, {
                                     "name": "createdBy",
                                     "value": "userId"
@@ -9081,8 +9270,17 @@ function MetadataProviderStub() {
                                     },
                                     "name": "dataDivider"
                                 }, {
-                                    "name": "type",
-                                    "value": "presentationResourceLink"
+                                    "children": [
+                                        {
+                                            "name": "linkedRecordType",
+                                            "value": "recordType"
+                                        },
+                                        {
+                                            "name": "linkedRecordId",
+                                            "value": "presentationResourceLink"
+                                        }
+                                    ],
+                                    "name": "type"
                                 }, {
                                     "name": "createdBy",
                                     "value": "userId"
@@ -9142,8 +9340,17 @@ function MetadataProviderStub() {
                                     },
                                     "name": "dataDivider"
                                 }, {
-                                    "name": "type",
-                                    "value": "presentationResourceLink"
+                                    "children": [
+                                        {
+                                            "name": "linkedRecordType",
+                                            "value": "recordType"
+                                        },
+                                        {
+                                            "name": "linkedRecordId",
+                                            "value": "presentationResourceLink"
+                                        }
+                                    ],
+                                    "name": "type"
                                 }, {
                                     "name": "createdBy",
                                     "value": "userId"
@@ -9222,8 +9429,17 @@ function MetadataProviderStub() {
                                     },
                                     "name": "dataDivider"
                                 }, {
-                                    "name": "type",
-                                    "value": "metadataResourceLink"
+                                    "children": [
+                                        {
+                                            "name": "linkedRecordType",
+                                            "value": "recordType"
+                                        },
+                                        {
+                                            "name": "linkedRecordId",
+                                            "value": "metadataResourceLink"
+                                        }
+                                    ],
+                                    "name": "type"
                                 }, {
                                     "name": "createdBy",
                                     "value": "userId"
@@ -9385,8 +9601,17 @@ function MetadataProviderStub() {
                             "name": "id",
                             "value": "textPartDefaultGroup"
                         }, {
-                            "name": "type",
-                            "value": "metadataGroup"
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataGroup"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -9473,8 +9698,17 @@ function MetadataProviderStub() {
                             "name": "id",
                             "value": "textPartTypeDefaultCollectionVar"
                         }, {
-                            "name": "type",
-                            "value": "metadataCollectionVariable"
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataCollectionVariable"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -9544,9 +9778,18 @@ function MetadataProviderStub() {
                         "children": [{
                             "name": "id",
                             "value": "systemLanguagesCollectionVar"
-                        }, {
-                            "name": "type",
-                            "value": "metadataCollectionVariable"
+                        },  {
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataCollectionVariable"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -9610,9 +9853,18 @@ function MetadataProviderStub() {
                         "children": [{
                             "name": "id",
                             "value": "systemLanguagesCollection"
-                        }, {
-                            "name": "type",
-                            "value": "metadataItemCollection"
+                        },  {
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataItemCollection"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -9684,8 +9936,17 @@ function MetadataProviderStub() {
                             "name": "id",
                             "value": "svItem"
                         }, {
-                            "name": "type",
-                            "value": "metadataCollectionItem"
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataCollectionItem"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -9741,9 +10002,18 @@ function MetadataProviderStub() {
                         "children": [{
                             "name": "id",
                             "value": "enItem"
-                        }, {
-                            "name": "type",
-                            "value": "metadataCollectionItem"
+                        },  {
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataCollectionItem"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -9799,9 +10069,18 @@ function MetadataProviderStub() {
                         "children": [{
                             "name": "id",
                             "value": "recordInfoTextGroup"
-                        }, {
-                            "name": "type",
-                            "value": "metadataGroup"
+                        },  {
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataGroup"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -9911,9 +10190,18 @@ function MetadataProviderStub() {
                         "children": [{
                             "name": "id",
                             "value": "textPartSvGroup"
-                        }, {
-                            "name": "type",
-                            "value": "metadataGroup"
+                        },  {
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataGroup"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -9998,9 +10286,18 @@ function MetadataProviderStub() {
                         "children": [{
                             "name": "id",
                             "value": "systemLanguageSvCollectionVar"
-                        }, {
-                            "name": "type",
-                            "value": "metadataCollectionVariable"
+                        },  {
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataCollectionVariable"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -10070,9 +10367,18 @@ function MetadataProviderStub() {
                         "children": [{
                             "name": "id",
                             "value": "textPartEnGroup"
-                        }, {
-                            "name": "type",
-                            "value": "metadataGroup"
+                        },  {
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataGroup"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -10157,9 +10463,18 @@ function MetadataProviderStub() {
                         "children": [{
                             "name": "id",
                             "value": "textPartTypeAlternativeCollectionVar"
-                        }, {
-                            "name": "type",
-                            "value": "metadataCollectionVariable"
+                        },  {
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataCollectionVariable"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
@@ -10229,9 +10544,18 @@ function MetadataProviderStub() {
                         "children": [{
                             "name": "id",
                             "value": "systemLanguageEnCollectionVar"
-                        }, {
-                            "name": "type",
-                            "value": "metadataCollectionVariable"
+                        },  {
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "recordType"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "metadataCollectionVariable"
+                                }
+                            ],
+                            "name": "type"
                         }, {
                             "name": "createdBy",
                             "value": "12345"
