@@ -23,9 +23,9 @@ QUnit.module("recordListHandlerTest.js", {
 	beforeEach : function() {
 		this.record = CORATEST.recordTypeList.dataList.data[4].record;
 
-		var createRecordHandlerMethodCalledWithPresentationMode;
-		var createRecordHandlerMethodCalledWithRecord;
-		var createRecordHandlerMethodCalledWithLoadInBackground;
+		var openRecordMethodCalledWithPresentationMode;
+		var openRecordMethodCalledWithRecord;
+		var openRecordMethodCalledWithLoadInBackground;
 
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		var dependencies = {
@@ -39,10 +39,10 @@ QUnit.module("recordListHandlerTest.js", {
 		// var addedManagedGuiItem;
 
 		this.spec = {
-			"createRecordHandlerMethod" : function(presentationMode, record, loadInBackground) {
-				createRecordHandlerMethodCalledWithPresentationMode = presentationMode;
-				createRecordHandlerMethodCalledWithRecord = record;
-				createRecordHandlerMethodCalledWithLoadInBackground = loadInBackground;
+			"openRecordMethod" : function(presentationMode, record, loadInBackground) {
+				openRecordMethodCalledWithPresentationMode = presentationMode;
+				openRecordMethodCalledWithRecord = record;
+				openRecordMethodCalledWithLoadInBackground = loadInBackground;
 			},
 			"jsClient" : CORATEST.jsClientSpy(),
 			"views" : CORATEST.managedGuiItemSpy(),
@@ -82,14 +82,14 @@ QUnit.module("recordListHandlerTest.js", {
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
 		}
-		this.getCreateRecordHandlerMethodCalledWithPresentationMode = function() {
-			return createRecordHandlerMethodCalledWithPresentationMode;
+		this.getopenRecordMethodCalledWithPresentationMode = function() {
+			return openRecordMethodCalledWithPresentationMode;
 		}
-		this.getCreateRecordHandlerMethodCalledWithRecord = function() {
-			return createRecordHandlerMethodCalledWithRecord;
+		this.getopenRecordMethodCalledWithRecord = function() {
+			return openRecordMethodCalledWithRecord;
 		}
-		this.getCreateRecordHandlerMethodCalledWithLoadInBackground = function() {
-			return createRecordHandlerMethodCalledWithLoadInBackground;
+		this.getopenRecordMethodCalledWithLoadInBackground = function() {
+			return openRecordMethodCalledWithLoadInBackground;
 		}
 		this.firstRecord = CORATEST.recordTypeList.dataList.data[0].record;
 
@@ -248,9 +248,9 @@ QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(asse
 	var event = document.createEvent('Event');
 	firstListItem.onclick(event);
 
-	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithPresentationMode(), "view");
-	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithRecord(), this.firstRecord);
-	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithLoadInBackground(), "false");
+	assert.stringifyEqual(this.getopenRecordMethodCalledWithPresentationMode(), "view");
+	assert.stringifyEqual(this.getopenRecordMethodCalledWithRecord(), this.firstRecord);
+	assert.stringifyEqual(this.getopenRecordMethodCalledWithLoadInBackground(), "false");
 });
 
 QUnit.test("fetchListCheckGeneratedListClickableLoadInBackground", function(assert) {
@@ -263,7 +263,7 @@ QUnit.test("fetchListCheckGeneratedListClickableLoadInBackground", function(asse
 	event.ctrlKey = true;
 	firstListItem.onclick(event);
 
-	assert.stringifyEqual(this.getCreateRecordHandlerMethodCalledWithLoadInBackground(), "true");
+	assert.stringifyEqual(this.getopenRecordMethodCalledWithLoadInBackground(), "true");
 });
 
 QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
