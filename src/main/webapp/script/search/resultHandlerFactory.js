@@ -19,25 +19,18 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.searchHandlerFactory = function(dependencies) {
+	cora.resultHandlerFactory = function(dependencies) {
 
 		function factor(spec) {
-			var viewDep = {
-				"textProvider" : dependencies.textProvider
-			};
-			var dependenciesRH = {
-				"textProvider" : dependencies.textProvider
-			};
+			var viewDep = {};
 
 			var dep = {
-				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(viewDep),
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+				"resultHandlerViewFactory" : CORA.resultHandlerViewFactory(viewDep),
+				"textProvider" : dependencies.textProvider,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"resultHandlerFactory" : CORA.resultHandlerFactory(dependenciesRH),
-				"jsClient" : dependencies.jsClient
+				"jsClient" : dependencies.jsClient,
 			};
-			return CORA.searchHandler(dep, spec);
+			return CORA.resultHandler(dep, spec);
 		}
 
 		function getDependencies() {
@@ -45,7 +38,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type" : "searchHandlerFactory",
+			"type" : "resultHandlerFactory",
 			getDependencies : getDependencies,
 			factor : factor
 		});

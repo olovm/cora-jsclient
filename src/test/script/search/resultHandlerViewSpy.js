@@ -1,6 +1,5 @@
 /*
  * Copyright 2017 Uppsala University Library
- * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,37 +18,27 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.searchHandlerViewSpy = function() {
+	coraTest.resultHandlerViewSpy = function() {
 
 		var view = CORA.gui.createSpanWithClassName("spyView");
-		var presentationsAddedToSearchForm = [];
-		var searchResultsAddedToSearchResultHolder = [];
+		var presentationsAdded = [];
 
 		function getView() {
 			return view;
 		}
 
-		function addPresentationToSearchFormHolder(presentationToAdd) {
-			presentationsAddedToSearchForm.push(presentationToAdd);
+		function addChildPresentation(presentationToAdd) {
+			presentationsAdded.push(presentationToAdd);
 		}
-		function getPresentationsAddedToSearchForm(number) {
-			return presentationsAddedToSearchForm[number];
-		}
-
-		function addSearchResultToSearchResultHolder(resultToAdd) {
-			searchResultsAddedToSearchResultHolder.push(resultToAdd);
-		}
-		function getAddedSearchResultToSearchResultHolder(number) {
-			return searchResultsAddedToSearchResultHolder[number];
+		function getAddedPresentation(number) {
+			return presentationsAdded[number];
 		}
 
 		return Object.freeze({
-			"type" : "searchHandlerViewSpy",
+			"type" : "resultHandlerViewSpy",
 			getView : getView,
-			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder,
-			getPresentationsAddedToSearchForm : getPresentationsAddedToSearchForm,
-			addSearchResultToSearchResultHolder : addSearchResultToSearchResultHolder,
-			getAddedSearchResultToSearchResultHolder : getAddedSearchResultToSearchResultHolder
+			addChildPresentation : addChildPresentation,
+			getAddedPresentation : getAddedPresentation
 		});
 	};
 	return coraTest;
