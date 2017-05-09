@@ -68,13 +68,21 @@ var CORA = (function(cora) {
 
 		function createRecordHandler(presentationMode, record, loadInBackground) {
 			var recordHandlerSpec = {
-				"loadInBackground" : loadInBackground,
 				"presentationMode" : presentationMode,
 				"record" : record,
 				"jsClient" : dependencies.jsClient,
 				"recordTypeRecordIdForNew" : recordId
 			};
-			dependencies.recordHandlerFactory.factor(recordHandlerSpec);
+			var recordHandler = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
+			addRecordHandlerToJsClient(recordHandler, loadInBackground);
+		}
+
+		function addRecordHandlerToJsClient(recordHandler, loadInBackground) {
+			var managedGuiItem = recordHandler.getManagedGuiItem();
+			dependencies.jsClient.addGuiItem(managedGuiItem);
+			if (loadInBackground !== "true") {
+				dependencies.jsClient.showView(managedGuiItem);
+			}
 		}
 
 		function getDependencies() {

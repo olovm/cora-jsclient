@@ -107,14 +107,12 @@ QUnit.test("fetchListCheckSpec", function(assert) {
 	};
 	assert.stringifyEqual(factoredSpec.listLink, expectedListLink);
 	assert.strictEqual(factoredSpec.listPresentationViewId, "metadataCollectionItemListPGroup");
+	assert.strictEqual(factoredSpec.openRecordMethod, recordTypeHandler.createRecordHandler);
 });
 
-QUnit.test("showRecord", function(assert) {
+QUnit.test("testCreateRecordHandlerForRecord", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
-	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
-	spec.fetchListMethod();
-	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	catchRecordListHandlerSpec.openRecordMethod("view", this.record);
+	recordTypeHandler.createRecordHandler("view", this.record, "false");
 
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.presentationMode, "view");
@@ -124,32 +122,51 @@ QUnit.test("showRecord", function(assert) {
 	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec, this);
 });
 
-QUnit.test("createRecordHandlerInBackground", function(assert) {
+QUnit.test("testCreateRecordHandlerInBackground", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
-	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
-	spec.fetchListMethod();
-	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	catchRecordListHandlerSpec.openRecordMethod("view", this.record, "true");
+	recordTypeHandler.createRecordHandler("view", this.record, "true");
 
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
-	assert.strictEqual(factoredSpec.loadInBackground, "true");
 	assert.strictEqual(factoredSpec.presentationMode, "view");
 	assert.strictEqual(factoredSpec.record, this.record);
 
 	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec, this);
 });
 
-QUnit.test("showNew", function(assert) {
+QUnit.test("testCreateRecordHandlerForNew", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
-	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
-	spec.fetchListMethod();
-
-	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	catchRecordListHandlerSpec.openRecordMethod("new", undefined);
+	recordTypeHandler.createRecordHandler("new", undefined, "false");
 
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.presentationMode, "new");
 	assert.strictEqual(factoredSpec.record, undefined);
 
 	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec, this);
+});
+
+QUnit.test("testManagedGuiItemForRecordHandlerAddedToJsClient", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	recordTypeHandler.createRecordHandler("view", this.record, "false");
+
+	var recordHandler = this.dependencies.recordHandlerFactory.getFactored(0);
+	var managedGuiItem = recordHandler.getManagedGuiItem();
+	assert.strictEqual(this.dependencies.jsClient.getAddedGuiItem(0), managedGuiItem);
+});
+
+QUnit.test("testManagedGuiItemForRecordHandlerShownInJsClient", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	recordTypeHandler.createRecordHandler("view", this.record, "false");
+
+	var recordHandler = this.dependencies.recordHandlerFactory.getFactored(0);
+	var managedGuiItem = recordHandler.getManagedGuiItem();
+	assert.strictEqual(this.dependencies.jsClient.getViewShowingInWorkView(0), managedGuiItem);
+});
+
+QUnit.test("testManagedGuiItemForRecordHandlerNotShownInJsClientWhenBackground", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	recordTypeHandler.createRecordHandler("view", this.record, "true");
+
+	var recordHandler = this.dependencies.recordHandlerFactory.getFactored(0);
+	var managedGuiItem = recordHandler.getManagedGuiItem();
+	assert.strictEqual(this.dependencies.jsClient.getViewShowingInWorkView(0), undefined);
 });

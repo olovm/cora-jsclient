@@ -106,6 +106,14 @@ var CORA = (function(cora) {
 			view.showWorkView();
 		}
 
+		function getListView() {
+			return view.getListView();
+		}
+
+		function addListPresentation(presentationToAdd) {
+			view.addListPresentation(presentationToAdd);
+		}
+
 		out = Object.freeze({
 			"type" : "managedGuiItem",
 			getDependencies : getDependencies,
@@ -120,7 +128,9 @@ var CORA = (function(cora) {
 			clearMenuView : clearMenuView,
 			clearWorkView : clearWorkView,
 			hideWorkView : hideWorkView,
-			showWorkView : showWorkView
+			showWorkView : showWorkView,
+			getListView : getListView,
+			addListPresentation : addListPresentation
 		});
 
 		return out;

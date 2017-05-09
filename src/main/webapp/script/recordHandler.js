@@ -35,11 +35,6 @@ var CORA = (function(cora) {
 		function start() {
 			managedGuiItem = createManagedGuiItem();
 
-			spec.jsClient.addGuiItem(managedGuiItem);
-			if (spec.loadInBackground !== "true") {
-				spec.jsClient.showView(managedGuiItem);
-			}
-
 			messageHolder = CORA.messageHolder();
 			managedGuiItem.addWorkPresentation(messageHolder.getView());
 
@@ -278,13 +273,15 @@ var CORA = (function(cora) {
 
 		function copyData() {
 			var recordHandlerSpec = {
-				"loadInBackground" : "false",
 				"presentationMode" : "new",
 				"record" : recordGui.dataHolder.getData(),
 				"jsClient" : spec.jsClient,
 				"recordTypeRecordIdForNew" : recordTypeId
 			};
-			dependencies.recordHandlerFactory.factor(recordHandlerSpec);
+			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
+			var managedGuiItemNew = recordHandlerNew.getManagedGuiItem();
+			spec.jsClient.addGuiItem(managedGuiItemNew);
+			spec.jsClient.showView(managedGuiItemNew);
 		}
 
 		function recordHasDeleteLink() {
@@ -374,6 +371,10 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
+		function getManagedGuiItem() {
+			return managedGuiItem;
+		}
+
 		start();
 		return Object.freeze({
 			"type" : "recordHandler",
@@ -387,7 +388,8 @@ var CORA = (function(cora) {
 			copyData : copyData,
 			showData : showData,
 			sendUpdateDataToServer : sendUpdateDataToServer,
-			shouldRecordBeDeleted : shouldRecordBeDeleted
+			shouldRecordBeDeleted : shouldRecordBeDeleted,
+			getManagedGuiItem : getManagedGuiItem
 		});
 	};
 	return cora;

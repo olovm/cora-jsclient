@@ -43,16 +43,14 @@ QUnit.module("recordHandlerTest.js", {
 		this.spec = {
 			"presentationMode" : "view",
 			"record" : this.record,
-			"jsClient" : CORATEST.jsClientSpy(),
-			"loadInBackground" : "false"
+			"jsClient" : CORATEST.jsClientSpy()
 		};
 
 		this.specForNew = {
 			"presentationMode" : "new",
 			"recordTypeRecordIdForNew" : "recordType",
 			"record" : this.record,
-			"jsClient" : CORATEST.jsClientSpy(),
-			"loadInBackground" : "false"
+			"jsClient" : CORATEST.jsClientSpy()
 		};
 
 		this.answerCall = function(no) {
@@ -123,23 +121,10 @@ QUnit.test("initTestManagedGuiItemFactoryCalled", function(assert) {
 	assert.ok(managedGuiItemSpy !== undefined);
 });
 
-QUnit.test("initTestManagedGuiItemAddGuiItemCalled", function(assert) {
+QUnit.test("testGetManagedGuiItem", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
-	assert.strictEqual(this.spec.jsClient.getAddedGuiItem(0), managedGuiItem);
-});
-
-QUnit.test("initTestManagedGuiItemAddedShowOnLoad", function(assert) {
-	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
-	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
-	assert.strictEqual(managedGuiItemSpy, this.spec.jsClient.getViewShowingInWorkView(0));
-});
-
-QUnit.test("initTestManagedGuiItemAddedNotShowOnLoad", function(assert) {
-	this.spec.loadInBackground = "true";
-	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
-	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
-	assert.strictEqual(undefined, this.spec.jsClient.getViewShowingInWorkView(0));
+	assert.strictEqual(recordHandler.getManagedGuiItem(), managedGuiItem);
 });
 
 QUnit.test("testInitRecordHandlerViewSpec", function(assert) {
@@ -246,7 +231,6 @@ QUnit.test("testCopyAsNew", function(assert) {
 	var dataHolderData = this.dependencies.recordGuiFactory.getFactored(0).dataHolder.getData();
 
 	var expectedSpec = {
-		"loadInBackground" : "false",
 		"presentationMode" : "new",
 		"record" : dataHolderData,
 		"jsClient" : this.spec.jsClient,
@@ -254,12 +238,29 @@ QUnit.test("testCopyAsNew", function(assert) {
 	};
 
 	var createdSpecForCopy = this.dependencies.recordHandlerFactory.getSpec(0);
-	assert.strictEqual(createdSpecForCopy.loadInBackground, expectedSpec.loadInBackground);
 	assert.strictEqual(createdSpecForCopy.presentationMode, expectedSpec.presentationMode);
 	assert.stringifyEqual(createdSpecForCopy.record, expectedSpec.record);
 	assert.strictEqual(createdSpecForCopy.jsClient, expectedSpec.jsClient);
 	assert.strictEqual(createdSpecForCopy.recordTypeRecordIdForNew,
 			expectedSpec.recordTypeRecordIdForNew);
+});
+
+QUnit.test("testCopyAsNewManagedGuiItemAddedToJsClient", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+	recordHandler.copyData();
+	var factoredRecordHandler = this.dependencies.recordHandlerFactory.getFactored(0);
+	assert.strictEqual(this.spec.jsClient.getAddedGuiItem(0), factoredRecordHandler
+			.getManagedGuiItem());
+});
+
+QUnit.test("testCopyAsNewManagedGuiItemShownInJsClient", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+	recordHandler.copyData();
+	var factoredRecordHandler = this.dependencies.recordHandlerFactory.getFactored(0);
+	assert.strictEqual(this.spec.jsClient.getViewShowingInWorkView(0), factoredRecordHandler
+			.getManagedGuiItem());
 });
 
 QUnit.test("initCallToServer", function(assert) {

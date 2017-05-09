@@ -25,16 +25,25 @@ var CORA = (function(cora) {
 			var viewDep = {
 				"textProvider" : dependencies.textProvider
 			};
-			var dependenciesRH = {
-				"textProvider" : dependencies.textProvider
-			};
 
+			var depRecordHandlerFactory = {
+				"recordHandlerViewFactory" : CORA.recordHandlerViewFactory(),
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"recordGuiFactory" : dependencies.recordGuiFactory,
+				"managedGuiItemFactory" : dependencies.managedGuiItemFactory
+			};
+			var recordHandlerFactory = CORA.recordHandlerFactory(depRecordHandlerFactory);
+
+			var depResultHandler = {
+				"textProvider" : dependencies.textProvider,
+				"recordHandlerFactory" : recordHandlerFactory
+			};
 			var dep = {
 				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(viewDep),
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"resultHandlerFactory" : CORA.resultHandlerFactory(dependenciesRH),
+				"resultHandlerFactory" : CORA.resultHandlerFactory(depResultHandler),
 				"jsClient" : dependencies.jsClient
 			};
 			return CORA.searchHandler(dep, spec);
