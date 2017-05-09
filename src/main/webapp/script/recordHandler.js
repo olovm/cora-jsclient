@@ -219,7 +219,6 @@ var CORA = (function(cora) {
 		function processFetchedRecord(answer) {
 			try {
 				fetchedRecord = getRecordPartFromAnswer(answer);
-				// data should be dataFromBeforeLogin or from answer depending on...
 				var data = fetchedRecord.data;
 				tryToProcessFetchedRecord(data);
 			} catch (error) {
@@ -278,14 +277,11 @@ var CORA = (function(cora) {
 		}
 
 		function copyData() {
-			// spec.openRecordMethod("new", recordGui.dataHolder.getData());
 			var recordHandlerSpec = {
 				"loadInBackground" : "false",
 				"presentationMode" : "new",
 				"record" : recordGui.dataHolder.getData(),
 				"jsClient" : spec.jsClient,
-				// "recordTypeHandler" : self,
-				// "openRecordMethod" : createRecordHandler,
 				"recordTypeRecordIdForNew" : recordTypeId
 			};
 			dependencies.recordHandlerFactory.factor(recordHandlerSpec);
