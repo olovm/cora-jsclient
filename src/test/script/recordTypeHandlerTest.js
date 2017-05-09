@@ -20,7 +20,8 @@
 "use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.assertCorrectFactoredSpec = function(assert, factoredSpec) {
+	coraTest.assertCorrectFactoredSpec = function(assert, factoredSpec, context) {
+		assert.strictEqual(factoredSpec.jsClient, context.dependencies.jsClient);
 		assert.strictEqual(factoredSpec.recordTypeRecordIdForNew, "metadataCollectionItem");
 	};
 
@@ -118,9 +119,9 @@ QUnit.test("showRecord", function(assert) {
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.presentationMode, "view");
 	assert.strictEqual(factoredSpec.record, this.record);
-	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
+	assert.strictEqual(factoredSpec.recordTypeHandler, undefined);
 
-	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec, this);
 });
 
 QUnit.test("createRecordHandlerInBackground", function(assert) {
@@ -134,9 +135,8 @@ QUnit.test("createRecordHandlerInBackground", function(assert) {
 	assert.strictEqual(factoredSpec.loadInBackground, "true");
 	assert.strictEqual(factoredSpec.presentationMode, "view");
 	assert.strictEqual(factoredSpec.record, this.record);
-	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
 
-	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec, this);
 });
 
 QUnit.test("showNew", function(assert) {
@@ -150,7 +150,6 @@ QUnit.test("showNew", function(assert) {
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.presentationMode, "new");
 	assert.strictEqual(factoredSpec.record, undefined);
-	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
 
-	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec, this);
 });

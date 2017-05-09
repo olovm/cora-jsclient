@@ -44,12 +44,15 @@ QUnit.module("recordHandlerTest.js", {
 			"presentationMode" : "view",
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy(),
+			"loadInBackground" : "false"
 		};
+
 		this.specForNew = {
 			"presentationMode" : "new",
 			"recordTypeRecordIdForNew" : "recordType",
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy(),
+			"loadInBackground" : "false"
 		};
 
 		this.answerCall = function(no) {
