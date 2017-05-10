@@ -34,9 +34,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationVar"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -209,9 +218,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadata"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -375,9 +393,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationSurroundingContainer"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -572,9 +599,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "textSystemOne"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -747,9 +783,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "recordType"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -913,9 +958,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataGroup"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -1088,9 +1142,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataCollectionItem"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -1263,9 +1326,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentation"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -1429,9 +1501,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataRecordLink"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -1604,9 +1685,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataTextVariable"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -1779,9 +1869,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationRepeatingContainer"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -1974,9 +2073,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataCollectionVariable"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -2149,9 +2257,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "text"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -2315,9 +2432,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationGroup"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -2490,9 +2616,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataItemCollection"
 													},
 													{
-														"name" : "type",
-														"value" : "recordType"
-													},
+										                "children": [
+										                    {
+										                        "name": "linkedRecordType",
+										                        "value": "recordType"
+										                    },
+										                    {
+										                        "name": "linkedRecordId",
+										                        "value": "recordType"
+										                    }
+										                ],
+										                "name": "type"
+										            },
 													{
 														"name" : "createdBy",
 														"value" : "userId"
@@ -2673,9 +2808,18 @@ var CORATEST = (function(coraTest) {
 												"value" : "presentationVar"
 											},
 											{
-												"name" : "type",
-												"value" : "recordType"
-											},
+								                "children": [
+								                    {
+								                        "name": "linkedRecordType",
+								                        "value": "recordType"
+								                    },
+								                    {
+								                        "name": "linkedRecordId",
+								                        "value": "recordType"
+								                    }
+								                ],
+								                "name": "type"
+								            },
 											{
 												"name" : "createdBy",
 												"value" : "userId"

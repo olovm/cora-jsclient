@@ -111,7 +111,8 @@ var CORA = (function(cora) {
 		function getRecordTypeIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			return cRecordInfo.getFirstAtomicValueByNameInData("type");
+			var cTypeGroup = CORA.coraData(cRecordInfo.getFirstChildByNameInData("type"));
+			return cTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function createView(record) {
