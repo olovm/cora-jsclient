@@ -709,7 +709,6 @@ QUnit.test("fetchListCheckError", function(assert) {
 	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	var item = managedGuiItem.getAddedWorkPresentation(0);
 	assert.strictEqual(item.textContent, "404");
-
 });
 
 QUnit.test("checkRightGuiCreatedPresentationMetadataIsMissing", function(assert) {
@@ -726,11 +725,11 @@ QUnit.test("checkRightGuiCreatedPresentationMetadataIsMissing", function(assert)
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 
-	assert.strictEqual(recordHandlerViewSpy.getAddedEditView(0).textContent,
-			"\"something went wrong, probably missing metadata, " + "Error: missing metadata\"");
-	assert.strictEqual(recordHandlerViewSpy.getAddedEditView(1).textContent.substring(0, 20),
-			"{\"children\":[{\"child");
-	assert.ok(recordHandlerViewSpy.getAddedEditView(2).length > 20);
+	assert.strictEqual(recordHandlerViewSpy.getObjectAddedToEditView(0),
+			"something went wrong, probably missing metadata, " + "Error: missing metadata");
+	assert.stringifyEqual(recordHandlerViewSpy.getObjectAddedToEditView(1), this.record.data);
+
+	assert.ok(recordHandlerViewSpy.getObjectAddedToEditView(2).length > 20);
 });
 
 QUnit.test("rightGuiCreatedPresentationMetadataIsMissingForNew", function(assert) {
@@ -744,9 +743,8 @@ QUnit.test("rightGuiCreatedPresentationMetadataIsMissingForNew", function(assert
 	var recordHandler = CORA.recordHandler(this.dependencies, this.specForNew);
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 
-	assert.strictEqual(recordHandlerViewSpy.getAddedEditView(0).textContent,
-			"\"something went wrong, probably missing metadata, " + "Error: missing metadata\"");
-	assert.strictEqual(recordHandlerViewSpy.getAddedEditView(1).textContent.substring(0, 20),
-			"{\"data\":{\"children\":");
-	assert.ok(recordHandlerViewSpy.getAddedEditView(2).length > 20);
+	assert.strictEqual(recordHandlerViewSpy.getObjectAddedToEditView(0),
+			"something went wrong, probably missing metadata, " + "Error: missing metadata");
+	assert.strictEqual(recordHandlerViewSpy.getObjectAddedToEditView(1), this.record);
+	assert.ok(recordHandlerViewSpy.getObjectAddedToEditView(2).length > 20);
 });

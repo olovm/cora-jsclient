@@ -347,7 +347,7 @@ var CORA = (function(cora) {
 		}
 
 		function createRawDataWorkView(data) {
-			recordHandlerView.addToEditView(document.createTextNode(JSON.stringify(data)));
+			recordHandlerView.addObjectToEditView(data);
 		}
 
 		function callError(answer) {
