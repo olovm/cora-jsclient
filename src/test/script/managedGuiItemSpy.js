@@ -23,6 +23,7 @@ var CORATEST = (function(coraTest) {
 		var addedWorkPresentations = [];
 		var menuView = CORA.gui.createSpanWithClassName("menuViewSpy");
 		var workView = CORA.gui.createSpanWithClassName("menuViewSpy");
+		var listView = CORA.gui.createSpanWithClassName("listViewSpy");
 		var changed = false;
 		var active = false;
 		var menuViewCleared = 0;
@@ -31,7 +32,7 @@ var CORATEST = (function(coraTest) {
 		var workViewHidden = 0;
 		var workViewShown = 0;
 		var removed = 0;
-		
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -44,6 +45,9 @@ var CORATEST = (function(coraTest) {
 
 		function getWorkView() {
 			return workView;
+		}
+		function getListView() {
+			return listView;
 		}
 		function addMenuPresentation(presentationToAdd) {
 			addedMenuPresentations.push(presentationToAdd);
@@ -126,7 +130,8 @@ var CORATEST = (function(coraTest) {
 			showWorkView : showWorkView,
 			getWorkViewShown : getWorkViewShown,
 			remove : remove,
-			getRemoved : getRemoved
+			getRemoved : getRemoved,
+			getListView : getListView,
 		});
 
 		return out;

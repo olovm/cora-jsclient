@@ -41,6 +41,10 @@ QUnit.test("testInit", function(assert) {
 	var recordGuiFactory = CORA.recordGuiFactory(this.dependencies);
 	assert.strictEqual(recordGuiFactory.type, "recordGuiFactory");
 });
+QUnit.test("testGetDependencies", function(assert) {
+	var recordGuiFactory = CORA.recordGuiFactory(this.dependencies);
+	assert.strictEqual(recordGuiFactory.getDependencies(), this.dependencies);
+});
 
 QUnit.test("testFactor", function(assert) {
 	var recordGui = this.recordGuiFactory.factor(this.spec);

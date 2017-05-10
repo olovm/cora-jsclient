@@ -86,9 +86,13 @@ var CORA = (function(cora) {
 			return CORA.recordGui(dependenciesRG, spec);
 
 		};
+		function getDependencies() {
+			return dependencies;
+		}
 		var out = Object.freeze({
 			"type" : "recordGuiFactory",
-			factor : factor
+			factor : factor,
+			getDependencies : getDependencies
 		});
 		self = out;
 		return out;

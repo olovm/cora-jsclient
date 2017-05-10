@@ -29,7 +29,7 @@ var CORA = (function(cora) {
 				"textProvider" : dependencies.textProvider,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"jsClient" : dependencies.jsClient,
-				"recordHandlerFactory" : dependencies.recordHandlerFactory,
+				"recordHandlerFactory" : dependencies.recordHandlerFactory
 			};
 			return CORA.resultHandler(dep, spec);
 		}

@@ -22,17 +22,10 @@ var CORA = (function(cora) {
 	cora.resultHandler = function(dependencies, spec) {
 
 		var view;
-		// var managedGuiItem;
-		// var recordGui;
 
 		function start() {
 			view = createView();
 			createAndAddPresentationsForEachResultItem();
-			// managedGuiItem = createManagedGuiItem();
-			// managedGuiItem.addWorkPresentation(view.getView());
-			// addSearchToSearchRecordHandler(managedGuiItem);
-			// showSearchInJsClient(managedGuiItem);
-			// tryToCreateSearchForm();
 		}
 
 		function createView() {
@@ -58,109 +51,14 @@ var CORA = (function(cora) {
 			// }
 		}
 		function addResultItemToWorkView(result) {
-			// var result = spec.dataList.data[0].record.data;
-			var recordTypeId = getRecordTypeIdFromRecord(result);
-			var recordTypeMetadata = dependencies.jsClient.getMetadataForRecordTypeId(recordTypeId)
-			var metadataId = recordTypeMetadata.metadataId;
-			var dataDivider = getDataDividerFromData(result);
-
-			var recordGuiSpec = {
-				"metadataId" : metadataId,
-				"data" : result,
-				"dataDivider" : dataDivider
+			var recordHandlerSpec = {
+				"presentationMode" : "view",
+				"record" : result,
+				"jsClient" : dependencies.jsClient,
 			};
-			var recordGui = dependencies.recordGuiFactory.factor(recordGuiSpec);
-
-			var listPresentationId = recordTypeMetadata.listPresentationViewId;
-			var listPresentation = recordGui.getPresentationHolder(listPresentationId, metadataId);
-			recordGui.initMetadataControllerStartingGui();
-			view.addChildPresentation(listPresentation.getView());
+			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
+			view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getListView());
 		}
-
-		function getRecordTypeIdFromRecord(record) {
-			var cData = CORA.coraData(record);
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			return cRecordInfo.getFirstAtomicValueByNameInData("type");
-		}
-
-		function getDataDividerFromData(data) {
-			var cData = CORA.coraData(data);
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			var cDataDivider = CORA.coraData(cRecordInfo.getFirstChildByNameInData("dataDivider"));
-			return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
-		}
-
-		//
-		// function createManagedGuiItem() {
-		// var managedGuiItemSpec = {
-		// "activateMethod" : spec.showViewMethod,
-		// "removeMethod" : spec.removeViewMethod
-		// };
-		// return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-		// }
-		//
-		// function addSearchToSearchRecordHandler(managedGuiItemToAdd) {
-		// spec.addToSearchRecordHandlerMethod(managedGuiItemToAdd);
-		// }
-		//
-		// function showSearchInJsClient(managedGuiItemToShow) {
-		// spec.showViewMethod(managedGuiItemToShow);
-		// }
-		//
-		// function tryToCreateSearchForm() {
-		// try {
-		// createSearchForm();
-		// } catch (error) {
-		// createRawDataWorkView("something went wrong, probably missing metadata, " + error);
-		// view.addPresentationToSearchFormHolder(document.createTextNode(error.stack));
-		// }
-		// }
-		//
-		// function createSearchForm() {
-		// var metadataId = spec.metadataId;
-		// recordGui = createRecordGui(metadataId);
-		// addSearchFormFromRecordGuiToView(recordGui, metadataId);
-		// recordGui.initMetadataControllerStartingGui();
-		// }
-		//
-		// function createRecordGui(metadataId) {
-		// var recordGuiSpec = {
-		// "metadataId" : metadataId
-		// };
-		// return dependencies.recordGuiFactory.factor(recordGuiSpec);
-		// }
-		//
-		// function addSearchFormFromRecordGuiToView(recordGuiToAdd, metadataIdUsedInData) {
-		// var presentationView = recordGuiToAdd.getPresentation(spec.presentationId,
-		// metadataIdUsedInData).getView();
-		// view.addPresentationToSearchFormHolder(presentationView);
-		// }
-		//
-		// function createRawDataWorkView(data) {
-		// view.addPresentationToSearchFormHolder(document.createTextNode(JSON.stringify(data)));
-		// }
-		//
-		// function search() {
-		// if (recordGui.validateData()) {
-		// sendSearchQueryToServer();
-		// }
-		// }
-		//
-		// function sendSearchQueryToServer() {
-		// var link = spec.searchLink;
-		// var callSpec = {
-		// "url" : link.url,
-		// "requestMethod" : link.requestMethod,
-		// "accept" : link.accept,
-		// "parameters" : {
-		// "searchData" : JSON.stringify(recordGui.dataHolder.getData())
-		// },
-		// // "loadMethod" : function(answer) {
-		// // alert(JSON.stringify(answer));
-		// // }
-		// };
-		// dependencies.ajaxCallFactory.factor(callSpec);
-		// }
 
 		function getDependencies() {
 			return dependencies;
@@ -180,7 +78,6 @@ var CORA = (function(cora) {
 			getView : getView,
 			getDependencies : getDependencies,
 			getSpec : getSpec
-		// search : search
 		});
 	};
 	return cora;

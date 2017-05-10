@@ -19,11 +19,12 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.xmlHttpRequestFactory = function() {
-		function factor(){
+		function factor() {
 			return new XMLHttpRequest();
 		}
 		var out = Object.freeze({
-			factor:factor
+			"type" : "xmlHttpRequestFactory",
+			factor : factor
 		});
 		return out;
 	};

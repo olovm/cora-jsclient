@@ -123,7 +123,7 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.recordList+json");
 	assert.strictEqual(ajaxCallSpec.contentType, undefined);
 	assert.strictEqual(ajaxCallSpec.data, undefined);
-	assert.strictEqual(ajaxCallSpec.loadMethod, recordListHandler.processFetchedRecords);
+	assert.strictEqual(ajaxCallSpec.loadMethod, recordListHandler.createRecordTypeListFromAnswer);
 });
 
 QUnit.test("initTestManagedGuiItemFactoryCalled", function(assert) {

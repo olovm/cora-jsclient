@@ -21,11 +21,13 @@ var CORA = (function(cora) {
 	cora.recordListHandlerFactory = function(dependencies) {
 
 		function factor(recordListHandlerSpec) {
+
 			var dep = {
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"recordHandlerFactory" : dependencies.recordHandlerFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
+
 			};
 			return CORA.recordListHandler(dep, recordListHandlerSpec);
 		}

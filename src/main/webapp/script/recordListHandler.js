@@ -29,7 +29,7 @@ var CORA = (function(cora) {
 			showViewInClient(managedGuiItem);
 
 			addTextToMenuView();
-			fetchDataFromServer(processFetchedRecords);
+			fetchDataFromServer(createRecordTypeListFromAnswer);
 		}
 
 		function createManagedGuiItem() {
@@ -65,10 +65,6 @@ var CORA = (function(cora) {
 				"errorMethod" : callError
 			};
 			dependencies.ajaxCallFactory.factor(callSpec);
-		}
-
-		function processFetchedRecords(answer) {
-			createRecordTypeListFromAnswer(answer);
 		}
 
 		function createRecordTypeListFromAnswer(answer) {
@@ -155,7 +151,7 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			open : open,
-			processFetchedRecords : processFetchedRecords
+			createRecordTypeListFromAnswer : createRecordTypeListFromAnswer
 		});
 
 		start();

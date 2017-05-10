@@ -18,12 +18,15 @@
  */
 "use strict";
 
-QUnit.module("xmlHttpRequestFactoryTest.js", {
+QUnit.module("xmlHttpRequestFactoryTest.js", {});
+
+QUnit.test("testInit", function(assert) {
+	var factory = CORA.xmlHttpRequestFactory();
+	assert.strictEqual(factory.type, "xmlHttpRequestFactory");
 });
 
-QUnit.test("testFactory", function(assert) {
+QUnit.test("testFactor", function(assert) {
 	var factory = CORA.xmlHttpRequestFactory();
 	var xmlHttpRequest = factory.factor();
 	assert.strictEqual(xmlHttpRequest.prototype, new XMLHttpRequest().prototype);
 });
-

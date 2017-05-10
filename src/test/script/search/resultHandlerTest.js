@@ -33,30 +33,10 @@ QUnit.module("resultHandlerTest.js", {
 			"resultHandlerViewFactory" : CORATEST.standardFactorySpy("resultHandlerViewSpy"),
 			"textProvider" : CORATEST.textProviderSpy(),
 			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
-			"jsClient" : CORATEST.jsClientSpy()
-		// "managedGuiItemFactory" :
-		// CORATEST.standardFactorySpy("managedGuiItemSpy"),
-		// "recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
-		// "ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy")
+			"jsClient" : CORATEST.jsClientSpy(),
+			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy")
 		}
 		this.spec = {
-			// "addToSearchRecordHandlerMethod" : function(managedGuiItem) {
-			// addedManagedGuiItem.push(managedGuiItem);
-			// },
-			// "showViewMethod" : function(managedGuiItem) {
-			// addedToShowView.push(managedGuiItem);
-			// },
-			// "removeViewMethod" : function() {
-			// },
-			// "metadataId" : "someMetadataId",
-			// "presentationId" : "somePresentationId",
-			// "searchLink" : {
-			// "requestMethod" : "GET",
-			// "rel" : "search",
-			// "url" :
-			// "http://epc.ub.uu.se/cora/rest/record/searchResult/coraTextSearch",
-			// "accept" : "application/vnd.uub.recordList+json"
-			// }
 			"dataList" : CORATEST.searchRecordList.dataList
 		}
 	},
@@ -95,39 +75,35 @@ QUnit.test("testInitViewSpec", function(assert) {
 	assert.strictEqual(factoredViewSpec.totalNo, "38");
 });
 
-QUnit.test("testInitViewCreatesGuiSpec", function(assert) {
+QUnit.test("testInitViewCreatesRecordHandlerForEachResultItem", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-	var factoredGuiSpec = this.dependencies.recordGuiFactory.getSpec(0);
-	assert.strictEqual(factoredGuiSpec.metadataId, "searchGroup");
-	assert.strictEqual(factoredGuiSpec.data, this.spec.dataList.data[0].record.data);
-	assert.strictEqual(factoredGuiSpec.dataDivider, "cora");
 
-	var factoredGuiSpecLast = this.dependencies.recordGuiFactory.getSpec(37);
-	assert.strictEqual(factoredGuiSpecLast.metadataId, "searchGroup");
-	assert.strictEqual(factoredGuiSpecLast.data, this.spec.dataList.data[37].record.data);
-	assert.strictEqual(factoredGuiSpecLast.dataDivider, "cora");
+	var recordHandlerSpec = this.dependencies.recordHandlerFactory.getSpec(0);
+	assert.strictEqual(recordHandlerSpec.presentationMode, "view");
+	assert.strictEqual(recordHandlerSpec.record, this.spec.dataList.data[0].record.data);
+	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
 
-	assert.strictEqual(this.dependencies.recordGuiFactory.getSpec(38), undefined);
+	var recordHandlerLastSpec = this.dependencies.recordHandlerFactory.getSpec(37);
+	assert.strictEqual(recordHandlerLastSpec.presentationMode, "view");
+	assert.strictEqual(recordHandlerLastSpec.record, this.spec.dataList.data[37].record.data);
+	assert.strictEqual(recordHandlerLastSpec.jsClient, this.dependencies.jsClient);
+
+	assert.strictEqual(this.dependencies.recordHandlerFactory.getSpec(38), undefined);
 });
-QUnit.test("testInitViewCreatesGui", function(assert) {
+
+QUnit.test("testInitViewAddsRecordHandlersListViewForEachResultItem", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	var factoredView = this.dependencies.resultHandlerViewFactory.getFactored(0);
 
-	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
-	assert.strictEqual(factoredGui.getPresentationIdUsed(0), "searchListPGroup");
-	assert.strictEqual(factoredGui.getMetadataIdsUsedInData(0), "searchGroup");
-	assert.strictEqual(factoredGui.getInitCalled(), 1);
-	assert.strictEqual(factoredView.getAddedPresentation(0), factoredGui
-			.getReturnedPresentations(0).getView());
+	var recordHandler = this.dependencies.recordHandlerFactory.getFactored(0);
+	assert.strictEqual(factoredView.getAddedPresentation(0), recordHandler.getManagedGuiItem()
+			.getListView());
 
-	var factoredGuiLast = this.dependencies.recordGuiFactory.getFactored(37);
-	assert.strictEqual(factoredGuiLast.getPresentationIdUsed(0), "searchListPGroup");
-	assert.strictEqual(factoredGuiLast.getMetadataIdsUsedInData(0), "searchGroup");
-	assert.strictEqual(factoredGuiLast.getInitCalled(), 1);
-	assert.strictEqual(factoredView.getAddedPresentation(37), factoredGuiLast
-			.getReturnedPresentations(0).getView());
+	var recordHandlerLast = this.dependencies.recordHandlerFactory.getFactored(37);
+	assert.strictEqual(factoredView.getAddedPresentation(37), recordHandlerLast.getManagedGuiItem()
+			.getListView());
 
-	assert.strictEqual(this.dependencies.recordGuiFactory.getFactored(38), undefined);
+	assert.strictEqual(this.dependencies.recordHandlerFactory.getSpec(39), undefined);
 });
 
 QUnit.test("testGetViewIsPassedOnToView", function(assert) {
@@ -136,114 +112,3 @@ QUnit.test("testGetViewIsPassedOnToView", function(assert) {
 
 	assert.strictEqual(resultHandler.getView(), factoredView.getView());
 });
-
-// QUnit.test("testInitViewSpec", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredSpec = this.dependencies.resultHandlerViewFactory.getSpec(0);
-// assert.strictEqual(factoredSpec.searchMethod, resultHandler.search);
-// });
-//
-// QUnit.test("testInitManagedGuiItemCreatedUsingFactory", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
-// assert.strictEqual(factoredItem.type, "managedGuiItemSpy");
-// var factoredItemSpec = this.dependencies.managedGuiItemFactory.getSpec(0);
-// assert.strictEqual(factoredItemSpec.activateMethod, this.spec.showViewMethod);
-// assert.strictEqual(factoredItemSpec.removeMethod, this.spec.removeViewMethod);
-// });
-//
-// QUnit.test("testInitViewAddedToManagedGuiItemsMenuView", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var addedManagedGuiItem = this.getAddedManagedGuiItem(0);
-// var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
-// assert.strictEqual(factoredItem, addedManagedGuiItem);
-// });
-//
-// QUnit.test("testInitViewAddedToManagedGuiItemsWorkView", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredView = this.dependencies.resultHandlerViewFactory.getFactored(0).getView();
-// var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
-// assert.strictEqual(factoredItem.getAddedWorkPresentation(0), factoredView);
-// });
-//
-// QUnit.test("testInitShowViewMethodCalled", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var addedToShowView = this.getAddedToShowView(0);
-// var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
-// assert.strictEqual(factoredItem, addedToShowView);
-// });
-//
-// QUnit.test("testInitRecordGuiFactoryCalled", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
-// assert.strictEqual(factoredSpec.metadataId, "someMetadataId");
-// });
-//
-// QUnit.test("testInitRecordGuiGetPresentationCalled", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
-// assert.strictEqual(factoredGui.getPresentationIdUsed(0), "somePresentationId");
-// assert.strictEqual(factoredGui.getMetadataIdsUsedInData(0), "someMetadataId");
-// });
-//
-// QUnit.test("testInitRecordGuiGetPresentationAddedToFormView", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
-//
-// assert.strictEqual(this.dependencies.resultHandlerViewFactory.getFactored(0)
-// .getPresentationsAddedToSearchForm(0), factoredGui.getReturnedPresentations(0)
-// .getView());
-// });
-//
-// QUnit.test("testInitRecordGuiStartedGui", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
-// assert.strictEqual(factoredGui.getInitCalled(), 1);
-// });
-//
-// QUnit.test("testInitRecordGuiErrorsShownInForm", function(assert) {
-// var recordGuiFactoryBroken = {
-// "factor" : function(metadataId, data) {
-// throw new Error("missing metadata");
-// }
-// };
-// this.dependencies.recordGuiFactory = recordGuiFactoryBroken;
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredView = this.dependencies.resultHandlerViewFactory.getFactored(0);
-//
-// assert.strictEqual(factoredView.getPresentationsAddedToSearchForm(0).textContent,
-// "\"something went wrong, probably missing metadata, " + "Error: missing metadata\"");
-// assert.ok(factoredView.getPresentationsAddedToSearchForm(1).textContent.length > 10);
-// });
-//
-// QUnit.test("testSearch", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
-// assert.strictEqual(factoredGui.getDataValidated(), 0);
-// resultHandler.search();
-// assert.strictEqual(factoredGui.getDataValidated(), 1);
-//
-// var ajaxCallSpec = this.dependencies.ajaxCallFactory.getSpec(0);
-// assert.strictEqual(ajaxCallSpec.url, this.spec.searchLink.url);
-// assert.strictEqual(ajaxCallSpec.requestMethod, this.spec.searchLink.requestMethod);
-// assert.strictEqual(ajaxCallSpec.accept, this.spec.searchLink.accept);
-// assert.strictEqual(ajaxCallSpec.contentType, undefined);
-//
-// var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
-// assert.strictEqual(ajaxCallSpec.data, undefined);
-// assert.stringifyEqual(ajaxCallSpec.parameters, {
-// "searchData" : JSON.stringify(factoredGui.dataHolder.getData())
-// });
-// });
-//
-// QUnit.test("testSearchNotValidDataNoAjaxCall", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
-// factoredGui.setValidateAnswer(false);
-// assert.strictEqual(factoredGui.getDataValidated(), 0);
-// resultHandler.search();
-// assert.strictEqual(factoredGui.getDataValidated(), 1);
-//
-// var ajaxCallSpec = this.dependencies.ajaxCallFactory.getSpec(0);
-// assert.strictEqual(ajaxCallSpec, undefined);
-// });
