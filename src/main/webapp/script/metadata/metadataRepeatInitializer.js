@@ -206,8 +206,11 @@ var CORA = (function(cora) {
 
 		function initializeLinkedRecordType(nextLevelPath) {
 			var recordTypeStaticChildReference = createRefWithRef("linkedRecordTypeTextVar");
-			var linkedRecordTypeValue = cMetadataElement
-					.getFirstAtomicValueByNameInData("linkedRecordType");
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var linkedRecordTypeValue = cRecordTypeGroup
+				.getFirstAtomicValueByNameInData("linkedRecordId");
+			//var linkedRecordTypeValue = cMetadataElement
+			//		.getFirstAtomicValueByNameInData("linkedRecordType");
 			var recordTypeData = {
 				"name" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData"),
 				"children" : [ {

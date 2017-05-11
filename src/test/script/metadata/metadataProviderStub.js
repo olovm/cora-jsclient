@@ -2372,9 +2372,18 @@ function MetadataProviderStub() {
                     ],
                     "name": "defTextId"
                 }, {
-                    "name": "linkedRecordType",
-                    "value": "metadataTextVariable"
-                }]
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "metadataTextVariable"
+                            }
+                        ],
+                        "name": "linkedRecordType"
+                    }]
             };
         }
         if (idToGet === "groupIdOneRecordLinkWithAttributeChild") {
@@ -2432,9 +2441,18 @@ function MetadataProviderStub() {
                     ],
                     "name": "defTextId"
                 }, {
-                    "name": "linkedRecordType",
-                    "value": "metadataTextVariable"
-                }, {
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "metadataTextVariable"
+                            }
+                        ],
+                        "name": "linkedRecordType"
+                    }, {
                     "name": "attributeReferences",
                     "children": [{
                         "name": "ref",
@@ -2500,9 +2518,18 @@ function MetadataProviderStub() {
                     ],
                     "name": "defTextId"
                 }, {
-                    "name": "linkedRecordType",
-                    "value": "metadataTextVariable"
-                }, {
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "metadataTextVariable"
+                            }
+                        ],
+                        "name": "linkedRecordType"
+                    }, {
                     "name": "finalValue",
                     "value": "someInstance"
                 }]
@@ -2564,9 +2591,18 @@ function MetadataProviderStub() {
                     ],
                     "name": "defTextId"
                 }, {
-                    "name": "linkedRecordType",
-                    "value": "image"
-                }]
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "image"
+                            }
+                        ],
+                        "name": "linkedRecordType"
+                    }]
             };
         }
         if (idToGet === "groupIdOneChildOfBinaryRecordLinkChildRepeatMax2") {
@@ -2640,9 +2676,18 @@ function MetadataProviderStub() {
                     ],
                     "name": "defTextId"
                 }, {
-                    "name": "linkedRecordType",
-                    "value": "binary"
-                }]
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "binary"
+                            }
+                        ],
+                        "name": "linkedRecordType"
+                    }]
             };
         }
         if (idToGet === "groupIdOneBinaryRecordNoDataDividerLinkChild") {
@@ -2701,9 +2746,18 @@ function MetadataProviderStub() {
                     ],
                     "name": "defTextId"
                 }, {
-                    "name": "linkedRecordType",
-                    "value": "noDataDividerBinary"
-                }]
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "noDataDividerBinary"
+                            }
+                        ],
+                        "name": "linkedRecordType"
+                    }]
             };
         }
         if (idToGet === "groupIdOneRecordLinkChildWithPath") {
@@ -2761,9 +2815,18 @@ function MetadataProviderStub() {
                     ],
                     "name": "defTextId"
                 }, {
-                    "name": "linkedRecordType",
-                    "value": "metadataTextVariable"
-                }, {
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "metadataTextVariable"
+                            }
+                        ],
+                        "name": "linkedRecordType"
+                    }, {
                     "name": "linkedPath",
                     "children": [{
                         "name": "nameInData",
@@ -3793,8 +3856,17 @@ function MetadataProviderStub() {
                         ],
                         "name": "defTextId"
                     }, {
-                        "name": "linkedRecordType",
-                        "value": "system"
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "recordType"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "system"
+                            }
+                        ],
+                        "name": "linkedRecordType"
                     }, {
                         "name": "finalValue",
                         "value": "cora"
