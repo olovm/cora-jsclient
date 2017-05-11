@@ -20,8 +20,8 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.jsClientFactory = function(providers) {
 
+		var jsClient;
 		function factor(jsClientSpec) {
-			var jsClient;
 
 			var authTokenHolder = CORA.authTokenHolder();
 			var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
@@ -87,7 +87,6 @@ var CORA = (function(cora) {
 
 			var dependenciesRTH = {
 				"recordGuiFactory" : recordGuiFactory,
-				"jsClient" : jsClient,
 				"ajaxCallFactory" : ajaxCallFactory,
 			};
 			var recordTypeHandlerFactory = CORA.recordTypeHandlerFactory(dependenciesRTH);
@@ -112,16 +111,25 @@ var CORA = (function(cora) {
 				"openGuiItemHandlerFactory" : openGuiItemHandlerFactory,
 				"uploadManager" : uploadManager,
 				"searchRecordHandlerFactory" : searchRecordHandlerFactory,
-				"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH)
+				"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH),
+				"metadataProvider" : providers.metadataProvider,
+				"textProvider" : providers.textProvider,
+				"searchProvider" : providers.searchProvider,
+				"recordTypeProvider" : providers.recordTypeProvider
 			};
-			// return CORA.jsClient(dep, jsClientSpec);
-			jsClient = {
-				"type" : "jsClient",
-				"getDependencies" : function() {
-					return dep
-				},
-				"showView" : {}
-			};
+
+			// jsClientDependencies = {
+			// "xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
+			// }
+
+			jsClient = CORA.jsClient(dep, jsClientSpec);
+			// jsClient = {
+			// "type" : "jsClient",
+			// "getDependencies" : function() {
+			// return dep
+			// },
+			// "showView" : {}
+			// };
 			return jsClient;
 		}
 

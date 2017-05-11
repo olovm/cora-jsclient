@@ -249,7 +249,18 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		out = Object.freeze({
+			"type" : "jsClient",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			getRecordTypeList : getRecordTypeList,
 			showView : showView,

@@ -57,24 +57,29 @@ QUnit.module("jsClientTest.js", {
 	}
 });
 
-QUnit.test("init", function(assert) {
+QUnit.test("testInit", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	assert.strictEqual(jsClient.type, "jsClient");
+});
+
+QUnit.test("testGetRecordTypeList", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var mainView = jsClient.getView();
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 	assert.strictEqual(jsClientView.getView(), mainView);
 
-	// assert.strictEqual(mainView.modelObject, jsClient);
-
 	var recordTypeList = jsClient.getRecordTypeList();
 	assert.strictEqual(recordTypeList.length, 19);
+});
 
-	// var firstRecordType = jsClientView.getRecordTypesView(0);
-	// assert.strictEqual(firstRecordType.className, "recordType");
-	// assert.strictEqual(firstRecordType.firstChild.textContent, "metadata");
+QUnit.test("testGetDependencies", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	assert.strictEqual(jsClient.getDependencies(), this.dependencies);
+});
 
-	// var lastRecordType = jsClientView.getRecordTypesView(18);
-	// assert.strictEqual(lastRecordType.className, "recordType");
-	// assert.strictEqual(lastRecordType.firstChild.textContent, "recordType");
+QUnit.test("testGetSpec", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	assert.strictEqual(jsClient.getSpec(), this.spec);
 });
 
 QUnit.test("testViewSpec", function(assert) {

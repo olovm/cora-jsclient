@@ -33,6 +33,7 @@
 <script type="text/javascript" src="script/aCoraNameSpace.js"></script>
 <script type="text/javascript" src="script/pubSub.js"></script>
 <script type="text/javascript" src="script/jsClient.js"></script>
+<script type="text/javascript" src="script/jsClient/jsClientFactory.js"></script>
 <script type="text/javascript" src="script/jsClientView.js"></script>
 <script type="text/javascript" src="script/jsClientViewFactory.js"></script>
 <script type="text/javascript" src="script/jsClient/openGuiItemHandler.js"></script>
@@ -316,91 +317,20 @@
 
 	}
 
-	function startJsClientDependencies() {
-		var appTokenLoginFactoryDependencies = {
-			"ajaxCallFactory" : ajaxCallFactory,
-		};
-		var appTokenLoginFactory = CORA.appTokenLoginFactory(appTokenLoginFactoryDependencies);
-
-		var loginManagerFactoryDependencies = {
-			"authTokenHolder" : authTokenHolder,
-			"textProvider" : textProvider,
-			"appTokenLoginFactory" : appTokenLoginFactory,
-			"ajaxCallFactory" : ajaxCallFactory
-		};
-		var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
-
-		var openGuiItemHandlerFactoryDep = {
-			"textProvider" : textProvider,
-		};
-
-		var uploadManagerSpec = {
-			// 			"addView" : function() {
-			// 				jsClientView.addGlobalView
-			// 			},
-			"showView" : function(viewToShow) {
-				jsClient.showView(viewToShow);
-			}
-		};
-		var uploadManagerDep = {
-			"textProvider" : textProvider,
-			"ajaxCallFactory" : ajaxCallFactory
-		};
-		var uploadManagerFactory = CORA.uploadManagerFactory(uploadManagerDep);
-		uploadManager = uploadManagerFactory.factor(uploadManagerSpec);
-		
-		var recordGuiFactoryDep = {
-			"textProvider" : textProvider,
-			"ajaxCallFactory" : ajaxCallFactory,
-			"metadataProvider" : metadataProvider,
-			"authTokenHolder" : authTokenHolder,
-			"recordTypeProvider" : recordTypeProvider,
-			// 			"uploadManager" : CORA.uploadManager(uploadManagerDep, uploadManagerSpec),
-			"uploadManager" : uploadManager
-		};
-		recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);
-
-		var searchRecordHandlerFactoryDep = {
-			"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory({}),
-			"textProvider" : textProvider,
-			"ajaxCallFactory" : ajaxCallFactory,
-			//
-			"recordGuiFactory" : recordGuiFactory
-		};
-
-		var dependenciesRTH = {
-			"recordGuiFactory" : recordGuiFactory,
-			"jsClient" : jsClient,
-			"ajaxCallFactory" : ajaxCallFactory,
-		};
-		jsClientDependencies = {
-			"ajaxCallFactory" : ajaxCallFactory,
-			"authTokenHolder" : authTokenHolder,
-			"loginManagerFactory" : loginManagerFactory,
+	function startJsClient() {
+		var providers ={
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
 			"searchProvider" : searchProvider,
 			"recordTypeProvider" : recordTypeProvider,
-			"xmlHttpRequestFactory" : CORA.xmlHttpRequestFactory(),
-			"jsClientViewFactory" : CORA.jsClientViewFactory(),
-			"openGuiItemHandlerFactory" : CORA
-					.openGuiItemHandlerFactory(openGuiItemHandlerFactoryDep),
-			"searchRecordHandlerFactory" : CORA
-					.searchRecordHandlerFactory(searchRecordHandlerFactoryDep),
-			"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH),
-			"uploadManager" : uploadManager,
-			"presentationFactoryFactory" : "not implemented yet"
-		}
-		jsClientSpec = {
-			"name" : "A Client",
-			"baseUrl" : baseUrl,
-			"appTokenBaseUrl" : appTokenBaseUrl
 		};
-	}
-
-	function startJsClient() {
-		startJsClientDependencies();
-		jsClient = CORA.jsClient(jsClientDependencies, jsClientSpec);
+		jsClientSpec = {
+				"name" : "A Client",
+				"baseUrl" : baseUrl,
+				"appTokenBaseUrl" : appTokenBaseUrl
+			};
+		var jsClientFactory = CORA.jsClientFactory(providers);
+		jsClient = jsClientFactory.factor(jsClientSpec);
 		jsClientView = jsClient.getView();
 		document.body.appendChild(jsClient.getView());
 	}
