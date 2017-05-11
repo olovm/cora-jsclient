@@ -75,13 +75,33 @@ var CORA = (function(cora) {
 			};
 			var recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);
 
+			var searchRecordHandlerViewFactory = CORA.searchRecordHandlerViewFactory({});
+			var searchRecordHandlerFactoryDep = {
+				"searchRecordHandlerViewFactory" : searchRecordHandlerViewFactory,
+				"textProvider" : providers.textProvider,
+				"ajaxCallFactory" : ajaxCallFactory,
+				"recordGuiFactory" : recordGuiFactory
+			};
+			var searchRecordHandlerFactory = CORA
+					.searchRecordHandlerFactory(searchRecordHandlerFactoryDep);
+
+			var dependenciesRTH = {
+				"recordGuiFactory" : recordGuiFactory,
+				"jsClient" : jsClient,
+				"ajaxCallFactory" : ajaxCallFactory,
+			};
+			var recordTypeHandlerFactory = CORA.recordTypeHandlerFactory(dependenciesRTH);
+
 			var dep = {
 				"factories" : {
 					"ajaxCallFactory" : ajaxCallFactory,
 					"appTokenLoginFactory" : appTokenLoginFactory,
 					"openGuiItemHandlerFactory" : openGuiItemHandlerFactory,
 					"managedGuiItemFactory" : managedGuiItemFactory,
-					"recordGuiFactory" : recordGuiFactory
+					"recordGuiFactory" : recordGuiFactory,
+					"searchRecordHandlerFactory" : searchRecordHandlerFactory,
+					"searchRecordHandlerViewFactory" : searchRecordHandlerViewFactory,
+					"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH)
 				},
 				"recordTypeProvider" : providers.recordTypeProvider,
 				"authTokenHolder" : authTokenHolder,
@@ -90,16 +110,19 @@ var CORA = (function(cora) {
 				"appTokenLoginFactory" : appTokenLoginFactory,
 				"loginManagerFactory" : loginManagerFactory,
 				"openGuiItemHandlerFactory" : openGuiItemHandlerFactory,
-				"uploadManager" : uploadManager
+				"uploadManager" : uploadManager,
+				"searchRecordHandlerFactory" : searchRecordHandlerFactory,
+				"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH)
 			};
 			// return CORA.jsClient(dep, jsClientSpec);
-			return {
+			jsClient = {
 				"type" : "jsClient",
 				"getDependencies" : function() {
 					return dep
 				},
 				"showView" : {}
 			};
+			return jsClient;
 		}
 
 		// function getproviders() {
