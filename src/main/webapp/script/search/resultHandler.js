@@ -34,6 +34,7 @@ var CORA = (function(cora) {
 				"fromNo" : spec.dataList.fromNo,
 				"toNo" : spec.dataList.toNo,
 				"totalNo" : spec.dataList.totalNo,
+				"resultHandler" : out
 			};
 			return dependencies.resultHandlerViewFactory.factor(viewSpec);
 		}
@@ -57,8 +58,23 @@ var CORA = (function(cora) {
 				"jsClient" : dependencies.jsClient,
 			};
 			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
-			view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getListView());
+			view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getListView(), result);
 			// view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getWorkView());
+		}
+
+		function openRecord(openInfo) {
+			var recordHandlerSpec = {
+				"presentationMode" : openInfo.presentationMode,
+				"record" : openInfo.record,
+				"jsClient" : dependencies.jsClient,
+			};
+			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
+			// view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getListView(),
+			// result);
+			dependencies.jsClient.addGuiItem(recordHandlerNew.getManagedGuiItem());
+			if (openInfo.loadInBackground !== "true") {
+				dependencies.jsClient.showView(recordHandlerNew.getManagedGuiItem());
+			}
 		}
 
 		function getDependencies() {
@@ -76,7 +92,8 @@ var CORA = (function(cora) {
 			"type" : "resultHandler",
 			getView : getView,
 			getDependencies : getDependencies,
-			getSpec : getSpec
+			getSpec : getSpec,
+			openRecord : openRecord
 		});
 		start();
 		return out;

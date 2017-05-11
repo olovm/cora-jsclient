@@ -27,8 +27,11 @@ var CORATEST = (function(coraTest) {
 			return view;
 		}
 
-		function addChildPresentation(presentationToAdd) {
-			presentationsAdded.push(presentationToAdd);
+		function addChildPresentation(presentationToAdd, record) {
+			presentationsAdded.push({
+				"presentation" : presentationToAdd,
+				"record" : record
+			});
 		}
 		function getAddedPresentation(number) {
 			return presentationsAdded[number];

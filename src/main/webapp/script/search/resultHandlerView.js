@@ -103,7 +103,13 @@ var CORA = (function(cora) {
 				if (event.ctrlKey) {
 					loadInBackground = "true";
 				}
-				spec.resultHandler.openRecord("view", record, loadInBackground);
+				var openInfo = {
+					"presentationMode" : "view",
+					"record" : record,
+					"loadInBackground" : loadInBackground
+				};
+				// spec.resultHandler.openRecord("view", record, loadInBackground);
+				spec.resultHandler.openRecord(openInfo);
 			};
 			return newView;
 		}

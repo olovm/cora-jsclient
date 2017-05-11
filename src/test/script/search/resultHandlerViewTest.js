@@ -82,13 +82,35 @@ QUnit.test("testAddChildPresentationClickable", function(assert) {
 	var resultHandlerView = CORA.resultHandlerView(this.dependencies, this.spec);
 	var resultsHolder = resultHandlerView.getView().childNodes[1];
 	var childToAdd = document.createElement("span");
-	resultHandlerView.addChildPresentation(childToAdd);
+	var record = {};
+	resultHandlerView.addChildPresentation(childToAdd, record);
 
 	var firstListItem = resultsHolder.firstChild;
 	var event = document.createEvent('Event');
 	firstListItem.onclick(event);
 
-	assert.strictEqual(this.spec.resultHandler.getOpenedRecord(0), childToAdd);
+	var firstOpenInfo = this.spec.resultHandler.getOpenedRecord(0);
+	assert.strictEqual(firstOpenInfo.presentationMode, "view");
+	assert.strictEqual(firstOpenInfo.record, record);
+	assert.strictEqual(firstOpenInfo.loadInBackground, "false");
+});
+
+QUnit.test("testAddChildPresentationClickableLoadInBackground", function(assert) {
+	var resultHandlerView = CORA.resultHandlerView(this.dependencies, this.spec);
+	var resultsHolder = resultHandlerView.getView().childNodes[1];
+	var childToAdd = document.createElement("span");
+	var record = {};
+	resultHandlerView.addChildPresentation(childToAdd, record);
+
+	var firstListItem = resultsHolder.firstChild;
+	var event = document.createEvent('Event');
+	event.ctrlKey = true;
+	firstListItem.onclick(event);
+
+	var firstOpenInfo = this.spec.resultHandler.getOpenedRecord(0);
+	assert.strictEqual(firstOpenInfo.presentationMode, "view");
+	assert.strictEqual(firstOpenInfo.record, record);
+	assert.strictEqual(firstOpenInfo.loadInBackground, "true");
 });
 
 // QUnit.test("testGetDependencies", function(assert) {
