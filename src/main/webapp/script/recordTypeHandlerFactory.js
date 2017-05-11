@@ -21,28 +21,14 @@ var CORA = (function(cora) {
 	cora.recordTypeHandlerFactory = function(dependencies) {
 
 		function factor(recordTypeHandlerSpec) {
-			var depRecordHandler = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
-			};
-			var recordHandlerFactory = CORA.recordHandlerFactory(depRecordHandler);
-
-			var depRecordListHandler = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"recordHandlerFactory" : recordHandlerFactory
-			};
-
 			var dep = {
-				"recordGuiFactory" : dependencies.recordGuiFactory,
+				"recordGuiFactory" : dependencies.factories.recordGuiFactory,
+				"ajaxCallFactory" : dependencies.factories.ajaxCallFactory,
+				"recordTypeHandlerViewFactory" : dependencies.factories.recordTypeHandlerViewFactory,
+				"managedGuiItemFactory" : dependencies.factories.managedGuiItemFactory,
+				"recordHandlerFactory" : dependencies.factories.recordHandlerFactory,
+				"recordListHandlerFactory" : dependencies.factories.recordListHandlerFactory,
 				"jsClient" : recordTypeHandlerSpec.jsClient,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"recordTypeHandlerViewFactory" : CORA.recordTypeHandlerViewFactory(),
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"recordHandlerFactory" : recordHandlerFactory,
-				"recordListHandlerFactory" : CORA.recordListHandlerFactory(depRecordListHandler)
 			};
 			return CORA.recordTypeHandler(dep, recordTypeHandlerSpec);
 		}

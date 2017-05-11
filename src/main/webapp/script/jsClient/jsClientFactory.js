@@ -23,6 +23,8 @@ var CORA = (function(cora) {
 		var jsClient;
 		function factor(jsClientSpec) {
 
+			var factories = {};
+
 			var authTokenHolder = CORA.authTokenHolder();
 			var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 			var ajaxCallFactoryDependencies = {
@@ -75,6 +77,19 @@ var CORA = (function(cora) {
 			};
 			var recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);
 
+			var depRecordHandler = {
+				"ajaxCallFactory" : ajaxCallFactory,
+				"recordGuiFactory" : recordGuiFactory,
+				"managedGuiItemFactory" : managedGuiItemFactory
+			};
+			var recordHandlerFactory = CORA.recordHandlerFactory(depRecordHandler);
+
+			var depResultHandler = {
+				"textProvider" : providers.textProvider,
+				"recordHandlerFactory" : recordHandlerFactory
+			};
+			var resultHandlerFactory = CORA.resultHandlerFactory(depResultHandler);
+
 			var searchRecordHandlerViewFactory = CORA.searchRecordHandlerViewFactory({});
 			var searchRecordHandlerFactoryDep = {
 				"searchRecordHandlerViewFactory" : searchRecordHandlerViewFactory,
@@ -85,23 +100,37 @@ var CORA = (function(cora) {
 			var searchRecordHandlerFactory = CORA
 					.searchRecordHandlerFactory(searchRecordHandlerFactoryDep);
 
+			var depRecordListHandler = {
+				// "ajaxCallFactory" : ajaxCallFactory,
+				// "recordGuiFactory" : recordGuiFactory,
+				// "managedGuiItemFactory" : managedGuiItemFactory,
+				// "recordHandlerFactory" : recordHandlerFactory
+				"factories" : factories
+			};
+			var recordListHandlerFactory = CORA.recordListHandlerFactory(depRecordListHandler);
+
+			var recordTypeHandlerViewFactory = CORA.recordTypeHandlerViewFactory()
+
 			var dependenciesRTH = {
-				"recordGuiFactory" : recordGuiFactory,
-				"ajaxCallFactory" : ajaxCallFactory,
+				"factories" : factories
 			};
 			var recordTypeHandlerFactory = CORA.recordTypeHandlerFactory(dependenciesRTH);
 
+			factories.ajaxCallFactory = ajaxCallFactory;
+			factories.appTokenLoginFactory = appTokenLoginFactory;
+			factories.openGuiItemHandlerFactory = openGuiItemHandlerFactory;
+			factories.managedGuiItemFactory = managedGuiItemFactory;
+			factories.recordGuiFactory = recordGuiFactory;
+			factories.resultHandlerFactory = resultHandlerFactory;
+			factories.searchRecordHandlerFactory = searchRecordHandlerFactory;
+			factories.searchRecordHandlerViewFactory = searchRecordHandlerViewFactory;
+			factories.recordTypeHandlerFactory = recordTypeHandlerFactory;
+			factories.recordHandlerFactory = recordHandlerFactory;
+			factories.recordListHandlerFactory = recordListHandlerFactory;
+			factories.recordTypeHandlerViewFactory = recordTypeHandlerViewFactory;
+
 			var dep = {
-				"factories" : {
-					"ajaxCallFactory" : ajaxCallFactory,
-					"appTokenLoginFactory" : appTokenLoginFactory,
-					"openGuiItemHandlerFactory" : openGuiItemHandlerFactory,
-					"managedGuiItemFactory" : managedGuiItemFactory,
-					"recordGuiFactory" : recordGuiFactory,
-					"searchRecordHandlerFactory" : searchRecordHandlerFactory,
-					"searchRecordHandlerViewFactory" : searchRecordHandlerViewFactory,
-					"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH)
-				},
+				"factories" : factories,
 				"recordTypeProvider" : providers.recordTypeProvider,
 				"authTokenHolder" : authTokenHolder,
 				"jsClientViewFactory" : CORA.jsClientViewFactory(),

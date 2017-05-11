@@ -23,8 +23,14 @@ QUnit.module("recordTypeHandlerFactoryTest.js", {
 		this.record = CORATEST.recordTypeList.dataList.data[4].record;
 		this.metadataProvider = new MetadataProviderStub();
 		this.dependencies = {
-			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
-			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
+			"factories" : {
+				"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
+				"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
+				"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
+				"recordListHandlerFactory" : CORATEST.standardFactorySpy("recordListHandlerSpy"),
+				"recordTypeHandlerViewFactory" : CORATEST
+						.standardFactorySpy("recordTypeHandlerViewSpy")
+			}
 		};
 		this.spec = {
 			"jsClient" : {},
@@ -55,53 +61,21 @@ QUnit.test("factorTestType", function(assert) {
 QUnit.test("factorTestUsedIncomingDependencies", function(assert) {
 	var recordTypeHandler = this.recordTypeHandlerFactory.factor(this.spec);
 	var createdDependencies = recordTypeHandler.getDependencies();
-	assert.strictEqual(createdDependencies.recordGuiFactory, this.dependencies.recordGuiFactory);
+	assert.strictEqual(createdDependencies.recordGuiFactory,
+			this.dependencies.factories.recordGuiFactory);
+	assert.strictEqual(createdDependencies.ajaxCallFactory,
+			this.dependencies.factories.ajaxCallFactory);
+	assert.strictEqual(createdDependencies.recordTypeHandlerViewFactory,
+			this.dependencies.factories.recordTypeHandlerViewFactory);
+	assert.strictEqual(createdDependencies.managedGuiItemFactory,
+			this.dependencies.factories.managedGuiItemFactory);
+	assert.strictEqual(createdDependencies.recordHandlerFactory,
+			this.dependencies.factories.recordHandlerFactory);
+	assert.strictEqual(createdDependencies.recordListHandlerFactory,
+			this.dependencies.factories.recordListHandlerFactory);
+
 	assert.strictEqual(createdDependencies.jsClient, this.spec.jsClient);
-	assert.strictEqual(createdDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory);
 });
-
-QUnit.test("factorTestCreatedDependencies", function(assert) {
-	var recordTypeHandler = this.recordTypeHandlerFactory.factor(this.spec);
-	var createdDependencies = recordTypeHandler.getDependencies();
-	assert.strictEqual(createdDependencies.recordTypeHandlerViewFactory.type,
-			"recordTypeHandlerViewFactory");
-	assert.strictEqual(createdDependencies.managedGuiItemFactory.type, "managedGuiItemFactory");
-});
-
-QUnit.test("factorTestCreatedDepWithOwnDependenciesRecordHandlerFactory",
-		function(assert) {
-			var recordTypeHandler = this.recordTypeHandlerFactory.factor(this.spec);
-			var createdDependenciesRHF = recordTypeHandler.getDependencies().recordHandlerFactory
-					.getDependencies();
-			assert.strictEqual(recordTypeHandler.getDependencies().recordHandlerFactory.type,
-					"recordHandlerFactory");
-			assert.strictEqual(createdDependenciesRHF.ajaxCallFactory,
-					this.dependencies.ajaxCallFactory);
-			assert.strictEqual(createdDependenciesRHF.recordGuiFactory,
-					this.dependencies.recordGuiFactory);
-			assert.strictEqual(createdDependenciesRHF.managedGuiItemFactory.type,
-					"managedGuiItemFactory");
-		});
-
-QUnit
-		.test(
-				"factorTestCreatedDepWithOwnDependenciesRecordListHandlerFactory",
-				function(assert) {
-					var recordTypeHandler = this.recordTypeHandlerFactory.factor(this.spec);
-					var createdDependenciesRLHF = recordTypeHandler.getDependencies().recordListHandlerFactory
-							.getDependencies();
-					assert.strictEqual(
-							recordTypeHandler.getDependencies().recordListHandlerFactory.type,
-							"recordListHandlerFactory");
-					assert.strictEqual(createdDependenciesRLHF.ajaxCallFactory,
-							this.dependencies.ajaxCallFactory);
-					assert.strictEqual(createdDependenciesRLHF.recordGuiFactory,
-							this.dependencies.recordGuiFactory);
-					assert.strictEqual(createdDependenciesRLHF.managedGuiItemFactory.type,
-							"managedGuiItemFactory");
-					assert.strictEqual(createdDependenciesRLHF.recordHandlerFactory,
-							recordTypeHandler.getDependencies().recordHandlerFactory);
-				});
 
 QUnit.test("factorTestSpec", function(assert) {
 	var recordTypeHandler = this.recordTypeHandlerFactory.factor(this.spec);

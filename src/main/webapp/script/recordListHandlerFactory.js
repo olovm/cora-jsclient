@@ -23,11 +23,11 @@ var CORA = (function(cora) {
 		function factor(recordListHandlerSpec) {
 
 			var dep = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"recordHandlerFactory" : dependencies.recordHandlerFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-
+				"ajaxCallFactory" : dependencies.factories.ajaxCallFactory,
+				"recordGuiFactory" : dependencies.factories.recordGuiFactory,
+				"recordHandlerFactory" : dependencies.factories.recordHandlerFactory,
+				"managedGuiItemFactory" : dependencies.factories.managedGuiItemFactory,
+				"resultHandlerFactory" : dependencies.factories.resultHandlerFactory,
 			};
 			return CORA.recordListHandler(dep, recordListHandlerSpec);
 		}
