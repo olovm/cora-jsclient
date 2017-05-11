@@ -174,7 +174,7 @@ var CORA = (function(cora) {
 			var presentation = currentRecordGui.getPresentationHolder(viewId, metadataIdUsedInData)
 					.getView();
 			// // managedGuiItem.clearMenuView();
-			// managedGuiItem.addListPresentation(presentation);
+			managedGuiItem.addListPresentation(presentation);
 		}
 
 		function showErrorInView(error, data) {

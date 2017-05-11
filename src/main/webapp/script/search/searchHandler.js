@@ -120,7 +120,8 @@ var CORA = (function(cora) {
 
 		function handleSearchResult(answerIn) {
 			var resultHandlerSpec = {
-				"dataList" : JSON.parse(answerIn.responseText).dataList
+				"dataList" : JSON.parse(answerIn.responseText).dataList,
+				"jsClient" : dependencies.jsClient
 			};
 			var resultHandler = dependencies.resultHandlerFactory.factor(resultHandlerSpec);
 			view.addSearchResultToSearchResultHolder(resultHandler.getView());

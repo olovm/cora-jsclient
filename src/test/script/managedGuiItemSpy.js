@@ -21,6 +21,7 @@ var CORATEST = (function(coraTest) {
 	coraTest.managedGuiItemSpy = function(dependencies, spec) {
 		var addedMenuPresentations = [];
 		var addedWorkPresentations = [];
+		var addedListPresentations = [];
 		var menuView = CORA.gui.createSpanWithClassName("menuViewSpy");
 		var workView = CORA.gui.createSpanWithClassName("menuViewSpy");
 		var listView = CORA.gui.createSpanWithClassName("listViewSpy");
@@ -60,10 +61,17 @@ var CORATEST = (function(coraTest) {
 		function addWorkPresentation(presentationToAdd) {
 			addedWorkPresentations.push(presentationToAdd);
 		}
-
 		function getAddedWorkPresentation(number) {
 			return addedWorkPresentations[number];
 		}
+
+		function addListPresentation(presentationToAdd) {
+			addedListPresentations.push(presentationToAdd);
+		}
+		function getAddedListPresentation(number) {
+			return addedListPresentations[number];
+		}
+
 		function setChanged(changedIn) {
 			changed = changedIn;
 		}
@@ -117,6 +125,8 @@ var CORATEST = (function(coraTest) {
 			getAddedMenuPresentation : getAddedMenuPresentation,
 			addWorkPresentation : addWorkPresentation,
 			getAddedWorkPresentation : getAddedWorkPresentation,
+			addListPresentation : addListPresentation,
+			getAddedListPresentation : getAddedListPresentation,
 			setChanged : setChanged,
 			getChanged : getChanged,
 			setActive : setActive,

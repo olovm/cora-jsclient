@@ -20,7 +20,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.resultHandler = function(dependencies, spec) {
-
+		var out;
 		var view;
 
 		function start() {
@@ -33,7 +33,7 @@ var CORA = (function(cora) {
 				"ofText" : dependencies.textProvider.getTranslation("theClient_resultListOfText"),
 				"fromNo" : spec.dataList.fromNo,
 				"toNo" : spec.dataList.toNo,
-				"totalNo" : spec.dataList.totalNo
+				"totalNo" : spec.dataList.totalNo,
 			};
 			return dependencies.resultHandlerViewFactory.factor(viewSpec);
 		}
@@ -44,7 +44,7 @@ var CORA = (function(cora) {
 		}
 		function tryToAddResultItemToView(recordContainer) {
 			// try {
-			addResultItemToWorkView(recordContainer.record.data);
+			addResultItemToWorkView(recordContainer.record);
 			// } catch (e) {
 			// managedGuiItem.addWorkPresentation(document.createTextNode(e));
 			// managedGuiItem.addWorkPresentation(document.createTextNode(e.stack));
@@ -58,6 +58,7 @@ var CORA = (function(cora) {
 			};
 			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
 			view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getListView());
+			// view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getWorkView());
 		}
 
 		function getDependencies() {
@@ -71,14 +72,14 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
-		start();
-
-		return Object.freeze({
+		out = Object.freeze({
 			"type" : "resultHandler",
 			getView : getView,
 			getDependencies : getDependencies,
 			getSpec : getSpec
 		});
+		start();
+		return out;
 	};
 	return cora;
 }(CORA));

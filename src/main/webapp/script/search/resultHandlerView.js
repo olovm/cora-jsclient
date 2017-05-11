@@ -90,10 +90,23 @@ var CORA = (function(cora) {
 		// addTo.addViewToView(resultHolder);
 		// }
 
-		function addChildPresentation(presentationToAdd) {
-			resultsHolder.appendChild(presentationToAdd);
+		function addChildPresentation(presentationToAdd, record) {
+			var childView = createRecordView(record);
+			childView.appendChild(presentationToAdd);
+			// resultsHolder.appendChild(presentationToAdd);
+			resultsHolder.appendChild(childView);
 		}
-
+		function createRecordView(record) {
+			var newView = CORA.gui.createSpanWithClassName("listItem");
+			newView.onclick = function(event) {
+				var loadInBackground = "false";
+				if (event.ctrlKey) {
+					loadInBackground = "true";
+				}
+				spec.resultHandler.openRecord("view", record, loadInBackground);
+			};
+			return newView;
+		}
 		function getView() {
 			return view;
 		}

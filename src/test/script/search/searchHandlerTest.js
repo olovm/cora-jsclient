@@ -214,5 +214,6 @@ QUnit.test("testHandleSearchResultDataFromAnswerPassedOnToResultHandler", functi
 	searchHandler.handleSearchResult(answer);
 
 	var resultHandlerSpec = this.dependencies.resultHandlerFactory.getSpec(0);
+	assert.stringifyEqual(resultHandlerSpec.jsClient, this.dependencies.jsClient);
 	assert.stringifyEqual(resultHandlerSpec.dataList, JSON.parse(answer.responseText).dataList);
 });

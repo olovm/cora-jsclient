@@ -18,14 +18,14 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.jsClientFactory = function(providers) {
+	cora.jsClientFactory = function(providers, dependencies) {
 
 		var jsClient;
 		function factor(jsClientSpec) {
 
 			var factories = {};
 
-			var authTokenHolder = CORA.authTokenHolder();
+			var authTokenHolder = dependencies.authTokenHolder;
 			var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 			var ajaxCallFactoryDependencies = {
 				"xmlHttpRequestFactory" : xmlHttpRequestFactory,
@@ -101,10 +101,6 @@ var CORA = (function(cora) {
 					.searchRecordHandlerFactory(searchRecordHandlerFactoryDep);
 
 			var depRecordListHandler = {
-				// "ajaxCallFactory" : ajaxCallFactory,
-				// "recordGuiFactory" : recordGuiFactory,
-				// "managedGuiItemFactory" : managedGuiItemFactory,
-				// "recordHandlerFactory" : recordHandlerFactory
 				"factories" : factories
 			};
 			var recordListHandlerFactory = CORA.recordListHandlerFactory(depRecordListHandler);

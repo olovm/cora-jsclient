@@ -329,7 +329,10 @@
 				"baseUrl" : baseUrl,
 				"appTokenBaseUrl" : appTokenBaseUrl
 			};
-		var jsClientFactory = CORA.jsClientFactory(providers);
+		var dependencies = {
+				"authTokenHolder":authTokenHolder
+		};
+		var jsClientFactory = CORA.jsClientFactory(providers, dependencies);
 		jsClient = jsClientFactory.factor(jsClientSpec);
 		jsClientView = jsClient.getView();
 		document.body.appendChild(jsClient.getView());

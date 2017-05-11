@@ -28,7 +28,7 @@ var CORA = (function(cora) {
 				"resultHandlerViewFactory" : CORA.resultHandlerViewFactory(viewDep),
 				"textProvider" : dependencies.textProvider,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"jsClient" : dependencies.jsClient,
+				"jsClient" : spec.jsClient,
 				"recordHandlerFactory" : dependencies.recordHandlerFactory
 			};
 			return CORA.resultHandler(dep, spec);

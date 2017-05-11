@@ -20,16 +20,26 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.resultHandlerSpy = function(dependencies, spec) {
-
+		var openedRecords = [];
 		var view = CORA.gui.createSpanWithClassName("resultHandlerSpy");
 
 		function getView() {
 			return view;
 		}
-
+		
+		function openRecord(recordToOpen) {
+			openedRecords.push(recordToOpen);
+		}
+		
+		function getOpenedRecord(number){
+			return openedRecords[number];
+		}
+		
 		return Object.freeze({
 			"type" : "resultHandlerSpy",
-			getView : getView
+			getView : getView,
+			openRecord : openRecord,
+			getOpenedRecord:getOpenedRecord
 		});
 	};
 	return coraTest;

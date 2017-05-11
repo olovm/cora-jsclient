@@ -627,10 +627,10 @@ QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
 
 QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.specForNew);
-	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 
 	assert.strictEqual(recordHandler.getDataIsChanged(), true);
-	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
+	assert.strictEqual(managedGuiItem.getChanged(), true);
 
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
 	assert.strictEqual(ajaxCallSpy, undefined, "no call to server on new record");
@@ -651,6 +651,8 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 
 	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(3), "recordTypeListPGroup");
 	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(3), "recordTypeNewGroup");
+	assert.strictEqual(managedGuiItem.getAddedListPresentation(0), factoredRecordGui
+			.getReturnedPresentations(3).getView());
 
 	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	var item = managedGuiItem.getAddedMenuPresentation(0);

@@ -30,7 +30,8 @@ QUnit.module("resultHandlerViewTest.js", {
 			"ofText" : "av",
 			"fromNo" : "1",
 			"toNo" : "15",
-			"totalNo" : "1520000"
+			"totalNo" : "1520000",
+			"resultHandler" : CORATEST.resultHandlerSpy()
 		};
 	},
 	afterEach : function() {
@@ -74,7 +75,20 @@ QUnit.test("testAddChildPresentation", function(assert) {
 	var resultsHolder = resultHandlerView.getView().childNodes[1];
 	var childToAdd = document.createElement("span");
 	resultHandlerView.addChildPresentation(childToAdd);
-	assert.strictEqual(resultsHolder.firstChild, childToAdd);
+	assert.strictEqual(resultsHolder.firstChild.firstChild, childToAdd);
+});
+
+QUnit.test("testAddChildPresentationClickable", function(assert) {
+	var resultHandlerView = CORA.resultHandlerView(this.dependencies, this.spec);
+	var resultsHolder = resultHandlerView.getView().childNodes[1];
+	var childToAdd = document.createElement("span");
+	resultHandlerView.addChildPresentation(childToAdd);
+
+	var firstListItem = resultsHolder.firstChild;
+	var event = document.createEvent('Event');
+	firstListItem.onclick(event);
+
+	assert.strictEqual(this.spec.resultHandler.getOpenedRecord(0), childToAdd);
 });
 
 // QUnit.test("testGetDependencies", function(assert) {
