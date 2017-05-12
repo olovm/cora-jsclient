@@ -23,6 +23,7 @@ var CORATEST = (function(coraTest) {
 
 		var view = CORA.gui.createSpanWithClassName("spyView");
 		var presentationsAddedToSearchForm = [];
+		var searchResultsAddedToSearchResultHolder = [];
 
 		function getView() {
 			return view;
@@ -35,11 +36,20 @@ var CORATEST = (function(coraTest) {
 			return presentationsAddedToSearchForm[number];
 		}
 
+		function addSearchResultToSearchResultHolder(resultToAdd) {
+			searchResultsAddedToSearchResultHolder.push(resultToAdd);
+		}
+		function getAddedSearchResultToSearchResultHolder(number) {
+			return searchResultsAddedToSearchResultHolder[number];
+		}
+
 		return Object.freeze({
 			"type" : "searchHandlerViewSpy",
 			getView : getView,
 			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder,
-			getPresentationsAddedToSearchForm : getPresentationsAddedToSearchForm
+			getPresentationsAddedToSearchForm : getPresentationsAddedToSearchForm,
+			addSearchResultToSearchResultHolder : addSearchResultToSearchResultHolder,
+			getAddedSearchResultToSearchResultHolder : getAddedSearchResultToSearchResultHolder
 		});
 	};
 	return coraTest;

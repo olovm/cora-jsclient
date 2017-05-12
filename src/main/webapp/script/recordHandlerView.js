@@ -81,6 +81,11 @@ var CORA = (function(cora) {
 			var button = createButton("Copy as new", functionToCall, "copyAsNew");
 			workItemView.addToolViewToToolHolder(button);
 		}
+
+		function addObjectToEditView(objectToAdd) {
+			editView.appendChild(document.createTextNode(JSON.stringify(objectToAdd)));
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -95,7 +100,8 @@ var CORA = (function(cora) {
 			addToShowView : addToShowView,
 			addToEditView : addToEditView,
 			addButton : addButton,
-			clearViews : clearViews
+			clearViews : clearViews,
+			addObjectToEditView : addObjectToEditView
 		});
 	};
 	return cora;

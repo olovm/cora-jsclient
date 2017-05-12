@@ -112,9 +112,19 @@ var CORA = (function(cora) {
 				"accept" : link.accept,
 				"parameters" : {
 					"searchData" : JSON.stringify(recordGui.dataHolder.getData())
-				}
+				},
+				"loadMethod" : handleSearchResult
 			};
 			dependencies.ajaxCallFactory.factor(callSpec);
+		}
+
+		function handleSearchResult(answerIn) {
+			var resultHandlerSpec = {
+				"dataList" : JSON.parse(answerIn.responseText).dataList,
+				"jsClient" : dependencies.jsClient
+			};
+			var resultHandler = dependencies.resultHandlerFactory.factor(resultHandlerSpec);
+			view.addSearchResultToSearchResultHolder(resultHandler.getView());
 		}
 
 		function getDependencies() {
@@ -124,7 +134,8 @@ var CORA = (function(cora) {
 		return Object.freeze({
 			"type" : "searchHandler",
 			getDependencies : getDependencies,
-			search : search
+			search : search,
+			handleSearchResult : handleSearchResult
 		});
 	};
 	return cora;

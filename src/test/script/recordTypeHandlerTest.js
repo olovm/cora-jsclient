@@ -20,22 +20,9 @@
 "use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.assertCorrectFactoredSpec = function(assert, factoredSpec) {
-		assert.strictEqual(factoredSpec.recordTypeRecordId, "metadataCollectionItem");
-		var expectedCreateLink = {
-				"requestMethod" : "POST",
-				"rel" : "create",
-				"contentType" : "application/vnd.uub.record+json",
-				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
-				"accept" : "application/vnd.uub.record+json"
-		};
-		assert.stringifyEqual(factoredSpec.createLink, expectedCreateLink);
-		assert.strictEqual(factoredSpec.newMetadataId, "metadataCollectionItemNewGroup");
-		assert.strictEqual(factoredSpec.newPresentationFormId, "metadataCollectionItemFormNewPGroup");
-		assert.strictEqual(factoredSpec.presentationViewId, "metadataCollectionItemViewPGroup");
-		assert.strictEqual(factoredSpec.presentationFormId, "metadataCollectionItemFormPGroup");
-		assert.strictEqual(factoredSpec.menuPresentationViewId, "metadataCollectionItemMenuPGroup");
-		assert.strictEqual(factoredSpec.abstract, "false");
+	coraTest.assertCorrectFactoredSpec = function(assert, factoredSpec, context) {
+		assert.strictEqual(factoredSpec.jsClient, context.dependencies.jsClient);
+		assert.strictEqual(factoredSpec.recordTypeRecordIdForNew, "metadataCollectionItem");
 	};
 
 	return coraTest;
@@ -49,7 +36,8 @@ QUnit.module("recordTypeHandlerTest.js", {
 
 		this.dependencies = {
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-			"recordTypeHandlerViewFactory" : CORATEST.standardFactorySpy("recordTypeHandlerViewSpy"),
+			"recordTypeHandlerViewFactory" : CORATEST
+					.standardFactorySpy("recordTypeHandlerViewSpy"),
 			"recordListHandlerFactory" : CORATEST.standardFactorySpy("recordListHandlerSpy"),
 			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
 			"jsClient" : CORATEST.jsClientSpy()
@@ -81,10 +69,10 @@ QUnit.test("testGetSpec", function(assert) {
 
 QUnit.test("initViewClassName", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
-	
+
 	var view = recordTypeHandler.getView();
 	assert.strictEqual(view.className, "recordTypeFromRecordTypeHandlerSpy");
-	
+
 	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
 	assert.strictEqual(factoredViewSpec.fetchListMethod, recordTypeHandler.createRecordTypeList);
 });
@@ -108,8 +96,6 @@ QUnit.test("fetchListCheckSpec", function(assert) {
 	recordTypeHandler.createRecordTypeList();
 	var factoredSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
 
-	assert.strictEqual(factoredSpec.addToRecordTypeHandlerMethod,
-			recordTypeHandler.addManagedGuiItem);
 	assert.strictEqual(factoredSpec.baseUrl, this.spec.baseUrl);
 
 	assert.strictEqual(factoredSpec.recordTypeRecordId, "metadataCollectionItem");
@@ -121,59 +107,66 @@ QUnit.test("fetchListCheckSpec", function(assert) {
 	};
 	assert.stringifyEqual(factoredSpec.listLink, expectedListLink);
 	assert.strictEqual(factoredSpec.listPresentationViewId, "metadataCollectionItemListPGroup");
+	assert.strictEqual(factoredSpec.openRecordMethod, recordTypeHandler.createRecordHandler);
 });
 
-QUnit.test("showRecord", function(assert) {
+QUnit.test("testCreateRecordHandlerForRecord", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
-	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
-	spec.fetchListMethod();
-	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	catchRecordListHandlerSpec.openRecordMethod("view", this.record);
+	recordTypeHandler.createRecordHandler("false", this.record, "false");
 
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
-	assert.strictEqual(factoredSpec.presentationMode, "view");
+	assert.strictEqual(factoredSpec.createNewRecord, "false");
 	assert.strictEqual(factoredSpec.record, this.record);
-	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
+	assert.strictEqual(factoredSpec.recordTypeHandler, undefined);
 
-	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec, this);
 });
 
-QUnit.test("createRecordHandlerInBackground", function(assert) {
+QUnit.test("testCreateRecordHandlerInBackground", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
-	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
-	spec.fetchListMethod();
-	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	catchRecordListHandlerSpec.openRecordMethod("view", this.record, "true");
-	
+	recordTypeHandler.createRecordHandler("false", this.record, "true");
+
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
-	assert.strictEqual(factoredSpec.loadInBackground, "true");
-	assert.strictEqual(factoredSpec.presentationMode, "view");
+	assert.strictEqual(factoredSpec.createNewRecord, "false");
 	assert.strictEqual(factoredSpec.record, this.record);
-	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
-	
-	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
+
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec, this);
 });
 
-QUnit.test("showNew", function(assert) {
+QUnit.test("testCreateRecordHandlerForNew", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
-	var spec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
-	spec.fetchListMethod();
-
-	var catchRecordListHandlerSpec = this.dependencies.recordListHandlerFactory.getSpec(0);
-	catchRecordListHandlerSpec.openRecordMethod("new", undefined);
+	recordTypeHandler.createRecordHandler("true", undefined, "false");
 
 	var factoredSpec = this.dependencies.recordHandlerFactory.getSpec(0);
-	assert.strictEqual(factoredSpec.presentationMode, "new");
+	assert.strictEqual(factoredSpec.createNewRecord, "true");
 	assert.strictEqual(factoredSpec.record, undefined);
-	assert.strictEqual(factoredSpec.recordTypeHandler, recordTypeHandler);
 
-	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec);
+	CORATEST.assertCorrectFactoredSpec(assert, factoredSpec, this);
 });
 
-QUnit.test("initAddManagedGuiItemPassedOnToView", function(assert) {
+QUnit.test("testManagedGuiItemForRecordHandlerAddedToJsClient", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
-	var factoredView = this.dependencies.recordTypeHandlerViewFactory.getFactored(0);
-	var aItem = CORATEST.managedGuiItemSpy();
-	recordTypeHandler.addManagedGuiItem(aItem);
-	assert.strictEqual(factoredView.getAddedManagedGuiItem(0), aItem);
+	recordTypeHandler.createRecordHandler("false", this.record, "false");
+
+	var recordHandler = this.dependencies.recordHandlerFactory.getFactored(0);
+	var managedGuiItem = recordHandler.getManagedGuiItem();
+	assert.strictEqual(this.dependencies.jsClient.getAddedGuiItem(0), managedGuiItem);
+});
+
+QUnit.test("testManagedGuiItemForRecordHandlerShownInJsClient", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	recordTypeHandler.createRecordHandler("false", this.record, "false");
+
+	var recordHandler = this.dependencies.recordHandlerFactory.getFactored(0);
+	var managedGuiItem = recordHandler.getManagedGuiItem();
+	assert.strictEqual(this.dependencies.jsClient.getViewShowingInWorkView(0), managedGuiItem);
+});
+
+QUnit.test("testManagedGuiItemForRecordHandlerNotShownInJsClientWhenBackground", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	recordTypeHandler.createRecordHandler("false", this.record, "true");
+
+	var recordHandler = this.dependencies.recordHandlerFactory.getFactored(0);
+	var managedGuiItem = recordHandler.getManagedGuiItem();
+	assert.strictEqual(this.dependencies.jsClient.getViewShowingInWorkView(0), undefined);
 });

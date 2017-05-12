@@ -91,11 +91,20 @@ QUnit.test("testInitButtonCreatedForCopyAsNew", function(assert) {
 	assert.strictEqual(button.value, "Copy as new");
 });
 
-QUnit.test("addToEdit", function(assert) {
+QUnit.test("testAddToEditView", function(assert) {
 	var someView = document.createElement("span");
 	this.recordHandlerView.addToEditView(someView);
 
 	assert.strictEqual(this.editView.firstChild, someView);
+});
+
+QUnit.test("testAddObjectToEditView", function(assert) {
+	var someObject = {
+		"test" : "data"
+	};
+	this.recordHandlerView.addObjectToEditView(someObject);
+
+	assert.strictEqual(this.editView.firstChild.textContent, JSON.stringify(someObject));
 });
 
 QUnit.test("addToShow", function(assert) {
@@ -127,10 +136,10 @@ QUnit.test("addButtonWithClassName", function(assert) {
 	this.recordHandlerView.addButton("text", onclickMethod, "someClass");
 
 	var button = this.buttonView.firstChild;
-	 assert.strictEqual(button.nodeName, "INPUT");
-	 assert.strictEqual(button.type, "button");
-	 assert.strictEqual(button.onclick, onclickMethod);
-	 assert.strictEqual(button.className, "someClass");
+	assert.strictEqual(button.nodeName, "INPUT");
+	assert.strictEqual(button.type, "button");
+	assert.strictEqual(button.onclick, onclickMethod);
+	assert.strictEqual(button.className, "someClass");
 });
 
 QUnit.test("testClearViews", function(assert) {
@@ -153,47 +162,3 @@ QUnit.test("testClearViews", function(assert) {
 	assert.strictEqual(this.showView.childNodes.length, 0);
 	assert.strictEqual(this.buttonView.childNodes.length, 0);
 });
-
-// QUnit.test("testSetShowDataFunction", function(assert) {
-// var showDataWasCalled = false;
-// var dataFunction = function() {
-// showDataWasCalled = true;
-// }
-// var recordHandlerView = this.recordHandlerView;
-// recordHandlerView.setShowDataFunction(dataFunction);
-//
-// var workItemViewSpy = this.workItemViewFactory.getFactored(0);
-//
-// var button = this.viewsToolAddedToView[0];
-// assert.strictEqual(button.nodeName, "INPUT");
-// assert.strictEqual(button.type, "button");
-// assert.strictEqual(button.onclick, dataFunction);
-// assert.strictEqual(button.className, "showData");
-// assert.strictEqual(button.value, "Show data as JSON");
-//
-// assert.notOk(showDataWasCalled);
-// button.onclick();
-// assert.ok(showDataWasCalled);
-// });
-//
-// QUnit.test("testSetCopyAsNewFunction", function(assert) {
-// var showDataWasCalled = false;
-// var dataFunction = function() {
-// showDataWasCalled = true;
-// }
-// var recordHandlerView = this.recordHandlerView;
-// recordHandlerView.setCopyAsNewFunction(dataFunction);
-//
-// var workItemViewSpy = this.workItemViewFactory.getFactored(0);
-//
-// var button = this.viewsToolAddedToView[0];
-// assert.strictEqual(button.nodeName, "INPUT");
-// assert.strictEqual(button.type, "button");
-// assert.strictEqual(button.onclick, dataFunction);
-// assert.strictEqual(button.className, "copyAsNew");
-// assert.strictEqual(button.value, "Copy as new");
-//
-// assert.notOk(showDataWasCalled);
-// button.onclick();
-// assert.ok(showDataWasCalled);
-// });

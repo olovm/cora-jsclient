@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -16,17 +16,33 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.xmlHttpRequestFactory = function() {
-		function factor() {
-			return new XMLHttpRequest();
+	coraTest.resultHandlerViewSpy = function() {
+
+		var view = CORA.gui.createSpanWithClassName("spyView");
+		var presentationsAdded = [];
+
+		function getView() {
+			return view;
 		}
-		var out = Object.freeze({
-			"type" : "xmlHttpRequestFactory",
-			factor : factor
+
+		function addChildPresentation(presentationToAdd, record) {
+			presentationsAdded.push({
+				"presentation" : presentationToAdd,
+				"record" : record
+			});
+		}
+		function getAddedPresentation(number) {
+			return presentationsAdded[number];
+		}
+
+		return Object.freeze({
+			"type" : "resultHandlerViewSpy",
+			getView : getView,
+			addChildPresentation : addChildPresentation,
+			getAddedPresentation : getAddedPresentation
 		});
-		return out;
 	};
-	return cora;
-}(CORA));
+	return coraTest;
+}(CORATEST || {}));

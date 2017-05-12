@@ -34,6 +34,7 @@ QUnit.module("searchHandlerTest.js", {
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
 			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
+			"resultHandlerFactory" : CORATEST.standardFactorySpy("resultHandlerSpy"),
 			"jsClient" : CORATEST.jsClientSpy()
 		}
 		this.spec = {
@@ -176,6 +177,7 @@ QUnit.test("testSearch", function(assert) {
 	assert.stringifyEqual(ajaxCallSpec.parameters, {
 		"searchData" : JSON.stringify(factoredGui.dataHolder.getData())
 	});
+	assert.strictEqual(ajaxCallSpec.loadMethod, searchHandler.handleSearchResult);
 });
 
 QUnit.test("testSearchNotValidDataNoAjaxCall", function(assert) {
@@ -188,4 +190,30 @@ QUnit.test("testSearchNotValidDataNoAjaxCall", function(assert) {
 
 	var ajaxCallSpec = this.dependencies.ajaxCallFactory.getSpec(0);
 	assert.strictEqual(ajaxCallSpec, undefined);
+});
+
+QUnit.test("testHandleSearchResultCreatesAResultHandler", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var answer = {
+		"responseText" : JSON.stringify(CORATEST.searchRecordList)
+	};
+	searchHandler.handleSearchResult(answer);
+	var resultHandler = this.dependencies.resultHandlerFactory.getFactored(0);
+	assert.strictEqual(resultHandler.type, "resultHandlerSpy");
+
+	var factoredView = this.dependencies.searchHandlerViewFactory.getFactored(0);
+	assert.strictEqual(factoredView.getAddedSearchResultToSearchResultHolder(0), resultHandler
+			.getView());
+});
+
+QUnit.test("testHandleSearchResultDataFromAnswerPassedOnToResultHandler", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var answer = {
+		"responseText" : JSON.stringify(CORATEST.searchRecordList)
+	};
+	searchHandler.handleSearchResult(answer);
+
+	var resultHandlerSpec = this.dependencies.resultHandlerFactory.getSpec(0);
+	assert.stringifyEqual(resultHandlerSpec.jsClient, this.dependencies.jsClient);
+	assert.stringifyEqual(resultHandlerSpec.dataList, JSON.parse(answer.responseText).dataList);
 });

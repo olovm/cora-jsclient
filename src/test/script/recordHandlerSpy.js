@@ -19,9 +19,14 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.recordHandlerSpy = function(dependencies, spec) {
+		var managedGuiItem = CORATEST.managedGuiItemSpy();
 
+		function getManagedGuiItem() {
+			return managedGuiItem;
+		}
 		return Object.freeze({
-			"type" : "recordHandlerSpy"
+			"type" : "recordHandlerSpy",
+			getManagedGuiItem : getManagedGuiItem
 		});
 	};
 	return coraTest;

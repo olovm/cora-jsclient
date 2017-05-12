@@ -24,7 +24,7 @@ var CORA = (function(cora) {
 			var dep = {
 				"textProvider" : dependencies.textProvider,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
+				"managedGuiItemFactory" : dependencies.managedGuiItemFactory
 			};
 			return CORA.uploadManager(dep, uploadManagerSpec);
 		}

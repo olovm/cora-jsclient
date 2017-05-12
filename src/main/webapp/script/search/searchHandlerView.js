@@ -23,6 +23,7 @@ var CORA = (function(cora) {
 		var view;
 		var searchFormHolder;
 		var buttonView;
+		var resultHolder;
 
 		function start() {
 			var workItemView = createWorkItemView();
@@ -30,6 +31,7 @@ var CORA = (function(cora) {
 			createSearchFormHolderAndAddTo(workItemView);
 			createButtonViewAndAddTo(searchFormHolder);
 			createSearchButtonIn(buttonView);
+			createResultHolderAndAddTo(workItemView);
 		}
 
 		function createWorkItemView() {
@@ -63,12 +65,21 @@ var CORA = (function(cora) {
 			return button;
 		}
 
+		function createResultHolderAndAddTo(addTo) {
+			resultHolder = CORA.gui.createSpanWithClassName("searchResultHolder");
+			addTo.addViewToView(resultHolder);
+		}
+
 		function getView() {
 			return view;
 		}
 
 		function addPresentationToSearchFormHolder(presentationToAdd) {
 			searchFormHolder.insertBefore(presentationToAdd, searchFormHolder.lastChild);
+		}
+
+		function addSearchResultToSearchResultHolder(resultToAdd) {
+			resultHolder.appendChild(resultToAdd);
 		}
 
 		function getDependencies() {
@@ -85,7 +96,8 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder
+			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder,
+			addSearchResultToSearchResultHolder : addSearchResultToSearchResultHolder
 		});
 	};
 	return cora;

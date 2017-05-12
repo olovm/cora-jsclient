@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -16,17 +16,31 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
 
-QUnit.module("xmlHttpRequestFactoryTest.js", {});
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.resultHandlerSpy = function(dependencies, spec) {
+		var openedRecords = [];
+		var view = CORA.gui.createSpanWithClassName("resultHandlerSpy");
 
-QUnit.test("testInit", function(assert) {
-	var factory = CORA.xmlHttpRequestFactory();
-	assert.strictEqual(factory.type, "xmlHttpRequestFactory");
-});
-
-QUnit.test("testFactor", function(assert) {
-	var factory = CORA.xmlHttpRequestFactory();
-	var xmlHttpRequest = factory.factor();
-	assert.strictEqual(xmlHttpRequest.prototype, new XMLHttpRequest().prototype);
-});
+		function getView() {
+			return view;
+		}
+		
+		function openRecord(recordToOpen) {
+			openedRecords.push(recordToOpen);
+		}
+		
+		function getOpenedRecord(number){
+			return openedRecords[number];
+		}
+		
+		return Object.freeze({
+			"type" : "resultHandlerSpy",
+			getView : getView,
+			openRecord : openRecord,
+			getOpenedRecord:getOpenedRecord
+		});
+	};
+	return coraTest;
+}(CORATEST || {}));

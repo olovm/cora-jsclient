@@ -375,6 +375,10 @@ body {
 	counter-reset: record;
 }
 
+.jsClient .listView {
+	width: 100%;
+}
+
 .jsClient .listItem {
 	font-size: .8rem;
 	counter-increment: record;

@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -16,17 +17,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+var CORA = (function(cora) {
+	"use strict";
+	cora.resultHandlerViewFactory = function(dependencies) {
 
-QUnit.module("xmlHttpRequestFactoryTest.js", {});
+		var dep = {
+		// "textProvider" : dependencies.textProvider,
+		// "workItemViewFactory" : CORA.workItemViewFactory(),
+		// "messageHolderFactory" : CORA.messageHolderFactory()
+		};
 
-QUnit.test("testInit", function(assert) {
-	var factory = CORA.xmlHttpRequestFactory();
-	assert.strictEqual(factory.type, "xmlHttpRequestFactory");
-});
+		function factor(spec) {
+			return CORA.resultHandlerView(dep, spec);
+		}
 
-QUnit.test("testFactor", function(assert) {
-	var factory = CORA.xmlHttpRequestFactory();
-	var xmlHttpRequest = factory.factor();
-	assert.strictEqual(xmlHttpRequest.prototype, new XMLHttpRequest().prototype);
-});
+		function getDependencies() {
+			return dependencies;
+		}
+
+		var out = Object.freeze({
+			"type" : "resultHandlerViewFactory",
+			getDependencies : getDependencies,
+			factor : factor
+		});
+		return out;
+	};
+	return cora;
+}(CORA));

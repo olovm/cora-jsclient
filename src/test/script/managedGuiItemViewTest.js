@@ -70,6 +70,13 @@ QUnit.test("testMenuViewHasNoRemoveButtonIfNoRemoveMethod", function(assert) {
 	assert.strictEqual(menuView.childNodes.length, 0);
 });
 
+QUnit.test("testGetListView", function(assert) {
+	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
+	var listView = managedGuiItemView.getListView();
+	assert.strictEqual(listView.nodeName, "SPAN");
+	assert.strictEqual(listView.className, "listView");
+});
+
 QUnit.test("testGetWorkView", function(assert) {
 	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
 	var workView = managedGuiItemView.getWorkView();
@@ -91,6 +98,20 @@ QUnit.test("testAddMenuPresentation", function(assert) {
 	assert.strictEqual(menuView.childNodes[0], presentation);
 	assert.strictEqual(menuView.childNodes[1], presentation2);
 	assert.strictEqual(menuView.childNodes[2].className, "removeButton");
+});
+
+QUnit.test("testAddListPresentation", function(assert) {
+	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
+	var listView = managedGuiItemView.getListView();
+
+	var presentation = CORA.gui.createSpanWithClassName("someClassName");
+	managedGuiItemView.addListPresentation(presentation);
+	assert.strictEqual(listView.childNodes[0], presentation);
+
+	var presentation2 = CORA.gui.createSpanWithClassName("someClassName");
+	managedGuiItemView.addListPresentation(presentation2);
+	assert.strictEqual(listView.childNodes[0], presentation);
+	assert.strictEqual(listView.childNodes[1], presentation2);
 });
 
 QUnit.test("testAddWorkPresentation", function(assert) {

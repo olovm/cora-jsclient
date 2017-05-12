@@ -25,6 +25,8 @@ var CORATEST = (function(coraTest) {
 		var clearViewsWasCalled = false;
 		var showDataFunction = null;
 		var copyAsNewFunction = null;
+		var objectsAddedToEditView = [];
+
 		var spyView = document.createElement("span");
 		function getView() {
 			return spyView;
@@ -79,6 +81,13 @@ var CORATEST = (function(coraTest) {
 			return clearViewsWasCalled;
 		}
 
+		function addObjectToEditView(objectToAdd) {
+			objectsAddedToEditView.push(objectToAdd);
+		}
+		function getObjectAddedToEditView(number) {
+			return objectsAddedToEditView[number];
+		}
+
 		var out = Object.freeze({
 			getView : getView,
 			addToShowView : addToShowView,
@@ -95,7 +104,9 @@ var CORATEST = (function(coraTest) {
 			getAddedEditView : getAddedEditView,
 			getAddedShowView : getAddedShowView,
 			getAddedButton : getAddedButton,
-			getClearViewsWasCalled : getClearViewsWasCalled
+			getClearViewsWasCalled : getClearViewsWasCalled,
+			addObjectToEditView : addObjectToEditView,
+			getObjectAddedToEditView : getObjectAddedToEditView
 		});
 		return out;
 	};

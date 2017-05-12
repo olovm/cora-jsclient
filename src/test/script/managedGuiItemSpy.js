@@ -21,8 +21,10 @@ var CORATEST = (function(coraTest) {
 	coraTest.managedGuiItemSpy = function(dependencies, spec) {
 		var addedMenuPresentations = [];
 		var addedWorkPresentations = [];
+		var addedListPresentations = [];
 		var menuView = CORA.gui.createSpanWithClassName("menuViewSpy");
 		var workView = CORA.gui.createSpanWithClassName("menuViewSpy");
+		var listView = CORA.gui.createSpanWithClassName("listViewSpy");
 		var changed = false;
 		var active = false;
 		var menuViewCleared = 0;
@@ -31,7 +33,7 @@ var CORATEST = (function(coraTest) {
 		var workViewHidden = 0;
 		var workViewShown = 0;
 		var removed = 0;
-		
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -45,6 +47,9 @@ var CORATEST = (function(coraTest) {
 		function getWorkView() {
 			return workView;
 		}
+		function getListView() {
+			return listView;
+		}
 		function addMenuPresentation(presentationToAdd) {
 			addedMenuPresentations.push(presentationToAdd);
 		}
@@ -56,10 +61,17 @@ var CORATEST = (function(coraTest) {
 		function addWorkPresentation(presentationToAdd) {
 			addedWorkPresentations.push(presentationToAdd);
 		}
-
 		function getAddedWorkPresentation(number) {
 			return addedWorkPresentations[number];
 		}
+
+		function addListPresentation(presentationToAdd) {
+			addedListPresentations.push(presentationToAdd);
+		}
+		function getAddedListPresentation(number) {
+			return addedListPresentations[number];
+		}
+
 		function setChanged(changedIn) {
 			changed = changedIn;
 		}
@@ -113,6 +125,8 @@ var CORATEST = (function(coraTest) {
 			getAddedMenuPresentation : getAddedMenuPresentation,
 			addWorkPresentation : addWorkPresentation,
 			getAddedWorkPresentation : getAddedWorkPresentation,
+			addListPresentation : addListPresentation,
+			getAddedListPresentation : getAddedListPresentation,
 			setChanged : setChanged,
 			getChanged : getChanged,
 			setActive : setActive,
@@ -126,7 +140,8 @@ var CORATEST = (function(coraTest) {
 			showWorkView : showWorkView,
 			getWorkViewShown : getWorkViewShown,
 			remove : remove,
-			getRemoved : getRemoved
+			getRemoved : getRemoved,
+			getListView : getListView,
 		});
 
 		return out;

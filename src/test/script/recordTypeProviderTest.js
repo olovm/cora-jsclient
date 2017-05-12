@@ -21,7 +21,6 @@
 
 QUnit.module("recordTypeProviderTest.js", {
 	beforeEach : function() {
-		// this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		this.ajaxCallFactorySpy = CORATEST.standardFactorySpy("ajaxCallSpy");
 		var dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy
@@ -120,9 +119,18 @@ QUnit.test("getRecordTypeById", function(assert) {
 					"name" : "id",
 					"value" : "textSystemOne"
 				}, {
-					"name" : "type",
-					"value" : "recordType"
-				}, {
+	                "children": [
+	                    {
+	                        "name": "linkedRecordType",
+	                        "value": "recordType"
+	                    },
+	                    {
+	                        "name": "linkedRecordId",
+	                        "value": "recordType"
+	                    }
+	                ],
+	                "name": "type"
+	            }, {
 					"name" : "createdBy",
 					"value" : "userId"
 				}, {
@@ -343,7 +351,45 @@ QUnit.test("getMetadataByRecordTypeId", function(assert) {
 		"userSuppliedId" : "true",
 		"abstract" : "false",
 		"parentId" : "text",
-		"actionLinks" : {}
+		"actionLinks" : {
+			"search" : {
+				"requestMethod" : "GET",
+				"rel" : "search",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/vnd.uub.recordList+json"
+			},
+			"read" : {
+				"requestMethod" : "GET",
+				"rel" : "read",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
+				"accept" : "application/vnd.uub.record+json"
+			},
+			"update" : {
+				"requestMethod" : "POST",
+				"rel" : "update",
+				"contentType" : "application/vnd.uub.record+json",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
+				"accept" : "application/vnd.uub.record+json"
+			},
+			"create" : {
+				"requestMethod" : "POST",
+				"rel" : "create",
+				"contentType" : "application/vnd.uub.record+json",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/vnd.uub.record+json"
+			},
+			"list" : {
+				"requestMethod" : "GET",
+				"rel" : "list",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/vnd.uub.recordList+json"
+			},
+			"delete" : {
+				"requestMethod" : "DELETE",
+				"rel" : "delete",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne"
+			}
+		}
 	};
 	var x = provider.getMetadataByRecordTypeId("textSystemOne");
 	assert.stringifyEqual(x, expected);
@@ -363,7 +409,45 @@ QUnit.test("getMetadataByRecordTypeIdNoParentId", function(assert) {
 		"search" : "presentationVarSearch",
 		"userSuppliedId" : "true",
 		"abstract" : "true",
-		"actionLinks" : {}
+		"actionLinks" : {
+			"search" : {
+				"requestMethod" : "GET",
+				"rel" : "search",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/vnd.uub.recordList+json"
+			},
+			"read" : {
+				"requestMethod" : "GET",
+				"rel" : "read",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/metadata",
+				"accept" : "application/vnd.uub.record+json"
+			},
+			"update" : {
+				"requestMethod" : "POST",
+				"rel" : "update",
+				"contentType" : "application/vnd.uub.record+json",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/metadata",
+				"accept" : "application/vnd.uub.record+json"
+			},
+			"create" : {
+				"requestMethod" : "POST",
+				"rel" : "create",
+				"contentType" : "application/vnd.uub.record+json",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/vnd.uub.record+json"
+			},
+			"list" : {
+				"requestMethod" : "GET",
+				"rel" : "list",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/",
+				"accept" : "application/vnd.uub.recordList+json"
+			},
+			"delete" : {
+				"requestMethod" : "DELETE",
+				"rel" : "delete",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/metadata"
+			}
+		}
 	};
 	var x = provider.getMetadataByRecordTypeId("metadata");
 	assert.stringifyEqual(x, expected);

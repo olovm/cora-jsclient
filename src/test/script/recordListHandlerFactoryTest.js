@@ -22,9 +22,12 @@ QUnit.module("recordListHandlerFactoryTest.js", {
 	beforeEach : function() {
 		this.metadataProvider = new MetadataProviderStub();
 		this.dependencies = {
-			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
-			"recordHandlerFactory": CORATEST.standardFactorySpy("recordHandlerSpy")
+			"factories" : {
+				"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
+				"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
+				"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
+				"resultHandlerFactory" : CORATEST.standardFactorySpy("resultHandlerSpy")
+			}
 		};
 		this.spec = {
 			"presentationId" : "pVarTextVariableId",
@@ -60,10 +63,14 @@ QUnit.test("getDependencies", function(assert) {
 QUnit.test("factorTestDependencies", function(assert) {
 	var recordListHandler = this.recordListHandlerFactory.factor(this.spec);
 	var factoredDep = recordListHandler.getDependencies();
-	assert.strictEqual(factoredDep.ajaxCallFactory, this.dependencies.ajaxCallFactory);
-	assert.strictEqual(factoredDep.recordGuiFactory, this.dependencies.recordGuiFactory);
-	assert.strictEqual(factoredDep.recordHandlerFactory, this.dependencies.recordHandlerFactory);
-	assert.strictEqual(factoredDep.managedGuiItemFactory.type, "managedGuiItemFactory");
+	assert.strictEqual(factoredDep.ajaxCallFactory, this.dependencies.factories.ajaxCallFactory);
+	assert.strictEqual(factoredDep.recordGuiFactory, this.dependencies.factories.recordGuiFactory);
+	assert.strictEqual(factoredDep.recordHandlerFactory,
+			this.dependencies.factories.recordHandlerFactory);
+	assert.strictEqual(factoredDep.managedGuiItemFactory,
+			this.dependencies.factories.managedGuiItemFactory);
+	assert.strictEqual(factoredDep.resultHandlerFactory,
+			this.dependencies.factories.resultHandlerFactory);
 });
 
 QUnit.test("factorTestType", function(assert) {
