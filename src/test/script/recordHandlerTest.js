@@ -41,12 +41,20 @@ QUnit.module("recordHandlerTest.js", {
 		this.dependencies = dependencies;
 
 		this.spec = {
+			"fetchUpdatedDataFromServer" : "true",
+			"presentationMode" : "view",
+			"record" : this.record,
+			"jsClient" : CORATEST.jsClientSpy()
+		};
+		this.specUsePrefetchedData = {
+			"fetchUpdatedDataFromServer" : "false",
 			"presentationMode" : "view",
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy()
 		};
 
 		this.specForNew = {
+			"fetchUpdatedDataFromServer" : "false",
 			"presentationMode" : "new",
 			"recordTypeRecordIdForNew" : "recordType",
 			"record" : this.record,
@@ -263,7 +271,7 @@ QUnit.test("testCopyAsNewManagedGuiItemShownInJsClient", function(assert) {
 			.getManagedGuiItem());
 });
 
-QUnit.test("initCallToServer", function(assert) {
+QUnit.test("initTestDataFetchedFromServer", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
 
@@ -273,6 +281,14 @@ QUnit.test("initCallToServer", function(assert) {
 	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
 	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
 	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.processFetchedRecord);
+});
+
+QUnit.test("initTestUsePrefetchedData", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.specUsePrefetchedData);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec, undefined);
 });
 
 QUnit.test("testInitSubscriptions",

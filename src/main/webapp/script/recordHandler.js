@@ -21,6 +21,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandler = function(dependencies, spec) {
 		var presentationMode = spec.presentationMode;
+		var fetchUpdatedDataFromServer = spec.fetchUpdatedDataFromServer;
 		var managedGuiItem;
 		var messageHolder;
 		var recordHandlerView;
@@ -68,10 +69,17 @@ var CORA = (function(cora) {
 		function createNewOrFetchDataFromServerForExistingRecord() {
 			// console.log(presentationMode)
 			if ("new" === presentationMode) {
+				// if ("true" === fetchUpdatedDataFromServer) {
+
 				// console.log(presentationMode, "is NEW")
 				createGuiForNew(spec.record);
 			} else {
-				fetchDataFromServer(processFetchedRecord);
+				if ("true" === fetchUpdatedDataFromServer) {
+					fetchDataFromServer(processFetchedRecord);
+				} else {
+					fetchedRecord = spec.record;
+					tryToProcessFetchedRecord(spec.record);
+				}
 			}
 		}
 
@@ -93,7 +101,11 @@ var CORA = (function(cora) {
 
 			recordGui = createRecordGui(metadataId, copiedData);
 
+			// if ("new" === presentationMode) {
 			addNewEditPresentationToView(recordGui, metadataId);
+			// } else {
+			// addEditPresentationToView(recordGui, metadataId);
+			// }
 			addViewPresentationToView(recordGui, metadataId);
 			addMenuPresentationToView(recordGui, metadataId);
 			addListPresentationToView(recordGui, metadataId);
