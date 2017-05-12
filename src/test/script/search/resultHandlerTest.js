@@ -80,11 +80,13 @@ QUnit.test("testInitViewCreatesRecordHandlerForEachResultItem", function(assert)
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 
 	var recordHandlerSpec = this.dependencies.recordHandlerFactory.getSpec(0);
+	assert.strictEqual(recordHandlerSpec.fetchLatestDataFromServer, "false");
 	assert.strictEqual(recordHandlerSpec.presentationMode, "view");
 	assert.strictEqual(recordHandlerSpec.record, this.spec.dataList.data[0].record);
 	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
 
 	var recordHandlerLastSpec = this.dependencies.recordHandlerFactory.getSpec(37);
+	assert.strictEqual(recordHandlerLastSpec.fetchLatestDataFromServer, "false");
 	assert.strictEqual(recordHandlerLastSpec.presentationMode, "view");
 	assert.strictEqual(recordHandlerLastSpec.record, this.spec.dataList.data[37].record);
 	assert.strictEqual(recordHandlerLastSpec.jsClient, this.dependencies.jsClient);

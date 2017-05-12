@@ -53,6 +53,7 @@ var CORA = (function(cora) {
 		}
 		function addResultItemToWorkView(result) {
 			var recordHandlerSpec = {
+				"fetchLatestDataFromServer" : "false",
 				"presentationMode" : "view",
 				"record" : result,
 				"jsClient" : dependencies.jsClient,

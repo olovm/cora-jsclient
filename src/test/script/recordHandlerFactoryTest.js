@@ -36,15 +36,12 @@ QUnit.module("recordHandlerFactoryTest.js", {
 			"recordGuiFactory" : this.recordGuiFactorySpy,
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
 		};
+
 		this.spec = {
-			"recordTypeRecord" : CORATEST.record,
+			"fetchLatestDataFromServer" : "true",
 			"presentationMode" : "view",
-			"views" : CORATEST.managedGuiItemSpy(),
-			// "record" : CORATEST.record,
 			"record" : CORATEST.recordTypeList.dataList.data[4].record,
-			"jsClient" : CORATEST.jsClientSpy(),
-			"addToRecordTypeHandlerMethod" : function() {
-			}
+			"jsClient" : CORATEST.jsClientSpy()
 		};
 
 	},

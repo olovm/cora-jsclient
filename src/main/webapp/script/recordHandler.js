@@ -21,7 +21,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandler = function(dependencies, spec) {
 		var presentationMode = spec.presentationMode;
-		var fetchUpdatedDataFromServer = spec.fetchUpdatedDataFromServer;
+		var fetchLatestDataFromServer = spec.fetchLatestDataFromServer;
 		var managedGuiItem;
 		var messageHolder;
 		var recordHandlerView;
@@ -69,16 +69,16 @@ var CORA = (function(cora) {
 		function createNewOrFetchDataFromServerForExistingRecord() {
 			// console.log(presentationMode)
 			if ("new" === presentationMode) {
-				// if ("true" === fetchUpdatedDataFromServer) {
+				// if ("true" === fetchLatestDataFromServer) {
 
 				// console.log(presentationMode, "is NEW")
 				createGuiForNew(spec.record);
 			} else {
-				if ("true" === fetchUpdatedDataFromServer) {
+				if ("true" === fetchLatestDataFromServer) {
 					fetchDataFromServer(processFetchedRecord);
 				} else {
 					fetchedRecord = spec.record;
-					tryToProcessFetchedRecord(spec.record);
+					tryToProcessFetchedRecord(spec.record.data);
 				}
 			}
 		}

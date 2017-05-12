@@ -41,20 +41,20 @@ QUnit.module("recordHandlerTest.js", {
 		this.dependencies = dependencies;
 
 		this.spec = {
-			"fetchUpdatedDataFromServer" : "true",
+			"fetchLatestDataFromServer" : "true",
 			"presentationMode" : "view",
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy()
 		};
 		this.specUsePrefetchedData = {
-			"fetchUpdatedDataFromServer" : "false",
+			"fetchLatestDataFromServer" : "false",
 			"presentationMode" : "view",
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy()
 		};
 
 		this.specForNew = {
-			"fetchUpdatedDataFromServer" : "false",
+			"fetchLatestDataFromServer" : "false",
 			"presentationMode" : "new",
 			"recordTypeRecordIdForNew" : "recordType",
 			"record" : this.record,
@@ -287,8 +287,7 @@ QUnit.test("initTestUsePrefetchedData", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.specUsePrefetchedData);
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
 
-	var ajaxCallSpec = ajaxCallSpy.getSpec();
-	assert.strictEqual(ajaxCallSpec, undefined);
+	assert.strictEqual(ajaxCallSpy, undefined);
 });
 
 QUnit.test("testInitSubscriptions",
