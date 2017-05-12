@@ -146,24 +146,6 @@ QUnit.test("initCheckRemoveOnMenu", function(assert) {
 			.getAddedMenuPresentation(0).textContent, "List (recordType)");
 });
 
-// QUnit.test("fetchListCheckGeneratedList", function(assert) {
-// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-// this.answerListCall(0);
-// var factoredManagedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
-// assert.ok(factoredManagedGuiItem.getAddedWorkPresentation(14) !== undefined);
-// assert.ok(factoredManagedGuiItem.getAddedWorkPresentation(15) === undefined);
-// });
-
-// QUnit.test("fetchListCheckGeneratedListClickable", function(assert) {
-// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-// this.answerListCall(0);
-//
-// var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
-// .getAddedWorkPresentation(0);
-// assert.strictEqual(firstListItem.className, "listItem recordType");
-// assert.notStrictEqual(firstListItem.onclick, undefined);
-// });
-
 QUnit.test("fetchListCheckError", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
@@ -176,55 +158,6 @@ QUnit.test("fetchListCheckError", function(assert) {
 	assert.strictEqual(addedItem.textContent, "404");
 });
 
-// QUnit.test("fetchListCheckGeneratedListClickablecreateNewRecord", function(assert) {
-// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-// this.answerListCall(0);
-//
-// var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
-// .getAddedWorkPresentation(0);
-// var event = document.createEvent('Event');
-// firstListItem.onclick(event);
-//
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithcreateNewRecord(), "false");
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithRecord(), this.firstRecord);
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithLoadInBackground(), "false");
-// });
-//
-// QUnit.test("fetchListCheckGeneratedListClickableLoadInBackground", function(assert) {
-// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-// this.answerListCall(0);
-//
-// var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
-// .getAddedWorkPresentation(0);
-// var event = document.createEvent('Event');
-// event.ctrlKey = true;
-// firstListItem.onclick(event);
-//
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithLoadInBackground(), "true");
-// });
-//
-// QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
-// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-// this.answerListCall(0);
-//
-// var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
-// assert.strictEqual(factoredSpec.metadataId, "recordTypeGroup");
-// assert.strictEqual(factoredSpec.dataDivider, "cora");
-//
-// var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
-// assert.stringifyEqual(factoredRecordGui.getPresentationIdUsed(0), "recordTypeListPGroup");
-// assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(0), "recordTypeGroup");
-// });
-
-// QUnit.test("fetchListBroken", function(assert) {
-// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-// this.answerListCallBrokenList(0);
-//
-// var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
-// .getAddedWorkPresentation(1);
-// assert.strictEqual(firstListItem.textContent.substring(0, 10), "TypeError:");
-// });
-
 QUnit.test("fetchListResultHandlerCreated", function(assert) {
 	var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
 	this.answerListCall(0);
@@ -233,7 +166,6 @@ QUnit.test("fetchListResultHandlerCreated", function(assert) {
 
 	assert.stringifyEqual(resultHandlerSpec.jsClient, this.spec.jsClient);
 	assert.stringifyEqual(resultHandlerSpec.dataList, CORATEST.recordTypeList.dataList);
-	// assert.stringifyEqual(resultHandlerSpec.dataList, JSON.parse(answer.responseText).dataList);
 });
 
 QUnit.test("fetchListResultHandlerAddedToView", function(assert) {

@@ -68,73 +68,13 @@ var CORA = (function(cora) {
 		}
 
 		function createRecordTypeListFromAnswer(answer) {
-			var data = JSON.parse(answer.responseText).dataList.data;
-			// data.forEach(function(recordContainer) {
-			// tryToAddRecordToWorkView(recordContainer);
-			// });
 			var resultHandlerSpec = {
 				"dataList" : JSON.parse(answer.responseText).dataList,
 				"jsClient" : spec.jsClient
 			};
 			var resultHandler = dependencies.resultHandlerFactory.factor(resultHandlerSpec);
-			// view.addSearchResultToSearchResultHolder(resultHandler.getView());
 			managedGuiItem.addWorkPresentation(resultHandler.getView());
 		}
-
-		// function tryToAddRecordToWorkView(recordContainer) {
-		// try {
-		// addRecordToWorkView(recordContainer.record);
-		// } catch (e) {
-		// managedGuiItem.addWorkPresentation(document.createTextNode(e));
-		// managedGuiItem.addWorkPresentation(document.createTextNode(e.stack));
-		// }
-		// }
-		//
-		// function addRecordToWorkView(record) {
-		// var view = createView(record);
-		// managedGuiItem.addWorkPresentation(view);
-		//
-		// var recordTypeId = getRecordTypeIdFromRecord(record);
-		// var metadataId = spec.jsClient.getMetadataForRecordTypeId(recordTypeId).metadataId;
-		// var presentationId = spec.listPresentationViewId;
-		// var dataDivider = getDataDividerFromData(record.data);
-		// var recordGuiSpec = {
-		// "metadataId" : metadataId,
-		// "data" : record.data,
-		// "dataDivider" : dataDivider
-		// };
-		// var recordGui = dependencies.recordGuiFactory.factor(recordGuiSpec);
-		// var presentationView = recordGui.getPresentationHolder(presentationId, metadataId)
-		// .getView();
-		// recordGui.initMetadataControllerStartingGui();
-		//
-		// view.appendChild(presentationView);
-		// }
-		//
-		// function getRecordTypeIdFromRecord(record) {
-		// var cData = CORA.coraData(record.data);
-		// var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-		// return cRecordInfo.getFirstAtomicValueByNameInData("type");
-		// }
-		//
-		// function createView(record) {
-		// var newView = CORA.gui.createSpanWithClassName("listItem " + recordId);
-		// newView.onclick = function(event) {
-		// var loadInBackground = "false";
-		// if (event.ctrlKey) {
-		// loadInBackground = "true";
-		// }
-		// spec.openRecordMethod("view", record, loadInBackground);
-		// };
-		// return newView;
-		// }
-		//
-		// function getDataDividerFromData(data) {
-		// var cData = CORA.coraData(data);
-		// var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-		// var cDataDivider = CORA.coraData(cRecordInfo.getFirstChildByNameInData("dataDivider"));
-		// return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
-		// }
 
 		function callError(answer) {
 			var messageHolder = CORA.messageHolder();

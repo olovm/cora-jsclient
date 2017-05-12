@@ -119,9 +119,18 @@ QUnit.test("getRecordTypeById", function(assert) {
 					"name" : "id",
 					"value" : "textSystemOne"
 				}, {
-					"name" : "type",
-					"value" : "recordType"
-				}, {
+	                "children": [
+	                    {
+	                        "name": "linkedRecordType",
+	                        "value": "recordType"
+	                    },
+	                    {
+	                        "name": "linkedRecordId",
+	                        "value": "recordType"
+	                    }
+	                ],
+	                "name": "type"
+	            }, {
 					"name" : "createdBy",
 					"value" : "userId"
 				}, {

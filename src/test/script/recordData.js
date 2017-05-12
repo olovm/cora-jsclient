@@ -24,10 +24,20 @@ var CORATEST = (function(coraTest) {
 				"children" : [ {
 					"name" : "id",
 					"value" : "svEnText"
-				}, {
-					"name" : "type",
-					"value" : "textSystemOne"
-				}, {
+				}, 
+				{
+	                "children": [
+	                    {
+	                        "name": "linkedRecordType",
+	                        "value": "recordType"
+	                    },
+	                    {
+	                        "name": "linkedRecordId",
+	                        "value": "textSystemOne"
+	                    }
+	                ],
+	                "name": "type"
+	            }, {
 					"name" : "createdBy",
 					"value" : "userId"
 				},
@@ -92,9 +102,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "id",
 					"value" : "svEnText"
 				}, {
-					"name" : "type",
-					"value" : "textSystemOne"
-				}, {
+	                "children": [
+	                    {
+	                        "name": "linkedRecordType",
+	                        "value": "recordType"
+	                    },
+	                    {
+	                        "name": "linkedRecordId",
+	                        "value": "textSystemOne"
+	                    }
+	                ],
+	                "name": "type"
+	            }, {
 					"name" : "createdBy",
 					"value" : "userId"
 				},
