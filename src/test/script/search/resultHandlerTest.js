@@ -81,12 +81,14 @@ QUnit.test("testInitViewCreatesRecordHandlerForEachResultItem", function(assert)
 
 	var recordHandlerSpec = this.dependencies.recordHandlerFactory.getSpec(0);
 	assert.strictEqual(recordHandlerSpec.fetchLatestDataFromServer, "false");
+	assert.strictEqual(recordHandlerSpec.partOfList, "true");
 	assert.strictEqual(recordHandlerSpec.createNewRecord, "false");
 	assert.strictEqual(recordHandlerSpec.record, this.spec.dataList.data[0].record);
 	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
 
 	var recordHandlerLastSpec = this.dependencies.recordHandlerFactory.getSpec(37);
 	assert.strictEqual(recordHandlerLastSpec.fetchLatestDataFromServer, "false");
+	assert.strictEqual(recordHandlerSpec.partOfList, "true");
 	assert.strictEqual(recordHandlerLastSpec.createNewRecord, "false");
 	assert.strictEqual(recordHandlerLastSpec.record, this.spec.dataList.data[37].record);
 	assert.strictEqual(recordHandlerLastSpec.jsClient, this.dependencies.jsClient);
@@ -124,6 +126,8 @@ QUnit.test("testOpenRecord", function(assert) {
 	resultHandler.openRecord(openInfo);
 
 	var recordHandlerSpec = this.dependencies.recordHandlerFactory.getSpec(38);
+	assert.strictEqual(recordHandlerSpec.fetchLatestDataFromServer, "true");
+	assert.strictEqual(recordHandlerSpec.partOfList, "false");
 	assert.strictEqual(recordHandlerSpec.createNewRecord, "false");
 	assert.strictEqual(recordHandlerSpec.record, record);
 	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
@@ -147,6 +151,8 @@ QUnit.test("testOpenRecordInBackground", function(assert) {
 	resultHandler.openRecord(openInfo);
 
 	var recordHandlerSpec = this.dependencies.recordHandlerFactory.getSpec(38);
+	assert.strictEqual(recordHandlerSpec.fetchLatestDataFromServer, "true");
+	assert.strictEqual(recordHandlerSpec.partOfList, "false");
 	assert.strictEqual(recordHandlerSpec.createNewRecord, "false");
 	assert.strictEqual(recordHandlerSpec.record, record);
 	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
@@ -165,65 +171,3 @@ QUnit.test("testGetViewIsPassedOnToView", function(assert) {
 
 	assert.strictEqual(resultHandler.getView(), factoredView.getView());
 });
-
-// QUnit.test("fetchListCheckGeneratedListClickablecreateNewRecord", function(assert) {
-// var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-// var factoredView = this.dependencies.resultHandlerViewFactory.getFactored(0);
-//
-// var firstListItem = factoredView.getAddedPresentation(0);
-// var event = document.createEvent('Event');
-// firstListItem.onclick(event);
-//
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithcreateNewRecord(), "view");
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithRecord(), this.firstRecord);
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithLoadInBackground(), "false");
-// });
-
-// QUnit.test("fetchListCheckGeneratedListClickablecreateNewRecord", function(assert) {
-// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-// this.answerListCall(0);
-//
-// var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
-// .getAddedWorkPresentation(0);
-// var event = document.createEvent('Event');
-// firstListItem.onclick(event);
-//
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithcreateNewRecord(), "view");
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithRecord(), this.firstRecord);
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithLoadInBackground(), "false");
-// });
-//
-// QUnit.test("fetchListCheckGeneratedListClickableLoadInBackground", function(assert) {
-// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-// this.answerListCall(0);
-//
-// var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
-// .getAddedWorkPresentation(0);
-// var event = document.createEvent('Event');
-// event.ctrlKey = true;
-// firstListItem.onclick(event);
-//
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithLoadInBackground(), "true");
-// });
-//
-// QUnit.test("fetchListCheckUsedPresentationId", function(assert) {
-// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-// this.answerListCall(0);
-//
-// var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
-// assert.strictEqual(factoredSpec.metadataId, "recordTypeGroup");
-// assert.strictEqual(factoredSpec.dataDivider, "cora");
-//
-// var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
-// assert.stringifyEqual(factoredRecordGui.getPresentationIdUsed(0), "recordTypeListPGroup");
-// assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(0), "recordTypeGroup");
-// });
-
-// QUnit.test("fetchListBroken", function(assert) {
-// var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
-// this.answerListCallBrokenList(0);
-//
-// var firstListItem = this.dependencies.managedGuiItemFactory.getFactored(0)
-// .getAddedWorkPresentation(1);
-// assert.strictEqual(firstListItem.textContent.substring(0, 10), "TypeError:");
-// });

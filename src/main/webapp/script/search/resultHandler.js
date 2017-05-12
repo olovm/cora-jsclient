@@ -43,35 +43,32 @@ var CORA = (function(cora) {
 			var data = spec.dataList.data;
 			data.forEach(tryToAddResultItemToView);
 		}
+
 		function tryToAddResultItemToView(recordContainer) {
-			// try {
 			addResultItemToWorkView(recordContainer.record);
-			// } catch (e) {
-			// managedGuiItem.addWorkPresentation(document.createTextNode(e));
-			// managedGuiItem.addWorkPresentation(document.createTextNode(e.stack));
-			// }
 		}
+
 		function addResultItemToWorkView(result) {
 			var recordHandlerSpec = {
 				"fetchLatestDataFromServer" : "false",
+				"partOfList" : "true",
 				"createNewRecord" : "false",
 				"record" : result,
-				"jsClient" : dependencies.jsClient,
+				"jsClient" : dependencies.jsClient
 			};
 			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
 			view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getListView(), result);
-			// view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getWorkView());
 		}
 
 		function openRecord(openInfo) {
 			var recordHandlerSpec = {
+				"fetchLatestDataFromServer" : "true",
+				"partOfList" : "false",
 				"createNewRecord" : openInfo.createNewRecord,
 				"record" : openInfo.record,
-				"jsClient" : dependencies.jsClient,
+				"jsClient" : dependencies.jsClient
 			};
 			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
-			// view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getListView(),
-			// result);
 			dependencies.jsClient.addGuiItem(recordHandlerNew.getManagedGuiItem());
 			if (openInfo.loadInBackground !== "true") {
 				dependencies.jsClient.showView(recordHandlerNew.getManagedGuiItem());

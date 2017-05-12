@@ -94,10 +94,13 @@ var CORA = (function(cora) {
 
 			recordGui = createRecordGui(metadataId, copiedData);
 
-			addNewEditPresentationToView(recordGui, metadataId);
-			addViewPresentationToView(recordGui, metadataId);
-			addMenuPresentationToView(recordGui, metadataId);
-			addListPresentationToView(recordGui, metadataId);
+			if ("true" !== spec.partOfList) {
+				addNewEditPresentationToView(recordGui, metadataId);
+				addViewPresentationToView(recordGui, metadataId);
+				addMenuPresentationToView(recordGui, metadataId);
+			} else {
+				addListPresentationToView(recordGui, metadataId);
+			}
 			recordGui.initMetadataControllerStartingGui();
 			dataIsChanged = true;
 			managedGuiItem.setChanged(dataIsChanged);
@@ -255,12 +258,16 @@ var CORA = (function(cora) {
 			var metadataId = metadataForRecordType.metadataId;
 
 			recordGui = createRecordGui(metadataId, data, dataDivider);
-			if (recordHasUpdateLink()) {
-				addEditPresentationToView(recordGui, metadataId);
+			if ("true" !== spec.partOfList) {
+				if (recordHasUpdateLink()) {
+					addEditPresentationToView(recordGui, metadataId);
+				}
+				addViewPresentationToView(recordGui, metadataId);
+				addMenuPresentationToView(recordGui, metadataId);
+			} else {
+
+				addListPresentationToView(recordGui, metadataId);
 			}
-			addViewPresentationToView(recordGui, metadataId);
-			addMenuPresentationToView(recordGui, metadataId);
-			addListPresentationToView(recordGui, metadataId);
 			recordGui.initMetadataControllerStartingGui();
 
 			addEditButtonsToView();
@@ -310,6 +317,8 @@ var CORA = (function(cora) {
 
 		function copyData() {
 			var recordHandlerSpec = {
+				"fetchLatestDataFromServer" : "false",
+				"partOfList" : "false",
 				"createNewRecord" : "true",
 				"record" : recordGui.dataHolder.getData(),
 				"jsClient" : spec.jsClient,

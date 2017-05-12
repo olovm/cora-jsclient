@@ -42,12 +42,22 @@ QUnit.module("recordHandlerTest.js", {
 
 		this.spec = {
 			"fetchLatestDataFromServer" : "true",
+			"partOfList" : "false",
 			"createNewRecord" : "false",
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy()
 		};
 		this.specUsePrefetchedData = {
 			"fetchLatestDataFromServer" : "false",
+			"partOfList" : "false",
+			"createNewRecord" : "false",
+			"record" : this.record,
+			"jsClient" : CORATEST.jsClientSpy()
+		};
+
+		this.specList = {
+			"fetchLatestDataFromServer" : "false",
+			"partOfList" : "true",
 			"createNewRecord" : "false",
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy()
@@ -55,6 +65,7 @@ QUnit.module("recordHandlerTest.js", {
 
 		this.specForNew = {
 			"fetchLatestDataFromServer" : "false",
+			"partOfList" : "false",
 			"createNewRecord" : "true",
 			"recordTypeRecordIdForNew" : "recordType",
 			"record" : this.record,
@@ -239,6 +250,8 @@ QUnit.test("testCopyAsNew", function(assert) {
 	var dataHolderData = this.dependencies.recordGuiFactory.getFactored(0).dataHolder.getData();
 
 	var expectedSpec = {
+		"fetchLatestDataFromServer" : "false",
+		"partOfList" : "false",
 		"createNewRecord" : "true",
 		"record" : dataHolderData,
 		"jsClient" : this.spec.jsClient,
@@ -246,6 +259,9 @@ QUnit.test("testCopyAsNew", function(assert) {
 	};
 
 	var createdSpecForCopy = this.dependencies.recordHandlerFactory.getSpec(0);
+	assert.strictEqual(createdSpecForCopy.fetchLatestDataFromServer,
+			expectedSpec.fetchLatestDataFromServer);
+	assert.strictEqual(createdSpecForCopy.partOfList, expectedSpec.partOfList);
 	assert.strictEqual(createdSpecForCopy.createNewRecord, expectedSpec.createNewRecord);
 	assert.stringifyEqual(createdSpecForCopy.record, expectedSpec.record);
 	assert.strictEqual(createdSpecForCopy.jsClient, expectedSpec.jsClient);
@@ -513,11 +529,8 @@ QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
 	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(1), "textSystemOneMenuPGroup");
 	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(1), "textSystemOneGroup");
 
-	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(2), "textSystemOneListPGroup");
-	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(2), "textSystemOneGroup");
-
-	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(3), undefined);
-	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(3), undefined);
+	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(2), undefined);
+	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(2), undefined);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 
@@ -664,10 +677,8 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(2), "recordTypeMenuPGroup");
 	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(2), "recordTypeNewGroup");
 
-	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(3), "recordTypeListPGroup");
-	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(3), "recordTypeNewGroup");
-	assert.strictEqual(managedGuiItem.getAddedListPresentation(0), factoredRecordGui
-			.getReturnedPresentations(3).getView());
+	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(3), undefined);
+	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(3), undefined);
 
 	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	var item = managedGuiItem.getAddedMenuPresentation(0);
@@ -696,12 +707,32 @@ QUnit.test("initCheckRightGuiCreatedForExisting", function(assert) {
 	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(2), "recordTypeMenuPGroup");
 	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(2), "recordTypeGroup");
 
-	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(3), "recordTypeListPGroup");
-	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(3), "recordTypeGroup");
-
 	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	var item = managedGuiItem.getAddedMenuPresentation(0);
 	assert.strictEqual(item.nodeName, "SPAN");
+});
+QUnit.test("initCheckRightGuiCreatedForList", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.specList);
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+	// this.answerCall(0);
+
+	assert.strictEqual(recordHandler.getDataIsChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
+
+	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.metadataId, "recordTypeGroup");
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+
+	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(0), "recordTypeListPGroup");
+	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(0), "recordTypeGroup");
+
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	assert.strictEqual(managedGuiItem.getAddedListPresentation(0), factoredRecordGui
+			.getReturnedPresentations(0).getView());
+
+	var item = managedGuiItem.getAddedMenuPresentation(0);
+	assert.strictEqual(item, undefined);
 });
 
 QUnit.test("testCreateNewCall", function(assert) {

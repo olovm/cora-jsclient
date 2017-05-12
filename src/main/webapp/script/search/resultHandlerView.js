@@ -22,20 +22,11 @@ var CORA = (function(cora) {
 	cora.resultHandlerView = function(dependencies, spec) {
 		var view;
 		var resultsHolder;
-		// var searchFormHolder;
-		// var buttonView;
-		// var resultHolder;
 
 		function start() {
 			view = createView();
 			createInfo();
 			createResultsHolder();
-			// var workItemView = createWorkItemView();
-			// view = workItemView.getView();
-			// createSearchFormHolderAndAddTo(workItemView);
-			// createButtonViewAndAddTo(searchFormHolder);
-			// createSearchButtonIn(buttonView);
-			// createResultHolderAndAddTo(workItemView);
 		}
 
 		function createView() {
@@ -54,46 +45,9 @@ var CORA = (function(cora) {
 					+ spec.totalNo;
 		}
 
-		// function createWorkItemView() {
-		// var workItemViewSpec = {
-		// "extraClassName" : "search"
-		// };
-		// return dependencies.workItemViewFactory.factor(workItemViewSpec);
-		// }
-		//
-		// function createSearchFormHolderAndAddTo(addTo) {
-		// searchFormHolder = CORA.gui.createSpanWithClassName("searchFormHolder");
-		// addTo.addViewToView(searchFormHolder);
-		// }
-		//
-		// function createButtonViewAndAddTo(addTo) {
-		// buttonView = CORA.gui.createSpanWithClassName("buttonView");
-		// addTo.appendChild(buttonView);
-		// }
-		//
-		// function createSearchButtonIn(buttonViewToAddTo) {
-		// var searchButton = createButton();
-		// buttonViewToAddTo.appendChild(searchButton);
-		// }
-		//
-		// function createButton() {
-		// var button = document.createElement("input");
-		// button.type = "button";
-		// button.value = dependencies.textProvider.getTranslation("theClient_searchButtonText");
-		// button.onclick = spec.searchMethod;
-		// button.className = "searchButton";
-		// return button;
-		// }
-		//
-		// function createResultHolderAndAddTo(addTo) {
-		// resultHolder = CORA.gui.createSpanWithClassName("resultHolder");
-		// addTo.addViewToView(resultHolder);
-		// }
-
 		function addChildPresentation(presentationToAdd, record) {
 			var childView = createRecordView(record);
 			childView.appendChild(presentationToAdd);
-			// resultsHolder.appendChild(presentationToAdd);
 			resultsHolder.appendChild(childView);
 		}
 		function createRecordView(record) {
@@ -108,7 +62,6 @@ var CORA = (function(cora) {
 					"record" : record,
 					"loadInBackground" : loadInBackground
 				};
-				// spec.resultHandler.openRecord("view", record, loadInBackground);
 				spec.resultHandler.openRecord(openInfo);
 			};
 			return newView;
@@ -116,27 +69,12 @@ var CORA = (function(cora) {
 		function getView() {
 			return view;
 		}
-		//
-		// function addPresentationToSearchFormHolder(presentationToAdd) {
-		// searchFormHolder.insertBefore(presentationToAdd, searchFormHolder.lastChild);
-		// }
-		//
-		// function getDependencies() {
-		// return dependencies;
-		// }
-		//
-		// function getSpec() {
-		// return spec;
-		// }
 
 		start();
 		return Object.freeze({
 			"type" : "resultHandlerView",
-			// getDependencies : getDependencies,
-			// getSpec : getSpec,
 			getView : getView,
 			addChildPresentation : addChildPresentation
-		// addPresentationToSearchFormHolder : addPresentationToSearchFormHolder
 		});
 	};
 	return cora;
