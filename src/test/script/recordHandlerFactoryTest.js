@@ -39,7 +39,7 @@ QUnit.module("recordHandlerFactoryTest.js", {
 
 		this.spec = {
 			"fetchLatestDataFromServer" : "true",
-			"presentationMode" : "view",
+			"createNewRecord" : "false",
 			"record" : CORATEST.recordTypeList.dataList.data[4].record,
 			"jsClient" : CORATEST.jsClientSpy()
 		};

@@ -54,7 +54,7 @@ var CORA = (function(cora) {
 		function addResultItemToWorkView(result) {
 			var recordHandlerSpec = {
 				"fetchLatestDataFromServer" : "false",
-				"presentationMode" : "view",
+				"createNewRecord" : "false",
 				"record" : result,
 				"jsClient" : dependencies.jsClient,
 			};
@@ -65,7 +65,7 @@ var CORA = (function(cora) {
 
 		function openRecord(openInfo) {
 			var recordHandlerSpec = {
-				"presentationMode" : openInfo.presentationMode,
+				"createNewRecord" : openInfo.createNewRecord,
 				"record" : openInfo.record,
 				"jsClient" : dependencies.jsClient,
 			};

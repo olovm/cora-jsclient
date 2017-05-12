@@ -62,9 +62,9 @@ QUnit.test("initAndGetView", function(assert) {
 
 QUnit.test("initWithCreateButtonAsWeHaveACreateNewMethod", function(assert) {
 	var createNewMethodIsCalled = false;
-	var presentationModeCalled;
-	function createNewMethod(presentationMode) {
-		presentationModeCalled = presentationMode;
+	var createNewRecordCalled;
+	function createNewMethod(createNewRecord) {
+		createNewRecordCalled = createNewRecord;
 		createNewMethodIsCalled = true;
 	}
 	this.spec.createNewMethod = createNewMethod;
@@ -78,6 +78,6 @@ QUnit.test("initWithCreateButtonAsWeHaveACreateNewMethod", function(assert) {
 
 	var event = document.createEvent('Event');
 	createButton.onclick(event);
-	assert.strictEqual(presentationModeCalled, "new");
+	assert.strictEqual(createNewRecordCalled, "true");
 	assert.strictEqual(createNewMethodIsCalled, true);
 });

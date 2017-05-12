@@ -20,7 +20,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandler = function(dependencies, spec) {
-		var presentationMode = spec.presentationMode;
+		var createNewRecord = spec.createNewRecord;
 		var fetchLatestDataFromServer = spec.fetchLatestDataFromServer;
 		var managedGuiItem;
 		var messageHolder;
@@ -67,11 +67,7 @@ var CORA = (function(cora) {
 		}
 
 		function createNewOrFetchDataFromServerForExistingRecord() {
-			// console.log(presentationMode)
-			if ("new" === presentationMode) {
-				// if ("true" === fetchLatestDataFromServer) {
-
-				// console.log(presentationMode, "is NEW")
+			if ("true" === createNewRecord) {
 				createGuiForNew(spec.record);
 			} else {
 				if ("true" === fetchLatestDataFromServer) {
@@ -84,7 +80,6 @@ var CORA = (function(cora) {
 		}
 
 		function createGuiForNew(oldData) {
-			// console.log("IN CREATEGUIFORNEW")
 			try {
 				tryToCreateGuiForNew(oldData);
 			} catch (error) {
@@ -93,19 +88,13 @@ var CORA = (function(cora) {
 		}
 
 		function tryToCreateGuiForNew(copiedData) {
-			// console.log("IN TRY TO CREATEGUIFORNEW")
-			// console.log("#######################")
 			recordTypeId = spec.recordTypeRecordIdForNew;
 			metadataForRecordType = spec.jsClient.getMetadataForRecordTypeId(recordTypeId);
 			var metadataId = metadataForRecordType.newMetadataId;
 
 			recordGui = createRecordGui(metadataId, copiedData);
 
-			// if ("new" === presentationMode) {
 			addNewEditPresentationToView(recordGui, metadataId);
-			// } else {
-			// addEditPresentationToView(recordGui, metadataId);
-			// }
 			addViewPresentationToView(recordGui, metadataId);
 			addMenuPresentationToView(recordGui, metadataId);
 			addListPresentationToView(recordGui, metadataId);
@@ -182,10 +171,8 @@ var CORA = (function(cora) {
 
 		function addListPresentationToView(currentRecordGui, metadataIdUsedInData) {
 			var viewId = metadataForRecordType.listPresentationViewId;
-			// console.log("#######################", viewId)
 			var presentation = currentRecordGui.getPresentationHolder(viewId, metadataIdUsedInData)
 					.getView();
-			// // managedGuiItem.clearMenuView();
 			managedGuiItem.addListPresentation(presentation);
 		}
 
@@ -268,7 +255,6 @@ var CORA = (function(cora) {
 			var metadataId = metadataForRecordType.metadataId;
 
 			recordGui = createRecordGui(metadataId, data, dataDivider);
-			// addRecordToWorkView(recordGui, metadataId);
 			if (recordHasUpdateLink()) {
 				addEditPresentationToView(recordGui, metadataId);
 			}
@@ -324,7 +310,7 @@ var CORA = (function(cora) {
 
 		function copyData() {
 			var recordHandlerSpec = {
-				"presentationMode" : "new",
+				"createNewRecord" : "true",
 				"record" : recordGui.dataHolder.getData(),
 				"jsClient" : spec.jsClient,
 				"recordTypeRecordIdForNew" : recordTypeId

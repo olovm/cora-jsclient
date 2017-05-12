@@ -42,20 +42,20 @@ QUnit.module("recordHandlerTest.js", {
 
 		this.spec = {
 			"fetchLatestDataFromServer" : "true",
-			"presentationMode" : "view",
+			"createNewRecord" : "false",
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy()
 		};
 		this.specUsePrefetchedData = {
 			"fetchLatestDataFromServer" : "false",
-			"presentationMode" : "view",
+			"createNewRecord" : "false",
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy()
 		};
 
 		this.specForNew = {
 			"fetchLatestDataFromServer" : "false",
-			"presentationMode" : "new",
+			"createNewRecord" : "true",
 			"recordTypeRecordIdForNew" : "recordType",
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy()
@@ -239,14 +239,14 @@ QUnit.test("testCopyAsNew", function(assert) {
 	var dataHolderData = this.dependencies.recordGuiFactory.getFactored(0).dataHolder.getData();
 
 	var expectedSpec = {
-		"presentationMode" : "new",
+		"createNewRecord" : "true",
 		"record" : dataHolderData,
 		"jsClient" : this.spec.jsClient,
 		"recordTypeRecordIdForNew" : "recordType",
 	};
 
 	var createdSpecForCopy = this.dependencies.recordHandlerFactory.getSpec(0);
-	assert.strictEqual(createdSpecForCopy.presentationMode, expectedSpec.presentationMode);
+	assert.strictEqual(createdSpecForCopy.createNewRecord, expectedSpec.createNewRecord);
 	assert.stringifyEqual(createdSpecForCopy.record, expectedSpec.record);
 	assert.strictEqual(createdSpecForCopy.jsClient, expectedSpec.jsClient);
 	assert.strictEqual(createdSpecForCopy.recordTypeRecordIdForNew,
@@ -364,7 +364,7 @@ QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
 });
 
 QUnit.test("testUpdateCall", function(assert) {
-	this.spec.presentationMode = "edit";
+	this.spec.createNewRecord = "false";
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	this.answerCall(0);
 
@@ -430,7 +430,7 @@ QUnit.test("testUpdateThroughPubSubCall", function(assert) {
 });
 
 QUnit.test("testUpdateDataIsChanged", function(assert) {
-	this.spec.presentationMode = "edit";
+	this.spec.createNewRecord = "false";
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
 	this.answerCall(0);
@@ -464,7 +464,7 @@ QUnit.test("testUpdateDataIsChanged", function(assert) {
 });
 
 QUnit.test("testUpdateCallValidationError", function(assert) {
-	this.spec.presentationMode = "edit";
+	this.spec.createNewRecord = "false";
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	this.answerCall(0);
 	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
@@ -496,7 +496,7 @@ QUnit.test("testUpdateCallValidationError", function(assert) {
 });
 
 QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
-	this.spec.presentationMode = "edit";
+	this.spec.createNewRecord = "false";
 	this.spec.record = this.recordWithoutUpdateOrDeleteLink;
 
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
@@ -532,7 +532,7 @@ QUnit.test("testNoUpdateButtonAndEditFormWhenNoUpdateLink", function(assert) {
 });
 
 QUnit.test("testDeleteCall", function(assert) {
-	this.spec.presentationMode = "edit";
+	this.spec.createNewRecord = "false";
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	this.answerCall(0);
 
@@ -595,7 +595,7 @@ QUnit.test("testDeleteCall", function(assert) {
 });
 
 QUnit.test("testDeleteCallNoParentsForViews", function(assert) {
-	this.spec.presentationMode = "edit";
+	this.spec.createNewRecord = "false";
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	this.answerCall(0);
 
@@ -615,7 +615,7 @@ QUnit.test("testDeleteCallNoParentsForViews", function(assert) {
 });
 
 QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
-	this.spec.presentationMode = "edit";
+	this.spec.createNewRecord = "false";
 	this.spec.record = this.recordWithoutDeleteLink;
 
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
@@ -751,7 +751,7 @@ QUnit.test("testCreateNewCallValidationError", function(assert) {
 });
 
 QUnit.test("fetchListCheckError", function(assert) {
-	this.spec.presentationMode = "view";
+	this.spec.createNewRecord = "false";
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
 	ajaxCallSpy.getSpec().errorMethod({
@@ -769,7 +769,7 @@ QUnit.test("checkRightGuiCreatedPresentationMetadataIsMissing", function(assert)
 			throw new Error("missing metadata");
 		}
 	};
-	this.spec.presentationMode = "view";
+	this.spec.createNewRecord = "false";
 	this.dependencies.recordGuiFactory = recordGuiFactorySpy;
 
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);

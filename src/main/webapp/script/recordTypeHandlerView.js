@@ -52,7 +52,7 @@ var CORA = (function(cora) {
 			var buttonSpec = {
 				"className" : "createButton",
 				"onclick" : function() {
-					spec.createNewMethod("new");
+					spec.createNewMethod("true");
 				}
 			};
 			return CORA.gui.createButton(buttonSpec);

@@ -66,9 +66,9 @@ var CORA = (function(cora) {
 			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
-		function createRecordHandler(presentationMode, record, loadInBackground) {
+		function createRecordHandler(createNewRecord, record, loadInBackground) {
 			var recordHandlerSpec = {
-				"presentationMode" : presentationMode,
+				"createNewRecord" : createNewRecord,
 				"record" : record,
 				"jsClient" : dependencies.jsClient,
 				"recordTypeRecordIdForNew" : recordId

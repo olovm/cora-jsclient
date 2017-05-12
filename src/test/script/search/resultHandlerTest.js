@@ -81,13 +81,13 @@ QUnit.test("testInitViewCreatesRecordHandlerForEachResultItem", function(assert)
 
 	var recordHandlerSpec = this.dependencies.recordHandlerFactory.getSpec(0);
 	assert.strictEqual(recordHandlerSpec.fetchLatestDataFromServer, "false");
-	assert.strictEqual(recordHandlerSpec.presentationMode, "view");
+	assert.strictEqual(recordHandlerSpec.createNewRecord, "false");
 	assert.strictEqual(recordHandlerSpec.record, this.spec.dataList.data[0].record);
 	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
 
 	var recordHandlerLastSpec = this.dependencies.recordHandlerFactory.getSpec(37);
 	assert.strictEqual(recordHandlerLastSpec.fetchLatestDataFromServer, "false");
-	assert.strictEqual(recordHandlerLastSpec.presentationMode, "view");
+	assert.strictEqual(recordHandlerLastSpec.createNewRecord, "false");
 	assert.strictEqual(recordHandlerLastSpec.record, this.spec.dataList.data[37].record);
 	assert.strictEqual(recordHandlerLastSpec.jsClient, this.dependencies.jsClient);
 
@@ -117,14 +117,14 @@ QUnit.test("testOpenRecord", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	var record = {};
 	var openInfo = {
-		"presentationMode" : "view",
+		"createNewRecord" : "false",
 		"record" : record,
 		"loadInBackground" : "false"
 	};
 	resultHandler.openRecord(openInfo);
 
 	var recordHandlerSpec = this.dependencies.recordHandlerFactory.getSpec(38);
-	assert.strictEqual(recordHandlerSpec.presentationMode, "view");
+	assert.strictEqual(recordHandlerSpec.createNewRecord, "false");
 	assert.strictEqual(recordHandlerSpec.record, record);
 	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
 
@@ -140,14 +140,14 @@ QUnit.test("testOpenRecordInBackground", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	var record = {};
 	var openInfo = {
-		"presentationMode" : "view",
+		"createNewRecord" : "false",
 		"record" : record,
 		"loadInBackground" : "true"
 	};
 	resultHandler.openRecord(openInfo);
 
 	var recordHandlerSpec = this.dependencies.recordHandlerFactory.getSpec(38);
-	assert.strictEqual(recordHandlerSpec.presentationMode, "view");
+	assert.strictEqual(recordHandlerSpec.createNewRecord, "false");
 	assert.strictEqual(recordHandlerSpec.record, record);
 	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
 
@@ -166,7 +166,7 @@ QUnit.test("testGetViewIsPassedOnToView", function(assert) {
 	assert.strictEqual(resultHandler.getView(), factoredView.getView());
 });
 
-// QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(assert) {
+// QUnit.test("fetchListCheckGeneratedListClickablecreateNewRecord", function(assert) {
 // var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 // var factoredView = this.dependencies.resultHandlerViewFactory.getFactored(0);
 //
@@ -174,12 +174,12 @@ QUnit.test("testGetViewIsPassedOnToView", function(assert) {
 // var event = document.createEvent('Event');
 // firstListItem.onclick(event);
 //
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithPresentationMode(), "view");
+// assert.stringifyEqual(this.getopenRecordMethodCalledWithcreateNewRecord(), "view");
 // assert.stringifyEqual(this.getopenRecordMethodCalledWithRecord(), this.firstRecord);
 // assert.stringifyEqual(this.getopenRecordMethodCalledWithLoadInBackground(), "false");
 // });
 
-// QUnit.test("fetchListCheckGeneratedListClickablePresentationMode", function(assert) {
+// QUnit.test("fetchListCheckGeneratedListClickablecreateNewRecord", function(assert) {
 // var recordListHandler = CORA.recordListHandler(this.dependencies, this.spec);
 // this.answerListCall(0);
 //
@@ -188,7 +188,7 @@ QUnit.test("testGetViewIsPassedOnToView", function(assert) {
 // var event = document.createEvent('Event');
 // firstListItem.onclick(event);
 //
-// assert.stringifyEqual(this.getopenRecordMethodCalledWithPresentationMode(), "view");
+// assert.stringifyEqual(this.getopenRecordMethodCalledWithcreateNewRecord(), "view");
 // assert.stringifyEqual(this.getopenRecordMethodCalledWithRecord(), this.firstRecord);
 // assert.stringifyEqual(this.getopenRecordMethodCalledWithLoadInBackground(), "false");
 // });

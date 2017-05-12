@@ -104,7 +104,7 @@ var CORA = (function(cora) {
 					loadInBackground = "true";
 				}
 				var openInfo = {
-					"presentationMode" : "view",
+					"createNewRecord" : "false",
 					"record" : record,
 					"loadInBackground" : loadInBackground
 				};
