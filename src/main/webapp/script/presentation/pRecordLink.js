@@ -48,8 +48,6 @@ var CORA = (function(cora) {
 			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
 			var linkedRecordType = cRecordTypeGroup
 				.getFirstAtomicValueByNameInData("linkedRecordId");
-				//var linkedRecordType = cMetadataElement
-				//	.getFirstAtomicValueByNameInData("linkedRecordType");
 			var viewSpec = {
 				"presentationId" : "somePresentationId",
 				"mode" : "input",
