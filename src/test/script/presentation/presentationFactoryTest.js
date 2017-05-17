@@ -27,6 +27,7 @@ QUnit.module("presentationFactoryTest.js", {
 		this.dataDivider = "systemX";
 
 		this.dependencies = {
+			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
 			"metadataProvider" : this.metadataProvider,
 			"pubSub" : this.pubSub,
 			"textProvider" : this.textProvider,
@@ -127,6 +128,8 @@ QUnit.test("testFactorPRecordLink", function(assert) {
 	var pRecordLink = this.newPresentationFactory.factor({}, "groupIdTwoTextChildRepeat1to5",
 			cPresentation);
 	assert.strictEqual(pRecordLink.type, "pRecordLink");
+	assert.strictEqual(pRecordLink.getDependencies().clientInstanceProvider,
+			this.dependencies.clientInstanceProvider);
 	assert.strictEqual(pRecordLink.getDependencies().pRecordLinkViewFactory.type,
 			"pRecordLinkViewFactory");
 });

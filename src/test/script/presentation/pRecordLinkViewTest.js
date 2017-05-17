@@ -35,7 +35,9 @@ QUnit.module("pRecordLinkViewTest.js", {
 				"defText" : "someDefText",
 				"technicalInfo" : [ "textId: " + "textId", "defTextId: " + "defTextId",
 						"metadataId: " + "metadataId" ]
-			}
+			},
+			"pRecordLink" : CORATEST.pRecordLinkSpy()
+
 		};
 
 	},
@@ -138,6 +140,53 @@ QUnit.test("testInfoButtonAddedToView", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
 	assert.strictEqual(view.childNodes[0].className, "infoButtonSpy");
+});
+
+QUnit.test("testOpenLinkedRecordAddedToView", function(assert) {
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	pRecordLinkView.showOpenLinkedRecord();
+	var view = pRecordLinkView.getView();
+	assert.strictEqual(view.childNodes[0].className, "openLinkedRecordButton");
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	pRecordLinkView.showOpenLinkedRecord();
+	var view = pRecordLinkView.getView();
+	assert.strictEqual(view.childNodes[0].className, "openLinkedRecordButton");
+});
+
+QUnit.test("testOpenLinkedRecordRemovedFromView", function(assert) {
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	pRecordLinkView.showOpenLinkedRecord();
+	var view = pRecordLinkView.getView();
+	assert.strictEqual(view.childNodes[0].className, "openLinkedRecordButton");
+	pRecordLinkView.hideOpenLinkedRecord();
+	assert.strictEqual(view.childNodes[0].className, "infoButtonSpy");
+});
+
+QUnit.test("testAddChildPresentationClickableLoadInBackground", function(assert) {
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	pRecordLinkView.showOpenLinkedRecord();
+	var view = pRecordLinkView.getView();
+	var openButton = view.childNodes[0];
+	assert.strictEqual(openButton.className, "openLinkedRecordButton");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = true;
+	openButton.onclick(event);
+
+	assert.strictEqual(this.spec.pRecordLink.getOpenLinkedRecord(0).loadInBackground, "true");
+});
+QUnit.test("testAddChildPresentationClickableLoadInForground", function(assert) {
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	pRecordLinkView.showOpenLinkedRecord();
+	var view = pRecordLinkView.getView();
+	var openButton = view.childNodes[0];
+	assert.strictEqual(openButton.className, "openLinkedRecordButton");
+
+	var event = document.createEvent('Event');
+	// event.ctrlKey = true;
+	openButton.onclick(event);
+
+	assert.strictEqual(this.spec.pRecordLink.getOpenLinkedRecord(0).loadInBackground, "false");
 });
 
 QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {

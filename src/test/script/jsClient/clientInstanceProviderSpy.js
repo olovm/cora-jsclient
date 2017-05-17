@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
- *
+ * 
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -18,33 +18,22 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.pRecordLinkViewFactorySpy = function() {
-		var factored = [];
-		var factoredSpec = [];
+	coraTest.clientInstanceProviderSpy = function(dependencies, spec) {
+		var jsClient = CORATEST.jsClientSpy();
 
-		function factor(pRecordLinkViewSpec) {
-			factoredSpec.push(pRecordLinkViewSpec);
-			var factoredpRecordLinkView = CORATEST.pRecordLinkViewSpy({},
-					pRecordLinkViewSpec);
-			factored.push(factoredpRecordLinkView);
-			return factoredpRecordLinkView;
+		function setJsClient(jsClientToSet) {
+			jsClient = jsClientToSet;
 		}
 
-		function getFactored(number) {
-			return factored[number];
+		function getJsClient() {
+			return jsClient;
 		}
 
-		function getSpec(number) {
-			return factoredSpec[number];
-		}
-
-		var out = Object.freeze({
-			"type" : "pRecordLinkViewFactorySpy",
-			factor : factor,
-			getFactored : getFactored,
-			getSpec : getSpec
+		return Object.freeze({
+			"type" : "clientInstanceProviderSpy",
+			setJsClient : setJsClient,
+			getJsClient : getJsClient
 		});
-		return out;
 	};
 	return coraTest;
-}(CORATEST));
+}(CORATEST || {}));

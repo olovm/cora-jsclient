@@ -68,6 +68,7 @@ var CORA = (function(cora) {
 			var uploadManager = uploadManagerFactory.factor(uploadManagerSpec);
 
 			var recordGuiFactoryDep = {
+				"clientInstanceProvider" : providers.clientInstanceProvider,
 				"textProvider" : providers.textProvider,
 				"ajaxCallFactory" : ajaxCallFactory,
 				"metadataProvider" : providers.metadataProvider,
@@ -78,6 +79,7 @@ var CORA = (function(cora) {
 			var recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);
 
 			var depRecordHandler = {
+				"clientInstanceProvider" : providers.clientInstanceProvider,
 				"ajaxCallFactory" : ajaxCallFactory,
 				"recordGuiFactory" : recordGuiFactory,
 				"managedGuiItemFactory" : managedGuiItemFactory
@@ -108,6 +110,7 @@ var CORA = (function(cora) {
 			var recordTypeHandlerViewFactory = CORA.recordTypeHandlerViewFactory();
 
 			var dependenciesRTH = {
+				"clientInstanceProvider" : providers.clientInstanceProvider,
 				"factories" : factories
 			};
 			var recordTypeHandlerFactory = CORA.recordTypeHandlerFactory(dependenciesRTH);
@@ -126,6 +129,7 @@ var CORA = (function(cora) {
 			factories.recordTypeHandlerViewFactory = recordTypeHandlerViewFactory;
 
 			var dep = {
+				"clientInstanceProvider" : providers.clientInstanceProvider,
 				"factories" : factories,
 				"recordTypeProvider" : providers.recordTypeProvider,
 				"authTokenHolder" : authTokenHolder,
