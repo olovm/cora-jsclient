@@ -52,8 +52,9 @@ var CORA = (function(cora) {
 			var defTextId = extractTextId("defTextId");
 			var defText = textProvider.getTranslation(defTextId);
 
-			var linkedRecordType = cMetadataElement
-					.getFirstAtomicValueByNameInData("linkedRecordType");
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var linkedRecordType = cRecordTypeGroup
+				.getFirstAtomicValueByNameInData("linkedRecordId");
 			var viewSpec = {
 				"presentationId" : "somePresentationId",
 				"mode" : "input",

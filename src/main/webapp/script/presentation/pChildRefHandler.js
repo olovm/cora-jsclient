@@ -179,7 +179,8 @@ var CORA = (function(cora) {
 		}
 
 		function getLinkedRecordType() {
-			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var recordTypeId = cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			var cRecordType = getRecordTypeById(recordTypeId);
 			return cRecordType;
 		}
@@ -491,7 +492,9 @@ var CORA = (function(cora) {
 		}
 
 		function getImplementingLinkedRecordType() {
-			var recordTypeId = cMetadataElement.getFirstAtomicValueByNameInData("linkedRecordType");
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var recordTypeId = cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+
 			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);
 			return dependencies.recordTypeProvider.getRecordTypeById(recordTypeId);
 		}
