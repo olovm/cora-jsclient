@@ -25,10 +25,7 @@ QUnit.module("resultHandlerViewFactoryTest.js", {
 			"textProvider" : CORATEST.textProviderSpy()
 		};
 
-		this.spec = {
-		// "searchMethod" : function() {
-		// }
-		};
+		this.spec = {};
 	},
 	afterEach : function() {
 	}
@@ -39,10 +36,10 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(resultHandlerViewFactory.type, "resultHandlerViewFactory");
 });
 
-// QUnit.test("testGetDependencies", function(assert) {
-// var resultHandlerViewFactory = CORA.resultHandlerViewFactory(this.dependencies);
-// assert.strictEqual(resultHandlerViewFactory.getDependencies(), this.dependencies);
-// });
+QUnit.test("testGetDependencies", function(assert) {
+	var resultHandlerViewFactory = CORA.resultHandlerViewFactory(this.dependencies);
+	assert.strictEqual(resultHandlerViewFactory.getDependencies(), this.dependencies);
+});
 
 QUnit.test("testFactor", function(assert) {
 	var resultHandlerViewFactory = CORA.resultHandlerViewFactory(this.dependencies);
@@ -60,9 +57,9 @@ QUnit.test("testFactor", function(assert) {
 // assert.strictEqual(resultHandlerView.getDependencies().textProvider,
 // this.dependencies.textProvider);
 // });
-//
-// QUnit.test("factorTestSpec", function(assert) {
-// var resultHandlerViewFactory = CORA.resultHandlerViewFactory(this.dependencies);
-// var resultHandlerView = resultHandlerViewFactory.factor(this.spec);
-// assert.strictEqual(resultHandlerView.getSpec(), this.spec);
-// });
+
+QUnit.test("factorTestSpec", function(assert) {
+	var resultHandlerViewFactory = CORA.resultHandlerViewFactory(this.dependencies);
+	var resultHandlerView = resultHandlerViewFactory.factor(this.spec);
+	assert.strictEqual(resultHandlerView.getSpec(), this.spec);
+});

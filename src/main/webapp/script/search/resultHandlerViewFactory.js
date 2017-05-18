@@ -21,11 +21,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.resultHandlerViewFactory = function(dependencies) {
 
-		var dep = {
-		// "textProvider" : dependencies.textProvider,
-		// "workItemViewFactory" : CORA.workItemViewFactory(),
-		// "messageHolderFactory" : CORA.messageHolderFactory()
-		};
+		var dep = {};
 
 		function factor(spec) {
 			return CORA.resultHandlerView(dep, spec);
