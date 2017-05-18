@@ -22,6 +22,7 @@ var CORA = (function(cora) {
 
 		function factor(uploadManagerSpec) {
 			var dep = {
+				"clientInstanceProvider" : dependencies.clientInstanceProvider,
 				"textProvider" : dependencies.textProvider,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"managedGuiItemFactory" : dependencies.managedGuiItemFactory

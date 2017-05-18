@@ -23,6 +23,7 @@ QUnit.module("uploadManagerTest.js", {
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		var textProvider = CORATEST.textProviderStub();
 		var dependencies = {
+			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
 			"textProvider" : textProvider,
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
@@ -75,9 +76,16 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(this.uploadManager.getSpec(), this.spec);
 });
 
+QUnit.test("testInitCreatesView", function(assert) {
+	var viewSpec = this.uploadManager.view.getSpec();
+	assert.strictEqual(viewSpec.showWorkViewMethod, this.dependencies.clientInstanceProvider
+			.getJsClient().showView);
+});
+
 QUnit.test("testInitCreatesManagedGuiItem", function(assert) {
 	var factoredManagedGuiItemSpec = this.dependencies.managedGuiItemFactory.getSpec(0);
-	assert.strictEqual(factoredManagedGuiItemSpec.activateMethod, this.spec.showView);
+	assert.strictEqual(factoredManagedGuiItemSpec.activateMethod,
+			this.dependencies.clientInstanceProvider.getJsClient().showView);
 	assert.strictEqual(factoredManagedGuiItemSpec.disableRemove, "true");
 });
 

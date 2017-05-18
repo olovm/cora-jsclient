@@ -69,6 +69,7 @@ QUnit.test("factorTestDependencies", function(assert) {
 	assert.strictEqual(factoredDep.recordTypeProvider, this.providers.recordTypeProvider);
 
 	assert.strictEqual(factoredDep.uploadManager.type, "uploadManager");
+
 });
 
 QUnit.test("testAjaxCallFactoryDependencies", function(assert) {
@@ -108,6 +109,7 @@ QUnit.test("testUploadManagerDependencies", function(assert) {
 	var jsClientFactory = CORA.jsClientFactory(this.providers, this.dependencies);
 	var jsClientFactoredDep = jsClientFactory.factor(this.spec).getDependencies();
 	var factoredDep = jsClientFactoredDep.uploadManager.getDependencies();
+	assert.strictEqual(factoredDep.clientInstanceProvider, this.providers.clientInstanceProvider);
 	assert.strictEqual(factoredDep.textProvider, this.providers.textProvider);
 	assert.strictEqual(factoredDep.ajaxCallFactory, jsClientFactoredDep.factories.ajaxCallFactory);
 	assert.strictEqual(factoredDep.managedGuiItemFactory,

@@ -22,7 +22,7 @@ var CORA = (function(cora) {
 		var uploading = false;
 		var uploadQue = [];
 		var viewSpec = {
-			"showWorkViewMethod" : spec.showView,
+			"showWorkViewMethod" : dependencies.clientInstanceProvider.getJsClient().showView,
 			"textProvider" : dependencies.textProvider
 		};
 		var view = CORA.uploadManagerView(viewSpec);
@@ -55,7 +55,7 @@ var CORA = (function(cora) {
 
 		function createManagedGuiItem() {
 			var managedGuiItemSpec = {
-				"activateMethod" : spec.showView,
+				"activateMethod" : dependencies.clientInstanceProvider.getJsClient().showView,
 				"disableRemove" : "true"
 			};
 			var createdMGI = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);

@@ -54,17 +54,14 @@ var CORA = (function(cora) {
 
 			var managedGuiItemFactory = CORA.managedGuiItemFactory();
 			var uploadManagerDep = {
+				"clientInstanceProvider" : providers.clientInstanceProvider,
 				"textProvider" : providers.textProvider,
 				"ajaxCallFactory" : ajaxCallFactory,
 				"managedGuiItemFactory" : managedGuiItemFactory
 			};
 			var uploadManagerFactory = CORA.uploadManagerFactory(uploadManagerDep);
 
-			var uploadManagerSpec = {
-				"showView" : function(viewToShow) {
-					jsClient.showView(viewToShow);
-				}
-			};
+			var uploadManagerSpec = {};
 			var uploadManager = uploadManagerFactory.factor(uploadManagerSpec);
 
 			var recordGuiFactoryDep = {
