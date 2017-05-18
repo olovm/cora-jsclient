@@ -166,7 +166,7 @@ var CORA = (function(cora) {
 			view.addLinkedPresentation(recordViewerView);
 		}
 
-		function createRecordViewerSpec(readLink, linkedPresentationId) {
+		function createRecordViewerSpec(readLinkIn, linkedPresentationId) {
 			var cLinkedRecordPresentation = getMetadataById(linkedPresentationId);
 
 			var presentationOfLink = cLinkedRecordPresentation
@@ -175,7 +175,7 @@ var CORA = (function(cora) {
 			var linkedMetadataId = cPresentationOfLink
 					.getFirstAtomicValueByNameInData("linkedRecordId");
 			return {
-				"read" : readLink,
+				"read" : readLinkIn,
 				"presentationId" : linkedPresentationId,
 				"metadataId" : linkedMetadataId,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
