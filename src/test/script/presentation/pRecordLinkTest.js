@@ -41,7 +41,8 @@ QUnit.module("pRecordLinkTest.js", {
 		}
 
 		this.dependencies = {
-			"pRecordLinkViewFactory" : CORATEST.pRecordLinkViewFactorySpy(),
+			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
+			"pRecordLinkViewFactory" : CORATEST.standardFactorySpy("pRecordLinkViewSpy"),
 			"metadataProvider" : new MetadataProviderStub(),
 			"pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderStub(),
@@ -54,6 +55,65 @@ QUnit.module("pRecordLinkTest.js", {
 			"path" : {},
 			"cPresentation" : CORA.coraData(this.dependencies.metadataProvider
 					.getMetadataById("myLinkNoPresentationOfLinkedRecordPLink"))
+		};
+
+		this.dataFromMsgWithLink = {
+			"data" : {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataTextVariable"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "cora"
+				} ],
+				"actionLinks" : {
+					"read" : {
+						"requestMethod" : "GET",
+						"rel" : "read",
+						"url" : "http://localhost:8080/therest/rest/record/system/cora",
+						"accept" : "application/vnd.uub.record+json"
+					}
+				},
+				"name" : "dataDivider"
+			},
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "recordInfo"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "dataDivider"
+					} ]
+				} ]
+			}
+		};
+		this.dataFromMsgWithoutLink = {
+			"data" : {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataTextVariable"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "cora"
+				} ],
+				"name" : "dataDivider"
+			},
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "recordInfo"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "dataDivider"
+					} ]
+				} ]
+			}
 		};
 	},
 	afterEach : function() {
@@ -120,17 +180,19 @@ QUnit.test("testViewIsFactored", function(assert) {
 	assert.strictEqual(pRecordLink.getView(), factoredView.getView());
 	var factoredViewSpec = this.dependencies.pRecordLinkViewFactory.getSpec(0);
 
-	var expectedInfoSpec = {
+	var expectedViewSpec = {
 		"presentationId" : "somePresentationId",
 		"mode" : "input",
 		"info" : {
 			"text" : "myLinkText",
 			"defText" : "myLinkDefText",
 			"technicalInfo" : [ "textId: " + "myLinkText", "defTextId: " + "myLinkDefText",
-					"metadataId: " + "myLink", "nameInData: myLink", "linkedRecordType: metadataTextVariable" ]
-		}
+					"metadataId: " + "myLink", "nameInData: myLink",
+					"linkedRecordType: metadataTextVariable" ]
+		},
+		"pRecordLink" : pRecordLink
 	};
-	assert.stringifyEqual(factoredViewSpec, expectedInfoSpec);
+	assert.stringifyEqual(factoredViewSpec, expectedViewSpec);
 
 });
 
@@ -291,39 +353,7 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", functio
 	var childrenView = view.firstChild;
 	this.fixture.appendChild(view);
 
-	var dataFromMsg = {
-		"data" : {
-			"children" : [ {
-				"name" : "linkedRecordType",
-				"value" : "metadataTextVariable"
-			}, {
-				"name" : "linkedRecordId",
-				"value" : "cora"
-			} ],
-			"actionLinks" : {
-				"read" : {
-					"requestMethod" : "GET",
-					"rel" : "read",
-					"url" : "http://localhost:8080/therest/rest/record/system/cora",
-					"accept" : "application/vnd.uub.record+json"
-				}
-			},
-			"name" : "dataDivider"
-		},
-		"path" : {
-			"name" : "linkedPath",
-			"children" : [ {
-				"name" : "nameInData",
-				"value" : "recordInfo"
-			}, {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "dataDivider"
-				} ]
-			} ]
-		}
-	};
+	var dataFromMsg = this.dataFromMsgWithLink;
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
 	this.answerCall2(0);
 
@@ -386,31 +416,7 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoActionLi
 	var childrenView = view.firstChild;
 	this.fixture.appendChild(view);
 
-	var dataFromMsg = {
-		"data" : {
-			"children" : [ {
-				"name" : "linkedRecordType",
-				"value" : "metadataTextVariable"
-			}, {
-				"name" : "linkedRecordId",
-				"value" : "cora"
-			} ],
-			"name" : "dataDivider"
-		},
-		"path" : {
-			"name" : "linkedPath",
-			"children" : [ {
-				"name" : "nameInData",
-				"value" : "recordInfo"
-			}, {
-				"name" : "linkedPath",
-				"children" : [ {
-					"name" : "nameInData",
-					"value" : "dataDivider"
-				} ]
-			} ]
-		}
-	};
+	var dataFromMsg = this.dataFromMsgWithoutLink;
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
 
 	assert.strictEqual(pRecordLink.type, "pRecordLink");
@@ -435,7 +441,6 @@ QUnit
 					var view = pRecordLink.getView();
 					var childrenView = view.firstChild;
 					this.fixture.appendChild(view);
-
 
 					var dataFromMsg = {
 						"data" : {
@@ -482,3 +487,68 @@ QUnit
 					assert.strictEqual(pRecordLinkView.getChildrenHidden(), 0);
 
 				});
+
+QUnit.test("testHandleMsgWithLinkShowsOpenLinkInView", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkPresentationOfLinkedRecordOutputPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var dataFromMsg = this.dataFromMsgWithLink;
+
+	assert.strictEqual(pRecordLinkView.getShowOpenLinkedRecord(), 0);
+	assert.strictEqual(pRecordLinkView.getHideOpenLinkedRecord(), 0);
+	pRecordLink.handleMsg(dataFromMsg, "linkedData");
+
+	assert.strictEqual(pRecordLinkView.getShowOpenLinkedRecord(), 1);
+	assert.strictEqual(pRecordLinkView.getHideOpenLinkedRecord(), 0);
+});
+
+QUnit.test("testHandleMsgWithLinkHidesOpenLinkInViewWhenFirstShown", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkPresentationOfLinkedRecordOutputPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var dataFromMsg = this.dataFromMsgWithoutLink;
+
+	assert.strictEqual(pRecordLinkView.getShowOpenLinkedRecord(), 0);
+	assert.strictEqual(pRecordLinkView.getHideOpenLinkedRecord(), 0);
+	pRecordLink.handleMsg(dataFromMsg, "linkedData");
+
+	assert.strictEqual(pRecordLinkView.getShowOpenLinkedRecord(), 0);
+	assert.strictEqual(pRecordLinkView.getHideOpenLinkedRecord(), 0);
+
+	pRecordLink.handleMsg(this.dataFromMsgWithLink, "linkedData");
+	assert.strictEqual(pRecordLinkView.getShowOpenLinkedRecord(), 1);
+	assert.strictEqual(pRecordLinkView.getHideOpenLinkedRecord(), 0);
+	pRecordLink.handleMsg(dataFromMsg, "linkedData");
+	assert.strictEqual(pRecordLinkView.getShowOpenLinkedRecord(), 1);
+	assert.strictEqual(pRecordLinkView.getHideOpenLinkedRecord(), 1);
+});
+
+QUnit.test("testOpenLinkedRecord", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkPresentationOfLinkedRecordOutputPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var dataFromMsg = this.dataFromMsgWithLink;
+
+	pRecordLink.handleMsg(dataFromMsg, "linkedData");
+
+	pRecordLink.openLinkedRecord({
+		"loadInBackground" : "false"
+	});
+
+	var jsClient = this.dependencies.clientInstanceProvider.getJsClient();
+	var expectedOpenInfo = {
+		"readLink" : dataFromMsg.data.actionLinks.read,
+		"loadInBackground" : "false"
+	};
+	assert.strictEqual(jsClient.getOpenInfo(0).readLink, expectedOpenInfo.readLink);
+	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, "false");
+
+	pRecordLink.openLinkedRecord({
+		"loadInBackground" : "true"
+	});
+	assert.strictEqual(jsClient.getOpenInfo(1).readLink, expectedOpenInfo.readLink);
+	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "true");
+});

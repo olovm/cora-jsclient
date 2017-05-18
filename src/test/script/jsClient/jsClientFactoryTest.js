@@ -24,7 +24,8 @@ QUnit.module("jsClientFactoryTest.js", {
 			"recordTypeProvider" : CORATEST.recordTypeProviderSpy(),
 			"textProvider" : CORATEST.textProviderSpy(),
 			"metadataProvider" : CORATEST.metadataProviderSpy(),
-			"searchProvider" : CORATEST.searchProviderSpy()
+			"searchProvider" : CORATEST.searchProviderSpy(),
+			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy()
 		};
 		this.dependencies = {
 			"authTokenHolder" : CORATEST.authTokenHolderSpy()
@@ -50,6 +51,7 @@ QUnit.test("factorTestDependencies", function(assert) {
 	var jsClientFactory = CORA.jsClientFactory(this.providers, this.dependencies);
 	var jsClient = jsClientFactory.factor(this.spec);
 	var factoredDep = jsClient.getDependencies();
+	assert.strictEqual(factoredDep.clientInstanceProvider, this.providers.clientInstanceProvider);
 	assert.strictEqual(factoredDep.jsClientViewFactory.type, "jsClientViewFactory");
 	assert.strictEqual(factoredDep.authTokenHolder, this.dependencies.authTokenHolder);
 	assert.strictEqual(factoredDep.ajaxCallFactory.type, "ajaxCallFactory");
@@ -117,6 +119,7 @@ QUnit.test("testRecordGuiFactoryDependencies", function(assert) {
 	var jsClientFactoredDep = jsClientFactory.factor(this.spec).getDependencies();
 	var factoredDep = jsClientFactoredDep.factories.recordGuiFactory.getDependencies();
 
+	assert.strictEqual(factoredDep.clientInstanceProvider, this.providers.clientInstanceProvider);
 	assert.strictEqual(factoredDep.textProvider, this.providers.textProvider);
 	assert.strictEqual(factoredDep.ajaxCallFactory, jsClientFactoredDep.factories.ajaxCallFactory);
 	assert.strictEqual(factoredDep.recordTypeProvider, this.providers.recordTypeProvider);
@@ -145,6 +148,7 @@ QUnit.test("testRecordTypeHandlerFactoryDependencies", function(assert) {
 	var jsClientFactoredDep = jsClientFactory.factor(this.spec).getDependencies();
 	var factoredDep = jsClientFactoredDep.recordTypeHandlerFactory.getDependencies();
 
+	assert.strictEqual(factoredDep.clientInstanceProvider, this.providers.clientInstanceProvider);
 	assert.strictEqual(factoredDep.factories.recordGuiFactory,
 			jsClientFactoredDep.factories.recordGuiFactory);
 	assert.strictEqual(factoredDep.factories.ajaxCallFactory,
@@ -182,6 +186,7 @@ QUnit.test("testRecordHandlerFactoryDependencies", function(assert) {
 	assert.strictEqual(recordHandlerFactory.type, "recordHandlerFactory");
 
 	var dependencies = recordHandlerFactory.getDependencies();
+	assert.strictEqual(dependencies.clientInstanceProvider, this.providers.clientInstanceProvider);
 	assert.strictEqual(dependencies.ajaxCallFactory, factories.ajaxCallFactory);
 	assert.strictEqual(dependencies.recordGuiFactory, factories.recordGuiFactory);
 	assert.strictEqual(dependencies.managedGuiItemFactory, factories.managedGuiItemFactory);

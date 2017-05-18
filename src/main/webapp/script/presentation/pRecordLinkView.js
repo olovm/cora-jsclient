@@ -24,12 +24,30 @@ var CORA = (function(cora) {
 		var childrenView;
 		var baseClassName = "pRecordLink " + spec.presentationId;
 		var info;
-
+		var openLinkedRecordButton;
 		function start() {
 			view = CORA.gui.createSpanWithClassName(baseClassName);
+			openLinkedRecordButton = createOpenLinkedRecordButton();
 			info = createInfo();
 			view.appendChild(info.getButton());
 			createChildrenView();
+		}
+
+		function createOpenLinkedRecordButton() {
+			var openButtonSpec = {
+				"className" : "openLinkedRecordButton",
+				"onclick" : openLinkedRecord
+			};
+			return CORA.gui.createButton(openButtonSpec);
+		}
+		function openLinkedRecord(event) {
+			var loadInBackground = "false";
+			if (event.ctrlKey) {
+				loadInBackground = "true";
+			}
+			spec.pRecordLink.openLinkedRecord({
+				"loadInBackground" : loadInBackground
+			});
 
 		}
 
@@ -110,6 +128,13 @@ var CORA = (function(cora) {
 			view.appendChild(linkedPresentationToAdd);
 		}
 
+		function showOpenLinkedRecord() {
+			view.appendChild(openLinkedRecordButton);
+		}
+		function hideOpenLinkedRecord() {
+			view.removeChild(openLinkedRecordButton);
+		}
+
 		out = Object.freeze({
 			"type" : "pRecordLinkView",
 			getDependencies : getDependencies,
@@ -118,7 +143,10 @@ var CORA = (function(cora) {
 			updateClassName : updateClassName,
 			addChild : addChild,
 			hideChildren : hideChildren,
-			addLinkedPresentation : addLinkedPresentation
+			addLinkedPresentation : addLinkedPresentation,
+
+			showOpenLinkedRecord : showOpenLinkedRecord,
+			hideOpenLinkedRecord : hideOpenLinkedRecord
 		});
 		start();
 		return out;

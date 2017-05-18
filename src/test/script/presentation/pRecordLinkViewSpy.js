@@ -29,6 +29,9 @@ var CORATEST = (function(coraTest) {
 		var state;
 		var value;
 
+		var showOpenLinkedRecordCalled = 0;
+		var hideOpenLinkedRecordCalled = 0;
+
 		function getView() {
 			return view;
 		}
@@ -61,6 +64,19 @@ var CORATEST = (function(coraTest) {
 			return addedLinkedPresentations[number];
 		}
 
+		function showOpenLinkedRecord() {
+			showOpenLinkedRecordCalled++;
+		}
+		function getShowOpenLinkedRecord() {
+			return showOpenLinkedRecordCalled;
+		}
+		function hideOpenLinkedRecord() {
+			hideOpenLinkedRecordCalled++;
+		}
+		function getHideOpenLinkedRecord() {
+			return hideOpenLinkedRecordCalled;
+		}
+
 		var out = Object.freeze({
 			"type" : "pRecordLinkViewSpy",
 			getDependencies : getDependencies,
@@ -72,7 +88,11 @@ var CORATEST = (function(coraTest) {
 			hideChildren : hideChildren,
 			getChildrenHidden : getChildrenHidden,
 			addLinkedPresentation : addLinkedPresentation,
-			getAddedLinkedPresentation : getAddedLinkedPresentation
+			getAddedLinkedPresentation : getAddedLinkedPresentation,
+			showOpenLinkedRecord : showOpenLinkedRecord,
+			getShowOpenLinkedRecord : getShowOpenLinkedRecord,
+			hideOpenLinkedRecord : hideOpenLinkedRecord,
+			getHideOpenLinkedRecord : getHideOpenLinkedRecord
 		});
 		return out;
 	};

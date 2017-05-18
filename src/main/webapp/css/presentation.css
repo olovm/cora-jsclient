@@ -57,6 +57,7 @@ img {
 }
 .removeButton::before, .removeButton::after, .minimizeButton::before, .minimizeButton::after,
 .maximizeButton::before, .maximizeButton::after,
+.openLinkedRecordButton::before, .openLinkedRecordButton::after,
 .infoButton::before, .infoButton::after, .dragButton::before, .dragButton::after,
 .iconButton::before, .iconButton::after {
 	background: url("../images/icons2.svg") no-repeat scroll;
@@ -217,7 +218,11 @@ img {
 .pVar.infoActive  > .infoButton::before,
 .pCollVar.infoActive  > .infoButton::before,
 .pGroup.infoActive  > .infoButton::before,
-.pRecordLink.infoActive  > .infoButton::before {
+.pRecordLink.infoActive  > .infoButton::before ,
+.pVar.infoActive  > .openLinkedRecordButton::before,
+.pCollVar.infoActive  > .openLinkedRecordButton::before,
+.pGroup.infoActive  > .openLinkedRecordButton::before,
+.pRecordLink.infoActive  > .openLinkedRecordButton::before {
 	opacity: 1;
 }
 
@@ -244,7 +249,7 @@ img {
 .workView .pRecordLink > :nth-child(1n) ,
 .workView .pGroup > :nth-child(1n) {
 	flex: 1 0 100%;
-	order: 2;
+	order: 3;
 }
 .workView .pRecordLink > :nth-child(2),
 .workView .pGroup > :nth-child(2) {
@@ -262,7 +267,7 @@ img {
 /* 	TODO: IS THIS OK? */
 	flex: 0 1 100%;
 	
-	order: 1;
+	order: 3;
 }
 
 .infoButton {
@@ -275,6 +280,21 @@ img {
 	transform: scale(0.7, 0.7);
 	width: 16px;
 	height: 16px;
+}
+.openLinkedRecordButton {
+	min-height: 1em;
+	min-width: 1.3em;
+	margin-top: .3em;
+}
+.openLinkedRecordButton {
+	cursor: pointer;
+	transform: scale(0.7, 0.7);
+	width: 16px;
+	height: 16px;
+}
+.jsClient .workView .openLinkedRecordButton {
+	order: 2;
+	flex: 0 auto;
 }
 
  .infoView {
@@ -306,7 +326,11 @@ img {
 .jsClient .menuView .pVar .infoButton, .menuView .pVar:hover > .infoButton::before,
 .menuView .pGroup:hover > .infoButton::before,
 .menuView .infoButton::before, .menuView .infoButton::after,
-.menuView .infoButton:hover::after  {
+.menuView .infoButton:hover::after  ,
+.jsClient .menuView .pVar .openLinkedRecordButton, .menuView .pVar:hover > .openLinkedRecordButton::before,
+.menuView .pGroup:hover > .openLinkedRecordButton::before,
+.menuView .openLinkedRecordButton::before, .menuView .openLinkedRecordButton::after,
+.menuView .openLinkedRecordButton::after  {
 	display: none;
 }
 
@@ -337,6 +361,34 @@ textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::bef
 }
 
 .infoButton:hover::after {
+	opacity: 1;
+}
+	.workView .pVar:hover > .openLinkedRecordButton::before, .workView .pRecordLink:hover > .openLinkedRecordButton::before, 
+ input:focus + .openLinkedRecordButton::before ,
+.workView .pCollVar:hover > .openLinkedRecordButton::before,  select:focus + .openLinkedRecordButton::before,
+textarea:focus + .openLinkedRecordButton::before, .workView .pGroup:hover > .openLinkedRecordButton::before {
+	opacity: 1;
+}
+	
+.openLinkedRecordButton::before {
+	background-position: -16px -0px;
+	opacity: 0;
+	transition: opacity 0.5s ease 0s;
+	z-index: 100;
+}
+
+.openLinkedRecordButton::before {
+	opacity: 0;
+}
+
+.openLinkedRecordButton::after {
+	background-position: -16px -16px;
+	opacity: 0;
+	transition: opacity 0.5s ease 0s;
+	z-index: 101;
+}
+
+.openLinkedRecordButton::after {
 	opacity: 1;
 }
 

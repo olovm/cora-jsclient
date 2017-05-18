@@ -29,6 +29,7 @@ var CORA = (function(cora) {
 		var openGuiItemHandler;
 
 		function start() {
+			dependencies.clientInstanceProvider.setJsClient(out);
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			var jsClientViewSpec = {
 				"name" : spec.name,
@@ -249,6 +250,27 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function openRecordUsingReadLink(openInfo) {
+			var record = {
+				"actionLinks" : {
+					"read" : openInfo.readLink
+				}
+			};
+			var recordHandlerSpec = {
+				"fetchLatestDataFromServer" : "true",
+				"partOfList" : "false",
+				"createNewRecord" : "false",
+				"record" : record,
+				"jsClient" : out
+			};
+			var recordHandlerNew = dependencies.factories.recordHandlerFactory
+					.factor(recordHandlerSpec);
+			addGuiItem(recordHandlerNew.getManagedGuiItem());
+			if (openInfo.loadInBackground !== "true") {
+				showView(recordHandlerNew.getManagedGuiItem());
+			}
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -270,7 +292,8 @@ var CORA = (function(cora) {
 			afterRecordTypeProviderReload : afterRecordTypeProviderReload,
 			hideAndRemoveView : hideAndRemoveView,
 			viewRemoved : viewRemoved,
-			addGuiItem : addGuiItem
+			addGuiItem : addGuiItem,
+			openRecordUsingReadLink : openRecordUsingReadLink
 		});
 		start();
 
