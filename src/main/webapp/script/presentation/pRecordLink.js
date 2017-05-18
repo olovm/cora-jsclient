@@ -52,9 +52,10 @@ var CORA = (function(cora) {
 			var defTextId = extractTextId("defTextId");
 			var defText = textProvider.getTranslation(defTextId);
 
-			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("linkedRecordType"));
 			var linkedRecordType = cRecordTypeGroup
-				.getFirstAtomicValueByNameInData("linkedRecordId");
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var viewSpec = {
 				"presentationId" : "somePresentationId",
 				"mode" : "input",
@@ -124,7 +125,6 @@ var CORA = (function(cora) {
 			if (presentationExistsForLinkedRecordType(linkedRecordPresentation)) {
 				removeIdPresentations();
 				var linkedPresentationId = extractPresentationIdFromPresentation(linkedRecordPresentation);
-				var readLink = data.actionLinks.read;
 				createRecordViewerUsingChosenPresentationForLinkedRecord(readLink,
 						linkedPresentationId);
 			}
@@ -157,9 +157,9 @@ var CORA = (function(cora) {
 			view.hideChildren();
 		}
 
-		function createRecordViewerUsingChosenPresentationForLinkedRecord(readLink,
+		function createRecordViewerUsingChosenPresentationForLinkedRecord(readLinkIn,
 				linkedPresentationId) {
-			var recordViewerSpec = createRecordViewerSpec(readLink, linkedPresentationId);
+			var recordViewerSpec = createRecordViewerSpec(readLinkIn, linkedPresentationId);
 			var recordViewer = CORA.recordViewer(recordViewerSpec);
 			var recordViewerView = recordViewer.getView();
 

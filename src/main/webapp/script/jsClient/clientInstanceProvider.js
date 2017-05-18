@@ -18,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.clientInstanceProvider = function(dependencies, spec) {
+	cora.clientInstanceProvider = function() {
 		var jsClient;
 
 		function setJsClient(jsClientToSet) {
