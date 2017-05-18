@@ -129,7 +129,6 @@ var CORA = (function(cora) {
 		}
 
 		function showOpenLinkedRecord() {
-			// view.appendChild(openLinkedRecordButton, info.getButton());
 			view.appendChild(openLinkedRecordButton);
 		}
 		function hideOpenLinkedRecord() {
