@@ -26,7 +26,6 @@ var CORATEST = (function(coraTest) {
 		var addedGuiItem = [];
 		var openInfos = [];
 
-		// var createdManagedGuiItemHandledBy = [];
 		function getRecordTypesClearedNoOfTimes() {
 			return recordTypesClearedNoOfTimes;
 		}
