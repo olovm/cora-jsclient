@@ -87,6 +87,13 @@ img {
 	transform: scale(0.7, 0.7);
 }
 
+.infoButton, .openLinkedRecordButton {
+	height: 16px;
+	width: 16px;
+}
+.infoButton  {
+	margin-top: 0.1rem;
+}
 
 .openLinkedRecordButton::before {
 	background-position: 0px -46px;
