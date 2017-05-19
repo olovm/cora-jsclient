@@ -149,12 +149,12 @@ QUnit.test("testOpenLinkedRecordAddedToView", function(assert) {
 	assert.strictEqual(view.childNodes.length, 2);
 	pRecordLinkView.showOpenLinkedRecord();
 	assert.strictEqual(view.childNodes.length, 3);
-	assert.strictEqual(view.childNodes[2].className, "openLinkedRecordButton");
+	assert.strictEqual(view.childNodes[2].className, "iconButton openLinkedRecordButton");
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	pRecordLinkView.showOpenLinkedRecord();
 	assert.strictEqual(view.childNodes.length, 3);
 	var view = pRecordLinkView.getView();
-	assert.strictEqual(view.childNodes[2].className, "openLinkedRecordButton");
+	assert.strictEqual(view.childNodes[2].className, "iconButton openLinkedRecordButton");
 });
 
 QUnit.test("testOpenLinkedRecordRemovedFromView", function(assert) {
@@ -165,7 +165,7 @@ QUnit.test("testOpenLinkedRecordRemovedFromView", function(assert) {
 	pRecordLinkView.showOpenLinkedRecord();
 	assert.strictEqual(view.childNodes.length, 3);
 	var openButton = view.childNodes[2];
-	assert.strictEqual(openButton.className, "openLinkedRecordButton");
+	assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
 	pRecordLinkView.hideOpenLinkedRecord();
 	assert.strictEqual(view.childNodes.length, 2);
 });
@@ -175,7 +175,7 @@ QUnit.test("testAddChildPresentationClickableLoadInBackground", function(assert)
 	pRecordLinkView.showOpenLinkedRecord();
 	var view = pRecordLinkView.getView();
 	var openButton = view.childNodes[2];
-	assert.strictEqual(openButton.className, "openLinkedRecordButton");
+	assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
 
 	var event = document.createEvent('Event');
 	event.ctrlKey = true;
@@ -188,7 +188,7 @@ QUnit.test("testAddChildPresentationClickableLoadInForground", function(assert) 
 	pRecordLinkView.showOpenLinkedRecord();
 	var view = pRecordLinkView.getView();
 	var openButton = view.childNodes[2];
-	assert.strictEqual(openButton.className, "openLinkedRecordButton");
+	assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
 
 	var event = document.createEvent('Event');
 	// event.ctrlKey = true;

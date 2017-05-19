@@ -50,7 +50,7 @@ var CORA = (function(cora) {
 
 		function createCreateButton() {
 			var buttonSpec = {
-				"className" : "createButton",
+				"className" : "iconButton createButton",
 				"onclick" : function() {
 					spec.createNewMethod("true");
 				}

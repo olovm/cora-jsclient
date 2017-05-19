@@ -56,11 +56,11 @@ QUnit.test("testInit", function(assert) {
 
 	// remove button
 	var removeButton = buttonView.firstChild;
-	assert.strictEqual(removeButton.className, "removeButton");
+	assert.strictEqual(removeButton.className, "iconButton removeButton");
 
 	// drag button
 	var removeButton = buttonView.childNodes[1];
-	assert.strictEqual(removeButton.className, "dragButton");
+	assert.strictEqual(removeButton.className, "iconButton dragButton");
 });
 
 QUnit.test("testGetDependencies", function(assert) {
@@ -96,7 +96,7 @@ QUnit.test("testButtonViewAndRemoveButton", function(assert) {
 
 	var buttonView = view.childNodes[0];
 	var removeButton = buttonView.firstChild;
-	assert.strictEqual(removeButton.className, "removeButton");
+	assert.strictEqual(removeButton.className, "iconButton removeButton");
 });
 
 QUnit.test("test0to1ShouldHaveRemoveButton", function(assert) {
@@ -108,7 +108,7 @@ QUnit.test("test0to1ShouldHaveRemoveButton", function(assert) {
 
 	var buttonView = view.childNodes[0];
 	var removeButton = buttonView.firstChild;
-	assert.strictEqual(removeButton.className, "removeButton");
+	assert.strictEqual(removeButton.className, "iconButton removeButton");
 });
 
 QUnit.test("test1to1ShodHaveNoRemoveOrDragButton", function(assert) {
@@ -247,10 +247,10 @@ QUnit.test("testAddPresentationMinimized", function(assert) {
 
 	// test minimized/maximized button
 	var maximizeButton = buttonView.childNodes[1];
-	assert.strictEqual(maximizeButton.className, "maximizeButton");
+	assert.strictEqual(maximizeButton.className, "iconButton maximizeButton");
 	assert.notVisible(maximizeButton, "maximizeButton should be hidden");
 	var minimizeButton = buttonView.childNodes[2];
-	assert.strictEqual(minimizeButton.className, "minimizeButton");
+	assert.strictEqual(minimizeButton.className, "iconButton minimizeButton");
 	assert.visible(minimizeButton, "minimizeButton should be shown");
 });
 
@@ -270,10 +270,10 @@ QUnit.test("testMinimizeMaximizeButtonShouldWorkWithoutDraghandle", function(ass
 	pRepeatingElement.addPresentationMinimized(presentationMinimized);
 
 	var maximizeButton = buttonView.childNodes[0];
-	assert.strictEqual(maximizeButton.className, "maximizeButton");
+	assert.strictEqual(maximizeButton.className, "iconButton maximizeButton");
 	assert.notVisible(maximizeButton, "maximizeButton should be hidden");
 	var minimizeButton = buttonView.childNodes[1];
-	assert.strictEqual(minimizeButton.className, "minimizeButton");
+	assert.strictEqual(minimizeButton.className, "iconButton minimizeButton");
 	assert.visible(minimizeButton, "minimizeButton should be shown");
 
 	assert.strictEqual(buttonView.childNodes.length, 2);

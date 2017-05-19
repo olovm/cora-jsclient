@@ -201,6 +201,13 @@ body {
 
 .sideBar .menuView {
 	min-height: 1rem;
+	position: relative;
+}
+
+.sideBar .menuView > .removeButton {
+	position: absolute;
+	right: 0px;
+	top: 2px;
 }
 
 .sideBar .header:hover, .sideBar .childrenView .menuView:hover {

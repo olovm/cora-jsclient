@@ -93,7 +93,7 @@ var CORA = (function(cora) {
 			return CORA.gui.createRemoveButton(removeFunction);
 		}
 		function createDragButton() {
-			var createdDragButton = CORA.gui.createSpanWithClassName("dragButton");
+			var createdDragButton = CORA.gui.createSpanWithClassName("iconButton dragButton");
 			createdDragButton.onmousedown = function() {
 				view.draggable = "true";
 			};
@@ -137,7 +137,7 @@ var CORA = (function(cora) {
 		}
 
 		function createMinimizeMaximizeButtons() {
-			maximizeButton = CORA.gui.createSpanWithClassName("maximizeButton");
+			maximizeButton = CORA.gui.createSpanWithClassName("iconButton maximizeButton");
 			maximizeButton.onclick = function() {
 				toggleMinimizedShown("false");
 			};
@@ -147,7 +147,7 @@ var CORA = (function(cora) {
 				buttonView.appendChild(maximizeButton);
 			}
 
-			minimizeButton = CORA.gui.createSpanWithClassName("minimizeButton");
+			minimizeButton = CORA.gui.createSpanWithClassName("iconButton minimizeButton");
 			minimizeButton.onclick = function() {
 				toggleMinimizedShown("true");
 			};

@@ -54,7 +54,7 @@ QUnit.test("initTestInfoButton", function(assert) {
 	var info = CORA.info(spec);
 	var infoButton = info.getButton();
 	assert.equal(infoButton.nodeName, "SPAN");
-	assert.equal(infoButton.className, "infoButton");
+	assert.equal(infoButton.className, "iconButton infoButton");
 });
 
 QUnit.test("initTestOneButtonClickafterLevelChangeCall", function(assert) {

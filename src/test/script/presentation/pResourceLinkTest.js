@@ -88,13 +88,13 @@ QUnit.test("testInit", function(assert) {
 	assert.deepEqual(view.className, expectedClassName);
 
 	var subscriptions = this.pubSub.getSubscriptions();
-//	assert.deepEqual(subscriptions.length, 3);
-//
-//	var firstSubsription = subscriptions[2];
-//	assert.strictEqual(firstSubsription.type, "linkedResource");
-//	assert.deepEqual(firstSubsription.path, {});
-//	var pResourceLink = attachedPResourceLink.pResourceLink;
-//	assert.ok(firstSubsription.functionToCall === pResourceLink.handleMsg);
+	// assert.deepEqual(subscriptions.length, 3);
+	//
+	// var firstSubsription = subscriptions[2];
+	// assert.strictEqual(firstSubsription.type, "linkedResource");
+	// assert.deepEqual(firstSubsription.path, {});
+	// var pResourceLink = attachedPResourceLink.pResourceLink;
+	// assert.ok(firstSubsription.functionToCall === pResourceLink.handleMsg);
 });
 
 QUnit.test("testInitInfo", function(assert) {
@@ -103,7 +103,7 @@ QUnit.test("testInitInfo", function(assert) {
 
 	var infoButton = view.childNodes[0];
 	assert.equal(infoButton.nodeName, "SPAN");
-	assert.equal(infoButton.className, "infoButton");
+	assert.equal(infoButton.className, "iconButton infoButton");
 
 	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 	assert.equal(view.childNodes.length, 3);

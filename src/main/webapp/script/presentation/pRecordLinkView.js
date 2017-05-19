@@ -35,7 +35,7 @@ var CORA = (function(cora) {
 
 		function createOpenLinkedRecordButton() {
 			var openButtonSpec = {
-				"className" : "openLinkedRecordButton",
+				"className" : "iconButton openLinkedRecordButton",
 				"onclick" : openLinkedRecord
 			};
 			return CORA.gui.createButton(openButtonSpec);

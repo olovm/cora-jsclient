@@ -31,15 +31,15 @@ var CORA = (function(cora) {
 		return createdButton;
 	};
 
-	function possiblyAddText(spec, button){
-		if(spec.text !== undefined){
+	function possiblyAddText(spec, button) {
+		if (spec.text !== undefined) {
 			button.textContent = spec.text;
 		}
 	}
 
 	cora.gui.createRemoveButton = function(onclick) {
 		var spec = {
-			"className" : "removeButton",
+			"className" : "iconButton removeButton",
 			"onclick" : onclick
 		};
 		return cora.gui.createButton(spec);

@@ -29,13 +29,13 @@ var CORATEST = (function(coraTest) {
 			var cParentPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(presentationParentId));
 			var dependencies = {
-					"metadataProvider" : metadataProvider,
-					"pubSub" : pubSub,
-					"textProvider" : textProvider,
-					"presentationFactory" : presentationFactory,
-					"jsBookkeeper" : jsBookkeeper,
-					"recordTypeProvider" : recordTypeProvider,
-					"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy()
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider,
+				"presentationFactory" : presentationFactory,
+				"jsBookkeeper" : jsBookkeeper,
+				"recordTypeProvider" : recordTypeProvider,
+				"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy()
 			};
 			var spec = {
 				"metadataIdUsedInData" : metadataIdUsedInData,
@@ -69,12 +69,12 @@ var CORATEST = (function(coraTest) {
 
 QUnit.module("pSurroundingContainerTest.js", {
 	beforeEach : function() {
-		this.getId = function (cData){
+		this.getId = function(cData) {
 			var recordInfo = cData.getFirstChildByNameInData("recordInfo");
 			var id = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 			return id;
 		}
-		
+
 		this.fixture = document.getElementById("qunit-fixture");
 		this.dependencies = {
 			"metadataProvider" : new MetadataProviderStub(),
@@ -91,8 +91,8 @@ QUnit.module("pSurroundingContainerTest.js", {
 			"cPresentation" : CORA.coraData(this.dependencies.metadataProvider
 					.getMetadataById("pTextVariablePlus2SContainer")),
 			"cParentPresentation" : CORA.coraData(this.dependencies.metadataProvider
-							.getMetadataById("pgGroupIdTwoTextChildSurrounding2TextPGroup"))
-//			"dataDivider" : "systemX"
+					.getMetadataById("pgGroupIdTwoTextChildSurrounding2TextPGroup"))
+		// "dataDivider" : "systemX"
 		};
 	},
 	afterEach : function() {
@@ -100,55 +100,53 @@ QUnit.module("pSurroundingContainerTest.js", {
 });
 
 QUnit.test("testInit", function(assert) {
-//	var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
-//			"groupIdTwoTextChildRepeat1to5", "pTextVariablePlus2SContainer",
-//			"pgGroupIdTwoTextChildSurrounding2TextPGroup");
-	
+	// var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
+	// "groupIdTwoTextChildRepeat1to5", "pTextVariablePlus2SContainer",
+	// "pgGroupIdTwoTextChildSurrounding2TextPGroup");
+
 	var pSurroundingContainer = CORA.pSurroundingContainer(this.dependencies, this.spec);
 	var view = pSurroundingContainer.getView();
 	this.fixture.appendChild(view);
-	
-	assert.strictEqual(pSurroundingContainer.type,
-			"pSurroundingContainer");
-	assert.deepEqual(view.className, "pSurroundingContainer "
-			+ "pTextVariablePlus2SContainer");
-//	var view = attachedPSurroundingContainer.view;
+
+	assert.strictEqual(pSurroundingContainer.type, "pSurroundingContainer");
+	assert.deepEqual(view.className, "pSurroundingContainer " + "pTextVariablePlus2SContainer");
+	// var view = attachedPSurroundingContainer.view;
 	assert.ok(view.modelObject === pSurroundingContainer,
 			"modelObject should be a pointer to the javascript object instance");
 	assert.strictEqual(view.childNodes.length, 4);
 
 	assert.strictEqual(view.childNodes[1].textContent, "En rubrik");
 
-//	var childRefHandler = view.childNodes[2];
-//	assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
-//
-//	var childRefHandler2 = view.childNodes[3];
-//	assert.deepEqual(childRefHandler2.className, "pChildRefHandler pVarTextVariableId2");
-	
-	
-assert.strictEqual(view.childNodes[2].className, "pChildRefHandlerSpyView");
-	
+	// var childRefHandler = view.childNodes[2];
+	// assert.deepEqual(childRefHandler.className, "pChildRefHandler pVarTextVariableId");
+	//
+	// var childRefHandler2 = view.childNodes[3];
+	// assert.deepEqual(childRefHandler2.className, "pChildRefHandler pVarTextVariableId2");
+
+	assert.strictEqual(view.childNodes[2].className, "pChildRefHandlerSpyView");
+
 	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
 	assert.deepEqual(factoredSpec.parentPath, this.spec.path);
-	
+
 	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdTwoTextChildRepeat1to5");
 	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
-	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "pgGroupIdTwoTextChildSurrounding2TextPGroup");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
+			"pgGroupIdTwoTextChildSurrounding2TextPGroup");
 	assert.strictEqual(factoredSpec.minimizedDefault, undefined);
 });
 
 QUnit.test("testInitInfo", function(assert) {
-//	var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
-//			"groupIdTwoTextChildRepeat1to5", "pTextVariablePlus2SContainer",
-//			"pgGroupIdTwoTextChildSurrounding2TextPGroup");
-//	var view = attachedPSurroundingContainer.view;
+	// var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
+	// "groupIdTwoTextChildRepeat1to5", "pTextVariablePlus2SContainer",
+	// "pgGroupIdTwoTextChildSurrounding2TextPGroup");
+	// var view = attachedPSurroundingContainer.view;
 	var pSurroundingContainer = CORA.pSurroundingContainer(this.dependencies, this.spec);
 	var view = pSurroundingContainer.getView();
 	this.fixture.appendChild(view);
-	
+
 	var infoButton = view.childNodes[0];
 	assert.equal(infoButton.nodeName, "SPAN");
-	assert.equal(infoButton.className, "infoButton");
+	assert.equal(infoButton.className, "iconButton infoButton");
 
 	// var event = document.createEvent('Event');
 	// infoButton.onclick(event);
@@ -177,30 +175,28 @@ QUnit.test("testInitInfo", function(assert) {
 	// CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[5], "regExView",
 	// "regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", assert);
 	//
-	// infoButton.onclick(event); 
+	// infoButton.onclick(event);
 	// assert.equal(view.childNodes.length, 2);
 	//
-	// infoButton.onclick(event); 
+	// infoButton.onclick(event);
 	// assert.equal(view.childNodes.length, 3);
-});	
+});
 
 QUnit.test("testNestedSurroundingContainer", function(assert) {
-//	var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
-//			"groupIdTwoTextChildRepeat1to5", "pTextVariablePlus2SContainer2",
-//			"pgGroupIdTwoTextChildSurrounding2TextPGroup2");
-	this.spec.cPresentation= CORA.coraData(this.dependencies.metadataProvider
+	// var attachedPSurroundingContainer = this.pSurroundingContainerFactory.factor({},
+	// "groupIdTwoTextChildRepeat1to5", "pTextVariablePlus2SContainer2",
+	// "pgGroupIdTwoTextChildSurrounding2TextPGroup2");
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
 			.getMetadataById("pTextVariablePlus2SContainer2")),
-			this.spec.cParentPresentation= CORA.coraData(this.dependencies.metadataProvider
+			this.spec.cParentPresentation = CORA.coraData(this.dependencies.metadataProvider
 					.getMetadataById("pgGroupIdTwoTextChildSurrounding2TextPGroup2"))
 	var pSurroundingContainer = CORA.pSurroundingContainer(this.dependencies, this.spec);
 	var view = pSurroundingContainer.getView();
 	this.fixture.appendChild(view);
-	
-	assert.strictEqual(pSurroundingContainer.type,
-			"pSurroundingContainer");
-	assert.deepEqual(view.className, "pSurroundingContainer "
-			+ "pTextVariablePlus2SContainer2");
-//	var view = attachedPSurroundingContainer.view;
+
+	assert.strictEqual(pSurroundingContainer.type, "pSurroundingContainer");
+	assert.deepEqual(view.className, "pSurroundingContainer " + "pTextVariablePlus2SContainer2");
+	// var view = attachedPSurroundingContainer.view;
 	assert.ok(view.modelObject === pSurroundingContainer,
 			"modelObject should be a pointer to the javascript object instance");
 	assert.strictEqual(view.childNodes.length, 3);
@@ -212,15 +208,16 @@ QUnit.test("testNestedSurroundingContainer", function(assert) {
 
 	var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 	assert.strictEqual(presentationId, "pTextVariablePlus2SContainer");
-	
-	
-//assert.strictEqual(view.childNodes[2].className, "pChildRefHandlerSpyView");
-	//TODO: is above ok 
-//	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
-//	assert.deepEqual(factoredSpec.parentPath, this.spec.path);
-//	
-//	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdTwoTextChildRepeat1to5");
-//	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
-//	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "pgGroupIdTwoTextChildSurrounding2TextPGroup");
-//	assert.strictEqual(factoredSpec.minimizedDefault, undefined);
+
+	// assert.strictEqual(view.childNodes[2].className, "pChildRefHandlerSpyView");
+	// TODO: is above ok
+	// var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	// assert.deepEqual(factoredSpec.parentPath, this.spec.path);
+	//	
+	// assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
+	// "groupIdTwoTextChildRepeat1to5");
+	// assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+	// assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
+	// "pgGroupIdTwoTextChildSurrounding2TextPGroup");
+	// assert.strictEqual(factoredSpec.minimizedDefault, undefined);
 });
