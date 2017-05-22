@@ -20,6 +20,9 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pRecordLink = function(dependencies, spec) {
+		var out;
+		var readLink;
+		var openLinkShowing = false;
 		var cPresentation = spec.cPresentation;
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
@@ -33,21 +36,26 @@ var CORA = (function(cora) {
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var hasLinkedRepeatId = cMetadataElement.containsChildWithNameInData("linkedPath");
 
-		var view = createBaseView();
-		createValueView();
+		var view;
+		function start() {
+
+			view = createBaseView();
+			createValueView();
+		}
 
 		dependencies.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
 
 		function createBaseView() {
-			var textId =   extractTextId("textId");
-			var text =textProvider.getTranslation(textId);
+			var textId = extractTextId("textId");
+			var text = textProvider.getTranslation(textId);
 
-			var defTextId =  extractTextId("defTextId");
+			var defTextId = extractTextId("defTextId");
 			var defText = textProvider.getTranslation(defTextId);
 
-			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("linkedRecordType"));
 			var linkedRecordType = cRecordTypeGroup
-				.getFirstAtomicValueByNameInData("linkedRecordId");
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var viewSpec = {
 				"presentationId" : "somePresentationId",
 				"mode" : "input",
@@ -56,15 +64,17 @@ var CORA = (function(cora) {
 					"defText" : defText,
 					"technicalInfo" : [ "textId: " + textId, "defTextId: " + defTextId,
 							"metadataId: " + metadataId, "nameInData: " + nameInData,
-							"linkedRecordType: " + linkedRecordType]
-				}
+							"linkedRecordType: " + linkedRecordType ]
+				},
+				"pRecordLink" : out
 			};
 			return dependencies.pRecordLinkViewFactory.factor(viewSpec);
 		}
 
-		function extractTextId(textNameInData){
-			var cTextIdGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData(textNameInData));
-			return  cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		function extractTextId(textNameInData) {
+			var cTextIdGroup = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData(textNameInData));
+			return cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function createValueView() {
@@ -77,15 +87,28 @@ var CORA = (function(cora) {
 
 		function handleMsg(dataFromMsg) {
 			createLinkedRecordPresentationView(dataFromMsg);
+			manageOpeningOfLinkedRecord(dataFromMsg);
 		}
 
 		function createLinkedRecordPresentationView(dataFromMessage) {
-			if (linkedRecordCanBeRead(dataFromMessage)) {
+			if (linkedRecordShouldBePresentedCanBeRead(dataFromMessage)) {
 				createRecordViewerForLinkedRecord(dataFromMessage.data);
 			}
 		}
+		function manageOpeningOfLinkedRecord(dataFromMessage) {
+			if (messageContainsDataWithActionLinks(dataFromMessage)) {
+				readLink = dataFromMessage.data.actionLinks.read;
+				view.showOpenLinkedRecord();
+				openLinkShowing = true;
+			} else {
+				if (openLinkShowing) {
+					view.hideOpenLinkedRecord();
+					openLinkShowing = false;
+				}
+			}
+		}
 
-		function linkedRecordCanBeRead(dataFromMessage) {
+		function linkedRecordShouldBePresentedCanBeRead(dataFromMessage) {
 			return cPresentation.containsChildWithNameInData("linkedRecordPresentations")
 					&& messageContainsDataWithActionLinks(dataFromMessage);
 		}
@@ -98,10 +121,10 @@ var CORA = (function(cora) {
 		function createRecordViewerForLinkedRecord(data) {
 			var linkedRecordPresentation = findPresentationForRecordType(data);
 
+			readLink = data.actionLinks.read;
 			if (presentationExistsForLinkedRecordType(linkedRecordPresentation)) {
 				removeIdPresentations();
 				var linkedPresentationId = extractPresentationIdFromPresentation(linkedRecordPresentation);
-				var readLink = data.actionLinks.read;
 				createRecordViewerUsingChosenPresentationForLinkedRecord(readLink,
 						linkedPresentationId);
 			}
@@ -134,16 +157,16 @@ var CORA = (function(cora) {
 			view.hideChildren();
 		}
 
-		function createRecordViewerUsingChosenPresentationForLinkedRecord(readLink,
+		function createRecordViewerUsingChosenPresentationForLinkedRecord(readLinkIn,
 				linkedPresentationId) {
-			var recordViewerSpec = createRecordViewerSpec(readLink, linkedPresentationId);
+			var recordViewerSpec = createRecordViewerSpec(readLinkIn, linkedPresentationId);
 			var recordViewer = CORA.recordViewer(recordViewerSpec);
 			var recordViewerView = recordViewer.getView();
 
 			view.addLinkedPresentation(recordViewerView);
 		}
 
-		function createRecordViewerSpec(readLink, linkedPresentationId) {
+		function createRecordViewerSpec(readLinkIn, linkedPresentationId) {
 			var cLinkedRecordPresentation = getMetadataById(linkedPresentationId);
 
 			var presentationOfLink = cLinkedRecordPresentation
@@ -152,7 +175,7 @@ var CORA = (function(cora) {
 			var linkedMetadataId = cPresentationOfLink
 					.getFirstAtomicValueByNameInData("linkedRecordId");
 			return {
-				"read" : readLink,
+				"read" : readLinkIn,
 				"presentationId" : linkedPresentationId,
 				"metadataId" : linkedMetadataId,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
@@ -192,6 +215,7 @@ var CORA = (function(cora) {
 					metadataIdUsedInData, cPresentationChild);
 			childViewNew.appendChild(pVar.getView());
 			view.addChild(childViewNew);
+
 		}
 
 		function createText(presRef) {
@@ -226,16 +250,26 @@ var CORA = (function(cora) {
 			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
+		function openLinkedRecord(openInfoFromView) {
+			var openInfo = {
+				"readLink" : readLink,
+				"loadInBackground" : openInfoFromView.loadInBackground
+			};
+			dependencies.clientInstanceProvider.getJsClient().openRecordUsingReadLink(openInfo);
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
 
-		var out = Object.freeze({
+		out = Object.freeze({
 			"type" : "pRecordLink",
 			getDependencies : getDependencies,
 			getView : getView,
-			handleMsg : handleMsg
+			handleMsg : handleMsg,
+			openLinkedRecord : openLinkedRecord
 		});
+		start();
 		return out;
 	};
 	return cora;

@@ -23,6 +23,7 @@ QUnit.module("uploadManagerFactoryTest.js", {
 		this.record = CORATEST.recordTypeList.dataList.data[4].record;
 		this.metadataProvider = new MetadataProviderStub();
 		this.dependencies = {
+			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
 			"textProvider" : CORATEST.textProviderSpy(),
 			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
@@ -57,6 +58,8 @@ QUnit.test("factorTestType", function(assert) {
 QUnit.test("factorTestUsedIncomingDependencies", function(assert) {
 	var uploadManager = this.uploadManagerFactory.factor(this.spec);
 	var createdDependencies = uploadManager.getDependencies();
+	assert.strictEqual(createdDependencies.clientInstanceProvider,
+			this.dependencies.clientInstanceProvider);
 	assert.strictEqual(createdDependencies.textProvider, this.dependencies.textProvider);
 	assert.strictEqual(createdDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory);
 });

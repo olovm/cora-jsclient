@@ -32,6 +32,7 @@
 
 <script type="text/javascript" src="script/aCoraNameSpace.js"></script>
 <script type="text/javascript" src="script/pubSub.js"></script>
+<script type="text/javascript" src="script/jsClient/clientInstanceProvider.js"></script>
 <script type="text/javascript" src="script/jsClient.js"></script>
 <script type="text/javascript" src="script/jsClient/jsClientFactory.js"></script>
 <script type="text/javascript" src="script/jsClientView.js"></script>
@@ -323,6 +324,7 @@
 			"textProvider" : textProvider,
 			"searchProvider" : searchProvider,
 			"recordTypeProvider" : recordTypeProvider,
+			"clientInstanceProvider": CORA.clientInstanceProvider()
 		};
 		jsClientSpec = {
 				"name" : "A Client",

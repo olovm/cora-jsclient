@@ -24,8 +24,8 @@ var CORATEST = (function(coraTest) {
 		var createdManagedGuiItem = [];
 		var fetchedMetadataByRecordTypeId = [];
 		var addedGuiItem = [];
+		var openInfos = [];
 
-		// var createdManagedGuiItemHandledBy = [];
 		function getRecordTypesClearedNoOfTimes() {
 			return recordTypesClearedNoOfTimes;
 		}
@@ -117,6 +117,13 @@ var CORATEST = (function(coraTest) {
 			return addedGuiItem[number];
 		}
 
+		function openRecordUsingReadLink(openInfo) {
+			openInfos.push(openInfo);
+		}
+		function getOpenInfo(number) {
+			return openInfos[number];
+		}
+
 		var out = Object.freeze({
 			"type" : "jsClientSpy",
 			showView : showView,
@@ -126,7 +133,9 @@ var CORATEST = (function(coraTest) {
 			getMetadataForRecordTypeId : getMetadataForRecordTypeId,
 			getFetchedMetadataByRecordTypeId : getFetchedMetadataByRecordTypeId,
 			addGuiItem : addGuiItem,
-			getAddedGuiItem : getAddedGuiItem
+			getAddedGuiItem : getAddedGuiItem,
+			openRecordUsingReadLink : openRecordUsingReadLink,
+			getOpenInfo : getOpenInfo
 		});
 
 		return out;

@@ -1,5 +1,4 @@
 /*
- * Copyright 2017 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -17,26 +16,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
-	"use strict";
-	cora.resultHandlerViewFactory = function(dependencies) {
+"use strict";
 
-		var dep = {};
+QUnit.module("clientInstanceProviderTest.js", {
+	beforeEach : function() {
+	},
+	afterEach : function() {
+	}
+});
 
-		function factor(spec) {
-			return CORA.resultHandlerView(dep, spec);
-		}
+QUnit.test("init", function(assert) {
+	var clientInstanceProvider = CORA.clientInstanceProvider(this.dependencies, this.spec);
+	assert.strictEqual(clientInstanceProvider.type, "clientInstanceProvider");
+});
 
-		function getDependencies() {
-			return dependencies;
-		}
-
-		var out = Object.freeze({
-			"type" : "resultHandlerViewFactory",
-			getDependencies : getDependencies,
-			factor : factor
-		});
-		return out;
-	};
-	return cora;
-}(CORA));
+QUnit.test("testGetJsClient", function(assert) {
+	var clientInstanceProvider = CORA.clientInstanceProvider(this.dependencies, this.spec);
+	var jsClient = {};
+	clientInstanceProvider.setJsClient(jsClient);
+	assert.strictEqual(clientInstanceProvider.getJsClient(), jsClient);
+});

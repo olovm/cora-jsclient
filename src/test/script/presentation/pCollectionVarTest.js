@@ -26,12 +26,12 @@ var CORATEST = (function(coraTest) {
 		var factor = function(path, pCollectionVarPresentationId) {
 			var cPCollectionVarPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(pCollectionVarPresentationId));
-var dependencies ={
-		"metadataProvider" : metadataProvider,
-		"pubSub" : pubSub,
-		"textProvider" : textProvider,
-		"jsBookkeeper" : jsBookkeeper		
-};
+			var dependencies = {
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider,
+				"jsBookkeeper" : jsBookkeeper
+			};
 			var spec = {
 				"path" : path,
 				"cPresentation" : cPCollectionVarPresentation
@@ -124,7 +124,7 @@ QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
 	var infoButton = view.childNodes[1];
 
 	assert.equal(infoButton.nodeName, "SPAN");
-	assert.equal(infoButton.className, "infoButton");
+	assert.equal(infoButton.className, "iconButton infoButton");
 
 	var event = document.createEvent('Event');
 	infoButton.onclick(event);
@@ -330,7 +330,7 @@ QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
 
 QUnit.test("testHandleValidationErrorResetByChangingValue", function(assert) {
 	var attachedPCollectionVar = CORATEST.createAttachedPCollectionVarWithError(this);
-	attachedPCollectionVar.valueView.value="false";
+	attachedPCollectionVar.valueView.value = "false";
 	attachedPCollectionVar.valueView.onblur();
 	var jsBookkeeper = this.jsBookkeeper;
 	var dataArray = jsBookkeeper.getDataArray();

@@ -66,13 +66,24 @@ var CORA = (function(cora) {
 			};
 			return newView;
 		}
+
 		function getView() {
 			return view;
+		}
+
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
 		}
 
 		start();
 		return Object.freeze({
 			"type" : "resultHandlerView",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getView : getView,
 			addChildPresentation : addChildPresentation
 		});

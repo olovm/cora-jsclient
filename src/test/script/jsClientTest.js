@@ -30,8 +30,11 @@ QUnit.module("jsClientTest.js", {
 			};
 		};
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-
+		this.factories = {
+			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy")
+		};
 		this.dependencies = {
+			"factories" : this.factories,
 			"loginManagerFactory" : CORATEST.loginManagerFactorySpy(),
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
 			"metadataProvider" : CORATEST.metadataProviderRealStub(),
@@ -44,7 +47,8 @@ QUnit.module("jsClientTest.js", {
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 			"openGuiItemHandlerFactory" : CORATEST.standardFactorySpy("openGuiItemHandlerSpy"),
 			"recordTypeHandlerFactory" : CORATEST.standardFactorySpy("recordTypeHandlerSpy"),
-			"uploadManager" : CORATEST.uploadManagerSpy()
+			"uploadManager" : CORATEST.uploadManagerSpy(),
+			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy()
 		}
 		this.spec = {
 			"name" : "The Client",
@@ -60,6 +64,11 @@ QUnit.module("jsClientTest.js", {
 QUnit.test("testInit", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	assert.strictEqual(jsClient.type, "jsClient");
+});
+
+QUnit.test("testJsClientSetInInstanceProvider", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	assert.strictEqual(this.dependencies.clientInstanceProvider.getJsClient(), jsClient);
 });
 
 QUnit.test("testGetRecordTypeList", function(assert) {
@@ -456,3 +465,58 @@ QUnit.test("testAfterRecordTypeProviderReload", function(assert) {
 // // assert.strictEqual(handledByCalledWith.length, 1);
 // assert.strictEqual(managedGuiItem.getHandledBy(0), "");
 // });
+QUnit.test("testOpenRecordUsingReadLink", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var readLink = {};
+	var openInfo = {
+		"readLink" : readLink,
+		"loadInBackground" : "false"
+	};
+	jsClient.openRecordUsingReadLink(openInfo);
+
+	var recordHandlerSpec = this.dependencies.factories.recordHandlerFactory.getSpec(0);
+	assert.strictEqual(recordHandlerSpec.fetchLatestDataFromServer, "true");
+	assert.strictEqual(recordHandlerSpec.partOfList, "false");
+	assert.strictEqual(recordHandlerSpec.createNewRecord, "false");
+	assert.strictEqual(recordHandlerSpec.record.actionLinks.read, readLink);
+	assert.strictEqual(recordHandlerSpec.jsClient, jsClient);
+
+	var openGuiItemHandler = this.dependencies.openGuiItemHandlerFactory.getFactored(0);
+	var recordHandler = this.dependencies.factories.recordHandlerFactory.getFactored(0);
+	assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(0), recordHandler
+			.getManagedGuiItem());
+
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	assert.strictEqual(jsClientView.getAddedWorkView(0), recordHandler.getManagedGuiItem()
+			.getWorkView());
+});
+
+QUnit.test("testOpenRecordUsingReadLinkInBackground", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var readLink = {
+		"requestMethod" : "GET",
+		"rel" : "read",
+		"url" : "http://epc.ub.uu.se/cora/rest/record/recordType/presentationVar",
+		"accept" : "application/vnd.uub.record+json"
+	};
+	var openInfo = {
+		"readLink" : readLink,
+		"loadInBackground" : "true"
+	};
+	jsClient.openRecordUsingReadLink(openInfo);
+
+	var recordHandlerSpec = this.dependencies.factories.recordHandlerFactory.getSpec(0);
+	assert.strictEqual(recordHandlerSpec.fetchLatestDataFromServer, "true");
+	assert.strictEqual(recordHandlerSpec.partOfList, "false");
+	assert.strictEqual(recordHandlerSpec.createNewRecord, "false");
+	assert.strictEqual(recordHandlerSpec.record.actionLinks.read, readLink);
+	assert.strictEqual(recordHandlerSpec.jsClient, jsClient);
+
+	var openGuiItemHandler = this.dependencies.openGuiItemHandlerFactory.getFactored(0);
+	var recordHandler = this.dependencies.factories.recordHandlerFactory.getFactored(0);
+	assert.strictEqual(openGuiItemHandler.getAddedManagedGuiItem(0), recordHandler
+			.getManagedGuiItem());
+
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
+});

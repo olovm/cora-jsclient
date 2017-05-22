@@ -73,7 +73,14 @@ var CORA = (function(cora) {
 		function getWorkView() {
 			return workView;
 		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		out = Object.freeze({
+			"type" : "uploadManagerView",
+			getSpec : getSpec,
 			getMenuView : getMenuView,
 			getWorkView : getWorkView,
 			addFile : addFile,

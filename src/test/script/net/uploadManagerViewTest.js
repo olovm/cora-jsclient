@@ -39,7 +39,12 @@ QUnit.module("uploadManagerViewTest.js", {
 
 QUnit.test("testInit", function(assert) {
 	var uploadManagerView = CORA.uploadManagerView(this.spec);
+	assert.strictEqual(uploadManagerView.type, "uploadManagerView");
 	assert.ok(uploadManagerView);
+});
+QUnit.test("testGetSpec", function(assert) {
+	var uploadManagerView = CORA.uploadManagerView(this.spec);
+	assert.strictEqual(uploadManagerView.getSpec(), this.spec);
 });
 
 QUnit.test("testGetMenuView", function(assert) {

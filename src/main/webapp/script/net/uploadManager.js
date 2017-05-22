@@ -22,12 +22,16 @@ var CORA = (function(cora) {
 		var uploading = false;
 		var uploadQue = [];
 		var viewSpec = {
-			"showWorkViewMethod" : spec.showView,
+			"showWorkViewMethod" : showView,
 			"textProvider" : dependencies.textProvider
 		};
 		var view = CORA.uploadManagerView(viewSpec);
 
 		var managedGuiItem = createManagedGuiItem();
+
+		function showView(managedGuiItemToShow) {
+			dependencies.clientInstanceProvider.getJsClient().showView(managedGuiItemToShow);
+		}
 
 		function upload(uploadSpec) {
 			var uploadLink = uploadSpec.uploadLink;
@@ -55,7 +59,7 @@ var CORA = (function(cora) {
 
 		function createManagedGuiItem() {
 			var managedGuiItemSpec = {
-				"activateMethod" : spec.showView,
+				"activateMethod" : showView,
 				"disableRemove" : "true"
 			};
 			var createdMGI = dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
@@ -109,7 +113,8 @@ var CORA = (function(cora) {
 			getManagedGuiItem : getManagedGuiItem,
 			upload : upload,
 			uploadFinished : uploadFinished,
-			view : view
+			view : view,
+			showView : showView
 		});
 
 		return out;

@@ -64,7 +64,7 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(messageText.textContent, "some text");
 
 	var removeButton = view.childNodes[0];
-	assert.strictEqual(removeButton.className, "removeButton");
+	assert.strictEqual(removeButton.className, "iconButton removeButton");
 	// to prevent rouge timers call remove on elements after test has completed
 	message.clearHideTimeout();
 });

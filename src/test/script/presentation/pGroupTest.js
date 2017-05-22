@@ -92,7 +92,7 @@ QUnit.test("testInitInfo", function(assert) {
 
 	var infoButton = view.childNodes[0];
 	assert.equal(infoButton.nodeName, "SPAN");
-	assert.equal(infoButton.className, "infoButton");
+	assert.equal(infoButton.className, "iconButton infoButton");
 
 	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 	assert.equal(view.childNodes.length, 2);
@@ -138,7 +138,7 @@ QUnit.test("testGetInfoShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", fun
 
 	var infoButton = view.childNodes[0];
 	assert.equal(infoButton.nodeName, "SPAN");
-	assert.equal(infoButton.className, "infoButton");
+	assert.equal(infoButton.className, "iconButton infoButton");
 
 	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 	assert.equal(view.childNodes.length, 2);
@@ -311,23 +311,21 @@ QUnit.test("testInitOneChildMinimized",
 			assert.strictEqual(factoredSpec.minimizedDefault, undefined);
 		});
 
-QUnit.test("testInitOneChildMinimizedDefault",
-		function(assert) {
-			this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
-					.getMetadataById("pgGroupIdOneTextChildMinimizedDefault"));
-			var pGroup = CORA.pGroup(this.dependencies, this.spec);
-			var view = pGroup.getView();
-			this.fixture.appendChild(view);
+QUnit.test("testInitOneChildMinimizedDefault", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextChildMinimizedDefault"));
+	var pGroup = CORA.pGroup(this.dependencies, this.spec);
+	var view = pGroup.getView();
+	this.fixture.appendChild(view);
 
-			assert.strictEqual(view.childNodes[1].className, "pChildRefHandlerSpyView");
+	assert.strictEqual(view.childNodes[1].className, "pChildRefHandlerSpyView");
 
-			var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
-			assert.deepEqual(factoredSpec.parentPath, this.spec.path);
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.deepEqual(factoredSpec.parentPath, this.spec.path);
 
-			assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdOneTextChild");
-			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
-			assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
-					"pgGroupIdOneTextChildMinimizedDefault");
-			assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
-				"pVarTextVariableId");
-		});
+	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdOneTextChild");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
+			"pgGroupIdOneTextChildMinimizedDefault");
+	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized), "pVarTextVariableId");
+});

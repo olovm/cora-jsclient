@@ -71,6 +71,14 @@ QUnit.module("recordHandlerTest.js", {
 			"record" : this.record,
 			"jsClient" : CORATEST.jsClientSpy()
 		};
+		this.specForNewList = {
+			"fetchLatestDataFromServer" : "false",
+			"partOfList" : "true",
+			"createNewRecord" : "true",
+			"recordTypeRecordIdForNew" : "recordType",
+			"record" : this.record,
+			"jsClient" : CORATEST.jsClientSpy()
+		};
 
 		this.answerCall = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
@@ -711,6 +719,7 @@ QUnit.test("initCheckRightGuiCreatedForExisting", function(assert) {
 	var item = managedGuiItem.getAddedMenuPresentation(0);
 	assert.strictEqual(item.nodeName, "SPAN");
 });
+
 QUnit.test("initCheckRightGuiCreatedForList", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.specList);
 	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
@@ -726,6 +735,30 @@ QUnit.test("initCheckRightGuiCreatedForList", function(assert) {
 
 	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(0), "recordTypeListPGroup");
 	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(0), "recordTypeGroup");
+
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	assert.strictEqual(managedGuiItem.getAddedListPresentation(0), factoredRecordGui
+			.getReturnedPresentations(0).getView());
+
+	var item = managedGuiItem.getAddedMenuPresentation(0);
+	assert.strictEqual(item, undefined);
+});
+
+QUnit.test("initCheckRightGuiCreatedForNewInList", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.specForNewList);
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+	// this.answerCall(0);
+
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
+
+	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.metadataId, "recordTypeNewGroup");
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+
+	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(0), "recordTypeListPGroup");
+	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(0), "recordTypeNewGroup");
 
 	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	assert.strictEqual(managedGuiItem.getAddedListPresentation(0), factoredRecordGui

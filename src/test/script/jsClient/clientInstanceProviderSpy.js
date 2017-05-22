@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Uppsala University Library
- *
+ * Copyright 2017 Olov McKie
+ * 
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -16,30 +16,24 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.uploadManagerFactory = function(dependencies) {
+	coraTest.clientInstanceProviderSpy = function(dependencies, spec) {
+		var jsClient = CORATEST.jsClientSpy();
 
-		function factor(uploadManagerSpec) {
-			var dep = {
-				"clientInstanceProvider" : dependencies.clientInstanceProvider,
-				"textProvider" : dependencies.textProvider,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"managedGuiItemFactory" : dependencies.managedGuiItemFactory
-			};
-			return CORA.uploadManager(dep, uploadManagerSpec);
+		function setJsClient(jsClientToSet) {
+			jsClient = jsClientToSet;
 		}
 
-		function getDependencies() {
-			return dependencies;
+		function getJsClient() {
+			return jsClient;
 		}
 
-		var out = Object.freeze({
-			"type" : "uploadManagerFactory",
-			getDependencies : getDependencies,
-			factor : factor
+		return Object.freeze({
+			"type" : "clientInstanceProviderSpy",
+			setJsClient : setJsClient,
+			getJsClient : getJsClient
 		});
-		return out;
 	};
-	return cora;
-}(CORA));
+	return coraTest;
+}(CORATEST || {}));

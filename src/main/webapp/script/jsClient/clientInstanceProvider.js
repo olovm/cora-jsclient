@@ -16,35 +16,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORATEST = (function(coraTest) {
+var CORA = (function(cora) {
 	"use strict";
-	coraTest.pRecordLinkViewFactorySpy = function() {
-		var factored = [];
-		var factoredSpec = [];
+	cora.clientInstanceProvider = function() {
+		var jsClient;
 
-		function factor(pRecordLinkViewSpec) {
-			factoredSpec.push(pRecordLinkViewSpec);
-			var factoredpRecordLinkView = CORATEST.pRecordLinkViewSpy({},
-					pRecordLinkViewSpec);
-			factored.push(factoredpRecordLinkView);
-			return factoredpRecordLinkView;
+		function setJsClient(jsClientToSet) {
+			jsClient = jsClientToSet;
 		}
 
-		function getFactored(number) {
-			return factored[number];
-		}
-
-		function getSpec(number) {
-			return factoredSpec[number];
+		function getJsClient() {
+			return jsClient;
 		}
 
 		var out = Object.freeze({
-			"type" : "pRecordLinkViewFactorySpy",
-			factor : factor,
-			getFactored : getFactored,
-			getSpec : getSpec
+			"type" : "clientInstanceProvider",
+			setJsClient : setJsClient,
+			getJsClient : getJsClient
 		});
 		return out;
 	};
-	return coraTest;
-}(CORATEST));
+	return cora;
+}(CORA));

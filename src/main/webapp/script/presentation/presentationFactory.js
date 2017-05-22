@@ -56,6 +56,7 @@ var CORA = (function(cora) {
 					.pChildRefHandlerFactory(pChildRefHandlerFactoryDependencies);
 
 			var childDependencies = {
+				"clientInstanceProvider" : dependencies.clientInstanceProvider,
 				"metadataProvider" : dependencies.metadataProvider,
 				"pubSub" : dependencies.pubSub,
 				"textProvider" : dependencies.textProvider,

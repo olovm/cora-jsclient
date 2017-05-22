@@ -43,6 +43,16 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(resultHandlerView.type, "resultHandlerView");
 });
 
+QUnit.test("testGetDependencies", function(assert) {
+	var resultHandlerView = CORA.resultHandlerView(this.dependencies, this.spec);
+	assert.strictEqual(resultHandlerView.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var resultHandlerView = CORA.resultHandlerView(this.dependencies, this.spec);
+	assert.strictEqual(resultHandlerView.getSpec(), this.spec);
+});
+
 QUnit.test("testGetView", function(assert) {
 	var resultHandlerView = CORA.resultHandlerView(this.dependencies, this.spec);
 	var view = resultHandlerView.getView();

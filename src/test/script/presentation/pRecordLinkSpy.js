@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -16,30 +16,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.uploadManagerFactory = function(dependencies) {
-
-		function factor(uploadManagerSpec) {
-			var dep = {
-				"clientInstanceProvider" : dependencies.clientInstanceProvider,
-				"textProvider" : dependencies.textProvider,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"managedGuiItemFactory" : dependencies.managedGuiItemFactory
-			};
-			return CORA.uploadManager(dep, uploadManagerSpec);
+	coraTest.pRecordLinkSpy = function(dependencies, spec) {
+		var openedLinkedRecord = [];
+		function openLinkedRecord(childToAdd) {
+			openedLinkedRecord.push(childToAdd);
 		}
-
-		function getDependencies() {
-			return dependencies;
+		function getOpenLinkedRecord(number) {
+			return openedLinkedRecord[number];
 		}
 
 		var out = Object.freeze({
-			"type" : "uploadManagerFactory",
-			getDependencies : getDependencies,
-			factor : factor
+			"type" : "pRecordLinkSpy",
+			openLinkedRecord : openLinkedRecord,
+			getOpenLinkedRecord : getOpenLinkedRecord
 		});
 		return out;
 	};
-	return cora;
-}(CORA));
+	return coraTest;
+}(CORATEST));
