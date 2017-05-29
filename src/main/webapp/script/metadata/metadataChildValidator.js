@@ -42,10 +42,13 @@ var CORA = (function(cora) {
 		validateAndCategorizeChildInstances();
 		// TODO: send remove for self if empty (numberOfChildrenOk === 0)
 		// and childInstancesCanNotBeRemoved === 0
+		if (numberOfChildrenOk === 0 && childInstancesCanNotBeRemoved.length === 0) {
+			// sendRemoveForSelf();
+		}
 		function sendRemoveForSelf(errorMessage) {
 			var removeMessage = {
 				"type" : "remove",
-				"path" : errorMessage.validationMessage.path
+				"path" : path
 			};
 			pubSub.publish("remove", removeMessage);
 		}

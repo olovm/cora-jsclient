@@ -156,6 +156,13 @@ var CORA = (function(cora) {
 			nextLevelChildReferences.children.forEach(function(childReference) {
 				validateGroupChild(childReference, nextLevelPath);
 			});
+
+			// console.log("everythingOkBelow", result.everythingOkBelow);
+			// console.log("containsValuableData", result.containsValuableData);
+			if (!result.containsValuableData) {
+				console.log("SETTING EVERYTHINGBELOW TO FALSE");
+				result.everythingOkBelow = false;
+			}
 		}
 
 		function validateGroupChild(childReference, nextLevelPath) {
@@ -199,15 +206,13 @@ var CORA = (function(cora) {
 				"repeatId" : 1,
 				"children" : [ {
 					"name" : "ref",
-					"children": [ {
-						"name": "linkedRecordType",
-						"value": "metadata"
-					},
-						{
-							"name": "linkedRecordId",
-							"value": ref
-						}
-					]
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadata"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : ref
+					} ]
 				}, {
 					"name" : "repeatMin",
 					"value" : "1"
@@ -265,10 +270,10 @@ var CORA = (function(cora) {
 		}
 
 		function getCollectionItemReferences() {
-			var cRefCollection = CORA.coraData(cMetadataElement.getFirstChildByNameInData("refCollection"));
+			var cRefCollection = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("refCollection"));
 
-			var refCollectionId = cRefCollection
-					.getFirstAtomicValueByNameInData("linkedRecordId");
+			var refCollectionId = cRefCollection.getFirstAtomicValueByNameInData("linkedRecordId");
 			var cItemCollection = getMetadataById(refCollectionId);
 			return cItemCollection.getFirstChildByNameInData("collectionItemReferences");
 		}
