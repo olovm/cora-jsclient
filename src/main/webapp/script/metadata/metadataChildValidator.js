@@ -40,6 +40,15 @@ var CORA = (function(cora) {
 		var numberOfChildrenOk = 0;
 
 		validateAndCategorizeChildInstances();
+		// TODO: send remove for self if empty (numberOfChildrenOk === 0)
+		// and childInstancesCanNotBeRemoved === 0
+		function sendRemoveForSelf(errorMessage) {
+			var removeMessage = {
+				"type" : "remove",
+				"path" : errorMessage.validationMessage.path
+			};
+			pubSub.publish("remove", removeMessage);
+		}
 
 		function getNameInDataForMetadataId(refIn) {
 			var metadataElement = getMetadataById(refIn);
@@ -98,12 +107,11 @@ var CORA = (function(cora) {
 		}
 
 		function getDataChildrenForMetadata(nameInDataIn, attributesIn) {
-			if(!cData.containsChildWithNameInDataAndAttributes(nameInDataIn,
-					attributesIn)){
+			if (!cData.containsChildWithNameInDataAndAttributes(nameInDataIn, attributesIn)) {
 				return [];
 			}
-			var dataChildrenForMetadataOut = cData.getChildrenByNameInDataAndAttributes(nameInDataIn,
-					attributesIn);
+			var dataChildrenForMetadataOut = cData.getChildrenByNameInDataAndAttributes(
+					nameInDataIn, attributesIn);
 			return dataChildrenForMetadataOut;
 		}
 
