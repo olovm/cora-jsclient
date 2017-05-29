@@ -4282,8 +4282,14 @@ function MetadataProviderStub() {
                         "name": "mode",
                         "value": "input"
                     }, {
-                        "name": "emptyTextId",
-                        "value": "enterTextHereText"
+                        "name" : "emptyTextId",
+                        "children" : [ {
+                            "name" : "linkedRecordType",
+                            "value" : "text"
+                        }, {
+                            "name" : "linkedRecordId",
+                            "value" : "enterTextHereText"
+                        } ]
                     }]
                 };
             case "userSuppliedIdCollectionVarPCollVar":
@@ -4422,8 +4428,14 @@ function MetadataProviderStub() {
                             "name": "mode",
                             "value": "input"
                         }, {
-                            "name": "emptyTextId",
-                            "value": "enterTextHereText"
+                            "name" : "emptyTextId",
+                            "children" : [ {
+                                "name" : "linkedRecordType",
+                                "value" : "text"
+                            }, {
+                                "name" : "linkedRecordId",
+                                "value" : "enterTextHereText"
+                            } ]
                         }, {
                             "name": "showAsTextArea",
                             "value": "false"
@@ -4464,8 +4476,14 @@ function MetadataProviderStub() {
                             "name": "mode",
                             "value": "input"
                         }, {
-                            "name": "emptyTextId",
-                            "value": "enterTextHereText"
+                            "name" : "emptyTextId",
+                            "children" : [ {
+                                "name" : "linkedRecordType",
+                                "value" : "text"
+                            }, {
+                                "name" : "linkedRecordId",
+                                "value" : "enterTextHereText"
+                            } ]
                         }, {
                             "name": "inputType",
                             "value": "textarea"
@@ -8062,9 +8080,15 @@ function MetadataProviderStub() {
                     }, {
                         "name": "mode",
                         "value": "input"
-                    }, {
-                        "name": "emptyTextId",
-                        "value": "enterTextHereText"
+                    },{
+                        "name" : "emptyTextId",
+                        "children" : [ {
+                            "name" : "linkedRecordType",
+                            "value" : "text"
+                        }, {
+                            "name" : "linkedRecordId",
+                            "value" : "enterTextHereText"
+                        } ]
                     }]
                 };
             case "linkedRecordIdOutputPVar":
@@ -8118,8 +8142,14 @@ function MetadataProviderStub() {
                         "name": "mode",
                         "value": "input"
                     }, {
-                        "name": "emptyTextId",
-                        "value": "enterTextHereText"
+                        "name" : "emptyTextId",
+                        "children" : [ {
+                            "name" : "linkedRecordType",
+                            "value" : "text"
+                        }, {
+                            "name" : "linkedRecordId",
+                            "value" : "enterTextHereText"
+                        } ]
                     }]
                 };
             case "linkedRepeatIdOutputPVar":

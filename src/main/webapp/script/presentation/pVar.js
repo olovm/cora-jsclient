@@ -61,7 +61,8 @@ var CORA = (function(cora) {
 		};
 
 		if (cPresentation.containsChildWithNameInData("emptyTextId")) {
-			var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
+			var cEmptyTextId = CORA.coraData(cPresentation.getFirstChildByNameInData("emptyTextId"));
+			var emptyTextId = cEmptyTextId.getFirstAtomicValueByNameInData("linkedRecordId");
 			var emptyText = textProvider.getTranslation(emptyTextId);
 			pVarViewSpec.placeholderText = emptyText;
 		}

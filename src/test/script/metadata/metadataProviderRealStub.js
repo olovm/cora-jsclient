@@ -5337,10 +5337,18 @@ var CORATEST = (function(coraTest) {
 			}, {
 				"name" : "mode",
 				"value" : "input"
-			}, {
-				"name" : "emptyTextId",
-				"value" : "idTextTextVarPlaceholderText"
-			}, {
+			},
+				{
+					"name" : "emptyTextId",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "text"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "idTextTextVarPlaceholderText"
+					} ]
+				},
+				{
 				"name" : "inputType",
 				"value" : "input"
 			} ],
@@ -6758,9 +6766,15 @@ var CORATEST = (function(coraTest) {
 			}, {
 				"name" : "mode",
 				"value" : "input"
-			}, {
+			},{
 				"name" : "emptyTextId",
-				"value" : "initialEmptyValueText"
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "text"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "initialEmptyValueText"
+				} ]
 			} ]
 		};
 		metadataArray["modeCollectionVarOutputPVar"] = {
@@ -6806,7 +6820,13 @@ var CORATEST = (function(coraTest) {
 				"value" : "input"
 			}, {
 				"name" : "emptyTextId",
-				"value" : "initialEmptyValueText"
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "text"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "initialEmptyValueText"
+				} ]
 			} ]
 		};
 		metadataArray["outputFormatCollectionVarOutputPVar"] = {
@@ -7827,10 +7847,17 @@ var CORATEST = (function(coraTest) {
 			}, {
 				"name" : "mode",
 				"value" : "input"
-			}, {
-				"name" : "emptyTextId",
-				"value" : "initialEmptyValueText"
-			} ]
+			},
+				{
+					"name" : "emptyTextId",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "text"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "initialEmptyValueText"
+					} ]
+				} ]
 		};
 		metadataArray["defaultPresentationCollectionVarOutputPVar"] = {
 			"name" : "presentation",
