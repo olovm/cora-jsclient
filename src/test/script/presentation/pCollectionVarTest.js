@@ -273,6 +273,28 @@ QUnit.test("testInitCollectionOutput", function(assert) {
 	CORATEST.testCollectionVariableSubscription(attachedPCollectionVar, assert);
 });
 
+QUnit.test("testSetValueCollectionInputEmptyTextId", function(assert) {
+	var attachedPCollectionVar = this.pCollectionVarFactory.factor({},
+		"yesNoUnknownPCollVar");
+
+	var view = attachedPCollectionVar.view;
+	assert.ok(view.modelObject === attachedPCollectionVar.pCollectionVar);
+	assert.ok(view.childNodes.length, 3);
+
+	var valueView = attachedPCollectionVar.valueView;
+	assert.equal(valueView.nodeName, "SELECT");
+	assert.equal(valueView.type, "select-one");
+
+	var options = valueView.childNodes;
+	assert.equal(options[0].nodeName, "OPTION");
+	assert.equal(options[0].text, "-- Gör ett val ur listan --");
+	assert.equal(options[0].value, "");
+
+	assert.equal(options[1].nodeName, "OPTION");
+	assert.equal(options[1].text, "Ja");
+	assert.equal(options[1].value, "yes");
+});
+
 QUnit.test("testSetValueCollectionOutputEmptyTextId", function(assert) {
 	var attachedPCollectionVar = this.pCollectionVarFactory.factor({},
 			"userSuppliedIdCollectionVarOutputPCollVar");

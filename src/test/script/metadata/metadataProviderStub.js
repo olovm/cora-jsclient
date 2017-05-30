@@ -4317,8 +4317,14 @@ function MetadataProviderStub() {
                         "name": "mode",
                         "value": "input"
                     }, {
-                        "name": "emptyTextId",
-                        "value": "initialEmptyValueText"
+                        "name" : "emptyTextId",
+                        "children" : [ {
+                            "name" : "linkedRecordType",
+                            "value" : "text"
+                        }, {
+                            "name" : "linkedRecordId",
+                            "value" : "initialEmptyValueText"
+                        } ]
                     }]
                 };
             case "userSuppliedIdNoEmptyTextIdCollectionVarPCollVar":
@@ -4391,7 +4397,8 @@ function MetadataProviderStub() {
                         }, {
                             "name": "mode",
                             "value": "output"
-                        }]
+                        }
+                        ]
                 };
             case "textVariableIdShowTextAreaFalsePVar":
                 return {
@@ -4581,8 +4588,14 @@ function MetadataProviderStub() {
                             "name": "mode",
                             "value": "input"
                         }, {
-                            "name": "emptyTextId",
-                            "value": "initialEmptyValueText"
+                            "name" : "emptyTextId",
+                            "children" : [ {
+                                "name" : "linkedRecordType",
+                                "value" : "text"
+                            }, {
+                                "name" : "linkedRecordId",
+                                "value" : "initialEmptyValueText"
+                            } ]
                         }]
                 };
             case "yesNoUnknownNoEmptyTextIdPVar":

@@ -74,7 +74,9 @@ var CORA = (function(cora) {
 			var inputNew = document.createElement("select");
 
 			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
-				var emptyTextId = cPresentation.getFirstAtomicValueByNameInData("emptyTextId");
+				var cEmptyTextId = CORA.coraData(cPresentation.getFirstChildByNameInData("emptyTextId"));
+				var emptyTextId = cEmptyTextId.getFirstAtomicValueByNameInData("linkedRecordId");
+
 				var optionText = textProvider.getTranslation(emptyTextId);
 				var emptyTextOption = new Option(optionText, "");
 				inputNew.appendChild(emptyTextOption);

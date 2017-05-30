@@ -6795,10 +6795,16 @@ var CORATEST = (function(coraTest) {
 				"name" : "mode",
 				"value" : "output"
 			}
-			// , {
-			// "name" : "emptyTextId",
-			// "value" : "initialEmptyValueText"
-			// }
+			 , {
+				"name" : "emptyTextId",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "text"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "initialEmptyValueText"
+				} ]
+			}
 			]
 		};
 		metadataArray["outputFormatCollectionVarPVar"] = {
