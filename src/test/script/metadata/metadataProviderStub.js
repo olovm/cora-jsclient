@@ -7057,8 +7057,17 @@ function MetadataProviderStub() {
                             "value": "pTextVariableIdRContainer"
                         }]
                     }, {
-                        "name": "presentationOf",
-                        "value": "textVariableId"
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "metadata"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "textVariableId"
+                            }
+                        ],
+                        "name": "presentationOf"
                     }, {
                         "name": "childReferences",
                         "children": [{

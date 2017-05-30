@@ -85,18 +85,11 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataIdFromPresentation() {
-			if (presentationHasLinkedPresentationOf()) {
-				var presentationGroup = spec.cPresentation
-						.getFirstChildByNameInData("presentationOf");
-				var cPresentationGroup = CORA.coraData(presentationGroup);
-				return cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			var presentationGroup = spec.cPresentation
+					.getFirstChildByNameInData("presentationOf");
+			var cPresentationGroup = CORA.coraData(presentationGroup);
+			return cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
-			}
-			return spec.cPresentation.getFirstAtomicValueByNameInData("presentationOf");
-		}
-
-		function presentationHasLinkedPresentationOf() {
-			return spec.cPresentation.getData().attributes.type !== "container";
 		}
 
 		function getMetadataById(id) {
