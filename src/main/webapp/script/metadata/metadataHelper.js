@@ -49,11 +49,17 @@ var CORA = (function(cora) {
 		}
 
 		function collectAttributesForAttributeReference(attributeReference, collectedAttributes) {
-			var cCollectionVariable = getMetadataById(attributeReference.value);
+			var ref = getRefValueFromAttributeRef(attributeReference);
+			var cCollectionVariable = getMetadataById(ref);
 			var attributeNameInData = cCollectionVariable
 					.getFirstAtomicValueByNameInData("nameInData");
 			var attributeValues = collectAttributeValuesFromVariable(cCollectionVariable);
 			collectedAttributes[attributeNameInData] = attributeValues;
+		}
+
+		function getRefValueFromAttributeRef(attributeReference){
+			var cAttributeReference = CORA.coraData(attributeReference);
+			return cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function collectAttributeValuesFromVariable(cCollectionVariable) {

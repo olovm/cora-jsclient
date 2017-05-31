@@ -778,13 +778,21 @@ function MetadataProviderStub() {
                 },
                 "children": [
                     {
-                        "name": "attributeReferences",
                         "children": [{
-                            "name": "ref",
-                            "value": "anAttribute",
-                            "repeatId": "1"
-                        }]
-
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "anAttribute"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
                     },
                     {
                         "name": "childReferences",
@@ -838,17 +846,35 @@ function MetadataProviderStub() {
                 },
                 "children": [
                     {
-                        "name": "attributeReferences",
                         "children": [{
-                            "name": "ref",
-                            "value": "anAttribute",
-                            "repeatId": "1"
-                        }, {
-                            "name": "ref",
-                            "value": "anOtherAttribute",
-                            "repeatId": "2"
-                        }]
-
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "anAttribute"
+                                }
+                            ],
+                            "name": "ref"
+                        },
+                            {
+                                "repeatId": "2",
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "metadataCollectionVariable"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "anOtherAttribute"
+                                    }
+                                ],
+                                "name": "ref"
+                            }],
+                        "name": "attributeReferences"
                     },
                     {
                         "name": "childReferences",
@@ -939,13 +965,21 @@ function MetadataProviderStub() {
                 },
                 "children": [
                     {
-                        "name": "attributeReferences",
                         "children": [{
-                            "name": "ref",
-                            "value": "anAttribute",
-                            "repeatId": "1"
-                        }]
-
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "anAttribute"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
                     },
                     {
                         "name": "childReferences",
@@ -966,13 +1000,21 @@ function MetadataProviderStub() {
                 },
                 "children": [
                     {
-                        "name": "attributeReferences",
                         "children": [{
-                            "name": "ref",
-                            "value": "recordTypeParentCollectionVar",
-                            "repeatId": "1"
-                        }]
-
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "recordTypeParentCollectionVar"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
                     },
                     {
                         "name": "childReferences",
@@ -1056,13 +1098,21 @@ function MetadataProviderStub() {
                 },
                 "children": [
                     {
-                        "name": "attributeReferences",
                         "children": [{
-                            "name": "ref",
-                            "value": "anOtherAttribute",
-                            "repeatId": "1"
-                        }]
-
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "anOtherAttribute"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
                     },
                     {
                         "name": "childReferences",
@@ -1099,13 +1149,24 @@ function MetadataProviderStub() {
                     "textId": "metadataText"
                 }, {
                     "defTextId": "metadataDeffText"
-                }, {
-                    "attributeReferences": {
+                },
+                    {
                         "children": [{
-                            "ref": "recordTypeTypeCollectionVar"
-                        }]
-                    }
-                }, {
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "recordTypeTypeCollectionVar"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
+                    }, {
                     "childReferences": {
                         "children": [{
                             "childReference": {
@@ -1181,13 +1242,24 @@ function MetadataProviderStub() {
                 "name": "metadata",
                 "children": [{
                     "nameInData": "metadata"
-                },  {
-                    "attributeReferences": {
+                },
+                    {
                         "children": [{
-                            "ref": "recordTypeTypeCollectionVar"
-                        }]
-                    }
-                }, {
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "recordTypeTypeCollectionVar"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
+                    }, {
                     "childReferences": {
                         "children": [{
                             "childReference": {
@@ -1401,13 +1473,21 @@ function MetadataProviderStub() {
                 "name": "metadata",
                 "children": [
                     {
-                        "name": "attributeReferences",
                         "children": [{
-                            "name": "ref",
-                            "value": "anAttribute",
-                            "repeatId": "1"
-                        }]
-
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "anAttribute"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
                     },
                     {
                         "name": "childReferences",
@@ -1649,11 +1729,21 @@ function MetadataProviderStub() {
                 },
                 "children": [
                     {
-                        "name": "attributeReferences",
                         "children": [{
-                            "name": "ref",
-                            "value": "recordTypeTypeCollectionVar"
-                        }]
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "recordTypeTypeCollectionVar"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
                     },
                     {
                         "name": "childReferences",
@@ -1953,13 +2043,23 @@ function MetadataProviderStub() {
                         "name": "childReference"
                     }],
                     "name": "childReferences"
-                }, {
-                    "children": [{
-                        "name": "ref",
-                        "value": "presentationTypePVarCollectionVar"
-                    }],
-                    "name": "attributeReferences"
-                }, {
+                },{
+                        "children": [{
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "presentationTypePVarCollectionVar"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
+                    }, {
                     "name": "refParentId",
                     "value": "presentationGroup"
                 }],
@@ -2046,13 +2146,23 @@ function MetadataProviderStub() {
                         "name": "childReference"
                     }],
                     "name": "childReferences"
-                }, {
-                    "children": [{
-                        "name": "ref",
-                        "value": "presentationTypePVarCollectionVar"
-                    }],
-                    "name": "attributeReferences"
-                }, {
+                },{
+                        "children": [{
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "presentationTypePVarCollectionVar"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
+                    }, {
                     "name": "refParentId",
                     "value": "presentationGroup"
                 }],
@@ -2266,14 +2376,22 @@ function MetadataProviderStub() {
                     ],
                     "name": "defTextId"
                 }, {
-                    "name": "attributeReferences",
-                    "children": [{
-                        "name": "ref",
-                        "value": "anAttribute",
-                        "repeatId": "1"
-                    }]
-
-                }, {
+                        "children": [{
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "anAttribute"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
+                    }, {
                     "children": [{
                         "repeatId": "1",
                         "children": [{
@@ -2453,13 +2571,22 @@ function MetadataProviderStub() {
                         ],
                         "name": "linkedRecordType"
                     }, {
-                    "name": "attributeReferences",
-                    "children": [{
-                        "name": "ref",
-                        "value": "binaryTypeImageCollectionVar",
-                        "repeatId": "0"
+                        "children": [{
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "binaryTypeImageCollectionVar"
+                                }
+                            ],
+                            "name": "ref"
+                        }],
+                        "name": "attributeReferences"
                     }]
-                }]
             };
         }
 
@@ -3053,11 +3180,21 @@ function MetadataProviderStub() {
                                 "name": "childReference"
                             }],
                         "name": "childReferences"
-                    }, {
+                    },
+                    {
                         "children": [{
-                            "repeatId": "0",
-                            "name": "ref",
-                            "value": "binaryTypeImageCollectionVar"
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "binaryTypeImageCollectionVar"
+                                }
+                            ],
+                            "name": "ref"
                         }],
                         "name": "attributeReferences"
                     }],
@@ -3374,9 +3511,18 @@ function MetadataProviderStub() {
                     },
                     {
                         "children": [{
-                            "repeatId": "0",
-                            "name": "ref",
-                            "value": "binaryTypeGenericBinaryCollectionVar"
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "binaryTypeGenericBinaryCollectionVar"
+                                }
+                            ],
+                            "name": "ref"
                         }],
                         "name": "attributeReferences"
                     }],
@@ -3581,9 +3727,18 @@ function MetadataProviderStub() {
                     },
                     {
                         "children": [{
-                            "repeatId": "0",
-                            "name": "ref",
-                            "value": "binaryTypeGenericBinaryCollectionVar"
+                            "repeatId": "1",
+                            "children": [
+                                {
+                                    "name": "linkedRecordType",
+                                    "value": "metadataCollectionVariable"
+                                },
+                                {
+                                    "name": "linkedRecordId",
+                                    "value": "binaryTypeGenericBinaryCollectionVar"
+                                }
+                            ],
+                            "name": "ref"
                         }],
                         "name": "attributeReferences"
                     }],
@@ -9782,17 +9937,35 @@ function MetadataProviderStub() {
                         "name": "refParentId",
                         "value": "textPartGroup"
                     }, {
-                        "name": "attributeReferences",
-                        "children": [{
-                            "name": "ref",
-                            "value": "textPartTypeDefaultCollectionVar",
-                            "repeatId": "0"
+                            "children": [{
+                                "repeatId": "0",
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "metadataCollectionVariable"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "textPartTypeDefaultCollectionVar"
+                                    }
+                                ],
+                                "name": "ref"
+                            },{
+                                "repeatId": "1",
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "metadataCollectionVariable"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "systemLanguagesCollectionVar"
+                                    }
+                                ],
+                                "name": "ref"
+                            }],
+                            "name": "attributeReferences"
                         }, {
-                            "name": "ref",
-                            "value": "systemLanguagesCollectionVar",
-                            "repeatId": "1"
-                        }]
-                    }, {
                         "name": "childReferences",
                         "children": [{
                             "name": "childReference",
@@ -10370,18 +10543,38 @@ function MetadataProviderStub() {
                     }, {
                         "name": "refParentId",
                         "value": "textPartDefaultGroup"
-                    }, {
-                        "name": "attributeReferences",
-                        "children": [{
-                            "name": "ref",
-                            "value": "textPartTypeDefaultCollectionVar",
-                            "repeatId": "0"
+                    },
+                        {
+                            "children": [{
+                                "repeatId": "0",
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "metadataCollectionVariable"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "textPartTypeDefaultCollectionVar"
+                                    }
+                                ],
+                                "name": "ref"
+                            },
+                                {
+                                    "repeatId": "1",
+                                    "children": [
+                                        {
+                                            "name": "linkedRecordType",
+                                            "value": "metadataCollectionVariable"
+                                        },
+                                        {
+                                            "name": "linkedRecordId",
+                                            "value": "systemLanguageSvCollectionVar"
+                                        }
+                                    ],
+                                    "name": "ref"
+                                }],
+                            "name": "attributeReferences"
                         }, {
-                            "name": "ref",
-                            "value": "systemLanguageSvCollectionVar",
-                            "repeatId": "1"
-                        }]
-                    }, {
                         "name": "childReferences",
                         "children": [{
                             "name": "childReference",
@@ -10548,17 +10741,35 @@ function MetadataProviderStub() {
                         "name": "refParentId",
                         "value": "textPartAlternativeGroup"
                     }, {
-                        "name": "attributeReferences",
-                        "children": [{
-                            "name": "ref",
-                            "value": "textPartTypeAlternativeCollectionVar",
-                            "repeatId": "0"
+                            "children": [{
+                                "repeatId": "0",
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "metadataCollectionVariable"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "textPartTypeAlternativeCollectionVar"
+                                    }
+                                ],
+                                "name": "ref"
+                            },{
+                                "repeatId": "1",
+                                "children": [
+                                    {
+                                        "name": "linkedRecordType",
+                                        "value": "metadataCollectionVariable"
+                                    },
+                                    {
+                                        "name": "linkedRecordId",
+                                        "value": "systemLanguageEnCollectionVar"
+                                    }
+                                ],
+                                "name": "ref"
+                            }],
+                            "name": "attributeReferences"
                         }, {
-                            "name": "ref",
-                            "value": "systemLanguageEnCollectionVar",
-                            "repeatId": "1"
-                        }]
-                    }, {
                         "name": "childReferences",
                         "children": [{
                             "name": "childReference",

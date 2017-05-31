@@ -75,12 +75,18 @@ var CORA = (function(cora) {
 		}
 
 		function getAttributeForAttributeReference(attributeReference, index) {
-			var attributeMetadata = getMetadataById(attributeReference.value);
+			var attributeRef = getRefValueFromAttributeRef(attributeReference);
+			var attributeMetadata = getMetadataById(attributeRef);
 			var attributeNameInData = attributeMetadata
 					.getFirstAtomicValueByNameInData("nameInData");
 			var finalValue = attributeMetadata.getFirstAtomicValueByNameInData("finalValue");
 			return createAttributeWithNameAndValueAndRepeatId(attributeNameInData, finalValue,
 					index);
+		}
+
+		function getRefValueFromAttributeRef(attributeReference){
+			var cAttributeReference = CORA.coraData(attributeReference);
+			return cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function createAttributeWithNameAndValueAndRepeatId(attributeName, attributeValue, repeatId) {

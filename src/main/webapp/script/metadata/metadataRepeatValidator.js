@@ -116,7 +116,7 @@ var CORA = (function(cora) {
 		}
 
 		function createAttributeWithAttributeAndRepeatId(attributeReference, attributeRepeatId) {
-			var ref = attributeReference.value;
+			var ref = getRefValueFromAttributeRef(attributeReference);
 			var attribute = getMetadataById(ref);
 			var attributeName = attribute.getFirstAtomicValueByNameInData('nameInData');
 			var attributeValue = attribute.getFirstAtomicValueByNameInData('finalValue');
@@ -131,6 +131,11 @@ var CORA = (function(cora) {
 					"value" : attributeValue
 				} ]
 			};
+		}
+
+		function getRefValueFromAttributeRef(attributeReference){
+			var cAttributeReference = CORA.coraData(attributeReference);
+			return cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function incomingPathIsEmpty() {

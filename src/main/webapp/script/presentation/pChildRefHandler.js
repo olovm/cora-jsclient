@@ -508,10 +508,15 @@ var CORA = (function(cora) {
 			var cMetadataGroup = getNewMetadataGroupFromRecordType();
 			var attributeReferences = cMetadataGroup
 					.getFirstChildByNameInData("attributeReferences");
-			var cAttributeReferences = CORA.coraData(attributeReferences);
-			var ref = cAttributeReferences.getFirstAtomicValueByNameInData("ref");
+			var ref = getRefValueFromAttributeRef(attributeReferences);
 			var cItem = getMetadataById(ref);
 			return cItem.getFirstAtomicValueByNameInData("finalValue");
+		}
+
+		function getRefValueFromAttributeRef(attributeReferences){
+			var cAttributeReferences = CORA.coraData(attributeReferences);
+			var cRefGroup = CORA.coraData(cAttributeReferences.getFirstChildByNameInData("ref"));
+			return cRefGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function processNewBinary(answer) {

@@ -72,12 +72,13 @@ var CORA = (function(cora) {
 			}
 		}
 
+
 		function createAttributesContainer(cMetadataElement) {
 			var attributeContainer = {};
 			var attributeReferences = cMetadataElement
 					.getFirstChildByNameInData('attributeReferences');
 			attributeReferences.children.forEach(function(attributeReference) {
-				var ref = attributeReference.value;
+				var ref = getRefValueFromAttributeRef(attributeReference);
 				var attribute = getMetadataById(ref);
 				var attributeNameInData = attribute.getFirstAtomicValueByNameInData('nameInData');
 				var finalValue = attribute.getFirstAtomicValueByNameInData('finalValue');
@@ -85,6 +86,11 @@ var CORA = (function(cora) {
 				attributeContainer[attributeNameInData] = finalValue;
 			});
 			return attributeContainer;
+		}
+
+		function getRefValueFromAttributeRef(attributeReference){
+			var cAttributeReference = CORA.coraData(attributeReference);
+			return cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function isResourceLink(type) {

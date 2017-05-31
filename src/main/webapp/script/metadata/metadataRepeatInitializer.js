@@ -55,7 +55,9 @@ var CORA = (function(cora) {
 			var attributeReferences = cMetadataElement
 					.getFirstChildByNameInData("attributeReferences");
 			attributeReferences.children.forEach(function(attributeReference) {
-				var cCollectionVariable = getMetadataById(attributeReference.value);
+				var cAttributeReference = CORA.coraData(attributeReference);
+				var refLinkedId = cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
+				var cCollectionVariable = getMetadataById(refLinkedId);
 				var attributeNameInData = cCollectionVariable
 						.getFirstAtomicValueByNameInData("nameInData");
 				var attributeValues = [];
@@ -150,7 +152,7 @@ var CORA = (function(cora) {
 		}
 
 		function createAttributeWithAttributeAndRepeatId(attributeReference, attributeRepeatId) {
-			var ref = attributeReference.value;
+			var ref = getRefValueFromAttributeRef(attributeReference);
 			var attribute = getMetadataById(ref);
 			var attributeName = attribute.getFirstAtomicValueByNameInData('nameInData');
 			var attributeValue = attribute.getFirstAtomicValueByNameInData('finalValue');
@@ -165,6 +167,11 @@ var CORA = (function(cora) {
 					"value" : attributeValue
 				} ]
 			};
+		}
+
+		function getRefValueFromAttributeRef(attributeReference){
+			var cAttributeReference = CORA.coraData(attributeReference);
+			return cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function incomingPathIsEmpty() {
