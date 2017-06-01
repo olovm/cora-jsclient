@@ -133,7 +133,7 @@ var CORA = (function(cora) {
 			};
 		}
 
-		function getRefValueFromAttributeRef(attributeReference){
+		function getRefValueFromAttributeRef(attributeReference) {
 			var cAttributeReference = CORA.coraData(attributeReference);
 			return cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
@@ -162,10 +162,7 @@ var CORA = (function(cora) {
 				validateGroupChild(childReference, nextLevelPath);
 			});
 
-			// console.log("everythingOkBelow", result.everythingOkBelow);
-			// console.log("containsValuableData", result.containsValuableData);
 			if (!result.containsValuableData) {
-				// console.log("SETTING EVERYTHINGBELOW TO FALSE");
 				result.everythingOkBelow = false;
 			}
 		}
