@@ -320,15 +320,10 @@ var CORA = (function(cora) {
 					"repeatingElement" : repeatingElement
 				};
 				var removeFunction = function() {
-					// TODO: this line must be tested from outside... and an unsubscribe added
-					// pChildRefHandlerView.removeChild(repeatingElement.getView());
 					childRemoved(removeInfo);
-					// childRemoved();
 				};
 				removeInfo.subscribeId = dependencies.pubSub.subscribe("remove", repeatingElement
 						.getPath(), undefined, removeFunction);
-				// dependencies.pubSub.subscribe("remove", repeatingElement.getPath(), undefined,
-				// childRemoved);
 			}
 		}
 
@@ -337,11 +332,8 @@ var CORA = (function(cora) {
 		}
 
 		function childRemoved(removeInfo) {
-			// function childRemoved() {
-			// TODO: this line must be tested from outside...
 			pChildRefHandlerView.removeChild(removeInfo.repeatingElement.getView());
-			// TODO: this line must be tested from outside...
-			dependencies.pubSub.subscribe(removeInfo.subscribeId);
+			dependencies.pubSub.unsubscribe(removeInfo.subscribeId);
 			noOfRepeating--;
 			updateView();
 		}

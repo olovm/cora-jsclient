@@ -40,18 +40,6 @@ var CORA = (function(cora) {
 		var numberOfChildrenOk = 0;
 
 		validateAndCategorizeChildInstances();
-		// TODO: send remove for self if empty (numberOfChildrenOk === 0)
-		// and childInstancesCanNotBeRemoved === 0
-		if (numberOfChildrenOk === 0 && childInstancesCanNotBeRemoved.length === 0) {
-			// sendRemoveForSelf();
-		}
-		function sendRemoveForSelf(errorMessage) {
-			var removeMessage = {
-				"type" : "remove",
-				"path" : path
-			};
-			pubSub.publish("remove", removeMessage);
-		}
 
 		function getNameInDataForMetadataId(refIn) {
 			var metadataElement = getMetadataById(refIn);

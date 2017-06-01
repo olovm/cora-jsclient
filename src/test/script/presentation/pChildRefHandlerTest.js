@@ -1116,7 +1116,7 @@ QUnit.test("testRepeatingElement", function(assert) {
 	var factored = pRepeatingElementFactory.getFactored(0);
 	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
 
-	var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
+	// var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
 	var factoredSpec = pRepeatingElementFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.repeatMin, "1");
 	assert.strictEqual(factoredSpec.repeatMax, "3");
@@ -1154,13 +1154,11 @@ QUnit.test("testRepeatingElement", function(assert) {
 		"name" : "linkedPath"
 	};
 	assert.deepEqual(firstSubsription.path, path);
-	// console.log("firstSubsription", firstSubsription)
-	// functionToCall
-	// subscriptionId
-	firstSubscription.functionToCall();
-	// this.dependencies.pubSub.getUnsubscriptions
-	assert.deepEqual(this.dependencies.pubSub.getUnsubscriptions[0],
-			firstSubscriptions.subscriptionId);
+	firstSubsription.functionToCall();
+
+	assert.deepEqual(factoredView.getRemovedChild(0), factored.getView());
+	assert.deepEqual(this.dependencies.pubSub.getUnsubscriptions()[0],
+			firstSubsription.subscriptionId);
 
 });
 

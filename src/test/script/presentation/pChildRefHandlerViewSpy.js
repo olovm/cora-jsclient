@@ -30,7 +30,7 @@ var CORATEST = (function(coraTest) {
 		var hideChildrensRemoveButtonCalled = 0;
 		var showChildrensDragButtonCalled = 0;
 		var hideChildrensDragButtonCalled = 0;
-		
+
 		function getView() {
 			return view;
 		}
@@ -66,7 +66,7 @@ var CORATEST = (function(coraTest) {
 		function getShowButtonViewCalled() {
 			return showButtonViewCalled;
 		}
-		
+
 		function hideButtonView() {
 			hideButtonViewCalled++;
 		}
@@ -80,14 +80,14 @@ var CORATEST = (function(coraTest) {
 		function getShowChildrensRemoveButtonCalled() {
 			return showChildrensRemoveButtonCalled;
 		}
-		
+
 		function hideChildrensRemoveButton() {
 			hideChildrensRemoveButtonCalled++;
 		}
 		function getHideChildrensRemoveButtonCalled() {
 			return hideChildrensRemoveButtonCalled;
 		}
-		
+
 		function showChildrensDragButton() {
 			showChildrensDragButtonCalled++;
 		}
@@ -100,8 +100,7 @@ var CORATEST = (function(coraTest) {
 		function getHideChildrensDragButtonCalled() {
 			return hideChildrensDragButtonCalled;
 		}
-		
-		
+
 		var out = Object.freeze({
 			"type" : "pChildRefHandlerViewSpy",
 			getDependencies : getDependencies,
@@ -109,6 +108,7 @@ var CORATEST = (function(coraTest) {
 			getView : getView,
 			addChild : addChild,
 			removeChild : removeChild,
+			getRemovedChild : getRemovedChild,
 			getAddedChild : getAddedChild,
 			moveChild : moveChild,
 			getMovedChild : getMovedChild,

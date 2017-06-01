@@ -123,15 +123,7 @@ var CORA = (function(cora) {
 
 		function subscribeToAllMessagesForAllPaths(pubSub) {
 			pubSub.subscribe("*", {}, undefined, handleMsg);
-			// pubSub.subscribe("*", {}, undefined, logEverything);
-			// pubSub.subscribe("remove", {}, undefined, logRemove);
 		}
-		// function logRemove(dataFromMsg, msg) {
-		// console.log("msg", msg);
-		// }
-		// function logEverything(dataFromMsg, msg) {
-		// console.log("msg", msg);
-		// }
 
 		function handleMsg(dataFromMsg, msg) {
 			if (initComplete && msgChangesData(msg)) {
