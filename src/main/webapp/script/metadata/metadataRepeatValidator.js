@@ -160,7 +160,7 @@ var CORA = (function(cora) {
 			// console.log("everythingOkBelow", result.everythingOkBelow);
 			// console.log("containsValuableData", result.containsValuableData);
 			if (!result.containsValuableData) {
-				console.log("SETTING EVERYTHINGBELOW TO FALSE");
+				// console.log("SETTING EVERYTHINGBELOW TO FALSE");
 				result.everythingOkBelow = false;
 			}
 		}

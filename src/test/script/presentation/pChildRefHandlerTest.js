@@ -1154,6 +1154,14 @@ QUnit.test("testRepeatingElement", function(assert) {
 		"name" : "linkedPath"
 	};
 	assert.deepEqual(firstSubsription.path, path);
+	// console.log("firstSubsription", firstSubsription)
+	// functionToCall
+	// subscriptionId
+	firstSubscription.functionToCall();
+	// this.dependencies.pubSub.getUnsubscriptions
+	assert.deepEqual(this.dependencies.pubSub.getUnsubscriptions[0],
+			firstSubscriptions.subscriptionId);
+
 });
 
 QUnit.test("testRepeatingElementStaticNoOfChildrenNoAddButton", function(assert) {

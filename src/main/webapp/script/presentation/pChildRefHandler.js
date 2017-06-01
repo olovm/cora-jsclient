@@ -179,7 +179,8 @@ var CORA = (function(cora) {
 		}
 
 		function getLinkedRecordType() {
-			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("linkedRecordType"));
 			var recordTypeId = cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			var cRecordType = getRecordTypeById(recordTypeId);
 			return cRecordType;
@@ -315,12 +316,19 @@ var CORA = (function(cora) {
 
 		function subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement) {
 			if (showAddButton()) {
-				var removeFunction = function() {
-					pChildRefHandlerView.removeChild(repeatingElement.getView());
-					childRemoved();
+				var removeInfo = {
+					"repeatingElement" : repeatingElement
 				};
-				dependencies.pubSub.subscribe("remove", repeatingElement.getPath(), undefined,
-						removeFunction);
+				var removeFunction = function() {
+					// TODO: this line must be tested from outside... and an unsubscribe added
+					// pChildRefHandlerView.removeChild(repeatingElement.getView());
+					childRemoved(removeInfo);
+					// childRemoved();
+				};
+				removeInfo.subscribeId = dependencies.pubSub.subscribe("remove", repeatingElement
+						.getPath(), undefined, removeFunction);
+				// dependencies.pubSub.subscribe("remove", repeatingElement.getPath(), undefined,
+				// childRemoved);
 			}
 		}
 
@@ -328,7 +336,12 @@ var CORA = (function(cora) {
 			pChildRefHandlerView.moveChild(dataFromMsg);
 		}
 
-		function childRemoved() {
+		function childRemoved(removeInfo) {
+			// function childRemoved() {
+			// TODO: this line must be tested from outside...
+			pChildRefHandlerView.removeChild(removeInfo.repeatingElement.getView());
+			// TODO: this line must be tested from outside...
+			dependencies.pubSub.subscribe(removeInfo.subscribeId);
 			noOfRepeating--;
 			updateView();
 		}
@@ -492,7 +505,8 @@ var CORA = (function(cora) {
 		}
 
 		function getImplementingLinkedRecordType() {
-			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("linkedRecordType"));
 			var recordTypeId = cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);

@@ -22,6 +22,7 @@ var CORA = (function(cora) {
 	cora.metadataValidator = function(spec) {
 		var topLevelMetadataId = spec.metadataId;
 		var topLevelData = spec.data;
+		// console.log("data in metadataValidator", JSON.stringify(spec.data));
 
 		function validateFirstLevel() {
 			var childrenResult = true;
