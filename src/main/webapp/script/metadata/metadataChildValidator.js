@@ -104,12 +104,11 @@ var CORA = (function(cora) {
 		}
 
 		function getDataChildrenForMetadata(nameInDataIn, attributesIn) {
-			if(!cData.containsChildWithNameInDataAndAttributes(nameInDataIn,
-					attributesIn)){
+			if (!cData.containsChildWithNameInDataAndAttributes(nameInDataIn, attributesIn)) {
 				return [];
 			}
-			var dataChildrenForMetadataOut = cData.getChildrenByNameInDataAndAttributes(nameInDataIn,
-					attributesIn);
+			var dataChildrenForMetadataOut = cData.getChildrenByNameInDataAndAttributes(
+					nameInDataIn, attributesIn);
 			return dataChildrenForMetadataOut;
 		}
 

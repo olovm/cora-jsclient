@@ -705,7 +705,9 @@ QUnit.test("testValidateTextVarRepeat1to3InGroupOneAttribute"
 	};
 	var factored = this.metadataValidatorFactory.factor(
 			"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup", data);
-	assert.ok(factored.validationResult);
+
+	assert.strictEqual(factored.validationResult, false);
+
 	var messages = this.pubSub.getMessages();
 	assert.strictEqual(messages.length, 2);
 	var validationError = {
@@ -756,7 +758,8 @@ QUnit.test("testValidateTextVarRepeat1to3InGroupOneAttribute"
 		}
 	};
 	assert.stringifyEqual(messages[0], validationError);
-	var validationError2 = {
+
+	var removeMessage = {
 		"type" : "remove",
 		"message" : {
 			"type" : "remove",
@@ -794,7 +797,8 @@ QUnit.test("testValidateTextVarRepeat1to3InGroupOneAttribute"
 			}
 		}
 	};
-	assert.stringifyEqual(messages[1], validationError2);
+	assert.stringifyEqual(messages[1], removeMessage);
+
 });
 
 QUnit.test("testInitTextVarRepeat1to3InGroupOneAttribute"
@@ -884,9 +888,11 @@ QUnit.test("testInitTextVarRepeat1to3InGroupOneAttribute"
 
 	var factored = this.metadataValidatorFactory.factor(
 			"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroupRepeat1to3InGroup", data);
+
 	assert.ok(factored.validationResult);
+
 	var messages = this.pubSub.getMessages();
-	assert.strictEqual(messages.length, 3);
+	assert.strictEqual(messages.length, 4);
 	var validationError = {
 		"type" : "validationError",
 		"message" : {
@@ -935,6 +941,7 @@ QUnit.test("testInitTextVarRepeat1to3InGroupOneAttribute"
 		}
 	};
 	assert.stringifyEqual(messages[0], validationError);
+
 	var validationError2 = {
 		"type" : "remove",
 		"message" : {
@@ -1023,6 +1030,24 @@ QUnit.test("testInitTextVarRepeat1to3InGroupOneAttribute"
 		}
 	};
 	assert.stringifyEqual(messages[2], validationError3);
+
+	var validationError4 = {
+		"type" : "remove",
+		"message" : {
+			"type" : "remove",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup"
+				}, {
+					"name" : "repeatId",
+					"value" : "one0"
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[3], validationError4);
 });
 
 QUnit.test("testInitTextVarRepeat1to3InGroup"

@@ -172,7 +172,8 @@ var CORA = (function(cora) {
 		}
 
 		function getLinkedRecordType() {
-			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("linkedRecordType"));
 			var recordTypeId = cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			var cRecordType = getRecordTypeById(recordTypeId);
 			return cRecordType;
@@ -308,12 +309,14 @@ var CORA = (function(cora) {
 
 		function subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement) {
 			if (showAddButton()) {
-				var removeFunction = function() {
-					pChildRefHandlerView.removeChild(repeatingElement.getView());
-					childRemoved();
+				var removeInfo = {
+					"repeatingElement" : repeatingElement
 				};
-				dependencies.pubSub.subscribe("remove", repeatingElement.getPath(), undefined,
-						removeFunction);
+				var removeFunction = function() {
+					childRemoved(removeInfo);
+				};
+				removeInfo.subscribeId = dependencies.pubSub.subscribe("remove", repeatingElement
+						.getPath(), undefined, removeFunction);
 			}
 		}
 
@@ -321,7 +324,9 @@ var CORA = (function(cora) {
 			pChildRefHandlerView.moveChild(dataFromMsg);
 		}
 
-		function childRemoved() {
+		function childRemoved(removeInfo) {
+			pChildRefHandlerView.removeChild(removeInfo.repeatingElement.getView());
+			dependencies.pubSub.unsubscribe(removeInfo.subscribeId);
 			noOfRepeating--;
 			updateView();
 		}
@@ -485,7 +490,8 @@ var CORA = (function(cora) {
 		}
 
 		function getImplementingLinkedRecordType() {
-			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("linkedRecordType"));
 			var recordTypeId = cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);
