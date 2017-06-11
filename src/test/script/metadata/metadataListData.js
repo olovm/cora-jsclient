@@ -37,9 +37,18 @@ var CORATEST = (function(coraTest) {
 				                    "value": "metadataGroup"
 				                  },
 				                  {
-				                    "name": "createdBy",
-				                    "value": "userId"
-				                  },
+				      				"name" : "createdBy",
+				      				"children": [
+				      					{
+				      						"name": "linkedRecordType",
+				      						"value": "user"
+				      					},
+				      					{
+				      						"name": "linkedRecordId",
+				      						"value": "userId"
+				      					}
+				      				]
+				      			},
 				                  {
 				                    "name": "updatedBy",
 				                    "value": "userId"
@@ -131,7 +140,7 @@ var CORATEST = (function(coraTest) {
 		             						},
 		             						{
 		             							"name": "linkedRecordId",
-		             							"value": "createdByTextVar"
+		             							"value": "createdByLink"
 		             						}
 		             					],"attributes": {
 		             						"type": "textVariable"
@@ -198,9 +207,18 @@ var CORATEST = (function(coraTest) {
 				                    "value": "metadataGroup"
 				                  },
 				                  {
-				                    "name": "createdBy",
-				                    "value": "userId"
-				                  },
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userId"
+					      					}
+					      				]
+					      			},
 				                  {
 				                    "name": "updatedBy",
 				                    "value": "userId"
@@ -480,9 +498,18 @@ var CORATEST = (function(coraTest) {
 				                    "value": "metadataGroup"
 				                  },
 				                  {
-				                    "name": "createdBy",
-				                    "value": "userId"
-				                  },
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userId"
+					      					}
+					      				]
+					      			},
 				                  {
 				                    "name": "updatedBy",
 				                    "value": "userId"
