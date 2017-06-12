@@ -32,10 +32,19 @@ var CORATEST = (function(coraTest) {
 									}, {
 										"name" : "type",
 										"value" : "textSystemOne"
-									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+									},{
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -83,9 +92,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -133,9 +151,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -183,9 +210,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -234,9 +270,18 @@ var CORATEST = (function(coraTest) {
 												"name" : "type",
 												"value" : "textSystemOne"
 											}, {
-												"name" : "createdBy",
-												"value" : "userId"
-											} ],
+							      				"name" : "createdBy",
+							      				"children": [
+							      					{
+							      						"name": "linkedRecordType",
+							      						"value": "user"
+							      					},
+							      					{
+							      						"name": "linkedRecordId",
+							      						"value": "userid"
+							      					}
+							      				]
+							      			} ],
 											"name" : "recordInfo"
 										},
 										{
@@ -285,9 +330,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -335,9 +389,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			}],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -385,9 +448,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -435,9 +507,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -485,9 +566,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			}],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -535,9 +625,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -585,9 +684,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -634,10 +742,19 @@ var CORATEST = (function(coraTest) {
 									}, {
 										"name" : "type",
 										"value" : "textSystemOne"
-									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+									},{
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -685,9 +802,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -735,9 +861,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -784,10 +919,19 @@ var CORATEST = (function(coraTest) {
 									}, {
 										"name" : "type",
 										"value" : "textSystemOne"
-									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+									},{
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -845,9 +989,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			}],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -895,9 +1048,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -945,9 +1107,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -995,9 +1166,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -1045,9 +1225,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -1095,9 +1284,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -1145,9 +1343,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -1195,9 +1402,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -1245,9 +1461,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -1295,9 +1520,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -1344,10 +1578,19 @@ var CORATEST = (function(coraTest) {
 									}, {
 										"name" : "type",
 										"value" : "textSystemOne"
-									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+									},{
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -1394,10 +1637,19 @@ var CORATEST = (function(coraTest) {
 									}, {
 										"name" : "type",
 										"value" : "textSystemOne"
-									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+									},{
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -1445,9 +1697,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {
@@ -1495,9 +1756,18 @@ var CORATEST = (function(coraTest) {
 										"name" : "type",
 										"value" : "textSystemOne"
 									}, {
-										"name" : "createdBy",
-										"value" : "userId"
-									} ],
+					      				"name" : "createdBy",
+					      				"children": [
+					      					{
+					      						"name": "linkedRecordType",
+					      						"value": "user"
+					      					},
+					      					{
+					      						"name": "linkedRecordId",
+					      						"value": "userid"
+					      					}
+					      				]
+					      			} ],
 									"name" : "recordInfo"
 								}, {
 									"children" : [ {

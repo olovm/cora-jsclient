@@ -48,9 +48,18 @@ function MetadataProviderStub() {
                 ],
                 "name": "type"
             }, {
-                "name": "createdBy",
-                "value": "userId"
-            }, {
+  				"name" : "createdBy",
+  				"children": [
+  					{
+  						"name": "linkedRecordType",
+  						"value": "user"
+  					},
+  					{
+  						"name": "linkedRecordId",
+  						"value": "userId"
+  					}
+  				]
+  			}, {
                 "name": "updatedBy",
                 "value": "userId"
             }]
@@ -1988,9 +1997,18 @@ function MetadataProviderStub() {
                         ],
                         "name": "type"
                     }, {
-                        "name": "createdBy",
-                        "value": "userId"
-                    }, {
+          				"name" : "createdBy",
+          				"children": [
+          					{
+          						"name": "linkedRecordType",
+          						"value": "user"
+          					},
+          					{
+          						"name": "linkedRecordId",
+          						"value": "userId"
+          					}
+          				]
+          			}, {
                         "name": "updatedBy",
                         "value": "userId"
                     }],
@@ -2091,9 +2109,18 @@ function MetadataProviderStub() {
                         ],
                         "name": "type"
                     }, {
-                        "name": "createdBy",
-                        "value": "userId"
-                    }, {
+          				"name" : "createdBy",
+          				"children": [
+          					{
+          						"name": "linkedRecordType",
+          						"value": "user"
+          					},
+          					{
+          						"name": "linkedRecordId",
+          						"value": "userId"
+          					}
+          				]
+          			}, {
                         "name": "updatedBy",
                         "value": "userId"
                     }],
@@ -2191,9 +2218,18 @@ function MetadataProviderStub() {
                         ],
                         "name": "type"
                     }, {
-                        "name": "createdBy",
-                        "value": "userId"
-                    }, {
+          				"name" : "createdBy",
+          				"children": [
+          					{
+          						"name": "linkedRecordType",
+          						"value": "user"
+          					},
+          					{
+          						"name": "linkedRecordId",
+          						"value": "userId"
+          					}
+          				]
+          			}, {
                         "name": "updatedBy",
                         "value": "userId"
                     }],
@@ -2256,9 +2292,18 @@ function MetadataProviderStub() {
                         ],
                         "name": "type"
                     }, {
-                        "name": "createdBy",
-                        "value": "userId"
-                    }, {
+          				"name" : "createdBy",
+          				"children": [
+          					{
+          						"name": "linkedRecordType",
+          						"value": "user"
+          					},
+          					{
+          						"name": "linkedRecordId",
+          						"value": "userId"
+          					}
+          				]
+          			}, {
                         "name": "updatedBy",
                         "value": "userId"
                     }],
@@ -2340,9 +2385,18 @@ function MetadataProviderStub() {
                         ],
                         "name": "type"
                     }, {
-                        "name": "createdBy",
-                        "value": "userId"
-                    }, {
+          				"name" : "createdBy",
+          				"children": [
+          					{
+          						"name": "linkedRecordType",
+          						"value": "user"
+          					},
+          					{
+          						"name": "linkedRecordId",
+          						"value": "userId"
+          					}
+          				]
+          			}, {
                         "name": "updatedBy",
                         "value": "userId"
                     }],
@@ -3079,9 +3133,18 @@ function MetadataProviderStub() {
                                 "name": "type"
                             },
                             {
-                                "name": "createdBy",
-                                "value": "userId"
-                            },
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			},
                             {
                                 "children": [{
                                     "name": "linkedRecordType",
@@ -3243,9 +3306,18 @@ function MetadataProviderStub() {
                                 ],
                                 "name": "type"
                             }, {
-                                "name": "createdBy",
-                                "value": "userId"
-                            }],
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			}],
                         "name": "recordInfo"
                     }, {
                         "name": "nameInData",
@@ -3336,9 +3408,18 @@ function MetadataProviderStub() {
                                 ],
                                 "name": "type"
                             }, {
-                                "name": "createdBy",
-                                "value": "userId"
-                            }],
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			}],
                         "name": "recordInfo"
                     }, {
                         "name": "nameInData",
@@ -3407,9 +3488,18 @@ function MetadataProviderStub() {
                                 "name": "type"
                             },
                             {
-                                "name": "createdBy",
-                                "value": "userId"
-                            },
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			},
                             {
                                 "children": [{
                                     "name": "linkedRecordType",
@@ -3571,9 +3661,18 @@ function MetadataProviderStub() {
                                 ],
                                 "name": "type"
                             }, {
-                                "name": "createdBy",
-                                "value": "userId"
-                            }],
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			}],
                         "name": "recordInfo"
                     },
                     {
@@ -3650,9 +3749,18 @@ function MetadataProviderStub() {
                                 "name": "type"
                             },
                             {
-                                "name": "createdBy",
-                                "value": "userId"
-                            },
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			},
                             {
                                 "children": [{
                                     "name": "linkedRecordType",
@@ -3787,9 +3895,18 @@ function MetadataProviderStub() {
                                 ],
                                 "name": "type"
                             }, {
-                                "name": "createdBy",
-                                "value": "userId"
-                            }],
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			}],
                         "name": "recordInfo"
                     }, {
                         "name": "nameInData",
@@ -3882,9 +3999,18 @@ function MetadataProviderStub() {
                                 ],
                                 "name": "type"
                             }, {
-                                "name": "createdBy",
-                                "value": "userId"
-                            }],
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			}],
                         "name": "recordInfo"
                     },
                     {
@@ -3978,9 +4104,18 @@ function MetadataProviderStub() {
                                 ],
                                 "name": "type"
                             }, {
-                                "name": "createdBy",
-                                "value": "userId"
-                            }],
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			}],
                         "name": "recordInfo"
                     }, {
                         "name": "nameInData",
@@ -4056,9 +4191,18 @@ function MetadataProviderStub() {
                                 "name": "type"
                             },
                             {
-                                "name": "createdBy",
-                                "value": "userId"
-                            },
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			},
                             {
                                 "children": [{
                                     "name": "linkedRecordType",
@@ -4168,9 +4312,18 @@ function MetadataProviderStub() {
                                 ],
                                 "name": "type"
                             }, {
-                                "name": "createdBy",
-                                "value": "userId"
-                            }],
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			}],
                         "name": "recordInfo"
                     }, {
                         "name": "nameInData",
@@ -4246,9 +4399,18 @@ function MetadataProviderStub() {
                                 ],
                                 "name": "type"
                             }, {
-                                "name": "createdBy",
-                                "value": "userId"
-                            }],
+                  				"name" : "createdBy",
+                  				"children": [
+                  					{
+                  						"name": "linkedRecordType",
+                  						"value": "user"
+                  					},
+                  					{
+                  						"name": "linkedRecordId",
+                  						"value": "userId"
+                  					}
+                  				]
+                  			}],
                         "name": "recordInfo"
                     }, {
                         "name": "nameInData",
@@ -8523,9 +8685,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "userId"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "userId"
+              					}
+              				]
+              			}, {
                             "children": [{
                                 "name": "linkedRecordType",
                                 "value": "system"
@@ -9399,9 +9570,18 @@ function MetadataProviderStub() {
                                     ],
                                     "name": "type"
                                 }, {
-                                    "name": "createdBy",
-                                    "value": "userId"
-                                }],
+                      				"name" : "createdBy",
+                      				"children": [
+                      					{
+                      						"name": "linkedRecordType",
+                      						"value": "user"
+                      					},
+                      					{
+                      						"name": "linkedRecordId",
+                      						"value": "userId"
+                      					}
+                      				]
+                      			}],
                             "name": "recordInfo"
                         },
                         {
@@ -9491,9 +9671,18 @@ function MetadataProviderStub() {
                                     ],
                                     "name": "type"
                                 }, {
-                                    "name": "createdBy",
-                                    "value": "userId"
-                                }],
+                      				"name" : "createdBy",
+                      				"children": [
+                      					{
+                      						"name": "linkedRecordType",
+                      						"value": "user"
+                      					},
+                      					{
+                      						"name": "linkedRecordId",
+                      						"value": "userId"
+                      					}
+                      				]
+                      			}],
                             "name": "recordInfo"
                         },
                         {
@@ -9561,9 +9750,18 @@ function MetadataProviderStub() {
                                     ],
                                     "name": "type"
                                 }, {
-                                    "name": "createdBy",
-                                    "value": "userId"
-                                }],
+                      				"name" : "createdBy",
+                      				"children": [
+                      					{
+                      						"name": "linkedRecordType",
+                      						"value": "user"
+                      					},
+                      					{
+                      						"name": "linkedRecordId",
+                      						"value": "userId"
+                      					}
+                      				]
+                      			}],
                             "name": "recordInfo"
                         },
                         {
@@ -9631,9 +9829,18 @@ function MetadataProviderStub() {
                                     ],
                                     "name": "type"
                                 }, {
-                                    "name": "createdBy",
-                                    "value": "userId"
-                                }],
+                      				"name" : "createdBy",
+                      				"children": [
+                      					{
+                      						"name": "linkedRecordType",
+                      						"value": "user"
+                      					},
+                      					{
+                      						"name": "linkedRecordId",
+                      						"value": "userId"
+                      					}
+                      				]
+                      			}],
                             "name": "recordInfo"
                         },
                         {
@@ -9720,9 +9927,18 @@ function MetadataProviderStub() {
                                     ],
                                     "name": "type"
                                 }, {
-                                    "name": "createdBy",
-                                    "value": "userId"
-                                }],
+                      				"name" : "createdBy",
+                      				"children": [
+                      					{
+                      						"name": "linkedRecordType",
+                      						"value": "user"
+                      					},
+                      					{
+                      						"name": "linkedRecordId",
+                      						"value": "userId"
+                      					}
+                      				]
+                      			}],
                             "name": "recordInfo"
                         }, {
                             "name": "nameInData",
@@ -9892,9 +10108,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10007,9 +10232,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10088,9 +10322,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10163,9 +10406,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10245,9 +10497,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10312,9 +10573,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10379,9 +10649,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10451,7 +10730,7 @@ function MetadataProviderStub() {
                             "name": "childReference",
                             "children": [{
                                 "name": "ref",
-                                "value": "createdByTextVar"
+                                "value": "createdByLink"
                             }, {
                                 "name": "repeatMin",
                                 "value": "1"
@@ -10500,9 +10779,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10616,9 +10904,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10697,9 +10994,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10811,9 +11117,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",
@@ -10892,9 +11207,18 @@ function MetadataProviderStub() {
                             ],
                             "name": "type"
                         }, {
-                            "name": "createdBy",
-                            "value": "12345"
-                        }, {
+              				"name" : "createdBy",
+              				"children": [
+              					{
+              						"name": "linkedRecordType",
+              						"value": "user"
+              					},
+              					{
+              						"name": "linkedRecordId",
+              						"value": "12345"
+              					}
+              				]
+              			}, {
                             "name": "dataDivider",
                             "children": [{
                                 "name": "linkedRecordType",

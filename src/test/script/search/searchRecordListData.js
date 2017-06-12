@@ -55,9 +55,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -179,9 +188,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -302,9 +320,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -426,9 +453,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -550,9 +586,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -674,9 +719,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -798,9 +852,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -922,9 +985,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -1046,9 +1118,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -1170,9 +1251,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -1294,9 +1384,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -1418,9 +1517,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -1542,9 +1650,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -1666,9 +1783,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -1790,9 +1916,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -1914,9 +2049,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -2038,9 +2182,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -2162,9 +2315,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -2286,9 +2448,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -2410,9 +2581,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -2534,9 +2714,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -2658,9 +2847,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -2782,9 +2980,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -2906,9 +3113,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -3030,9 +3246,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -3154,9 +3379,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -3278,9 +3512,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -3402,9 +3645,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -3526,9 +3778,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -3650,9 +3911,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -3774,9 +4044,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -3898,9 +4177,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -4022,9 +4310,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -4146,9 +4443,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -4270,9 +4576,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -4394,9 +4709,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -4518,9 +4842,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",
@@ -4642,9 +4975,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "search"
 													},
 													{
-														"name" : "createdBy",
-														"value" : "141414"
-													},
+									      				"name" : "createdBy",
+									      				"children": [
+									      					{
+									      						"name": "linkedRecordType",
+									      						"value": "user"
+									      					},
+									      					{
+									      						"name": "linkedRecordId",
+									      						"value": "141414"
+									      					}
+									      				]
+									      			},
 													{
 														"children" : [ {
 															"name" : "linkedRecordType",

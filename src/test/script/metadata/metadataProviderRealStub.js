@@ -2654,7 +2654,7 @@ var CORATEST = (function(coraTest) {
 				}, {
 					"name" : "type",
 					"value" : "metadataTextVariable"
-				}, {{
+				}, {
       				"name" : "createdBy",
       				"children": [
       					{
@@ -2795,7 +2795,7 @@ var CORATEST = (function(coraTest) {
       						"value": "userId"
       					}
       				]
-      			} {
+      			}, {
 					"name" : "updatedBy",
 					"value" : "userId"
 				} ],
@@ -2881,7 +2881,7 @@ var CORATEST = (function(coraTest) {
       						"value": "userId"
       					}
       				]
-      			}}, {
+      			}, {
 					"name" : "updatedBy",
 					"value" : "userId"
 				} ],
@@ -4589,7 +4589,7 @@ var CORATEST = (function(coraTest) {
       						"value": "userId"
       					}
       				]
-      			} {
+      			}, {
 					"name" : "updatedBy",
 					"value" : "userId"
 				} ],
@@ -5763,7 +5763,7 @@ var CORATEST = (function(coraTest) {
 				}, {
 					"name" : "type",
 					"value" : "presentationGroup"
-				}, {{
+				}, {
       				"name" : "createdBy",
       				"children": [
       					{
