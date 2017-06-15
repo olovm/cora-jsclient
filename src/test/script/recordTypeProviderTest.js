@@ -131,9 +131,18 @@ QUnit.test("getRecordTypeById", function(assert) {
 	                ],
 	                "name": "type"
 	            }, {
-					"name" : "createdBy",
-					"value" : "userId"
-				}, {
+      				"name" : "createdBy",
+      				"children": [
+      					{
+      						"name": "linkedRecordType",
+      						"value": "user"
+      					},
+      					{
+      						"name": "linkedRecordId",
+      						"value": "userid"
+      					}
+      				]
+      			}, {
 					"name" : "updatedBy",
 					"value" : "userId"
 				}, {

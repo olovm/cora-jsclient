@@ -38,9 +38,18 @@ var CORATEST = (function(coraTest) {
 	                ],
 	                "name": "type"
 	            }, {
-					"name" : "createdBy",
-					"value" : "userId"
-				},
+      				"name" : "createdBy",
+      				"children": [
+      					{
+      						"name": "linkedRecordType",
+      						"value": "user"
+      					},
+      					{
+      						"name": "linkedRecordId",
+      						"value": "userid"
+      					}
+      				]
+      			},
 		        {
 			          "children": [
 			            {
@@ -114,9 +123,18 @@ var CORATEST = (function(coraTest) {
 	                ],
 	                "name": "type"
 	            }, {
-					"name" : "createdBy",
-					"value" : "userId"
-				},
+      				"name" : "createdBy",
+      				"children": [
+      					{
+      						"name": "linkedRecordType",
+      						"value": "user"
+      					},
+      					{
+      						"name": "linkedRecordId",
+      						"value": "userid"
+      					}
+      				]
+      			},
 		        {
 			          "children": [
 			            {

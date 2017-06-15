@@ -68,9 +68,18 @@ var CORATEST = (function(coraTest) {
 					"name" : "type",
 					"value" : "metadataGroup"
 				}, {
-					"name" : "createdBy",
-					"value" : "userId"
-				}, {
+      				"name" : "createdBy",
+      				"children": [
+      					{
+      						"name": "linkedRecordType",
+      						"value": "user"
+      					},
+      					{
+      						"name": "linkedRecordId",
+      						"value": "userId"
+      					}
+      				]
+      			}, {
 					"name" : "updatedBy",
 					"value" : "userId"
 				} ]

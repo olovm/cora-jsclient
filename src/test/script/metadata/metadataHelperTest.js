@@ -99,12 +99,32 @@ QUnit.test("testGetChildRefPartOfMetadata", function(assert) {
 			"children" : [ {
 				"name" : "id",
 				"value" : "groupIdOneTextChild"
-			}, {
+			}, 
+			 {
 				"name" : "type",
-				"value" : "metadataGroup"
-			}, {
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "recordType"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "metadataGroup"
+					}
+				]
+			}, 
+			{
 				"name" : "createdBy",
-				"value" : "userId"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "user"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "userId"
+					}
+				]
 			}, {
 				"name" : "updatedBy",
 				"value" : "userId"
@@ -161,7 +181,16 @@ QUnit.test("testGetChildRefPartOfMetadata2", function(assert) {
 				"value" : "metadataGroup"
 			}, {
 				"name" : "createdBy",
-				"value" : "12345"
+				"children": [
+					{
+						"name": "linkedRecordType",
+						"value": "user"
+					},
+					{
+						"name": "linkedRecordId",
+						"value": "12345"
+					}
+				]
 			}, {
 				"children" : [ {
 					"name" : "linkedRecordType",

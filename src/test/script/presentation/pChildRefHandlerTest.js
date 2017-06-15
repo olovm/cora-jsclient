@@ -80,9 +80,18 @@ QUnit.module("pChildRefHandlerTest.js", {
 						"name" : "type",
 						"value" : "image"
 					}, {
-						"name" : "createdBy",
-						"value" : "userId"
-					} ],
+	      				"name" : "createdBy",
+	      				"children": [
+	      					{
+	      						"name": "linkedRecordType",
+	      						"value": "user"
+	      					},
+	      					{
+	      						"name": "linkedRecordId",
+	      						"value": "userId"
+	      					}
+	      				]
+	      			} ],
 					"name" : "recordInfo"
 				}, {
 					"name" : "fileName",
