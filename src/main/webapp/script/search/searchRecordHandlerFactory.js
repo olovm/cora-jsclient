@@ -30,7 +30,8 @@ var CORA = (function(cora) {
 				"textProvider" : dependencies.textProvider,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"jsClient" : spec.jsClient
+				"jsClient" : spec.jsClient, 
+				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
 			};
 			var searchRecordHandlerDependencies = {
 				"messageHolderFactory" : CORA.messageHolderFactory(),
