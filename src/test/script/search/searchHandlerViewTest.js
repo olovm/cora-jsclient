@@ -131,3 +131,38 @@ QUnit.test("testAddSearchResultToSearchResultHolder", function(assert) {
 	assert.strictEqual(searchResultHolder.childNodes.length, 1);
 	assert.strictEqual(searchResultHolder.firstChild, aResult);
 });
+
+QUnit.test("testClearResultHolder", function(assert) {
+	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
+	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0);
+	var searchResultHolder = factoredWorkItemView.getViewsAddedToView(1);
+	assert.strictEqual(searchResultHolder.childNodes.length, 0);
+	
+	var aResult = CORA.gui.createSpanWithClassName("some");
+	searchHandlerView.addSearchResultToSearchResultHolder(aResult);
+	assert.strictEqual(searchResultHolder.childNodes.length, 1);
+	assert.strictEqual(searchResultHolder.firstChild, aResult);
+	
+	searchHandlerView.clearResultHolder();
+	assert.strictEqual(searchResultHolder.childNodes.length, 0);
+});
+
+QUnit.test("testClearResultHolderTwoResults", function(assert) {
+	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
+	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0);
+	var searchResultHolder = factoredWorkItemView.getViewsAddedToView(1);
+	assert.strictEqual(searchResultHolder.childNodes.length, 0);
+	
+	var aResult = CORA.gui.createSpanWithClassName("some");
+	searchHandlerView.addSearchResultToSearchResultHolder(aResult);
+	assert.strictEqual(searchResultHolder.childNodes.length, 1);
+	assert.strictEqual(searchResultHolder.firstChild, aResult);
+	
+	var aResult2 = CORA.gui.createSpanWithClassName("other");
+	searchHandlerView.addSearchResultToSearchResultHolder(aResult2);
+	assert.strictEqual(searchResultHolder.childNodes.length, 2);
+	assert.strictEqual(searchResultHolder.childNodes[1], aResult2);
+	
+	searchHandlerView.clearResultHolder();
+	assert.strictEqual(searchResultHolder.childNodes.length, 0);
+});

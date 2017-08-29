@@ -90,6 +90,10 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
+		function clearResultHolder(){
+			 resultHolder.innerHTML = "";
+		}
+
 		start();
 		return Object.freeze({
 			"type" : "searchHandlerView",
@@ -97,7 +101,8 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getView : getView,
 			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder,
-			addSearchResultToSearchResultHolder : addSearchResultToSearchResultHolder
+			addSearchResultToSearchResultHolder : addSearchResultToSearchResultHolder,
+			clearResultHolder : clearResultHolder
 		});
 	};
 	return cora;

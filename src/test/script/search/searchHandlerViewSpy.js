@@ -25,6 +25,8 @@ var CORATEST = (function(coraTest) {
 		var presentationsAddedToSearchForm = [];
 		var searchResultsAddedToSearchResultHolder = [];
 
+		var noOfCallsToClearResultHolder = 0;
+		
 		function getView() {
 			return view;
 		}
@@ -42,14 +44,24 @@ var CORATEST = (function(coraTest) {
 		function getAddedSearchResultToSearchResultHolder(number) {
 			return searchResultsAddedToSearchResultHolder[number];
 		}
+		
+		function clearResultHolder(){
+			noOfCallsToClearResultHolder++;
+		}
 
+		function getNoOfCallsToClearResultHolder(){
+			return noOfCallsToClearResultHolder;
+		}
+		
 		return Object.freeze({
 			"type" : "searchHandlerViewSpy",
 			getView : getView,
 			addPresentationToSearchFormHolder : addPresentationToSearchFormHolder,
 			getPresentationsAddedToSearchForm : getPresentationsAddedToSearchForm,
 			addSearchResultToSearchResultHolder : addSearchResultToSearchResultHolder,
-			getAddedSearchResultToSearchResultHolder : getAddedSearchResultToSearchResultHolder
+			getAddedSearchResultToSearchResultHolder : getAddedSearchResultToSearchResultHolder,
+			clearResultHolder : clearResultHolder,
+			getNoOfCallsToClearResultHolder : getNoOfCallsToClearResultHolder
 		});
 	};
 	return coraTest;

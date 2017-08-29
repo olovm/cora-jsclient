@@ -124,6 +124,7 @@ var CORA = (function(cora) {
 				"jsClient" : dependencies.jsClient
 			};
 			var resultHandler = dependencies.resultHandlerFactory.factor(resultHandlerSpec);
+			view.clearResultHolder();
 			view.addSearchResultToSearchResultHolder(resultHandler.getView());
 		}
 

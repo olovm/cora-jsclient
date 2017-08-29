@@ -217,3 +217,16 @@ QUnit.test("testHandleSearchResultDataFromAnswerPassedOnToResultHandler", functi
 	assert.stringifyEqual(resultHandlerSpec.jsClient, this.dependencies.jsClient);
 	assert.stringifyEqual(resultHandlerSpec.dataList, JSON.parse(answer.responseText).dataList);
 });
+
+QUnit.test("testHandleSearchResultClearsPreviousResultFromView", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var answer = {
+		"responseText" : JSON.stringify(CORATEST.searchRecordList)
+	};
+	var factoredView = this.dependencies.searchHandlerViewFactory.getFactored(0);
+	assert.strictEqual(factoredView.getNoOfCallsToClearResultHolder(), 0);
+
+	searchHandler.handleSearchResult(answer);
+
+	assert.strictEqual(factoredView.getNoOfCallsToClearResultHolder(), 1);
+});
