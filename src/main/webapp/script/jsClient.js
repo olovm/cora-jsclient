@@ -170,7 +170,9 @@ var CORA = (function(cora) {
 				"baseUrl" : spec.baseUrl
 			};
 			var recordTypeHandler = dependencies.recordTypeHandlerFactory.factor(specRecord);
-			jsClientView.addToRecordTypesView(recordTypeHandler.getView());
+			if(recordTypeHandler.hasAnyAction()){
+				jsClientView.addToRecordTypesView(recordTypeHandler.getView());
+			}
 		}
 
 		function getView() {

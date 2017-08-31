@@ -31,8 +31,16 @@ var CORATEST = (function(coraTest) {
 QUnit.module("recordTypeHandlerTest.js", {
 	beforeEach : function() {
 		this.record = CORATEST.recordTypeList.dataList.data[6].record;
+		
+		this.recordWithoutListLink = JSON.parse(JSON.stringify(this.record));
+		this.recordWithoutListLink.actionLinks.list = undefined;
+		
 		this.recordWithoutCreateLink = JSON.parse(JSON.stringify(this.record));
 		this.recordWithoutCreateLink.actionLinks.create = undefined;
+		
+		this.recordWithoutListAndCreateLink = JSON.parse(JSON.stringify(this.record));
+		this.recordWithoutListAndCreateLink.actionLinks.list = undefined;
+		this.recordWithoutListAndCreateLink.actionLinks.create = undefined;
 
 		this.dependencies = {
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
@@ -72,22 +80,61 @@ QUnit.test("initViewClassName", function(assert) {
 
 	var view = recordTypeHandler.getView();
 	assert.strictEqual(view.className, "recordTypeFromRecordTypeHandlerSpy");
+});
 
+QUnit.test("initViewHeaderText", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
+	assert.strictEqual(factoredViewSpec.headerText, "metadataCollectionItem");
+});
+
+QUnit.test("initViewWithListMethod", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
 	assert.strictEqual(factoredViewSpec.fetchListMethod, recordTypeHandler.createRecordTypeList);
 });
 
-QUnit.test("initWithCreateButton", function(assert) {
+QUnit.test("initViewWithoutListMethod", function(assert) {
+	this.spec.recordTypeRecord = this.recordWithoutListLink;
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
+	assert.strictEqual(factoredViewSpec.fetchListMethod, undefined);
+});
+
+QUnit.test("initViewWithCreateButton", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
 	assert.strictEqual(factoredViewSpec.createNewMethod, recordTypeHandler.createRecordHandler);
 });
 
-QUnit.test("initWithoutCreateButton", function(assert) {
+QUnit.test("initViewWithoutCreateButton", function(assert) {
 	this.spec.recordTypeRecord = this.recordWithoutCreateLink;
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
 	assert.strictEqual(factoredViewSpec.createNewMethod, undefined);
+});
+
+QUnit.test("testHasAnyAction", function(assert) {
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	assert.strictEqual(recordTypeHandler.hasAnyAction(), true);
+});
+
+QUnit.test("testHasAnyActionWithoutListMethod", function(assert) {
+	this.spec.recordTypeRecord = this.recordWithoutListLink;
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	assert.strictEqual(recordTypeHandler.hasAnyAction(), true);
+});
+
+QUnit.test("testHasAnyActionWithoutCreateLink", function(assert) {
+	this.spec.recordTypeRecord = this.recordWithoutCreateLink;
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	assert.strictEqual(recordTypeHandler.hasAnyAction(), true);
+});
+
+QUnit.test("testHasAnyActionWithoutListAndCreateLink", function(assert) {
+	this.spec.recordTypeRecord = this.recordWithoutListAndCreateLink;
+	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
+	assert.strictEqual(recordTypeHandler.hasAnyAction(), false);
 });
 
 QUnit.test("fetchListCheckSpec", function(assert) {

@@ -18,7 +18,7 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.recordTypeHandlerSpy = function(dependencies, spec) {
+	coraTest.recordTypeHandlerSpy = function(dependencies, spec, spySpec) {
 		var getViewCalled = 0;
 		var view = CORA.gui.createSpanWithClassName("recordTypeFromRecordTypeHandlerSpy");
 		function getView() {
@@ -28,11 +28,20 @@ var CORATEST = (function(coraTest) {
 		function getGetViewCalled() {
 			return getViewCalled;
 		}
-
+		
+		
+		function hasAnyAction(){
+			if(spySpec.returnFalseForAnyAction){
+				return false;
+			}
+			return true;
+		}
+		
 		return Object.freeze({
 			"type" : "recordTypeHandlerSpy",
 			getView : getView,
-			getGetViewCalled : getGetViewCalled
+			getGetViewCalled : getGetViewCalled,
+			hasAnyAction : hasAnyAction
 		});
 	};
 	return coraTest;

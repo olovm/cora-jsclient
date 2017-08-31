@@ -47,18 +47,34 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(recordTypeHandlerView.getSpec(), this.spec);
 });
 
-QUnit.test("initAndGetView", function(assert) {
+QUnit.test("testHeaderText", function(assert) {
 	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
 	var view = recordTypeHandlerView.getView();
 	assert.strictEqual(view.className, "recordType");
+	
+	var header = view.firstChild;
+	assert.strictEqual(header.textContent, "some text");
+});
+
+QUnit.test("initHeaderClickableAsWeHaveAFetchListMethod", function(assert) {
+	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
+	var view = recordTypeHandlerView.getView();
 
 	var header = view.firstChild;
-	assert.strictEqual(header.className, "header");
-	assert.strictEqual(header.textContent, "some text");
-
-	var buttonView = view.childNodes[1];
-	assert.strictEqual(buttonView.className, "buttonView");
+	assert.strictEqual(header.className, "header clickable");
+	assert.strictEqual(header.onclick, this.spec.fetchListMethod);
 });
+
+QUnit.test("initHeaderNotClickableAsWeDoNotHaveAFetchListMethod", function(assert) {
+	this.spec.fetchListMethod = undefined;
+	var recordTypeHandlerView = CORA.recordTypeHandlerView(this.dependencies, this.spec);
+	var view = recordTypeHandlerView.getView();
+	
+	var header = view.firstChild;
+	assert.strictEqual(header.className, "header");
+	assert.strictEqual(header.onclick, null);
+});
+
 
 QUnit.test("initWithCreateButtonAsWeHaveACreateNewMethod", function(assert) {
 	var createNewMethodIsCalled = false;
@@ -74,6 +90,7 @@ QUnit.test("initWithCreateButtonAsWeHaveACreateNewMethod", function(assert) {
 
 	var buttonView = view.childNodes[1];
 	var createButton = buttonView.childNodes[0];
+	assert.strictEqual(buttonView.className, "buttonView");
 	assert.strictEqual(createButton.className, "iconButton createButton");
 
 	var event = document.createEvent('Event');

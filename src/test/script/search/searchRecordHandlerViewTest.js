@@ -52,7 +52,7 @@ QUnit.test("testGetView", function(assert) {
 	assert.strictEqual(view.className, "searchRecord");
 
 	var header = view.firstChild;
-	assert.strictEqual(header.className, "header");
+	assert.strictEqual(header.className, "header clickable");
 	assert.strictEqual(header.textContent, "some text");
 
 	var childrenView = view.childNodes[1];

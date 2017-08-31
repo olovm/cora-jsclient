@@ -21,10 +21,11 @@ var CORATEST = (function(coraTest) {
 	coraTest.standardFactorySpy = function(toFactor) {
 		var factoredList = [];
 		var factoredSpec = [];
-
+		var spySpec = {};
+		
 		function factor(standardSpec) {
 			factoredSpec.push(standardSpec);
-			var factored = CORATEST[toFactor]({}, standardSpec);
+			var factored = CORATEST[toFactor]({}, standardSpec, spySpec);
 			factoredList.push(factored);
 			return factored;
 		}
@@ -36,12 +37,17 @@ var CORATEST = (function(coraTest) {
 		function getSpec(number) {
 			return factoredSpec[number];
 		}
-
+		
+		function setspySpec(spySpecIn){
+			spySpec = spySpecIn;
+		}
+		
 		var out = Object.freeze({
 			"type" : "standardFactorySpy",
 			factor : factor,
 			getFactored : getFactored,
-			getSpec : getSpec
+			getSpec : getSpec,
+			setspySpec : setspySpec
 		});
 		return out;
 	};

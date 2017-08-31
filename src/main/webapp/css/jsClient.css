@@ -210,7 +210,7 @@ body {
 	top: 2px;
 }
 
-.sideBar .header:hover, .sideBar .childrenView .menuView:hover {
+.sideBar .header.clickable:hover, .sideBar .childrenView .menuView:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }

@@ -23,9 +23,13 @@ var CORA = (function(cora) {
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 
 		var viewSpec = {
-			"headerText" : recordId,
-			"fetchListMethod" : createRecordTypeList
+			"headerText" : recordId
 		};
+
+		if(recordTypeHasListLink()) {
+			viewSpec.fetchListMethod = createRecordTypeList;
+		}
+
 		if (recordTypeHasCreateLink()) {
 			viewSpec.createNewMethod = createRecordHandler;
 		}
@@ -40,6 +44,11 @@ var CORA = (function(cora) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
 			return cRecordInfo.getFirstAtomicValueByNameInData("id");
+		}
+
+		function recordTypeHasListLink() {
+			var listLink = spec.recordTypeRecord.actionLinks.list;
+			return listLink !== undefined;
 		}
 
 		function recordTypeHasCreateLink() {
@@ -93,13 +102,18 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
+		function hasAnyAction(){
+			return recordTypeHasListLink() || recordTypeHasCreateLink();
+		}
+
 		var out = Object.freeze({
 			"type" : "recordTypeHandler",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
 			createRecordTypeList : createRecordTypeList,
-			createRecordHandler : createRecordHandler
+			createRecordHandler : createRecordHandler,
+			hasAnyAction : hasAnyAction
 		});
 		return out;
 	};

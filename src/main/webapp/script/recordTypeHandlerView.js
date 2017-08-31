@@ -37,9 +37,16 @@ var CORA = (function(cora) {
 
 		function createHeader() {
 			var headerNew = CORA.gui.createSpanWithClassName("header");
-			headerNew.onclick = spec.fetchListMethod;
+			if(specHasFetchListMethod()){
+				headerNew.className = headerNew.className + " clickable";
+				headerNew.onclick = spec.fetchListMethod;
+			}
 			headerNew.textContent = spec.headerText;
 			return headerNew;
+		}
+
+		function specHasFetchListMethod(){
+			return spec.fetchListMethod !==undefined;
 		}
 
 		function possiblyCreateCreateButton() {

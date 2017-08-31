@@ -36,7 +36,7 @@ var CORA = (function(cora) {
 		}
 
 		function createHeader() {
-			var headerNew = CORA.gui.createSpanWithClassName("header");
+			var headerNew = CORA.gui.createSpanWithClassName("header clickable");
 			headerNew.onclick = spec.openSearchMethod;
 			headerNew.textContent = spec.headerText;
 			return headerNew;
