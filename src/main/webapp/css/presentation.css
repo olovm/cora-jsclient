@@ -36,7 +36,20 @@ img {
 	min-height: 13px;
 	min-width: 13px;
 }
+.pGroup > .infoButton {
+/* 	float: left; */
+position: absolute;
+right: 0px;
+top: 0px;
+}
 
+.pGroup > .groupChildrenView {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: baseline;
+}
 .error input, .error select, .error textarea {
 	background-color: red;
 }
@@ -229,46 +242,45 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	flex-wrap: wrap;
 }
 
-.workView .pVar > :first-child, .workView .pCollVar > :first-child {
-	flex: 1;
-	margin: .2em 0;
-}
+/* .workView .pVar > :first-child, .workView .pCollVar > :first-child { */
+/* 	flex: 1; */
+/* 	margin: .2em 0; */
+/* } */
 
-.workView .pRecordLink,
-.workView .pGroup ,
-.workView .pSurroundingContainer {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-end;
-}
+/* .workView .pRecordLink, */
+/* .workView .pSurroundingContainer { */
+/* 	display: flex; */
+/* 	flex-wrap: wrap; */
+/* 	justify-content: flex-end; */
+/* } */
 
-.workView .pRecordLink > :nth-child(1n) ,
-.workView .pGroup > :nth-child(1n) ,
-.workView .pSurroundingContainer > :nth-child(1n) {
-	flex: 1 0 100%;
-	order: 3;
-}
-.workView .pRecordLink > :nth-child(2),
-.workView .pGroup > :nth-child(2) ,
-.workView .pSurroundingContainer > :nth-child(2) {
-	flex: 1;
-	margin: .2em 0;
-	order: 0;
-}
-.workView .pRecordLink > :first-child,
-.workView .pGroup > :first-child ,
-.workView .pSurroundingContainer > :first-child {
-	flex: 0 1 0;
-	order: 1;
-}
-.workView .pRecordLink > :first-child + .childrenView,
-.workView .pGroup > :first-child + .pChildRefHandler,
-.workView .pSurroundingContainer > :first-child + .pChildRefHandler{
-/* 	TODO: IS THIS OK? */
-	flex: 0 1 100%;
+/* .workView .pRecordLink > :nth-child(1n) , */
+/* .workView .pGroup > :nth-child(1n) , */
+/* .workView .pSurroundingContainer > :nth-child(1n) { */
+/* 	flex: 1 0 100%; */
+/* 	order: 3; */
+/* } */
+/* .workView .pRecordLink > :nth-child(2), */
+/* .workView .pGroup > :nth-child(2) , */
+/* .workView .pSurroundingContainer > :nth-child(2) { */
+/* 	flex: 1; */
+/* 	margin: .2em 0; */
+/* 	order: 0; */
+/* } */
+/* .workView .pRecordLink > :first-child, */
+/* .workView .pGroup > :first-child , */
+/* .workView .pSurroundingContainer > :first-child { */
+/* 	flex: 0 1 0; */
+/* 	order: 1; */
+/* } */
+/* .workView .pRecordLink > :first-child + .childrenView, */
+/* .workView .pGroup > :first-child + .pChildRefHandler, */
+/* .workView .pSurroundingContainer > :first-child + .pChildRefHandler{ */
+/* /* 	TODO: IS THIS OK? */ */
+/* 	flex: 0 1 100%; */
 	
-	order: 3;
-}
+/* 	order: 3; */
+/* } */
 
 .jsClient .workView .openLinkedRecordButton {
 	order: 2;
@@ -309,43 +321,47 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 .pChildRefHandler {
 	display: block;
 }
-.workView .pChildRefHandler.tenChildStyle {
+.workView .pChildRefHandler.tenChildStyle, .workView .text.tenChildStyle {
 	flex: 1 1 100%;
 	background-color: lightgreen;
 }
-.workView .pChildRefHandler.nineChildStyle {
+.workView .pChildRefHandler.nineChildStyle, .workView .text.nineChildStyle {
 	flex: 1 1 90%;
 	background-color: lightyellow;
 }
-.workView .pChildRefHandler.eightChildStyle {
+.workView .pChildRefHandler.eightChildStyle, .workView .text.eightChildStyle {
 	flex: 1 1 80%;
 	background-color: lightyellow;
 }
-.workView .pChildRefHandler.sevenChildStyle {
+.workView .pChildRefHandler.sevenChildStyle, .workView .text.sevenChildStyle {
 	flex: 1 1 70%;
 	background-color: lightyellow;
 }
-.workView .pChildRefHandler.sixChildStyle {
+.workView .pChildRefHandler.sixChildStyle, .workView .text.sixChildStyle {
 	flex: 1 1 60%;
 	background-color: lightyellow;
 }
-.workView .pChildRefHandler.fiveChildStyle {
+.workView .pChildRefHandler.fiveChildStyle, .workView .text.fiveChildStyle {
 	flex: 1 1 50%;
 	background-color: lightyellow;
 }
-.workView .pChildRefHandler.fourChildStyle {
+.workView .pChildRefHandler.fourChildStyle, .workView .text.fourChildStyle {
 	flex: 1 1 40%;
 	background-color: lightyellow;
 }
-.workView .pChildRefHandler.threeChildStyle {
+.workView .pChildRefHandler.threeChildStyle, .workView .text.threeChildStyle {
 	flex: 1 1 30%;
 	background-color: lightyellow;
 }
-.workView .pChildRefHandler.twoChildStyle {
+.workView .pChildRefHandler.twoChildStyle, .workView .text.twoChildStyle {
 	flex: 1 1 20%;
 	background-color: lightyellow;
 }
-.workView .pChildRefHandler.zeroChildStyle {
+.workView .pChildRefHandler.oneChildStyle, .workView .text.oneChildStyle {
+	flex: 1 1 10%;
+	background-color: lightyellow;
+}
+.workView .pChildRefHandler.zeroChildStyle, .workView .text.zeroChildStyle {
 	flex: 1;
 	background-color: lightyellow;
 }

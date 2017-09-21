@@ -53,12 +53,17 @@ var CORA = (function(cora) {
 			info = createInfo();
 			infoButton = info.getButton();
 			viewNew.appendChild(infoButton);
+			
+			var childrenView = CORA.gui.createDivWithClassName("groupChildrenView");
+			viewNew.appendChild(childrenView);
+			
 
 			if (my.cPresentation.containsChildWithNameInData("childReferences")) {
 				var presentationChildren = my.cPresentation
 						.getFirstChildByNameInData("childReferences").children;
 				presentationChildren.forEach(function(presentationChildRef) {
-					viewNew.appendChild(createViewForChild(presentationChildRef));
+//					viewNew.appendChild(createViewForChild(presentationChildRef));
+					childrenView.appendChild(createViewForChild(presentationChildRef));
 				});
 			}
 			originalClassName = view.className;
