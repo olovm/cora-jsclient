@@ -35,12 +35,18 @@ img {
 .pGroup, .pResourceLink {
 	min-height: 13px;
 	min-width: 13px;
+	position: relative;
+	/* display: flex; */
+	/* flex-wrap: wrap; */
 }
 .pGroup > .infoButton {
-/* 	float: left; */
-position: absolute;
-right: 0px;
-top: 0px;
+	/* float: right; */
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	/* flex: 0 1 0; */
+	/* order: 1; */
+	z-index: 10;
 }
 
 .pGroup > .groupChildrenView {
@@ -49,6 +55,12 @@ top: 0px;
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: baseline;
+	/* order: 0; */
+	/* flex: 1; */
+}
+.pGroup > .infoView + .groupChildrenView {
+/* 	order: 3; */
+/* 	flex: 1 1 100%; */
 }
 .error input, .error select, .error textarea {
 	background-color: red;
@@ -267,6 +279,13 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 /* 	margin: .2em 0; */
 /* 	order: 0; */
 /* } */
+/* .workView .pRecordLink > :nth-child(2), .workView .pGroup > :nth-child(2),  */
+/* .workView .pSurroundingContainer > :nth-child(2) { */
+/* 	flex: 1; */
+/* 	margin: 0.2em 0; */
+/* 	order: 0; */
+/* } */
+
 /* .workView .pRecordLink > :first-child, */
 /* .workView .pGroup > :first-child , */
 /* .workView .pSurroundingContainer > :first-child { */
@@ -287,11 +306,14 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	flex: 0 auto;
 }
 
- .infoView {
-	flex: 0 0 100%;
+
+.infoView {
+	flex: 1;
 	position: relative;
 	overflow: hidden;
 	z-index: 1;
+	order: 0;
+	display: block;
 }
 
 .infoView span {
@@ -320,6 +342,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 
 .pChildRefHandler {
 	display: block;
+	flex: 1 1 100%;
 }
 .workView .pChildRefHandler.tenChildStyle, .workView .text.tenChildStyle {
 	flex: 1 1 100%;
@@ -362,7 +385,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	background-color: lightyellow;
 }
 .workView .pChildRefHandler.zeroChildStyle, .workView .text.zeroChildStyle {
-	flex: 1;
+	flex: 0 1 auto;
 	background-color: lightyellow;
 }
 .minimized .buttonView {
@@ -375,21 +398,27 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 }
 .presentation .text.h1TextStyle {
 	font-size: 2rem;
+	flex: 0 1 100%;
 }
 .presentation .text.h2TextStyle {
 	font-size: 1.5rem;
+	flex: 0 1 100%;
 }
 .presentation .text.h3TextStyle {
 	font-size: 1rem;
+	flex: 0 1 100%;
 }
 .presentation .text.h4TextStyle {
 	font-size: 0.8rem;
+	flex: 0 1 100%;
 }
 .presentation .text.h5TextStyle {
 	font-size: 0.7rem;
+	flex: 0 1 100%;
 }
 .presentation .text.h6TextStyle {
 	font-size: 0.6rem;
+	flex: 0 1 100%;
 }
 .presentation .text.italicTextStyle {
 	font-style: italic;
