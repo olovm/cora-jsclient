@@ -32,7 +32,16 @@ var CORA = (function(cora) {
 		var metadataId = spec.metadataIdUsedInData;
 
 		var cMetadataElement = getMetadataById(metadataId);
-
+		
+		
+		function openLinkedRecord() {
+			var link = cMetadataElement.getFirstChildByNameInData("textId").actionLinks.read;
+			var openInfo = {
+				"readLink" : link,
+				"loadInBackground" : "false"
+			};
+			dependencies.clientInstanceProvider.getJsClient().openRecordUsingReadLink(openInfo);
+		}
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var outputFormat = getOutputFormat();
 
@@ -67,7 +76,7 @@ var CORA = (function(cora) {
 			pVarViewSpec.placeholderText = emptyText;
 		}
 		var pVarView = dependencies.pVarViewFactory.factor(pVarViewSpec);
-
+getView().onclick = openLinkedRecord;
 		var state = "ok";
 		var previousValue = "";
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
