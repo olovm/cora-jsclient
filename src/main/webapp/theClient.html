@@ -179,6 +179,9 @@
 			}, {
 				"text" : "localhost8089",
 				"onclickFunction" : useLocalhost2
+			} , {
+				"text" : "ip from url",
+				"onclickFunction" : useLocalhost3
 			} ]
 		};
 		var question = CORA.question(questionSpec);
@@ -201,6 +204,11 @@
 	function useLocalhost2() {
 		appTokenBaseUrl = "http://localhost:8089/";
 		baseUrl = "http://localhost:8080/therest/rest/";
+		startDependencies();
+	}
+	function useLocalhost3() {
+		appTokenBaseUrl = "/";
+		baseUrl = "/therest/rest/";
 		startDependencies();
 	}
 
