@@ -72,7 +72,7 @@ var CORA = (function(cora) {
 				"text" : techInfo.text
 			};
 
-			if (techInfo.onclickMethod != undefined) {
+			if (techInfo.onclickMethod !== undefined) {
 				techInfoPart.onclickMethod = techInfo.onclickMethod;
 			}
 			return techInfoPart;
