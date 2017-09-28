@@ -27,21 +27,13 @@ var CORA = (function(cora) {
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+		var presentationId = CORA.coraData(recordInfo)
+				.getFirstAtomicValueByNameInData("id");
 
 		var metadataId = spec.metadataIdUsedInData;
 
 		var cMetadataElement = getMetadataById(metadataId);
-		
-		
-		function openLinkedRecord() {
-			var link = cMetadataElement.getFirstChildByNameInData("textId").actionLinks.read;
-			var openInfo = {
-				"readLink" : link,
-				"loadInBackground" : "false"
-			};
-			dependencies.clientInstanceProvider.getJsClient().openRecordUsingReadLink(openInfo);
-		}
+
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var outputFormat = getOutputFormat();
 
@@ -52,7 +44,8 @@ var CORA = (function(cora) {
 		var defText = textProvider.getTranslation(defTextId);
 
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
-		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
+		var nameInData = cMetadataElement
+				.getFirstAtomicValueByNameInData("nameInData");
 
 		var pVarViewSpec = {
 			"mode" : mode,
@@ -62,42 +55,60 @@ var CORA = (function(cora) {
 			"info" : {
 				"text" : text,
 				"defText" : defText,
-				"technicalInfo" : [ "textId: " + textId, "defTextId: " + defTextId,
-						"metadataId: " + metadataId, "nameInData: " + nameInData,
-						"regEx: " + regEx, "presentationId: " + presentationId ]
+				"technicalInfo" : [ {
+					"text" : "textId: " + textId,
+					onclickMethod : openTextIdRecord
+				}, {
+					"text" : "defTextId: " + defTextId,
+					onclickMethod : openDefTextIdRecord
+				}, {
+					"text" : "metadataId: " + metadataId,
+					onclickMethod : openMetadataIdRecord
+				}, {
+					"text" : "nameInData: " + nameInData
+				}, {
+					"text" : "regEx: " + regEx
+				}, {
+					"text" : "presentationId: " + presentationId
+				} ]
 			},
 			"onblurFunction" : onBlur
 		};
 
 		if (cPresentation.containsChildWithNameInData("emptyTextId")) {
-			var cEmptyTextId = CORA.coraData(cPresentation.getFirstChildByNameInData("emptyTextId"));
-			var emptyTextId = cEmptyTextId.getFirstAtomicValueByNameInData("linkedRecordId");
+			var cEmptyTextId = CORA.coraData(cPresentation
+					.getFirstChildByNameInData("emptyTextId"));
+			var emptyTextId = cEmptyTextId
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var emptyText = textProvider.getTranslation(emptyTextId);
 			pVarViewSpec.placeholderText = emptyText;
 		}
 		var pVarView = dependencies.pVarViewFactory.factor(pVarViewSpec);
-getView().onclick = openLinkedRecord;
 		var state = "ok";
 		var previousValue = "";
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
-		pubSub.subscribe("validationError", path, undefined, handleValidationError);
+		pubSub.subscribe("validationError", path, undefined,
+				handleValidationError);
 
 		function getOutputFormat() {
 			if (cPresentation.containsChildWithNameInData("outputFormat")) {
-				return cPresentation.getFirstAtomicValueByNameInData("outputFormat");
+				return cPresentation
+						.getFirstAtomicValueByNameInData("outputFormat");
 			}
 			return "text";
 		}
 
 		function getInputType() {
 			if (cPresentation.containsChildWithNameInData("inputType")) {
-				return cPresentation.getFirstAtomicValueByNameInData("inputType");
+				return cPresentation
+						.getFirstAtomicValueByNameInData("inputType");
 			}
 			return "input";
 		}
 
-		function getTextId(cMetadataElementIn, textNameInData){
-			var cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData(textNameInData));
+		function getTextId(cMetadataElementIn, textNameInData) {
+			var cTextGroup = CORA.coraData(cMetadataElementIn
+					.getFirstChildByNameInData(textNameInData));
 			return cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
@@ -175,6 +186,34 @@ getView().onclick = openLinkedRecord;
 			return spec;
 		}
 
+		function openLinkedRecordForLink(event, link) {
+			var loadInBackground = "false";
+			if (event.ctrlKey) {
+				loadInBackground = "true";
+			}
+			var openInfo = {
+				"readLink" : link,
+				"loadInBackground" : loadInBackground
+			};
+			dependencies.clientInstanceProvider.getJsClient()
+					.openRecordUsingReadLink(openInfo);
+		}
+
+		function openTextIdRecord(event) {
+			openLinkedRecordForLink(event, cMetadataElement
+					.getFirstChildByNameInData("textId").actionLinks.read);
+		}
+
+		function openDefTextIdRecord(event) {
+			openLinkedRecordForLink(event, cMetadataElement
+					.getFirstChildByNameInData("defTextId").actionLinks.read);
+		}
+
+		function openMetadataIdRecord(event) {
+			openLinkedRecordForLink(event, cPresentation
+					.getFirstChildByNameInData("presentationOf").actionLinks.read);
+		}
+
 		var out = Object.freeze({
 			"type" : "pVar",
 			getSpec : getSpec,
@@ -186,7 +225,10 @@ getView().onclick = openLinkedRecord;
 			getRegEx : getRegEx,
 			getState : getState,
 			onBlur : onBlur,
-			handleValidationError : handleValidationError
+			handleValidationError : handleValidationError,
+			openTextIdRecord : openTextIdRecord,
+			openDefTextIdRecord : openDefTextIdRecord,
+			openMetadataIdRecord : openMetadataIdRecord
 		});
 
 		return out;

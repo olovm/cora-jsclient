@@ -54,20 +54,30 @@ var CORA = (function(cora) {
 				addLevelTechnicalInfoAsLevel2(infoSpec);
 			}
 		}
+
 		function specInfoHasTechnicalInfo() {
 			return spec.info.technicalInfo;
 		}
 
 		function addLevelTechnicalInfoAsLevel2(infoSpec) {
 			infoSpec.level2 = [];
-			spec.info.technicalInfo.forEach(function(text) {
-
-				infoSpec.level2.push({
-					"className" : "technicalView",
-					"text" : text
-				});
+			spec.info.technicalInfo.forEach(function(techInfo) {
+				infoSpec.level2.push(createTechInfoPart(techInfo));
 			});
 		}
+
+		function createTechInfoPart(techInfo) {
+			var techInfoPart = {
+				"className" : "technicalView",
+				"text" : techInfo.text
+			};
+
+			if (techInfo.onclickMethod != undefined) {
+				techInfoPart.onclickMethod = techInfo.onclickMethod;
+			}
+			return techInfoPart;
+		}
+
 		function updateClassName() {
 			var className = baseClassName;
 			if (stateIndicatesError()) {

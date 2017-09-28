@@ -301,6 +301,13 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	/* transform: scale(1); */
 }
 
+.infoView .clickable{
+	cursor: pointer;
+}
+.infoView .clickable:hover{
+	text-decoration: underline;
+}
+
 .pRepeatingContainer {
 	border: 1px dashed green;
 	display: block;

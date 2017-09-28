@@ -23,16 +23,23 @@ QUnit.module("pVarViewTest.js", {
 		this.dependencies = {
 			"infoFactory" : CORATEST.infoFactorySpy()
 		};
+		this.textIdOnclickMethod = {};
+		this.defTextIdOnclickMethod = {"tramas":"trams"};
 		this.spec = {
 			"mode" : "input",
-			"inputType": "input",
+			"inputType" : "input",
 			"outputFormat" : "text",
 			"presentationId" : "somePresentationId",
 			"info" : {
 				"text" : "someText",
 				"defText" : "someDefText",
-				"technicalInfo" : [ "textId: " + "textId", "defTextId: " + "defTextId",
-						"metadataId: " + "metadataId" ]
+				"technicalInfo" : [ {
+					"text" : "textId: " + "textId", "onclickMethod":this.textIdOnclickMethod
+				}, {
+					"text" : "defTextId: " + "defTextId", "onclickMethod":this.defTextIdOnclickMethod
+				}, {
+					"text" : "metadataId: " + "metadataId"
+				} ]
 			}
 		};
 
@@ -98,10 +105,12 @@ QUnit.test("testInfoSpec", function(assert) {
 		} ],
 		"level2" : [ {
 			"className" : "technicalView",
-			"text" : "textId: textId"
+			"text" : "textId: textId",
+			"onclickMethod":this.textIdOnclickMethod
 		}, {
 			"className" : "technicalView",
-			"text" : "defTextId: defTextId"
+			"text" : "defTextId: defTextId",
+			"onclickMethod":this.defTextIdOnclickMethod 
 		}, {
 			"className" : "technicalView",
 			"text" : "metadataId: metadataId"
@@ -113,12 +122,15 @@ QUnit.test("testInfoSpec", function(assert) {
 	assert.stringifyEqual(usedSpec, expectedSpec);
 	assert.strictEqual(usedSpec.appendTo, this.getView());
 	assert.strictEqual(usedSpec.afterLevelChange, pVarView.updateClassName);
+	assert.strictEqual(usedSpec.level2[0].onclickMethod, this.textIdOnclickMethod);
+	assert.strictEqual(usedSpec.level2[1].onclickMethod, this.defTextIdOnclickMethod);
+	assert.strictEqual(usedSpec.level2[2].onclickMethod, undefined);
 
 });
 QUnit.test("testInfoButtonAddedToView", function(assert) {
 	var view = this.getView();
 	assert.strictEqual(view.childNodes[2].className, "infoButtonSpy");
-	
+
 });
 
 QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
@@ -167,10 +179,11 @@ QUnit.test("testStateShownInClassName", function(assert) {
 	var infoSpy = this.dependencies.infoFactory.getFactored(0);
 	assert.strictEqual(view.className, "pVar somePresentationId");
 	pVarView.setState("error");
-	assert.strictEqual(view.className, "pVar somePresentationId error"); 
+	assert.strictEqual(view.className, "pVar somePresentationId error");
 	infoSpy.setInfoLevel(1);
 	pVarView.updateClassName();
-	assert.strictEqual(view.className, "pVar somePresentationId error infoActive");
+	assert.strictEqual(view.className,
+			"pVar somePresentationId error infoActive");
 	pVarView.setState("ok");
 	assert.strictEqual(view.className, "pVar somePresentationId infoActive");
 });

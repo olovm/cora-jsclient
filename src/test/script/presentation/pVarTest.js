@@ -20,18 +20,19 @@
 "use strict";
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.attachedPVarFactory = function(metadataProvider, pubSub, textProvider, jsBookkeeper,
-			fixture, pVarViewFactory) {
+	coraTest.attachedPVarFactory = function(metadataProvider, pubSub,
+			textProvider, jsBookkeeper, fixture, pVarViewFactory) {
 		var factor = function(path, metadataIdUsedInData, pVarPresentationId) {
 			var cPVarPresentation = CORA.coraData(metadataProvider
 					.getMetadataById(pVarPresentationId));
 			var dependencies = {
-					"metadataProvider" : metadataProvider,
-					"pubSub" : pubSub,
-					"textProvider" : textProvider,
-					"jsBookkeeper" : jsBookkeeper,
-					"pVarViewFactory" : pVarViewFactory
-				};
+				"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub,
+				"textProvider" : textProvider,
+				"jsBookkeeper" : jsBookkeeper,
+				"pVarViewFactory" : pVarViewFactory
+			};
 			var spec = {
 				"path" : path,
 				"metadataIdUsedInData" : metadataIdUsedInData,
@@ -46,6 +47,7 @@ var CORATEST = (function(coraTest) {
 				pubSub : pubSub,
 				textProvider : textProvider,
 				jsBookkeeper : jsBookkeeper,
+				dependencies : dependencies
 			};
 
 		};
@@ -73,7 +75,8 @@ var CORATEST = (function(coraTest) {
 		assert.strictEqual(secondSubsription.type, "validationError");
 		assert.deepEqual(secondSubsription.path, {});
 		var pVar = attachedPVar.pVar;
-		assert.ok(secondSubsription.functionToCall === pVar.handleValidationError);
+		assert
+				.ok(secondSubsription.functionToCall === pVar.handleValidationError);
 
 	};
 
@@ -89,7 +92,8 @@ var CORATEST = (function(coraTest) {
 		var dataArray = jsBookkeeper.getDataArray();
 		assert.strictEqual(dataArray.length, 0);
 	};
-	coraTest.testJSBookkeeperOneCallWithValue = function(jsBookkeeper, value, assert) {
+	coraTest.testJSBookkeeperOneCallWithValue = function(jsBookkeeper, value,
+			assert) {
 		var dataArray = jsBookkeeper.getDataArray();
 		assert.strictEqual(dataArray.length, 1);
 		assert.strictEqual(dataArray[0].data, value);
@@ -105,20 +109,23 @@ QUnit.module("pVarTest.js", {
 		this.textProvider = CORATEST.textProviderStub();
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 		this.pVarViewFactory = CORATEST.pVarViewFactorySpy();
-		this.pVarFactory = CORATEST.attachedPVarFactory(this.metadataProvider, this.pubSub,
-				this.textProvider, this.jsBookkeeper, this.fixture, this.pVarViewFactory);
+		this.pVarFactory = CORATEST.attachedPVarFactory(this.metadataProvider,
+				this.pubSub, this.textProvider, this.jsBookkeeper,
+				this.fixture, this.pVarViewFactory);
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("testGetSpec", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
 	assert.strictEqual(attachedPVar.pVar.getSpec(), attachedPVar.spec);
 });
 
 QUnit.test("testInitText", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
 	assert.strictEqual(attachedPVar.pVar.type, "pVar");
 
 	CORATEST.testVariableSubscription(attachedPVar, assert);
@@ -130,7 +137,8 @@ QUnit.test("testInitText", function(assert) {
 });
 
 QUnit.test("testFactoredViewCorrectlyForInputTextVariable", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
 
 	var pVarViewSpy = this.pVarViewFactory.getFactored(0);
 	assert.deepEqual(pVarViewSpy.type, "pVarViewSpy");
@@ -147,25 +155,46 @@ QUnit.test("testFactoredViewCorrectlyForInputTextVariable", function(assert) {
 		"placeholderText" : "Skriv din text här",
 		"presentationId" : "pVarTextVariableId"
 	};
-	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
-			"defTextId: textVariableIdDefText", "metadataId: textVariableId",
-			"nameInData: textVariableId",
-			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", "presentationId: pVarTextVariableId");
+	expectedPVarViewSpec.info.technicalInfo.push({
+		"text" : "textId: textVariableIdText",
+		"onclickMethod" : attachedPVar.pVar.openTextIdRecord
+	}, {
+		"text" : "defTextId: textVariableIdDefText",
+		"onclickMethod" : attachedPVar.pVar.openDefTextIdRecord
+	}, {
+		"text" : "metadataId: textVariableId",
+		"onclickMethod" : attachedPVar.pVar.openMetadataIdRecord
+	}, {
+		"text" : "nameInData: textVariableId"
+	}, {
+		"text" : "regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$"
+	}, {
+		"text" : "presentationId: pVarTextVariableId"
+	});
 	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
 });
 
-QUnit.test("testGetRegexpShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", function(assert) {
-	var pVarTextVariableId2 = this.metadataProvider.getMetadataById("pVarTextVariableId2");
-	var presentationOf2 = pVarTextVariableId2.children[1].children[1].value;
-	var textVariableId2 = this.metadataProvider.getMetadataById(presentationOf2);
-	assert.strictEqual(textVariableId2.children[0].value, "(^[0-9A-Za-z]{2,50}$)");
+QUnit
+		.test(
+				"testGetRegexpShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf",
+				function(assert) {
+					var pVarTextVariableId2 = this.metadataProvider
+							.getMetadataById("pVarTextVariableId2");
+					var presentationOf2 = pVarTextVariableId2.children[1].children[1].value;
+					var textVariableId2 = this.metadataProvider
+							.getMetadataById(presentationOf2);
+					assert.strictEqual(textVariableId2.children[0].value,
+							"(^[0-9A-Za-z]{2,50}$)");
 
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId2");
-	assert.strictEqual(attachedPVar.pVar.getRegEx(), "^[0-9A-Öa-ö\\s!*.]{2,50}$");
-});
+					var attachedPVar = this.pVarFactory.factor({},
+							"textVariableId", "pVarTextVariableId2");
+					assert.strictEqual(attachedPVar.pVar.getRegEx(),
+							"^[0-9A-Öa-ö\\s!*.]{2,50}$");
+				});
 
 QUnit.test("testInitTextArea", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "textVariableIdTextAreaPVar");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"textVariableIdTextAreaPVar");
 	CORATEST.testVariableSubscription(attachedPVar, assert);
 	CORATEST.testVariableMetadata(attachedPVar, assert);
 
@@ -174,29 +203,46 @@ QUnit.test("testInitTextArea", function(assert) {
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
 
-QUnit.test("testFactoredViewCorrectlyForInputTextAreaVariable", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "textVariableIdTextAreaPVar");
-	var pVarViewSpy = this.pVarViewFactory.getFactored(0);
-	assert.deepEqual(pVarViewSpy.type, "pVarViewSpy");
-	var expectedPVarViewSpec = {
-		"info" : {
-			"defText" : "Detta är en exempeldefinition för en textvariabel.",
-			"technicalInfo" : [],
-			"text" : "Exempel textvariabel"
-		},
-		"onblurFunction" : attachedPVar.pVar.onBlur,
-		"inputType" : "textarea",
-		"mode" : "input",
-		"outputFormat" : "text",
-		"placeholderText" : "Skriv din text här",
-		"presentationId" : "textVariableIdTextAreaPVar"
-	};
-	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
-			"defTextId: textVariableIdDefText", "metadataId: textVariableId",
-			"nameInData: textVariableId",
-			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", "presentationId: textVariableIdTextAreaPVar");
-	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
-});
+QUnit
+		.test(
+				"testFactoredViewCorrectlyForInputTextAreaVariable",
+				function(assert) {
+					var attachedPVar = this.pVarFactory.factor({},
+							"textVariableId", "textVariableIdTextAreaPVar");
+					var pVarViewSpy = this.pVarViewFactory.getFactored(0);
+					assert.deepEqual(pVarViewSpy.type, "pVarViewSpy");
+					var expectedPVarViewSpec = {
+						"info" : {
+							"defText" : "Detta är en exempeldefinition för en textvariabel.",
+							"technicalInfo" : [],
+							"text" : "Exempel textvariabel"
+						},
+						"onblurFunction" : attachedPVar.pVar.onBlur,
+						"inputType" : "textarea",
+						"mode" : "input",
+						"outputFormat" : "text",
+						"placeholderText" : "Skriv din text här",
+						"presentationId" : "textVariableIdTextAreaPVar"
+					};
+					expectedPVarViewSpec.info.technicalInfo.push({
+						"text" : "textId: textVariableIdText",
+						"onclickMethod" : attachedPVar.pVar.openTextIdRecord
+					}, {
+						"text" : "defTextId: textVariableIdDefText",
+						"onclickMethod" : attachedPVar.pVar.openDefTextIdRecord
+					}, {
+						"text" : "metadataId: textVariableId",
+						"onclickMethod" : attachedPVar.pVar.openMetadataIdRecord
+					}, {
+						"text" : "nameInData: textVariableId"
+					}, {
+						"text" : "regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$"
+					}, {
+						"text" : "presentationId: textVariableIdTextAreaPVar"
+					});
+					assert.deepEqual(pVarViewSpy.getSpec(),
+							expectedPVarViewSpec);
+				});
 
 QUnit.test("testInitTextNoInputTypeIsShownAsText", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
@@ -217,10 +263,22 @@ QUnit.test("testInitTextNoInputTypeIsShownAsText", function(assert) {
 		"placeholderText" : "Skriv din text här",
 		"presentationId" : "textVariableIdShowTextAreaFalsePVar"
 	};
-	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
-			"defTextId: textVariableIdDefText", "metadataId: textVariableId",
-			"nameInData: textVariableId",
-			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", "presentationId: textVariableIdShowTextAreaFalsePVar");
+	expectedPVarViewSpec.info.technicalInfo.push({
+		"text" : "textId: textVariableIdText",
+		"onclickMethod" : attachedPVar.pVar.openTextIdRecord
+	}, {
+		"text" : "defTextId: textVariableIdDefText",
+		"onclickMethod" : attachedPVar.pVar.openDefTextIdRecord
+	}, {
+		"text" : "metadataId: textVariableId",
+		"onclickMethod" : attachedPVar.pVar.openMetadataIdRecord
+	}, {
+		"text" : "nameInData: textVariableId"
+	}, {
+		"text" : "regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$"
+	}, {
+		"text" : "presentationId: textVariableIdShowTextAreaFalsePVar"
+	});
 	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
 
 	CORATEST.testVariableSubscription(attachedPVar, assert);
@@ -232,7 +290,8 @@ QUnit.test("testInitTextNoInputTypeIsShownAsText", function(assert) {
 });
 
 QUnit.test("testSetValueInput", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
 	attachedPVar.pVar.setValue("A Value");
 
 	var pVarViewSpy = this.pVarViewFactory.getFactored(0);
@@ -240,7 +299,8 @@ QUnit.test("testSetValueInput", function(assert) {
 });
 
 QUnit.test("testHandleMessage", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
 	var data = {
 		"data" : "A new value",
 		"path" : {}
@@ -251,7 +311,8 @@ QUnit.test("testHandleMessage", function(assert) {
 });
 
 QUnit.test("testChangedValueEmpty", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
 	var data = {
 		"data" : "notEmpty",
 		"path" : {}
@@ -264,20 +325,25 @@ QUnit.test("testChangedValueEmpty", function(assert) {
 	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "", assert);
 });
 
-QUnit.test("testChangedValueOk", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
-	var pVarViewSpy = this.pVarViewFactory.getFactored(0);
-	pVarViewSpy.callOnblurWithValue("hej");
-	assert.equal(pVarViewSpy.getState(), "ok");
-	assert.equal(attachedPVar.pVar.getState(), "ok");
-	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej", assert);
-	pVarViewSpy.callOnblurWithValue("hej");
-	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej", assert);
+QUnit.test("testChangedValueOk",
+		function(assert) {
+			var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+					"pVarTextVariableId");
+			var pVarViewSpy = this.pVarViewFactory.getFactored(0);
+			pVarViewSpy.callOnblurWithValue("hej");
+			assert.equal(pVarViewSpy.getState(), "ok");
+			assert.equal(attachedPVar.pVar.getState(), "ok");
+			CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej",
+					assert);
+			pVarViewSpy.callOnblurWithValue("hej");
+			CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej",
+					assert);
 
-});
+		});
 
 QUnit.test("testChangedValueError", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
 	var pVarViewSpy = this.pVarViewFactory.getFactored(0);
 	pVarViewSpy.callOnblurWithValue("hej####/(&/%&/¤/");
 	assert.equal(pVarViewSpy.getState(), "error");
@@ -286,7 +352,8 @@ QUnit.test("testChangedValueError", function(assert) {
 });
 
 QUnit.test("testHandleValidationError", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
 	var message = {
 		"metadataId" : "textVariableId",
 		"path" : {}
@@ -298,7 +365,8 @@ QUnit.test("testHandleValidationError", function(assert) {
 });
 
 QUnit.test("testInitTextOutput", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableIdOutput");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableIdOutput");
 	var pVarViewSpy = this.pVarViewFactory.getFactored(0);
 	assert.deepEqual(pVarViewSpy.type, "pVarViewSpy");
 	var expectedPVarViewSpec = {
@@ -313,10 +381,22 @@ QUnit.test("testInitTextOutput", function(assert) {
 		"outputFormat" : "text",
 		"presentationId" : "pVarTextVariableIdOutput"
 	};
-	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
-			"defTextId: textVariableIdDefText", "metadataId: textVariableId",
-			"nameInData: textVariableId",
-			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", "presentationId: pVarTextVariableIdOutput");
+	expectedPVarViewSpec.info.technicalInfo.push({
+		"text" : "textId: textVariableIdText",
+		"onclickMethod" : attachedPVar.pVar.openTextIdRecord
+	}, {
+		"text" : "defTextId: textVariableIdDefText",
+		"onclickMethod" : attachedPVar.pVar.openDefTextIdRecord
+	}, {
+		"text" : "metadataId: textVariableId",
+		"onclickMethod" : attachedPVar.pVar.openMetadataIdRecord
+	}, {
+		"text" : "nameInData: textVariableId"
+	}, {
+		"text" : "regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$"
+	}, {
+		"text" : "presentationId: pVarTextVariableIdOutput"
+	});
 	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
 
 	CORATEST.testVariableSubscription(attachedPVar, assert);
@@ -340,10 +420,22 @@ QUnit.test("testInitTextOutputFormatImage", function(assert) {
 		"outputFormat" : "image",
 		"presentationId" : "pVarTextVariableId"
 	};
-	expectedPVarViewSpec.info.technicalInfo.push("textId: textVariableIdText",
-			"defTextId: textVariableIdDefText", "metadataId: textVariableId",
-			"nameInData: textVariableId",
-			"regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$", "presentationId: pVarTextVariableId");
+	expectedPVarViewSpec.info.technicalInfo.push({
+		"text" : "textId: textVariableIdText",
+		"onclickMethod" : attachedPVar.pVar.openTextIdRecord
+	}, {
+		"text" : "defTextId: textVariableIdDefText",
+		"onclickMethod" : attachedPVar.pVar.openDefTextIdRecord
+	}, {
+		"text" : "metadataId: textVariableId",
+		"onclickMethod" : attachedPVar.pVar.openMetadataIdRecord
+	}, {
+		"text" : "nameInData: textVariableId"
+	}, {
+		"text" : "regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$"
+	}, {
+		"text" : "presentationId: pVarTextVariableId"
+	});
 	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
 
 	CORATEST.testVariableSubscription(attachedPVar, assert);
@@ -351,7 +443,8 @@ QUnit.test("testInitTextOutputFormatImage", function(assert) {
 });
 
 QUnit.test("testSetValueTextOutput", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableIdOutput");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableIdOutput");
 	var valueView = attachedPVar.valueView;
 
 	attachedPVar.pVar.setValue("A Value");
@@ -366,11 +459,13 @@ QUnit.test("testSetValueTextOutputFormatImage", function(assert) {
 
 	attachedPVar.pVar.setValue("http://www.some.domain.nu/image01.jpg");
 	var pVarViewSpy = this.pVarViewFactory.getFactored(0);
-	assert.equal(pVarViewSpy.getValue(), "http://www.some.domain.nu/image01.jpg");
+	assert.equal(pVarViewSpy.getValue(),
+			"http://www.some.domain.nu/image01.jpg");
 });
 
 QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
-	var attachedPVar = this.pVarFactory.factor({}, "textVariableId", "pVarTextVariableId");
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
 	var message = {
 		"metadataId" : "textVariableId",
 		"path" : {}
@@ -386,4 +481,93 @@ QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
 	};
 	attachedPVar.pVar.handleMsg(data);
 	assert.equal(pVarViewSpy.getState(), "ok");
+});
+
+QUnit.test("testOpenTextIdRecord", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = true;
+	attachedPVar.pVar.openTextIdRecord(event);
+
+	var jsClient = attachedPVar.dependencies.clientInstanceProvider
+			.getJsClient();
+	var expectedOpenInfo = {
+		"readLink" : {
+			"requestMethod" : "GET",
+			"rel" : "read",
+			"url" : "http://localhost:8080/therest/rest/record/text/"
+					+ "textVariableId" + "Text",
+			"accept" : "application/vnd.uub.record+json"
+		},
+		"loadInBackground" : "false"
+	};
+	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink,
+			expectedOpenInfo.readLink);
+	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, "true");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = false;
+	attachedPVar.pVar.openTextIdRecord(event);
+	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "false");
+});
+
+QUnit.test("testOpenDefTextIdRecord", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = true;
+	attachedPVar.pVar.openDefTextIdRecord(event);
+
+	var jsClient = attachedPVar.dependencies.clientInstanceProvider
+			.getJsClient();
+	var expectedOpenInfo = {
+		"readLink" : {
+			"requestMethod" : "GET",
+			"rel" : "read",
+			"url" : "http://localhost:8080/therest/rest/record/text/"
+					+ "textVariableId" + "DefText",
+			"accept" : "application/vnd.uub.record+json"
+		},
+		"loadInBackground" : "false"
+	};
+	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink,
+			expectedOpenInfo.readLink);
+	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, "true");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = false;
+	attachedPVar.pVar.openDefTextIdRecord(event);
+	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "false");
+});
+QUnit.test("testOpenMetadataIdRecord", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableId");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = true;
+	attachedPVar.pVar.openMetadataIdRecord(event);
+
+	var jsClient = attachedPVar.dependencies.clientInstanceProvider
+			.getJsClient();
+	var expectedOpenInfo = {
+		"readLink" : {
+			"requestMethod" : "GET",
+			"rel" : "read",
+			"url" : "http://localhost:8080/therest/rest/record/"
+					+ "metadataTextVariable/" + "textVariableTextVar",
+			"accept" : "application/vnd.uub.record+json"
+		},
+		"loadInBackground" : "false"
+	};
+	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink,
+			expectedOpenInfo.readLink);
+	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, "true");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = false;
+	attachedPVar.pVar.openMetadataIdRecord(event);
+	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "false");
 });
