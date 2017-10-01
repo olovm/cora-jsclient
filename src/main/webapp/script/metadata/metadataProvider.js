@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -19,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.metadataProvider = function(spec) {
+	cora.metadataProvider = function(dependencies, spec) {
 
 		var processedAjaxCalls = 0;
 		var metadata = {};
@@ -34,7 +34,7 @@ var CORA = (function(cora) {
 		function callThroughAjax(linkSpec, callAfterAnswer) {
 			var ajaxCallSpec = createIndependentCopy(linkSpec);
 			ajaxCallSpec.loadMethod = callAfterAnswer;
-			spec.dependencies.ajaxCallFactory.factor(ajaxCallSpec);
+			dependencies.ajaxCallFactory.factor(ajaxCallSpec);
 		}
 
 		function createIndependentCopy(someObject) {
@@ -84,7 +84,18 @@ var CORA = (function(cora) {
 			throw new Error("Id(" + metadataId + ") not found in metadataProvider");
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		var out = Object.freeze({
+			"type" : "metadataProvider",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getMetadataById : getMetadataById,
 			processFetchedMetadata : processFetchedMetadata
 		});

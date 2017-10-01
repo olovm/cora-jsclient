@@ -279,14 +279,13 @@
 			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var metadataProviderSpec = {
-			"dependencies" : dependencies,
 			"metadataListLink" : metadataListLink,
 			"textListLink" : textListLink,
 			"presentationListLink" : presentationListLink,
 			"callWhenReady" : metadataProviderReady
 		};
 
-		metadataProvider = CORA.metadataProvider(metadataProviderSpec);
+		metadataProvider = CORA.metadataProvider(dependencies, metadataProviderSpec);
 
 		var textProviderSpec = {
 			"dependencies" : dependencies,
