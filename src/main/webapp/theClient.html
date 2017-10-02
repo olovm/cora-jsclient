@@ -57,6 +57,8 @@
 <script type="text/javascript" src="script/recordTypeHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/recordTypeProvider.js"></script>
 <script type="text/javascript" src="script/recordViewer.js"></script>
+<script type="text/javascript" src="script/reloadableMetadataProvider.js"></script>
+<script type="text/javascript" src="script/metadataProviderFactory.js"></script>
 
 <script type="text/javascript" src="script/search/resultHandler.js"></script>
 <script type="text/javascript" src="script/search/resultHandlerFactory.js"></script>
@@ -179,7 +181,7 @@
 			}, {
 				"text" : "localhost8089",
 				"onclickFunction" : useLocalhost2
-			} , {
+			}, {
 				"text" : "ip from url",
 				"onclickFunction" : useLocalhost3
 			} ]
@@ -285,7 +287,16 @@
 			"callWhenReady" : metadataProviderReady
 		};
 
-		metadataProvider = CORA.metadataProvider(dependencies, metadataProviderSpec);
+		var dependenciesMetadataProviderFactory = {
+			"ajaxCallFactory" : ajaxCallFactory
+		};
+		var dependenciesMetadataProvider = {
+			"metadataProviderFactory" : CORA
+					.metadataProviderFactory(dependenciesMetadataProviderFactory)
+		};
+		// 		metadataProvider = CORA.metadataProvider(dependencies, metadataProviderSpec);
+		metadataProvider = CORA.reloadableMetadataProvider(dependenciesMetadataProvider,
+				metadataProviderSpec);
 
 		var textProviderSpec = {
 			"dependencies" : dependencies,
@@ -326,20 +337,20 @@
 	}
 
 	function startJsClient() {
-		var providers ={
+		var providers = {
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
 			"searchProvider" : searchProvider,
 			"recordTypeProvider" : recordTypeProvider,
-			"clientInstanceProvider": CORA.clientInstanceProvider()
+			"clientInstanceProvider" : CORA.clientInstanceProvider()
 		};
 		jsClientSpec = {
-				"name" : "A Client",
-				"baseUrl" : baseUrl,
-				"appTokenBaseUrl" : appTokenBaseUrl
-			};
+			"name" : "A Client",
+			"baseUrl" : baseUrl,
+			"appTokenBaseUrl" : appTokenBaseUrl
+		};
 		var dependencies = {
-				"authTokenHolder":authTokenHolder
+			"authTokenHolder" : authTokenHolder
 		};
 		var jsClientFactory = CORA.jsClientFactory(providers, dependencies);
 		jsClient = jsClientFactory.factor(jsClientSpec);

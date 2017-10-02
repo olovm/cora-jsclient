@@ -21,13 +21,11 @@ var CORA = (function(cora) {
 	cora.reloadableMetadataProvider = function(dependencies, spec) {
 
 		var currentMetadataProvider;
+		var loadingMetadataProvider;
+		var callWhenSwitched;
 
 		function start() {
 			currentMetadataProvider = dependencies.metadataProviderFactory.factor(spec);
-		}
-
-		function getMetadataById(id) {
-			return currentMetadataProvider.getMetadataById(id);
 		}
 
 		function getDependencies() {
@@ -38,12 +36,33 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
+		function getMetadataById(id) {
+			return currentMetadataProvider.getMetadataById(id);
+		}
+
+		function reload(callAfterSwitch) {
+			callWhenSwitched = callAfterSwitch;
+			var reloadingSpec = {
+				metadataListLink : spec.metadataListLink,
+				presentationListLink : spec.presentationListLink,
+				textListLink : spec.textListLink,
+				callWhenReady : switchProvider
+			};
+			loadingMetadataProvider = dependencies.metadataProviderFactory.factor(reloadingSpec);
+		}
+
+		function switchProvider() {
+			currentMetadataProvider = loadingMetadataProvider;
+			callWhenSwitched();
+		}
+
 		var out = Object.freeze({
 			"type" : "reloadableMetadataProvider",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
-			getMetadataById : getMetadataById
-		// factor : factor
+			getMetadataById : getMetadataById,
+			reload : reload,
+			switchProvider : switchProvider
 		});
 		start();
 		return out;

@@ -82,17 +82,58 @@ QUnit.test("initFactorsFirstMetadataProviderWithSpec", function(assert) {
 QUnit.test("testGetMetadataByIdForwardedToFactoredProvider", function(assert) {
 	var firstFactoredMetadataProvider = this.dependencies.metadataProviderFactory.getFactored(0);
 	var metadata = this.reloadableMetadataProvider.getMetadataById("someMetadataId");
-	
+
 	assert.strictEqual(firstFactoredMetadataProvider.getFetchedMetadataId(0), "someMetadataId");
 });
 
 QUnit.test("testGetMetadataByIdAnswerReturnedFromFactoredProvider", function(assert) {
 	var firstFactoredMetadataProvider = this.dependencies.metadataProviderFactory.getFactored(0);
 	var metadata = this.reloadableMetadataProvider.getMetadataById("someMetadataId");
-	
-	assert.stringifyEqual(firstFactoredMetadataProvider.getMetadataById("someMetadataId"), metadata);
+
+	assert
+			.stringifyEqual(firstFactoredMetadataProvider.getMetadataById("someMetadataId"),
+					metadata);
 	assert.strictEqual(firstFactoredMetadataProvider.getFetchedMetadata(0), metadata);
 });
 
-//TODO: write tests for reload
+QUnit.test("testReloadCreatesNewMetadataProvider", function(assert) {
+	var firstFactoredMetadataProvider = this.dependencies.metadataProviderFactory.getFactored(0);
+	var secondFactoredMetadataProvider = this.dependencies.metadataProviderFactory.getFactored(1);
+	assert.strictEqual(secondFactoredMetadataProvider, undefined);
+	var methodToCall = {};
+	this.reloadableMetadataProvider.reload(methodToCall);
+	secondFactoredMetadataProvider = this.dependencies.metadataProviderFactory.getFactored(1);
+	assert.ok(secondFactoredMetadataProvider);
+});
 
+QUnit.test("testReloadCreatesNewMetadataProviderWithSpec",
+		function(assert) {
+			this.reloadableMetadataProvider.reload({});
+			var forwardedSpec = this.dependencies.metadataProviderFactory.getSpec(1);
+			assert.strictEqual(forwardedSpec.metadataListLink, this.spec.metadataListLink);
+			assert.strictEqual(forwardedSpec.textListLink, this.spec.textListLink);
+			assert.strictEqual(forwardedSpec.presentationListLink, this.spec.presentationListLink);
+			assert.strictEqual(forwardedSpec.callWhenReady,
+					this.reloadableMetadataProvider.switchProvider);
+		});
+
+QUnit.test("testMethodToCallIsCalledAfterSwitch", function(assert) {
+	var called = false;
+	function methodToCall() {
+		called = true;
+	}
+	this.reloadableMetadataProvider.reload(methodToCall);
+	this.reloadableMetadataProvider.switchProvider();
+	assert.ok(called);
+});
+
+QUnit.test("testGetMetadataByIdForwardedToSecondFactoredProviderAfterSwitchProvider", function(
+		assert) {
+	this.reloadableMetadataProvider.reload(function() {
+	});
+	this.reloadableMetadataProvider.switchProvider();
+	var secondFactoredMetadataProvider = this.dependencies.metadataProviderFactory.getFactored(1);
+	var metadata = this.reloadableMetadataProvider.getMetadataById("someMetadataId");
+
+	assert.strictEqual(secondFactoredMetadataProvider.getFetchedMetadataId(0), "someMetadataId");
+});
