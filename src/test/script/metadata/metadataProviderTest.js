@@ -45,7 +45,6 @@ QUnit.module("metadataProviderTest.js", {
 			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var spec = {
-//			"dependencies" : dependencies,
 			"metadataListLink" : metadataListLink,
 			"textListLink" : textListLink,
 			"presentationListLink" : presentationListLink

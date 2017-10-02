@@ -38,6 +38,7 @@ var CORATEST = (function(coraTest) {
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(metadataId))
 			};
 			fetchedMetadata.push(metadata);
+			return metadata;
 		}
 		function createChildReferenceWithRefAndRepeatId1to1(refRecordType, ref, repeatId) {
 			var attribute = "metadataGroup";
