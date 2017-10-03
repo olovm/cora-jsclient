@@ -111,6 +111,8 @@
 <script type="text/javascript" src="script/metadata/metadataValidator.js"></script>
 <script type="text/javascript" src="script/metadata/metadataValidatorFactory.js"></script>
 <script type="text/javascript" src="script/metadata/textProvider.js"></script>
+<script type="text/javascript" src="script/metadata/textProviderFactory.js"></script>
+<script type="text/javascript" src="script/metadata/reloadableTextProvider.js"></script>
 <script type="text/javascript" src="script/metadata/reloadableMetadataProvider.js"></script>
 <script type="text/javascript" src="script/metadata/metadataProviderFactory.js"></script>
 
@@ -294,7 +296,6 @@
 			"metadataProviderFactory" : CORA
 					.metadataProviderFactory(dependenciesMetadataProviderFactory)
 		};
-		// 		metadataProvider = CORA.metadataProvider(dependencies, metadataProviderSpec);
 		metadataProvider = CORA.reloadableMetadataProvider(dependenciesMetadataProvider,
 				metadataProviderSpec);
 
@@ -303,8 +304,14 @@
 			"lang" : "sv",
 			"callWhenReady" : textProviderReady
 		};
-
-		textProvider = CORA.textProvider(dependencies, textProviderSpec);
+		var dependenciesTextProviderFactory = {
+				"ajaxCallFactory" : ajaxCallFactory
+			};
+		var dependenciesTextProvider = {
+			"textProviderFactory" : CORA
+					.textProviderFactory(dependenciesTextProviderFactory)
+		};
+		textProvider = CORA.reloadableTextProvider(dependenciesTextProvider, textProviderSpec);
 
 		var dependenciesSearchProvider = {
 			"ajaxCallFactory" : ajaxCallFactory
