@@ -57,7 +57,6 @@
 <script type="text/javascript" src="script/recordTypeHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/recordTypeProvider.js"></script>
 <script type="text/javascript" src="script/recordViewer.js"></script>
-<script type="text/javascript" src="script/metadataProviderFactory.js"></script>
 
 <script type="text/javascript" src="script/search/resultHandler.js"></script>
 <script type="text/javascript" src="script/search/resultHandlerFactory.js"></script>
@@ -113,6 +112,7 @@
 <script type="text/javascript" src="script/metadata/metadataValidatorFactory.js"></script>
 <script type="text/javascript" src="script/metadata/textProvider.js"></script>
 <script type="text/javascript" src="script/metadata/reloadableMetadataProvider.js"></script>
+<script type="text/javascript" src="script/metadata/metadataProviderFactory.js"></script>
 
 <script type="text/javascript" src="script/net/ajaxCall.js"></script>
 <script type="text/javascript" src="script/net/ajaxCallFactory.js"></script>
@@ -299,13 +299,12 @@
 				metadataProviderSpec);
 
 		var textProviderSpec = {
-			"dependencies" : dependencies,
 			"textListLink" : textListLink,
 			"lang" : "sv",
 			"callWhenReady" : textProviderReady
 		};
 
-		textProvider = CORA.textProvider(textProviderSpec);
+		textProvider = CORA.textProvider(dependencies, textProviderSpec);
 
 		var dependenciesSearchProvider = {
 			"ajaxCallFactory" : ajaxCallFactory
