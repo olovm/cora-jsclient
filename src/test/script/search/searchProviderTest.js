@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
@@ -60,6 +60,16 @@ QUnit.module("searchProviderTest.js", {
 QUnit.test("testInit", function(assert) {
 	var provider = CORA.searchProvider(this.dependencies, this.spec);
 	assert.strictEqual(provider.type, "searchProvider");
+});
+
+QUnit.test("testGetDependencies", function(assert) {
+	var provider = CORA.searchProvider(this.dependencies, this.spec);
+	assert.strictEqual(provider.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var provider = CORA.searchProvider(this.dependencies, this.spec);
+	assert.strictEqual(provider.getSpec(), this.spec);
 });
 
 QUnit.test("testInitCorrectRequestMade", function(assert) {
