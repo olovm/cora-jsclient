@@ -18,7 +18,7 @@
  */
 "use strict";
 
-QUnit.module("metadataProviderTest.js", {
+QUnit.module("reloadableTextProviderTest.js", {
 	beforeEach : function() {
 		var methodToCall = {};
 		var textListLink = {

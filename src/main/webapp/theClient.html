@@ -71,6 +71,8 @@
 <script type="text/javascript" src="script/search/searchRecordHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/search/searchRecordHandlerView.js"></script>
 <script type="text/javascript" src="script/search/searchProvider.js"></script>
+<script type="text/javascript" src="script/search/searchProviderFactory.js"></script>
+<script type="text/javascript" src="script/search/reloadableSearchProvider.js"></script>
 
 <script type="text/javascript" src="script/gui/basicGui.js"></script>
 <script type="text/javascript" src="script/gui/busy.js"></script>
@@ -305,17 +307,21 @@
 			"callWhenReady" : textProviderReady
 		};
 		var dependenciesTextProviderFactory = {
-				"ajaxCallFactory" : ajaxCallFactory
-			};
+			"ajaxCallFactory" : ajaxCallFactory
+		};
 		var dependenciesTextProvider = {
-			"textProviderFactory" : CORA
-					.textProviderFactory(dependenciesTextProviderFactory)
+			"textProviderFactory" : CORA.textProviderFactory(dependenciesTextProviderFactory)
 		};
 		textProvider = CORA.reloadableTextProvider(dependenciesTextProvider, textProviderSpec);
 
-		var dependenciesSearchProvider = {
+		var dependenciesSearchProviderFactory = {
 			"ajaxCallFactory" : ajaxCallFactory
 		};
+
+		var dependenciesSearchProvider = {
+			"searchProviderFactory" : CORA.searchProviderFactory(dependenciesSearchProviderFactory)
+		};
+
 		var searchRecordListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
@@ -326,7 +332,8 @@
 			"searchRecordListLink" : searchRecordListLink,
 			"callWhenReady" : searchProviderReady
 		};
-		searchProvider = CORA.searchProvider(dependenciesSearchProvider, specSearchProvider);
+		searchProvider = CORA.reloadableSearchProvider(dependenciesSearchProvider,
+				specSearchProvider);
 
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
