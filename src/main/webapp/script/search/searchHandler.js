@@ -20,26 +20,12 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.searchHandler = function(dependencies, spec) {
-		var menuView;
 		var view;
-		var managedGuiItem;
 		var recordGui;
 
 		function start() {
-			menuView = createMenuView();
 			view = createView();
-			managedGuiItem = createManagedGuiItem();
-			managedGuiItem.addMenuPresentation(menuView);
-			managedGuiItem.addWorkPresentation(view.getView());
-			addSearchToSearchRecordHandler(managedGuiItem);
-			showSearchInJsClient(managedGuiItem);
 			tryToCreateSearchForm();
-		}
-
-		function createMenuView() {
-			var createdView = CORA.gui.createSpanWithClassName("");
-			createdView.textContent = "search";
-			return createdView;
 		}
 
 		function createView() {
@@ -49,28 +35,14 @@ var CORA = (function(cora) {
 			return dependencies.searchHandlerViewFactory.factor(viewSpec);
 		}
 
-		function createManagedGuiItem() {
-			var managedGuiItemSpec = {
-				"activateMethod" : dependencies.jsClient.showView,
-				"removeMethod" : dependencies.jsClient.viewRemoved
-			};
-			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-		}
-
-		function addSearchToSearchRecordHandler(managedGuiItemToAdd) {
-			dependencies.jsClient.addGuiItem(managedGuiItemToAdd);
-		}
-
-		function showSearchInJsClient(managedGuiItemToShow) {
-			dependencies.jsClient.showView(managedGuiItemToShow);
-		}
-
 		function tryToCreateSearchForm() {
 			try {
 				createSearchForm();
 			} catch (error) {
-				createRawDataWorkView("something went wrong, probably missing metadata, " + error);
-				view.addPresentationToSearchFormHolder(document.createTextNode(error.stack));
+				createRawDataWorkView("something went wrong, probably missing metadata, "
+						+ error);
+				view.addPresentationToSearchFormHolder(document
+						.createTextNode(error.stack));
 			}
 		}
 
@@ -88,14 +60,16 @@ var CORA = (function(cora) {
 			return dependencies.recordGuiFactory.factor(recordGuiSpec);
 		}
 
-		function addSearchFormFromRecordGuiToView(recordGuiToAdd, metadataIdUsedInData) {
-			var presentationView = recordGuiToAdd.getPresentationHolder(spec.presentationId,
-					metadataIdUsedInData).getView();
+		function addSearchFormFromRecordGuiToView(recordGuiToAdd,
+				metadataIdUsedInData) {
+			var presentationView = recordGuiToAdd.getPresentationHolder(
+					spec.presentationId, metadataIdUsedInData).getView();
 			view.addPresentationToSearchFormHolder(presentationView);
 		}
 
 		function createRawDataWorkView(data) {
-			view.addPresentationToSearchFormHolder(document.createTextNode(JSON.stringify(data)));
+			view.addPresentationToSearchFormHolder(document.createTextNode(JSON
+					.stringify(data)));
 		}
 
 		function search() {
@@ -111,7 +85,8 @@ var CORA = (function(cora) {
 				"requestMethod" : link.requestMethod,
 				"accept" : link.accept,
 				"parameters" : {
-					"searchData" : JSON.stringify(recordGui.dataHolder.getData())
+					"searchData" : JSON.stringify(recordGui.dataHolder
+							.getData())
 				},
 				"loadMethod" : handleSearchResult
 			};
@@ -123,20 +98,32 @@ var CORA = (function(cora) {
 				"dataList" : JSON.parse(answerIn.responseText).dataList,
 				"jsClient" : dependencies.jsClient
 			};
-			var resultHandler = dependencies.resultHandlerFactory.factor(resultHandlerSpec);
+			var resultHandler = dependencies.resultHandlerFactory
+					.factor(resultHandlerSpec);
 			view.clearResultHolder();
 			view.addSearchResultToSearchResultHolder(resultHandler.getView());
+		}
+
+		function getView() {
+			return view.getView();
 		}
 
 		function getDependencies() {
 			return dependencies;
 		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		start();
 		return Object.freeze({
 			"type" : "searchHandler",
 			getDependencies : getDependencies,
+			getSpec : getSpec,
 			search : search,
-			handleSearchResult : handleSearchResult
+			handleSearchResult : handleSearchResult,
+			getView : getView
 		});
 	};
 	return cora;

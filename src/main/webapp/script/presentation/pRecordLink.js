@@ -20,6 +20,8 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pRecordLink = function(dependencies, spec) {
+		
+//		dependencies.searchProvider.getSearchById("someId")
 		var out;
 		var readLink;
 		var openLinkShowing = false;

@@ -21,8 +21,14 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.searchHandlerSpy = function(dependencies, spec) {
 
+		var view = CORA.gui.createSpanWithClassName("searchHandlerSpy");
+		function getView() {
+			return view;
+		}
+
 		return Object.freeze({
-			"type" : "searchHandlerSpy"
+			"type" : "searchHandlerSpy",
+			getView : getView
 		});
 	};
 	return coraTest;
