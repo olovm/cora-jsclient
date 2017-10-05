@@ -47,7 +47,8 @@ var CORA = (function(cora) {
 			addSearchLinkToSpec(searchHandlerSpec);
 			//TODO: change to searchHandlerJsClientIntegratorFactory
 			//TODO: add name to use in menu
-			dependencies.searchHandlerFactory.factor(searchHandlerSpec);
+//			dependencies.searchHandlerFactory.factor(searchHandlerSpec);
+			dependencies.searchHandlerJSClientIntegratorFactory.factor(searchHandlerSpec);
 		}
 
 		function getLinkValueFromSearchRecord(id) {

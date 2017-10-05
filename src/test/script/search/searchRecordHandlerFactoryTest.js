@@ -67,19 +67,40 @@ QUnit.test("testFactorAddedDependencies", function(assert) {
 	assert.strictEqual(addedDep.jsClient, this.spec.jsClient);
 });
 
-QUnit.test("testFactorAddedDependenciesSearchHandlerFactory", function(assert) {
+QUnit.test("testFactorAddedDependenciesSearchHandlerJsClientIntegratorFactory", function(assert) {
 	var searchRecordHandlerFactory = CORA.searchRecordHandlerFactory(this.dependencies);
 	var searchRecordHandler = this.searchRecordHandlerFactory.factor(this.spec);
+
 	var addedDep = searchRecordHandler.getDependencies();
-	assert.strictEqual(addedDep.searchHandlerFactory.type, "searchHandlerFactory");
-	assert.strictEqual(addedDep.searchHandlerFactory.getDependencies().recordGuiFactory,
-			this.dependencies.recordGuiFactory);
-	assert.strictEqual(addedDep.searchHandlerFactory.getDependencies().textProvider,
-			this.dependencies.textProvider);
-	assert.strictEqual(addedDep.searchHandlerFactory.getDependencies().ajaxCallFactory,
-			this.dependencies.ajaxCallFactory);
+	var shJCIntF = addedDep.searchHandlerJSClientIntegratorFactory;
+	assert.strictEqual(shJCIntF.type, "searchHandlerJsClientIntegratorFactory");
+	assert.strictEqual(shJCIntF.getDependencies().jsClient, this.spec.jsClient);
+	assert.strictEqual(shJCIntF.getDependencies().managedGuiItemFactory.type,
+			"managedGuiItemFactory");
 	assert
-			.strictEqual(addedDep.searchHandlerFactory.getDependencies().jsClient,
-					this.spec.jsClient);
-	assert.strictEqual(addedDep.searchHandlerFactory.getDependencies().managedGuiItemFactory.type, "managedGuiItemFactory");
+			.strictEqual(shJCIntF.getDependencies().searchHandlerFactory.type,
+					"searchHandlerFactory");
 });
+
+QUnit
+		.test("testFactorAddedDependenciesSearchHandlerFactory",
+				function(assert) {
+					var searchRecordHandlerFactory = CORA
+							.searchRecordHandlerFactory(this.dependencies);
+					var searchRecordHandler = this.searchRecordHandlerFactory.factor(this.spec);
+					var addedDep = searchRecordHandler.getDependencies();
+					var searchHandlerFactory = addedDep.searchHandlerJSClientIntegratorFactory
+							.getDependencies().searchHandlerFactory;
+					assert.strictEqual(searchHandlerFactory.type, "searchHandlerFactory");
+					assert.strictEqual(searchHandlerFactory.getDependencies().recordGuiFactory,
+							this.dependencies.recordGuiFactory);
+					assert.strictEqual(searchHandlerFactory.getDependencies().textProvider,
+							this.dependencies.textProvider);
+					assert.strictEqual(searchHandlerFactory.getDependencies().ajaxCallFactory,
+							this.dependencies.ajaxCallFactory);
+					assert
+					.strictEqual(searchHandlerFactory.getDependencies().jsClient,
+							this.spec.jsClient);
+			assert.strictEqual(searchHandlerFactory.getDependencies().managedGuiItemFactory.type,
+					"managedGuiItemFactory");
+				});

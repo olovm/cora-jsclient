@@ -28,14 +28,14 @@ QUnit.module("searchRecordHandlerTest.js", {
 					.standardFactorySpy("searchRecordHandlerViewSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 			"jsClient" : CORATEST.jsClientSpy(),
-			"searchHandlerFactory" : CORATEST.standardFactorySpy("searchHandlerSpy")
+			"searchHandlerJSClientIntegratorFactory" : CORATEST.standardFactorySpy("searchHandlerJsClientIntegratorSpy")
 		};
 		this.spec = {
 			"searchRecord" : this.search,
 			"baseUrl" : "http://epc.ub.uu.se/cora/rest/"
 		};
 	},
-	afterEach : function() {
+	afterEach : function() { 
 	}
 });
 
@@ -78,13 +78,7 @@ QUnit.test("testAddManagedGuiItemPassedOnToView", function(assert) {
 QUnit.test("testOpenSearchFactorSearchHandler", function(assert) {
 	var searchRecordHandler = CORA.searchRecordHandler(this.dependencies, this.spec);
 	searchRecordHandler.openSearch();
-	var factoredSpec = this.dependencies.searchHandlerFactory.getSpec(0);
-
-	// assert.strictEqual(factoredSpec.addToSearchRecordHandlerMethod,
-	// searchRecordHandler.addManagedGuiItem);
-	// assert.strictEqual(factoredSpec.showViewMethod, this.dependencies.jsClient.showView);
-	// assert.strictEqual(factoredSpec.removeViewMethod, this.dependencies.jsClient.viewRemoved);
-	// assert.strictEqual(factoredSpec.jsClient, this.dependencies.jsClient);
+	var factoredSpec = this.dependencies.searchHandlerJSClientIntegratorFactory.getSpec(0);
 
 	assert.strictEqual(factoredSpec.metadataId, "autocompleteSearchGroup");
 	assert.strictEqual(factoredSpec.presentationId, "autocompleteSearchPGroup");

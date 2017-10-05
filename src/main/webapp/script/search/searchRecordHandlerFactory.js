@@ -30,15 +30,25 @@ var CORA = (function(cora) {
 				"textProvider" : dependencies.textProvider,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
+			 "jsClient" : spec.jsClient,
+			 "managedGuiItemFactory" : CORA.managedGuiItemFactory()
+			};
+			var searchHandlerFactory = CORA.searchHandlerFactory(searchHandlerDep);
+			var searchHandlerJsClientIntegratorDep = {
+				"searchHandlerFactory" : searchHandlerFactory,
 				"jsClient" : spec.jsClient,
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
 			};
+
 			var searchRecordHandlerDependencies = {
 				"messageHolderFactory" : CORA.messageHolderFactory(),
 				"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory(),
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"jsClient" : spec.jsClient,
-				"searchHandlerFactory" : CORA.searchHandlerFactory(searchHandlerDep)
+				// "searchHandlerFactory" :
+				// CORA.searchHandlerFactory(searchHandlerDep)
+				"searchHandlerJSClientIntegratorFactory" : CORA
+						.searchHandlerJsClientIntegratorFactory(searchHandlerJsClientIntegratorDep)
 			};
 			return CORA.searchRecordHandler(searchRecordHandlerDependencies, spec);
 		}

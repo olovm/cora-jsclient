@@ -29,12 +29,6 @@ QUnit.module("searchHandlerFactoryTest.js", {
 			"jsClient" : CORATEST.jsClientSpy()
 		};
 		this.spec = {
-			// "addToSearchRecordHandlerMethod" : function() {
-			// },
-			// "showViewMethod" : function() {
-			// },
-			// "removeViewMethod" : function() {
-			// },
 			"metadataId" : "someMetadataId",
 			"presentationId" : "somePresentationId"
 		}
