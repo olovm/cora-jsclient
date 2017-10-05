@@ -58,7 +58,6 @@ var CORA = (function(cora) {
 					loadInBackground = "true";
 				}
 				var openInfo = {
-					"createNewRecord" : "false",
 					"record" : record,
 					"loadInBackground" : loadInBackground
 				};

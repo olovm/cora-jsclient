@@ -100,7 +100,6 @@ QUnit.test("testAddChildPresentationClickable", function(assert) {
 	firstListItem.onclick(event);
 
 	var firstOpenInfo = this.spec.resultHandler.getOpenedRecord(0);
-	assert.strictEqual(firstOpenInfo.createNewRecord, "false");
 	assert.strictEqual(firstOpenInfo.record, record);
 	assert.strictEqual(firstOpenInfo.loadInBackground, "false");
 });
@@ -118,7 +117,6 @@ QUnit.test("testAddChildPresentationClickableLoadInBackground", function(assert)
 	firstListItem.onclick(event);
 
 	var firstOpenInfo = this.spec.resultHandler.getOpenedRecord(0);
-	assert.strictEqual(firstOpenInfo.createNewRecord, "false");
 	assert.strictEqual(firstOpenInfo.record, record);
 	assert.strictEqual(firstOpenInfo.loadInBackground, "true");
 });
