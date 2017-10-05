@@ -56,6 +56,8 @@
 <script type="text/javascript" src="script/recordTypeHandlerView.js"></script>
 <script type="text/javascript" src="script/recordTypeHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/recordTypeProvider.js"></script>
+<script type="text/javascript" src="script/recordTypeProviderFactory.js"></script>
+<script type="text/javascript" src="script/reloadableRecordTypeProvider.js"></script>
 <script type="text/javascript" src="script/recordViewer.js"></script>
 
 <script type="text/javascript" src="script/search/resultHandler.js"></script>
@@ -335,6 +337,13 @@
 		searchProvider = CORA.reloadableSearchProvider(dependenciesSearchProvider,
 				specSearchProvider);
 
+		var dependenciesRecordTypeProviderFactory = {
+			"ajaxCallFactory" : ajaxCallFactory
+		};
+		var dependenciesReloadableRecordTypeProvider = {
+			"recordTypeProviderFactory" : CORA
+					.recordTypeProviderFactory(dependenciesRecordTypeProviderFactory)
+		};
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
@@ -345,7 +354,8 @@
 			"recordTypeListLink" : recordTypeListLink,
 			"callWhenReady" : recordTypeProviderReady
 		};
-		recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
+		recordTypeProvider = CORA.reloadableRecordTypeProvider(
+				dependenciesReloadableRecordTypeProvider, recordTypeProviderSpec);
 
 	}
 

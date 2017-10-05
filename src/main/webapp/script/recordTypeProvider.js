@@ -121,11 +121,6 @@ var CORA = (function(cora) {
 			return allRecordTypes;
 		}
 
-		function reload(callWhenReloadedMethodIn) {
-			callWhenReady = callWhenReloadedMethodIn;
-			fetchRecordTypeListAndThen(processFetchedData);
-		}
-
 		function getMetadataByRecordTypeId(recordTypeId) {
 			if (metadataByRecordTypeId[recordTypeId] !== undefined) {
 				return metadataByRecordTypeId[recordTypeId];
@@ -148,7 +143,6 @@ var CORA = (function(cora) {
 			getRecordTypeById : getRecordTypeById,
 			getAllRecordTypes : getAllRecordTypes,
 			processFetchedData : processFetchedData,
-			reload : reload,
 			getMetadataByRecordTypeId : getMetadataByRecordTypeId
 		});
 		start();
