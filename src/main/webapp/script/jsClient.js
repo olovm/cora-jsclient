@@ -55,71 +55,7 @@ var CORA = (function(cora) {
 
 		function sortRecordTypesFromRecordTypeProvider() {
 			var allRecordTypes = dependencies.recordTypeProvider.getAllRecordTypes();
-			var recordTypeLists = sortRecordTypesIntoLists(allRecordTypes);
-			var list = [];
-			recordTypeLists.abstractList.forEach(function(parent) {
-				list.push(parent);
-				addChildrenOfCurrentParentToList(parent, recordTypeLists, list);
-			});
-
-			list = list.concat(recordTypeLists.noParentList);
-			return list;
-		}
-
-		function sortRecordTypesIntoLists(unsortedRecordTypes) {
-			var recordTypeLists = {};
-			recordTypeLists.childList = [];
-			recordTypeLists.abstractList = [];
-			recordTypeLists.noParentList = [];
-
-			unsortedRecordTypes.forEach(function(recordType) {
-				separateAbstractAndNonAbstractRecordTypes(recordTypeLists, recordType);
-			});
-			return recordTypeLists;
-		}
-
-		function separateAbstractAndNonAbstractRecordTypes(recordTypeLists, record) {
-			var cRecord = CORA.coraData(record.data);
-
-			if (isAbstract(cRecord)) {
-				recordTypeLists.abstractList.push(record);
-			} else {
-				separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record);
-			}
-		}
-
-		function separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record) {
-			if (elementHasParent(cRecord)) {
-				recordTypeLists.childList.push(record);
-			} else {
-				recordTypeLists.noParentList.push(record);
-			}
-		}
-
-		function isAbstract(cRecord) {
-			return cRecord.getFirstAtomicValueByNameInData("abstract") === "true";
-		}
-
-		function addChildrenOfCurrentParentToList(parent, recordTypeLists, list) {
-			var cParent = CORA.coraData(parent.data);
-			var cRecordInfo = CORA.coraData(cParent.getFirstChildByNameInData("recordInfo"));
-
-			recordTypeLists.childList.forEach(function(child) {
-				var cChild = CORA.coraData(child.data);
-				if (isChildOfCurrentElement(cChild, cRecordInfo)) {
-					list.push(child);
-				}
-			});
-		}
-
-		function elementHasParent(cRecord) {
-			return cRecord.containsChildWithNameInData("parentId");
-		}
-
-		function isChildOfCurrentElement(cChild, cRecordInfo) {
-			var cParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
-			return cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
-					.getFirstAtomicValueByNameInData("id");
+			return cora.sortRecordTypes(allRecordTypes)
 		}
 
 		function createAndAddOpenGuiItemHandlerToSideBar() {
@@ -170,7 +106,7 @@ var CORA = (function(cora) {
 				"baseUrl" : spec.baseUrl
 			};
 			var recordTypeHandler = dependencies.recordTypeHandlerFactory.factor(specRecord);
-			if(recordTypeHandler.hasAnyAction()){
+			if (recordTypeHandler.hasAnyAction()) {
 				jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 			}
 		}
