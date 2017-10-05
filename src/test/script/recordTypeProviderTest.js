@@ -59,6 +59,21 @@ QUnit.module("recordTypeProviderTest.js", {
 
 QUnit.test("initCorrectRequestMade", function(assert) {
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	assert.strictEqual(provider.type, "recordTypeProvider");
+});
+
+QUnit.test("initGetDependencies", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	assert.strictEqual(provider.getDependencies(), this.dependencies);
+});
+
+QUnit.test("initGetSpec", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	assert.strictEqual(provider.getSpec(), this.spec);
+});
+
+QUnit.test("initCorrectRequestMade", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
 	var ajaxCallSpec = ajaxCallSpy.getSpec();
@@ -119,30 +134,24 @@ QUnit.test("getRecordTypeById", function(assert) {
 					"name" : "id",
 					"value" : "textSystemOne"
 				}, {
-	                "children": [
-	                    {
-	                        "name": "linkedRecordType",
-	                        "value": "recordType"
-	                    },
-	                    {
-	                        "name": "linkedRecordId",
-	                        "value": "recordType"
-	                    }
-	                ],
-	                "name": "type"
-	            }, {
-      				"name" : "createdBy",
-      				"children": [
-      					{
-      						"name": "linkedRecordType",
-      						"value": "user"
-      					},
-      					{
-      						"name": "linkedRecordId",
-      						"value": "userid"
-      					}
-      				]
-      			}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "recordType"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordType"
+					} ],
+					"name" : "type"
+				}, {
+					"name" : "createdBy",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "user"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "userid"
+					} ]
+				}, {
 					"name" : "updatedBy",
 					"value" : "userId"
 				}, {

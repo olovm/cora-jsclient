@@ -133,7 +133,18 @@ var CORA = (function(cora) {
 			throw new Error("Id(" + recordTypeId + ") not found in recordTypeProvider");
 		}
 
+		function getDependencies(){
+			return dependencies;
+		}
+		
+		function getSpec(){
+			return spec;
+		}
+		
 		var out = Object.freeze({
+			"type":"recordTypeProvider",
+			getDependencies:getDependencies,
+			getSpec:getSpec,
 			getRecordTypeById : getRecordTypeById,
 			getAllRecordTypes : getAllRecordTypes,
 			processFetchedData : processFetchedData,
