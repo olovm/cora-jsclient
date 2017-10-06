@@ -145,7 +145,6 @@ QUnit.test("testOpenRecordTriggerWhenResultIsChoosen", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	var record = {};
 	var openInfo = {
-		// "createNewRecord" : "false",
 		"record" : record,
 		"loadInBackground" : "false"
 	};

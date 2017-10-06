@@ -39,10 +39,8 @@ var CORA = (function(cora) {
 			try {
 				createSearchForm();
 			} catch (error) {
-				createRawDataWorkView("something went wrong, probably missing metadata, "
-						+ error);
-				view.addPresentationToSearchFormHolder(document
-						.createTextNode(error.stack));
+				createRawDataWorkView("something went wrong, probably missing metadata, " + error);
+				view.addPresentationToSearchFormHolder(document.createTextNode(error.stack));
 			}
 		}
 
@@ -60,16 +58,14 @@ var CORA = (function(cora) {
 			return dependencies.recordGuiFactory.factor(recordGuiSpec);
 		}
 
-		function addSearchFormFromRecordGuiToView(recordGuiToAdd,
-				metadataIdUsedInData) {
-			var presentationView = recordGuiToAdd.getPresentationHolder(
-					spec.presentationId, metadataIdUsedInData).getView();
+		function addSearchFormFromRecordGuiToView(recordGuiToAdd, metadataIdUsedInData) {
+			var presentationView = recordGuiToAdd.getPresentationHolder(spec.presentationId,
+					metadataIdUsedInData).getView();
 			view.addPresentationToSearchFormHolder(presentationView);
 		}
 
 		function createRawDataWorkView(data) {
-			view.addPresentationToSearchFormHolder(document.createTextNode(JSON
-					.stringify(data)));
+			view.addPresentationToSearchFormHolder(document.createTextNode(JSON.stringify(data)));
 		}
 
 		function search() {
@@ -85,8 +81,7 @@ var CORA = (function(cora) {
 				"requestMethod" : link.requestMethod,
 				"accept" : link.accept,
 				"parameters" : {
-					"searchData" : JSON.stringify(recordGui.dataHolder
-							.getData())
+					"searchData" : JSON.stringify(recordGui.dataHolder.getData())
 				},
 				"loadMethod" : handleSearchResult
 			};
@@ -96,10 +91,10 @@ var CORA = (function(cora) {
 		function handleSearchResult(answerIn) {
 			var resultHandlerSpec = {
 				"dataList" : JSON.parse(answerIn.responseText).dataList,
-				"jsClient" : dependencies.jsClient
+				"jsClient" : dependencies.jsClient,
+				"triggerWhenResultIsChoosen" : spec.triggerWhenResultIsChoosen
 			};
-			var resultHandler = dependencies.resultHandlerFactory
-					.factor(resultHandlerSpec);
+			var resultHandler = dependencies.resultHandlerFactory.factor(resultHandlerSpec);
 			view.clearResultHolder();
 			view.addSearchResultToSearchResultHolder(resultHandler.getView());
 		}
