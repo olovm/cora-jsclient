@@ -23,6 +23,8 @@ var CORATEST = (function(coraTest) {
 		var searchArray = [];
 		var fetchedSearchIds = [];
 		var allSearchesNo = 0;
+		var callWhenReloadedMethod;
+		var noOfReloads = 0;
 
 		searchArray["coraTextSearch"] = {
 			"data" : {
@@ -562,15 +564,34 @@ var CORATEST = (function(coraTest) {
 		function getFetchedSearchIdNo(no) {
 			return fetchedSearchIds[no];
 		}
-function getAllSearchesFetchedNo(){
-	return allSearchesNo;
-}
+		function getAllSearchesFetchedNo() {
+			return allSearchesNo;
+		}
+		
+		function reload(callWhenReloadedMethodIn) {
+			noOfReloads++;
+			callWhenReloadedMethod = callWhenReloadedMethodIn;
+		}
+		function getCallWhenReloadedMethod() {
+			return callWhenReloadedMethod;
+		}
+		function callWhenReloadedMethod() {
+			callWhenReloadedMethod();
+		}
+		function getNoOfReloads(){
+			return noOfReloads;
+		}
+		
 		return Object.freeze({
 			"type" : "searchProviderSpy",
 			getSearchById : getSearchById,
 			getAllSearches : getAllSearches,
 			getFetchedSearchIdNo : getFetchedSearchIdNo,
-			getAllSearchesFetchedNo:getAllSearchesFetchedNo
+			getAllSearchesFetchedNo : getAllSearchesFetchedNo,
+			reload : reload,
+			getCallWhenReloadedMethod : getCallWhenReloadedMethod,
+			getNoOfReloads:getNoOfReloads,
+			callWhenReloadedMethod : callWhenReloadedMethod
 		});
 	};
 	return coraTest;

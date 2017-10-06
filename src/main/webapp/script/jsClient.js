@@ -21,6 +21,16 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.jsClient = function(dependencies, spec) {
 		var out;
+		var NO_OF_PROVIDERS = 4;
+		var reloadingProvidersInProgress = false;
+		var callWhenProvidersReloaded;
+		var reloadedProviders = 0;
+
+		var metadataProvider = dependencies.metadataProvider;
+		var textProvider = dependencies.textProvider;
+		var recordTypeProvider = dependencies.recordTypeProvider;
+		var searchProvider = dependencies.searchProvider;
+
 		var recordTypeList;
 
 		var jsClientView;
@@ -49,12 +59,12 @@ var CORA = (function(cora) {
 			jsClientView
 					.addGlobalView(dependencies.uploadManager.getManagedGuiItem().getMenuView());
 			createAndAddOpenGuiItemHandlerToSideBar();
-			addSearchesUserIsAuthorizedToUseToSideBar(dependencies.searchProvider.getAllSearches());
+			addSearchesUserIsAuthorizedToUseToSideBar(searchProvider.getAllSearches());
 			addRecordTypesToSideBar(recordTypeList);
 		}
 
 		function sortRecordTypesFromRecordTypeProvider() {
-			var allRecordTypes = dependencies.recordTypeProvider.getAllRecordTypes();
+			var allRecordTypes = recordTypeProvider.getAllRecordTypes();
 			return cora.sortRecordTypes(allRecordTypes)
 		}
 
@@ -158,14 +168,14 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataForRecordTypeId(recordTypeId) {
-			return dependencies.recordTypeProvider.getMetadataByRecordTypeId(recordTypeId);
+			return recordTypeProvider.getMetadataByRecordTypeId(recordTypeId);
 		}
 
 		function afterLogin() {
-			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
+			recordTypeProvider.reload(afterRecordTypeProviderReload);
 		}
 		function afterLogout() {
-			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
+			recordTypeProvider.reload(afterRecordTypeProviderReload);
 		}
 
 		function afterRecordTypeProviderReload() {
@@ -209,6 +219,30 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function reloadProviders(callWhenReloaded) {
+			if (reloadingProvidersInProgress === false) {
+				startReloadOfProviders(callWhenReloaded);
+			}
+		}
+
+		function startReloadOfProviders(callWhenReloaded) {
+			reloadingProvidersInProgress = true;
+			callWhenProvidersReloaded = callWhenReloaded;
+			metadataProvider.reload(providerReloaded);
+			textProvider.reload(providerReloaded);
+			recordTypeProvider.reload(providerReloaded);
+			searchProvider.reload(providerReloaded);
+		}
+
+		function providerReloaded() {
+			reloadedProviders++;
+			if (NO_OF_PROVIDERS === reloadedProviders) {
+				callWhenProvidersReloaded();
+				reloadedProviders = 0;
+				reloadingProvidersInProgress = false;
+			}
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -231,7 +265,8 @@ var CORA = (function(cora) {
 			hideAndRemoveView : hideAndRemoveView,
 			viewRemoved : viewRemoved,
 			addGuiItem : addGuiItem,
-			openRecordUsingReadLink : openRecordUsingReadLink
+			openRecordUsingReadLink : openRecordUsingReadLink,
+			reloadProviders : reloadProviders
 		});
 		start();
 

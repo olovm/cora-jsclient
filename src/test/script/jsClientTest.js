@@ -202,17 +202,18 @@ QUnit.test("initFactoresRecordTypeHandlersAndAddsToViewIfRecordTypeHasActions", 
 	assertFactoredRecordTypeHandlerAddsViewHasCorrectBaseUrlAndHasId(18, "recordType");
 });
 
-
-QUnit.test("initFactoresRecordTypeHandlersNotAddedToViewIfRecordTypeWithoutActions", function(assert) {
-	var spySpec = {"returnFalseForAnyAction":true};
+QUnit.test("initFactoresRecordTypeHandlersNotAddedToViewIfRecordTypeWithoutActions", function(
+		assert) {
+	var spySpec = {
+		"returnFalseForAnyAction" : true
+	};
 	this.dependencies.recordTypeHandlerFactory.setspySpec(spySpec);
-	
+
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 
 	assert.strictEqual(jsClientView.getRecordTypesView(0), undefined);
 });
-
 
 QUnit.test("showView", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
@@ -448,4 +449,82 @@ QUnit.test("testOpenRecordUsingReadLinkInBackground", function(assert) {
 
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
+});
+
+QUnit.test("testReloadProviders", function(assert) {
+	this.dependencies.metadataProvider = CORATEST.metadataProviderSpy();
+	this.dependencies.textProvider = CORATEST.textProviderSpy();
+	this.dependencies.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	this.dependencies.searchProvider = CORATEST.searchProviderSpy();
+
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	assert.strictEqual(this.dependencies.metadataProvider.getNoOfReloads(), 0);
+	assert.strictEqual(this.dependencies.textProvider.getNoOfReloads(), 0);
+	assert.strictEqual(this.dependencies.recordTypeProvider.getNoOfReloads(), 0);
+	assert.strictEqual(this.dependencies.searchProvider.getNoOfReloads(), 0);
+	jsClient.reloadProviders(function() {
+	});
+	assert.strictEqual(this.dependencies.metadataProvider.getNoOfReloads(), 1);
+	assert.strictEqual(this.dependencies.textProvider.getNoOfReloads(), 1);
+	assert.strictEqual(this.dependencies.recordTypeProvider.getNoOfReloads(), 1);
+	assert.strictEqual(this.dependencies.searchProvider.getNoOfReloads(), 1);
+});
+
+QUnit.test("testReloadProvidersCallWhenReloaded", function(assert) {
+	this.dependencies.metadataProvider = CORATEST.metadataProviderSpy();
+	this.dependencies.textProvider = CORATEST.textProviderSpy();
+	this.dependencies.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	this.dependencies.searchProvider = CORATEST.searchProviderSpy();
+
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var called = 0;
+	var callWhenReloaded = function() {
+		called++;
+	}
+	jsClient.reloadProviders(callWhenReloaded);
+	assert.strictEqual(called, 0);
+	this.dependencies.metadataProvider.callWhenReloadedMethod();
+	assert.strictEqual(called, 0);
+	this.dependencies.textProvider.callWhenReloadedMethod();
+	assert.strictEqual(called, 0);
+	this.dependencies.recordTypeProvider.callWhenReloadedMethod();
+	assert.strictEqual(called, 0);
+	this.dependencies.searchProvider.callWhenReloadedMethod();
+	assert.strictEqual(called, 1);
+	jsClient.reloadProviders(callWhenReloaded);
+	assert.strictEqual(called, 1);
+	this.dependencies.searchProvider.callWhenReloadedMethod();
+	assert.strictEqual(called, 1);
+	this.dependencies.recordTypeProvider.callWhenReloadedMethod();
+	assert.strictEqual(called, 1);
+	this.dependencies.textProvider.callWhenReloadedMethod();
+	assert.strictEqual(called, 1);
+	this.dependencies.metadataProvider.callWhenReloadedMethod();
+	assert.strictEqual(called, 2);
+});
+
+QUnit.test("testReloadProvidersOnlyOneOngoingReload", function(assert) {
+	this.dependencies.metadataProvider = CORATEST.metadataProviderSpy();
+	this.dependencies.textProvider = CORATEST.textProviderSpy();
+	this.dependencies.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	this.dependencies.searchProvider = CORATEST.searchProviderSpy();
+
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var called = 0;
+	var callWhenReloaded = function() {
+		called++;
+	}
+	assert.strictEqual(this.dependencies.metadataProvider.getNoOfReloads(), 0);
+	jsClient.reloadProviders(callWhenReloaded);
+	assert.strictEqual(this.dependencies.metadataProvider.getNoOfReloads(), 1);
+	jsClient.reloadProviders(callWhenReloaded);
+	assert.strictEqual(this.dependencies.metadataProvider.getNoOfReloads(), 1);
+
+	this.dependencies.metadataProvider.callWhenReloadedMethod();
+	this.dependencies.textProvider.callWhenReloadedMethod();
+	this.dependencies.recordTypeProvider.callWhenReloadedMethod();
+	this.dependencies.searchProvider.callWhenReloadedMethod();
+
+	jsClient.reloadProviders(callWhenReloaded);
+	assert.strictEqual(this.dependencies.metadataProvider.getNoOfReloads(), 2);
 });

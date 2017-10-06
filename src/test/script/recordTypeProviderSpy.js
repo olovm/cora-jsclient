@@ -24,6 +24,7 @@ var CORATEST = (function(coraTest) {
 
 		var recordTypeArray = [];
 		var callWhenReloadedMethod;
+		var noOfReloads = 0;
 		var fetchedRecordTypeId = [];
 		var fetchedMetadataByRecordTypeId = [];
 		var allRecordTypesNo = 0;
@@ -54,10 +55,17 @@ var CORATEST = (function(coraTest) {
 		}
 
 		function reload(callWhenReloadedMethodIn) {
+			noOfReloads++;
 			callWhenReloadedMethod = callWhenReloadedMethodIn;
 		}
 		function getCallWhenReloadedMethod() {
 			return callWhenReloadedMethod;
+		}
+		function callWhenReloadedMethod() {
+			callWhenReloadedMethod();
+		}
+		function getNoOfReloads(){
+			return noOfReloads;
 		}
 		var metadata = {};
 		function getMetadataByRecordTypeId(recordTypeId) {
@@ -81,6 +89,8 @@ var CORATEST = (function(coraTest) {
 			processFetchedData : processFetchedData,
 			reload : reload,
 			getCallWhenReloadedMethod : getCallWhenReloadedMethod,
+			getNoOfReloads:getNoOfReloads,
+			callWhenReloadedMethod : callWhenReloadedMethod,
 			getMetadataByRecordTypeId : getMetadataByRecordTypeId,
 			getFetchedMetadataByRecordTypeId : getFetchedMetadataByRecordTypeId,
 			getFetchedRecordTypeId : getFetchedRecordTypeId,
