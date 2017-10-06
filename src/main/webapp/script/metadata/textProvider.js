@@ -20,7 +20,7 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.textProvider = function(spec) {
+	cora.textProvider = function(dependencies, spec) {
 		var texts = {};
 		var currentLang = "sv";
 		fetchTextListAndThen(processFetchedTextdata);
@@ -32,7 +32,7 @@ var CORA = (function(cora) {
 		function callThroughAjax(linkSpec, callAfterAnswer) {
 			var ajaxCallSpec = createIndependentCopy(linkSpec);
 			ajaxCallSpec.loadMethod = callAfterAnswer;
-			spec.dependencies.ajaxCallFactory.factor(ajaxCallSpec);
+			dependencies.ajaxCallFactory.factor(ajaxCallSpec);
 		}
 
 		function createIndependentCopy(someObject) {
@@ -87,7 +87,18 @@ var CORA = (function(cora) {
 			return "MISSING TRANSLATION FOR TEXTID:" + textId;
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		return Object.freeze({
+			"type" : "textProvider",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getTranslation : getTranslation,
 			processFetchedTextdata : processFetchedTextdata
 		});

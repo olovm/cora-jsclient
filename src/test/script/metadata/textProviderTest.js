@@ -22,7 +22,7 @@
 QUnit.module("textProviderTest.js", {
 	beforeEach : function() {
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-		var dependencies = {
+		this.dependencies = {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy
 		};
 		var textListLink = {
@@ -31,12 +31,10 @@ QUnit.module("textProviderTest.js", {
 			"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
 			"accept" : "application/vnd.uub.recordList+json"
 		};
-		var spec = {
-			"dependencies" : dependencies,
+		this.spec = {
 			"textListLink" : textListLink,
 			"lang" : "sv"
 		};
-		this.spec = spec;
 
 		this.textListLink = textListLink;
 		this.textListLinkJson = JSON.stringify(this.textListLink);
@@ -50,6 +48,21 @@ QUnit.module("textProviderTest.js", {
 });
 
 QUnit.test("testInit", function(assert) {
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
+	assert.strictEqual(textProvider.type, "textProvider");
+});
+
+QUnit.test("testGetDependencies", function(assert) {
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
+	assert.strictEqual(textProvider.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
+	assert.strictEqual(textProvider.getSpec(), this.spec);
+});
+
+QUnit.test("testInitAjaxCallMadeOnStart", function(assert) {
 	function assertAjaxCallSpecIsCorrect(ajaxCallSpy, recordType) {
 		var ajaxCallSpec = ajaxCallSpy.getSpec();
 		assert.strictEqual(ajaxCallSpec.url, "http://epc.ub.uu.se/cora/rest/record/" + recordType
@@ -58,7 +71,7 @@ QUnit.test("testInit", function(assert) {
 		assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.recordList+json");
 		assert.strictEqual(ajaxCallSpec.loadMethod, textProvider.processFetchedTextdata);
 	}
-	var textProvider = CORA.textProvider(this.spec);
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
 
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 	assertAjaxCallSpecIsCorrect(ajaxCallSpy0, "text");
@@ -71,7 +84,7 @@ QUnit.test("callWhenReadyCalledWhenReady", function(assert) {
 	}
 
 	this.spec.callWhenReady = providerReady;
-	var textProvider = CORA.textProvider(this.spec);
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
 
 	assert.notOk(providerStarted);
 
@@ -86,7 +99,7 @@ QUnit.test("callWhenReadyNotCalledWhenReadyIfUnspecified", function(assert) {
 		providerStarted = true;
 	}
 
-	var textProvider = CORA.textProvider(this.spec);
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
 
 	textProvider.processFetchedTextdata(this.textAnswer);
 	assert.notOk(providerStarted);
@@ -100,14 +113,14 @@ QUnit.test("testInitEnteredTextListLinkIsNotChanged", function(assert) {
 });
 
 QUnit.test("testGetTranslation", function(assert) {
-	var textProvider = CORA.textProvider(this.spec);
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
 	textProvider.processFetchedTextdata(this.textAnswer);
 	var translation = textProvider.getTranslation("textPartSvPGroupText");
 	assert.deepEqual(translation, "Svenska");
 });
 
 QUnit.test("testGetTranslationNotFound", function(assert) {
-	var textProvider = CORA.textProvider(this.spec);
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
 	textProvider.processFetchedTextdata(this.textAnswer);
 	var translation = textProvider.getTranslation("textPartSvPGroupTextNOT");
 	assert.deepEqual(translation, "MISSING TRANSLATION FOR TEXTID:textPartSvPGroupTextNOT");

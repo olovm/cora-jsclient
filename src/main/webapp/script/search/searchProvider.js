@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016, 2017 Uppsala University Library
  *
  * This file is part of Cora.
@@ -77,13 +77,23 @@ var CORA = (function(cora) {
 			return recordTypeList;
 		}
 
-		function reload(callWhenReloadedMethodIn){
+		function reload(callWhenReloadedMethodIn) {
 			callWhenReady = callWhenReloadedMethodIn;
 			fetchRecordTypeListAndThen(processFetchedData);
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		var out = Object.freeze({
-			type: "searchProvider",
+			type : "searchProvider",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getSearchById : getSearchById,
 			getAllSearches : getAllSearches,
 			processFetchedData : processFetchedData,

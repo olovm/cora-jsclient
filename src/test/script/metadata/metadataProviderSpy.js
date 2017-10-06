@@ -23,6 +23,8 @@ var CORATEST = (function(coraTest) {
 
 		var fetchedMetadataIds = [];
 		var fetchedMetadata = [];
+		var callWhenReloadedMethod;
+		var noOfReloads = 0;
 
 		function getMetadataById(metadataId) {
 			fetchedMetadataIds.push(metadataId);
@@ -38,6 +40,7 @@ var CORATEST = (function(coraTest) {
 				} ].concat(createArrayWithRecordInfoAndNameInDataAndTextIdAndDefTextId(metadataId))
 			};
 			fetchedMetadata.push(metadata);
+			return metadata;
 		}
 		function createChildReferenceWithRefAndRepeatId1to1(refRecordType, ref, repeatId) {
 			var attribute = "metadataGroup";
@@ -68,18 +71,15 @@ var CORATEST = (function(coraTest) {
 					"name" : "type",
 					"value" : "metadataGroup"
 				}, {
-      				"name" : "createdBy",
-      				"children": [
-      					{
-      						"name": "linkedRecordType",
-      						"value": "user"
-      					},
-      					{
-      						"name": "linkedRecordId",
-      						"value": "userId"
-      					}
-      				]
-      			}, {
+					"name" : "createdBy",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "user"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "userId"
+					} ]
+				}, {
 					"name" : "updatedBy",
 					"value" : "userId"
 				} ]
@@ -133,12 +133,27 @@ var CORATEST = (function(coraTest) {
 		function getFetchedMetadata(no) {
 			return fetchedMetadata[no];
 		}
-
+		function reload(callWhenReloadedMethodIn) {
+			noOfReloads++;
+			callWhenReloadedMethod = callWhenReloadedMethodIn;
+		}
+		function getCallWhenReloadedMethod() {
+			return callWhenReloadedMethod;
+		}
+		function callWhenReloadedMethod() {
+			callWhenReloadedMethod();
+		}
+		function getNoOfReloads() {
+			return noOfReloads;
+		}
 		return Object.freeze({
 			getMetadataById : getMetadataById,
 			getFetchedMetadataId : getFetchedMetadataId,
-			getFetchedMetadata : getFetchedMetadata
-		// processFetchedMetadata : processFetchedMetadata
+			getFetchedMetadata : getFetchedMetadata,
+			reload : reload,
+			getCallWhenReloadedMethod : getCallWhenReloadedMethod,
+			getNoOfReloads : getNoOfReloads,
+			callWhenReloadedMethod : callWhenReloadedMethod
 		});
 	};
 	return coraTest;
