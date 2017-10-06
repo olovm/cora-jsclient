@@ -97,6 +97,7 @@ QUnit.test("testViewSpec", function(assert) {
 
 	assert.strictEqual(jsClientViewSpec.name, this.spec.name);
 	assert.strictEqual(jsClientViewSpec.serverAddress, this.spec.baseUrl);
+	assert.strictEqual(jsClientViewSpec.reloadProvidersMethod, jsClient.reloadProviders);
 });
 
 QUnit.test("testUploadManagerAddedToView", function(assert) {
@@ -477,30 +478,31 @@ QUnit.test("testReloadProvidersCallWhenReloaded", function(assert) {
 	this.dependencies.searchProvider = CORATEST.searchProviderSpy();
 
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-	var called = 0;
-	var callWhenReloaded = function() {
-		called++;
-	}
-	jsClient.reloadProviders(callWhenReloaded);
-	assert.strictEqual(called, 0);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	
+	assert.strictEqual(jsClientView.getReloadingProviders(), false);
+	
+	jsClient.reloadProviders();
+	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.metadataProvider.callWhenReloadedMethod();
-	assert.strictEqual(called, 0);
+	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.textProvider.callWhenReloadedMethod();
-	assert.strictEqual(called, 0);
+	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.recordTypeProvider.callWhenReloadedMethod();
-	assert.strictEqual(called, 0);
+	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.searchProvider.callWhenReloadedMethod();
-	assert.strictEqual(called, 1);
-	jsClient.reloadProviders(callWhenReloaded);
-	assert.strictEqual(called, 1);
+	assert.strictEqual(jsClientView.getReloadingProviders(), false);
+	
+	jsClient.reloadProviders();
+	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.searchProvider.callWhenReloadedMethod();
-	assert.strictEqual(called, 1);
+	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.recordTypeProvider.callWhenReloadedMethod();
-	assert.strictEqual(called, 1);
+	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.textProvider.callWhenReloadedMethod();
-	assert.strictEqual(called, 1);
+	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.metadataProvider.callWhenReloadedMethod();
-	assert.strictEqual(called, 2);
+	assert.strictEqual(jsClientView.getReloadingProviders(), false);
 });
 
 QUnit.test("testReloadProvidersOnlyOneOngoingReload", function(assert) {

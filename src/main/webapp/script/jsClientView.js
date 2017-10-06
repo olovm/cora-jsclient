@@ -31,6 +31,7 @@ var CORA = (function(cora) {
 
 		function start() {
 			mainView = createMainView();
+			addReloadProvidersButton();
 			mainView.modelObject = out;
 		}
 
@@ -61,6 +62,22 @@ var CORA = (function(cora) {
 			view.appendChild(serverAddress);
 
 			return view;
+		}
+		var reloadProvidersButton;
+		function addReloadProvidersButton() {
+			reloadProvidersButton = CORA.gui.createSpanWithClassName("menuView");
+			reloadProvidersButton.onclick = spec.reloadProvidersMethod;
+			reloadProvidersButton.textContent = "reloadProviders";
+			header.appendChild(reloadProvidersButton);
+		}
+
+		function setReloadingProviders(status) {
+			if (status) {
+				reloadProvidersButton.className = reloadProvidersButton.className + " uploading";
+			} else {
+				reloadProvidersButton.className = reloadProvidersButton.className.replace(
+						" uploading", "");
+			}
 		}
 
 		function addOpenGuiItemHandlerView(viewToAdd) {
@@ -152,7 +169,8 @@ var CORA = (function(cora) {
 			getSearchesView : getSearchesView,
 			getRecordTypesView : getRecordTypesView,
 			addErrorMessage : addErrorMessage,
-			removeFromWorkView : removeFromWorkView
+			removeFromWorkView : removeFromWorkView,
+			setReloadingProviders : setReloadingProviders
 		});
 		start();
 

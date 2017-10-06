@@ -26,7 +26,9 @@ QUnit.module("jsClientViewTest.js", {
 		};
 		this.spec = {
 			"name" : "The Client",
-			"serverAddress" : "http://epc.ub.uu.se/cora/rest/"
+			"serverAddress" : "http://epc.ub.uu.se/cora/rest/",
+			"reloadProvidersMethod" : function() {
+			}
 		};
 	},
 	afterEach : function() {
@@ -87,6 +89,32 @@ QUnit.test("testMainLayout", function(assert) {
 	assert.strictEqual(serverAddress.className, "serverAddress");
 	assert.strictEqual(serverAddress.textContent, this.spec.serverAddress);
 });
+
+QUnit.test("testReloadProvidersButton", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	var mainView = jsClientView.getView();
+	
+	var header = jsClientView.getHeader();
+	assert.strictEqual(header.childNodes.length, 3);
+	var reloadProvidersButton = header.childNodes[2];
+	assert.strictEqual(reloadProvidersButton.onclick, this.spec.reloadProvidersMethod);
+	assert.strictEqual(reloadProvidersButton.textContent, "reloadProviders");
+});
+
+QUnit.test("testReloadProvidersButtonStatus", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	var mainView = jsClientView.getView();
+	
+	var header = jsClientView.getHeader();
+	assert.strictEqual(header.childNodes.length, 3);
+	var reloadProvidersButton = header.childNodes[2];
+	assert.strictEqual(reloadProvidersButton.className, "menuView");
+	jsClientView.setReloadingProviders(true);
+	assert.strictEqual(reloadProvidersButton.className, "menuView uploading");
+	jsClientView.setReloadingProviders(false);
+	assert.strictEqual(reloadProvidersButton.className, "menuView");
+});
+
 
 QUnit.test("testGetSpec", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
@@ -174,7 +202,7 @@ QUnit.test("testAddLoginManagerView", function(assert) {
 	var someView = CORA.gui.createSpanWithClassName("loginManagerView");
 	jsClientView.addLoginManagerView(someView);
 
-	assert.strictEqual(jsClientView.getHeader().childNodes[2], someView);
+	assert.strictEqual(jsClientView.getHeader().childNodes[3], someView);
 });
 
 QUnit.test("testAddGlobalView", function(assert) {
@@ -183,7 +211,7 @@ QUnit.test("testAddGlobalView", function(assert) {
 	var someView = CORA.gui.createSpanWithClassName("globalView");
 	jsClientView.addGlobalView(someView);
 
-	assert.strictEqual(jsClientView.getHeader().childNodes[2], someView);
+	assert.strictEqual(jsClientView.getHeader().childNodes[3], someView);
 });
 
 QUnit.test("testSetErrorMessage", function(assert) {

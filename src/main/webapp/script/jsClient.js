@@ -23,7 +23,6 @@ var CORA = (function(cora) {
 		var out;
 		var NO_OF_PROVIDERS = 4;
 		var reloadingProvidersInProgress = false;
-		var callWhenProvidersReloaded;
 		var reloadedProviders = 0;
 
 		var metadataProvider = dependencies.metadataProvider;
@@ -43,7 +42,8 @@ var CORA = (function(cora) {
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			var jsClientViewSpec = {
 				"name" : spec.name,
-				"serverAddress" : spec.baseUrl
+				"serverAddress" : spec.baseUrl,
+				"reloadProvidersMethod" : out.reloadProviders
 			};
 			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 
@@ -219,15 +219,14 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function reloadProviders(callWhenReloaded) {
+		function reloadProviders() {
 			if (reloadingProvidersInProgress === false) {
-				startReloadOfProviders(callWhenReloaded);
+				startReloadOfProviders();
 			}
 		}
 
-		function startReloadOfProviders(callWhenReloaded) {
-			reloadingProvidersInProgress = true;
-			callWhenProvidersReloaded = callWhenReloaded;
+		function startReloadOfProviders() {
+			setReloadingProvidersInProgressStatus(true);
 			metadataProvider.reload(providerReloaded);
 			textProvider.reload(providerReloaded);
 			recordTypeProvider.reload(providerReloaded);
@@ -237,10 +236,14 @@ var CORA = (function(cora) {
 		function providerReloaded() {
 			reloadedProviders++;
 			if (NO_OF_PROVIDERS === reloadedProviders) {
-				callWhenProvidersReloaded();
 				reloadedProviders = 0;
-				reloadingProvidersInProgress = false;
+				setReloadingProvidersInProgressStatus(false);
 			}
+		}
+
+		function setReloadingProvidersInProgressStatus(status) {
+			reloadingProvidersInProgress = status;
+			jsClientView.setReloadingProviders(status);
 		}
 
 		function getDependencies() {
