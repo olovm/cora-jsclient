@@ -44,10 +44,10 @@ var CORA = (function(cora) {
 			return currentRecordTypeProvider.getAllRecordTypes();
 		}
 
-		function getMetadataByRecordTypeId(id){
+		function getMetadataByRecordTypeId(id) {
 			return currentRecordTypeProvider.getMetadataByRecordTypeId(id);
 		}
-		
+
 		function reload(callAfterSwitch) {
 			callWhenSwitched = callAfterSwitch;
 			var reloadingSpec = {

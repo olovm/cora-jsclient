@@ -65,7 +65,7 @@ var CORA = (function(cora) {
 
 		function sortRecordTypesFromRecordTypeProvider() {
 			var allRecordTypes = recordTypeProvider.getAllRecordTypes();
-			return cora.sortRecordTypes(allRecordTypes)
+			return cora.sortRecordTypes(allRecordTypes);
 		}
 
 		function createAndAddOpenGuiItemHandlerToSideBar() {
