@@ -74,7 +74,7 @@ var CORA = (function(cora) {
 					fetchDataFromServer(processFetchedRecord);
 				} else {
 					fetchedRecord = spec.record;
-					tryToProcessFetchedRecord(spec.record.data);
+					tryToProcessFetchedRecordData(spec.record.data);
 				}
 			}
 		}
@@ -94,6 +94,15 @@ var CORA = (function(cora) {
 
 			recordGui = createRecordGui(metadataId, copiedData);
 
+			createAndAddViewsForNew(recordGui, metadataId);
+			recordGui.initMetadataControllerStartingGui();
+			dataIsChanged = true;
+			managedGuiItem.setChanged(dataIsChanged);
+
+			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
+		}
+
+		function createAndAddViewsForNew(recordGui, metadataId) {
 			if ("true" !== spec.partOfList) {
 				addNewEditPresentationToView(recordGui, metadataId);
 				addViewPresentationToView(recordGui, metadataId);
@@ -101,11 +110,6 @@ var CORA = (function(cora) {
 			} else {
 				addListPresentationToView(recordGui, metadataId);
 			}
-			recordGui.initMetadataControllerStartingGui();
-			dataIsChanged = true;
-			managedGuiItem.setChanged(dataIsChanged);
-
-			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
 		}
 
 		function createRecordGui(metadataId, data, dataDivider) {
@@ -240,16 +244,20 @@ var CORA = (function(cora) {
 		}
 
 		function processFetchedRecord(answer) {
+			fetchedRecord = getRecordPartFromAnswer(answer);
+			var data = fetchedRecord.data;
+			processFetchedRecordData(data);
+		}
+
+		function processFetchedRecordData(data) {
 			try {
-				fetchedRecord = getRecordPartFromAnswer(answer);
-				var data = fetchedRecord.data;
-				tryToProcessFetchedRecord(data);
+				tryToProcessFetchedRecordData(data);
 			} catch (error) {
 				showErrorInView(error, data);
 			}
 		}
 
-		function tryToProcessFetchedRecord(data) {
+		function tryToProcessFetchedRecordData(data) {
 			var cData = CORA.coraData(data);
 			var dataDivider = getDataDividerFromData(cData);
 			recordTypeId = getRecordTypeIdFromData(cData);
@@ -258,6 +266,14 @@ var CORA = (function(cora) {
 			var metadataId = metadataForRecordType.metadataId;
 
 			recordGui = createRecordGui(metadataId, data, dataDivider);
+			createAndAddViewsForExisting(recordGui, metadataId);
+			recordGui.initMetadataControllerStartingGui();
+
+			addEditButtonsToView();
+			busy.hideWithEffect();
+		}
+
+		function createAndAddViewsForExisting(recordGui, metadataId) {
 			if ("true" !== spec.partOfList) {
 				if (recordHasUpdateLink()) {
 					addEditPresentationToView(recordGui, metadataId);
@@ -268,10 +284,6 @@ var CORA = (function(cora) {
 
 				addListPresentationToView(recordGui, metadataId);
 			}
-			recordGui.initMetadataControllerStartingGui();
-
-			addEditButtonsToView();
-			busy.hideWithEffect();
 		}
 
 		function getRecordPartFromAnswer(answer) {
@@ -390,16 +402,32 @@ var CORA = (function(cora) {
 			return dataIsChanged;
 		}
 
+		function getManagedGuiItem() {
+			return managedGuiItem;
+		}
+
+		function reloadForMetadataChanges() {
+			recordHandlerView.clearViews();
+			initComplete = false;
+			var data = recordGui.dataHolder.getData();
+
+			var metadataId = recordGui.getSpec().metadataId;
+			var dataDivider = recordGui.getSpec().dataDivider;
+			recordGui = createRecordGui(metadataId, data, dataDivider);
+			if ("true" === createNewRecord) {
+				createAndAddViewsForNew(recordGui, metadataId);
+			} else {
+				createAndAddViewsForExisting(recordGui, metadataId);
+			}
+			recordGui.initMetadataControllerStartingGui();
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
 
 		function getSpec() {
 			return spec;
-		}
-
-		function getManagedGuiItem() {
-			return managedGuiItem;
 		}
 
 		start();
@@ -416,7 +444,8 @@ var CORA = (function(cora) {
 			showData : showData,
 			sendUpdateDataToServer : sendUpdateDataToServer,
 			shouldRecordBeDeleted : shouldRecordBeDeleted,
-			getManagedGuiItem : getManagedGuiItem
+			getManagedGuiItem : getManagedGuiItem,
+			reloadForMetadataChanges : reloadForMetadataChanges
 		});
 	};
 	return cora;

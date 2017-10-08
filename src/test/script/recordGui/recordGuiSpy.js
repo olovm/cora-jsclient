@@ -33,9 +33,9 @@ var CORATEST = (function(coraTest) {
 		function getSpec() {
 			// return spec;
 			return {
-				"metadataId" : metadataId,
-				"data" : data,
-				"dataDivider" : dataDivider
+				"metadataId" : "recordTypeGroup",
+				"data" : {},
+				"dataDivider":"cora"
 			};
 		}
 		var pubSub = CORATEST.pubSubSpy();

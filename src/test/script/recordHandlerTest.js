@@ -864,3 +864,87 @@ QUnit.test("rightGuiCreatedPresentationMetadataIsMissingForNew", function(assert
 	assert.strictEqual(recordHandlerViewSpy.getObjectAddedToEditView(1), this.record);
 	assert.ok(recordHandlerViewSpy.getObjectAddedToEditView(2).length > 20);
 });
+
+QUnit.test("testReloadForMetadataChanges", function(assert) {
+	this.spec.createNewRecord = "false";
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+	var factoredRecordGui0 = this.dependencies.recordGuiFactory.getFactored(0);
+	var factoredRecordGuiSpec0 = this.dependencies.recordGuiFactory.getSpec(0);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+
+	assert.strictEqual(recordHandlerViewSpy.getClearViewsWasCalled(), false);
+
+	recordHandler.reloadForMetadataChanges();
+
+	assert.strictEqual(recordHandlerViewSpy.getClearViewsWasCalled(), true);
+
+	var factoredRecordGui1 = this.dependencies.recordGuiFactory.getFactored(1);
+	var factoredRecordGuiSpec1 = factoredRecordGui1.getSpec();
+
+	assert.strictEqual(factoredRecordGuiSpec1.metadataId, factoredRecordGuiSpec0.metadataId);
+	assert.strictEqual(factoredRecordGuiSpec1.dataDivider, factoredRecordGuiSpec0.dataDivider);
+	assert.stringifyEqual(factoredRecordGuiSpec1.data, factoredRecordGui0.dataHolder.getData());
+
+	 assert.strictEqual(factoredRecordGui1.getInitCalled(), 1);
+});
+
+QUnit.test("testReloadRecordHandlerViewFormFactoredAndAdded", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+	recordHandler.reloadForMetadataChanges();
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(1);
+
+	var presentationFormIdUsed = factoredRecordGui.getPresentationIdUsed(0);
+	assert.strictEqual(presentationFormIdUsed, "recordTypeFormPGroup");
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var factoredForm = factoredRecordGui.getReturnedPresentations(0);
+	assert.strictEqual(factoredForm.getView(), recordHandlerViewSpy.getAddedEditView(1));
+});
+
+QUnit.test("testReloadRecordHandlerViewNewFormFactoredAndAdded", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.specForNew);
+	recordHandler.reloadForMetadataChanges();
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(1);
+
+	var presentationFormIdUsed = factoredRecordGui.getPresentationIdUsed(0);
+	assert.strictEqual(presentationFormIdUsed, "recordTypeFormNewPGroup");
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var factoredForm = factoredRecordGui.getReturnedPresentations(0);
+	assert.strictEqual(factoredForm.getView(), recordHandlerViewSpy.getAddedEditView(1));
+});
+
+QUnit.test("testReloadRecordHandlerViewViewFactoredAndAdded", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+	recordHandler.reloadForMetadataChanges();
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(1);
+
+	var presentationViewIdUsed = factoredRecordGui.getPresentationIdUsed(1);
+	assert.strictEqual(presentationViewIdUsed, "recordTypeViewPGroup");
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var factoredView = factoredRecordGui.getReturnedPresentations(1);
+	assert.strictEqual(factoredView.getView(), recordHandlerViewSpy.getAddedShowView(1));
+});
+
+QUnit.test("testReloadRecordHandlerViewMenuFactoredAndAdded", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+	recordHandler.reloadForMetadataChanges();
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(1);
+
+	var presentationMenuViewIdUsed = factoredRecordGui.getPresentationIdUsed(2);
+	assert.strictEqual(presentationMenuViewIdUsed, "recordTypeMenuPGroup");
+
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+	var factoredView = factoredRecordGui.getReturnedPresentations(2);
+	assert.strictEqual(factoredView.getView(), managedGuiItemSpy.getAddedMenuPresentation(1));
+});
