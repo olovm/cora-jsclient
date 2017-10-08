@@ -162,3 +162,23 @@ QUnit.test("testClearViews", function(assert) {
 	assert.strictEqual(this.showView.childNodes.length, 0);
 	assert.strictEqual(this.buttonView.childNodes.length, 0);
 });
+QUnit.test("testClearDataViews", function(assert) {
+	var recordHandlerView = this.recordHandlerView;
+
+	this.recordHandlerView.addButton("text", undefined);
+
+	var someView = document.createElement("span");
+	recordHandlerView.addToEditView(someView);
+
+	var someView2 = document.createElement("span");
+	recordHandlerView.addToShowView(someView2);
+
+	assert.strictEqual(this.editView.childNodes.length, 1);
+	assert.strictEqual(this.showView.childNodes.length, 1);
+	assert.strictEqual(this.buttonView.childNodes.length, 1);
+
+	recordHandlerView.clearDataViews();
+	assert.strictEqual(this.editView.childNodes.length, 0);
+	assert.strictEqual(this.showView.childNodes.length, 0);
+	assert.strictEqual(this.buttonView.childNodes.length, 1);
+});

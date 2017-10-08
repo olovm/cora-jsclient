@@ -114,6 +114,12 @@ var CORA = (function(cora) {
 			view.addListPresentation(presentationToAdd);
 		}
 
+		function reloadForMetadataChanges() {
+			if (spec.callOnMetadataReloadMethod !== undefined) {
+				spec.callOnMetadataReloadMethod();
+			}
+		}
+
 		out = Object.freeze({
 			"type" : "managedGuiItem",
 			getDependencies : getDependencies,
@@ -130,7 +136,8 @@ var CORA = (function(cora) {
 			hideWorkView : hideWorkView,
 			showWorkView : showWorkView,
 			getListView : getListView,
-			addListPresentation : addListPresentation
+			addListPresentation : addListPresentation,
+			reloadForMetadataChanges : reloadForMetadataChanges
 		});
 
 		return out;

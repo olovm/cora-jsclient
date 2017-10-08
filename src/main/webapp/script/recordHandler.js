@@ -52,7 +52,8 @@ var CORA = (function(cora) {
 		function createManagedGuiItem() {
 			var managedGuiItemSpec = {
 				"activateMethod" : spec.jsClient.showView,
-				"removeMethod" : spec.jsClient.viewRemoved
+				"removeMethod" : spec.jsClient.viewRemoved,
+				"callOnMetadataReloadMethod" : reloadForMetadataChanges
 			};
 			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 		}
@@ -407,7 +408,7 @@ var CORA = (function(cora) {
 		}
 
 		function reloadForMetadataChanges() {
-			recordHandlerView.clearViews();
+			recordHandlerView.clearDataViews();
 			initComplete = false;
 			var data = recordGui.dataHolder.getData();
 
@@ -431,7 +432,7 @@ var CORA = (function(cora) {
 		}
 
 		start();
-		return Object.freeze({
+		var out = Object.freeze({
 			"type" : "recordHandler",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
@@ -447,6 +448,7 @@ var CORA = (function(cora) {
 			getManagedGuiItem : getManagedGuiItem,
 			reloadForMetadataChanges : reloadForMetadataChanges
 		});
+		return out;
 	};
 	return cora;
 }(CORA));

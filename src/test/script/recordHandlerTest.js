@@ -145,6 +145,8 @@ QUnit.test("initTestManagedGuiItemFactoryCalled", function(assert) {
 	var managedGuiItemSpec = managedGuiItemSpy.getSpec(0);
 	assert.strictEqual(managedGuiItemSpec.activateMethod, this.spec.jsClient.showView);
 	assert.strictEqual(managedGuiItemSpec.removeMethod, this.spec.jsClient.removeView);
+	assert.strictEqual(managedGuiItemSpec.callOnMetadataReloadMethod,
+			recordHandler.reloadForMetadataChanges);
 	assert.ok(managedGuiItemSpy !== undefined);
 });
 
@@ -878,7 +880,7 @@ QUnit.test("testReloadForMetadataChanges", function(assert) {
 
 	recordHandler.reloadForMetadataChanges();
 
-	assert.strictEqual(recordHandlerViewSpy.getClearViewsWasCalled(), true);
+	assert.strictEqual(recordHandlerViewSpy.getClearDataViewsWasCalled(), true);
 
 	var factoredRecordGui1 = this.dependencies.recordGuiFactory.getFactored(1);
 	var factoredRecordGuiSpec1 = factoredRecordGui1.getSpec();
@@ -887,7 +889,7 @@ QUnit.test("testReloadForMetadataChanges", function(assert) {
 	assert.strictEqual(factoredRecordGuiSpec1.dataDivider, factoredRecordGuiSpec0.dataDivider);
 	assert.stringifyEqual(factoredRecordGuiSpec1.data, factoredRecordGui0.dataHolder.getData());
 
-	 assert.strictEqual(factoredRecordGui1.getInitCalled(), 1);
+	assert.strictEqual(factoredRecordGui1.getInitCalled(), 1);
 });
 
 QUnit.test("testReloadRecordHandlerViewFormFactoredAndAdded", function(assert) {

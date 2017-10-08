@@ -34,6 +34,8 @@ var CORATEST = (function(coraTest) {
 		var workViewShown = 0;
 		var removed = 0;
 
+		var reloadForMetadata = 0;
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -115,6 +117,14 @@ var CORATEST = (function(coraTest) {
 		function getRemoved() {
 			return removed;
 		}
+
+		function reloadForMetadataChanges() {
+			reloadForMetadata++;
+		}
+		function getReloadForMetadataChanges() {
+			return reloadForMetadata;
+		}
+
 		var out = Object.freeze({
 			"type" : "managedGuiItemSpy",
 			getDependencies : getDependencies,
@@ -142,6 +152,8 @@ var CORATEST = (function(coraTest) {
 			remove : remove,
 			getRemoved : getRemoved,
 			getListView : getListView,
+			reloadForMetadataChanges : reloadForMetadataChanges,
+			getReloadForMetadataChanges : getReloadForMetadataChanges
 		});
 
 		return out;

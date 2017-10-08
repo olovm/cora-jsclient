@@ -479,9 +479,9 @@ QUnit.test("testReloadProvidersCallWhenReloaded", function(assert) {
 
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
-	
+
 	assert.strictEqual(jsClientView.getReloadingProviders(), false);
-	
+
 	jsClient.reloadProviders();
 	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.metadataProvider.callWhenReloadedMethod();
@@ -492,7 +492,7 @@ QUnit.test("testReloadProvidersCallWhenReloaded", function(assert) {
 	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.searchProvider.callWhenReloadedMethod();
 	assert.strictEqual(jsClientView.getReloadingProviders(), false);
-	
+
 	jsClient.reloadProviders();
 	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.searchProvider.callWhenReloadedMethod();
@@ -503,6 +503,7 @@ QUnit.test("testReloadProvidersCallWhenReloaded", function(assert) {
 	assert.strictEqual(jsClientView.getReloadingProviders(), true);
 	this.dependencies.metadataProvider.callWhenReloadedMethod();
 	assert.strictEqual(jsClientView.getReloadingProviders(), false);
+
 });
 
 QUnit.test("testReloadProvidersOnlyOneOngoingReload", function(assert) {
@@ -529,4 +530,26 @@ QUnit.test("testReloadProvidersOnlyOneOngoingReload", function(assert) {
 
 	jsClient.reloadProviders(callWhenReloaded);
 	assert.strictEqual(this.dependencies.metadataProvider.getNoOfReloads(), 2);
+});
+
+QUnit.test("testReloadProvidersReloadsManagedGuiItem", function(assert) {
+	this.dependencies.metadataProvider = CORATEST.metadataProviderSpy();
+	this.dependencies.textProvider = CORATEST.textProviderSpy();
+	this.dependencies.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	this.dependencies.searchProvider = CORATEST.searchProviderSpy();
+	
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var aGuiItem = CORATEST.managedGuiItemSpy();
+	jsClient.showView(aGuiItem);
+	var aGuiItem2 = CORATEST.managedGuiItemSpy();
+	jsClient.showView(aGuiItem2);
+	
+	jsClient.reloadProviders();
+	this.dependencies.metadataProvider.callWhenReloadedMethod();
+	this.dependencies.textProvider.callWhenReloadedMethod();
+	this.dependencies.recordTypeProvider.callWhenReloadedMethod();
+	this.dependencies.searchProvider.callWhenReloadedMethod();
+
+	assert.strictEqual(aGuiItem.getReloadForMetadataChanges(), 1);
+	assert.strictEqual(aGuiItem2.getReloadForMetadataChanges(), 1);
 });

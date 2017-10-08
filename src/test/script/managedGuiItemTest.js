@@ -32,7 +32,11 @@ QUnit.module("managedGuiItemTest.js", {
 			"activateMethod" : function() {
 			},
 			"removeMethod" : function() {
+			},
+			"callOnMetadataReloadMethod" : function() {
+
 			}
+
 		};
 	},
 	afterEach : function() {
@@ -254,4 +258,22 @@ QUnit.test("testShowWorkView", function(assert) {
 	assert.strictEqual(factoredView.getShown(), 0);
 	managedGuiItem.showWorkView();
 	assert.strictEqual(factoredView.getShown(), 1);
+});
+
+QUnit.test("testReloadForMetadataChanges", function(assert) {
+	var called = false;
+	this.spec.callOnMetadataReloadMethod = function() {
+		called = true;
+	}
+	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+	managedGuiItem.reloadForMetadataChanges();
+	
+	assert.strictEqual(called, true);
+});
+
+QUnit.test("testReloadForMetadataChangesNotSet", function(assert) {
+	this.spec.callOnMetadataReloadMethod = undefined;
+	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+	managedGuiItem.reloadForMetadataChanges();
+	assert.ok(true);
 });
