@@ -71,7 +71,7 @@ var CORA = (function(cora) {
 			showView.innerHTML = "";
 			buttonView.innerHTML = "";
 		}
-		
+
 		function clearDataViews() {
 			editView.innerHTML = "";
 			showView.innerHTML = "";
