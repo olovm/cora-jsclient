@@ -233,17 +233,24 @@ var CORA = (function(cora) {
 			searchProvider.reload(providerReloaded);
 		}
 
+		function setReloadingProvidersInProgressStatus(status) {
+			reloadingProvidersInProgress = status;
+			jsClientView.setReloadingProviders(status);
+		}
+
 		function providerReloaded() {
 			reloadedProviders++;
 			if (NO_OF_PROVIDERS === reloadedProviders) {
 				reloadedProviders = 0;
 				setReloadingProvidersInProgressStatus(false);
+				reloadOpenRecords();
 			}
 		}
 
-		function setReloadingProvidersInProgressStatus(status) {
-			reloadingProvidersInProgress = status;
-			jsClientView.setReloadingProviders(status);
+		function reloadOpenRecords() {
+			managedGuiItemList.forEach(function(managedGuiItem) {
+				managedGuiItem.reloadForMetadataChanges();
+			});
 		}
 
 		function getDependencies() {

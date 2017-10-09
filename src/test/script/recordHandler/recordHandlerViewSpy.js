@@ -23,6 +23,7 @@ var CORATEST = (function(coraTest) {
 		var addedShowViews = [];
 		var addedButtons = [];
 		var clearViewsWasCalled = false;
+		var clearDataViewsWasCalled = false;
 		var showDataFunction = null;
 		var copyAsNewFunction = null;
 		var objectsAddedToEditView = [];
@@ -47,6 +48,15 @@ var CORATEST = (function(coraTest) {
 		}
 		function clearViews() {
 			clearViewsWasCalled = true;
+		}
+		function getClearViewsWasCalled() {
+			return clearViewsWasCalled;
+		}
+		function clearDataViews() {
+			clearDataViewsWasCalled = true;
+		}
+		function getClearDataViewsWasCalled() {
+			return clearDataViewsWasCalled;
 		}
 		function setShowDataFunction(func) {
 			showDataFunction = func;
@@ -77,9 +87,6 @@ var CORATEST = (function(coraTest) {
 		function getAddedButton(number) {
 			return addedButtons[number];
 		}
-		function getClearViewsWasCalled() {
-			return clearViewsWasCalled;
-		}
 
 		function addObjectToEditView(objectToAdd) {
 			objectsAddedToEditView.push(objectToAdd);
@@ -94,6 +101,9 @@ var CORATEST = (function(coraTest) {
 			addToEditView : addToEditView,
 			addButton : addButton,
 			clearViews : clearViews,
+			getClearViewsWasCalled : getClearViewsWasCalled,
+			clearDataViews : clearDataViews,
+			getClearDataViewsWasCalled : getClearDataViewsWasCalled,
 			setShowDataFunction : setShowDataFunction,
 			setCopyAsNewFunction : setCopyAsNewFunction,
 
@@ -104,7 +114,6 @@ var CORATEST = (function(coraTest) {
 			getAddedEditView : getAddedEditView,
 			getAddedShowView : getAddedShowView,
 			getAddedButton : getAddedButton,
-			getClearViewsWasCalled : getClearViewsWasCalled,
 			addObjectToEditView : addObjectToEditView,
 			getObjectAddedToEditView : getObjectAddedToEditView
 		});
