@@ -20,8 +20,8 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pRecordLink = function(dependencies, spec) {
-		
-//		dependencies.searchProvider.getSearchById("someId")
+
+		// dependencies.searchProvider.getSearchById("someId")
 		var out;
 		var readLink;
 		var openLinkShowing = false;
@@ -43,6 +43,7 @@ var CORA = (function(cora) {
 
 			view = createBaseView();
 			createValueView();
+			createSearchHandler();
 		}
 
 		dependencies.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
@@ -59,7 +60,6 @@ var CORA = (function(cora) {
 			var linkedRecordType = cRecordTypeGroup
 					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var viewSpec = {
-				"presentationId" : "somePresentationId",
 				"mode" : "input",
 				"info" : {
 					"text" : text,
@@ -244,6 +244,29 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function createSearchHandler() {
+			var searchHandlerSpec = {
+				"metadataId" : "textSearchGroup",
+				"presentationId" : "textSearchPGroup",
+				"searchLink" : 
+//				{
+//					"requestMethod" : "GET",
+//					"rel" : "search",
+//					"url" : "http://localhost/cora/rest/record/searchResult/coraTextSearch",
+//					"accept" : "application/vnd.uub.recordList+json"
+//				}
+			{
+	              "requestMethod": "GET",
+	              "rel": "search",
+	              "url": "http://localhost:8080/therest/rest/record/searchResult/textSearch",
+	              "accept": "application/vnd.uub.recordList+json"
+	            }
+			};
+			console.log("dependencies.globalFactories:",dependencies.globalFactories);
+			var searchHandler = dependencies.globalFactories.searchHandlerFactory.factor(searchHandlerSpec);
+			view.addSearchHandlerView(searchHandler.getView());
+		}
+
 		function getView() {
 			return view.getView();
 		}
@@ -260,6 +283,10 @@ var CORA = (function(cora) {
 			dependencies.clientInstanceProvider.getJsClient().openRecordUsingReadLink(openInfo);
 		}
 
+		function setResultFromSearch() {
+
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -269,7 +296,8 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getView : getView,
 			handleMsg : handleMsg,
-			openLinkedRecord : openLinkedRecord
+			openLinkedRecord : openLinkedRecord,
+			setResultFromSearch : setResultFromSearch
 		});
 		start();
 		return out;

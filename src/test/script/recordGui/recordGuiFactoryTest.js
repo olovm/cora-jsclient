@@ -20,6 +20,9 @@
 QUnit.module("recordGuiFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
+			"globalFactories" : {
+				"searchHandlerFactory" : CORATEST.standardFactorySpy("searchHandlerSpy")
+			},
 			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
 			"metadataProvider" : new MetadataProviderStub(),
 			"textProvider" : CORATEST.textProviderStub(),
@@ -97,6 +100,9 @@ QUnit.test("testFactorDependencyPresentationFactory", function(assert) {
 	var presentationFactory = recordGui.getDependencies().presentationFactory;
 	assert.strictEqual(presentationFactory.type, "presentationFactory");
 	var dependenciesPF = presentationFactory.getDependencies();
+
+	assert.strictEqual(dependenciesPF.globalFactories, this.dependencies.globalFactories);
+
 	assert.strictEqual(dependenciesPF.clientInstanceProvider,
 			this.dependencies.clientInstanceProvider);
 	assert.strictEqual(dependenciesPF.authTokenHolder, this.dependencies.authTokenHolder);

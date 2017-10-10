@@ -22,7 +22,7 @@ var CORA = (function(cora) {
 		var out;
 		var view;
 		var childrenView;
-		var baseClassName = "pRecordLink " + spec.presentationId;
+		var baseClassName = "pRecordLink";
 		var info;
 		var openLinkedRecordButton;
 		function start() {
@@ -135,6 +135,10 @@ var CORA = (function(cora) {
 			view.removeChild(openLinkedRecordButton);
 		}
 
+		function addSearchHandlerView(searchHandlerViewToAdd) {
+			childrenView.insertAdjacentElement("afterbegin", searchHandlerViewToAdd);
+		}
+
 		out = Object.freeze({
 			"type" : "pRecordLinkView",
 			getDependencies : getDependencies,
@@ -146,7 +150,8 @@ var CORA = (function(cora) {
 			addLinkedPresentation : addLinkedPresentation,
 
 			showOpenLinkedRecord : showOpenLinkedRecord,
-			hideOpenLinkedRecord : hideOpenLinkedRecord
+			hideOpenLinkedRecord : hideOpenLinkedRecord,
+			addSearchHandlerView : addSearchHandlerView
 		});
 		start();
 		return out;

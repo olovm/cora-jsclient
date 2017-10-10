@@ -21,7 +21,11 @@
 
 QUnit.module("searchRecordHandlerFactoryTest.js", {
 	beforeEach : function() {
+		this.globalFactories = {
+			"searchHandlerFactory" : CORATEST.standardFactorySpy("searchHandlerSpy")
+		};
 		this.dependencies = {
+			"globalFactories" : this.globalFactories,
 			"searchRecordHandlerViewFactory" : CORATEST
 					.standardFactorySpy("searchRecordHandlerViewSpy"),
 			"textProvider" : CORATEST.textProviderSpy(),
@@ -77,30 +81,16 @@ QUnit.test("testFactorAddedDependenciesSearchHandlerJsClientIntegratorFactory", 
 	assert.strictEqual(shJCIntF.getDependencies().jsClient, this.spec.jsClient);
 	assert.strictEqual(shJCIntF.getDependencies().managedGuiItemFactory.type,
 			"managedGuiItemFactory");
-	assert
-			.strictEqual(shJCIntF.getDependencies().searchHandlerFactory.type,
-					"searchHandlerFactory");
+	assert.strictEqual(shJCIntF.getDependencies().searchHandlerFactory,
+			this.globalFactories.searchHandlerFactory);
 });
 
-QUnit
-		.test("testFactorAddedDependenciesSearchHandlerFactory",
-				function(assert) {
-					var searchRecordHandlerFactory = CORA
-							.searchRecordHandlerFactory(this.dependencies);
-					var searchRecordHandler = this.searchRecordHandlerFactory.factor(this.spec);
-					var addedDep = searchRecordHandler.getDependencies();
-					var searchHandlerFactory = addedDep.searchHandlerJSClientIntegratorFactory
-							.getDependencies().searchHandlerFactory;
-					assert.strictEqual(searchHandlerFactory.type, "searchHandlerFactory");
-					assert.strictEqual(searchHandlerFactory.getDependencies().recordGuiFactory,
-							this.dependencies.recordGuiFactory);
-					assert.strictEqual(searchHandlerFactory.getDependencies().textProvider,
-							this.dependencies.textProvider);
-					assert.strictEqual(searchHandlerFactory.getDependencies().ajaxCallFactory,
-							this.dependencies.ajaxCallFactory);
-					assert
-					.strictEqual(searchHandlerFactory.getDependencies().jsClient,
-							this.spec.jsClient);
-			assert.strictEqual(searchHandlerFactory.getDependencies().managedGuiItemFactory.type,
-					"managedGuiItemFactory");
-				});
+//QUnit.test("testFactorAddedDependenciesSearchHandlerFactory",
+//		function(assert) {
+//			var searchRecordHandlerFactory = CORA.searchRecordHandlerFactory(this.dependencies);
+//			var searchRecordHandler = this.searchRecordHandlerFactory.factor(this.spec);
+//			var addedDep = searchRecordHandler.getDependencies();
+//			var searchHandlerFactory = addedDep.searchHandlerJSClientIntegratorFactory
+//					.getDependencies().searchHandlerFactory;
+//			assert.strictEqual(searchHandlerFactory, this.globalFactories.searchHandlerFactory);
+//		});

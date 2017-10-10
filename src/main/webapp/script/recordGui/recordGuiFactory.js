@@ -47,6 +47,7 @@ var CORA = (function(cora) {
 			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
 
 			var dependenciesPresentationFactory = {
+				"globalFactories" : dependencies.globalFactories,
 				"clientInstanceProvider" : dependencies.clientInstanceProvider,
 				"authTokenHolder" : dependencies.authTokenHolder,
 				"metadataProvider" : metadataProvider,
@@ -58,6 +59,7 @@ var CORA = (function(cora) {
 				"dataDivider" : dataDivider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory
+			// "searchHandlerFactory" : factories.searchHandlerFactory
 			};
 			var presentationFactory = CORA.presentationFactory(dependenciesPresentationFactory);
 

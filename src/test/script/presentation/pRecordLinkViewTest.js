@@ -63,7 +63,7 @@ QUnit.test("testGetSpec", function(assert) {
 QUnit.test("testGetView", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
-	assert.strictEqual(view.className, "pRecordLink somePresentationId");
+	assert.strictEqual(view.className, "pRecordLink");
 });
 
 QUnit.test("testChildrenViewIsCreatedOnInit", function(assert) {
@@ -216,34 +216,33 @@ QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 	assert.stringifyEqual(usedSpec, expectedSpec);
 });
 
-// QUnit.test("testInfoPlaced", function(assert) {
-// var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
-// var view = pRecordLinkView.getView();
-// var infoSpan = view.childNodes[0];
-// assert.equal(infoSpan.className, "infoSpySpan");
-// });
 
 QUnit.test("testActiveInfoShownInClassName", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
 	var infoSpy = this.dependencies.infoFactory.getFactored(0);
-	assert.strictEqual(view.className, "pRecordLink somePresentationId");
+	assert.strictEqual(view.className, "pRecordLink");
 	infoSpy.setInfoLevel(0);
 	pRecordLinkView.updateClassName();
-	assert.strictEqual(view.className, "pRecordLink somePresentationId");
+	assert.strictEqual(view.className, "pRecordLink");
 	infoSpy.setInfoLevel(1);
 	pRecordLinkView.updateClassName();
-	assert.strictEqual(view.className, "pRecordLink somePresentationId infoActive");
+	assert.strictEqual(view.className, "pRecordLink infoActive");
 	infoSpy.setInfoLevel(0);
 	pRecordLinkView.updateClassName();
-	assert.strictEqual(view.className, "pRecordLink somePresentationId");
+	assert.strictEqual(view.className, "pRecordLink");
 });
 
-// QUnit.test("testInputCreated", function(assert) {
-// var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
-// var view = pRecordLinkView.getView();
-// this.dependencies.presentationFactory : CORATEST.presentationFactorySpy(),
-//	
-// assert.strictEqual(view.className, "pRecordLink somePresentationId");
-//	
-// });
+QUnit.test("testAddSearchHandlerView", function(assert) {
+	var fakeSearchHandlerView = document.createElement("SPAN");
+	var content = document.createTextNode(JSON
+			.stringify("content needed for span to be visible in chrome"));
+	fakeSearchHandlerView.appendChild(content);
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	
+	pRecordLinkView.addSearchHandlerView(fakeSearchHandlerView);
+	
+	var view = pRecordLinkView.getView();
+	var childrenView = view.childNodes[1];
+	assert.strictEqual(childrenView.childNodes[0], fakeSearchHandlerView);
+});

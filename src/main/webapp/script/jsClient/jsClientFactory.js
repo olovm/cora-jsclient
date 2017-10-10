@@ -23,7 +23,7 @@ var CORA = (function(cora) {
 		var jsClient;
 		function factor(jsClientSpec) {
 
-			var factories = {};
+			var globalFactories = {};
 
 			var authTokenHolder = dependencies.authTokenHolder;
 			var xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
@@ -65,6 +65,7 @@ var CORA = (function(cora) {
 			var uploadManager = uploadManagerFactory.factor(uploadManagerSpec);
 
 			var recordGuiFactoryDep = {
+				"globalFactories" : globalFactories,
 				"clientInstanceProvider" : providers.clientInstanceProvider,
 				"textProvider" : providers.textProvider,
 				"ajaxCallFactory" : ajaxCallFactory,
@@ -91,6 +92,7 @@ var CORA = (function(cora) {
 
 			var searchRecordHandlerViewFactory = CORA.searchRecordHandlerViewFactory({});
 			var searchRecordHandlerFactoryDep = {
+				"globalFactories" : globalFactories,
 				"searchRecordHandlerViewFactory" : searchRecordHandlerViewFactory,
 				"textProvider" : providers.textProvider,
 				"ajaxCallFactory" : ajaxCallFactory,
@@ -100,7 +102,7 @@ var CORA = (function(cora) {
 					.searchRecordHandlerFactory(searchRecordHandlerFactoryDep);
 
 			var depRecordListHandler = {
-				"factories" : factories
+				"factories" : globalFactories
 			};
 			var recordListHandlerFactory = CORA.recordListHandlerFactory(depRecordListHandler);
 
@@ -108,39 +110,45 @@ var CORA = (function(cora) {
 
 			var dependenciesRTH = {
 				"clientInstanceProvider" : providers.clientInstanceProvider,
-				"factories" : factories
+				"factories" : globalFactories
 			};
 			var recordTypeHandlerFactory = CORA.recordTypeHandlerFactory(dependenciesRTH);
 
-			factories.ajaxCallFactory = ajaxCallFactory;
-			factories.appTokenLoginFactory = appTokenLoginFactory;
-			factories.openGuiItemHandlerFactory = openGuiItemHandlerFactory;
-			factories.managedGuiItemFactory = managedGuiItemFactory;
-			factories.recordGuiFactory = recordGuiFactory;
-			factories.resultHandlerFactory = resultHandlerFactory;
-			factories.searchRecordHandlerFactory = searchRecordHandlerFactory;
-			factories.searchRecordHandlerViewFactory = searchRecordHandlerViewFactory;
-			factories.recordTypeHandlerFactory = recordTypeHandlerFactory;
-			factories.recordHandlerFactory = recordHandlerFactory;
-			factories.recordListHandlerFactory = recordListHandlerFactory;
-			factories.recordTypeHandlerViewFactory = recordTypeHandlerViewFactory;
+			var dependenciesSH = {
+				"providers" : providers,
+				"globalFactories" : globalFactories
+			};
+
+			globalFactories.searchHandlerFactory = CORA.searchHandlerFactory(dependenciesSH);
+
+			globalFactories.loginManagerFactory = loginManagerFactory;
+			globalFactories.ajaxCallFactory = ajaxCallFactory;
+			globalFactories.appTokenLoginFactory = appTokenLoginFactory;
+			globalFactories.openGuiItemHandlerFactory = openGuiItemHandlerFactory;
+			globalFactories.managedGuiItemFactory = managedGuiItemFactory;
+			globalFactories.recordGuiFactory = recordGuiFactory;
+			globalFactories.resultHandlerFactory = resultHandlerFactory;
+			globalFactories.searchRecordHandlerFactory = searchRecordHandlerFactory;
+			globalFactories.searchRecordHandlerViewFactory = searchRecordHandlerViewFactory;
+			globalFactories.recordTypeHandlerFactory = recordTypeHandlerFactory;
+			globalFactories.recordHandlerFactory = recordHandlerFactory;
+			globalFactories.recordListHandlerFactory = recordListHandlerFactory;
+			globalFactories.recordTypeHandlerViewFactory = recordTypeHandlerViewFactory;
 
 			var dep = {
-				"clientInstanceProvider" : providers.clientInstanceProvider,
-				"factories" : factories,
-				"recordTypeProvider" : providers.recordTypeProvider,
+				"providers" : providers,
+				"globalInstances" : {
+					"clientInstanceProvider" : providers.clientInstanceProvider
+				},
+				"globalFactories" : globalFactories,
+
 				"authTokenHolder" : authTokenHolder,
 				"jsClientViewFactory" : CORA.jsClientViewFactory(),
-				"ajaxCallFactory" : ajaxCallFactory,
 				"appTokenLoginFactory" : appTokenLoginFactory,
-				"loginManagerFactory" : loginManagerFactory,
 				"openGuiItemHandlerFactory" : openGuiItemHandlerFactory,
 				"uploadManager" : uploadManager,
 				"searchRecordHandlerFactory" : searchRecordHandlerFactory,
 				"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH),
-				"metadataProvider" : providers.metadataProvider,
-				"textProvider" : providers.textProvider,
-				"searchProvider" : providers.searchProvider
 			};
 
 			jsClient = CORA.jsClient(dep, jsClientSpec);

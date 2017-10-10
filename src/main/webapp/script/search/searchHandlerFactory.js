@@ -23,28 +23,30 @@ var CORA = (function(cora) {
 
 		function factor(spec) {
 			var viewDep = {
-				"textProvider" : dependencies.textProvider
+				"textProvider" : dependencies.providers.textProvider
 			};
 
 			var depRecordHandlerFactory = {
 				"recordHandlerViewFactory" : CORA.recordHandlerViewFactory(),
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"managedGuiItemFactory" : dependencies.managedGuiItemFactory
+				"ajaxCallFactory" : dependencies.globalFactories.ajaxCallFactory,
+				"recordGuiFactory" : dependencies.globalFactories.recordGuiFactory,
+				"managedGuiItemFactory" : dependencies.globalFactories.managedGuiItemFactory
 			};
 			var recordHandlerFactory = CORA.recordHandlerFactory(depRecordHandlerFactory);
 
 			var depResultHandler = {
-				"textProvider" : dependencies.textProvider,
+				"textProvider" : dependencies.providers.textProvider,
 				"recordHandlerFactory" : recordHandlerFactory
 			};
 			var dep = {
 				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(viewDep),
-				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"managedGuiItemFactory" : dependencies.globalFactories.managedGuiItemFactory,
+				"recordGuiFactory" : dependencies.globalFactories.recordGuiFactory,
+				"ajaxCallFactory" : dependencies.globalFactories.ajaxCallFactory,
 				"resultHandlerFactory" : CORA.resultHandlerFactory(depResultHandler),
-				"jsClient" : dependencies.jsClient
+//				"jsClient" : dependencies.jsClient
+				"jsClient" : dependencies.providers.clientInstanceProvider.getJsClient()
+				
 			};
 			return CORA.searchHandler(dep, spec);
 		}

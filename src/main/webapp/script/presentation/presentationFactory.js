@@ -56,6 +56,7 @@ var CORA = (function(cora) {
 					.pChildRefHandlerFactory(pChildRefHandlerFactoryDependencies);
 
 			var childDependencies = {
+				"globalFactories" : dependencies.globalFactories,
 				"clientInstanceProvider" : dependencies.clientInstanceProvider,
 				"metadataProvider" : dependencies.metadataProvider,
 				"pubSub" : dependencies.pubSub,
@@ -70,7 +71,8 @@ var CORA = (function(cora) {
 				"pVarViewFactory" : pVarViewFactory,
 				"pRecordLinkViewFactory" : pRecordLinkViewFactory,
 				"pChildRefHandlerFactory" : pChildRefHandlerFactory,
-				"authTokenHolder" : dependencies.authTokenHolder
+				"authTokenHolder" : dependencies.authTokenHolder,
+//				"searchHandlerFactory" : dependencies.searchHandlerFactory
 			};
 			var specNew = {
 				"path" : path,
