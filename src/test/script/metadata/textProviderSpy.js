@@ -22,7 +22,9 @@ var CORATEST = (function(coraTest) {
 	coraTest.textProviderSpy = function() {
 
 		var fetchedTextIds = [];
-
+		var callWhenReloadedMethod;
+		var noOfReloads = 0;
+		
 		function getTranslation(textId) {
 			fetchedTextIds.push(textId);
 			return textId;
@@ -31,10 +33,26 @@ var CORATEST = (function(coraTest) {
 		function getFetchedTextIdNo(no) {
 			return fetchedTextIds[no];
 		}
-
+		function reload(callWhenReloadedMethodIn) {
+			noOfReloads++;
+			callWhenReloadedMethod = callWhenReloadedMethodIn;
+		}
+		function getCallWhenReloadedMethod() {
+			return callWhenReloadedMethod;
+		}
+		function callWhenReloadedMethod() {
+			callWhenReloadedMethod();
+		}
+		function getNoOfReloads(){
+			return noOfReloads;
+		}
 		return Object.freeze({
 			getTranslation : getTranslation,
-			getFetchedTextIdNo : getFetchedTextIdNo
+			getFetchedTextIdNo : getFetchedTextIdNo,
+			reload : reload,
+			getCallWhenReloadedMethod : getCallWhenReloadedMethod,
+			getNoOfReloads:getNoOfReloads,
+			callWhenReloadedMethod : callWhenReloadedMethod
 		});
 	};
 	return coraTest;

@@ -56,7 +56,10 @@
 <script type="text/javascript" src="script/recordTypeHandlerView.js"></script>
 <script type="text/javascript" src="script/recordTypeHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/recordTypeProvider.js"></script>
+<script type="text/javascript" src="script/recordTypeProviderFactory.js"></script>
+<script type="text/javascript" src="script/reloadableRecordTypeProvider.js"></script>
 <script type="text/javascript" src="script/recordViewer.js"></script>
+<script type="text/javascript" src="script/sortRecordTypes.js"></script>
 
 <script type="text/javascript" src="script/search/resultHandler.js"></script>
 <script type="text/javascript" src="script/search/resultHandlerFactory.js"></script>
@@ -73,6 +76,8 @@
 <script type="text/javascript" src="script/search/searchRecordHandlerViewFactory.js"></script>
 <script type="text/javascript" src="script/search/searchRecordHandlerView.js"></script>
 <script type="text/javascript" src="script/search/searchProvider.js"></script>
+<script type="text/javascript" src="script/search/searchProviderFactory.js"></script>
+<script type="text/javascript" src="script/search/reloadableSearchProvider.js"></script>
 
 <script type="text/javascript" src="script/gui/basicGui.js"></script>
 <script type="text/javascript" src="script/gui/busy.js"></script>
@@ -113,6 +118,10 @@
 <script type="text/javascript" src="script/metadata/metadataValidator.js"></script>
 <script type="text/javascript" src="script/metadata/metadataValidatorFactory.js"></script>
 <script type="text/javascript" src="script/metadata/textProvider.js"></script>
+<script type="text/javascript" src="script/metadata/textProviderFactory.js"></script>
+<script type="text/javascript" src="script/metadata/reloadableTextProvider.js"></script>
+<script type="text/javascript" src="script/metadata/reloadableMetadataProvider.js"></script>
+<script type="text/javascript" src="script/metadata/metadataProviderFactory.js"></script>
 
 <script type="text/javascript" src="script/net/ajaxCall.js"></script>
 <script type="text/javascript" src="script/net/ajaxCallFactory.js"></script>
@@ -181,7 +190,7 @@
 			}, {
 				"text" : "localhost8089",
 				"onclickFunction" : useLocalhost2
-			} , {
+			}, {
 				"text" : "ip from url",
 				"onclickFunction" : useLocalhost3
 			} ]
@@ -281,27 +290,43 @@
 			"accept" : "application/vnd.uub.recordList+json"
 		};
 		var metadataProviderSpec = {
-			"dependencies" : dependencies,
 			"metadataListLink" : metadataListLink,
 			"textListLink" : textListLink,
 			"presentationListLink" : presentationListLink,
 			"callWhenReady" : metadataProviderReady
 		};
 
-		metadataProvider = CORA.metadataProvider(metadataProviderSpec);
+		var dependenciesMetadataProviderFactory = {
+			"ajaxCallFactory" : ajaxCallFactory
+		};
+		var dependenciesMetadataProvider = {
+			"metadataProviderFactory" : CORA
+					.metadataProviderFactory(dependenciesMetadataProviderFactory)
+		};
+		metadataProvider = CORA.reloadableMetadataProvider(dependenciesMetadataProvider,
+				metadataProviderSpec);
 
 		var textProviderSpec = {
-			"dependencies" : dependencies,
 			"textListLink" : textListLink,
 			"lang" : "sv",
 			"callWhenReady" : textProviderReady
 		};
-
-		textProvider = CORA.textProvider(textProviderSpec);
-
-		var dependenciesSearchProvider = {
+		var dependenciesTextProviderFactory = {
 			"ajaxCallFactory" : ajaxCallFactory
 		};
+		var dependenciesTextProvider = {
+			"textProviderFactory" : CORA.textProviderFactory(dependenciesTextProviderFactory)
+		};
+		textProvider = CORA.reloadableTextProvider(dependenciesTextProvider, textProviderSpec);
+
+		var dependenciesSearchProviderFactory = {
+			"ajaxCallFactory" : ajaxCallFactory
+		};
+
+		var dependenciesSearchProvider = {
+			"searchProviderFactory" : CORA.searchProviderFactory(dependenciesSearchProviderFactory)
+		};
+
 		var searchRecordListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
@@ -312,8 +337,16 @@
 			"searchRecordListLink" : searchRecordListLink,
 			"callWhenReady" : searchProviderReady
 		};
-		searchProvider = CORA.searchProvider(dependenciesSearchProvider, specSearchProvider);
+		searchProvider = CORA.reloadableSearchProvider(dependenciesSearchProvider,
+				specSearchProvider);
 
+		var dependenciesRecordTypeProviderFactory = {
+			"ajaxCallFactory" : ajaxCallFactory
+		};
+		var dependenciesReloadableRecordTypeProvider = {
+			"recordTypeProviderFactory" : CORA
+					.recordTypeProviderFactory(dependenciesRecordTypeProviderFactory)
+		};
 		var recordTypeListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
@@ -324,25 +357,26 @@
 			"recordTypeListLink" : recordTypeListLink,
 			"callWhenReady" : recordTypeProviderReady
 		};
-		recordTypeProvider = CORA.recordTypeProvider(dependencies, recordTypeProviderSpec);
+		recordTypeProvider = CORA.reloadableRecordTypeProvider(
+				dependenciesReloadableRecordTypeProvider, recordTypeProviderSpec);
 
 	}
 
 	function startJsClient() {
-		var providers ={
+		var providers = {
 			"metadataProvider" : metadataProvider,
 			"textProvider" : textProvider,
 			"searchProvider" : searchProvider,
 			"recordTypeProvider" : recordTypeProvider,
-			"clientInstanceProvider": CORA.clientInstanceProvider()
+			"clientInstanceProvider" : CORA.clientInstanceProvider()
 		};
 		jsClientSpec = {
-				"name" : "A Client",
-				"baseUrl" : baseUrl,
-				"appTokenBaseUrl" : appTokenBaseUrl
-			};
+			"name" : "A Client",
+			"baseUrl" : baseUrl,
+			"appTokenBaseUrl" : appTokenBaseUrl
+		};
 		var dependencies = {
-				"authTokenHolder":authTokenHolder
+			"authTokenHolder" : authTokenHolder
 		};
 		var jsClientFactory = CORA.jsClientFactory(providers, dependencies);
 		jsClient = jsClientFactory.factor(jsClientSpec);

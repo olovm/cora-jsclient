@@ -59,6 +59,21 @@ QUnit.module("recordTypeProviderTest.js", {
 
 QUnit.test("initCorrectRequestMade", function(assert) {
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	assert.strictEqual(provider.type, "recordTypeProvider");
+});
+
+QUnit.test("initGetDependencies", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	assert.strictEqual(provider.getDependencies(), this.dependencies);
+});
+
+QUnit.test("initGetSpec", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	assert.strictEqual(provider.getSpec(), this.spec);
+});
+
+QUnit.test("initCorrectRequestMade", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
 	var ajaxCallSpec = ajaxCallSpy.getSpec();
@@ -119,30 +134,24 @@ QUnit.test("getRecordTypeById", function(assert) {
 					"name" : "id",
 					"value" : "textSystemOne"
 				}, {
-	                "children": [
-	                    {
-	                        "name": "linkedRecordType",
-	                        "value": "recordType"
-	                    },
-	                    {
-	                        "name": "linkedRecordId",
-	                        "value": "recordType"
-	                    }
-	                ],
-	                "name": "type"
-	            }, {
-      				"name" : "createdBy",
-      				"children": [
-      					{
-      						"name": "linkedRecordType",
-      						"value": "user"
-      					},
-      					{
-      						"name": "linkedRecordId",
-      						"value": "userid"
-      					}
-      				]
-      			}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "recordType"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "recordType"
+					} ],
+					"name" : "type"
+				}, {
+					"name" : "createdBy",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "user"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "userid"
+					} ]
+				}, {
 					"name" : "updatedBy",
 					"value" : "userId"
 				}, {
@@ -321,27 +330,6 @@ QUnit.test("getAllRecordTypes", function(assert) {
 	var recordTypeList = provider.getAllRecordTypes();
 	assert.stringifyEqual(recordTypeList.length, 15);
 
-});
-
-QUnit.test("testReload", function(assert) {
-	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
-	this.answerListCall(0);
-	var providerReloaded = false;
-	function callWhenProviderHasReloaded() {
-		providerReloaded = true;
-	}
-
-	assert.notOk(providerReloaded);
-	assert.strictEqual(provider.getAllRecordTypes().length, 15);
-
-	provider.reload(callWhenProviderHasReloaded);
-
-	this.answerListCall(1);
-	assert.strictEqual(provider.getAllRecordTypes().length, 15);
-	assert.ok(providerReloaded);
-	assert.strictEqual(this.ajaxCallFactorySpy.getSpec(1).loadMethod, this.ajaxCallFactorySpy
-			.getSpec(0).loadMethod);
-	assert.strictEqual(this.ajaxCallFactorySpy.getSpec(1).loadMethod, provider.processFetchedData);
 });
 
 QUnit.test("getMetadataByRecordTypeId", function(assert) {

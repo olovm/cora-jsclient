@@ -72,6 +72,11 @@ var CORA = (function(cora) {
 			buttonView.innerHTML = "";
 		}
 
+		function clearDataViews() {
+			editView.innerHTML = "";
+			showView.innerHTML = "";
+		}
+
 		function setShowDataFunction(functionToCall) {
 			var button = createButton("Show data as JSON", functionToCall, "showData");
 			workItemView.addToolViewToToolHolder(button);
@@ -101,6 +106,7 @@ var CORA = (function(cora) {
 			addToEditView : addToEditView,
 			addButton : addButton,
 			clearViews : clearViews,
+			clearDataViews : clearDataViews,
 			addObjectToEditView : addObjectToEditView
 		});
 	};

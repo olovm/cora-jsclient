@@ -21,6 +21,10 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.searchProviderSpy = function() {
 		var searchArray = [];
+		var fetchedSearchIds = [];
+		var allSearchesNo = 0;
+		var callWhenReloadedMethod;
+		var noOfReloads = 0;
 
 		searchArray["coraTextSearch"] = {
 			"data" : {
@@ -54,18 +58,15 @@ var CORATEST = (function(coraTest) {
 										"value" : "search"
 									},
 									{
-					      				"name" : "createdBy",
-					      				"children": [
-					      					{
-					      						"name": "linkedRecordType",
-					      						"value": "user"
-					      					},
-					      					{
-					      						"name": "linkedRecordId",
-					      						"value": "141414"
-					      					}
-					      				]
-					      			},
+										"name" : "createdBy",
+										"children" : [ {
+											"name" : "linkedRecordType",
+											"value" : "user"
+										}, {
+											"name" : "linkedRecordId",
+											"value" : "141414"
+										} ]
+									},
 									{
 										"children" : [ {
 											"name" : "linkedRecordType",
@@ -185,18 +186,15 @@ var CORATEST = (function(coraTest) {
 										"value" : "search"
 									},
 									{
-					      				"name" : "createdBy",
-					      				"children": [
-					      					{
-					      						"name": "linkedRecordType",
-					      						"value": "user"
-					      					},
-					      					{
-					      						"name": "linkedRecordId",
-					      						"value": "141414"
-					      					}
-					      				]
-					      			},
+										"name" : "createdBy",
+										"children" : [ {
+											"name" : "linkedRecordType",
+											"value" : "user"
+										}, {
+											"name" : "linkedRecordId",
+											"value" : "141414"
+										} ]
+									},
 									{
 										"children" : [ {
 											"name" : "linkedRecordType",
@@ -315,18 +313,15 @@ var CORATEST = (function(coraTest) {
 										"value" : "search"
 									},
 									{
-					      				"name" : "createdBy",
-					      				"children": [
-					      					{
-					      						"name": "linkedRecordType",
-					      						"value": "user"
-					      					},
-					      					{
-					      						"name": "linkedRecordId",
-					      						"value": "141414"
-					      					}
-					      				]
-					      			},
+										"name" : "createdBy",
+										"children" : [ {
+											"name" : "linkedRecordType",
+											"value" : "user"
+										}, {
+											"name" : "linkedRecordId",
+											"value" : "141414"
+										} ]
+									},
 									{
 										"children" : [ {
 											"name" : "linkedRecordType",
@@ -415,8 +410,8 @@ var CORATEST = (function(coraTest) {
 			}
 		};
 		searchArray["searchWithoutSearchLink"] = {
-				"data" : {
-					"children" : [
+			"data" : {
+				"children" : [
 						{
 							"children" : [ {
 								"name" : "linkedRecordType",
@@ -437,46 +432,43 @@ var CORATEST = (function(coraTest) {
 						},
 						{
 							"children" : [
-								{
-									"name" : "id",
-									"value" : "searchWithoutSearchLink"
-								},
-								{
-									"name" : "type",
-									"value" : "search"
-								},
-								{
-				      				"name" : "createdBy",
-				      				"children": [
-				      					{
-				      						"name": "linkedRecordType",
-				      						"value": "user"
-				      					},
-				      					{
-				      						"name": "linkedRecordId",
-				      						"value": "141414"
-				      					}
-				      				]
-				      			},
-								{
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "system"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "cora"
-									} ],
-									"actionLinks" : {
-										"read" : {
-											"requestMethod" : "GET",
-											"rel" : "read",
-											"url" : "http://epc.ub.uu.se/therest/rest/record/system/cora",
-											"accept" : "application/vnd.uub.record+json"
-										}
+									{
+										"name" : "id",
+										"value" : "searchWithoutSearchLink"
 									},
-									"name" : "dataDivider"
-								} ],
-								"name" : "recordInfo"
+									{
+										"name" : "type",
+										"value" : "search"
+									},
+									{
+										"name" : "createdBy",
+										"children" : [ {
+											"name" : "linkedRecordType",
+											"value" : "user"
+										}, {
+											"name" : "linkedRecordId",
+											"value" : "141414"
+										} ]
+									},
+									{
+										"children" : [ {
+											"name" : "linkedRecordType",
+											"value" : "system"
+										}, {
+											"name" : "linkedRecordId",
+											"value" : "cora"
+										} ],
+										"actionLinks" : {
+											"read" : {
+												"requestMethod" : "GET",
+												"rel" : "read",
+												"url" : "http://epc.ub.uu.se/therest/rest/record/system/cora",
+												"accept" : "application/vnd.uub.record+json"
+											}
+										},
+										"name" : "dataDivider"
+									} ],
+							"name" : "recordInfo"
 						},
 						{
 							"children" : [ {
@@ -515,38 +507,40 @@ var CORATEST = (function(coraTest) {
 							},
 							"name" : "recordTypeToSearchIn"
 						} ],
-						"name" : "search"
+				"name" : "search"
+			},
+			"actionLinks" : {
+				// "search" : {
+				// "requestMethod" : "GET",
+				// "rel" : "search",
+				// "url" :
+				// "http://epc.ub.uu.se/therest/rest/record/searchResult/metadataItemCollectionSearch",
+				// "accept" : "application/vnd.uub.recordList+json"
+				// },
+				"read" : {
+					"requestMethod" : "GET",
+					"rel" : "read",
+					"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataItemCollectionSearch",
+					"accept" : "application/vnd.uub.record+json"
 				},
-				"actionLinks" : {
-//					"search" : {
-//						"requestMethod" : "GET",
-//						"rel" : "search",
-//						"url" : "http://epc.ub.uu.se/therest/rest/record/searchResult/metadataItemCollectionSearch",
-//						"accept" : "application/vnd.uub.recordList+json"
-//					},
-					"read" : {
-						"requestMethod" : "GET",
-						"rel" : "read",
-						"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataItemCollectionSearch",
-						"accept" : "application/vnd.uub.record+json"
-					},
-					"read_incoming_links" : {
-						"requestMethod" : "GET",
-						"rel" : "read_incoming_links",
-						"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataItemCollectionSearch/incomingLinks",
-						"accept" : "application/vnd.uub.recordList+json"
-					},
-					"update" : {
-						"requestMethod" : "POST",
-						"rel" : "update",
-						"contentType" : "application/vnd.uub.record+json",
-						"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataItemCollectionSearch",
-						"accept" : "application/vnd.uub.record+json"
-					}
+				"read_incoming_links" : {
+					"requestMethod" : "GET",
+					"rel" : "read_incoming_links",
+					"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataItemCollectionSearch/incomingLinks",
+					"accept" : "application/vnd.uub.recordList+json"
+				},
+				"update" : {
+					"requestMethod" : "POST",
+					"rel" : "update",
+					"contentType" : "application/vnd.uub.record+json",
+					"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataItemCollectionSearch",
+					"accept" : "application/vnd.uub.record+json"
 				}
+			}
 		};
 
 		function getSearchById(searchId) {
+			fetchedSearchIds.push(searchId);
 
 			if (searchArray[searchId] !== undefined) {
 				return searchArray[searchId];
@@ -559,6 +553,7 @@ var CORATEST = (function(coraTest) {
 		}
 
 		function getAllSearches() {
+			allSearchesNo++;
 			var searchList = [];
 			Object.keys(searchArray).forEach(function(id) {
 				searchList.push(searchArray[id]);
@@ -566,10 +561,37 @@ var CORATEST = (function(coraTest) {
 			return searchList;
 		}
 
+		function getFetchedSearchIdNo(no) {
+			return fetchedSearchIds[no];
+		}
+		function getAllSearchesFetchedNo() {
+			return allSearchesNo;
+		}
+		
+		function reload(callWhenReloadedMethodIn) {
+			noOfReloads++;
+			callWhenReloadedMethod = callWhenReloadedMethodIn;
+		}
+		function getCallWhenReloadedMethod() {
+			return callWhenReloadedMethod;
+		}
+		function callWhenReloadedMethod() {
+			callWhenReloadedMethod();
+		}
+		function getNoOfReloads(){
+			return noOfReloads;
+		}
+		
 		return Object.freeze({
 			"type" : "searchProviderSpy",
 			getSearchById : getSearchById,
-			getAllSearches : getAllSearches
+			getAllSearches : getAllSearches,
+			getFetchedSearchIdNo : getFetchedSearchIdNo,
+			getAllSearchesFetchedNo : getAllSearchesFetchedNo,
+			reload : reload,
+			getCallWhenReloadedMethod : getCallWhenReloadedMethod,
+			getNoOfReloads:getNoOfReloads,
+			callWhenReloadedMethod : callWhenReloadedMethod
 		});
 	};
 	return coraTest;

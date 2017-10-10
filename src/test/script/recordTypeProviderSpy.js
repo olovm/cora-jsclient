@@ -24,20 +24,26 @@ var CORATEST = (function(coraTest) {
 
 		var recordTypeArray = [];
 		var callWhenReloadedMethod;
+		var noOfReloads = 0;
+		var fetchedRecordTypeId = [];
 		var fetchedMetadataByRecordTypeId = [];
+		var allRecordTypesNo = 0;
 
 		function getRecordTypeById(recordTypeId) {
-			if (recordTypeArray[recordTypeId] !== undefined) {
-				return recordTypeArray[recordTypeId];
-			} else {
-
-				// default:
-				console.log("Id(" + recordTypeId + ") not found in recordTypeProviderSpy");
-				throw new Error("Id(" + recordTypeId + ") not found in recordTypeProviderSpy");
-			}
+			fetchedRecordTypeId.push(recordTypeId);
+			return recordTypeId;
+			// if (recordTypeArray[recordTypeId] !== undefined) {
+			// return recordTypeArray[recordTypeId];
+			// } else {
+			//
+			// // default:
+			// console.log("Id(" + recordTypeId + ") not found in recordTypeProviderSpy");
+			// throw new Error("Id(" + recordTypeId + ") not found in recordTypeProviderSpy");
+			// }
 		}
 
 		function getAllRecordTypes() {
+			allRecordTypesNo++;
 			var recordTypeList = [];
 			Object.keys(recordTypeArray).forEach(function(id) {
 				recordTypeList.push(recordTypeArray[id]);
@@ -49,10 +55,17 @@ var CORATEST = (function(coraTest) {
 		}
 
 		function reload(callWhenReloadedMethodIn) {
+			noOfReloads++;
 			callWhenReloadedMethod = callWhenReloadedMethodIn;
 		}
 		function getCallWhenReloadedMethod() {
 			return callWhenReloadedMethod;
+		}
+		function callWhenReloadedMethod() {
+			callWhenReloadedMethod();
+		}
+		function getNoOfReloads(){
+			return noOfReloads;
 		}
 		var metadata = {};
 		function getMetadataByRecordTypeId(recordTypeId) {
@@ -62,7 +75,13 @@ var CORATEST = (function(coraTest) {
 		function getFetchedMetadataByRecordTypeId(number) {
 			return fetchedMetadataByRecordTypeId[number];
 		}
+		function getFetchedRecordTypeId(number) {
+			return fetchedRecordTypeId[number];
+		}
 
+		function getAllRecordTypesFetchedNo() {
+			return allRecordTypesNo;
+		}
 		return Object.freeze({
 			"type" : "recordTypeProviderSpy",
 			getRecordTypeById : getRecordTypeById,
@@ -70,8 +89,12 @@ var CORATEST = (function(coraTest) {
 			processFetchedData : processFetchedData,
 			reload : reload,
 			getCallWhenReloadedMethod : getCallWhenReloadedMethod,
+			getNoOfReloads:getNoOfReloads,
+			callWhenReloadedMethod : callWhenReloadedMethod,
 			getMetadataByRecordTypeId : getMetadataByRecordTypeId,
-			getFetchedMetadataByRecordTypeId : getFetchedMetadataByRecordTypeId
+			getFetchedMetadataByRecordTypeId : getFetchedMetadataByRecordTypeId,
+			getFetchedRecordTypeId : getFetchedRecordTypeId,
+			getAllRecordTypesFetchedNo : getAllRecordTypesFetchedNo
 		});
 	};
 	return coraTest;

@@ -98,6 +98,15 @@ var CORATEST = (function(coraTest) {
 		function getAddedOpenGuiItemHandlerView(number) {
 			return openGuiItemHandlerViews[number];
 		}
+
+		var reloadingProviders = false;
+		function setReloadingProviders(status) {
+			reloadingProviders = status;
+		}
+		function getReloadingProviders() {
+			return reloadingProviders;
+		}
+
 		var out = Object.freeze({
 			"type" : "jsClientViewSpy",
 			getView : getView,
@@ -117,7 +126,10 @@ var CORATEST = (function(coraTest) {
 			removeFromWorkView : removeFromWorkView,
 			getRemovedWorkView : getRemovedWorkView,
 			addOpenGuiItemHandlerView : addOpenGuiItemHandlerView,
-			getAddedOpenGuiItemHandlerView : getAddedOpenGuiItemHandlerView
+			getAddedOpenGuiItemHandlerView : getAddedOpenGuiItemHandlerView,
+
+			setReloadingProviders : setReloadingProviders,
+			getReloadingProviders : getReloadingProviders
 		});
 
 		return out;

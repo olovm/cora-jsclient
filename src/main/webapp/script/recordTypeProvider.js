@@ -121,11 +121,6 @@ var CORA = (function(cora) {
 			return allRecordTypes;
 		}
 
-		function reload(callWhenReloadedMethodIn) {
-			callWhenReady = callWhenReloadedMethodIn;
-			fetchRecordTypeListAndThen(processFetchedData);
-		}
-
 		function getMetadataByRecordTypeId(recordTypeId) {
 			if (metadataByRecordTypeId[recordTypeId] !== undefined) {
 				return metadataByRecordTypeId[recordTypeId];
@@ -133,11 +128,21 @@ var CORA = (function(cora) {
 			throw new Error("Id(" + recordTypeId + ") not found in recordTypeProvider");
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		var out = Object.freeze({
+			"type" : "recordTypeProvider",
+			getDependencies : getDependencies,
+			getSpec : getSpec,
 			getRecordTypeById : getRecordTypeById,
 			getAllRecordTypes : getAllRecordTypes,
 			processFetchedData : processFetchedData,
-			reload : reload,
 			getMetadataByRecordTypeId : getMetadataByRecordTypeId
 		});
 		start();

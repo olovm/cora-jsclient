@@ -21,6 +21,15 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.jsClient = function(dependencies, spec) {
 		var out;
+		var NO_OF_PROVIDERS = 4;
+		var reloadingProvidersInProgress = false;
+		var reloadedProviders = 0;
+
+		var metadataProvider = dependencies.metadataProvider;
+		var textProvider = dependencies.textProvider;
+		var recordTypeProvider = dependencies.recordTypeProvider;
+		var searchProvider = dependencies.searchProvider;
+
 		var recordTypeList;
 
 		var jsClientView;
@@ -33,7 +42,8 @@ var CORA = (function(cora) {
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			var jsClientViewSpec = {
 				"name" : spec.name,
-				"serverAddress" : spec.baseUrl
+				"serverAddress" : spec.baseUrl,
+				"reloadProvidersMethod" : out.reloadProviders
 			};
 			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 
@@ -49,77 +59,13 @@ var CORA = (function(cora) {
 			jsClientView
 					.addGlobalView(dependencies.uploadManager.getManagedGuiItem().getMenuView());
 			createAndAddOpenGuiItemHandlerToSideBar();
-			addSearchesUserIsAuthorizedToUseToSideBar(dependencies.searchProvider.getAllSearches());
+			addSearchesUserIsAuthorizedToUseToSideBar(searchProvider.getAllSearches());
 			addRecordTypesToSideBar(recordTypeList);
 		}
 
 		function sortRecordTypesFromRecordTypeProvider() {
-			var allRecordTypes = dependencies.recordTypeProvider.getAllRecordTypes();
-			var recordTypeLists = sortRecordTypesIntoLists(allRecordTypes);
-			var list = [];
-			recordTypeLists.abstractList.forEach(function(parent) {
-				list.push(parent);
-				addChildrenOfCurrentParentToList(parent, recordTypeLists, list);
-			});
-
-			list = list.concat(recordTypeLists.noParentList);
-			return list;
-		}
-
-		function sortRecordTypesIntoLists(unsortedRecordTypes) {
-			var recordTypeLists = {};
-			recordTypeLists.childList = [];
-			recordTypeLists.abstractList = [];
-			recordTypeLists.noParentList = [];
-
-			unsortedRecordTypes.forEach(function(recordType) {
-				separateAbstractAndNonAbstractRecordTypes(recordTypeLists, recordType);
-			});
-			return recordTypeLists;
-		}
-
-		function separateAbstractAndNonAbstractRecordTypes(recordTypeLists, record) {
-			var cRecord = CORA.coraData(record.data);
-
-			if (isAbstract(cRecord)) {
-				recordTypeLists.abstractList.push(record);
-			} else {
-				separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record);
-			}
-		}
-
-		function separateChildrenAndStandaloneRecordTypes(recordTypeLists, cRecord, record) {
-			if (elementHasParent(cRecord)) {
-				recordTypeLists.childList.push(record);
-			} else {
-				recordTypeLists.noParentList.push(record);
-			}
-		}
-
-		function isAbstract(cRecord) {
-			return cRecord.getFirstAtomicValueByNameInData("abstract") === "true";
-		}
-
-		function addChildrenOfCurrentParentToList(parent, recordTypeLists, list) {
-			var cParent = CORA.coraData(parent.data);
-			var cRecordInfo = CORA.coraData(cParent.getFirstChildByNameInData("recordInfo"));
-
-			recordTypeLists.childList.forEach(function(child) {
-				var cChild = CORA.coraData(child.data);
-				if (isChildOfCurrentElement(cChild, cRecordInfo)) {
-					list.push(child);
-				}
-			});
-		}
-
-		function elementHasParent(cRecord) {
-			return cRecord.containsChildWithNameInData("parentId");
-		}
-
-		function isChildOfCurrentElement(cChild, cRecordInfo) {
-			var cParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
-			return cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId") === cRecordInfo
-					.getFirstAtomicValueByNameInData("id");
+			var allRecordTypes = recordTypeProvider.getAllRecordTypes();
+			return cora.sortRecordTypes(allRecordTypes);
 		}
 
 		function createAndAddOpenGuiItemHandlerToSideBar() {
@@ -170,7 +116,7 @@ var CORA = (function(cora) {
 				"baseUrl" : spec.baseUrl
 			};
 			var recordTypeHandler = dependencies.recordTypeHandlerFactory.factor(specRecord);
-			if(recordTypeHandler.hasAnyAction()){
+			if (recordTypeHandler.hasAnyAction()) {
 				jsClientView.addToRecordTypesView(recordTypeHandler.getView());
 			}
 		}
@@ -222,14 +168,14 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataForRecordTypeId(recordTypeId) {
-			return dependencies.recordTypeProvider.getMetadataByRecordTypeId(recordTypeId);
+			return recordTypeProvider.getMetadataByRecordTypeId(recordTypeId);
 		}
 
 		function afterLogin() {
-			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
+			recordTypeProvider.reload(afterRecordTypeProviderReload);
 		}
 		function afterLogout() {
-			dependencies.recordTypeProvider.reload(afterRecordTypeProviderReload);
+			recordTypeProvider.reload(afterRecordTypeProviderReload);
 		}
 
 		function afterRecordTypeProviderReload() {
@@ -273,6 +219,40 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function reloadProviders() {
+			if (reloadingProvidersInProgress === false) {
+				startReloadOfProviders();
+			}
+		}
+
+		function startReloadOfProviders() {
+			setReloadingProvidersInProgressStatus(true);
+			metadataProvider.reload(providerReloaded);
+			textProvider.reload(providerReloaded);
+			recordTypeProvider.reload(providerReloaded);
+			searchProvider.reload(providerReloaded);
+		}
+
+		function setReloadingProvidersInProgressStatus(status) {
+			reloadingProvidersInProgress = status;
+			jsClientView.setReloadingProviders(status);
+		}
+
+		function providerReloaded() {
+			reloadedProviders++;
+			if (NO_OF_PROVIDERS === reloadedProviders) {
+				reloadedProviders = 0;
+				setReloadingProvidersInProgressStatus(false);
+				reloadOpenRecords();
+			}
+		}
+
+		function reloadOpenRecords() {
+			managedGuiItemList.forEach(function(managedGuiItem) {
+				managedGuiItem.reloadForMetadataChanges();
+			});
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -295,7 +275,8 @@ var CORA = (function(cora) {
 			hideAndRemoveView : hideAndRemoveView,
 			viewRemoved : viewRemoved,
 			addGuiItem : addGuiItem,
-			openRecordUsingReadLink : openRecordUsingReadLink
+			openRecordUsingReadLink : openRecordUsingReadLink,
+			reloadProviders : reloadProviders
 		});
 		start();
 

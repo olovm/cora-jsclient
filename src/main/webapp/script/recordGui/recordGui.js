@@ -74,8 +74,6 @@ var CORA = (function(cora) {
 			pubSub : pubSub,
 			dataHolder : dataHolder,
 			jsBookkeeper : jsBookkeeper,
-			// presentationFactory : presentationFactory,
-			// getMetadataController : getMetadataController,
 			getPresentationHolder : getPresentationHolder,
 			initMetadataControllerStartingGui : initMetadataControllerStartingGui,
 			validateData : validateData
