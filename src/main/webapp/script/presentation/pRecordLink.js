@@ -38,6 +38,8 @@ var CORA = (function(cora) {
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var hasLinkedRepeatId = cMetadataElement.containsChildWithNameInData("linkedPath");
 
+		var recordIdPath = "";
+
 		var view;
 		function start() {
 
@@ -196,6 +198,7 @@ var CORA = (function(cora) {
 				recordIdPVarId = "linkedRecordIdOutputPVar";
 			}
 			createChildView("linkedRecordId", recordIdPVarId);
+			recordIdPath = calculateNewPath("linkedRecordIdTextVar");
 
 			if (hasLinkedRepeatId) {
 				createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
@@ -248,22 +251,17 @@ var CORA = (function(cora) {
 			var searchHandlerSpec = {
 				"metadataId" : "textSearchGroup",
 				"presentationId" : "textSearchPGroup",
-				"searchLink" : 
-//				{
-//					"requestMethod" : "GET",
-//					"rel" : "search",
-//					"url" : "http://localhost/cora/rest/record/searchResult/coraTextSearch",
-//					"accept" : "application/vnd.uub.recordList+json"
-//				}
-			{
-	              "requestMethod": "GET",
-	              "rel": "search",
-	              "url": "http://localhost:8080/therest/rest/record/searchResult/textSearch",
-	              "accept": "application/vnd.uub.recordList+json"
-	            }
+				"searchLink" : {
+					"requestMethod" : "GET",
+					"rel" : "search",
+					"url" : "http://localhost:8080/therest/rest/record/searchResult/textSearch",
+					"accept" : "application/vnd.uub.recordList+json"
+				},
+				"triggerWhenResultIsChoosen" : setResultFromSearch
 			};
-			console.log("dependencies.globalFactories:",dependencies.globalFactories);
-			var searchHandler = dependencies.globalFactories.searchHandlerFactory.factor(searchHandlerSpec);
+			// console.log("dependencies.globalFactories:",dependencies.globalFactories);
+			var searchHandler = dependencies.globalFactories.searchHandlerFactory
+					.factor(searchHandlerSpec);
 			view.addSearchHandlerView(searchHandler.getView());
 		}
 
@@ -283,8 +281,16 @@ var CORA = (function(cora) {
 			dependencies.clientInstanceProvider.getJsClient().openRecordUsingReadLink(openInfo);
 		}
 
-		function setResultFromSearch() {
-
+		function setResultFromSearch(openInfo) {
+			// console.log("from resultList:", openInfo);
+			var cGroup = CORA.coraData(openInfo.record.data);
+			var cRecordInfo = CORA.coraData(cGroup.getFirstChildByNameInData("recordInfo"));
+			var recordId = cRecordInfo.getFirstAtomicValueByNameInData("id");
+			var data = {
+				"data" : recordId,
+				"path" : recordIdPath
+			};
+			dependencies.pubSub.publish("setValue", data);
 		}
 
 		function getDependencies() {

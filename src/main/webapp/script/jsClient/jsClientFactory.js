@@ -118,7 +118,6 @@ var CORA = (function(cora) {
 				"providers" : providers,
 				"globalFactories" : globalFactories
 			};
-
 			globalFactories.searchHandlerFactory = CORA.searchHandlerFactory(dependenciesSH);
 
 			globalFactories.loginManagerFactory = loginManagerFactory;

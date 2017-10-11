@@ -287,6 +287,11 @@ body {
 	box-shadow: none;
 }
 
+.workArea .childrenView > .workItem {
+	display: inline;
+	position: relative;
+}
+
 .openGuiItemHandlerView .menuView div, .jsClient .openGuiItemHandlerView .menuView span,
  .recordTypesView .menuView div, .jsClient .recordTypesView .menuView span {
 	display: inline;

@@ -59,7 +59,6 @@ var CORA = (function(cora) {
 				"dataDivider" : dataDivider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory
-			// "searchHandlerFactory" : factories.searchHandlerFactory
 			};
 			var presentationFactory = CORA.presentationFactory(dependenciesPresentationFactory);
 

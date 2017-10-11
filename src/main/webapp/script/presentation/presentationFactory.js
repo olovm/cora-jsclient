@@ -71,8 +71,7 @@ var CORA = (function(cora) {
 				"pVarViewFactory" : pVarViewFactory,
 				"pRecordLinkViewFactory" : pRecordLinkViewFactory,
 				"pChildRefHandlerFactory" : pChildRefHandlerFactory,
-				"authTokenHolder" : dependencies.authTokenHolder,
-//				"searchHandlerFactory" : dependencies.searchHandlerFactory
+				"authTokenHolder" : dependencies.authTokenHolder
 			};
 			var specNew = {
 				"path" : path,
