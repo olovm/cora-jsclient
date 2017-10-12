@@ -1,5 +1,5 @@
 /*
- * Copyright 2015, 2016 Olov McKie
+ * Copyright 2015, 2016, 2017 Olov McKie
  * Copyright 2015, 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -72,7 +72,6 @@ var CORA = (function(cora) {
 			}
 		}
 
-
 		function createAttributesContainer(cMetadataElement) {
 			var attributeContainer = {};
 			var attributeReferences = cMetadataElement
@@ -88,7 +87,7 @@ var CORA = (function(cora) {
 			return attributeContainer;
 		}
 
-		function getRefValueFromAttributeRef(attributeReference){
+		function getRefValueFromAttributeRef(attributeReference) {
 			var cAttributeReference = CORA.coraData(attributeReference);
 			return cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
@@ -110,6 +109,8 @@ var CORA = (function(cora) {
 				addChild(dataFromMsg.path, dataFromMsg.metadataId, dataFromMsg.repeatId);
 			} else if (msg.endsWith("setValue")) {
 				setValue(dataFromMsg.path, dataFromMsg.data);
+			} else if (msg.endsWith("linkedData")) {
+				setActionLinks(dataFromMsg.path, dataFromMsg.data);
 			} else if (msg.endsWith("remove")) {
 				remove(dataFromMsg.path);
 			} else if (msg.endsWith("move")) {
@@ -118,6 +119,23 @@ var CORA = (function(cora) {
 		}
 
 		function getData() {
+			var dataContainerCopy = JSON.parse(JSON.stringify(dataContainer));
+			removeAllActionLinks(dataContainerCopy);
+			return dataContainerCopy;
+		}
+
+		function removeAllActionLinks(data) {
+			if (data.actionLinks !== undefined) {
+				data.actionLinks = undefined;
+			}
+			if (data.children !== undefined) {
+				data.children.forEach(function(child) {
+					removeAllActionLinks(child);
+				});
+			}
+		}
+
+		function getDataWithActionLinks() {
 			return dataContainer;
 		}
 
@@ -132,6 +150,24 @@ var CORA = (function(cora) {
 		function setValueInContainerListUsingPath(path, value) {
 			var foundContainer = findContainer(dataContainer, path);
 			foundContainer.value = value;
+		}
+		function setActionLinks(path, data) {
+			try {
+				setActionLinksInContainerListUsingPath(path, data);
+			} catch (e) {
+				throw new Error("path(" + JSON.stringify(path) + ") not found in dataHolder:" + e);
+			}
+		}
+
+		function setActionLinksInContainerListUsingPath(path, data) {
+			var foundContainer = findContainer(dataContainer, path);
+			if (messageContainsDataWithActionLinks(data)) {
+				foundContainer.actionLinks = data.actionLinks;
+			}
+		}
+
+		function messageContainsDataWithActionLinks(data) {
+			return data !== undefined && undefined !== data.actionLinks;
 		}
 
 		function findContainer(dataContainers, path) {
@@ -242,6 +278,7 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			handleMsg : handleMsg,
 			getData : getData,
+			getDataWithActionLinks : getDataWithActionLinks,
 			setValue : setValue,
 			addChild : addChild,
 			remove : remove,

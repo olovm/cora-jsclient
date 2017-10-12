@@ -333,7 +333,7 @@ var CORA = (function(cora) {
 				"fetchLatestDataFromServer" : "false",
 				"partOfList" : "false",
 				"createNewRecord" : "true",
-				"record" : recordGui.dataHolder.getData(),
+				"record" : recordGui.dataHolder.getDataWithActionLinks(),
 				"jsClient" : spec.jsClient,
 				"recordTypeRecordIdForNew" : recordTypeId
 			};
@@ -409,7 +409,7 @@ var CORA = (function(cora) {
 		function reloadForMetadataChanges() {
 			recordHandlerView.clearDataViews();
 			initComplete = false;
-			var data = recordGui.dataHolder.getData();
+			var data = recordGui.dataHolder.getDataWithActionLinks();
 
 			var metadataId = recordGui.getSpec().metadataId;
 			var dataDivider = recordGui.getSpec().dataDivider;
