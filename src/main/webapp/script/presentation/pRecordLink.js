@@ -45,7 +45,7 @@ var CORA = (function(cora) {
 
 			view = createBaseView();
 			createValueView();
-			createSearchHandler();
+			possiblyCreateSearchHandler();
 		}
 
 		dependencies.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
@@ -247,22 +247,56 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function createSearchHandler() {
+		function possiblyCreateSearchHandler() {
+			if (pRecordLinkHasLinkedSearch()) {
+				possiblyCreateSearchHandlerForPRecordLinkWithLinkedSearch();
+			}
+		}
+
+		function pRecordLinkHasLinkedSearch() {
+			return cPresentation.containsChildWithNameInData("search");
+		}
+
+		function possiblyCreateSearchHandlerForPRecordLinkWithLinkedSearch() {
+			var searchRecord = getSearchFromSearchProvider();
+			if (userCanPerfomSearch(searchRecord)) {
+				createSearchHandler(searchRecord);
+			}
+		}
+
+		function userCanPerfomSearch(searchRecord) {
+			return searchRecord.actionLinks.search !== undefined;
+		}
+
+		function getSearchFromSearchProvider() {
+			var searchLink = cPresentation.getFirstChildByNameInData("search");
+			var searchId = getRecordIdFromLink(searchLink);
+			return dependencies.providers.searchProvider.getSearchById(searchId);
+		}
+
+		function createSearchHandler(searchRecord) {
+			var cSearch = CORA.coraData(searchRecord.data);
+			var metadataLink = cSearch.getFirstChildByNameInData("metadataId");
+			var searchMetadataId = getRecordIdFromLink(metadataLink);
+			var presentationLink = cSearch.getFirstChildByNameInData("presentationId");
+			var searchPresentationId = getRecordIdFromLink(presentationLink);
+
+			var searchSearchLink = searchRecord.actionLinks.search;
+
 			var searchHandlerSpec = {
-				"metadataId" : "textSearchGroup",
-				"presentationId" : "textSearchPGroup",
-				"searchLink" : {
-					"requestMethod" : "GET",
-					"rel" : "search",
-					"url" : "http://localhost:8080/therest/rest/record/searchResult/textSearch",
-					"accept" : "application/vnd.uub.recordList+json"
-				},
+				"metadataId" : searchMetadataId,
+				"presentationId" : searchPresentationId,
+				"searchLink" : searchSearchLink,
 				"triggerWhenResultIsChoosen" : setResultFromSearch
 			};
-			// console.log("dependencies.globalFactories:",dependencies.globalFactories);
 			var searchHandler = dependencies.globalFactories.searchHandlerFactory
 					.factor(searchHandlerSpec);
 			view.addSearchHandlerView(searchHandler.getView());
+		}
+
+		function getRecordIdFromLink(metadataLink) {
+			var cMetadataLink = CORA.coraData(metadataLink);
+			return cMetadataLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function getView() {
@@ -282,7 +316,6 @@ var CORA = (function(cora) {
 		}
 
 		function setResultFromSearch(openInfo) {
-			// console.log("from resultList:", openInfo);
 			var cGroup = CORA.coraData(openInfo.record.data);
 			var cRecordInfo = CORA.coraData(cGroup.getFirstChildByNameInData("recordInfo"));
 			var recordId = cRecordInfo.getFirstAtomicValueByNameInData("id");

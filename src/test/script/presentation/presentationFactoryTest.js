@@ -30,10 +30,13 @@ QUnit.module("presentationFactoryTest.js", {
 			"globalFactories" : {
 				"searchHandlerFactory" : CORATEST.standardFactorySpy("searchHandlerSpy")
 			},
-			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
-			"metadataProvider" : this.metadataProvider,
+			"providers" : {
+				"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
+				"metadataProvider" : this.metadataProvider,
+				"textProvider" : this.textProvider,
+
+			},
 			"pubSub" : this.pubSub,
-			"textProvider" : this.textProvider,
 			"jsBookkeeper" : this.jsBookkeeper,
 			"recordTypeProvider" : this.recordTypeProvider,
 			"dataDivider" : this.dataDivider,
@@ -132,8 +135,6 @@ QUnit.test("testFactorPRecordLink", function(assert) {
 	var pRecordLink = this.newPresentationFactory.factor({}, "groupIdTwoTextChildRepeat1to5",
 			cPresentation);
 	assert.strictEqual(pRecordLink.type, "pRecordLink");
-	assert.strictEqual(pRecordLink.getDependencies().clientInstanceProvider,
-			this.dependencies.clientInstanceProvider);
 	assert.strictEqual(pRecordLink.getDependencies().pRecordLinkViewFactory.type,
 			"pRecordLinkViewFactory");
 });
@@ -145,12 +146,13 @@ QUnit.test("testFactorPRecordLinkDependencies", function(assert) {
 			cPresentation);
 	var factoredDependencies = pRecordLink.getDependencies();
 
-	assert.strictEqual(factoredDependencies.globalFactories,
-			this.dependencies.globalFactories);
+	assert.strictEqual(factoredDependencies.globalFactories, this.dependencies.globalFactories);
+	assert.strictEqual(factoredDependencies.clientInstanceProvider,
+			this.dependencies.providers.clientInstanceProvider);
 });
 
 QUnit.test("testFactorPResourceLink", function(assert) {
-	this.dependencies.textProvider = CORATEST.textProviderSpy();
+	this.dependencies.providers.textProvider = CORATEST.textProviderSpy();
 	var presentationIdToFactor = "masterPResLink";
 	var cPresentation = CORA
 			.coraData(this.metadataProvider.getMetadataById(presentationIdToFactor));
@@ -158,5 +160,5 @@ QUnit.test("testFactorPResourceLink", function(assert) {
 			cPresentation);
 	assert.strictEqual(pResourceLink.type, "pResourceLink");
 	var factoredDependecy = pResourceLink.getDependencies();
-	assert.strictEqual(factoredDependecy.metadataProvider, this.dependencies.metadataProvider);
+	assert.strictEqual(factoredDependecy.metadataProvider, this.dependencies.providers.metadataProvider);
 });

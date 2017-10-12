@@ -39,9 +39,9 @@ var CORA = (function(cora) {
 			var pRecordLinkViewFactory = CORA
 					.pRecordLinkViewFactory(pRecordLinkViewFactoryDependencies);
 			var pChildRefHandlerFactoryDependencies = {
-				"metadataProvider" : dependencies.metadataProvider,
+				"metadataProvider" : dependencies.providers.metadataProvider,
 				"pubSub" : dependencies.pubSub,
-				"textProvider" : dependencies.textProvider,
+				"textProvider" : dependencies.providers.textProvider,
 				"presentationFactory" : self,
 				"jsBookkeeper" : dependencies.jsBookkeeper,
 				"recordTypeProvider" : dependencies.recordTypeProvider,
@@ -57,10 +57,10 @@ var CORA = (function(cora) {
 
 			var childDependencies = {
 				"globalFactories" : dependencies.globalFactories,
-				"clientInstanceProvider" : dependencies.clientInstanceProvider,
-				"metadataProvider" : dependencies.metadataProvider,
+				"clientInstanceProvider" : dependencies.providers.clientInstanceProvider,
+				"metadataProvider" : dependencies.providers.metadataProvider,
 				"pubSub" : dependencies.pubSub,
-				"textProvider" : dependencies.textProvider,
+				"textProvider" : dependencies.providers.textProvider,
 				"jsBookkeeper" : dependencies.jsBookkeeper,
 				"presentationFactory" : self,
 				"xmlHttpRequestFactory" : dependencies.xmlHttpRequestFactory,

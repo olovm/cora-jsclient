@@ -39,6 +39,10 @@ QUnit.module("pRecordLinkTest.js", {
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
 		}
+		this.searchProvider = CORATEST.searchProviderSpy();
+		this.providers = {
+			"searchProvider" : this.searchProvider
+		};
 
 		this.searchHandlerFactory = CORATEST.standardFactorySpy("searchHandlerSpy");
 		this.globalFactories = {
@@ -46,6 +50,7 @@ QUnit.module("pRecordLinkTest.js", {
 		};
 
 		this.dependencies = {
+			"providers" : this.providers,
 			"globalFactories" : this.globalFactories,
 			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
 			"pRecordLinkViewFactory" : CORATEST.standardFactorySpy("pRecordLinkViewSpy"),
@@ -202,7 +207,7 @@ QUnit.test("testViewIsFactored", function(assert) {
 
 QUnit.test("testInitSearchHandlerIsFactored", function(assert) {
 	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
-			.getMetadataById("myLinkNoPresentationOfLinkedRecordPLink"));
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
 
 	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
 	var factoredSearchHandler = this.searchHandlerFactory.getFactored(0);
@@ -212,7 +217,7 @@ QUnit.test("testInitSearchHandlerIsFactored", function(assert) {
 
 QUnit.test("testInitSearchHandlerIsFactoredWithCorrectSpec", function(assert) {
 	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
-			.getMetadataById("myLinkNoPresentationOfLinkedRecordPLink"));
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
 
 	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
 	var factoredSearchHandlerSpec = this.searchHandlerFactory.getSpec(0);
@@ -223,7 +228,7 @@ QUnit.test("testInitSearchHandlerIsFactoredWithCorrectSpec", function(assert) {
 		"searchLink" : {
 			"requestMethod" : "GET",
 			"rel" : "search",
-			"url" : "http://localhost:8080/therest/rest/record/searchResult/textSearch",
+			"url" : "http://epc.ub.uu.se/therest/rest/record/searchResult/textSearch",
 			"accept" : "application/vnd.uub.recordList+json"
 		},
 		"triggerWhenResultIsChoosen" : pRecordLink.setResultFromSearch
@@ -236,7 +241,7 @@ QUnit.test("testInitSearchHandlerIsFactoredWithCorrectSpec", function(assert) {
 
 QUnit
 		.test(
-				"testInitSearchHandlerIsFactoredWithCorrectSpec",
+				"testChoiceInSearchSendsCorrectMessagesOnPubSub",
 				function(assert) {
 					this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
 							.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
@@ -366,17 +371,27 @@ QUnit
 
 				});
 
-QUnit.test("testInitSearchHandlerIsFactoredAndViewAddedToPRecordLinkView", function(assert) {
+QUnit.test("testInitSearchHandlerNOTFactoredWhenNoSearchLinkInPRecordLink", function(assert) {
 	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
 			.getMetadataById("myLinkNoPresentationOfLinkedRecordPLink"));
 
 	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
 	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
 	var factoredSearchHandler = this.searchHandlerFactory.getFactored(0);
-	var factoredSearchHandlerView = factoredSearchHandler.getView();
 
-	assert.stringifyEqual(pRecordLinkView.getAddedSearchHandlerView(0), factoredSearchHandlerView);
+	assert.stringifyEqual(factoredSearchHandler, undefined);
 });
+QUnit.test("testInitSearchHandlerNOTFactoredWhenNoRightToPerformSearch", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchNoRightToPerformSearchPLink"));
+	
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var factoredSearchHandler = this.searchHandlerFactory.getFactored(0);
+	
+	assert.stringifyEqual(factoredSearchHandler, undefined);
+});
+
 
 QUnit.test("testInitRecordLinkWithFinalValue", function(assert) {
 	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
