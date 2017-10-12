@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
+ * Copyright 2017 Olov McKie
  * 
  * This file is part of Cora.
  *
@@ -20,14 +21,28 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.dataHolderSpy = function(spec) {
 		var data = {};
-
+		var dataWithActionLinks = {
+			"actionLinks" : {
+				"read" : {
+					"requestMethod" : "GET",
+					"rel" : "read",
+					"url" : "http://localhost:8080/therest/rest/record/recordType/writtenText",
+					"accept" : "application/vnd.uub.record+json"
+				}
+			}
+		};
+		
 		function getData() {
 			return data;
 		}
 
+		function getDataWithActionLinks() {
+			return dataWithActionLinks;
+		}
 		return Object.freeze({
 			"type" : "dataHolderSpy",
-			getData : getData
+			getData : getData,
+			getDataWithActionLinks : getDataWithActionLinks
 		});
 	};
 	return coraTest;

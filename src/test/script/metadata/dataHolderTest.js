@@ -1,5 +1,5 @@
 /*
- * Copyright 2015, 2016 Olov McKie
+ * Copyright 2015, 2016, 2017 Olov McKie
  * Copyright 2015, 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -1254,6 +1254,176 @@ QUnit.test("testAddChildToGroupIdOneRecordLinkWithAttributeChild", function(asse
 	assert.stringifyEqual(dataHolder.getData(), expectedLinkedRecordType);
 });
 
+
+QUnit.test("testHandleMsgLinkedDataActionLinksGroupIdOneRecordLinkChild", function(assert) {
+	var dataFromMsg = {
+			"data" : {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "recordType"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "writtenText"
+				} ],
+				"actionLinks" : {
+					"read" : {
+						"requestMethod" : "GET",
+						"rel" : "read",
+						"url" : "http://localhost:8080/therest/rest/record/recordType/writtenText",
+						"accept" : "application/vnd.uub.record+json"
+					}
+				},
+				"name" : "type"
+			},
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "recordInfo"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData", 
+						"value" : "type"
+					} ]
+				} ]
+			}
+		};
+		var msg ="root/recordInfo/type/linkedData";
+ var dataHolder = this.newDataHolder("groupIdOneRecordLinkChild");
+ var path = {};
+ dataHolder.addChild(path, "myLink");
+ 
+ var path2 = createLinkedPathWithNameInData("myLink");
+ dataFromMsg.path=path2;
+ 
+ dataHolder.handleMsg(dataFromMsg, msg);
+ var expected = {
+ "name" : "groupIdOneRecordLinkChild",
+ "children" : [ {
+ "name" : "myLink",
+ "children" : []
+ }]};
+ assert.stringifyEqual(dataHolder.getData(), expected);
+ 
+ var expectedWithLinks = {
+		 "name" : "groupIdOneRecordLinkChild",
+		 "children" : [ {
+			 "name" : "myLink",
+			 "children" : []
+		 ,"actionLinks" : {
+			 "read" : {
+				 "requestMethod" : "GET",
+				 "rel" : "read",
+				 "url" : "http://localhost:8080/therest/rest/record/recordType/writtenText",
+				 "accept" : "application/vnd.uub.record+json"
+			 }
+		 }
+		 }]};
+ assert.stringifyEqual(dataHolder.getDataWithActionLinks(), expectedWithLinks);
+ 
+ 
+});
+QUnit.test("testHandleMsgLinkedDataActionLinksGroupIdOneRecordLinkChildNoActionLink", function(assert) {
+	var dataFromMsg = {
+			"data" : {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "recordType"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "writtenText"
+				} ],
+// "actionLinks" : {
+// "read" : {
+// "requestMethod" : "GET",
+// "rel" : "read",
+// "url" : "http://localhost:8080/therest/rest/record/recordType/writtenText",
+// "accept" : "application/vnd.uub.record+json"
+// }
+// },
+				"name" : "type"
+			},
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "recordInfo"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData", 
+						"value" : "type"
+					} ]
+				} ]
+			}
+	};
+	var msg ="root/recordInfo/type/linkedData";
+	var dataHolder = this.newDataHolder("groupIdOneRecordLinkChild");
+	var path = {};
+	dataHolder.addChild(path, "myLink");
+	
+	var path2 = createLinkedPathWithNameInData("myLink");
+	dataFromMsg.path=path2;
+	
+	dataHolder.handleMsg(dataFromMsg, msg);
+	var expected = {
+			"name" : "groupIdOneRecordLinkChild",
+			"children" : [ {
+				"name" : "myLink",
+				"children" : []
+			}]};
+	assert.stringifyEqual(dataHolder.getData(), expected);
+	assert.stringifyEqual(dataHolder.getDataWithActionLinks(), expected);
+});
+QUnit.test("testHandleMsgLinkedDataActionLinksGroupIdOneRecordLinkChildWrongPath", function(assert) {
+	var dataFromMsg = {
+			"data" : {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "recordType"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "writtenText"
+				} ],
+				"actionLinks" : {
+					"read" : {
+						"requestMethod" : "GET",
+						"rel" : "read",
+						"url" : "http://localhost:8080/therest/rest/record/recordType/writtenText",
+						"accept" : "application/vnd.uub.record+json"
+					}
+				},
+				"name" : "type"
+			},
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "recordInfo"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData", 
+						"value" : "type"
+					} ]
+				} ]
+			}
+	};
+	var msg ="root/recordInfo/type/linkedData";
+	var dataHolder = this.newDataHolder("groupIdOneRecordLinkChild");
+	var path = {};
+	dataHolder.addChild(path, "myLink");
+	
+	var path2 = createLinkedPathWithNameInData("myLinkNOT");
+	dataFromMsg.path=path2;
+	
+	assert.throws(function() {
+		dataHolder.handleMsg(dataFromMsg, msg);
+	}, "Error");
+});
+
+
 QUnit.test("testAddChildToGroupIdOneResourceLinkChild", function(assert) {
 	var dataHolder = this.newDataHolder("groupIdOneResourceLinkChild");
 	var path = {};
@@ -1266,7 +1436,7 @@ QUnit.test("testAddChildToGroupIdOneResourceLinkChild", function(assert) {
 			} ]
 	};
 	assert.stringifyEqual(dataHolder.getData(), expected);
-	
 });
+
 
 

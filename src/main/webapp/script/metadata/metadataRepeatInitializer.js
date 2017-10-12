@@ -56,7 +56,8 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData("attributeReferences");
 			attributeReferences.children.forEach(function(attributeReference) {
 				var cAttributeReference = CORA.coraData(attributeReference);
-				var refLinkedId = cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
+				var refLinkedId = cAttributeReference
+						.getFirstAtomicValueByNameInData("linkedRecordId");
 				var cCollectionVariable = getMetadataById(refLinkedId);
 				var attributeNameInData = cCollectionVariable
 						.getFirstAtomicValueByNameInData("nameInData");
@@ -169,7 +170,7 @@ var CORA = (function(cora) {
 			};
 		}
 
-		function getRefValueFromAttributeRef(attributeReference){
+		function getRefValueFromAttributeRef(attributeReference) {
 			var cAttributeReference = CORA.coraData(attributeReference);
 			return cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
@@ -213,9 +214,10 @@ var CORA = (function(cora) {
 
 		function initializeLinkedRecordType(nextLevelPath) {
 			var recordTypeStaticChildReference = createRefWithRef("linkedRecordTypeTextVar");
-			var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
+			var cRecordTypeGroup = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("linkedRecordType"));
 			var linkedRecordTypeValue = cRecordTypeGroup
-				.getFirstAtomicValueByNameInData("linkedRecordId");
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var recordTypeData = {
 				"name" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData"),
 				"children" : [ {
@@ -233,16 +235,15 @@ var CORA = (function(cora) {
 				"repeatId" : 1,
 				"children" : [ {
 					"name" : "ref",
-					"children": [ {
-						"name": "linkedRecordType",
-						"value": "metadataTextVariable"
-						},
-						{
-						"name": "linkedRecordId",
-						"value": ref
-						}
-					],"attributes": {
-						"type": "textVariable"
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : ref
+					} ],
+					"attributes" : {
+						"type" : "textVariable"
 					}
 				}, {
 					"name" : "repeatMin",
