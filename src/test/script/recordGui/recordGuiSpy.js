@@ -40,12 +40,7 @@ var CORATEST = (function(coraTest) {
 		}
 		var pubSub = CORATEST.pubSubSpy();
 
-		var dataHolderData = {};
-		var dataHolder = {
-			"getData" : function() {
-				return dataHolderData;
-			}
-		};
+		var dataHolder = CORATEST.dataHolderSpy();
 		function getPresentationHolder(presentationId, metadataIdUsedInData) {
 			presentationIdUsed.push(presentationId);
 			metadataIdsUsedInData.push(metadataIdUsedInData);

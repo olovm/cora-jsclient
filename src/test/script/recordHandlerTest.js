@@ -257,7 +257,8 @@ QUnit.test("testCopyAsNew", function(assert) {
 
 	recordHandler.copyData();
 
-	var dataHolderData = this.dependencies.recordGuiFactory.getFactored(0).dataHolder.getData();
+	var dataHolderData = this.dependencies.recordGuiFactory.getFactored(0).dataHolder
+			.getDataWithActionLinks();
 
 	var expectedSpec = {
 		"fetchLatestDataFromServer" : "false",
@@ -883,11 +884,13 @@ QUnit.test("testReloadForMetadataChanges", function(assert) {
 	assert.strictEqual(recordHandlerViewSpy.getClearDataViewsWasCalled(), true);
 
 	var factoredRecordGui1 = this.dependencies.recordGuiFactory.getFactored(1);
-	var factoredRecordGuiSpec1 = factoredRecordGui1.getSpec();
+//	var factoredRecordGuiSpec1 = factoredRecordGui1.getSpec();
+	var factoredRecordGuiSpec1 =  this.dependencies.recordGuiFactory.getSpec(1);
 
 	assert.strictEqual(factoredRecordGuiSpec1.metadataId, factoredRecordGuiSpec0.metadataId);
 	assert.strictEqual(factoredRecordGuiSpec1.dataDivider, factoredRecordGuiSpec0.dataDivider);
-	assert.stringifyEqual(factoredRecordGuiSpec1.data, factoredRecordGui0.dataHolder.getData());
+	assert.stringifyEqual(factoredRecordGuiSpec1.data, factoredRecordGui0.dataHolder
+			.getDataWithActionLinks());
 
 	assert.strictEqual(factoredRecordGui1.getInitCalled(), 1);
 });

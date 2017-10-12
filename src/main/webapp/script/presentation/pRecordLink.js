@@ -85,7 +85,10 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function handleMsg(dataFromMsg) {
+//		function handleMsg(dataFromMsg ) {
+		function handleMsg(dataFromMsg, msg) {
+//			console.log("pRecordLInk msg:",msg);
+//			console.log("pRecordLInk dataFromMsg:",dataFromMsg);
 			createLinkedRecordPresentationView(dataFromMsg);
 			manageOpeningOfLinkedRecord(dataFromMsg);
 		}
