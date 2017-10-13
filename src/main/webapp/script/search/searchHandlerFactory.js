@@ -44,9 +44,7 @@ var CORA = (function(cora) {
 				"recordGuiFactory" : dependencies.globalFactories.recordGuiFactory,
 				"ajaxCallFactory" : dependencies.globalFactories.ajaxCallFactory,
 				"resultHandlerFactory" : CORA.resultHandlerFactory(depResultHandler),
-//				"jsClient" : dependencies.jsClient
 				"jsClient" : dependencies.providers.clientInstanceProvider.getJsClient()
-				
 			};
 			return CORA.searchHandler(dep, spec);
 		}

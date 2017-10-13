@@ -22,33 +22,6 @@ var CORA = (function(cora) {
 	cora.searchHandlerJsClientIntegratorFactory = function(dependencies) {
 
 		function factor(spec) {
-//			var viewDep = {
-//				"textProvider" : dependencies.textProvider
-//			};
-//
-//			var depRecordHandlerFactory = {
-//				"recordHandlerViewFactory" : CORA.recordHandlerViewFactory(),
-//				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-//				"recordGuiFactory" : dependencies.recordGuiFactory,
-//				"managedGuiItemFactory" : dependencies.managedGuiItemFactory
-//			};
-//			var recordHandlerFactory = CORA
-//					.recordHandlerFactory(depRecordHandlerFactory);
-//
-//			var depResultHandler = {
-//				"textProvider" : dependencies.textProvider,
-//				"recordHandlerFactory" : recordHandlerFactory
-//			};
-//			var dep = {
-//				"searchHandlerViewFactory" : CORA
-//						.searchHandlerViewFactory(viewDep),
-//				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
-//				"recordGuiFactory" : dependencies.recordGuiFactory,
-//				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-//				"resultHandlerFactory" : CORA
-//						.resultHandlerFactory(depResultHandler),
-//				"jsClient" : dependencies.jsClient
-//			};
 			return CORA.searchHandlerJsClientIntegrator(dependencies, spec);
 		}
 

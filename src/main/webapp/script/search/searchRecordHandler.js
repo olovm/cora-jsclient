@@ -45,9 +45,6 @@ var CORA = (function(cora) {
 				"presentationId" : getLinkValueFromSearchRecord("presentationId")
 			};
 			addSearchLinkToSpec(searchHandlerSpec);
-			//TODO: change to searchHandlerJsClientIntegratorFactory
-			//TODO: add name to use in menu
-//			dependencies.searchHandlerFactory.factor(searchHandlerSpec);
 			dependencies.searchHandlerJSClientIntegratorFactory.factor(searchHandlerSpec);
 		}
 
