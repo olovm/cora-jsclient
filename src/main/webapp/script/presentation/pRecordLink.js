@@ -21,7 +21,6 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.pRecordLink = function(dependencies, spec) {
 
-		// dependencies.searchProvider.getSearchById("someId")
 		var out;
 		var readLink;
 		var openLinkShowing = false;
@@ -40,15 +39,18 @@ var CORA = (function(cora) {
 
 		var recordIdPath = "";
 
+		var cRecordTypeGroup = CORA.coraData(cMetadataElement
+				.getFirstChildByNameInData("linkedRecordType"));
+		var linkedRecordType = cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+
 		var view;
 		function start() {
-
+			dependencies.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
 			view = createBaseView();
 			createValueView();
 			possiblyCreateSearchHandler();
 		}
 
-		dependencies.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
 
 		function createBaseView() {
 			var textId = extractTextId("textId");
@@ -57,10 +59,6 @@ var CORA = (function(cora) {
 			var defTextId = extractTextId("defTextId");
 			var defText = textProvider.getTranslation(defTextId);
 
-			var cRecordTypeGroup = CORA.coraData(cMetadataElement
-					.getFirstChildByNameInData("linkedRecordType"));
-			var linkedRecordType = cRecordTypeGroup
-					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var viewSpec = {
 				"mode" : "input",
 				"info" : {
@@ -324,6 +322,24 @@ var CORA = (function(cora) {
 				"path" : recordIdPath
 			};
 			dependencies.pubSub.publish("setValue", data);
+			var linkedData = {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : linkedRecordType
+				}, {
+					"name" : "linkedRecordId",
+					"value" : recordId
+				} ],
+				"actionLinks" : {
+					"read" : openInfo.record.actionLinks.read
+				},
+				"name" : nameInData
+			};
+			var message = {
+				"data" : linkedData,
+				"path" : spec.path
+			};
+			dependencies.pubSub.publish("linkedData", message);
 		}
 
 		function getDependencies() {

@@ -147,14 +147,12 @@ QUnit.test("testRecordGuiFactoryDependencies", function(assert) {
 	var jsClientFactoredDep = jsClientFactory.factor(this.spec).getDependencies();
 	var factoredDep = jsClientFactoredDep.globalFactories.recordGuiFactory.getDependencies();
 
+	assert.strictEqual(factoredDep.providers, this.providers);
+
 	assert.strictEqual(factoredDep.globalFactories, jsClientFactoredDep.globalFactories);
 
-	assert.strictEqual(factoredDep.clientInstanceProvider, this.providers.clientInstanceProvider);
-	assert.strictEqual(factoredDep.textProvider, this.providers.textProvider);
 	assert.strictEqual(factoredDep.ajaxCallFactory,
 			jsClientFactoredDep.globalFactories.ajaxCallFactory);
-	assert.strictEqual(factoredDep.recordTypeProvider, this.providers.recordTypeProvider);
-	assert.strictEqual(factoredDep.metadataProvider, this.providers.metadataProvider);
 	assert.strictEqual(factoredDep.authTokenHolder, this.dependencies.authTokenHolder);
 	assert.strictEqual(factoredDep.uploadManager.type, "uploadManager");
 });

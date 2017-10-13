@@ -105,6 +105,18 @@ QUnit.test("testAddLinkedPresentation", function(assert) {
 	assert.strictEqual(view.childNodes[2], linkedPresentation);
 });
 
+QUnit.test("testAddSecondLinkedPresentationRemovesFirst", function(assert) {
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	var view = pRecordLinkView.getView();
+	
+	var linkedPresentation = document.createElement("SPAN");
+	pRecordLinkView.addLinkedPresentation(linkedPresentation);
+	
+	var linkedPresentation2 = document.createElement("SPAN");
+	pRecordLinkView.addLinkedPresentation(linkedPresentation2);
+	assert.strictEqual(view.childNodes[2], linkedPresentation2);
+});
+
 QUnit.test("testInfoSpec", function(assert) {
 	var expectedSpec = {
 		// "appendTo" : {},

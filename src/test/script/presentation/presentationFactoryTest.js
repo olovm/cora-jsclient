@@ -27,22 +27,20 @@ QUnit.module("presentationFactoryTest.js", {
 		this.dataDivider = "systemX";
 
 		this.dependencies = {
+			"providers" : {
+				"metadataProvider" : this.metadataProvider,
+				"textProvider" : this.textProvider,
+				"recordTypeProvider" : this.recordTypeProvider,
+				"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
+			},
 			"globalFactories" : {
 				"searchHandlerFactory" : CORATEST.standardFactorySpy("searchHandlerSpy")
 			},
-			"providers" : {
-				"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
-				"metadataProvider" : this.metadataProvider,
-				"textProvider" : this.textProvider,
-
-			},
 			"pubSub" : this.pubSub,
 			"jsBookkeeper" : this.jsBookkeeper,
-			"recordTypeProvider" : this.recordTypeProvider,
 			"dataDivider" : this.dataDivider,
 			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy(),
 			"pChildRefHandlerViewFactory" : CORATEST.pChildRefHandlerViewFactorySpy(),
-		// "searchHandlerFactory" : CORATEST.standardFactorySpy("searchHandlerSpy")
 		};
 		this.newPresentationFactory = CORA.presentationFactory(this.dependencies);
 
@@ -146,7 +144,12 @@ QUnit.test("testFactorPRecordLinkDependencies", function(assert) {
 			cPresentation);
 	var factoredDependencies = pRecordLink.getDependencies();
 
+	assert.strictEqual(factoredDependencies.providers, this.dependencies.providers);
+	
 	assert.strictEqual(factoredDependencies.globalFactories, this.dependencies.globalFactories);
+	
+	assert.strictEqual(factoredDependencies.recordTypeProvider,
+			this.dependencies.providers.recordTypeProvider);
 	assert.strictEqual(factoredDependencies.clientInstanceProvider,
 			this.dependencies.providers.clientInstanceProvider);
 });
@@ -160,5 +163,6 @@ QUnit.test("testFactorPResourceLink", function(assert) {
 			cPresentation);
 	assert.strictEqual(pResourceLink.type, "pResourceLink");
 	var factoredDependecy = pResourceLink.getDependencies();
-	assert.strictEqual(factoredDependecy.metadataProvider, this.dependencies.providers.metadataProvider);
+	assert.strictEqual(factoredDependecy.metadataProvider,
+			this.dependencies.providers.metadataProvider);
 });

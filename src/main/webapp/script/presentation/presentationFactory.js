@@ -24,11 +24,13 @@ var CORA = (function(cora) {
 
 		function factor(path, metadataIdUsedInData, cPresentation, cParentPresentation) {
 
+			var infoFactory = CORA.infoFactory();
+
 			var pVarViewFactoryDependencies = {
-				"infoFactory" : CORA.infoFactory()
+				"infoFactory" : infoFactory
 			};
 			var pRepeatingElementFactoryDependencies = {
-				"infoFactory" : CORA.infoFactory(),
+				"infoFactory" : infoFactory,
 				"jsBookkeeper" : dependencies.jsBookkeeper
 			};
 
@@ -44,7 +46,7 @@ var CORA = (function(cora) {
 				"textProvider" : dependencies.providers.textProvider,
 				"presentationFactory" : self,
 				"jsBookkeeper" : dependencies.jsBookkeeper,
-				"recordTypeProvider" : dependencies.recordTypeProvider,
+				"recordTypeProvider" : dependencies.providers.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"pRepeatingElementFactory" : CORA
@@ -56,6 +58,7 @@ var CORA = (function(cora) {
 					.pChildRefHandlerFactory(pChildRefHandlerFactoryDependencies);
 
 			var childDependencies = {
+				"providers" : dependencies.providers,
 				"globalFactories" : dependencies.globalFactories,
 				"clientInstanceProvider" : dependencies.providers.clientInstanceProvider,
 				"metadataProvider" : dependencies.providers.metadataProvider,
@@ -65,7 +68,7 @@ var CORA = (function(cora) {
 				"presentationFactory" : self,
 				"xmlHttpRequestFactory" : dependencies.xmlHttpRequestFactory,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"recordTypeProvider" : dependencies.recordTypeProvider,
+				"recordTypeProvider" : dependencies.providers.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"pVarViewFactory" : pVarViewFactory,

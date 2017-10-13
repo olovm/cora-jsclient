@@ -519,3 +519,12 @@ body {
 	right: 1rem;
 	color: gray;
 }
+
+.searchResultHolder {
+	display: block;
+}
+.pRecordLink  .searchResultHolder {
+	border: dotted;
+	max-height: 30em;
+	overflow: auto;
+}

@@ -65,13 +65,10 @@ var CORA = (function(cora) {
 			var uploadManager = uploadManagerFactory.factor(uploadManagerSpec);
 
 			var recordGuiFactoryDep = {
+				"providers" : providers,
 				"globalFactories" : globalFactories,
-				"clientInstanceProvider" : providers.clientInstanceProvider,
-				"textProvider" : providers.textProvider,
 				"ajaxCallFactory" : ajaxCallFactory,
-				"metadataProvider" : providers.metadataProvider,
 				"authTokenHolder" : authTokenHolder,
-				"recordTypeProvider" : providers.recordTypeProvider,
 				"uploadManager" : uploadManager
 			};
 			var recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);

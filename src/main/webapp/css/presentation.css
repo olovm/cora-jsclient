@@ -416,6 +416,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 .jsClient .workView .recordViewer {
 	flex: 1 0 calc(100% - 2px);
 	border: 1px dotted green;
+	position: relative;
 }
 
 .jsClient .workView .repeatingElement .compactChildStyle {
