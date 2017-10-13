@@ -19,8 +19,8 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordGuiFactory = function(dependencies) {
-		var metadataProvider = dependencies.metadataProvider;
-		var textProvider = dependencies.textProvider;
+		var metadataProvider = dependencies.providers.metadataProvider;
+		var textProvider = dependencies.providers.textProvider;
 
 		var self;
 
@@ -47,14 +47,12 @@ var CORA = (function(cora) {
 			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
 
 			var dependenciesPresentationFactory = {
-				"clientInstanceProvider" : dependencies.clientInstanceProvider,
+				"providers" : dependencies.providers,
+				"globalFactories" : dependencies.globalFactories,
 				"authTokenHolder" : dependencies.authTokenHolder,
-				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub,
-				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper,
 				"recordGuiFactory" : self,
-				"recordTypeProvider" : dependencies.recordTypeProvider,
 				"dataDivider" : dataDivider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory
@@ -62,20 +60,20 @@ var CORA = (function(cora) {
 			var presentationFactory = CORA.presentationFactory(dependenciesPresentationFactory);
 
 			var dependenciesCF = {
-				"metadataProvider" : dependencies.metadataProvider,
+				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub
 			};
 			var metadataControllerFactory = CORA.metadataControllerFactory(dependenciesCF);
 
 			var dependenciesMV = {
-				"metadataProvider" : dependencies.metadataProvider,
+				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub
 			};
 			var metadataValidatorFactory = CORA.metadataValidatorFactory(dependenciesMV);
 
 			var dependenciesRG = {
-				"metadataProvider" : dependencies.metadataProvider,
-				"textProvider" : dependencies.textProvider,
+				"metadataProvider" : metadataProvider,
+				"textProvider" : textProvider,
 				"pubSub" : pubSub,
 				"dataHolder" : dataHolder,
 				"jsBookkeeper" : jsBookkeeper,

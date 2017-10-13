@@ -32,6 +32,8 @@ var CORATEST = (function(coraTest) {
 		var showOpenLinkedRecordCalled = 0;
 		var hideOpenLinkedRecordCalled = 0;
 
+		var addedSearchHandlerViews = [];
+
 		function getView() {
 			return view;
 		}
@@ -77,6 +79,13 @@ var CORATEST = (function(coraTest) {
 			return hideOpenLinkedRecordCalled;
 		}
 
+		function addSearchHandlerView(searchHandlerToAdd) {
+			addedSearchHandlerViews.push(searchHandlerToAdd);
+		}
+		function getAddedSearchHandlerView(number) {
+			return addedSearchHandlerViews[number];
+		}
+
 		var out = Object.freeze({
 			"type" : "pRecordLinkViewSpy",
 			getDependencies : getDependencies,
@@ -92,7 +101,10 @@ var CORATEST = (function(coraTest) {
 			showOpenLinkedRecord : showOpenLinkedRecord,
 			getShowOpenLinkedRecord : getShowOpenLinkedRecord,
 			hideOpenLinkedRecord : hideOpenLinkedRecord,
-			getHideOpenLinkedRecord : getHideOpenLinkedRecord
+			getHideOpenLinkedRecord : getHideOpenLinkedRecord,
+
+			addSearchHandlerView : addSearchHandlerView,
+			getAddedSearchHandlerView : getAddedSearchHandlerView
 		});
 		return out;
 	};

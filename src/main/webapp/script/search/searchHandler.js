@@ -20,26 +20,12 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.searchHandler = function(dependencies, spec) {
-		var menuView;
 		var view;
-		var managedGuiItem;
 		var recordGui;
 
 		function start() {
-			menuView = createMenuView();
 			view = createView();
-			managedGuiItem = createManagedGuiItem();
-			managedGuiItem.addMenuPresentation(menuView);
-			managedGuiItem.addWorkPresentation(view.getView());
-			addSearchToSearchRecordHandler(managedGuiItem);
-			showSearchInJsClient(managedGuiItem);
 			tryToCreateSearchForm();
-		}
-
-		function createMenuView() {
-			var createdView = CORA.gui.createSpanWithClassName("");
-			createdView.textContent = "search";
-			return createdView;
 		}
 
 		function createView() {
@@ -47,22 +33,6 @@ var CORA = (function(cora) {
 				"searchMethod" : search
 			};
 			return dependencies.searchHandlerViewFactory.factor(viewSpec);
-		}
-
-		function createManagedGuiItem() {
-			var managedGuiItemSpec = {
-				"activateMethod" : dependencies.jsClient.showView,
-				"removeMethod" : dependencies.jsClient.viewRemoved
-			};
-			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-		}
-
-		function addSearchToSearchRecordHandler(managedGuiItemToAdd) {
-			dependencies.jsClient.addGuiItem(managedGuiItemToAdd);
-		}
-
-		function showSearchInJsClient(managedGuiItemToShow) {
-			dependencies.jsClient.showView(managedGuiItemToShow);
 		}
 
 		function tryToCreateSearchForm() {
@@ -121,22 +91,34 @@ var CORA = (function(cora) {
 		function handleSearchResult(answerIn) {
 			var resultHandlerSpec = {
 				"dataList" : JSON.parse(answerIn.responseText).dataList,
-				"jsClient" : dependencies.jsClient
+				"jsClient" : dependencies.jsClient,
+				"triggerWhenResultIsChoosen" : spec.triggerWhenResultIsChoosen
 			};
 			var resultHandler = dependencies.resultHandlerFactory.factor(resultHandlerSpec);
 			view.clearResultHolder();
 			view.addSearchResultToSearchResultHolder(resultHandler.getView());
 		}
 
+		function getView() {
+			return view.getView();
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
+
+		function getSpec() {
+			return spec;
+		}
+
 		start();
 		return Object.freeze({
 			"type" : "searchHandler",
 			getDependencies : getDependencies,
+			getSpec : getSpec,
 			search : search,
-			handleSearchResult : handleSearchResult
+			handleSearchResult : handleSearchResult,
+			getView : getView
 		});
 	};
 	return cora;

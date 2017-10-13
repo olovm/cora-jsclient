@@ -61,18 +61,19 @@ var CORA = (function(cora) {
 		}
 
 		function openRecord(openInfo) {
-			var recordHandlerSpec = {
-				"fetchLatestDataFromServer" : "true",
-				"partOfList" : "false",
-				"createNewRecord" : openInfo.createNewRecord,
-				"record" : openInfo.record,
-				"jsClient" : dependencies.jsClient
-			};
-			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
-			dependencies.jsClient.addGuiItem(recordHandlerNew.getManagedGuiItem());
-			if (openInfo.loadInBackground !== "true") {
-				dependencies.jsClient.showView(recordHandlerNew.getManagedGuiItem());
+			if (spec.triggerWhenResultIsChoosen !== undefined) {
+				spec.triggerWhenResultIsChoosen(openInfo);
+			} else {
+				openRecordUsingJsClient(openInfo);
 			}
+		}
+
+		function openRecordUsingJsClient(openInfoIn) {
+			var openInfo = {
+				"readLink" : openInfoIn.record.actionLinks.read,
+				"loadInBackground" : openInfoIn.loadInBackground
+			};
+			dependencies.jsClient.openRecordUsingReadLink(openInfo);
 		}
 
 		function getDependencies() {

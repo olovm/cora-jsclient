@@ -117,52 +117,40 @@ QUnit.test("testInitViewAddsRecordHandlersListViewForEachResultItem", function(a
 
 QUnit.test("testOpenRecord", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-	var record = {};
+	var record = {
+			"actionLinks" : {
+				"read" : "thisIsAFakedRecordLink"
+			}
+		};
 	var openInfo = {
-		"createNewRecord" : "false",
-		"record" : record,
-		"loadInBackground" : "false"
-	};
-	resultHandler.openRecord(openInfo);
-
-	var recordHandlerSpec = this.dependencies.recordHandlerFactory.getSpec(38);
-	assert.strictEqual(recordHandlerSpec.fetchLatestDataFromServer, "true");
-	assert.strictEqual(recordHandlerSpec.partOfList, "false");
-	assert.strictEqual(recordHandlerSpec.createNewRecord, "false");
-	assert.strictEqual(recordHandlerSpec.record, record);
-	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
-
-	var recordHandler = this.dependencies.recordHandlerFactory.getFactored(38);
-	assert.strictEqual(this.dependencies.jsClient.getAddedGuiItem(0), recordHandler
-			.getManagedGuiItem());
-	assert.strictEqual(this.dependencies.jsClient.getViewShowingInWorkView(0), recordHandler
-			.getManagedGuiItem());
-
-	assert.strictEqual(this.dependencies.recordHandlerFactory.getSpec(39), undefined);
-});
-QUnit.test("testOpenRecordInBackground", function(assert) {
-	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-	var record = {};
-	var openInfo = {
-		"createNewRecord" : "false",
 		"record" : record,
 		"loadInBackground" : "true"
 	};
 	resultHandler.openRecord(openInfo);
+	var jsClient = this.dependencies.jsClient;
+	var expectedOpenInfo = {
+		"readLink" : "thisIsAFakedRecordLink",
+		"loadInBackground" : "false"
+	};
+	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink, expectedOpenInfo.readLink);
+	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, openInfo.loadInBackground);
+});
 
-	var recordHandlerSpec = this.dependencies.recordHandlerFactory.getSpec(38);
-	assert.strictEqual(recordHandlerSpec.fetchLatestDataFromServer, "true");
-	assert.strictEqual(recordHandlerSpec.partOfList, "false");
-	assert.strictEqual(recordHandlerSpec.createNewRecord, "false");
-	assert.strictEqual(recordHandlerSpec.record, record);
-	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
-
-	var recordHandler = this.dependencies.recordHandlerFactory.getFactored(38);
-	assert.strictEqual(this.dependencies.jsClient.getAddedGuiItem(0), recordHandler
-			.getManagedGuiItem());
-	assert.strictEqual(this.dependencies.jsClient.getViewShowingInWorkView(0), undefined);
-
-	assert.strictEqual(this.dependencies.recordHandlerFactory.getSpec(39), undefined);
+QUnit.test("testOpenRecordTriggerWhenResultIsChoosen", function(assert) {
+	var choosenOpenInfo;
+	function choosen(openInfoIn) {
+		choosenOpenInfo = openInfoIn;
+	}
+	this.spec.triggerWhenResultIsChoosen = choosen;
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+	var record = {};
+	var openInfo = {
+		"record" : record,
+		"loadInBackground" : "false"
+	};
+	resultHandler.openRecord(openInfo);
+	assert.strictEqual(this.dependencies.recordHandlerFactory.getSpec(38), undefined);
+	assert.strictEqual(choosenOpenInfo, openInfo);
 });
 
 QUnit.test("testGetViewIsPassedOnToView", function(assert) {

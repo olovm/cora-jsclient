@@ -39,8 +39,19 @@ QUnit.module("pRecordLinkTest.js", {
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
 		}
+		this.searchProvider = CORATEST.searchProviderSpy();
+		this.providers = {
+			"searchProvider" : this.searchProvider
+		};
+
+		this.searchHandlerFactory = CORATEST.standardFactorySpy("searchHandlerSpy");
+		this.globalFactories = {
+			"searchHandlerFactory" : this.searchHandlerFactory
+		};
 
 		this.dependencies = {
+			"providers" : this.providers,
+			"globalFactories" : this.globalFactories,
 			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
 			"pRecordLinkViewFactory" : CORATEST.standardFactorySpy("pRecordLinkViewSpy"),
 			"metadataProvider" : new MetadataProviderStub(),
@@ -181,7 +192,6 @@ QUnit.test("testViewIsFactored", function(assert) {
 	var factoredViewSpec = this.dependencies.pRecordLinkViewFactory.getSpec(0);
 
 	var expectedViewSpec = {
-		"presentationId" : "somePresentationId",
 		"mode" : "input",
 		"info" : {
 			"text" : "myLinkText",
@@ -193,8 +203,217 @@ QUnit.test("testViewIsFactored", function(assert) {
 		"pRecordLink" : pRecordLink
 	};
 	assert.stringifyEqual(factoredViewSpec, expectedViewSpec);
-
 });
+
+QUnit.test("testInitSearchHandlerIsFactored", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
+
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var factoredSearchHandler = this.searchHandlerFactory.getFactored(0);
+
+	assert.strictEqual(factoredSearchHandler.type, "searchHandlerSpy");
+});
+
+QUnit.test("testInitSearchHandlerIsFactoredWithCorrectSpec", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
+
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var factoredSearchHandlerSpec = this.searchHandlerFactory.getSpec(0);
+
+	var expectedSearchHandlerSpec = {
+		"metadataId" : "textSearchGroup",
+		"presentationId" : "textSearchPGroup",
+		"searchLink" : {
+			"requestMethod" : "GET",
+			"rel" : "search",
+			"url" : "http://epc.ub.uu.se/therest/rest/record/searchResult/textSearch",
+			"accept" : "application/vnd.uub.recordList+json"
+		},
+		"triggerWhenResultIsChoosen" : pRecordLink.setResultFromSearch
+	};
+	assert.stringifyEqual(factoredSearchHandlerSpec, expectedSearchHandlerSpec);
+	assert.strictEqual(factoredSearchHandlerSpec.triggerWhenResultIsChoosen,
+			expectedSearchHandlerSpec.triggerWhenResultIsChoosen);
+	assert.ok(pRecordLink.setResultFromSearch);
+});
+
+QUnit
+		.test(
+				"testChoiceInSearchSendsCorrectMessagesOnPubSub",
+				function(assert) {
+					this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+							.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
+					var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+					var recordType ="coraText"; 
+						var recordId ="writtenTextGroupText";
+					var openInfo = {
+						"loadInBackground" : "false",
+						"record" : {
+							"data" : {
+								"children" : [
+										{
+											"children" : [
+													{
+														"name" : "id",
+														"value" : recordId
+													},
+													{
+														"children" : [ {
+															"name" : "linkedRecordType",
+															"value" : "recordType"
+														}, {
+															"name" : "linkedRecordId",
+															"value" : recordType
+														} ],
+														"actionLinks" : {
+															"read" : {
+																"requestMethod" : "GET",
+																"rel" : "read",
+																"url" : "http://localhost:8080/therest/rest/record/recordType/coraText",
+																"accept" : "application/vnd.uub.record+json"
+															}
+														},
+														"name" : "type"
+													},
+													{
+														"children" : [ {
+															"name" : "linkedRecordType",
+															"value" : "user"
+														}, {
+															"name" : "linkedRecordId",
+															"value" : "141414"
+														} ],
+														"name" : "createdBy"
+													},
+													{
+														"children" : [ {
+															"name" : "linkedRecordType",
+															"value" : "system"
+														}, {
+															"name" : "linkedRecordId",
+															"value" : "bibsys"
+														} ],
+														"actionLinks" : {
+															"read" : {
+																"requestMethod" : "GET",
+																"rel" : "read",
+																"url" : "http://localhost:8080/therest/rest/record/system/bibsys",
+																"accept" : "application/vnd.uub.record+json"
+															}
+														},
+														"name" : "dataDivider"
+													} ],
+											"name" : "recordInfo"
+										}, {
+											"children" : [ {
+												"name" : "text",
+												"value" : "Text2"
+											} ],
+											"name" : "textPart",
+											"attributes" : {
+												"type" : "default",
+												"lang" : "sv"
+											}
+										}, {
+											"children" : [ {
+												"name" : "text",
+												"value" : "Text"
+											} ],
+											"name" : "textPart",
+											"attributes" : {
+												"type" : "alternative",
+												"lang" : "en"
+											}
+										} ],
+								"name" : "text"
+							},
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://localhost:8080/therest/rest/record/coraText/writtenTextGroupText",
+									"accept" : "application/vnd.uub.record+json"
+								},
+								"read_incoming_links" : {
+									"requestMethod" : "GET",
+									"rel" : "read_incoming_links",
+									"url" : "http://localhost:8080/therest/rest/record/coraText/writtenTextGroupText/incomingLinks",
+									"accept" : "application/vnd.uub.recordList+json"
+								},
+								"update" : {
+									"requestMethod" : "POST",
+									"rel" : "update",
+									"contentType" : "application/vnd.uub.record+json",
+									"url" : "http://localhost:8080/therest/rest/record/coraText/writtenTextGroupText",
+									"accept" : "application/vnd.uub.record+json"
+								}
+							}
+						}
+
+					};
+					pRecordLink.setResultFromSearch(openInfo);
+
+					var message0 = this.dependencies.pubSub.getMessages()[0];
+					assert.strictEqual(message0.type, "setValue");
+					assert.strictEqual(message0.message.data, "writtenTextGroupText");
+
+					var expectedPath = {
+						"name" : "linkedPath",
+						"children" : [ {
+							"name" : "nameInData",
+							"value" : "linkedRecordId"
+						} ]
+					};
+					assert.stringifyEqual(message0.message.path, expectedPath);
+
+					var message1 = this.dependencies.pubSub.getMessages()[1];
+					assert.strictEqual(message1.type, "linkedData");
+					
+					var typeFromPRecordLinkHandlesLinkingToAbstractType="metadataTextVariable";
+					var expectedData1 = {
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : typeFromPRecordLinkHandlesLinkingToAbstractType
+							}, {
+								"name" : "linkedRecordId",
+								"value" : recordId
+							} ],
+							"actionLinks" : {
+								"read" : openInfo.record.actionLinks.read
+							},
+							"name" : "myLink"
+					};
+					assert.stringifyEqual(message1.message.data, expectedData1);
+
+					assert.stringifyEqual(message1.message.path, this.spec.path);
+				});
+
+QUnit.test("testInitSearchHandlerNOTFactoredWhenNoSearchLinkInPRecordLink", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordPLink"));
+
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var factoredSearchHandler = this.searchHandlerFactory.getFactored(0);
+
+	assert.stringifyEqual(factoredSearchHandler, undefined);
+});
+QUnit
+		.test(
+				"testInitSearchHandlerNOTFactoredWhenNoRightToPerformSearch",
+				function(assert) {
+					this.spec.cPresentation = CORA
+							.coraData(this.dependencies.metadataProvider
+									.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchNoRightToPerformSearchPLink"));
+
+					var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+					var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+					var factoredSearchHandler = this.searchHandlerFactory.getFactored(0);
+
+					assert.stringifyEqual(factoredSearchHandler, undefined);
+				});
 
 QUnit.test("testInitRecordLinkWithFinalValue", function(assert) {
 	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider

@@ -20,9 +20,14 @@
 QUnit.module("recordGuiFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
-			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
-			"metadataProvider" : new MetadataProviderStub(),
-			"textProvider" : CORATEST.textProviderStub(),
+			"providers" : {
+				"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
+				"metadataProvider" : new MetadataProviderStub(),
+				"textProvider" : CORATEST.textProviderStub(),
+			},
+			"globalFactories" : {
+				"searchHandlerFactory" : CORATEST.standardFactorySpy("searchHandlerSpy")
+			},
 			"authTokenHolder" : CORATEST.authTokenHolderSpy(),
 			"uploadManager" : CORATEST.uploadManagerSpy(),
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy()
@@ -60,8 +65,8 @@ QUnit.test("testFactorSpec", function(assert) {
 QUnit.test("testFactorDependencies", function(assert) {
 	var recordGui = this.recordGuiFactory.factor(this.spec);
 	var factoredDependencies = recordGui.getDependencies();
-	assert.strictEqual(factoredDependencies.metadataProvider, this.dependencies.metadataProvider);
-	assert.strictEqual(factoredDependencies.textProvider, this.dependencies.textProvider);
+	assert.strictEqual(factoredDependencies.metadataProvider,this.dependencies.providers.metadataProvider);
+	assert.strictEqual(factoredDependencies.textProvider,this.dependencies.providers.textProvider);
 });
 
 QUnit.test("testFactorDependencyPubSub", function(assert) {
@@ -76,7 +81,7 @@ QUnit.test("testFactorDependencyDataHolder", function(assert) {
 	assert.strictEqual(dataHolder.type, "dataHolder");
 	var specDH = dataHolder.getSpec();
 	assert.strictEqual(specDH.metadataId, this.spec.metadataId);
-	assert.strictEqual(specDH.metadataProvider, this.dependencies.metadataProvider);
+	assert.strictEqual(specDH.metadataProvider,this.dependencies.providers.metadataProvider);
 	assert.strictEqual(specDH.pubSub, recordGui.getDependencies().pubSub);
 });
 
@@ -86,9 +91,9 @@ QUnit.test("testFactorDependencyJsBookkeeper", function(assert) {
 	assert.strictEqual(jsBookkeeper.type, "jsBookkeeper");
 	var specBK = jsBookkeeper.getSpec();
 	assert.strictEqual(specBK.metadataId, this.spec.metadataId);
-	assert.strictEqual(specBK.metadataProvider, this.dependencies.metadataProvider);
+	assert.strictEqual(specBK.metadataProvider,this.dependencies.providers.metadataProvider);
 	assert.strictEqual(specBK.pubSub, recordGui.getDependencies().pubSub);
-	assert.strictEqual(specBK.textProvider, this.dependencies.textProvider);
+	assert.strictEqual(specBK.textProvider,this.dependencies.providers.textProvider);
 	assert.strictEqual(specBK.dataHolder, recordGui.getDependencies().dataHolder);
 });
 
@@ -97,15 +102,15 @@ QUnit.test("testFactorDependencyPresentationFactory", function(assert) {
 	var presentationFactory = recordGui.getDependencies().presentationFactory;
 	assert.strictEqual(presentationFactory.type, "presentationFactory");
 	var dependenciesPF = presentationFactory.getDependencies();
-	assert.strictEqual(dependenciesPF.clientInstanceProvider,
-			this.dependencies.clientInstanceProvider);
+	
+	assert.strictEqual(dependenciesPF.providers, this.dependencies.providers);
+
+	assert.strictEqual(dependenciesPF.globalFactories, this.dependencies.globalFactories);
+
 	assert.strictEqual(dependenciesPF.authTokenHolder, this.dependencies.authTokenHolder);
-	assert.strictEqual(dependenciesPF.metadataProvider, this.dependencies.metadataProvider);
 	assert.strictEqual(dependenciesPF.pubSub, recordGui.getDependencies().pubSub);
-	assert.strictEqual(dependenciesPF.textProvider, this.dependencies.textProvider);
 	assert.strictEqual(dependenciesPF.jsBookkeeper, recordGui.getDependencies().jsBookkeeper);
 	assert.strictEqual(dependenciesPF.recordGuiFactory, this.recordGuiFactory);
-	assert.strictEqual(dependenciesPF.recordTypeProvider, this.dependencies.recordTypeProvider);
 	assert.strictEqual(dependenciesPF.dataDivider, this.spec.dataDivider);
 	assert.strictEqual(dependenciesPF.uploadManager, this.dependencies.uploadManager);
 	assert.strictEqual(dependenciesPF.ajaxCallFactory, this.dependencies.ajaxCallFactory);
@@ -122,7 +127,7 @@ QUnit.test("testFactorDependencyMetadataController", function(assert) {
 	var metadataControllerFactory = recordGui.getDependencies().metadataControllerFactory;
 	assert.strictEqual(metadataControllerFactory.type, "metadataControllerFactory");
 	var dependenciesCF = metadataControllerFactory.getDependencies();
-	assert.strictEqual(dependenciesCF.metadataProvider, this.dependencies.metadataProvider);
+	assert.strictEqual(dependenciesCF.metadataProvider,this.dependencies.providers.metadataProvider);
 	assert.strictEqual(dependenciesCF.pubSub.type, "pubSub");
 });
 
@@ -131,6 +136,6 @@ QUnit.test("testFactorDependencyMetadataValidator", function(assert) {
 	var metadataValidatorFactory = recordGui.getDependencies().metadataValidatorFactory;
 	assert.strictEqual(metadataValidatorFactory.type, "metadataValidatorFactory");
 	var dependenciesMV = metadataValidatorFactory.getDependencies();
-	assert.strictEqual(dependenciesMV.metadataProvider, this.dependencies.metadataProvider);
+	assert.strictEqual(dependenciesMV.metadataProvider, this.dependencies.providers.metadataProvider);
 	assert.strictEqual(dependenciesMV.pubSub.type, "pubSub");
 });

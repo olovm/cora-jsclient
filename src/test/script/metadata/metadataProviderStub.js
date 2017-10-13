@@ -7542,6 +7542,155 @@ function MetadataProviderStub() {
 							"value" : "input"
 						} ]
 			};
+		
+		case "myLinkNoPresentationOfLinkedRecordWithSearchPLink":
+			return {
+				  "name": "presentation",
+				  "children": [
+				    {
+				      "name": "recordInfo",
+				      "children": [
+				        {
+				          "name": "id",
+				          "value": "myLinkNoPresentationOfLinkedRecordWithSearchPLink"
+				        },
+				        {
+				          "name": "type",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "recordType"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "presentationRecordLink"
+				            }
+				          ]
+				        },
+				        {
+				          "name": "dataDivider",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "system"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "cora"
+				            }
+				          ]
+				        }
+				      ]
+				    },
+				    {
+				      "name": "presentationOf",
+				      "children": [
+				        {
+				          "name": "linkedRecordType",
+				          "value": "metadataRecordLink"
+				        },
+				        {
+				          "name": "linkedRecordId",
+				          "value": "myLink"
+				        }
+				      ]
+				    },
+				    {
+				      "name": "mode",
+				      "value": "input"
+				    },
+				    {
+				      "name": "search",
+				      "children": [
+				        {
+				          "name": "linkedRecordType",
+				          "value": "search"
+				        },
+				        {
+				          "name": "linkedRecordId",
+				          "value": "textSearch"
+				        }
+				      ]
+				    }
+				  ],
+				  "attributes": {
+				    "type": "pRecordLink"
+				  }
+				};
+		case "myLinkNoPresentationOfLinkedRecordWithSearchNoRightToPerformSearchPLink":
+			return {
+			"name": "presentation",
+			"children": [
+				{
+					"name": "recordInfo",
+					"children": [
+						{
+							"name": "id",
+							"value": "myLinkNoPresentationOfLinkedRecordWithSearchNoRightToPerformSearchPLink"
+						},
+						{
+							"name": "type",
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "recordType"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "presentationRecordLink"
+								}
+								]
+						},
+						{
+							"name": "dataDivider",
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "system"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "cora"
+								}
+								]
+						}
+						]
+				},
+				{
+					"name": "presentationOf",
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadataRecordLink"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "myLink"
+						}
+						]
+				},
+				{
+					"name": "mode",
+					"value": "input"
+				},
+				{
+					"name": "search",
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "search"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "searchWithoutSearchLink"
+						}
+						]
+				}
+				],
+				"attributes": {
+					"type": "pRecordLink"
+				}
+		};
 		case "myPathLinkNoPresentationOfLinkedRecordPLink":
 			return {
 				"name" : "presentation",

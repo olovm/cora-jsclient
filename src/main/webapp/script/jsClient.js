@@ -25,10 +25,10 @@ var CORA = (function(cora) {
 		var reloadingProvidersInProgress = false;
 		var reloadedProviders = 0;
 
-		var metadataProvider = dependencies.metadataProvider;
-		var textProvider = dependencies.textProvider;
-		var recordTypeProvider = dependencies.recordTypeProvider;
-		var searchProvider = dependencies.searchProvider;
+		var metadataProvider = dependencies.providers.metadataProvider;
+		var textProvider = dependencies.providers.textProvider;
+		var recordTypeProvider = dependencies.providers.recordTypeProvider;
+		var searchProvider = dependencies.providers.searchProvider;
 
 		var recordTypeList;
 
@@ -38,7 +38,7 @@ var CORA = (function(cora) {
 		var openGuiItemHandler;
 
 		function start() {
-			dependencies.clientInstanceProvider.setJsClient(out);
+			dependencies.globalInstances.clientInstanceProvider.setJsClient(out);
 			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			var jsClientViewSpec = {
 				"name" : spec.name,
@@ -53,7 +53,7 @@ var CORA = (function(cora) {
 				"setErrorMessage" : jsClientView.addErrorMessage,
 				"appTokenBaseUrl" : spec.appTokenBaseUrl
 			};
-			var loginManager = dependencies.loginManagerFactory.factor(loginManagerSpec);
+			var loginManager = dependencies.globalFactories.loginManagerFactory.factor(loginManagerSpec);
 			jsClientView.addLoginManagerView(loginManager.getHtml());
 
 			jsClientView
@@ -211,7 +211,7 @@ var CORA = (function(cora) {
 				"record" : record,
 				"jsClient" : out
 			};
-			var recordHandlerNew = dependencies.factories.recordHandlerFactory
+			var recordHandlerNew = dependencies.globalFactories.recordHandlerFactory
 					.factor(recordHandlerSpec);
 			addGuiItem(recordHandlerNew.getManagedGuiItem());
 			if (openInfo.loadInBackground !== "true") {

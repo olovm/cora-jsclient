@@ -24,11 +24,13 @@ var CORA = (function(cora) {
 
 		function factor(path, metadataIdUsedInData, cPresentation, cParentPresentation) {
 
+			var infoFactory = CORA.infoFactory();
+
 			var pVarViewFactoryDependencies = {
-				"infoFactory" : CORA.infoFactory()
+				"infoFactory" : infoFactory
 			};
 			var pRepeatingElementFactoryDependencies = {
-				"infoFactory" : CORA.infoFactory(),
+				"infoFactory" : infoFactory,
 				"jsBookkeeper" : dependencies.jsBookkeeper
 			};
 
@@ -39,12 +41,12 @@ var CORA = (function(cora) {
 			var pRecordLinkViewFactory = CORA
 					.pRecordLinkViewFactory(pRecordLinkViewFactoryDependencies);
 			var pChildRefHandlerFactoryDependencies = {
-				"metadataProvider" : dependencies.metadataProvider,
+				"metadataProvider" : dependencies.providers.metadataProvider,
 				"pubSub" : dependencies.pubSub,
-				"textProvider" : dependencies.textProvider,
+				"textProvider" : dependencies.providers.textProvider,
 				"presentationFactory" : self,
 				"jsBookkeeper" : dependencies.jsBookkeeper,
-				"recordTypeProvider" : dependencies.recordTypeProvider,
+				"recordTypeProvider" : dependencies.providers.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"pRepeatingElementFactory" : CORA
@@ -56,15 +58,17 @@ var CORA = (function(cora) {
 					.pChildRefHandlerFactory(pChildRefHandlerFactoryDependencies);
 
 			var childDependencies = {
-				"clientInstanceProvider" : dependencies.clientInstanceProvider,
-				"metadataProvider" : dependencies.metadataProvider,
+				"providers" : dependencies.providers,
+				"globalFactories" : dependencies.globalFactories,
+				"clientInstanceProvider" : dependencies.providers.clientInstanceProvider,
+				"metadataProvider" : dependencies.providers.metadataProvider,
 				"pubSub" : dependencies.pubSub,
-				"textProvider" : dependencies.textProvider,
+				"textProvider" : dependencies.providers.textProvider,
 				"jsBookkeeper" : dependencies.jsBookkeeper,
 				"presentationFactory" : self,
 				"xmlHttpRequestFactory" : dependencies.xmlHttpRequestFactory,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
-				"recordTypeProvider" : dependencies.recordTypeProvider,
+				"recordTypeProvider" : dependencies.providers.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"pVarViewFactory" : pVarViewFactory,

@@ -44,8 +44,11 @@ var CORA = (function(cora) {
 				"metadataId" : getLinkValueFromSearchRecord("metadataId"),
 				"presentationId" : getLinkValueFromSearchRecord("presentationId")
 			};
-			possiblyAddSearchLinkToSpec(searchHandlerSpec);
-			dependencies.searchHandlerFactory.factor(searchHandlerSpec);
+			addSearchLinkToSpec(searchHandlerSpec);
+			//TODO: change to searchHandlerJsClientIntegratorFactory
+			//TODO: add name to use in menu
+//			dependencies.searchHandlerFactory.factor(searchHandlerSpec);
+			dependencies.searchHandlerJSClientIntegratorFactory.factor(searchHandlerSpec);
 		}
 
 		function getLinkValueFromSearchRecord(id) {
@@ -54,7 +57,7 @@ var CORA = (function(cora) {
 			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
-		function possiblyAddSearchLinkToSpec(searchHandlerSpec) {
+		function addSearchLinkToSpec(searchHandlerSpec) {
 			searchHandlerSpec.searchLink = spec.searchRecord.actionLinks.search;
 		}
 

@@ -538,7 +538,131 @@ var CORATEST = (function(coraTest) {
 				}
 			}
 		};
-
+		searchArray["textSearch"] = {
+			"data" : {
+				"name" : "search",
+				"children" : [ {
+					"name" : "metadataId",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textSearchGroup"
+					} ]
+				}, {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "textSearch"
+					}, {
+						"name" : "type",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "recordType"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "search"
+						} ]
+					}, {
+						"name" : "createdBy",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "user"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "141414"
+						} ]
+					}, {
+						"name" : "dataDivider",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "system"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "cora"
+						} ]
+					} ]
+				}, {
+					"name" : "presentationId",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "presentationGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textSearchPGroup"
+					} ]
+				}, {
+					"name" : "recordTypeToSearchIn",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "recordType"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "coraText"
+					} ],
+					"repeatId" : "0"
+				}, {
+					"name" : "recordTypeToSearchIn",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "recordType"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textSystemOne"
+					} ],
+					"repeatId" : "1"
+				}, {
+					"name" : "searchGroup",
+					"value" : "autocomplete"
+				}, {
+					"name" : "textId",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "text"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textSearchText"
+					} ]
+				}, {
+					"name" : "defTextId",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "text"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textSearchDefText"
+					} ]
+				} ]
+			},
+			"actionLinks" : {
+				"search" : {
+					"requestMethod" : "GET",
+					"rel" : "search",
+					"url" : "http://epc.ub.uu.se/therest/rest/record/searchResult/textSearch",
+					"accept" : "application/vnd.uub.recordList+json"
+				},
+				"read" : {
+					"requestMethod" : "GET",
+					"rel" : "read",
+					"url" : "http://epc.ub.uu.se/therest/rest/record/search/textSearch",
+					"accept" : "application/vnd.uub.record+json"
+				},
+				"read_incoming_links" : {
+					"requestMethod" : "GET",
+					"rel" : "read_incoming_links",
+					"url" : "http://epc.ub.uu.se/therest/rest/record/search/textSearch/incomingLinks",
+					"accept" : "application/vnd.uub.recordList+json"
+				},
+				"update" : {
+					"requestMethod" : "POST",
+					"rel" : "update",
+					"contentType" : "application/vnd.uub.record+json",
+					"url" : "http://epc.ub.uu.se/therest/rest/record/search/textSearch",
+					"accept" : "application/vnd.uub.record+json"
+				}
+			}
+		};
 		function getSearchById(searchId) {
 			fetchedSearchIds.push(searchId);
 
@@ -547,8 +671,8 @@ var CORATEST = (function(coraTest) {
 			} else {
 
 				// default:
-				console.log("Id(" + searchId + ") not found in searchProviderStub");
-				throw new Error("Id(" + searchId + ") not found in searchProviderStub");
+				console.log("Id(" + searchId + ") not found in searchProviderSpy");
+				throw new Error("Id(" + searchId + ") not found in searchProviderSpy");
 			}
 		}
 
@@ -567,7 +691,7 @@ var CORATEST = (function(coraTest) {
 		function getAllSearchesFetchedNo() {
 			return allSearchesNo;
 		}
-		
+
 		function reload(callWhenReloadedMethodIn) {
 			noOfReloads++;
 			callWhenReloadedMethod = callWhenReloadedMethodIn;
@@ -578,10 +702,10 @@ var CORATEST = (function(coraTest) {
 		function callWhenReloadedMethod() {
 			callWhenReloadedMethod();
 		}
-		function getNoOfReloads(){
+		function getNoOfReloads() {
 			return noOfReloads;
 		}
-		
+
 		return Object.freeze({
 			"type" : "searchProviderSpy",
 			getSearchById : getSearchById,
@@ -590,7 +714,7 @@ var CORATEST = (function(coraTest) {
 			getAllSearchesFetchedNo : getAllSearchesFetchedNo,
 			reload : reload,
 			getCallWhenReloadedMethod : getCallWhenReloadedMethod,
-			getNoOfReloads:getNoOfReloads,
+			getNoOfReloads : getNoOfReloads,
 			callWhenReloadedMethod : callWhenReloadedMethod
 		});
 	};

@@ -39,9 +39,12 @@ var CORATEST = (function(coraTest) {
 			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
 
 			var specPresentationFactory = {
-				"metadataProvider" : metadataProvider,
+					
+					"providers":{
+						"metadataProvider" : metadataProvider,
+						"textProvider" : textProvider,
+					},
 				"pubSub" : pubSub,
-				"textProvider" : textProvider,
 				"jsBookkeeper" : jsBookkeeper
 			};
 			var presentationFactory = CORA.presentationFactory(specPresentationFactory);

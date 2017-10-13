@@ -26,19 +26,19 @@ var CORA = (function(cora) {
 		}
 
 		function factor(spec) {
-			var searchHandlerDep = {
-				"textProvider" : dependencies.textProvider,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"recordGuiFactory" : dependencies.recordGuiFactory,
+			var searchHandlerJsClientIntegratorDep = {
+				"searchHandlerFactory" : dependencies.globalFactories.searchHandlerFactory,
 				"jsClient" : spec.jsClient,
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory()
 			};
+
 			var searchRecordHandlerDependencies = {
 				"messageHolderFactory" : CORA.messageHolderFactory(),
 				"searchRecordHandlerViewFactory" : CORA.searchRecordHandlerViewFactory(),
 				"managedGuiItemFactory" : CORA.managedGuiItemFactory(),
 				"jsClient" : spec.jsClient,
-				"searchHandlerFactory" : CORA.searchHandlerFactory(searchHandlerDep)
+				"searchHandlerJSClientIntegratorFactory" : CORA
+						.searchHandlerJsClientIntegratorFactory(searchHandlerJsClientIntegratorDep)
 			};
 			return CORA.searchRecordHandler(searchRecordHandlerDependencies, spec);
 		}
