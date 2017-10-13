@@ -51,7 +51,6 @@ var CORA = (function(cora) {
 			possiblyCreateSearchHandler();
 		}
 
-
 		function createBaseView() {
 			var textId = extractTextId("textId");
 			var text = textProvider.getTranslation(textId);
@@ -146,8 +145,9 @@ var CORA = (function(cora) {
 
 			return function(child) {
 				var cChild = CORA.coraData(child);
-				var linkedRecordType = cChild.getFirstAtomicValueByNameInData("linkedRecordType");
-				return linkedRecordType === recordTypeId;
+				var filterLinkedRecordType = cChild
+						.getFirstAtomicValueByNameInData("linkedRecordType");
+				return filterLinkedRecordType === recordTypeId;
 			};
 		}
 
