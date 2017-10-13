@@ -144,7 +144,7 @@ var CORA = (function(cora) {
 				"openGuiItemHandlerFactory" : openGuiItemHandlerFactory,
 				"uploadManager" : uploadManager,
 				"searchRecordHandlerFactory" : searchRecordHandlerFactory,
-				"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH),
+				"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH)
 			};
 
 			jsClient = CORA.jsClient(dep, jsClientSpec);
