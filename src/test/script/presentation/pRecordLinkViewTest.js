@@ -258,3 +258,34 @@ QUnit.test("testAddSearchHandlerView", function(assert) {
 	var childrenView = view.childNodes[1];
 	assert.strictEqual(childrenView.childNodes[0], fakeSearchHandlerView);
 });
+
+QUnit.test("testHideSearchHandlerView", function(assert) {
+	var fakeSearchHandlerView = document.createElement("SPAN");
+	var content = document.createTextNode(JSON
+			.stringify("content needed for span to be visible in chrome"));
+	fakeSearchHandlerView.appendChild(content);
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	
+	pRecordLinkView.addSearchHandlerView(fakeSearchHandlerView);
+	pRecordLinkView.hideSearchHandlerView();
+	
+	var view = pRecordLinkView.getView();
+	var childrenView = view.childNodes[1];
+	assert.strictEqual(childrenView.childNodes[0], undefined);
+});
+
+QUnit.test("testHideNonExistingSearchHandlerView", function(assert) {
+	var fakeSearchHandlerView = document.createElement("SPAN");
+	var content = document.createTextNode(JSON
+			.stringify("content needed for span to be visible in chrome"));
+	fakeSearchHandlerView.appendChild(content);
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	
+//	pRecordLinkView.addSearchHandlerView(fakeSearchHandlerView);
+	pRecordLinkView.hideSearchHandlerView();
+	
+	var view = pRecordLinkView.getView();
+	var childrenView = view.childNodes[1];
+	assert.strictEqual(childrenView.childNodes[0], undefined);
+});
+

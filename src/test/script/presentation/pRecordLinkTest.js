@@ -239,6 +239,20 @@ QUnit.test("testInitSearchHandlerIsFactoredWithCorrectSpec", function(assert) {
 	assert.ok(pRecordLink.setResultFromSearch);
 });
 
+QUnit.test("testInitSearchHandlerIsAddedToView", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
+
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var factoredSearchHandler = this.searchHandlerFactory.getFactored(0);
+	var factoredSearchHandlerView = factoredSearchHandler.getView();
+
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var addedSearchHandlerView = pRecordLinkView.getAddedSearchHandlerView(0);
+
+	assert.strictEqual(addedSearchHandlerView, factoredSearchHandlerView);
+});
+
 QUnit
 		.test(
 				"testChoiceInSearchSendsCorrectMessagesOnPubSub",
@@ -246,8 +260,8 @@ QUnit
 					this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
 							.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
 					var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
-					var recordType ="coraText"; 
-						var recordId ="writtenTextGroupText";
+					var recordType = "coraText";
+					var recordId = "writtenTextGroupText";
 					var openInfo = {
 						"loadInBackground" : "false",
 						"record" : {
@@ -370,20 +384,20 @@ QUnit
 
 					var message1 = this.dependencies.pubSub.getMessages()[1];
 					assert.strictEqual(message1.type, "linkedData");
-					
-					var typeFromPRecordLinkHandlesLinkingToAbstractType="metadataTextVariable";
+
+					var typeFromPRecordLinkHandlesLinkingToAbstractType = "metadataTextVariable";
 					var expectedData1 = {
-							"children" : [ {
-								"name" : "linkedRecordType",
-								"value" : typeFromPRecordLinkHandlesLinkingToAbstractType
-							}, {
-								"name" : "linkedRecordId",
-								"value" : recordId
-							} ],
-							"actionLinks" : {
-								"read" : openInfo.record.actionLinks.read
-							},
-							"name" : "myLink"
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : typeFromPRecordLinkHandlesLinkingToAbstractType
+						}, {
+							"name" : "linkedRecordId",
+							"value" : recordId
+						} ],
+						"actionLinks" : {
+							"read" : openInfo.record.actionLinks.read
+						},
+						"name" : "myLink"
 					};
 					assert.stringifyEqual(message1.message.data, expectedData1);
 
@@ -742,6 +756,19 @@ QUnit.test("testHandleMsgWithLinkHidesOpenLinkInViewWhenFirstShown", function(as
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
 	assert.strictEqual(pRecordLinkView.getShowOpenLinkedRecord(), 1);
 	assert.strictEqual(pRecordLinkView.getHideOpenLinkedRecord(), 1);
+});
+
+QUnit.test("testHandleMsgWithLinkHidesSearch", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var dataFromMsg = this.dataFromMsgWithLink;
+
+	assert.strictEqual(pRecordLinkView.getHideSearchHandlerView(), 0);
+	pRecordLink.handleMsg(dataFromMsg, "linkedData");
+
+	assert.strictEqual(pRecordLinkView.getHideSearchHandlerView(), 1);
 });
 
 QUnit.test("testOpenLinkedRecord", function(assert) {

@@ -33,6 +33,7 @@ var CORATEST = (function(coraTest) {
 		var hideOpenLinkedRecordCalled = 0;
 
 		var addedSearchHandlerViews = [];
+		var hideSearchHandlerViewCalled = 0;
 
 		function getView() {
 			return view;
@@ -86,6 +87,13 @@ var CORATEST = (function(coraTest) {
 			return addedSearchHandlerViews[number];
 		}
 
+		function hideSearchHandlerView() {
+			hideSearchHandlerViewCalled++;
+		}
+		function getHideSearchHandlerView() {
+			return hideSearchHandlerViewCalled;
+		}
+
 		var out = Object.freeze({
 			"type" : "pRecordLinkViewSpy",
 			getDependencies : getDependencies,
@@ -104,7 +112,9 @@ var CORATEST = (function(coraTest) {
 			getHideOpenLinkedRecord : getHideOpenLinkedRecord,
 
 			addSearchHandlerView : addSearchHandlerView,
-			getAddedSearchHandlerView : getAddedSearchHandlerView
+			getAddedSearchHandlerView : getAddedSearchHandlerView,
+			hideSearchHandlerView : hideSearchHandlerView,
+			getHideSearchHandlerView : getHideSearchHandlerView
 		});
 		return out;
 	};

@@ -26,6 +26,7 @@ var CORA = (function(cora) {
 		var info;
 		var openLinkedRecordButton;
 		var currentLinkedPresentation;
+		var addedSearchHandlerView;
 
 		function start() {
 			view = CORA.gui.createSpanWithClassName(baseClassName);
@@ -141,7 +142,18 @@ var CORA = (function(cora) {
 		}
 
 		function addSearchHandlerView(searchHandlerViewToAdd) {
+			addedSearchHandlerView = searchHandlerViewToAdd;
 			childrenView.insertAdjacentElement("afterbegin", searchHandlerViewToAdd);
+		}
+
+		function hideSearchHandlerView() {
+			if (searchIsAdded()) {
+				childrenView.removeChild(addedSearchHandlerView);
+			}
+		}
+
+		function searchIsAdded() {
+			return addedSearchHandlerView !== undefined;
 		}
 
 		out = Object.freeze({
@@ -156,7 +168,8 @@ var CORA = (function(cora) {
 
 			showOpenLinkedRecord : showOpenLinkedRecord,
 			hideOpenLinkedRecord : hideOpenLinkedRecord,
-			addSearchHandlerView : addSearchHandlerView
+			addSearchHandlerView : addSearchHandlerView,
+			hideSearchHandlerView : hideSearchHandlerView
 		});
 		start();
 		return out;

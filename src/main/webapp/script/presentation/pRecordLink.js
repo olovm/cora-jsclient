@@ -87,8 +87,13 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsg(dataFromMsg) {
+			closeSearchIfThereIsOne();
 			createLinkedRecordPresentationView(dataFromMsg);
 			manageOpeningOfLinkedRecord(dataFromMsg);
+		}
+
+		function closeSearchIfThereIsOne() {
+			view.hideSearchHandlerView();
 		}
 
 		function createLinkedRecordPresentationView(dataFromMessage) {
