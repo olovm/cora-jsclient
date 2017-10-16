@@ -26,13 +26,31 @@ var CORA = (function(cora) {
 
 		function start() {
 			view = CORA.gui.createSpanWithClassName("workItem " + spec.extraClassName);
+		}
+
+		function addToolViewToToolHolder(toolView) {
+			possiblyAddTopBarAndToolHolder();
+			toolHolder.getView().appendChild(toolView);
+		}
+
+		function possiblyAddTopBarAndToolHolder() {
+			if (firstAddedTool()) {
+				addTopBarAndToolHolder();
+			}
+		}
+
+		function firstAddedTool() {
+			return topBar === undefined;
+		}
+
+		function addTopBarAndToolHolder() {
 			topBar = createTopBarInView();
 			toolHolder = createToolHolderAndAppendButtonToTopBar();
 		}
 
 		function createTopBarInView() {
 			var topBarNew = CORA.gui.createSpanWithClassName("topBar");
-			view.appendChild(topBarNew);
+			view.insertAdjacentElement("afterbegin", topBarNew);
 
 			return topBarNew;
 		}
@@ -46,13 +64,9 @@ var CORA = (function(cora) {
 		function createToolHolderAndAppendToView() {
 			var toolHolderNew = dependencies.holderFactory.factor({
 				"className" : "tool",
-				"appendTo" : view
+				"insertAfter" : topBar
 			});
 			return toolHolderNew;
-		}
-
-		function addToolViewToToolHolder(toolView) {
-			toolHolder.getView().appendChild(toolView);
 		}
 
 		function getView() {

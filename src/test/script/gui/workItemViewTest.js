@@ -20,19 +20,6 @@
 
 QUnit.module("workItemViewTest.js", {
 	beforeEach : function() {
-		// var factoredHolders = [];
-		// this.factoredHolders = factoredHolders;
-		// this.holderFactory = {
-		// "factor" : function(holderSpec) {
-		// var factoredHolder = CORA.holder(holderSpec);
-		// factoredHolders.push({
-		// "holderSpec" : holderSpec,
-		// "factoredHolder" : factoredHolder
-		// });
-		// return factoredHolder;
-		// }
-		// };
-
 		this.dependencies = {
 			"holderFactory" : CORATEST.standardFactorySpy("holderSpy")
 		};
@@ -66,7 +53,17 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(view.nodeName, "SPAN");
 	assert.strictEqual(view.className, "workItem extraClassName");
 
-	assert.strictEqual(view.childNodes.length, 1);
+	assert.strictEqual(view.childNodes.length, 0);
+
+	var factoredToolHolderSpec = this.dependencies.holderFactory.getSpec(0);
+	assert.strictEqual(factoredToolHolderSpec, undefined);
+});
+
+QUnit.test("addToolViewToToolHolderMakeSureTopBarAndToolHolderExists", function(assert) {
+	var workItemView = CORA.workItemView(this.dependencies, this.workItemViewSpec);
+	var someToolView = document.createElement("span");
+	var view = workItemView.getView();
+	workItemView.addToolViewToToolHolder(someToolView);
 
 	var topBar = view.childNodes[0];
 	assert.strictEqual(topBar.nodeName, "SPAN");
@@ -75,12 +72,45 @@ QUnit.test("init", function(assert) {
 
 	var factoredToolHolderSpec = this.dependencies.holderFactory.getSpec(0);
 	assert.strictEqual(factoredToolHolderSpec.className, "tool");
-	assert.strictEqual(factoredToolHolderSpec.appendTo, view);
+	assert.strictEqual(factoredToolHolderSpec.appendTo, undefined);
+	assert.strictEqual(factoredToolHolderSpec.insertAfter, topBar);
+
+	var toolHolderButton = this.dependencies.holderFactory.getFactored(0).getButton();
+	assert.strictEqual(toolHolderButton, topBar.childNodes[0]);
+});
+
+QUnit.test("addToolViewToToolHolderMakeSureTopBarAndToolHolderIsAddedFirst", function(assert) {
+	var workItemView = CORA.workItemView(this.dependencies, this.workItemViewSpec);
+	var someToolView = document.createElement("span");
+	var view = workItemView.getView();
+	var someView = document.createElement("span");
+	workItemView.addViewToView(someView);
+
+	workItemView.addToolViewToToolHolder(someToolView);
+
+	var topBar = view.childNodes[0];
+	assert.strictEqual(topBar.className, "topBar");
+});
+
+QUnit.test("addToolViewToToolHolderMakeSureTopBarAndToolHolderIsCreatedOnce", function(assert) {
+	var workItemView = CORA.workItemView(this.dependencies, this.workItemViewSpec);
+	var someToolView = document.createElement("span");
+	var view = workItemView.getView();
+	workItemView.addToolViewToToolHolder(someToolView);
+
+	var someToolView2 = document.createElement("span");
+	workItemView.addToolViewToToolHolder(someToolView2);
+
+	assert.strictEqual(view.childNodes.length, 1);
+
+	var toolHolder = this.dependencies.holderFactory.getFactored(1);
+	assert.strictEqual(toolHolder, undefined);
 });
 
 QUnit.test("addToolViewToToolHolder", function(assert) {
 	var workItemView = CORA.workItemView(this.dependencies, this.workItemViewSpec);
 	var someToolView = document.createElement("span");
+	var view = workItemView.getView();
 	workItemView.addToolViewToToolHolder(someToolView);
 
 	var toolHolder = this.dependencies.holderFactory.getFactored(0).getView();
@@ -94,6 +124,6 @@ QUnit.test("addViewToView", function(assert) {
 	workItemView.addViewToView(someView);
 
 	var view = workItemView.getView();
-	assert.strictEqual(view.childNodes.length, 2);
-	assert.strictEqual(view.childNodes[1], someView);
+	assert.strictEqual(view.childNodes.length, 1);
+	assert.strictEqual(view.childNodes[0], someView);
 });
