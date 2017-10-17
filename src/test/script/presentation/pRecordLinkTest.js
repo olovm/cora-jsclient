@@ -101,6 +101,39 @@ QUnit.module("pRecordLinkTest.js", {
 				} ]
 			}
 		};
+		this.dataFromMsgWithLinkButNoValue = {
+				"data" : {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : ""
+					} ],
+					"actionLinks" : {
+						"read" : {
+							"requestMethod" : "GET",
+							"rel" : "read",
+							"url" : "http://localhost:8080/therest/rest/record/system/cora",
+							"accept" : "application/vnd.uub.record+json"
+						}
+					},
+					"name" : "dataDivider"
+				},
+				"path" : {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "recordInfo"
+					}, {
+						"name" : "linkedPath",
+						"children" : [ {
+							"name" : "nameInData",
+							"value" : "dataDivider"
+						} ]
+					} ]
+				}
+		};
 		this.dataFromMsgWithoutLink = {
 			"data" : {
 				"children" : [ {
@@ -769,6 +802,19 @@ QUnit.test("testHandleMsgWithLinkHidesSearch", function(assert) {
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
 
 	assert.strictEqual(pRecordLinkView.getHideSearchHandlerView(), 1);
+});
+
+QUnit.test("testHandleMsgWithLinkButNoValueUsedInCopyAsNewShowsSearch", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	var dataFromMsg = this.dataFromMsgWithLinkButNoValue;
+	
+	assert.strictEqual(pRecordLinkView.getHideSearchHandlerView(), 0);
+	pRecordLink.handleMsg(dataFromMsg, "linkedData");
+	
+	assert.strictEqual(pRecordLinkView.getHideSearchHandlerView(), 0);
 });
 
 QUnit.test("testOpenLinkedRecord", function(assert) {

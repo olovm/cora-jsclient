@@ -86,24 +86,43 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function handleMsg(dataFromMsg) {
+		function handleMsg(payloadFromMsg) {
+			if (msgContainsDataWithValueForRecordId(payloadFromMsg)) {
+				handleMsgWithData(payloadFromMsg);
+			}
+		}
+
+		function msgContainsDataWithValueForRecordId(payloadFromMsg) {
+			if (payloadFromMsg.data === undefined) {
+				return false;
+			}
+			var cData = CORA.coraData(payloadFromMsg.data);
+			var linkedRecordId = cData.getFirstAtomicValueByNameInData("linkedRecordId");
+			if (linkedRecordId !== "") {
+				return true;
+			}
+
+			return false;
+		}
+
+		function handleMsgWithData(payloadFromMsg) {
 			closeSearchIfThereIsOne();
-			createLinkedRecordPresentationView(dataFromMsg);
-			manageOpeningOfLinkedRecord(dataFromMsg);
+			createLinkedRecordPresentationView(payloadFromMsg);
+			manageOpeningOfLinkedRecord(payloadFromMsg);
 		}
 
 		function closeSearchIfThereIsOne() {
 			view.hideSearchHandlerView();
 		}
 
-		function createLinkedRecordPresentationView(dataFromMessage) {
-			if (linkedRecordShouldBePresentedCanBeRead(dataFromMessage)) {
-				createRecordViewerForLinkedRecord(dataFromMessage.data);
+		function createLinkedRecordPresentationView(payloadFromMsg) {
+			if (linkedRecordShouldBePresentedCanBeRead(payloadFromMsg)) {
+				createRecordViewerForLinkedRecord(payloadFromMsg.data);
 			}
 		}
-		function manageOpeningOfLinkedRecord(dataFromMessage) {
-			if (messageContainsDataWithActionLinks(dataFromMessage)) {
-				readLink = dataFromMessage.data.actionLinks.read;
+		function manageOpeningOfLinkedRecord(payloadFromMsg) {
+			if (messageContainsDataWithActionLinks(payloadFromMsg)) {
+				readLink = payloadFromMsg.data.actionLinks.read;
 				view.showOpenLinkedRecord();
 				openLinkShowing = true;
 			} else {
@@ -114,14 +133,13 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function linkedRecordShouldBePresentedCanBeRead(dataFromMessage) {
+		function linkedRecordShouldBePresentedCanBeRead(payloadFromMsg) {
 			return cPresentation.containsChildWithNameInData("linkedRecordPresentations")
-					&& messageContainsDataWithActionLinks(dataFromMessage);
+					&& messageContainsDataWithActionLinks(payloadFromMsg);
 		}
 
-		function messageContainsDataWithActionLinks(dataFromMessage) {
-			return dataFromMessage.data !== undefined
-					&& undefined !== dataFromMessage.data.actionLinks;
+		function messageContainsDataWithActionLinks(payloadFromMsg) {
+			return undefined !== payloadFromMsg.data.actionLinks;
 		}
 
 		function createRecordViewerForLinkedRecord(data) {

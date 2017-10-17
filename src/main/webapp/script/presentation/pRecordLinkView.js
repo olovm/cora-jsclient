@@ -25,12 +25,15 @@ var CORA = (function(cora) {
 		var baseClassName = "pRecordLink";
 		var info;
 		var openLinkedRecordButton;
+		var showSearchButton;
 		var currentLinkedPresentation;
 		var addedSearchHandlerView;
+		var searchHandlerShown;
 
 		function start() {
 			view = CORA.gui.createSpanWithClassName(baseClassName);
 			openLinkedRecordButton = createOpenLinkedRecordButton();
+			showSearchButton = createShowSearchButton();
 			info = createInfo();
 			view.appendChild(info.getButton());
 			createChildrenView();
@@ -43,6 +46,15 @@ var CORA = (function(cora) {
 			};
 			return CORA.gui.createButton(openButtonSpec);
 		}
+
+		function createShowSearchButton() {
+			var buttonSpec = {
+				"className" : "iconButton showSearchButton",
+				"onclick" : toggleSearchHandlerView
+			};
+			return CORA.gui.createButton(buttonSpec);
+		}
+
 		function openLinkedRecord(event) {
 			var loadInBackground = "false";
 			if (event.ctrlKey) {
@@ -51,7 +63,6 @@ var CORA = (function(cora) {
 			spec.pRecordLink.openLinkedRecord({
 				"loadInBackground" : loadInBackground
 			});
-
 		}
 
 		function createChildrenView() {
@@ -76,11 +87,13 @@ var CORA = (function(cora) {
 			infoSpec.insertAfter = newInfo.getButton();
 			return newInfo;
 		}
+
 		function possiblyAddLevel2Info(infoSpec) {
 			if (specInfoHasTechnicalInfo()) {
 				addLevelTechnicalInfoAsLevel2(infoSpec);
 			}
 		}
+
 		function specInfoHasTechnicalInfo() {
 			return spec.info.technicalInfo;
 		}
@@ -88,13 +101,13 @@ var CORA = (function(cora) {
 		function addLevelTechnicalInfoAsLevel2(infoSpec) {
 			infoSpec.level2 = [];
 			spec.info.technicalInfo.forEach(function(text) {
-
 				infoSpec.level2.push({
 					"className" : "technicalView",
 					"text" : text
 				});
 			});
 		}
+
 		function updateClassName() {
 			var className = baseClassName;
 			if (infoIsShown()) {
@@ -126,6 +139,7 @@ var CORA = (function(cora) {
 		function hideChildren() {
 			childrenView.style.display = "none";
 		}
+
 		function addLinkedPresentation(linkedPresentationToAdd) {
 			if (currentLinkedPresentation !== undefined) {
 				view.removeChild(currentLinkedPresentation);
@@ -137,19 +151,45 @@ var CORA = (function(cora) {
 		function showOpenLinkedRecord() {
 			view.appendChild(openLinkedRecordButton);
 		}
+
 		function hideOpenLinkedRecord() {
 			view.removeChild(openLinkedRecordButton);
 		}
 
 		function addSearchHandlerView(searchHandlerViewToAdd) {
+			addShowSearchButton();
 			addedSearchHandlerView = searchHandlerViewToAdd;
-			childrenView.insertAdjacentElement("afterbegin", searchHandlerViewToAdd);
+			addSearchHandlerViewToView();
+		}
+
+		function addSearchHandlerViewToView() {
+			childrenView.insertAdjacentElement("afterbegin", addedSearchHandlerView);
+			searchHandlerShown = true;
 		}
 
 		function hideSearchHandlerView() {
 			if (searchIsAdded()) {
 				childrenView.removeChild(addedSearchHandlerView);
+				searchHandlerShown = false;
 			}
+		}
+
+		function showSearchHandlerView() {
+			if (searchIsAdded()) {
+				addSearchHandlerViewToView();
+			}
+		}
+
+		function toggleSearchHandlerView() {
+			if (searchHandlerShown) {
+				hideSearchHandlerView();
+			} else {
+				showSearchHandlerView();
+			}
+		}
+
+		function addShowSearchButton() {
+			info.getButton().insertAdjacentElement("afterend", showSearchButton);
 		}
 
 		function searchIsAdded() {
@@ -169,7 +209,8 @@ var CORA = (function(cora) {
 			showOpenLinkedRecord : showOpenLinkedRecord,
 			hideOpenLinkedRecord : hideOpenLinkedRecord,
 			addSearchHandlerView : addSearchHandlerView,
-			hideSearchHandlerView : hideSearchHandlerView
+			hideSearchHandlerView : hideSearchHandlerView,
+			showSearchHandlerView : showSearchHandlerView
 		});
 		start();
 		return out;
