@@ -83,11 +83,11 @@ img {
 	opacity: 1;
 }
 
-.removeButton, .infoButton, .openLinkedRecordButton{
+.removeButton, .infoButton, .openLinkedRecordButton, .showSearchButton {
 	transform: scale(0.7, 0.7);
 }
 
-.infoButton, .openLinkedRecordButton {
+.infoButton, .openLinkedRecordButton, .showSearchButton {
 	height: 16px;
 	width: 16px;
 }
@@ -270,7 +270,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	order: 3;
 }
 
-.jsClient .workView .openLinkedRecordButton {
+.jsClient .workView .openLinkedRecordButton, .jsClient .workView .showSearchButton {
 	order: 2;
 	flex: 0 auto;
 }
