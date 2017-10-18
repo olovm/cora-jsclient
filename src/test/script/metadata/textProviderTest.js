@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -125,3 +125,24 @@ QUnit.test("testGetTranslationNotFound", function(assert) {
 	var translation = textProvider.getTranslation("textPartSvPGroupTextNOT");
 	assert.deepEqual(translation, "MISSING TRANSLATION FOR TEXTID:textPartSvPGroupTextNOT");
 });
+
+QUnit.test("testSetCurrentLang", function(assert) {
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
+	textProvider.processFetchedTextdata(this.textAnswer);
+	var translation = textProvider.getTranslation("1Text");
+	assert.deepEqual(translation, "Nästan kortaste möjliga id");
+	
+	textProvider.setCurrentLang("en"); 
+	
+	var translationEn = textProvider.getTranslation("1Text");
+	assert.deepEqual(translationEn, "Almost shortest possible id");
+});
+
+QUnit.test("testGetCurrentLang", function(assert) {
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
+	
+	textProvider.setCurrentLang("en"); 
+	
+	assert.strictEqual(textProvider.getCurrentLang(), "en");
+});
+

@@ -25,6 +25,7 @@ var CORATEST = (function(coraTest) {
 		var fetchedMetadataByRecordTypeId = [];
 		var addedGuiItem = [];
 		var openInfos = [];
+		var setCurrentLangs = [];
 
 		function getRecordTypesClearedNoOfTimes() {
 			return recordTypesClearedNoOfTimes;
@@ -124,6 +125,13 @@ var CORATEST = (function(coraTest) {
 			return openInfos[number];
 		}
 
+		function setCurrentLang(currentLang) {
+			setCurrentLangs.push(currentLang);
+		}
+		function getSetCurrentLang(no) {
+			return setCurrentLangs[no];
+		}
+
 		var out = Object.freeze({
 			"type" : "jsClientSpy",
 			showView : showView,
@@ -135,7 +143,9 @@ var CORATEST = (function(coraTest) {
 			addGuiItem : addGuiItem,
 			getAddedGuiItem : getAddedGuiItem,
 			openRecordUsingReadLink : openRecordUsingReadLink,
-			getOpenInfo : getOpenInfo
+			getOpenInfo : getOpenInfo,
+			setCurrentLang : setCurrentLang,
+			getSetCurrentLang : getSetCurrentLang
 		});
 
 		return out;

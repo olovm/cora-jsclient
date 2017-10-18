@@ -28,10 +28,12 @@ var CORA = (function(cora) {
 		var recordTypesView;
 		var workArea;
 		var messageHolder;
+		var reloadProvidersButton;
 
 		function start() {
 			mainView = createMainView();
 			addReloadProvidersButton();
+			addSetLanguageChoice();
 			mainView.modelObject = out;
 		}
 
@@ -63,7 +65,6 @@ var CORA = (function(cora) {
 
 			return view;
 		}
-		var reloadProvidersButton;
 		function addReloadProvidersButton() {
 			reloadProvidersButton = CORA.gui.createSpanWithClassName("menuView");
 			reloadProvidersButton.onclick = spec.reloadProvidersMethod;
@@ -142,6 +143,18 @@ var CORA = (function(cora) {
 
 		function removeFromWorkView(viewToRemove) {
 			workArea.removeChild(viewToRemove);
+		}
+
+		function addSetLanguageChoice() {
+			var languageChoice = document.createElement("select");
+			languageChoice.onchange = function() {
+				spec.setLanguageMethod(languageChoice.value);
+			}
+			var svOption = new Option("sv", "sv");
+			languageChoice.appendChild(svOption);
+			var enOption = new Option("en", "en");
+			languageChoice.appendChild(enOption);
+			header.appendChild(languageChoice);
 		}
 
 		function getDependencies() {

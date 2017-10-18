@@ -43,7 +43,8 @@ var CORA = (function(cora) {
 			var jsClientViewSpec = {
 				"name" : spec.name,
 				"serverAddress" : spec.baseUrl,
-				"reloadProvidersMethod" : out.reloadProviders
+				"reloadProvidersMethod" : out.reloadProviders,
+				"setLanguageMethod" : out.setCurrentLang
 			};
 			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 
@@ -53,7 +54,8 @@ var CORA = (function(cora) {
 				"setErrorMessage" : jsClientView.addErrorMessage,
 				"appTokenBaseUrl" : spec.appTokenBaseUrl
 			};
-			var loginManager = dependencies.globalFactories.loginManagerFactory.factor(loginManagerSpec);
+			var loginManager = dependencies.globalFactories.loginManagerFactory
+					.factor(loginManagerSpec);
 			jsClientView.addLoginManagerView(loginManager.getHtml());
 
 			jsClientView
@@ -253,6 +255,11 @@ var CORA = (function(cora) {
 			});
 		}
 
+		function setCurrentLang(lang) {
+			textProvider.setCurrentLang(lang);
+			reloadOpenRecords();
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -276,7 +283,8 @@ var CORA = (function(cora) {
 			viewRemoved : viewRemoved,
 			addGuiItem : addGuiItem,
 			openRecordUsingReadLink : openRecordUsingReadLink,
-			reloadProviders : reloadProviders
+			reloadProviders : reloadProviders,
+			setCurrentLang : setCurrentLang
 		});
 		start();
 

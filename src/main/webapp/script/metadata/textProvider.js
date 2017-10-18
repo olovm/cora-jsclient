@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2017 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -87,6 +87,14 @@ var CORA = (function(cora) {
 			return "MISSING TRANSLATION FOR TEXTID:" + textId;
 		}
 
+		function setCurrentLang(lang) {
+			currentLang = lang;
+		}
+
+		function getCurrentLang() {
+			return currentLang;
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -100,7 +108,9 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getTranslation : getTranslation,
-			processFetchedTextdata : processFetchedTextdata
+			processFetchedTextdata : processFetchedTextdata,
+			setCurrentLang : setCurrentLang,
+			getCurrentLang : getCurrentLang
 		});
 	};
 	return cora;

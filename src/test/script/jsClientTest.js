@@ -111,6 +111,7 @@ QUnit.test("testViewSpec", function(assert) {
 	assert.strictEqual(jsClientViewSpec.name, this.spec.name);
 	assert.strictEqual(jsClientViewSpec.serverAddress, this.spec.baseUrl);
 	assert.strictEqual(jsClientViewSpec.reloadProvidersMethod, jsClient.reloadProviders);
+	assert.strictEqual(jsClientViewSpec.setLanguageMethod, jsClient.setCurrentLang);
 });
 
 QUnit.test("testUploadManagerAddedToView", function(assert) {
@@ -571,4 +572,24 @@ QUnit.test("testReloadProvidersReloadsManagedGuiItem", function(assert) {
 
 	assert.strictEqual(aGuiItem.getReloadForMetadataChanges(), 1);
 	assert.strictEqual(aGuiItem2.getReloadForMetadataChanges(), 1);
+});
+
+QUnit.test("testSetCurrentLangReloadsManagedGuiItem", function(assert) {
+	this.metadataProvider = CORATEST.metadataProviderSpy();
+	this.dependencies.providers.metadataProvider = this.metadataProvider;
+	this.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	this.dependencies.providers.recordTypeProvider = this.recordTypeProvider;
+
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var aGuiItem = CORATEST.managedGuiItemSpy();
+	jsClient.showView(aGuiItem);
+	var aGuiItem2 = CORATEST.managedGuiItemSpy();
+	jsClient.showView(aGuiItem2);
+
+	jsClient.setCurrentLang("en");
+
+	assert.strictEqual(this.textProvider.getSetCurrentLang(0), "en");
+
+	 assert.strictEqual(aGuiItem.getReloadForMetadataChanges(), 1);
+	 assert.strictEqual(aGuiItem2.getReloadForMetadataChanges(), 1);
 });

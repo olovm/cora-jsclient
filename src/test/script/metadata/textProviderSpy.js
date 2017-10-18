@@ -24,7 +24,8 @@ var CORATEST = (function(coraTest) {
 		var fetchedTextIds = [];
 		var callWhenReloadedMethod;
 		var noOfReloads = 0;
-		
+		var setCurrentLangs = [];
+
 		function getTranslation(textId) {
 			fetchedTextIds.push(textId);
 			return textId;
@@ -43,16 +44,31 @@ var CORATEST = (function(coraTest) {
 		function callWhenReloadedMethod() {
 			callWhenReloadedMethod();
 		}
-		function getNoOfReloads(){
+		function getNoOfReloads() {
 			return noOfReloads;
 		}
+
+		function setCurrentLang(lang) {
+			setCurrentLangs.push(lang);
+		}
+
+		function getSetCurrentLang(no) {
+			return setCurrentLangs[no];
+		}
+		function getCurrentLang() {
+			return setCurrentLangs.slice(-1).pop();
+		}
+
 		return Object.freeze({
 			getTranslation : getTranslation,
 			getFetchedTextIdNo : getFetchedTextIdNo,
 			reload : reload,
 			getCallWhenReloadedMethod : getCallWhenReloadedMethod,
-			getNoOfReloads:getNoOfReloads,
-			callWhenReloadedMethod : callWhenReloadedMethod
+			getNoOfReloads : getNoOfReloads,
+			callWhenReloadedMethod : callWhenReloadedMethod,
+			setCurrentLang : setCurrentLang,
+			getSetCurrentLang : getSetCurrentLang,
+			getCurrentLang : getCurrentLang
 		});
 	};
 	return coraTest;

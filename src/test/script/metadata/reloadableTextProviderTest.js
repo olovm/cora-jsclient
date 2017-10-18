@@ -105,6 +105,17 @@ QUnit.test("testMethodToCallCalledAfterSwitch", function(assert) {
 	assert.ok(called);
 });
 
+QUnit.test("testCurrentLangSetInSecondFactoredProviderAfterSwitchProvider", function(
+		assert) {
+	this.reloadableTextProvider.reload(function() {
+	});
+	this.reloadableTextProvider.setCurrentLang("en");
+	this.reloadableTextProvider.switchProvider();
+	var secondFactoredTextProvider = this.dependencies.textProviderFactory.getFactored(1);
+
+	assert.strictEqual(secondFactoredTextProvider.getSetCurrentLang(0), "en");
+});
+
 QUnit.test("testGetTranslationForwardedToSecondFactoredProviderAfterSwitchProvider", function(
 		assert) {
 	this.reloadableTextProvider.reload(function() {
@@ -112,6 +123,13 @@ QUnit.test("testGetTranslationForwardedToSecondFactoredProviderAfterSwitchProvid
 	this.reloadableTextProvider.switchProvider();
 	var secondFactoredTextProvider = this.dependencies.textProviderFactory.getFactored(1);
 	var translation = this.reloadableTextProvider.getTranslation("someMetadataId");
-
+	
 	assert.strictEqual(secondFactoredTextProvider.getFetchedTextIdNo(0), "someMetadataId");
+});
+
+QUnit.test("testSetCurrentLangForwardedToFactoredProvider", function(assert) {
+	var firstFactoredTextProvider = this.dependencies.textProviderFactory.getFactored(0);
+	var translation = this.reloadableTextProvider.setCurrentLang("en");
+
+	assert.strictEqual(firstFactoredTextProvider.getSetCurrentLang(0), "en");
 });

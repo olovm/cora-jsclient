@@ -28,6 +28,8 @@ QUnit.module("jsClientViewTest.js", {
 			"name" : "The Client",
 			"serverAddress" : "http://epc.ub.uu.se/cora/rest/",
 			"reloadProvidersMethod" : function() {
+			},
+			"setLanguageMethod" : function() {
 			}
 		};
 	},
@@ -93,9 +95,9 @@ QUnit.test("testMainLayout", function(assert) {
 QUnit.test("testReloadProvidersButton", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 	var mainView = jsClientView.getView();
-	
+
 	var header = jsClientView.getHeader();
-	assert.strictEqual(header.childNodes.length, 3);
+	assert.strictEqual(header.childNodes.length, 4);
 	var reloadProvidersButton = header.childNodes[2];
 	assert.strictEqual(reloadProvidersButton.onclick, this.spec.reloadProvidersMethod);
 	assert.strictEqual(reloadProvidersButton.textContent, "reloadProviders");
@@ -104,9 +106,9 @@ QUnit.test("testReloadProvidersButton", function(assert) {
 QUnit.test("testReloadProvidersButtonStatus", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 	var mainView = jsClientView.getView();
-	
+
 	var header = jsClientView.getHeader();
-	assert.strictEqual(header.childNodes.length, 3);
+	assert.strictEqual(header.childNodes.length, 4);
 	var reloadProvidersButton = header.childNodes[2];
 	assert.strictEqual(reloadProvidersButton.className, "menuView");
 	jsClientView.setReloadingProviders(true);
@@ -115,6 +117,31 @@ QUnit.test("testReloadProvidersButtonStatus", function(assert) {
 	assert.strictEqual(reloadProvidersButton.className, "menuView");
 });
 
+QUnit.test("testSetLanguageButton", function(assert) {
+	var settedLang = "";
+	this.spec.setLanguageMethod = function(lang) {
+		settedLang = lang;
+	};
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	var mainView = jsClientView.getView();
+
+	var header = jsClientView.getHeader();
+	assert.strictEqual(header.childNodes.length, 4);
+	var languageChoice = header.childNodes[3];
+	assert.strictEqual(languageChoice.type, "select-one");
+	assert.strictEqual(languageChoice.options[0].value, "sv");
+	assert.strictEqual(languageChoice.options[0].text, "sv");
+	assert.strictEqual(languageChoice.options[1].value, "en");
+	assert.strictEqual(languageChoice.options[1].text, "en");
+
+	languageChoice.options[1].selected = true;
+	languageChoice.onchange();
+	 assert.strictEqual(settedLang, "en");
+	 
+	 languageChoice.options[0].selected = true;
+	 languageChoice.onchange();
+	 assert.strictEqual(settedLang, "sv");
+});
 
 QUnit.test("testGetSpec", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
@@ -202,7 +229,7 @@ QUnit.test("testAddLoginManagerView", function(assert) {
 	var someView = CORA.gui.createSpanWithClassName("loginManagerView");
 	jsClientView.addLoginManagerView(someView);
 
-	assert.strictEqual(jsClientView.getHeader().childNodes[3], someView);
+	assert.strictEqual(jsClientView.getHeader().childNodes[4], someView);
 });
 
 QUnit.test("testAddGlobalView", function(assert) {
@@ -211,7 +238,7 @@ QUnit.test("testAddGlobalView", function(assert) {
 	var someView = CORA.gui.createSpanWithClassName("globalView");
 	jsClientView.addGlobalView(someView);
 
-	assert.strictEqual(jsClientView.getHeader().childNodes[3], someView);
+	assert.strictEqual(jsClientView.getHeader().childNodes[4], someView);
 });
 
 QUnit.test("testSetErrorMessage", function(assert) {

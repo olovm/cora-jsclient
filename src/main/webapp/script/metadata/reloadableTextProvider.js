@@ -50,8 +50,13 @@ var CORA = (function(cora) {
 		}
 
 		function switchProvider() {
-			 currentTextProvider = loadingTextProvider;
-			 callWhenSwitched();
+			loadingTextProvider.setCurrentLang(currentTextProvider.getCurrentLang());
+			currentTextProvider = loadingTextProvider;
+			callWhenSwitched();
+		}
+
+		function setCurrentLang(lang) {
+			currentTextProvider.setCurrentLang(lang);
 		}
 
 		var out = Object.freeze({
@@ -60,7 +65,8 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getTranslation : getTranslation,
 			reload : reload,
-			switchProvider : switchProvider
+			switchProvider : switchProvider,
+			setCurrentLang : setCurrentLang
 		});
 		start();
 		return out;
