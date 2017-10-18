@@ -352,12 +352,16 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	flex: 1 1 20%;
 	background-color: lightyellow;
 }
+.workView .pChildRefHandler.oneChildStyle {
+	flex: 1 1 10%;
+	background-color: lightyellow;
+}
 .workView .pChildRefHandler.zeroChildStyle {
 	flex: 1;
 	background-color: lightyellow;
 }
 .minimized .buttonView {
-	display: none;
+/* 	display: none; */
 }
 
 .presentation .text {
