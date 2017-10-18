@@ -149,7 +149,7 @@ var CORA = (function(cora) {
 			var languageChoice = document.createElement("select");
 			languageChoice.onchange = function() {
 				spec.setLanguageMethod(languageChoice.value);
-			}
+			};
 			var svOption = new Option("sv", "sv");
 			languageChoice.appendChild(svOption);
 			var enOption = new Option("en", "en");
