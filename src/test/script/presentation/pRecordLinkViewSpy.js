@@ -24,13 +24,13 @@ var CORATEST = (function(coraTest) {
 		var addedToolViews = [];
 		var childrenHidden = 0;
 		var showDataF = null;
-		// var view = document.createElement("span");
 		var view = CORA.gui.createSpanWithClassName("pRecordLinkViewSpyView");
 		var state;
 		var value;
 
 		var showOpenLinkedRecordCalled = 0;
 		var hideOpenLinkedRecordCalled = 0;
+		var removeLinkedPresentationCalled = 0;
 
 		var addedSearchHandlerViews = [];
 		var hideSearchHandlerViewCalled = 0;
@@ -80,6 +80,13 @@ var CORATEST = (function(coraTest) {
 			return hideOpenLinkedRecordCalled;
 		}
 
+		function removeLinkedPresentation() {
+			removeLinkedPresentationCalled++;
+		}
+		function getRemoveLinkedPresentation() {
+			return removeLinkedPresentationCalled;
+		}
+
 		function addSearchHandlerView(searchHandlerToAdd) {
 			addedSearchHandlerViews.push(searchHandlerToAdd);
 		}
@@ -110,6 +117,9 @@ var CORATEST = (function(coraTest) {
 			getShowOpenLinkedRecord : getShowOpenLinkedRecord,
 			hideOpenLinkedRecord : hideOpenLinkedRecord,
 			getHideOpenLinkedRecord : getHideOpenLinkedRecord,
+
+			removeLinkedPresentation : removeLinkedPresentation,
+			getRemoveLinkedPresentation : getRemoveLinkedPresentation,
 
 			addSearchHandlerView : addSearchHandlerView,
 			getAddedSearchHandlerView : getAddedSearchHandlerView,

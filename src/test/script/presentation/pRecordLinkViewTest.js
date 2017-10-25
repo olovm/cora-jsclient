@@ -120,6 +120,27 @@ QUnit.test("testAddSecondLinkedPresentationRemovesFirst", function(assert) {
 	assert.strictEqual(view.childNodes[this.defaultLastChildPosition + 1], linkedPresentation2);
 });
 
+QUnit.test("testRemoveLinkedPresentationRemovesFirst", function(assert) {
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	var view = pRecordLinkView.getView();
+	
+	var linkedPresentation = document.createElement("SPAN");
+	pRecordLinkView.addLinkedPresentation(linkedPresentation);
+	
+	pRecordLinkView.removeLinkedPresentation();
+	assert.strictEqual(view.childNodes[this.defaultLastChildPosition + 1], undefined);
+});
+
+QUnit.test("testRemoveNonExistingLinkedPresentationRemovesFirst", function(assert) {
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	var view = pRecordLinkView.getView();
+	
+	pRecordLinkView.removeLinkedPresentation();
+	assert.strictEqual(view.childNodes[this.defaultLastChildPosition + 1], undefined);
+});
+
+
+
 QUnit.test("testInfoSpec", function(assert) {
 	var expectedSpec = {
 		// "appendTo" : {},
@@ -184,6 +205,19 @@ QUnit.test("testOpenLinkedRecordRemovedFromView", function(assert) {
 	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 2);
 	var openButton = view.childNodes[this.defaultLastChildPosition + 1];
 	assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
+	pRecordLinkView.hideOpenLinkedRecord();
+	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
+});
+
+QUnit.test("testOpenLinkedRecordRemovedFromViewWhenNotPresent", function(assert) {
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	var view = pRecordLinkView.getView();
+	
+	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
+//	pRecordLinkView.showOpenLinkedRecord();
+//	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 2);
+//	var openButton = view.childNodes[this.defaultLastChildPosition + 1];
+//	assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
 	pRecordLinkView.hideOpenLinkedRecord();
 	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
 });

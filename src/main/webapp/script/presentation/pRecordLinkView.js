@@ -141,11 +141,16 @@ var CORA = (function(cora) {
 		}
 
 		function addLinkedPresentation(linkedPresentationToAdd) {
-			if (currentLinkedPresentation !== undefined) {
-				view.removeChild(currentLinkedPresentation);
-			}
+			removeLinkedPresentation();
 			view.appendChild(linkedPresentationToAdd);
 			currentLinkedPresentation = linkedPresentationToAdd;
+		}
+
+		function removeLinkedPresentation() {
+			if (currentLinkedPresentation !== undefined) {
+				view.removeChild(currentLinkedPresentation);
+				currentLinkedPresentation = undefined;
+			}
 		}
 
 		function showOpenLinkedRecord() {
@@ -153,7 +158,9 @@ var CORA = (function(cora) {
 		}
 
 		function hideOpenLinkedRecord() {
-			view.removeChild(openLinkedRecordButton);
+			if (view.contains(openLinkedRecordButton)) {
+				view.removeChild(openLinkedRecordButton);
+			}
 		}
 
 		function addSearchHandlerView(searchHandlerViewToAdd) {
@@ -205,7 +212,7 @@ var CORA = (function(cora) {
 			addChild : addChild,
 			hideChildren : hideChildren,
 			addLinkedPresentation : addLinkedPresentation,
-
+			removeLinkedPresentation : removeLinkedPresentation,
 			showOpenLinkedRecord : showOpenLinkedRecord,
 			hideOpenLinkedRecord : hideOpenLinkedRecord,
 			addSearchHandlerView : addSearchHandlerView,
