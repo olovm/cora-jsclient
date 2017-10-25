@@ -40,19 +40,21 @@ var CORA = (function(cora) {
 		}
 
 		function createOpenLinkedRecordButton() {
-			var openButtonSpec = {
-				"className" : "iconButton openLinkedRecordButton",
-				"onclick" : openLinkedRecord
+			return createButtonWithClassNameAndOnclickMethod("openLinkedRecordButton",
+					openLinkedRecord);
+		}
+
+		function createButtonWithClassNameAndOnclickMethod(className, onclickMethod) {
+			var buttonSpec = {
+				"className" : "iconButton " + className,
+				"onclick" : onclickMethod
 			};
-			return CORA.gui.createButton(openButtonSpec);
+			return CORA.gui.createButton(buttonSpec);
 		}
 
 		function createShowSearchButton() {
-			var buttonSpec = {
-				"className" : "iconButton showSearchButton",
-				"onclick" : toggleSearchHandlerView
-			};
-			return CORA.gui.createButton(buttonSpec);
+			return createButtonWithClassNameAndOnclickMethod("showSearchButton",
+					toggleSearchHandlerView);
 		}
 
 		function openLinkedRecord(event) {
@@ -154,7 +156,7 @@ var CORA = (function(cora) {
 		}
 
 		function showOpenLinkedRecord() {
-			view.appendChild(openLinkedRecordButton);
+			info.getButton().insertAdjacentElement("afterend", openLinkedRecordButton);
 		}
 
 		function hideOpenLinkedRecord() {
@@ -170,13 +172,13 @@ var CORA = (function(cora) {
 		}
 
 		function addSearchHandlerViewToView() {
-			childrenView.insertAdjacentElement("afterbegin", addedSearchHandlerView);
+			childrenView.insertAdjacentElement("beforebegin", addedSearchHandlerView);
 			searchHandlerShown = true;
 		}
 
 		function hideSearchHandlerView() {
 			if (searchIsAdded()) {
-				childrenView.removeChild(addedSearchHandlerView);
+				view.removeChild(addedSearchHandlerView);
 				searchHandlerShown = false;
 			}
 		}
