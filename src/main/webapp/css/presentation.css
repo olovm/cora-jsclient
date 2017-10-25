@@ -91,16 +91,24 @@ img {
 	height: 16px;
 	width: 16px;
 }
-.infoButton  {
-	margin-top: 0.1rem;
+.iconButton  {
+	top: 0.1rem;
 }
 
 .openLinkedRecordButton::before {
-	background-position: 0px -46px;
+	background-position: -240px -32px;
 }
 
 .openLinkedRecordButton::after {
-	background-position: -16px -0px;
+	background-position: -240px -16px;
+}
+
+.showSearchButton::before {
+	background-position: -224px -32px;
+}
+
+.showSearchButton::after {
+	background-position: -224px -16px;
 }
 
 .infoButton::before {
@@ -252,7 +260,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 .workView .pGroup > :nth-child(2) ,
 .workView .pSurroundingContainer > :nth-child(2) {
 	flex: 1;
-	margin: .2em 0;
+/* 	margin: .2em 0; */
 	order: 0;
 }
 .workView .pRecordLink > :first-child,
@@ -287,18 +295,38 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	font-size: 0.7rem;
 }
 
-.infoView::before {
-	display: inline;
+.infoView::before  {
+	background: url("../images/icons2.svg") no-repeat scroll;
 	content: "";
-	width: 12rem;
-	height: 12rem;
-	background: url("../images/icons2.svg") no-repeat scroll -50rem 0rem / 1456% auto rgba(255, 255, 0, 0);
-	z-index: -1;
-	position: absolute;
-	right: 10px;
-	top: 10px;
+	background-position: -63.5px -0px;
 	opacity: 0.1;
-	/* transform: scale(1); */
+	height: 16px;
+	width: 16px;
+	transform: scale(10, 10);
+	position: absolute;
+	right: 5.5rem;
+	top: 5rem;
+	z-index: -1;
+}
+.search{
+	position: relative;
+	overflow: hidden;
+}
+.search > * {
+	position: relative;
+}
+.search::before  {
+	background: url("../images/icons2.svg") no-repeat scroll;
+	content: "";
+	background-position: -224px -0px;
+	opacity: 0.2;
+	height: 16px;
+	width: 16px;
+	transform: scale(10, 10);
+	position: absolute;
+	left: 5.5rem;
+	top: 5rem;
+/* 	z-index: -1; */
 }
 
 .infoView .clickable{

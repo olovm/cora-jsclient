@@ -275,7 +275,7 @@ body {
 	overflow: auto;
 }
 
-.workArea .workView .workItem {
+.workArea .workView > .workItem {
 	display: block;
 	position: absolute;
 	overflow: auto;
@@ -345,6 +345,7 @@ body {
 	float: right;
 	position: relative;
 	margin-right: 2px;
+	top: 0px;
 }
 .openGuiItemHandlerView .recordType .buttonView>span::before, .openGuiItemHandlerView .recordType .buttonView>span::after,
 .recordTypesView .recordType .buttonView>span::before, .recordTypesView .recordType .buttonView>span::after
