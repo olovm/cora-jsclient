@@ -49,6 +49,7 @@ var CORA = (function(cora) {
 			view = createBaseView();
 			createValueView();
 			possiblyCreateSearchHandler();
+			subscribeToSetValueIfLinkedPresentationExists();
 		}
 
 		function createBaseView() {
@@ -218,8 +219,8 @@ var CORA = (function(cora) {
 			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
 				recordIdPVarId = "linkedRecordIdOutputPVar";
 			}
-			createChildView("linkedRecordId", recordIdPVarId);
 			recordIdPath = calculateNewPath("linkedRecordIdTextVar");
+			createChildView("linkedRecordId", recordIdPVarId);
 
 			if (hasLinkedRepeatId) {
 				createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
@@ -241,7 +242,6 @@ var CORA = (function(cora) {
 					metadataIdUsedInData, cPresentationChild);
 			childViewNew.appendChild(pVar.getView());
 			view.addChild(childViewNew);
-
 		}
 
 		function createText(presRef) {
@@ -320,6 +320,18 @@ var CORA = (function(cora) {
 			return cMetadataLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
+		function subscribeToSetValueIfLinkedPresentationExists() {
+			dependencies.pubSub.subscribe("setValue", calculateNewPath("linkedRecordTypeTextVar"),
+					undefined, valueChangedOnInput);
+			dependencies.pubSub.subscribe("setValue", calculateNewPath("linkedRecordIdTextVar"),
+					undefined, valueChangedOnInput);
+		}
+
+		function valueChangedOnInput() {
+			view.removeLinkedPresentation();
+			view.hideOpenLinkedRecord();
+		}
+
 		function getView() {
 			return view.getView();
 		}
@@ -340,11 +352,19 @@ var CORA = (function(cora) {
 			var cGroup = CORA.coraData(openInfo.record.data);
 			var cRecordInfo = CORA.coraData(cGroup.getFirstChildByNameInData("recordInfo"));
 			var recordId = cRecordInfo.getFirstAtomicValueByNameInData("id");
+			publishNewValueForRecordId(recordId);
+			publishNewValueForLinkedData(recordId, openInfo);
+		}
+
+		function publishNewValueForRecordId(recordId) {
 			var data = {
 				"data" : recordId,
 				"path" : recordIdPath
 			};
 			dependencies.pubSub.publish("setValue", data);
+		}
+
+		function publishNewValueForLinkedData(recordId, openInfo) {
 			var linkedData = {
 				"children" : [ {
 					"name" : "linkedRecordType",
@@ -375,7 +395,8 @@ var CORA = (function(cora) {
 			getView : getView,
 			handleMsg : handleMsg,
 			openLinkedRecord : openLinkedRecord,
-			setResultFromSearch : setResultFromSearch
+			setResultFromSearch : setResultFromSearch,
+			valueChangedOnInput : valueChangedOnInput
 		});
 		start();
 		return out;

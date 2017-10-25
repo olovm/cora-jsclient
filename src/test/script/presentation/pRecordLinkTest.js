@@ -102,37 +102,37 @@ QUnit.module("pRecordLinkTest.js", {
 			}
 		};
 		this.dataFromMsgWithLinkButNoValue = {
-				"data" : {
-					"children" : [ {
-						"name" : "linkedRecordType",
-						"value" : "metadataTextVariable"
-					}, {
-						"name" : "linkedRecordId",
-						"value" : ""
-					} ],
-					"actionLinks" : {
-						"read" : {
-							"requestMethod" : "GET",
-							"rel" : "read",
-							"url" : "http://localhost:8080/therest/rest/record/system/cora",
-							"accept" : "application/vnd.uub.record+json"
-						}
-					},
-					"name" : "dataDivider"
+			"data" : {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataTextVariable"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : ""
+				} ],
+				"actionLinks" : {
+					"read" : {
+						"requestMethod" : "GET",
+						"rel" : "read",
+						"url" : "http://localhost:8080/therest/rest/record/system/cora",
+						"accept" : "application/vnd.uub.record+json"
+					}
 				},
-				"path" : {
+				"name" : "dataDivider"
+			},
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "recordInfo"
+				}, {
 					"name" : "linkedPath",
 					"children" : [ {
 						"name" : "nameInData",
-						"value" : "recordInfo"
-					}, {
-						"name" : "linkedPath",
-						"children" : [ {
-							"name" : "nameInData",
-							"value" : "dataDivider"
-						} ]
+						"value" : "dataDivider"
 					} ]
-				}
+				} ]
+			}
 		};
 		this.dataFromMsgWithoutLink = {
 			"data" : {
@@ -197,16 +197,67 @@ QUnit.test("testInitRecordLink", function(assert) {
 	};
 	assert.stringifyEqual(recordIdTextVarSpyDummyView.path, expectedPath);
 	assert.stringifyEqual(this.getIdForGeneratedPresentationByNo2(0), "linkedRecordIdPVar");
+});
+
+QUnit.test("testInitSubscribeToLinkedDataMessages", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkNoPresentationOfLinkedRecordPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
 
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();
-	assert.deepEqual(subscriptions.length, 1);
+	assert.deepEqual(subscriptions.length, 3);
 
 	var firstSubsription = subscriptions[0];
 	assert.strictEqual(firstSubsription.type, "linkedData");
 	assert.deepEqual(firstSubsription.path, {});
-	var pRecordLink = pRecordLink;
 	assert.ok(firstSubsription.functionToCall === pRecordLink.handleMsg);
 });
+
+QUnit.test("testInitSubscribeToSetValueOnRecordTypeAndRecordId", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkPresentationOfLinkedRecordOutputPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+
+	var subscriptions = this.dependencies.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 3);
+
+	var firstSubsription1 = subscriptions[1];
+	assert.strictEqual(firstSubsription1.type, "setValue");
+	var expectedPath = {
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "linkedRecordType"
+			} ],
+			"name" : "linkedPath"
+	};
+	assert.deepEqual(firstSubsription1.path, expectedPath);
+	
+	var firstSubsription = subscriptions[2];
+	assert.strictEqual(firstSubsription.type, "setValue");
+	var expectedPath = {
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "linkedRecordId"
+		} ],
+		"name" : "linkedPath"
+	};
+	assert.deepEqual(firstSubsription.path, expectedPath);
+	assert.ok(firstSubsription.functionToCall === pRecordLink.valueChangedOnInput);
+});
+
+QUnit.test("testInitSubscribeToSetValueOnRecordTypeAndRecordId", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkPresentationOfLinkedRecordOutputPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var factoredView= this.dependencies.pRecordLinkViewFactory.getFactored(0);
+
+	pRecordLink.valueChangedOnInput();
+	
+	assert.deepEqual(factoredView.getRemoveLinkedPresentation(), 1);
+	assert.deepEqual(factoredView.getHideOpenLinkedRecord(), 1);
+});
+
+
 
 QUnit.test("testGetDependencies", function(assert) {
 	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
@@ -635,7 +686,6 @@ QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroup", functio
 
 	assert.strictEqual(this.dependencies.recordGuiFactory.getSpec(0).metadataId,
 			"metadataTextVariableGroup");
-
 });
 
 QUnit.test("testInitRecordLinkOutputWithLinkedRecordPresentationsGroupNoData", function(assert) {
@@ -810,10 +860,10 @@ QUnit.test("testHandleMsgWithLinkButNoValueUsedInCopyAsNewShowsSearch", function
 	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
 	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
 	var dataFromMsg = this.dataFromMsgWithLinkButNoValue;
-	
+
 	assert.strictEqual(pRecordLinkView.getHideSearchHandlerView(), 0);
 	pRecordLink.handleMsg(dataFromMsg, "linkedData");
-	
+
 	assert.strictEqual(pRecordLinkView.getHideSearchHandlerView(), 0);
 });
 
