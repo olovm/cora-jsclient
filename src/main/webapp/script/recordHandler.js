@@ -62,7 +62,8 @@ var CORA = (function(cora) {
 			var recordHandlerViewSpec = {
 				"extraClassName" : "recordHandler",
 				"showDataMethod" : showData,
-				"copyDataMethod" : copyData
+				"copyDataMethod" : copyData,
+				"showIncomingLinksMethod" : showIncomingLinks
 			};
 			return dependencies.recordHandlerViewFactory.factor(recordHandlerViewSpec);
 		}
@@ -271,6 +272,7 @@ var CORA = (function(cora) {
 			recordGui.initMetadataControllerStartingGui();
 
 			addEditButtonsToView();
+			possiblyShowShowIncomingLinksButton();
 			busy.hideWithEffect();
 		}
 
@@ -317,6 +319,16 @@ var CORA = (function(cora) {
 			if (recordHasUpdateLink()) {
 				recordHandlerView.addButton("UPDATE", sendUpdateDataToServer, "update");
 			}
+		}
+		function possiblyShowShowIncomingLinksButton() {
+			if (recordHasIncomingLinks()) {
+				recordHandlerView.showShowIncomingLinksButton();
+			}
+		}
+
+		function recordHasIncomingLinks() {
+			var readIncomingLinks = fetchedRecord.actionLinks.read_incoming_links;
+			return readIncomingLinks !== undefined;
 		}
 
 		function showData() {
@@ -422,6 +434,12 @@ var CORA = (function(cora) {
 			recordGui.initMetadataControllerStartingGui();
 		}
 
+		function showIncomingLinks() {
+			var textNode = document
+					.createTextNode(fetchedRecord.actionLinks.read_incoming_links.url);
+			recordHandlerView.addToIncomingLinksView(textNode);
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -445,7 +463,8 @@ var CORA = (function(cora) {
 			sendUpdateDataToServer : sendUpdateDataToServer,
 			shouldRecordBeDeleted : shouldRecordBeDeleted,
 			getManagedGuiItem : getManagedGuiItem,
-			reloadForMetadataChanges : reloadForMetadataChanges
+			reloadForMetadataChanges : reloadForMetadataChanges,
+			showIncomingLinks : showIncomingLinks
 		});
 		return out;
 	};
