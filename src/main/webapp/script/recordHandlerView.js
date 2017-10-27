@@ -42,10 +42,8 @@ var CORA = (function(cora) {
 		setCopyAsNewFunction(spec.copyDataMethod);
 
 		function start() {
-			// if (spec.showIncomingLinksMethod !== undefined) {
 			showIncomingLinksButton = createButton("SHOWINCOMINGLINKS",
 					spec.showIncomingLinksMethod, "showIncomingLinks");
-			// }
 		}
 
 		function addToShowView(node) {
@@ -105,11 +103,11 @@ var CORA = (function(cora) {
 		function addToIncomingLinksView(node) {
 			incomingLinksView.appendChild(node);
 		}
-		
+
 		function showShowIncomingLinksButton() {
 			buttonView.appendChild(showIncomingLinksButton);
 		}
-		
+
 		function hideShowIncomingLinksButton() {
 			buttonView.removeChild(showIncomingLinksButton);
 		}
