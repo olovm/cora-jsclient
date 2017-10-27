@@ -28,6 +28,9 @@ var CORATEST = (function(coraTest) {
 		var copyAsNewFunction = null;
 		var objectsAddedToEditView = [];
 
+		var showShowIncomingLinks = false;
+		var objectsAddedToIncomingLinksView = [];
+
 		var spyView = document.createElement("span");
 		function getView() {
 			return spyView;
@@ -95,6 +98,20 @@ var CORATEST = (function(coraTest) {
 			return objectsAddedToEditView[number];
 		}
 
+		function showShowIncomingLinksButton() {
+			showShowIncomingLinks = true;
+		}
+		function getShowShowIncomingLinksButton() {
+			return showShowIncomingLinks;
+		}
+
+		function addToIncomingLinksView(obj) {
+			objectsAddedToIncomingLinksView.push(obj);
+		}
+		function getObjectAddedToIncomingLinksView(no) {
+			return objectsAddedToIncomingLinksView[no];
+		}
+
 		var out = Object.freeze({
 			getView : getView,
 			addToShowView : addToShowView,
@@ -115,7 +132,13 @@ var CORATEST = (function(coraTest) {
 			getAddedShowView : getAddedShowView,
 			getAddedButton : getAddedButton,
 			addObjectToEditView : addObjectToEditView,
-			getObjectAddedToEditView : getObjectAddedToEditView
+			getObjectAddedToEditView : getObjectAddedToEditView,
+
+			addToIncomingLinksView : addToIncomingLinksView,
+			getObjectAddedToIncomingLinksView : getObjectAddedToIncomingLinksView,
+			showShowIncomingLinksButton : showShowIncomingLinksButton,
+			getShowShowIncomingLinksButton : getShowShowIncomingLinksButton,
+		// hideShowIncomingLinksButton : hideShowIncomingLinksButton
 		});
 		return out;
 	};

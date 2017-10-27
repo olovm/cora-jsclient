@@ -24,6 +24,7 @@ QUnit.module("recordHandlerTest.js", {
 		this.record = CORATEST.recordTypeList.dataList.data[4].record;
 		this.recordWithoutUpdateOrDeleteLink = CORATEST.recordWithoutUpdateOrDeleteLink;
 		this.recordWithoutDeleteLink = CORATEST.recordWithoutDeleteLink;
+		this.recordWithReadIncomingLinks = CORATEST.recordWithReadIncomingLinks;
 
 		this.pubSub = CORATEST.pubSubSpy();
 
@@ -113,6 +114,17 @@ QUnit.module("recordHandlerTest.js", {
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
 		}
+		this.answerCallWithIncomingLinks = function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecord = JSON.stringify({
+				"record" : this.recordWithReadIncomingLinks
+			});
+			var answer = {
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecord
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
 
 	},
 	afterEach : function() {
@@ -165,6 +177,7 @@ QUnit.test("testInitRecordHandlerViewSpec", function(assert) {
 	// TODO: test that buttons are added on init in view...
 	assert.strictEqual(usedSpec.showDataMethod, recordHandler.showData);
 	assert.strictEqual(usedSpec.copyDataMethod, recordHandler.copyData);
+	assert.strictEqual(usedSpec.showIncomingLinksMethod, recordHandler.showIncomingLinks);
 });
 
 QUnit.test("testInitRecordHandlerViewFormFactoredAndAdded", function(assert) {
@@ -696,6 +709,35 @@ QUnit.test("initCheckRightGuiCreatedNew", function(assert) {
 	assert.strictEqual(item.nodeName, "SPAN");
 });
 
+QUnit.test("initCheckNoIncomingLinksButtonForNew", function(assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.specForNew);
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+
+	assert.strictEqual(recordHandlerViewSpy.getShowShowIncomingLinksButton(), false);
+});
+
+QUnit.test("initCheckIncomingLinksButtonForIncomingLinks", function(assert) {
+	this.spec.createNewRecord = "false";
+	this.spec.record = this.recordWithReadIncomingLinks;
+
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCallWithIncomingLinks(0);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	assert.strictEqual(recordHandlerViewSpy.getShowShowIncomingLinksButton(), true);
+});
+
+QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
+	this.spec.createNewRecord = "false";
+	this.spec.record = this.recordWithoutDeleteLink;
+
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCallWithoutDeleteLink(0);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	assert.strictEqual(recordHandlerViewSpy.getShowShowIncomingLinksButton(), false);
+});
+
 QUnit.test("initCheckRightGuiCreatedForExisting", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
@@ -884,8 +926,8 @@ QUnit.test("testReloadForMetadataChanges", function(assert) {
 	assert.strictEqual(recordHandlerViewSpy.getClearDataViewsWasCalled(), true);
 
 	var factoredRecordGui1 = this.dependencies.recordGuiFactory.getFactored(1);
-//	var factoredRecordGuiSpec1 = factoredRecordGui1.getSpec();
-	var factoredRecordGuiSpec1 =  this.dependencies.recordGuiFactory.getSpec(1);
+	// var factoredRecordGuiSpec1 = factoredRecordGui1.getSpec();
+	var factoredRecordGuiSpec1 = this.dependencies.recordGuiFactory.getSpec(1);
 
 	assert.strictEqual(factoredRecordGuiSpec1.metadataId, factoredRecordGuiSpec0.metadataId);
 	assert.strictEqual(factoredRecordGuiSpec1.dataDivider, factoredRecordGuiSpec0.dataDivider);
@@ -952,4 +994,20 @@ QUnit.test("testReloadRecordHandlerViewMenuFactoredAndAdded", function(assert) {
 	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
 	var factoredView = factoredRecordGui.getReturnedPresentations(2);
 	assert.strictEqual(factoredView.getView(), managedGuiItemSpy.getAddedMenuPresentation(1));
+});
+
+QUnit.test("testShowIncomingLinks", function(assert) {
+	this.spec.createNewRecord = "false";
+	this.spec.record = this.recordWithReadIncomingLinks;
+
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCallWithIncomingLinks(0);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	recordHandler.showIncomingLinks();
+
+	var addedToIncomingLinksView = recordHandlerViewSpy.getObjectAddedToIncomingLinksView(0);
+
+	assert.strictEqual(addedToIncomingLinksView.textContent,
+			"http://localhost:8080/therest/rest/record/coraText/textSystemOne/incomingLinks");
 });

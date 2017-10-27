@@ -20,6 +20,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandlerView = function(dependencies, spec) {
+		var showIncomingLinksButton;
 
 		var workItemViewSpec = {
 			"extraClassName" : spec.extraClassName
@@ -34,9 +35,18 @@ var CORA = (function(cora) {
 		workItemView.addViewToView(showView);
 		var buttonView = CORA.gui.createSpanWithClassName("buttonView");
 		workItemView.addViewToView(buttonView);
+		var incomingLinksView = CORA.gui.createSpanWithClassName("incomingLinksView");
+		workItemView.addViewToView(incomingLinksView);
 
 		setShowDataFunction(spec.showDataMethod);
 		setCopyAsNewFunction(spec.copyDataMethod);
+
+		function start() {
+			// if (spec.showIncomingLinksMethod !== undefined) {
+			showIncomingLinksButton = createButton("SHOWINCOMINGLINKS",
+					spec.showIncomingLinksMethod, "showIncomingLinks");
+			// }
+		}
 
 		function addToShowView(node) {
 			showView.appendChild(node);
@@ -49,6 +59,7 @@ var CORA = (function(cora) {
 		function addButton(text, onclickMethod, className) {
 			var button = createButton(text, onclickMethod, className);
 			buttonView.appendChild(button);
+			return button;
 		}
 
 		function createButton(text, onclickMethod, className) {
@@ -91,12 +102,28 @@ var CORA = (function(cora) {
 			editView.appendChild(document.createTextNode(JSON.stringify(objectToAdd)));
 		}
 
+		function addToIncomingLinksView(node) {
+			incomingLinksView.appendChild(node);
+		}
+		
+		function showShowIncomingLinksButton() {
+			buttonView.appendChild(showIncomingLinksButton);
+		}
+		
+		function hideShowIncomingLinksButton() {
+			buttonView.removeChild(showIncomingLinksButton);
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
+
 		function getSpec() {
 			return spec;
 		}
+
+		start();
+
 		return Object.freeze({
 			"type" : "recordHandlerView",
 			getDependencies : getDependencies,
@@ -107,7 +134,10 @@ var CORA = (function(cora) {
 			addButton : addButton,
 			clearViews : clearViews,
 			clearDataViews : clearDataViews,
-			addObjectToEditView : addObjectToEditView
+			addObjectToEditView : addObjectToEditView,
+			addToIncomingLinksView : addToIncomingLinksView,
+			showShowIncomingLinksButton : showShowIncomingLinksButton,
+			hideShowIncomingLinksButton : hideShowIncomingLinksButton
 		});
 	};
 	return cora;

@@ -8,19 +8,7 @@ body {
 	margin: 0px;
 	height: 100%;
 	padding: 0px;
-	font-family: 'Open Sans',sans-serif;
-}
-
-.topBar {
-	min-height: 2rem;
-	display: block;
-	border-bottom: 1px solid #0082c9;
-}
-
-.topBar .iconButton {
-	transform: scale(1.3, 1.3);
-	top: 0.5rem;
-	right: 0.5rem;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .holder.tool {
@@ -32,6 +20,7 @@ body {
 	overflow: hidden;
 	margin: 2px 0px;
 	z-index: 0;
+	flex: 0 0 calc(100% - 1rem);
 }
 
 .holder.tool:before {
@@ -54,6 +43,7 @@ body {
 	min-width: 1px;
 	display: inline-block;
 }
+
 .holder.tool input {
 	margin: 1rem;
 }
@@ -117,15 +107,16 @@ body {
 	animation-iteration-count: infinite;
 }
 
-@keyframes rotation2 {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(359deg);
-	}
+@
+keyframes rotation2 {from { transform:rotate(0deg);
+	
 }
 
+to {
+	transform: rotate(359deg);
+}
+
+}
 .iconButton.loginManagerView {
 	transform: none;
 	font-size: 1.1rem;
@@ -135,7 +126,8 @@ body {
 	cursor: pointer;
 }
 
-.iconButton.loginManagerView:before,  .iconButton.loginManagerView:after{
+.iconButton.loginManagerView:before, .iconButton.loginManagerView:after
+	{
 	background: none;
 }
 
@@ -149,6 +141,7 @@ body {
 	z-index: 1000;
 	background: lightblue;
 }
+
 .loginManagerView .menuOption {
 	height: 2rem;
 	display: block;
@@ -175,14 +168,18 @@ body {
 	border-bottom: 1px solid;
 	display: block;
 }
+
 .openGuiItemHandlerView {
-	padding-top: .5rem;	
-	padding-bottom: 1rem;	
+	padding-top: .5rem;
+	padding-bottom: 1rem;
 }
-.openGuiItemHandlerView .header{
+
+.openGuiItemHandlerView .header {
 	font-weight: bold;
 }
-.openGuiItemHandlerView>.recordType, .recordTypesView>.recordType, .searchesView>.searchRecord {
+
+.openGuiItemHandlerView>.recordType, .recordTypesView>.recordType,
+	.searchesView>.searchRecord {
 	display: block;
 	border-color: inherit;
 	margin-bottom: 1rem;
@@ -191,11 +188,12 @@ body {
 	position: relative;
 }
 
-.openGuiItemHandlerView>.header , .recordTypesView>.header {
+.openGuiItemHandlerView>.header, .recordTypesView>.header {
 	padding: .2rem;
 }
 
-.openGuiItemHandlerView .changed:before , .recordTypesView .changed:before {
+.openGuiItemHandlerView .changed:before, .recordTypesView .changed:before
+	{
 	content: "* ";
 }
 
@@ -204,19 +202,21 @@ body {
 	position: relative;
 }
 
-.sideBar .menuView > .removeButton {
+.sideBar .menuView>.removeButton {
 	position: absolute;
 	right: 0px;
 	top: 2px;
 }
 
-.sideBar .header.clickable:hover, .sideBar .childrenView .menuView:hover {
+.sideBar .header.clickable:hover, .sideBar .childrenView .menuView:hover
+	{
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-.openGuiItemHandlerView .childrenView span, .openGuiItemHandlerView .childrenView div, 
-.recordTypesView .childrenView span, .recordTypesView .childrenView div {
+.openGuiItemHandlerView .childrenView span, .openGuiItemHandlerView .childrenView div,
+	.recordTypesView .childrenView span, .recordTypesView .childrenView div
+	{
 	text-decoration: inherit;
 }
 
@@ -255,15 +255,16 @@ body {
 	background-color: rgba(5, 131, 249, 0.49);
 }
 
-.openGuiItemHandlerView .menuView , .recordTypesView>.recordType  span, .searchesView>.searchRecord  span {
+.openGuiItemHandlerView .menuView, .recordTypesView>.recordType  span,
+	.searchesView>.searchRecord  span {
 	display: block;
 }
 
 .jsClient>.workArea {
 	display: inline;
 	height: calc(100% - 3rem - 1px);
-	margin-left: 1rem;
 	position: absolute;
+	margin-left: 1rem;
 	width: calc(100% - 22rem - 1px);
 }
 
@@ -275,25 +276,60 @@ body {
 	overflow: auto;
 }
 
-.workArea .workView > .workItem {
-	display: block;
-	position: absolute;
+.workArea .workView>.workItem {
+	display: flex;
+	flex-wrap: wrap;
 	overflow: auto;
 	height: 100%;
-	width: 100%;
+	/* 	justify-content: flex-start; */
+	align-content: flex-start;
+}
+
+.topBar {
+	height: 2rem;
+	display: block;
+	border-bottom: 1px solid #0082c9;
+	flex: 0 0 100%;
+}
+
+.topBar .iconButton {
+	transform: scale(1.3, 1.3);
+	top: 0.5rem;
+	right: 0.5rem;
+}
+
+.jsClient .workItem>.searchFormHolder {
+	flex: 0 0 100%;
+}
+
+.jsClient .editView, .jsClient .showView {
+	flex: 1 1 calc(50% - 1rem);
+	margin: 0 0.5rem;
+}
+
+.jsClient .workItem>.buttonView {
+	height: 2rem;
+	display: block;
+	height: 2rem;
+	flex: 0 0 100%;
+}
+
+.jsClient .workItem>.incomingLinksView {
+	flex: 0 0 100%;
 }
 
 .workArea .workView .presentation {
 	box-shadow: none;
 }
 
-.workArea .childrenView > .workItem {
+.workArea .childrenView>.workItem {
 	display: inline;
 	position: relative;
 }
 
 .openGuiItemHandlerView .menuView div, .jsClient .openGuiItemHandlerView .menuView span,
- .recordTypesView .menuView div, .jsClient .recordTypesView .menuView span {
+	.recordTypesView .menuView div, .jsClient .recordTypesView .menuView span
+	{
 	display: inline;
 	border: none;
 	padding: 0;
@@ -302,8 +338,9 @@ body {
 	margin: 0;
 }
 
-.openGuiItemHandlerView .menuView .pVar span, .jsClient .openGuiItemHandlerView .menuView .text , 
-.recordTypesView .menuView .pVar span, .jsClient .recordTypesView .menuView .text {
+.openGuiItemHandlerView .menuView .pVar span, .jsClient .openGuiItemHandlerView .menuView .text,
+	.recordTypesView .menuView .pVar span, .jsClient .recordTypesView .menuView .text
+	{
 	max-width: calc(70% - 1rem - 30px);
 	overflow: hidden;
 	display: inline-block;
@@ -311,15 +348,18 @@ body {
 	white-space: pre;
 }
 
-.openGuiItemHandlerView [class*='recordInfo'] .pVar span:before , .recordTypesView [class*='recordInfo'] .pVar span:before {
+.openGuiItemHandlerView [class*='recordInfo'] .pVar span:before,
+	.recordTypesView [class*='recordInfo'] .pVar span:before {
 	content: "(";
 }
 
-.openGuiItemHandlerView [class*='recordInfo'] .pVar span:after , .recordTypesView [class*='recordInfo'] .pVar span:after {
+.openGuiItemHandlerView [class*='recordInfo'] .pVar span:after,
+	.recordTypesView [class*='recordInfo'] .pVar span:after {
 	content: ")";
 }
 
-.openGuiItemHandlerView [class*='recordInfo'] .pVar span, .recordTypesView [class*='recordInfo'] .pVar span {
+.openGuiItemHandlerView [class*='recordInfo'] .pVar span,
+	.recordTypesView [class*='recordInfo'] .pVar span {
 	padding-right: 1rem;
 	width: 30%;
 	overflow: hidden;
@@ -328,7 +368,8 @@ body {
 	white-space: pre;
 }
 
-.openGuiItemHandlerView .recordType .buttonView , .recordTypesView .recordType .buttonView {
+.openGuiItemHandlerView .recordType .buttonView, .recordTypesView .recordType .buttonView
+	{
 	min-width: 20px;
 	min-height: 20px;
 	position: absolute;
@@ -347,8 +388,10 @@ body {
 	margin-right: 2px;
 	top: 0px;
 }
-.openGuiItemHandlerView .recordType .buttonView>span::before, .openGuiItemHandlerView .recordType .buttonView>span::after,
-.recordTypesView .recordType .buttonView>span::before, .recordTypesView .recordType .buttonView>span::after
+
+.openGuiItemHandlerView .recordType .buttonView>span::before,
+	.openGuiItemHandlerView .recordType .buttonView>span::after,
+	.recordTypesView .recordType .buttonView>span::before, .recordTypesView .recordType .buttonView>span::after
 	{
 	top: 3px;
 	right: 2px;
@@ -459,23 +502,6 @@ body {
 	margin: 0;
 }
 
-.jsClient .showView {
-	float: right;
-}
-
-.jsClient .editView, .jsClient .showView {
-/* 	height: calc(100% - 3rem); */
-	width: calc(50% - 0.5rem);
-	display: inline-block;
-	overflow: auto;
-}
-
-.jsClient .editView .repeatingElement .repeatingElement, .jsClient .editView .pSurroundingContainer .repeatingElement
-	{
-	/* 	border: none; */
-	
-}
-
 .jsClient .editView .repeatingElement .repeatingElement .repeatingElement .maximized
 	{
 	border: none;
@@ -490,13 +516,7 @@ body {
 	border: none;
 }
 
-.jsClient .showView .pGroup>.pChildRefHandler+.pChildRefHandler {
-	/* 	margin-top: .3rem; */
-/* 	flex: 1; */
-}
-
 .jsClient .text {
-/* 	font-weight: bold; */
 	margin: 0;
 	margin-top: 0.5rem;
 	color: #575757;
@@ -507,13 +527,6 @@ body {
 	margin-top: 1rem;
 }
 
-.jsClient .workItem>.buttonView {
-	width: 100%;
-	height: 2rem;
-	display: block;
-	height: 2rem;
-}
-
 .jsClient .serverAddress {
 	position: absolute;
 	bottom: 0rem;
@@ -522,10 +535,12 @@ body {
 }
 
 .searchResultHolder {
-	display: block;
+	flex: 1;
 }
+
 .pRecordLink  .searchResultHolder {
 	border: dotted;
 	max-height: 30em;
 	overflow: auto;
+	display: block;
 }
