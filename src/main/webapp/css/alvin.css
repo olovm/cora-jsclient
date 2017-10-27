@@ -1,0 +1,47 @@
+.jsClient.mainView {
+	border-color: #7fbfa7;
+	font-family: verdana, arial, helvetica, sans-serif;
+}
+.jsClient > .sideBar {
+	border-color: inherit;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right: none;
+	padding: 0rem 0.5rem;
+	position: absolute;
+	right: 0px;
+}
+.jsClient > .workArea {
+	margin-right: 0.5rem;
+	margin-left: 0.5rem;
+}
+.infoActive {
+	background-color: rgba(127, 191, 167, 0.1);
+}
+.sideBar .active, .header .active {
+	font-weight: bold;
+	background-color: rgba(127, 191, 167, 0.5);
+}
+.pVar:hover, .pCollVar:hover, .pGroup:hover, .pSurroundingContainer:hover, .repeatingElement:hover {
+	background-color: rgba(127, 191, 167, 0.1);
+}
+.jsClient>.header {
+	text-shadow: 1px 1px 1px #000, 5px 5px 8px #7fbfa7;
+	background-color: #7fbfa7;
+}
+
+.editView .presentation .text.h2TextStyle {
+	background-color: #7fbfa7;
+}
+
+.jsClient .sideBar, .showView .presentation .text.h2TextStyle, .showView .presentation .text.h1TextStyle {
+	color: #BF7125;
+}
+
+.holder.loginManagerView {
+	background: #7fbfa7;
+}
+
+.topBar {
+	border-color: #7fbfa7;
+}
