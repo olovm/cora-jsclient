@@ -7822,18 +7822,31 @@ function MetadataProviderStub() {
 					"name" : "mode",
 					"value" : "output"
 				}, {
-					"children" : [ {
-						"repeatId" : "1",
-						"children" : [ {
-							"name" : "linkedRecordType",
-							"value" : "metadataTextVariable"
-						}, {
-							"name" : "presentationId",
-							"value" : "metadataTextVariableViewPGroup"
-						} ],
-						"name" : "linkedRecordPresentation"
-					} ],
-					"name" : "linkedRecordPresentations"
+					"children": [
+						{"repeatId": "1",
+							"children": [
+								{	"name": "presentedRecordType",
+									"children": [
+										{	"name": "linkedRecordType",
+											"value": "recordType"
+										},
+										{	"name": "linkedRecordId",
+											"value": "metadataTextVariable"
+										}]
+								},
+								{	"name": "presentation",
+									"children": [
+										{	"name": "linkedRecordType",
+											"value": "presentation"
+										},
+										{	"name": "linkedRecordId",
+											"value": "metadataTextVariableViewPGroup"
+										}]
+								}],
+							"name": "linkedRecordPresentation"
+						}
+					],
+					"name": "linkedRecordPresentations"
 				} ]
 			};
 		case "myLinkPresentationOfLinkedRecordOutputPLinkWrongLinkedRecordType":
@@ -7862,19 +7875,29 @@ function MetadataProviderStub() {
 							"name" : "mode",
 							"value" : "output"
 						}, {
-							"children" : [ {
-								"repeatId" : "1",
-								"children" : [ {
-									"name" : "linkedRecordType",
-									"value" : "NOTmetadataTextVariable"
-								}, {
-									"name" : "presentationId",
-									"value" : "metadataTextVariableViewPGroup"
-								} ],
-								"name" : "linkedRecordPresentation"
+						"children" : [ {
+							"repeatId" : "1",
+							"children" : [ {	"name": "presentedRecordType",
+								"children": [
+									{	"name": "linkedRecordType",
+										"value": "recordType"
+									},
+									{	"name": "linkedRecordId",
+										"value": "NOTmetadataTextVariable"
+									}]
+							}, {	"name": "presentation",
+								"children": [
+									{	"name": "linkedRecordType",
+										"value": "presentation"
+									},
+									{	"name": "linkedRecordId",
+										"value": "metadataTextVariableViewPGroup"
+									}]
 							} ],
-							"name" : "linkedRecordPresentations"
-						} ]
+							"name" : "linkedRecordPresentation"
+						} ],
+						"name" : "linkedRecordPresentations"
+					} ]
 			};
 		case "linkedRecordTypeOutputPVar":
 			return {

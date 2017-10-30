@@ -169,8 +169,9 @@ var CORA = (function(cora) {
 
 			return function(child) {
 				var cChild = CORA.coraData(child);
-				var filterLinkedRecordType = cChild
-						.getFirstAtomicValueByNameInData("linkedRecordType");
+				var cPresentedRecordType = CORA.coraData(cChild.getFirstChildByNameInData("presentedRecordType"));
+				var filterLinkedRecordType = cPresentedRecordType
+						.getFirstAtomicValueByNameInData("linkedRecordId");
 				return filterLinkedRecordType === recordTypeId;
 			};
 		}
@@ -211,7 +212,8 @@ var CORA = (function(cora) {
 
 		function extractPresentationIdFromPresentation(presentation) {
 			var cChildPresentation = CORA.coraData(presentation);
-			return cChildPresentation.getFirstAtomicValueByNameInData("presentationId");
+			var cLinkedPresentationAsGroup = CORA.coraData(cChildPresentation.getFirstChildByNameInData("presentation"));
+			return cLinkedPresentationAsGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function createAndAddInputs() {
