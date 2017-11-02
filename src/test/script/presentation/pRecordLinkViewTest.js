@@ -94,7 +94,7 @@ QUnit.test("testAddChild", function(assert) {
 	assert.strictEqual(childrenView.childNodes[0], child);
 });
 
-QUnit.test("testHideChildrenView", function(assert) {
+QUnit.test("testHideAndShowChildrenView", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
 	this.fixture.appendChild(view);
@@ -107,6 +107,8 @@ QUnit.test("testHideChildrenView", function(assert) {
 	assert.visible(childrenView);
 	pRecordLinkView.hideChildren();
 	assert.notVisible(childrenView);
+	pRecordLinkView.showChildren();
+	assert.visible(childrenView);
 });
 
 QUnit.test("testAddLinkedPresentation", function(assert) {

@@ -894,3 +894,28 @@ QUnit.test("testOpenLinkedRecord", function(assert) {
 	assert.strictEqual(jsClient.getOpenInfo(1).readLink, expectedOpenInfo.readLink);
 	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "true");
 });
+
+QUnit.test("testClearLinkedRecordId", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("myLinkPresentationOfLinkedRecordInputPLink"));
+	var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
+	
+	assert.strictEqual(pRecordLinkView.getChildrenShown(), 0);
+
+	pRecordLink.clearLinkedRecordId();
+
+	var message0 = this.dependencies.pubSub.getMessages()[0];
+	assert.strictEqual(message0.type, "setValue");
+	assert.strictEqual(message0.message.data, "");
+
+	var expectedPath = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "linkedRecordId"
+		} ]
+	};
+	assert.stringifyEqual(message0.message.path, expectedPath);
+	assert.strictEqual(pRecordLinkView.getChildrenShown(), 1);
+});

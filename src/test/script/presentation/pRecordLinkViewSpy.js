@@ -23,6 +23,7 @@ var CORATEST = (function(coraTest) {
 		var addedLinkedPresentations = [];
 		var addedToolViews = [];
 		var childrenHidden = 0;
+		var childrenShown= 0;
 		var showDataF = null;
 		var view = CORA.gui.createSpanWithClassName("pRecordLinkViewSpyView");
 		var state;
@@ -60,6 +61,15 @@ var CORATEST = (function(coraTest) {
 		function getChildrenHidden() {
 			return childrenHidden;
 		}
+		
+		function showChildren() {
+			childrenShown++;
+		}
+		function getChildrenShown() {
+			return childrenShown;
+		}
+		
+		
 		function addLinkedPresentation(presentationToAdd) {
 			addedLinkedPresentations.push(presentationToAdd);
 		}
@@ -111,6 +121,8 @@ var CORATEST = (function(coraTest) {
 			getAddedChild : getAddedChild,
 			hideChildren : hideChildren,
 			getChildrenHidden : getChildrenHidden,
+			showChildren : showChildren,
+			getChildrenShown : getChildrenShown,
 			addLinkedPresentation : addLinkedPresentation,
 			getAddedLinkedPresentation : getAddedLinkedPresentation,
 			showOpenLinkedRecord : showOpenLinkedRecord,

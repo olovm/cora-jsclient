@@ -22,6 +22,7 @@ var CORA = (function(cora) {
 		var out;
 		var view;
 		var childrenView;
+		var childrenViewInitialDisplay = "";
 		var baseClassName = "pRecordLink";
 		var info;
 		var openLinkedRecordButton;
@@ -137,9 +138,14 @@ var CORA = (function(cora) {
 		function addChild(childToAdd) {
 			childrenView.appendChild(childToAdd);
 		}
-
+		
 		function hideChildren() {
+			childrenViewInitialDisplay = childrenView.style.display;
 			childrenView.style.display = "none";
+		}
+		
+		function showChildren() {
+			childrenView.style.display = childrenViewInitialDisplay;
 		}
 
 		function addLinkedPresentation(linkedPresentationToAdd) {
@@ -213,6 +219,7 @@ var CORA = (function(cora) {
 			updateClassName : updateClassName,
 			addChild : addChild,
 			hideChildren : hideChildren,
+			showChildren : showChildren,
 			addLinkedPresentation : addLinkedPresentation,
 			removeLinkedPresentation : removeLinkedPresentation,
 			showOpenLinkedRecord : showOpenLinkedRecord,

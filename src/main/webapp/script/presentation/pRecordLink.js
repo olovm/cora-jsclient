@@ -169,7 +169,8 @@ var CORA = (function(cora) {
 
 			return function(child) {
 				var cChild = CORA.coraData(child);
-				var cPresentedRecordType = CORA.coraData(cChild.getFirstChildByNameInData("presentedRecordType"));
+				var cPresentedRecordType = CORA.coraData(cChild
+						.getFirstChildByNameInData("presentedRecordType"));
 				var filterLinkedRecordType = cPresentedRecordType
 						.getFirstAtomicValueByNameInData("linkedRecordId");
 				return filterLinkedRecordType === recordTypeId;
@@ -212,7 +213,8 @@ var CORA = (function(cora) {
 
 		function extractPresentationIdFromPresentation(presentation) {
 			var cChildPresentation = CORA.coraData(presentation);
-			var cLinkedPresentationAsGroup = CORA.coraData(cChildPresentation.getFirstChildByNameInData("presentation"));
+			var cLinkedPresentationAsGroup = CORA.coraData(cChildPresentation
+					.getFirstChildByNameInData("presentation"));
 			return cLinkedPresentationAsGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
@@ -387,6 +389,15 @@ var CORA = (function(cora) {
 			dependencies.pubSub.publish("linkedData", message);
 		}
 
+		function clearLinkedRecordId() {
+			publishNewValueForRecordId("");
+			showIdPresentations();
+		}
+
+		function showIdPresentations() {
+			view.showChildren();
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -398,7 +409,8 @@ var CORA = (function(cora) {
 			handleMsg : handleMsg,
 			openLinkedRecord : openLinkedRecord,
 			setResultFromSearch : setResultFromSearch,
-			valueChangedOnInput : valueChangedOnInput
+			valueChangedOnInput : valueChangedOnInput,
+			clearLinkedRecordId : clearLinkedRecordId
 		});
 		start();
 		return out;
