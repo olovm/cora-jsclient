@@ -278,7 +278,8 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	order: 3;
 }
 
-.jsClient .workView .openLinkedRecordButton, .jsClient .workView .showSearchButton {
+.jsClient .workView .openLinkedRecordButton, .jsClient .workView .showSearchButton,  
+.jsClient .workView .clearLinkedRecordIdButton{
 	order: 2;
 	flex: 0 auto;
 }

@@ -80,11 +80,15 @@ var CORA = (function(cora) {
 		}
 
 		function createValueView() {
-			if (mode === "input") {
+			if (isInInputMode()) {
 				createAndAddInputs();
 			} else {
 				createAndAddOutput();
 			}
+		}
+
+		function isInInputMode() {
+			return mode === "input";
 		}
 
 		function handleMsg(payloadFromMsg) {
@@ -109,7 +113,7 @@ var CORA = (function(cora) {
 		function handleMsgWithData(payloadFromMsg) {
 			closeSearchIfThereIsOne();
 			createLinkedRecordPresentationView(payloadFromMsg);
-			manageOpeningOfLinkedRecord(payloadFromMsg);
+			showOrHideOpenLinkedRecordButton(payloadFromMsg);
 		}
 
 		function closeSearchIfThereIsOne() {
@@ -118,19 +122,9 @@ var CORA = (function(cora) {
 
 		function createLinkedRecordPresentationView(payloadFromMsg) {
 			if (linkedRecordShouldBePresentedCanBeRead(payloadFromMsg)) {
-				createRecordViewerForLinkedRecord(payloadFromMsg.data);
-			}
-		}
-		function manageOpeningOfLinkedRecord(payloadFromMsg) {
-			if (messageContainsDataWithActionLinks(payloadFromMsg)) {
-				readLink = payloadFromMsg.data.actionLinks.read;
-				view.showOpenLinkedRecord();
-				openLinkShowing = true;
-			} else {
-				if (openLinkShowing) {
-					view.hideOpenLinkedRecord();
-					openLinkShowing = false;
-				}
+				var data = payloadFromMsg.data;
+				readLink = data.actionLinks.read;
+				possiblyCreateRecordViewerForLinkedRecord(data);
 			}
 		}
 
@@ -143,15 +137,11 @@ var CORA = (function(cora) {
 			return undefined !== payloadFromMsg.data.actionLinks;
 		}
 
-		function createRecordViewerForLinkedRecord(data) {
+		function possiblyCreateRecordViewerForLinkedRecord(data) {
 			var linkedRecordPresentation = findPresentationForRecordType(data);
-
-			readLink = data.actionLinks.read;
 			if (presentationExistsForLinkedRecordType(linkedRecordPresentation)) {
 				removeIdPresentations();
-				var linkedPresentationId = extractPresentationIdFromPresentation(linkedRecordPresentation);
-				createRecordViewerUsingChosenPresentationForLinkedRecord(readLink,
-						linkedPresentationId);
+				createRecordViewerUsingChosenPresentationForLinkedRecord(linkedRecordPresentation);
 			}
 		}
 
@@ -181,13 +171,29 @@ var CORA = (function(cora) {
 			return linkedRecordPresentation !== undefined;
 		}
 
-		function removeIdPresentations() {
-			view.hideChildren();
+		function showOrHideOpenLinkedRecordButton(payloadFromMsg) {
+			if (messageContainsDataWithActionLinks(payloadFromMsg)) {
+				readLink = payloadFromMsg.data.actionLinks.read;
+				view.showOpenLinkedRecordButton();
+				openLinkShowing = true;
+			} else {
+				if (openLinkShowing) {
+					view.hideOpenLinkedRecordButton();
+					openLinkShowing = false;
+				}
+			}
 		}
 
-		function createRecordViewerUsingChosenPresentationForLinkedRecord(readLinkIn,
-				linkedPresentationId) {
-			var recordViewerSpec = createRecordViewerSpec(readLinkIn, linkedPresentationId);
+		function removeIdPresentations() {
+			view.hideChildren();
+			if (isInInputMode()) {
+				view.showClearLinkedRecordIdButton(clearLinkedRecordId);
+			}
+		}
+
+		function createRecordViewerUsingChosenPresentationForLinkedRecord(linkedRecordPresentation) {
+			var linkedPresentationId = extractPresentationIdFromPresentation(linkedRecordPresentation);
+			var recordViewerSpec = createRecordViewerSpec(readLink, linkedPresentationId);
 			var recordViewer = CORA.recordViewer(recordViewerSpec);
 			var recordViewerView = recordViewer.getView();
 
@@ -333,7 +339,9 @@ var CORA = (function(cora) {
 
 		function valueChangedOnInput() {
 			view.removeLinkedPresentation();
-			view.hideOpenLinkedRecord();
+			view.hideOpenLinkedRecordButton();
+			// TODO
+			// view.hideClearLinkedRecordIdButton();
 		}
 
 		function getView() {

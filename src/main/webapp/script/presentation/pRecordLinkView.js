@@ -27,6 +27,7 @@ var CORA = (function(cora) {
 		var info;
 		var openLinkedRecordButton;
 		var showSearchButton;
+		var clearLinkedRecordIdButton;
 		var currentLinkedPresentation;
 		var addedSearchHandlerView;
 		var searchHandlerShown;
@@ -35,6 +36,7 @@ var CORA = (function(cora) {
 			view = CORA.gui.createSpanWithClassName(baseClassName);
 			openLinkedRecordButton = createOpenLinkedRecordButton();
 			showSearchButton = createShowSearchButton();
+			// clearLinkedRecordIdButton = createClearLinkedRecordIdButton();
 			info = createInfo();
 			view.appendChild(info.getButton());
 			createChildrenView();
@@ -57,6 +59,10 @@ var CORA = (function(cora) {
 			return createButtonWithClassNameAndOnclickMethod("showSearchButton",
 					toggleSearchHandlerView);
 		}
+
+		// function createClearLinkedRecordIdButton() {
+		// return createButtonWithClassNameAndOnclickMethod("clearLinkedRecordIdButton", {});
+		// }
 
 		function openLinkedRecord(event) {
 			var loadInBackground = "false";
@@ -138,12 +144,12 @@ var CORA = (function(cora) {
 		function addChild(childToAdd) {
 			childrenView.appendChild(childToAdd);
 		}
-		
+
 		function hideChildren() {
 			childrenViewInitialDisplay = childrenView.style.display;
 			childrenView.style.display = "none";
 		}
-		
+
 		function showChildren() {
 			childrenView.style.display = childrenViewInitialDisplay;
 		}
@@ -161,11 +167,11 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function showOpenLinkedRecord() {
+		function showOpenLinkedRecordButton() {
 			info.getButton().insertAdjacentElement("afterend", openLinkedRecordButton);
 		}
 
-		function hideOpenLinkedRecord() {
+		function hideOpenLinkedRecordButton() {
 			if (view.contains(openLinkedRecordButton)) {
 				view.removeChild(openLinkedRecordButton);
 			}
@@ -211,6 +217,15 @@ var CORA = (function(cora) {
 			return addedSearchHandlerView !== undefined;
 		}
 
+		function showClearLinkedRecordIdButton(onclickMethod) {
+			if (undefined !== clearLinkedRecordIdButton) {
+				clearLinkedRecordIdButton.parentNode.removeChild(clearLinkedRecordIdButton);
+			}
+			clearLinkedRecordIdButton = createButtonWithClassNameAndOnclickMethod(
+					"clearLinkedRecordIdButton", onclickMethod);
+			info.getButton().insertAdjacentElement("afterend", clearLinkedRecordIdButton);
+		}
+
 		out = Object.freeze({
 			"type" : "pRecordLinkView",
 			getDependencies : getDependencies,
@@ -222,8 +237,11 @@ var CORA = (function(cora) {
 			showChildren : showChildren,
 			addLinkedPresentation : addLinkedPresentation,
 			removeLinkedPresentation : removeLinkedPresentation,
-			showOpenLinkedRecord : showOpenLinkedRecord,
-			hideOpenLinkedRecord : hideOpenLinkedRecord,
+			showOpenLinkedRecordButton : showOpenLinkedRecordButton,
+			hideOpenLinkedRecordButton : hideOpenLinkedRecordButton,
+
+			showClearLinkedRecordIdButton : showClearLinkedRecordIdButton,
+
 			addSearchHandlerView : addSearchHandlerView,
 			hideSearchHandlerView : hideSearchHandlerView,
 			showSearchHandlerView : showSearchHandlerView
