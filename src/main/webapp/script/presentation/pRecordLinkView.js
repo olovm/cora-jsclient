@@ -218,12 +218,17 @@ var CORA = (function(cora) {
 		}
 
 		function showClearLinkedRecordIdButton(onclickMethod) {
-			if (undefined !== clearLinkedRecordIdButton) {
-				clearLinkedRecordIdButton.parentNode.removeChild(clearLinkedRecordIdButton);
-			}
+			hideClearLinkedRecordIdButton();
 			clearLinkedRecordIdButton = createButtonWithClassNameAndOnclickMethod(
 					"clearLinkedRecordIdButton", onclickMethod);
 			info.getButton().insertAdjacentElement("afterend", clearLinkedRecordIdButton);
+		}
+
+		function hideClearLinkedRecordIdButton() {
+			if (undefined !== clearLinkedRecordIdButton) {
+				clearLinkedRecordIdButton.parentNode.removeChild(clearLinkedRecordIdButton);
+				clearLinkedRecordIdButton = undefined;
+			}
 		}
 
 		out = Object.freeze({
@@ -241,6 +246,7 @@ var CORA = (function(cora) {
 			hideOpenLinkedRecordButton : hideOpenLinkedRecordButton,
 
 			showClearLinkedRecordIdButton : showClearLinkedRecordIdButton,
+			hideClearLinkedRecordIdButton : hideClearLinkedRecordIdButton,
 
 			addSearchHandlerView : addSearchHandlerView,
 			hideSearchHandlerView : hideSearchHandlerView,

@@ -267,27 +267,30 @@ QUnit.test("testClearLinkedRecordIdButtonCall", function(assert) {
 	assert.strictEqual(clicked, true);
 });
 
-// QUnit.test("testOpenLinkedRecordRemovedFromView", function(assert) {
-// var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
-// var view = pRecordLinkView.getView();
-//
-// assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
-// pRecordLinkView.showOpenLinkedRecordButton();
-// assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 2);
-// var openButton = view.childNodes[this.defaultLastChildPosition];
-// assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
-// pRecordLinkView.hideOpenLinkedRecordButton();
-// assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
-// });
-//
-// QUnit.test("testOpenLinkedRecordRemovedFromViewWhenNotPresent", function(assert) {
-// var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
-// var view = pRecordLinkView.getView();
-//	
-// assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
-// pRecordLinkView.hideOpenLinkedRecordButton();
-// assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
-// });
+QUnit.test("testClearLinkedRecordIdRemovedFromView",
+		function(assert) {
+			var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+			var view = pRecordLinkView.getView();
+
+			var onclickMethod = {
+				"dummy" : "trams"
+			};
+
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
+			pRecordLinkView.showClearLinkedRecordIdButton(onclickMethod);
+
+			var clearLinkedRecordIdButton = view.childNodes[this.defaultLastChildPosition];
+
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 2);
+			assert.strictEqual(clearLinkedRecordIdButton.className,
+					"iconButton clearLinkedRecordIdButton");
+
+			pRecordLinkView.hideClearLinkedRecordIdButton();
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
+
+			pRecordLinkView.hideClearLinkedRecordIdButton();
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
+		});
 
 QUnit.test("testAddChildPresentationClickableLoadInBackground", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);

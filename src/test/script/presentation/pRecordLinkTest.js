@@ -255,6 +255,7 @@ QUnit.test("testInitSubscribeToSetValueOnRecordTypeAndRecordId", function(assert
 
 	assert.deepEqual(factoredView.getRemoveLinkedPresentation(), 1);
 	assert.deepEqual(factoredView.getHideOpenLinkedRecord(), 1);
+	assert.deepEqual(factoredView.getHideClearLinkedRecordIdButtons(), 1);
 });
 
 QUnit.test("testGetDependencies", function(assert) {

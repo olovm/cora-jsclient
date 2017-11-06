@@ -111,13 +111,21 @@ img {
 	background-position: -224px -16px;
 }
 
+.clearLinkedRecordIdButton::before {
+	background-position: -256px -32px;
+}
+
+.clearLinkedRecordIdButton::after {
+	background-position: -256px -16px;
+}
+
 .infoButton::before {
-	background-position: -63px -0px;
+	background-position: -64px -0px;
 	opacity: 0;
 }
 
 .infoButton::after {
-	background-position: -63px -16px;
+	background-position: -64px -16px;
 }
 
 .iconButton.tool::before {
@@ -153,11 +161,11 @@ img {
 }
 
 .dragButton::before {
-	background-position: -193px -0px;
+	background-position: -192px -0px;
 }
 
 .dragButton::after {
-	background-position: -193px -16px;
+	background-position: -192px -16px;
 	cursor: move;
 }
 
@@ -299,7 +307,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 .infoView::before  {
 	background: url("../images/icons2.svg") no-repeat scroll;
 	content: "";
-	background-position: -63.5px -0px;
+	background-position: -64px -0px;
 	opacity: 0.1;
 	height: 16px;
 	width: 16px;
@@ -450,6 +458,21 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	flex: 1 0 calc(100% - 2px);
 	border: 1px dotted green;
 	position: relative;
+	overflow: hidden;
+	z-index: 0;
+}
+.recordViewer::before  {
+	background: url("../images/icons2.svg") no-repeat scroll;
+	content: "";
+	background-position: -240px -32px;
+	opacity: 0.1;
+	height: 16px;
+	width: 16px;
+	transform: scale(10, 10);
+	position: absolute;
+	right: 5.5rem;
+	top: 5rem;
+	z-index: -1;
 }
 
 .jsClient .workView .repeatingElement .compactChildStyle {

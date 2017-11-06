@@ -341,7 +341,7 @@ var CORA = (function(cora) {
 			view.removeLinkedPresentation();
 			view.hideOpenLinkedRecordButton();
 			// TODO
-			// view.hideClearLinkedRecordIdButton();
+			 view.hideClearLinkedRecordIdButton();
 		}
 
 		function getView() {

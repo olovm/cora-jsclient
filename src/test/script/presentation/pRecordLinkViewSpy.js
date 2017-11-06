@@ -37,6 +37,7 @@ var CORATEST = (function(coraTest) {
 		var hideSearchHandlerViewCalled = 0;
 
 		var clearLinkedRecordIdMethods = [];
+		var hideClearLinkedRecordIdButtonCalled = 0;
 
 		function getView() {
 			return view;
@@ -111,14 +112,21 @@ var CORATEST = (function(coraTest) {
 		function getHideSearchHandlerView() {
 			return hideSearchHandlerViewCalled;
 		}
-		
+
 		function showClearLinkedRecordIdButton(onclickMethod) {
 			clearLinkedRecordIdMethods.push(onclickMethod);
 		}
 		function getClearLinkedRecordIdMethods(no) {
 			return clearLinkedRecordIdMethods[no];
 		}
-		
+
+		function hideClearLinkedRecordIdButton() {
+			hideClearLinkedRecordIdButtonCalled++;
+		}
+		function getHideClearLinkedRecordIdButtons() {
+			return hideClearLinkedRecordIdButtonCalled;
+		}
+
 		var out = Object.freeze({
 			"type" : "pRecordLinkViewSpy",
 			getDependencies : getDependencies,
@@ -143,6 +151,9 @@ var CORATEST = (function(coraTest) {
 
 			showClearLinkedRecordIdButton : showClearLinkedRecordIdButton,
 			getClearLinkedRecordIdMethods : getClearLinkedRecordIdMethods,
+
+			hideClearLinkedRecordIdButton : hideClearLinkedRecordIdButton,
+			getHideClearLinkedRecordIdButtons : getHideClearLinkedRecordIdButtons,
 
 			addSearchHandlerView : addSearchHandlerView,
 			getAddedSearchHandlerView : getAddedSearchHandlerView,
