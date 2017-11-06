@@ -23,6 +23,7 @@ var CORATEST = (function(coraTest) {
 		var addedLinkedPresentations = [];
 		var addedToolViews = [];
 		var childrenHidden = 0;
+		var childrenShown = 0;
 		var showDataF = null;
 		var view = CORA.gui.createSpanWithClassName("pRecordLinkViewSpyView");
 		var state;
@@ -34,6 +35,9 @@ var CORATEST = (function(coraTest) {
 
 		var addedSearchHandlerViews = [];
 		var hideSearchHandlerViewCalled = 0;
+
+		var clearLinkedRecordIdMethods = [];
+		var hideClearLinkedRecordIdButtonCalled = 0;
 
 		function getView() {
 			return view;
@@ -60,6 +64,14 @@ var CORATEST = (function(coraTest) {
 		function getChildrenHidden() {
 			return childrenHidden;
 		}
+
+		function showChildren() {
+			childrenShown++;
+		}
+		function getChildrenShown() {
+			return childrenShown;
+		}
+
 		function addLinkedPresentation(presentationToAdd) {
 			addedLinkedPresentations.push(presentationToAdd);
 		}
@@ -67,13 +79,13 @@ var CORATEST = (function(coraTest) {
 			return addedLinkedPresentations[number];
 		}
 
-		function showOpenLinkedRecord() {
+		function showOpenLinkedRecordButton() {
 			showOpenLinkedRecordCalled++;
 		}
 		function getShowOpenLinkedRecord() {
 			return showOpenLinkedRecordCalled;
 		}
-		function hideOpenLinkedRecord() {
+		function hideOpenLinkedRecordButton() {
 			hideOpenLinkedRecordCalled++;
 		}
 		function getHideOpenLinkedRecord() {
@@ -101,6 +113,20 @@ var CORATEST = (function(coraTest) {
 			return hideSearchHandlerViewCalled;
 		}
 
+		function showClearLinkedRecordIdButton(onclickMethod) {
+			clearLinkedRecordIdMethods.push(onclickMethod);
+		}
+		function getClearLinkedRecordIdMethods(no) {
+			return clearLinkedRecordIdMethods[no];
+		}
+
+		function hideClearLinkedRecordIdButton() {
+			hideClearLinkedRecordIdButtonCalled++;
+		}
+		function getHideClearLinkedRecordIdButtons() {
+			return hideClearLinkedRecordIdButtonCalled;
+		}
+
 		var out = Object.freeze({
 			"type" : "pRecordLinkViewSpy",
 			getDependencies : getDependencies,
@@ -111,15 +137,23 @@ var CORATEST = (function(coraTest) {
 			getAddedChild : getAddedChild,
 			hideChildren : hideChildren,
 			getChildrenHidden : getChildrenHidden,
+			showChildren : showChildren,
+			getChildrenShown : getChildrenShown,
 			addLinkedPresentation : addLinkedPresentation,
 			getAddedLinkedPresentation : getAddedLinkedPresentation,
-			showOpenLinkedRecord : showOpenLinkedRecord,
+			showOpenLinkedRecordButton : showOpenLinkedRecordButton,
 			getShowOpenLinkedRecord : getShowOpenLinkedRecord,
-			hideOpenLinkedRecord : hideOpenLinkedRecord,
+			hideOpenLinkedRecordButton : hideOpenLinkedRecordButton,
 			getHideOpenLinkedRecord : getHideOpenLinkedRecord,
 
 			removeLinkedPresentation : removeLinkedPresentation,
 			getRemoveLinkedPresentation : getRemoveLinkedPresentation,
+
+			showClearLinkedRecordIdButton : showClearLinkedRecordIdButton,
+			getClearLinkedRecordIdMethods : getClearLinkedRecordIdMethods,
+
+			hideClearLinkedRecordIdButton : hideClearLinkedRecordIdButton,
+			getHideClearLinkedRecordIdButtons : getHideClearLinkedRecordIdButtons,
 
 			addSearchHandlerView : addSearchHandlerView,
 			getAddedSearchHandlerView : getAddedSearchHandlerView,

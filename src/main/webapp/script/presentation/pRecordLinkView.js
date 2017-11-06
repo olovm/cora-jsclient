@@ -22,10 +22,12 @@ var CORA = (function(cora) {
 		var out;
 		var view;
 		var childrenView;
+		var childrenViewInitialDisplay = "";
 		var baseClassName = "pRecordLink";
 		var info;
 		var openLinkedRecordButton;
 		var showSearchButton;
+		var clearLinkedRecordIdButton;
 		var currentLinkedPresentation;
 		var addedSearchHandlerView;
 		var searchHandlerShown;
@@ -139,7 +141,12 @@ var CORA = (function(cora) {
 		}
 
 		function hideChildren() {
+			childrenViewInitialDisplay = childrenView.style.display;
 			childrenView.style.display = "none";
+		}
+
+		function showChildren() {
+			childrenView.style.display = childrenViewInitialDisplay;
 		}
 
 		function addLinkedPresentation(linkedPresentationToAdd) {
@@ -155,11 +162,11 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function showOpenLinkedRecord() {
+		function showOpenLinkedRecordButton() {
 			info.getButton().insertAdjacentElement("afterend", openLinkedRecordButton);
 		}
 
-		function hideOpenLinkedRecord() {
+		function hideOpenLinkedRecordButton() {
 			if (view.contains(openLinkedRecordButton)) {
 				view.removeChild(openLinkedRecordButton);
 			}
@@ -205,6 +212,20 @@ var CORA = (function(cora) {
 			return addedSearchHandlerView !== undefined;
 		}
 
+		function showClearLinkedRecordIdButton(onclickMethod) {
+			hideClearLinkedRecordIdButton();
+			clearLinkedRecordIdButton = createButtonWithClassNameAndOnclickMethod(
+					"clearLinkedRecordIdButton", onclickMethod);
+			info.getButton().insertAdjacentElement("afterend", clearLinkedRecordIdButton);
+		}
+
+		function hideClearLinkedRecordIdButton() {
+			if (undefined !== clearLinkedRecordIdButton) {
+				clearLinkedRecordIdButton.parentNode.removeChild(clearLinkedRecordIdButton);
+				clearLinkedRecordIdButton = undefined;
+			}
+		}
+
 		out = Object.freeze({
 			"type" : "pRecordLinkView",
 			getDependencies : getDependencies,
@@ -213,10 +234,15 @@ var CORA = (function(cora) {
 			updateClassName : updateClassName,
 			addChild : addChild,
 			hideChildren : hideChildren,
+			showChildren : showChildren,
 			addLinkedPresentation : addLinkedPresentation,
 			removeLinkedPresentation : removeLinkedPresentation,
-			showOpenLinkedRecord : showOpenLinkedRecord,
-			hideOpenLinkedRecord : hideOpenLinkedRecord,
+			showOpenLinkedRecordButton : showOpenLinkedRecordButton,
+			hideOpenLinkedRecordButton : hideOpenLinkedRecordButton,
+
+			showClearLinkedRecordIdButton : showClearLinkedRecordIdButton,
+			hideClearLinkedRecordIdButton : hideClearLinkedRecordIdButton,
+
 			addSearchHandlerView : addSearchHandlerView,
 			hideSearchHandlerView : hideSearchHandlerView,
 			showSearchHandlerView : showSearchHandlerView

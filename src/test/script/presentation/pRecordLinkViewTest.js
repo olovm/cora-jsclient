@@ -38,14 +38,14 @@ QUnit.module("pRecordLinkViewTest.js", {
 			},
 			"pRecordLink" : CORATEST.pRecordLinkSpy()
 		};
-		
+
 		this.getChildrenViewFromView = function(view) {
 			return view.childNodes[1];
 		}
-		
+
 		this.defaultLastChildPosition = 1;
 
-		this.createFakeSearchHandlerView=function(){
+		this.createFakeSearchHandlerView = function() {
 			var fakeSearchHandlerView = document.createElement("SPAN");
 			var content = document.createTextNode(JSON
 					.stringify("content needed for span to be visible in chrome"));
@@ -94,7 +94,7 @@ QUnit.test("testAddChild", function(assert) {
 	assert.strictEqual(childrenView.childNodes[0], child);
 });
 
-QUnit.test("testHideChildrenView", function(assert) {
+QUnit.test("testHideAndShowChildrenView", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
 	this.fixture.appendChild(view);
@@ -107,6 +107,8 @@ QUnit.test("testHideChildrenView", function(assert) {
 	assert.visible(childrenView);
 	pRecordLinkView.hideChildren();
 	assert.notVisible(childrenView);
+	pRecordLinkView.showChildren();
+	assert.visible(childrenView);
 });
 
 QUnit.test("testAddLinkedPresentation", function(assert) {
@@ -132,10 +134,10 @@ QUnit.test("testAddSecondLinkedPresentationRemovesFirst", function(assert) {
 QUnit.test("testRemoveLinkedPresentationRemovesFirst", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
-	
+
 	var linkedPresentation = document.createElement("SPAN");
 	pRecordLinkView.addLinkedPresentation(linkedPresentation);
-	
+
 	pRecordLinkView.removeLinkedPresentation();
 	assert.strictEqual(view.childNodes[this.defaultLastChildPosition + 1], undefined);
 });
@@ -143,12 +145,10 @@ QUnit.test("testRemoveLinkedPresentationRemovesFirst", function(assert) {
 QUnit.test("testRemoveNonExistingLinkedPresentationRemovesFirst", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
-	
+
 	pRecordLinkView.removeLinkedPresentation();
 	assert.strictEqual(view.childNodes[this.defaultLastChildPosition + 1], undefined);
 });
-
-
 
 QUnit.test("testInfoSpec", function(assert) {
 	var expectedSpec = {
@@ -193,12 +193,12 @@ QUnit.test("testOpenLinkedRecordAddedToView", function(assert) {
 	var view = pRecordLinkView.getView();
 
 	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
-	pRecordLinkView.showOpenLinkedRecord();
+	pRecordLinkView.showOpenLinkedRecordButton();
 	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 2);
 	assert.strictEqual(view.childNodes[this.defaultLastChildPosition].className,
 			"iconButton openLinkedRecordButton");
-	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
-	pRecordLinkView.showOpenLinkedRecord();
+
+	pRecordLinkView.showOpenLinkedRecordButton();
 	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 2);
 	var view = pRecordLinkView.getView();
 	assert.strictEqual(view.childNodes[this.defaultLastChildPosition].className,
@@ -210,26 +210,91 @@ QUnit.test("testOpenLinkedRecordRemovedFromView", function(assert) {
 	var view = pRecordLinkView.getView();
 
 	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
-	pRecordLinkView.showOpenLinkedRecord();
+	pRecordLinkView.showOpenLinkedRecordButton();
 	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 2);
 	var openButton = view.childNodes[this.defaultLastChildPosition];
 	assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
-	pRecordLinkView.hideOpenLinkedRecord();
+	pRecordLinkView.hideOpenLinkedRecordButton();
 	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
 });
 
 QUnit.test("testOpenLinkedRecordRemovedFromViewWhenNotPresent", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
-	
+
 	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
-	pRecordLinkView.hideOpenLinkedRecord();
+	pRecordLinkView.hideOpenLinkedRecordButton();
 	assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
 });
 
+QUnit.test("testClearLinkedRecordIdAddedToView",
+		function(assert) {
+			var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+			var view = pRecordLinkView.getView();
+
+			var onclickMethod = {
+				"dummy" : "trams"
+			};
+
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
+			pRecordLinkView.showClearLinkedRecordIdButton(onclickMethod);
+
+			var clearLinkedRecordIdButton = view.childNodes[this.defaultLastChildPosition];
+
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 2);
+			assert.strictEqual(clearLinkedRecordIdButton.className,
+					"iconButton clearLinkedRecordIdButton");
+
+			pRecordLinkView.showClearLinkedRecordIdButton(onclickMethod);
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 2);
+			assert.strictEqual(clearLinkedRecordIdButton.className,
+					"iconButton clearLinkedRecordIdButton");
+		});
+
+QUnit.test("testClearLinkedRecordIdButtonCall", function(assert) {
+	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	var view = pRecordLinkView.getView();
+	var clicked = false;
+	var onclickMethod = function() {
+		clicked = true
+	};
+	pRecordLinkView.showClearLinkedRecordIdButton(onclickMethod);
+	var clearLinkedRecordIdButton = view.childNodes[this.defaultLastChildPosition];
+
+	var event = document.createEvent('Event');
+	clearLinkedRecordIdButton.onclick(event);
+
+	assert.strictEqual(clicked, true);
+});
+
+QUnit.test("testClearLinkedRecordIdRemovedFromView",
+		function(assert) {
+			var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+			var view = pRecordLinkView.getView();
+
+			var onclickMethod = {
+				"dummy" : "trams"
+			};
+
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
+			pRecordLinkView.showClearLinkedRecordIdButton(onclickMethod);
+
+			var clearLinkedRecordIdButton = view.childNodes[this.defaultLastChildPosition];
+
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 2);
+			assert.strictEqual(clearLinkedRecordIdButton.className,
+					"iconButton clearLinkedRecordIdButton");
+
+			pRecordLinkView.hideClearLinkedRecordIdButton();
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
+
+			pRecordLinkView.hideClearLinkedRecordIdButton();
+			assert.strictEqual(view.childNodes.length, this.defaultLastChildPosition + 1);
+		});
+
 QUnit.test("testAddChildPresentationClickableLoadInBackground", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
-	pRecordLinkView.showOpenLinkedRecord();
+	pRecordLinkView.showOpenLinkedRecordButton();
 	var view = pRecordLinkView.getView();
 	var openButton = view.childNodes[this.defaultLastChildPosition];
 	assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
@@ -242,7 +307,7 @@ QUnit.test("testAddChildPresentationClickableLoadInBackground", function(assert)
 });
 QUnit.test("testAddChildPresentationClickableLoadInForground", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
-	pRecordLinkView.showOpenLinkedRecord();
+	pRecordLinkView.showOpenLinkedRecordButton();
 	var view = pRecordLinkView.getView();
 	var openButton = view.childNodes[this.defaultLastChildPosition];
 	assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
