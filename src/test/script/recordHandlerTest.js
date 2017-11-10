@@ -33,6 +33,10 @@ QUnit.module("recordHandlerTest.js", {
 		this.recordHandlerViewFactorySpy = CORATEST.standardFactorySpy("recordHandlerViewSpy");
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		var dependencies = {
+			"globalFactories" : {
+				"incomingLinksListHandlerFactory" : CORATEST
+						.standardFactorySpy("incomingLinksListHandlerSpy")
+			},
 			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
 			"recordGuiFactory" : this.recordGuiFactorySpy,
@@ -1007,7 +1011,14 @@ QUnit.test("testShowIncomingLinks", function(assert) {
 	recordHandler.showIncomingLinks();
 
 	var addedToIncomingLinksView = recordHandlerViewSpy.getObjectAddedToIncomingLinksView(0);
+	var factoredIncomingLinksListHandler = this.dependencies.globalFactories.incomingLinksListHandlerFactory
+			.getFactored(0);
+	var incomingLinksListSpyView = factoredIncomingLinksListHandler.getView();
+	assert.strictEqual(addedToIncomingLinksView, incomingLinksListSpyView);
 
-	assert.strictEqual(addedToIncomingLinksView.textContent,
-			"http://localhost:8080/therest/rest/record/coraText/textSystemOne/incomingLinks");
+	var expectedSpec = {
+		"read_incoming_links" : this.spec.record.actionLinks.read_incoming_links
+	}
+	var usedSpec = factoredIncomingLinksListHandler.getSpec();
+	assert.stringifyEqual(usedSpec, expectedSpec);
 });

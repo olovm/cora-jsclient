@@ -32,6 +32,9 @@ QUnit.module("recordHandlerFactoryTest.js", {
 		};
 
 		this.dependencies = {
+			"globalFactories" : {
+				"dummy" : "dummy"
+			},
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
 			"recordGuiFactory" : this.recordGuiFactorySpy,
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
@@ -64,6 +67,7 @@ QUnit.test("factorTestDependencies", function(assert) {
 	var recordHandlerFactory = CORA.recordHandlerFactory(this.dependencies);
 	var recordHandler = recordHandlerFactory.factor(this.spec);
 	var factoredDependencies = recordHandler.getDependencies();
+	assert.strictEqual(factoredDependencies.globalFactories, this.dependencies.globalFactories);
 	assert.strictEqual(factoredDependencies.recordHandlerFactory, recordHandlerFactory);
 	assert.strictEqual(factoredDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory);
 	assert.strictEqual(factoredDependencies.recordGuiFactory, this.dependencies.recordGuiFactory);

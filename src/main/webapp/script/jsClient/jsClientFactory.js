@@ -74,6 +74,7 @@ var CORA = (function(cora) {
 			var recordGuiFactory = CORA.recordGuiFactory(recordGuiFactoryDep);
 
 			var depRecordHandler = {
+				"globalFactories" : globalFactories,
 				"clientInstanceProvider" : providers.clientInstanceProvider,
 				"ajaxCallFactory" : ajaxCallFactory,
 				"recordGuiFactory" : recordGuiFactory,
@@ -130,6 +131,18 @@ var CORA = (function(cora) {
 			globalFactories.recordHandlerFactory = recordHandlerFactory;
 			globalFactories.recordListHandlerFactory = recordListHandlerFactory;
 			globalFactories.recordTypeHandlerViewFactory = recordTypeHandlerViewFactory;
+
+			var genericDependencies = {
+				"providers" : providers,
+				"globalInstances" : {
+					"clientInstanceProvider" : providers.clientInstanceProvider
+				},
+				"globalFactories" : globalFactories
+			};
+			globalFactories.incomingLinksListHandlerFactory = CORA.genericFactory(
+					"incomingLinksListHandler", genericDependencies);
+			globalFactories.incomingLinksListHandlerViewFactory = CORA.genericFactory(
+					"incomingLinksListHandlerView", genericDependencies);
 
 			var dep = {
 				"providers" : providers,

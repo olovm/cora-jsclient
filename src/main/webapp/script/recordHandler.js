@@ -435,9 +435,14 @@ var CORA = (function(cora) {
 		}
 
 		function showIncomingLinks() {
-			var textNode = document
-					.createTextNode(fetchedRecord.actionLinks.read_incoming_links.url);
-			recordHandlerView.addToIncomingLinksView(textNode);
+//			var textNode = document
+//					.createTextNode(fetchedRecord.actionLinks.read_incoming_links.url);
+//			recordHandlerView.addToIncomingLinksView(textNode);
+			var illhSpec = {
+					"read_incoming_links":fetchedRecord.actionLinks.read_incoming_links
+			};
+			var incomingLinksListHandler = dependencies.globalFactories.incomingLinksListHandlerFactory.factor(illhSpec);
+			recordHandlerView.addToIncomingLinksView(incomingLinksListHandler.getView());
 		}
 
 		function getDependencies() {

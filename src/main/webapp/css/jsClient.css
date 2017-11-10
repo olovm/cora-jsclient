@@ -315,8 +315,19 @@ to {
 }
 
 .jsClient .workItem>.incomingLinksView {
+	display: flex;
 	flex: 0 0 100%;
 }
+.jsClient  .incomingLinksList, .jsClient .incomingLinks, .jsClient .incomingLink {
+	display: flex;
+	flex: 0 0 100%;
+	flex-wrap: wrap;
+}
+.jsClient .incomingLink span{
+/* 	display: flex; */
+	flex: 1 1 20%;
+}
+
 
 .workArea .workView .presentation {
 	box-shadow: none;

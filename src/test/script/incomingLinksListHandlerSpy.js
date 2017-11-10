@@ -1,6 +1,5 @@
 /*
  * Copyright 2017 Olov McKie
- * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -17,33 +16,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.recordHandlerFactory = function(dependencies) {
-		var out;
-
-		var dep = {
-			"globalFactories" : dependencies.globalFactories,
-			"recordHandlerViewFactory" : CORA.recordHandlerViewFactory(),
-			"ajaxCallFactory" : dependencies.ajaxCallFactory,
-			"recordGuiFactory" : dependencies.recordGuiFactory,
-			"managedGuiItemFactory" : dependencies.managedGuiItemFactory
-		};
-		function factor(recordHandlerSpec) {
-			dep.recordHandlerFactory = out;
-			return CORA.recordHandler(dep, recordHandlerSpec);
-		}
-
+	coraTest.incomingLinksListHandlerSpy = function(dependencies, spec) {
+		var view = CORA.gui.createSpanWithClassName("incomingLinksListHandlerViewFake");
 		function getDependencies() {
 			return dependencies;
 		}
+		function getSpec() {
+			return spec;
+		}
 
-		out = Object.freeze({
-			"type" : "recordHandlerFactory",
+		
+		function getView(){
+			return view;
+		}
+		
+		var out = Object.freeze({
+			"type" : "incomingLinksListHandlerSpy",
 			getDependencies : getDependencies,
-			factor : factor
+			getSpec : getSpec,
+			getView:getView
 		});
+
 		return out;
 	};
-	return cora;
-}(CORA));
+	return coraTest;
+}(CORATEST));
