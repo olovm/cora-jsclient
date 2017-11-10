@@ -47,21 +47,19 @@ var CORA = (function(cora) {
 			var data = response.dataList.data;
 
 			data.forEach(addIncomingLinkToView);
-			
-			
 		}
-		function addIncomingLinkToView(incomingLink){
-//			var cData = CORA.coraData(data[0]);
+
+		function addIncomingLinkToView(incomingLink) {
 			var cData = CORA.coraData(incomingLink);
 			var from = cData.getFirstChildByNameInData("from");
 			var cFrom = CORA.coraData(from);
-			var incomingLink = {
-					"linkedRecordType" : cFrom.getFirstAtomicValueByNameInData("linkedRecordType"),
-					"linkedRecordId" : cFrom.getFirstAtomicValueByNameInData("linkedRecordId"),
-					"readLink" : from.actionLinks.read
+			var incomingLinkToAdd = {
+				"linkedRecordType" : cFrom.getFirstAtomicValueByNameInData("linkedRecordType"),
+				"linkedRecordId" : cFrom.getFirstAtomicValueByNameInData("linkedRecordId"),
+				"readLink" : from.actionLinks.read
 			};
-			view.addIncomingLink(incomingLink);
-			
+			view.addIncomingLink(incomingLinkToAdd);
+
 		}
 
 		function handleCallError() {

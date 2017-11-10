@@ -435,13 +435,11 @@ var CORA = (function(cora) {
 		}
 
 		function showIncomingLinks() {
-//			var textNode = document
-//					.createTextNode(fetchedRecord.actionLinks.read_incoming_links.url);
-//			recordHandlerView.addToIncomingLinksView(textNode);
 			var illhSpec = {
-					"read_incoming_links":fetchedRecord.actionLinks.read_incoming_links
+				"read_incoming_links" : fetchedRecord.actionLinks.read_incoming_links
 			};
-			var incomingLinksListHandler = dependencies.globalFactories.incomingLinksListHandlerFactory.factor(illhSpec);
+			var incomingLinksListHandler = dependencies.globalFactories.incomingLinksListHandlerFactory
+					.factor(illhSpec);
 			recordHandlerView.addToIncomingLinksView(incomingLinksListHandler.getView());
 		}
 
