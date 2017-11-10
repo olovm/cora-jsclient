@@ -1,5 +1,8 @@
 autoEnabled=true
 eclipse.preferences.version=1
 extraProperties=
+<<<<<<< HEAD
 moduleKey=se.uu.ub.cora\:jsclient
 serverId=epc.ub.uu.se
+=======
+>>>>>>> refs/remotes/github-olovm/showIncomingLinks
