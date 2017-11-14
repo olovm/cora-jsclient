@@ -21,7 +21,11 @@ var CORA = (function(cora) {
 	cora.incomingLinksListHandler = function(dependencies, spec) {
 		var view;
 		function start() {
-			view = dependencies.globalFactories.incomingLinksListHandlerViewFactory.factor();
+			var viewSpec = {
+				"openRecordUsingLink" : openRecordUsingLink
+			};
+			view = dependencies.globalFactories.incomingLinksListHandlerViewFactory
+					.factor(viewSpec);
 			fetchDataFromServer();
 		}
 
@@ -46,6 +50,8 @@ var CORA = (function(cora) {
 			var response = JSON.parse(answer.responseText);
 			var data = response.dataList.data;
 
+			view.setNumberOfIncomingLinks(data.length);
+
 			data.forEach(addIncomingLinkToView);
 		}
 
@@ -59,10 +65,14 @@ var CORA = (function(cora) {
 				"readLink" : from.actionLinks.read
 			};
 			view.addIncomingLink(incomingLinkToAdd);
-
 		}
 
 		function handleCallError() {
+		}
+
+		function openRecordUsingLink(openInfo) {
+			var jsClient = dependencies.globalInstances.clientInstanceProvider.getJsClient();
+			jsClient.openRecordUsingReadLink(openInfo);
 		}
 
 		function getDependencies() {
@@ -79,7 +89,8 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getView : getView,
 			handleAnswerWithIncomingLinksList : handleAnswerWithIncomingLinksList,
-			handleCallError : handleCallError
+			handleCallError : handleCallError,
+			openRecordUsingLink : openRecordUsingLink
 		});
 
 		start();

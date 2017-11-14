@@ -21,12 +21,14 @@
 QUnit.module("incomingLinksListHandlerViewTest.js", {
 	beforeEach : function() {
 		this.dependencies = {};
+
 		this.spec = {
 			"ofText" : "av",
 			"fromNo" : "1",
 			"toNo" : "15",
 			"totalNo" : "1520000",
-			"resultHandler" : CORATEST.resultHandlerSpy()
+			"resultHandler" : CORATEST.resultHandlerSpy(),
+
 		};
 	},
 	afterEach : function() {
@@ -58,26 +60,29 @@ QUnit.test("testGetView", function(assert) {
 	assert.strictEqual(view.nodeName, "SPAN");
 	assert.strictEqual(view.className, "incomingLinksList");
 });
-//
-// QUnit.test("testInfoPartOfView", function(assert) {
-// var incomingLinksListHandlerView = CORA.incomingLinksListHandlerView(this.dependencies,
-// this.spec);
-// var infoHolder = incomingLinksListHandlerView.getView().firstChild;
-// assert.strictEqual(infoHolder.nodeName, "SPAN");
-// assert.strictEqual(infoHolder.className, "infoHolder");
-// });
-//
-// QUnit.test("testInfoPartContainsInfo", function(assert) {
-// var incomingLinksListHandlerView = CORA.incomingLinksListHandlerView(this.dependencies,
-// this.spec);
-// var infoHolder = incomingLinksListHandlerView.getView().firstChild;
-// assert.strictEqual(infoHolder.textContent, "1 - 15 av 1520000");
-// });
+
+QUnit.test("testNumberOfIncomingLinksView", function(assert) {
+	var incomingLinksListHandlerView = CORA.incomingLinksListHandlerView(this.dependencies,
+			this.spec);
+	
+	var incomingLinksList = incomingLinksListHandlerView.getView().childNodes[0];
+	assert.strictEqual(incomingLinksList.nodeName, "SPAN");
+	assert.strictEqual(incomingLinksList.className, "numberOfLinks");
+});
+
+QUnit.test("testSetNumberOfIncomingLinks", function(assert) {
+	var incomingLinksListHandlerView = CORA.incomingLinksListHandlerView(this.dependencies,
+			this.spec);
+	incomingLinksListHandlerView.setNumberOfIncomingLinks("299");
+	
+	var incomingLinksList = incomingLinksListHandlerView.getView().childNodes[0];
+	assert.strictEqual(incomingLinksList.textContent, "299");
+});
 
 QUnit.test("testResultsPartOfView", function(assert) {
 	var incomingLinksListHandlerView = CORA.incomingLinksListHandlerView(this.dependencies,
 			this.spec);
-	var incomingLinksList = incomingLinksListHandlerView.getView().childNodes[0];
+	var incomingLinksList = incomingLinksListHandlerView.getView().childNodes[1];
 	assert.strictEqual(incomingLinksList.nodeName, "SPAN");
 	assert.strictEqual(incomingLinksList.className, "incomingLinks");
 });
@@ -85,7 +90,7 @@ QUnit.test("testResultsPartOfView", function(assert) {
 QUnit.test("testAddIncomingLink", function(assert) {
 	var incomingLinksListHandlerView = CORA.incomingLinksListHandlerView(this.dependencies,
 			this.spec);
-	var incomingLinksList = incomingLinksListHandlerView.getView().childNodes[0];
+	var incomingLinksList = incomingLinksListHandlerView.getView().childNodes[1];
 	var readLink = {
 		"requestMethod" : "GET",
 		"rel" : "read",
@@ -114,38 +119,64 @@ QUnit.test("testAddIncomingLink", function(assert) {
 
 });
 
-// QUnit.test("testAddChildPresentationClickable", function(assert) {
-// var incomingLinksListHandlerView = CORA.incomingLinksListHandlerView(this.dependencies,
-// this.spec);
-// var incomingLinksList = incomingLinksListHandlerView.getView().childNodes[1];
-// var childToAdd = document.createElement("span");
-// var record = {};
-// incomingLinksListHandlerView.addChildPresentation(childToAdd, record);
-//
-// var firstListItem = incomingLinksList.firstChild;
-// var event = document.createEvent('Event');
-// firstListItem.onclick(event);
-//
-// var firstOpenInfo = this.spec.resultHandler.getOpenedRecord(0);
-// assert.strictEqual(firstOpenInfo.record, record);
-// assert.strictEqual(firstOpenInfo.loadInBackground, "false");
-// });
-//
-// QUnit.test("testAddChildPresentationClickableLoadInBackground", function(assert) {
-// var incomingLinksListHandlerView = CORA.incomingLinksListHandlerView(this.dependencies,
-// this.spec);
-// var incomingLinksList = incomingLinksListHandlerView.getView().childNodes[1];
-// var childToAdd = document.createElement("span");
-// var record = {};
-// incomingLinksListHandlerView.addChildPresentation(childToAdd, record);
-//
-// var firstListItem = incomingLinksList.firstChild;
-// var event = document.createEvent('Event');
-// event.ctrlKey = true;
-// firstListItem.onclick(event);
-//
-// var firstOpenInfo = this.spec.resultHandler.getOpenedRecord(0);
-// assert.strictEqual(firstOpenInfo.record, record);
-// assert.strictEqual(firstOpenInfo.loadInBackground, "true");
-// });
+QUnit.test("testAddChildPresentationClickable", function(assert) {
+	var openInfo = {};
+	var openRecordUsingLink = function(openInfoIn) {
+		openInfo = openInfoIn;
+	}
+	this.spec.openRecordUsingLink = openRecordUsingLink;
+
+	var incomingLinksListHandlerView = CORA.incomingLinksListHandlerView(this.dependencies,
+			this.spec);
+	var incomingLinksList = incomingLinksListHandlerView.getView().childNodes[1];
+	var readLink = "thisIsAFakedRecordLink";
+	var incomingLink = {
+		"linkedRecordType" : "recordType",
+		"linkedRecordId" : "recordId",
+		"readLink" : readLink
+	};
+	incomingLinksListHandlerView.addIncomingLink(incomingLink);
+
+	var incomingLink = incomingLinksList.firstChild;
+
+	var event = document.createEvent('Event');
+	incomingLink.onclick(event);
+
+	var expectedOpenInfo = {
+		"readLink" : "thisIsAFakedRecordLink",
+		"loadInBackground" : "false"
+	};
+	assert.stringifyEqual(openInfo, expectedOpenInfo);
+});
+
+QUnit.test("testAddChildPresentationClickableLoadInBackground", function(assert) {
+	var openInfo = {};
+	var openRecordUsingLink = function(openInfoIn) {
+		openInfo = openInfoIn;
+	}
+	this.spec.openRecordUsingLink = openRecordUsingLink;
+
+	var incomingLinksListHandlerView = CORA.incomingLinksListHandlerView(this.dependencies,
+			this.spec);
+	var incomingLinksList = incomingLinksListHandlerView.getView().childNodes[1];
+	var readLink = "thisIsAFakedRecordLink";
+	var incomingLink = {
+		"linkedRecordType" : "recordType",
+		"linkedRecordId" : "recordId",
+		"readLink" : readLink
+	};
+	incomingLinksListHandlerView.addIncomingLink(incomingLink);
+
+	var incomingLink = incomingLinksList.firstChild;
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = true;
+	incomingLink.onclick(event);
+
+	var expectedOpenInfo = {
+		"readLink" : "thisIsAFakedRecordLink",
+		"loadInBackground" : "true"
+	};
+	assert.stringifyEqual(openInfo, expectedOpenInfo);
+});
 

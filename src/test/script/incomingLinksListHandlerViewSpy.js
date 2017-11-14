@@ -21,6 +21,9 @@ var CORATEST = (function(coraTest) {
 	coraTest.incomingLinksListHandlerViewSpy = function(dependencies, spec) {
 		var addedIncomingLink = [];
 		var view = CORA.gui.createSpanWithClassName("incomingLinksListHandlerViewSpy");
+
+		var numberOfIncomingLinks;
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -34,18 +37,27 @@ var CORATEST = (function(coraTest) {
 		function getAddedIncomingLink(number) {
 			return addedIncomingLink[number];
 		}
-		
-		function getView(){
+
+		function getView() {
 			return view;
 		}
-		
+
+		function setNumberOfIncomingLinks(no) {
+			numberOfIncomingLinks = no;
+		}
+		function getNumberOfIncomingLinks() {
+			return numberOfIncomingLinks;
+		}
+
 		var out = Object.freeze({
 			"type" : "incomingLinksListHandlerViewSpy",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			addIncomingLink : addIncomingLink,
 			getAddedIncomingLink : getAddedIncomingLink,
-			getView:getView
+			getView : getView,
+			setNumberOfIncomingLinks : setNumberOfIncomingLinks,
+			getNumberOfIncomingLinks : getNumberOfIncomingLinks
 		});
 
 		return out;

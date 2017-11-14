@@ -30,6 +30,10 @@ QUnit
 									"globalFactories" : {
 										"ajaxCallFactory" : this.ajaxCallFactorySpy,
 										"incomingLinksListHandlerViewFactory" : this.incomingLinksListHandlerViewFactorySpy
+									},
+									"globalInstances" : {
+										"clientInstanceProvider" : CORATEST
+												.clientInstanceProviderSpy()
 									}
 								};
 						this.spec = {
@@ -68,6 +72,13 @@ QUnit.test("testGetView", function(assert) {
 	assert.strictEqual(incomingLinksListHandler.getView(), factoredView.getView());
 });
 
+QUnit.test("testViewSpec", function(assert) {
+	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
+	var factoredViewSpec = this.incomingLinksListHandlerViewFactorySpy.getSpec(0);
+	
+	assert.strictEqual(factoredViewSpec.openRecordUsingLink, incomingLinksListHandler.openRecordUsingLink);
+});
+
 QUnit.test("init", function(assert) {
 	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
@@ -83,13 +94,25 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(ajaxCallSpec.errorMethod, incomingLinksListHandler.handleCallError);
 });
 
+QUnit.test("testHandleAnswerWithIncomingLinksListSetsNumberOfLinks", function(assert) {
+	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
+	var factoredView = this.incomingLinksListHandlerViewFactorySpy.getFactored(0);
+	
+	var incomingLinksAnswer = JSON.stringify(CORATEST.incomingLinksAnswer);
+	var answer = {
+			"responseText" : incomingLinksAnswer
+	};
+	
+	incomingLinksListHandler.handleAnswerWithIncomingLinksList(answer);
+	assert.strictEqual(factoredView.getNumberOfIncomingLinks(), 4);
+});
+
 QUnit.test("testHandleAnswerWithIncomingLinksList", function(assert) {
 	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
 	var factoredView = this.incomingLinksListHandlerViewFactorySpy.getFactored(0);
 
 	var incomingLinksAnswer = JSON.stringify(CORATEST.incomingLinksAnswer);
 	var answer = {
-		// "spec" : ajaxCallSpy0.getSpec(),
 		"responseText" : incomingLinksAnswer
 	};
 
@@ -111,15 +134,32 @@ QUnit.test("testHandleAnswerWithIncomingLinksList", function(assert) {
 
 	var incomingLinkAddedToView1 = factoredView.getAddedIncomingLink(1);
 	var expectedLInkForView1 = {
-			"linkedRecordType" : "presentationGroup",
-			"linkedRecordId" : "recordTypeFormPGroup",
-			"readLink" : {
-				"requestMethod" : "GET",
-				"rel" : "read",
-				"url" : "http://localhost:8080/therest/rest/record"
+		"linkedRecordType" : "presentationGroup",
+		"linkedRecordId" : "recordTypeFormPGroup",
+		"readLink" : {
+			"requestMethod" : "GET",
+			"rel" : "read",
+			"url" : "http://localhost:8080/therest/rest/record"
 					+ "/presentationGroup/recordTypeFormPGroup",
-					"accept" : "application/vnd.uub.record+json"
-			}
+			"accept" : "application/vnd.uub.record+json"
+		}
 	};
 	assert.stringifyEqual(incomingLinkAddedToView1, expectedLInkForView1);
+});
+
+QUnit.test("testOpenRecord", function(assert) {
+	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
+
+	var openInfo = {
+		"readLink" : "thisIsAFakedRecordLink",
+		"loadInBackground" : "true"
+	};
+	incomingLinksListHandler.openRecordUsingLink(openInfo);
+	var jsClient = this.dependencies.globalInstances.clientInstanceProvider.getJsClient();
+	var expectedOpenInfo = {
+		"readLink" : "thisIsAFakedRecordLink",
+		"loadInBackground" : "false"
+	};
+	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink, expectedOpenInfo.readLink);
+	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, openInfo.loadInBackground);
 });

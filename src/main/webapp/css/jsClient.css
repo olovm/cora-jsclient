@@ -320,6 +320,10 @@ to {
 	display: flex;
 	flex: 0 0 100%;
 }
+.jsClient .incomingLink:hover {
+	background-color: rgba(0, 130, 201, 0.1);
+	cursor: pointer;
+}
 .jsClient  .incomingLinksList, .jsClient .incomingLinks, .jsClient .incomingLink {
 	display: flex;
 	flex: 0 0 100%;
