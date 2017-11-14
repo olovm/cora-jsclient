@@ -358,7 +358,8 @@ to {
 .openGuiItemHandlerView .menuView .pVar span, .jsClient .openGuiItemHandlerView .menuView .text,
 	.recordTypesView .menuView .pVar span, .jsClient .recordTypesView .menuView .text
 	{
-	max-width: calc(70% - 1rem - 30px);
+/* 	max-width: calc(70% - 1rem - 30px); */
+max-width: 95%;
 	overflow: hidden;
 	display: inline-block;
 	text-overflow: ellipsis;
@@ -378,7 +379,7 @@ to {
 .openGuiItemHandlerView [class*='recordInfo'] .pVar span,
 	.recordTypesView [class*='recordInfo'] .pVar span {
 	padding-right: 1rem;
-	width: 30%;
+	max-width: 70%;
 	overflow: hidden;
 	display: inline-block;
 	text-overflow: ellipsis;
