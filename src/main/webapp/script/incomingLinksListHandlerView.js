@@ -21,14 +21,21 @@ var CORA = (function(cora) {
 	cora.incomingLinksListHandlerView = function(dependencies, spec) {
 		var view;
 		var incomingLinks;
+		var numberOfIncomingLinksView;
 
 		function start() {
 			view = createView();
+			createNumberOfLinks();
 			createincomingLinks();
 		}
 
 		function createView() {
 			return CORA.gui.createSpanWithClassName("incomingLinksList");
+		}
+
+		function createNumberOfLinks() {
+			numberOfIncomingLinksView = CORA.gui.createSpanWithClassName("numberOfLinks");
+			view.appendChild(numberOfIncomingLinksView);
 		}
 
 		function createincomingLinks() {
@@ -37,8 +44,15 @@ var CORA = (function(cora) {
 		}
 
 		function addIncomingLink(incomingLink) {
-			var incomingLinkView = CORA.gui.createSpanWithClassName("incomingLink");
+			var incomingLinkView = createViewForIncomingLink(incomingLink);
 			incomingLinks.appendChild(incomingLinkView);
+		}
+
+		function createViewForIncomingLink(incomingLink) {
+			var incomingLinkView = CORA.gui.createSpanWithClassName("incomingLink");
+			incomingLinkView.onclick = function(event) {
+				openRecordUsingLink(incomingLink, event);
+			};
 
 			var recordTypeView = CORA.gui.createSpanWithClassName("recordType");
 			recordTypeView.textContent = incomingLink.linkedRecordType;
@@ -47,6 +61,20 @@ var CORA = (function(cora) {
 			var recordIdView = CORA.gui.createSpanWithClassName("recordId");
 			recordIdView.textContent = incomingLink.linkedRecordId;
 			incomingLinkView.appendChild(recordIdView);
+			return incomingLinkView;
+		}
+
+		function openRecordUsingLink(incomingLink, event) {
+			var loadInBackground = "false";
+			if (event.ctrlKey) {
+				loadInBackground = "true";
+			}
+
+			var openInfo = {
+				"readLink" : incomingLink.readLink,
+				"loadInBackground" : loadInBackground
+			};
+			spec.openRecordUsingLink(openInfo);
 		}
 
 		function getView() {
@@ -61,13 +89,18 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
+		function setNumberOfIncomingLinks(numberOfIncomingLinks) {
+			numberOfIncomingLinksView.textContent = numberOfIncomingLinks;
+		}
+
 		start();
 		return Object.freeze({
 			"type" : "incomingLinksListHandlerView",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-			addIncomingLink : addIncomingLink
+			addIncomingLink : addIncomingLink,
+			setNumberOfIncomingLinks : setNumberOfIncomingLinks
 		});
 	};
 	return cora;
