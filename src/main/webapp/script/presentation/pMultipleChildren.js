@@ -43,7 +43,8 @@ var CORA = (function(cora) {
 			textId = cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			text = textProvider.getTranslation(textId);
 
-			var cDefTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("defTextId"));
+			var cDefTextGroup = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("defTextId"));
 			defTextId = cDefTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			defText = textProvider.getTranslation(defTextId);
 
@@ -164,11 +165,12 @@ var CORA = (function(cora) {
 				"cPresentation" : cPresentationChild,
 				"cParentPresentation" : my.cParentPresentation
 			};
-			if (cPresentationChildRef.containsChildWithNameInData("minNumberOfRepeatingToShow")) {
 
+			if (cPresentationChildRef.containsChildWithNameInData("minNumberOfRepeatingToShow")) {
 				childRefHandlerSpec.minNumberOfRepeatingToShow = cPresentationChildRef
 						.getFirstAtomicValueByNameInData("minNumberOfRepeatingToShow");
 			}
+
 			if (cPresentationChildRef.containsChildWithNameInData("textStyle")) {
 				childRefHandlerSpec.textStyle = cPresentationChildRef
 						.getFirstAtomicValueByNameInData("textStyle");
@@ -179,7 +181,8 @@ var CORA = (function(cora) {
 			}
 
 			if (childHasMinimizedPresentation(cPresentationChildRef)) {
-				var cPresRefMinGroup = CORA.coraData(cPresentationChildRef.getChildByNameInDataAndIndex("refGroup", 1));
+				var cPresRefMinGroup = CORA.coraData(cPresentationChildRef
+						.getChildByNameInDataAndIndex("refGroup", 1));
 
 				var cPresRefMinimizedGroup = CORA.coraData(cPresRefMinGroup
 						.getFirstChildByNameInData("ref"));
@@ -187,7 +190,6 @@ var CORA = (function(cora) {
 						.getFirstAtomicValueByNameInData("linkedRecordId");
 				var cPresentationMinimized = getMetadataById(presRefMinimized);
 				childRefHandlerSpec.cPresentationMinimized = cPresentationMinimized;
-
 			}
 
 			var pChildRefHandler = dependencies.pChildRefHandlerFactory.factor(childRefHandlerSpec);

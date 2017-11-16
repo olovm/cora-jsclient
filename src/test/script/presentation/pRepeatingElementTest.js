@@ -141,6 +141,29 @@ QUnit.test("testRemoveButtonOnclick", function(assert) {
 	assert.deepEqual(firstRemove.path, path);
 });
 
+QUnit.test("testRemoveButtonHover", function(assert) {
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+	assert.deepEqual(view.className, "repeatingElement");
+
+	var buttonView = view.childNodes[0];
+	var removeButton = buttonView.firstChild;
+
+	var event = new Event('mouseenter');
+	removeButton.dispatchEvent(event);
+	assert.deepEqual(view.className, "repeatingElement hoverRemove");
+
+	var event = new Event('mouseleave');
+	removeButton.dispatchEvent(event);
+	assert.deepEqual(view.className, "repeatingElement");
+	
+	var event = new Event('mouseenter');
+	removeButton.dispatchEvent(event);
+	assert.deepEqual(view.className, "repeatingElement hoverRemove");
+
+});
+
 QUnit.test("testDragButtonOnmousedownOnmouseup", function(assert) {
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
