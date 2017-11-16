@@ -226,11 +226,14 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	min-height: 24px;
 	display: inline-block;
 }
-.infoActive{
+.infoActive {
 	background-color: rgba(0, 129, 198, 0.1);
+	transition: background-color 0.5s linear;
 }
-.pVar:hover, .pCollVar:hover, .pGroup:hover, .pSurroundingContainer:hover, .repeatingElement:hover {
+.pVar:hover, .pCollVar:hover, .pGroup:hover, .pSurroundingContainer:hover, .repeatingElement:hover, 
+.pRecordLink:hover {
 	background-color: rgba(0, 129, 198, 0.1);
+	transition: background-color 0.5s linear;
 }
 .infoActive  > .infoButton::before,
 .infoActive  > .openLinkedRecordButton::before {
@@ -443,6 +446,11 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 }
 .repeatingElement {
 	border-bottom: 1px dashed #0082c9;
+	transition: background-color 0.5s linear;
+}
+
+.jsClient .repeatingElement.hoverRemove {
+	background-color: #ffc6c6;
 }
 
 .editView .repeatingElement:last-child {

@@ -74,6 +74,12 @@ var CORA = (function(cora) {
 			if (addRemoveButton()) {
 				removeButton = createRemoveButton();
 				newButtonView.appendChild(removeButton);
+				removeButton.addEventListener("mouseenter", function() {
+					view.className = "repeatingElement hoverRemove";
+				});
+				removeButton.addEventListener("mouseleave", function() {
+					view.className = "repeatingElement";
+				});
 			}
 			if (isRepeating) {
 				dragButton = createDragButton();
@@ -92,6 +98,7 @@ var CORA = (function(cora) {
 			};
 			return CORA.gui.createRemoveButton(removeFunction);
 		}
+
 		function createDragButton() {
 			var createdDragButton = CORA.gui.createSpanWithClassName("iconButton dragButton");
 			createdDragButton.onmousedown = function() {
