@@ -106,7 +106,9 @@ QUnit.test("testHideAndShowChildrenView", function(assert) {
 	var childrenView = this.getChildrenViewFromView(view);
 	assert.visible(childrenView);
 	pRecordLinkView.hideChildren();
+	pRecordLinkView.hideChildren();
 	assert.notVisible(childrenView);
+	pRecordLinkView.showChildren();
 	pRecordLinkView.showChildren();
 	assert.visible(childrenView);
 });

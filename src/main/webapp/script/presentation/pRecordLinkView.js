@@ -141,7 +141,9 @@ var CORA = (function(cora) {
 		}
 
 		function hideChildren() {
-			childrenViewInitialDisplay = childrenView.style.display;
+			if (childrenView.style.display !== "none") {
+				childrenViewInitialDisplay = childrenView.style.display;
+			}
 			childrenView.style.display = "none";
 		}
 
