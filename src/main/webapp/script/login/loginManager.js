@@ -28,6 +28,9 @@ var CORA = (function(cora) {
 			var loginOptions = [ {
 				"text" : "appToken as 141414",
 				"call" : appTokenLogin
+			}, {
+				"text" : "Uppsala webredirect",
+				"call" : webRedirectLogin
 			} ];
 			var viewSpec = {
 				"loginOptions" : loginOptions,
@@ -47,6 +50,12 @@ var CORA = (function(cora) {
 			var factoredAppTokenLogin = dependencies.appTokenLoginFactory
 					.factor(appTokenLoginFactorySpec);
 			factoredAppTokenLogin.login("141414", "63e6bd34-02a1-4c82-8001-158c104cae0e");
+		}
+
+		function webRedirectLogin() {
+			// TODO: create a webRedirectLoginFactory that creates a webRedirectLogin(and sends in
+			// window) for easyer testing
+			window.open("webRedirectLogin.html", "webRedirectLogin");
 		}
 
 		function getDependencies() {
@@ -101,6 +110,7 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getHtml : getHtml,
 			appTokenLogin : appTokenLogin,
+			webRedirectLogin : webRedirectLogin,
 			logout : logout,
 			appTokenAuthInfoCallback : appTokenAuthInfoCallback,
 			appTokenErrorCallback : appTokenErrorCallback,

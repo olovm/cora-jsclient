@@ -181,6 +181,18 @@
 	var recordTypeProvider;
 	var uploadManager;
 
+	window.CallParent = function() {
+        alert(" Parent window Alert");
+    }
+
+	callParent3 = function(){
+        alert(" Parent window Alert33");
+		
+	}
+	function callParent2(){
+        alert(" Parent window Alert222");
+	}
+	
 	function start() {
 		askForServerToUse();
 	}

@@ -114,12 +114,19 @@ QUnit.test("testInitLoginManagerViewSpec", function(assert) {
 	var expectedLoginOptions = [ {
 		"text" : "appToken as 141414",
 		"call" : loginManager.appTokenLogin
-	} ];
+	},{
+		"text" : "Uppsala webredirect",
+		"call" : loginManager.webRedirectLogin
+	} ]; 
 	var factoredLoginOptions = factoredSpec.loginOptions;
 
-	assert.strictEqual(factoredLoginOptions.length, 1);
+	assert.strictEqual(factoredLoginOptions.length, 2);
+	
 	assert.strictEqual(factoredLoginOptions[0].text, expectedLoginOptions[0].text);
 	assert.strictEqual(factoredLoginOptions[0].call, loginManager.appTokenLogin);
+
+	assert.strictEqual(factoredLoginOptions[1].text, expectedLoginOptions[1].text);
+	assert.strictEqual(factoredLoginOptions[1].call, loginManager.webRedirectLogin);
 
 	assert.strictEqual(factoredSpec.logoutMethod, loginManager.logout);
 });
