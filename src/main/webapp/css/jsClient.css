@@ -500,13 +500,13 @@ max-width: 95%;
 	font-weight: bold;
 }
 
-.jsClient .listItem [class*='recordInfo'] .pVar span:before {
-	content: "(";
-}
+/* .jsClient .listItem [class*='recordInfo'] .pVar span:before { */
+/* 	content: "("; */
+/* } */
 
-.jsClient .listItem [class*='recordInfo'] .pVar  span:after {
-	content: ")";
-}
+/* .jsClient .listItem [class*='recordInfo'] .pVar  span:after { */
+/* 	content: ")"; */
+/* } */
 
 .jsClient .listItem [class*='recordInfo'] .pVar  .infoButton:before,
 	.jsClient .listItem [class*='recordInfo'] .pVar  .infoButton:after {
