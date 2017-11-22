@@ -27,19 +27,30 @@ var CORA = (function(cora) {
 
 			var loginOptions = [ {
 				"text" : "appToken as 141414",
-				"call" : appTokenLogin
+				"type" : "appTokenLogin"
 			}, {
 				"text" : "Uppsala webredirect",
-				"call" : webRedirectLogin
+				"type" : "webRedirectLogin",
+				"url" : "http://www.organisation.org/login/"
 			} ];
 			var viewSpec = {
 				"loginOptions" : loginOptions,
+				"loginMethod" : login,
 				"logoutMethod" : logout
 			};
 			loginManagerView = dependencies.loginManagerViewFactory.factor(viewSpec);
 		}
+
+		function login(loginOption) {
+			if ("appTokenLogin" === loginOption.type) {
+				appTokenLogin();
+			} else {
+				webRedirectLogin(loginOption);
+			}
+		}
+
 		function appTokenLogin() {
-			var appTokenLoginFactorySpec = {
+			var loginSpec = {
 				"requestMethod" : "POST",
 				"url" : spec.appTokenBaseUrl + "apptokenverifier/rest/apptoken/",
 				"accept" : "",
@@ -47,15 +58,18 @@ var CORA = (function(cora) {
 				"errorCallback" : appTokenErrorCallback,
 				"timeoutCallback" : appTokenTimeoutCallback
 			};
-			var factoredAppTokenLogin = dependencies.appTokenLoginFactory
-					.factor(appTokenLoginFactorySpec);
+			var factoredAppTokenLogin = dependencies.appTokenLoginFactory.factor(loginSpec);
 			factoredAppTokenLogin.login("141414", "63e6bd34-02a1-4c82-8001-158c104cae0e");
 		}
 
-		function webRedirectLogin() {
+		function webRedirectLogin(loginInfo) {
 			// TODO: create a webRedirectLoginFactory that creates a webRedirectLogin(and sends in
 			// window) for easyer testing
-			window.open("webRedirectLogin.html", "webRedirectLogin");
+			// window.open("webRedirectLogin.html", "webRedirectLogin");
+			var loginSpec = {
+				"url" : loginInfo.url
+			};
+			dependencies.webRedirectLoginFactory.factor(loginSpec);
 		}
 
 		function getDependencies() {
@@ -109,8 +123,7 @@ var CORA = (function(cora) {
 			"type" : "loginManager",
 			getDependencies : getDependencies,
 			getHtml : getHtml,
-			appTokenLogin : appTokenLogin,
-			webRedirectLogin : webRedirectLogin,
+			login : login,
 			logout : logout,
 			appTokenAuthInfoCallback : appTokenAuthInfoCallback,
 			appTokenErrorCallback : appTokenErrorCallback,

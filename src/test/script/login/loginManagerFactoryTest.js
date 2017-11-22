@@ -25,6 +25,9 @@ QUnit.module("loginManagerFactoryTest.js", {
 			"appTokenLoginFactory" : {
 				"type" : "fakeAppTokenLoginFactory"
 			},
+			"webRedirectLoginFactory" : {
+				"type" : "fakeWebRedirectLoginFactory"
+			},
 			"authTokenHolder" : {
 				"type" : "fakeAuthTokenHolder"
 			},
@@ -69,6 +72,8 @@ QUnit.test("factor",
 					"loginManagerViewFactory");
 			assert.strictEqual(loginManagerDependencies.appTokenLoginFactory,
 					this.dependencies.appTokenLoginFactory);
+			assert.strictEqual(loginManagerDependencies.webRedirectLoginFactory.type,
+					"fakeWebRedirectLoginFactory");
 			assert.strictEqual(loginManagerDependencies.authTokenHolder,
 					this.dependencies.authTokenHolder);
 			assert.strictEqual(loginManagerDependencies.ajaxCallFactory,

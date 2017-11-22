@@ -37,11 +37,13 @@ var CORA = (function(cora) {
 				"ajaxCallFactory" : ajaxCallFactory
 			};
 			var appTokenLoginFactory = CORA.appTokenLoginFactory(appTokenLoginFactoryDependencies);
+			var webRedirectLoginFactory = CORA.webRedirectLoginFactory();
 
 			var loginManagerFactoryDependencies = {
 				"authTokenHolder" : authTokenHolder,
 				"textProvider" : providers.textProvider,
 				"appTokenLoginFactory" : appTokenLoginFactory,
+				"webRedirectLoginFactory" : webRedirectLoginFactory,
 				"ajaxCallFactory" : ajaxCallFactory
 			};
 			var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
@@ -121,6 +123,7 @@ var CORA = (function(cora) {
 			globalFactories.loginManagerFactory = loginManagerFactory;
 			globalFactories.ajaxCallFactory = ajaxCallFactory;
 			globalFactories.appTokenLoginFactory = appTokenLoginFactory;
+			globalFactories.webRedirectLoginFactory = webRedirectLoginFactory;
 			globalFactories.openGuiItemHandlerFactory = openGuiItemHandlerFactory;
 			globalFactories.managedGuiItemFactory = managedGuiItemFactory;
 			globalFactories.recordGuiFactory = recordGuiFactory;

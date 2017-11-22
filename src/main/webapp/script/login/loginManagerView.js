@@ -63,7 +63,9 @@ var CORA = (function(cora) {
 			var buttonSpec = {
 				"className" : "menuOption",
 				"text" : loginOption.text,
-				"onclick" : loginOption.call
+				"onclick" : function() {
+					spec.loginMethod(loginOption);
+				}
 			};
 			var optionButton = CORA.gui.createButton(buttonSpec);
 			menu.appendChild(optionButton);
@@ -81,11 +83,22 @@ var CORA = (function(cora) {
 					"text" : dependencies.textProvider.getTranslation("theClient_logoutMenuText"),
 					"call" : spec.logoutMethod
 				} ];
-				logoutOptions.forEach(addMenuElement);
+				logoutOptions.forEach(addLogoutMenuElement);
 			} else {
 				setLoginOptions();
-				view.textContent = dependencies.textProvider.getTranslation("theClient_loginMenuText");
+				view.textContent = dependencies.textProvider
+						.getTranslation("theClient_loginMenuText");
 			}
+		}
+
+		function addLogoutMenuElement(logoutOption) {
+			var buttonSpec = {
+				"className" : "menuOption",
+				"text" : logoutOption.text,
+				"onclick" : logoutOption.call
+			};
+			var optionButton = CORA.gui.createButton(buttonSpec);
+			menu.appendChild(optionButton);
 		}
 
 		out = Object.freeze({

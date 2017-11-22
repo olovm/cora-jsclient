@@ -18,34 +18,31 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.loginManagerFactory = function(dependencies) {
+	cora.webRedirectLogin = function(dependencies, spec) {
+
+		function start() {
+			window.open(spec.url, "webRedirectLogin");
+		}
 
 		function getDependencies() {
+			// needed for tests
 			return dependencies;
 		}
 
-		function factor(loginManagerSpec) {
-			var loginManagerViewFactoryDependencies = {
-				"textProvider" : dependencies.textProvider
-			};
-			var loginManagerDependencies = {
-				"textProvider" : dependencies.textProvider,
-				"loginManagerViewFactory" : CORA
-						.loginManagerViewFactory(loginManagerViewFactoryDependencies),
-				"appTokenLoginFactory" : dependencies.appTokenLoginFactory,
-				"webRedirectLoginFactory" : dependencies.webRedirectLoginFactory,
-				"authTokenHolder" : dependencies.authTokenHolder,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
-			};
-			return CORA.loginManager(loginManagerDependencies, loginManagerSpec);
+		function getSpec() {
+			// needed for tests
+			return spec;
 		}
-
+		
+		start();
+		
 		var out = Object.freeze({
-			"type" : "loginManagerFactory",
+			"type" : "webRedirectLogin",
 			getDependencies : getDependencies,
-			factor : factor
+			getSpec : getSpec
 		});
 		return out;
 	};
+
 	return cora;
 }(CORA));

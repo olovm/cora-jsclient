@@ -23,6 +23,15 @@ QUnit.module("loginManagerViewTest.js", {
 		this.dependencies = {
 			"textProvider" : CORATEST.textProviderSpy()
 		};
+		
+		var loginMethodCalled = [];
+		function loginMethod(loginOption) {
+			loginMethodCalled.push(loginOption);
+		}
+		this.getLoginMethodCalled = function(number) {
+			return loginMethodCalled[number];
+		}
+		
 		var logoutMethodHasBeenCalled = false;
 		function logoutMethod() {
 			logoutMethodHasBeenCalled = true;
@@ -52,8 +61,10 @@ QUnit.module("loginManagerViewTest.js", {
 			"text" : "webRedirect uu",
 			"call" : testWebRedirectLogin
 		} ];
+		this.loginOptions = loginOptions;
 		this.spec = {
 			"loginOptions" : loginOptions,
+			"loginMethod" : loginMethod,
 			"logoutMethod" : logoutMethod
 		};
 
@@ -139,11 +150,13 @@ QUnit.test("testLoginOptions", function(assert) {
 
 	var event = document.createEvent('Event');
 	menu.childNodes[0].onclick(event);
-	assert.ok(this.getAppTokenLoginRun());
+//	assert.ok(this.getAppTokenLoginRun());
+	assert.strictEqual(this.getLoginMethodCalled(0), this.loginOptions[0]);
 
 	var event2 = document.createEvent('Event');
 	menu.childNodes[1].onclick(event2);
-	assert.ok(this.getWebRedirectLoginRun());
+//	assert.ok(this.getWebRedirectLoginRun());
+	assert.strictEqual(this.getLoginMethodCalled(1), this.loginOptions[1]);
 });
 
 QUnit.test("testSetUserId", function(assert) {

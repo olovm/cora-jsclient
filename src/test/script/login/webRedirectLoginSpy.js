@@ -16,36 +16,49 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(cora) {
 	"use strict";
-	cora.loginManagerFactory = function(dependencies) {
-
+	cora.webRedirectLoginSpy = function(dependencies, spec) {
+//		var userId;
+//		var userIds = [];
+//		var appTokens = [];
+//		function login(userIdIn, appToken) {
+//			userIds.push(userIdIn);
+//			appTokens.push(appToken);
+//			var authInfo = {
+//					"userId" : userIdIn,
+//					"token" : "fake authToken from appTokenLoginSpy",
+//					"validForNoSeconds" : "131"
+//				};
+//			spec.authInfoCallback(authInfo);
+//		}
+//
+//		function handleResponse(answer) {
+//		}
 		function getDependencies() {
 			return dependencies;
 		}
-
-		function factor(loginManagerSpec) {
-			var loginManagerViewFactoryDependencies = {
-				"textProvider" : dependencies.textProvider
-			};
-			var loginManagerDependencies = {
-				"textProvider" : dependencies.textProvider,
-				"loginManagerViewFactory" : CORA
-						.loginManagerViewFactory(loginManagerViewFactoryDependencies),
-				"appTokenLoginFactory" : dependencies.appTokenLoginFactory,
-				"webRedirectLoginFactory" : dependencies.webRedirectLoginFactory,
-				"authTokenHolder" : dependencies.authTokenHolder,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
-			};
-			return CORA.loginManager(loginManagerDependencies, loginManagerSpec);
+		function getSpec() {
+			return spec;
 		}
+//		function getUserId(number) {
+//			return userIds[number];
+//		}
+//		function getAppToken(number) {
+//			return appTokens[number];
+//		}
 
 		var out = Object.freeze({
-			"type" : "loginManagerFactory",
+			"type" : "webRedirectLoginSpy",
+//			login : login,
+//			handleResponse : handleResponse,
 			getDependencies : getDependencies,
-			factor : factor
+			getSpec : getSpec,
+//			getUserId : getUserId,
+//			getAppToken : getAppToken
 		});
 		return out;
 	};
+
 	return cora;
-}(CORA));
+}(CORATEST));
