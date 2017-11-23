@@ -21,51 +21,17 @@
 QUnit.module("webRedirectLoginTest.js", {
 	beforeEach : function() {
 
-//		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+		this.windowSpy = CORATEST.windowSpy();
 
 		this.dependencies = {
-//			"ajaxCallFactory" : this.ajaxCallFactorySpy
+			"window" : this.windowSpy
 		};
 
-//		var authInfo = {};
-//		this.getAuthInfo = function() {
-//			return authInfo;
-//		};
-//		var errorInfo = {};
-//		this.getErrorInfo = function() {
-//			return errorInfo;
-//		};
-//		var timeoutInfo = {};
-//		this.getTimeoutInfo = function() {
-//			return timeoutInfo;
-//		};
-
 		this.spec = {
-//			"requestMethod" : "POST",
-//			"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/",
-//			"accept" : "",
-//			"authInfoCallback" : function(authInfoIn) {
-//				authInfo = authInfoIn;
-//			},
-//			"errorCallback" : function(error) {
-//				errorInfo = error;
-//			},
-//			"timeoutCallback" : function(timeout) {
-//				timeoutInfo = timeout;
-//			}
+			"url" : "http://www.organisation.org/login/"
 		};
 
 		this.webRedirectLogin = CORA.webRedirectLogin(this.dependencies, this.spec);
-
-//		this.assertAjaxCallSpecIsCorrect = function(assert, ajaxCallSpy) {
-//			var ajaxCallSpec = ajaxCallSpy.getSpec();
-//			assert.strictEqual(ajaxCallSpec.url, "http://localhost:8080/apptokenverifier/"
-//					+ "rest/apptoken/someUserId");
-//			assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
-//			assert.strictEqual(ajaxCallSpec.accept, "");
-//			assert.strictEqual(ajaxCallSpec.loadMethod, this.webRedirectLogin.handleResponse);
-//			assert.strictEqual(ajaxCallSpec.data, "someAppToken");
-//		};
 	},
 	afterEach : function() {
 	}
@@ -76,91 +42,18 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(this.webRedirectLogin.type, "webRedirectLogin");
 });
 
-//QUnit.test("getDependencies", function(assert) {
-//	assert.ok(this.webRedirectLogin);
-//	assert.strictEqual(this.webRedirectLogin.getDependencies(), this.dependencies);
-//});
-//
-//QUnit.test("getSpec", function(assert) {
-//	assert.ok(this.webRedirectLogin);
-//	assert.strictEqual(this.webRedirectLogin.getSpec(), this.spec);
-//});
-//
-//QUnit.test("testUpload", function(assert) {
-//	var webRedirectLogin = this.webRedirectLogin;
-//
-//	webRedirectLogin.login("someUserId", "someAppToken");
-//
-//	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-//	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy0);
-//});
-//
-//QUnit.test("testGetAuthTokenForAppToken", function(assert) {
-//	var webRedirectLogin = this.webRedirectLogin;
-//
-//	webRedirectLogin.login("someUserId", "someAppToken");
-//
-//	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-//	var loadMethod = ajaxCallSpy0.getSpec().loadMethod;
-//	var tokenAnswer = {
-//		"data" : {
-//			"children" : [ {
-//				"name" : "id",
-//				"value" : "someAuthToken"
-//			}, {
-//				"name" : "validForNoSeconds",
-//				"value" : "278"
-//			} ],
-//			"name" : "authToken"
-//		}, 
-//		"actionLinks" : {
-//			"delete" : {
-//				"requestMethod" : "DELETE",
-//				"rel" : "delete",
-//				"url" : "http://epc.ub.uu.se/apptokenverifier/rest/apptoken/131313"
-//			}
-//		}
-//	};
-//	var answer = {
-//		"status" : 201,
-//		"responseText" : JSON.stringify(tokenAnswer)
-//	};
-//	loadMethod(answer);
-//	var authInfo = this.getAuthInfo();
-//	assert.strictEqual(authInfo.userId, "someUserId");
-//	assert.strictEqual(authInfo.token, "someAuthToken");
-//	assert.strictEqual(authInfo.validForNoSeconds, "278");
-//	assert.stringifyEqual(authInfo.actionLinks, tokenAnswer.actionLinks);
-//});
-//
-//QUnit.test("testGetError", function(assert) {
-//	var webRedirectLogin = this.webRedirectLogin;
-//	webRedirectLogin.login("someUserId", "someAppToken");
-//	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-//	var errorMethod = ajaxCallSpy0.getSpec().errorMethod;
-//
-//	var answer = {
-//		"status" : 201,
-//		"responseText" : "error"
-//	};
-//	errorMethod(answer);
-//	var errorInfo = this.getErrorInfo();
-//
-//	assert.strictEqual(errorInfo, answer);
-//});
-//
-//QUnit.test("testGetTimeOut", function(assert) {
-//	var webRedirectLogin = this.webRedirectLogin;
-//	webRedirectLogin.login("someUserId", "someAppToken");
-//	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-//	var timeoutMethod = ajaxCallSpy0.getSpec().timeoutMethod;
-//
-//	var answer = {
-//		"status" : 201,
-//		"responseText" : "timeout"
-//	};
-//	timeoutMethod(answer);
-//	var timeoutInfo = this.getTimeoutInfo();
-//
-//	assert.strictEqual(timeoutInfo, answer);
-//});
+QUnit.test("getDependencies", function(assert) {
+	assert.ok(this.webRedirectLogin);
+	assert.strictEqual(this.webRedirectLogin.getDependencies(), this.dependencies);
+});
+
+QUnit.test("getSpec", function(assert) {
+	assert.ok(this.webRedirectLogin);
+	assert.strictEqual(this.webRedirectLogin.getSpec(), this.spec);
+});
+
+QUnit.test("testUrlIsOpened", function(assert) {
+	assert.ok(this.webRedirectLogin);
+	assert.strictEqual(this.windowSpy.getOpenedUrl(), this.spec.url);
+});
+

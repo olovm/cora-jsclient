@@ -21,21 +21,19 @@ var CORA = (function(cora) {
 	cora.webRedirectLogin = function(dependencies, spec) {
 
 		function start() {
-			window.open(spec.url, "webRedirectLogin");
+			dependencies.window.open(spec.url, "webRedirectLogin");
 		}
 
 		function getDependencies() {
-			// needed for tests
 			return dependencies;
 		}
 
 		function getSpec() {
-			// needed for tests
 			return spec;
 		}
-		
+
 		start();
-		
+
 		var out = Object.freeze({
 			"type" : "webRedirectLogin",
 			getDependencies : getDependencies,

@@ -62,12 +62,12 @@ var CORA = (function(cora) {
 			factoredAppTokenLogin.login("141414", "63e6bd34-02a1-4c82-8001-158c104cae0e");
 		}
 
-		function webRedirectLogin(loginInfo) {
+		function webRedirectLogin(loginOption) {
 			// TODO: create a webRedirectLoginFactory that creates a webRedirectLogin(and sends in
 			// window) for easyer testing
 			// window.open("webRedirectLogin.html", "webRedirectLogin");
-			var loginSpec = {
-				"url" : loginInfo.url
+			var loginSpec = { 
+				"url" : loginOption.url
 			};
 			dependencies.webRedirectLoginFactory.factor(loginSpec);
 		}
