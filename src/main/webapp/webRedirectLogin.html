@@ -41,18 +41,43 @@
 	window.onload = start;
 
 	function start() {
-// 		window.opener.jsClientView.getView.appendChild(document.createText("from loign"));
-// window.opener.CallParent();
-console.log(window.opener.jsClient.getDependencies());
-window.opener.callParent2();
-window.opener.focus();
-window.close();
-	}
+		// 		window.opener.jsClientView.getView.appendChild(document.createText("from loign"));
+		// window.opener.CallParent();
+		console.log(window.opener.jsClient.getDependencies());
 
+		// window.opener.callParent2();
+		var authInfo = {
+			"userId" : "Webredirect user",
+			"token" : "fake authToken from here",
+			"validForNoSeconds" : "131",
+			"actionLinks" : {
+				"delete" : {
+					"requestMethod" : "DELETE",
+					"rel" : "delete",
+					"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/141414"
+				}
+			}
+		};
+		var authInfo2 = {
+			"userId" : "Webredirect fake login",
+			"token" : "fd6d7fab-6c90-4cc1-a699-46134cb25937",
+			"validForNoSeconds" : "600",
+			"actionLinks" : {
+				"delete" : {
+					"requestMethod" : "DELETE",
+					"rel" : "delete",
+					"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/141414"
+				}
+			}
+		};
+		window.opener.jsClient.getDependencies().globalInstances.loginManager
+				.appTokenAuthInfoCallback(authInfo2);
+		window.opener.focus();
+		window.close();
+	}
 </script>
 </head>
-<body>
-hej
+<body>hej
 </body>
 </html>
 

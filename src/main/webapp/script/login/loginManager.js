@@ -31,7 +31,9 @@ var CORA = (function(cora) {
 			}, {
 				"text" : "Uppsala webredirect",
 				"type" : "webRedirectLogin",
-				"url" : "http://www.organisation.org/login/"
+				// "url" : "http://www.organisation.org/login/"
+				// "url" : "webRedirectLogin.html"
+				"url" : "http://localhost:8080/idplogin/idplogin"
 			} ];
 			var viewSpec = {
 				"loginOptions" : loginOptions,
@@ -66,7 +68,7 @@ var CORA = (function(cora) {
 			// TODO: create a webRedirectLoginFactory that creates a webRedirectLogin(and sends in
 			// window) for easyer testing
 			// window.open("webRedirectLogin.html", "webRedirectLogin");
-			var loginSpec = { 
+			var loginSpec = {
 				"url" : loginOption.url
 			};
 			dependencies.webRedirectLoginFactory.factor(loginSpec);
@@ -81,6 +83,7 @@ var CORA = (function(cora) {
 		}
 
 		function appTokenAuthInfoCallback(authInfoIn) {
+			console.log("authInfoIn", authInfoIn);
 			authInfo = authInfoIn;
 			dependencies.authTokenHolder.setCurrentAuthToken(authInfo.token);
 			loginManagerView.setUserId(authInfo.userId);

@@ -48,14 +48,8 @@ var CORA = (function(cora) {
 			};
 			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 
-			var loginManagerSpec = {
-				"afterLoginMethod" : afterLogin,
-				"afterLogoutMethod" : afterLogout,
-				"setErrorMessage" : jsClientView.addErrorMessage,
-				"appTokenBaseUrl" : spec.appTokenBaseUrl
-			};
-			var loginManager = dependencies.globalFactories.loginManagerFactory
-					.factor(loginManagerSpec);
+			var loginManager = createLoginManager();
+
 			jsClientView.addLoginManagerView(loginManager.getHtml());
 
 			jsClientView
@@ -68,6 +62,19 @@ var CORA = (function(cora) {
 		function sortRecordTypesFromRecordTypeProvider() {
 			var allRecordTypes = recordTypeProvider.getAllRecordTypes();
 			return cora.sortRecordTypes(allRecordTypes);
+		}
+
+		function createLoginManager() {
+			var loginManagerSpec = {
+				"afterLoginMethod" : afterLogin,
+				"afterLogoutMethod" : afterLogout,
+				"setErrorMessage" : jsClientView.addErrorMessage,
+				"appTokenBaseUrl" : spec.appTokenBaseUrl
+			};
+			var loginManager = dependencies.globalFactories.loginManagerFactory
+					.factor(loginManagerSpec);
+			dependencies.globalInstances.loginManager = loginManager;
+			return loginManager;
 		}
 
 		function createAndAddOpenGuiItemHandlerToSideBar() {
