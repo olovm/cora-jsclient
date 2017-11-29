@@ -25,16 +25,16 @@ var CORA = (function(cora) {
 
 		function start() {
 
-			var loginOptions = [ {
-				"text" : "appToken as 141414",
-				"type" : "appTokenLogin"
-			}, {
-				"text" : "Uppsala webredirect",
-				"type" : "webRedirectLogin",
-				// "url" : "http://www.organisation.org/login/"
-				// "url" : "webRedirectLogin.html"
-				"url" : "http://localhost:8080/idplogin/idplogin"
-			} ];
+			var loginOptions = [
+					{
+						"text" : "appToken as 141414",
+						"type" : "appTokenLogin"
+					},
+					{
+						"text" : "Uppsala webredirect",
+						"type" : "webRedirectLogin",
+						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/idplogin"
+					} ];
 			var viewSpec = {
 				"loginOptions" : loginOptions,
 				"loginMethod" : login,
@@ -65,9 +65,6 @@ var CORA = (function(cora) {
 		}
 
 		function webRedirectLogin(loginOption) {
-			// TODO: create a webRedirectLoginFactory that creates a webRedirectLogin(and sends in
-			// window) for easyer testing
-			// window.open("webRedirectLogin.html", "webRedirectLogin");
 			var loginSpec = {
 				"url" : loginOption.url
 			};
@@ -83,7 +80,6 @@ var CORA = (function(cora) {
 		}
 
 		function appTokenAuthInfoCallback(authInfoIn) {
-			console.log("authInfoIn", authInfoIn);
 			authInfo = authInfoIn;
 			dependencies.authTokenHolder.setCurrentAuthToken(authInfo.token);
 			loginManagerView.setUserId(authInfo.userId);

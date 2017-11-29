@@ -131,7 +131,7 @@ QUnit.test("testInitLoginManagerViewSpec", function(assert) {
 	assert.strictEqual(factoredLoginOptions[1].text, expectedLoginOptions[1].text);
 	// assert.strictEqual(factoredLoginOptions[1].call, loginManager.webRedirectLogin);
 	assert.strictEqual(factoredLoginOptions[1].type, "webRedirectLogin");
-	assert.strictEqual(factoredLoginOptions[1].url, "http://localhost:8080/idplogin/idplogin");
+	assert.strictEqual(factoredLoginOptions[1].url, "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/idplogin");
 
 	assert.strictEqual(factoredSpec.loginMethod, loginManager.login);
 	assert.strictEqual(factoredSpec.logoutMethod, loginManager.logout);
