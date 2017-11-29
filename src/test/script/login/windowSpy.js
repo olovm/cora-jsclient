@@ -16,36 +16,33 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATEST = (function(cora) {
 	"use strict";
-	cora.loginManagerFactory = function(dependencies) {
-
+	cora.windowSpy = function(dependencies, spec) {
+		var url = "";
 		function getDependencies() {
 			return dependencies;
 		}
+		function getSpec() {
+			return spec;
+		}
 
-		function factor(loginManagerSpec) {
-			var loginManagerViewFactoryDependencies = {
-				"textProvider" : dependencies.textProvider
-			};
-			var loginManagerDependencies = {
-				"textProvider" : dependencies.textProvider,
-				"loginManagerViewFactory" : CORA
-						.loginManagerViewFactory(loginManagerViewFactoryDependencies),
-				"appTokenLoginFactory" : dependencies.appTokenLoginFactory,
-				"webRedirectLoginFactory" : dependencies.webRedirectLoginFactory,
-				"authTokenHolder" : dependencies.authTokenHolder,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
-			};
-			return CORA.loginManager(loginManagerDependencies, loginManagerSpec);
+		function open(urlIn) {
+			url = urlIn;
+		}
+		function getOpenedUrl() {
+			return url;
 		}
 
 		var out = Object.freeze({
-			"type" : "loginManagerFactory",
+			"type" : "windowSpy",
 			getDependencies : getDependencies,
-			factor : factor
+			getSpec : getSpec,
+			open : open,
+			getOpenedUrl : getOpenedUrl
 		});
 		return out;
 	};
+
 	return cora;
-}(CORA));
+}(CORATEST));

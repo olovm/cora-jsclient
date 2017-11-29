@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright 2016, 2017 Olov McKie
+  ~ Copyright 2016, 2017 Uppsala University Library
+  ~
+  ~ This file is part of Cora.
+  ~
+  ~     Cora is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     Cora is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<html>
+<head>
+<meta charset="UTF-8"></meta>
+<title>WebRedirectLogin</title>
+<link rel="stylesheet" type="text/css" href="css/presentation.css"></link>
+<link rel="stylesheet" type="text/css" href="css/jsClient.css"></link>
+<link rel="stylesheet" type="text/css" href="css/message.css"></link>
+<link rel="stylesheet" type="text/css" href="css/busy.css"></link>
+<link rel="stylesheet" type="text/css" href="css/question.css"></link>
+
+<link href="css/default.css" rel="stylesheet" type="text/css" title="A Client">
+<link href="css/alvin.css" rel="alternate stylesheet" type="text/css" title="Alvin">
+<link href="css/other.css" rel="alternate stylesheet" type="text/css" title="Other">
+
+<script type="text/javascript" src="script/aCoraNameSpace.js"></script>
+
+
+
+<script type="text/javascript">
+	window.onload = start;
+
+	function start() {
+		// 		window.opener.jsClientView.getView.appendChild(document.createText("from loign"));
+		// window.opener.CallParent();
+		console.log(window.opener.jsClient.getDependencies());
+
+		// window.opener.callParent2();
+		var authInfo = {
+			"userId" : "Webredirect user",
+			"token" : "fake authToken from here",
+			"validForNoSeconds" : "131",
+			"actionLinks" : {
+				"delete" : {
+					"requestMethod" : "DELETE",
+					"rel" : "delete",
+					"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/141414"
+				}
+			}
+		};
+		var authInfo2 = {
+			"userId" : "Webredirect fake login",
+			"token" : "fd6d7fab-6c90-4cc1-a699-46134cb25937",
+			"validForNoSeconds" : "600",
+			"actionLinks" : {
+				"delete" : {
+					"requestMethod" : "DELETE",
+					"rel" : "delete",
+					"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/141414"
+				}
+			}
+		};
+		window.opener.jsClient.getDependencies().globalInstances.loginManager
+				.appTokenAuthInfoCallback(authInfo2);
+		window.opener.focus();
+		window.close();
+	}
+</script>
+</head>
+<body>hej
+</body>
+</html>
+

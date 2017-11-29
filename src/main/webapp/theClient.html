@@ -108,6 +108,8 @@
 <script type="text/javascript" src="script/login/loginManagerViewFactory.js"></script>
 <script type="text/javascript" src="script/login/appTokenLogin.js"></script>
 <script type="text/javascript" src="script/login/appTokenLoginFactory.js"></script>
+<script type="text/javascript" src="script/login/webRedirectLogin.js"></script>
+<script type="text/javascript" src="script/login/webRedirectLoginFactory.js"></script>
 
 <script type="text/javascript" src="script/metadata/calculatePathForNewElement.js"></script>
 <script type="text/javascript" src="script/metadata/coraData.js"></script>
@@ -181,6 +183,18 @@
 	var recordTypeProvider;
 	var uploadManager;
 
+	window.CallParent = function() {
+        alert(" Parent window Alert");
+    }
+
+	callParent3 = function(){
+        alert(" Parent window Alert33");
+		
+	}
+	function callParent2(){
+        alert(" Parent window Alert222");
+	}
+	
 	function start() {
 		askForServerToUse();
 	}

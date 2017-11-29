@@ -18,30 +18,21 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.loginManagerFactory = function(dependencies) {
+	cora.webRedirectLoginFactory = function(dependencies) {
 
 		function getDependencies() {
 			return dependencies;
 		}
 
 		function factor(loginManagerSpec) {
-			var loginManagerViewFactoryDependencies = {
-				"textProvider" : dependencies.textProvider
-			};
 			var loginManagerDependencies = {
-				"textProvider" : dependencies.textProvider,
-				"loginManagerViewFactory" : CORA
-						.loginManagerViewFactory(loginManagerViewFactoryDependencies),
-				"appTokenLoginFactory" : dependencies.appTokenLoginFactory,
-				"webRedirectLoginFactory" : dependencies.webRedirectLoginFactory,
-				"authTokenHolder" : dependencies.authTokenHolder,
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
+					"window":window
 			};
-			return CORA.loginManager(loginManagerDependencies, loginManagerSpec);
+			return CORA.webRedirectLogin(loginManagerDependencies, loginManagerSpec);
 		}
 
 		var out = Object.freeze({
-			"type" : "loginManagerFactory",
+			"type" : "webRedirectLoginFactory",
 			getDependencies : getDependencies,
 			factor : factor
 		});

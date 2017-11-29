@@ -23,6 +23,8 @@ QUnit.module("loginManagerTest.js", {
 		this.dependencies = {
 			"loginManagerViewFactory" : CORATEST.loginManagerViewFactorySpy(),
 			"appTokenLoginFactory" : CORATEST.appTokenLoginFactorySpy(),
+			"webRedirectLoginFactory" : CORATEST.standardFactorySpy("webRedirectLoginSpy"),
+			// "webRedirectLoginFactory" : CORATEST.webRedirectLoginFactorySpy(),
 			"authTokenHolder" : CORATEST.authTokenHolderSpy(),
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy()
 		};
@@ -114,19 +116,34 @@ QUnit.test("testInitLoginManagerViewSpec", function(assert) {
 	var expectedLoginOptions = [ {
 		"text" : "appToken as 141414",
 		"call" : loginManager.appTokenLogin
+	}, {
+		"text" : "Uppsala webredirect",
+		"call" : loginManager.webRedirectLogin
 	} ];
 	var factoredLoginOptions = factoredSpec.loginOptions;
 
-	assert.strictEqual(factoredLoginOptions.length, 1);
-	assert.strictEqual(factoredLoginOptions[0].text, expectedLoginOptions[0].text);
-	assert.strictEqual(factoredLoginOptions[0].call, loginManager.appTokenLogin);
+	assert.strictEqual(factoredLoginOptions.length, 2);
 
+	assert.strictEqual(factoredLoginOptions[0].text, expectedLoginOptions[0].text);
+	// assert.strictEqual(factoredLoginOptions[0].call, loginManager.appTokenLogin);
+	assert.strictEqual(factoredLoginOptions[0].type, "appTokenLogin");
+
+	assert.strictEqual(factoredLoginOptions[1].text, expectedLoginOptions[1].text);
+	// assert.strictEqual(factoredLoginOptions[1].call, loginManager.webRedirectLogin);
+	assert.strictEqual(factoredLoginOptions[1].type, "webRedirectLogin");
+	assert.strictEqual(factoredLoginOptions[1].url, "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/idplogin");
+
+	assert.strictEqual(factoredSpec.loginMethod, loginManager.login);
 	assert.strictEqual(factoredSpec.logoutMethod, loginManager.logout);
 });
 
 QUnit.test("testAppTokenLoginFactoryIsCalledOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;
-	loginManager.appTokenLogin(0);
+	// loginManager.appTokenLogin();
+	loginManager.login({
+		"text" : "someText",
+		"type":"appTokenLogin"
+	});
 	var factored1 = this.dependencies.appTokenLoginFactory.getFactored(0);
 	assert.ok(factored1);
 	var spec0 = this.dependencies.appTokenLoginFactory.getSpec(0);
@@ -140,10 +157,34 @@ QUnit.test("testAppTokenLoginFactoryIsCalledOnAppTokenLogin", function(assert) {
 
 QUnit.test("testAppTokenLoginCallsServerOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;
-	loginManager.appTokenLogin(0);
+	loginManager.login({
+		"text" : "someText",
+		"type":"appTokenLogin"
+	});
 	var factored0 = this.dependencies.appTokenLoginFactory.getFactored(0);
 	assert.strictEqual(factored0.getUserId(0), "141414");
 	assert.strictEqual(factored0.getAppToken(0), "63e6bd34-02a1-4c82-8001-158c104cae0e");
+});
+
+QUnit.test("testWebRedirectLoginFactoryIsCalledOnWebRedirectLogin", function(assert) {
+	var loginManager = this.loginManager;
+	var loginOption = {
+		"text" : "Uppsala webredirect",
+		"type" : "webRedirectLogin",
+		"url" : "webRedirectLogin.html"
+	};
+	loginManager.login(loginOption);
+	var factored = this.dependencies.webRedirectLoginFactory.getFactored(0);
+	assert.strictEqual(factored.type, "webRedirectLoginSpy");
+	var spec0 = this.dependencies.webRedirectLoginFactory.getSpec(0);
+
+//	assert.strictEqual(spec0.openWebRedirectPage, "webRedirectLogin.html");
+//	assert.strictEqual(spec0.url, "http://www.organisation.org/login/");
+	assert.strictEqual(spec0.url, "webRedirectLogin.html");
+	// assert.strictEqual(spec0.accept, "");
+	// assert.strictEqual(spec0.authInfoCallback, loginManager.appTokenAuthInfoCallback);
+	// assert.strictEqual(spec0.errorCallback, loginManager.appTokenErrorCallback);
+	// assert.strictEqual(spec0.timeoutCallback, loginManager.appTokenTimeoutCallback);
 });
 
 QUnit.test("testAuthTokenIsSetInAuthTokenHolderOnAppTokenLogin", function(assert) {

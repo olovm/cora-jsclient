@@ -118,6 +118,11 @@ QUnit.test("testloginManagerFactoryDependencies", function(assert) {
 	assert.strictEqual(factoredDep.authTokenHolder, this.dependencies.authTokenHolder);
 	assert.strictEqual(factoredDep.appTokenLoginFactory,
 			jsClientFactoredDep.globalFactories.appTokenLoginFactory);
+	
+	assert.ok(factoredDep.webRedirectLoginFactory);
+	assert.strictEqual(factoredDep.webRedirectLoginFactory,
+			jsClientFactoredDep.globalFactories.webRedirectLoginFactory);
+	
 	assert.strictEqual(factoredDep.ajaxCallFactory,
 			jsClientFactoredDep.globalFactories.ajaxCallFactory);
 	assert.strictEqual(factoredDep.textProvider, this.providers.textProvider);

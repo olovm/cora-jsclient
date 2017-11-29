@@ -25,18 +25,34 @@ var CORA = (function(cora) {
 
 		function start() {
 
-			var loginOptions = [ {
-				"text" : "appToken as 141414",
-				"call" : appTokenLogin
-			} ];
+			var loginOptions = [
+					{
+						"text" : "appToken as 141414",
+						"type" : "appTokenLogin"
+					},
+					{
+						"text" : "Uppsala webredirect",
+						"type" : "webRedirectLogin",
+						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/idplogin"
+					} ];
 			var viewSpec = {
 				"loginOptions" : loginOptions,
+				"loginMethod" : login,
 				"logoutMethod" : logout
 			};
 			loginManagerView = dependencies.loginManagerViewFactory.factor(viewSpec);
 		}
+
+		function login(loginOption) {
+			if ("appTokenLogin" === loginOption.type) {
+				appTokenLogin();
+			} else {
+				webRedirectLogin(loginOption);
+			}
+		}
+
 		function appTokenLogin() {
-			var appTokenLoginFactorySpec = {
+			var loginSpec = {
 				"requestMethod" : "POST",
 				"url" : spec.appTokenBaseUrl + "apptokenverifier/rest/apptoken/",
 				"accept" : "",
@@ -44,9 +60,15 @@ var CORA = (function(cora) {
 				"errorCallback" : appTokenErrorCallback,
 				"timeoutCallback" : appTokenTimeoutCallback
 			};
-			var factoredAppTokenLogin = dependencies.appTokenLoginFactory
-					.factor(appTokenLoginFactorySpec);
+			var factoredAppTokenLogin = dependencies.appTokenLoginFactory.factor(loginSpec);
 			factoredAppTokenLogin.login("141414", "63e6bd34-02a1-4c82-8001-158c104cae0e");
+		}
+
+		function webRedirectLogin(loginOption) {
+			var loginSpec = {
+				"url" : loginOption.url
+			};
+			dependencies.webRedirectLoginFactory.factor(loginSpec);
 		}
 
 		function getDependencies() {
@@ -100,7 +122,7 @@ var CORA = (function(cora) {
 			"type" : "loginManager",
 			getDependencies : getDependencies,
 			getHtml : getHtml,
-			appTokenLogin : appTokenLogin,
+			login : login,
 			logout : logout,
 			appTokenAuthInfoCallback : appTokenAuthInfoCallback,
 			appTokenErrorCallback : appTokenErrorCallback,

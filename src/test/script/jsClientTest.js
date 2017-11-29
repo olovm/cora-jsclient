@@ -133,6 +133,9 @@ QUnit.test("testInitCreatesALoginManager",
 					jsClient.afterLogout);
 			assert.strictEqual(this.loginManagerFactory.getSpec(0).appTokenBaseUrl,
 					"someAppTokenBaseUrl/");
+
+			assert.strictEqual(this.dependencies.globalInstances.loginManager, factored);
+
 		});
 
 QUnit.test("testInitCreatesALoginManagerAndAddsItsHtmlToTheHeader", function(assert) {
@@ -590,6 +593,6 @@ QUnit.test("testSetCurrentLangReloadsManagedGuiItem", function(assert) {
 
 	assert.strictEqual(this.textProvider.getSetCurrentLang(0), "en");
 
-	 assert.strictEqual(aGuiItem.getReloadForMetadataChanges(), 1);
-	 assert.strictEqual(aGuiItem2.getReloadForMetadataChanges(), 1);
+	assert.strictEqual(aGuiItem.getReloadForMetadataChanges(), 1);
+	assert.strictEqual(aGuiItem2.getReloadForMetadataChanges(), 1);
 });
