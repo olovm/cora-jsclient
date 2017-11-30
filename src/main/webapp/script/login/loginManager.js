@@ -80,6 +80,7 @@ var CORA = (function(cora) {
 		}
 
 		function appTokenAuthInfoCallback(authInfoIn) {
+			console.log(authInfoIn);
 			authInfo = authInfoIn;
 			dependencies.authTokenHolder.setCurrentAuthToken(authInfo.token);
 			loginManagerView.setUserId(authInfo.userId);
