@@ -33,7 +33,7 @@ var CORA = (function(cora) {
 					{
 						"text" : "Uppsala webredirect",
 						"type" : "webRedirectLogin",
-						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/idplogin"
+						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/idplogout"
 					} ];
 			var viewSpec = {
 				"loginOptions" : loginOptions,
@@ -80,7 +80,6 @@ var CORA = (function(cora) {
 		}
 
 		function appTokenAuthInfoCallback(authInfoIn) {
-			console.log(authInfoIn);
 			authInfo = authInfoIn;
 			dependencies.authTokenHolder.setCurrentAuthToken(authInfo.token);
 			loginManagerView.setUserId(authInfo.userId);
