@@ -33,7 +33,7 @@ var CORA = (function(cora) {
 					{
 						"text" : "Uppsala webredirect",
 						"type" : "webRedirectLogin",
-						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/idplogin"
+						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/login"
 					} ];
 			var viewSpec = {
 				"loginOptions" : loginOptions,
