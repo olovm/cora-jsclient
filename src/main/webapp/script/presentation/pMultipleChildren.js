@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -34,6 +34,7 @@ var CORA = (function(cora) {
 		var info;
 		var infoButton;
 		var nameInData;
+		var mode = "input";
 
 		function init() {
 			cMetadataElement = getMetadataById(my.metadataId);
@@ -54,6 +55,10 @@ var CORA = (function(cora) {
 			info = createInfo();
 			infoButton = info.getButton();
 			viewNew.appendChild(infoButton);
+
+			if (my.cPresentation.containsChildWithNameInData("mode")) {
+				mode = my.cPresentation.getFirstAtomicValueByNameInData("mode");
+			}
 
 			if (my.cPresentation.containsChildWithNameInData("childReferences")) {
 				var presentationChildren = my.cPresentation
@@ -163,7 +168,8 @@ var CORA = (function(cora) {
 				"parentPath" : path,
 				"cParentMetadata" : getMetadataById(my.metadataId),
 				"cPresentation" : cPresentationChild,
-				"cParentPresentation" : my.cParentPresentation
+				"cParentPresentation" : my.cParentPresentation,
+				"mode" : mode
 			};
 
 			if (cPresentationChildRef.containsChildWithNameInData("minNumberOfRepeatingToShow")) {

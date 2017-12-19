@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
- *
+ * Copyright 2017 Uppsala University Library
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -76,7 +76,7 @@ QUnit.test("testFirstPChildRefHandlerSpec",
 			pMultipleChildren.init();
 			var view = pMultipleChildren.getView();
 			this.fixture.appendChild(view);
-			
+
 			var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
 			assert.strictEqual(factoredSpec.parentPath, this.spec.path);
 			assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
@@ -90,97 +90,123 @@ QUnit.test("testFirstPChildRefHandlerSpec",
 
 			assert.strictEqual(factoredSpec.textStyle, "h1TextStyle");
 			assert.strictEqual(factoredSpec.childStyle, "oneChildStyle");
+			assert.strictEqual(factoredSpec.mode, "input");
 		});
 
-QUnit.test("testFirstMinimizedDefaultPChildRefHandlerSpec",
-		function(assert) {
-			this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
-					.getMetadataById("pgGroupIdOneTextChildMinimizedDefault"));
-			var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
-			pMultipleChildren.init();
-			var view = pMultipleChildren.getView();
-			this.fixture.appendChild(view);
-
-			var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
-			assert.strictEqual(factoredSpec.parentPath, this.spec.path);
-			assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
-					"groupIdOneTextChildRepeat1to3");
-			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
-			assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
-					"pgGroupIdOneTextChildMinimized");
-			assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
-					"pVarTextVariableId");
-
-			assert.strictEqual(factoredSpec.textStyle, "h5TextStyle");
-			assert.strictEqual(factoredSpec.childStyle, "twoChildStyle");
-		});
-
-QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfo",
-		function(assert) {
-			this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
-					.getMetadataById("pgGroupIdOneTextChildMinimizedDefaultNoStyleInfo"));
-			var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
-			pMultipleChildren.init();
-			var view = pMultipleChildren.getView(); 
-			this.fixture.appendChild(view);
-
-			var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
-			assert.strictEqual(factoredSpec.parentPath, this.spec.path);
-			assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
-					"groupIdOneTextChildRepeat1to3");
-			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
-			assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
-					"pgGroupIdOneTextChildMinimized");
-			assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
-				"pVarTextVariableId");
-
-			assert.strictEqual(factoredSpec.textStyle, undefined);
-			assert.strictEqual(factoredSpec.childStyle, undefined);
-			assert.strictEqual(factoredSpec.minNumberOfRepeatingToShow, undefined);
-		});
-QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfoMinNumberOfRepeatingToShow",
-		function(assert) {
+QUnit.test("testFirstMinimizedDefaultPChildRefHandlerSpec", function(assert) {
 	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
-			.getMetadataById("pgGroupIdOneTextChildMinimizedDefaultNoStyleInfoMinNumberOfRepeatingToShow"));
+			.getMetadataById("pgGroupIdOneTextChildMinimizedDefault"));
 	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
 	pMultipleChildren.init();
-	var view = pMultipleChildren.getView(); 
+	var view = pMultipleChildren.getView();
 	this.fixture.appendChild(view);
-	
+
 	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
-	assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
-			"groupIdOneTextChildRepeat1to3");
+	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdOneTextChildRepeat1to3");
 	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
 	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
-	"pgGroupIdOneTextChildMinimized");
-	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
-		"pVarTextVariableId");
+			"pgGroupIdOneTextChildMinimized");
+	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized), "pVarTextVariableId");
+
+	assert.strictEqual(factoredSpec.textStyle, "h5TextStyle");
+	assert.strictEqual(factoredSpec.childStyle, "twoChildStyle");
+	assert.strictEqual(factoredSpec.mode, "input");
+});
+
+QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfo", function(assert) {
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextChildMinimizedDefaultNoStyleInfo"));
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+	var view = pMultipleChildren.getView();
+	this.fixture.appendChild(view);
+
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
+	assert.strictEqual(this.getId(factoredSpec.cParentMetadata), "groupIdOneTextChildRepeat1to3");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
+			"pgGroupIdOneTextChildMinimized");
+	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized), "pVarTextVariableId");
 
 	assert.strictEqual(factoredSpec.textStyle, undefined);
 	assert.strictEqual(factoredSpec.childStyle, undefined);
-	
-	assert.strictEqual(factoredSpec.minNumberOfRepeatingToShow, "1");
+	assert.strictEqual(factoredSpec.minNumberOfRepeatingToShow, undefined);
+	assert.strictEqual(factoredSpec.mode, "input");
 });
-QUnit.test("testText",
-		function(assert) {
+QUnit
+		.test(
+				"testFirstPChildRefHandlerSpecNoStyleInfoMinNumberOfRepeatingToShow",
+				function(assert) {
+					this.my.cPresentation = CORA
+							.coraData(this.dependencies.metadataProvider
+									.getMetadataById("pgGroupIdOneTextChildMinimizedDefaultNoStyleInfoMinNumberOfRepeatingToShow"));
+					var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec,
+							this.my);
+					pMultipleChildren.init();
+					var view = pMultipleChildren.getView();
+					this.fixture.appendChild(view);
+
+					var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+					assert.strictEqual(factoredSpec.parentPath, this.spec.path);
+					assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
+							"groupIdOneTextChildRepeat1to3");
+					assert.strictEqual(this.getId(factoredSpec.cPresentation),
+							"pVarTextVariableIdOutput");
+					assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
+							"pgGroupIdOneTextChildMinimized");
+					assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
+							"pVarTextVariableId");
+
+					assert.strictEqual(factoredSpec.textStyle, undefined);
+					assert.strictEqual(factoredSpec.childStyle, undefined);
+					assert.strictEqual(factoredSpec.mode, "input");
+
+					assert.strictEqual(factoredSpec.minNumberOfRepeatingToShow, "1");
+				});
+
+QUnit.test("pgGroupIdOneTextChildMinimizedDefaultModeInput", function(assert) {
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextChildMinimizedDefaultModeInput"));
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+	var view = pMultipleChildren.getView();
+	this.fixture.appendChild(view);
+
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.mode, "input");
+});
+
+QUnit.test("pgGroupIdOneTextChildMinimizedDefaultModeOutput", function(assert) {
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextChildMinimizedDefaultModeOutput"));
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+	var view = pMultipleChildren.getView();
+	this.fixture.appendChild(view);
+	
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.mode, "output");
+});
+
+QUnit.test("testText", function(assert) {
 	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
 			.getMetadataById("pgGroupIdOneTextOneTextChildTwoAttributes"));
 	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
 	pMultipleChildren.init();
-	var view = pMultipleChildren.getView(); 
+	var view = pMultipleChildren.getView();
 	this.fixture.appendChild(view);
-	 
+
 	assert.strictEqual(view.childNodes[1].className, "text h2TextStyle fourChildStyle");
 });
-QUnit.test("testText",
-		function(assert) {
+QUnit.test("testText", function(assert) {
 	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
 			.getMetadataById("pgGroupIdOneTextOneTextChildTwoAttributesNoTextStyle"));
 	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
 	pMultipleChildren.init();
-	var view = pMultipleChildren.getView(); 
+	var view = pMultipleChildren.getView();
 	this.fixture.appendChild(view);
-	
+
 	assert.strictEqual(view.childNodes[1].className, "text");
 });

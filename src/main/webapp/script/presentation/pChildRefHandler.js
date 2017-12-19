@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -85,8 +85,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataIdFromPresentation() {
-			var presentationGroup = spec.cPresentation
-					.getFirstChildByNameInData("presentationOf");
+			var presentationGroup = spec.cPresentation.getFirstChildByNameInData("presentationOf");
 			var cPresentationGroup = CORA.coraData(presentationGroup);
 			return cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
@@ -104,7 +103,8 @@ var CORA = (function(cora) {
 			var pChildRefHandlerViewSpec = {
 				"presentationId" : presentationId,
 				"isRepeating" : isRepeating,
-				"addText" : "+ " + text
+				"addText" : "+ " + text,
+				"mode" : spec.mode
 			};
 			if (spec.textStyle !== undefined) {
 				pChildRefHandlerViewSpec.textStyle = spec.textStyle;
@@ -279,7 +279,8 @@ var CORA = (function(cora) {
 				"repeatMax" : repeatMax,
 				"path" : path,
 				"parentModelObject" : pChildRefHandlerView,
-				"isRepeating" : isRepeating
+				"isRepeating" : isRepeating,
+				"mode":spec.mode
 			};
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}
@@ -332,12 +333,14 @@ var CORA = (function(cora) {
 		}
 
 		function updateView() {
-			if (showAddButton()) {
-				updateButtonViewVisibility();
-				updateChildrenRemoveButtonVisibility();
-			}
-			if (isRepeating) {
-				updateChildrenDragButtonVisibility();
+			if (spec.mode === "input") {
+				if (showAddButton()) {
+					updateButtonViewVisibility();
+					updateChildrenRemoveButtonVisibility();
+				}
+				if (isRepeating) {
+					updateChildrenDragButtonVisibility();
+				}
 			}
 		}
 
@@ -519,7 +522,7 @@ var CORA = (function(cora) {
 			return cItem.getFirstAtomicValueByNameInData("finalValue");
 		}
 
-		function getRefValueFromAttributeRef(attributeReferences){
+		function getRefValueFromAttributeRef(attributeReferences) {
 			var cAttributeReferences = CORA.coraData(attributeReferences);
 			var cRefGroup = CORA.coraData(cAttributeReferences.getFirstChildByNameInData("ref"));
 			return cRefGroup.getFirstAtomicValueByNameInData("linkedRecordId");

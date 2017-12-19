@@ -1,6 +1,6 @@
 /*
  * Copyright 2015, 2016, 2017 Olov McKie
- * Copyright 2015 Uppsala University Library
+ * Copyright 2015, 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -5464,6 +5464,130 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
+		case "pgGroupIdOneTextChildMinimizedDefaultModeInput":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataGroup"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "groupIdOneTextChild"
+				} ],
+				"name" : "presentationOf"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "refGroup",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "presentation"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "pVarTextVariableIdOutput"
+							} ],
+							"attributes" : {
+								"type" : "presentation"
+							}
+						} ]
+					}, {
+						"name" : "refGroup",
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "presentation"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "pVarTextVariableId"
+							} ],
+							"attributes" : {
+								"type" : "presentation"
+							}
+						} ]
+					}, {
+						"name" : "minNumberOfRepeatingToShow",
+						"value" : "1"
+					} ]
+				} ]
+			},{
+				"name" : "mode",
+				"value" : "input"
+			} ])
+		};
+		case "pgGroupIdOneTextChildMinimizedDefaultModeOutput":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "pGroup"
+			},
+			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataGroup"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "groupIdOneTextChild"
+				} ],
+				"name" : "presentationOf"
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "refGroup",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "presentation"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "pVarTextVariableIdOutput"
+							} ],
+							"attributes" : {
+								"type" : "presentation"
+							}
+						} ]
+					}, {
+						"name" : "refGroup",
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "presentation"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "pVarTextVariableId"
+							} ],
+							"attributes" : {
+								"type" : "presentation"
+							}
+						} ]
+					}, {
+						"name" : "minNumberOfRepeatingToShow",
+						"value" : "1"
+					} ]
+				} ]
+			},{
+				"name" : "mode",
+				"value" : "output"
+			} ])
+		};
 
 		case "pVarTextVariableId2":
 			return {

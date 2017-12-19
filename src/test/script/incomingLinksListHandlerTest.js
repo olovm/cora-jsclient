@@ -94,6 +94,16 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(ajaxCallSpec.errorMethod, incomingLinksListHandler.handleCallError);
 });
 
+QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
+	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
+	try {
+		incomingLinksListHandler.handleCallError();
+	} catch (error) {
+		assert.strictEqual(error.message, "error fetching links from server");
+	}
+	
+});
+
 QUnit.test("testHandleAnswerWithIncomingLinksListSetsNumberOfLinks", function(assert) {
 	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
 	var factoredView = this.incomingLinksListHandlerViewFactorySpy.getFactored(0);

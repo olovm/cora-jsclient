@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -32,7 +32,7 @@ var CORA = (function(cora) {
 		var lastRepeatingElementDraggedOver;
 
 		view.appendChild(childrenView);
-		if (spec.addMethod !== undefined || spec.upload === "true") {
+		if (spec.mode==="input" && (spec.addMethod !== undefined || spec.upload === "true")) {
 			createButtonView();
 		}
 

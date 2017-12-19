@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -49,7 +49,7 @@ var CORA = (function(cora) {
 
 		function createBaseView() {
 			var repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");
-			if (spec.isRepeating) {
+			if (spec.mode === "input" && spec.isRepeating) {
 				repeatingElement.ondragenter = ondragenterHandler;
 			}
 			return repeatingElement;
@@ -70,8 +70,7 @@ var CORA = (function(cora) {
 		function createButtonView() {
 			var newButtonView = CORA.gui.createSpanWithClassName("buttonView");
 			view.appendChild(newButtonView);
-
-			if (addRemoveButton()) {
+			if (spec.mode === "input" && addRemoveButton()) {
 				removeButton = createRemoveButton();
 				newButtonView.appendChild(removeButton);
 				removeButton.addEventListener("mouseenter", function() {
@@ -81,7 +80,7 @@ var CORA = (function(cora) {
 					view.className = "repeatingElement";
 				});
 			}
-			if (isRepeating) {
+			if (spec.mode === "input" && isRepeating) {
 				dragButton = createDragButton();
 				newButtonView.appendChild(dragButton);
 			}
