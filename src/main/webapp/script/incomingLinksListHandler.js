@@ -67,7 +67,8 @@ var CORA = (function(cora) {
 			view.addIncomingLink(incomingLinkToAdd);
 		}
 
-		function handleCallError() {
+		function handleCallError(error) {
+			throw new Error("error fetching links from server", error);
 		}
 
 		function openRecordUsingLink(openInfo) {

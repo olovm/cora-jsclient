@@ -1,5 +1,6 @@
 /*
  * Copyright 2016, 2017 Olov McKie
+ * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -30,7 +31,8 @@ QUnit.module("pRepeatingElementTest.js", {
 			"repeatMax" : "2",
 			"path" : {},
 			"parentModelObject" : CORATEST.parentModelObjectSpy(),
-			"isRepeating" : Number("2") > 1 || " 2" === "X"
+			"isRepeating" : Number("2") > 1 || " 2" === "X",
+			"mode" : "input"
 		};
 	},
 	afterEach : function() {
@@ -62,6 +64,26 @@ QUnit.test("testInit", function(assert) {
 	var removeButton = buttonView.childNodes[1];
 	assert.strictEqual(removeButton.className, "iconButton dragButton");
 });
+QUnit.test("testInitNoRemoveOrDragButtonWhenModeOutput", function(assert) {
+	this.spec.mode = "output";
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	assert.strictEqual(pRepeatingElement.type, "pRepeatingElement");
+	assert.deepEqual(view.className, "repeatingElement");
+	assert.ok(view.modelObject === pRepeatingElement,
+			"modelObject should be a pointer to the javascript object instance");
+
+	assert.strictEqual(pRepeatingElement.getPath(), this.spec.path);
+
+	var repeatingElement = view;
+	assert.strictEqual(repeatingElement.className, "repeatingElement");
+	var buttonView = repeatingElement.childNodes[0];
+	assert.strictEqual(buttonView.className, "buttonView");
+
+	assert.strictEqual(buttonView.childNodes.length, 0);
+});
 
 QUnit.test("testGetDependencies", function(assert) {
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
@@ -88,6 +110,16 @@ QUnit.test("testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThis", f
 			.strictEqual(this.spec.parentModelObject.getRepeatingElementDragOver(),
 					pRepeatingElement);
 });
+QUnit.test(
+		"testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThisNoFunctionWhenModeOutput",
+		function(assert) {
+			this.spec.mode="output";
+			var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+			var view = pRepeatingElement.getView();
+			this.fixture.appendChild(view);
+
+			assert.strictEqual(pRepeatingElement.getView().ondragenter, null);
+		});
 
 QUnit.test("testButtonViewAndRemoveButton", function(assert) {
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
@@ -157,7 +189,7 @@ QUnit.test("testRemoveButtonHover", function(assert) {
 	var event = new Event('mouseleave');
 	removeButton.dispatchEvent(event);
 	assert.deepEqual(view.className, "repeatingElement");
-	
+
 	var event = new Event('mouseenter');
 	removeButton.dispatchEvent(event);
 	assert.deepEqual(view.className, "repeatingElement hoverRemove");

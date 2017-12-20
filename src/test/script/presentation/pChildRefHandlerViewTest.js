@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -30,7 +30,8 @@ QUnit.module("pChildRefHandlerViewTest.js", {
 QUnit.test("testInitNoAddButton", function(assert) {
 	var pChildRefHandlerViewSpec = {
 		"presentationId" : "pVarTextVariableId",
-		"isRepeating" : true
+		"isRepeating" : true,
+		"mode" : "input"
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
@@ -67,7 +68,8 @@ QUnit.test("testInitWithAddButton", function(assert) {
 		"isRepeating" : true,
 		"addMethod" : function() {
 		},
-		"addText" : "some add text"
+		"addText" : "some add text",
+		"mode" : "input"
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
@@ -80,6 +82,24 @@ QUnit.test("testInitWithAddButton", function(assert) {
 	assert.strictEqual(buttonView.firstChild.value, "some add text");
 });
 
+QUnit.test("testInitWithAddButtonNotCreatedForModeOutput", function(assert) {
+	var pChildRefHandlerViewSpec = {
+			"presentationId" : "pVarTextVariableId",
+			"isRepeating" : true,
+			"addMethod" : function() {
+			},
+			"addText" : "some add text",
+			"mode" : "output"
+	};
+	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
+			pChildRefHandlerViewSpec);
+	var view = pChildRefHandlerView.getView();
+	assert.strictEqual(view.childNodes.length, 1);
+	
+	var buttonView = view.childNodes[0];
+	assert.strictEqual(buttonView.className, "childrenView");
+});
+
 QUnit.test("testInitFile", function(assert) {
 	var handleFilesHasBeenCalled = false;
 	function handleFiles(files) {
@@ -89,7 +109,8 @@ QUnit.test("testInitFile", function(assert) {
 		"presentationId" : "myChildOfBinaryPLink",
 		"isRepeating" : true,
 		"upload" : "true",
-		"handleFilesMethod" : handleFiles
+		"handleFilesMethod" : handleFiles,
+		"mode" : "input"
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
@@ -109,7 +130,8 @@ QUnit.test("testHideShowButtonView", function(assert) {
 		"presentationId" : "pVarTextVariableId",
 		"isRepeating" : true,
 		"addMethod" : function() {
-		}
+		},
+		"mode" : "input"
 	};
 	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);

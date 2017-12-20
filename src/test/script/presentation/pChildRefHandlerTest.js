@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -42,7 +42,8 @@ QUnit.module("pChildRefHandlerTest.js", {
 			"cPresentation" : CORA.coraData(this.metadataProvider
 					.getMetadataById("pVarTextVariableId")),
 			"cPresentationMinimized" : CORA.coraData(this.metadataProvider
-					.getMetadataById("pVarTextVariableIdOutput"))
+					.getMetadataById("pVarTextVariableIdOutput")),
+			"mode" : "input"
 		};
 
 		this.assertAjaxCallSpecIsCorrect = function(assert, ajaxCallSpy, recordType) {
@@ -80,18 +81,15 @@ QUnit.module("pChildRefHandlerTest.js", {
 						"name" : "type",
 						"value" : "image"
 					}, {
-	      				"name" : "createdBy",
-	      				"children": [
-	      					{
-	      						"name": "linkedRecordType",
-	      						"value": "user"
-	      					},
-	      					{
-	      						"name": "linkedRecordId",
-	      						"value": "userId"
-	      					}
-	      				]
-	      			} ],
+						"name" : "createdBy",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "user"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "userId"
+						} ]
+					} ],
 					"name" : "recordInfo"
 				}, {
 					"name" : "fileName",
@@ -264,6 +262,7 @@ QUnit.test("testInitViewIsFromFactoredView", function(assert) {
 	this.dependencies.textProvider = CORATEST.textProviderSpy();
 	this.spec.childStyle = "someChildStyle";
 	this.spec.textStyle = "someTextStyle";
+	this.spec.mode = "input";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 	var view = pChildRefHandler.getView();
 	this.fixture.appendChild(view);
@@ -276,6 +275,31 @@ QUnit.test("testInitViewIsFromFactoredView", function(assert) {
 		"presentationId" : "pVarTextVariableId",
 		"isRepeating" : false,
 		"addText" : "+ textVariableIdText",
+		"mode" : "input",
+		"textStyle" : "someTextStyle",
+		"childStyle" : "someChildStyle"
+	};
+	assert.stringifyEqual(factoredSpec, expectedSpec);
+});
+
+QUnit.test("testInitViewIsFromFactoredViewOutputMode", function(assert) {
+	this.dependencies.textProvider = CORATEST.textProviderSpy();
+	this.spec.childStyle = "someChildStyle";
+	this.spec.textStyle = "someTextStyle";
+	this.spec.mode = "output";
+	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
+	var view = pChildRefHandler.getView();
+	this.fixture.appendChild(view);
+
+	var factoredView = this.dependencies.pChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(view, factoredView.getView());
+
+	var factoredSpec = this.dependencies.pChildRefHandlerViewFactory.getSpec(0);
+	var expectedSpec = {
+		"presentationId" : "pVarTextVariableId",
+		"isRepeating" : false,
+		"addText" : "+ textVariableIdText",
+		"mode" : "output",
 		"textStyle" : "someTextStyle",
 		"childStyle" : "someChildStyle"
 	};
@@ -394,7 +418,8 @@ QUnit.test("testInitRepeatingVariableNoOfChildren", function(assert) {
 	var expectedSpec = {
 		"presentationId" : "pVarTextVariableId",
 		"isRepeating" : true,
-		"addText" : "+ Exempel textvariabel"
+		"addText" : "+ Exempel textvariabel",
+		"mode" : "input"
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredSpec.addMethod, pChildRefHandler.sendAdd);
@@ -428,7 +453,8 @@ QUnit.test("testInitRepeatingStaticNoOfChildren", function(assert) {
 	var expectedSpec = {
 		"presentationId" : "pVarTextVariableId",
 		"isRepeating" : true,
-		"addText" : "+ Exempel textvariabel"
+		"addText" : "+ Exempel textvariabel",
+		"mode" : "input"
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredSpec.addMethod, undefined);
@@ -454,7 +480,8 @@ QUnit.test("testAddButtonFor1toX", function(assert) {
 	var expectedSpec = {
 		"presentationId" : "pVarTextVariableId",
 		"isRepeating" : true,
-		"addText" : "+ Exempel textvariabel"
+		"addText" : "+ Exempel textvariabel",
+		"mode" : "input"
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredSpec.addMethod, pChildRefHandler.sendAdd);
@@ -513,7 +540,8 @@ QUnit.test("testAddButtonWithAttributes", function(assert) {
 	var expectedSpec = {
 		"presentationId" : "pgTextVarRepeat1to3InGroupOneAttribute",
 		"isRepeating" : true,
-		"addText" : "+ textVarRepeat1to3InGroupOneAttributeText"
+		"addText" : "+ textVarRepeat1to3InGroupOneAttributeText",
+		"mode" : "input"
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredSpec.addMethod, pChildRefHandler.sendAdd);
@@ -568,6 +596,7 @@ QUnit.test("testUploadButtonFor0toX", function(assert) {
 		"presentationId" : "myChildOfBinaryPLink",
 		"isRepeating" : true,
 		"addText" : "+ myChildOfBinaryLinkText",
+		"mode" : "input",
 		"upload" : "true"
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -904,7 +933,8 @@ QUnit.test("testAddButtonShownFor0to1", function(assert) {
 	var expectedSpec = {
 		"presentationId" : "pVarTextVariableId",
 		"isRepeating" : false,
-		"addText" : "+ Exempel textvariabel"
+		"addText" : "+ Exempel textvariabel",
+		"mode" : "input"
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredSpec.addMethod, pChildRefHandler.sendAdd);
@@ -926,8 +956,65 @@ QUnit.test("testAddOneChild", function(assert) {
 
 	var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
 	var factored = pRepeatingElementFactory.getFactored(0);
+	var factoredSpec = pRepeatingElementFactory.getSpec(0);
+	var path2 = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		} ]
+	};
+	var expectedSpec = {
+		"repeatMin" : "1",
+		"repeatMax" : "1",
+		"path" : path2,
+		"parentModelObject" : factoredView,
+		"isRepeating" : false,
+		"mode" : "input"
+	};
+	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
+	var path = {
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		} ],
+		"name" : "linkedPath"
+	};
+	assert.deepEqual(this.dependencies.presentationFactory.getPath(), path);
+	assert.deepEqual(this.dependencies.presentationFactory.getMetadataIds()[0], "textVariableId");
+});
+QUnit.test("testAddOneChildModeOutput", function(assert) {
+	this.spec.mode = "output";
+	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
+	var view = pChildRefHandler.getView();
+	this.fixture.appendChild(view);
 
+	var factoredView = this.dependencies.pChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(factoredView.getAddedChild(0), undefined);
+
+	pChildRefHandler.add("textVariableId");
+
+	var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
+	var factored = pRepeatingElementFactory.getFactored(0);
+	var factoredSpec = pRepeatingElementFactory.getSpec(0);
+	var path2 = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "textVariableId"
+		} ]
+	};
+	var expectedSpec = {
+		"repeatMin" : "1",
+		"repeatMax" : "1",
+		"path" : path2,
+		"parentModelObject" : factoredView,
+		"isRepeating" : false,
+		"mode" : "output"
+	};
+	assert.stringifyEqual(factoredSpec, expectedSpec);
+	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
 	var path = {
 		"children" : [ {
 			"name" : "nameInData",
@@ -1185,7 +1272,8 @@ QUnit.test("testRepeatingElementStaticNoOfChildrenNoAddButton", function(assert)
 	var expectedSpec = {
 		"presentationId" : "pVarTextVariableId",
 		"isRepeating" : true,
-		"addText" : "+ Exempel textvariabel"
+		"addText" : "+ Exempel textvariabel",
+		"mode" : "input"
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredSpec.addMethod, undefined);
@@ -1237,6 +1325,31 @@ QUnit.test("testDragButtonHidden", function(assert) {
 	pChildRefHandler.add("textVariableId", "two");
 	assert.strictEqual(factoredView.getHideChildrensDragButtonCalled(), 1);
 	assert.strictEqual(factoredView.getShowChildrensDragButtonCalled(), 1);
+});
+
+QUnit.test("testDragButtonHiddenNotCalledForModeOutput", function(assert) {
+	this.spec.mode = "output";
+	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
+			.getMetadataById("groupIdOneTextChildRepeat1to3"));
+	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
+	var view = pChildRefHandler.getView();
+	this.fixture.appendChild(view);
+
+	assert.ok(pChildRefHandler.isRepeating === true);
+
+	var factoredView = this.dependencies.pChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(factoredView.getAddedChild(0), undefined);
+	pChildRefHandler.add("textVariableId", "one");
+	var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
+	var factored = pRepeatingElementFactory.getFactored(0);
+	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
+
+	assert.strictEqual(factoredView.getHideChildrensDragButtonCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensDragButtonCalled(), 0);
+
+	pChildRefHandler.add("textVariableId", "two");
+	assert.strictEqual(factoredView.getHideChildrensDragButtonCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensDragButtonCalled(), 0);
 });
 
 QUnit.test("testHideAddButtonWhenMaxRepeat", function(assert) {
@@ -1324,7 +1437,40 @@ QUnit.test("testHideChildrensRemoveButtonWhenAtMinRepeat", function(assert) {
 
 	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 1);
 	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 2);
+});
+QUnit.test("testHideChildrensRemoveButtonWhenAtMinRepeatNotCalledForModeOutput", function(assert) {
+	this.spec.mode = "output";
+	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
+			.getMetadataById("groupIdOneTextChildRepeat1to3"));
+	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
+	var view = pChildRefHandler.getView();
+	this.fixture.appendChild(view);
 
+	var factoredView = this.dependencies.pChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(factoredView.getShowButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 0);
+
+	pChildRefHandler.add("textVariableId", "one");
+	assert.strictEqual(factoredView.getShowButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 0);
+
+	pChildRefHandler.add("textVariableId", "two");
+	assert.strictEqual(factoredView.getShowButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 0);
+
+	// call remove function in pChildRefHandler
+	this.dependencies.pubSub.getSubscriptions()[2].functionToCall();
+	assert.strictEqual(factoredView.getShowButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
+
+	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 0);
 });
 
 QUnit.test("testHandleMessageRightMetadataId", function(assert) {
