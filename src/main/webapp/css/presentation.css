@@ -252,40 +252,67 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	flex: 1;
 	margin: .2em 0;
 }
-
-.workView .pRecordLink,
-.workView .pGroup ,
+.workView .pGroup {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+}
+.workView .pRecordLink {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+/* 	justify-content: flex-end; */
+}
+/* .workView .pRecordLink, */
+/* .workView .pGroup , */
 .workView .pSurroundingContainer {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-end;
 }
-
-.workView .pRecordLink > :nth-child(1n) ,
-.workView .pGroup > :nth-child(1n) ,
-.workView .pSurroundingContainer > :nth-child(1n) {
-	flex: 1 0 100%;
-	order: 3;
+/* .workView .pRecordLink > :nth-child(1n) { */
+	flex: 1 0 80%;
+	order: 0;
 }
-.workView .pRecordLink > :nth-child(2),
-.workView .pGroup > :nth-child(2) ,
+/* .workView .pRecordLink > :nth-child(1n) , */
+/* .workView .pGroup > :nth-child(1n) , */
+.workView .pSurroundingContainer > :nth-child(1n) {
+	flex: 1 0 10%;
+	order: 0;
+}
+/* .workView .pRecordLink > :nth-child(2), */
+/* .workView .pGroup > :nth-child(2) , */
 .workView .pSurroundingContainer > :nth-child(2) {
 	flex: 1;
 /* 	margin: .2em 0; */
 	order: 0;
 }
-.workView .pRecordLink > :first-child,
-.workView .pGroup > :first-child ,
+.workView .pGroup > .infoButton {
+	z-index: 5;
+	position: absolute;
+	top: 0.1rem;
+	right: 0.1rem;
+}
+/* .workView .pRecordLink > .infoButton { */
+/* 	z-index: 5; */
+/* 	position: absolute; */
+/* 	top: 0.1rem; */
+/* 	right: 0.1rem; */
+/* } */
+/* .workView .pRecordLink > :first-child, */
+/* .workView .pGroup > :first-child , */
 .workView .pSurroundingContainer > :first-child {
 	flex: 0 1 0;
 	order: 1;
 }
-.workView .pRecordLink > :first-child + .childrenView,
-.workView .pGroup > :first-child + .pChildRefHandler,
+.workView .pGroup > .pChildRefHandler, .workView .pGroup > .text {
+	flex: 0 1 calc(100% - 25px);
+}
+/* .workView .pRecordLink > :first-child + .childrenView, */
+/* .workView .pGroup > :first-child + .pChildRefHandler, */
 .workView .pSurroundingContainer > :first-child + .pChildRefHandler{
 /* 	TODO: IS THIS OK? */
 	flex: 0 1 100%;
-	
 	order: 3;
 }
 

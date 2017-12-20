@@ -128,6 +128,33 @@ QUnit.test("initTestInfoViewInsertAfterOneButtonClick", function(assert) {
 	assert.equal(infoView.childNodes.length, 0);
 });
 
+QUnit.test("initTestInfoViewInsertBeforeOneButtonClick", function(assert) {
+	var fixture = this.fixture;
+	var child1 = document.createElement("span");
+	fixture.appendChild(child1);
+	var child2 = document.createElement("span");
+	fixture.appendChild(child2);
+	
+	var spec = {
+			"insertBefore" : child2
+	};
+	var info = CORA.info(spec);
+	
+	var event = document.createEvent('Event');
+	var button = info.getButton();
+	button.onclick(event);
+	
+	var infoView = info.getView();
+	var infoFromFixture = this.fixture.childNodes[1];
+	assert.strictEqual(infoView, infoFromFixture);
+	
+	// base infoView
+	assert.equal(infoView.nodeName, "SPAN");
+	assert.equal(infoView.className, "infoView");
+	
+	assert.equal(infoView.childNodes.length, 0);
+});
+
 QUnit.test("initTestInfoViewWithInfoLevel1", function(assert) {
 	var spec = {
 		"appendTo" : this.fixture,
