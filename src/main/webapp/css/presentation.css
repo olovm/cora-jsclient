@@ -262,7 +262,35 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	display: flex;
 	flex-wrap: wrap;
 	position: relative;
-/* 	justify-content: flex-end; */
+}
+.workView .pRecordLink > .infoView {
+	flex: 10 1 80%;
+}
+.workView .pRecordLink > .childrenView {
+	flex: 10 1 80%;
+	order: 1;
+}
+.workView .pRecordLink > .buttonView {
+	flex: 1 1 40px;
+	order: 2;
+}
+.workView .pRecordLink.infoActive > .buttonView {
+	order: 0;
+}
+.workView .pRecordLink.infoActive > .search + .buttonView {
+	order: 0;
+}
+.workView .pRecordLink > .search {
+	flex: 10 1 80%;
+	order: 1;
+}
+.jsClient .workView .recordViewer {
+	flex: 10 1 80%;
+	border: 1px dotted green;
+	position: relative;
+	overflow: hidden;
+	z-index: 0;
+	order: 1;
 }
 /* .workView .pRecordLink, */
 /* .workView .pGroup , */
@@ -309,6 +337,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 .workView .pGroup > .pChildRefHandler, .workView .pGroup > .text {
 	flex: 0 1 calc(100% - 25px);
 }
+
 /* .workView .pRecordLink > :first-child + .childrenView, */
 /* .workView .pGroup > :first-child + .pChildRefHandler, */
 .workView .pSurroundingContainer > :first-child + .pChildRefHandler{
@@ -490,13 +519,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	padding-top: 0;
 	margin-top: 0;
 }
-.jsClient .workView .recordViewer {
-	flex: 1 0 calc(100% - 2px);
-	border: 1px dotted green;
-	position: relative;
-	overflow: hidden;
-	z-index: 0;
-}
+
 .recordViewer::before  {
 	background: url("../images/icons2.svg") no-repeat scroll;
 	content: "";
