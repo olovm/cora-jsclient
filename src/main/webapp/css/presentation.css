@@ -181,7 +181,7 @@ img {
 	display: none;
 }
 
-.workView .pVar:hover > .infoButton::before, .workView .pRecordLink:hover > .infoButton::before, 
+.workView .pVar:hover > .infoButton::before, .workView .pRecordLink:hover > .buttonView .infoButton::before, 
  input:focus + .infoButton::before ,
 .workView .pCollVar:hover > .infoButton::before,  select:focus + .infoButton::before,
 textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::before,
@@ -236,6 +236,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	transition: background-color 0.5s linear;
 }
 .infoActive  > .infoButton::before,
+.infoActive  > .buttonView .infoButton::before,
 .infoActive  > .openLinkedRecordButton::before {
 	opacity: 1;
 }
@@ -252,40 +253,96 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	flex: 1;
 	margin: .2em 0;
 }
-
-.workView .pRecordLink,
-.workView .pGroup ,
+.workView .pGroup {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+}
+.workView .pRecordLink {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+}
+.workView .pRecordLink > .infoView {
+	flex: 10 1 80%;
+}
+.workView .pRecordLink > .childrenView {
+	flex: 10 1 80%;
+	order: 1;
+}
+.workView .pRecordLink > .buttonView {
+	flex: 1 1 40px;
+	order: 2;
+}
+.workView .pRecordLink.infoActive > .buttonView {
+	order: 0;
+}
+.workView .pRecordLink.infoActive > .search + .buttonView {
+	order: 0;
+}
+.workView .pRecordLink > .search {
+	flex: 10 1 80%;
+	order: 1;
+}
+.jsClient .workView .recordViewer {
+	flex: 10 1 80%;
+	border: 1px dotted green;
+	position: relative;
+	overflow: hidden;
+	z-index: 0;
+	order: 1;
+}
+/* .workView .pRecordLink, */
+/* .workView .pGroup , */
 .workView .pSurroundingContainer {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-end;
 }
-
-.workView .pRecordLink > :nth-child(1n) ,
-.workView .pGroup > :nth-child(1n) ,
+/* .workView .pRecordLink > :nth-child(1n) { */
+/* 	flex: 1 0 80%; */
+/* 	order: 0; */
+/* } */
+/* .workView .pRecordLink > :nth-child(1n) , */
+/* .workView .pGroup > :nth-child(1n) , */
 .workView .pSurroundingContainer > :nth-child(1n) {
-	flex: 1 0 100%;
-	order: 3;
+	flex: 1 0 10%;
+	order: 0;
 }
-.workView .pRecordLink > :nth-child(2),
-.workView .pGroup > :nth-child(2) ,
+/* .workView .pRecordLink > :nth-child(2), */
+/* .workView .pGroup > :nth-child(2) , */
 .workView .pSurroundingContainer > :nth-child(2) {
 	flex: 1;
 /* 	margin: .2em 0; */
 	order: 0;
 }
-.workView .pRecordLink > :first-child,
-.workView .pGroup > :first-child ,
+.workView .pGroup > .infoButton {
+	z-index: 5;
+	position: absolute;
+	top: 0.1rem;
+	right: 0.1rem;
+}
+/* .workView .pRecordLink > .infoButton { */
+/* 	z-index: 5; */
+/* 	position: absolute; */
+/* 	top: 0.1rem; */
+/* 	right: 0.1rem; */
+/* } */
+/* .workView .pRecordLink > :first-child, */
+/* .workView .pGroup > :first-child , */
 .workView .pSurroundingContainer > :first-child {
 	flex: 0 1 0;
 	order: 1;
 }
-.workView .pRecordLink > :first-child + .childrenView,
-.workView .pGroup > :first-child + .pChildRefHandler,
+.workView .pGroup > .pChildRefHandler, .workView .pGroup > .text {
+	flex: 0 1 calc(100% - 25px);
+}
+
+/* .workView .pRecordLink > :first-child + .childrenView, */
+/* .workView .pGroup > :first-child + .pChildRefHandler, */
 .workView .pSurroundingContainer > :first-child + .pChildRefHandler{
 /* 	TODO: IS THIS OK? */
 	flex: 0 1 100%;
-	
 	order: 3;
 }
 
@@ -462,13 +519,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	padding-top: 0;
 	margin-top: 0;
 }
-.jsClient .workView .recordViewer {
-	flex: 1 0 calc(100% - 2px);
-	border: 1px dotted green;
-	position: relative;
-	overflow: hidden;
-	z-index: 0;
-}
+
 .recordViewer::before  {
 	background: url("../images/icons2.svg") no-repeat scroll;
 	content: "";

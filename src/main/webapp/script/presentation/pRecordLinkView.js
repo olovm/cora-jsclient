@@ -31,14 +31,23 @@ var CORA = (function(cora) {
 		var currentLinkedPresentation;
 		var addedSearchHandlerView;
 		var searchHandlerShown;
-
+		//TODO:
+		var buttonView;
+//TODO:
 		function start() {
 			view = CORA.gui.createSpanWithClassName(baseClassName);
+			//TODO:
+			buttonView = CORA.gui.createSpanWithClassName("buttonView");
+			//TODO:
 			openLinkedRecordButton = createOpenLinkedRecordButton();
 			showSearchButton = createShowSearchButton();
-			info = createInfo();
-			view.appendChild(info.getButton());
 			createChildrenView();
+			info = createInfo();
+			//TODO:
+//			view.appendChild(info.getButton());
+			buttonView.appendChild(info.getButton());
+			//TODO:
+			view.appendChild(buttonView);
 		}
 
 		function createOpenLinkedRecordButton() {
@@ -88,7 +97,10 @@ var CORA = (function(cora) {
 			possiblyAddLevel2Info(infoSpec);
 
 			var newInfo = dependencies.infoFactory.factor(infoSpec);
-			infoSpec.insertAfter = newInfo.getButton();
+			//TODO:
+//			infoSpec.insertAfter = newInfo.getButton();
+			infoSpec.insertBefore = childrenView;
+			//TODO:
 			return newInfo;
 		}
 

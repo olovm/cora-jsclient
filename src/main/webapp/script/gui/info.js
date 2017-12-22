@@ -77,6 +77,9 @@ var CORA = (function(cora) {
 			if (spec.insertAfter !== undefined) {
 				spec.insertAfter.parentNode.insertBefore(view, spec.insertAfter.nextSibling);
 			}
+			if (spec.insertBefore !== undefined) {
+				spec.insertBefore.parentNode.insertBefore(view, spec.insertBefore);
+			}
 		}
 
 		function createLevelView(levelInfos) {
