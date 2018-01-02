@@ -112,3 +112,6 @@ input + input {
 .pChildRefHandler {
 	margin-bottom: 5px;
 }
+.jsClient .workItem > .incomingLinksView {
+	flex: 0 0 50%;
+}
