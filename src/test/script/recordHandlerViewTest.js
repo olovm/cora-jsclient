@@ -236,7 +236,7 @@ QUnit.test("testAddShowIncomingLinksButton", function(assert) {
 
 	assert.strictEqual(this.getButtonView().childNodes.length, 1);
 	var showIncomingLinksButton = this.getButtonView().childNodes[0];
-	assert.strictEqual(showIncomingLinksButton.value, "SHOWINCOMINGLINKS");
+	assert.strictEqual(showIncomingLinksButton.value, "INCOMING LINKS");
 	assert.strictEqual(showIncomingLinksButton.onclick, this.spec.showIncomingLinksMethod);
 	assert.strictEqual(showIncomingLinksButton.className, "showIncomingLinks");
 });

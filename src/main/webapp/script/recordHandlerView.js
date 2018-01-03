@@ -42,7 +42,7 @@ var CORA = (function(cora) {
 		setCopyAsNewFunction(spec.copyDataMethod);
 
 		function start() {
-			showIncomingLinksButton = createButton("SHOWINCOMINGLINKS",
+			showIncomingLinksButton = createButton("INCOMING LINKS",
 					spec.showIncomingLinksMethod, "showIncomingLinks");
 		}
 
