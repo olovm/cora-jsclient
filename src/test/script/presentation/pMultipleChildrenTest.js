@@ -34,7 +34,9 @@ QUnit.module("pMultipleChildrenTest.js", {
 			"presentationFactory" : CORATEST.presentationFactorySpy(),
 			"jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
 			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy()
+			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy(),
+			"pNonRepeatingChildRefHandlerFactory" : CORATEST
+					.standardFactorySpy("pNonRepeatingChildRefHandlerSpy")
 		};
 		this.spec = {
 			"metadataIdUsedInData" : "groupIdOneTextChildRepeat1to3",
@@ -52,7 +54,7 @@ QUnit.module("pMultipleChildrenTest.js", {
 					.getMetadataById("pgGroupIdOneTextChildMinimized")),
 			"createBaseViewHolder" : createBaseViewHolder
 		};
- 
+
 	},
 	afterEach : function() {
 	}
@@ -185,7 +187,7 @@ QUnit.test("pgGroupIdOneTextChildMinimizedDefaultModeOutput", function(assert) {
 	pMultipleChildren.init();
 	var view = pMultipleChildren.getView();
 	this.fixture.appendChild(view);
-	
+
 	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.mode, "output");
 });
@@ -209,4 +211,49 @@ QUnit.test("testText", function(assert) {
 	this.fixture.appendChild(view);
 
 	assert.strictEqual(view.childNodes[1].className, "text");
+});
+
+QUnit.test("testPNonRepeatingChildRefHandlerSpec", function(assert) {
+	this.my.metadataId = "groupIdTwoTextChildRepeat1to5";
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("groupWithSContainerPGroup"));
+	this.my.cParentPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("groupWithSContainerPGroup"));
+
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+	var view = pMultipleChildren.getView();
+	this.fixture.appendChild(view);
+
+	var factoredSpec = this.dependencies.pNonRepeatingChildRefHandlerFactory.getSpec(0);
+
+	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
+	assert.strictEqual(factoredSpec.parentMetadataId, "groupIdTwoTextChildRepeat1to5");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pTextVariablePlus2SContainer");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "groupWithSContainerPGroup");
+	assert.strictEqual(factoredSpec.cPresentationMinimized, undefined);
+	
+	var factored = this.dependencies.pNonRepeatingChildRefHandlerFactory.getFactored(0)
+	assert.strictEqual(view.childNodes[1], factored.getView());
+});
+
+QUnit.test("testPNonRepeatingChildRefHandlerSpecWithMinimized", function(assert) {
+	this.my.metadataId = "groupIdTwoTextChildRepeat1to5";
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("groupWithSContainerAndAlternativeSContainerPGroup"));
+	this.my.cParentPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("groupWithSContainerAndAlternativeSContainerPGroup"));
+
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+	var view = pMultipleChildren.getView();
+	this.fixture.appendChild(view);
+
+	var factoredSpec = this.dependencies.pNonRepeatingChildRefHandlerFactory.getSpec(0);
+
+	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
+	assert.strictEqual(factoredSpec.parentMetadataId, "groupIdTwoTextChildRepeat1to5");
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pTextVariablePlus2SContainer");
+	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized), "pTextVariablePlus2SContainer2");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "groupWithSContainerAndAlternativeSContainerPGroup");
 });

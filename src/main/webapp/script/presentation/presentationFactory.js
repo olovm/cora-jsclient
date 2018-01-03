@@ -74,6 +74,8 @@ var CORA = (function(cora) {
 				"pVarViewFactory" : pVarViewFactory,
 				"pRecordLinkViewFactory" : pRecordLinkViewFactory,
 				"pChildRefHandlerFactory" : pChildRefHandlerFactory,
+				//TODO: change to real factory
+				"pNonRepeatingChildRefHandlerFactory" : CORATEST.standardFactorySpy("pNonRepeatingChildRefHandlerSpy"),
 				"authTokenHolder" : dependencies.authTokenHolder
 			};
 			var specNew = {

@@ -83,7 +83,8 @@ QUnit.module("pSurroundingContainerTest.js", {
 			"presentationFactory" : CORATEST.presentationFactorySpy(),
 			"jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
 			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy()
+			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy(),
+			"pNonRepeatingChildRefHandlerFactory" : CORATEST.standardFactorySpy("pNonRepeatingChildRefHandlerSpy")
 		};
 		this.spec = {
 			"metadataIdUsedInData" : "groupIdTwoTextChildRepeat1to5",

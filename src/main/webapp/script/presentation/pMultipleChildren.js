@@ -129,7 +129,8 @@ var CORA = (function(cora) {
 				return createText(refId, cPresentationChildRef);
 			}
 			if (childIsSurroundingContainer(cPresentationChild)) {
-				return createSurroundingContainer(cPresentationChild);
+				// console.log(JSON.stringify(cPresentationChild.getData()))
+				return createSurroundingContainer(cPresentationChild, cPresentationChildRef);
 			}
 			return createPChildRefHandler(cPresentationChild, cPresentationChildRef);
 		}
@@ -153,14 +154,33 @@ var CORA = (function(cora) {
 			return textSpan;
 		}
 
-		function childIsSurroundingContainer(cChild) {
-			return "children" === cChild.getData().attributes.repeat;
+		function childIsSurroundingContainer(cPresentationChild) {
+			return "children" === cPresentationChild.getData().attributes.repeat;
 		}
 
-		function createSurroundingContainer(cChild) {
-			var surroundingContainer = presentationFactory.factor(path, spec.metadataIdUsedInData,
-					cChild, my.cParentPresentation);
-			return surroundingContainer.getView();
+		function createSurroundingContainer(cPresentationChild, cPresentationChildRef) {
+			var pNonRepeatingChildRefHandler = createPNonRepeatingChildRefHandler(
+					cPresentationChild, cPresentationChildRef);
+			return pNonRepeatingChildRefHandler.getView();
+			// var surroundingContainer = presentationFactory.factor(path, my.metadataId,
+			// cPresentationChild, my.cParentPresentation);
+			// return surroundingContainer.getView();
+
+		}
+
+		function createPNonRepeatingChildRefHandler(cPresentationChild, cPresentationChildRef) {
+			var childSpec = {
+				"parentPath" : path,
+				"parentMetadataId" : my.metadataId,
+				"cPresentation" : cPresentationChild,
+				"cParentPresentation" : my.cParentPresentation
+			};
+			if (childHasMinimizedPresentation(cPresentationChildRef)) {
+				var cPresentationMinimized = getAlternativePresenation(cPresentationChildRef);
+				childSpec.cPresentationMinimized = cPresentationMinimized;
+			}
+
+			return dependencies.pNonRepeatingChildRefHandlerFactory.factor(childSpec);
 		}
 
 		function createPChildRefHandler(cPresentationChild, cPresentationChildRef) {
@@ -187,14 +207,7 @@ var CORA = (function(cora) {
 			}
 
 			if (childHasMinimizedPresentation(cPresentationChildRef)) {
-				var cPresRefMinGroup = CORA.coraData(cPresentationChildRef
-						.getChildByNameInDataAndIndex("refGroup", 1));
-
-				var cPresRefMinimizedGroup = CORA.coraData(cPresRefMinGroup
-						.getFirstChildByNameInData("ref"));
-				var presRefMinimized = cPresRefMinimizedGroup
-						.getFirstAtomicValueByNameInData("linkedRecordId");
-				var cPresentationMinimized = getMetadataById(presRefMinimized);
+				var cPresentationMinimized = getAlternativePresenation(cPresentationChildRef);
 				childRefHandlerSpec.cPresentationMinimized = cPresentationMinimized;
 			}
 
@@ -205,6 +218,17 @@ var CORA = (function(cora) {
 
 		function childHasMinimizedPresentation(cChildRef) {
 			return cChildRef.getNoOfChildrenWithNameInData("refGroup") === 2;
+		}
+
+		function getAlternativePresenation(cPresentationChildRef) {
+			var cPresRefMinGroup = CORA.coraData(cPresentationChildRef
+					.getChildByNameInDataAndIndex("refGroup", 1));
+
+			var cPresRefMinimizedGroup = CORA.coraData(cPresRefMinGroup
+					.getFirstChildByNameInData("ref"));
+			var presRefMinimized = cPresRefMinimizedGroup
+					.getFirstAtomicValueByNameInData("linkedRecordId");
+			return getMetadataById(presRefMinimized);
 		}
 
 		function getMetadataById(id) {
