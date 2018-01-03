@@ -52,7 +52,7 @@ QUnit.module("pMultipleChildrenTest.js", {
 					.getMetadataById("pgGroupIdOneTextChildMinimized")),
 			"createBaseViewHolder" : createBaseViewHolder
 		};
-
+ 
 	},
 	afterEach : function() {
 	}

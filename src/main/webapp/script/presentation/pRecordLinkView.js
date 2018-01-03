@@ -171,8 +171,8 @@ var CORA = (function(cora) {
 		}
 
 		function hideOpenLinkedRecordButton() {
-			if (view.contains(openLinkedRecordButton)) {
-				view.removeChild(openLinkedRecordButton);
+			if (buttonView.contains(openLinkedRecordButton)) {
+				buttonView.removeChild(openLinkedRecordButton);
 			}
 		}
 

@@ -274,15 +274,10 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	flex: 1 1 40px;
 	order: 2;
 }
-.workView .pRecordLink.infoActive > .buttonView {
-	order: 0;
-}
-.workView .pRecordLink.infoActive > .search + .buttonView {
-	order: 0;
-}
+
 .workView .pRecordLink > .search {
 	flex: 10 1 80%;
-	order: 1;
+	order: -1;
 }
 .jsClient .workView .recordViewer {
 	flex: 10 1 80%;
