@@ -32,10 +32,10 @@ QUnit.module("pGroupTest.js", {
 			"metadataProvider" : new MetadataProviderStub(),
 			"pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderStub(),
-			"presentationFactory" : CORATEST.presentationFactorySpy(),
+			"presentationFactory" : CORATEST.standardFactorySpy("presentationSpy"),
 			"jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
 			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy()
+			"pChildRefHandlerFactory" : CORATEST.standardFactorySpy("pChildRefHandlerSpy")
 		};
 		this.spec = {
 			"metadataIdUsedInData" : "groupIdOneTextChild",

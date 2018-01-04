@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -17,23 +17,16 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-QUnit.module("metadataValidatorFactoryTest.js", {
+QUnit.module("presentationHolderFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
-		// "metadataProvider" : CORATEST.metadataProviderSpy(),
-		// "metadataProvider" : new MetadataProviderStub(),
-		// "pubSub" : CORATEST.pubSubSpy()
 		};
-		// this.spec = {
-		// "metadataId" : "groupIdOneTextChild",
-		// "data" : undefined,
-		// };
 		this.spec = {
 			"presentationId" : "pgGroupIdOneTextChild",
 			"metadataProvider" : new MetadataProviderStub(),
 			"pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderStub(),
-			"presentationFactory" : CORATEST.presentationFactorySpy(),
+			"presentationFactory" : CORATEST.standardFactorySpy("presentationSpy"),
 			"jsBookkeeper" : CORATEST.jsBookkeeperSpy()
 
 		};

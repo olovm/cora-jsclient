@@ -151,7 +151,7 @@
 				};
 				var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
 
-				var specPresentationFactory = {
+				var dependencyPresentationFactory = {
 					"metadataProvider" : metadataProvider,
 					"pubSub" : pubSub,
 					"textProvider" : textProvider,
@@ -159,7 +159,7 @@
 					"recordTypeProvider" : recordTypeProvider,
 					"dataDivider" : "systemX"
 				};
-				var presentationFactory = CORA.presentationFactory(specPresentationFactory);
+				var presentationFactory = CORA.presentationFactory(dependencyPresentationFactory);
 
 				var spec = {
 					"metadataIdUsedInData" : metadataId,

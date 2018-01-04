@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2018 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -67,7 +67,7 @@ QUnit.module("pRepeatingContainerTest.js", {
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
-		this.presentationFactory = CORATEST.presentationFactorySpy();
+		this.presentationFactory = CORATEST.standardFactorySpy("presentationSpy");
 		this.pRepeatingContainerFactory = CORATEST.attachedPRepeatingContainerFactory(
 				this.metadataProvider, this.pubSub, this.textProvider, this.presentationFactory,
 				this.jsBookkeeper, this.fixture);
@@ -91,7 +91,7 @@ QUnit.test("testInit",
 
 			assert.strictEqual(view.childNodes[0].textContent, "En rubrik");
 
-			var requestedCPresentation = this.presentationFactory.getCPresentation();
+			var requestedCPresentation = this.presentationFactory.getSpec(1).cPresentation;
 			var recordInfo = requestedCPresentation.getFirstChildByNameInData("recordInfo");
 
 			var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");

@@ -27,13 +27,14 @@ QUnit.module("pChildRefHandlerTest.js", {
 			"metadataProvider" : this.metadataProvider,
 			"pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderStub(),
-			"presentationFactory" : CORATEST.presentationFactorySpy(),
+			"presentationFactory" : CORATEST.standardFactorySpy("presentationSpy"),
 			"jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
 			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
 			"uploadManager" : CORATEST.uploadManagerSpy(),
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-			"pChildRefHandlerViewFactory" : CORATEST.pChildRefHandlerViewFactorySpy(),
-			"pRepeatingElementFactory" : CORATEST.pRepeatingElementFactorySpy()
+			"pChildRefHandlerViewFactory" : CORATEST.standardFactorySpy("pChildRefHandlerViewSpy"),
+			"pRepeatingElementFactory" : CORATEST.pRepeatingElementFactorySpy(),
+			"dataDivider" : "systemY"
 		};
 		this.spec = {
 			"parentPath" : {},
@@ -168,7 +169,7 @@ QUnit.module("pChildRefHandlerTest.js", {
 						"value" : "system"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "systemX"
+						"value" : "systemY"
 					} ]
 				} ]
 			} ],
@@ -187,7 +188,7 @@ QUnit.module("pChildRefHandlerTest.js", {
 						"value" : "system"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "systemX"
+						"value" : "systemY"
 					} ]
 				} ]
 			} ],
@@ -206,7 +207,7 @@ QUnit.module("pChildRefHandlerTest.js", {
 						"value" : "system"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "systemX"
+						"value" : "systemY"
 					} ]
 				} ]
 			} ],
@@ -974,16 +975,19 @@ QUnit.test("testAddOneChild", function(assert) {
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
-	var path = {
+	var expectedPath = {
 		"children" : [ {
 			"name" : "nameInData",
 			"value" : "textVariableId"
 		} ],
 		"name" : "linkedPath"
 	};
-	assert.deepEqual(this.dependencies.presentationFactory.getPath(), path);
-	assert.deepEqual(this.dependencies.presentationFactory.getMetadataIds()[0], "textVariableId");
+	assert.deepEqual(factoredSpec.path, expectedPath);
+
+	var factoredPresentationSpec = this.dependencies.presentationFactory.getSpec(0);
+	assert.deepEqual(factoredPresentationSpec.metadataIdUsedInData, "textVariableId");
 });
+
 QUnit.test("testAddOneChildModeOutput", function(assert) {
 	this.spec.mode = "output";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
@@ -1015,15 +1019,18 @@ QUnit.test("testAddOneChildModeOutput", function(assert) {
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
-	var path = {
+	var expectedPath = {
 		"children" : [ {
 			"name" : "nameInData",
 			"value" : "textVariableId"
 		} ],
 		"name" : "linkedPath"
 	};
-	assert.deepEqual(this.dependencies.presentationFactory.getPath(), path);
-	assert.deepEqual(this.dependencies.presentationFactory.getMetadataIds()[0], "textVariableId");
+
+	assert.deepEqual(factoredSpec.path, expectedPath);
+
+	var factoredPresentationSpec = this.dependencies.presentationFactory.getSpec(0);
+	assert.deepEqual(factoredPresentationSpec.metadataIdUsedInData, "textVariableId");
 });
 
 QUnit.test("testAddOneChildWithRepeatId", function(assert) {
@@ -1040,7 +1047,7 @@ QUnit.test("testAddOneChildWithRepeatId", function(assert) {
 	var factored = pRepeatingElementFactory.getFactored(0);
 	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
 
-	var path = {
+	var expectedPath = {
 		"children" : [ {
 			"name" : "nameInData",
 			"value" : "textVariableId"
@@ -1050,8 +1057,11 @@ QUnit.test("testAddOneChildWithRepeatId", function(assert) {
 		} ],
 		"name" : "linkedPath"
 	};
-	assert.deepEqual(this.dependencies.presentationFactory.getPath(), path);
-	assert.deepEqual(this.dependencies.presentationFactory.getMetadataIds()[0], "textVariableId");
+	var factoredSpec = pRepeatingElementFactory.getSpec(0);
+	assert.deepEqual(factoredSpec.path, expectedPath);
+
+	var factoredPresentationSpec = this.dependencies.presentationFactory.getSpec(0);
+	assert.deepEqual(factoredPresentationSpec.metadataIdUsedInData, "textVariableId");
 });
 
 QUnit.test("testAddOneChildWithOneLevelPath", function(assert) {
@@ -1075,7 +1085,7 @@ QUnit.test("testAddOneChildWithOneLevelPath", function(assert) {
 	var factored = pRepeatingElementFactory.getFactored(0);
 	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
 
-	var childPath = {
+	var expectedPath = {
 		"children" : [ {
 			"name" : "nameInData",
 			"value" : "textVariableId"
@@ -1088,8 +1098,12 @@ QUnit.test("testAddOneChildWithOneLevelPath", function(assert) {
 		} ],
 		"name" : "linkedPath"
 	};
-	assert.deepEqual(this.dependencies.presentationFactory.getPath(), childPath);
-	assert.deepEqual(this.dependencies.presentationFactory.getMetadataIds()[0], "textVariableId");
+	
+	var factoredSpec = pRepeatingElementFactory.getSpec(0);
+	assert.deepEqual(factoredSpec.path, expectedPath);
+
+	var factoredPresentationSpec = this.dependencies.presentationFactory.getSpec(0);
+	assert.deepEqual(factoredPresentationSpec.metadataIdUsedInData, "textVariableId");
 });
 
 QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
@@ -1119,7 +1133,7 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 	var factored = pRepeatingElementFactory.getFactored(0);
 	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
 
-	var childPath = {
+	var expectedPath = {
 		"children" : [ {
 			"name" : "nameInData1",
 			"value" : "textVariableId"
@@ -1138,8 +1152,11 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 		} ],
 		"name" : "linkedPath"
 	};
-	assert.deepEqual(this.dependencies.presentationFactory.getPath(), childPath);
-	assert.deepEqual(this.dependencies.presentationFactory.getMetadataIds()[0], "textVariableId");
+	var factoredSpec = pRepeatingElementFactory.getSpec(0);
+	assert.deepEqual(factoredSpec.path, expectedPath);
+
+	var factoredPresentationSpec = this.dependencies.presentationFactory.getSpec(0);
+	assert.deepEqual(factoredPresentationSpec.metadataIdUsedInData, "textVariableId");
 });
 
 QUnit

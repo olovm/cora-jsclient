@@ -31,10 +31,10 @@ QUnit.module("pMultipleChildrenTest.js", {
 			"metadataProvider" : new MetadataProviderStub(),
 			"pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderStub(),
-			"presentationFactory" : CORATEST.presentationFactorySpy(),
+			"presentationFactory" : CORATEST.standardFactorySpy("presentationSpy"),
 			"jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
 			"recordTypeProvider" : CORATEST.recordTypeProviderStub(),
-			"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy(),
+			"pChildRefHandlerFactory" : CORATEST.standardFactorySpy("pChildRefHandlerSpy"),
 			"pNonRepeatingChildRefHandlerFactory" : CORATEST
 					.standardFactorySpy("pNonRepeatingChildRefHandlerSpy")
 		};
@@ -232,7 +232,7 @@ QUnit.test("testPNonRepeatingChildRefHandlerSpec", function(assert) {
 	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pTextVariablePlus2SContainer");
 	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "groupWithSContainerPGroup");
 	assert.strictEqual(factoredSpec.cPresentationMinimized, undefined);
-	
+
 	var factored = this.dependencies.pNonRepeatingChildRefHandlerFactory.getFactored(0)
 	assert.strictEqual(view.childNodes[1], factored.getView());
 });
@@ -254,6 +254,11 @@ QUnit.test("testPNonRepeatingChildRefHandlerSpecWithMinimized", function(assert)
 	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
 	assert.strictEqual(factoredSpec.parentMetadataId, "groupIdTwoTextChildRepeat1to5");
 	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pTextVariablePlus2SContainer");
-	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized), "pTextVariablePlus2SContainer2");
-	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "groupWithSContainerAndAlternativeSContainerPGroup");
+	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
+			"pTextVariablePlus2SContainer2");
+	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
+			"groupWithSContainerAndAlternativeSContainerPGroup");
+
+	var factored = this.dependencies.pNonRepeatingChildRefHandlerFactory.getFactored(0)
+	assert.strictEqual(view.childNodes[1], factored.getView());
 });

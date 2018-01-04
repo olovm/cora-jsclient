@@ -248,8 +248,12 @@ var CORA = (function(cora) {
 			var childParentPath = calculateNewPath(id + "TextVar");
 			var cPresentationChild = CORA.coraData(metadataProvider
 					.getMetadataById(presentationIdToFactor));
-			var pVar = dependencies.presentationFactory.factor(childParentPath,
-					metadataIdUsedInData, cPresentationChild);
+			var presentationSpec = {
+				"path" : childParentPath,
+				"metadataIdUsedInData" : metadataIdUsedInData,
+				"cPresentation" : cPresentationChild
+			};
+			var pVar = dependencies.presentationFactory.factor(presentationSpec);
 			childViewNew.appendChild(pVar.getView());
 			view.addChild(childViewNew);
 		}

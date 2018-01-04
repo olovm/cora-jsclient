@@ -33,7 +33,7 @@ var CORATEST = (function(coraTest) {
 				"presentationFactory" : presentationFactory,
 				"jsBookkeeper" : jsBookkeeper,
 				"recordTypeProvider" : recordTypeProvider,
-				"pChildRefHandlerFactory" : CORATEST.pChildRefHandlerFactorySpy()
+				"pChildRefHandlerFactory" : CORATEST.standardFactorySpy("pChildRefHandlerSpy")
 			};
 			var spec = {
 				"path" : {},
@@ -69,7 +69,7 @@ QUnit.module("pResourceLinkTest.js", {
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
-		this.presentationFactory = CORATEST.presentationFactorySpy();
+		this.presentationFactory = CORATEST.standardFactorySpy("presentationSpy"),
 		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
 		this.newAttachedPResourceLink = CORATEST.attachedPResourceLinkFactory(
 				this.metadataProvider, this.pubSub, this.textProvider, this.presentationFactory,
@@ -88,13 +88,6 @@ QUnit.test("testInit", function(assert) {
 	assert.deepEqual(view.className, expectedClassName);
 
 	var subscriptions = this.pubSub.getSubscriptions();
-	// assert.deepEqual(subscriptions.length, 3);
-	//
-	// var firstSubsription = subscriptions[2];
-	// assert.strictEqual(firstSubsription.type, "linkedResource");
-	// assert.deepEqual(firstSubsription.path, {});
-	// var pResourceLink = attachedPResourceLink.pResourceLink;
-	// assert.ok(firstSubsription.functionToCall === pResourceLink.handleMsg);
 });
 
 QUnit.test("testInitInfo", function(assert) {

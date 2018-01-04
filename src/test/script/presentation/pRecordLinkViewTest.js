@@ -24,8 +24,7 @@ QUnit.module("pRecordLinkViewTest.js", {
 
 		this.dependencies = {
 			"infoFactory" : CORATEST.infoFactorySpy(),
-			"presentationFactory" : CORATEST.presentationFactorySpy()
-
+			"presentationFactory" : CORATEST.standardFactorySpy("presentationSpy")
 		};
 		this.spec = {
 			"presentationId" : "somePresentationId",

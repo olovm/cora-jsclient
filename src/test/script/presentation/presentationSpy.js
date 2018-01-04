@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  * 
  * This file is part of Cora.
  *
@@ -19,9 +19,15 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.presentationSpy = function(spec) {
+		var view = CORA.gui.createSpanWithClassName("presentationSpyView");
+
+		function getView() {
+			return view;
+		}
 
 		return Object.freeze({
-			"type" : "presentationSpy"
+			"type" : "presentationSpy",
+			"getView" : getView
 		});
 	};
 	return coraTest;

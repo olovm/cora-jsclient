@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -54,14 +54,14 @@ var CORATEST = (function(coraTest) {
 	return coraTest;
 }(CORATEST || {}));
 
-QUnit.module("presentationTest.js", {
+QUnit.module("presentationHolderTest.js", {
 	beforeEach : function() {
 		this.spec = {
 			"presentationId" : "pgGroupIdOneTextChild",
 			"metadataProvider" : new MetadataProviderStub(),
 			"pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderStub(),
-			"presentationFactory" : CORATEST.presentationFactorySpy(),
+			"presentationFactory" : CORATEST.standardFactorySpy("presentationSpy"),
 			"jsBookkeeper" : CORATEST.jsBookkeeperSpy()
 		};
 
@@ -70,7 +70,7 @@ QUnit.module("presentationTest.js", {
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
-		this.presentationFactory = CORATEST.presentationFactorySpy();
+		this.presentationFactory = CORATEST.standardFactorySpy("presentationSpy");
 		this.newAttachedPresentation = CORATEST.attachedPresentationFactory(this.metadataProvider,
 				this.pubSub, this.textProvider, this.presentationFactory, this.jsBookkeeper,
 				this.fixture);
@@ -89,7 +89,7 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(presentationHolder.getSpec(), this.spec);
 });
 
-QUnit.test("testInit", function(assert) {
+QUnit.test("testFactor", function(assert) {
 	var attachedPresentation = this.newAttachedPresentation.factor("pgGroupIdOneTextChild");
 	var presentation = attachedPresentation.presentation;
 	assert.strictEqual(presentation.getPresentationId(), "pgGroupIdOneTextChild");
@@ -100,7 +100,7 @@ QUnit.test("testInitOneChild", function(assert) {
 	var attachedPresentation = this.newAttachedPresentation.factor("pgGroupIdOneTextChild");
 	var presentation = attachedPresentation.presentation;
 
-	var requestedCPresentation = this.presentationFactory.getCPresentation();
+	var requestedCPresentation = this.presentationFactory.getSpec(0).cPresentation;
 	var recordInfo = requestedCPresentation.getFirstChildByNameInData("recordInfo");
 
 	var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
