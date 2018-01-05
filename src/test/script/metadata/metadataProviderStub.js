@@ -7332,7 +7332,114 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
-
+		case "groupWithSContainerPGroup":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "groupIdTwoTextChildRepeat1to5"
+					} ],
+					"name" : "presentationOf"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "refGroup",
+							"repeatId" : "0",
+							"children" : [ {
+								"name" : "ref",
+								"children" : [ {
+									"name" : "linkedRecordType",
+									"value" : "presentation"
+								}, {
+									"name" : "linkedRecordId",
+									"value" : "pTextVariablePlus2SContainer"
+								} ],
+								"attributes" : {
+									"type" : "presentation"
+								}
+							} ]
+						}, {
+							"name" : "textStyle",
+							"value" : "h2TextStyle"
+						}, {
+							"name" : "childStyle",
+							"value" : "fourChildStyle"
+						} ]
+					} ]
+				} ])
+			};
+		case "groupWithSContainerAndAlternativeSContainerPGroup":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "groupIdTwoTextChildRepeat1to5"
+					} ],
+					"name" : "presentationOf"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "refGroup",
+							"repeatId" : "0",
+							"children" : [ {
+								"name" : "ref",
+								"children" : [ {
+									"name" : "linkedRecordType",
+									"value" : "presentation"
+								}, {
+									"name" : "linkedRecordId",
+									"value" : "pTextVariablePlus2SContainer"
+								} ],
+								"attributes" : {
+									"type" : "presentation"
+								}
+							} ]
+						},  {
+							"name" : "refGroup",
+							"repeatId" : "1",
+							"children" : [ {
+								"name" : "ref",
+								"children" : [ {
+									"name" : "linkedRecordType",
+									"value" : "presentation"
+								}, {
+									"name" : "linkedRecordId",
+									"value" : "pTextVariablePlus2SContainer2"
+								} ],
+								"attributes" : {
+									"type" : "presentation"
+								}
+							} ]
+						}, {
+							"name" : "textStyle",
+							"value" : "h2TextStyle"
+						}, {
+							"name" : "childStyle",
+							"value" : "fourChildStyle"
+						} ]
+					} ]
+				} ])
+			};
 		case "pTextVariablePlus2SContainer2":
 			return {
 				"name" : "presentation",

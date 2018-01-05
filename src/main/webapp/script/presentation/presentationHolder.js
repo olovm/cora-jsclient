@@ -40,8 +40,12 @@ var CORA = (function(cora) {
 		function createViewForTopPGroup() {
 			var cPresentation = CORA.coraData(metadataProvider.getMetadataById(presentationId));
 			var metadataIdUsedInData = spec.metadataIdUsedInData;
-			var presentation = presentationFactory.factor({}, metadataIdUsedInData, cPresentation,
-					undefined);
+			var presentationSpec = {
+				"path" : {},
+				"metadataIdUsedInData" : metadataIdUsedInData,
+				"cPresentation" : cPresentation
+			};
+			var presentation = presentationFactory.factor(presentationSpec);
 			return presentation.getView();
 		}
 

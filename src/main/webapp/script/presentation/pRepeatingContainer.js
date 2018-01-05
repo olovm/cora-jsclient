@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2018 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -43,20 +43,30 @@ var CORA = (function(cora) {
 			return viewNew;
 		}
 		function createViewForChild(presentationChildRef) {
-			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var cRefGroup = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("refGroup"));
-			var	cRef = CORA.coraData(cRefGroup.getFirstChildByNameInData("ref"));
-			var refId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
+			var refId = getRefId(presentationChildRef);
 			var cPresentationChild = getMetadataById(refId);
 			if (cPresentationChild.getData().name === "text") {
 				var text = CORA.gui.createSpanWithClassName("text");
 				text.appendChild(document.createTextNode(textProvider.getTranslation(refId)));
 				return text;
 			}
-			var presentation = presentationFactory.factor(path, spec.metadataIdUsedInData,
-					cPresentationChild);
+			var presentationSpec = {
+				"path" : path,
+				"metadataIdUsedInData" : spec.metadataIdUsedInData,
+				"cPresentation" : cPresentationChild
+			};
+			var presentation = presentationFactory.factor(presentationSpec);
 			return presentation.getView();
 		}
+
+		function getRefId(presentationChildRef) {
+			var cPresentationChildRef = CORA.coraData(presentationChildRef);
+			var cRefGroup = CORA.coraData(cPresentationChildRef
+					.getFirstChildByNameInData("refGroup"));
+			var cRef = CORA.coraData(cRefGroup.getFirstChildByNameInData("ref"));
+			return cRef.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+
 		function getMetadataById(id) {
 			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}

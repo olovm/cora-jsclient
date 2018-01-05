@@ -108,13 +108,19 @@ QUnit.module("pVarTest.js", {
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
-		this.pVarViewFactory = CORATEST.pVarViewFactorySpy();
+		this.pVarViewFactory = CORATEST.standardFactorySpy("pVarViewSpy");
 		this.pVarFactory = CORATEST.attachedPVarFactory(this.metadataProvider,
 				this.pubSub, this.textProvider, this.jsBookkeeper,
 				this.fixture, this.pVarViewFactory);
 	},
 	afterEach : function() {
 	}
+});
+
+QUnit.test("testGetDependencies", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+	"pVarTextVariableId");
+	assert.strictEqual(attachedPVar.pVar.getDependencies(), attachedPVar.dependencies);
 });
 
 QUnit.test("testGetSpec", function(assert) {

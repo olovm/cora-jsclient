@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017 Olov McKie
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -22,24 +22,32 @@ var CORA = (function(cora) {
 	cora.presentationFactory = function(dependencies) {
 		var self;
 
-		function factor(path, metadataIdUsedInData, cPresentation, cParentPresentation) {
+		function factor(spec) {
+			var path = spec.path;
+			var metadataIdUsedInData = spec.metadataIdUsedInData;
+			var cPresentation = spec.cPresentation;
+			var cParentPresentation = spec.cParentPresentation;
 
 			var infoFactory = CORA.infoFactory();
 
 			var pVarViewFactoryDependencies = {
 				"infoFactory" : infoFactory
 			};
+			var pVarViewFactory = CORA.genericFactory("pVarView", pVarViewFactoryDependencies);
+
 			var pRepeatingElementFactoryDependencies = {
 				"infoFactory" : infoFactory,
 				"jsBookkeeper" : dependencies.jsBookkeeper
 			};
+			var pRepeatingElementFactory = CORA.genericFactory("pRepeatingElement",
+					pRepeatingElementFactoryDependencies);
 
-			var pVarViewFactory = CORA.pVarViewFactory(pVarViewFactoryDependencies);
 			var pRecordLinkViewFactoryDependencies = {
-				"infoFactory" : CORA.infoFactory()
+				"infoFactory" : infoFactory
 			};
-			var pRecordLinkViewFactory = CORA
-					.pRecordLinkViewFactory(pRecordLinkViewFactoryDependencies);
+			var pRecordLinkViewFactory = CORA.genericFactory("pRecordLinkView",
+					pRecordLinkViewFactoryDependencies);
+
 			var pChildRefHandlerFactoryDependencies = {
 				"metadataProvider" : dependencies.providers.metadataProvider,
 				"pubSub" : dependencies.pubSub,
@@ -49,13 +57,23 @@ var CORA = (function(cora) {
 				"recordTypeProvider" : dependencies.providers.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"pRepeatingElementFactory" : CORA
-						.pRepeatingElementFactory(pRepeatingElementFactoryDependencies),
-				"pChildRefHandlerViewFactory" : CORA.pChildRefHandlerViewFactory()
+				"pRepeatingElementFactory" : pRepeatingElementFactory,
+				"pChildRefHandlerViewFactory" : CORA.genericFactory("pChildRefHandlerView"),
+				"dataDivider" : dependencies.dataDivider
 			};
 
-			var pChildRefHandlerFactory = CORA
-					.pChildRefHandlerFactory(pChildRefHandlerFactoryDependencies);
+			var pChildRefHandlerFactory = CORA.genericFactory("pChildRefHandler",
+					pChildRefHandlerFactoryDependencies);
+
+			var pNonRepeatingChildRefHandlerFactoryDependencies = {
+				"presentationFactory" : self,
+				"pNonRepeatingChildRefHandlerViewFactory" : CORA
+						.genericFactory("pNonRepeatingChildRefHandlerView")
+			};
+
+			var pNonRepeatingChildRefHandlerFactory = CORA
+					.genericFactory("pNonRepeatingChildRefHandler",
+							pNonRepeatingChildRefHandlerFactoryDependencies);
 
 			var childDependencies = {
 				"providers" : dependencies.providers,
@@ -74,6 +92,7 @@ var CORA = (function(cora) {
 				"pVarViewFactory" : pVarViewFactory,
 				"pRecordLinkViewFactory" : pRecordLinkViewFactory,
 				"pChildRefHandlerFactory" : pChildRefHandlerFactory,
+				"pNonRepeatingChildRefHandlerFactory" : pNonRepeatingChildRefHandlerFactory,
 				"authTokenHolder" : dependencies.authTokenHolder
 			};
 			var specNew = {
@@ -103,10 +122,6 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function getDataDivider() {
-			return dependencies.dataDivider;
-		}
-
 		function getDependencies() {
 			return dependencies;
 		}
@@ -114,7 +129,6 @@ var CORA = (function(cora) {
 		var out = Object.freeze({
 			"type" : "presentationFactory",
 			getDependencies : getDependencies,
-			getDataDivider : getDataDivider,
 			factor : factor
 		});
 		self = out;

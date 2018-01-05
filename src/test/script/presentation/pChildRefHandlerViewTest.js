@@ -147,15 +147,6 @@ QUnit.test("testHideShowButtonView", function(assert) {
 
 });
 
-QUnit.test("testGetSpec", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
-	assert.strictEqual(pChildRefHandlerView.getSpec(), pChildRefHandlerViewSpec);
-});
-
 QUnit.test("testAddChildAndRemoveChild", function(assert) {
 	var pChildRefHandlerViewSpec = {
 		"presentationId" : "pVarTextVariableId"

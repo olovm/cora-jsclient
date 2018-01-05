@@ -39,11 +39,11 @@ var CORATEST = (function(coraTest) {
 			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
 
 			var specPresentationFactory = {
-					
-					"providers":{
-						"metadataProvider" : metadataProvider,
-						"textProvider" : textProvider,
-					},
+
+				"providers" : {
+					"metadataProvider" : metadataProvider,
+					"textProvider" : textProvider,
+				},
 				"pubSub" : pubSub,
 				"jsBookkeeper" : jsBookkeeper
 			};
@@ -95,8 +95,8 @@ QUnit.module("jsClientIntegrationTest.js", {
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORA.pubSub();
 		this.textProvider = CORATEST.textProviderStub();
-		this.pVarViewFactory = CORATEST.pVarViewFactorySpy();
-
+		this.pVarViewFactory = CORATEST.standardFactorySpy("pVarViewSpy");
+		
 		this.dependenciesFactory = CORATEST.dependenciesFactory(this.metadataProvider, this.pubSub,
 				this.textProvider);
 	},
@@ -288,8 +288,10 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurro
 	this.fixture.appendChild(view);
 
 	var topPGroupView = view.firstChild;
+	
+	var pNonRepeatingChildRefHandlerView = topPGroupView.childNodes[1];
 
-	var surroundingContainer = topPGroupView.childNodes[1];
+	var surroundingContainer = pNonRepeatingChildRefHandlerView.childNodes[0];
 
 	var headline = surroundingContainer.childNodes[1];
 	assert.strictEqual(headline.textContent, "En rubrik");
@@ -307,7 +309,7 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurro
 	assert.deepEqual(pVarView2.className, "pVar pVarTextVariableId2 maximized");
 });
 
-QUnit.test("testIntegrateSurroundingContainerInSurroundingContainer", function(assert) {
+ QUnit.test("testIntegrateSurroundingContainerInSurroundingContainer", function(assert) {
 	var metadataId = "groupIdTwoTextChildRepeat1to5";
 	var presentationId = "pgGroupIdTwoTextChildSurrounding2TextPGroup2";
 	var metadataIdUsedInData = "groupIdTwoTextChildRepeat1to5";
@@ -321,12 +323,17 @@ QUnit.test("testIntegrateSurroundingContainerInSurroundingContainer", function(a
 	this.fixture.appendChild(view);
 
 	var topPGroupView = view.firstChild;
-	var surroundingContainer = topPGroupView.childNodes[1];
+	var pNonRepeatingChildRefHandlerView = topPGroupView.childNodes[1];
+
+	var surroundingContainer = pNonRepeatingChildRefHandlerView.childNodes[0];
 
 	var headline = surroundingContainer.childNodes[1];
 	assert.strictEqual(headline.textContent, "En rubrik");
 
-	var surroundingContainerLevel2 = surroundingContainer.childNodes[2];
+	var pNonRepeatingChildRefHandlerView2 = surroundingContainer.childNodes[2];
+
+	var surroundingContainerLevel2 = pNonRepeatingChildRefHandlerView2.childNodes[0];
+
 	var headline2 = surroundingContainerLevel2.childNodes[1];
 	assert.strictEqual(headline2.textContent, "En rubrik");
 

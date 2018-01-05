@@ -280,7 +280,7 @@ var CORA = (function(cora) {
 				"path" : path,
 				"parentModelObject" : pChildRefHandlerView,
 				"isRepeating" : isRepeating,
-				"mode":spec.mode
+				"mode" : spec.mode
 			};
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}
@@ -300,8 +300,13 @@ var CORA = (function(cora) {
 
 		function factorPresentation(path, cPresentation, metadataIdToAdd) {
 			var metadataIdUsedInData = metadataIdToAdd;
-			return dependencies.presentationFactory.factor(path, metadataIdUsedInData,
-					cPresentation, spec.cParentPresentation);
+			var presentationSpec = {
+				"path" : path,
+				"metadataIdUsedInData" : metadataIdUsedInData,
+				"cPresentation" : cPresentation,
+				"cParentPresentation" : spec.cParentPresentation
+			};
+			return dependencies.presentationFactory.factor(presentationSpec);
 		}
 
 		function hasMinimizedPresentation() {
@@ -455,7 +460,7 @@ var CORA = (function(cora) {
 		}
 
 		function createNewBinaryData() {
-			var dataDividerLinkedRecordId = getDataDividerFromSpec();
+			var dataDividerLinkedRecordId = dependencies.dataDivider;
 			var type = getTypeFromRecordType();
 			return {
 				"name" : "binary",
@@ -476,10 +481,6 @@ var CORA = (function(cora) {
 					"type" : type
 				}
 			};
-		}
-
-		function getDataDividerFromSpec() {
-			return dependencies.presentationFactory.getDataDivider();
 		}
 
 		function getNewMetadataGroupFromRecordType() {
@@ -604,15 +605,7 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function getDependencies() {
-			return dependencies;
-		}
-		function getSpec() {
-			return spec;
-		}
 		var out = Object.freeze({
-			getDependencies : getDependencies,
-			getSpec : getSpec,
 			getView : getView,
 			add : add,
 			handleMsg : handleMsg,
