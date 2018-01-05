@@ -27,7 +27,17 @@ var CORA = (function(cora) {
 		}
 
 		function createView() {
-			view = dependencies.pNonRepeatingChildRefHandlerViewFactory.factor();
+			var viewSpec = {
+				presentationId : findPresentationId(spec.cPresentation),
+				textStyle : spec.textStyle,
+				childStyle : spec.childStyle
+			};
+			view = dependencies.pNonRepeatingChildRefHandlerViewFactory.factor(viewSpec);
+		}
+
+		function findPresentationId(cPresentation) {
+			var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
+			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
 
 		function factorPresentation() {
@@ -57,7 +67,6 @@ var CORA = (function(cora) {
 			getView : getView
 		});
 
-		// pChildRefHandlerView.getView().modelObject = out;
 		start();
 		return out;
 	};

@@ -33,7 +33,7 @@ QUnit.module("pChildRefHandlerTest.js", {
 			"uploadManager" : CORATEST.uploadManagerSpy(),
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
 			"pChildRefHandlerViewFactory" : CORATEST.standardFactorySpy("pChildRefHandlerViewSpy"),
-			"pRepeatingElementFactory" : CORATEST.pRepeatingElementFactorySpy(),
+			"pRepeatingElementFactory" : CORATEST.standardFactorySpy("pRepeatingElementSpy"),
 			"dataDivider" : "systemY"
 		};
 		this.spec = {

@@ -291,18 +291,8 @@ var CORA = (function(cora) {
 			callOnceOnEachRepeatingElement("showDragButton");
 		}
 
-		function getSpec() {
-			return spec;
-		}
-
-		function getDependencies() {
-			return dependencies;
-		}
-
 		var out = Object.freeze({
 			"type" : "pChildRefHandlerView",
-			getSpec : getSpec,
-			getDependencies : getDependencies,
 			getView : getView,
 			setRepeatingElementDragOver : setRepeatingElementDragOver,
 			addChild : addChild,

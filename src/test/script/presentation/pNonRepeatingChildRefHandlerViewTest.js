@@ -1,6 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -43,6 +42,33 @@ QUnit.test("testInitCreatesBaseView", function(assert) {
 	var view = pNonRepeatingChildRefHandlerView.getView();
 	assert.strictEqual(view.nodeName, "SPAN");
 	assert.strictEqual(view.className, "pNonRepeatingChildRefHandler someSContainer");
+});
+
+QUnit.test("testInitCreatesBaseViewWithStyleInfo",
+		function(assert) {
+			var pChildRefHandlerViewSpec = {
+				"presentationId" : "someSContainer",
+				textStyle : "someTextStyle",
+				childStyle : "someChildStyle"
+			};
+			var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(
+					this.dependencies, pChildRefHandlerViewSpec);
+			var view = pNonRepeatingChildRefHandlerView.getView();
+			assert.strictEqual(view.nodeName, "SPAN");
+			assert.strictEqual(view.className,
+					"pNonRepeatingChildRefHandler someTextStyle someChildStyle someSContainer");
+		});
+
+QUnit.test("testAddChild", function(assert) {
+	var pChildRefHandlerViewSpec = {};
+	var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(this.dependencies,
+			pChildRefHandlerViewSpec);
+	var someNode = document.createElement("SPAN");
+	pNonRepeatingChildRefHandlerView.addChild(someNode);
+	
+	var view = pNonRepeatingChildRefHandlerView.getView();
+	
+	assert.strictEqual(view.firstChild, someNode);
 });
 
 // QUnit.test("testInitNoAddButton", function(assert) {

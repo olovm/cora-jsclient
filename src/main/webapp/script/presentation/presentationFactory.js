@@ -33,17 +33,21 @@ var CORA = (function(cora) {
 			var pVarViewFactoryDependencies = {
 				"infoFactory" : infoFactory
 			};
+			var pVarViewFactory = CORA.genericFactory("pVarView", pVarViewFactoryDependencies);
+
 			var pRepeatingElementFactoryDependencies = {
 				"infoFactory" : infoFactory,
 				"jsBookkeeper" : dependencies.jsBookkeeper
 			};
+			var pRepeatingElementFactory = CORA.genericFactory("pRepeatingElement",
+					pRepeatingElementFactoryDependencies);
 
-			var pVarViewFactory = CORA.pVarViewFactory(pVarViewFactoryDependencies);
 			var pRecordLinkViewFactoryDependencies = {
-				"infoFactory" : CORA.infoFactory()
+				"infoFactory" : infoFactory
 			};
-			var pRecordLinkViewFactory = CORA
-					.pRecordLinkViewFactory(pRecordLinkViewFactoryDependencies);
+			var pRecordLinkViewFactory = CORA.genericFactory("pRecordLinkView",
+					pRecordLinkViewFactoryDependencies);
+
 			var pChildRefHandlerFactoryDependencies = {
 				"metadataProvider" : dependencies.providers.metadataProvider,
 				"pubSub" : dependencies.pubSub,
@@ -53,14 +57,23 @@ var CORA = (function(cora) {
 				"recordTypeProvider" : dependencies.providers.recordTypeProvider,
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"pRepeatingElementFactory" : CORA
-						.pRepeatingElementFactory(pRepeatingElementFactoryDependencies),
+				"pRepeatingElementFactory" : pRepeatingElementFactory,
 				"pChildRefHandlerViewFactory" : CORA.genericFactory("pChildRefHandlerView"),
 				"dataDivider" : dependencies.dataDivider
 			};
 
 			var pChildRefHandlerFactory = CORA.genericFactory("pChildRefHandler",
 					pChildRefHandlerFactoryDependencies);
+
+			var pNonRepeatingChildRefHandlerFactoryDependencies = {
+				"presentationFactory" : self,
+				"pNonRepeatingChildRefHandlerViewFactory" : CORA
+						.genericFactory("pNonRepeatingChildRefHandlerView")
+			};
+
+			var pNonRepeatingChildRefHandlerFactory = CORA
+					.genericFactory("pNonRepeatingChildRefHandler",
+							pNonRepeatingChildRefHandlerFactoryDependencies);
 
 			var childDependencies = {
 				"providers" : dependencies.providers,
@@ -79,9 +92,7 @@ var CORA = (function(cora) {
 				"pVarViewFactory" : pVarViewFactory,
 				"pRecordLinkViewFactory" : pRecordLinkViewFactory,
 				"pChildRefHandlerFactory" : pChildRefHandlerFactory,
-				// TODO: change to real factory
-				"pNonRepeatingChildRefHandlerFactory" : CORATEST
-						.standardFactorySpy("pNonRepeatingChildRefHandlerSpy"),
+				"pNonRepeatingChildRefHandlerFactory" : pNonRepeatingChildRefHandlerFactory,
 				"authTokenHolder" : dependencies.authTokenHolder
 			};
 			var specNew = {

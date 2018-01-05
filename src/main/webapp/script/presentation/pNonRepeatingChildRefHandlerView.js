@@ -1,6 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -43,12 +42,12 @@ var CORA = (function(cora) {
 		//
 		function createBaseView() {
 			var newClassName = "pNonRepeatingChildRefHandler";
-//			if (spec.textStyle !== undefined) {
-//				newClassName += " " + spec.textStyle;
-//			}
-//			if (spec.childStyle !== undefined) {
-//				newClassName += " " + spec.childStyle;
-//			}
+			if (spec.textStyle !== undefined) {
+				newClassName += " " + spec.textStyle;
+			}
+			if (spec.childStyle !== undefined) {
+				newClassName += " " + spec.childStyle;
+			}
 			newClassName += " " + spec.presentationId;
 			return CORA.gui.createSpanWithClassName(newClassName);
 		}
@@ -97,154 +96,11 @@ var CORA = (function(cora) {
 		// buttonView.style.display = buttonView.styleOriginal;
 		// }
 		// }
-		//
-		// function setRepeatingElementDragOver(repeatingElement) {
-		// lastRepeatingElementDraggedOver = repeatingElement;
-		// }
-		//
-		// function createChildrenView() {
-		// var childrenViewNew = CORA.gui.createSpanWithClassName("childrenView");
-		// if (spec.isRepeating) {
-		// addDragEventHandlers(childrenViewNew);
-		// }
-		// return childrenViewNew;
-		// }
-		//
-		// function addDragEventHandlers(childrenViewNew) {
-		// childrenViewNew.ondragstart = dragstartHandler;
-		// childrenViewNew.ondragover = dragoverHandler;
-		// childrenViewNew.ondragenter = dragenterHandler;
-		// childrenViewNew.ondrop = dropHandler;
-		// childrenViewNew.ondragend = dragendHandler;
-		// }
-		//
-		// function dragstartHandler(event) {
-		// event.stopPropagation();
-		// childIsCurrentlyBeeingDragged = true;
-		// nodeBeeingDragged = event.target;
-		// beeingDraggedY = event.screenY;
-		// var source = event.target;
-		// source.originalClassname = source.className;
-		// source.className = source.className + " beeingDragged";
-		// event.dataTransfer.setData("text/notInUse", "notUsed");
-		// event.dataTransfer.effectAllowed = "move";
-		// }
-		//
-		// function dragoverHandler(event) {
-		// event.preventDefault();
-		// event.dataTransfer.dropEffect = "move";
-		// }
-		//
-		// function dragenterHandler(event) {
-		// event.preventDefault();
-		// event.dataTransfer.dropEffect = "move";
-		// if (childIsCurrentlyBeeingDragged && aRepeatingElementHasBeenDraggedOver()) {
-		// moveNodeBeeingDraggedIfDraggedOverSibblingNode(event);
-		// }
-		// }
-		//
-		// function aRepeatingElementHasBeenDraggedOver() {
-		// return lastRepeatingElementDraggedOver !== undefined;
-		// }
-		//
-		// function moveNodeBeeingDraggedIfDraggedOverSibblingNode(event) {
-		// if (isSibblingNodes(nodeBeeingDragged, lastRepeatingElementDraggedOver.getView())) {
-		// moveNodeBeeingDragged(event);
-		// }
-		// }
-		//
-		// function isSibblingNodes(node1, node2) {
-		// if (node1 === node2) {
-		// return false;
-		// }
-		// var sibblings = node1.parentNode.childNodes;
-		// var isSibblingFunction = function(key) {
-		// return sibblings[key] === node2;
-		// };
-		// var keys = Object.keys(sibblings);
-		// return keys.some(isSibblingFunction);
-		// }
-		//
-		// function moveNodeBeeingDragged(event) {
-		// event.stopPropagation();
-		// event.preventDefault();
-		// lastChangedWith = lastRepeatingElementDraggedOver;
-		// if (dragDirectionIsDown(event)) {
-		// addDragged = "after";
-		// nodeBeeingDragged.parentElement.insertBefore(nodeBeeingDragged,
-		// lastRepeatingElementDraggedOver.getView().nextSibling);
-		// } else {
-		// addDragged = "before";
-		// nodeBeeingDragged.parentElement.insertBefore(nodeBeeingDragged,
-		// lastRepeatingElementDraggedOver.getView());
-		// }
-		// }
-		//
-		// function dragDirectionIsDown(event) {
-		// var difY = event.screenY - beeingDraggedY;
-		// return difY > 0;
-		// }
-		//
-		// function dropHandler(event) {
-		// event.preventDefault();
-		// if (childIsCurrentlyBeeingDragged) {
-		// event.stopPropagation();
-		// event.dataTransfer.dropEffect = "move";
-		// }
-		// }
-		//
-		// function dragendHandler(event) {
-		// event.preventDefault();
-		// if (childIsCurrentlyBeeingDragged) {
-		// handleDraggedElements(event);
-		// }
-		// }
-		//
-		// function handleDraggedElements(event) {
-		// event.stopPropagation();
-		// resetNodeBeeingDragged();
-		// possiblySendMoveMessage();
-		// resetDragSystem();
-		// }
-		//
-		// function resetNodeBeeingDragged() {
-		// var indexClassName = nodeBeeingDragged.className.indexOf(" beeingDragged");
-		// nodeBeeingDragged.className = nodeBeeingDragged.className.substring(0, indexClassName);
-		// nodeBeeingDragged.draggable = undefined;
-		// }
-		//
-		// function possiblySendMoveMessage() {
-		// if (nodesHasChangedPlace()) {
-		// sendMoveMessage();
-		// }
-		// }
-		//
-		// function nodesHasChangedPlace() {
-		// return lastChangedWith !== undefined;
-		// }
-		//
-		// function sendMoveMessage() {
-		// var data = {
-		// "moveChild" : nodeBeeingDragged.modelObject.getPath(),
-		// "basePositionOnChild" : lastChangedWith.getPath(),
-		// "newPosition" : addDragged
-		// };
-		// view.modelObject.childMoved(data);
-		// }
-		//
-		// function resetDragSystem() {
-		// nodeBeeingDragged = undefined;
-		// lastChangedWith = undefined;
-		// addDragged = undefined;
-		// beeingDraggedY = undefined;
-		// childIsCurrentlyBeeingDragged = false;
-		// lastRepeatingElementDraggedOver = undefined;
-		// }
-		//
-		// function addChild(child) {
-		// childrenView.appendChild(child);
-		// }
-		//
+
+		function addChild(child) {
+			view.appendChild(child);
+		}
+
 		// function removeChild(child) {
 		// childrenView.removeChild(child);
 		// }
@@ -309,19 +165,8 @@ var CORA = (function(cora) {
 			// getSpec : getSpec,
 			// getDependencies : getDependencies,
 			getView : getView,
-		// setRepeatingElementDragOver : setRepeatingElementDragOver,
-		// addChild : addChild,
-		// removeChild : removeChild,
-		// moveChild : moveChild,
-		// hideChildrensRemoveButton : hideChildrensRemoveButton,
-		// showChildrensRemoveButton : showChildrensRemoveButton,
-		// hideChildrensDragButton : hideChildrensDragButton,
-		// showChildrensDragButton : showChildrensDragButton,
-		// dragstartHandler : dragstartHandler,
-		// dragoverHandler : dragoverHandler,
-		// dragenterHandler : dragenterHandler,
-		// dropHandler : dropHandler,
-		// dragendHandler : dragendHandler,
+			// setRepeatingElementDragOver : setRepeatingElementDragOver,
+			addChild : addChild,
 		// hideButtonView : hideButtonView,
 		// showButtonView : showButtonView
 		});

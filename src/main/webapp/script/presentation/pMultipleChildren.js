@@ -22,7 +22,6 @@ var CORA = (function(cora) {
 	cora.pMultipleChildren = function(dependencies, spec, my) {
 		var path = spec.path;
 		var textProvider = dependencies.textProvider;
-		var presentationFactory = dependencies.presentationFactory;
 
 		var view;
 		var originalClassName;
@@ -162,10 +161,6 @@ var CORA = (function(cora) {
 			var pNonRepeatingChildRefHandler = createPNonRepeatingChildRefHandler(
 					cPresentationChild, cPresentationChildRef);
 			return pNonRepeatingChildRefHandler.getView();
-			// var surroundingContainer = presentationFactory.factor(path, my.metadataId,
-			// cPresentationChild, my.cParentPresentation);
-			// return surroundingContainer.getView();
-
 		}
 
 		function createPNonRepeatingChildRefHandler(cPresentationChild, cPresentationChildRef) {

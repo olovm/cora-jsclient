@@ -605,15 +605,7 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function getDependencies() {
-			return dependencies;
-		}
-		function getSpec() {
-			return spec;
-		}
 		var out = Object.freeze({
-			getDependencies : getDependencies,
-			getSpec : getSpec,
 			getView : getView,
 			add : add,
 			handleMsg : handleMsg,
