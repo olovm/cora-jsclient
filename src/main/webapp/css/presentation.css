@@ -231,7 +231,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	transition: background-color 0.5s linear;
 }
 .pVar:hover, .pCollVar:hover, .pGroup:hover, .pSurroundingContainer:hover, .repeatingElement:hover, 
-.pRecordLink:hover {
+.pRecordLink:hover, .pNonRepeatingChildRefHandler:hover {
 	background-color: rgba(0, 129, 198, 0.1);
 	transition: background-color 0.5s linear;
 }
