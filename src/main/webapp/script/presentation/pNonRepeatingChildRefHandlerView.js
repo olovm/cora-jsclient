@@ -19,8 +19,13 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pNonRepeatingChildRefHandlerView = function(dependencies, spec) {
-
 		var view;
+		var buttonView;
+		var alternativePresentation;
+		var defaultPresentation;
+		var alternativeButton;
+		var defaultButton;
+
 		function start() {
 			view = createBaseView();
 
@@ -42,14 +47,74 @@ var CORA = (function(cora) {
 		}
 
 		function addChild(child) {
-			view.appendChild(child);
+			child.className += " default";
+			defaultPresentation = child;
+			view.insertBefore(child, buttonView);
 		}
 
+		function addAlternativeChild(child) {
+			child.className += " alternative";
+			alternativePresentation = child;
+			createButtonView();
+			view.insertBefore(child, buttonView);
+			toggleDefaultShown("true");
+		}
 
+		function createButtonView() {
+			var buttonViewNew = CORA.gui.createSpanWithClassName("buttonView");
+			buttonView = buttonViewNew;
+			view.appendChild(buttonViewNew);
+			createDefaultAndAlternativeButtons();
+		}
+
+		function createDefaultAndAlternativeButtons() {
+			var alternativeButtonSpec = {
+				"className" : "iconButton alternativeButton",
+				"onclick" : function() {
+					toggleDefaultShown("false");
+				}
+			};
+			alternativeButton = CORA.gui.createButton(alternativeButtonSpec);
+			buttonView.appendChild(alternativeButton);
+
+			var defaultButtonSpec = {
+				"className" : "iconButton defaultButton",
+				"onclick" : function() {
+					toggleDefaultShown("true");
+				}
+			};
+			defaultButton = CORA.gui.createButton(defaultButtonSpec);
+			buttonView.appendChild(defaultButton);
+		}
+
+		function toggleDefaultShown(defaultShown) {
+			if (defaultShown !== undefined && defaultShown === "true") {
+				hide(alternativePresentation);
+				show(defaultPresentation);
+				show(alternativeButton);
+				hide(defaultButton);
+			} else {
+				show(alternativePresentation);
+				hide(defaultPresentation);
+				hide(alternativeButton);
+				show(defaultButton);
+			}
+		}
+
+		function hide(element) {
+			element.styleOriginal = element.style.display;
+			element.style.display = "none";
+		}
+		function show(element) {
+			if (element.styleOriginal !== undefined) {
+				element.style.display = element.styleOriginal;
+			}
+		}
 		var out = Object.freeze({
 			"type" : "pNonRepeatingChildRefHandlerView",
 			getView : getView,
-			addChild : addChild
+			addChild : addChild,
+			addAlternativeChild : addAlternativeChild
 		});
 		start();
 		return out;

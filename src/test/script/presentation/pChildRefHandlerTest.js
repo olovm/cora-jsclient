@@ -42,7 +42,7 @@ QUnit.module("pChildRefHandlerTest.js", {
 					.getMetadataById("groupIdOneTextChild")),
 			"cPresentation" : CORA.coraData(this.metadataProvider
 					.getMetadataById("pVarTextVariableId")),
-			"cPresentationMinimized" : CORA.coraData(this.metadataProvider
+			"cAlternativePresentation" : CORA.coraData(this.metadataProvider
 					.getMetadataById("pVarTextVariableIdOutput")),
 			"mode" : "input"
 		};
@@ -1654,7 +1654,7 @@ QUnit.test("testHandleMessageNotRightMetadataId", function(assert) {
 });
 
 QUnit.test("testWithMinimized", function(assert) {
-	this.spec.cPresentationMinimized = CORA.coraData(this.metadataProvider
+	this.spec.cAlternativePresentation = CORA.coraData(this.metadataProvider
 			.getMetadataById("pVarTextVariableIdOutput"));
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 	var view = pChildRefHandler.getView();
@@ -1668,7 +1668,7 @@ QUnit.test("testWithMinimized", function(assert) {
 });
 
 QUnit.test("testWithMinimizedDefault", function(assert) {
-	this.spec.cPresentationMinimized = CORA.coraData(this.metadataProvider
+	this.spec.cAlternativePresentation = CORA.coraData(this.metadataProvider
 			.getMetadataById("pVarTextVariableIdOutput"));
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 	var view = pChildRefHandler.getView();

@@ -292,9 +292,9 @@ var CORA = (function(cora) {
 			repeatingElement.addPresentation(presentation);
 
 			if (hasMinimizedPresentation()) {
-				var presentationMinimized = factorPresentation(path, spec.cPresentationMinimized,
+				var presentationMinimized = factorPresentation(path, spec.cAlternativePresentation,
 						metadataIdToAdd);
-				repeatingElement.addPresentationMinimized(presentationMinimized);
+				repeatingElement.addAlternativePresentation(presentationMinimized);
 			}
 		}
 
@@ -310,7 +310,7 @@ var CORA = (function(cora) {
 		}
 
 		function hasMinimizedPresentation() {
-			return spec.cPresentationMinimized !== undefined;
+			return spec.cAlternativePresentation !== undefined;
 		}
 
 		function subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement) {

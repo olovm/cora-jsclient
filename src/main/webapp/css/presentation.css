@@ -144,19 +144,19 @@ img {
 	background-position: -32px -0px;
 }
 
-.minimizeButton::before {
+.defaultButton::before {
 	background-position: -176px 0px;
 }
 
-.minimizeButton::after {
+.defaultButton::after {
 	background-position: -176px -16px;
 }
 
-.maximizeButton::before {
+.alternativeButton::before {
 	background-position: -160px 0px;
 }
 
-.maximizeButton::after {
+.alternativeButton::after {
 	background-position: -160px -16px;
 }
 
@@ -202,11 +202,11 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	background: transparent;
 } 
 
-.workView .repeatingElement {
+.workView .repeatingElement, .workView .pNonRepeatingChildRefHandler {
 	display: flex;
 }
 
-.workView .repeatingElement > * {
+.workView .repeatingElement > *,  .workView .pNonRepeatingChildRefHandler > * {
 	flex: 1;
 }
 .buttonView {
@@ -217,7 +217,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	display: none;
 }
 
-.workView .repeatingElement>.buttonView {
+.workView .repeatingElement>.buttonView, .workView .pNonRepeatingChildRefHandler>.buttonView {
 	flex: 0 1 0;
 }
 
@@ -293,7 +293,8 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	top: 0.1rem;
 	right: 0.1rem;
 }
-.workView .pGroup > .pChildRefHandler, .workView .pGroup > .pSurroundingContainer ,
+.workView .pGroup > .pChildRefHandler, .workView .pGroup > .pNonRepeatingChildRefHandler, 
+.workView .pGroup > .pSurroundingContainer ,
 .workView .pGroup > .text {
 	flex: 0 1 calc(100% - 25px);
 }

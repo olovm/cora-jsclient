@@ -170,9 +170,9 @@ var CORA = (function(cora) {
 				"cPresentation" : cPresentationChild,
 				"cParentPresentation" : my.cParentPresentation
 			};
-			if (childHasMinimizedPresentation(cPresentationChildRef)) {
-				var cPresentationMinimized = getAlternativePresenation(cPresentationChildRef);
-				childSpec.cPresentationMinimized = cPresentationMinimized;
+			if (childHasAlternativePresentation(cPresentationChildRef)) {
+				var cAlternativePresentation = getAlternativePresenation(cPresentationChildRef);
+				childSpec.cAlternativePresentation = cAlternativePresentation;
 			}
 
 			return dependencies.pNonRepeatingChildRefHandlerFactory.factor(childSpec);
@@ -201,9 +201,9 @@ var CORA = (function(cora) {
 						.getFirstAtomicValueByNameInData("childStyle");
 			}
 
-			if (childHasMinimizedPresentation(cPresentationChildRef)) {
-				var cPresentationMinimized = getAlternativePresenation(cPresentationChildRef);
-				childRefHandlerSpec.cPresentationMinimized = cPresentationMinimized;
+			if (childHasAlternativePresentation(cPresentationChildRef)) {
+				var cAlternativePresentation = getAlternativePresenation(cPresentationChildRef);
+				childRefHandlerSpec.cAlternativePresentation = cAlternativePresentation;
 			}
 
 			var pChildRefHandler = dependencies.pChildRefHandlerFactory.factor(childRefHandlerSpec);
@@ -211,19 +211,19 @@ var CORA = (function(cora) {
 			return pChildRefHandler.getView();
 		}
 
-		function childHasMinimizedPresentation(cChildRef) {
+		function childHasAlternativePresentation(cChildRef) {
 			return cChildRef.getNoOfChildrenWithNameInData("refGroup") === 2;
 		}
 
 		function getAlternativePresenation(cPresentationChildRef) {
-			var cPresRefMinGroup = CORA.coraData(cPresentationChildRef
+			var cAlternativePresRefGroup = CORA.coraData(cPresentationChildRef
 					.getChildByNameInDataAndIndex("refGroup", 1));
 
-			var cPresRefMinimizedGroup = CORA.coraData(cPresRefMinGroup
+			var cAlternativePresRef = CORA.coraData(cAlternativePresRefGroup
 					.getFirstChildByNameInData("ref"));
-			var presRefMinimized = cPresRefMinimizedGroup
+			var alternativePresRefId = cAlternativePresRef
 					.getFirstAtomicValueByNameInData("linkedRecordId");
-			return getMetadataById(presRefMinimized);
+			return getMetadataById(alternativePresRefId);
 		}
 
 		function getMetadataById(id) {

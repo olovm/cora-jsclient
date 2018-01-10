@@ -159,7 +159,7 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataController", fu
 	var childRefHandler = pGroupView.childNodes[1];
 
 	var pVarView = childRefHandler.firstChild.firstChild.firstChild;
-	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId maximized");
+	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId default");
 	var input = pVarView.firstChild;
 	assert.deepEqual(input.value, "");
 
@@ -208,7 +208,7 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerTwoLe
 	var childRefHandler2 = pGroupView.childNodes[2];
 
 	var pVarView = childRefHandler2.firstChild.firstChild.firstChild;
-	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId maximized");
+	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId default");
 	var input = pVarView.firstChild;
 	assert.deepEqual(input.value, "");
 
@@ -270,7 +270,7 @@ QUnit.test("testIntegrateRepeatingContainer",
 			var repeatingElement = childrenView.firstChild;
 			var pVarView = repeatingElement.firstChild;
 			assert.deepEqual(pVarView.className,
-					"pRepeatingContainer pTextVariableIdRContainer maximized");
+					"pRepeatingContainer pTextVariableIdRContainer default");
 		});
 
 QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurroundingC", function(
@@ -300,13 +300,13 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurro
 	var childrenView = childRefHandler1.firstChild;
 	var repeatingElement = childrenView.firstChild;
 	var pVarView = repeatingElement.firstChild;
-	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId maximized");
+	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId default");
 
 	var childRefHandler2 = surroundingContainer.childNodes[3];
 	var childrenView2 = childRefHandler2.firstChild;
 	var repeatingElement2 = childrenView2.firstChild;
 	var pVarView2 = repeatingElement2.firstChild;
-	assert.deepEqual(pVarView2.className, "pVar pVarTextVariableId2 maximized");
+	assert.deepEqual(pVarView2.className, "pVar pVarTextVariableId2 default");
 });
 
  QUnit.test("testIntegrateSurroundingContainerInSurroundingContainer", function(assert) {
@@ -341,11 +341,11 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurro
 	var childrenView = childRefHandler1.firstChild;
 	var repeatingElement = childrenView.firstChild;
 	var pVarView = repeatingElement.firstChild;
-	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId maximized");
+	assert.deepEqual(pVarView.className, "pVar pVarTextVariableId default");
 
 	var childRefHandler2 = surroundingContainerLevel2.childNodes[3];
 	var childrenView2 = childRefHandler2.firstChild;
 	var repeatingElement2 = childrenView2.firstChild;
 	var pVarView2 = repeatingElement2.firstChild;
-	assert.deepEqual(pVarView2.className, "pVar pVarTextVariableId2 maximized");
+	assert.deepEqual(pVarView2.className, "pVar pVarTextVariableId2 default");
 });

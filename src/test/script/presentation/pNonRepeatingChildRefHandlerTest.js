@@ -47,8 +47,7 @@ QUnit.module("pNonRepeatingChildRefHandlerTest.js", {
 							"value" : "presentationSurroundingContainer"
 						} ]
 					} ]
-				}
-				]
+				} ]
 			}),
 			"cParentPresentation" : {
 				type : "fakeCParentPresentationObject"
@@ -90,6 +89,10 @@ QUnit.test("testInitCreatesPresentation",
 			assert.strictEqual(factoredPresentationSpec.cPresentation, this.spec.cPresentation);
 			assert.strictEqual(factoredPresentationSpec.cParentPresentation,
 					this.spec.cParentPresentation);
+			
+			var factoredAlternativePresentationSpec = this.dependencies.presentationFactory.getSpec(1);
+			assert.strictEqual(factoredAlternativePresentationSpec, undefined
+					);
 		});
 
 QUnit.test("testInitPresentationAddedToView", function(assert) {
@@ -123,4 +126,94 @@ QUnit.test("testViewSpec", function(assert) {
 		childStyle : "someChildStyle"
 	}
 	assert.stringifyEqual(viewSpec, expectedSpec);
+});
+
+//QUnit.test("testAlternativePresentation", function(assert) {
+//	this.spec.cAlternativePresentation = CORA.coraData({
+//		"name" : "presentation",
+//		"children" : [ {
+//			"name" : "recordInfo",
+//			"children" : [ {
+//				"name" : "id",
+//				"value" : "someOtherPresentationId"
+//			}, {
+//				"name" : "type",
+//				"children" : [ {
+//					"name" : "linkedRecordType",
+//					"value" : "recordType"
+//				}, {
+//					"name" : "linkedRecordId",
+//					"value" : "presentationOtherSurroundingContainer"
+//				} ]
+//			} ]
+//		} ]
+//	});
+//	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+//			this.spec);
+//
+//	var viewSpec = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getSpec(0);
+//	var expectedSpec = {
+//		presentationId : "somePresentationId"
+//	}
+//	assert.stringifyEqual(viewSpec, expectedSpec);
+//});
+QUnit.test("testInitWithAlternativeCreatesPresentation",
+		function(assert) {
+	this.spec.cAlternativePresentation = CORA.coraData({
+		"name" : "presentation",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "id",
+				"value" : "someOtherPresentationId"
+			}, {
+				"name" : "type",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "recordType"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "presentationOtherSurroundingContainer"
+				} ]
+			} ]
+		} ]
+	});
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+					this.spec);
+			var factoredPresentationSpec = this.dependencies.presentationFactory.getSpec(1);
+
+			assert.strictEqual(factoredPresentationSpec.path, this.spec.parentPath);
+			assert.strictEqual(factoredPresentationSpec.metadataIdUsedInData,
+					this.spec.parentMetadataId);
+			assert.strictEqual(factoredPresentationSpec.cPresentation, this.spec.cAlternativePresentation);
+			assert.strictEqual(factoredPresentationSpec.cParentPresentation,
+					this.spec.cParentPresentation);
+		});
+
+QUnit.test("testInitPresentationAddedToView", function(assert) {
+	this.spec.cAlternativePresentation = CORA.coraData({
+		"name" : "presentation",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "id",
+				"value" : "someOtherPresentationId"
+			}, {
+				"name" : "type",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "recordType"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "presentationOtherSurroundingContainer"
+				} ]
+			} ]
+		} ]
+	});var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var factoredPresentation = this.dependencies.presentationFactory.getFactored(1);
+
+	var addedView = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0)
+			.getAddedAlternativeChild(0);
+	assert.strictEqual(factoredPresentation.getView(), addedView);
 });

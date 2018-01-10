@@ -306,7 +306,7 @@ QUnit.test("testInitOneChildMinimized",
 			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
 			assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 					"pgGroupIdOneTextChildMinimized");
-			assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
+			assert.strictEqual(this.getId(factoredSpec.cAlternativePresentation),
 					"pVarTextVariableIdOutput");
 			assert.strictEqual(factoredSpec.minimizedDefault, undefined);
 		});
@@ -327,5 +327,5 @@ QUnit.test("testInitOneChildMinimizedDefault", function(assert) {
 	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
 	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 			"pgGroupIdOneTextChildMinimizedDefault");
-	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized), "pVarTextVariableId");
+	assert.strictEqual(this.getId(factoredSpec.cAlternativePresentation), "pVarTextVariableId");
 });

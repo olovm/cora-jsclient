@@ -86,7 +86,7 @@ QUnit.test("testFirstPChildRefHandlerSpec",
 			assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
 			assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 					"pgGroupIdOneTextChildMinimized");
-			assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
+			assert.strictEqual(this.getId(factoredSpec.cAlternativePresentation),
 					"pVarTextVariableIdOutput");
 			assert.strictEqual(factoredSpec.minimizedDefault, undefined);
 
@@ -109,7 +109,7 @@ QUnit.test("testFirstMinimizedDefaultPChildRefHandlerSpec", function(assert) {
 	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
 	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 			"pgGroupIdOneTextChildMinimized");
-	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized), "pVarTextVariableId");
+	assert.strictEqual(this.getId(factoredSpec.cAlternativePresentation), "pVarTextVariableId");
 
 	assert.strictEqual(factoredSpec.textStyle, "h5TextStyle");
 	assert.strictEqual(factoredSpec.childStyle, "twoChildStyle");
@@ -130,7 +130,7 @@ QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfo", function(assert) {
 	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
 	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 			"pgGroupIdOneTextChildMinimized");
-	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized), "pVarTextVariableId");
+	assert.strictEqual(this.getId(factoredSpec.cAlternativePresentation), "pVarTextVariableId");
 
 	assert.strictEqual(factoredSpec.textStyle, undefined);
 	assert.strictEqual(factoredSpec.childStyle, undefined);
@@ -158,7 +158,7 @@ QUnit
 							"pVarTextVariableIdOutput");
 					assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 							"pgGroupIdOneTextChildMinimized");
-					assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
+					assert.strictEqual(this.getId(factoredSpec.cAlternativePresentation),
 							"pVarTextVariableId");
 
 					assert.strictEqual(factoredSpec.textStyle, undefined);
@@ -231,7 +231,7 @@ QUnit.test("testPNonRepeatingChildRefHandlerSpec", function(assert) {
 	assert.strictEqual(factoredSpec.parentMetadataId, "groupIdTwoTextChildRepeat1to5");
 	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pTextVariablePlus2SContainer");
 	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "groupWithSContainerPGroup");
-	assert.strictEqual(factoredSpec.cPresentationMinimized, undefined);
+	assert.strictEqual(factoredSpec.cAlternativePresentation, undefined);
 
 	var factored = this.dependencies.pNonRepeatingChildRefHandlerFactory.getFactored(0)
 	assert.strictEqual(view.childNodes[1], factored.getView());
@@ -254,7 +254,7 @@ QUnit.test("testPNonRepeatingChildRefHandlerSpecWithMinimized", function(assert)
 	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
 	assert.strictEqual(factoredSpec.parentMetadataId, "groupIdTwoTextChildRepeat1to5");
 	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pTextVariablePlus2SContainer");
-	assert.strictEqual(this.getId(factoredSpec.cPresentationMinimized),
+	assert.strictEqual(this.getId(factoredSpec.cAlternativePresentation),
 			"pTextVariablePlus2SContainer2");
 	assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 			"groupWithSContainerAndAlternativeSContainerPGroup");

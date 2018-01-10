@@ -20,6 +20,7 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.pNonRepeatingChildRefHandlerViewSpy = function(dependencies, spec) {
 		var addedChildren = [];
+		var addedAlternativeChildren = [];
 //		var removedChildren = [];
 //		var movedChildren = [];
 		var view = CORA.gui.createSpanWithClassName("pNonRepeatingChildRefHandlerViewSpyView");
@@ -46,6 +47,12 @@ var CORATEST = (function(coraTest) {
 		}
 		function getAddedChild(number) {
 			return addedChildren[number];
+		}
+		function addAlternativeChild(childToAdd) {
+			addedAlternativeChildren.push(childToAdd);
+		}
+		function getAddedAlternativeChild(number) {
+			return addedAlternativeChildren[number];
 		}
 //		function removeChild(childToAdd) {
 //			removedChildren.push(childToAdd);
@@ -107,9 +114,11 @@ var CORATEST = (function(coraTest) {
 			getSpec : getSpec,
 			getView : getView,
 			addChild : addChild,
+			getAddedChild : getAddedChild,
+			addAlternativeChild : addAlternativeChild,
+			getAddedAlternativeChild : getAddedAlternativeChild,
 //			removeChild : removeChild,
 //			getRemovedChild : getRemovedChild,
-			getAddedChild : getAddedChild,
 //			moveChild : moveChild,
 //			getMovedChild : getMovedChild,
 //			showButtonView : showButtonView,

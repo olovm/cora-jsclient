@@ -32,10 +32,10 @@ var CORA = (function(cora) {
 		var view = createBaseView();
 		var removeButton;
 		var dragButton;
-		var presentationMaximized;
-		var presentationMinimized;
-		var maximizeButton;
-		var minimizeButton;
+		var alternativePresentation;
+		var defaultPresentation;
+		var alternativeButton;
+		var defaultButton;
 
 		var buttonView = createButtonView();
 
@@ -113,54 +113,54 @@ var CORA = (function(cora) {
 			return view;
 		}
 
-		function addPresentation(presentation) {
-			presentationMaximized = presentation.getView();
-			presentationMaximized.className = presentationMaximized.className + " maximized";
-			view.insertBefore(presentationMaximized, buttonView);
+		function addPresentation(defaultPresentationIn) {
+			defaultPresentation = defaultPresentationIn.getView();
+			defaultPresentation.className = defaultPresentation.className + " default";
+			view.insertBefore(defaultPresentation, buttonView);
 			view.className = "repeatingElement";
 		}
 
-		function addPresentationMinimized(presentationMinimizedIn) {
-			presentationMinimized = presentationMinimizedIn.getView();
-			presentationMinimized.className = presentationMinimized.className + " minimized";
-			view.insertBefore(presentationMinimized, buttonView);
-			createMinimizeMaximizeButtons();
-			toggleMinimizedShown("false");
+		function addAlternativePresentation(presentation) {
+			alternativePresentation = presentation.getView();
+			alternativePresentation.className = alternativePresentation.className + " alternative";
+			view.insertBefore(alternativePresentation, buttonView);
+			createDefaultAndAlternativeButtons();
+			toggleDefaultShown("true");
 		}
 
-		function toggleMinimizedShown(minimizedShown) {
-			if (minimizedShown !== undefined && minimizedShown === "true") {
-				hide(presentationMaximized);
-				show(presentationMinimized);
-				show(maximizeButton);
-				hide(minimizeButton);
+		function toggleDefaultShown(defaultShown) {
+			if (defaultShown !== undefined && defaultShown === "true") {
+				hide(alternativePresentation);
+				show(defaultPresentation);
+				show(alternativeButton);
+				hide(defaultButton);
 			} else {
-				show(presentationMaximized);
-				hide(presentationMinimized);
-				hide(maximizeButton);
-				show(minimizeButton);
+				show(alternativePresentation);
+				hide(defaultPresentation);
+				hide(alternativeButton);
+				show(defaultButton);
 			}
 		}
 
-		function createMinimizeMaximizeButtons() {
-			maximizeButton = CORA.gui.createSpanWithClassName("iconButton maximizeButton");
-			maximizeButton.onclick = function() {
-				toggleMinimizedShown("false");
+		function createDefaultAndAlternativeButtons() {
+			alternativeButton = CORA.gui.createSpanWithClassName("iconButton alternativeButton");
+			alternativeButton.onclick = function() {
+				toggleDefaultShown("false");
 			};
 			if (dragButton !== undefined) {
-				buttonView.insertBefore(maximizeButton, dragButton);
+				buttonView.insertBefore(alternativeButton, dragButton);
 			} else {
-				buttonView.appendChild(maximizeButton);
+				buttonView.appendChild(alternativeButton);
 			}
 
-			minimizeButton = CORA.gui.createSpanWithClassName("iconButton minimizeButton");
-			minimizeButton.onclick = function() {
-				toggleMinimizedShown("true");
+			defaultButton = CORA.gui.createSpanWithClassName("iconButton defaultButton");
+			defaultButton.onclick = function() {
+				toggleDefaultShown("true");
 			};
 			if (dragButton !== undefined) {
-				buttonView.insertBefore(minimizeButton, dragButton);
+				buttonView.insertBefore(defaultButton, dragButton);
 			} else {
-				buttonView.appendChild(minimizeButton);
+				buttonView.appendChild(defaultButton);
 			}
 		}
 
@@ -207,7 +207,7 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getView : getView,
 			addPresentation : addPresentation,
-			addPresentationMinimized : addPresentationMinimized,
+			addAlternativePresentation : addAlternativePresentation,
 			hideRemoveButton : hideRemoveButton,
 			showRemoveButton : showRemoveButton,
 			hideDragButton : hideDragButton,

@@ -22,8 +22,9 @@ var CORA = (function(cora) {
 		var view;
 		function start() {
 			createView();
-			var factoredPresentation = factorPresentation();
+			var factoredPresentation = factorPresentation(spec.cPresentation);
 			view.addChild(factoredPresentation.getView());
+			possiblyAddAlternativePresentation();
 		}
 
 		function createView() {
@@ -40,14 +41,21 @@ var CORA = (function(cora) {
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
 
-		function factorPresentation() {
+		function factorPresentation(cPresentation) {
 			var presentationSpec = {
 				path : spec.parentPath,
 				metadataIdUsedInData : spec.parentMetadataId,
-				cPresentation : spec.cPresentation,
+				cPresentation : cPresentation,
 				cParentPresentation : spec.cParentPresentation
 			};
 			return dependencies.presentationFactory.factor(presentationSpec);
+		}
+
+		function possiblyAddAlternativePresentation() {
+			if (spec.cAlternativePresentation !== undefined) {
+				var factoredAlternativePresentation = factorPresentation(spec.cAlternativePresentation);
+				view.addAlternativeChild(factoredAlternativePresentation.getView());
+			}
 		}
 
 		function getView() {

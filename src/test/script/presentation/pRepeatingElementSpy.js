@@ -51,7 +51,7 @@ var CORATEST = (function(coraTest) {
 		function getPresentation() {
 			return presentation;
 		}
-		function addPresentationMinimized(presentationIn, minimizedDefaultIn) {
+		function addAlternativePresentation(presentationIn, minimizedDefaultIn) {
 			presentationMinimized = presentationIn;
 			minimizedDefault = minimizedDefaultIn;
 		}
@@ -93,7 +93,7 @@ var CORATEST = (function(coraTest) {
 			ondragenter : ondragenter,
 			setParentModelObject : setParentModelObject,
 			addPresentation : addPresentation,
-			addPresentationMinimized : addPresentationMinimized,
+			addAlternativePresentation : addAlternativePresentation,
 			hideRemoveButton : hideRemoveButton,
 			showRemoveButton : showRemoveButton,
 			hideDragButton : hideDragButton,
