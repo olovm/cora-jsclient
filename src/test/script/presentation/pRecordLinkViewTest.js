@@ -371,12 +371,15 @@ QUnit.test("testAddSearchHandlerView", function(assert) {
 QUnit.test("testHideSearchHandlerView", function(assert) {
 	var fakeSearchHandlerView = this.createFakeSearchHandlerView();
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
+	var view = pRecordLinkView.getView();
 
 	pRecordLinkView.addSearchHandlerView(fakeSearchHandlerView);
+	assert.strictEqual(view.contains(fakeSearchHandlerView), true);
+	
 	pRecordLinkView.hideSearchHandlerView();
 
-	var view = pRecordLinkView.getView();
 	assert.strictEqual(view.contains(fakeSearchHandlerView), false);
+	pRecordLinkView.hideSearchHandlerView();
 });
 
 QUnit.test("testHideNonExistingSearchHandlerView", function(assert) {
