@@ -49,27 +49,32 @@ var CORA = (function(cora) {
 				cParentPresentation : spec.cParentPresentation
 			};
 			//
+			console.log("factor Presentation:", spec.parentMetadataId)
 			subscribeToStuff(cPresentation);
 			//
 			return dependencies.presentationFactory.factor(presentationSpec);
 		}
 		//
 		var initCompleteSubscriptionId;
-		
+		var topLevelMetadataIds = {};
 		function subscribeToStuff(cPresentation) {
-			var cPresentationsOf = CORA.coraData(cPresentation.getFirstChildByNameInData("presentationsOf"));
-			var listPresentationOf= cPresentationsOf.getChildrenByNameInData("presentationOf");
+			var cPresentationsOf = CORA.coraData(cPresentation
+					.getFirstChildByNameInData("presentationsOf"));
+			var listPresentationOf = cPresentationsOf.getChildrenByNameInData("presentationOf");
 			listPresentationOf.forEach(function(child) {
-//				currentMaxRepeatId = calculateMaxRepeatFromChildAndCurrentMaxRepeat(child,
-//						currentMaxRepeatId);
-//				console.log("metadataId", child.value);
-//				console.log("repeatId", child.repeatId);
-				var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(child.value, child.repeatId,  spec.parentPath);
-				console.log("newPath", newPath);
-				dependencies.pubSub.subscribe("*", newPath, undefined, handleMsg);
+				// currentMaxRepeatId = calculateMaxRepeatFromChildAndCurrentMaxRepeat(child,
+				// currentMaxRepeatId);
+				// console.log("metadataId", child.value);
+				// console.log("repeatId", child.repeatId);
+				topLevelMetadataIds[child.value] = "exists";
+//				var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(child.value,
+//						child.repeatId, spec.parentPath);
+//				console.log("newPath", newPath);
+//				dependencies.pubSub.subscribe("*", newPath, undefined, handleMsg);
 			})
-//			dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
-//			dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
+			dependencies.pubSub.subscribe("add", spec.parentPath, undefined, subscribeMsg);
+			// dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
+			// dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
 			initCompleteSubscriptionId = "";
 			if (spec.minNumberOfRepeatingToShow !== undefined) {
 				initCompleteSubscriptionId = dependencies.pubSub.subscribe("initComplete", {},
@@ -101,11 +106,35 @@ var CORA = (function(cora) {
 			console.log("msg", msg);
 			console.log("dataFromMsg", dataFromMsg);
 		}
-		function messageIsHandledByThisPChildRefHandler(dataFromMsg) {
-			if (metadataIdSameAsInMessage(dataFromMsg)) {
+		function handleMsg2(dataFromMsg, msg) {
+			// if (messageIsHandledByThisPChildRefHandler(dataFromMsg)) {
+			// processMsg(dataFromMsg, msg);
+			// }
+			console.log("msg2", msg);
+			console.log("dataFromMsg2", dataFromMsg);
+		}
+		function subscribeMsg(dataFromMsg, msg) {
+			if (messageIsHandledByThisPNonRepeatingChildRefHandler(dataFromMsg)) {
+				// processMsg(dataFromMsg, msg);
+				// }
+				console.log("msg", msg);
+				// console.log("dataFromMsg", dataFromMsg);
+				// TODO: we are here
+				var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(
+						dataFromMsg.metadataId, dataFromMsg.repeatId, spec.parentPath);
+				console.log("newPathAdding:", newPath);
+				dependencies.pubSub.subscribe("*", newPath, undefined, handleMsg2);
+			}
+		}
+		function messageIsHandledByThisPNonRepeatingChildRefHandler(dataFromMsg) {
+			// if (metadataIdSameAsInMessage(dataFromMsg)) {
+			// return true;
+			// }
+			// return shouldPresentData(dataFromMsg.nameInData, dataFromMsg.attributes);
+			if (topLevelMetadataIds[dataFromMsg.metadataId] !== undefined) {
 				return true;
 			}
-			return shouldPresentData(dataFromMsg.nameInData, dataFromMsg.attributes);
+			return false;
 		}
 
 		function metadataIdSameAsInMessage(dataFromMsg) {
