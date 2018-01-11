@@ -129,7 +129,8 @@ var CORA = (function(cora) {
 			}
 			if (childIsSurroundingContainer(cPresentationChild)) {
 				// console.log(JSON.stringify(cPresentationChild.getData()))
-				return createSurroundingContainer(cPresentationChild, cPresentationChildRef);
+				var pNonRepeatingChildRefHandler = createPNonRepeatingChildRefHandler(cPresentationChild, cPresentationChildRef);
+				return pNonRepeatingChildRefHandler.getView();
 			}
 			return createPChildRefHandler(cPresentationChild, cPresentationChildRef);
 		}
@@ -155,12 +156,6 @@ var CORA = (function(cora) {
 
 		function childIsSurroundingContainer(cPresentationChild) {
 			return "children" === cPresentationChild.getData().attributes.repeat;
-		}
-
-		function createSurroundingContainer(cPresentationChild, cPresentationChildRef) {
-			var pNonRepeatingChildRefHandler = createPNonRepeatingChildRefHandler(
-					cPresentationChild, cPresentationChildRef);
-			return pNonRepeatingChildRefHandler.getView();
 		}
 
 		function createPNonRepeatingChildRefHandler(cPresentationChild, cPresentationChildRef) {

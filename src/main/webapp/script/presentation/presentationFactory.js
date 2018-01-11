@@ -68,7 +68,9 @@ var CORA = (function(cora) {
 			var pNonRepeatingChildRefHandlerFactoryDependencies = {
 				"presentationFactory" : self,
 				"pNonRepeatingChildRefHandlerViewFactory" : CORA
-						.genericFactory("pNonRepeatingChildRefHandlerView")
+						.genericFactory("pNonRepeatingChildRefHandlerView"),
+				pubSub : dependencies.pubSub,
+				providers : dependencies.providers
 			};
 
 			var pNonRepeatingChildRefHandlerFactory = CORA

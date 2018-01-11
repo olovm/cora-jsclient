@@ -48,8 +48,83 @@ var CORA = (function(cora) {
 				cPresentation : cPresentation,
 				cParentPresentation : spec.cParentPresentation
 			};
+			//
+			subscribeToStuff(cPresentation);
+			//
 			return dependencies.presentationFactory.factor(presentationSpec);
 		}
+		//
+		var initCompleteSubscriptionId;
+		
+		function subscribeToStuff(cPresentation) {
+			var cPresentationsOf = CORA.coraData(cPresentation.getFirstChildByNameInData("presentationsOf"));
+			var listPresentationOf= cPresentationsOf.getChildrenByNameInData("presentationOf");
+			listPresentationOf.forEach(function(child) {
+//				currentMaxRepeatId = calculateMaxRepeatFromChildAndCurrentMaxRepeat(child,
+//						currentMaxRepeatId);
+//				console.log("metadataId", child.value);
+//				console.log("repeatId", child.repeatId);
+				var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(child.value, child.repeatId,  spec.parentPath);
+				console.log("newPath", newPath);
+				dependencies.pubSub.subscribe("*", newPath, undefined, handleMsg);
+			})
+//			dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
+//			dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
+			initCompleteSubscriptionId = "";
+			if (spec.minNumberOfRepeatingToShow !== undefined) {
+				initCompleteSubscriptionId = dependencies.pubSub.subscribe("initComplete", {},
+						undefined, initComplete);
+			}
+		}
+		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
+				parentPath) {
+			var pathSpec = {
+				"metadataProvider" : dependencies.providers.metadataProvider,
+				"metadataIdToAdd" : metadataIdToAdd,
+				"repeatId" : repeatId,
+				"parentPath" : parentPath
+			};
+			return CORA.calculatePathForNewElement(pathSpec);
+		}
+		function initComplete() {
+			unsubscribeFromInitComplete();
+			possiblyAddUpToMinNumberOfRepeatingToShow();
+		}
+
+		function unsubscribeFromInitComplete() {
+			dependencies.pubSub.unsubscribe(initCompleteSubscriptionId);
+		}
+		function handleMsg(dataFromMsg, msg) {
+			// if (messageIsHandledByThisPChildRefHandler(dataFromMsg)) {
+			// processMsg(dataFromMsg, msg);
+			// }
+			console.log("msg", msg);
+			console.log("dataFromMsg", dataFromMsg);
+		}
+		function messageIsHandledByThisPChildRefHandler(dataFromMsg) {
+			if (metadataIdSameAsInMessage(dataFromMsg)) {
+				return true;
+			}
+			return shouldPresentData(dataFromMsg.nameInData, dataFromMsg.attributes);
+		}
+
+		function metadataIdSameAsInMessage(dataFromMsg) {
+			return metadataId === dataFromMsg.metadataId;
+		}
+
+		function shouldPresentData(nameInDataFromMsg, attributesFromMsg) {
+			if (nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg)) {
+				return false;
+			}
+			return metadataHelper.firstAttributesExistsInSecond(attributesFromMsg,
+					collectedAttributes);
+		}
+
+		function nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg) {
+			return nameInDataFromMsg !== cMetadataElement
+					.getFirstAtomicValueByNameInData("nameInData");
+		}
+		//
 
 		function possiblyAddAlternativePresentation() {
 			if (spec.cAlternativePresentation !== undefined) {
