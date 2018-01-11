@@ -188,7 +188,7 @@ var CORA = (function(cora) {
 		}
 
 		function hideSearchHandlerView() {
-			if (searchIsAdded()) {
+			if (searchIsAdded() && searchHandlerShown) {
 				view.removeChild(addedSearchHandlerView);
 				searchHandlerShown = false;
 			}
