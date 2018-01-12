@@ -63,7 +63,8 @@ var CORA = (function(cora) {
 				"extraClassName" : "recordHandler",
 				"showDataMethod" : showData,
 				"copyDataMethod" : copyData,
-				"showIncomingLinksMethod" : showIncomingLinks
+				"showIncomingLinksMethod" : showIncomingLinks,
+				"reIndexMethod" : reIndex
 			};
 			return dependencies.recordHandlerViewFactory.factor(recordHandlerViewSpec);
 		}
@@ -443,6 +444,15 @@ var CORA = (function(cora) {
 			recordHandlerView.addToIncomingLinksView(incomingLinksListHandler.getView());
 		}
 
+		function reIndex() {
+//			var illhSpec = {
+//					"read_incoming_links" : fetchedRecord.actionLinks.read_incoming_links
+//			};
+//			var incomingLinksListHandler = dependencies.globalFactories.incomingLinksListHandlerFactory
+//			.factor(illhSpec);
+//			recordHandlerView.addToIncomingLinksView(incomingLinksListHandler.getView());
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -467,7 +477,8 @@ var CORA = (function(cora) {
 			shouldRecordBeDeleted : shouldRecordBeDeleted,
 			getManagedGuiItem : getManagedGuiItem,
 			reloadForMetadataChanges : reloadForMetadataChanges,
-			showIncomingLinks : showIncomingLinks
+			showIncomingLinks : showIncomingLinks,
+			reIndex : reIndex
 		});
 		return out;
 	};

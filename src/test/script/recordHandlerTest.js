@@ -182,6 +182,7 @@ QUnit.test("testInitRecordHandlerViewSpec", function(assert) {
 	assert.strictEqual(usedSpec.showDataMethod, recordHandler.showData);
 	assert.strictEqual(usedSpec.copyDataMethod, recordHandler.copyData);
 	assert.strictEqual(usedSpec.showIncomingLinksMethod, recordHandler.showIncomingLinks);
+	assert.strictEqual(usedSpec.reIndexMethod, recordHandler.reIndex);
 });
 
 QUnit.test("testInitRecordHandlerViewFormFactoredAndAdded", function(assert) {

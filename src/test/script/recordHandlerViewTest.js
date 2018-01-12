@@ -32,6 +32,8 @@ QUnit.module("recordHandlerViewTest.js", {
 			"copyDataMethod" : function() {
 			},
 			"showIncomingLinksMethod" : function() {
+			},
+			"reIndexMethod" : function() {
 			}
 		};
 		this.specWithoutShowIncomingLinks = {
@@ -89,6 +91,7 @@ QUnit.test("init", function(assert) {
 	var incomingLinksView = workItemViewSpy.getViewsAddedToView(3);
 	assert.strictEqual(incomingLinksView.nodeName, "SPAN");
 	assert.strictEqual(incomingLinksView.className, "incomingLinksView");
+	
 });
 
 QUnit.test("testGetView", function(assert) {
@@ -253,3 +256,31 @@ QUnit.test("testAddShowNoIncomingLinksButton", function(assert) {
 	assert.strictEqual(this.getButtonView().childNodes.length, 0);
 	
 });
+
+QUnit.test("testAddShowReIndexButton", function(assert) {
+	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
+	var someView = document.createElement("span");
+	assert.strictEqual(this.getButtonView().childNodes.length, 0);
+
+	this.recordHandlerView.showReIndexButton();
+
+	assert.strictEqual(this.getButtonView().childNodes.length, 1);
+	var reIndexButton = this.getButtonView().childNodes[0];
+	assert.strictEqual(reIndexButton.value, "REINDEX");
+	assert.strictEqual(reIndexButton.onclick, this.spec.reIndexMethod);
+	assert.strictEqual(reIndexButton.className, "reIndex");
+});
+
+QUnit.test("testAddShowNoReIndexButton", function(assert) {
+	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
+	var someView = document.createElement("span");
+	assert.strictEqual(this.getButtonView().childNodes.length, 0);
+
+	this.recordHandlerView.showReIndexButton();
+	assert.strictEqual(this.getButtonView().childNodes.length, 1);
+
+	this.recordHandlerView.hideReIndexButton();
+	assert.strictEqual(this.getButtonView().childNodes.length, 0);
+	
+});
+
