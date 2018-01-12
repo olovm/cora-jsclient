@@ -34,6 +34,7 @@ QUnit.module("pNonRepeatingChildRefHandlerTest.js", {
 		this.spec = {
 			"parentPath" : {},
 			"parentMetadataId" : "someParentMetadataId",
+			mode : "input",
 			"cPresentation" : CORA.coraData({
 				"name" : "presentation",
 				"children" : [ {
@@ -54,9 +55,15 @@ QUnit.module("pNonRepeatingChildRefHandlerTest.js", {
 				}, {
 					"name" : "presentationsOf",
 					"children" : [ {
-						"name" : "presentationOf",
-						"value" : "groupWithOneCollectionVarChildGroup",
-						"repeatId" : "0"
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "metadata"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "groupWithOneCollectionVarChildGroup"
+						} ],
+						"name" : "presentationOf"
 					} ]
 				} ]
 			}),
@@ -116,6 +123,22 @@ QUnit.test("testInitPresentationAddedToView", function(assert) {
 	assert.strictEqual(factoredPresentation.getView(), addedView);
 });
 
+QUnit.test("testInitOutputDefaultsHidesContent", function(assert) {
+	this.spec.mode = "output";
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+});
+
+QUnit.test("testInitOutputDefaultsSetsStyleToNoContent", function(assert) {
+	this.spec.mode = "output";
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+});
+
 QUnit.test("testGetView", function(assert) {
 	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
 			this.spec);
@@ -161,9 +184,15 @@ QUnit.test("testInitWithAlternativeCreatesPresentation",
 				}, {
 					"name" : "presentationsOf",
 					"children" : [ {
-						"name" : "presentationOf",
-						"value" : "groupWithOneCollectionVarChildGroup",
-						"repeatId" : "0"
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "metadata"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "groupWithOneCollectionVarChildGroup"
+						} ],
+						"name" : "presentationOf"
 					} ]
 				} ]
 			});
@@ -201,9 +230,15 @@ QUnit.test("testInitPresentationAddedToView", function(assert) {
 		}, {
 			"name" : "presentationsOf",
 			"children" : [ {
-				"name" : "presentationOf",
-				"value" : "groupWithOneCollectionVarChildGroup",
-				"repeatId" : "0"
+				"repeatId" : "0",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadata"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "groupWithOneCollectionVarChildGroup"
+				} ],
+				"name" : "presentationOf"
 			} ]
 		} ]
 	});
@@ -214,4 +249,138 @@ QUnit.test("testInitPresentationAddedToView", function(assert) {
 	var addedView = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0)
 			.getAddedAlternativeChild(0);
 	assert.strictEqual(factoredPresentation.getView(), addedView);
+});
+
+QUnit.test("testInitSubscribesToAdd", function(assert) {
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+
+	var subscriptions = this.dependencies.pubSub.getSubscriptions();
+	assert.strictEqual(subscriptions.length, 1)
+	assert.strictEqual(subscriptions[0].type, "add");
+	assert.stringifyEqual(subscriptions[0].path, this.spec.parentPath);
+	assert.strictEqual(subscriptions[0].context, undefined);
+	assert.strictEqual(subscriptions[0].functionToCall, pNonRepeatingChildRefHandler.subscribeMsg);
+});
+
+QUnit.test("testSubscribesWhenAdd", function(assert) {
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+
+	var msg = "root/add";
+	var dataFromMsg = {
+		"metadataId" : "groupWithOneCollectionVarChildGroup",
+		"path" : {},
+		"repeatId" : "1",
+		"nameInData" : "groupWithOneCollectionVarChildGroup"
+	};
+	var subscriptions = this.dependencies.pubSub.getSubscriptions();
+	assert.strictEqual(subscriptions.length, 1)
+
+	pNonRepeatingChildRefHandler.subscribeMsg(dataFromMsg, msg);
+	var path = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "groupWithOneCollectionVarChildGroup"
+		}, {
+			"name" : "repeatId",
+			"value" : "1"
+		} ]
+	};
+	assert.strictEqual(subscriptions.length, 2)
+	assert.strictEqual(subscriptions[1].type, "*");
+	assert.stringifyEqual(subscriptions[1].path, path);
+	assert.strictEqual(subscriptions[1].context, undefined);
+	assert.strictEqual(subscriptions[1].functionToCall,
+			pNonRepeatingChildRefHandler.handleMsgToDeterminDataState);
+});
+
+QUnit.test("testSubscribesWhenAddNoSubscriptionForNonHandledMetdataId", function(assert) {
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+
+	var msg = "root/add";
+	var dataFromMsg = {
+		"metadataId" : "groupWithOneCollectionVarChildGroupNotHandled",
+		"path" : {},
+		"repeatId" : "1",
+		"nameInData" : "groupWithOneCollectionVarChildGroup"
+	};
+	var subscriptions = this.dependencies.pubSub.getSubscriptions();
+	assert.strictEqual(subscriptions.length, 1)
+
+	pNonRepeatingChildRefHandler.subscribeMsg(dataFromMsg, msg);
+	assert.strictEqual(subscriptions.length, 1)
+});
+
+QUnit.test("testChangeViewOnMessage", function(assert) {
+	this.spec.mode = "output";
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+
+	var msg = "root/groupWithOneCollectionVarChildGroup.1/someNameInData/setValue";
+	var dataFromMsg = {
+		"data" : "someValue",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupWithOneCollectionVarChildGroup"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "someNameInData"
+				} ]
+			} ]
+		}
+	};
+
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), true);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+});
+
+QUnit.test("testChangeViewOnMessageNotShownForSetValueWithBlankValue", function(assert) {
+	this.spec.mode = "output";
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+	
+	var msg = "root/groupWithOneCollectionVarChildGroup.1/someNameInData/setValue";
+	var dataFromMsg = {
+			"data" : "",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "groupWithOneCollectionVarChildGroup"
+				}, {
+					"name" : "repeatId",
+					"value" : "1"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "someNameInData"
+					} ]
+				} ]
+			}
+	};
+	
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
 });

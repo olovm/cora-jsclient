@@ -165,7 +165,7 @@ var CORA = (function(cora) {
 				"parentMetadataId" : my.metadataId,
 				"cPresentation" : cPresentationChild,
 				"cParentPresentation" : my.cParentPresentation,
-				parentMode : mode
+				mode : mode
 			};
 			if (childHasAlternativePresentation(cPresentationChildRef)) {
 				var cAlternativePresentation = getAlternativePresenation(cPresentationChildRef);

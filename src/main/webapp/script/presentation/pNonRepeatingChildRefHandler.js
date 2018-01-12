@@ -20,11 +20,21 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.pNonRepeatingChildRefHandler = function(dependencies, spec) {
 		var view;
+		var topLevelMetadataIds = {};
+
 		function start() {
 			createView();
+			calculateHandledTopLevelMetadataIds(spec.cPresentation);
+			subscribeToAddMessagesForParentPath();
 			var factoredPresentation = factorPresentation(spec.cPresentation);
 			view.addChild(factoredPresentation.getView());
 			possiblyAddAlternativePresentation();
+			view.setHasDataStyle(false);
+			if (spec.mode === "input") {
+				view.showContent();
+			} else {
+				view.hideContent();
+			}
 		}
 
 		function createView() {
@@ -41,6 +51,17 @@ var CORA = (function(cora) {
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
 
+		function calculateHandledTopLevelMetadataIds(cPresentation) {
+			var cPresentationsOf = CORA.coraData(cPresentation
+					.getFirstChildByNameInData("presentationsOf"));
+			var listPresentationOf = cPresentationsOf.getChildrenByNameInData("presentationOf");
+			listPresentationOf.forEach(function(child) {
+				var presentationOfId = CORA.coraData(child).getFirstAtomicValueByNameInData(
+						"linkedRecordId");
+				topLevelMetadataIds[presentationOfId] = "exists";
+			});
+		}
+
 		function factorPresentation(cPresentation) {
 			var presentationSpec = {
 				path : spec.parentPath,
@@ -48,39 +69,26 @@ var CORA = (function(cora) {
 				cPresentation : cPresentation,
 				cParentPresentation : spec.cParentPresentation
 			};
-			//
-			console.log("factor Presentation:", spec.parentMetadataId)
-			subscribeToStuff(cPresentation);
-			//
 			return dependencies.presentationFactory.factor(presentationSpec);
 		}
-		//
-//		var initCompleteSubscriptionId;
-		var topLevelMetadataIds = {};
-		function subscribeToStuff(cPresentation) {
-			var cPresentationsOf = CORA.coraData(cPresentation
-					.getFirstChildByNameInData("presentationsOf"));
-			var listPresentationOf = cPresentationsOf.getChildrenByNameInData("presentationOf");
-			listPresentationOf.forEach(function(child) {
-				// currentMaxRepeatId = calculateMaxRepeatFromChildAndCurrentMaxRepeat(child,
-				// currentMaxRepeatId);
-				// console.log("metadataId", child.value);
-				// console.log("repeatId", child.repeatId);
-				topLevelMetadataIds[child.value] = "exists";
-//				var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(child.value,
-//						child.repeatId, spec.parentPath);
-//				console.log("newPath", newPath);
-//				dependencies.pubSub.subscribe("*", newPath, undefined, handleMsg);
-			})
+
+		function subscribeToAddMessagesForParentPath() {
 			dependencies.pubSub.subscribe("add", spec.parentPath, undefined, subscribeMsg);
-			// dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
-			// dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
-//			initCompleteSubscriptionId = "";
-//			if (spec.minNumberOfRepeatingToShow !== undefined) {
-//				initCompleteSubscriptionId = dependencies.pubSub.subscribe("initComplete", {},
-//						undefined, initComplete);
-//			}
 		}
+
+		function subscribeMsg(dataFromMsg) {
+			if (messageIsHandledByThisPNonRepeatingChildRefHandler(dataFromMsg)) {
+				var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(
+						dataFromMsg.metadataId, dataFromMsg.repeatId, spec.parentPath);
+				dependencies.pubSub
+						.subscribe("*", newPath, undefined, handleMsgToDeterminDataState);
+			}
+		}
+
+		function messageIsHandledByThisPNonRepeatingChildRefHandler(dataFromMsg) {
+			return topLevelMetadataIds[dataFromMsg.metadataId] !== undefined;
+		}
+
 		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
 				parentPath) {
 			var pathSpec = {
@@ -91,69 +99,13 @@ var CORA = (function(cora) {
 			};
 			return CORA.calculatePathForNewElement(pathSpec);
 		}
-//		function initComplete() {
-//			unsubscribeFromInitComplete();
-//			possiblyAddUpToMinNumberOfRepeatingToShow();
-//		}
-//
-//		function unsubscribeFromInitComplete() {
-//			dependencies.pubSub.unsubscribe(initCompleteSubscriptionId);
-//		}
-		function handleMsg(dataFromMsg, msg) {
-			// if (messageIsHandledByThisPChildRefHandler(dataFromMsg)) {
-			// processMsg(dataFromMsg, msg);
-			// }
-			console.log("msg", msg);
-			console.log("dataFromMsg", dataFromMsg);
-		}
-		function handleMsg2(dataFromMsg, msg) {
-			// if (messageIsHandledByThisPChildRefHandler(dataFromMsg)) {
-			// processMsg(dataFromMsg, msg);
-			// }
-			console.log("msg2", msg);
-			console.log("dataFromMsg2", dataFromMsg);
-		}
-		function subscribeMsg(dataFromMsg, msg) {
-			if (messageIsHandledByThisPNonRepeatingChildRefHandler(dataFromMsg)) {
-				// processMsg(dataFromMsg, msg);
-				// }
-				console.log("msg", msg);
-				// console.log("dataFromMsg", dataFromMsg);
-				// TODO: we are here
-				var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(
-						dataFromMsg.metadataId, dataFromMsg.repeatId, spec.parentPath);
-				console.log("newPathAdding:", newPath);
-				dependencies.pubSub.subscribe("*", newPath, undefined, handleMsg2);
+
+		function handleMsgToDeterminDataState(dataFromMsg, msg) {
+			if (msg.includes("setValue") && dataFromMsg.data !== "") {
+				view.setHasDataStyle(true);
+				view.showContent();
 			}
 		}
-		function messageIsHandledByThisPNonRepeatingChildRefHandler(dataFromMsg) {
-			// if (metadataIdSameAsInMessage(dataFromMsg)) {
-			// return true;
-			// }
-			// return shouldPresentData(dataFromMsg.nameInData, dataFromMsg.attributes);
-			if (topLevelMetadataIds[dataFromMsg.metadataId] !== undefined) {
-				return true;
-			}
-			return false;
-		}
-
-		function metadataIdSameAsInMessage(dataFromMsg) {
-			return metadataId === dataFromMsg.metadataId;
-		}
-
-		function shouldPresentData(nameInDataFromMsg, attributesFromMsg) {
-			if (nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg)) {
-				return false;
-			}
-			return metadataHelper.firstAttributesExistsInSecond(attributesFromMsg,
-					collectedAttributes);
-		}
-
-		function nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg) {
-			return nameInDataFromMsg !== cMetadataElement
-					.getFirstAtomicValueByNameInData("nameInData");
-		}
-		//
 
 		function possiblyAddAlternativePresentation() {
 			if (spec.cAlternativePresentation !== undefined) {
@@ -176,7 +128,9 @@ var CORA = (function(cora) {
 			type : "pNonRepeatingChildRefHandler",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
-			getView : getView
+			getView : getView,
+			subscribeMsg : subscribeMsg,
+			handleMsgToDeterminDataState : handleMsgToDeterminDataState
 		});
 
 		start();
