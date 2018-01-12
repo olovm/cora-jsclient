@@ -229,6 +229,7 @@ QUnit.test("testPNonRepeatingChildRefHandlerSpec", function(assert) {
 
 	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
 	assert.strictEqual(factoredSpec.parentMetadataId, "groupIdTwoTextChildRepeat1to5");
+	assert.strictEqual(factoredSpec.parentMode, "input");
 	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pTextVariablePlus2SContainer");
 	assert.strictEqual(this.getId(factoredSpec.cParentPresentation), "groupWithSContainerPGroup");
 	assert.strictEqual(factoredSpec.cAlternativePresentation, undefined);

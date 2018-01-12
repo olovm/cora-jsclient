@@ -55,7 +55,7 @@ var CORA = (function(cora) {
 			return dependencies.presentationFactory.factor(presentationSpec);
 		}
 		//
-		var initCompleteSubscriptionId;
+//		var initCompleteSubscriptionId;
 		var topLevelMetadataIds = {};
 		function subscribeToStuff(cPresentation) {
 			var cPresentationsOf = CORA.coraData(cPresentation
@@ -75,11 +75,11 @@ var CORA = (function(cora) {
 			dependencies.pubSub.subscribe("add", spec.parentPath, undefined, subscribeMsg);
 			// dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
 			// dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
-			initCompleteSubscriptionId = "";
-			if (spec.minNumberOfRepeatingToShow !== undefined) {
-				initCompleteSubscriptionId = dependencies.pubSub.subscribe("initComplete", {},
-						undefined, initComplete);
-			}
+//			initCompleteSubscriptionId = "";
+//			if (spec.minNumberOfRepeatingToShow !== undefined) {
+//				initCompleteSubscriptionId = dependencies.pubSub.subscribe("initComplete", {},
+//						undefined, initComplete);
+//			}
 		}
 		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
 				parentPath) {
@@ -91,14 +91,14 @@ var CORA = (function(cora) {
 			};
 			return CORA.calculatePathForNewElement(pathSpec);
 		}
-		function initComplete() {
-			unsubscribeFromInitComplete();
-			possiblyAddUpToMinNumberOfRepeatingToShow();
-		}
-
-		function unsubscribeFromInitComplete() {
-			dependencies.pubSub.unsubscribe(initCompleteSubscriptionId);
-		}
+//		function initComplete() {
+//			unsubscribeFromInitComplete();
+//			possiblyAddUpToMinNumberOfRepeatingToShow();
+//		}
+//
+//		function unsubscribeFromInitComplete() {
+//			dependencies.pubSub.unsubscribe(initCompleteSubscriptionId);
+//		}
 		function handleMsg(dataFromMsg, msg) {
 			// if (messageIsHandledByThisPChildRefHandler(dataFromMsg)) {
 			// processMsg(dataFromMsg, msg);

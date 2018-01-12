@@ -129,7 +129,8 @@ var CORA = (function(cora) {
 			}
 			if (childIsSurroundingContainer(cPresentationChild)) {
 				// console.log(JSON.stringify(cPresentationChild.getData()))
-				var pNonRepeatingChildRefHandler = createPNonRepeatingChildRefHandler(cPresentationChild, cPresentationChildRef);
+				var pNonRepeatingChildRefHandler = createPNonRepeatingChildRefHandler(
+						cPresentationChild, cPresentationChildRef);
 				return pNonRepeatingChildRefHandler.getView();
 			}
 			return createPChildRefHandler(cPresentationChild, cPresentationChildRef);
@@ -163,7 +164,8 @@ var CORA = (function(cora) {
 				"parentPath" : path,
 				"parentMetadataId" : my.metadataId,
 				"cPresentation" : cPresentationChild,
-				"cParentPresentation" : my.cParentPresentation
+				"cParentPresentation" : my.cParentPresentation,
+				parentMode : mode
 			};
 			if (childHasAlternativePresentation(cPresentationChildRef)) {
 				var cAlternativePresentation = getAlternativePresenation(cPresentationChildRef);
