@@ -7187,18 +7187,37 @@ function MetadataProviderStub() {
 						"name" : "id",
 						"value" : "pTextVariablePlus2SContainer"
 					} ]
-				}, {
-					"name" : "presentationsOf",
-					"children" : [ {
-						"repeatId" : "1",
-						"name" : "presentationOf",
-						"value" : "textVariableId"
-					}, {
-						"repeatId" : "2",
-						"name" : "presentationOf",
-						"value" : "textVariableId2"
-					} ]
-				}, {
+				}, 
+				{
+					"name": "presentationsOf",
+					"children": [{
+                        "repeatId": "1",
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "metadata"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "textVariableId"
+                            }
+                        ],
+                        "name": "presentationOf"
+                    },{
+                        "repeatId": "2",
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "metadata"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "textVariableId2"
+                            }
+                        ],
+                        "name": "presentationOf"
+                    }]
+                }, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
@@ -7454,17 +7473,35 @@ function MetadataProviderStub() {
 						"value" : "pTextVariablePlus2SContainer2"
 					} ]
 				}, {
-					"name" : "presentationsOf",
-					"children" : [ {
-						"repeatId" : "1",
-						"name" : "presentationOf",
-						"value" : "textVariableId"
-					}, {
-						"repeatId" : "2",
-						"name" : "presentationOf",
-						"value" : "textVariableId2"
-					} ]
-				}, {
+					"name": "presentationsOf",
+					"children": [{
+                        "repeatId": "1",
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "metadata"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "textVariableId"
+                            }
+                        ],
+                        "name": "presentationOf"
+                    },{
+                        "repeatId": "2",
+                        "children": [
+                            {
+                                "name": "linkedRecordType",
+                                "value": "metadata"
+                            },
+                            {
+                                "name": "linkedRecordId",
+                                "value": "textVariableId2"
+                            }
+                        ],
+                        "name": "presentationOf"
+                    }]
+                }, {
 					"name" : "childReferences",
 					"children" : [ {
 						"name" : "childReference",
