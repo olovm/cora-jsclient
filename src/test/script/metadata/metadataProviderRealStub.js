@@ -6498,12 +6498,21 @@ var CORATEST = (function(coraTest) {
 					"value" : "textPartEnSContainer"
 				} ]
 			}, {
-				"name" : "presentationsOf",
-				"children" : [ {
-					"repeatId" : "1",
-					"name" : "presentationOf",
-					"value" : "textPartEnGroup"
-				} ]
+				"name": "presentationsOf",
+				"children": [{
+					"repeatId": "1",
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadata"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textPartEnGroup"
+						}
+					],
+					"name": "presentationOf"
+				},]
 			}, {
 				"name" : "childReferences",
 				"children" : [ {
@@ -6542,12 +6551,21 @@ var CORATEST = (function(coraTest) {
 					"value" : "textPartEnOutputSContainer"
 				} ]
 			}, {
-				"name" : "presentationsOf",
-				"children" : [ {
-					"repeatId" : "1",
-					"name" : "presentationOf",
-					"value" : "textPartEnGroup"
-				} ]
+				"name": "presentationsOf",
+				"children": [{
+					"repeatId": "1",
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadata"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textPartEnGroup"
+						}
+					],
+					"name": "presentationOf"
+				},]
 			}, {
 				"name" : "childReferences",
 				"children" : [ {
