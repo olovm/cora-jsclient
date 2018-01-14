@@ -101,9 +101,89 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsgToDeterminDataState(dataFromMsg, msg) {
-			if (msg.includes("setValue") && dataFromMsg.data !== "") {
-				view.setHasDataStyle(true);
-				view.showContent();
+			console.log("msg", msg);
+			console.log("dataFromMsg", dataFromMsg);
+			console.log("dataFromMsg", JSON.stringify(dataFromMsg));
+			var msgAsArray = msg.split("/");
+			var msgType = msgAsArray.pop();
+			// if (msg.includes("setValue")) {
+			if (msgType === "setValue") {
+				if (dataFromMsg.data !== "") {
+					view.setHasDataStyle(true);
+					if (spec.mode === "output") {
+						view.showContent();
+					}
+					// store value, then update status
+					storeValuePosition(msgAsArray);
+				} else {
+					// remove value, then update status
+					removeValuePosition(msgAsArray);
+					if (Object.keys(storedValuePositions).length === 0) {
+						console.log("NO DATA!!!!")
+						view.setHasDataStyle(false);
+						if (spec.mode === "output") {
+							view.hideContent();
+						}
+					}
+				}
+			}
+		}
+		var storedValuePositions = {
+		// names : []
+		};
+		// var storedValuePositions=[];
+		function storeValuePosition(pathAsArray) {
+			var tempHolder = findAddPathToStored(pathAsArray);
+
+			tempHolder["trams"] = "value";
+			// tempHolder.push("value");
+			console.log("storedValuePositions")
+			// console.log(storedValuePositions)
+
+			// console.log("length:", storedValuePositions.length)
+			console.log(JSON.stringify(storedValuePositions))
+		}
+
+		function findAddPathToStored(pathAsArray) {
+			var tempHolder = storedValuePositions;
+			for (var i = 0; i < pathAsArray.length; i++) {
+				// tempHolder.names.push(pathAsArray[i]);
+				tempHolder = storePathPart(tempHolder, pathAsArray[i]);
+			}
+			return tempHolder;
+		}
+		function storePathPart(tempHolder, partPath) {
+			if (tempHolder[partPath] === undefined) {
+				var newLevel = {
+					name : partPath,
+					// names : [],
+					// "parent" : tempHolder
+					getParent : function() {
+						return tempHolder;
+					}
+				};
+				tempHolder[partPath] = newLevel;
+			}
+			return tempHolder[partPath];
+		}
+
+		function removeValuePosition(pathAsArray) {
+			var tempHolder = findAddPathToStored(pathAsArray);
+			removeFromBottom(tempHolder);
+
+			// tempHolder["trams"] = undefined;
+			console.log("storedValuePositions")
+			console.log(JSON.stringify(storedValuePositions))
+		}
+		function removeFromBottom(tempHolder) {
+			var parent = tempHolder.getParent();
+			delete parent[tempHolder.name];
+			for ( const prop in parent) {
+				console.log("obj property: ", prop)
+			}
+			var len = Object.keys(parent).length;
+			if (len == 2) {
+				removeFromBottom(parent);
 			}
 		}
 
