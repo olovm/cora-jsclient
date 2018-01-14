@@ -29,6 +29,7 @@ var CORATEST = (function(coraTest) {
 		var objectsAddedToEditView = [];
 
 		var showShowIncomingLinks = false;
+		var showIndexButton = false;
 		var objectsAddedToIncomingLinksView = [];
 
 		var spyView = document.createElement("span");
@@ -104,6 +105,9 @@ var CORATEST = (function(coraTest) {
 		function getShowShowIncomingLinksButton() {
 			return showShowIncomingLinks;
 		}
+		function getShowIndexButton() {
+			return showIndexButton;
+		}
 
 		function addToIncomingLinksView(obj) {
 			objectsAddedToIncomingLinksView.push(obj);
@@ -138,6 +142,7 @@ var CORATEST = (function(coraTest) {
 			getObjectAddedToIncomingLinksView : getObjectAddedToIncomingLinksView,
 			showShowIncomingLinksButton : showShowIncomingLinksButton,
 			getShowShowIncomingLinksButton : getShowShowIncomingLinksButton,
+			getShowIndexButton : getShowIndexButton
 		// hideShowIncomingLinksButton : hideShowIncomingLinksButton
 		});
 		return out;

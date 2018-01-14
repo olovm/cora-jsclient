@@ -21,7 +21,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandlerView = function(dependencies, spec) {
 		var showIncomingLinksButton;
-		var reIndexButton;
+		var indexButton;
 
 		var workItemViewSpec = {
 			"extraClassName" : spec.extraClassName
@@ -45,8 +45,8 @@ var CORA = (function(cora) {
 		function start() {
 			showIncomingLinksButton = createButton("INCOMING LINKS",
 					spec.showIncomingLinksMethod, "showIncomingLinks");
-			reIndexButton = createButton("REINDEX",
-					spec.reIndexMethod, "reIndex");
+			indexButton = createButton("INDEX",
+					spec.indexMethod, "index");
 		}
 
 		function addToShowView(node) {
@@ -115,12 +115,12 @@ var CORA = (function(cora) {
 			buttonView.removeChild(showIncomingLinksButton);
 		}
 
-		function showReIndexButton(){
-			buttonView.appendChild(reIndexButton);
+		function showIndexButton(){
+			buttonView.appendChild(indexButton);
 		}
 
-		function hideReIndexButton() {
-			buttonView.removeChild(reIndexButton);
+		function hideIndexButton() {
+			buttonView.removeChild(indexButton);
 		}
 		
 		function getDependencies() {
@@ -147,8 +147,8 @@ var CORA = (function(cora) {
 			addToIncomingLinksView : addToIncomingLinksView,
 			showShowIncomingLinksButton : showShowIncomingLinksButton,
 			hideShowIncomingLinksButton : hideShowIncomingLinksButton,
-			showReIndexButton : showReIndexButton,
-			hideReIndexButton : hideReIndexButton
+			showIndexButton : showIndexButton,
+			hideIndexButton : hideIndexButton
 		});
 	};
 	return cora;

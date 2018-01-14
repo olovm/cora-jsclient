@@ -33,7 +33,7 @@ QUnit.module("recordHandlerViewTest.js", {
 			},
 			"showIncomingLinksMethod" : function() {
 			},
-			"reIndexMethod" : function() {
+			"indexMethod" : function() {
 			}
 		};
 		this.specWithoutShowIncomingLinks = {
@@ -257,29 +257,29 @@ QUnit.test("testAddShowNoIncomingLinksButton", function(assert) {
 	
 });
 
-QUnit.test("testAddShowReIndexButton", function(assert) {
+QUnit.test("testAddShowIndexButton", function(assert) {
 	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
 	var someView = document.createElement("span");
 	assert.strictEqual(this.getButtonView().childNodes.length, 0);
 
-	this.recordHandlerView.showReIndexButton();
+	this.recordHandlerView.showIndexButton();
 
 	assert.strictEqual(this.getButtonView().childNodes.length, 1);
-	var reIndexButton = this.getButtonView().childNodes[0];
-	assert.strictEqual(reIndexButton.value, "REINDEX");
-	assert.strictEqual(reIndexButton.onclick, this.spec.reIndexMethod);
-	assert.strictEqual(reIndexButton.className, "reIndex");
+	var indexButton = this.getButtonView().childNodes[0];
+	assert.strictEqual(indexButton.value, "INDEX");
+	assert.strictEqual(indexButton.onclick, this.spec.indexMethod);
+	assert.strictEqual(indexButton.className, "index");
 });
 
-QUnit.test("testAddShowNoReIndexButton", function(assert) {
+QUnit.test("testAddShowNoIndexButton", function(assert) {
 	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
 	var someView = document.createElement("span");
 	assert.strictEqual(this.getButtonView().childNodes.length, 0);
 
-	this.recordHandlerView.showReIndexButton();
+	this.recordHandlerView.showIndexButton();
 	assert.strictEqual(this.getButtonView().childNodes.length, 1);
 
-	this.recordHandlerView.hideReIndexButton();
+	this.recordHandlerView.hideIndexButton();
 	assert.strictEqual(this.getButtonView().childNodes.length, 0);
 	
 });

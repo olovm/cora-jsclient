@@ -25,6 +25,7 @@ QUnit.module("recordHandlerTest.js", {
 		this.recordWithoutUpdateOrDeleteLink = CORATEST.recordWithoutUpdateOrDeleteLink;
 		this.recordWithoutDeleteLink = CORATEST.recordWithoutDeleteLink;
 		this.recordWithReadIncomingLinks = CORATEST.recordWithReadIncomingLinks;
+		this.recordWithIndexLink = CORATEST.recordWithIndexLink;
 
 		this.pubSub = CORATEST.pubSubSpy();
 
@@ -130,6 +131,17 @@ QUnit.module("recordHandlerTest.js", {
 			ajaxCallSpy0.getSpec().loadMethod(answer);
 		}
 
+		this.answerCallWithIndexData= function(no) {
+			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
+			var jsonRecord = JSON.stringify({
+				"record" : this.recordWithIndexLink
+			});
+			var answer = {
+				"spec" : ajaxCallSpy0.getSpec(),
+				"responseText" : jsonRecord
+			};
+			ajaxCallSpy0.getSpec().loadMethod(answer);
+		}
 	},
 	afterEach : function() {
 	}
@@ -731,6 +743,71 @@ QUnit.test("initCheckIncomingLinksButtonForIncomingLinks", function(assert) {
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	assert.strictEqual(recordHandlerViewSpy.getShowShowIncomingLinksButton(), true);
 });
+
+QUnit.test("testIndexCall", function(assert) {
+	this.spec.createNewRecord = "false";
+	this.spec.record = this.recordWithIndexLink;
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(factoredRecordGui.getDataValidated(), 0);
+
+	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.metadataId, "recordTypeGroup");
+//
+//	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+//
+//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(0), "recordTypeFormPGroup");
+//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(0), "recordTypeGroup");
+//
+//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(1), "recordTypeViewPGroup");
+//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(1), "recordTypeGroup");
+//
+//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(2), "recordTypeMenuPGroup");
+//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(2), "recordTypeGroup");
+//
+//	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+//	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(1);
+//	updateButtonSpec.onclickMethod();
+});
+
+//QUnit.test("testNoIndexButtonWhenNoIndexLink", function(assert) {
+//	this.spec.createNewRecord = "false";
+//	this.spec.record = this.recordWithoutDeleteLink;
+//
+//	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+//	this.answerCallWithoutDeleteLink(0);
+//
+//	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
+//	assert.strictEqual(factoredSpec.metadataId, "textSystemOneGroup");
+//
+//	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+//
+//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(0), "textSystemOneFormPGroup");
+//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(0), "textSystemOneGroup");
+//
+//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(1), "textSystemOneViewPGroup");
+//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(1), "textSystemOneGroup");
+//
+//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(2), "textSystemOneMenuPGroup");
+//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(2), "textSystemOneGroup");
+//
+//	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+//	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(0);
+//	assert.strictEqual(updateButtonSpec.className, "update");
+//});
+
+//QUnit.test("initCheckReIndexButtonWhenIIndexLinkExists", function(assert) {
+//	this.spec.createNewRecord = "false";
+//	this.spec.record = this.recordWithIndexLink;
+//
+//	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+//	this.answerCallWithIndexData(0);
+//
+//	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+//	assert.strictEqual(recordHandlerViewSpy.getShowIndexButton(), true);
+//});
 
 QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
 	this.spec.createNewRecord = "false";

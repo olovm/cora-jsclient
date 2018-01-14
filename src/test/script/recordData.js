@@ -288,5 +288,130 @@ var CORATEST = (function(coraTest) {
 			}
 		}
 	};
+	coraTest.recordWithIndexLink = {
+			"data" : {
+				"children" : [ {
+					"children" : [ {
+						"name" : "id",
+						"value" : "svEnText"
+					}, {
+		                "children": [
+		                    {
+		                        "name": "linkedRecordType",
+		                        "value": "recordType"
+		                    },
+		                    {
+		                        "name": "linkedRecordId",
+		                        "value": "textSystemOne"
+		                    }
+		                ],
+		                "name": "type"
+		            }, {
+	      				"name" : "createdBy",
+	      				"children": [
+	      					{
+	      						"name": "linkedRecordType",
+	      						"value": "user"
+	      					},
+	      					{
+	      						"name": "linkedRecordId",
+	      						"value": "userid"
+	      					}
+	      				]
+	      			},
+			        {
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "system"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "cora"
+				            }
+				          ],
+				          "actionLinks": {
+				            "read": {
+				              "requestMethod": "GET",
+				              "rel": "read",
+				              "url": "http://localhost:8080/therest/rest/record/system/cora",
+				              "accept": "application/vnd.uub.record+json"
+				            }
+				          },
+				          "name": "dataDivider"
+				        } ],
+					"name" : "recordInfo"
+				}, {
+					"children" : [ {
+						"name" : "text",
+						"value" : "En text på både svenska och engelska"
+					} ],
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "default",
+						"lang" : "sv"
+					}
+				}, {
+					"children" : [ {
+						"name" : "text",
+						"value" : "A text both in english and swedish"
+					} ],
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "alternative",
+						"lang" : "en"
+					}
+				} ],
+				"name" : "text"
+			},
+			"actionLinks" : {
+				"update" : {
+					"requestMethod" : "POST",
+					"rel" : "update",
+					"contentType" : "application/vnd.uub.record+json",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/textSystemOne/svEnText",
+					"accept" : "application/vnd.uub.record+json"
+				},
+				"read" : {
+					"requestMethod" : "GET",
+					"rel" : "read",
+					"url" : "http://epc.ub.uu.se/cora/rest/record/textSystemOne/svEnText",
+					"accept" : "application/vnd.uub.record+json"
+				},
+				"index": {
+			        "requestMethod": "POST",
+			        "rel": "index",
+			        "body": {
+			          "children": [
+			            {
+			              "children": [
+			                {
+			                  "name": "linkedRecordType",
+			                  "value": "recordType"
+			                },
+			                {
+			                  "name": "linkedRecordId",
+			                  "value": "textSystemOne"
+			                }
+			              ],
+			              "name": "recordType"
+			            },
+			            {
+			              "name": "recordId",
+			              "value": "svEnText"
+			            },
+			            {
+			              "name": "type",
+			              "value": "index"
+			            }
+			          ],
+			          "name": "workOrder"
+			        },
+			        "contentType": "application/vnd.uub.record+json",
+			        "url": "https://epc.ub.uu.se/therest/rest/record/workOrder/",
+			        "accept": "application/vnd.uub.record+json"
+			      }
+			}
+		};
 	return coraTest;
 }(CORATEST));

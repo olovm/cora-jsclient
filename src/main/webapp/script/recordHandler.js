@@ -445,12 +445,12 @@ var CORA = (function(cora) {
 		}
 
 		function reIndex() {
-//			var illhSpec = {
+			var indeHandlerSpec = {
 //					"read_incoming_links" : fetchedRecord.actionLinks.read_incoming_links
-//			};
-//			var incomingLinksListHandler = dependencies.globalFactories.incomingLinksListHandlerFactory
-//			.factor(illhSpec);
-//			recordHandlerView.addToIncomingLinksView(incomingLinksListHandler.getView());
+			};
+			var recordIndexHandler = dependencies.globalFactories.recordIndexHandlerFactory
+			.factor(illhSpec);
+			recordHandlerView.addToIncomingLinksView(incomingLinksListHandler.getView());
 		}
 
 		function getDependencies() {
