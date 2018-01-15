@@ -1,5 +1,6 @@
 /*
  * Copyright 2018 Uppsala University Library
+ * Copyright 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -21,6 +22,7 @@ var CORA = (function(cora) {
 	cora.pNonRepeatingChildRefHandler = function(dependencies, spec) {
 		var view;
 		var topLevelMetadataIds = {};
+		var storedValuePositions = {};
 
 		function start() {
 			createView();
@@ -101,103 +103,99 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsgToDeterminDataState(dataFromMsg, msg) {
-//			console.log("msg", msg);
-//			console.log("dataFromMsg", dataFromMsg);
-//			console.log("dataFromMsg", JSON.stringify(dataFromMsg));
 			var msgAsArray = msg.split("/");
 			var msgType = msgAsArray.pop();
-			// if (msg.includes("setValue")) {
 			if (msgType === "setValue") {
-				if (dataFromMsg.data !== "") {
-					view.setHasDataStyle(true);
-					if (spec.mode === "output") {
-						view.showContent();
-					}
-					// store value, then update status
-					storeValuePosition(msgAsArray);
-				} else {
-					// remove value, then update status
-					removeValuePosition(msgAsArray);
-					if (Object.keys(storedValuePositions).length === 0) {
-//						console.log("NO DATA!!!!")
-						view.setHasDataStyle(false);
-						if (spec.mode === "output") {
-							view.hideContent();
-						}
-					}
-				}
+				handleNewValue(dataFromMsg, msgAsArray);
 			}
 			if (msgType === "remove") {
-				// remove block, then update status
-				removeValuePosition(msgAsArray);
-				if (Object.keys(storedValuePositions).length === 0) {
-//					console.log("NO DATA!!!!")
-					view.setHasDataStyle(false);
-					if (spec.mode === "output") {
-						view.hideContent();
-					}
-				}
-				
+				removeAndSetState(msgAsArray);
 			}
-			
-		}
-		var storedValuePositions = {
-		// names : []
-		};
-		// var storedValuePositions=[];
-		function storeValuePosition(pathAsArray) {
-			var tempHolder = findAddPathToStored(pathAsArray);
-
-			tempHolder["trams"] = "value";
-			// tempHolder.push("value");
-//			console.log("storedValuePositions")
-			// console.log(storedValuePositions)
-
-			// console.log("length:", storedValuePositions.length)
-//			console.log(JSON.stringify(storedValuePositions))
 		}
 
-		function findAddPathToStored(pathAsArray) {
-			var tempHolder = storedValuePositions;
-			for (var i = 0; i < pathAsArray.length; i++) {
-				// tempHolder.names.push(pathAsArray[i]);
-				tempHolder = storePathPart(tempHolder, pathAsArray[i]);
+		function handleNewValue(dataFromMsg, msgAsArray) {
+			if (dataFromMsg.data !== "") {
+				updateViewForData();
+				findOrAddPathToStored(msgAsArray);
+			} else {
+				removeAndSetState(msgAsArray);
 			}
-			return tempHolder;
 		}
-		function storePathPart(tempHolder, partPath) {
-			if (tempHolder[partPath] === undefined) {
-				var newLevel = {
-					name : partPath,
-					// names : [],
-					// "parent" : tempHolder
-					getParent : function() {
-						return tempHolder;
-					}
-				};
-				tempHolder[partPath] = newLevel;
+
+		function updateViewForData() {
+			view.setHasDataStyle(true);
+			if (isInOutputMode()) {
+				view.showContent();
 			}
-			return tempHolder[partPath];
+		}
+
+		function isInOutputMode() {
+			return spec.mode === "output";
+		}
+
+		function removeAndSetState(msgAsArray) {
+			removeValuePosition(msgAsArray);
+			if (noValuesExistForPresentedData()) {
+				updateViewForNoData();
+			}
 		}
 
 		function removeValuePosition(pathAsArray) {
-			var tempHolder = findAddPathToStored(pathAsArray);
-			removeFromBottom(tempHolder);
-
-			// tempHolder["trams"] = undefined;
-//			console.log("storedValuePositions")
-//			console.log(JSON.stringify(storedValuePositions))
+			var currentPartOfStoredValuePositions = findOrAddPathToStored(pathAsArray);
+			removeFromBottom(currentPartOfStoredValuePositions);
 		}
-		function removeFromBottom(tempHolder) {
-			var parent = tempHolder.getParent();
-			delete parent[tempHolder.name];
-//			for ( const prop in parent) {
-//				console.log("obj property: ", prop)
-//			}
-			var len = Object.keys(parent).length;
-			if (len == 2) {
+
+		function removeFromBottom(currentPartOfStoredValuePositions) {
+			var parent = currentPartOfStoredValuePositions.getParent();
+			delete parent[currentPartOfStoredValuePositions.name];
+			if (parentContainsNoValues(parent)) {
 				removeFromBottom(parent);
 			}
+		}
+
+		function parentContainsNoValues(parent) {
+			return Object.keys(parent).length == 2;
+		}
+
+		function noValuesExistForPresentedData() {
+			return Object.keys(storedValuePositions).length === 0;
+		}
+
+		function updateViewForNoData() {
+			view.setHasDataStyle(false);
+			if (isInOutputMode()) {
+				view.hideContent();
+			}
+		}
+
+		function findOrAddPathToStored(pathAsArray) {
+			var currentPartOfStoredValuePositions = storedValuePositions;
+			for (var i = 0; i < pathAsArray.length; i++) {
+				currentPartOfStoredValuePositions = returnOrCreatePathPart(currentPartOfStoredValuePositions, pathAsArray[i]);
+			}
+			return currentPartOfStoredValuePositions;
+		}
+
+		function returnOrCreatePathPart(currentPartOfStoredValuePositions, partPath) {
+			if (currentPartOfStoredValuePositions[partPath] !== undefined) {
+				return currentPartOfStoredValuePositions[partPath];
+			}
+			return createAndSetPartPath(currentPartOfStoredValuePositions, partPath);
+		}
+
+		function createAndSetPartPath(currentPartOfStoredValuePositions, partPath) {
+			var newLevel = createPartPath(currentPartOfStoredValuePositions, partPath);
+			currentPartOfStoredValuePositions[partPath] = newLevel;
+			return newLevel;
+		}
+
+		function createPartPath(currentPartOfStoredValuePositions, partPath) {
+			return {
+				name : partPath,
+				getParent : function() {
+					return currentPartOfStoredValuePositions;
+				}
+			};
 		}
 
 		function possiblyAddAlternativePresentation() {
@@ -214,9 +212,11 @@ var CORA = (function(cora) {
 		function getDependencies() {
 			return dependencies;
 		}
+
 		function getSpec() {
 			return spec;
 		}
+
 		var out = Object.freeze({
 			type : "pNonRepeatingChildRefHandler",
 			getDependencies : getDependencies,
