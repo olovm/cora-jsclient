@@ -25,11 +25,15 @@ var CORA = (function(cora) {
 		var defaultPresentation;
 		var alternativeButton;
 		var defaultButton;
+		var currentDefaultShown = "true";
+		var containsData = false;
+		var originalStyle;
 
 		function start() {
 			view = createBaseView();
-
+			setContainsDataStyle();
 		}
+
 		function createBaseView() {
 			var newClassName = "pNonRepeatingChildRefHandler";
 			if (spec.textStyle !== undefined) {
@@ -39,7 +43,12 @@ var CORA = (function(cora) {
 				newClassName += " " + spec.childStyle;
 			}
 			newClassName += " " + spec.presentationId;
+			originalStyle = newClassName;
 			return CORA.gui.createSpanWithClassName(newClassName);
+		}
+
+		function setContainsDataStyle() {
+			view.className = originalStyle + (containsData ? " containsData" : " containsNoData");
 		}
 
 		function getView() {
@@ -50,6 +59,7 @@ var CORA = (function(cora) {
 			child.className += " default";
 			defaultPresentation = child;
 			view.insertBefore(child, buttonView);
+			hide(defaultPresentation);
 		}
 
 		function addAlternativeChild(child) {
@@ -57,7 +67,7 @@ var CORA = (function(cora) {
 			alternativePresentation = child;
 			createButtonView();
 			view.insertBefore(child, buttonView);
-			toggleDefaultShown("true");
+			hide(alternativePresentation);
 		}
 
 		function createButtonView() {
@@ -65,6 +75,7 @@ var CORA = (function(cora) {
 			buttonView = buttonViewNew;
 			view.appendChild(buttonViewNew);
 			createDefaultAndAlternativeButtons();
+			hide(buttonView);
 		}
 
 		function createDefaultAndAlternativeButtons() {
@@ -88,6 +99,7 @@ var CORA = (function(cora) {
 		}
 
 		function toggleDefaultShown(defaultShown) {
+			currentDefaultShown = defaultShown;
 			if (defaultShown !== undefined && defaultShown === "true") {
 				hide(alternativePresentation);
 				show(defaultPresentation);
@@ -102,19 +114,45 @@ var CORA = (function(cora) {
 		}
 
 		function hide(element) {
-			element.styleOriginal = element.style.display;
-			element.style.display = "none";
-		}
-		function show(element) {
-			if (element.styleOriginal !== undefined) {
-				element.style.display = element.styleOriginal;
+			if (element !== undefined && element.style.display !== "none") {
+				element.styleOriginal = element.style.display;
+				element.style.display = "none";
 			}
 		}
+		function show(element) {
+			if (element !== undefined) {
+				if (element.styleOriginal !== undefined) {
+					element.style.display = element.styleOriginal;
+				}else{
+					element.style.display = "";
+				}
+			}
+		}
+
+		function hideContent() {
+			hide(defaultPresentation);
+			hide(buttonView);
+			hide(alternativePresentation);
+		}
+
+		function showContent() {
+			show(buttonView);
+			toggleDefaultShown(currentDefaultShown);
+		}
+
+		function setHasDataStyle(containsDataIn) {
+			containsData = containsDataIn;
+			setContainsDataStyle();
+		}
+
 		var out = Object.freeze({
 			"type" : "pNonRepeatingChildRefHandlerView",
 			getView : getView,
 			addChild : addChild,
-			addAlternativeChild : addAlternativeChild
+			addAlternativeChild : addAlternativeChild,
+			hideContent : hideContent,
+			showContent : showContent,
+			setHasDataStyle : setHasDataStyle
 		});
 		start();
 		return out;

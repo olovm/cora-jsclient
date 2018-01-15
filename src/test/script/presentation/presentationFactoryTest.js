@@ -167,6 +167,9 @@ QUnit.test("testFactorPNonRepeatingChildRefHandlerDependencies",
 					"genericFactory");
 			assert.strictEqual(dependencies.pNonRepeatingChildRefHandlerViewFactory
 					.getTypeToFactor(), "pNonRepeatingChildRefHandlerView");
+
+			assert.strictEqual(dependencies.pubSub, this.dependencies.pubSub);
+			assert.strictEqual(dependencies.providers, this.dependencies.providers);
 		});
 
 QUnit.test("testFactorPRepeatingContainer", function(assert) {

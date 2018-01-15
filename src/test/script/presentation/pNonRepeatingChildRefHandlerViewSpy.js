@@ -21,16 +21,8 @@ var CORATEST = (function(coraTest) {
 	coraTest.pNonRepeatingChildRefHandlerViewSpy = function(dependencies, spec) {
 		var addedChildren = [];
 		var addedAlternativeChildren = [];
-//		var removedChildren = [];
-//		var movedChildren = [];
 		var view = CORA.gui.createSpanWithClassName("pNonRepeatingChildRefHandlerViewSpyView");
-//
-//		var showButtonViewCalled = 0;
-//		var hideButtonViewCalled = 0;
-//		var showChildrensRemoveButtonCalled = 0;
-//		var hideChildrensRemoveButtonCalled = 0;
-//		var showChildrensDragButtonCalled = 0;
-//		var hideChildrensDragButtonCalled = 0;
+		//
 
 		function getView() {
 			return view;
@@ -54,59 +46,24 @@ var CORATEST = (function(coraTest) {
 		function getAddedAlternativeChild(number) {
 			return addedAlternativeChildren[number];
 		}
-//		function removeChild(childToAdd) {
-//			removedChildren.push(childToAdd);
-//		}
-//		function getRemovedChild(number) {
-//			return removedChildren[number];
-//		}
-//		function moveChild(dataFromMsg) {
-//			movedChildren.push(dataFromMsg);
-//		}
-//		function getMovedChild(number) {
-//			return movedChildren[number];
-//		}
-//
-//		function showButtonView() {
-//			showButtonViewCalled++;
-//		}
-//		function getShowButtonViewCalled() {
-//			return showButtonViewCalled;
-//		}
-//
-//		function hideButtonView() {
-//			hideButtonViewCalled++;
-//		}
-//		function getHideButtonViewCalled() {
-//			return hideButtonViewCalled;
-//		}
-//
-//		function showChildrensRemoveButton() {
-//			showChildrensRemoveButtonCalled++;
-//		}
-//		function getShowChildrensRemoveButtonCalled() {
-//			return showChildrensRemoveButtonCalled;
-//		}
-//
-//		function hideChildrensRemoveButton() {
-//			hideChildrensRemoveButtonCalled++;
-//		}
-//		function getHideChildrensRemoveButtonCalled() {
-//			return hideChildrensRemoveButtonCalled;
-//		}
-//
-//		function showChildrensDragButton() {
-//			showChildrensDragButtonCalled++;
-//		}
-//		function getShowChildrensDragButtonCalled() {
-//			return showChildrensDragButtonCalled;
-//		}
-//		function hideChildrensDragButton() {
-//			hideChildrensDragButtonCalled++;
-//		}
-//		function getHideChildrensDragButtonCalled() {
-//			return hideChildrensDragButtonCalled;
-//		}
+		var isShown;
+		function hideContent() {
+			isShown = false;
+		}
+		function showContent() {
+			isShown = true;
+		}
+		function getIsShown() {
+			return isShown;
+		}
+
+		var dataHasDataStyle;
+		function setHasDataStyle(dataStyle) {
+			dataHasDataStyle = dataStyle;
+		}
+		function getDataHasDataStyle() {
+			return dataHasDataStyle;
+		}
 
 		var out = Object.freeze({
 			"type" : "pChildRefHandlerViewSpy",
@@ -117,22 +74,13 @@ var CORATEST = (function(coraTest) {
 			getAddedChild : getAddedChild,
 			addAlternativeChild : addAlternativeChild,
 			getAddedAlternativeChild : getAddedAlternativeChild,
-//			removeChild : removeChild,
-//			getRemovedChild : getRemovedChild,
-//			moveChild : moveChild,
-//			getMovedChild : getMovedChild,
-//			showButtonView : showButtonView,
-//			getShowButtonViewCalled : getShowButtonViewCalled,
-//			hideButtonView : hideButtonView,
-//			getHideButtonViewCalled : getHideButtonViewCalled,
-//			showChildrensRemoveButton : showChildrensRemoveButton,
-//			getShowChildrensRemoveButtonCalled : getShowChildrensRemoveButtonCalled,
-//			hideChildrensRemoveButton : hideChildrensRemoveButton,
-//			getHideChildrensRemoveButtonCalled : getHideChildrensRemoveButtonCalled,
-//			hideChildrensDragButton : hideChildrensDragButton,
-//			getHideChildrensDragButtonCalled : getHideChildrensDragButtonCalled,
-//			showChildrensDragButton : showChildrensDragButton,
-//			getShowChildrensDragButtonCalled : getShowChildrensDragButtonCalled
+
+			hideContent : hideContent,
+			showContent : showContent,
+			getIsShown : getIsShown,
+
+			setHasDataStyle : setHasDataStyle,
+			getDataHasDataStyle : getDataHasDataStyle
 		});
 		return out;
 	};
