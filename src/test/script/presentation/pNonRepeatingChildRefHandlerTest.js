@@ -1,5 +1,6 @@
 /*
  * Copyright 2018 Uppsala University Library
+ * Copyright 2018 Olov McKIe
  *
  * This file is part of Cora.
  *
@@ -62,6 +63,19 @@ QUnit.module("pNonRepeatingChildRefHandlerTest.js", {
 						}, {
 							"name" : "linkedRecordId",
 							"value" : "groupWithOneCollectionVarChildGroup"
+						} ],
+						"name" : "presentationOf"
+					} ]
+				}, {
+					"name" : "presentationsOf",
+					"children" : [ {
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "metadata"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "groupIdOneTextChild"
 						} ],
 						"name" : "presentationOf"
 					} ]
@@ -358,29 +372,289 @@ QUnit.test("testChangeViewOnMessageNotShownForSetValueWithBlankValue", function(
 	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
 	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
 	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
-	
+
 	var msg = "root/groupWithOneCollectionVarChildGroup.1/someNameInData/setValue";
 	var dataFromMsg = {
-			"data" : "",
-			"path" : {
+		"data" : "",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupWithOneCollectionVarChildGroup"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			}, {
 				"name" : "linkedPath",
 				"children" : [ {
 					"name" : "nameInData",
-					"value" : "groupWithOneCollectionVarChildGroup"
-				}, {
-					"name" : "repeatId",
-					"value" : "1"
-				}, {
-					"name" : "linkedPath",
-					"children" : [ {
-						"name" : "nameInData",
-						"value" : "someNameInData"
-					} ]
+					"value" : "someNameInData"
 				} ]
-			}
+			} ]
+		}
 	};
-	
+
 	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+});
+
+QUnit.test("testChangeViewOnMessageRemovedOnNewBlank", function(assert) {
+	this.spec.mode = "output";
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+
+	var msg = "root/groupWithOneCollectionVarChildGroup.1/someNameInData/setValue";
+	var dataFromMsg = {
+		"data" : "someValue",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupWithOneCollectionVarChildGroup"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "someNameInData"
+				} ]
+			} ]
+		}
+	};
+
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), true);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+
+	dataFromMsg.data = "";
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+});
+QUnit.test("testChangeViewOnMessageRemovedOnNewBlankForInput", function(assert) {
+	this.spec.mode = "input";
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+
+	var msg = "root/groupWithOneCollectionVarChildGroup.1/someNameInData/setValue";
+	var dataFromMsg = {
+		"data" : "someValue",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupWithOneCollectionVarChildGroup"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "someNameInData"
+				} ]
+			} ]
+		}
+	};
+
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), true);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+
+	dataFromMsg.data = "";
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+});
+
+QUnit.test("testChangeViewOnMessageRemovBlock", function(assert) {
+	this.spec.mode = "output";
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+
+	var msg = "root/groupWithOneCollectionVarChildGroup.1/someNameInData/setValue";
+	var dataFromMsg = {
+		"data" : "someValue",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupWithOneCollectionVarChildGroup"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "someNameInData"
+				} ]
+			} ]
+		}
+	};
+
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), true);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+
+	var msg = "root/groupWithOneCollectionVarChildGroup.1/remove";
+	var dataFromMsg = {
+		"type" : "remove",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupWithOneCollectionVarChildGroup"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			} ]
+		}
+	};
+
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+});
+
+QUnit.test("testChangeViewOnMessageRemovBlockInput", function(assert) {
+	this.spec.mode = "input";
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+
+	var msg = "root/groupWithOneCollectionVarChildGroup.1/someNameInData/setValue";
+	var dataFromMsg = {
+		"data" : "someValue",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupWithOneCollectionVarChildGroup"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "someNameInData"
+				} ]
+			} ]
+		}
+	};
+
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), true);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+
+	var msg = "root/groupWithOneCollectionVarChildGroup.1/remove";
+	var dataFromMsg = {
+		"type" : "remove",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupWithOneCollectionVarChildGroup"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			} ]
+		}
+	};
+
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+});
+
+QUnit.test("testChangeViewOnMessageTwoChildren", function(assert) {
+	this.spec.mode = "output";
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+
+	var msg = "root/groupWithOneCollectionVarChildGroup.1/someNameInData/setValue";
+	var dataFromMsg = {
+		"data" : "someValue",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupWithOneCollectionVarChildGroup"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "someNameInData"
+				} ]
+			} ]
+		}
+	};
+
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), true);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+
+	var msg2 = "root/groupIdOneTextChild/someNameInData/setValue";
+	var dataFromMsg2 = {
+		"data" : "someValue2",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupIdOneTextChild"
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "someNameInData"
+				} ]
+			} ]
+		}
+	};
+
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg2, msg2);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), true);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+
+	dataFromMsg.data = "";
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
+	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), true);
+	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+
+	var msg3 = "root/groupIdOneTextChild/remove";
+	var dataFromMsg3 = {
+		"type" : "remove",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "groupIdOneTextChild"
+			} ]
+		}
+	};
+
+	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg3, msg3);
 	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
 	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
 });
