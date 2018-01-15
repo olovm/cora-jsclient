@@ -747,6 +747,7 @@ QUnit.test("initCheckIncomingLinksButtonForIncomingLinks", function(assert) {
 QUnit.test("testIndexCall", function(assert) {
 	this.spec.createNewRecord = "false";
 	this.spec.record = this.recordWithIndexLink;
+	this.record = this.recordWithIndexLink;
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	this.answerCall(0);
 
@@ -754,22 +755,28 @@ QUnit.test("testIndexCall", function(assert) {
 	assert.strictEqual(factoredRecordGui.getDataValidated(), 0);
 
 	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
-	assert.strictEqual(factoredSpec.metadataId, "recordTypeGroup");
+	assert.strictEqual(factoredSpec.metadataId, "textSystemOneGroup");
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var indexButton = recordHandlerViewSpy.getAddedButton(1);
+	indexButton.onclickMethod();
+	
+//	assert.strictEqual(factoredRecordGui.getDataValidated(), 1);
 //
-//	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url,
+			"https://epc.ub.uu.se/therest/rest/record/workOrder/");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
+	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
+	assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
+	assert.strictEqual(ajaxCallSpec.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"textSystemOne\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"svEnText\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
+//	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.resetViewsAndProcessFetchedRecord);
 //
-//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(0), "recordTypeFormPGroup");
-//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(0), "recordTypeGroup");
-//
-//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(1), "recordTypeViewPGroup");
-//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(1), "recordTypeGroup");
-//
-//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(2), "recordTypeMenuPGroup");
-//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(2), "recordTypeGroup");
-//
-//	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
-//	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(1);
-//	updateButtonSpec.onclickMethod();
+//	var recordHandlerViewSpy2 = this.recordHandlerViewFactorySpy.getFactored(1);
+
 });
 
 //QUnit.test("testNoIndexButtonWhenNoIndexLink", function(assert) {
@@ -798,7 +805,7 @@ QUnit.test("testIndexCall", function(assert) {
 //	assert.strictEqual(updateButtonSpec.className, "update");
 //});
 
-//QUnit.test("initCheckReIndexButtonWhenIIndexLinkExists", function(assert) {
+//QUnit.test("initCheckIndexButtonWhenIIndexLinkExists", function(assert) {
 //	this.spec.createNewRecord = "false";
 //	this.spec.record = this.recordWithIndexLink;
 //

@@ -320,6 +320,9 @@ var CORA = (function(cora) {
 			if (recordHasUpdateLink()) {
 				recordHandlerView.addButton("UPDATE", sendUpdateDataToServer, "update");
 			}
+			if(recordHasIndexLink()){
+				recordHandlerView.addButton("INDEX", sendIndexDataToServer, "index");
+			}
 		}
 		function possiblyShowShowIncomingLinksButton() {
 			if (recordHasIncomingLinks()) {
@@ -365,6 +368,11 @@ var CORA = (function(cora) {
 			var updateLink = fetchedRecord.actionLinks.update;
 			return updateLink !== undefined;
 		}
+		
+		function recordHasIndexLink() {
+			var indexLink = fetchedRecord.actionLinks["index"];
+			return indexLink !== undefined;
+		}
 
 		function shouldRecordBeDeleted() {
 			var questionSpec = {
@@ -400,6 +408,26 @@ var CORA = (function(cora) {
 		function sendUpdateDataToServer() {
 			var updateLink = fetchedRecord.actionLinks.update;
 			varlidateAndSendDataToServer(updateLink);
+		}
+		
+		function sendIndexDataToServer() {
+			var indexLink = fetchedRecord.actionLinks.index;
+//			if (recordGui.validateData()) {
+				busy.show();
+
+				var callAfterAnswer = resetViewsAndProcessFetchedRecord;
+				var callSpec = {
+					"requestMethod" : indexLink.requestMethod,
+					"url" : indexLink.url,
+					"contentType" : indexLink.contentType,
+					"accept" : indexLink.accept,
+					"loadMethod" : callAfterAnswer,
+					"errorMethod" : callError,
+					"data" : JSON.stringify(indexLink.body)
+				};
+				dependencies.ajaxCallFactory.factor(callSpec);
+//			}
+
 		}
 
 		function callError(answer) {
