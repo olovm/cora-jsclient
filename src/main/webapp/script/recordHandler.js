@@ -63,8 +63,7 @@ var CORA = (function(cora) {
 				"extraClassName" : "recordHandler",
 				"showDataMethod" : showData,
 				"copyDataMethod" : copyData,
-				"showIncomingLinksMethod" : showIncomingLinks,
-				"reIndexMethod" : reIndex
+				"showIncomingLinksMethod" : showIncomingLinks
 			};
 			return dependencies.recordHandlerViewFactory.factor(recordHandlerViewSpec);
 		}
@@ -368,7 +367,7 @@ var CORA = (function(cora) {
 			var updateLink = fetchedRecord.actionLinks.update;
 			return updateLink !== undefined;
 		}
-		
+
 		function recordHasIndexLink() {
 			var indexLink = fetchedRecord.actionLinks["index"];
 			return indexLink !== undefined;
@@ -409,10 +408,9 @@ var CORA = (function(cora) {
 			var updateLink = fetchedRecord.actionLinks.update;
 			varlidateAndSendDataToServer(updateLink);
 		}
-		
+
 		function sendIndexDataToServer() {
 			var indexLink = fetchedRecord.actionLinks.index;
-//			if (recordGui.validateData()) {
 				busy.show();
 
 				var callAfterAnswer = resetViewsAndProcessFetchedRecord;
@@ -426,7 +424,6 @@ var CORA = (function(cora) {
 					"data" : JSON.stringify(indexLink.body)
 				};
 				dependencies.ajaxCallFactory.factor(callSpec);
-//			}
 
 		}
 
@@ -472,15 +469,6 @@ var CORA = (function(cora) {
 			recordHandlerView.addToIncomingLinksView(incomingLinksListHandler.getView());
 		}
 
-		function reIndex() {
-			var indeHandlerSpec = {
-//					"read_incoming_links" : fetchedRecord.actionLinks.read_incoming_links
-			};
-			var recordIndexHandler = dependencies.globalFactories.recordIndexHandlerFactory
-			.factor(illhSpec);
-			recordHandlerView.addToIncomingLinksView(incomingLinksListHandler.getView());
-		}
-
 		function getDependencies() {
 			return dependencies;
 		}
@@ -505,8 +493,7 @@ var CORA = (function(cora) {
 			shouldRecordBeDeleted : shouldRecordBeDeleted,
 			getManagedGuiItem : getManagedGuiItem,
 			reloadForMetadataChanges : reloadForMetadataChanges,
-			showIncomingLinks : showIncomingLinks,
-			reIndex : reIndex
+			showIncomingLinks : showIncomingLinks
 		});
 		return out;
 	};

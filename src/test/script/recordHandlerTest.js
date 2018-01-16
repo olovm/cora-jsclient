@@ -26,6 +26,7 @@ QUnit.module("recordHandlerTest.js", {
 		this.recordWithoutDeleteLink = CORATEST.recordWithoutDeleteLink;
 		this.recordWithReadIncomingLinks = CORATEST.recordWithReadIncomingLinks;
 		this.recordWithIndexLink = CORATEST.recordWithIndexLink;
+		this.recordWithoutIndexLink = CORATEST.recordWithoutIndexLink;
 
 		this.pubSub = CORATEST.pubSubSpy();
 
@@ -130,18 +131,6 @@ QUnit.module("recordHandlerTest.js", {
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
 		}
-
-		this.answerCallWithIndexData= function(no) {
-			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
-			var jsonRecord = JSON.stringify({
-				"record" : this.recordWithIndexLink
-			});
-			var answer = {
-				"spec" : ajaxCallSpy0.getSpec(),
-				"responseText" : jsonRecord
-			};
-			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
 	},
 	afterEach : function() {
 	}
@@ -194,7 +183,6 @@ QUnit.test("testInitRecordHandlerViewSpec", function(assert) {
 	assert.strictEqual(usedSpec.showDataMethod, recordHandler.showData);
 	assert.strictEqual(usedSpec.copyDataMethod, recordHandler.copyData);
 	assert.strictEqual(usedSpec.showIncomingLinksMethod, recordHandler.showIncomingLinks);
-	assert.strictEqual(usedSpec.reIndexMethod, recordHandler.reIndex);
 });
 
 QUnit.test("testInitRecordHandlerViewFormFactoredAndAdded", function(assert) {
@@ -746,7 +734,6 @@ QUnit.test("initCheckIncomingLinksButtonForIncomingLinks", function(assert) {
 
 QUnit.test("testIndexCall", function(assert) {
 	this.spec.createNewRecord = "false";
-	this.spec.record = this.recordWithIndexLink;
 	this.record = this.recordWithIndexLink;
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	this.answerCall(0);
@@ -763,8 +750,6 @@ QUnit.test("testIndexCall", function(assert) {
 	var indexButton = recordHandlerViewSpy.getAddedButton(1);
 	indexButton.onclickMethod();
 	
-//	assert.strictEqual(factoredRecordGui.getDataValidated(), 1);
-//
 	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
 	var ajaxCallSpec = ajaxCallSpy.getSpec();
 	assert.strictEqual(ajaxCallSpec.url,
@@ -773,48 +758,37 @@ QUnit.test("testIndexCall", function(assert) {
 	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
 	assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
 	assert.strictEqual(ajaxCallSpec.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"textSystemOne\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"svEnText\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
-//	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.resetViewsAndProcessFetchedRecord);
-//
-//	var recordHandlerViewSpy2 = this.recordHandlerViewFactorySpy.getFactored(1);
 
 });
 
-//QUnit.test("testNoIndexButtonWhenNoIndexLink", function(assert) {
-//	this.spec.createNewRecord = "false";
-//	this.spec.record = this.recordWithoutDeleteLink;
-//
-//	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
-//	this.answerCallWithoutDeleteLink(0);
-//
-//	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
-//	assert.strictEqual(factoredSpec.metadataId, "textSystemOneGroup");
-//
-//	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
-//
-//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(0), "textSystemOneFormPGroup");
-//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(0), "textSystemOneGroup");
-//
-//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(1), "textSystemOneViewPGroup");
-//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(1), "textSystemOneGroup");
-//
-//	assert.strictEqual(factoredRecordGui.getPresentationIdUsed(2), "textSystemOneMenuPGroup");
-//	assert.strictEqual(factoredRecordGui.getMetadataIdsUsedInData(2), "textSystemOneGroup");
-//
-//	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
-//	var updateButtonSpec = recordHandlerViewSpy.getAddedButton(0);
-//	assert.strictEqual(updateButtonSpec.className, "update");
-//});
+QUnit.test("testNoIndexButtonWhenNoIndexLink", function(assert) {
+	this.spec.createNewRecord = "false";
+	this.record = this.recordWithoutIndexLink;
 
-//QUnit.test("initCheckIndexButtonWhenIIndexLinkExists", function(assert) {
-//	this.spec.createNewRecord = "false";
-//	this.spec.record = this.recordWithIndexLink;
-//
-//	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
-//	this.answerCallWithIndexData(0);
-//
-//	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
-//	assert.strictEqual(recordHandlerViewSpy.getShowIndexButton(), true);
-//});
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+
+	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.metadataId, "textSystemOneGroup");
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var indexButton = recordHandlerViewSpy.getAddedButton(1);
+	assert.strictEqual(indexButton, undefined);
+});
+
+QUnit.test("initCheckIndexButtonWhenIndexLinkExists", function(assert) {
+	this.spec.createNewRecord = "false";
+	this.record = this.recordWithIndexLink;
+
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var indexButton = recordHandlerViewSpy.getAddedButton(1);
+	assert.strictEqual(indexButton.text, "INDEX");
+});
 
 QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
 	this.spec.createNewRecord = "false";

@@ -24,7 +24,7 @@ var CORATEST = (function(coraTest) {
 				"children" : [ {
 					"name" : "id",
 					"value" : "svEnText"
-				}, 
+				},
 				{
 	                "children": [
 	                    {
@@ -110,7 +110,7 @@ var CORATEST = (function(coraTest) {
 					"children" : [ {
 						"name" : "id",
 						"value" : "svEnText"
-					}, 
+					},
 					{
 						"children": [
 							{
@@ -413,5 +413,97 @@ var CORATEST = (function(coraTest) {
 			      }
 			}
 		};
+	coraTest.recordWithoutIndexLink = {
+		"data" : {
+			"children" : [ {
+				"children" : [ {
+					"name" : "id",
+					"value" : "svEnText"
+				}, {
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "recordType"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textSystemOne"
+						}
+					],
+					"name": "type"
+				}, {
+					"name" : "createdBy",
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "user"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "userid"
+						}
+					]
+				},
+					{
+						"children": [
+							{
+								"name": "linkedRecordType",
+								"value": "system"
+							},
+							{
+								"name": "linkedRecordId",
+								"value": "cora"
+							}
+						],
+						"actionLinks": {
+							"read": {
+								"requestMethod": "GET",
+								"rel": "read",
+								"url": "http://localhost:8080/therest/rest/record/system/cora",
+								"accept": "application/vnd.uub.record+json"
+							}
+						},
+						"name": "dataDivider"
+					} ],
+				"name" : "recordInfo"
+			}, {
+				"children" : [ {
+					"name" : "text",
+					"value" : "En text på både svenska och engelska"
+				} ],
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "default",
+					"lang" : "sv"
+				}
+			}, {
+				"children" : [ {
+					"name" : "text",
+					"value" : "A text both in english and swedish"
+				} ],
+				"name" : "textPart",
+				"attributes" : {
+					"type" : "alternative",
+					"lang" : "en"
+				}
+			} ],
+			"name" : "text"
+		},
+		"actionLinks" : {
+			"update" : {
+				"requestMethod" : "POST",
+				"rel" : "update",
+				"contentType" : "application/vnd.uub.record+json",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/textSystemOne/svEnText",
+				"accept" : "application/vnd.uub.record+json"
+			},
+			"read" : {
+				"requestMethod" : "GET",
+				"rel" : "read",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/textSystemOne/svEnText",
+				"accept" : "application/vnd.uub.record+json"
+			}
+		}
+	};
 	return coraTest;
 }(CORATEST));

@@ -46,23 +46,23 @@ QUnit.module("recordHandlerViewTest.js", {
 
 		this.getWorkItemViewSpy = function() {
 			return this.workItemViewFactory.getFactored(0);
-		}
+		};
 		this.getViewsToolAddedToView = function() {
 			return this.getWorkItemViewSpy().getToolViewsAddedToView();
-		}
+		};
 		this.getEditView = function() {
 			return this.getWorkItemViewSpy().getViewsAddedToView(0);
-		}
+		};
 		this.getShowView = function() {
 			return this.getWorkItemViewSpy().getViewsAddedToView(1);
-		}
+		};
 
 		this.getButtonView = function() {
 			return this.getWorkItemViewSpy().getViewsAddedToView(2);
-		}
+		};
 		this.getIncomingLinksView = function() {
 			return this.getWorkItemViewSpy().getViewsAddedToView(3);
-		}
+		};
 	},
 	afterEach : function() {
 	}
@@ -254,33 +254,5 @@ QUnit.test("testAddShowNoIncomingLinksButton", function(assert) {
 
 	this.recordHandlerView.hideShowIncomingLinksButton();
 	assert.strictEqual(this.getButtonView().childNodes.length, 0);
-	
-});
-
-QUnit.test("testAddShowIndexButton", function(assert) {
-	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
-	var someView = document.createElement("span");
-	assert.strictEqual(this.getButtonView().childNodes.length, 0);
-
-	this.recordHandlerView.showIndexButton();
-
-	assert.strictEqual(this.getButtonView().childNodes.length, 1);
-	var indexButton = this.getButtonView().childNodes[0];
-	assert.strictEqual(indexButton.value, "INDEX");
-	assert.strictEqual(indexButton.onclick, this.spec.indexMethod);
-	assert.strictEqual(indexButton.className, "index");
-});
-
-QUnit.test("testAddShowNoIndexButton", function(assert) {
-	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
-	var someView = document.createElement("span");
-	assert.strictEqual(this.getButtonView().childNodes.length, 0);
-
-	this.recordHandlerView.showIndexButton();
-	assert.strictEqual(this.getButtonView().childNodes.length, 1);
-
-	this.recordHandlerView.hideIndexButton();
-	assert.strictEqual(this.getButtonView().childNodes.length, 0);
-	
 });
 
