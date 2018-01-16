@@ -196,10 +196,10 @@ var CORA = (function(cora) {
 		function sendNewDataToServer() {
 			var createLink = metadataForRecordType.actionLinks.create;
 
-			varlidateAndSendDataToServer(createLink);
+			validateAndSendDataToServer(createLink);
 		}
 
-		function varlidateAndSendDataToServer(link) {
+		function validateAndSendDataToServer(link) {
 			if (recordGui.validateData()) {
 				busy.show();
 
@@ -406,14 +406,14 @@ var CORA = (function(cora) {
 
 		function sendUpdateDataToServer() {
 			var updateLink = fetchedRecord.actionLinks.update;
-			varlidateAndSendDataToServer(updateLink);
+			validateAndSendDataToServer(updateLink);
 		}
 
 		function sendIndexDataToServer() {
 			var indexLink = fetchedRecord.actionLinks.index;
 				busy.show();
 
-				var callAfterAnswer = resetViewsAndProcessFetchedRecord;
+				var callAfterAnswer = showIndexMessage;
 				var callSpec = {
 					"requestMethod" : indexLink.requestMethod,
 					"url" : indexLink.url,
@@ -425,6 +425,15 @@ var CORA = (function(cora) {
 				};
 				dependencies.ajaxCallFactory.factor(callSpec);
 
+		}
+		
+		function showIndexMessage() {
+			busy.hideWithEffect();
+			var messageSpec = {
+				"message" : "Posten är indexerad",
+				"type" : CORA.message.POSITIVE
+			};
+			messageHolder.createMessage(messageSpec);
 		}
 
 		function callError(answer) {
@@ -493,7 +502,8 @@ var CORA = (function(cora) {
 			shouldRecordBeDeleted : shouldRecordBeDeleted,
 			getManagedGuiItem : getManagedGuiItem,
 			reloadForMetadataChanges : reloadForMetadataChanges,
-			showIncomingLinks : showIncomingLinks
+			showIncomingLinks : showIncomingLinks,
+			showIndexMessage : showIndexMessage 
 		});
 		return out;
 	};
