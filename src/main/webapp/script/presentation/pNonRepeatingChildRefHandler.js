@@ -1,5 +1,6 @@
 /*
  * Copyright 2018 Uppsala University Library
+ * Copyright 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -21,6 +22,7 @@ var CORA = (function(cora) {
 	cora.pNonRepeatingChildRefHandler = function(dependencies, spec) {
 		var view;
 		var topLevelMetadataIds = {};
+		var storedValuePositions = {};
 
 		function start() {
 			createView();
@@ -101,10 +103,99 @@ var CORA = (function(cora) {
 		}
 
 		function handleMsgToDeterminDataState(dataFromMsg, msg) {
-			if (msg.includes("setValue") && dataFromMsg.data !== "") {
-				view.setHasDataStyle(true);
+			var msgAsArray = msg.split("/");
+			var msgType = msgAsArray.pop();
+			if (msgType === "setValue") {
+				handleNewValue(dataFromMsg, msgAsArray);
+			}
+			if (msgType === "remove") {
+				removeAndSetState(msgAsArray);
+			}
+		}
+
+		function handleNewValue(dataFromMsg, msgAsArray) {
+			if (dataFromMsg.data !== "") {
+				updateViewForData();
+				findOrAddPathToStored(msgAsArray);
+			} else {
+				removeAndSetState(msgAsArray);
+			}
+		}
+
+		function updateViewForData() {
+			view.setHasDataStyle(true);
+			if (isInOutputMode()) {
 				view.showContent();
 			}
+		}
+
+		function isInOutputMode() {
+			return spec.mode === "output";
+		}
+
+		function removeAndSetState(msgAsArray) {
+			removeValuePosition(msgAsArray);
+			if (noValuesExistForPresentedData()) {
+				updateViewForNoData();
+			}
+		}
+
+		function removeValuePosition(pathAsArray) {
+			var currentPartOfStoredValuePositions = findOrAddPathToStored(pathAsArray);
+			removeFromBottom(currentPartOfStoredValuePositions);
+		}
+
+		function removeFromBottom(currentPartOfStoredValuePositions) {
+			var parent = currentPartOfStoredValuePositions.getParent();
+			delete parent[currentPartOfStoredValuePositions.name];
+			if (parentContainsNoValues(parent)) {
+				removeFromBottom(parent);
+			}
+		}
+
+		function parentContainsNoValues(parent) {
+			return Object.keys(parent).length == 2;
+		}
+
+		function noValuesExistForPresentedData() {
+			return Object.keys(storedValuePositions).length === 0;
+		}
+
+		function updateViewForNoData() {
+			view.setHasDataStyle(false);
+			if (isInOutputMode()) {
+				view.hideContent();
+			}
+		}
+
+		function findOrAddPathToStored(pathAsArray) {
+			var currentPartOfStoredValuePositions = storedValuePositions;
+			for (var i = 0; i < pathAsArray.length; i++) {
+				currentPartOfStoredValuePositions = returnOrCreatePathPart(currentPartOfStoredValuePositions, pathAsArray[i]);
+			}
+			return currentPartOfStoredValuePositions;
+		}
+
+		function returnOrCreatePathPart(currentPartOfStoredValuePositions, partPath) {
+			if (currentPartOfStoredValuePositions[partPath] !== undefined) {
+				return currentPartOfStoredValuePositions[partPath];
+			}
+			return createAndSetPartPath(currentPartOfStoredValuePositions, partPath);
+		}
+
+		function createAndSetPartPath(currentPartOfStoredValuePositions, partPath) {
+			var newLevel = createPartPath(currentPartOfStoredValuePositions, partPath);
+			currentPartOfStoredValuePositions[partPath] = newLevel;
+			return newLevel;
+		}
+
+		function createPartPath(currentPartOfStoredValuePositions, partPath) {
+			return {
+				name : partPath,
+				getParent : function() {
+					return currentPartOfStoredValuePositions;
+				}
+			};
 		}
 
 		function possiblyAddAlternativePresentation() {
@@ -121,9 +212,11 @@ var CORA = (function(cora) {
 		function getDependencies() {
 			return dependencies;
 		}
+
 		function getSpec() {
 			return spec;
 		}
+
 		var out = Object.freeze({
 			type : "pNonRepeatingChildRefHandler",
 			getDependencies : getDependencies,
