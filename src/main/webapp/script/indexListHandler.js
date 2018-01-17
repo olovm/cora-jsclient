@@ -27,24 +27,27 @@ var CORA = (function(cora) {
 			//view = dependencies.globalFactories.incomingLinksListHandlerViewFactory
 			//		.factor(viewSpec);
 			//fetchDataFromServer();
+			var data = spec.dataList.data;
+			data.forEach(indexData);
 		}
 
 		//function getView() {
 		//	return view.getView();
 		//}
         //
-		//function fetchDataFromServer() {
-		//	var listLink = spec.read_incoming_links;
-		//	var callSpec = {
-		//		"url" : listLink.url,
-		//		"requestMethod" : listLink.requestMethod,
-		//		"accept" : listLink.accept,
-		//		"contentType" : listLink.contentType,
-		//		"loadMethod" : handleAnswerWithIncomingLinksList,
-		//		"errorMethod" : handleCallError
-		//	};
-		//	dependencies.globalFactories.ajaxCallFactory.factor(callSpec);
-		//}
+		function indexData(record) {
+			console.log(JSON.stringify(record))
+			var indexLink = record.actionLinks.index;
+			var callSpec = {
+				"url" : indexLink.url,
+				"requestMethod" : indexLink.requestMethod,
+//				"accept" : listLink.accept,
+//				"contentType" : listLink.contentType,
+//				"loadMethod" : handleAnswerWithIncomingLinksList,
+//				"errorMethod" : handleCallError
+			};
+			dependencies.globalFactories.ajaxCallFactory.factor(callSpec);
+		}
         //
 		//function handleAnswerWithIncomingLinksList(answer) {
 		//	var response = JSON.parse(answer.responseText);

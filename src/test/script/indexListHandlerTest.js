@@ -30,14 +30,9 @@ QUnit.module("indexListHandlerTest.js",{
 										.clientInstanceProviderSpy()
 							}
 						};
-						//this.spec = {
-						//	"read_incoming_links" : {
-						//		"requestMethod" : "GET",
-						//		"rel" : "read_incoming_links",
-						//		"url" : "http://localhost:8080/therest/rest/record/coraText/workOrderRecordIdTextVarText/incomingLinks",
-						//		"accept" : "application/vnd.uub.incomingLinksList+json"
-						//	}
-						//};
+						this.spec = {
+								"dataList" : CORATEST.listWithDataToIndex.dataList
+						};
 
 					},
 					afterEach : function() {
@@ -49,44 +44,34 @@ QUnit.test("testType", function(assert) {
 	assert.strictEqual(indexListHandler.type, "indexListHandler");
 });
 
-//QUnit.test("testGetDependencies", function(assert) {
-//	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
-//	assert.strictEqual(incomingLinksListHandler.getDependencies(), this.dependencies);
-//});
-//
-//QUnit.test("testGetSpec", function(assert) {
-//	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
-//	assert.strictEqual(incomingLinksListHandler.getSpec(), this.spec);
-//});
-//
-//QUnit.test("testGetView", function(assert) {
-//	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
-//	var factoredView = this.incomingLinksListHandlerViewFactorySpy.getFactored(0);
-//
-//	assert.strictEqual(incomingLinksListHandler.getView(), factoredView.getView());
-//});
-//
-//QUnit.test("testViewSpec", function(assert) {
-//	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
-//	var factoredViewSpec = this.incomingLinksListHandlerViewFactorySpy.getSpec(0);
-//
-//	assert.strictEqual(factoredViewSpec.openRecordUsingLink, incomingLinksListHandler.openRecordUsingLink);
-//});
-//
-//QUnit.test("init", function(assert) {
-//	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
-//	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
-//	var ajaxCallSpec = ajaxCallSpy.getSpec();
-//	assert.strictEqual(ajaxCallSpec.url, "http://localhost:8080/therest/rest/record/"
-//			+ "coraText/workOrderRecordIdTextVarText/incomingLinks");
-//	assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
-//	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.incomingLinksList+json");
-//	assert.strictEqual(ajaxCallSpec.contentType, undefined);
-//	assert.strictEqual(ajaxCallSpec.data, undefined);
-//	assert.strictEqual(ajaxCallSpec.loadMethod,
-//			incomingLinksListHandler.handleAnswerWithIncomingLinksList);
-//	assert.strictEqual(ajaxCallSpec.errorMethod, incomingLinksListHandler.handleCallError);
-//});
+QUnit.test("testGetDependencies", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	assert.strictEqual(indexListHandler.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	assert.strictEqual(indexListHandler.getSpec(), this.spec);
+});
+
+QUnit.test("init", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(2), undefined)
+	
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	
+	
+	assert.strictEqual(ajaxCallSpec.url, "https://epc.ub.uu.se/therest/rest/record/workOrder/");
+assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
+//assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
+//assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
+//assert.strictEqual(ajaxCallSpec.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"textSystemOne\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"svEnText\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
+//assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.showIndexMessage);
+//assert.strictEqual(ajaxCallSpec.errorMethod, incomingLinksListHandler.handleCallError);
+var ajaxCallSpy2 = this.ajaxCallFactorySpy.getFactored(1);
+var ajaxCallSpec2 = ajaxCallSpy2.getSpec();
+});
 //
 //QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
 //	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
