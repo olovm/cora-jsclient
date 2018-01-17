@@ -426,7 +426,7 @@ var CORA = (function(cora) {
 				dependencies.ajaxCallFactory.factor(callSpec);
 
 		}
-		
+
 		function showIndexMessage() {
 			busy.hideWithEffect();
 			var messageSpec = {
@@ -503,7 +503,7 @@ var CORA = (function(cora) {
 			getManagedGuiItem : getManagedGuiItem,
 			reloadForMetadataChanges : reloadForMetadataChanges,
 			showIncomingLinks : showIncomingLinks,
-			showIndexMessage : showIndexMessage 
+			showIndexMessage : showIndexMessage
 		});
 		return out;
 	};
