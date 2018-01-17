@@ -196,10 +196,10 @@ var CORA = (function(cora) {
 		function sendNewDataToServer() {
 			var createLink = metadataForRecordType.actionLinks.create;
 
-			varlidateAndSendDataToServer(createLink);
+			validateAndSendDataToServer(createLink);
 		}
 
-		function varlidateAndSendDataToServer(link) {
+		function validateAndSendDataToServer(link) {
 			if (recordGui.validateData()) {
 				busy.show();
 
@@ -319,6 +319,9 @@ var CORA = (function(cora) {
 			if (recordHasUpdateLink()) {
 				recordHandlerView.addButton("UPDATE", sendUpdateDataToServer, "update");
 			}
+			if(recordHasIndexLink()){
+				recordHandlerView.addButton("INDEX", sendIndexDataToServer, "index");
+			}
 		}
 		function possiblyShowShowIncomingLinksButton() {
 			if (recordHasIncomingLinks()) {
@@ -365,6 +368,11 @@ var CORA = (function(cora) {
 			return updateLink !== undefined;
 		}
 
+		function recordHasIndexLink() {
+			var indexLink = fetchedRecord.actionLinks["index"];
+			return indexLink !== undefined;
+		}
+
 		function shouldRecordBeDeleted() {
 			var questionSpec = {
 				"text" : "Är du säker på att du vill ta bort posten?",
@@ -398,7 +406,34 @@ var CORA = (function(cora) {
 
 		function sendUpdateDataToServer() {
 			var updateLink = fetchedRecord.actionLinks.update;
-			varlidateAndSendDataToServer(updateLink);
+			validateAndSendDataToServer(updateLink);
+		}
+
+		function sendIndexDataToServer() {
+			var indexLink = fetchedRecord.actionLinks.index;
+				busy.show();
+
+				var callAfterAnswer = showIndexMessage;
+				var callSpec = {
+					"requestMethod" : indexLink.requestMethod,
+					"url" : indexLink.url,
+					"contentType" : indexLink.contentType,
+					"accept" : indexLink.accept,
+					"loadMethod" : callAfterAnswer,
+					"errorMethod" : callError,
+					"data" : JSON.stringify(indexLink.body)
+				};
+				dependencies.ajaxCallFactory.factor(callSpec);
+
+		}
+
+		function showIndexMessage() {
+			busy.hideWithEffect();
+			var messageSpec = {
+				"message" : "Posten är indexerad",
+				"type" : CORA.message.POSITIVE
+			};
+			messageHolder.createMessage(messageSpec);
 		}
 
 		function callError(answer) {
@@ -467,7 +502,8 @@ var CORA = (function(cora) {
 			shouldRecordBeDeleted : shouldRecordBeDeleted,
 			getManagedGuiItem : getManagedGuiItem,
 			reloadForMetadataChanges : reloadForMetadataChanges,
-			showIncomingLinks : showIncomingLinks
+			showIncomingLinks : showIncomingLinks,
+			showIndexMessage : showIndexMessage
 		});
 		return out;
 	};

@@ -29,6 +29,7 @@ var CORATEST = (function(coraTest) {
 		var objectsAddedToEditView = [];
 
 		var showShowIncomingLinks = false;
+		var showIndexButton = false;
 		var objectsAddedToIncomingLinksView = [];
 
 		var spyView = document.createElement("span");
@@ -138,7 +139,6 @@ var CORATEST = (function(coraTest) {
 			getObjectAddedToIncomingLinksView : getObjectAddedToIncomingLinksView,
 			showShowIncomingLinksButton : showShowIncomingLinksButton,
 			getShowShowIncomingLinksButton : getShowShowIncomingLinksButton,
-		// hideShowIncomingLinksButton : hideShowIncomingLinksButton
 		});
 		return out;
 	};
