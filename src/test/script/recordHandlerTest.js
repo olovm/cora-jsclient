@@ -97,7 +97,7 @@ QUnit.module("recordHandlerTest.js", {
 				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
+		};
 		this.answerCallWithoutUpdateOrDeleteLink = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecord = JSON.stringify({
@@ -108,7 +108,7 @@ QUnit.module("recordHandlerTest.js", {
 				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
+		};
 		this.answerCallWithoutDeleteLink = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecord = JSON.stringify({
@@ -119,7 +119,7 @@ QUnit.module("recordHandlerTest.js", {
 				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
+		};
 		this.answerCallWithIncomingLinks = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecord = JSON.stringify({
@@ -130,18 +130,8 @@ QUnit.module("recordHandlerTest.js", {
 				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
-		this.answerCallWithIndexLink = function(no) {
-			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
-			var jsonRecord = JSON.stringify({
-				"record" : this.recordWithIndexLink
-			});
-			var answer = {
-				"spec" : ajaxCallSpy0.getSpec(),
-				"responseText" : jsonRecord
-			};
-			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
+		};
+
 	},
 	afterEach : function() {
 	}
@@ -295,7 +285,7 @@ QUnit.test("testCopyAsNew", function(assert) {
 		"createNewRecord" : "true",
 		"record" : dataHolderData,
 		"jsClient" : this.spec.jsClient,
-		"recordTypeRecordIdForNew" : "recordType",
+		"recordTypeRecordIdForNew" : "recordType"
 	};
 
 	var createdSpecForCopy = this.dependencies.recordHandlerFactory.getSpec(0);
@@ -747,7 +737,7 @@ QUnit.test("testIndexCall", function(assert) {
 	this.spec.createNewRecord = "false";
 	this.record = this.recordWithIndexLink;
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
-	this.answerCallWithIndexLink(0);
+	this.answerCall(0);
 
 	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
 	assert.strictEqual(factoredRecordGui.getDataValidated(), 0);
