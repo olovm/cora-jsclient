@@ -32,6 +32,8 @@ QUnit.module("recordHandlerViewTest.js", {
 			"copyDataMethod" : function() {
 			},
 			"showIncomingLinksMethod" : function() {
+			},
+			"indexMethod" : function() {
 			}
 		};
 		this.specWithoutShowIncomingLinks = {
@@ -44,23 +46,23 @@ QUnit.module("recordHandlerViewTest.js", {
 
 		this.getWorkItemViewSpy = function() {
 			return this.workItemViewFactory.getFactored(0);
-		}
+		};
 		this.getViewsToolAddedToView = function() {
 			return this.getWorkItemViewSpy().getToolViewsAddedToView();
-		}
+		};
 		this.getEditView = function() {
 			return this.getWorkItemViewSpy().getViewsAddedToView(0);
-		}
+		};
 		this.getShowView = function() {
 			return this.getWorkItemViewSpy().getViewsAddedToView(1);
-		}
+		};
 
 		this.getButtonView = function() {
 			return this.getWorkItemViewSpy().getViewsAddedToView(2);
-		}
+		};
 		this.getIncomingLinksView = function() {
 			return this.getWorkItemViewSpy().getViewsAddedToView(3);
-		}
+		};
 	},
 	afterEach : function() {
 	}
@@ -89,6 +91,7 @@ QUnit.test("init", function(assert) {
 	var incomingLinksView = workItemViewSpy.getViewsAddedToView(3);
 	assert.strictEqual(incomingLinksView.nodeName, "SPAN");
 	assert.strictEqual(incomingLinksView.className, "incomingLinksView");
+	
 });
 
 QUnit.test("testGetView", function(assert) {
@@ -251,5 +254,5 @@ QUnit.test("testAddShowNoIncomingLinksButton", function(assert) {
 
 	this.recordHandlerView.hideShowIncomingLinksButton();
 	assert.strictEqual(this.getButtonView().childNodes.length, 0);
-	
 });
+

@@ -25,6 +25,8 @@ QUnit.module("recordHandlerTest.js", {
 		this.recordWithoutUpdateOrDeleteLink = CORATEST.recordWithoutUpdateOrDeleteLink;
 		this.recordWithoutDeleteLink = CORATEST.recordWithoutDeleteLink;
 		this.recordWithReadIncomingLinks = CORATEST.recordWithReadIncomingLinks;
+		this.recordWithIndexLink = CORATEST.recordWithIndexLink;
+		this.recordWithoutIndexLink = CORATEST.recordWithoutIndexLink;
 
 		this.pubSub = CORATEST.pubSubSpy();
 
@@ -95,7 +97,7 @@ QUnit.module("recordHandlerTest.js", {
 				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
+		};
 		this.answerCallWithoutUpdateOrDeleteLink = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecord = JSON.stringify({
@@ -106,7 +108,7 @@ QUnit.module("recordHandlerTest.js", {
 				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
+		};
 		this.answerCallWithoutDeleteLink = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecord = JSON.stringify({
@@ -117,7 +119,7 @@ QUnit.module("recordHandlerTest.js", {
 				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
+		};
 		this.answerCallWithIncomingLinks = function(no) {
 			var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(no);
 			var jsonRecord = JSON.stringify({
@@ -128,7 +130,7 @@ QUnit.module("recordHandlerTest.js", {
 				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
+		};
 
 	},
 	afterEach : function() {
@@ -283,7 +285,7 @@ QUnit.test("testCopyAsNew", function(assert) {
 		"createNewRecord" : "true",
 		"record" : dataHolderData,
 		"jsClient" : this.spec.jsClient,
-		"recordTypeRecordIdForNew" : "recordType",
+		"recordTypeRecordIdForNew" : "recordType"
 	};
 
 	var createdSpecForCopy = this.dependencies.recordHandlerFactory.getSpec(0);
@@ -731,15 +733,81 @@ QUnit.test("initCheckIncomingLinksButtonForIncomingLinks", function(assert) {
 	assert.strictEqual(recordHandlerViewSpy.getShowShowIncomingLinksButton(), true);
 });
 
-QUnit.test("testNoDeleteButtonWhenNoDeleteLink", function(assert) {
+QUnit.test("testIndexCall", function(assert) {
 	this.spec.createNewRecord = "false";
-	this.spec.record = this.recordWithoutDeleteLink;
-
+	this.record = this.recordWithIndexLink;
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
-	this.answerCallWithoutDeleteLink(0);
+	this.answerCall(0);
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(factoredRecordGui.getDataValidated(), 0);
+
+	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.metadataId, "textSystemOneGroup");
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
 
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
-	assert.strictEqual(recordHandlerViewSpy.getShowShowIncomingLinksButton(), false);
+	var indexButton = recordHandlerViewSpy.getAddedButton(1);
+	indexButton.onclickMethod();
+	
+	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
+	var ajaxCallSpec = ajaxCallSpy.getSpec();
+	assert.strictEqual(ajaxCallSpec.url,
+			"https://epc.ub.uu.se/therest/rest/record/workOrder/");
+	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
+	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
+	assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
+	assert.strictEqual(ajaxCallSpec.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"textSystemOne\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"svEnText\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
+	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.showIndexMessage);
+
+});
+
+QUnit.test("testNoIndexButtonWhenNoIndexLink", function(assert) {
+	this.spec.createNewRecord = "false";
+	this.record = this.recordWithoutIndexLink;
+
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+
+	var factoredSpec = this.dependencies.recordGuiFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.metadataId, "textSystemOneGroup");
+
+	var factoredRecordGui = this.dependencies.recordGuiFactory.getFactored(0);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var indexButton = recordHandlerViewSpy.getAddedButton(1);
+	assert.strictEqual(indexButton, undefined);
+});
+
+QUnit.test("initCheckIndexButtonWhenIndexLinkExists", function(assert) {
+	this.spec.createNewRecord = "false";
+	this.record = this.recordWithIndexLink;
+
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+
+	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+	var indexButton = recordHandlerViewSpy.getAddedButton(1);
+	assert.strictEqual(indexButton.text, "INDEX");
+});
+
+QUnit.test("testshowIndexMessage", function(assert) {
+	this.spec.createNewRecord = "false";
+	this.record = this.recordWithoutIndexLink;
+
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	var messageHolder = managedGuiItem.getAddedWorkPresentation(0);
+
+	recordHandler.showIndexMessage();
+	assert.strictEqual(messageHolder.className, "messageHolder");
+	var firstChild = messageHolder.childNodes[0];
+	assert.strictEqual(firstChild.className, "message positive");
+	var message = firstChild.childNodes[1];
+	assert.strictEqual(message.innerHTML, "Posten är indexerad");
+	
 });
 
 QUnit.test("initCheckRightGuiCreatedForExisting", function(assert) {
