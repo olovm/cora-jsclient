@@ -36,8 +36,10 @@ var CORA = (function(cora) {
 		//}
         //
 		function indexData(record) {
+			var cRecord = CORA.coraData(record);
 			console.log(JSON.stringify(record))
-			var indexLink = record.actionLinks.index;
+			var indexLink = cRecord.actionLinks.index;
+			console.log("indexlink ", indexLink )
 			var callSpec = {
 				"url" : indexLink.url,
 				"requestMethod" : indexLink.requestMethod,
