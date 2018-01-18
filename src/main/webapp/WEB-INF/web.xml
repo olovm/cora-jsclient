@@ -22,5 +22,9 @@
 	version="3.0">
 
 	<display-name>JsClient</display-name>
-
+	
+	<welcome-file-list>
+	    <welcome-file>theClient.html</welcome-file>
+	</welcome-file-list>
+	
 </web-app>
