@@ -35,18 +35,18 @@ var CORA = (function(cora) {
 		//	return view.getView();
 		//}
         //
-		function indexData(record) {
-			var cRecord = CORA.coraData(record);
-			console.log(JSON.stringify(record))
-			var indexLink = cRecord.actionLinks.index;
-			console.log("indexlink ", indexLink )
+		function indexData(dataRecord) {
+			var record = dataRecord.record;
+			var indexLink = record.actionLinks.index;
+
 			var callSpec = {
 				"url" : indexLink.url,
 				"requestMethod" : indexLink.requestMethod,
-//				"accept" : listLink.accept,
-//				"contentType" : listLink.contentType,
-//				"loadMethod" : handleAnswerWithIncomingLinksList,
-//				"errorMethod" : handleCallError
+				"accept" : indexLink.accept,
+				"contentType" : indexLink.contentType,
+				"data" : JSON.stringify(indexLink.body),
+				"loadMethod" : {},
+				"errorMethod" : handleCallError
 			};
 			dependencies.globalFactories.ajaxCallFactory.factor(callSpec);
 		}
@@ -72,9 +72,9 @@ var CORA = (function(cora) {
 		//	view.addIncomingLink(incomingLinkToAdd);
 		//}
         //
-		//function handleCallError(error) {
-		//	throw new Error("error fetching links from server", error);
-		//}
+		function handleCallError(error) {
+			throw new Error("error indexing", error);
+		}
         //
 		//function openRecordUsingLink(openInfo) {
 		//	var jsClient = dependencies.globalInstances.clientInstanceProvider.getJsClient();
@@ -95,7 +95,7 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			//getView : getView,
 			//handleAnswerWithIncomingLinksList : handleAnswerWithIncomingLinksList,
-			//handleCallError : handleCallError,
+			handleCallError : handleCallError,
 			//openRecordUsingLink : openRecordUsingLink
 		});
 

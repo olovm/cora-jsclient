@@ -64,24 +64,24 @@ QUnit.test("init", function(assert) {
 	
 	assert.strictEqual(ajaxCallSpec.url, "https://epc.ub.uu.se/therest/rest/record/workOrder/");
 assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
-//assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
-//assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
-//assert.strictEqual(ajaxCallSpec.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"textSystemOne\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"svEnText\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
-//assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.showIndexMessage);
-//assert.strictEqual(ajaxCallSpec.errorMethod, incomingLinksListHandler.handleCallError);
+assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
+assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
+assert.strictEqual(ajaxCallSpec.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"writtenText\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"writtenText:9011356289912\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
+assert.stringifyEqual(ajaxCallSpec.loadMethod, {});
+assert.strictEqual(ajaxCallSpec.errorMethod, indexListHandler.handleCallError);
 var ajaxCallSpy2 = this.ajaxCallFactorySpy.getFactored(1);
 var ajaxCallSpec2 = ajaxCallSpy2.getSpec();
 });
 //
-//QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
-//	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);
-//	try {
-//		incomingLinksListHandler.handleCallError();
-//	} catch (error) {
-//		assert.strictEqual(error.message, "error fetching links from server");
-//	}
-//
-//});
+QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	try {
+		indexListHandler.handleCallError();
+	} catch (error) {
+		assert.strictEqual(error.message, "error indexing");
+	}
+
+});
 //
 //QUnit.test("testHandleAnswerWithIncomingLinksListSetsNumberOfLinks", function(assert) {
 //	var incomingLinksListHandler = CORA.incomingLinksListHandler(this.dependencies, this.spec);

@@ -59,7 +59,6 @@ var CORA = (function(cora) {
 			var cData = CORA.coraData(incomingLink);
 			var from = cData.getFirstChildByNameInData("from");
 			var cFrom = CORA.coraData(from);
-			console.log("incominglinks ", from)
 			var incomingLinkToAdd = {
 				"linkedRecordType" : cFrom.getFirstAtomicValueByNameInData("linkedRecordType"),
 				"linkedRecordId" : cFrom.getFirstAtomicValueByNameInData("linkedRecordId"),
