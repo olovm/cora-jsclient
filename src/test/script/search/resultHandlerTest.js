@@ -34,7 +34,8 @@ QUnit.module("resultHandlerTest.js", {
 			"textProvider" : CORATEST.textProviderSpy(),
 			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
 			"jsClient" : CORATEST.jsClientSpy(),
-			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy")
+			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
+			"indexListHandlerFactory" : CORATEST.standardFactorySpy("indexListHandlerSpy")
 		}
 		this.spec = {
 			"dataList" : CORATEST.searchRecordList.dataList
@@ -159,3 +160,28 @@ QUnit.test("testGetViewIsPassedOnToView", function(assert) {
 
 	assert.strictEqual(resultHandler.getView(), factoredView.getView());
 });
+
+QUnit.test("testIndexDataList", function(assert) {
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+	resultHandler.indexDataList();
+	var factoredindexListHandler = this.dependencies.indexListHandlerFactory.getFactored(0);
+	assert.strictEqual(factoredindexListHandler.type, "indexListHandlerSpy");
+//	var record = {
+//			"actionLinks" : {
+//				"read" : "thisIsAFakedRecordLink"
+//			}
+//		};
+//	var openInfo = {
+//		"record" : record,
+//		"loadInBackground" : "true"
+//	};
+//	resultHandler.openRecord(openInfo);
+//	var jsClient = this.dependencies.jsClient;
+//	var expectedOpenInfo = {
+//		"readLink" : "thisIsAFakedRecordLink",
+//		"loadInBackground" : "false"
+//	};
+//	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink, expectedOpenInfo.readLink);
+//	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, openInfo.loadInBackground);
+});
+

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -19,22 +19,15 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.indexListHandler = function(dependencies, spec) {
-		var view;
+		var listOfDataToIndex
 		function start() {
-			//var viewSpec = {
-			//	"openRecordUsingLink" : openRecordUsingLink
-			//};
-			//view = dependencies.globalFactories.incomingLinksListHandlerViewFactory
-			//		.factor(viewSpec);
-			//fetchDataFromServer();
-			var data = spec.dataList.data;
-			data.forEach(indexData);
+			listOfDataToIndex = spec.dataList.data;
 		}
 
-		//function getView() {
-		//	return view.getView();
-		//}
-        //
+		function indexDataList(){
+			listOfDataToIndex.forEach(indexData);
+		}
+		
 		function indexData(dataRecord) {
 			var record = dataRecord.record;
 			var indexLink = record.actionLinks.index;
@@ -50,36 +43,10 @@ var CORA = (function(cora) {
 			};
 			dependencies.globalFactories.ajaxCallFactory.factor(callSpec);
 		}
-        //
-		//function handleAnswerWithIncomingLinksList(answer) {
-		//	var response = JSON.parse(answer.responseText);
-		//	var data = response.dataList.data;
-        //
-		//	view.setNumberOfIncomingLinks(data.length);
-        //
-		//	data.forEach(addIncomingLinkToView);
-		//}
-        //
-		//function addIncomingLinkToView(incomingLink) {
-		//	var cData = CORA.coraData(incomingLink);
-		//	var from = cData.getFirstChildByNameInData("from");
-		//	var cFrom = CORA.coraData(from);
-		//	var incomingLinkToAdd = {
-		//		"linkedRecordType" : cFrom.getFirstAtomicValueByNameInData("linkedRecordType"),
-		//		"linkedRecordId" : cFrom.getFirstAtomicValueByNameInData("linkedRecordId"),
-		//		"readLink" : from.actionLinks.read
-		//	};
-		//	view.addIncomingLink(incomingLinkToAdd);
-		//}
-        //
+
 		function handleCallError(error) {
 			throw new Error("error indexing", error);
 		}
-        //
-		//function openRecordUsingLink(openInfo) {
-		//	var jsClient = dependencies.globalInstances.clientInstanceProvider.getJsClient();
-		//	jsClient.openRecordUsingReadLink(openInfo);
-		//}
 
 		function getDependencies() {
 			return dependencies;
@@ -93,10 +60,8 @@ var CORA = (function(cora) {
 			"type" : "indexListHandler",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
-			//getView : getView,
-			//handleAnswerWithIncomingLinksList : handleAnswerWithIncomingLinksList,
-			handleCallError : handleCallError,
-			//openRecordUsingLink : openRecordUsingLink
+			indexDataList : indexDataList,
+			handleCallError : handleCallError
 		});
 
 		start();

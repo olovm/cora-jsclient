@@ -75,6 +75,10 @@ var CORA = (function(cora) {
 			};
 			dependencies.jsClient.openRecordUsingReadLink(openInfo);
 		}
+		
+		function indexDataList(){
+			dependencies.indexListHandlerFactory.factor();
+		}
 
 		function getDependencies() {
 			return dependencies;
@@ -92,7 +96,8 @@ var CORA = (function(cora) {
 			getView : getView,
 			getDependencies : getDependencies,
 			getSpec : getSpec,
-			openRecord : openRecord
+			openRecord : openRecord,
+			indexDataList: indexDataList
 		});
 		start();
 		return out;
