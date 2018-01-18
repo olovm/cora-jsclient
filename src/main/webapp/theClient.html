@@ -163,6 +163,7 @@
 
 
 <script type="text/javascript">
+	var name = "A Client";
 	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
 	var appTokenBaseUrl = "http://epc.ub.uu.se/";
 	window.onload = start;
@@ -179,22 +180,11 @@
 	var recordTypeProvider;
 	var uploadManager;
 
-	window.CallParent = function() {
-        alert(" Parent window Alert");
-    }
-
-	callParent3 = function(){
-        alert(" Parent window Alert33");
-		
-	}
-	function callParent2(){
-        alert(" Parent window Alert222");
-	}
-	
 	function start() {
 		askForServerToUse();
 	}
 
+	
 	function askForServerToUse() {
 		var questionSpec = {
 			"text" : "Vilken server vill du använda?",
@@ -210,6 +200,15 @@
 			}, {
 				"text" : "ip from url",
 				"onclickFunction" : useLocalhost3
+			}, {
+				"text" : "Cora",
+				"onclickFunction" : useCora
+			}, {
+				"text" : "Alvin",
+				"onclickFunction" : useAlvin
+			}, {
+				"text" : "DiVA",
+				"onclickFunction" : useDiva
 			} ]
 		};
 		var question = CORA.question(questionSpec);
@@ -237,6 +236,24 @@
 	function useLocalhost3() {
 		appTokenBaseUrl = "/";
 		baseUrl = "/therest/rest/";
+		startDependencies();
+	}
+	function useCora() {
+		name = "Cora";
+		baseUrl = "https://cora.epc.ub.uu.se/cora/rest/";
+		appTokenBaseUrl = "https://cora.epc.ub.uu.se/cora/";
+		startDependencies();
+	}
+	function useAlvin() {
+		name = "Alvin";
+		baseUrl = "https://cora.epc.ub.uu.se/alvin/rest/";
+		appTokenBaseUrl = "https://cora.epc.ub.uu.se/alvin/";
+		startDependencies();
+	}
+	function useDiva() {
+		name = "DiVA";
+		baseUrl = "https://cora.epc.ub.uu.se/diva/rest/";
+		appTokenBaseUrl = "https://cora.epc.ub.uu.se/diva/";
 		startDependencies();
 	}
 
@@ -388,7 +405,7 @@
 			"clientInstanceProvider" : CORA.clientInstanceProvider()
 		};
 		jsClientSpec = {
-			"name" : "A Client",
+			"name" : name,
 			"baseUrl" : baseUrl,
 			"appTokenBaseUrl" : appTokenBaseUrl
 		};
