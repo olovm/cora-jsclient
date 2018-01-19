@@ -22,6 +22,7 @@ var CORATEST = (function(coraTest) {
 
 		var view = CORA.gui.createSpanWithClassName("spyView");
 		var presentationsAdded = [];
+		var addedButton;
 
 		function getView() {
 			return view;
@@ -37,11 +38,25 @@ var CORATEST = (function(coraTest) {
 			return presentationsAdded[number];
 		}
 
+		function addButton(text, onclickMethod, className){
+			addedButton = {
+				"text" : text,
+				"onclickMethod" : onclickMethod,
+				"className" : className
+			};
+		}
+
+		function getAddedButton(){
+			return addedButton;
+		}
+
 		return Object.freeze({
 			"type" : "resultHandlerViewSpy",
 			getView : getView,
 			addChildPresentation : addChildPresentation,
-			getAddedPresentation : getAddedPresentation
+			getAddedPresentation : getAddedPresentation,
+			addButton : addButton,
+			getAddedButton : getAddedButton
 		});
 	};
 	return coraTest;

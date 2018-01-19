@@ -96,6 +96,7 @@ QUnit.test("testFactorAddedDependenciesResultHandlerFactory", function(assert) {
 	assert.strictEqual(addedDep.resultHandlerFactory.type, "resultHandlerFactory");
 	var dependenciesRH = addedDep.resultHandlerFactory.getDependencies();
 	assert.strictEqual(dependenciesRH.textProvider, this.providers.textProvider);
+	assert.strictEqual(dependenciesRH.ajaxCallFactory, this.globalFactories.ajaxCallFactory);
 	assert.strictEqual(dependenciesRH.recordHandlerFactory.type, "recordHandlerFactory");
 });
 

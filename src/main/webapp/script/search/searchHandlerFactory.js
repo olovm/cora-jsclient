@@ -36,7 +36,8 @@ var CORA = (function(cora) {
 
 			var depResultHandler = {
 				"textProvider" : dependencies.providers.textProvider,
-				"recordHandlerFactory" : recordHandlerFactory
+				"recordHandlerFactory" : recordHandlerFactory,
+				"ajaxCallFactory" : dependencies.globalFactories.ajaxCallFactory
 			};
 			var dep = {
 				"searchHandlerViewFactory" : CORA.searchHandlerViewFactory(viewDep),

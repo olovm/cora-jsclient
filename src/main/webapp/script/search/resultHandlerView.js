@@ -66,6 +66,21 @@ var CORA = (function(cora) {
 			return newView;
 		}
 
+		function addButton(text, onclickMethod, className) {
+			var button = createButton(text, onclickMethod, className);
+			view.childNodes[1].appendChild(button);
+			return button;
+		}
+
+		function createButton(text, onclickMethod, className) {
+			var button = document.createElement("input");
+			button.type = "button";
+			button.value = text;
+			button.onclick = onclickMethod;
+			button.className = className;
+			return button;
+		}
+
 		function getView() {
 			return view;
 		}
@@ -84,7 +99,8 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-			addChildPresentation : addChildPresentation
+			addChildPresentation : addChildPresentation,
+			addButton : addButton
 		});
 	};
 	return cora;

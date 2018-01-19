@@ -26,6 +26,7 @@ var CORA = (function(cora) {
 		function start() {
 			view = createView();
 			createAndAddPresentationsForEachResultItem();
+			view.addButton("INDEX", indexDataList, "indexButton");
 		}
 
 		function createView() {
@@ -75,11 +76,11 @@ var CORA = (function(cora) {
 			};
 			dependencies.jsClient.openRecordUsingReadLink(openInfo);
 		}
-		
+
 		function indexDataList(){
 			var indexListHandlerSpec = {
 					"dataList" : spec.dataList
-				}
+				};
 			var indexListHandler = dependencies.indexListHandlerFactory.factor(indexListHandlerSpec);
 			indexListHandler.indexDataList();
 		}

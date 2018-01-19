@@ -22,13 +22,7 @@ QUnit.module("indexListHandlerTest.js",{
 					beforeEach : function() {
 						this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 						this.dependencies = {
-							"globalFactories" : {
-								"ajaxCallFactory" : this.ajaxCallFactorySpy
-							},
-							"globalInstances" : {
-								"clientInstanceProvider" : CORATEST
-										.clientInstanceProviderSpy()
-							}
+							"ajaxCallFactory" : this.ajaxCallFactorySpy
 						};
 						this.spec = {
 								"dataList" : CORATEST.listWithDataToIndex.dataList

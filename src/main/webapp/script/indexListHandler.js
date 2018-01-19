@@ -41,7 +41,7 @@ var CORA = (function(cora) {
 				"loadMethod" : {},
 				"errorMethod" : handleCallError
 			};
-			dependencies.globalFactories.ajaxCallFactory.factor(callSpec);
+			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
 		function handleCallError(error) {

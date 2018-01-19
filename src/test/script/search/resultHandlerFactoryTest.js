@@ -23,7 +23,8 @@ QUnit.module("resultHandlerFactoryTest.js", {
 		this.dependencies = {
 			"textProvider" : CORATEST.textProviderSpy(),
 			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
-			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy")
+			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
+			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy")
 		};
 		this.spec = {
 			"jsClient" : CORATEST.jsClientSpy(),
@@ -57,6 +58,17 @@ QUnit.test("testFactorAddedDependencies", function(assert) {
 	assert.strictEqual(addedDep.resultHandlerViewFactory.type, "resultHandlerViewFactory");
 	assert.strictEqual(addedDep.textProvider, this.dependencies.textProvider);
 	assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
+	assert.strictEqual(addedDep.indexListHandlerFactory.type, "indexListHandlerFactory");
 	assert.strictEqual(addedDep.jsClient, this.spec.jsClient);
 	assert.strictEqual(addedDep.recordHandlerFactory, this.dependencies.recordHandlerFactory);
+
 });
+
+QUnit.test("testFactorIndexListFactory", function(assert) {
+	var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
+	var resultHandler = resultHandlerFactory.factor(this.spec);
+	var addedDep = resultHandler.getDependencies();
+	var indexListHandlerFactoryDep = addedDep.indexListHandlerFactory.getDependencies();
+	assert.strictEqual(indexListHandlerFactoryDep.ajaxCallFactory, this.dependencies.ajaxCallFactory)
+});
+

@@ -24,11 +24,11 @@ QUnit.module("resultHandlerTest.js", {
 		var addedManagedGuiItem = [];
 		this.getAddedManagedGuiItem = function(number) {
 			return addedManagedGuiItem[number];
-		}
+		};
 		var addedToShowView = [];
 		this.getAddedToShowView = function(number) {
 			return addedToShowView[number];
-		}
+		};
 		this.dependencies = {
 			"resultHandlerViewFactory" : CORATEST.standardFactorySpy("resultHandlerViewSpy"),
 			"textProvider" : CORATEST.textProviderSpy(),
@@ -36,10 +36,10 @@ QUnit.module("resultHandlerTest.js", {
 			"jsClient" : CORATEST.jsClientSpy(),
 			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
 			"indexListHandlerFactory" : CORATEST.standardFactorySpy("indexListHandlerSpy")
-		}
+		};
 		this.spec = {
 			"dataList" : CORATEST.searchRecordList.dataList
-		}
+		};
 	},
 	afterEach : function() {
 	}
@@ -168,6 +168,15 @@ QUnit.test("testIndexDataListSpec", function(assert) {
 	assert.strictEqual(factoredIndexListHandlerSpec.dataList, this.spec.dataList);
 });
 
+QUnit.test("testIndexButtonIsAddedToView", function(assert) {
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+
+	var factoredView = this.dependencies.resultHandlerViewFactory.getFactored(0);
+
+	assert.strictEqual(factoredView.getAddedButton().text, "INDEX");
+	assert.strictEqual(factoredView.getAddedButton().onclickMethod, resultHandler.indexDataList);
+	assert.strictEqual(factoredView.getAddedButton().className, "indexButton");
+});
 
 QUnit.test("testIndexDataList", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
