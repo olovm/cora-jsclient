@@ -19,9 +19,20 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.indexListHandlerSpy = function(dependencies, spec) {
+		var indexDataListWasCalled = false;
+		
+		function indexDataList(){
+			indexDataListWasCalled = true;
+		}
+		
+		function getIndexDataListWasCalled(){
+			return indexDataListWasCalled;
+		}
 
 		return Object.freeze({
-			"type" : "indexListHandlerSpy"
+			"type" : "indexListHandlerSpy",
+			indexDataList : indexDataList,
+			getIndexDataListWasCalled : getIndexDataListWasCalled
 		});
 	};
 	return coraTest;
