@@ -120,7 +120,7 @@ QUnit.test("testInitLoginManagerViewSpec", function(assert) {
 		"text" : "Uppsala webredirect",
 		"call" : loginManager.webRedirectLogin
 	}, {
-		"text" : "Uppsala systemone webredirect",
+		"text" : "Uppsala SystemOne webredirect",
 		"call" : loginManager.webRedirectLogin
 	}, {
 		"text" : "Uppsala Alvin webredirect",
@@ -142,15 +142,15 @@ QUnit.test("testInitLoginManagerViewSpec", function(assert) {
 
 	assert.strictEqual(factoredLoginOptions[2].text, expectedLoginOptions[2].text);
 	assert.strictEqual(factoredLoginOptions[2].type, "webRedirectLogin");
-	assert.strictEqual(factoredLoginOptions[2].url, "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://cora.epc.ub.uu.se/systemone/idplogin/login");
+	assert.strictEqual(factoredLoginOptions[2].url, "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/systemone/idplogin/login");
 	
 	assert.strictEqual(factoredLoginOptions[3].text, expectedLoginOptions[3].text);
 	assert.strictEqual(factoredLoginOptions[3].type, "webRedirectLogin");
-	assert.strictEqual(factoredLoginOptions[3].url, "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://cora.epc.ub.uu.se/alvin/idplogin/login");
+	assert.strictEqual(factoredLoginOptions[3].url, "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/alvin/idplogin/login");
 	
 	assert.strictEqual(factoredLoginOptions[4].text, expectedLoginOptions[4].text);
 	assert.strictEqual(factoredLoginOptions[4].type, "webRedirectLogin");
-	assert.strictEqual(factoredLoginOptions[4].url, "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://cora.epc.ub.uu.se/diva/idplogin/login");
+	assert.strictEqual(factoredLoginOptions[4].url, "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/diva/idplogin/login");
 	
 	assert.strictEqual(factoredSpec.loginMethod, loginManager.login);
 	assert.strictEqual(factoredSpec.logoutMethod, loginManager.logout);

@@ -36,19 +36,19 @@ var CORA = (function(cora) {
 						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/login"
 					},
 					{
-						"text" : "Uppsala systemone webredirect",
+						"text" : "Uppsala SystemOne webredirect",
 						"type" : "webRedirectLogin",
-						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://cora.epc.ub.uu.se/systemone/idplogin/login"
+						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/systemone/idplogin/login"
 					},
 					{
 						"text" : "Uppsala Alvin webredirect",
 						"type" : "webRedirectLogin",
-						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://cora.epc.ub.uu.se/alvin/idplogin/login"
+						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/alvin/idplogin/login"
 					},
 					{
 						"text" : "Uppsala DiVA webredirect",
 						"type" : "webRedirectLogin",
-						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://cora.epc.ub.uu.se/diva/idplogin/login"
+						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/diva/idplogin/login"
 					} ];
 			var viewSpec = {
 				"loginOptions" : loginOptions,
