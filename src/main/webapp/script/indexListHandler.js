@@ -60,6 +60,7 @@ var CORA = (function(cora) {
 			"type" : "indexListHandler",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
+			indexData : indexData,
 			indexDataList : indexDataList,
 			handleCallError : handleCallError
 		});

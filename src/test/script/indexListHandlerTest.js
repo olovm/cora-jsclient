@@ -48,6 +48,32 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(indexListHandler.getSpec(), this.spec);
 });
 
+QUnit.test("testUploadQue", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+//	var menuView = this.uploadManager.view.getMenuView();
+//	assert.strictEqual(menuView.className, "menuView");
+//	var cRecord = CORA.coraData(CORATEST.listWithDataToIndex.dataList.data);
+	var record = CORATEST.listWithDataToIndex.dataList.data[0];
+	
+	indexListHandler.indexData(record);
+//	uploadManager.upload(this.uploadSpec);
+
+//	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
+//	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy0);
+//
+//	assert.strictEqual(menuView.className, "menuView uploading");
+//
+//	uploadManager.upload(this.uploadSpec);
+//	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(1), undefined);
+//	uploadManager.uploadFinished();
+//
+//	var ajaxCallSpy1 = this.ajaxCallFactorySpy.getFactored(1);
+//	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy1);
+//
+//	uploadManager.uploadFinished();
+//	assert.strictEqual(menuView.className, "menuView");
+});
+
 QUnit.test("testIndexDataList", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
