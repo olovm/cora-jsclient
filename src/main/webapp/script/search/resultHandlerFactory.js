@@ -29,7 +29,7 @@ var CORA = (function(cora) {
 
 			var dep = {
 				"resultHandlerViewFactory" : CORA.resultHandlerViewFactory(viewDep),
-				"indexListHandlerFactory" : CORA.indexListHandlerFactory(indexListDep),
+				"indexHandlerFactory" : CORA.indexHandlerFactory(indexListDep),
 				"textProvider" : dependencies.textProvider,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"jsClient" : spec.jsClient,

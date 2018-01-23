@@ -18,7 +18,7 @@
  */
 "use strict";
 
-QUnit.module("indexListHandlerFactoryTest.js", {
+QUnit.module("indexHandlerFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy()
@@ -26,37 +26,37 @@ QUnit.module("indexListHandlerFactoryTest.js", {
 		this.spec = {
 			"dataList" : CORATEST.listWithDataToIndex.dataList
 		};
-		this.indexListHandlerFactory = CORA.indexListHandlerFactory(this.dependencies);
+		this.indexHandlerFactory = CORA.indexHandlerFactory(this.dependencies);
 	},
 	afterEach : function() {
 	}
 });
 
 QUnit.test("init", function(assert) {
-	assert.ok(this.indexListHandlerFactory);
-	assert.strictEqual(this.indexListHandlerFactory.type, "indexListHandlerFactory");
+	assert.ok(this.indexHandlerFactory);
+	assert.strictEqual(this.indexHandlerFactory.type, "indexHandlerFactory");
 });
 
 QUnit.test("getDependencies", function(assert) {
-	assert.strictEqual(this.indexListHandlerFactory.getDependencies(), this.dependencies);
+	assert.strictEqual(this.indexHandlerFactory.getDependencies(), this.dependencies);
 });
 
 QUnit.test("factorTestType", function(assert) {
-	var indexListHandler = this.indexListHandlerFactory.factor(this.spec);
-	assert.ok(indexListHandler);
-	assert.strictEqual(indexListHandler.type, "indexListHandler");
+	var indexHandler = this.indexHandlerFactory.factor(this.spec);
+	assert.ok(indexHandler);
+	assert.strictEqual(indexHandler.type, "indexHandler");
 });
 
 QUnit.test("factorTestUsedIncomingDependencies", function(assert) {
-	var indexListHandler = this.indexListHandlerFactory.factor(this.spec);
-	var createdDependencies = indexListHandler.getDependencies();
+	var indexHandler = this.indexHandlerFactory.factor(this.spec);
+	var createdDependencies = indexHandler.getDependencies();
 	assert.strictEqual(createdDependencies.ajaxCallFactory,
 			this.dependencies.ajaxCallFactory);
 
 });
 
 QUnit.test("factorTestSpec", function(assert) {
-	var indexListHandler = this.indexListHandlerFactory.factor(this.spec);
-	var indexListHandlerSpec = indexListHandler.getSpec();
-	assert.strictEqual(indexListHandlerSpec, this.spec);
+	var indexHandler = this.indexHandlerFactory.factor(this.spec);
+	var indexHandlerSpec = indexHandler.getSpec();
+	assert.strictEqual(indexHandlerSpec, this.spec);
 });

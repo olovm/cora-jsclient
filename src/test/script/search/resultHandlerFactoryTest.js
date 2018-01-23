@@ -58,7 +58,7 @@ QUnit.test("testFactorAddedDependencies", function(assert) {
 	assert.strictEqual(addedDep.resultHandlerViewFactory.type, "resultHandlerViewFactory");
 	assert.strictEqual(addedDep.textProvider, this.dependencies.textProvider);
 	assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
-	assert.strictEqual(addedDep.indexListHandlerFactory.type, "indexListHandlerFactory");
+	assert.strictEqual(addedDep.indexHandlerFactory.type, "indexHandlerFactory");
 	assert.strictEqual(addedDep.jsClient, this.spec.jsClient);
 	assert.strictEqual(addedDep.recordHandlerFactory, this.dependencies.recordHandlerFactory);
 
@@ -68,7 +68,7 @@ QUnit.test("testFactorIndexListFactory", function(assert) {
 	var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
 	var resultHandler = resultHandlerFactory.factor(this.spec);
 	var addedDep = resultHandler.getDependencies();
-	var indexListHandlerFactoryDep = addedDep.indexListHandlerFactory.getDependencies();
-	assert.strictEqual(indexListHandlerFactoryDep.ajaxCallFactory, this.dependencies.ajaxCallFactory)
+	var indexHandler = addedDep.indexHandlerFactory.getDependencies();
+	assert.strictEqual(indexHandler.ajaxCallFactory, this.dependencies.ajaxCallFactory)
 });
 

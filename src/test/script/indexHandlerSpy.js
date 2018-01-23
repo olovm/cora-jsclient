@@ -18,8 +18,10 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.indexListHandlerSpy = function(dependencies, spec) {
+	coraTest.indexHandlerSpy = function(dependencies, spec) {
 		var indexDataListWasCalled = false;
+		var indexedRecords = [];
+		var numberOfIndexedRecords = 0;
 		
 		function indexDataList(){
 			indexDataListWasCalled = true;
@@ -28,11 +30,27 @@ var CORATEST = (function(coraTest) {
 		function getIndexDataListWasCalled(){
 			return indexDataListWasCalled;
 		}
+		
+		function indexData(record){
+			indexedRecords.push(record);
+			numberOfIndexedRecords++;
+		}
+		
+		function getIndexRecord(indexNumber){
+			return indexedRecords[indexNumber];
+		}
+		
+		function getNumberOfIndexedRecords(){
+			return numberOfIndexedRecords;
+		}
 
 		return Object.freeze({
-			"type" : "indexListHandlerSpy",
+			"type" : "indexHandlerSpy",
 			indexDataList : indexDataList,
-			getIndexDataListWasCalled : getIndexDataListWasCalled
+			indexData : indexData,
+			getIndexDataListWasCalled : getIndexDataListWasCalled,
+			getIndexRecord : getIndexRecord,
+			getNumberOfIndexedRecords : getNumberOfIndexedRecords 
 		});
 	};
 	return coraTest;

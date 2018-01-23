@@ -17,13 +17,13 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.indexListHandlerFactory = function(dependencies) {
+	cora.indexHandlerFactory = function(dependencies) {
 
-		function factor(indexListHandlerSpec) {
+		function factor(indexHandlerSpec) {
 			var dep = {
 				"ajaxCallFactory" : dependencies.ajaxCallFactory
 			};
-			return CORA.indexListHandler(dep, indexListHandlerSpec);
+			return CORA.indexHandler(dep, indexHandlerSpec);
 		}
 
 		function getDependencies() {
@@ -31,7 +31,7 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type" : "indexListHandlerFactory",
+			"type" : "indexHandlerFactory",
 			getDependencies : getDependencies,
 			factor : factor
 		});

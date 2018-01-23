@@ -35,7 +35,7 @@ QUnit.module("resultHandlerTest.js", {
 			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
 			"jsClient" : CORATEST.jsClientSpy(),
 			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
-			"indexListHandlerFactory" : CORATEST.standardFactorySpy("indexListHandlerSpy")
+			"indexHandlerFactory" : CORATEST.standardFactorySpy("indexHandlerSpy")
 		};
 		this.spec = {
 			"dataList" : CORATEST.searchRecordList.dataList
@@ -161,11 +161,23 @@ QUnit.test("testGetViewIsPassedOnToView", function(assert) {
 	assert.strictEqual(resultHandler.getView(), factoredView.getView());
 });
 
-QUnit.test("testIndexDataListSpec", function(assert) {
+QUnit.test("testIndexDataList", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	resultHandler.indexDataList();
-	var factoredIndexListHandlerSpec = this.dependencies.indexListHandlerFactory.getSpec(0);
-	assert.strictEqual(factoredIndexListHandlerSpec.dataList, this.spec.dataList);
+	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+	var firstIndexedRecord = factoredIndexHandler.getIndexRecord(0);
+	assert.stringifyEqual(firstIndexedRecord, CORATEST.searchRecordList.dataList.data[0]);
+	var secondIndexedRecord = factoredIndexHandler.getIndexRecord(1);
+	assert.stringifyEqual(secondIndexedRecord, CORATEST.searchRecordList.dataList.data[1]);
+});
+
+QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+	resultHandler.indexDataList();
+	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+	
+	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 38);
+	
 });
 
 QUnit.test("testIndexButtonIsAddedToView", function(assert) {
@@ -176,13 +188,5 @@ QUnit.test("testIndexButtonIsAddedToView", function(assert) {
 	assert.strictEqual(factoredView.getAddedButton().text, "INDEX");
 	assert.strictEqual(factoredView.getAddedButton().onclickMethod, resultHandler.indexDataList);
 	assert.strictEqual(factoredView.getAddedButton().className, "indexButton");
-});
-
-QUnit.test("testIndexDataList", function(assert) {
-	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-	resultHandler.indexDataList();
-	var factoredIndexListHandler = this.dependencies.indexListHandlerFactory.getFactored(0);
-	assert.strictEqual(factoredIndexListHandler.type, "indexListHandlerSpy");
-	assert.stringifyEqual(factoredIndexListHandler.getIndexDataListWasCalled(), true);
 });
 
