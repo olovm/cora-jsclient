@@ -19,43 +19,24 @@
 var CORATEST = (function(cora) {
 	"use strict";
 	cora.webRedirectLoginSpy = function(dependencies, spec) {
-//		var userId;
-//		var userIds = [];
-//		var appTokens = [];
-//		function login(userIdIn, appToken) {
-//			userIds.push(userIdIn);
-//			appTokens.push(appToken);
-//			var authInfo = {
-//					"userId" : userIdIn,
-//					"token" : "fake authToken from appTokenLoginSpy",
-//					"validForNoSeconds" : "131"
-//				};
-//			spec.authInfoCallback(authInfo);
-//		}
-//
-//		function handleResponse(answer) {
-//		}
+		var fakeOpenedWindow = {
+			fake : "fakeOpenedWindow"
+		};
 		function getDependencies() {
 			return dependencies;
 		}
 		function getSpec() {
 			return spec;
 		}
-//		function getUserId(number) {
-//			return userIds[number];
-//		}
-//		function getAppToken(number) {
-//			return appTokens[number];
-//		}
 
+		function getOpenedWindow() {
+			return fakeOpenedWindow;
+		}
 		var out = Object.freeze({
 			"type" : "webRedirectLoginSpy",
-//			login : login,
-//			handleResponse : handleResponse,
 			getDependencies : getDependencies,
 			getSpec : getSpec,
-//			getUserId : getUserId,
-//			getAppToken : getAppToken
+			getOpenedWindow : getOpenedWindow,
 		});
 		return out;
 	};

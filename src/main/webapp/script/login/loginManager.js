@@ -22,6 +22,8 @@ var CORA = (function(cora) {
 		var out;
 		var loginManagerView;
 		var authInfo;
+		var createdWebRedirectLogin;
+		var expectedMessageOrigin;
 
 		function start() {
 
@@ -80,10 +82,14 @@ var CORA = (function(cora) {
 		}
 
 		function webRedirectLogin(loginOption) {
+			window.addEventListener("message", receiveMessage, false);
+			var url = loginOption.url;
 			var loginSpec = {
-				"url" : loginOption.url
+				"url" : url,
+				windowOpenedFromUrl : window.location
 			};
-			dependencies.webRedirectLoginFactory.factor(loginSpec);
+			expectedMessageOrigin = url.substring(url.indexOf("target=") + 7);
+			createdWebRedirectLogin = dependencies.webRedirectLoginFactory.factor(loginSpec);
 		}
 
 		function getDependencies() {
@@ -101,6 +107,7 @@ var CORA = (function(cora) {
 			loginManagerView.setState(CORA.loginManager.LOGGEDIN);
 			spec.afterLoginMethod();
 		}
+
 		function appTokenErrorCallback() {
 			spec.setErrorMessage("AppToken login failed!");
 		}
@@ -133,6 +140,17 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
+		function receiveMessage(event) {
+			if (messageIsFromWindowOpenedFromHere(event)) {
+				appTokenAuthInfoCallback(event.data);
+			}
+		}
+
+		function messageIsFromWindowOpenedFromHere(event) {
+			return expectedMessageOrigin === event.origin
+					&& createdWebRedirectLogin.getOpenedWindow() === event.source;
+		}
+
 		out = Object.freeze({
 			"type" : "loginManager",
 			getDependencies : getDependencies,
@@ -143,7 +161,8 @@ var CORA = (function(cora) {
 			appTokenErrorCallback : appTokenErrorCallback,
 			appTokenTimeoutCallback : appTokenTimeoutCallback,
 			logoutCallback : logoutCallback,
-			getSpec : getSpec
+			getSpec : getSpec,
+			receiveMessage : receiveMessage
 		});
 		start();
 		return out;
