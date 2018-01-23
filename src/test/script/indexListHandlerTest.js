@@ -58,44 +58,45 @@ QUnit.test("testUploadQue", function(assert) {
 	indexListHandler.indexData(record);
 //	uploadManager.upload(this.uploadSpec);
 
-//	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-//	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy0);
-//
-//	assert.strictEqual(menuView.className, "menuView uploading");
-//
-//	uploadManager.upload(this.uploadSpec);
-//	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(1), undefined);
-//	uploadManager.uploadFinished();
-//
-//	var ajaxCallSpy1 = this.ajaxCallFactorySpy.getFactored(1);
+	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
+	assert.strictEqual(ajaxCallSpy0.getSpec().requestMethod, "POST");
+
+	indexListHandler.indexData(record);
+	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(1), undefined);
+	indexListHandler.uploadFinished();
+
+	var ajaxCallSpy1 = this.ajaxCallFactorySpy.getFactored(1);
+	assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
+	indexListHandler.uploadFinished();
+//	assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
 //	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy1);
 //
 //	uploadManager.uploadFinished();
 //	assert.strictEqual(menuView.className, "menuView");
 });
 
-QUnit.test("testIndexDataList", function(assert) {
-	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
-	indexListHandler.indexDataList();
-	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
-	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(2), undefined)
-	
-	var ajaxCallSpec = ajaxCallSpy.getSpec();
-	
-	assert.strictEqual(ajaxCallSpec.url, "https://epc.ub.uu.se/therest/rest/record/workOrder/");
-	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
-	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
-	assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
-	assert.strictEqual(ajaxCallSpec.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"writtenText\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"writtenText:9011356289912\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
-	assert.stringifyEqual(ajaxCallSpec.loadMethod, {});
-	assert.strictEqual(ajaxCallSpec.errorMethod, indexListHandler.handleCallError);
-
-	var ajaxCallSpy2 = this.ajaxCallFactorySpy.getFactored(1);
-	var ajaxCallSpec2 = ajaxCallSpy2.getSpec();
-	assert.strictEqual(ajaxCallSpec2.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"writtenText\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"writtenText:93918281873569\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
-	
-});
+//QUnit.test("testIndexDataList", function(assert) {
+//	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+//	indexListHandler.indexDataList();
+//	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(0);
+//	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(2), undefined)
 //
+//	var ajaxCallSpec = ajaxCallSpy.getSpec();
+//
+//	assert.strictEqual(ajaxCallSpec.url, "https://epc.ub.uu.se/therest/rest/record/workOrder/");
+//	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
+//	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
+//	assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
+//	assert.strictEqual(ajaxCallSpec.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"writtenText\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"writtenText:9011356289912\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
+//	assert.stringifyEqual(ajaxCallSpec.loadMethod, indexListHandler.uploadFinished);
+//	assert.strictEqual(ajaxCallSpec.errorMethod, indexListHandler.handleCallError);
+//
+//	var ajaxCallSpy2 = this.ajaxCallFactorySpy.getFactored(1);
+//	var ajaxCallSpec2 = ajaxCallSpy2.getSpec();
+//	assert.strictEqual(ajaxCallSpec2.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"writtenText\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"writtenText:93918281873569\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
+//
+//});
+////
 QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	try {

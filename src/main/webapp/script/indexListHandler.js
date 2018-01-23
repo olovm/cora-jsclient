@@ -19,7 +19,9 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.indexListHandler = function(dependencies, spec) {
-		var listOfDataToIndex
+		var listOfDataToIndex;
+		var uploading = false;
+		var uploadQue = [];
 		function start() {
 			listOfDataToIndex = spec.dataList.data;
 		}
@@ -38,9 +40,40 @@ var CORA = (function(cora) {
 				"accept" : indexLink.accept,
 				"contentType" : indexLink.contentType,
 				"data" : JSON.stringify(indexLink.body),
-				"loadMethod" : {},
+				"loadMethod" : uploadFinished,
 				"errorMethod" : handleCallError
 			};
+			uploadQue.push(callSpec);
+			possiblyStartNextUpload();
+			//dependencies.ajaxCallFactory.factor(callSpec);
+		}
+
+		function uploadFinished() {
+			uploading = false;
+			//view.deactivate();
+			possiblyStartNextUpload();
+		}
+
+		function possiblyStartNextUpload() {
+			if (getCurrentlyNotUploading()) {
+				startNextUploadIfThereIsMoreInQueue();
+			}
+		}
+
+		function getCurrentlyNotUploading() {
+			return uploading !== true;
+		}
+
+		function startNextUploadIfThereIsMoreInQueue() {
+			var callSpec = uploadQue.shift();
+			if (callSpec !== undefined) {
+				startNextUpload(callSpec);
+			}
+		}
+
+		function startNextUpload(callSpec) {
+			uploading = true;
+			//view.activate();
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
@@ -62,6 +95,7 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			indexData : indexData,
 			indexDataList : indexDataList,
+			uploadFinished : uploadFinished,
 			handleCallError : handleCallError
 		});
 
