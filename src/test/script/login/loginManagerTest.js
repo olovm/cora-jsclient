@@ -255,7 +255,7 @@ QUnit.test("testRecieveMessageFromWebRedirectLogin", function(assert) {
 		loginManager.login(loginOption);
 		var factored = this.dependencies.webRedirectLoginFactory.getFactored(0);
 		loginManager.receiveMessage({
-			origin : "https://epc.ub.uu.se/systemone/idplogin/login",
+			origin : "https://epc.ub.uu.se",
 			data : this.authInfo,
 			source : factored.getOpenedWindow()
 		});

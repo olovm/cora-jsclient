@@ -88,7 +88,9 @@ var CORA = (function(cora) {
 				"url" : url,
 				windowOpenedFromUrl : window.location
 			};
-			expectedMessageOrigin = url.substring(url.indexOf("target=") + 7);
+			var targetPart = url.substring(url.indexOf("target=") + 7);
+			var lengthOfHttps = "https://".length;
+			expectedMessageOrigin = targetPart.substring(0, targetPart.indexOf("/", lengthOfHttps));
 			createdWebRedirectLogin = dependencies.webRedirectLoginFactory.factor(loginSpec);
 		}
 
