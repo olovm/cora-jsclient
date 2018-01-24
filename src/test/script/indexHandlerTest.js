@@ -63,13 +63,16 @@ QUnit.test("testIndexQue", function(assert) {
 	assert.strictEqual(ajaxCallSpy0.getSpec().requestMethod, "POST");
 	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, this.spec.loadMethod);
 
+	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 0);
 	indexHandler.indexData(record);
 	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(1), undefined);
 	indexHandler.uploadFinished();
+	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 1);
 
 	var ajaxCallSpy1 = this.ajaxCallFactorySpy.getFactored(1);
 	assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
 	indexHandler.uploadFinished();
+	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 2);
 //	assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
 //	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy1);
 //
@@ -97,9 +100,9 @@ QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
 		assert.strictEqual(error.message, "error indexing");
 	}
 	
-//	QUnit.test("testUploadTimeout", function(assert) {
+//	QUnit.test("testIndexTimeout", function(assert) {
 //		var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-//		var record = CORATEST.listWithDataToIndex.dataList.data[0];
+//		var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
 //		
 //		indexHandler.indexData(record);
 //		var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);

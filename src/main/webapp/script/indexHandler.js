@@ -21,6 +21,7 @@ var CORA = (function(cora) {
 	cora.indexHandler = function(dependencies, spec) {
 		var uploading = false;
 		var uploadQue = [];
+		var numberOfIndexRecords = 0;
 		
 		function indexData(dataRecord) {
 			var record = dataRecord;
@@ -49,6 +50,7 @@ var CORA = (function(cora) {
 		function uploadFinished() {
 			uploading = false;
 			//view.deactivate();
+			numberOfIndexRecords++;
 			possiblyStartNextUpload();
 		}
 
@@ -78,6 +80,10 @@ var CORA = (function(cora) {
 		function handleCallError(error) {
 			throw new Error("error indexing", error);
 		}
+		
+		function getNumberOfIndexedRecords(){
+			return numberOfIndexRecords;
+		}
 
 		function getDependencies() {
 			return dependencies;
@@ -93,7 +99,8 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			indexData : indexData,
 			uploadFinished : uploadFinished,
-			handleCallError : handleCallError
+			handleCallError : handleCallError,
+			getNumberOfIndexedRecords : getNumberOfIndexedRecords
 		});
 
 		return out;
