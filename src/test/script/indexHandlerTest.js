@@ -54,7 +54,7 @@ QUnit.test("testIndexQue", function(assert) {
 //	var menuView = this.uploadManager.view.getMenuView();
 //	assert.strictEqual(menuView.className, "menuView");
 //	var cRecord = CORA.coraData(CORATEST.listWithDataToIndex.dataList.data);
-	var record = CORATEST.listWithDataToIndex.dataList.data[0];
+	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
 	
 	indexHandler.indexData(record);
 //	uploadManager.upload(this.uploadSpec);
@@ -79,7 +79,7 @@ QUnit.test("testIndexQue", function(assert) {
 
 QUnit.test("testIndexWithDefaultLoadMethod", function(assert) {
 	var indexHandler = CORA.indexHandler(this.dependencies, {});
-	var record = CORATEST.listWithDataToIndex.dataList.data[0];
+	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
 	
 	indexHandler.indexData(record);
 

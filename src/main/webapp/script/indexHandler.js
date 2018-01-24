@@ -23,7 +23,7 @@ var CORA = (function(cora) {
 		var uploadQue = [];
 		
 		function indexData(dataRecord) {
-			var record = dataRecord.record;
+			var record = dataRecord;
 			var indexLink = record.actionLinks.index;
 			var loadMethod = getLoadMethod();
 			var callSpec = {
@@ -40,9 +40,12 @@ var CORA = (function(cora) {
 		}
 		
 		function getLoadMethod(){
-			return spec.loadMethod !== undefined ? spec.loadMethod : uploadFinished;
+			return loadMethodIsSpecifiedInSpec() ? spec.loadMethod : uploadFinished;
 		}
 
+		function loadMethodIsSpecifiedInSpec(){
+			return spec !== undefined && spec.loadMethod !== undefined;
+		}
 		function uploadFinished() {
 			uploading = false;
 			//view.deactivate();

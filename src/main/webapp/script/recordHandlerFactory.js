@@ -21,13 +21,17 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandlerFactory = function(dependencies) {
 		var out;
-
+		var indexHandlerDep = {
+				"ajaxCallFactory" : dependencies.ajaxCallFactory
+			};
+		
 		var dep = {
 			"globalFactories" : dependencies.globalFactories,
 			"recordHandlerViewFactory" : CORA.recordHandlerViewFactory(),
 			"ajaxCallFactory" : dependencies.ajaxCallFactory,
 			"recordGuiFactory" : dependencies.recordGuiFactory,
-			"managedGuiItemFactory" : dependencies.managedGuiItemFactory
+			"managedGuiItemFactory" : dependencies.managedGuiItemFactory,
+			"indexHandlerFactory" : CORA.indexHandlerFactory(indexHandlerDep)
 		};
 		function factor(recordHandlerSpec) {
 			dep.recordHandlerFactory = out;

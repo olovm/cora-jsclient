@@ -166,9 +166,9 @@ QUnit.test("testIndexDataList", function(assert) {
 	resultHandler.indexDataList();
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
 	var firstIndexedRecord = factoredIndexHandler.getIndexRecord(0);
-	assert.stringifyEqual(firstIndexedRecord, CORATEST.searchRecordList.dataList.data[0]);
+	assert.stringifyEqual(firstIndexedRecord, CORATEST.searchRecordList.dataList.data[0].record);
 	var secondIndexedRecord = factoredIndexHandler.getIndexRecord(1);
-	assert.stringifyEqual(secondIndexedRecord, CORATEST.searchRecordList.dataList.data[1]);
+	assert.stringifyEqual(secondIndexedRecord, CORATEST.searchRecordList.dataList.data[1].record);
 });
 
 QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {

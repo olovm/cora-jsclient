@@ -73,6 +73,10 @@ QUnit.test("factorTestDependencies", function(assert) {
 	assert.strictEqual(factoredDependencies.recordGuiFactory, this.dependencies.recordGuiFactory);
 	assert.strictEqual(factoredDependencies.managedGuiItemFactory,
 			this.dependencies.managedGuiItemFactory);
+	assert.strictEqual(factoredDependencies.recordHandlerViewFactory.type,
+			"recordHandlerViewFactory")
+			assert.strictEqual(factoredDependencies.indexHandlerFactory.type,
+			"indexHandlerFactory");
 });
 
 QUnit.test("factorTestType", function(assert) {
@@ -86,3 +90,12 @@ QUnit.test("factorTestSpec", function(assert) {
 	var recordHandler = recordHandlerFactory.factor(this.spec);
 	assert.strictEqual(recordHandler.getSpec(), this.spec);
 });
+
+QUnit.test("testIndexHandlerFactoryDependencies", function(assert) {
+	var recordHandlerFactory = CORA.recordHandlerFactory(this.dependencies);
+	var recordHandler = recordHandlerFactory.factor(this.spec);
+	var factoredDependencies = recordHandler.getDependencies();
+	var indexHandlerDependencies = factoredDependencies.indexHandlerFactory.getDependencies();
+	assert.strictEqual(indexHandlerDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory)
+});
+

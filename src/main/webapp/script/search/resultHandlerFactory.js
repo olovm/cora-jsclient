@@ -23,13 +23,13 @@ var CORA = (function(cora) {
 
 		function factor(spec) {
 			var viewDep = {};
- 			var indexListDep = {
+ 			var indexHandlerDep = {
 				"ajaxCallFactory" : dependencies.ajaxCallFactory
 			};
 
 			var dep = {
 				"resultHandlerViewFactory" : CORA.resultHandlerViewFactory(viewDep),
-				"indexHandlerFactory" : CORA.indexHandlerFactory(indexListDep),
+				"indexHandlerFactory" : CORA.indexHandlerFactory(indexHandlerDep),
 				"textProvider" : dependencies.textProvider,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"jsClient" : spec.jsClient,

@@ -64,7 +64,7 @@ QUnit.test("testFactorAddedDependencies", function(assert) {
 
 });
 
-QUnit.test("testFactorIndexListFactory", function(assert) {
+QUnit.test("testIndexHandlerFactoryDependencies", function(assert) {
 	var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
 	var resultHandler = resultHandlerFactory.factor(this.spec);
 	var addedDep = resultHandler.getDependencies();
