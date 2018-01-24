@@ -43,7 +43,8 @@ QUnit.module("recordHandlerTest.js", {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
 			"recordGuiFactory" : this.recordGuiFactorySpy,
 			"recordHandlerViewFactory" : this.recordHandlerViewFactorySpy,
-			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
+			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
+			"indexHandlerFactory" : CORATEST.standardFactorySpy("indexHandlerSpy")
 		};
 		this.dependencies = dependencies;
 
@@ -751,16 +752,11 @@ QUnit.test("testIndexCall", function(assert) {
 	var indexButton = recordHandlerViewSpy.getAddedButton(1);
 	indexButton.onclickMethod();
 	
-	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
-	var ajaxCallSpec = ajaxCallSpy.getSpec();
-	assert.strictEqual(ajaxCallSpec.url,
-			"https://epc.ub.uu.se/therest/rest/record/workOrder/");
-	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
-	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
-	assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
-	assert.strictEqual(ajaxCallSpec.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"textSystemOne\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"svEnText\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
-	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.showIndexMessage);
-
+	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+	assert.strictEqual(factoredIndexHandler.type, "indexHandlerSpy");
+	assert.strictEqual(factoredIndexHandler.getSpec().loadMethod, recordHandler.showIndexMessage);
+	assert.strictEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 1);
+	assert.stringifyEqual(factoredIndexHandler.getIndexRecord(0), this.recordWithIndexLink);
 });
 
 QUnit.test("testNoIndexButtonWhenNoIndexLink", function(assert) {

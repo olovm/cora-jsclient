@@ -410,20 +410,12 @@ var CORA = (function(cora) {
 		}
 
 		function sendIndexDataToServer() {
-			var indexLink = fetchedRecord.actionLinks.index;
 				busy.show();
-
-				var callAfterAnswer = showIndexMessage;
-				var callSpec = {
-					"requestMethod" : indexLink.requestMethod,
-					"url" : indexLink.url,
-					"contentType" : indexLink.contentType,
-					"accept" : indexLink.accept,
-					"loadMethod" : callAfterAnswer,
-					"errorMethod" : callError,
-					"data" : JSON.stringify(indexLink.body)
-				};
-				dependencies.ajaxCallFactory.factor(callSpec);
+				var indexHandlerSpec ={
+						"loadMethod" : showIndexMessage
+				}
+				var indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
+				indexHandler.indexData(fetchedRecord);
 
 		}
 

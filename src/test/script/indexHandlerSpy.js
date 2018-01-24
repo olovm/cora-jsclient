@@ -43,10 +43,14 @@ var CORATEST = (function(coraTest) {
 		function getNumberOfIndexedRecords(){
 			return numberOfIndexedRecords;
 		}
+		
+		function getSpec(){
+			return spec;
+		}
 
 		return Object.freeze({
 			"type" : "indexHandlerSpy",
-			indexDataList : indexDataList,
+			getSpec : getSpec,
 			indexData : indexData,
 			getIndexDataListWasCalled : getIndexDataListWasCalled,
 			getIndexRecord : getIndexRecord,

@@ -25,18 +25,22 @@ var CORA = (function(cora) {
 		function indexData(dataRecord) {
 			var record = dataRecord.record;
 			var indexLink = record.actionLinks.index;
-
+			var loadMethod = getLoadMethod();
 			var callSpec = {
 				"url" : indexLink.url,
 				"requestMethod" : indexLink.requestMethod,
 				"accept" : indexLink.accept,
 				"contentType" : indexLink.contentType,
 				"data" : JSON.stringify(indexLink.body),
-				"loadMethod" : uploadFinished,
+				"loadMethod" : loadMethod,
 				"errorMethod" : handleCallError
 			};
 			uploadQue.push(callSpec);
 			possiblyStartNextUpload();
+		}
+		
+		function getLoadMethod(){
+			return spec.loadMethod !== undefined ? spec.loadMethod : uploadFinished;
 		}
 
 		function uploadFinished() {

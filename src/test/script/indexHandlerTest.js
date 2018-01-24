@@ -25,7 +25,8 @@ QUnit.module("indexHandlerTest.js",{
 							"ajaxCallFactory" : this.ajaxCallFactorySpy
 						};
 						this.spec = {
-								"dataList" : CORATEST.listWithDataToIndex.dataList
+								"loadMethod" : function() {
+								}
 						};
 
 					},
@@ -48,7 +49,7 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(indexHandler.getSpec(), this.spec);
 });
 
-QUnit.test("testUploadQue", function(assert) {
+QUnit.test("testIndexQue", function(assert) {
 	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
 //	var menuView = this.uploadManager.view.getMenuView();
 //	assert.strictEqual(menuView.className, "menuView");
@@ -60,6 +61,7 @@ QUnit.test("testUploadQue", function(assert) {
 
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 	assert.strictEqual(ajaxCallSpy0.getSpec().requestMethod, "POST");
+	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, this.spec.loadMethod);
 
 	indexHandler.indexData(record);
 	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(1), undefined);
@@ -74,6 +76,18 @@ QUnit.test("testUploadQue", function(assert) {
 //	uploadManager.uploadFinished();
 //	assert.strictEqual(menuView.className, "menuView");
 });
+
+QUnit.test("testIndexWithDefaultLoadMethod", function(assert) {
+	var indexHandler = CORA.indexHandler(this.dependencies, {});
+	var record = CORATEST.listWithDataToIndex.dataList.data[0];
+	
+	indexHandler.indexData(record);
+
+	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
+	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, indexHandler.uploadFinished);
+
+});
+
 
 QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
 	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
