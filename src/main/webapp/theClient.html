@@ -30,8 +30,8 @@
 <link rel="stylesheet" type="text/css" href="css/question.css"></link>
 
 <link href="css/default.css" rel="stylesheet" type="text/css" title="A Client">
-<link href="css/alvin.css" rel="alternate stylesheet" type="text/css" title="Alvin">
-<link href="css/other.css" rel="alternate stylesheet" type="text/css" title="Other">
+<link href="css/alvin.css" rel="alternate stylesheet" type="text/css" title="Alvin" id="alvinCSS">
+<link href="css/systemOne.css" rel="alternate stylesheet" type="text/css" title="System One" id ="systemOneCSS">
 
 <script type="text/javascript" src="script/aCoraNameSpace.js"></script>
 <script type="text/javascript" src="script/pubSub.js"></script>
@@ -181,6 +181,12 @@
 	var uploadManager;
 
 	function start() {
+		var href = window.location.href;
+		if(href.indexOf("systemone")!==-1){
+			document.getElementById("systemOneCSS").disabled=false;
+		}else if(href.indexOf("alvin")!==-1){
+			document.getElementById("alvinCSS").disabled=false;
+		}
 		askForServerToUse();
 	}
 
