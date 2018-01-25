@@ -24,10 +24,15 @@ QUnit.module("recordHandlerFactoryTest.js", {
 		this.metadataProvider = new MetadataProviderStub();
 
 		this.recordGuiFactorySpy = {
-			"factor" : function(metadataId, data, dataDivider) {
+			"factor": function (metadataId, data, dataDivider) {
 				metadataIdUsed.push(metadataId);
 				dataDividerUsed.push(dataDivider);
 				return recordGui;
+			},
+
+			getDependencies: function () {
+			var dep = {"uploadManager": CORATEST.uploadManagerSpy()};
+			return dep;
 			}
 		};
 
@@ -97,5 +102,6 @@ QUnit.test("testIndexHandlerFactoryDependencies", function(assert) {
 	var factoredDependencies = recordHandler.getDependencies();
 	var indexHandlerDependencies = factoredDependencies.indexHandlerFactory.getDependencies();
 	assert.strictEqual(indexHandlerDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory)
+	assert.stringifyEqual(indexHandlerDependencies.uploadManager, this.recordGuiFactorySpy.getDependencies().uploadManager)
 });
 
