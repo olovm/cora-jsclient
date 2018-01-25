@@ -51,6 +51,11 @@ var CORA = (function(cora) {
 			uploading = false;
 			//view.deactivate();
 			numberOfIndexRecords++;
+
+			var child = CORA.gui.createSpanWithClassName("indextem");
+			child.textContent = numberOfIndexRecords;
+			console.log(dependencies.uploadManager.view)
+			dependencies.uploadManager.view.appendChild(child);
 			possiblyStartNextUpload();
 		}
 

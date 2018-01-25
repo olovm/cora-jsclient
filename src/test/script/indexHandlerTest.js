@@ -22,7 +22,8 @@ QUnit.module("indexHandlerTest.js",{
 					beforeEach : function() {
 						this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 						this.dependencies = {
-							"ajaxCallFactory" : this.ajaxCallFactorySpy
+							"ajaxCallFactory" : this.ajaxCallFactorySpy,
+							"uploadManager": CORATEST.uploadManagerSpy()
 						};
 						this.spec = {
 								"loadMethod" : function() {

@@ -57,6 +57,7 @@ var CORATEST = (function(coraTest) {
 			getFactored : getFactored,
 			getSpec : getSpec,
 			getDependencies : getDependencies,
+			setSpyDependencies : setSpyDependencies,
 			setspySpec : setspySpec
 		});
 		return out;

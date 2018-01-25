@@ -24,7 +24,8 @@ var CORA = (function(cora) {
 		function factor(spec) {
 			var viewDep = {};
  			var indexHandlerDep = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"uploadManager" : dependencies.recordGuiFactory.getDependencies().uploadManager
 			};
 
 			var dep = {

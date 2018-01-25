@@ -20,9 +20,12 @@
 
 QUnit.module("resultHandlerFactoryTest.js", {
 	beforeEach : function() {
+	this.recordGuiFactory = CORATEST.standardFactorySpy("recordGuiSpy");
+	this.recordGuiFactory.setSpyDependencies({"uploadManager": CORATEST.uploadManagerSpy()});
+
 		this.dependencies = {
 			"textProvider" : CORATEST.textProviderSpy(),
-			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
+			"recordGuiFactory" : this.recordGuiFactory,
 			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
 			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy")
 		};
@@ -68,7 +71,8 @@ QUnit.test("testIndexHandlerFactoryDependencies", function(assert) {
 	var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
 	var resultHandler = resultHandlerFactory.factor(this.spec);
 	var addedDep = resultHandler.getDependencies();
-	var indexHandler = addedDep.indexHandlerFactory.getDependencies();
-	assert.strictEqual(indexHandler.ajaxCallFactory, this.dependencies.ajaxCallFactory)
+	var indexHandlerDependencies = addedDep.indexHandlerFactory.getDependencies();
+	assert.strictEqual(indexHandlerDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory);
+	assert.stringifyEqual(indexHandlerDependencies.uploadManager, this.dependencies.recordGuiFactory.getDependencies().uploadManager)
 });
 
