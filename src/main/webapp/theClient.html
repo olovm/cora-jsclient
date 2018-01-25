@@ -184,8 +184,12 @@
 		var href = window.location.href;
 		if(href.indexOf("systemone")!==-1){
 			document.getElementById("systemOneCSS").disabled=false;
+			useCora();
 		}else if(href.indexOf("alvin")!==-1){
 			document.getElementById("alvinCSS").disabled=false;
+			useAlvin();
+		}else if(href.indexOf("diva")!==-1){
+			useDiva();
 		}
 		askForServerToUse();
 	}
