@@ -45,3 +45,23 @@
 .topBar {
 	border-color: #7fbfa7;
 }
+
+.editView .presentation > .pGroup > .pNonRepeatingChildRefHandler {
+	border: 1px solid #7fbfa7;
+	margin-bottom: 1rem;
+}
+.editView .presentation > .pGroup > .pNonRepeatingChildRefHandler > .pSurroundingContainer .pChildRefHandler {
+	margin-top: 0.5rem;
+}
+.editView .presentation > .pGroup > .pNonRepeatingChildRefHandler > .pSurroundingContainer .pChildRefHandler ~  .pChildRefHandler{
+	margin-top: none;
+}
+.editView .presentation > .pGroup > .pNonRepeatingChildRefHandler.containsData {
+	border: 1px solid #7fbfa7;
+	background: linear-gradient( #7fbfa7 1.8rem, transparent 1.8rem);
+}
+
+.editView .presentation > .pGroup >  .pNonRepeatingChildRefHandler.containsNoData {
+	border: 1px solid #7FBFA7;
+	background: linear-gradient( #dddddd 1.8rem, #7fbfa7 1px, transparent calc(1.8rem + 1px));
+}
