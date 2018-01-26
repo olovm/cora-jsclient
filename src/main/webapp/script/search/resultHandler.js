@@ -82,7 +82,6 @@ var CORA = (function(cora) {
 			for(var i=0; i<spec.dataList.data.length; i++){
 				indexHandler.indexData(spec.dataList.data[i].record);
 			}
-//			spec.dataList.data.forEach(indexHandler.indexData);
 		}
 
 		function getDependencies() {

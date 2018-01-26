@@ -411,9 +411,9 @@ var CORA = (function(cora) {
 
 		function sendIndexDataToServer() {
 				busy.show();
-				var indexHandlerSpec ={
+				var indexHandlerSpec = {
 						"loadMethod" : showIndexMessage
-				}
+				};
 				var indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
 				indexHandler.indexData(fetchedRecord);
 

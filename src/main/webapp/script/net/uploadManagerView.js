@@ -22,6 +22,7 @@ var CORA = (function(cora) {
 		var out;
 
 		var workView = CORA.gui.createSpanWithClassName("workView");
+		workView.appendChild(CORA.gui.createSpanWithClassName("indexOrders"));
 		var menuView = createMenuView(spec.textProvider.getTranslation("theClient_uploadMenuText"));
 
 		function createMenuView(text) {

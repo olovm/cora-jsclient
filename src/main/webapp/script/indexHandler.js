@@ -22,8 +22,9 @@ var CORA = (function(cora) {
 		var uploading = false;
 		var uploadQue = [];
 		var numberOfIndexRecords = 0;
-		
-		function indexData(dataRecord) {
+		var indexOrderView;
+
+		function indexData(dataRecord, viewToAppendTo) {
 			var record = dataRecord;
 			var indexLink = record.actionLinks.index;
 			var loadMethod = getLoadMethod();
@@ -52,10 +53,12 @@ var CORA = (function(cora) {
 			//view.deactivate();
 			numberOfIndexRecords++;
 
-			var child = CORA.gui.createSpanWithClassName("indextem");
+			var child = CORA.gui.createSpanWithClassName("indexItem");
+			if(indexOrderView === undefined){
+				indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
+			}
 			child.textContent = numberOfIndexRecords;
-			console.log(dependencies.uploadManager.view)
-			dependencies.uploadManager.view.appendChild(child);
+			indexOrderView.appendChild(child);
 			possiblyStartNextUpload();
 		}
 
@@ -90,6 +93,11 @@ var CORA = (function(cora) {
 			return numberOfIndexRecords;
 		}
 
+		function addIndexOrderView(){
+			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
+			dependencies.uploadManager.view.getWorkView().appendChild(indexOrderView);
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -105,7 +113,8 @@ var CORA = (function(cora) {
 			indexData : indexData,
 			uploadFinished : uploadFinished,
 			handleCallError : handleCallError,
-			getNumberOfIndexedRecords : getNumberOfIndexedRecords
+			getNumberOfIndexedRecords : getNumberOfIndexedRecords,
+			addIndexOrderView : addIndexOrderView
 		});
 
 		return out;

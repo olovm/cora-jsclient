@@ -21,7 +21,8 @@ var CORA = (function(cora) {
 
 		function factor(indexHandlerSpec) {
 			var dep = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"uploadManager" : dependencies.uploadManager
 			};
 			return CORA.indexHandler(dep, indexHandlerSpec);
 		}

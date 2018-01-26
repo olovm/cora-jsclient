@@ -61,6 +61,7 @@ QUnit.test("testGetWorkView", function(assert) {
 	var workView = uploadManagerView.getWorkView();
 	assert.strictEqual(workView.className, "workView");
 	assert.strictEqual(workView.nodeName, "SPAN");
+	assert.strictEqual(workView.firstChild.className, "indexOrders");
 });
 
 QUnit.test("addFile", function(assert) {
@@ -68,9 +69,9 @@ QUnit.test("addFile", function(assert) {
 
 	var workView = uploadManagerView.getWorkView();
 
-	assert.strictEqual(workView.children.length, 0);
-	var uploadItem = uploadManagerView.addFile("name1");
 	assert.strictEqual(workView.children.length, 1);
+	var uploadItem = uploadManagerView.addFile("name1");
+	assert.strictEqual(workView.children.length, 2);
 	var uploadItem = uploadManagerView.addFile("name1");
 	assert.ok(uploadItem);
 	assert.ok(uploadItem.progressMethod);

@@ -173,7 +173,7 @@ QUnit.test("testUploadError", function(assert) {
 	uploadManager.upload(this.uploadSpec);
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 	ajaxCallSpy0.getSpec().errorMethod(new Error("some error"));
-	var fileView = this.uploadManager.view.getWorkView().firstChild;
+	var fileView = this.uploadManager.view.getWorkView().childNodes[1];
 	assert.strictEqual(fileView.lastChild.textContent, "ERROR");
 });
 
@@ -183,6 +183,6 @@ QUnit.test("testUploadTimeout", function(assert) {
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 	ajaxCallSpy0.getSpec().timeoutMethod();
 
-	var fileView = this.uploadManager.view.getWorkView().firstChild;
+	var fileView = this.uploadManager.view.getWorkView().childNodes[1];
 	assert.strictEqual(fileView.lastChild.textContent, "TIMEOUT");
 });

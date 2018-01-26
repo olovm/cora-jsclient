@@ -21,9 +21,10 @@
 QUnit.module("indexHandlerTest.js",{
 					beforeEach : function() {
 						this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
+						this.uploadManager =  CORATEST.uploadManagerSpy();
 						this.dependencies = {
 							"ajaxCallFactory" : this.ajaxCallFactorySpy,
-							"uploadManager": CORATEST.uploadManagerSpy()
+							"uploadManager": this.uploadManager
 						};
 						this.spec = {
 								"loadMethod" : function() {
@@ -81,10 +82,11 @@ QUnit.test("testIndexQue", function(assert) {
 //	assert.strictEqual(menuView.className, "menuView");
 });
 
+
 QUnit.test("testIndexWithDefaultLoadMethod", function(assert) {
 	var indexHandler = CORA.indexHandler(this.dependencies, {});
 	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-	
+
 	indexHandler.indexData(record);
 
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
@@ -92,6 +94,41 @@ QUnit.test("testIndexWithDefaultLoadMethod", function(assert) {
 
 });
 
+QUnit.test("testMessageSetInView", function(assert) {
+	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
+	var workView = this.uploadManager.view.getWorkView();
+//	assert.strictEqual(menuView.className, "menuView");
+//	var cRecord = CORA.coraData(CORATEST.listWithDataToIndex.dataList.data);
+	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
+
+	indexHandler.indexData(record);
+	indexHandler.uploadFinished();
+	assert.strictEqual(workView.firstChild.className, "indexOrderItem");
+	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 1);
+
+	//var ajaxCallSpy1 = this.ajaxCallFactorySpy.getFactored(1);
+	//assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
+	//indexHandler.uploadFinished();
+	//assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 2);
+//	assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
+//	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy1);
+//
+//	uploadManager.uploadFinished();
+//	assert.strictEqual(menuView.className, "menuView");
+});
+
+QUnit.test("testAddIndexOrderViewToUploadView", function(assert) {
+	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
+	indexHandler.addIndexOrderView();
+	var workView = this.uploadManager.view.getWorkView();
+	assert.strictEqual(workView.firstChild.className, "indexOrder");
+	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
+
+	indexHandler.indexData(record);
+	indexHandler.uploadFinished();
+	assert.strictEqual(workView.firstChild.firstChild.className, "indexItem");
+
+});
 
 QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
 	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
