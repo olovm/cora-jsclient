@@ -190,8 +190,9 @@
 			useAlvin();
 		}else if(href.indexOf("diva")!==-1){
 			useDiva();
+		}else{
+			askForServerToUse();
 		}
-		askForServerToUse();
 	}
 
 	
@@ -301,9 +302,6 @@
 	function startDependencies() {
 		authTokenHolder = CORA.authTokenHolder();
 		xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
-
-		//TODO: use this if you want to be logged in at startup:
-		// 		authTokenHolder.setCurrentAuthToken("fitnesseAdminToken");
 
 		var ajaxCallFactoryDependencies = {
 			"xmlHttpRequestFactory" : xmlHttpRequestFactory,
