@@ -28,6 +28,8 @@ QUnit.module("indexHandlerTest.js",{
 						};
 						this.spec = {
 								"loadMethod" : function() {
+								},
+								"timeoutMethod" : function(){
 								}
 						};
 
@@ -53,13 +55,9 @@ QUnit.test("testGetSpec", function(assert) {
 
 QUnit.test("testIndexQue", function(assert) {
 	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-//	var menuView = this.uploadManager.view.getMenuView();
-//	assert.strictEqual(menuView.className, "menuView");
-//	var cRecord = CORA.coraData(CORATEST.listWithDataToIndex.dataList.data);
 	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
 	
 	indexHandler.indexData(record);
-//	uploadManager.upload(this.uploadSpec);
 
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 	assert.strictEqual(ajaxCallSpy0.getSpec().requestMethod, "POST");
@@ -75,16 +73,16 @@ QUnit.test("testIndexQue", function(assert) {
 	assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
 	indexHandler.uploadFinished();
 	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 2);
-//	assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
-//	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy1);
-//
-//	uploadManager.uploadFinished();
-//	assert.strictEqual(menuView.className, "menuView");
 });
 
 
 QUnit.test("testIndexWithDefaultLoadMethod", function(assert) {
-	var indexHandler = CORA.indexHandler(this.dependencies, {});
+	var tempSpec = {
+			"timeoutMethod" : function(){
+			}
+	};
+
+	var indexHandler = CORA.indexHandler(this.dependencies, tempSpec);
 	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
 
 	indexHandler.indexData(record);
@@ -130,8 +128,12 @@ QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
 	}
 });	
 
-QUnit.test("testIndexTimeout", function(assert) {
-		var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
+QUnit.test("testIndexTimeoutDefaultTimeoutMethod", function(assert) {
+	var tempSpec = {
+			"loadMethod" : function(){
+			}
+	};
+		var indexHandler = CORA.indexHandler(this.dependencies, tempSpec);
 		indexHandler.addIndexOrderView();
 		var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
 		
