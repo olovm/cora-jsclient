@@ -28,6 +28,8 @@ var CORA = (function(cora) {
 			var record = dataRecord;
 			var indexLink = record.actionLinks.index;
 			var loadMethod = getLoadMethod();
+			var cRecord = CORA.coraData(record);
+			
 			var callSpec = {
 				"url" : indexLink.url,
 				"requestMethod" : indexLink.requestMethod,
@@ -35,7 +37,8 @@ var CORA = (function(cora) {
 				"contentType" : indexLink.contentType,
 				"data" : JSON.stringify(indexLink.body),
 				"loadMethod" : loadMethod,
-				"errorMethod" : handleCallError
+				"errorMethod" : handleCallError,
+				"timeoutMethod" : getTimeoutMethod(),
 			};
 			uploadQue.push(callSpec);
 			possiblyStartNextUpload();
@@ -44,22 +47,36 @@ var CORA = (function(cora) {
 		function getLoadMethod(){
 			return loadMethodIsSpecifiedInSpec() ? spec.loadMethod : uploadFinished;
 		}
-
+		
 		function loadMethodIsSpecifiedInSpec(){
 			return spec !== undefined && spec.loadMethod !== undefined;
 		}
+		
+		function getTimeoutMethod(){
+			return timeoutMethodIsSpecifiedInSpec() ? spec.timeoutMethod : timeoutMethod;
+		}
+		
+		function timeoutMethodIsSpecifiedInSpec(){
+			return spec !== undefined && spec.timeoutMethod !== undefined;
+		}
+		
+		
 		function uploadFinished() {
 			uploading = false;
-			//view.deactivate();
 			numberOfIndexRecords++;
 
 			var child = CORA.gui.createSpanWithClassName("indexItem");
 			if(indexOrderView === undefined){
-				indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
+				createIndexOrderView();
 			}
 			child.textContent = numberOfIndexRecords;
 			indexOrderView.appendChild(child);
 			possiblyStartNextUpload();
+		}
+		
+		function createIndexOrderView(){
+			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
+			indexOrderView.textContent = "Indexerat";
 		}
 
 		function possiblyStartNextUpload() {
@@ -81,7 +98,6 @@ var CORA = (function(cora) {
 
 		function startNextUpload(callSpec) {
 			uploading = true;
-			//view.activate();
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
@@ -89,13 +105,21 @@ var CORA = (function(cora) {
 			throw new Error("error indexing", error);
 		}
 		
+		function timeoutMethod(){
+			var child = CORA.gui.createSpanWithClassName("indexItem");
+			child.textContent = "TIMEOUT";
+			indexOrderView.appendChild(child);
+			
+		}
+		
 		function getNumberOfIndexedRecords(){
 			return numberOfIndexRecords;
 		}
 
 		function addIndexOrderView(){
-			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
-			dependencies.uploadManager.view.getWorkView().appendChild(indexOrderView);
+			createIndexOrderView();
+			var indexOrders  = dependencies.uploadManager.view.getWorkView().firstChild;
+			indexOrders.appendChild(indexOrderView);
 		}
 
 		function getDependencies() {
@@ -104,6 +128,10 @@ var CORA = (function(cora) {
 
 		function getSpec() {
 			return spec;
+		}
+		
+		function getView(){
+			return indexOrderView;
 		}
 
 		var out = Object.freeze({
@@ -114,7 +142,8 @@ var CORA = (function(cora) {
 			uploadFinished : uploadFinished,
 			handleCallError : handleCallError,
 			getNumberOfIndexedRecords : getNumberOfIndexedRecords,
-			addIndexOrderView : addIndexOrderView
+			addIndexOrderView : addIndexOrderView,
+			getView : getView
 		});
 
 		return out;

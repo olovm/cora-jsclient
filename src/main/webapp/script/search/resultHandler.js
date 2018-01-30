@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -79,6 +79,7 @@ var CORA = (function(cora) {
 
 		function indexDataList(){
 			var indexHandler = dependencies.indexHandlerFactory.factor();
+			indexHandler.addIndexOrderView();
 			for(var i=0; i<spec.dataList.data.length; i++){
 				indexHandler.indexData(spec.dataList.data[i].record);
 			}

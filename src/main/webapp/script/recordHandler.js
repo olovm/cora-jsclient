@@ -412,7 +412,8 @@ var CORA = (function(cora) {
 		function sendIndexDataToServer() {
 				busy.show();
 				var indexHandlerSpec = {
-						"loadMethod" : showIndexMessage
+						"loadMethod" : showIndexMessage,
+						"timeoutMethod" :showTimeoutMessage
 				};
 				var indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
 				indexHandler.indexData(fetchedRecord);
@@ -424,6 +425,15 @@ var CORA = (function(cora) {
 			var messageSpec = {
 				"message" : "Posten är indexerad",
 				"type" : CORA.message.POSITIVE
+			};
+			messageHolder.createMessage(messageSpec);
+		}
+		
+		function showTimeoutMessage() {
+			busy.hideWithEffect();
+			var messageSpec = {
+				"message" : "TIMEOUT",
+				"type" : CORA.message.ERROR
 			};
 			messageHolder.createMessage(messageSpec);
 		}
@@ -495,7 +505,8 @@ var CORA = (function(cora) {
 			getManagedGuiItem : getManagedGuiItem,
 			reloadForMetadataChanges : reloadForMetadataChanges,
 			showIncomingLinks : showIncomingLinks,
-			showIndexMessage : showIndexMessage
+			showIndexMessage : showIndexMessage,
+			showTimeoutMessage : showTimeoutMessage
 		});
 		return out;
 	};

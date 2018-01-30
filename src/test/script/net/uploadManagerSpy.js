@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -22,6 +22,7 @@ var CORATEST = (function(coraTest) {
 		var uploadWasCalled = false;
 		var uploadSpecs = [];
 		var workView = CORA.gui.createSpanWithClassName("workViewSpy");
+		workView.appendChild(CORA.gui.createSpanWithClassName("indexOrders"));
 		var view = {};
 		view.getWorkView = function () {
 			return workView;

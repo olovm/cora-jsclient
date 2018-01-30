@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -167,9 +167,22 @@ QUnit.test("testIndexDataList", function(assert) {
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
 	var firstIndexedRecord = factoredIndexHandler.getIndexRecord(0);
 	assert.stringifyEqual(firstIndexedRecord, CORATEST.searchRecordList.dataList.data[0].record);
+//	var secondIndexedRecord = factoredIndexHandler.getIndexRecord(1);
+//	assert.stringifyEqual(secondIndexedRecord, CORATEST.searchRecordList.dataList.data[1].record);
+});
+
+QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+	resultHandler.indexDataList();
+	
+	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+	assert.stringifyEqual(factoredIndexHandler.indexOrderViewAdded(), true);
+	
+	var firstIndexedRecord = factoredIndexHandler.getIndexRecord(0);
 	var secondIndexedRecord = factoredIndexHandler.getIndexRecord(1);
 	assert.stringifyEqual(secondIndexedRecord, CORATEST.searchRecordList.dataList.data[1].record);
 });
+
 
 QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);

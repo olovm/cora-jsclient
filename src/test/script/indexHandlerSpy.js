@@ -22,6 +22,7 @@ var CORATEST = (function(coraTest) {
 		var indexDataListWasCalled = false;
 		var indexedRecords = [];
 		var numberOfIndexedRecords = 0;
+		var addedIndexOrderViewCalled = false;
 		
 		function indexDataList(){
 			indexDataListWasCalled = true;
@@ -47,6 +48,14 @@ var CORATEST = (function(coraTest) {
 		function getSpec(){
 			return spec;
 		}
+		
+		function addIndexOrderView(){
+			addedIndexOrderViewCalled = true;
+		}
+		
+		function indexOrderViewAdded(){
+			return addedIndexOrderViewCalled;
+		}
 
 		return Object.freeze({
 			"type" : "indexHandlerSpy",
@@ -54,7 +63,9 @@ var CORATEST = (function(coraTest) {
 			indexData : indexData,
 			getIndexDataListWasCalled : getIndexDataListWasCalled,
 			getIndexRecord : getIndexRecord,
-			getNumberOfIndexedRecords : getNumberOfIndexedRecords 
+			getNumberOfIndexedRecords : getNumberOfIndexedRecords,
+			addIndexOrderView : addIndexOrderView,
+			indexOrderViewAdded : indexOrderViewAdded 
 		});
 	};
 	return coraTest;

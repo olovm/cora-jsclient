@@ -97,36 +97,27 @@ QUnit.test("testIndexWithDefaultLoadMethod", function(assert) {
 QUnit.test("testMessageSetInView", function(assert) {
 	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
 	var workView = this.uploadManager.view.getWorkView();
-//	assert.strictEqual(menuView.className, "menuView");
-//	var cRecord = CORA.coraData(CORATEST.listWithDataToIndex.dataList.data);
 	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
 
 	indexHandler.indexData(record);
 	indexHandler.uploadFinished();
-	assert.strictEqual(workView.firstChild.className, "indexOrderItem");
-	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 1);
-
-	//var ajaxCallSpy1 = this.ajaxCallFactorySpy.getFactored(1);
-	//assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
-	//indexHandler.uploadFinished();
-	//assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 2);
-//	assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
-//	this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy1);
-//
-//	uploadManager.uploadFinished();
-//	assert.strictEqual(menuView.className, "menuView");
+	var view = indexHandler.getView();
+	assert.strictEqual(view.childNodes[1].className, "indexItem");
 });
 
 QUnit.test("testAddIndexOrderViewToUploadView", function(assert) {
 	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
 	indexHandler.addIndexOrderView();
 	var workView = this.uploadManager.view.getWorkView();
-	assert.strictEqual(workView.firstChild.className, "indexOrder");
+	var indexOrders = workView.firstChild;
+	assert.strictEqual(indexOrders.className, "indexOrders");
 	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
 
 	indexHandler.indexData(record);
 	indexHandler.uploadFinished();
-	assert.strictEqual(workView.firstChild.firstChild.className, "indexItem");
+	var indexOrder = indexOrders.firstChild;
+	assert.strictEqual(indexOrder.firstChild.textContent, "Indexerat");
+	assert.strictEqual(indexOrder.childNodes[1].className, "indexItem");
 
 });
 
@@ -137,18 +128,19 @@ QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
 	} catch (error) {
 		assert.strictEqual(error.message, "error indexing");
 	}
-	
-//	QUnit.test("testIndexTimeout", function(assert) {
-//		var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-//		var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-//		
-//		indexHandler.indexData(record);
-//		var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-//		ajaxCallSpy0.getSpec().timeoutMethod();
-//
-//		var fileView = indexHandler.view.getWorkView().firstChild;
-//		assert.strictEqual(fileView.lastChild.textContent, "TIMEOUT");
-//	});
+});	
 
+QUnit.test("testIndexTimeout", function(assert) {
+		var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
+		indexHandler.addIndexOrderView();
+		var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
+		
+		indexHandler.indexData(record);
+		var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
+		ajaxCallSpy0.getSpec().timeoutMethod();
+		
+		var workView = this.uploadManager.view.getWorkView();
+		var indexOrder = workView.firstChild.firstChild;
+		assert.strictEqual(indexOrder.lastChild.textContent, "TIMEOUT");
+	});
 
-});
