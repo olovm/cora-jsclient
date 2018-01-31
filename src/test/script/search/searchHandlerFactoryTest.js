@@ -35,8 +35,7 @@ QUnit.module("searchHandlerFactoryTest.js", {
 		};
 		this.dependencies = {
 			"providers" : this.providers,
-			"globalFactories" : this.globalFactories,
-		// "jsClient" : CORATEST.jsClientSpy()
+			"globalFactories" : this.globalFactories
 
 		};
 		this.spec = {
@@ -48,7 +47,7 @@ QUnit.module("searchHandlerFactoryTest.js", {
 				"url" : "http://epc.ub.uu.se/cora/rest/record/searchResult/coraTextSearch",
 				"accept" : "application/vnd.uub.recordList+json"
 			}
-		}
+		};
 	},
 	afterEach : function() {
 	}

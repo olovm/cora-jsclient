@@ -428,7 +428,7 @@ var CORA = (function(cora) {
 			};
 			messageHolder.createMessage(messageSpec);
 		}
-		
+
 		function showTimeoutMessage() {
 			busy.hideWithEffect();
 			var messageSpec = {
