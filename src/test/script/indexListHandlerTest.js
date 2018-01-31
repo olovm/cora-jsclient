@@ -24,13 +24,15 @@ QUnit.module("indexListHandlerTest.js",{
 						this.uploadManager =  CORATEST.uploadManagerSpy();
 						this.dependencies = {
 							"ajaxCallFactory" : this.ajaxCallFactorySpy,
-							"uploadManager": this.uploadManager
+							"uploadManager": this.uploadManager,
+							"indexHandlerFactory" : CORATEST.standardFactorySpy("indexHandlerSpy")
 						};
 						this.spec = {
-								"loadMethod" : function() {
-								},
-								"timeoutMethod" : function(){
-								}
+								//"loadMethod" : function() {
+								//},
+								//"timeoutMethod" : function(){
+								//},
+							"dataList" : CORATEST.searchRecordList.dataList
 						};
 
 					},
@@ -40,40 +42,48 @@ QUnit.module("indexListHandlerTest.js",{
 
 QUnit.test("testType", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
-	assert.strictEqual(indexHandler.type, "indexListHandler");
+	assert.strictEqual(indexListHandler.type, "indexListHandler");
 });
 
-//QUnit.test("testGetDependencies", function(assert) {
-//	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-//	assert.strictEqual(indexHandler.getDependencies(), this.dependencies);
-//});
-//
-//QUnit.test("testGetSpec", function(assert) {
-//	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-//	assert.strictEqual(indexHandler.getSpec(), this.spec);
-//});
-//
-//QUnit.test("testIndexQue", function(assert) {
-//	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-//	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-//	
-//	indexHandler.indexData(record);
-//
-//	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-//	assert.strictEqual(ajaxCallSpy0.getSpec().requestMethod, "POST");
-//	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, this.spec.loadMethod);
-//
-//	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 0);
-//	indexHandler.indexData(record);
-//	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(1), undefined);
-//	indexHandler.uploadFinished();
-//	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 1);
-//
-//	var ajaxCallSpy1 = this.ajaxCallFactorySpy.getFactored(1);
-//	assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
-//	indexHandler.uploadFinished();
-//	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 2);
-//});
+QUnit.test("testGetDependencies", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	assert.strictEqual(indexListHandler.getDependencies(), this.dependencies);
+});
+
+QUnit.test("testGetSpec", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	assert.strictEqual(indexListHandler.getSpec(), this.spec);
+});
+
+QUnit.test("testIndexQue", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	var recordList = CORATEST.searchRecordList.dataList;
+
+	indexListHandler.indexDataList(recordList);
+
+	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+	var firstIndexedRecord = factoredIndexHandler.getIndexRecord(0);
+	assert.stringifyEqual(firstIndexedRecord, CORATEST.searchRecordList.dataList.data[0].record);
+
+	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 0);
+
+	indexListHandler.uploadFinished();
+	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 1);
+
+	indexListHandler.uploadFinished();
+	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 2);
+});
+
+QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	indexListHandler.indexDataList();
+	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+
+	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 38);
+
+});
+
+
 //
 //
 //QUnit.test("testIndexWithDefaultLoadMethod", function(assert) {
@@ -126,7 +136,7 @@ QUnit.test("testType", function(assert) {
 //	} catch (error) {
 //		assert.strictEqual(error.message, "error indexing");
 //	}
-//});	
+//});
 //
 //QUnit.test("testIndexTimeoutDefaultTimeoutMethod", function(assert) {
 //	var tempSpec = {
@@ -136,11 +146,11 @@ QUnit.test("testType", function(assert) {
 //		var indexHandler = CORA.indexHandler(this.dependencies, tempSpec);
 //		indexHandler.addIndexOrderView();
 //		var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-//		
+//
 //		indexHandler.indexData(record);
 //		var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 //		ajaxCallSpy0.getSpec().timeoutMethod();
-//		
+//
 //		var workView = this.uploadManager.view.getWorkView();
 //		var indexOrder = workView.firstChild.firstChild;
 //		assert.strictEqual(indexOrder.lastChild.textContent, "TIMEOUT");
