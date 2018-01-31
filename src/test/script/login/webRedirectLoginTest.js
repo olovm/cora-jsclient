@@ -28,7 +28,8 @@ QUnit.module("webRedirectLoginTest.js", {
 		};
 
 		this.spec = {
-			"url" : "http://www.organisation.org/login/"
+			"url" : "http://www.organisation.org/login/",
+			windowOpenedFromUrl : "http://some.url.org"
 		};
 
 		this.webRedirectLogin = CORA.webRedirectLogin(this.dependencies, this.spec);
@@ -43,17 +44,19 @@ QUnit.test("init", function(assert) {
 });
 
 QUnit.test("getDependencies", function(assert) {
-	assert.ok(this.webRedirectLogin);
 	assert.strictEqual(this.webRedirectLogin.getDependencies(), this.dependencies);
 });
 
 QUnit.test("getSpec", function(assert) {
-	assert.ok(this.webRedirectLogin);
 	assert.strictEqual(this.webRedirectLogin.getSpec(), this.spec);
 });
 
 QUnit.test("testUrlIsOpened", function(assert) {
-	assert.ok(this.webRedirectLogin);
 	assert.strictEqual(this.windowSpy.getOpenedUrl(), this.spec.url);
+});
+
+QUnit.test("testGetOpenedWindow", function(assert) {
+	assert.strictEqual(this.webRedirectLogin.getOpenedWindow(), this.windowSpy.fakeOpenedWindow);
+	assert.strictEqual(this.webRedirectLogin.getOpenedWindow().windowOpenedFromUrl, "http://some.url.org");
 });
 

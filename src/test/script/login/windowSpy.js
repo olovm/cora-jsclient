@@ -20,6 +20,9 @@ var CORATEST = (function(cora) {
 	"use strict";
 	cora.windowSpy = function(dependencies, spec) {
 		var url = "";
+		var fakeOpenedWindow = {
+			fake : "fakeWindow"
+		};
 		function getDependencies() {
 			return dependencies;
 		}
@@ -29,6 +32,7 @@ var CORATEST = (function(cora) {
 
 		function open(urlIn) {
 			url = urlIn;
+			return fakeOpenedWindow;
 		}
 		function getOpenedUrl() {
 			return url;
@@ -39,7 +43,8 @@ var CORATEST = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			open : open,
-			getOpenedUrl : getOpenedUrl
+			getOpenedUrl : getOpenedUrl,
+			fakeOpenedWindow : fakeOpenedWindow
 		});
 		return out;
 	};

@@ -19,9 +19,10 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.webRedirectLogin = function(dependencies, spec) {
-
+		var openedWindow;
 		function start() {
-			dependencies.window.open(spec.url, "webRedirectLogin");
+			openedWindow = dependencies.window.open(spec.url, "webRedirectLogin");
+			openedWindow.windowOpenedFromUrl = spec.windowOpenedFromUrl;
 		}
 
 		function getDependencies() {
@@ -32,12 +33,17 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
+		function getOpenedWindow() {
+			return openedWindow;
+		}
+
 		start();
 
 		var out = Object.freeze({
 			"type" : "webRedirectLogin",
 			getDependencies : getDependencies,
-			getSpec : getSpec
+			getSpec : getSpec,
+			getOpenedWindow : getOpenedWindow
 		});
 		return out;
 	};

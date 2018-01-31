@@ -30,7 +30,7 @@
 
     <artifactId>jsclient</artifactId>
     <version>0.10-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>JS Client</name>
 
     <scm>

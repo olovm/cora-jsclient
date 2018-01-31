@@ -20,8 +20,12 @@
 
 QUnit.module("webRedirectLoginFactoryTest.js", {
 	beforeEach : function() {
-		this.dependencies = {
+		window.open = function() {
+			return {
+				fake : "fakeWindow"
+			};
 		};
+		this.dependencies = {};
 		this.webRedirectLoginFactory = CORA.webRedirectLoginFactory(this.dependencies);
 	},
 	afterEach : function() {
@@ -43,8 +47,9 @@ QUnit.test("factor", function(assert) {
 		testCallHasBeenCalled = true;
 	}
 	var webRedirectSpec = {
-		"afterLoginMethod" : testCall,
-		"appTokenBaseUrl" : "someAppTokenBaseUrl/"
+		"url" : "http://www.organisation.org/login/",
+		windowOpenedFromUrl : "http://some.url.org"
+
 	};
 	var webRedirectLogin = this.webRedirectLoginFactory.factor(webRedirectSpec);
 	assert.strictEqual(webRedirectLogin.type, "webRedirectLogin");
