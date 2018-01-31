@@ -55,6 +55,17 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(indexListHandler.getSpec(), this.spec);
 });
 
+QUnit.test("testFactoredSpec", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	var recordList = CORATEST.searchRecordList.dataList;
+
+	indexListHandler.indexDataList(recordList);
+	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+	var factoredSpec = factoredIndexHandler.getSpec();
+	assert.strictEqual(factoredSpec.loadMethod, indexListHandler.indexingFinished)
+	assert.strictEqual(factoredSpec.timeoutMethod, indexListHandler.timeoutMethod)
+});
+	
 QUnit.test("testIndexQue", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	var recordList = CORATEST.searchRecordList.dataList;
@@ -67,21 +78,41 @@ QUnit.test("testIndexQue", function(assert) {
 
 	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 0);
 
-	indexListHandler.uploadFinished();
+	indexListHandler.indexingFinished();
 	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 1);
-
-	indexListHandler.uploadFinished();
+	
+	var firstIndexedRecord2 = factoredIndexHandler.getIndexRecord(0);
+	indexListHandler.indexingFinished();
 	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 2);
 });
 
-QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
+QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
-	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
-
-	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 38);
-
+	
+	var workView = this.uploadManager.view.getWorkView();
+	var indexOrders = workView.firstChild;
+	assert.strictEqual(indexOrders.className, "indexOrders");
+	
+	var indexOrderView = indexOrders.firstChild;
+	assert.strictEqual(indexOrderView.className, "indexOrder");
+	
+	indexListHandler.indexingFinished();
+	var indexOrder = indexOrders.firstChild;
+	assert.strictEqual(indexOrder.firstChild.textContent, "Indexerat");
+	assert.strictEqual(indexOrder.childNodes[1].className, "indexItem");
+	assert.strictEqual(indexOrder.childNodes[1].textContent, "1");
 });
+
+
+//QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
+//	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+//	indexListHandler.indexDataList();
+//	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+//
+//	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 38);
+//
+//});
 
 
 //

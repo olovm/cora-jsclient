@@ -23,110 +23,88 @@ var CORA = (function(cora) {
 		var uploadQue = [];
 		var numberOfIndexRecords = 0;
 		var indexOrderView;
+		var indexHandler;
 
-		//function indexData(dataRecord) {
-		//	var record = dataRecord;
-		//	var indexLink = record.actionLinks.index;
-		//	var loadMethod = getLoadMethod();
-        //
-		//	var callSpec = {
-		//		"url" : indexLink.url,
-		//		"requestMethod" : indexLink.requestMethod,
-		//		"accept" : indexLink.accept,
-		//		"contentType" : indexLink.contentType,
-		//		"data" : JSON.stringify(indexLink.body),
-		//		"loadMethod" : loadMethod,
-		//		"errorMethod" : handleCallError,
-		//		"timeoutMethod" : getTimeoutMethod()
-		//	};
-		//	uploadQue.push(callSpec);
-		//	possiblyStartNextUpload();
-		//}
 
 		function indexDataList(){
-			var indexHandler = dependencies.indexHandlerFactory.factor();
-			indexHandler.addIndexOrderView();
+			var indexHandlerSpec = {
+					"loadMethod" : indexingFinished,
+					"timeoutMethod" :timeoutMethod
+			};
+			indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
+			addIndexOrderView();
 			for(var i=0; i<spec.dataList.data.length; i++){
-				indexHandler.indexData(spec.dataList.data[i].record);
+				indexData(spec.dataList.data[i].record);
 			}
 		}
 
-		//function getLoadMethod(){
-		//	return loadMethodIsSpecifiedInSpec() ? spec.loadMethod : uploadFinished;
-		//}
-        //
-		//function loadMethodIsSpecifiedInSpec(){
-		//	return spec !== undefined && spec.loadMethod !== undefined;
-		//}
-        //
-		//function getTimeoutMethod(){
-		//	return timeoutMethodIsSpecifiedInSpec() ? spec.timeoutMethod : timeoutMethod;
-		//}
-        //
-		//function timeoutMethodIsSpecifiedInSpec(){
-		//	return spec !== undefined && spec.timeoutMethod !== undefined;
-		//}
+		function indexData(dataRecord) {
+			uploadQue.push(dataRecord);
+			possiblyStartNextUpload();
+		}
 
-		function uploadFinished() {
+		function indexingFinished() {
 			uploading = false;
 			numberOfIndexRecords++;
 
-			//var child = CORA.gui.createSpanWithClassName("indexItem");
-			//if(indexOrderView === undefined){
-			//	createIndexOrderView();
-			//}
-			//child.textContent = numberOfIndexRecords;
-			//indexOrderView.appendChild(child);
-			//possiblyStartNextUpload();
+			var child = CORA.gui.createSpanWithClassName("indexItem");
+			if(indexOrderView === undefined){
+				createIndexOrderView();
+			}
+			child.textContent = numberOfIndexRecords;
+			indexOrderView.appendChild(child);
+			possiblyStartNextUpload();
 		}
-
-		//function createIndexOrderView(){
-		//	indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
-		//	indexOrderView.textContent = "Indexerat";
-		//}
-        //
-		//function possiblyStartNextUpload() {
-		//	if (getCurrentlyNotUploading()) {
-		//		startNextUploadIfThereIsMoreInQueue();
-		//	}
-		//}
-        //
-		//function getCurrentlyNotUploading() {
-		//	return uploading !== true;
-		//}
-        //
-		//function startNextUploadIfThereIsMoreInQueue() {
-		//	var callSpec = uploadQue.shift();
-		//	if (callSpec !== undefined) {
-		//		startNextUpload(callSpec);
-		//	}
-		//}
-        //
-		//function startNextUpload(callSpec) {
-		//	uploading = true;
-		//	dependencies.ajaxCallFactory.factor(callSpec);
-		//}
-        //
+        
+		function possiblyStartNextUpload() {
+			if (getCurrentlyNotUploading()) {
+				startNextUploadIfThereIsMoreInQueue();
+			}
+		}
+        
+		function getCurrentlyNotUploading() {
+			return uploading !== true;
+		}
+        
+		function startNextUploadIfThereIsMoreInQueue() {
+			var dataRecord = uploadQue.shift();
+			if (dataRecord !== undefined) {
+				startNextUpload(dataRecord);
+			}
+		}
+        
+		function startNextUpload(dataRecord) {
+			uploading = true;
+			
+			indexHandler.indexData(dataRecord);
+		}
+        
 		//function handleCallError(error) {
 		//	throw new Error("error indexing", error);
 		//}
         //
-		//function timeoutMethod(){
-		//	var child = CORA.gui.createSpanWithClassName("indexItem");
-		//	child.textContent = "TIMEOUT";
-		//	indexOrderView.appendChild(child);
-        //
-		//}
+		function timeoutMethod(){
+			var child = CORA.gui.createSpanWithClassName("indexItem");
+			child.textContent = "TIMEOUT";
+			indexOrderView.appendChild(child);
+        
+		}
 
 		function getNumberOfIndexedRecords(){
 			return numberOfIndexRecords;
 		}
 
-		//function addIndexOrderView(){
-		//	createIndexOrderView();
-		//	var indexOrders  = dependencies.uploadManager.view.getWorkView().firstChild;
-		//	indexOrders.appendChild(indexOrderView);
-		//}
+		function addIndexOrderView(){
+			createIndexOrderView();
+			var indexOrders  = dependencies.uploadManager.view.getWorkView().firstChild;
+			indexOrders.appendChild(indexOrderView);
+		}
+
+		function createIndexOrderView(){
+			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
+			indexOrderView.textContent = "Indexerat";
+		}
+
 
 		function getDependencies() {
 			return dependencies;
@@ -145,10 +123,10 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			indexDataList : indexDataList,
-			uploadFinished : uploadFinished,
+			indexingFinished : indexingFinished,
+			timeoutMethod : timeoutMethod,
 			//handleCallError : handleCallError,
 			getNumberOfIndexedRecords : getNumberOfIndexedRecords
-			//addIndexOrderView : addIndexOrderView,
 			//getView : getView
 		});
 
