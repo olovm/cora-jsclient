@@ -24,12 +24,11 @@ var CORA = (function(cora) {
 		var numberOfIndexRecords = 0;
 		var indexOrderView;
 
-		function indexData(dataRecord, viewToAppendTo) {
+		function indexData(dataRecord) {
 			var record = dataRecord;
 			var indexLink = record.actionLinks.index;
 			var loadMethod = getLoadMethod();
-			var cRecord = CORA.coraData(record);
-			
+
 			var callSpec = {
 				"url" : indexLink.url,
 				"requestMethod" : indexLink.requestMethod,
@@ -38,29 +37,28 @@ var CORA = (function(cora) {
 				"data" : JSON.stringify(indexLink.body),
 				"loadMethod" : loadMethod,
 				"errorMethod" : handleCallError,
-				"timeoutMethod" : getTimeoutMethod(),
+				"timeoutMethod" : getTimeoutMethod()
 			};
 			uploadQue.push(callSpec);
 			possiblyStartNextUpload();
 		}
-		
+
 		function getLoadMethod(){
 			return loadMethodIsSpecifiedInSpec() ? spec.loadMethod : uploadFinished;
 		}
-		
+
 		function loadMethodIsSpecifiedInSpec(){
 			return spec !== undefined && spec.loadMethod !== undefined;
 		}
-		
+
 		function getTimeoutMethod(){
 			return timeoutMethodIsSpecifiedInSpec() ? spec.timeoutMethod : timeoutMethod;
 		}
-		
+
 		function timeoutMethodIsSpecifiedInSpec(){
 			return spec !== undefined && spec.timeoutMethod !== undefined;
 		}
-		
-		
+
 		function uploadFinished() {
 			uploading = false;
 			numberOfIndexRecords++;
@@ -73,7 +71,7 @@ var CORA = (function(cora) {
 			indexOrderView.appendChild(child);
 			possiblyStartNextUpload();
 		}
-		
+
 		function createIndexOrderView(){
 			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
 			indexOrderView.textContent = "Indexerat";
@@ -104,14 +102,14 @@ var CORA = (function(cora) {
 		function handleCallError(error) {
 			throw new Error("error indexing", error);
 		}
-		
+
 		function timeoutMethod(){
 			var child = CORA.gui.createSpanWithClassName("indexItem");
 			child.textContent = "TIMEOUT";
 			indexOrderView.appendChild(child);
-			
+
 		}
-		
+
 		function getNumberOfIndexedRecords(){
 			return numberOfIndexRecords;
 		}
@@ -129,7 +127,7 @@ var CORA = (function(cora) {
 		function getSpec() {
 			return spec;
 		}
-		
+
 		function getView(){
 			return indexOrderView;
 		}
