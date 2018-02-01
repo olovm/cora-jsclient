@@ -31,7 +31,8 @@ var CORA = (function(cora) {
 
 		function createView() {
 			var viewSpec = {
-				"ofText" : dependencies.textProvider.getTranslation("theClient_resultListOfText"),
+				"ofText" : dependencies.textProvider
+						.getTranslation("theClient_resultListOfText"),
 				"fromNo" : spec.dataList.fromNo,
 				"toNo" : spec.dataList.toNo,
 				"totalNo" : spec.dataList.totalNo,
@@ -57,8 +58,10 @@ var CORA = (function(cora) {
 				"record" : result,
 				"jsClient" : dependencies.jsClient
 			};
-			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
-			view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getListView(), result);
+			var recordHandlerNew = dependencies.recordHandlerFactory
+					.factor(recordHandlerSpec);
+			view.addChildPresentation(recordHandlerNew.getManagedGuiItem()
+					.getListView(), result);
 		}
 
 		function openRecord(openInfo) {
@@ -77,10 +80,13 @@ var CORA = (function(cora) {
 			dependencies.jsClient.openRecordUsingReadLink(openInfo);
 		}
 
-		function indexDataList(){
+		function indexDataList() {
+			// var indexListHandler =
+			// dependencies.indexListHandlerFactory.factor();
 			var indexHandler = dependencies.indexHandlerFactory.factor();
+			// indexListHandler.indexList(spec.dataList.data);
 			indexHandler.addIndexOrderView();
-			for(var i=0; i<spec.dataList.data.length; i++){
+			for (var i = 0; i < spec.dataList.data.length; i++) {
 				indexHandler.indexData(spec.dataList.data[i].record);
 			}
 		}
@@ -102,7 +108,7 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			openRecord : openRecord,
-			indexDataList: indexDataList
+			indexDataList : indexDataList
 		});
 		start();
 		return out;

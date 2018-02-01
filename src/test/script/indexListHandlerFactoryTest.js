@@ -21,7 +21,7 @@
 QUnit.module("indexListHandlerFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
-			"indexHandlerFactory" : CORATEST.standardFactorySpy("indexHandlerSpy"),
+			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
 			"uploadManager" : CORATEST.uploadManagerSpy()
 		};
 		this.spec = {
@@ -51,8 +51,8 @@ QUnit.test("factorTestType", function(assert) {
 QUnit.test("testFactoredUsedIncomingDependencies", function(assert) {
 	var indexListHandler = this.indexListHandlerFactory.factor(this.spec);
 	var createdDependencies = indexListHandler.getDependencies();
-	assert.strictEqual(createdDependencies.indexHandlerFactory,
-			this.dependencies.indexHandlerFactory);
+	assert.strictEqual(createdDependencies.indexHandlerFactory.type,
+			"indexHandlerFactory");
 	assert.strictEqual(createdDependencies.uploadManager,
 		this.dependencies.uploadManager);
 

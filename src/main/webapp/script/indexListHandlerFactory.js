@@ -1,4 +1,4 @@
- /* Copyright 2018 Uppsala University Library
+/* Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -20,8 +20,14 @@ var CORA = (function(cora) {
 	cora.indexListHandlerFactory = function(dependencies) {
 
 		function factor(indexListHandlerSpec) {
+			var indexHandlerDep = {
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"uploadManager" : dependencies.uploadManager
+			};
+
 			var dep = {
-				"indexHandlerFactory" : dependencies.indexHandlerFactory,
+				"indexHandlerFactory" : CORA
+						.indexHandlerFactory(indexHandlerDep),
 				"uploadManager" : dependencies.uploadManager
 			};
 			return CORA.indexListHandler(dep, indexListHandlerSpec);

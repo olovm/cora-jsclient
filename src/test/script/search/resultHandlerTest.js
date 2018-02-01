@@ -35,7 +35,7 @@ QUnit.module("resultHandlerTest.js", {
 			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
 			"jsClient" : CORATEST.jsClientSpy(),
 			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
-			"indexHandlerFactory" : CORATEST.standardFactorySpy("indexHandlerSpy")
+			"indexListHandlerFactory" : CORATEST.standardFactorySpy("indexListHandlerSpy")
 		};
 		this.spec = {
 			"dataList" : CORATEST.searchRecordList.dataList

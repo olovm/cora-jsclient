@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -61,7 +61,7 @@ QUnit.test("testFactorAddedDependencies", function(assert) {
 	assert.strictEqual(addedDep.resultHandlerViewFactory.type, "resultHandlerViewFactory");
 	assert.strictEqual(addedDep.textProvider, this.dependencies.textProvider);
 	assert.strictEqual(addedDep.recordGuiFactory, this.dependencies.recordGuiFactory);
-	assert.strictEqual(addedDep.indexHandlerFactory.type, "indexHandlerFactory");
+	assert.strictEqual(addedDep.indexListHandlerFactory.type, "indexListHandlerFactory");
 	assert.strictEqual(addedDep.jsClient, this.spec.jsClient);
 	assert.strictEqual(addedDep.recordHandlerFactory, this.dependencies.recordHandlerFactory);
 
@@ -71,8 +71,8 @@ QUnit.test("testIndexHandlerFactoryDependencies", function(assert) {
 	var resultHandlerFactory = CORA.resultHandlerFactory(this.dependencies);
 	var resultHandler = resultHandlerFactory.factor(this.spec);
 	var addedDep = resultHandler.getDependencies();
-	var indexHandlerDependencies = addedDep.indexHandlerFactory.getDependencies();
-	assert.strictEqual(indexHandlerDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory);
-	assert.stringifyEqual(indexHandlerDependencies.uploadManager, this.dependencies.recordGuiFactory.getDependencies().uploadManager)
+	var indexListHandlerDependencies = addedDep.indexListHandlerFactory.getDependencies();
+	assert.strictEqual(indexListHandlerDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory);
+	assert.stringifyEqual(indexListHandlerDependencies.uploadManager, this.dependencies.recordGuiFactory.getDependencies().uploadManager)
 });
 
