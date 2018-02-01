@@ -23,18 +23,12 @@ QUnit.module("indexListHandlerTest.js",{
 						this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 						this.uploadManager =  CORATEST.uploadManagerSpy();
 						this.dependencies = {
-							"ajaxCallFactory" : this.ajaxCallFactorySpy,
 							"uploadManager": this.uploadManager,
 							"indexHandlerFactory" : CORATEST.standardFactorySpy("indexHandlerSpy")
 						};
 						this.spec = {
-								//"loadMethod" : function() {
-								//},
-								//"timeoutMethod" : function(){
-								//},
 							"dataList" : CORATEST.searchRecordList.dataList
 						};
-
 					},
 					afterEach : function() {
 					}
@@ -65,7 +59,7 @@ QUnit.test("testFactoredSpec", function(assert) {
 	assert.strictEqual(factoredSpec.loadMethod, indexListHandler.indexingFinished)
 	assert.strictEqual(factoredSpec.timeoutMethod, indexListHandler.timeoutMethod)
 });
-	
+
 QUnit.test("testIndexQue", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	var recordList = CORATEST.searchRecordList.dataList;
@@ -80,7 +74,7 @@ QUnit.test("testIndexQue", function(assert) {
 
 	indexListHandler.indexingFinished();
 	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 1);
-	
+
 	var firstIndexedRecord2 = factoredIndexHandler.getIndexRecord(0);
 	indexListHandler.indexingFinished();
 	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 2);
@@ -104,14 +98,14 @@ QUnit.test("testIndexOneRecord", function(assert) {
 QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
-	
+
 	var workView = this.uploadManager.view.getWorkView();
 	var indexOrders = workView.firstChild;
 	assert.strictEqual(indexOrders.className, "indexOrders");
-	
+
 	var indexOrderView = indexOrders.firstChild;
 	assert.strictEqual(indexOrderView.className, "indexOrder");
-	
+
 	indexListHandler.indexingFinished();
 	var indexOrder = indexOrders.firstChild;
 	assert.strictEqual(indexOrder.firstChild.textContent, "Indexerat");
@@ -122,7 +116,7 @@ QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 QUnit.test("testIndexTimeoutMethod", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
-	
+
 		indexListHandler.timeoutMethod();
 
 		var workView = this.uploadManager.view.getWorkView();

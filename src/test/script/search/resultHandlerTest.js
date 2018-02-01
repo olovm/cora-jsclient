@@ -174,10 +174,10 @@ QUnit.test("testIndexDataList", function(assert) {
 QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	resultHandler.indexDataList();
-	
+
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
 	assert.stringifyEqual(factoredIndexHandler.indexOrderViewAdded(), true);
-	
+
 	var firstIndexedRecord = factoredIndexHandler.getIndexRecord(0);
 	var secondIndexedRecord = factoredIndexHandler.getIndexRecord(1);
 	assert.stringifyEqual(secondIndexedRecord, CORATEST.searchRecordList.dataList.data[1].record);
@@ -188,9 +188,9 @@ QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	resultHandler.indexDataList();
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
-	
+
 	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 38);
-	
+
 });
 
 QUnit.test("testIndexButtonIsAddedToView", function(assert) {

@@ -27,7 +27,6 @@ var CORA = (function(cora) {
 		function indexData(dataRecord) {
 			var record = dataRecord;
 			var indexLink = record.actionLinks.index;
-			var loadMethod = getLoadMethod();
 
 			var callSpec = {
 				"url" : indexLink.url,
@@ -35,28 +34,12 @@ var CORA = (function(cora) {
 				"accept" : indexLink.accept,
 				"contentType" : indexLink.contentType,
 				"data" : JSON.stringify(indexLink.body),
-				"loadMethod" : loadMethod,
+				"loadMethod" : spec.loadMethod,
 				"errorMethod" : handleCallError,
-				"timeoutMethod" : getTimeoutMethod()
+				"timeoutMethod" : spec.timeoutMethod
 			};
 			uploadQue.push(callSpec);
 			possiblyStartNextUpload();
-		}
-
-		function getLoadMethod(){
-			return loadMethodIsSpecifiedInSpec() ? spec.loadMethod : uploadFinished;
-		}
-
-		function loadMethodIsSpecifiedInSpec(){
-			return spec !== undefined && spec.loadMethod !== undefined;
-		}
-
-		function getTimeoutMethod(){
-			return timeoutMethodIsSpecifiedInSpec() ? spec.timeoutMethod : timeoutMethod;
-		}
-
-		function timeoutMethodIsSpecifiedInSpec(){
-			return spec !== undefined && spec.timeoutMethod !== undefined;
 		}
 
 		function uploadFinished() {

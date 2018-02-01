@@ -75,23 +75,6 @@ QUnit.test("testIndexQue", function(assert) {
 	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 2);
 });
 
-
-QUnit.test("testIndexWithDefaultLoadMethod", function(assert) {
-	var tempSpec = {
-			"timeoutMethod" : function(){
-			}
-	};
-
-	var indexHandler = CORA.indexHandler(this.dependencies, tempSpec);
-	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-
-	indexHandler.indexData(record);
-
-	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, indexHandler.uploadFinished);
-
-});
-
 QUnit.test("testMessageSetInView", function(assert) {
 	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
 	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
@@ -126,22 +109,3 @@ QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
 		assert.strictEqual(error.message, "error indexing");
 	}
 });
-
-QUnit.test("testIndexTimeoutDefaultTimeoutMethod", function(assert) {
-	var tempSpec = {
-			"loadMethod" : function(){
-			}
-	};
-		var indexHandler = CORA.indexHandler(this.dependencies, tempSpec);
-		indexHandler.addIndexOrderView();
-		var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-
-		indexHandler.indexData(record);
-		var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-		ajaxCallSpy0.getSpec().timeoutMethod();
-
-		var workView = this.uploadManager.view.getWorkView();
-		var indexOrder = workView.firstChild.firstChild;
-		assert.strictEqual(indexOrder.lastChild.textContent, "TIMEOUT");
-	});
-
