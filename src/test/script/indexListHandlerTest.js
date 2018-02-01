@@ -86,6 +86,21 @@ QUnit.test("testIndexQue", function(assert) {
 	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 2);
 });
 
+QUnit.test("testIndexOneRecord", function(assert) {
+	this.spec.dataList = CORATEST.searchRecordListOneRecord.dataList;
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	var recordList = CORATEST.searchRecordList.dataList;
+
+	indexListHandler.indexDataList(recordList);
+
+	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+	var firstIndexedRecord = factoredIndexHandler.getIndexRecord(0);
+	assert.stringifyEqual(firstIndexedRecord, CORATEST.searchRecordListOneRecord.dataList.data[0].record);
+	indexListHandler.indexingFinished();
+
+	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 1);
+});
+
 QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
@@ -104,6 +119,16 @@ QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 	assert.strictEqual(indexOrder.childNodes[1].textContent, "1");
 });
 
+QUnit.test("testIndexTimeoutMethod", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	indexListHandler.indexDataList();
+	
+		indexListHandler.timeoutMethod();
+
+		var workView = this.uploadManager.view.getWorkView();
+		var indexOrder = workView.firstChild.firstChild;
+		assert.strictEqual(indexOrder.lastChild.textContent, "TIMEOUT");
+	});
 
 //QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
 //	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
@@ -114,76 +139,3 @@ QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 //
 //});
 
-
-//
-//
-//QUnit.test("testIndexWithDefaultLoadMethod", function(assert) {
-//	var tempSpec = {
-//			"timeoutMethod" : function(){
-//			}
-//	};
-//
-//	var indexHandler = CORA.indexHandler(this.dependencies, tempSpec);
-//	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-//
-//	indexHandler.indexData(record);
-//
-//	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-//	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, indexHandler.uploadFinished);
-//
-//});
-//
-//QUnit.test("testMessageSetInView", function(assert) {
-//	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-//	var workView = this.uploadManager.view.getWorkView();
-//	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-//
-//	indexHandler.indexData(record);
-//	indexHandler.uploadFinished();
-//	var view = indexHandler.getView();
-//	assert.strictEqual(view.childNodes[1].className, "indexItem");
-//});
-//
-//QUnit.test("testAddIndexOrderViewToUploadView", function(assert) {
-//	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-//	indexHandler.addIndexOrderView();
-//	var workView = this.uploadManager.view.getWorkView();
-//	var indexOrders = workView.firstChild;
-//	assert.strictEqual(indexOrders.className, "indexOrders");
-//	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-//
-//	indexHandler.indexData(record);
-//	indexHandler.uploadFinished();
-//	var indexOrder = indexOrders.firstChild;
-//	assert.strictEqual(indexOrder.firstChild.textContent, "Indexerat");
-//	assert.strictEqual(indexOrder.childNodes[1].className, "indexItem");
-//
-//});
-//
-//QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
-//	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-//	try {
-//		indexHandler.handleCallError();
-//	} catch (error) {
-//		assert.strictEqual(error.message, "error indexing");
-//	}
-//});
-//
-//QUnit.test("testIndexTimeoutDefaultTimeoutMethod", function(assert) {
-//	var tempSpec = {
-//			"loadMethod" : function(){
-//			}
-//	};
-//		var indexHandler = CORA.indexHandler(this.dependencies, tempSpec);
-//		indexHandler.addIndexOrderView();
-//		var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-//
-//		indexHandler.indexData(record);
-//		var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-//		ajaxCallSpy0.getSpec().timeoutMethod();
-//
-//		var workView = this.uploadManager.view.getWorkView();
-//		var indexOrder = workView.firstChild.firstChild;
-//		assert.strictEqual(indexOrder.lastChild.textContent, "TIMEOUT");
-//	});
-//

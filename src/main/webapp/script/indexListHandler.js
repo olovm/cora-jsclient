@@ -48,9 +48,6 @@ var CORA = (function(cora) {
 			numberOfIndexRecords++;
 
 			var child = CORA.gui.createSpanWithClassName("indexItem");
-			if(indexOrderView === undefined){
-				createIndexOrderView();
-			}
 			child.textContent = numberOfIndexRecords;
 			indexOrderView.appendChild(child);
 			possiblyStartNextUpload();
@@ -75,14 +72,9 @@ var CORA = (function(cora) {
         
 		function startNextUpload(dataRecord) {
 			uploading = true;
-			
 			indexHandler.indexData(dataRecord);
 		}
         
-		//function handleCallError(error) {
-		//	throw new Error("error indexing", error);
-		//}
-        //
 		function timeoutMethod(){
 			var child = CORA.gui.createSpanWithClassName("indexItem");
 			child.textContent = "TIMEOUT";
@@ -105,7 +97,6 @@ var CORA = (function(cora) {
 			indexOrderView.textContent = "Indexerat";
 		}
 
-
 		function getDependencies() {
 			return dependencies;
 		}
@@ -114,10 +105,6 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
-		//function getView(){
-		//	return indexOrderView;
-		//}
-
 		var out = Object.freeze({
 			"type" : "indexListHandler",
 			getDependencies : getDependencies,
@@ -125,9 +112,7 @@ var CORA = (function(cora) {
 			indexDataList : indexDataList,
 			indexingFinished : indexingFinished,
 			timeoutMethod : timeoutMethod,
-			//handleCallError : handleCallError,
 			getNumberOfIndexedRecords : getNumberOfIndexedRecords
-			//getView : getView
 		});
 
 		return out;
