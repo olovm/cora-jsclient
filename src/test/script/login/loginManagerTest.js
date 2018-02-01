@@ -240,7 +240,6 @@ QUnit.test("testWebRedirectLoginFactoryIsCalledOnWebRedirectLogin", function(ass
 	var spec0 = this.dependencies.webRedirectLoginFactory.getSpec(0);
 
 	assert.strictEqual(spec0.url, this.loginOption.url);
-	assert.strictEqual(spec0.windowOpenedFromUrl, window.location);
 });
 
 QUnit.test("testRecieveMessageFromWebRedirectLogin", function(assert) {

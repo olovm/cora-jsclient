@@ -47,9 +47,7 @@ QUnit.test("factor", function(assert) {
 		testCallHasBeenCalled = true;
 	}
 	var webRedirectSpec = {
-		"url" : "http://www.organisation.org/login/",
-		windowOpenedFromUrl : "http://some.url.org"
-
+		"url" : "http://www.organisation.org/login/"
 	};
 	var webRedirectLogin = this.webRedirectLoginFactory.factor(webRedirectSpec);
 	assert.strictEqual(webRedirectLogin.type, "webRedirectLogin");

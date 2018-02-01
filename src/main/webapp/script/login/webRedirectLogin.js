@@ -22,7 +22,6 @@ var CORA = (function(cora) {
 		var openedWindow;
 		function start() {
 			openedWindow = dependencies.window.open(spec.url, "CoraHelperWindow");
-			openedWindow.windowOpenedFromUrl = spec.windowOpenedFromUrl;
 		}
 
 		function getDependencies() {

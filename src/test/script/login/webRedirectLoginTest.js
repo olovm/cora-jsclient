@@ -28,8 +28,7 @@ QUnit.module("webRedirectLoginTest.js", {
 		};
 
 		this.spec = {
-			"url" : "http://www.organisation.org/login/",
-			windowOpenedFromUrl : "http://some.url.org"
+			"url" : "http://www.organisation.org/login/"
 		};
 
 		this.webRedirectLogin = CORA.webRedirectLogin(this.dependencies, this.spec);
@@ -61,6 +60,4 @@ QUnit.test("testUrlOpenedName", function(assert) {
 
 QUnit.test("testGetOpenedWindow", function(assert) {
 	assert.strictEqual(this.webRedirectLogin.getOpenedWindow(), this.windowSpy.fakeOpenedWindow);
-	assert.strictEqual(this.webRedirectLogin.getOpenedWindow().windowOpenedFromUrl, "http://some.url.org");
 });
-

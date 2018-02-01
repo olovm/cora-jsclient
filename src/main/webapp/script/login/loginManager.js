@@ -85,8 +85,7 @@ var CORA = (function(cora) {
 			window.addEventListener("message", receiveMessage, false);
 			var url = loginOption.url;
 			var loginSpec = {
-				"url" : url,
-				windowOpenedFromUrl : window.location
+				"url" : url
 			};
 			loginOrigin = getIdpLoginServerPartFromUrl(url);
 			createdWebRedirectLogin = dependencies.webRedirectLoginFactory.factor(loginSpec);
