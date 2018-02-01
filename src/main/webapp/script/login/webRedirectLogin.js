@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -21,7 +21,7 @@ var CORA = (function(cora) {
 	cora.webRedirectLogin = function(dependencies, spec) {
 		var openedWindow;
 		function start() {
-			openedWindow = dependencies.window.open(spec.url, "webRedirectLogin");
+			openedWindow = dependencies.window.open(spec.url, "CoraHelperWindow");
 			openedWindow.windowOpenedFromUrl = spec.windowOpenedFromUrl;
 		}
 

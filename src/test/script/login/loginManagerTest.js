@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,75 +18,88 @@
  */
 "use strict";
 
-QUnit.module("loginManagerTest.js", {
-	beforeEach : function() {
-		this.getAddedWindowEvents = function() {
-			return addedEvents;
-		};
-		var addedEvents = [];
-		this.addEvent = function(type, listener, useCapture) {
-			addedEvents.push({
-				type : type,
-				listener : listener,
-				useCapture : useCapture
-			});
-		}
-		var oldAddEvent = window.addEventListener;
-		window.addEventListener = this.addEvent;
-		this.dependencies = {
-			"loginManagerViewFactory" : CORATEST.loginManagerViewFactorySpy(),
-			"appTokenLoginFactory" : CORATEST.appTokenLoginFactorySpy(),
-			"webRedirectLoginFactory" : CORATEST.standardFactorySpy("webRedirectLoginSpy"),
-			"authTokenHolder" : CORATEST.authTokenHolderSpy(),
-			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy()
-		};
-		var afterLoginMethodCalled = false;
-		this.afterLoginMethod = function() {
-			afterLoginMethodCalled = true;
-		};
-		this.afterLoginMethodWasCalled = function() {
-			return afterLoginMethodCalled;
-		}
+QUnit
+		.module(
+				"loginManagerTest.js",
+				{
+					beforeEach : function() {
+						this.loginOption;
+						this.getAddedWindowEvents = function() {
+							return addedEvents;
+						};
+						var addedEvents = [];
+						this.addEvent = function(type, listener, useCapture) {
+							addedEvents.push({
+								type : type,
+								listener : listener,
+								useCapture : useCapture
+							});
+						}
+						var oldAddEvent = window.addEventListener;
+						window.addEventListener = this.addEvent;
+						this.dependencies = {
+							"loginManagerViewFactory" : CORATEST.loginManagerViewFactorySpy(),
+							"appTokenLoginFactory" : CORATEST.appTokenLoginFactorySpy(),
+							"webRedirectLoginFactory" : CORATEST
+									.standardFactorySpy("webRedirectLoginSpy"),
+							"authTokenHolder" : CORATEST.authTokenHolderSpy(),
+							"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy()
+						};
+						var afterLoginMethodCalled = false;
+						this.afterLoginMethod = function() {
+							afterLoginMethodCalled = true;
+						};
+						this.afterLoginMethodWasCalled = function() {
+							return afterLoginMethodCalled;
+						}
 
-		var afterLogoutMethodCalled = false;
-		this.afterLogoutMethod = function() {
-			afterLogoutMethodCalled = true;
-		};
-		this.afterLogoutMethodWasCalled = function() {
-			return afterLogoutMethodCalled;
-		}
+						var afterLogoutMethodCalled = false;
+						this.afterLogoutMethod = function() {
+							afterLogoutMethodCalled = true;
+						};
+						this.afterLogoutMethodWasCalled = function() {
+							return afterLogoutMethodCalled;
+						}
 
-		var errorMessage;
-		this.setErrorMessage = function(errorMessageIn) {
-			errorMessage = errorMessageIn;
-		}
-		this.getErrorMessage = function() {
-			return errorMessage;
-		}
-		this.spec = {
-			"afterLoginMethod" : this.afterLoginMethod,
-			"afterLogoutMethod" : this.afterLogoutMethod,
-			"setErrorMessage" : this.setErrorMessage,
-			"appTokenBaseUrl" : "someAppTokenBaseUrl/"
-		};
-		this.loginManager = CORA.loginManager(this.dependencies, this.spec);
+						var errorMessage;
+						this.setErrorMessage = function(errorMessageIn) {
+							errorMessage = errorMessageIn;
+						}
+						this.getErrorMessage = function() {
+							return errorMessage;
+						}
+						this.spec = {
+							"afterLoginMethod" : this.afterLoginMethod,
+							"afterLogoutMethod" : this.afterLogoutMethod,
+							"setErrorMessage" : this.setErrorMessage,
+							"appTokenBaseUrl" : "someAppTokenBaseUrl/"
+						};
+						this.loginManager = CORA.loginManager(this.dependencies, this.spec);
 
-		this.authInfo = {
-			"userId" : "141414",
-			"token" : "fake authToken from here",
-			"validForNoSeconds" : "131",
-			"actionLinks" : {
-				"delete" : {
-					"requestMethod" : "DELETE",
-					"rel" : "delete",
-					"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/141414"
-				}
-			}
-		};
-	},
-	afterEach : function() {
-	}
-});
+						this.authInfo = {
+							"userId" : "141414",
+							"token" : "fake authToken from here",
+							"validForNoSeconds" : "131",
+							"actionLinks" : {
+								"delete" : {
+									"requestMethod" : "DELETE",
+									"rel" : "delete",
+									"url" : "http://localhost:8080/apptokenverifier/rest/apptoken/141414"
+								}
+							}
+						};
+						this.loginWithWebRedirect = function() {
+							this.loginOption = {
+								"text" : "Uppsala webredirect",
+								"type" : "webRedirectLogin",
+								"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/systemone/idplogin/login"
+							};
+							this.loginManager.login(this.loginOption);
+						}
+					},
+					afterEach : function() {
+					}
+				});
 
 QUnit.test("testConstants", function(assert) {
 	assert.strictEqual(CORA.loginManager.LOGGEDOUT, 0);
@@ -210,12 +223,7 @@ QUnit.test("testAppTokenLoginCallsServerOnAppTokenLogin", function(assert) {
 
 QUnit.test("testWebRedirectLoginListensForMessagesOnWindow", function(assert) {
 	var loginManager = this.loginManager;
-	var loginOption = {
-		"text" : "Uppsala webredirect",
-		"type" : "webRedirectLogin",
-		"url" : "webRedirectLogin.html"
-	};
-	loginManager.login(loginOption);
+	this.loginWithWebRedirect();
 
 	var addedEvent = this.getAddedWindowEvents()[0];
 	assert.strictEqual(addedEvent.type, "message");
@@ -225,77 +233,64 @@ QUnit.test("testWebRedirectLoginListensForMessagesOnWindow", function(assert) {
 
 QUnit.test("testWebRedirectLoginFactoryIsCalledOnWebRedirectLogin", function(assert) {
 	var loginManager = this.loginManager;
-	var loginOption = {
-		"text" : "Uppsala webredirect",
-		"type" : "webRedirectLogin",
-		"url" : "webRedirectLogin.html"
-	};
-	loginManager.login(loginOption);
+	this.loginWithWebRedirect();
+
 	var factored = this.dependencies.webRedirectLoginFactory.getFactored(0);
 	assert.strictEqual(factored.type, "webRedirectLoginSpy");
 	var spec0 = this.dependencies.webRedirectLoginFactory.getSpec(0);
 
-	// assert.strictEqual(spec0.openWebRedirectPage, "webRedirectLogin.html");
-	// assert.strictEqual(spec0.url, "http://www.organisation.org/login/");
-	assert.strictEqual(spec0.url, "webRedirectLogin.html");
+	assert.strictEqual(spec0.url, this.loginOption.url);
 	assert.strictEqual(spec0.windowOpenedFromUrl, window.location);
-	// assert.strictEqual(spec0.accept, "");
-	// assert.strictEqual(spec0.authInfoCallback, loginManager.appTokenAuthInfoCallback);
-	// assert.strictEqual(spec0.errorCallback, loginManager.appTokenErrorCallback);
-	// assert.strictEqual(spec0.timeoutCallback, loginManager.appTokenTimeoutCallback);
 });
 
 QUnit.test("testRecieveMessageFromWebRedirectLogin", function(assert) {
 	var loginManager = this.loginManager;
-	var loginOption = {
-			"text" : "Uppsala webredirect",
-			"type" : "webRedirectLogin",
-			"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/systemone/idplogin/login"
-		};
-		loginManager.login(loginOption);
-		var factored = this.dependencies.webRedirectLoginFactory.getFactored(0);
-		loginManager.receiveMessage({
-			origin : "https://epc.ub.uu.se",
-			data : this.authInfo,
-			source : factored.getOpenedWindow()
-		});
-	 var authTokenHolder = this.dependencies.authTokenHolder;
-	 assert.strictEqual(authTokenHolder.getToken(0), "fake authToken from here");
+	this.loginWithWebRedirect();
+
+	var factored = this.dependencies.webRedirectLoginFactory.getFactored(0);
+	loginManager.receiveMessage({
+		origin : "https://epc.ub.uu.se",
+		data : {
+			type : "authInfo",
+			authInfo : this.authInfo
+		},
+		source : factored.getOpenedWindow()
+	});
+	var authTokenHolder = this.dependencies.authTokenHolder;
+	assert.strictEqual(authTokenHolder.getToken(0), "fake authToken from here");
 });
 
 QUnit.test("testRecieveMessageFromWebRedirectLoginNotHandledIfWrongOrigin", function(assert) {
 	var loginManager = this.loginManager;
-	var loginOption = {
-			"text" : "Uppsala webredirect",
-			"type" : "webRedirectLogin",
-			"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/systemone/idplogin/login"
-	};
-	loginManager.login(loginOption);
+	this.loginWithWebRedirect();
 	loginManager.receiveMessage({
 		origin : "https://epc.ub.uu.se/systemoneNOT/idplogin/login",
-		data : this.authInfo,
+		data : {
+			type : "authInfo",
+			authInfo : this.authInfo
+		},
 		source : {}
 	});
 	var authTokenHolder = this.dependencies.authTokenHolder;
 	assert.strictEqual(authTokenHolder.getToken(0), undefined);
 });
 
-QUnit.test("testRecieveMessageFromWebRedirectLoginOnlyHandledIfFromCorrectWindow", function(assert) {
-	var loginManager = this.loginManager;
-	var loginOption = {
-			"text" : "Uppsala webredirect",
-			"type" : "webRedirectLogin",
-			"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/systemone/idplogin/login"
-	};
-	loginManager.login(loginOption);
-	loginManager.receiveMessage({
-		origin : "https://epc.ub.uu.se/systemone/idplogin/login",
-		data : this.authInfo,
-		source : {} 
-	});
-	var authTokenHolder = this.dependencies.authTokenHolder;
-	assert.strictEqual(authTokenHolder.getToken(0), undefined);
-});
+QUnit.test("testRecieveMessageFromWebRedirectLoginOnlyHandledIfFromCorrectWindow",
+		function(assert) {
+			var loginManager = this.loginManager;
+			this.loginWithWebRedirect();
+			loginManager.receiveMessage({
+				origin : "https://epc.ub.uu.se/systemone/idplogin/login",
+				data : {
+					type : "authInfo",
+					authInfo : this.authInfo
+				},
+				source : {}
+			});
+			var authTokenHolder = this.dependencies.authTokenHolder;
+			assert.strictEqual(authTokenHolder.getToken(0), undefined);
+		});
+
 
 QUnit.test("testAuthTokenIsSetInAuthTokenHolderOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;
@@ -329,6 +324,10 @@ QUnit.test("testLoggedinSpecAfterLoginMethodIsCalledOnAppTokenLogin", function(a
 
 QUnit.test("testLogoutCallIsMadeOnAppTokenLogout", function(assert) {
 	var loginManager = this.loginManager;
+	loginManager.login({
+		"text" : "someText",
+		"type" : "appTokenLogin"
+	});
 	loginManager.appTokenAuthInfoCallback(this.authInfo);
 	var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -53,6 +53,10 @@ QUnit.test("getSpec", function(assert) {
 
 QUnit.test("testUrlIsOpened", function(assert) {
 	assert.strictEqual(this.windowSpy.getOpenedUrl(), this.spec.url);
+});
+
+QUnit.test("testUrlOpenedName", function(assert) {
+	assert.strictEqual(this.windowSpy.getOpenedName(), "CoraHelperWindow");
 });
 
 QUnit.test("testGetOpenedWindow", function(assert) {
