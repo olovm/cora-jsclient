@@ -249,10 +249,7 @@ QUnit.test("testRecieveMessageFromWebRedirectLogin", function(assert) {
 	var factored = this.dependencies.webRedirectLoginFactory.getFactored(0);
 	loginManager.receiveMessage({
 		origin : "https://epc.ub.uu.se",
-		data : {
-			type : "authInfo",
-			authInfo : this.authInfo
-		},
+		data : this.authInfo,
 		source : factored.getOpenedWindow()
 	});
 	var authTokenHolder = this.dependencies.authTokenHolder;
@@ -264,10 +261,7 @@ QUnit.test("testRecieveMessageFromWebRedirectLoginNotHandledIfWrongOrigin", func
 	this.loginWithWebRedirect();
 	loginManager.receiveMessage({
 		origin : "https://epc.ub.uu.se/systemoneNOT/idplogin/login",
-		data : {
-			type : "authInfo",
-			authInfo : this.authInfo
-		},
+		data : this.authInfo,
 		source : {}
 	});
 	var authTokenHolder = this.dependencies.authTokenHolder;
@@ -280,16 +274,12 @@ QUnit.test("testRecieveMessageFromWebRedirectLoginOnlyHandledIfFromCorrectWindow
 			this.loginWithWebRedirect();
 			loginManager.receiveMessage({
 				origin : "https://epc.ub.uu.se/systemone/idplogin/login",
-				data : {
-					type : "authInfo",
-					authInfo : this.authInfo
-				},
+				data : this.authInfo,
 				source : {}
 			});
 			var authTokenHolder = this.dependencies.authTokenHolder;
 			assert.strictEqual(authTokenHolder.getToken(0), undefined);
 		});
-
 
 QUnit.test("testAuthTokenIsSetInAuthTokenHolderOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;

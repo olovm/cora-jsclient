@@ -153,7 +153,7 @@ var CORA = (function(cora) {
 		}
 
 		function handleMessagesFromOkSender(data) {
-			appTokenAuthInfoCallback(data.authInfo);
+			appTokenAuthInfoCallback(data);
 		}
 
 		function messageIsFromWindowOpenedFromHere(event) {
