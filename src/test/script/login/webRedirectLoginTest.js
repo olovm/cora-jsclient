@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -28,8 +28,7 @@ QUnit.module("webRedirectLoginTest.js", {
 		};
 
 		this.spec = {
-			"url" : "http://www.organisation.org/login/",
-			windowOpenedFromUrl : "http://some.url.org"
+			"url" : "http://www.organisation.org/login/"
 		};
 
 		this.webRedirectLogin = CORA.webRedirectLogin(this.dependencies, this.spec);
@@ -55,8 +54,10 @@ QUnit.test("testUrlIsOpened", function(assert) {
 	assert.strictEqual(this.windowSpy.getOpenedUrl(), this.spec.url);
 });
 
-QUnit.test("testGetOpenedWindow", function(assert) {
-	assert.strictEqual(this.webRedirectLogin.getOpenedWindow(), this.windowSpy.fakeOpenedWindow);
-	assert.strictEqual(this.webRedirectLogin.getOpenedWindow().windowOpenedFromUrl, "http://some.url.org");
+QUnit.test("testUrlOpenedName", function(assert) {
+	assert.strictEqual(this.windowSpy.getOpenedName(), "CoraHelperWindow");
 });
 
+QUnit.test("testGetOpenedWindow", function(assert) {
+	assert.strictEqual(this.webRedirectLogin.getOpenedWindow(), this.windowSpy.fakeOpenedWindow);
+});

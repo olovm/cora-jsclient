@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -23,7 +23,7 @@ var CORA = (function(cora) {
 		var loginManagerView;
 		var authInfo;
 		var createdWebRedirectLogin;
-		var expectedMessageOrigin;
+		var loginOrigin;
 
 		function start() {
 
@@ -85,13 +85,17 @@ var CORA = (function(cora) {
 			window.addEventListener("message", receiveMessage, false);
 			var url = loginOption.url;
 			var loginSpec = {
-				"url" : url,
-				windowOpenedFromUrl : window.location
+				"url" : url
 			};
-			var targetPart = url.substring(url.indexOf("target=") + 7);
-			var lengthOfHttps = "https://".length;
-			expectedMessageOrigin = targetPart.substring(0, targetPart.indexOf("/", lengthOfHttps));
+			loginOrigin = getIdpLoginServerPartFromUrl(url);
 			createdWebRedirectLogin = dependencies.webRedirectLoginFactory.factor(loginSpec);
+		}
+
+		function getIdpLoginServerPartFromUrl(urlToWedredirectLogin) {
+			var targetPart = urlToWedredirectLogin.substring(urlToWedredirectLogin
+					.indexOf("target=") + 7);
+			var lengthOfHttps = "https://".length;
+			return targetPart.substring(0, targetPart.indexOf("/", lengthOfHttps));
 		}
 
 		function getDependencies() {
@@ -144,12 +148,16 @@ var CORA = (function(cora) {
 
 		function receiveMessage(event) {
 			if (messageIsFromWindowOpenedFromHere(event)) {
-				appTokenAuthInfoCallback(event.data);
+				handleMessagesFromOkSender(event.data);
 			}
 		}
 
+		function handleMessagesFromOkSender(data) {
+			appTokenAuthInfoCallback(data);
+		}
+
 		function messageIsFromWindowOpenedFromHere(event) {
-			return expectedMessageOrigin === event.origin
+			return loginOrigin === event.origin
 					&& createdWebRedirectLogin.getOpenedWindow() === event.source;
 		}
 

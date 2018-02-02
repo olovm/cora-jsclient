@@ -19,9 +19,10 @@
 var CORATEST = (function(cora) {
 	"use strict";
 	cora.webRedirectLoginSpy = function(dependencies, spec) {
-		var fakeOpenedWindow = {
-			fake : "fakeOpenedWindow"
-		};
+		var fakeOpenedWindow = CORATEST.windowSpy();
+//		var fakeOpenedWindow = {
+//			fake : "fakeOpenedWindow"
+//		};
 		function getDependencies() {
 			return dependencies;
 		}
