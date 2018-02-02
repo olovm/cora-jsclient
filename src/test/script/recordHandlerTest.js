@@ -43,7 +43,8 @@ QUnit.module("recordHandlerTest.js", {
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
 			"recordGuiFactory" : this.recordGuiFactorySpy,
 			"recordHandlerViewFactory" : this.recordHandlerViewFactorySpy,
-			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
+			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
+			"indexHandlerFactory" : CORATEST.standardFactorySpy("indexHandlerSpy")
 		};
 		this.dependencies = dependencies;
 
@@ -751,16 +752,12 @@ QUnit.test("testIndexCall", function(assert) {
 	var indexButton = recordHandlerViewSpy.getAddedButton(1);
 	indexButton.onclickMethod();
 	
-	var ajaxCallSpy = this.ajaxCallFactorySpy.getFactored(1);
-	var ajaxCallSpec = ajaxCallSpy.getSpec();
-	assert.strictEqual(ajaxCallSpec.url,
-			"https://epc.ub.uu.se/therest/rest/record/workOrder/");
-	assert.strictEqual(ajaxCallSpec.requestMethod, "POST");
-	assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.record+json");
-	assert.strictEqual(ajaxCallSpec.contentType, "application/vnd.uub.record+json");
-	assert.strictEqual(ajaxCallSpec.data, "{\"children\":[{\"children\":[{\"name\":\"linkedRecordType\",\"value\":\"recordType\"},{\"name\":\"linkedRecordId\",\"value\":\"textSystemOne\"}],\"name\":\"recordType\"},{\"name\":\"recordId\",\"value\":\"svEnText\"},{\"name\":\"type\",\"value\":\"index\"}],\"name\":\"workOrder\"}");
-	assert.strictEqual(ajaxCallSpec.loadMethod, recordHandler.showIndexMessage);
-
+	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+	assert.strictEqual(factoredIndexHandler.type, "indexHandlerSpy");
+	assert.strictEqual(factoredIndexHandler.getSpec().loadMethod, recordHandler.showIndexMessage);
+	assert.strictEqual(factoredIndexHandler.getSpec().timeoutMethod, recordHandler.showTimeoutMessage);
+	assert.strictEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 1);
+	assert.stringifyEqual(factoredIndexHandler.getIndexRecord(0), this.recordWithIndexLink);
 });
 
 QUnit.test("testNoIndexButtonWhenNoIndexLink", function(assert) {
@@ -792,7 +789,7 @@ QUnit.test("initCheckIndexButtonWhenIndexLinkExists", function(assert) {
 	assert.strictEqual(indexButton.text, "INDEX");
 });
 
-QUnit.test("testshowIndexMessage", function(assert) {
+QUnit.test("testShowIndexMessage", function(assert) {
 	this.spec.createNewRecord = "false";
 	this.record = this.recordWithoutIndexLink;
 
@@ -809,6 +806,25 @@ QUnit.test("testshowIndexMessage", function(assert) {
 	assert.strictEqual(message.innerHTML, "Posten är indexerad");
 	
 });
+
+QUnit.test("testShowTimeoutMessage", function(assert) {
+	this.spec.createNewRecord = "false";
+	this.record = this.recordWithoutIndexLink;
+
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	this.answerCall(0);
+	var managedGuiItem = this.dependencies.managedGuiItemFactory.getFactored(0);
+	var messageHolder = managedGuiItem.getAddedWorkPresentation(0);
+
+	recordHandler.showTimeoutMessage();
+	assert.strictEqual(messageHolder.className, "messageHolder");
+	var firstChild = messageHolder.childNodes[0];
+	assert.strictEqual(firstChild.className, "message error");
+	var message = firstChild.childNodes[1];
+	assert.strictEqual(message.innerHTML, "TIMEOUT");
+	
+});
+
 
 QUnit.test("initCheckRightGuiCreatedForExisting", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
@@ -840,7 +856,6 @@ QUnit.test("initCheckRightGuiCreatedForExisting", function(assert) {
 QUnit.test("initCheckRightGuiCreatedForList", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.specList);
 	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
-	// this.answerCall(0);
 
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
 	assert.strictEqual(managedGuiItemSpy.getChanged(), false);

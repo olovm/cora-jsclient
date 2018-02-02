@@ -1,6 +1,5 @@
 /*
- * Copyright 2017 Olov McKie
- * Copyright 2017 Uppsala University Library
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -19,34 +18,45 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordHandlerFactory = function(dependencies) {
-		var out;
-		var indexHandlerDep = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
-			};
+	cora.indexHandler = function(dependencies, spec) {
 
-		var dep = {
-			"globalFactories" : dependencies.globalFactories,
-			"recordHandlerViewFactory" : CORA.recordHandlerViewFactory(),
-			"ajaxCallFactory" : dependencies.ajaxCallFactory,
-			"recordGuiFactory" : dependencies.recordGuiFactory,
-			"managedGuiItemFactory" : dependencies.managedGuiItemFactory,
-			"indexHandlerFactory" : CORA.indexHandlerFactory(indexHandlerDep)
-		};
-		function factor(recordHandlerSpec) {
-			dep.recordHandlerFactory = out;
-			return CORA.recordHandler(dep, recordHandlerSpec);
+		function indexData(dataRecord) {
+			var record = dataRecord;
+			var indexLink = record.actionLinks.index;
+
+			var callSpec = {
+				"url" : indexLink.url,
+				"requestMethod" : indexLink.requestMethod,
+				"accept" : indexLink.accept,
+				"contentType" : indexLink.contentType,
+				"data" : JSON.stringify(indexLink.body),
+				"loadMethod" : spec.loadMethod,
+				"errorMethod" : handleCallError,
+				"timeoutMethod" : spec.timeoutMethod
+			};
+			dependencies.ajaxCallFactory.factor(callSpec);
+		}
+
+		function handleCallError(error) {
+			throw new Error("error indexing", error);
 		}
 
 		function getDependencies() {
 			return dependencies;
 		}
 
-		out = Object.freeze({
-			"type" : "recordHandlerFactory",
+		function getSpec() {
+			return spec;
+		}
+
+		var out = Object.freeze({
+			"type" : "indexHandler",
 			getDependencies : getDependencies,
-			factor : factor
+			getSpec : getSpec,
+			indexData : indexData,
+			handleCallError : handleCallError
 		});
+
 		return out;
 	};
 	return cora;

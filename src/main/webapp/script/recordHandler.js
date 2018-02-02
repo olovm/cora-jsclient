@@ -410,20 +410,13 @@ var CORA = (function(cora) {
 		}
 
 		function sendIndexDataToServer() {
-			var indexLink = fetchedRecord.actionLinks.index;
 				busy.show();
-
-				var callAfterAnswer = showIndexMessage;
-				var callSpec = {
-					"requestMethod" : indexLink.requestMethod,
-					"url" : indexLink.url,
-					"contentType" : indexLink.contentType,
-					"accept" : indexLink.accept,
-					"loadMethod" : callAfterAnswer,
-					"errorMethod" : callError,
-					"data" : JSON.stringify(indexLink.body)
+				var indexHandlerSpec = {
+						"loadMethod" : showIndexMessage,
+						"timeoutMethod" :showTimeoutMessage
 				};
-				dependencies.ajaxCallFactory.factor(callSpec);
+				var indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
+				indexHandler.indexData(fetchedRecord);
 
 		}
 
@@ -432,6 +425,15 @@ var CORA = (function(cora) {
 			var messageSpec = {
 				"message" : "Posten är indexerad",
 				"type" : CORA.message.POSITIVE
+			};
+			messageHolder.createMessage(messageSpec);
+		}
+
+		function showTimeoutMessage() {
+			busy.hideWithEffect();
+			var messageSpec = {
+				"message" : "TIMEOUT",
+				"type" : CORA.message.ERROR
 			};
 			messageHolder.createMessage(messageSpec);
 		}
@@ -503,7 +505,8 @@ var CORA = (function(cora) {
 			getManagedGuiItem : getManagedGuiItem,
 			reloadForMetadataChanges : reloadForMetadataChanges,
 			showIncomingLinks : showIncomingLinks,
-			showIndexMessage : showIndexMessage
+			showIndexMessage : showIndexMessage,
+			showTimeoutMessage : showTimeoutMessage
 		});
 		return out;
 	};

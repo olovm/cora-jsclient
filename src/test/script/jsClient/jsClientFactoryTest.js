@@ -203,6 +203,8 @@ QUnit.test("testResultHandlerFactoryDependencies", function(assert) {
 	var dependencies = resultHandlerFactory.getDependencies();
 	assert.strictEqual(dependencies.textProvider, this.providers.textProvider);
 	assert.strictEqual(dependencies.recordHandlerFactory, factories.recordHandlerFactory);
+	assert.strictEqual(dependencies.ajaxCallFactory.type, "ajaxCallFactory");
+	assert.strictEqual(dependencies.recordGuiFactory, jsClientFactoredDep.globalFactories.recordGuiFactory);
 });
 
 QUnit.test("testRecordTypeHandlerViewFactoryDependencies", function(assert) {

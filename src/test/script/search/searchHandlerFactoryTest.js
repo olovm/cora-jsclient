@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -35,8 +35,7 @@ QUnit.module("searchHandlerFactoryTest.js", {
 		};
 		this.dependencies = {
 			"providers" : this.providers,
-			"globalFactories" : this.globalFactories,
-		// "jsClient" : CORATEST.jsClientSpy()
+			"globalFactories" : this.globalFactories
 
 		};
 		this.spec = {
@@ -48,7 +47,7 @@ QUnit.module("searchHandlerFactoryTest.js", {
 				"url" : "http://epc.ub.uu.se/cora/rest/record/searchResult/coraTextSearch",
 				"accept" : "application/vnd.uub.recordList+json"
 			}
-		}
+		};
 	},
 	afterEach : function() {
 	}
@@ -96,6 +95,9 @@ QUnit.test("testFactorAddedDependenciesResultHandlerFactory", function(assert) {
 	assert.strictEqual(addedDep.resultHandlerFactory.type, "resultHandlerFactory");
 	var dependenciesRH = addedDep.resultHandlerFactory.getDependencies();
 	assert.strictEqual(dependenciesRH.textProvider, this.providers.textProvider);
+	assert.strictEqual(dependenciesRH.ajaxCallFactory, this.globalFactories.ajaxCallFactory);
+	assert.strictEqual(dependenciesRH.ajaxCallFactory, this.globalFactories.ajaxCallFactory);
+	assert.strictEqual(dependenciesRH.uploadManager, this.globalFactories.recordGuiFactory.getDependencies().uploadManager);
 	assert.strictEqual(dependenciesRH.recordHandlerFactory.type, "recordHandlerFactory");
 });
 

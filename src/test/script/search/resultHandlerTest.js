@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -24,21 +24,22 @@ QUnit.module("resultHandlerTest.js", {
 		var addedManagedGuiItem = [];
 		this.getAddedManagedGuiItem = function(number) {
 			return addedManagedGuiItem[number];
-		}
+		};
 		var addedToShowView = [];
 		this.getAddedToShowView = function(number) {
 			return addedToShowView[number];
-		}
+		};
 		this.dependencies = {
 			"resultHandlerViewFactory" : CORATEST.standardFactorySpy("resultHandlerViewSpy"),
 			"textProvider" : CORATEST.textProviderSpy(),
 			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy"),
 			"jsClient" : CORATEST.jsClientSpy(),
-			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy")
-		}
+			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
+			"indexListHandlerFactory" : CORATEST.standardFactorySpy("indexListHandlerSpy")
+		};
 		this.spec = {
 			"dataList" : CORATEST.searchRecordList.dataList
-		}
+		};
 	},
 	afterEach : function() {
 	}
@@ -159,3 +160,41 @@ QUnit.test("testGetViewIsPassedOnToView", function(assert) {
 
 	assert.strictEqual(resultHandler.getView(), factoredView.getView());
 });
+
+QUnit.test("testIndexListHandlerSpec", function(assert) {
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+	resultHandler.indexDataList();
+
+	var factoredIndexListHandler = this.dependencies.indexListHandlerFactory.getFactored(0);
+	assert.stringifyEqual(factoredIndexListHandler.getSpec().dataList, this.spec.dataList);
+});
+
+QUnit.test("testIndexListHandlerIndexDataListWasCalled", function(assert) {
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+	resultHandler.indexDataList();
+
+	var factoredIndexListHandler = this.dependencies.indexListHandlerFactory.getFactored(0);
+	assert.stringifyEqual(factoredIndexListHandler.getIndexDataListWasCalled(), true);
+});
+
+
+QUnit.test("tesResultListWasSentToIndexing", function(assert) {
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+	resultHandler.indexDataList();
+	var factoredIndexListHandler = this.dependencies.indexListHandlerFactory.getFactored(0);
+
+	assert.stringifyEqual(factoredIndexListHandler.getRecordInIndexedList(0), this.spec.dataList.data[0]);
+	assert.stringifyEqual(factoredIndexListHandler.getRecordInIndexedList(37), this.spec.dataList.data[37]);
+
+});
+
+QUnit.test("testIndexButtonIsAddedToView", function(assert) {
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+
+	var factoredView = this.dependencies.resultHandlerViewFactory.getFactored(0);
+
+	assert.strictEqual(factoredView.getAddedButton().text, "INDEX");
+	assert.strictEqual(factoredView.getAddedButton().onclickMethod, resultHandler.indexDataList);
+	assert.strictEqual(factoredView.getAddedButton().className, "indexButton");
+});
+

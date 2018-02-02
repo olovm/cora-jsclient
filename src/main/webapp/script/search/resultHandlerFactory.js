@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -23,9 +23,16 @@ var CORA = (function(cora) {
 
 		function factor(spec) {
 			var viewDep = {};
-
+			var indexHandlerDep = {
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"uploadManager" : dependencies.recordGuiFactory
+						.getDependencies().uploadManager
+			};
 			var dep = {
-				"resultHandlerViewFactory" : CORA.resultHandlerViewFactory(viewDep),
+				"resultHandlerViewFactory" : CORA
+						.resultHandlerViewFactory(viewDep),
+				"indexListHandlerFactory" : CORA
+						.indexListHandlerFactory(indexHandlerDep),
 				"textProvider" : dependencies.textProvider,
 				"recordGuiFactory" : dependencies.recordGuiFactory,
 				"jsClient" : spec.jsClient,

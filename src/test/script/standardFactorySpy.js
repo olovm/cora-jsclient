@@ -22,6 +22,7 @@ var CORATEST = (function(coraTest) {
 		var factoredList = [];
 		var factoredSpec = [];
 		var spySpec = {};
+		var spyDependencies = {};
 		
 		function factor(standardSpec) {
 			factoredSpec.push(standardSpec);
@@ -41,12 +42,22 @@ var CORATEST = (function(coraTest) {
 		function setspySpec(spySpecIn){
 			spySpec = spySpecIn;
 		}
+
+		function setSpyDependencies(spyDependenciesIn){
+			spyDependencies = spyDependenciesIn;
+		}
+
+		function getDependencies(){
+			return spyDependencies;
+		}
 		
 		var out = Object.freeze({
 			"type" : "standardFactorySpy",
 			factor : factor,
 			getFactored : getFactored,
 			getSpec : getSpec,
+			getDependencies : getDependencies,
+			setSpyDependencies : setSpyDependencies,
 			setspySpec : setspySpec
 		});
 		return out;

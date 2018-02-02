@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -24,10 +24,15 @@ QUnit.module("recordHandlerFactoryTest.js", {
 		this.metadataProvider = new MetadataProviderStub();
 
 		this.recordGuiFactorySpy = {
-			"factor" : function(metadataId, data, dataDivider) {
+			"factor": function (metadataId, data, dataDivider) {
 				metadataIdUsed.push(metadataId);
 				dataDividerUsed.push(dataDivider);
 				return recordGui;
+			},
+
+			getDependencies: function () {
+			var dep = {"uploadManager": CORATEST.uploadManagerSpy()};
+			return dep;
 			}
 		};
 
@@ -73,6 +78,10 @@ QUnit.test("factorTestDependencies", function(assert) {
 	assert.strictEqual(factoredDependencies.recordGuiFactory, this.dependencies.recordGuiFactory);
 	assert.strictEqual(factoredDependencies.managedGuiItemFactory,
 			this.dependencies.managedGuiItemFactory);
+	assert.strictEqual(factoredDependencies.recordHandlerViewFactory.type,
+			"recordHandlerViewFactory")      ;
+			assert.strictEqual(factoredDependencies.indexHandlerFactory.type,
+			"indexHandlerFactory");
 });
 
 QUnit.test("factorTestType", function(assert) {
@@ -86,3 +95,12 @@ QUnit.test("factorTestSpec", function(assert) {
 	var recordHandler = recordHandlerFactory.factor(this.spec);
 	assert.strictEqual(recordHandler.getSpec(), this.spec);
 });
+
+QUnit.test("testIndexHandlerFactoryDependencies", function(assert) {
+	var recordHandlerFactory = CORA.recordHandlerFactory(this.dependencies);
+	var recordHandler = recordHandlerFactory.factor(this.spec);
+	var factoredDependencies = recordHandler.getDependencies();
+	var indexHandlerDependencies = factoredDependencies.indexHandlerFactory.getDependencies();
+	assert.strictEqual(indexHandlerDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory);
+});
+

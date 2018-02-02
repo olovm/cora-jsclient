@@ -18,45 +18,33 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.resultHandlerViewSpy = function() {
+	coraTest.indexListHandlerSpy = function(dependencies, spec) {
+		var indexDataListWasCalled = false;
+		var indexedDataList;
 
-		var view = CORA.gui.createSpanWithClassName("spyView");
-		var presentationsAdded = [];
-		var addedButton;
-
-		function getView() {
-			return view;
+		function indexDataList() {
+			indexDataListWasCalled = true;
+			indexedDataList = spec.dataList;
 		}
 
-		function addChildPresentation(presentationToAdd, record) {
-			presentationsAdded.push({
-				"presentation" : presentationToAdd,
-				"record" : record
-			});
-		}
-		function getAddedPresentation(number) {
-			return presentationsAdded[number];
+		function getIndexDataListWasCalled(){
+			return indexDataListWasCalled;
 		}
 
-		function addButton(text, onclickMethod, className){
-			addedButton = {
-				"text" : text,
-				"onclickMethod" : onclickMethod,
-				"className" : className
-			};
+		function getRecordInIndexedList(numberInList){
+			return indexedDataList.data[numberInList];
 		}
 
-		function getAddedButton(){
-			return addedButton;
+		function getSpec(){
+			return spec;
 		}
 
 		return Object.freeze({
-			"type" : "resultHandlerViewSpy",
-			getView : getView,
-			addChildPresentation : addChildPresentation,
-			getAddedPresentation : getAddedPresentation,
-			addButton : addButton,
-			getAddedButton : getAddedButton
+			"type" : "indexListHandlerSpy",
+			indexDataList : indexDataList,
+			getIndexDataListWasCalled : getIndexDataListWasCalled,
+			getRecordInIndexedList : getRecordInIndexedList,
+			getSpec : getSpec
 		});
 	};
 	return coraTest;

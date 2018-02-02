@@ -86,7 +86,9 @@ var CORA = (function(cora) {
 
 			var depResultHandler = {
 				"textProvider" : providers.textProvider,
-				"recordHandlerFactory" : recordHandlerFactory
+				"recordHandlerFactory" : recordHandlerFactory,
+				"ajaxCallFactory" : ajaxCallFactory,
+				"recordGuiFactory" : recordGuiFactory
 			};
 			var resultHandlerFactory = CORA.resultHandlerFactory(depResultHandler);
 

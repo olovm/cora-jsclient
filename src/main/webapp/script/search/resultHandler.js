@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -26,11 +26,13 @@ var CORA = (function(cora) {
 		function start() {
 			view = createView();
 			createAndAddPresentationsForEachResultItem();
+			view.addButton("INDEX", indexDataList, "indexButton");
 		}
 
 		function createView() {
 			var viewSpec = {
-				"ofText" : dependencies.textProvider.getTranslation("theClient_resultListOfText"),
+				"ofText" : dependencies.textProvider
+						.getTranslation("theClient_resultListOfText"),
 				"fromNo" : spec.dataList.fromNo,
 				"toNo" : spec.dataList.toNo,
 				"totalNo" : spec.dataList.totalNo,
@@ -56,8 +58,10 @@ var CORA = (function(cora) {
 				"record" : result,
 				"jsClient" : dependencies.jsClient
 			};
-			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
-			view.addChildPresentation(recordHandlerNew.getManagedGuiItem().getListView(), result);
+			var recordHandlerNew = dependencies.recordHandlerFactory
+					.factor(recordHandlerSpec);
+			view.addChildPresentation(recordHandlerNew.getManagedGuiItem()
+					.getListView(), result);
 		}
 
 		function openRecord(openInfo) {
@@ -76,6 +80,15 @@ var CORA = (function(cora) {
 			dependencies.jsClient.openRecordUsingReadLink(openInfo);
 		}
 
+		function indexDataList() {
+			var indexListSpec = {
+				"dataList" : spec.dataList
+			};
+			var indexListHandler = dependencies.indexListHandlerFactory
+					.factor(indexListSpec);
+			indexListHandler.indexDataList();
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -92,7 +105,8 @@ var CORA = (function(cora) {
 			getView : getView,
 			getDependencies : getDependencies,
 			getSpec : getSpec,
-			openRecord : openRecord
+			openRecord : openRecord,
+			indexDataList : indexDataList
 		});
 		start();
 		return out;

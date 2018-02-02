@@ -1,6 +1,4 @@
-/*
- * Copyright 2017 Olov McKie
- * Copyright 2017 Uppsala University Library
+/* Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -19,31 +17,28 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordHandlerFactory = function(dependencies) {
-		var out;
-		var indexHandlerDep = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
+	cora.indexListHandlerFactory = function(dependencies) {
+
+		function factor(indexListHandlerSpec) {
+			var indexHandlerDep = {
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"uploadManager" : dependencies.uploadManager
 			};
 
-		var dep = {
-			"globalFactories" : dependencies.globalFactories,
-			"recordHandlerViewFactory" : CORA.recordHandlerViewFactory(),
-			"ajaxCallFactory" : dependencies.ajaxCallFactory,
-			"recordGuiFactory" : dependencies.recordGuiFactory,
-			"managedGuiItemFactory" : dependencies.managedGuiItemFactory,
-			"indexHandlerFactory" : CORA.indexHandlerFactory(indexHandlerDep)
-		};
-		function factor(recordHandlerSpec) {
-			dep.recordHandlerFactory = out;
-			return CORA.recordHandler(dep, recordHandlerSpec);
+			var dep = {
+				"indexHandlerFactory" : CORA
+						.indexHandlerFactory(indexHandlerDep),
+				"uploadManager" : dependencies.uploadManager
+			};
+			return CORA.indexListHandler(dep, indexListHandlerSpec);
 		}
 
 		function getDependencies() {
 			return dependencies;
 		}
 
-		out = Object.freeze({
-			"type" : "recordHandlerFactory",
+		var out = Object.freeze({
+			"type" : "indexListHandlerFactory",
 			getDependencies : getDependencies,
 			factor : factor
 		});
