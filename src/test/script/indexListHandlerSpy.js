@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Uppsala University Library
- * 
+ *
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -20,26 +20,31 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.indexListHandlerSpy = function(dependencies, spec) {
 		var indexDataListWasCalled = false;
-		var indexedDataList; 
-		
-		function indexDataList(dataList) {
+		var indexedDataList;
+
+		function indexDataList() {
 			indexDataListWasCalled = true;
-			indexedDataList = dataList;
+			indexedDataList = spec.dataList;
 		}
-		
+
 		function getIndexDataListWasCalled(){
 			return indexDataListWasCalled;
 		}
-		
+
 		function getRecordInIndexedList(numberInList){
-			return indexedDataList[numberInList];
+			return indexedDataList.data[numberInList];
 		}
-		
+
+		function getSpec(){
+			return spec;
+		}
+
 		return Object.freeze({
 			"type" : "indexListHandlerSpy",
 			indexDataList : indexDataList,
 			getIndexDataListWasCalled : getIndexDataListWasCalled,
-			getRecordInIndexedList : getRecordInIndexedList
+			getRecordInIndexedList : getRecordInIndexedList,
+			getSpec : getSpec
 		});
 	};
 	return coraTest;

@@ -19,7 +19,6 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.indexListHandler = function(dependencies, spec) {
-		var uploading = false;
 		var uploadQue = [];
 		var numberOfIndexRecords = 0;
 		var indexOrderView;
@@ -33,53 +32,43 @@ var CORA = (function(cora) {
 			};
 			indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
 			addIndexOrderView();
-			for(var i=0; i<spec.dataList.data.length; i++){
-				indexData(spec.dataList.data[i].record);
-			}
+			indexData();
 		}
 
-		function indexData(dataRecord) {
-			uploadQue.push(dataRecord);
-			possiblyStartNextUpload();
+		function indexData(){
+			spec.dataList.data.forEach(pushToQue);
+			startNextUploadIfThereIsMoreInQueue();
+		}
+
+		function pushToQue(dataRecord) {
+			uploadQue.push(dataRecord.record);
 		}
 
 		function indexingFinished() {
-			uploading = false;
 			numberOfIndexRecords++;
 
 			var child = CORA.gui.createSpanWithClassName("indexItem");
 			child.textContent = numberOfIndexRecords;
 			indexOrderView.appendChild(child);
-			possiblyStartNextUpload();
+			startNextUploadIfThereIsMoreInQueue();
 		}
-        
-		function possiblyStartNextUpload() {
-			if (getCurrentlyNotUploading()) {
-				startNextUploadIfThereIsMoreInQueue();
-			}
-		}
-        
-		function getCurrentlyNotUploading() {
-			return uploading !== true;
-		}
-        
+
 		function startNextUploadIfThereIsMoreInQueue() {
 			var dataRecord = uploadQue.shift();
 			if (dataRecord !== undefined) {
 				startNextUpload(dataRecord);
 			}
 		}
-        
+
 		function startNextUpload(dataRecord) {
-			uploading = true;
 			indexHandler.indexData(dataRecord);
 		}
-        
+
 		function timeoutMethod(){
 			var child = CORA.gui.createSpanWithClassName("indexItem");
 			child.textContent = "TIMEOUT";
 			indexOrderView.appendChild(child);
-        
+
 		}
 
 		function getNumberOfIndexedRecords(){

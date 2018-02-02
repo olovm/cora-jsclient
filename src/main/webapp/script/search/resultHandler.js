@@ -81,9 +81,12 @@ var CORA = (function(cora) {
 		}
 
 		function indexDataList() {
+			var indexListSpec = {
+				"dataList" : spec.dataList
+			};
 			var indexListHandler = dependencies.indexListHandlerFactory
-					.factor();
-			indexListHandler.indexDataList(spec.dataList.data);
+					.factor(indexListSpec);
+			indexListHandler.indexDataList();
 		}
 
 		function getDependencies() {

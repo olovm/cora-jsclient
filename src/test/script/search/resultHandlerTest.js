@@ -161,6 +161,14 @@ QUnit.test("testGetViewIsPassedOnToView", function(assert) {
 	assert.strictEqual(resultHandler.getView(), factoredView.getView());
 });
 
+QUnit.test("testIndexListHandlerSpec", function(assert) {
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+	resultHandler.indexDataList();
+
+	var factoredIndexListHandler = this.dependencies.indexListHandlerFactory.getFactored(0);
+	assert.stringifyEqual(factoredIndexListHandler.getSpec().dataList, this.spec.dataList);
+});
+
 QUnit.test("testIndexListHandlerIndexDataListWasCalled", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	resultHandler.indexDataList();

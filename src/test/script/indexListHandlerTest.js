@@ -56,15 +56,15 @@ QUnit.test("testFactoredSpec", function(assert) {
 	indexListHandler.indexDataList(recordList);
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
 	var factoredSpec = factoredIndexHandler.getSpec();
-	assert.strictEqual(factoredSpec.loadMethod, indexListHandler.indexingFinished)
-	assert.strictEqual(factoredSpec.timeoutMethod, indexListHandler.timeoutMethod)
+	assert.strictEqual(factoredSpec.loadMethod, indexListHandler.indexingFinished);
+	assert.strictEqual(factoredSpec.timeoutMethod, indexListHandler.timeoutMethod);
 });
 
 QUnit.test("testIndexQue", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	var recordList = CORATEST.searchRecordList.dataList;
 
-	indexListHandler.indexDataList(recordList);
+	indexListHandler.indexDataList();
 
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
 	var firstIndexedRecord = factoredIndexHandler.getIndexRecord(0);
@@ -75,7 +75,6 @@ QUnit.test("testIndexQue", function(assert) {
 	indexListHandler.indexingFinished();
 	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 1);
 
-	var firstIndexedRecord2 = factoredIndexHandler.getIndexRecord(0);
 	indexListHandler.indexingFinished();
 	assert.strictEqual(indexListHandler.getNumberOfIndexedRecords(), 2);
 });
@@ -125,7 +124,7 @@ QUnit.test("testIndexTimeoutMethod", function(assert) {
 	});
 
 QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
-	this.dependencies.indexHandlerFactory =  CORATEST.standardFactorySpy("indexHandlerCallingLoadMethodSpy")
+	this.dependencies.indexHandlerFactory =  CORATEST.standardFactorySpy("indexHandlerCallingLoadMethodSpy");
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
@@ -133,4 +132,3 @@ QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
 	assert.stringifyEqual(indexListHandler.getNumberOfIndexedRecords(), 38);
 
 });
-

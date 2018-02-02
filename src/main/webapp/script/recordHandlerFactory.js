@@ -22,10 +22,9 @@ var CORA = (function(cora) {
 	cora.recordHandlerFactory = function(dependencies) {
 		var out;
 		var indexHandlerDep = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory,
-				"uploadManager" : dependencies.recordGuiFactory.getDependencies().uploadManager
+				"ajaxCallFactory" : dependencies.ajaxCallFactory
 			};
-		
+
 		var dep = {
 			"globalFactories" : dependencies.globalFactories,
 			"recordHandlerViewFactory" : CORA.recordHandlerViewFactory(),

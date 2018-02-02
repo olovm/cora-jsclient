@@ -21,7 +21,6 @@
 QUnit.module("indexHandlerTest.js",{
 					beforeEach : function() {
 						this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
-						this.uploadManager =  CORATEST.uploadManagerSpy();
 						this.dependencies = {
 							"ajaxCallFactory" : this.ajaxCallFactorySpy,
 							"uploadManager": this.uploadManager
@@ -53,7 +52,7 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(indexHandler.getSpec(), this.spec);
 });
 
-QUnit.test("testIndexQue", function(assert) {
+QUnit.test("testIndexData", function(assert) {
 	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
 	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
 
@@ -62,42 +61,6 @@ QUnit.test("testIndexQue", function(assert) {
 	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
 	assert.strictEqual(ajaxCallSpy0.getSpec().requestMethod, "POST");
 	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, this.spec.loadMethod);
-
-	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 0);
-	indexHandler.indexData(record);
-	assert.strictEqual(this.ajaxCallFactorySpy.getFactored(1), undefined);
-	indexHandler.uploadFinished();
-	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 1);
-
-	var ajaxCallSpy1 = this.ajaxCallFactorySpy.getFactored(1);
-	assert.strictEqual(ajaxCallSpy1.getSpec().requestMethod, "POST");
-	indexHandler.uploadFinished();
-	assert.strictEqual(indexHandler.getNumberOfIndexedRecords(), 2);
-});
-
-QUnit.test("testMessageSetInView", function(assert) {
-	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-
-	indexHandler.indexData(record);
-	indexHandler.uploadFinished();
-	var view = indexHandler.getView();
-	assert.strictEqual(view.childNodes[1].className, "indexItem");
-});
-
-QUnit.test("testAddIndexOrderViewToUploadView", function(assert) {
-	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-	indexHandler.addIndexOrderView();
-	var workView = this.uploadManager.view.getWorkView();
-	var indexOrders = workView.firstChild;
-	assert.strictEqual(indexOrders.className, "indexOrders");
-	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
-
-	indexHandler.indexData(record);
-	indexHandler.uploadFinished();
-	var indexOrder = indexOrders.firstChild;
-	assert.strictEqual(indexOrder.firstChild.textContent, "Indexerat");
-	assert.strictEqual(indexOrder.childNodes[1].className, "indexItem");
 
 });
 
