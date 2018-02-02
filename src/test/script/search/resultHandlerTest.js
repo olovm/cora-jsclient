@@ -188,7 +188,7 @@ QUnit.test("tesResultListWasSentToIndexing", function(assert) {
 
 });
 
-QUnit.test("testIndexButtonIsAddedToView", function(assert) {
+QUnit.test("testIndexButtonIsAddedToViewWhenIndexLinkExists", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 
 	var factoredView = this.dependencies.resultHandlerViewFactory.getFactored(0);
@@ -196,5 +196,14 @@ QUnit.test("testIndexButtonIsAddedToView", function(assert) {
 	assert.strictEqual(factoredView.getAddedButton().text, "INDEX");
 	assert.strictEqual(factoredView.getAddedButton().onclickMethod, resultHandler.indexDataList);
 	assert.strictEqual(factoredView.getAddedButton().className, "indexButton");
+});
+
+QUnit.test("testIndexButtonNotAddedToViewWhenNoIndexLinkExists", function(assert) {
+	this.spec.dataList = CORATEST.searchRecordListOneRecordWithNoIndexAction.dataList;
+	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
+
+	var factoredView = this.dependencies.resultHandlerViewFactory.getFactored(0);
+
+	assert.strictEqual(factoredView.getAddedButton(), undefined);
 });
 

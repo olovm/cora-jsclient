@@ -22,11 +22,12 @@ var CORA = (function(cora) {
 	cora.resultHandler = function(dependencies, spec) {
 		var out;
 		var view;
+		var showIndexButton = false;
 
 		function start() {
 			view = createView();
 			createAndAddPresentationsForEachResultItem();
-			view.addButton("INDEX", indexDataList, "indexButton");
+			possiblyAddIndexButton();
 		}
 
 		function createView() {
@@ -51,6 +52,9 @@ var CORA = (function(cora) {
 		}
 
 		function addResultItemToWorkView(result) {
+			if(result.actionLinks.index !== undefined){
+				showIndexButton = true;
+			}
 			var recordHandlerSpec = {
 				"fetchLatestDataFromServer" : "false",
 				"partOfList" : "true",
@@ -78,6 +82,12 @@ var CORA = (function(cora) {
 				"loadInBackground" : openInfoIn.loadInBackground
 			};
 			dependencies.jsClient.openRecordUsingReadLink(openInfo);
+		}
+
+		function possiblyAddIndexButton(){
+			if(showIndexButton) {
+				view.addButton("INDEX", indexDataList, "indexButton");
+			}
 		}
 
 		function indexDataList() {

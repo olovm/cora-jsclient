@@ -283,6 +283,39 @@ var CORATEST = (function(coraTest) {
 									"requestMethod" : "DELETE",
 									"rel" : "delete",
 									"url" : "http://epc.ub.uu.se/therest/rest/record/search/someSearch"
+								},
+								"index": {
+									"requestMethod": "POST",
+									"rel": "index",
+									"body": {
+										"children": [
+											{
+												"children": [
+													{
+														"name": "linkedRecordType",
+														"value": "recordType"
+													},
+													{
+														"name": "linkedRecordId",
+														"value": "search"
+													}
+												],
+												"name": "recordType"
+											},
+											{
+												"name": "recordId",
+												"value": "someSearch"
+											},
+											{
+												"name": "type",
+												"value": "index"
+											}
+										],
+										"name": "workOrder"
+									},
+									"contentType": "application/vnd.uub.record+json",
+									"url": "http://localhost:8080/therest/rest/record/workOrder/",
+									"accept": "application/vnd.uub.record+json"
 								}
 							}
 						}
@@ -5084,143 +5117,415 @@ var CORATEST = (function(coraTest) {
 			"dataList" : {
 				"fromNo" : "1",
 				"data" : [
-						{
-							"record" : {
-								"data" : {
-									"children" : [
+					{
+						"record": {
+							"data": {
+								"children": [
+									{
+										"children": [
 											{
-												"children" : [ {
-													"name" : "linkedRecordType",
-													"value" : "metadataGroup"
-												}, {
-													"name" : "linkedRecordId",
-													"value" : "autocompleteSearchGroup"
-												} ],
-												"actionLinks" : {
-													"read" : {
-														"requestMethod" : "GET",
-														"rel" : "read",
-														"url" : "http://epc.ub.uu.se/therest/rest/record/metadataGroup/autocompleteSearchGroup",
-														"accept" : "application/vnd.uub.record+json"
-													}
-												},
-												"name" : "metadataId"
+												"name": "id",
+												"value": "person2"
 											},
 											{
-												"children" : [
-														{
-															"name" : "id",
-															"value" : "metadataSearch"
-														},
-														{
-															"name" : "type",
-															"value" : "search"
-														},
-														{
-										      				"name" : "createdBy",
-										      				"children": [
-										      					{
-										      						"name": "linkedRecordType",
-										      						"value": "user"
-										      					},
-										      					{
-										      						"name": "linkedRecordId",
-										      						"value": "141414"
-										      					}
-										      				]
-										      			},
-														{
-															"children" : [ {
-																"name" : "linkedRecordType",
-																"value" : "system"
-															}, {
-																"name" : "linkedRecordId",
-																"value" : "cora"
-															} ],
-															"actionLinks" : {
-																"read" : {
-																	"requestMethod" : "GET",
-																	"rel" : "read",
-																	"url" : "http://epc.ub.uu.se/therest/rest/record/system/cora",
-																	"accept" : "application/vnd.uub.record+json"
-																}
-															},
-															"name" : "dataDivider"
-														} ],
-												"name" : "recordInfo"
-											},
-											{
-												"children" : [ {
-													"name" : "linkedRecordType",
-													"value" : "presentationGroup"
-												}, {
-													"name" : "linkedRecordId",
-													"value" : "autocompleteSearchPGroup"
-												} ],
-												"actionLinks" : {
-													"read" : {
-														"requestMethod" : "GET",
-														"rel" : "read",
-														"url" : "http://epc.ub.uu.se/therest/rest/record/presentationGroup/autocompleteSearchPGroup",
-														"accept" : "application/vnd.uub.record+json"
+												"children": [
+													{
+														"name": "linkedRecordType",
+														"value": "recordType"
+													},
+													{
+														"name": "linkedRecordId",
+														"value": "person"
+													}
+												],
+												"actionLinks": {
+													"read": {
+														"requestMethod": "GET",
+														"rel": "read",
+														"url": "http://localhost:8080/therest/rest/record/recordType/person",
+														"accept": "application/vnd.uub.record+json"
 													}
 												},
-												"name" : "presentationId"
+												"name": "type"
 											},
 											{
-												"repeatId" : "0",
-												"children" : [ {
-													"name" : "linkedRecordType",
-													"value" : "recordType"
-												}, {
-													"name" : "linkedRecordId",
-													"value" : "metadata"
-												} ],
-												"actionLinks" : {
-													"read" : {
-														"requestMethod" : "GET",
-														"rel" : "read",
-														"url" : "http://epc.ub.uu.se/therest/rest/record/recordType/metadata",
-														"accept" : "application/vnd.uub.record+json"
+												"children": [
+													{
+														"name": "linkedRecordType",
+														"value": "user"
+													},
+													{
+														"name": "linkedRecordId",
+														"value": "141414"
+													}
+												],
+												"name": "createdBy"
+											},
+											{
+												"children": [
+													{
+														"name": "linkedRecordType",
+														"value": "system"
+													},
+													{
+														"name": "linkedRecordId",
+														"value": "systemOne"
+													}
+												],
+												"actionLinks": {
+													"read": {
+														"requestMethod": "GET",
+														"rel": "read",
+														"url": "http://localhost:8080/therest/rest/record/system/systemOne",
+														"accept": "application/vnd.uub.record+json"
 													}
 												},
-												"name" : "recordTypeToSearchIn"
-											} ],
-									"name" : "search"
-								},
-								"actionLinks" : {
-									"search" : {
-										"requestMethod" : "GET",
-										"rel" : "search",
-										"url" : "http://epc.ub.uu.se/therest/rest/record/metadataSearch/",
-										"accept" : "application/vnd.uub.recordList+json"
+												"name": "dataDivider"
+											},
+											{
+												"name": "tsCreated",
+												"value": "2017-10-01 00:00:00.0"
+											},
+											{
+												"children": [
+													{
+														"name": "linkedRecordType",
+														"value": "user"
+													},
+													{
+														"name": "linkedRecordId",
+														"value": "141414"
+													}
+												],
+												"name": "updatedBy"
+											},
+											{
+												"name": "tsUpdated",
+												"value": "2018-01-24 12:58:18.189"
+											}
+										],
+										"name": "recordInfo"
 									},
-									"read" : {
-										"requestMethod" : "GET",
-										"rel" : "read",
-										"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataSearch",
-										"accept" : "application/vnd.uub.record+json"
+									{
+										"repeatId": "0",
+										"children": [
+											{
+												"name": "identifierType",
+												"value": "viaf"
+											},
+											{
+												"name": "identifierValue",
+												"value": ""
+											}
+										],
+										"name": "identifier"
 									},
-									"read_incoming_links" : {
-										"requestMethod" : "GET",
-										"rel" : "read_incoming_links",
-										"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataSearch/incomingLinks",
-										"accept" : "application/vnd.uub.recordList+json"
+									{
+										"children": [
+											{
+												"children": [
+													{
+														"name": "value",
+														"value": "tv"
+													}
+												],
+												"name": "namePart",
+												"attributes": {
+													"type": "givenName"
+												}
+											},
+											{
+												"children": [
+													{
+														"name": "value",
+														"value": "a"
+													}
+												],
+												"name": "namePart",
+												"attributes": {
+													"type": "familyName"
+												}
+											}
+										],
+										"name": "name",
+										"attributes": {
+											"type": "authorized"
+										}
 									},
-									"update" : {
-										"requestMethod" : "POST",
-										"rel" : "update",
-										"contentType" : "application/vnd.uub.record+json",
-										"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataSearch",
-										"accept" : "application/vnd.uub.record+json"
+									{
+										"repeatId": "1",
+										"children": [
+											{
+												"name": "linkedRecordType",
+												"value": "person"
+											},
+											{
+												"name": "linkedRecordId",
+												"value": "sdfd"
+											}
+										],
+										"actionLinks": {
+											"read": {
+												"requestMethod": "GET",
+												"rel": "read",
+												"url": "http://localhost:8080/therest/rest/record/person/sdfd",
+												"accept": "application/vnd.uub.record+json"
+											}
+										},
+										"name": "relatedPerson"
+									},
+									{
+										"repeatId": "2",
+										"children": [
+											{
+												"name": "linkedRecordType",
+												"value": "person"
+											},
+											{
+												"name": "linkedRecordId",
+												"value": "sdfd"
+											}
+										],
+										"actionLinks": {
+											"read": {
+												"requestMethod": "GET",
+												"rel": "read",
+												"url": "http://localhost:8080/therest/rest/record/person/sdfd",
+												"accept": "application/vnd.uub.record+json"
+											}
+										},
+										"name": "relatedPerson"
+									},
+									{
+										"repeatId": "3",
+										"children": [
+											{
+												"name": "linkedRecordType",
+												"value": "organisation"
+											},
+											{
+												"name": "linkedRecordId",
+												"value": "someOrganisation"
+											}
+										],
+										"actionLinks": {
+											"read": {
+												"requestMethod": "GET",
+												"rel": "read",
+												"url": "http://localhost:8080/therest/rest/record/organisation/someOrganisation",
+												"accept": "application/vnd.uub.record+json"
+											}
+										},
+										"name": "relatedOrganisation",
+										"attributes": {
+											"type": "other"
+										}
 									}
+								],
+								"name": "person"
+							},
+							"actionLinks": {
+								"read": {
+									"requestMethod": "GET",
+									"rel": "read",
+									"url": "http://localhost:8080/therest/rest/record/person/person2",
+									"accept": "application/vnd.uub.record+json"
+								},
+								"read_incoming_links": {
+									"requestMethod": "GET",
+									"rel": "read_incoming_links",
+									"url": "http://localhost:8080/therest/rest/record/person/person2/incomingLinks",
+									"accept": "application/vnd.uub.recordList+json"
+								},
+								"update": {
+									"requestMethod": "POST",
+									"rel": "update",
+									"contentType": "application/vnd.uub.record+json",
+									"url": "http://localhost:8080/therest/rest/record/person/person2",
+									"accept": "application/vnd.uub.record+json"
+								},
+								"index": {
+									"requestMethod": "POST",
+									"rel": "index",
+									"body": {
+										"children": [
+											{
+												"children": [
+													{
+														"name": "linkedRecordType",
+														"value": "recordType"
+													},
+													{
+														"name": "linkedRecordId",
+														"value": "person"
+													}
+												],
+												"name": "recordType"
+											},
+											{
+												"name": "recordId",
+												"value": "person2"
+											},
+											{
+												"name": "type",
+												"value": "index"
+											}
+										],
+										"name": "workOrder"
+									},
+									"contentType": "application/vnd.uub.record+json",
+									"url": "http://localhost:8080/therest/rest/record/workOrder/",
+									"accept": "application/vnd.uub.record+json"
 								}
 							}
-						} ],
+						}
+					}],
 				"totalNo" : "1",
-				"containDataOfType" : "search",
+				"containDataOfType" : "person",
 				"toNo" : "1"
 			}
 		};
+	coraTest.searchRecordListOneRecordWithNoIndexAction = {
+		"dataList" : {
+			"fromNo" : "1",
+			"data" : [
+				{
+					"record" : {
+						"data" : {
+							"children" : [
+								{
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "metadataGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "autocompleteSearchGroup"
+									} ],
+									"actionLinks" : {
+										"read" : {
+											"requestMethod" : "GET",
+											"rel" : "read",
+											"url" : "http://epc.ub.uu.se/therest/rest/record/metadataGroup/autocompleteSearchGroup",
+											"accept" : "application/vnd.uub.record+json"
+										}
+									},
+									"name" : "metadataId"
+								},
+								{
+									"children" : [
+										{
+											"name" : "id",
+											"value" : "metadataSearch"
+										},
+										{
+											"name" : "type",
+											"value" : "search"
+										},
+										{
+											"name" : "createdBy",
+											"children": [
+												{
+													"name": "linkedRecordType",
+													"value": "user"
+												},
+												{
+													"name": "linkedRecordId",
+													"value": "141414"
+												}
+											]
+										},
+										{
+											"children" : [ {
+												"name" : "linkedRecordType",
+												"value" : "system"
+											}, {
+												"name" : "linkedRecordId",
+												"value" : "cora"
+											} ],
+											"actionLinks" : {
+												"read" : {
+													"requestMethod" : "GET",
+													"rel" : "read",
+													"url" : "http://epc.ub.uu.se/therest/rest/record/system/cora",
+													"accept" : "application/vnd.uub.record+json"
+												}
+											},
+											"name" : "dataDivider"
+										} ],
+									"name" : "recordInfo"
+								},
+								{
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "presentationGroup"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "autocompleteSearchPGroup"
+									} ],
+									"actionLinks" : {
+										"read" : {
+											"requestMethod" : "GET",
+											"rel" : "read",
+											"url" : "http://epc.ub.uu.se/therest/rest/record/presentationGroup/autocompleteSearchPGroup",
+											"accept" : "application/vnd.uub.record+json"
+										}
+									},
+									"name" : "presentationId"
+								},
+								{
+									"repeatId" : "0",
+									"children" : [ {
+										"name" : "linkedRecordType",
+										"value" : "recordType"
+									}, {
+										"name" : "linkedRecordId",
+										"value" : "metadata"
+									} ],
+									"actionLinks" : {
+										"read" : {
+											"requestMethod" : "GET",
+											"rel" : "read",
+											"url" : "http://epc.ub.uu.se/therest/rest/record/recordType/metadata",
+											"accept" : "application/vnd.uub.record+json"
+										}
+									},
+									"name" : "recordTypeToSearchIn"
+								} ],
+							"name" : "search"
+						},
+						"actionLinks" : {
+							"search" : {
+								"requestMethod" : "GET",
+								"rel" : "search",
+								"url" : "http://epc.ub.uu.se/therest/rest/record/metadataSearch/",
+								"accept" : "application/vnd.uub.recordList+json"
+							},
+							"read" : {
+								"requestMethod" : "GET",
+								"rel" : "read",
+								"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataSearch",
+								"accept" : "application/vnd.uub.record+json"
+							},
+							"read_incoming_links" : {
+								"requestMethod" : "GET",
+								"rel" : "read_incoming_links",
+								"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataSearch/incomingLinks",
+								"accept" : "application/vnd.uub.recordList+json"
+							},
+							"update" : {
+								"requestMethod" : "POST",
+								"rel" : "update",
+								"contentType" : "application/vnd.uub.record+json",
+								"url" : "http://epc.ub.uu.se/therest/rest/record/search/metadataSearch",
+								"accept" : "application/vnd.uub.record+json"
+							}
+						}
+					}
+				} ],
+			"totalNo" : "1",
+			"containDataOfType" : "search",
+			"toNo" : "1"
+		}
+	};
 	return coraTest;
 }(CORATEST));
