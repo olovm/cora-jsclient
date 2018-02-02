@@ -161,35 +161,22 @@ QUnit.test("testGetViewIsPassedOnToView", function(assert) {
 	assert.strictEqual(resultHandler.getView(), factoredView.getView());
 });
 
-QUnit.test("testIndexDataList", function(assert) {
-	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
-	resultHandler.indexDataList();
-	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
-	var firstIndexedRecord = factoredIndexHandler.getIndexRecord(0);
-	assert.stringifyEqual(firstIndexedRecord, CORATEST.searchRecordList.dataList.data[0].record);
-//	var secondIndexedRecord = factoredIndexHandler.getIndexRecord(1);
-//	assert.stringifyEqual(secondIndexedRecord, CORATEST.searchRecordList.dataList.data[1].record);
-});
-
-QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
+QUnit.test("testIndexListHandlerIndexDataListWasCalled", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	resultHandler.indexDataList();
 
-	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
-	assert.stringifyEqual(factoredIndexHandler.indexOrderViewAdded(), true);
-
-	var firstIndexedRecord = factoredIndexHandler.getIndexRecord(0);
-	var secondIndexedRecord = factoredIndexHandler.getIndexRecord(1);
-	assert.stringifyEqual(secondIndexedRecord, CORATEST.searchRecordList.dataList.data[1].record);
+	var factoredIndexListHandler = this.dependencies.indexListHandlerFactory.getFactored(0);
+	assert.stringifyEqual(factoredIndexListHandler.getIndexDataListWasCalled(), true);
 });
 
 
-QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
+QUnit.test("tesResultListWasSentToIndexing", function(assert) {
 	var resultHandler = CORA.resultHandler(this.dependencies, this.spec);
 	resultHandler.indexDataList();
-	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+	var factoredIndexListHandler = this.dependencies.indexListHandlerFactory.getFactored(0);
 
-	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 38);
+	assert.stringifyEqual(factoredIndexListHandler.getRecordInIndexedList(0), this.spec.dataList.data[0]);
+	assert.stringifyEqual(factoredIndexListHandler.getRecordInIndexedList(37), this.spec.dataList.data[37]);
 
 });
 

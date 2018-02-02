@@ -81,14 +81,9 @@ var CORA = (function(cora) {
 		}
 
 		function indexDataList() {
-			// var indexListHandler =
-			// dependencies.indexListHandlerFactory.factor();
-			var indexHandler = dependencies.indexHandlerFactory.factor();
-			// indexListHandler.indexList(spec.dataList.data);
-			indexHandler.addIndexOrderView();
-			for (var i = 0; i < spec.dataList.data.length; i++) {
-				indexHandler.indexData(spec.dataList.data[i].record);
-			}
+			var indexListHandler = dependencies.indexListHandlerFactory
+					.factor();
+			indexListHandler.indexDataList(spec.dataList.data);
 		}
 
 		function getDependencies() {

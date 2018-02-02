@@ -19,13 +19,27 @@
 var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.indexListHandlerSpy = function(dependencies, spec) {
-
-		function indexDataList() {
-//			return managedGuiItem;
+		var indexDataListWasCalled = false;
+		var indexedDataList; 
+		
+		function indexDataList(dataList) {
+			indexDataListWasCalled = true;
+			indexedDataList = dataList;
 		}
+		
+		function getIndexDataListWasCalled(){
+			return indexDataListWasCalled;
+		}
+		
+		function getRecordInIndexedList(numberInList){
+			return indexedDataList[numberInList];
+		}
+		
 		return Object.freeze({
 			"type" : "indexListHandlerSpy",
-			indexDataList : indexDataList
+			indexDataList : indexDataList,
+			getIndexDataListWasCalled : getIndexDataListWasCalled,
+			getRecordInIndexedList : getRecordInIndexedList
 		});
 	};
 	return coraTest;
