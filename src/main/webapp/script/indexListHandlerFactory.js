@@ -26,8 +26,8 @@ var CORA = (function(cora) {
 			};
 
 			var dep = {
-				"indexHandlerFactory" : CORA
-						.indexHandlerFactory(indexHandlerDep),
+				"indexHandlerFactory" : CORA.genericFactory("indexHandler",
+						indexHandlerDep),
 				"uploadManager" : dependencies.uploadManager
 			};
 			return CORA.indexListHandler(dep, indexListHandlerSpec);

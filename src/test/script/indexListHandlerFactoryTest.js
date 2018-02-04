@@ -52,7 +52,9 @@ QUnit.test("testFactoredUsedIncomingDependencies", function(assert) {
 	var indexListHandler = this.indexListHandlerFactory.factor(this.spec);
 	var createdDependencies = indexListHandler.getDependencies();
 	assert.strictEqual(createdDependencies.indexHandlerFactory.type,
-			"indexHandlerFactory");
+			"genericFactory");
+	assert.strictEqual(createdDependencies.indexHandlerFactory.getTypeToFactor(),
+	"indexHandler");
 	assert.strictEqual(createdDependencies.uploadManager,
 		this.dependencies.uploadManager);
 
