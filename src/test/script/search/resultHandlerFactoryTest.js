@@ -74,5 +74,6 @@ QUnit.test("testIndexHandlerFactoryDependencies", function(assert) {
 	var indexListHandlerDependencies = addedDep.indexListHandlerFactory.getDependencies();
 	assert.strictEqual(indexListHandlerDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory);
 	assert.stringifyEqual(indexListHandlerDependencies.uploadManager, this.dependencies.recordGuiFactory.getDependencies().uploadManager)
+	assert.stringifyEqual(indexListHandlerDependencies.textProvider, this.dependencies.textProvider)
 });
 

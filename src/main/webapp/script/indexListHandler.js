@@ -50,10 +50,14 @@ var CORA = (function(cora) {
 			var cRecord = CORA.coraData(currentRecord.data);
 			var cRecordInfo = CORA.coraData(cRecord
 					.getFirstChildByNameInData("recordInfo"));
-			console.log(cRecordInfo.getFirstChildByNameInData("type"));
+			var cType = CORA.coraData(cRecordInfo
+					.getFirstChildByNameInData("type"));
+			var type = cType.getFirstAtomicValueByNameInData("linkedRecordId");
+			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
+
 			var child = CORA.gui.createSpanWithClassName("indexItem");
-			// TODO: add recordtype and id
-			child.textContent = numberOfIndexRecords;
+			child.textContent = numberOfIndexRecords + ". RecordType: " + type
+					+ ", RecordId: " + id;
 
 			indexOrderView.appendChild(child);
 			startNextUploadIfThereIsMoreInQueue();
@@ -90,7 +94,8 @@ var CORA = (function(cora) {
 
 		function createIndexOrderView() {
 			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
-			indexOrderView.textContent = "Indexerat";
+			indexOrderView.textContent = dependencies.textProvider
+					.getTranslation("theClient_indexed");
 		}
 
 		function getDependencies() {
