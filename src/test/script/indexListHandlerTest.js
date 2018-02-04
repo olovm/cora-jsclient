@@ -109,7 +109,7 @@ QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 	var indexOrder = indexOrders.firstChild;
 	assert.strictEqual(indexOrder.firstChild.textContent, "Indexerat");
 	assert.strictEqual(indexOrder.childNodes[1].className, "indexItem");
-	assert.strictEqual(indexOrder.childNodes[1].textContent, "1");
+	assert.strictEqual(indexOrder.childNodes[1].textContent, "1, RecordType: search, RecordId: coraTextSearch");
 });
 
 QUnit.test("testIndexTimeoutMethod", function(assert) {

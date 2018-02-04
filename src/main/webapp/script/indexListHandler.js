@@ -23,19 +23,20 @@ var CORA = (function(cora) {
 		var numberOfIndexRecords = 0;
 		var indexOrderView;
 		var indexHandler;
+		var currentRecord;
 
-
-		function indexDataList(){
+		function indexDataList() {
 			var indexHandlerSpec = {
-					"loadMethod" : indexingFinished,
-					"timeoutMethod" :timeoutMethod
+				"loadMethod" : indexingFinished,
+				"timeoutMethod" : timeoutMethod
 			};
-			indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
+			indexHandler = dependencies.indexHandlerFactory
+					.factor(indexHandlerSpec);
 			addIndexOrderView();
 			indexData();
 		}
 
-		function indexData(){
+		function indexData() {
 			spec.dataList.data.forEach(pushToQue);
 			startNextUploadIfThereIsMoreInQueue();
 		}
@@ -46,9 +47,14 @@ var CORA = (function(cora) {
 
 		function indexingFinished() {
 			numberOfIndexRecords++;
-
+			var cRecord = CORA.coraData(currentRecord.data);
+			var cRecordInfo = CORA.coraData(cRecord
+					.getFirstChildByNameInData("recordInfo"));
+			console.log(cRecordInfo.getFirstChildByNameInData("type"));
 			var child = CORA.gui.createSpanWithClassName("indexItem");
+			// TODO: add recordtype and id
 			child.textContent = numberOfIndexRecords;
+
 			indexOrderView.appendChild(child);
 			startNextUploadIfThereIsMoreInQueue();
 		}
@@ -61,27 +67,28 @@ var CORA = (function(cora) {
 		}
 
 		function startNextUpload(dataRecord) {
+			currentRecord = dataRecord;
 			indexHandler.indexData(dataRecord);
 		}
 
-		function timeoutMethod(){
+		function timeoutMethod() {
 			var child = CORA.gui.createSpanWithClassName("indexItem");
 			child.textContent = "TIMEOUT";
 			indexOrderView.appendChild(child);
 
 		}
 
-		function getNumberOfIndexedRecords(){
+		function getNumberOfIndexedRecords() {
 			return numberOfIndexRecords;
 		}
 
-		function addIndexOrderView(){
+		function addIndexOrderView() {
 			createIndexOrderView();
-			var indexOrders  = dependencies.uploadManager.view.getWorkView().firstChild;
+			var indexOrders = dependencies.uploadManager.view.getWorkView().firstChild;
 			indexOrders.appendChild(indexOrderView);
 		}
 
-		function createIndexOrderView(){
+		function createIndexOrderView() {
 			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
 			indexOrderView.textContent = "Indexerat";
 		}

@@ -51,9 +51,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "coraTextSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -184,9 +193,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "someSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -349,9 +367,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataItemCollectionSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -482,9 +509,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "loginTokenSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -615,9 +651,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataTextVariableSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -748,9 +793,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "recordTypeSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -881,9 +935,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationGroupSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -1014,9 +1077,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "personSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -1147,9 +1219,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "binarySearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -1280,9 +1361,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "genericBinarySearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -1413,9 +1503,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataResourceLinkSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -1546,9 +1645,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataGroupSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -1679,9 +1787,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationCollectionVarSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -1812,9 +1929,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataRecordLinkSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -1945,9 +2071,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "permissionRuleSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -2078,9 +2213,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "systemSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -2211,9 +2355,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationRecordLinkSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -2344,9 +2497,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "appTokenSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -2477,9 +2639,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationResourceLinkSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -2610,9 +2781,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "userSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -2743,9 +2923,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "searchSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -2876,9 +3065,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "searchTermSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -3009,9 +3207,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "systemOneUserSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -3142,9 +3349,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataCollectionVariableSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -3275,9 +3491,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationSurroundingContainerSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -3408,9 +3633,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "permissionRoleSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -3541,9 +3775,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "imageSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -3674,9 +3917,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataCollectionItemSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -3807,9 +4059,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -3940,9 +4201,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "textSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -4073,9 +4343,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "textSystemOneSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -4206,9 +4485,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "bookSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -4339,9 +4627,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "loginSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -4472,9 +4769,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "loginWebRedirectSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -4605,9 +4911,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationRepeatingContainerSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -4738,9 +5053,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "presentationVarSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -4871,9 +5195,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "soundSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -5004,9 +5337,18 @@ var CORATEST = (function(coraTest) {
 														"value" : "metadataSearch"
 													},
 													{
-														"name" : "type",
-														"value" : "search"
-													},
+												          "name": "type",
+												          "children": [
+												            {
+												              "name": "linkedRecordType",
+												              "value": "recordType"
+												            },
+												            {
+												              "name": "linkedRecordId",
+												              "value": "search"
+												            }
+												          ]
+												        },
 													{
 									      				"name" : "createdBy",
 									      				"children": [
@@ -5418,9 +5760,18 @@ var CORATEST = (function(coraTest) {
 											"value" : "metadataSearch"
 										},
 										{
-											"name" : "type",
-											"value" : "search"
-										},
+									          "name": "type",
+									          "children": [
+									            {
+									              "name": "linkedRecordType",
+									              "value": "recordType"
+									            },
+									            {
+									              "name": "linkedRecordId",
+									              "value": "search"
+									            }
+									          ]
+									        },
 										{
 											"name" : "createdBy",
 											"children": [
