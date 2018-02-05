@@ -152,9 +152,18 @@ QUnit
 													"value" : "coraTextSearch"
 												},
 												{
-													"name" : "type",
-													"value" : "search"
-												},
+											          "name": "type",
+											          "children": [
+											            {
+											              "name": "linkedRecordType",
+											              "value": "recordType"
+											            },
+											            {
+											              "name": "linkedRecordId",
+											              "value": "search"
+											            }
+											          ]
+											        },
 												{
 								      				"name" : "createdBy",
 								      				"children": [

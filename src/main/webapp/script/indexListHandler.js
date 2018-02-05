@@ -23,34 +23,26 @@ var CORA = (function(cora) {
 		var numberOfIndexRecords = 0;
 		var indexOrderView;
 		var indexHandler;
+		var currentRecord;
 
-
-		function indexDataList(){
+		function indexDataList() {
 			var indexHandlerSpec = {
-					"loadMethod" : indexingFinished,
-					"timeoutMethod" :timeoutMethod
+				"loadMethod" : indexingFinished,
+				"timeoutMethod" : timeoutMethod
 			};
-			indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
+			indexHandler = dependencies.indexHandlerFactory
+					.factor(indexHandlerSpec);
 			addIndexOrderView();
 			indexData();
 		}
 
-		function indexData(){
+		function indexData() {
 			spec.dataList.data.forEach(pushToQue);
 			startNextUploadIfThereIsMoreInQueue();
 		}
 
 		function pushToQue(dataRecord) {
 			uploadQue.push(dataRecord.record);
-		}
-
-		function indexingFinished() {
-			numberOfIndexRecords++;
-
-			var child = CORA.gui.createSpanWithClassName("indexItem");
-			child.textContent = numberOfIndexRecords;
-			indexOrderView.appendChild(child);
-			startNextUploadIfThereIsMoreInQueue();
 		}
 
 		function startNextUploadIfThereIsMoreInQueue() {
@@ -60,30 +52,68 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function indexingFinished() {
+			numberOfIndexRecords++;
+			var child = CORA.gui.createSpanWithClassName("indexItem");
+			child.textContent = numberOfIndexRecords+". " + getChildInfo();
+
+			indexOrderView.appendChild(child);
+			startNextUploadIfThereIsMoreInQueue();
+		}
+
+		function getChildInfo(){
+			var cRecordInfo = extractRecordInfoFromCurrentRecord();
+			var type = extractAtomicTypeFromRecordInfo(cRecordInfo);
+			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
+			var recordTypeText = getTextFromTextProvider("theClient_indexedRecordTypeText");
+			var recordIdText = getTextFromTextProvider("theClient_indexedRecordIdText");
+			return recordTypeText+": " + type
+				+ ", "+recordIdText+": " + id;
+		}
+
+		function extractRecordInfoFromCurrentRecord(){
+			var cRecord = CORA.coraData(currentRecord.data);
+			return CORA.coraData(cRecord
+				.getFirstChildByNameInData("recordInfo"));
+		}
+
+		function extractAtomicTypeFromRecordInfo(cRecordInfo){
+			var cType = CORA.coraData(cRecordInfo
+				.getFirstChildByNameInData("type"));
+			return cType.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+
+		function getTextFromTextProvider(textId){
+			return dependencies.textProvider
+				.getTranslation(textId);
+		}
+
 		function startNextUpload(dataRecord) {
+			currentRecord = dataRecord;
 			indexHandler.indexData(dataRecord);
 		}
 
-		function timeoutMethod(){
+		function timeoutMethod() {
 			var child = CORA.gui.createSpanWithClassName("indexItem");
 			child.textContent = "TIMEOUT";
 			indexOrderView.appendChild(child);
 
 		}
 
-		function getNumberOfIndexedRecords(){
+		function getNumberOfIndexedRecords() {
 			return numberOfIndexRecords;
 		}
 
-		function addIndexOrderView(){
+		function addIndexOrderView() {
 			createIndexOrderView();
-			var indexOrders  = dependencies.uploadManager.view.getWorkView().firstChild;
+			var indexOrders = dependencies.uploadManager.view.getWorkView().firstChild;
 			indexOrders.appendChild(indexOrderView);
 		}
 
-		function createIndexOrderView(){
+		function createIndexOrderView() {
 			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
-			indexOrderView.textContent = "Indexerat";
+			indexOrderView.textContent = dependencies.textProvider
+					.getTranslation("theClient_indexedText");
 		}
 
 		function getDependencies() {

@@ -26,7 +26,8 @@ var CORA = (function(cora) {
 			var indexHandlerDep = {
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"uploadManager" : dependencies.recordGuiFactory
-						.getDependencies().uploadManager
+						.getDependencies().uploadManager,
+				"textProvider" : dependencies.textProvider
 			};
 			var dep = {
 				"resultHandlerViewFactory" : CORA

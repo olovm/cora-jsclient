@@ -22,8 +22,8 @@ var CORA = (function(cora) {
 	cora.recordHandlerFactory = function(dependencies) {
 		var out;
 		var indexHandlerDep = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
-			};
+			"ajaxCallFactory" : dependencies.ajaxCallFactory
+		};
 
 		var dep = {
 			"globalFactories" : dependencies.globalFactories,
@@ -31,7 +31,8 @@ var CORA = (function(cora) {
 			"ajaxCallFactory" : dependencies.ajaxCallFactory,
 			"recordGuiFactory" : dependencies.recordGuiFactory,
 			"managedGuiItemFactory" : dependencies.managedGuiItemFactory,
-			"indexHandlerFactory" : CORA.indexHandlerFactory(indexHandlerDep)
+			"indexHandlerFactory" : CORA.genericFactory("indexHandler",
+					indexHandlerDep)
 		};
 		function factor(recordHandlerSpec) {
 			dep.recordHandlerFactory = out;
