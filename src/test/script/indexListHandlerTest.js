@@ -25,7 +25,7 @@ QUnit.module("indexListHandlerTest.js",{
 						this.dependencies = {
 							"uploadManager": this.uploadManager,
 							"indexHandlerFactory" : CORATEST.standardFactorySpy("indexHandlerSpy"),
-							"textProvider" : CORATEST.textProviderSpy() 
+							"textProvider" : CORATEST.textProviderSpy()
 						};
 						this.spec = {
 							"dataList" : CORATEST.searchRecordList.dataList
@@ -108,9 +108,9 @@ QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 
 	indexListHandler.indexingFinished();
 	var indexOrder = indexOrders.firstChild;
-	assert.strictEqual(indexOrder.firstChild.textContent, "theClient_indexed");
+	assert.strictEqual(indexOrder.firstChild.textContent, "theClient_indexedText");
 	assert.strictEqual(indexOrder.childNodes[1].className, "indexItem");
-	assert.strictEqual(indexOrder.childNodes[1].textContent, "1. RecordType: search, RecordId: coraTextSearch");
+	assert.strictEqual(indexOrder.childNodes[1].textContent, "1. theClient_indexedRecordTypeText: search, theClient_indexedRecordIdText: coraTextSearch");
 });
 
 QUnit.test("testIndexTimeoutMethod", function(assert) {

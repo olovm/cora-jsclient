@@ -22,7 +22,8 @@ QUnit.module("indexListHandlerFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
-			"uploadManager" : CORATEST.uploadManagerSpy()
+			"uploadManager" : CORATEST.uploadManagerSpy(),
+			"textProvider" : CORATEST.textProviderSpy()
 		};
 		this.spec = {
 			"dataList" : CORATEST.listWithDataToIndex.dataList
@@ -57,6 +58,8 @@ QUnit.test("testFactoredUsedIncomingDependencies", function(assert) {
 	"indexHandler");
 	assert.strictEqual(createdDependencies.uploadManager,
 		this.dependencies.uploadManager);
+	assert.strictEqual(createdDependencies.textProvider,
+		this.dependencies.textProvider);
 
 });
 
