@@ -133,3 +133,25 @@ QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
 	assert.stringifyEqual(indexListHandler.getNumberOfIndexedRecords(), 38);
 
 });
+
+QUnit.test("testCancelIndexingData", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	indexListHandler.indexDataList();
+	assert.stringifyEqual(indexListHandler.getOngoingIndexing(), true);
+	
+	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
+	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 1);
+	
+	indexListHandler.indexingFinished();
+	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 2);
+	
+	indexListHandler.cancelIndexing();
+	assert.stringifyEqual(indexListHandler.getOngoingIndexing(), false);
+	//Calling indexingFinished when ongoingIndexing is false will have no effect on numberOfIndexedRecords
+	//since indexing is not called
+	indexListHandler.indexingFinished();
+	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 2);
+	indexListHandler.indexingFinished();
+	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 2);
+	
+});
