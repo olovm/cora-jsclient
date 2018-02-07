@@ -107,14 +107,27 @@ var CORA = (function(cora) {
 
 		function addIndexOrderView() {
 			createIndexOrderView();
+			var cancelButton = createButton("Cancel indexing", cancelIndexing,
+					"cancelButton");
+			indexOrderView.appendChild(cancelButton);
 			var indexOrders = dependencies.uploadManager.view.getWorkView().firstChild;
 			indexOrders.appendChild(indexOrderView);
+
 		}
 
 		function createIndexOrderView() {
 			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
 			indexOrderView.textContent = dependencies.textProvider
 					.getTranslation("theClient_indexedText");
+		}
+
+		function createButton(text, onclickMethod, className) {
+			var button = document.createElement("input");
+			button.type = "button";
+			button.value = text;
+			button.onclick = onclickMethod;
+			button.className = className;
+			return button;
 		}
 
 		function cancelIndexing() {

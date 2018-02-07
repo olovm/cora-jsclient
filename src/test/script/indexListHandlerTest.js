@@ -109,9 +109,29 @@ QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 	indexListHandler.indexingFinished();
 	var indexOrder = indexOrders.firstChild;
 	assert.strictEqual(indexOrder.firstChild.textContent, "theClient_indexedText");
-	assert.strictEqual(indexOrder.childNodes[1].className, "indexItem");
-	assert.strictEqual(indexOrder.childNodes[1].textContent, "1. theClient_indexedRecordTypeText: search, theClient_indexedRecordIdText: coraTextSearch");
+	assert.strictEqual(indexOrder.childNodes[2].className, "indexItem");
+	assert.strictEqual(indexOrder.childNodes[2].textContent, "1. theClient_indexedRecordTypeText: search, theClient_indexedRecordIdText: coraTextSearch");
 });
+
+QUnit.test("testCancelIndexingButtonIsAddedToUploadManager", function(assert) {
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	indexListHandler.indexDataList();
+	
+	var workView = this.uploadManager.view.getWorkView();
+	var indexOrders = workView.firstChild;
+
+	var indexOrderView = indexOrders.firstChild;
+	assert.strictEqual(indexOrderView.className, "indexOrder");
+
+	var indexOrder = indexOrders.firstChild;
+	assert.strictEqual(indexOrder.firstChild.textContent, "theClient_indexedText");
+	var cancelButton = indexOrder.childNodes[1];
+	assert.strictEqual(cancelButton.type, "button");
+	assert.strictEqual(cancelButton.value, "Cancel indexing");
+	assert.strictEqual(cancelButton.className, "cancelButton");
+	assert.strictEqual(cancelButton.onclick, indexListHandler.cancelIndexing);
+});
+
 
 QUnit.test("testIndexTimeoutMethod", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
