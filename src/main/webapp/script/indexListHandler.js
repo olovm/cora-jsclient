@@ -25,6 +25,7 @@ var CORA = (function(cora) {
 		var indexHandler;
 		var currentRecord;
 		var ongoingIndexing = false;
+		var cancelButton;
 
 		function indexDataList() {
 			ongoingIndexing = true;
@@ -107,7 +108,9 @@ var CORA = (function(cora) {
 
 		function addIndexOrderView() {
 			createIndexOrderView();
-			var cancelButton = createButton("Cancel indexing", cancelIndexing,
+			var buttonText = dependencies.textProvider
+					.getTranslation("theClient_cancelIndexingText");
+			cancelButton = createButton(buttonText, cancelIndexing,
 					"cancelButton");
 			indexOrderView.appendChild(cancelButton);
 			var indexOrders = dependencies.uploadManager.view.getWorkView().firstChild;
@@ -132,10 +135,21 @@ var CORA = (function(cora) {
 
 		function cancelIndexing() {
 			ongoingIndexing = false;
+			cancelButton.value = dependencies.textProvider
+					.getTranslation("theClient_resumeIndexingText");
+			cancelButton.onclick = resumeIndexing;
 		}
 
 		function getOngoingIndexing() {
 			return ongoingIndexing;
+		}
+
+		function resumeIndexing() {
+			ongoingIndexing = true;
+			startNextUploadIfThereIsMoreInQueue();
+			cancelButton.value = dependencies.textProvider
+					.getTranslation("theClient_cancelIndexingText");
+			cancelButton.onclick = cancelIndexing;
 		}
 
 		function getDependencies() {
@@ -155,7 +169,8 @@ var CORA = (function(cora) {
 			timeoutMethod : timeoutMethod,
 			getNumberOfIndexedRecords : getNumberOfIndexedRecords,
 			cancelIndexing : cancelIndexing,
-			getOngoingIndexing : getOngoingIndexing
+			getOngoingIndexing : getOngoingIndexing,
+			resumeIndexing : resumeIndexing
 
 		});
 
