@@ -24,8 +24,11 @@ var CORA = (function(cora) {
 		var indexOrderView;
 		var indexHandler;
 		var currentRecord;
+		var ongoingIndexing = false;
+		var cancelButton;
 
 		function indexDataList() {
+			ongoingIndexing = true;
 			var indexHandlerSpec = {
 				"loadMethod" : indexingFinished,
 				"timeoutMethod" : timeoutMethod
@@ -47,7 +50,7 @@ var CORA = (function(cora) {
 
 		function startNextUploadIfThereIsMoreInQueue() {
 			var dataRecord = uploadQue.shift();
-			if (dataRecord !== undefined) {
+			if (dataRecord !== undefined && ongoingIndexing) {
 				startNextUpload(dataRecord);
 			}
 		}
@@ -55,37 +58,36 @@ var CORA = (function(cora) {
 		function indexingFinished() {
 			numberOfIndexRecords++;
 			var child = CORA.gui.createSpanWithClassName("indexItem");
-			child.textContent = numberOfIndexRecords+". " + getChildInfo();
+			child.textContent = numberOfIndexRecords + ". " + getChildInfo();
 
 			indexOrderView.appendChild(child);
 			startNextUploadIfThereIsMoreInQueue();
 		}
 
-		function getChildInfo(){
+		function getChildInfo() {
 			var cRecordInfo = extractRecordInfoFromCurrentRecord();
 			var type = extractAtomicTypeFromRecordInfo(cRecordInfo);
 			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			var recordTypeText = getTextFromTextProvider("theClient_indexedRecordTypeText");
 			var recordIdText = getTextFromTextProvider("theClient_indexedRecordIdText");
-			return recordTypeText+": " + type
-				+ ", "+recordIdText+": " + id;
+			return recordTypeText + ": " + type + ", " + recordIdText + ": "
+					+ id;
 		}
 
-		function extractRecordInfoFromCurrentRecord(){
+		function extractRecordInfoFromCurrentRecord() {
 			var cRecord = CORA.coraData(currentRecord.data);
 			return CORA.coraData(cRecord
-				.getFirstChildByNameInData("recordInfo"));
+					.getFirstChildByNameInData("recordInfo"));
 		}
 
-		function extractAtomicTypeFromRecordInfo(cRecordInfo){
+		function extractAtomicTypeFromRecordInfo(cRecordInfo) {
 			var cType = CORA.coraData(cRecordInfo
-				.getFirstChildByNameInData("type"));
+					.getFirstChildByNameInData("type"));
 			return cType.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
-		function getTextFromTextProvider(textId){
-			return dependencies.textProvider
-				.getTranslation(textId);
+		function getTextFromTextProvider(textId) {
+			return dependencies.textProvider.getTranslation(textId);
 		}
 
 		function startNextUpload(dataRecord) {
@@ -106,14 +108,48 @@ var CORA = (function(cora) {
 
 		function addIndexOrderView() {
 			createIndexOrderView();
+			var buttonText = dependencies.textProvider
+					.getTranslation("theClient_cancelIndexingText");
+			cancelButton = createButton(buttonText, cancelIndexing,
+					"cancelButton");
+			indexOrderView.appendChild(cancelButton);
 			var indexOrders = dependencies.uploadManager.view.getWorkView().firstChild;
 			indexOrders.appendChild(indexOrderView);
+
 		}
 
 		function createIndexOrderView() {
 			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
 			indexOrderView.textContent = dependencies.textProvider
 					.getTranslation("theClient_indexedText");
+		}
+
+		function createButton(text, onclickMethod, className) {
+			var button = document.createElement("input");
+			button.type = "button";
+			button.value = text;
+			button.onclick = onclickMethod;
+			button.className = className;
+			return button;
+		}
+
+		function cancelIndexing() {
+			ongoingIndexing = false;
+			cancelButton.value = dependencies.textProvider
+					.getTranslation("theClient_resumeIndexingText");
+			cancelButton.onclick = resumeIndexing;
+		}
+
+		function getOngoingIndexing() {
+			return ongoingIndexing;
+		}
+
+		function resumeIndexing() {
+			ongoingIndexing = true;
+			startNextUploadIfThereIsMoreInQueue();
+			cancelButton.value = dependencies.textProvider
+					.getTranslation("theClient_cancelIndexingText");
+			cancelButton.onclick = cancelIndexing;
 		}
 
 		function getDependencies() {
@@ -131,7 +167,11 @@ var CORA = (function(cora) {
 			indexDataList : indexDataList,
 			indexingFinished : indexingFinished,
 			timeoutMethod : timeoutMethod,
-			getNumberOfIndexedRecords : getNumberOfIndexedRecords
+			getNumberOfIndexedRecords : getNumberOfIndexedRecords,
+			cancelIndexing : cancelIndexing,
+			getOngoingIndexing : getOngoingIndexing,
+			resumeIndexing : resumeIndexing
+
 		});
 
 		return out;
