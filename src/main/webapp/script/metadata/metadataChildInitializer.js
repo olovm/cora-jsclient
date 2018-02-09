@@ -173,6 +173,11 @@ var CORA = (function(cora) {
 
 		function initializeRepeatingChildInstanceWithData(index) {
 			var dataChild = dataChildrenForMetadata[index];
+			if(dataChild.repeatId === undefined &&
+				(childReference.getFirstAtomicValueByNameInData("repeatMax") > 1 || childReference.getFirstAtomicValueByNameInData("repeatMax") === "X")){
+			//if(dataChild.repeatId === undefined){
+				dataChild.repeatId = "0";
+			}
 			var repeatId = dataChild.repeatId;
 			initializeForMetadataWithIdAndDataAndRepeatId(dataChild, repeatId);
 		}

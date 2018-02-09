@@ -679,6 +679,21 @@ function MetadataProviderStub() {
 						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 			};
 		}
+		if (idToGet === "groupIdOneTextChildRepeat0toXPreviously0to1") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+						"metadataTextVariable", "textVariableId",
+						"textVariable", "1", "0", "X") ]
+				} ]
+					.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId("groupIdOneTextChildRepeat0to1"))
+			};
+		}
 		if (idToGet === "groupIdOneTextChildRepeat3to3") {
 			return {
 				"name" : "metadata",
@@ -7187,7 +7202,7 @@ function MetadataProviderStub() {
 						"name" : "id",
 						"value" : "pTextVariablePlus2SContainer"
 					} ]
-				}, 
+				},
 				{
 					"name": "presentationsOf",
 					"children": [{
@@ -7810,7 +7825,7 @@ function MetadataProviderStub() {
 							"value" : "input"
 						} ]
 			};
-		
+
 		case "myLinkNoPresentationOfLinkedRecordWithSearchPLink":
 			return {
 				  "name": "presentation",
