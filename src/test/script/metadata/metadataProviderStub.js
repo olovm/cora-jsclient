@@ -694,6 +694,21 @@ function MetadataProviderStub() {
 					.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId("groupIdOneTextChildRepeat0to1"))
 			};
 		}
+		if (idToGet === "groupIdOneTextChildRepeat1to3Previously0to1") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+							"metadataTextVariable", "textVariableId",
+							"textVariable", "1", "1", "3") ]
+				} ]
+				.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId("groupIdOneTextChildRepeat0to1"))
+			};
+		}
 		if (idToGet === "groupIdOneTextChildRepeat3to3") {
 			return {
 				"name" : "metadata",
