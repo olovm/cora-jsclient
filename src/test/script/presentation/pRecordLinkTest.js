@@ -27,7 +27,7 @@ QUnit.module("pRecordLinkTest.js", {
 					this.dependencies.presentationFactory.getCPresentations()[no]
 							.getFirstChildByNameInData("recordInfo"))
 					.getFirstAtomicValueByNameInData("id");
-		}
+		};
 		this.answerCall2 = function(no) {
 			var ajaxCallSpy0 = this.dependencies.ajaxCallFactory.getFactored(no);
 			var jsonRecord = JSON.stringify({
@@ -38,7 +38,7 @@ QUnit.module("pRecordLinkTest.js", {
 				"responseText" : jsonRecord
 			};
 			ajaxCallSpy0.getSpec().loadMethod(answer);
-		}
+		};
 		this.searchProvider = CORATEST.searchProviderSpy();
 		this.providers = {
 			"searchProvider" : this.searchProvider
@@ -61,7 +61,7 @@ QUnit.module("pRecordLinkTest.js", {
 			"jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
 			"recordGuiFactory" : CORATEST.recordGuiFactorySpy(),
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy()
-		}
+		};
 		this.spec = {
 			"path" : {},
 			"cPresentation" : CORA.coraData(this.dependencies.metadataProvider
@@ -579,16 +579,16 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 		} ]
 	};
 	assert.stringifyEqual(factoredSpec.path, expectedPath);
-	
-	
+
+
 	var repeatIdView = pRecordLinkView.getAddedChild(1);
 	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
-	
-	
+
+
 	var repeatIdTextView = repeatIdView.childNodes[0];
 	assert.strictEqual(repeatIdTextView.className, "text");
-	assert.strictEqual(repeatIdTextView.innerHTML, "RepeatId");	
-	
+	assert.strictEqual(repeatIdTextView.innerHTML, "RepeatId");
+
 	var repeatIdTextView2 = repeatIdView.childNodes[1];
 	assert.strictEqual(repeatIdTextView2, this.dependencies.presentationFactory.getFactored(1)
 			.getView());
@@ -603,8 +603,8 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 			} ]
 	};
 	assert.stringifyEqual(factoredSpec2.path, expectedPath2);
-	
-	
+
+
 	assert.strictEqual(pRecordLinkView.getAddedChild(2), undefined);
 });
 
@@ -635,7 +635,7 @@ QUnit.test("testInitRecordLinkOutput", function(assert) {
 		} ]
 	};
 	assert.stringifyEqual(factoredSpec.path, expectedPath);
-	
+
 	assert.strictEqual(pRecordLinkView.getAddedChild(1), undefined);
 });
 
@@ -666,16 +666,16 @@ QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
 		} ]
 	};
 	assert.stringifyEqual(factoredSpec.path, expectedPath);
-	
-	
+
+
 	var repeatIdView = pRecordLinkView.getAddedChild(1);
 	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
-	
-	
+
+
 	var repeatIdTextView = repeatIdView.childNodes[0];
 	assert.strictEqual(repeatIdTextView.className, "text");
-	assert.strictEqual(repeatIdTextView.innerHTML, "RepeatId");	
-	
+	assert.strictEqual(repeatIdTextView.innerHTML, "RepeatId");
+
 	var repeatIdTextView2 = repeatIdView.childNodes[1];
 	assert.strictEqual(repeatIdTextView2, this.dependencies.presentationFactory.getFactored(1)
 			.getView());
@@ -690,8 +690,8 @@ QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
 			} ]
 	};
 	assert.stringifyEqual(factoredSpec2.path, expectedPath2);
-	
-	
+
+
 	assert.strictEqual(pRecordLinkView.getAddedChild(2), undefined);
 });
 

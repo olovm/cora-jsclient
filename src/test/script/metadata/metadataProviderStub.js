@@ -2371,6 +2371,20 @@ function MetadataProviderStub() {
 						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 			};
 		}
+		if (idToGet === "groupIdOneAbstractRecordLinkChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
+						"metadataRecordLink", "myAbstractLink", "1") ]
+				} ]
+					.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
 		if (idToGet === "groupId0to1RecordLinkChild") {
 			return {
 				"name" : "metadata",
@@ -2426,6 +2440,51 @@ function MetadataProviderStub() {
 					}, {
 						"name" : "linkedRecordId",
 						"value" : "metadataTextVariable"
+					} ],
+					"name" : "linkedRecordType"
+				} ]
+			};
+		}
+		if (idToGet === "myAbstractLink") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myAbstractLink"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "text"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myAbstractLinkText"
+					} ],
+					"name" : "textId"
+				}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "text"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myAbstractLinkDefText"
+					} ],
+					"name" : "defTextId"
+				}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "recordType"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "metadata"
 					} ],
 					"name" : "linkedRecordType"
 				} ]
