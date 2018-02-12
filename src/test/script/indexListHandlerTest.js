@@ -116,7 +116,7 @@ QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 QUnit.test("testCancelIndexingButtonIsAddedToUploadManager", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
-	
+
 	var workView = this.uploadManager.view.getWorkView();
 	var indexOrders = workView.firstChild;
 
@@ -158,13 +158,13 @@ QUnit.test("testCancelIndexingData", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
 	assert.stringifyEqual(indexListHandler.getOngoingIndexing(), true);
-	
+
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
 	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 1);
-	
+
 	indexListHandler.indexingFinished();
 	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 2);
-	
+
 	indexListHandler.cancelIndexing();
 	assert.stringifyEqual(indexListHandler.getOngoingIndexing(), false);
 	//Calling indexingFinished when ongoingIndexing is false will have no effect on numberOfIndexedRecords
@@ -173,17 +173,16 @@ QUnit.test("testCancelIndexingData", function(assert) {
 	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 2);
 	indexListHandler.indexingFinished();
 	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 2);
-	
 });
 
 QUnit.test("testResumelIndexingData", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
 	assert.stringifyEqual(indexListHandler.getOngoingIndexing(), true);
-	
+
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
 	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 1);
-	
+
 	indexListHandler.indexingFinished();
 	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 2);
 	//check text and method for button -- own test?
@@ -200,7 +199,7 @@ QUnit.test("testResumelIndexingData", function(assert) {
 QUnit.test("testCancelIndexingButtonChangesValueWhenCancellingAndResuming", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
-	
+
 	var workView = this.uploadManager.view.getWorkView();
 	var indexOrders = workView.firstChild;
 
@@ -214,16 +213,16 @@ QUnit.test("testCancelIndexingButtonChangesValueWhenCancellingAndResuming", func
 	assert.strictEqual(cancelButton.value, "theClient_cancelIndexingText");
 	assert.strictEqual(cancelButton.className, "cancelButton");
 	assert.strictEqual(cancelButton.onclick, indexListHandler.cancelIndexing);
-	
+
 	indexListHandler.cancelIndexing();
-	
+
 	assert.strictEqual(cancelButton.type, "button");
 	assert.strictEqual(cancelButton.value, "theClient_resumeIndexingText");
 	assert.strictEqual(cancelButton.className, "cancelButton");
 	assert.strictEqual(cancelButton.onclick, indexListHandler.resumeIndexing);
-	
+
 	indexListHandler.resumeIndexing();
 	assert.strictEqual(cancelButton.value, "theClient_cancelIndexingText");
 	assert.strictEqual(cancelButton.onclick, indexListHandler.cancelIndexing);
-	
+
 });

@@ -186,14 +186,14 @@ var CORA = (function(cora) {
 
 		function initializeRepeatingChildInstanceWithData(index) {
 			var dataChild = dataChildrenForMetadata[index];
-			if (childIsRepeatbleButRepeatIdIsMissing(dataChild)) {
+			if (childIsRepeatableButRepeatIdIsMissing(dataChild)) {
 				dataChild.repeatId = "0";
 			}
 			var repeatId = dataChild.repeatId;
 			initializeForMetadataWithIdAndDataAndRepeatId(dataChild, repeatId);
 		}
 
-		function childIsRepeatbleButRepeatIdIsMissing(dataChild) {
+		function childIsRepeatableButRepeatIdIsMissing(dataChild) {
 			return dataChild.repeatId === undefined
 					&& moreThanOneChildIsAllowed();
 		}
