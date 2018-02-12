@@ -1,7 +1,7 @@
 /*
  * Copyright 2015, 2016 Olov McKie
- * Copyright 2016, 2017 Uppsala University Library
- * 
+ * Copyright 2016, 2017, 2018 Uppsala University Library
+ *
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -507,6 +507,90 @@ QUnit
 
 					assert.equal(messages.length, 5);
 				});
+
+QUnit.test("testInitOneChildRepeat0toXPreviouslyNotRepeating", function(assert) {
+			var data = {
+				"name" : "groupIdOneTextChildRepeat0toXPreviously0to1",
+				"children" : [ {
+					"name" : "textVariableId",
+					"value" : "A Value"
+				}]
+			};
+
+			this.metadataControllerFactory.factor("groupIdOneTextChildRepeat0toXPreviously0to1", data);
+			var messages = this.pubSub.getMessages();
+			assert.deepEqual(
+					JSON.stringify(messages[0]),
+					'{"type":"add","message":{'
+					+ '"metadataId":"textVariableId","path":{},"repeatId":"0","nameInData":"textVariableId"}}');
+			assert.deepEqual(JSON.stringify(messages[1]),
+				'{"type":"setValue","message":{"data":"A Value",'
+				+ '"path":'
+				+ createLinkedPathWithNameInDataAndRepeatIdAsString(
+					"textVariableId", "0") + '}}');
+		});
+
+QUnit.test("testInitOneChildRepeat0toXPreviouslyNotRepeatingAddingNewChild", function(assert) {
+	var data = {
+		"name" : "groupIdOneTextChildRepeat0toXPreviously0to1",
+		"children" : [ {
+			"name" : "textVariableId",
+			"value" : "A Value"
+		}, {
+			"name" : "textVariableId",
+			"value" : "A Value2",
+			"repeatId" : "two"
+		}]
+	};
+
+	this.metadataControllerFactory.factor("groupIdOneTextChildRepeat0toXPreviously0to1", data);
+	var messages = this.pubSub.getMessages();
+	assert.deepEqual(
+			JSON.stringify(messages[0]),
+			'{"type":"add","message":{'
+			+ '"metadataId":"textVariableId","path":{},"repeatId":"0","nameInData":"textVariableId"}}');
+	assert.deepEqual(JSON.stringify(messages[1]),
+		'{"type":"setValue","message":{"data":"A Value",'
+		+ '"path":'
+		+ createLinkedPathWithNameInDataAndRepeatIdAsString(
+			"textVariableId", "0") + '}}');
+    
+	assert
+		.deepEqual(
+			JSON.stringify(messages[2]),
+			'{"type":"add","message":{'
+			+ '"metadataId":"textVariableId","path":{},"repeatId":"two","nameInData":"textVariableId"}}');
+	assert.deepEqual(JSON.stringify(messages[3]),
+		'{"type":"setValue","message":{"data":"A Value2",'
+		+ '"path":'
+		+ createLinkedPathWithNameInDataAndRepeatIdAsString(
+			"textVariableId", "two") + '}}');
+    
+	assert.equal(messages.length, 5);
+});
+
+QUnit.test("testInitOneChildRepeat1to3PreviouslyNotRepeating", function(assert) {
+	var data = {
+		"name" : "groupIdOneTextChildRepeat0toXPreviously0to1",
+		"children" : [ {
+			"name" : "textVariableId",
+			"value" : "A Value"
+		}]
+	};
+
+	this.metadataControllerFactory.factor("groupIdOneTextChildRepeat1to3Previously0to1", data);
+	var messages = this.pubSub.getMessages();
+	assert.deepEqual(
+			JSON.stringify(messages[0]),
+			'{"type":"add","message":{'
+			+ '"metadataId":"textVariableId","path":{},"repeatId":"0","nameInData":"textVariableId"}}');
+	assert.deepEqual(JSON.stringify(messages[1]),
+		'{"type":"setValue","message":{"data":"A Value",'
+		+ '"path":'
+		+ createLinkedPathWithNameInDataAndRepeatIdAsString(
+			"textVariableId", "0") + '}}');
+});
+
 
 QUnit.test("testInitOneChildOneAttribute", function(assert) {
 	this.metadataControllerFactory.factor("groupIdOneTextChildOneAttribute", undefined);
