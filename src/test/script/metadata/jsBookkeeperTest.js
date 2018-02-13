@@ -21,6 +21,9 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.jsBookkeeperFactory = function(metadataProvider, pubSub, textProvider) {
 		var factor = function(metadataId, dataHolder) {
+			var dependencies = {
+				"recordTypeProvider" : CORATEST.recordTypeProviderSpy()
+			};
 			var spec = {
 				"metadataId" : metadataId,
 				"metadataProvider" : metadataProvider,
@@ -28,7 +31,7 @@ var CORATEST = (function(coraTest) {
 				"textProvider" : textProvider,
 				"dataHolder" : dataHolder
 			};
-			return CORA.jsBookkeeper(spec);
+			return CORA.jsBookkeeper(dependencies, spec);
 		};
 		return Object.freeze({
 			factor : factor
@@ -40,6 +43,9 @@ var CORATEST = (function(coraTest) {
 
 QUnit.module("jsBookkeeperTest.js", {
 	beforeEach : function() {
+		this.dependencies = {
+			"recordTypeProvider" : CORATEST.recordTypeProviderSpy()
+		};
 		this.spec = {
 			"metadataId" : "groupIdOneTextChild",
 			"metadataProvider" : new MetadataProviderStub(),
@@ -60,13 +66,19 @@ QUnit.module("jsBookkeeperTest.js", {
 });
 
 QUnit.test("testInit", function(assert) {
-	var jsBookkeeper = CORA.jsBookkeeper(this.spec);
+	var jsBookkeeper = CORA.jsBookkeeper(this.dependencies, this.spec);
 	assert.strictEqual(jsBookkeeper.type, "jsBookkeeper");
 });
 
 QUnit.test("testGetSpec", function(assert) {
-	var jsBookkeeper = CORA.jsBookkeeper(this.spec);
+	var jsBookkeeper = CORA.jsBookkeeper(this.dependencies, this.spec);
 	assert.strictEqual(jsBookkeeper.getSpec(), this.spec);
+});
+
+
+QUnit.test("testGetDependencies", function(assert) {
+	var jsBookkeeper = CORA.jsBookkeeper(this.dependencies, this.spec);
+	assert.strictEqual(jsBookkeeper.getDependencies(), this.dependencies);
 });
 
 QUnit.test("testSetValue", function(assert) {

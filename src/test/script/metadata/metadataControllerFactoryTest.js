@@ -20,13 +20,13 @@
 QUnit.module("metadataControllerFactoryTest.js", {
 	beforeEach : function() {
 		this.dependencies = {
-			// "metadataProvider" : CORATEST.metadataProviderSpy(),
+			"recordTypeProvider" : CORATEST.recordTypeProviderSpy(),
 			"metadataProvider" : new MetadataProviderStub(),
 			"pubSub" : CORATEST.pubSubSpy()
 		};
 		this.spec = {
 			"metadataId" : "groupIdOneTextChild",
-			"data" : undefined,
+			"data" : undefined
 		};
 		this.metadataControllerFactory = CORA.metadataControllerFactory(this.dependencies);
 	},

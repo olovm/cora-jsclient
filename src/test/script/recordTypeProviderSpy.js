@@ -67,9 +67,25 @@ var CORATEST = (function(coraTest) {
 		function getNoOfReloads(){
 			return noOfReloads;
 		}
-		var metadata = {};
+		var metadata = {"abstract":"false"};
 		function getMetadataByRecordTypeId(recordTypeId) {
 			fetchedMetadataByRecordTypeId.push(recordTypeId);
+			if("metadata" === recordTypeId){
+				return {
+					"metadataId" : "metadataGroup",
+					"presentationViewId" : "metadataViewPGroup",
+					"presentationFormId" : "metadataFormPGroup",
+					"newMetadataId" : "metadataNewGroup",
+					"newPresentationFormId" : "metadataFormNewPGroup",
+					"menuPresentationViewId" : "metadataMenuPGroup",
+					"listPresentationViewId" : "metadataListPGroup",
+					"search" : "metadataSearch",
+					"userSuppliedId" : "false",
+					"abstract" : "true",
+					"parentId" : undefined,
+					"actionLinks" : undefined
+				};
+			}
 			return metadata;
 		}
 		function getFetchedMetadataByRecordTypeId(number) {

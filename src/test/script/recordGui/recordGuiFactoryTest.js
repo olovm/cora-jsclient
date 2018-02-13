@@ -24,6 +24,7 @@ QUnit.module("recordGuiFactoryTest.js", {
 				"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
 				"metadataProvider" : new MetadataProviderStub(),
 				"textProvider" : CORATEST.textProviderStub(),
+				"recordTypeProvider" :CORATEST.recordTypeProviderSpy()
 			},
 			"globalFactories" : {
 				"searchHandlerFactory" : CORATEST.standardFactorySpy("searchHandlerSpy")
@@ -85,7 +86,7 @@ QUnit.test("testFactorDependencyDataHolder", function(assert) {
 	assert.strictEqual(specDH.pubSub, recordGui.getDependencies().pubSub);
 });
 
-QUnit.test("testFactorDependencyJsBookkeeper", function(assert) {
+QUnit.test("testFactorJsBookkeeperSpec", function(assert) {
 	var recordGui = this.recordGuiFactory.factor(this.spec);
 	var jsBookkeeper = recordGui.getDependencies().jsBookkeeper;
 	assert.strictEqual(jsBookkeeper.type, "jsBookkeeper");
@@ -97,12 +98,20 @@ QUnit.test("testFactorDependencyJsBookkeeper", function(assert) {
 	assert.strictEqual(specBK.dataHolder, recordGui.getDependencies().dataHolder);
 });
 
+QUnit.test("testFactorJsBookkeeperDependencies", function(assert) {
+	var recordGui = this.recordGuiFactory.factor(this.spec);
+	var jsBookkeeper = recordGui.getDependencies().jsBookkeeper;
+	assert.strictEqual(jsBookkeeper.type, "jsBookkeeper");
+	var depBK = jsBookkeeper.getDependencies();
+	assert.strictEqual(depBK.recordTypeProvider,this.dependencies.providers.recordTypeProvider);
+});
+
 QUnit.test("testFactorDependencyPresentationFactory", function(assert) {
 	var recordGui = this.recordGuiFactory.factor(this.spec);
 	var presentationFactory = recordGui.getDependencies().presentationFactory;
 	assert.strictEqual(presentationFactory.type, "presentationFactory");
 	var dependenciesPF = presentationFactory.getDependencies();
-	
+
 	assert.strictEqual(dependenciesPF.providers, this.dependencies.providers);
 
 	assert.strictEqual(dependenciesPF.globalFactories, this.dependencies.globalFactories);
@@ -128,6 +137,7 @@ QUnit.test("testFactorDependencyMetadataController", function(assert) {
 	assert.strictEqual(metadataControllerFactory.type, "metadataControllerFactory");
 	var dependenciesCF = metadataControllerFactory.getDependencies();
 	assert.strictEqual(dependenciesCF.metadataProvider,this.dependencies.providers.metadataProvider);
+	assert.strictEqual(dependenciesCF.recordTypeProvider,this.dependencies.providers.recordTypeProvider);
 	assert.strictEqual(dependenciesCF.pubSub.type, "pubSub");
 });
 

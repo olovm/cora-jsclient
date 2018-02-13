@@ -20,7 +20,7 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.metadataController = function(spec) {
+	cora.metadataController = function(dependencies, spec) {
 		var topLevelMetadataId = spec.metadataId;
 		var topLevelData = spec.data;
 
@@ -36,7 +36,7 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData('childReferences');
 			var topLevelPath = {};
 			topLevelChildReferences.children.forEach(function(childReference) {
-				CORA.metadataChildInitializer(childReference, topLevelPath, topLevelData,
+				CORA.metadataChildInitializer(dependencies, childReference, topLevelPath, topLevelData,
 						spec.metadataProvider, spec.pubSub);
 			});
 		}

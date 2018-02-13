@@ -19,7 +19,7 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.metadataRepeatInitializer = function(metadataId, path, data, repeatId, metadataProvider,
+	cora.metadataRepeatInitializer = function(dependencies, metadataId, path, data, repeatId, metadataProvider,
 			pubSub) {
 		var cMetadataElement = getMetadataById(metadataId);
 		initalizeRepeat();
@@ -84,6 +84,7 @@ var CORA = (function(cora) {
 				initializeMetadataResourceLink(nextLevelPath);
 				pubSub.publish("linkedResource", message);
 			} else {
+				console.log("nextLevelPath", JSON.stringify(nextLevelPath))
 				publishVariableValue(nextLevelPath);
 			}
 		}
@@ -196,7 +197,7 @@ var CORA = (function(cora) {
 			var nextLevelChildReferences = cMetadataElement
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
-				CORA.metadataChildInitializer(childReference, nextLevelPath, data,
+				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, data,
 						metadataProvider, pubSub);
 			});
 		}
@@ -218,14 +219,17 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData("linkedRecordType"));
 			var linkedRecordTypeValue = cRecordTypeGroup
 					.getFirstAtomicValueByNameInData("linkedRecordId");
+			var recordTypeDefinition = dependencies.recordTypeProvider.getMetadataByRecordTypeId(linkedRecordTypeValue);
+			var implementingRecordType = recordTypeDefinition.abstract === "false" ?  linkedRecordTypeValue : "";
+			//TODO: recordTypeProvider
 			var recordTypeData = {
 				"name" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData"),
 				"children" : [ {
 					"name" : "linkedRecordType",
-					"value" : linkedRecordTypeValue
+					"value" : implementingRecordType
 				} ]
 			};
-			CORA.metadataChildInitializer(recordTypeStaticChildReference, nextLevelPath,
+			CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath,
 					recordTypeData, metadataProvider, pubSub);
 		}
 
@@ -270,14 +274,14 @@ var CORA = (function(cora) {
 			}
 
 			var recordIdStaticChildReference = createRefWithRef("linkedRecordIdTextVar");
-			CORA.metadataChildInitializer(recordIdStaticChildReference, nextLevelPath,
+			CORA.metadataChildInitializer(dependencies, recordIdStaticChildReference, nextLevelPath,
 					recordIdData, metadataProvider, pubSub);
 		}
 
 		function possiblyInitializeLinkedRepeatId(nextLevelPath) {
 			if (isLinkToRepeatingPartOfRecord()) {
 				var recordTypeStaticChildReference = createRefWithRef("linkedRepeatIdTextVar");
-				CORA.metadataChildInitializer(recordTypeStaticChildReference, nextLevelPath, data,
+				CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath, data,
 						metadataProvider, pubSub);
 			}
 		}
@@ -296,7 +300,7 @@ var CORA = (function(cora) {
 			var nextLevelChildReferences = cMetadataGroupForResourceLinkGroup
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
-				CORA.metadataChildInitializer(childReference, nextLevelPath, data,
+				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, data,
 						metadataProvider, pubSub);
 			});
 		}
@@ -307,6 +311,7 @@ var CORA = (function(cora) {
 					"data" : data.value,
 					"path" : nextLevelPath
 				};
+				console.log("message", JSON.stringify(message))
 				pubSub.publish("setValue", message);
 			}
 		}
