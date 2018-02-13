@@ -27,7 +27,8 @@ var CORA = (function(cora) {
 		var path = spec.path;
 		var cPresentation = spec.cPresentation;
 		var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
-		var presentationId = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
+		var presentationId = CORA.coraData(recordInfo)
+				.getFirstAtomicValueByNameInData("id");
 
 		var metadataId = spec.metadataIdUsedInData;
 
@@ -43,7 +44,8 @@ var CORA = (function(cora) {
 		var defText = textProvider.getTranslation(defTextId);
 
 		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
-		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
+		var nameInData = cMetadataElement
+				.getFirstAtomicValueByNameInData("nameInData");
 
 		var pVarViewSpec = {
 			"mode" : mode,
@@ -74,9 +76,10 @@ var CORA = (function(cora) {
 		};
 
 		if (cPresentation.containsChildWithNameInData("emptyTextId")) {
-			var cEmptyTextId = CORA
-					.coraData(cPresentation.getFirstChildByNameInData("emptyTextId"));
-			var emptyTextId = cEmptyTextId.getFirstAtomicValueByNameInData("linkedRecordId");
+			var cEmptyTextId = CORA.coraData(cPresentation
+					.getFirstChildByNameInData("emptyTextId"));
+			var emptyTextId = cEmptyTextId
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var emptyText = textProvider.getTranslation(emptyTextId);
 			pVarViewSpec.placeholderText = emptyText;
 		}
@@ -84,18 +87,21 @@ var CORA = (function(cora) {
 		var state = "ok";
 		var previousValue = "";
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
-		pubSub.subscribe("validationError", path, undefined, handleValidationError);
+		pubSub.subscribe("validationError", path, undefined,
+				handleValidationError);
 
 		function getOutputFormat() {
 			if (cPresentation.containsChildWithNameInData("outputFormat")) {
-				return cPresentation.getFirstAtomicValueByNameInData("outputFormat");
+				return cPresentation
+						.getFirstAtomicValueByNameInData("outputFormat");
 			}
 			return "text";
 		}
 
 		function getInputType() {
 			if (cPresentation.containsChildWithNameInData("inputType")) {
-				return cPresentation.getFirstAtomicValueByNameInData("inputType");
+				return cPresentation
+						.getFirstAtomicValueByNameInData("inputType");
 			}
 			return "input";
 		}
@@ -143,6 +149,10 @@ var CORA = (function(cora) {
 		}
 
 		function onBlur(valueFromView) {
+			var recordInfo = CORA.coraData(cPresentation
+					.getFirstChildByNameInData("recordInfo"));
+			console.log("onblur", recordInfo
+					.getFirstAtomicValueByNameInData("id"));
 			checkRegEx(valueFromView);
 			updateView();
 			if (state === "ok" && valueHasChanged(valueFromView)) {
@@ -189,22 +199,24 @@ var CORA = (function(cora) {
 				"readLink" : link,
 				"loadInBackground" : loadInBackground
 			};
-			dependencies.clientInstanceProvider.getJsClient().openRecordUsingReadLink(openInfo);
+			dependencies.clientInstanceProvider.getJsClient()
+					.openRecordUsingReadLink(openInfo);
 		}
 
 		function openTextIdRecord(event) {
-			openLinkedRecordForLink(event,
-					cMetadataElement.getFirstChildByNameInData("textId").actionLinks.read);
+			openLinkedRecordForLink(event, cMetadataElement
+					.getFirstChildByNameInData("textId").actionLinks.read);
 		}
 
 		function openDefTextIdRecord(event) {
-			openLinkedRecordForLink(event,
-					cMetadataElement.getFirstChildByNameInData("defTextId").actionLinks.read);
+			openLinkedRecordForLink(event, cMetadataElement
+					.getFirstChildByNameInData("defTextId").actionLinks.read);
 		}
 
 		function openMetadataIdRecord(event) {
-			openLinkedRecordForLink(event, cPresentation
-					.getFirstChildByNameInData("presentationOf").actionLinks.read);
+			openLinkedRecordForLink(
+					event,
+					cPresentation.getFirstChildByNameInData("presentationOf").actionLinks.read);
 		}
 
 		function getDependencies() {

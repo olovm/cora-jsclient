@@ -84,7 +84,6 @@ var CORA = (function(cora) {
 				initializeMetadataResourceLink(nextLevelPath);
 				pubSub.publish("linkedResource", message);
 			} else {
-				console.log("nextLevelPath", JSON.stringify(nextLevelPath))
 				publishVariableValue(nextLevelPath);
 			}
 		}
@@ -236,7 +235,6 @@ var CORA = (function(cora) {
 					"value" : implementingRecordType
 				} ]
 			};
-			console.log("initializeLinkedRecordType", JSON.stringify(recordTypeData))
 			CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath,
 					recordTypeData, metadataProvider, pubSub);
 		}
@@ -319,7 +317,6 @@ var CORA = (function(cora) {
 					"data" : data.value,
 					"path" : nextLevelPath
 				};
-				console.log("message", JSON.stringify(message))
 				pubSub.publish("setValue", message);
 			}
 		}

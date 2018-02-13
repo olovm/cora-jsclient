@@ -347,6 +347,31 @@ QUnit.test("testChangedValueOk",
 
 		});
 
+QUnit.test("testChangedValueForLinkedRecordIdPVar",
+		function(assert) {
+			var attachedPVar = this.pVarFactory.factor({}, "linkedRecordIdTextVar",
+					"linkedRecordIdPVar");
+			var pVarViewSpy = this.pVarViewFactory.getFactored(0);
+//			pVarViewSpy.callOnblurWithValue("someId");
+			attachedPVar.pVar.onBlur("someId");
+			
+			
+			assert.equal(pVarViewSpy.getState(), "ok");
+			assert.equal(attachedPVar.pVar.getState(), "ok");
+			
+			var dataArray = this.jsBookkeeper.getDataArray();
+			assert.strictEqual(dataArray[0].data, "someId");
+			assert.strictEqual(dataArray.length, 2);
+			assert.strictEqual(dataArray[1].data, "someImplementingRecordType");
+			
+//			CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "someId",
+//					assert);
+//			pVarViewSpy.callOnblurWithValue("hej");
+//			CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej",
+//					assert);
+
+		});
+
 QUnit.test("testChangedValueError", function(assert) {
 	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
 			"pVarTextVariableId");

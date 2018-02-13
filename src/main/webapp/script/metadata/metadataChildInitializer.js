@@ -20,8 +20,8 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.metadataChildInitializer = function(dependencies, childReferenceIn, path, dataIn,
-			metadataProvider, pubSub) {
+	cora.metadataChildInitializer = function(dependencies, childReferenceIn,
+			path, dataIn, metadataProvider, pubSub) {
 
 		var childReference = CORA.coraData(childReferenceIn);
 		var data = CORA.coraData(dataIn);
@@ -219,7 +219,6 @@ var CORA = (function(cora) {
 
 		function initializeNonRepeatingChildInstanceWithData() {
 			var dataChild = dataChildrenForMetadata[0];
-			console.log("dataChild", dataChild)
 			initializeForMetadataWithIdAndDataAndRepeatId(dataChild);
 		}
 
@@ -243,8 +242,8 @@ var CORA = (function(cora) {
 
 		function initializeForMetadataWithIdAndDataAndRepeatId(dataChild,
 				repeatId) {
-			CORA.metadataRepeatInitializer(dependencies, ref, path, dataChild, repeatId,
-					metadataProvider, pubSub);
+			CORA.metadataRepeatInitializer(dependencies, ref, path, dataChild,
+					repeatId, metadataProvider, pubSub);
 		}
 
 	};
