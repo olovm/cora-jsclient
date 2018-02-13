@@ -221,7 +221,14 @@ var CORA = (function(cora) {
 					.getFirstAtomicValueByNameInData("linkedRecordId");
 			var recordTypeDefinition = dependencies.recordTypeProvider.getMetadataByRecordTypeId(linkedRecordTypeValue);
 			var implementingRecordType = recordTypeDefinition.abstract === "false" ?  linkedRecordTypeValue : "";
-			//TODO: recordTypeProvider
+
+			if(data !== undefined && CORA.coraData(data).containsChildWithNameInData("linkedRecordType")){
+				var recordTypeInData = CORA.coraData(data).getFirstChildByNameInData("linkedRecordType");
+				if(recordTypeInData.value !== ""){
+					implementingRecordType = recordTypeInData.value;
+				}
+			}
+
 			var recordTypeData = {
 				"name" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData"),
 				"children" : [ {
@@ -229,6 +236,7 @@ var CORA = (function(cora) {
 					"value" : implementingRecordType
 				} ]
 			};
+			console.log("initializeLinkedRecordType", JSON.stringify(recordTypeData))
 			CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath,
 					recordTypeData, metadataProvider, pubSub);
 		}

@@ -1867,8 +1867,8 @@ QUnit.test("testInitGroupWithOneAbstractRecordLinkWithData", function(assert) {
 	var expectedSetValueForLinkedRecordType = {
 		"type" : "setValue",
 		"message" : {
-			"data" : "",
-			//"data" : "metadataTextVariable",
+			//"data" : "",
+			"data" : "metadataTextVariable",
 			"path" : {
 				"name" : "linkedPath",
 				"children" : [ {

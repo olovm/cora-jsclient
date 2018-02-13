@@ -219,6 +219,7 @@ var CORA = (function(cora) {
 
 		function initializeNonRepeatingChildInstanceWithData() {
 			var dataChild = dataChildrenForMetadata[0];
+			console.log("dataChild", dataChild)
 			initializeForMetadataWithIdAndDataAndRepeatId(dataChild);
 		}
 
