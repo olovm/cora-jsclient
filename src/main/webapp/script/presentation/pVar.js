@@ -151,8 +151,6 @@ var CORA = (function(cora) {
 		function onBlur(valueFromView) {
 			var recordInfo = CORA.coraData(cPresentation
 					.getFirstChildByNameInData("recordInfo"));
-			console.log("onblur", recordInfo
-					.getFirstAtomicValueByNameInData("id"));
 			checkRegEx(valueFromView);
 			updateView();
 			if (state === "ok" && valueHasChanged(valueFromView)) {

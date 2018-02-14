@@ -8395,6 +8395,41 @@ function MetadataProviderStub() {
 					"value" : "output"
 				} ]
 			};
+			case "linkedRecordTypePVar":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pVar"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "linkedRecordTypePVar"
+						} ]
+					}, {
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "linkedRecordTypeTextVar"
+						} ],
+						"name" : "presentationOf"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					}, {
+						"name" : "emptyTextId",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "text"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "enterTextHereText"
+						} ]
+					} ]
+				};
 		case "linkedRepeatIdPVar":
 			return {
 				"name" : "presentation",

@@ -1733,7 +1733,6 @@ QUnit.test("testInitGroupWithOneRecordLinkWithFinalValue", function(assert) {
 });
 
 QUnit.test("testInitGroupWithOneAbstractRecordLink", function(assert) {
-	//console.log("########################################")
 	this.metadataControllerFactory.factor("groupIdOneAbstractRecordLinkChild", undefined);
 	var messages = this.pubSub.getMessages();
 
@@ -1817,11 +1816,9 @@ QUnit.test("testInitGroupWithOneAbstractRecordLink", function(assert) {
 	assert.stringifyEqual(messages[4], expectedLinkedData);
 
 	assert.equal(messages.length, 6);
-	//console.log("########################################")
 });
 
 QUnit.test("testInitGroupWithOneAbstractRecordLinkWithData", function(assert) {
-	console.log("########################################")
 	var data = {
 		"name" : "groupIdOneRecordLinkChild",
 		"children" : [ {
@@ -1925,10 +1922,7 @@ QUnit.test("testInitGroupWithOneAbstractRecordLinkWithData", function(assert) {
 	};
 	assert.stringifyEqual(messages[4], expectedSetValueForLinkedRecordId);
 
-
-
 	assert.equal(messages.length, 7);
-	console.log("########################################")
 });
 
 QUnit.test("testInitGroupWithOneRecordLinkWithData", function(assert) {

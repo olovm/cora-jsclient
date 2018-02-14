@@ -183,7 +183,7 @@ QUnit.test("testInitRecordLink", function(assert) {
 	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
 	var recordIdView = pRecordLinkView.getAddedChild(0);
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
-	assert.strictEqual(pRecordLinkView.getAddedChild(1), undefined);
+	assert.strictEqual(pRecordLinkView.getAddedChild(2), undefined);
 
 	var recordIdTextView = recordIdView.firstChild;
 	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(0)
@@ -203,6 +203,15 @@ QUnit.test("testInitRecordLink", function(assert) {
 	var recordInfo = factoredSpec.cPresentation.getFirstChildByNameInData("recordInfo");
 	var id = CORA.coraData(recordInfo).getFirstChildByNameInData("id");
 	assert.strictEqual(id.value, "linkedRecordIdPVar");
+
+	//TODO: linkedRecordType
+	var recordTypeView = pRecordLinkView.getAddedChild(1);
+	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
+	//assert.strictEqual(pRecordLinkView.getAddedChild(1), undefined);
+    //
+	//var recordIdTextView = recordIdView.firstChild;
+	//assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(0)
+	//	.getView());
 
 });
 
@@ -530,7 +539,7 @@ QUnit.test("testInitRecordLinkWithFinalValue", function(assert) {
 	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
 	var recordIdView = pRecordLinkView.getAddedChild(0);
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
-	assert.strictEqual(pRecordLinkView.getAddedChild(1), undefined);
+	assert.strictEqual(pRecordLinkView.getAddedChild(2), undefined);
 	var recordIdTextView = recordIdView.firstChild;
 
 	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(0)

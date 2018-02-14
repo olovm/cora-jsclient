@@ -232,6 +232,9 @@ var CORA = (function(cora) {
 			recordIdPath = calculateNewPath("linkedRecordIdTextVar");
 			createChildView("linkedRecordId", recordIdPVarId);
 
+			var recordTypePath = calculateNewPath("linkedRecordTypeTextVar");
+			createChildView("linkedRecordType", "linkedRecordTypePVar");
+
 			if (hasLinkedRepeatId) {
 				createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
 			}
