@@ -185,8 +185,8 @@ QUnit.test("testInitRecordLinkWithImplementingLinkedRecordType", function(assert
 	var recordTypeView = pRecordLinkView.getAddedChild(0);
 	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
 
-
-	var recordTypeTextView = recordTypeView.firstChild;
+	assert.strictEqual(recordTypeView.firstChild.className, "text");
+	var recordTypeTextView = recordTypeView.childNodes[1];
 	assert.strictEqual(recordTypeTextView, this.dependencies.presentationFactory.getFactored(0)
 		.getView());
 	var factoredSpecForType = this.dependencies.presentationFactory.getSpec(0);
@@ -208,7 +208,8 @@ QUnit.test("testInitRecordLinkWithImplementingLinkedRecordType", function(assert
 	var recordIdView = pRecordLinkView.getAddedChild(1);
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
 
-	var recordIdTextView = recordIdView.firstChild;
+	assert.strictEqual(recordIdView.firstChild.className, "text");
+	var recordIdTextView = recordIdView.childNodes[1];
 	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(1)
 		.getView());
 
@@ -245,8 +246,9 @@ QUnit.test("testInitRecordLinkWithAbstractLinkedRecordType", function(assert) {
 	var recordTypeView = pRecordLinkView.getAddedChild(0);
 	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
 
-
-	var recordTypeTextView = recordTypeView.firstChild;
+	assert.strictEqual(recordTypeView.firstChild.className, "text");
+	assert.strictEqual(recordTypeView.firstChild.innerHTML, "Posttyp");
+	var recordTypeTextView = recordTypeView.childNodes[1];
 	assert.strictEqual(recordTypeTextView, this.dependencies.presentationFactory.getFactored(0)
 		.getView());
 	var factoredSpecForType = this.dependencies.presentationFactory.getSpec(0);
@@ -267,7 +269,9 @@ QUnit.test("testInitRecordLinkWithAbstractLinkedRecordType", function(assert) {
 	var recordIdView = pRecordLinkView.getAddedChild(1);
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
 
-	var recordIdTextView = recordIdView.firstChild;
+	assert.strictEqual(recordIdView.firstChild.className, "text");
+	assert.strictEqual(recordIdView.firstChild.innerHTML, "PostId");
+	var recordIdTextView = recordIdView.childNodes[1];
 	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(1)
 		.getView());
 
@@ -556,7 +560,10 @@ QUnit.test("testInitRecordLinkWithFinalValue", function(assert) {
 	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
 	var recordIdView = pRecordLinkView.getAddedChild(1);
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
-	var recordIdTextView = recordIdView.firstChild;
+	
+	assert.strictEqual(recordIdView.firstChild.className, "text");
+	assert.strictEqual(recordIdView.firstChild.innerHTML, "PostId");
+	var recordIdTextView = recordIdView.childNodes[1];
 
 	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(1)
 			.getView());
@@ -587,29 +594,14 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 	this.fixture.appendChild(view);
 
 	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
-	var recordIdView = pRecordLinkView.getAddedChild(1);
-	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
-	var recordIdTextView = recordIdView.firstChild;
-
-
-	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(1)
-			.getView());
-	var factoredSpec = this.dependencies.presentationFactory.getSpec(1);
-	assert.strictEqual(factoredSpec.metadataIdUsedInData, "linkedRecordIdTextVar");
-	assert.strictEqual(this.getIdFromCPresentation(factoredSpec.cPresentation), "linkedRecordIdPVar");
-	var expectedPath = {
-		"name" : "linkedPath",
-		"children" : [ {
-			"name" : "nameInData",
-			"value" : "linkedRecordId"
-		} ]
-	};
-	assert.stringifyEqual(factoredSpec.path, expectedPath);
-
+	
+		
 	var recordTypeView = pRecordLinkView.getAddedChild(0);
 	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
-	var recordTypeTextView = recordTypeView.firstChild;
-
+	
+	assert.strictEqual(recordTypeView.firstChild.className, "text");
+	assert.strictEqual(recordTypeView.firstChild.innerHTML, "Posttyp");
+	var recordTypeTextView = recordTypeView.childNodes[1];
 
 	assert.strictEqual(recordTypeTextView, this.dependencies.presentationFactory.getFactored(0)
 			.getView());
@@ -624,6 +616,26 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 		} ]
 	};
 	assert.stringifyEqual(factoredSpec1.path, expectedTypePath);
+
+	var recordIdView = pRecordLinkView.getAddedChild(1);
+	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
+
+	assert.strictEqual(recordIdView.firstChild.className, "text");
+	assert.strictEqual(recordIdView.firstChild.innerHTML, "PostId");
+	var recordIdTextView = recordIdView.childNodes[1];
+	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(1)
+			.getView());
+	var factoredSpec = this.dependencies.presentationFactory.getSpec(1);
+	assert.strictEqual(factoredSpec.metadataIdUsedInData, "linkedRecordIdTextVar");
+	assert.strictEqual(this.getIdFromCPresentation(factoredSpec.cPresentation), "linkedRecordIdPVar");
+	var expectedPath = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "linkedRecordId"
+		} ]
+	};
+	assert.stringifyEqual(factoredSpec.path, expectedPath);
 
 	var repeatIdView = pRecordLinkView.getAddedChild(2);
 	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
@@ -661,14 +673,17 @@ QUnit.test("testInitRecordLinkOutput", function(assert) {
 	this.fixture.appendChild(view);
 
 	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
-	var recordIdView = pRecordLinkView.getAddedChild(0);
+	
+	
+	var recordIdView = pRecordLinkView.getAddedChild(1);
 	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
-	var recordIdTextView = recordIdView.firstChild;
+	assert.strictEqual(recordIdView.firstChild.className, "text");
+	assert.strictEqual(recordIdView.firstChild.innerHTML, "PostId");
+	var recordIdTextView = recordIdView.childNodes[1];
 
-
-	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(0)
+	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(1)
 			.getView());
-	var factoredSpec = this.dependencies.presentationFactory.getSpec(0);
+	var factoredSpec = this.dependencies.presentationFactory.getSpec(1);
 	assert.strictEqual(factoredSpec.metadataIdUsedInData, "linkedRecordIdTextVar");
 	assert.strictEqual(this.getIdFromCPresentation(factoredSpec.cPresentation), "linkedRecordIdOutputPVar");
 	var expectedPath = {
@@ -680,25 +695,26 @@ QUnit.test("testInitRecordLinkOutput", function(assert) {
 	};
 	assert.stringifyEqual(factoredSpec.path, expectedPath);
 
-	var pRecordTypeView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
-	var recordTypeView = pRecordTypeView.getAddedChild(1);
+	var recordTypeView = pRecordLinkView.getAddedChild(0);
 	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
-//	var recordIdTextView = recordIdView.firstChild;
-//
-//
-//	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(0)
-//			.getView());
-//	var factoredSpec = this.dependencies.presentationFactory.getSpec(0);
-//	assert.strictEqual(factoredSpec.metadataIdUsedInData, "linkedRecordIdTextVar");
-//	assert.strictEqual(this.getIdFromCPresentation(factoredSpec.cPresentation), "linkedRecordIdOutputPVar");
-//	var expectedPath = {
-//		"name" : "linkedPath",
-//		"children" : [ {
-//			"name" : "nameInData",
-//			"value" : "linkedRecordId"
-//		} ]
-//	};
-//	assert.stringifyEqual(factoredSpec.path, expectedPath);
+	assert.strictEqual(recordTypeView.firstChild.className, "text");
+	assert.strictEqual(recordTypeView.firstChild.innerHTML, "Posttyp");
+	var recordTypeTextView = recordTypeView.childNodes[1];
+
+
+	assert.strictEqual(recordTypeTextView, this.dependencies.presentationFactory.getFactored(0)
+			.getView());
+	var factoredSpecForType = this.dependencies.presentationFactory.getSpec(0);
+	assert.strictEqual(factoredSpecForType.metadataIdUsedInData, "linkedRecordTypeTextVar");
+	assert.strictEqual(this.getIdFromCPresentation(factoredSpecForType.cPresentation), "linkedRecordTypeOutputPVar");
+	var expectedPathForType = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "linkedRecordType"
+		} ]
+	};
+	assert.stringifyEqual(factoredSpecForType.path, expectedPathForType);
 
 	assert.strictEqual(pRecordLinkView.getAddedChild(2), undefined);
 });
@@ -712,33 +728,18 @@ QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
 	this.fixture.appendChild(view);
 
 	var pRecordLinkView = this.dependencies.pRecordLinkViewFactory.getFactored(0);
-	var recordIdView = pRecordLinkView.getAddedChild(0);
-	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
-	var recordIdTextView = recordIdView.firstChild;
-
-
-	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(0)
-			.getView());
-	var factoredSpec = this.dependencies.presentationFactory.getSpec(0);
-	assert.strictEqual(factoredSpec.metadataIdUsedInData, "linkedRecordIdTextVar");
-	assert.strictEqual(this.getIdFromCPresentation(factoredSpec.cPresentation), "linkedRecordIdOutputPVar");
-	var expectedPath = {
-		"name" : "linkedPath",
-		"children" : [ {
-			"name" : "nameInData",
-			"value" : "linkedRecordId"
-		} ]
-	};
-	assert.stringifyEqual(factoredSpec.path, expectedPath);
-
-	var recordTypeView = pRecordLinkView.getAddedChild(1);
+	
+	var recordTypeView = pRecordLinkView.getAddedChild(0);
 	assert.strictEqual(recordTypeView.className, "linkedRecordTypeView");
-	var recordTypeTextView = recordTypeView.firstChild;
+	
+	assert.strictEqual(recordTypeView.firstChild.className, "text");
+	assert.strictEqual(recordTypeView.firstChild.innerHTML, "Posttyp");
+	var recordTypeTextView = recordTypeView.childNodes[1];
 
 
-	assert.strictEqual(recordTypeTextView, this.dependencies.presentationFactory.getFactored(1)
+	assert.strictEqual(recordTypeTextView, this.dependencies.presentationFactory.getFactored(0)
 			.getView());
-	var factoredSpecRecordType = this.dependencies.presentationFactory.getSpec(1);
+	var factoredSpecRecordType = this.dependencies.presentationFactory.getSpec(0);
 	assert.strictEqual(factoredSpecRecordType.metadataIdUsedInData, "linkedRecordTypeTextVar");
 	assert.strictEqual(this.getIdFromCPresentation(factoredSpecRecordType.cPresentation), "linkedRecordTypeOutputPVar");
 	var expectedPathRecordType = {
@@ -749,6 +750,28 @@ QUnit.test("testInitRecordLinkWithPathOutput", function(assert) {
 		} ]
 	};
 	assert.stringifyEqual(factoredSpecRecordType.path, expectedPathRecordType);
+
+	var recordIdView = pRecordLinkView.getAddedChild(1);
+	assert.strictEqual(recordIdView.className, "linkedRecordIdView");
+	
+	assert.strictEqual(recordIdView.firstChild.className, "text");
+	assert.strictEqual(recordIdView.firstChild.innerHTML, "PostId");
+	var recordIdTextView = recordIdView.childNodes[1];
+
+	assert.strictEqual(recordIdTextView, this.dependencies.presentationFactory.getFactored(1)
+			.getView());
+	var factoredSpec = this.dependencies.presentationFactory.getSpec(1);
+	assert.strictEqual(factoredSpec.metadataIdUsedInData, "linkedRecordIdTextVar");
+	assert.strictEqual(this.getIdFromCPresentation(factoredSpec.cPresentation), "linkedRecordIdOutputPVar");
+	var expectedPath = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "linkedRecordId"
+		} ]
+	};
+	assert.stringifyEqual(factoredSpec.path, expectedPath);
+	assert.strictEqual(recordIdView.firstChild.className, "text");
 
 
 	var repeatIdView = pRecordLinkView.getAddedChild(2);

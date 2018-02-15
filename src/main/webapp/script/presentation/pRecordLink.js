@@ -256,7 +256,7 @@ var CORA = (function(cora) {
 				recordTypePVarId = "linkedRecordTypeOutputPVar";
 			}
 			recordTypePath = calculateNewPath("linkedRecordTypeTextVar");
-			createChildView("linkedRecordType", recordTypePVarId);
+			createChildView("linkedRecordType", recordTypePVarId, true);
 		}
 
 		function linkedRecordTypeIsImplementing(recordTypeDefinition){
@@ -269,7 +269,7 @@ var CORA = (function(cora) {
 				recordIdPVarId = "linkedRecordIdOutputPVar";
 			}
 			recordIdPath = calculateNewPath("linkedRecordIdTextVar");
-			createChildView("linkedRecordId", recordIdPVarId);
+			createChildView("linkedRecordId", recordIdPVarId, true);
 		}
 
 		function createChildView(id, presentationIdToFactor, addText) {
@@ -312,8 +312,8 @@ var CORA = (function(cora) {
 		}
 
 		function createAndAddOutput() {
-			createChildView("linkedRecordId", "linkedRecordIdOutputPVar");
-			createChildView("linkedRecordType", "linkedRecordTypeOutputPVar");
+			createChildView("linkedRecordType", "linkedRecordTypeOutputPVar", true);
+			createChildView("linkedRecordId", "linkedRecordIdOutputPVar", true);
 
 			if (hasLinkedRepeatId) {
 				createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar",
@@ -415,6 +415,7 @@ var CORA = (function(cora) {
 			publishNewValueForRecordId(recordId);
 			publishNewValueForRecordType(recordType);
 			publishNewValueForLinkedData(recordId, recordType, openInfo);
+// publishNewValueForLinkedData(recordType, "recordType", openInfo);
 		}
 
 		function getRecordInfoFromOpenInfo(openInfo)  {
