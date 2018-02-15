@@ -3571,9 +3571,15 @@ var CORATEST = (function (coraTest) {
             return recordTypeList;
         }
 
+        var metadata = {};
+        function getMetadataByRecordTypeId(recordTypeId) {
+            return metadata;
+        }
+
         return Object.freeze({
             getRecordTypeById: getRecordTypeById,
-            getAllRecordTypes: getAllRecordTypes
+            getAllRecordTypes: getAllRecordTypes,
+            getMetadataByRecordTypeId : getMetadataByRecordTypeId,
         });
     };
     return coraTest;

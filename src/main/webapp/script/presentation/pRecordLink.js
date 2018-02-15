@@ -241,19 +241,35 @@ var CORA = (function(cora) {
 		}
 
 		function createAndAddInputs() {
+			createInputForLinkedRecordType();
+			createInputForLinkedRecordId();
+
+			if (hasLinkedRepeatId) {
+				createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
+			}
+		}
+
+		function createInputForLinkedRecordType(){
+			var recordTypePVarId = "linkedRecordTypePVar";
+			var recordTypeDefinition = dependencies.recordTypeProvider.getMetadataByRecordTypeId(linkedRecordType);
+			if(linkedRecordTypeIsImplementing(recordTypeDefinition)){
+				recordTypePVarId = "linkedRecordTypeOutputPVar";
+			}
+			recordTypePath = calculateNewPath("linkedRecordTypeTextVar");
+			createChildView("linkedRecordType", recordTypePVarId);
+		}
+
+		function linkedRecordTypeIsImplementing(recordTypeDefinition){
+			return recordTypeDefinition.abstract === "false";
+		}
+
+		function createInputForLinkedRecordId(){
 			var recordIdPVarId = "linkedRecordIdPVar";
 			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
 				recordIdPVarId = "linkedRecordIdOutputPVar";
 			}
 			recordIdPath = calculateNewPath("linkedRecordIdTextVar");
 			createChildView("linkedRecordId", recordIdPVarId);
-
-			recordTypePath = calculateNewPath("linkedRecordTypeTextVar");
-			createChildView("linkedRecordType", "linkedRecordTypePVar");
-
-			if (hasLinkedRepeatId) {
-				createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
-			}
 		}
 
 		function createChildView(id, presentationIdToFactor, addText) {
