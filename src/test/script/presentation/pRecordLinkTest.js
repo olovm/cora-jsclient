@@ -479,26 +479,39 @@ QUnit
 					};
 					assert.stringifyEqual(message0.message.path, expectedPath);
 
-					var message1 = this.dependencies.pubSub.getMessages()[1];
-					assert.strictEqual(message1.type, "linkedData");
+					var messageForType = this.dependencies.pubSub.getMessages()[1];
+					assert.strictEqual(messageForType.type, "setValue");
+					assert.strictEqual(messageForType.message.data, "coraText");
 
-					var typeFromPRecordLinkHandlesLinkingToAbstractType = "metadataTextVariable";
-					var expectedData1 = {
+					var expectedPathForType = {
+						"name" : "linkedPath",
 						"children" : [ {
-							"name" : "linkedRecordType",
-							"value" : typeFromPRecordLinkHandlesLinkingToAbstractType
-						}, {
-							"name" : "linkedRecordId",
-							"value" : recordId
-						} ],
-						"actionLinks" : {
-							"read" : openInfo.record.actionLinks.read
-						},
-						"name" : "myLink"
+							"name" : "nameInData",
+							"value" : "linkedRecordType"
+						} ]
 					};
-					assert.stringifyEqual(message1.message.data, expectedData1);
+					assert.stringifyEqual(messageForType.message.path, expectedPathForType);
 
-					assert.stringifyEqual(message1.message.path, this.spec.path);
+//					var message1 = this.dependencies.pubSub.getMessages()[1];
+//					assert.strictEqual(message1.type, "linkedData");
+//
+//					var typeFromPRecordLinkHandlesLinkingToAbstractType = "metadataTextVariable";
+//					var expectedData1 = {
+//						"children" : [ {
+//							"name" : "linkedRecordType",
+//							"value" : typeFromPRecordLinkHandlesLinkingToAbstractType
+//						}, {
+//							"name" : "linkedRecordId",
+//							"value" : recordId
+//						} ],
+//						"actionLinks" : {
+//							"read" : openInfo.record.actionLinks.read
+//						},
+//						"name" : "myLink"
+//					};
+//					assert.stringifyEqual(message1.message.data, expectedData1);
+//
+//					assert.stringifyEqual(message1.message.path, this.spec.path);
 				});
 
 QUnit.test("testInitSearchHandlerNOTFactoredWhenNoSearchLinkInPRecordLink", function(assert) {

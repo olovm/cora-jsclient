@@ -42,6 +42,7 @@ var CORA = (function(cora) {
 				.containsChildWithNameInData("linkedPath");
 
 		var recordIdPath = "";
+		var recordTypePath = "";
 
 		var cRecordTypeGroup = CORA.coraData(cMetadataElement
 				.getFirstChildByNameInData("linkedRecordType"));
@@ -247,7 +248,7 @@ var CORA = (function(cora) {
 			recordIdPath = calculateNewPath("linkedRecordIdTextVar");
 			createChildView("linkedRecordId", recordIdPVarId);
 
-			var recordTypePath = calculateNewPath("linkedRecordTypeTextVar");
+			recordTypePath = calculateNewPath("linkedRecordTypeTextVar");
 			createChildView("linkedRecordType", "linkedRecordTypePVar");
 
 			if (hasLinkedRepeatId) {
@@ -396,7 +397,12 @@ var CORA = (function(cora) {
 			var cRecordInfo = CORA.coraData(cGroup
 					.getFirstChildByNameInData("recordInfo"));
 			var recordId = cRecordInfo.getFirstAtomicValueByNameInData("id");
+			var cRecordTypeGroup = CORA.coraData(cRecordInfo
+					.getFirstChildByNameInData("type"));
+			var recordType = cRecordTypeGroup
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 			publishNewValueForRecordId(recordId);
+			publishNewValueForRecordType(recordType);
 			publishNewValueForLinkedData(recordId, openInfo);
 		}
 
@@ -404,6 +410,14 @@ var CORA = (function(cora) {
 			var data = {
 				"data" : recordId,
 				"path" : recordIdPath
+			};
+			dependencies.pubSub.publish("setValue", data);
+		}
+
+		function publishNewValueForRecordType(recordType) {
+			var data = {
+				"data" : recordType,
+				"path" : recordTypePath
 			};
 			dependencies.pubSub.publish("setValue", data);
 		}
