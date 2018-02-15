@@ -357,113 +357,7 @@ QUnit
 					this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
 							.getMetadataById("myLinkNoPresentationOfLinkedRecordWithSearchPLink"));
 					var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
-					var recordType = "coraText";
-					var recordId = "writtenTextGroupText";
-					var openInfo = {
-						"loadInBackground" : "false",
-						"record" : {
-							"data" : {
-								"children" : [
-										{
-											"children" : [
-													{
-														"name" : "id",
-														"value" : recordId
-													},
-													{
-														"children" : [ {
-															"name" : "linkedRecordType",
-															"value" : "recordType"
-														}, {
-															"name" : "linkedRecordId",
-															"value" : recordType
-														} ],
-														"actionLinks" : {
-															"read" : {
-																"requestMethod" : "GET",
-																"rel" : "read",
-																"url" : "http://localhost:8080/therest/rest/record/recordType/coraText",
-																"accept" : "application/vnd.uub.record+json"
-															}
-														},
-														"name" : "type"
-													},
-													{
-														"children" : [ {
-															"name" : "linkedRecordType",
-															"value" : "user"
-														}, {
-															"name" : "linkedRecordId",
-															"value" : "141414"
-														} ],
-														"name" : "createdBy"
-													},
-													{
-														"children" : [ {
-															"name" : "linkedRecordType",
-															"value" : "system"
-														}, {
-															"name" : "linkedRecordId",
-															"value" : "bibsys"
-														} ],
-														"actionLinks" : {
-															"read" : {
-																"requestMethod" : "GET",
-																"rel" : "read",
-																"url" : "http://localhost:8080/therest/rest/record/system/bibsys",
-																"accept" : "application/vnd.uub.record+json"
-															}
-														},
-														"name" : "dataDivider"
-													} ],
-											"name" : "recordInfo"
-										}, {
-											"children" : [ {
-												"name" : "text",
-												"value" : "Text2"
-											} ],
-											"name" : "textPart",
-											"attributes" : {
-												"type" : "default",
-												"lang" : "sv"
-											}
-										}, {
-											"children" : [ {
-												"name" : "text",
-												"value" : "Text"
-											} ],
-											"name" : "textPart",
-											"attributes" : {
-												"type" : "alternative",
-												"lang" : "en"
-											}
-										} ],
-								"name" : "text"
-							},
-							"actionLinks" : {
-								"read" : {
-									"requestMethod" : "GET",
-									"rel" : "read",
-									"url" : "http://localhost:8080/therest/rest/record/coraText/writtenTextGroupText",
-									"accept" : "application/vnd.uub.record+json"
-								},
-								"read_incoming_links" : {
-									"requestMethod" : "GET",
-									"rel" : "read_incoming_links",
-									"url" : "http://localhost:8080/therest/rest/record/coraText/writtenTextGroupText/incomingLinks",
-									"accept" : "application/vnd.uub.recordList+json"
-								},
-								"update" : {
-									"requestMethod" : "POST",
-									"rel" : "update",
-									"contentType" : "application/vnd.uub.record+json",
-									"url" : "http://localhost:8080/therest/rest/record/coraText/writtenTextGroupText",
-									"accept" : "application/vnd.uub.record+json"
-								}
-							}
-						}
-
-					};
+					var openInfo = CORATEST.openInfoWrittenTextGroupText;
 					pRecordLink.setResultFromSearch(openInfo);
 
 					var message0 = this.dependencies.pubSub.getMessages()[0];
@@ -492,27 +386,62 @@ QUnit
 					};
 					assert.stringifyEqual(messageForType.message.path, expectedPathForType);
 
-//					var message1 = this.dependencies.pubSub.getMessages()[1];
-//					assert.strictEqual(message1.type, "linkedData");
-//
-//					var typeFromPRecordLinkHandlesLinkingToAbstractType = "metadataTextVariable";
-//					var expectedData1 = {
-//						"children" : [ {
-//							"name" : "linkedRecordType",
-//							"value" : typeFromPRecordLinkHandlesLinkingToAbstractType
-//						}, {
-//							"name" : "linkedRecordId",
-//							"value" : recordId
-//						} ],
-//						"actionLinks" : {
-//							"read" : openInfo.record.actionLinks.read
-//						},
-//						"name" : "myLink"
-//					};
-//					assert.stringifyEqual(message1.message.data, expectedData1);
-//
-//					assert.stringifyEqual(message1.message.path, this.spec.path);
+					var message1 = this.dependencies.pubSub.getMessages()[2];
+					assert.strictEqual(message1.type, "linkedData");
+
+					var typeFromPRecordLinkHandlesLinkingToAbstractType = "coraText";
+					var recordId = "writtenTextGroupText";
+					var expectedData1 = {
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : typeFromPRecordLinkHandlesLinkingToAbstractType
+						}, {
+							"name" : "linkedRecordId",
+							"value" : recordId
+						} ],
+						"actionLinks" : {
+							"read" : openInfo.record.actionLinks.read
+						},
+						"name" : "myLink"
+					};
+					assert.stringifyEqual(message1.message.data, expectedData1);
+
+					assert.stringifyEqual(message1.message.path, this.spec.path);
 				});
+
+QUnit
+	.test(
+		"testChoiceInSearchSendsCorrectLinkedDataMessagesOnPubSubWhenMetadataPointsToAbstract",
+		function(assert) {
+			this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+				.getMetadataById("myAbstractLinkNoPresentationOfLinkedRecordWithSearchPLink"));
+			var pRecordLink = CORA.pRecordLink(this.dependencies, this.spec);
+			var openInfo = CORATEST.openInfoFilenameTextVar;
+
+			pRecordLink.setResultFromSearch(openInfo);
+
+			var message1 = this.dependencies.pubSub.getMessages()[2];
+			assert.strictEqual(message1.type, "linkedData");
+
+			var typeFromPRecordLinkHandlesLinkingToAbstractType = "metadataTextVariable";
+			var recordId = "filenameTextVar";
+			var expectedData1 = {
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : typeFromPRecordLinkHandlesLinkingToAbstractType
+				}, {
+					"name" : "linkedRecordId",
+					"value" : recordId
+				} ],
+				"actionLinks" : {
+					"read" : openInfo.record.actionLinks.read
+				},
+				"name" : "myAbstractLink"
+			};
+			assert.stringifyEqual(message1.message.data, expectedData1);
+
+			assert.stringifyEqual(message1.message.path, this.spec.path);
+		});
 
 QUnit.test("testInitSearchHandlerNOTFactoredWhenNoSearchLinkInPRecordLink", function(assert) {
 	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
@@ -618,7 +547,7 @@ QUnit.test("testInitRecordLinkWithPath", function(assert) {
 		} ]
 	};
 	assert.stringifyEqual(factoredSpec1.path, expectedTypePath);
-	
+
 	var repeatIdView = pRecordLinkView.getAddedChild(2);
 	assert.strictEqual(repeatIdView.className, "linkedRepeatIdView");
 

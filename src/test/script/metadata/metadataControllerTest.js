@@ -1925,6 +1925,73 @@ QUnit.test("testInitGroupWithOneAbstractRecordLinkWithData", function(assert) {
 	assert.equal(messages.length, 7);
 });
 
+QUnit.test("testInitGroupWithOneAbstractRecordLinkWithEmptyLinkedRecordType", function(assert) {
+	var data = {
+		"name" : "groupIdOneRecordLinkChild",
+		"children" : [ {
+			"name" : "myAbstractLink",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : ""
+			}, {
+				"name" : "linkedRecordId",
+				"value" : "someRecordId"
+			} ]
+		} ]
+	};
+	this.metadataControllerFactory.factor("groupIdOneAbstractRecordLinkChild", data);
+	var messages = this.pubSub.getMessages();
+
+	var expectedAddForRecordLink = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "myAbstractLink",
+			"path" : {},
+			"nameInData" : "myAbstractLink"
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedAddForRecordLink);
+
+	var expectedAddForLinkedRecordType = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "linkedRecordTypeTextVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				} ]
+			},
+			"nameInData" : "linkedRecordType"
+		}
+	};
+	assert.stringifyEqual(messages[1], expectedAddForLinkedRecordType);
+
+	var expectedSetValueForLinkedRecordType = {
+		"type" : "setValue",
+		"message" : {
+			"data" : "",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "linkedRecordType"
+					} ]
+
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[2], expectedSetValueForLinkedRecordType);
+	assert.equal(messages.length, 7);
+});
+
 QUnit.test("testInitGroupWithOneRecordLinkWithData", function(assert) {
 	var data = {
 		"name" : "groupIdOneRecordLinkChild",

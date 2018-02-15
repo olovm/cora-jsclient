@@ -218,16 +218,8 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData("linkedRecordType"));
 			var linkedRecordTypeValue = cRecordTypeGroup
 					.getFirstAtomicValueByNameInData("linkedRecordId");
-			var recordTypeDefinition = dependencies.recordTypeProvider.getMetadataByRecordTypeId(linkedRecordTypeValue);
-			var implementingRecordType = recordTypeDefinition.abstract === "false" ?  linkedRecordTypeValue : "";
 
-			if(data !== undefined && CORA.coraData(data).containsChildWithNameInData("linkedRecordType")){
-				var recordTypeInData = CORA.coraData(data).getFirstChildByNameInData("linkedRecordType");
-				if(recordTypeInData.value !== ""){
-					implementingRecordType = recordTypeInData.value;
-				}
-			}
-
+			var implementingRecordType = getImplementingRecordType(linkedRecordTypeValue)
 			var recordTypeData = {
 				"name" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData"),
 				"children" : [ {
@@ -263,6 +255,27 @@ var CORA = (function(cora) {
 					"value" : "1"
 				} ]
 			};
+		}
+
+		function getImplementingRecordType(linkedRecordTypeValue){
+			var recordTypeDefinition = dependencies.recordTypeProvider.getMetadataByRecordTypeId(linkedRecordTypeValue);
+			return getImplementingRecordTypeFromRecordTypeDefinition(recordTypeDefinition, linkedRecordTypeValue);
+
+		}
+
+		function getImplementingRecordTypeFromRecordTypeDefinition(recordTypeDefinition, linkedRecordTypeValue){
+			return recordTypeDefinition.abstract === "false" ?  linkedRecordTypeValue : getImplementingRecordTypeFromDataIfExists();
+		}
+
+		function getImplementingRecordTypeFromDataIfExists(){
+			var implementingRecordType  = "";
+			if(data !== undefined && CORA.coraData(data).containsChildWithNameInData("linkedRecordType")){
+				var recordTypeInData = CORA.coraData(data).getFirstChildByNameInData("linkedRecordType");
+				if(recordTypeInData.value !== ""){
+					implementingRecordType = recordTypeInData.value;
+				}
+			}
+			return implementingRecordType;
 		}
 
 		function initializeLinkedRecordId(nextLevelPath) {

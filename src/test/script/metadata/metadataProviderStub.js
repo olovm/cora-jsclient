@@ -2466,7 +2466,7 @@ function MetadataProviderStub() {
 						"value" : "text"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "myAbstractLinkText"
+						"value" : "myLinkText"
 					} ],
 					"name" : "textId"
 				}, {
@@ -2475,7 +2475,7 @@ function MetadataProviderStub() {
 						"value" : "text"
 					}, {
 						"name" : "linkedRecordId",
-						"value" : "myAbstractLinkDefText"
+						"value" : "myLinkDefText"
 					} ],
 					"name" : "defTextId"
 				}, {
@@ -8048,6 +8048,80 @@ function MetadataProviderStub() {
 					"type": "pRecordLink"
 				}
 		};
+			case "myAbstractLinkNoPresentationOfLinkedRecordWithSearchPLink":
+				return {
+					"name": "presentation",
+					"children": [
+						{
+							"name": "recordInfo",
+							"children": [
+								{
+									"name": "id",
+									"value": "myAbstractLinkNoPresentationOfLinkedRecordWithSearchPLink"
+								},
+								{
+									"name": "type",
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "recordType"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "presentationRecordLink"
+										}
+									]
+								},
+								{
+									"name": "dataDivider",
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "system"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "cora"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "presentationOf",
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataRecordLink"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "myAbstractLink"
+								}
+							]
+						},
+						{
+							"name": "mode",
+							"value": "input"
+						},
+						{
+							"name": "search",
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "search"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "metadataSearch"
+								}
+							]
+						}
+					],
+					"attributes": {
+						"type": "pRecordLink"
+					}
+				};
 		case "myPathLinkNoPresentationOfLinkedRecordPLink":
 			return {
 				"name" : "presentation",

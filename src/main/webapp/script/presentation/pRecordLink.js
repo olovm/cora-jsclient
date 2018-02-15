@@ -317,12 +317,12 @@ var CORA = (function(cora) {
 
 		function possiblyCreateSearchHandlerForPRecordLinkWithLinkedSearch() {
 			var searchRecord = getSearchFromSearchProvider();
-			if (userCanPerfomSearch(searchRecord)) {
+			if (userCanPerformSearch(searchRecord)) {
 				createSearchHandler(searchRecord);
 			}
 		}
 
-		function userCanPerfomSearch(searchRecord) {
+		function userCanPerformSearch(searchRecord) {
 			return searchRecord.actionLinks.search !== undefined;
 		}
 
@@ -393,17 +393,25 @@ var CORA = (function(cora) {
 		}
 
 		function setResultFromSearch(openInfo) {
-			var cGroup = CORA.coraData(openInfo.record.data);
-			var cRecordInfo = CORA.coraData(cGroup
-					.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = getRecordInfoFromOpenInfo(openInfo);
 			var recordId = cRecordInfo.getFirstAtomicValueByNameInData("id");
-			var cRecordTypeGroup = CORA.coraData(cRecordInfo
-					.getFirstChildByNameInData("type"));
-			var recordType = cRecordTypeGroup
-					.getFirstAtomicValueByNameInData("linkedRecordId");
+			var recordType = extractRecordTypeFromRecordInfo(cRecordInfo);
 			publishNewValueForRecordId(recordId);
 			publishNewValueForRecordType(recordType);
-			publishNewValueForLinkedData(recordId, openInfo);
+			publishNewValueForLinkedData(recordId, recordType, openInfo);
+		}
+
+		function getRecordInfoFromOpenInfo(openInfo)  {
+			var cGroup = CORA.coraData(openInfo.record.data);
+			return CORA.coraData(cGroup
+				.getFirstChildByNameInData("recordInfo"));
+		}
+
+		function extractRecordTypeFromRecordInfo(cRecordInfo){
+			var cRecordTypeGroup = CORA.coraData(cRecordInfo
+				.getFirstChildByNameInData("type"));
+			return cRecordTypeGroup
+				.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function publishNewValueForRecordId(recordId) {
@@ -422,11 +430,11 @@ var CORA = (function(cora) {
 			dependencies.pubSub.publish("setValue", data);
 		}
 
-		function publishNewValueForLinkedData(recordId, openInfo) {
+		function publishNewValueForLinkedData(recordId, recordType, openInfo) {
 			var linkedData = {
 				"children" : [ {
 					"name" : "linkedRecordType",
-					"value" : linkedRecordType
+					"value" : recordType
 				}, {
 					"name" : "linkedRecordId",
 					"value" : recordId
