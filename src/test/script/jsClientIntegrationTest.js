@@ -29,6 +29,9 @@ var CORATEST = (function(coraTest) {
 				"pubSub" : pubSub
 			};
 			var dataHolder = CORA.dataHolder(specDataHolder);
+			var depJSBookkeeper = {
+				"recordTypeProvider" : CORATEST.recordTypeProviderSpy()
+			};
 			var specJSBookkeeper = {
 				"metadataId" : metadataId,
 				"metadataProvider" : metadataProvider,
@@ -36,7 +39,7 @@ var CORATEST = (function(coraTest) {
 				"textProvider" : textProvider,
 				"dataHolder" : dataHolder
 			};
-			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
+			var jsBookkeeper = CORA.jsBookkeeper(depJSBookkeeper, specJSBookkeeper);
 
 			var specPresentationFactory = {
 
@@ -71,7 +74,10 @@ var CORATEST = (function(coraTest) {
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub
 			};
-			var metadataController = CORA.metadataController(specMetadataController);
+			var depMetadataController = {
+				"recordTypeProvider" : CORATEST.recordTypeProviderSpy()
+			};
+			var metadataController = CORA.metadataController(depMetadataController, specMetadataController);
 
 			return Object.freeze({
 				jsBookkeeper : jsBookkeeper,
@@ -96,7 +102,7 @@ QUnit.module("jsClientIntegrationTest.js", {
 		this.pubSub = CORA.pubSub();
 		this.textProvider = CORATEST.textProviderStub();
 		this.pVarViewFactory = CORATEST.standardFactorySpy("pVarViewSpy");
-		
+
 		this.dependenciesFactory = CORATEST.dependenciesFactory(this.metadataProvider, this.pubSub,
 				this.textProvider);
 	},
@@ -288,7 +294,7 @@ QUnit.test("testIntegrateCoraPubSubDataHolderPresentationMetadataControllerSurro
 	this.fixture.appendChild(view);
 
 	var topPGroupView = view.firstChild;
-	
+
 	var pNonRepeatingChildRefHandlerView = topPGroupView.childNodes[1];
 
 	var surroundingContainer = pNonRepeatingChildRefHandlerView.childNodes[0];

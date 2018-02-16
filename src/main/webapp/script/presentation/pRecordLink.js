@@ -38,14 +38,14 @@ var CORA = (function(cora) {
 		var hasLinkedRepeatId = cMetadataElement.containsChildWithNameInData("linkedPath");
 
 		var recordIdPath = "";
+		var recordTypePath = "";
 
-		var cRecordTypeGroup = CORA.coraData(cMetadataElement
-				.getFirstChildByNameInData("linkedRecordType"));
+		var cRecordTypeGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("linkedRecordType"));
 		var linkedRecordType = cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
 		var view;
 		function start() {
-			dependencies.pubSub.subscribe("linkedData", spec.path, undefined, handleMsg);
+			dependencies.pubSub.subscribe("linkedData", spec.path, undefined,handleMsg);
 			view = createBaseView();
 			createValueView();
 			possiblyCreateSearchHandler();
@@ -64,8 +64,10 @@ var CORA = (function(cora) {
 				"info" : {
 					"text" : text,
 					"defText" : defText,
-					"technicalInfo" : [ "textId: " + textId, "defTextId: " + defTextId,
-							"metadataId: " + metadataId, "nameInData: " + nameInData,
+					"technicalInfo" : [ "textId: " + textId,
+							"defTextId: " + defTextId,
+							"metadataId: " + metadataId,
+							"nameInData: " + nameInData,
 							"linkedRecordType: " + linkedRecordType ]
 				},
 				"pRecordLink" : out
@@ -76,7 +78,8 @@ var CORA = (function(cora) {
 		function extractTextId(textNameInData) {
 			var cTextIdGroup = CORA.coraData(cMetadataElement
 					.getFirstChildByNameInData(textNameInData));
-			return cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			return cTextIdGroup
+					.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function createValueView() {
@@ -129,7 +132,8 @@ var CORA = (function(cora) {
 		}
 
 		function linkedRecordShouldBePresentedCanBeRead(payloadFromMsg) {
-			return cPresentation.containsChildWithNameInData("linkedRecordPresentations")
+			return cPresentation
+					.containsChildWithNameInData("linkedRecordPresentations")
 					&& messageContainsDataWithActionLinks(payloadFromMsg);
 		}
 
@@ -155,14 +159,13 @@ var CORA = (function(cora) {
 
 		function createLinkedRecordTypeFilter(data) {
 			var cData = CORA.coraData(data);
-			var recordTypeId = cData.getFirstAtomicValueByNameInData("linkedRecordType");
+			var recordTypeId = cData
+					.getFirstAtomicValueByNameInData("linkedRecordType");
 
 			return function(child) {
 				var cChild = CORA.coraData(child);
-				var cPresentedRecordType = CORA.coraData(cChild
-						.getFirstChildByNameInData("presentedRecordType"));
-				var filterLinkedRecordType = cPresentedRecordType
-						.getFirstAtomicValueByNameInData("linkedRecordId");
+				var cPresentedRecordType = CORA.coraData(cChild.getFirstChildByNameInData("presentedRecordType"));
+				var filterLinkedRecordType = cPresentedRecordType.getFirstAtomicValueByNameInData("linkedRecordId");
 				return filterLinkedRecordType === recordTypeId;
 			};
 		}
@@ -191,7 +194,8 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function createRecordViewerUsingChosenPresentationForLinkedRecord(linkedRecordPresentation) {
+		function createRecordViewerUsingChosenPresentationForLinkedRecord(
+				linkedRecordPresentation) {
 			var linkedPresentationId = extractPresentationIdFromPresentation(linkedRecordPresentation);
 			var recordViewerSpec = createRecordViewerSpec(readLink, linkedPresentationId);
 			var recordViewer = CORA.recordViewer(recordViewerSpec);
@@ -206,8 +210,7 @@ var CORA = (function(cora) {
 			var presentationOfLink = cLinkedRecordPresentation
 					.getFirstChildByNameInData("presentationOf");
 			var cPresentationOfLink = CORA.coraData(presentationOfLink);
-			var linkedMetadataId = cPresentationOfLink
-					.getFirstAtomicValueByNameInData("linkedRecordId");
+			var linkedMetadataId = cPresentationOfLink.getFirstAtomicValueByNameInData("linkedRecordId");
 			return {
 				"read" : readLinkIn,
 				"presentationId" : linkedPresentationId,
@@ -225,16 +228,35 @@ var CORA = (function(cora) {
 		}
 
 		function createAndAddInputs() {
+			createInputForLinkedRecordType();
+			createInputForLinkedRecordId();
+
+			if (hasLinkedRepeatId) {
+				createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
+			}
+		}
+
+		function createInputForLinkedRecordType(){
+			var recordTypePVarId = "linkedRecordTypePVar";
+			var recordTypeDefinition = dependencies.recordTypeProvider.getMetadataByRecordTypeId(linkedRecordType);
+			if(linkedRecordTypeIsImplementing(recordTypeDefinition)){
+				recordTypePVarId = "linkedRecordTypeOutputPVar";
+			}
+			recordTypePath = calculateNewPath("linkedRecordTypeTextVar");
+			createChildView("linkedRecordType", recordTypePVarId, true);
+		}
+
+		function linkedRecordTypeIsImplementing(recordTypeDefinition){
+			return recordTypeDefinition.abstract === "false";
+		}
+
+		function createInputForLinkedRecordId(){
 			var recordIdPVarId = "linkedRecordIdPVar";
 			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
 				recordIdPVarId = "linkedRecordIdOutputPVar";
 			}
 			recordIdPath = calculateNewPath("linkedRecordIdTextVar");
-			createChildView("linkedRecordId", recordIdPVarId);
-
-			if (hasLinkedRepeatId) {
-				createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
-			}
+			createChildView("linkedRecordId", recordIdPVarId, true);
 		}
 
 		function createChildView(id, presentationIdToFactor, addText) {
@@ -253,7 +275,8 @@ var CORA = (function(cora) {
 				"metadataIdUsedInData" : metadataIdUsedInData,
 				"cPresentation" : cPresentationChild
 			};
-			var pVar = dependencies.presentationFactory.factor(presentationSpec);
+			var pVar = dependencies.presentationFactory
+					.factor(presentationSpec);
 			childViewNew.appendChild(pVar.getView());
 			view.addChild(childViewNew);
 		}
@@ -275,10 +298,12 @@ var CORA = (function(cora) {
 		}
 
 		function createAndAddOutput() {
-			createChildView("linkedRecordId", "linkedRecordIdOutputPVar");
+			createChildView("linkedRecordType", "linkedRecordTypeOutputPVar", true);
+			createChildView("linkedRecordId", "linkedRecordIdOutputPVar", true);
 
 			if (hasLinkedRepeatId) {
-				createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar", true);
+				createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar",
+						true);
 			}
 		}
 
@@ -294,12 +319,12 @@ var CORA = (function(cora) {
 
 		function possiblyCreateSearchHandlerForPRecordLinkWithLinkedSearch() {
 			var searchRecord = getSearchFromSearchProvider();
-			if (userCanPerfomSearch(searchRecord)) {
+			if (userCanPerformSearch(searchRecord)) {
 				createSearchHandler(searchRecord);
 			}
 		}
 
-		function userCanPerfomSearch(searchRecord) {
+		function userCanPerformSearch(searchRecord) {
 			return searchRecord.actionLinks.search !== undefined;
 		}
 
@@ -335,10 +360,12 @@ var CORA = (function(cora) {
 		}
 
 		function subscribeToSetValueIfLinkedPresentationExists() {
-			dependencies.pubSub.subscribe("setValue", calculateNewPath("linkedRecordTypeTextVar"),
-					undefined, valueChangedOnInput);
-			dependencies.pubSub.subscribe("setValue", calculateNewPath("linkedRecordIdTextVar"),
-					undefined, valueChangedOnInput);
+			dependencies.pubSub.subscribe("setValue",
+					calculateNewPath("linkedRecordTypeTextVar"), undefined,
+					valueChangedOnInput);
+			dependencies.pubSub.subscribe("setValue",
+					calculateNewPath("linkedRecordIdTextVar"), undefined,
+					valueChangedOnInput);
 		}
 
 		function valueChangedOnInput() {
@@ -360,15 +387,28 @@ var CORA = (function(cora) {
 				"readLink" : readLink,
 				"loadInBackground" : openInfoFromView.loadInBackground
 			};
-			dependencies.clientInstanceProvider.getJsClient().openRecordUsingReadLink(openInfo);
+			dependencies.clientInstanceProvider.getJsClient()
+					.openRecordUsingReadLink(openInfo);
 		}
 
 		function setResultFromSearch(openInfo) {
-			var cGroup = CORA.coraData(openInfo.record.data);
-			var cRecordInfo = CORA.coraData(cGroup.getFirstChildByNameInData("recordInfo"));
+			var cRecordInfo = getRecordInfoFromOpenInfo(openInfo);
 			var recordId = cRecordInfo.getFirstAtomicValueByNameInData("id");
+			var recordType = extractRecordTypeFromRecordInfo(cRecordInfo);
 			publishNewValueForRecordId(recordId);
-			publishNewValueForLinkedData(recordId, openInfo);
+			publishNewValueForRecordType(recordType);
+			publishNewValueForLinkedData(recordId, recordType, openInfo);
+		}
+
+		function getRecordInfoFromOpenInfo(openInfo)  {
+			var cGroup = CORA.coraData(openInfo.record.data);
+			return CORA.coraData(cGroup.getFirstChildByNameInData("recordInfo"));
+		}
+
+		function extractRecordTypeFromRecordInfo(cRecordInfo){
+			var cRecordTypeGroup = CORA.coraData(cRecordInfo
+				.getFirstChildByNameInData("type"));
+			return cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function publishNewValueForRecordId(recordId) {
@@ -379,11 +419,19 @@ var CORA = (function(cora) {
 			dependencies.pubSub.publish("setValue", data);
 		}
 
-		function publishNewValueForLinkedData(recordId, openInfo) {
+		function publishNewValueForRecordType(recordType) {
+			var data = {
+				"data" : recordType,
+				"path" : recordTypePath
+			};
+			dependencies.pubSub.publish("setValue", data);
+		}
+
+		function publishNewValueForLinkedData(recordId, recordType, openInfo) {
 			var linkedData = {
 				"children" : [ {
 					"name" : "linkedRecordType",
-					"value" : linkedRecordType
+					"value" : recordType
 				}, {
 					"name" : "linkedRecordId",
 					"value" : recordId

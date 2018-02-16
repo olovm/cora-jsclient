@@ -44,7 +44,10 @@ var CORA = (function(cora) {
 				"textProvider" : textProvider,
 				"dataHolder" : dataHolder
 			};
-			var jsBookkeeper = CORA.jsBookkeeper(specJSBookkeeper);
+			var depJSBookkeeper = {
+				"recordTypeProvider" : dependencies.providers.recordTypeProvider
+			};
+			var jsBookkeeper = CORA.jsBookkeeper(depJSBookkeeper, specJSBookkeeper);
 
 			var dependenciesPresentationFactory = {
 				"providers" : dependencies.providers,
@@ -61,6 +64,7 @@ var CORA = (function(cora) {
 
 			var dependenciesCF = {
 				"metadataProvider" : metadataProvider,
+				"recordTypeProvider" : dependencies.providers.recordTypeProvider,
 				"pubSub" : pubSub
 			};
 			var metadataControllerFactory = CORA.metadataControllerFactory(dependenciesCF);

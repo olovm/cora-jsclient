@@ -2371,6 +2371,20 @@ function MetadataProviderStub() {
 						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 			};
 		}
+		if (idToGet === "groupIdOneAbstractRecordLinkChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
+						"metadataRecordLink", "myAbstractLink", "1") ]
+				} ]
+					.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
 		if (idToGet === "groupId0to1RecordLinkChild") {
 			return {
 				"name" : "metadata",
@@ -2426,6 +2440,51 @@ function MetadataProviderStub() {
 					}, {
 						"name" : "linkedRecordId",
 						"value" : "metadataTextVariable"
+					} ],
+					"name" : "linkedRecordType"
+				} ]
+			};
+		}
+		if (idToGet === "myAbstractLink") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "recordLink"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "myAbstractLink"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "text"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myLinkText"
+					} ],
+					"name" : "textId"
+				}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "text"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "myLinkDefText"
+					} ],
+					"name" : "defTextId"
+				}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "recordType"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "metadata"
 					} ],
 					"name" : "linkedRecordType"
 				} ]
@@ -7989,6 +8048,80 @@ function MetadataProviderStub() {
 					"type": "pRecordLink"
 				}
 		};
+			case "myAbstractLinkNoPresentationOfLinkedRecordWithSearchPLink":
+				return {
+					"name": "presentation",
+					"children": [
+						{
+							"name": "recordInfo",
+							"children": [
+								{
+									"name": "id",
+									"value": "myAbstractLinkNoPresentationOfLinkedRecordWithSearchPLink"
+								},
+								{
+									"name": "type",
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "recordType"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "presentationRecordLink"
+										}
+									]
+								},
+								{
+									"name": "dataDivider",
+									"children": [
+										{
+											"name": "linkedRecordType",
+											"value": "system"
+										},
+										{
+											"name": "linkedRecordId",
+											"value": "cora"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "presentationOf",
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "metadataRecordLink"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "myAbstractLink"
+								}
+							]
+						},
+						{
+							"name": "mode",
+							"value": "input"
+						},
+						{
+							"name": "search",
+							"children": [
+								{
+									"name": "linkedRecordType",
+									"value": "search"
+								},
+								{
+									"name": "linkedRecordId",
+									"value": "metadataSearch"
+								}
+							]
+						}
+					],
+					"attributes": {
+						"type": "pRecordLink"
+					}
+				};
 		case "myPathLinkNoPresentationOfLinkedRecordPLink":
 			return {
 				"name" : "presentation",
@@ -8336,6 +8469,41 @@ function MetadataProviderStub() {
 					"value" : "output"
 				} ]
 			};
+			case "linkedRecordTypePVar":
+				return {
+					"name" : "presentation",
+					"attributes" : {
+						"type" : "pVar"
+					},
+					"children" : [ {
+						"name" : "recordInfo",
+						"children" : [ {
+							"name" : "id",
+							"value" : "linkedRecordTypePVar"
+						} ]
+					}, {
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "metadataTextVariable"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "linkedRecordTypeTextVar"
+						} ],
+						"name" : "presentationOf"
+					}, {
+						"name" : "mode",
+						"value" : "input"
+					}, {
+						"name" : "emptyTextId",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "text"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "enterTextHereText"
+						} ]
+					} ]
+				};
 		case "linkedRepeatIdPVar":
 			return {
 				"name" : "presentation",

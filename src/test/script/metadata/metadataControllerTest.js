@@ -23,13 +23,19 @@ var CORATEST = (function(coraTest) {
 	coraTest.metadataControllerFactory = function(metadataProvider, pubSub) {
 		var factor = function(metadataId, data) {
 
+		var recordTypeProvider = CORATEST.recordTypeProviderSpy();
+		//var recordTypeProvider = this.recordTypeProvider;
+
 			var spec = {
 				"metadataId" : metadataId,
 				"data" : data,
 				"metadataProvider" : metadataProvider,
 				"pubSub" : pubSub
 			};
-			var metadataController = CORA.metadataController(spec);
+			var dependencies = {
+				"recordTypeProvider" : recordTypeProvider
+			};
+			var metadataController = CORA.metadataController(dependencies, spec);
 			return {
 				metadataController : metadataController,
 				metadataProvider : metadataProvider,
@@ -48,6 +54,9 @@ var CORATEST = (function(coraTest) {
 QUnit.module("metadataControllerTest.js", {
 	beforeEach : function() {
 		var metadataProvider = new MetadataProviderStub();
+		this.dependencies = {
+			"recordTypeProvider" : CORATEST.recordTypeProviderSpy()
+		};
 		this.spec = {
 			"metadataId" : "groupIdOneTextChild",
 			"data" : undefined,
@@ -65,12 +74,13 @@ QUnit.module("metadataControllerTest.js", {
 });
 
 QUnit.test("testInit", function(assert) {
-	var metadataController = CORA.metadataController(this.spec);
+
+	var metadataController = CORA.metadataController(this.dependencies, this.spec);
 	assert.strictEqual(metadataController.type, "metadataController");
 });
 
 QUnit.test("testGetSpec", function(assert) {
-	var metadataController = CORA.metadataController(this.spec);
+	var metadataController = CORA.metadataController(this.dependencies, this.spec);
 	assert.strictEqual(metadataController.getSpec(), this.spec);
 });
 
@@ -554,7 +564,7 @@ QUnit.test("testInitOneChildRepeat0toXPreviouslyNotRepeatingAddingNewChild", fun
 		+ '"path":'
 		+ createLinkedPathWithNameInDataAndRepeatIdAsString(
 			"textVariableId", "0") + '}}');
-    
+
 	assert
 		.deepEqual(
 			JSON.stringify(messages[2]),
@@ -565,7 +575,7 @@ QUnit.test("testInitOneChildRepeat0toXPreviouslyNotRepeatingAddingNewChild", fun
 		+ '"path":'
 		+ createLinkedPathWithNameInDataAndRepeatIdAsString(
 			"textVariableId", "two") + '}}');
-    
+
 	assert.equal(messages.length, 5);
 });
 
@@ -1719,6 +1729,266 @@ QUnit.test("testInitGroupWithOneRecordLinkWithFinalValue", function(assert) {
 	};
 	assert.stringifyEqual(messages[4], expectedSetValueForLinkedRecordId);
 
+	assert.equal(messages.length, 7);
+});
+
+QUnit.test("testInitGroupWithOneAbstractRecordLink", function(assert) {
+	this.metadataControllerFactory.factor("groupIdOneAbstractRecordLinkChild", undefined);
+	var messages = this.pubSub.getMessages();
+
+	var expectedAddForRecordLink = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "myAbstractLink",
+			"path" : {},
+			"nameInData" : "myAbstractLink"
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedAddForRecordLink);
+
+	var expectedAddForLinkedRecordType = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "linkedRecordTypeTextVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				} ]
+			},
+			"nameInData" : "linkedRecordType"
+		}
+	};
+	assert.stringifyEqual(messages[1], expectedAddForLinkedRecordType);
+
+	var expectedSetValueForLinkedRecordType = {
+		"type" : "setValue",
+		"message" : {
+			//"data" : "metadata",
+			"data" : "",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "linkedRecordType"
+					} ]
+
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[2], expectedSetValueForLinkedRecordType);
+
+	var expectedAddForLinkedRecordId = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "linkedRecordIdTextVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				} ]
+			},
+			"nameInData" : "linkedRecordId"
+		}
+	};
+	assert.stringifyEqual(messages[3], expectedAddForLinkedRecordId);
+
+	var expectedLinkedData = {
+		"type" : "linkedData",
+		"message" : {
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[4], expectedLinkedData);
+
+	assert.equal(messages.length, 6);
+});
+
+QUnit.test("testInitGroupWithOneAbstractRecordLinkWithData", function(assert) {
+	var data = {
+		"name" : "groupIdOneRecordLinkChild",
+		"children" : [ {
+			"name" : "myAbstractLink",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : "metadataTextVariable"
+			}, {
+				"name" : "linkedRecordId",
+				"value" : "someRecordId"
+			} ]
+		} ]
+	};
+	this.metadataControllerFactory.factor("groupIdOneAbstractRecordLinkChild", data);
+	var messages = this.pubSub.getMessages();
+
+	var expectedAddForRecordLink = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "myAbstractLink",
+			"path" : {},
+			"nameInData" : "myAbstractLink"
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedAddForRecordLink);
+
+	var expectedAddForLinkedRecordType = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "linkedRecordTypeTextVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				} ]
+			},
+			"nameInData" : "linkedRecordType"
+		}
+	};
+	assert.stringifyEqual(messages[1], expectedAddForLinkedRecordType);
+
+	var expectedSetValueForLinkedRecordType = {
+		"type" : "setValue",
+		"message" : {
+			//"data" : "",
+			"data" : "metadataTextVariable",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "linkedRecordType"
+					} ]
+
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[2], expectedSetValueForLinkedRecordType);
+
+	var expectedAddForLinkedRecordId = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "linkedRecordIdTextVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				} ]
+			},
+			"nameInData" : "linkedRecordId"
+		}
+	};
+	assert.stringifyEqual(messages[3], expectedAddForLinkedRecordId);
+
+	var expectedSetValueForLinkedRecordId = {
+		"type" : "setValue",
+		"message" : {
+			"data" : "someRecordId",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "linkedRecordId"
+					} ]
+
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[4], expectedSetValueForLinkedRecordId);
+
+	assert.equal(messages.length, 7);
+});
+
+QUnit.test("testInitGroupWithOneAbstractRecordLinkWithEmptyLinkedRecordType", function(assert) {
+	var data = {
+		"name" : "groupIdOneRecordLinkChild",
+		"children" : [ {
+			"name" : "myAbstractLink",
+			"children" : [ {
+				"name" : "linkedRecordType",
+				"value" : ""
+			}, {
+				"name" : "linkedRecordId",
+				"value" : "someRecordId"
+			} ]
+		} ]
+	};
+	this.metadataControllerFactory.factor("groupIdOneAbstractRecordLinkChild", data);
+	var messages = this.pubSub.getMessages();
+
+	var expectedAddForRecordLink = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "myAbstractLink",
+			"path" : {},
+			"nameInData" : "myAbstractLink"
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedAddForRecordLink);
+
+	var expectedAddForLinkedRecordType = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "linkedRecordTypeTextVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				} ]
+			},
+			"nameInData" : "linkedRecordType"
+		}
+	};
+	assert.stringifyEqual(messages[1], expectedAddForLinkedRecordType);
+
+	var expectedSetValueForLinkedRecordType = {
+		"type" : "setValue",
+		"message" : {
+			"data" : "",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "myAbstractLink"
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "linkedRecordType"
+					} ]
+
+				} ]
+			}
+		}
+	};
+	assert.stringifyEqual(messages[2], expectedSetValueForLinkedRecordType);
 	assert.equal(messages.length, 7);
 });
 

@@ -18,7 +18,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.jsBookkeeper = function(spec) {
+	cora.jsBookkeeper = function(dependencies, spec) {
 		var pubSub = spec.pubSub;
 
 		function setValue(data) {
@@ -37,11 +37,11 @@ var CORA = (function(cora) {
 			var ref = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 			var repeatMax = cChildReference.getFirstAtomicValueByNameInData('repeatMax');
 			if (repeatMax === "1") {
-				CORA.metadataRepeatInitializer(ref, path, undefined, undefined,
+				CORA.metadataRepeatInitializer(dependencies, ref, path, undefined, undefined,
 						spec.metadataProvider, spec.pubSub);
 			} else {
 				var startRepeatId = calculateStartRepeatId(currentData.children);
-				CORA.metadataRepeatInitializer(ref, path, undefined, String(startRepeatId),
+				CORA.metadataRepeatInitializer(dependencies, ref, path, undefined, String(startRepeatId),
 						spec.metadataProvider, spec.pubSub);
 				return String(startRepeatId);
 			}
@@ -83,8 +83,13 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
 		return Object.freeze({
 			"type" : "jsBookkeeper",
+			getDependencies : getDependencies,
 			getSpec : getSpec,
 			setValue : setValue,
 			add : add,

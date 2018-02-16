@@ -187,7 +187,7 @@ QUnit.test("initFactoresSearchRecordHandlersAndAddsToView", function(assert) {
 QUnit.test("initFactoresSearchRecordHandlersSearchWithoutSearchLinkIsNotAdded", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 
-	var factoredSearchRecordHandler4 = this.dependencies.searchRecordHandlerFactory.getFactored(4);
+	var factoredSearchRecordHandler4 = this.dependencies.searchRecordHandlerFactory.getFactored(5);
 	assert.strictEqual(factoredSearchRecordHandler4, undefined);
 });
 

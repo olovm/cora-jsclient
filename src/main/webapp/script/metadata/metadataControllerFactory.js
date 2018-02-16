@@ -23,7 +23,7 @@ var CORA = (function(cora) {
 		var factor = function(spec) {
 			spec.metadataProvider = dependencies.metadataProvider;
 			spec.pubSub = dependencies.pubSub;
-			return CORA.metadataController(spec);
+			return CORA.metadataController(dependencies, spec);
 		};
 
 		function getDependencies() {
