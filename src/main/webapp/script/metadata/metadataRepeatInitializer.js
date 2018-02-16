@@ -52,19 +52,15 @@ var CORA = (function(cora) {
 
 		function collectAttributes() {
 			var collectedAttributes = {};
-			var attributeReferences = cMetadataElement
-					.getFirstChildByNameInData("attributeReferences");
+			var attributeReferences = cMetadataElement.getFirstChildByNameInData("attributeReferences");
 			attributeReferences.children.forEach(function(attributeReference) {
 				var cAttributeReference = CORA.coraData(attributeReference);
-				var refLinkedId = cAttributeReference
-						.getFirstAtomicValueByNameInData("linkedRecordId");
+				var refLinkedId = cAttributeReference.getFirstAtomicValueByNameInData("linkedRecordId");
 				var cCollectionVariable = getMetadataById(refLinkedId);
-				var attributeNameInData = cCollectionVariable
-						.getFirstAtomicValueByNameInData("nameInData");
+				var attributeNameInData = cCollectionVariable.getFirstAtomicValueByNameInData("nameInData");
 				var attributeValues = [];
 				collectedAttributes[attributeNameInData] = attributeValues;
-				attributeValues.push(cCollectionVariable
-						.getFirstAtomicValueByNameInData("finalValue"));
+				attributeValues.push(cCollectionVariable.getFirstAtomicValueByNameInData("finalValue"));
 			});
 			return collectedAttributes;
 		}
@@ -269,7 +265,7 @@ var CORA = (function(cora) {
 
 		function getImplementingRecordTypeFromDataIfExists(){
 			var implementingRecordType  = "";
-			if(data !== undefined && CORA.coraData(data).containsChildWithNameInData("linkedRecordType")){
+			if(dataContainsLinkedRecordType()){
 				var recordTypeInData = CORA.coraData(data).getFirstChildByNameInData("linkedRecordType");
 				if(recordTypeInData.value !== ""){
 					implementingRecordType = recordTypeInData.value;
@@ -277,6 +273,10 @@ var CORA = (function(cora) {
 			}
 			return implementingRecordType;
 		}
+		
+		 function dataContainsLinkedRecordType(){
+			 return data !== undefined && CORA.coraData(data).containsChildWithNameInData("linkedRecordType");
+		 }
 
 		function initializeLinkedRecordId(nextLevelPath) {
 			var recordIdData = data;
