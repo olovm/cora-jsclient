@@ -149,8 +149,6 @@ var CORA = (function(cora) {
 		}
 
 		function onBlur(valueFromView) {
-			var recordInfo = CORA.coraData(cPresentation
-					.getFirstChildByNameInData("recordInfo"));
 			checkRegEx(valueFromView);
 			updateView();
 			if (state === "ok" && valueHasChanged(valueFromView)) {

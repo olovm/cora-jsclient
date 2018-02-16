@@ -24,7 +24,6 @@ var CORATEST = (function(coraTest) {
 		var factor = function(metadataId, data) {
 
 		var recordTypeProvider = CORATEST.recordTypeProviderSpy();
-		//var recordTypeProvider = this.recordTypeProvider;
 
 			var spec = {
 				"metadataId" : metadataId,

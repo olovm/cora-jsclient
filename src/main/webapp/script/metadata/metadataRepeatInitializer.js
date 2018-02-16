@@ -215,7 +215,7 @@ var CORA = (function(cora) {
 			var linkedRecordTypeValue = cRecordTypeGroup
 					.getFirstAtomicValueByNameInData("linkedRecordId");
 
-			var implementingRecordType = getImplementingRecordType(linkedRecordTypeValue)
+			var implementingRecordType = getImplementingRecordType(linkedRecordTypeValue);
 			var recordTypeData = {
 				"name" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData"),
 				"children" : [ {
@@ -273,8 +273,8 @@ var CORA = (function(cora) {
 			}
 			return implementingRecordType;
 		}
-		
-		 function dataContainsLinkedRecordType(){
+
+		function dataContainsLinkedRecordType(){
 			 return data !== undefined && CORA.coraData(data).containsChildWithNameInData("linkedRecordType");
 		 }
 

@@ -232,7 +232,7 @@ var CORA = (function(cora) {
 			createInputForLinkedRecordId();
 
 			if (hasLinkedRepeatId) {
-				createChildView("linkedRepeatId", "linkedRepeatIdPVar", true);
+				createChildView("linkedRepeatId", "linkedRepeatIdPVar");
 			}
 		}
 
@@ -243,7 +243,7 @@ var CORA = (function(cora) {
 				recordTypePVarId = "linkedRecordTypeOutputPVar";
 			}
 			recordTypePath = calculateNewPath("linkedRecordTypeTextVar");
-			createChildView("linkedRecordType", recordTypePVarId, true);
+			createChildView("linkedRecordType", recordTypePVarId);
 		}
 
 		function linkedRecordTypeIsImplementing(recordTypeDefinition){
@@ -256,16 +256,14 @@ var CORA = (function(cora) {
 				recordIdPVarId = "linkedRecordIdOutputPVar";
 			}
 			recordIdPath = calculateNewPath("linkedRecordIdTextVar");
-			createChildView("linkedRecordId", recordIdPVarId, true);
+			createChildView("linkedRecordId", recordIdPVarId);
 		}
 
-		function createChildView(id, presentationIdToFactor, addText) {
+		function createChildView(id, presentationIdToFactor) {
 			var metadataIdUsedInData = id + "TextVar";
 			var childViewNew = document.createElement("span");
 			childViewNew.className = id + "View";
-			if (addText) {
-				childViewNew.appendChild(createText(id + "Text"));
-			}
+			childViewNew.appendChild(createText(id + "Text"));
 
 			var childParentPath = calculateNewPath(id + "TextVar");
 			var cPresentationChild = CORA.coraData(metadataProvider
@@ -298,12 +296,11 @@ var CORA = (function(cora) {
 		}
 
 		function createAndAddOutput() {
-			createChildView("linkedRecordType", "linkedRecordTypeOutputPVar", true);
-			createChildView("linkedRecordId", "linkedRecordIdOutputPVar", true);
+			createChildView("linkedRecordType", "linkedRecordTypeOutputPVar");
+			createChildView("linkedRecordId", "linkedRecordIdOutputPVar");
 
 			if (hasLinkedRepeatId) {
-				createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar",
-						true);
+				createChildView("linkedRepeatId", "linkedRepeatIdOutputPVar");
 			}
 		}
 
@@ -406,9 +403,9 @@ var CORA = (function(cora) {
 		}
 
 		function extractRecordTypeFromRecordInfo(cRecordInfo){
-			var cRecordTypeGroup = CORA.coraData(cRecordInfo
+			var cRecordType = CORA.coraData(cRecordInfo
 				.getFirstChildByNameInData("type"));
-			return cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			return cRecordType.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function publishNewValueForRecordId(recordId) {

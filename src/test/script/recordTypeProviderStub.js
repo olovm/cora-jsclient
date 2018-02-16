@@ -3579,7 +3579,7 @@ var CORATEST = (function (coraTest) {
         return Object.freeze({
             getRecordTypeById: getRecordTypeById,
             getAllRecordTypes: getAllRecordTypes,
-            getMetadataByRecordTypeId : getMetadataByRecordTypeId,
+            getMetadataByRecordTypeId : getMetadataByRecordTypeId
         });
     };
     return coraTest;
