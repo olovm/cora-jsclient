@@ -13,3 +13,4 @@
 *.ipr
 
 /.classpath
+/package-lock.json

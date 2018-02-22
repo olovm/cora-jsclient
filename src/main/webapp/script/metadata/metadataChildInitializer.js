@@ -242,8 +242,15 @@ var CORA = (function(cora) {
 
 		function initializeForMetadataWithIdAndDataAndRepeatId(dataChild,
 				repeatId) {
-			CORA.metadataRepeatInitializer(dependencies, ref, path, dataChild,
-					repeatId, metadataProvider, pubSub);
+			var mriSpec = {
+					"metadataId" : ref,
+					"path" : path,
+					"data" : dataChild,
+					"repeatId" : repeatId,
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub
+			};
+			CORA.metadataRepeatInitializer(dependencies, mriSpec);
 		}
 
 	};

@@ -19,13 +19,12 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.metadataRepeatInitializer = function(dependencies, metadataId, path, data, repeatId, metadataProvider,
-			pubSub) {
-		var cMetadataElement = getMetadataById(metadataId);
+	cora.metadataRepeatInitializer = function(dependencies, spec) {
+		var cMetadataElement = getMetadataById(spec.metadataId);
 		initalizeRepeat();
 
 		function getMetadataById(id) {
-			return CORA.coraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}
 
 		function initalizeRepeat() {
@@ -35,15 +34,15 @@ var CORA = (function(cora) {
 
 		function createAndPublishAddMessage() {
 			var addMessage = {
-				"metadataId" : metadataId,
-				"path" : path,
-				"repeatId" : repeatId,
+				"metadataId" : spec.metadataId,
+				"path" : spec.path,
+				"repeatId" : spec.repeatId,
 				"nameInData" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData")
 			};
 			if (hasAttributes()) {
 				addMessage.attributes = collectAttributes();
 			}
-			pubSub.publish("add", addMessage);
+			spec.pubSub.publish("add", addMessage);
 		}
 
 		function hasAttributes() {
@@ -68,17 +67,17 @@ var CORA = (function(cora) {
 		function initializeForMetadata() {
 			var nextLevelPath = createNextLevelPath();
 			var message = {
-				"data" : data,
+				"data" : spec.data,
 				"path" : nextLevelPath
 			};
 			if (isGroup()) {
 				initializeMetadataGroup(nextLevelPath);
 			} else if (isRecordLink()) {
 				initializeMetadataRecordLink(nextLevelPath);
-				pubSub.publish("linkedData", message);
+				spec.pubSub.publish("linkedData", message);
 			} else if (isResourceLink()) {
 				initializeMetadataResourceLink(nextLevelPath);
-				pubSub.publish("linkedResource", message);
+				spec.pubSub.publish("linkedResource", message);
 			} else {
 				publishVariableValue(nextLevelPath);
 			}
@@ -91,7 +90,7 @@ var CORA = (function(cora) {
 				return nextLevelPathPart;
 			}
 
-			var pathCopy = JSON.parse(JSON.stringify(path));
+			var pathCopy = JSON.parse(JSON.stringify(spec.path));
 			var lowestPath = findLowestPath(pathCopy);
 			lowestPath.children.push(nextLevelPathPart);
 			return pathCopy;
@@ -122,13 +121,13 @@ var CORA = (function(cora) {
 		}
 
 		function hasRepeatId() {
-			return repeatId !== undefined;
+			return spec.repeatId !== undefined;
 		}
 
 		function createRepeatId() {
 			return {
 				"name" : "repeatId",
-				"value" : repeatId
+				"value" : spec.repeatId
 			};
 		}
 
@@ -172,7 +171,7 @@ var CORA = (function(cora) {
 		}
 
 		function incomingPathIsEmpty() {
-			return path.name === undefined;
+			return spec.path.name === undefined;
 		}
 
 		function findLowestPath(pathToSearch) {
@@ -192,8 +191,8 @@ var CORA = (function(cora) {
 			var nextLevelChildReferences = cMetadataElement
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
-				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, data,
-						metadataProvider, pubSub);
+				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, spec.data,
+						spec.metadataProvider, spec.pubSub);
 			});
 		}
 
@@ -224,7 +223,7 @@ var CORA = (function(cora) {
 				} ]
 			};
 			CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath,
-					recordTypeData, metadataProvider, pubSub);
+					recordTypeData, spec.metadataProvider, spec.pubSub);
 		}
 
 		function createRefWithRef(ref) {
@@ -266,7 +265,7 @@ var CORA = (function(cora) {
 		function getImplementingRecordTypeFromDataIfExists(){
 			var implementingRecordType  = "";
 			if(dataContainsLinkedRecordType()){
-				var recordTypeInData = CORA.coraData(data).getFirstChildByNameInData("linkedRecordType");
+				var recordTypeInData = CORA.coraData(spec.data).getFirstChildByNameInData("linkedRecordType");
 				if(recordTypeInData.value !== ""){
 					implementingRecordType = recordTypeInData.value;
 				}
@@ -275,11 +274,11 @@ var CORA = (function(cora) {
 		}
 
 		function dataContainsLinkedRecordType(){
-			 return data !== undefined && CORA.coraData(data).containsChildWithNameInData("linkedRecordType");
+			 return spec.data !== undefined && CORA.coraData(spec.data).containsChildWithNameInData("linkedRecordType");
 		 }
 
 		function initializeLinkedRecordId(nextLevelPath) {
-			var recordIdData = data;
+			var recordIdData = spec.data;
 			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
 				var finalValue = cMetadataElement.getFirstAtomicValueByNameInData("finalValue");
 
@@ -294,14 +293,14 @@ var CORA = (function(cora) {
 
 			var recordIdStaticChildReference = createRefWithRef("linkedRecordIdTextVar");
 			CORA.metadataChildInitializer(dependencies, recordIdStaticChildReference, nextLevelPath,
-					recordIdData, metadataProvider, pubSub);
+					recordIdData, spec.metadataProvider, spec.pubSub);
 		}
 
 		function possiblyInitializeLinkedRepeatId(nextLevelPath) {
 			if (isLinkToRepeatingPartOfRecord()) {
 				var recordTypeStaticChildReference = createRefWithRef("linkedRepeatIdTextVar");
-				CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath, data,
-						metadataProvider, pubSub);
+				CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath, spec.data,
+						spec.metadataProvider, spec.pubSub);
 			}
 		}
 
@@ -319,18 +318,18 @@ var CORA = (function(cora) {
 			var nextLevelChildReferences = cMetadataGroupForResourceLinkGroup
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
-				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, data,
-						metadataProvider, pubSub);
+				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, spec.data,
+						spec.metadataProvider, spec.pubSub);
 			});
 		}
 
 		function publishVariableValue(nextLevelPath) {
-			if (data !== undefined) {
+			if (spec.data !== undefined) {
 				var message = {
-					"data" : data.value,
+					"data" : spec.data.value,
 					"path" : nextLevelPath
 				};
-				pubSub.publish("setValue", message);
+				spec.pubSub.publish("setValue", message);
 			}
 		}
 
