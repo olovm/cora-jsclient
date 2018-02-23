@@ -242,8 +242,19 @@ var CORA = (function(cora) {
 
 		function initializeForMetadataWithIdAndDataAndRepeatId(dataChild,
 				repeatId) {
-			CORA.metadataRepeatInitializer(dependencies, ref, path, dataChild,
-					repeatId, metadataProvider, pubSub);
+			var initializerDep = {
+				"recordTypeProvider" :dependencies.recordTypeProvider,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub
+			};
+			var initializerSpec = {
+					"metadataId" : ref,
+					"path" : path,
+					"data" : dataChild,
+					"repeatId" : repeatId
+			};
+
+			CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
 		}
 
 	};

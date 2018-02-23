@@ -19,8 +19,11 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.metadataRepeatInitializer = function(dependencies, metadataId, path, data, repeatId, metadataProvider,
-			pubSub) {
+	cora.metadataRepeatInitializer = function(dependencies, spec) {
+		var metadataProvider = dependencies.metadataProvider;
+		var pubSub = dependencies.pubSub;
+		var metadataId = spec.metadataId;
+		var path = spec.path;
 		var cMetadataElement = getMetadataById(metadataId);
 		initalizeRepeat();
 
@@ -37,7 +40,7 @@ var CORA = (function(cora) {
 			var addMessage = {
 				"metadataId" : metadataId,
 				"path" : path,
-				"repeatId" : repeatId,
+				"repeatId" : spec.repeatId,
 				"nameInData" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData")
 			};
 			if (hasAttributes()) {
@@ -68,7 +71,7 @@ var CORA = (function(cora) {
 		function initializeForMetadata() {
 			var nextLevelPath = createNextLevelPath();
 			var message = {
-				"data" : data,
+				"data" : spec.data,
 				"path" : nextLevelPath
 			};
 			if (isGroup()) {
@@ -122,13 +125,13 @@ var CORA = (function(cora) {
 		}
 
 		function hasRepeatId() {
-			return repeatId !== undefined;
+			return spec.repeatId !== undefined;
 		}
 
 		function createRepeatId() {
 			return {
 				"name" : "repeatId",
-				"value" : repeatId
+				"value" : spec.repeatId
 			};
 		}
 
@@ -192,7 +195,7 @@ var CORA = (function(cora) {
 			var nextLevelChildReferences = cMetadataElement
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
-				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, data,
+				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, spec.data,
 						metadataProvider, pubSub);
 			});
 		}
@@ -266,7 +269,7 @@ var CORA = (function(cora) {
 		function getImplementingRecordTypeFromDataIfExists(){
 			var implementingRecordType  = "";
 			if(dataContainsLinkedRecordType()){
-				var recordTypeInData = CORA.coraData(data).getFirstChildByNameInData("linkedRecordType");
+				var recordTypeInData = CORA.coraData(spec.data).getFirstChildByNameInData("linkedRecordType");
 				if(recordTypeInData.value !== ""){
 					implementingRecordType = recordTypeInData.value;
 				}
@@ -275,11 +278,11 @@ var CORA = (function(cora) {
 		}
 
 		function dataContainsLinkedRecordType(){
-			 return data !== undefined && CORA.coraData(data).containsChildWithNameInData("linkedRecordType");
+			 return spec.data !== undefined && CORA.coraData(spec.data).containsChildWithNameInData("linkedRecordType");
 		 }
 
 		function initializeLinkedRecordId(nextLevelPath) {
-			var recordIdData = data;
+			var recordIdData = spec.data;
 			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
 				var finalValue = cMetadataElement.getFirstAtomicValueByNameInData("finalValue");
 
@@ -300,7 +303,7 @@ var CORA = (function(cora) {
 		function possiblyInitializeLinkedRepeatId(nextLevelPath) {
 			if (isLinkToRepeatingPartOfRecord()) {
 				var recordTypeStaticChildReference = createRefWithRef("linkedRepeatIdTextVar");
-				CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath, data,
+				CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath, spec.data,
 						metadataProvider, pubSub);
 			}
 		}
@@ -319,15 +322,15 @@ var CORA = (function(cora) {
 			var nextLevelChildReferences = cMetadataGroupForResourceLinkGroup
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
-				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, data,
+				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, spec.data,
 						metadataProvider, pubSub);
 			});
 		}
 
 		function publishVariableValue(nextLevelPath) {
-			if (data !== undefined) {
+			if (spec.data !== undefined) {
 				var message = {
-					"data" : data.value,
+					"data" : spec.data.value,
 					"path" : nextLevelPath
 				};
 				pubSub.publish("setValue", message);

@@ -36,13 +36,24 @@ var CORA = (function(cora) {
 			var cRef = CORA.coraData(cChildReference.getFirstChildByNameInData("ref"));
 			var ref = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 			var repeatMax = cChildReference.getFirstAtomicValueByNameInData('repeatMax');
+
+			var initializerDep = {
+				"recordTypeProvider" :dependencies.recordTypeProvider,
+				"metadataProvider" : spec.metadataProvider,
+				"pubSub" : spec.pubSub
+			};
+			var initializerSpec = {
+				"metadataId" : ref,
+				"path" : path,
+				"data" : undefined
+			};
 			if (repeatMax === "1") {
-				CORA.metadataRepeatInitializer(dependencies, ref, path, undefined, undefined,
-						spec.metadataProvider, spec.pubSub);
+				initializerSpec.repeatId =  undefined;
+				CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
 			} else {
 				var startRepeatId = calculateStartRepeatId(currentData.children);
-				CORA.metadataRepeatInitializer(dependencies, ref, path, undefined, String(startRepeatId),
-						spec.metadataProvider, spec.pubSub);
+				initializerSpec.repeatId =  String(startRepeatId);
+				CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
 				return String(startRepeatId);
 			}
 		}
