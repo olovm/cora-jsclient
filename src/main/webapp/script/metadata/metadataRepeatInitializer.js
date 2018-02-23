@@ -20,11 +20,15 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.metadataRepeatInitializer = function(dependencies, spec) {
-		var cMetadataElement = getMetadataById(spec.metadataId);
+		var metadataProvider = dependencies.metadataProvider;
+		var pubSub = dependencies.pubSub;
+		var metadataId = spec.metadataId;
+		var path = spec.path;
+		var cMetadataElement = getMetadataById(metadataId);
 		initalizeRepeat();
 
 		function getMetadataById(id) {
-			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 
 		function initalizeRepeat() {
@@ -34,15 +38,15 @@ var CORA = (function(cora) {
 
 		function createAndPublishAddMessage() {
 			var addMessage = {
-				"metadataId" : spec.metadataId,
-				"path" : spec.path,
+				"metadataId" : metadataId,
+				"path" : path,
 				"repeatId" : spec.repeatId,
 				"nameInData" : cMetadataElement.getFirstAtomicValueByNameInData("nameInData")
 			};
 			if (hasAttributes()) {
 				addMessage.attributes = collectAttributes();
 			}
-			spec.pubSub.publish("add", addMessage);
+			pubSub.publish("add", addMessage);
 		}
 
 		function hasAttributes() {
@@ -74,10 +78,10 @@ var CORA = (function(cora) {
 				initializeMetadataGroup(nextLevelPath);
 			} else if (isRecordLink()) {
 				initializeMetadataRecordLink(nextLevelPath);
-				spec.pubSub.publish("linkedData", message);
+				pubSub.publish("linkedData", message);
 			} else if (isResourceLink()) {
 				initializeMetadataResourceLink(nextLevelPath);
-				spec.pubSub.publish("linkedResource", message);
+				pubSub.publish("linkedResource", message);
 			} else {
 				publishVariableValue(nextLevelPath);
 			}
@@ -90,7 +94,7 @@ var CORA = (function(cora) {
 				return nextLevelPathPart;
 			}
 
-			var pathCopy = JSON.parse(JSON.stringify(spec.path));
+			var pathCopy = JSON.parse(JSON.stringify(path));
 			var lowestPath = findLowestPath(pathCopy);
 			lowestPath.children.push(nextLevelPathPart);
 			return pathCopy;
@@ -171,7 +175,7 @@ var CORA = (function(cora) {
 		}
 
 		function incomingPathIsEmpty() {
-			return spec.path.name === undefined;
+			return path.name === undefined;
 		}
 
 		function findLowestPath(pathToSearch) {
@@ -192,7 +196,7 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
 				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, spec.data,
-						spec.metadataProvider, spec.pubSub);
+						metadataProvider, pubSub);
 			});
 		}
 
@@ -223,7 +227,7 @@ var CORA = (function(cora) {
 				} ]
 			};
 			CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath,
-					recordTypeData, spec.metadataProvider, spec.pubSub);
+					recordTypeData, metadataProvider, pubSub);
 		}
 
 		function createRefWithRef(ref) {
@@ -293,14 +297,14 @@ var CORA = (function(cora) {
 
 			var recordIdStaticChildReference = createRefWithRef("linkedRecordIdTextVar");
 			CORA.metadataChildInitializer(dependencies, recordIdStaticChildReference, nextLevelPath,
-					recordIdData, spec.metadataProvider, spec.pubSub);
+					recordIdData, metadataProvider, pubSub);
 		}
 
 		function possiblyInitializeLinkedRepeatId(nextLevelPath) {
 			if (isLinkToRepeatingPartOfRecord()) {
 				var recordTypeStaticChildReference = createRefWithRef("linkedRepeatIdTextVar");
 				CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath, spec.data,
-						spec.metadataProvider, spec.pubSub);
+						metadataProvider, pubSub);
 			}
 		}
 
@@ -319,7 +323,7 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
 				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, spec.data,
-						spec.metadataProvider, spec.pubSub);
+						metadataProvider, pubSub);
 			});
 		}
 
@@ -329,7 +333,7 @@ var CORA = (function(cora) {
 					"data" : spec.data.value,
 					"path" : nextLevelPath
 				};
-				spec.pubSub.publish("setValue", message);
+				pubSub.publish("setValue", message);
 			}
 		}
 

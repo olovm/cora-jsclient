@@ -36,28 +36,24 @@ var CORA = (function(cora) {
 			var cRef = CORA.coraData(cChildReference.getFirstChildByNameInData("ref"));
 			var ref = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 			var repeatMax = cChildReference.getFirstAtomicValueByNameInData('repeatMax');
+
+			var initializerDep = {
+				"recordTypeProvider" :dependencies.recordTypeProvider,
+				"metadataProvider" : spec.metadataProvider,
+				"pubSub" : spec.pubSub
+			};
+			var initializerSpec = {
+				"metadataId" : ref,
+				"path" : path,
+				"data" : undefined
+			};
 			if (repeatMax === "1") {
-				var mriSpec = {
-						"metadataId" : ref,
-						"path" : path,
-						"data" : undefined,
-						"repeatId" : undefined,
-						"metadataProvider" : spec.metadataProvider,
-						"pubSub" :spec.pubSub
-				}
-				
-				CORA.metadataRepeatInitializer(dependencies, mriSpec);
+				initializerSpec.repeatId =  undefined;
+				CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
 			} else {
 				var startRepeatId = calculateStartRepeatId(currentData.children);
-				var mriSpec = {
-						"metadataId" : ref,
-						"path" : path,
-						"data" : undefined,
-						"repeatId" : String(startRepeatId),
-						"metadataProvider" : spec.metadataProvider,
-						"pubSub" :spec.pubSub
-				}
-				CORA.metadataRepeatInitializer(dependencies, mriSpec);
+				initializerSpec.repeatId =  String(startRepeatId);
+				CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
 				return String(startRepeatId);
 			}
 		}
