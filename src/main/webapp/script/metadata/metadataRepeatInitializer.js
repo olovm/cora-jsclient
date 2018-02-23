@@ -195,8 +195,14 @@ var CORA = (function(cora) {
 			var nextLevelChildReferences = cMetadataElement
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
-				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, spec.data,
-						metadataProvider, pubSub);
+				var initializerSpec = {
+					"childReference" : childReference,
+					"path" : nextLevelPath,
+					"data" : spec.data,
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub
+				};
+				CORA.metadataChildInitializer(dependencies, initializerSpec);
 			});
 		}
 
@@ -226,8 +232,14 @@ var CORA = (function(cora) {
 					"value" : implementingRecordType
 				} ]
 			};
-			CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath,
-					recordTypeData, metadataProvider, pubSub);
+			var initializerSpec = {
+				"childReference" : recordTypeStaticChildReference,
+				"path" : nextLevelPath,
+				"data" : recordTypeData,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub
+			};
+			CORA.metadataChildInitializer(dependencies, initializerSpec);
 		}
 
 		function createRefWithRef(ref) {
@@ -296,15 +308,27 @@ var CORA = (function(cora) {
 			}
 
 			var recordIdStaticChildReference = createRefWithRef("linkedRecordIdTextVar");
-			CORA.metadataChildInitializer(dependencies, recordIdStaticChildReference, nextLevelPath,
-					recordIdData, metadataProvider, pubSub);
+			var initializerSpec = {
+				"childReference" : recordIdStaticChildReference,
+				"path" : nextLevelPath,
+				"data" : recordIdData,
+				"metadataProvider" : metadataProvider,
+				"pubSub" : pubSub
+			};
+			CORA.metadataChildInitializer(dependencies, initializerSpec);
 		}
 
 		function possiblyInitializeLinkedRepeatId(nextLevelPath) {
 			if (isLinkToRepeatingPartOfRecord()) {
 				var recordTypeStaticChildReference = createRefWithRef("linkedRepeatIdTextVar");
-				CORA.metadataChildInitializer(dependencies, recordTypeStaticChildReference, nextLevelPath, spec.data,
-						metadataProvider, pubSub);
+				var initializerSpec = {
+					"childReference" : recordTypeStaticChildReference,
+					"path" : nextLevelPath,
+					"data" : spec.data,
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub
+				};
+				CORA.metadataChildInitializer(dependencies, initializerSpec);
 			}
 		}
 
@@ -322,8 +346,14 @@ var CORA = (function(cora) {
 			var nextLevelChildReferences = cMetadataGroupForResourceLinkGroup
 					.getFirstChildByNameInData('childReferences');
 			nextLevelChildReferences.children.forEach(function(childReference) {
-				CORA.metadataChildInitializer(dependencies, childReference, nextLevelPath, spec.data,
-						metadataProvider, pubSub);
+				var initializerSpec = {
+					"childReference" : childReference,
+					"path" : nextLevelPath,
+					"data" : spec.data,
+					"metadataProvider" : metadataProvider,
+					"pubSub" : pubSub
+				};
+				CORA.metadataChildInitializer(dependencies, initializerSpec);
 			});
 		}
 

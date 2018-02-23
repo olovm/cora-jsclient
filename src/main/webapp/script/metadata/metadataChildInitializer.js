@@ -20,11 +20,10 @@
 
 var CORA = (function(cora) {
 	"use strict";
-	cora.metadataChildInitializer = function(dependencies, childReferenceIn,
-			path, dataIn, metadataProvider, pubSub) {
+	cora.metadataChildInitializer = function(dependencies, spec) {
 
-		var childReference = CORA.coraData(childReferenceIn);
-		var data = CORA.coraData(dataIn);
+		var childReference = CORA.coraData(spec.childReference);
+		var data = CORA.coraData(spec.data);
 
 		var cRef = CORA.coraData(childReference
 				.getFirstChildByNameInData("ref"));
@@ -107,7 +106,7 @@ var CORA = (function(cora) {
 
 		function getDataChildrenForMetadata(nameInDataIn, attributesIn) {
 			var dataChildrenForMetadataOut = [];
-			if (dataIn !== undefined
+			if (spec.data !== undefined
 					&& data.containsChildWithNameInDataAndAttributes(
 							nameInDataIn, attributesIn)) {
 				dataChildrenForMetadataOut = data
@@ -223,7 +222,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(id) {
-			return CORA.coraData(metadataProvider.getMetadataById(id));
+			return CORA.coraData(spec.metadataProvider.getMetadataById(id));
 		}
 
 		function hasData() {
@@ -244,12 +243,12 @@ var CORA = (function(cora) {
 				repeatId) {
 			var initializerDep = {
 				"recordTypeProvider" :dependencies.recordTypeProvider,
-				"metadataProvider" : metadataProvider,
-				"pubSub" : pubSub
+				"metadataProvider" : spec.metadataProvider,
+				"pubSub" : spec.pubSub
 			};
 			var initializerSpec = {
 					"metadataId" : ref,
-					"path" : path,
+					"path" : spec.path,
 					"data" : dataChild,
 					"repeatId" : repeatId
 			};
