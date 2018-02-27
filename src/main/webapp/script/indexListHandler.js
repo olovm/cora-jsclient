@@ -68,7 +68,15 @@ var CORA = (function(cora) {
 
 		function startNextUploadIfThereIsMoreInQueue() {
 			var dataRecord = uploadQue.shift();
-			if (dataRecord !== undefined && ongoingIndexing) {
+			if (dataRecord !== undefined) {
+				startNextUploadIfStillOngoingIndexing(dataRecord);
+			}else{
+				indexOrderView.removeChild(cancelButton);
+			}
+		}
+		
+		function startNextUploadIfStillOngoingIndexing(dataRecord){
+			if(ongoingIndexing){
 				startNextUpload(dataRecord);
 			}
 		}
