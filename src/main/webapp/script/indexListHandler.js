@@ -39,6 +39,24 @@ var CORA = (function(cora) {
 			indexData();
 		}
 
+		function addIndexOrderView() {
+			createIndexOrderView();
+			var buttonText = dependencies.textProvider
+				.getTranslation("theClient_cancelIndexingText");
+			cancelButton = createButton(buttonText, cancelIndexing,
+				"cancelButton");
+			indexOrderView.appendChild(cancelButton);
+			var indexOrders = dependencies.uploadManager.view.getWorkView().firstChild;
+			indexOrders.appendChild(indexOrderView);
+
+		}
+
+		function createIndexOrderView() {
+			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
+			indexOrderView.textContent = dependencies.textProvider
+				.getTranslation("theClient_indexedText");
+		}
+
 		function indexData() {
 			spec.dataList.data.forEach(pushToQue);
 			startNextUploadIfThereIsMoreInQueue();
@@ -104,24 +122,6 @@ var CORA = (function(cora) {
 
 		function getNumberOfIndexedRecords() {
 			return numberOfIndexRecords;
-		}
-
-		function addIndexOrderView() {
-			createIndexOrderView();
-			var buttonText = dependencies.textProvider
-					.getTranslation("theClient_cancelIndexingText");
-			cancelButton = createButton(buttonText, cancelIndexing,
-					"cancelButton");
-			indexOrderView.appendChild(cancelButton);
-			var indexOrders = dependencies.uploadManager.view.getWorkView().firstChild;
-			indexOrders.appendChild(indexOrderView);
-
-		}
-
-		function createIndexOrderView() {
-			indexOrderView = CORA.gui.createSpanWithClassName("indexOrder");
-			indexOrderView.textContent = dependencies.textProvider
-					.getTranslation("theClient_indexedText");
 		}
 
 		function createButton(text, onclickMethod, className) {
