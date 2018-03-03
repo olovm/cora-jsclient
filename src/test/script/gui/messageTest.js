@@ -114,9 +114,8 @@ QUnit.test("testRemoveButton", function(assert) {
 	assert.visible(view);
 
 	var removeButton = view.childNodes[0];
-	var event = document.createEvent('Event');
-	removeButton.onclick(event);
-
+	CORATESTHELPER.simulateOnclick(removeButton);
+	
 	assert.notVisible(view);
 	// to prevent rouge timers call remove on elements after test has completed
 	message.clearHideTimeout();
@@ -135,8 +134,7 @@ QUnit.test("testRemoveButtonMultipleTransitionsMayCallHideMoreThanOnce", functio
 	assert.visible(view);
 	
 	var removeButton = view.childNodes[0];
-	var event = document.createEvent('Event');
-	removeButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(removeButton);
 	
 	assert.notVisible(view);
 	var noProblem = true;

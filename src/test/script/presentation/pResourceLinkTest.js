@@ -101,8 +101,7 @@ QUnit.test("testInitInfo", function(assert) {
 	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 	assert.equal(view.childNodes.length, 3);
 
-	var event = document.createEvent('Event');
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.equal(view.childNodes.length, 4);
 	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 
@@ -116,7 +115,7 @@ QUnit.test("testInitInfo", function(assert) {
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
 			"metadataGroupForResourceLinkGroupDefText", assert);
 
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.equal(view.childNodes.length, 4);
 	assert.equal(infoView.childNodes.length, 7);
 
@@ -131,7 +130,7 @@ QUnit.test("testInitInfo", function(assert) {
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[6], "technicalView",
 			"presentationId: masterPResLink", assert);
 
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.equal(view.childNodes.length, 3);
 });
 

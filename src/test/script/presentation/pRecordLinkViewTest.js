@@ -265,8 +265,7 @@ QUnit.test("testClearLinkedRecordIdButtonCall", function(assert) {
 	pRecordLinkView.showClearLinkedRecordIdButton(onclickMethod);
 	var clearLinkedRecordIdButton = this.getButtonViewViewFromView(view).childNodes[this.defaultLastChildPosition];
 
-	var event = document.createEvent('Event');
-	clearLinkedRecordIdButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(clearLinkedRecordIdButton);
 
 	assert.strictEqual(clicked, true);
 });
@@ -303,12 +302,11 @@ QUnit.test("testAddChildPresentationClickableLoadInBackground", function(assert)
 	var openButton = this.getButtonViewViewFromView(view).childNodes[this.defaultLastChildPosition];
 	assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
 
-	var event = document.createEvent('Event');
-	event.ctrlKey = true;
-	openButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(openButton,{ctrlKey:true});
 
 	assert.strictEqual(this.spec.pRecordLink.getOpenLinkedRecord(0).loadInBackground, "true");
 });
+
 QUnit.test("testAddChildPresentationClickableLoadInForground", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	pRecordLinkView.showOpenLinkedRecordButton();
@@ -316,9 +314,8 @@ QUnit.test("testAddChildPresentationClickableLoadInForground", function(assert) 
 	var openButton = this.getButtonViewViewFromView(view).childNodes[this.defaultLastChildPosition];
 	assert.strictEqual(openButton.className, "iconButton openLinkedRecordButton");
 
-	var event = document.createEvent('Event');
-	// event.ctrlKey = true;
-	openButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(openButton);
+
 
 	assert.strictEqual(this.spec.pRecordLink.getOpenLinkedRecord(0).loadInBackground, "false");
 });
@@ -326,7 +323,6 @@ QUnit.test("testAddChildPresentationClickableLoadInForground", function(assert) 
 QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 	this.spec.info.technicalInfo = null;
 	var expectedSpec = {
-		// "appendTo" : {},
 		"level1" : [ {
 			"className" : "textView",
 			"text" : "someText"
@@ -428,10 +424,10 @@ QUnit.test("testShowSearchButtonAddedToView", function(assert) {
 	assert.strictEqual(showSearchButton.className, "iconButton showSearchButton");
 	assert.strictEqual(view.contains(fakeSearchHandlerView), true);
 
-	var event = document.createEvent('Event');
-	showSearchButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(showSearchButton);
+
 	assert.strictEqual(view.contains(fakeSearchHandlerView), false);
 
-	showSearchButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(showSearchButton);
 	assert.strictEqual(view.contains(fakeSearchHandlerView), true);
 });

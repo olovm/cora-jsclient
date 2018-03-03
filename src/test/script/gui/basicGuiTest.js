@@ -26,41 +26,6 @@ QUnit.module("gui/basicGuiTest.js", {
 	}
 });
 
-QUnit.test("testCreateButton", function(assert) {
-	var clicked = false;
-
-	var spec = {
-		"className" : "iconButton removeButton",
-		"onclick" : function() {
-			clicked = true;
-		}
-	};
-	var button = CORA.gui.createButton(spec);
-	assert.strictEqual(button.className, "iconButton removeButton");
-
-	var event = document.createEvent('Event');
-	button.onclick(event);
-	assert.strictEqual(clicked, true);
-});
-
-QUnit.test("testCreateButtonWithText", function(assert) {
-	var clicked = false;
-	var spec = {
-		"className" : "iconButton removeButton",
-		"onclick" : function() {
-			clicked = true;
-		},
-		"text" : "someText"
-	};
-	var button = CORA.gui.createButton(spec);
-	assert.strictEqual(button.className, "iconButton removeButton");
-
-	var event = document.createEvent('Event');
-	button.onclick(event);
-	assert.strictEqual(clicked, true);
-	assert.strictEqual(button.textContent, "someText");
-});
-
 QUnit.test("testCreateRemoveButton", function(assert) {
 	var clicked = false;
 
@@ -70,8 +35,8 @@ QUnit.test("testCreateRemoveButton", function(assert) {
 	var button = CORA.gui.createRemoveButton(onclick);
 	assert.strictEqual(button.className, "iconButton removeButton");
 
-	var event = document.createEvent('Event');
-	button.onclick(event);
+	CORATESTHELPER.simulateOnclick(button);
+	
 	assert.strictEqual(clicked, true);
 });
 

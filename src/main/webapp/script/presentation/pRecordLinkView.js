@@ -51,9 +51,9 @@ var CORA = (function(cora) {
 		function createButtonWithClassNameAndOnclickMethod(className, onclickMethod) {
 			var buttonSpec = {
 				"className" : "iconButton " + className,
-				"onclick" : onclickMethod
+				action:{method:onclickMethod}
 			};
-			return CORA.gui.createButton(buttonSpec);
+			return CORA.gui.button(buttonSpec);
 		}
 
 		function createShowSearchButton() {

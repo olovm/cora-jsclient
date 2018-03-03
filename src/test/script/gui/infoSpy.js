@@ -26,7 +26,7 @@ var CORATEST = (function(coraTest) {
 		var infoButtonSpec = {
 			"className" : "infoButtonSpy"
 		};
-		var button = CORA.gui.createButton(infoButtonSpec);
+		var button = CORA.gui.button(infoButtonSpec);
 
 		function addBaseViewAccordingToSpec() {
 			if (spec.appendTo !== undefined) {

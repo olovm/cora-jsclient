@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2018 Olov McKie
  * Copyright 2017 Uppsala University Library
 *
  * This file is part of Cora.
@@ -31,10 +31,12 @@ var CORA = (function(cora) {
 			className += getClassNameFromSpec();
 			var holderButtonSpec = {
 				"className" : className,
-				"onclick" : toggleHolder,
+				action : {
+					method : toggleHolder
+				},
 				"text" : spec.buttonText
 			};
-			return CORA.gui.createButton(holderButtonSpec);
+			return CORA.gui.button(holderButtonSpec);
 		}
 
 		function getClassNameFromSpec() {

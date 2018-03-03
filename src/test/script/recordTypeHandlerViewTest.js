@@ -93,8 +93,8 @@ QUnit.test("initWithCreateButtonAsWeHaveACreateNewMethod", function(assert) {
 	assert.strictEqual(buttonView.className, "buttonView");
 	assert.strictEqual(createButton.className, "iconButton createButton");
 
-	var event = document.createEvent('Event');
-	createButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(createButton);
+	
 	assert.strictEqual(createNewRecordCalled, "true");
 	assert.strictEqual(createNewMethodIsCalled, true);
 });

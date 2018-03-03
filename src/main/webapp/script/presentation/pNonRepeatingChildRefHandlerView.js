@@ -81,20 +81,30 @@ var CORA = (function(cora) {
 		function createDefaultAndAlternativeButtons() {
 			var alternativeButtonSpec = {
 				"className" : "iconButton alternativeButton",
-				"onclick" : function() {
-					toggleDefaultShown("false");
+				action : {
+					method : function() {
+						toggleDefaultShown("false");
+					}
+//					,onkeydown:{
+//						keys:[" ", "Enter"]
+//					}
 				}
 			};
-			alternativeButton = CORA.gui.createButton(alternativeButtonSpec);
+			alternativeButton = CORA.gui.button(alternativeButtonSpec);
 			buttonView.appendChild(alternativeButton);
 
 			var defaultButtonSpec = {
 				"className" : "iconButton defaultButton",
-				"onclick" : function() {
-					toggleDefaultShown("true");
+				action : {
+					method : function() {
+						toggleDefaultShown("true");
+					}
+//					,onkeydown:{
+//						keys:[" ", "Enter"]
+//					}
 				}
 			};
-			defaultButton = CORA.gui.createButton(defaultButtonSpec);
+			defaultButton = CORA.gui.button(defaultButtonSpec);
 			buttonView.appendChild(defaultButton);
 		}
 
@@ -123,7 +133,7 @@ var CORA = (function(cora) {
 			if (element !== undefined) {
 				if (element.styleOriginal !== undefined) {
 					element.style.display = element.styleOriginal;
-				}else{
+				} else {
 					element.style.display = "";
 				}
 			}

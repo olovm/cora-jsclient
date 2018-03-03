@@ -37,7 +37,7 @@ var CORA = (function(cora) {
 
 		function createHeader() {
 			var headerNew = CORA.gui.createSpanWithClassName("header");
-			if(specHasFetchListMethod()){
+			if (specHasFetchListMethod()) {
 				headerNew.className = headerNew.className + " clickable";
 				headerNew.onclick = spec.fetchListMethod;
 			}
@@ -45,8 +45,8 @@ var CORA = (function(cora) {
 			return headerNew;
 		}
 
-		function specHasFetchListMethod(){
-			return spec.fetchListMethod !==undefined;
+		function specHasFetchListMethod() {
+			return spec.fetchListMethod !== undefined;
 		}
 
 		function possiblyCreateCreateButton() {
@@ -58,11 +58,13 @@ var CORA = (function(cora) {
 		function createCreateButton() {
 			var buttonSpec = {
 				"className" : "iconButton createButton",
-				"onclick" : function() {
-					spec.createNewMethod("true");
+				action : {
+					method : function() {
+						spec.createNewMethod("true");
+					}
 				}
 			};
-			return CORA.gui.createButton(buttonSpec);
+			return CORA.gui.button(buttonSpec);
 		}
 
 		function getView() {

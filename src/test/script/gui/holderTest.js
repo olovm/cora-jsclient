@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2018 Olov McKie
  * Copyright 2017 Uppsala University Library
  *
  * This file is part of Cora.
@@ -101,9 +101,8 @@ QUnit.test("initTestOneButtonClickAfterOpenCloseCall", function(assert) {
 	};
 	var holder = CORA.holder(spec);
 
-	var event = document.createEvent('Event');
 	var button = holder.getButton();
-	button.onclick(event);
+	CORATESTHELPER.simulateOnclick(button);
 
 	assert.ok(wasCalled);
 });
@@ -140,12 +139,10 @@ QUnit.test("initTestHolderOneButtonClick", function(assert) {
 		"appendTo" : this.fixture
 	};
 	var holder = CORA.holder(spec);
+	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
 
-	var event = document.createEvent('Event');
 	var button = holder.getButton();
-	button.onclick(event);
-
-	assert.strictEqual(holder.getStatus(), CORA.holder.OPEN);
+	CORATESTHELPER.simulateOnclick(button);
 
 	var holderView = holder.getView();
 	assert.visible(holderView);
@@ -157,10 +154,9 @@ QUnit.test("initTestHolderTwoButtonClick", function(assert) {
 	};
 	var holder = CORA.holder(spec);
 
-	var event = document.createEvent('Event');
 	var button = holder.getButton();
-	button.onclick(event);
-	button.onclick(event);
+	CORATESTHELPER.simulateOnclick(button);
+	CORATESTHELPER.simulateOnclick(button);
 
 	assert.strictEqual(holder.getStatus(), CORA.holder.CLOSED);
 

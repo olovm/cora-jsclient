@@ -63,11 +63,13 @@ var CORA = (function(cora) {
 			var buttonSpec = {
 				"className" : "menuOption",
 				"text" : loginOption.text,
-				"onclick" : function() {
-					spec.loginMethod(loginOption);
+				action : {
+					method : function() {
+						spec.loginMethod(loginOption);
+					}
 				}
 			};
-			var optionButton = CORA.gui.createButton(buttonSpec);
+			var optionButton = CORA.gui.button(buttonSpec);
 			menu.appendChild(optionButton);
 		}
 
@@ -95,9 +97,11 @@ var CORA = (function(cora) {
 			var buttonSpec = {
 				"className" : "menuOption",
 				"text" : logoutOption.text,
-				"onclick" : logoutOption.call
+				action : {
+					method : logoutOption.call
+				}
 			};
-			var optionButton = CORA.gui.createButton(buttonSpec);
+			var optionButton = CORA.gui.button(buttonSpec);
 			menu.appendChild(optionButton);
 		}
 

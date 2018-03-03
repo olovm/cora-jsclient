@@ -168,16 +168,14 @@ QUnit.test("testButtonFunctions", function(assert) {
 	assert.notVisible(defaultButton);
 	assert.visible(alternativeButton);
 
-	var event = document.createEvent('Event');
-	alternativeButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(alternativeButton);
 	assert.notVisible(this.someNode);
 	assert.visible(this.someOtherNode);
 	assert.visible(defaultButton);
 	assert.notVisible(alternativeButton);
 
 	
-	var event2 = document.createEvent('Event');
-	defaultButton.onclick(event2);
+	CORATESTHELPER.simulateOnclick(defaultButton);
 	assert.visible(this.someNode);
 	assert.notVisible(this.someOtherNode);
 	assert.notVisible(defaultButton);
@@ -229,10 +227,10 @@ QUnit.test("testHideAndShowContentAlternativeShown", function(assert) {
 	
 	viewHandler.showContent();
 	
-	var event = document.createEvent('Event');
-	alternativeButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(alternativeButton);
 	
-	alternativeButton.onclick(event);
+	
+	CORATESTHELPER.simulateOnclick(alternativeButton);
 	assert.notVisible(this.someNode);
 	assert.visible(this.someOtherNode);
 	assert.visible(buttonView);

@@ -97,8 +97,7 @@ QUnit.test("testInitInfo", function(assert) {
 	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 	assert.equal(view.childNodes.length, 2);
 
-	var event = document.createEvent('Event');
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.equal(view.childNodes.length, 3);
 	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 
@@ -112,7 +111,7 @@ QUnit.test("testInitInfo", function(assert) {
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
 			"groupIdOneTextChildDefText", assert);
 
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.equal(view.childNodes.length, 3);
 	assert.equal(infoView.childNodes.length, 7);
 
@@ -126,7 +125,7 @@ QUnit.test("testInitInfo", function(assert) {
 			"nameInData: groupIdOneTextChild", assert);
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[6], "technicalView",
 			"presentationId: pgGroupIdOneTextChild", assert);
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.equal(view.childNodes.length, 2);
 });
 
@@ -143,8 +142,7 @@ QUnit.test("testGetInfoShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", fun
 	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 	assert.equal(view.childNodes.length, 2);
 
-	var event = document.createEvent('Event');
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.equal(view.childNodes.length, 3);
 	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$").test(view.className));
 
@@ -158,7 +156,7 @@ QUnit.test("testGetInfoShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", fun
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
 			"groupIdOneTextChild2DefText", assert);
 
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.equal(view.childNodes.length, 3);
 	assert.equal(infoView.childNodes.length, 7);
 
@@ -174,7 +172,7 @@ QUnit.test("testGetInfoShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", fun
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[6], "technicalView",
 			"presentationId: pgGroupIdOneTextChild", assert);
 
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.equal(view.childNodes.length, 2);
 });
 

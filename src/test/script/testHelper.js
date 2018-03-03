@@ -1,6 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
- * Copyright 2016 Uppsala University Library
+ * Copyright 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -17,29 +16,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+var CORATESTHELPER = (function(coraTestHelper) {
 	"use strict";
-	cora.gui.createRemoveButton = function(onclick) {
-		var spec = {
-			"className" : "iconButton removeButton",
-			action : {
-				method : onclick
-			}
-		};
-		return CORA.gui.button(spec);
+	coraTestHelper.simulateOnclick = function(object, spec) {
+		var event = document.createEvent('Event');
+		event.initEvent('click', true, true);
+		if (spec !== undefined && spec.ctrlKey) {
+			event.ctrlKey = true;
+		}
+		object.dispatchEvent(event);
 	};
 
-	cora.gui.createSpanWithClassName = function(className) {
-		var spanNew = document.createElement("span");
-		spanNew.className = className;
-		return spanNew;
+	coraTestHelper.simulateKeydown = function(object, keydown) {
+		var event = new KeyboardEvent("keydown", {
+			"key" : keydown
+		});
+		object.dispatchEvent(event);
 	};
 
-	cora.gui.createDivWithClassName = function(className) {
-		var divNew = document.createElement("div");
-		divNew.className = className;
-		return divNew;
-	};
-
-	return cora;
-}(CORA));
+	return coraTestHelper;
+}(CORATESTHELPER || {}));

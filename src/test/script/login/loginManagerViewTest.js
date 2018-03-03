@@ -89,8 +89,7 @@ QUnit.module("loginManagerViewTest.js", {
 		};
 		this.openMenu = function() {
 			var view = this.getHtml();
-			var event = document.createEvent('Event');
-			view.onclick(event);
+			CORATESTHELPER.simulateOnclick(view);
 		};
 	},
 	afterEach : function() {
@@ -148,14 +147,10 @@ QUnit.test("testLoginOptions", function(assert) {
 	assert.strictEqual(menu.childNodes[0].textContent, "appToken");
 	assert.strictEqual(menu.childNodes[1].textContent, "webRedirect uu");
 
-	var event = document.createEvent('Event');
-	menu.childNodes[0].onclick(event);
-//	assert.ok(this.getAppTokenLoginRun());
+	CORATESTHELPER.simulateOnclick(menu.childNodes[0]);
 	assert.strictEqual(this.getLoginMethodCalled(0), this.loginOptions[0]);
 
-	var event2 = document.createEvent('Event');
-	menu.childNodes[1].onclick(event2);
-//	assert.ok(this.getWebRedirectLoginRun());
+	CORATESTHELPER.simulateOnclick(menu.childNodes[1]);
 	assert.strictEqual(this.getLoginMethodCalled(1), this.loginOptions[1]);
 });
 
@@ -176,8 +171,7 @@ QUnit.test("testSetStateLoggedin", function(assert) {
 	assert.strictEqual(menu.childNodes.length, 1);
 	assert.strictEqual(menu.childNodes[0].textContent, "theClient_logoutMenuText");
 
-	var event2 = document.createEvent('Event');
-	menu.childNodes[0].onclick(event2);
+	CORATESTHELPER.simulateOnclick(menu.childNodes[0]);
 	assert.ok(this.getLogoutMethodHasBeenCalled());
 
 });

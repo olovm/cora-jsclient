@@ -161,8 +161,8 @@ QUnit.test("testRemoveButtonOnclick", function(assert) {
 	var buttonView = view.childNodes[0];
 	var removeButton = buttonView.firstChild;
 
-	var event = document.createEvent('Event');
-	removeButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(removeButton);
+	
 	// subscription
 	var removes = this.dependencies.jsBookkeeper.getRemoveDataArray();
 	assert.deepEqual(removes.length, 1);

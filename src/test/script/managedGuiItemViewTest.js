@@ -59,8 +59,8 @@ QUnit.test("testMenuViewHasRemoveButtonThatCallsRemoveMethods", function(assert)
 	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
 	var menuView = managedGuiItemView.getMenuView();
 	assert.strictEqual(menuView.lastChild.className, "iconButton removeButton");
-	var event = document.createEvent("Event");
-	menuView.lastChild.onclick(event);
+	CORATESTHELPER.simulateOnclick(menuView.lastChild);
+	
 	assert.ok(removeMethodHasBeenCalled);
 });
 QUnit.test("testMenuViewHasNoRemoveButtonIfNoRemoveMethod", function(assert) {

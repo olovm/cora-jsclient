@@ -126,8 +126,7 @@ QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
 	assert.equal(infoButton.nodeName, "SPAN");
 	assert.equal(infoButton.className, "iconButton infoButton");
 
-	var event = document.createEvent('Event');
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$")
 			.test(attachedPCollectionVar.view.className));
 	assert.equal(view.childNodes.length, 3);
@@ -142,7 +141,7 @@ QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[1], "defTextView",
 			"userSuppliedIdCollectionVarDefText", assert);
 
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$")
 			.test(attachedPCollectionVar.view.className));
 	assert.equal(view.childNodes.length, 3);
@@ -159,12 +158,12 @@ QUnit.test("testInitInfoButtonCollectionVariable", function(assert) {
 	CORATEST.testSpanWithClassNameOnlyContainsText(infoView.childNodes[6], "technicalView",
 			"presentationId: userSuppliedIdCollectionVarPCollVar", assert);
 
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.notOk(new RegExp("^(.*\\s)*infoActive(\\s.*)*$")
 			.test(attachedPCollectionVar.view.className));
 	assert.equal(view.childNodes.length, 2);
 
-	infoButton.onclick(event);
+	CORATESTHELPER.simulateOnclick(infoButton);
 	assert.ok(new RegExp("^(.*\\s)*infoActive(\\s.*)*$")
 			.test(attachedPCollectionVar.view.className));
 	assert.equal(view.childNodes.length, 3);

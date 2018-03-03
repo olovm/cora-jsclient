@@ -70,10 +70,9 @@ QUnit.test("initTestOneButtonClickafterLevelChangeCall", function(assert) {
 	var info = CORA.info(spec);
 	assert.strictEqual(this.fixture.childNodes.length, 0);
 
-	var event = document.createEvent('Event');
 	var button = info.getButton();
-	button.onclick(event);
-
+	CORATESTHELPER.simulateOnclick(button);
+	
 	assert.ok(wasCalled);
 });
 
@@ -84,10 +83,9 @@ QUnit.test("initTestInfoViewAppendToOneButtonClick", function(assert) {
 	var info = CORA.info(spec);
 	assert.strictEqual(this.fixture.childNodes.length, 0);
 
-	var event = document.createEvent('Event');
 	var button = info.getButton();
-	button.onclick(event);
-
+	CORATESTHELPER.simulateOnclick(button);
+	
 	assert.strictEqual(info.getInfoLevel(), CORA.info.TEXT);
 
 	var infoView = info.getView();
@@ -113,10 +111,9 @@ QUnit.test("initTestInfoViewInsertAfterOneButtonClick", function(assert) {
 	};
 	var info = CORA.info(spec);
 
-	var event = document.createEvent('Event');
 	var button = info.getButton();
-	button.onclick(event);
-
+	CORATESTHELPER.simulateOnclick(button);
+	
 	var infoView = info.getView();
 	var infoFromFixture = this.fixture.childNodes[1];
 	assert.strictEqual(infoView, infoFromFixture);
@@ -140,9 +137,8 @@ QUnit.test("initTestInfoViewInsertBeforeOneButtonClick", function(assert) {
 	};
 	var info = CORA.info(spec);
 	
-	var event = document.createEvent('Event');
 	var button = info.getButton();
-	button.onclick(event);
+	CORATESTHELPER.simulateOnclick(button);
 	
 	var infoView = info.getView();
 	var infoFromFixture = this.fixture.childNodes[1];
@@ -165,10 +161,9 @@ QUnit.test("initTestInfoViewWithInfoLevel1", function(assert) {
 	};
 	var info = CORA.info(spec);
 
-	var event = document.createEvent('Event');
 	var button = info.getButton();
-	button.onclick(event);
-
+	CORATESTHELPER.simulateOnclick(button);
+	
 	var infoView = info.getView();
 	assert.equal(infoView.childNodes.length, 1);
 
@@ -189,9 +184,9 @@ QUnit.test("initTestInfoViewWithInfoLevel1TwoTexts", function(assert) {
 	};
 	var info = CORA.info(spec);
 
-	var event = document.createEvent('Event');
 	var button = info.getButton();
-	button.onclick(event);
+	CORATESTHELPER.simulateOnclick(button);
+	
 
 	var infoView = info.getView();
 	assert.equal(infoView.childNodes.length, 2);
@@ -209,10 +204,10 @@ QUnit.test("initTestInfoViewAppendToTwoButtonClick", function(assert) {
 	var info = CORA.info(spec);
 	assert.strictEqual(this.fixture.childNodes.length, 0);
 
-	var event = document.createEvent('Event');
 	var button = info.getButton();
-	button.onclick(event);
-	button.onclick(event);
+	CORATESTHELPER.simulateOnclick(button);
+	CORATESTHELPER.simulateOnclick(button);
+		
 
 	assert.strictEqual(info.getInfoLevel(), CORA.info.ALL);
 
@@ -247,11 +242,10 @@ QUnit.test("initTestInfoViewWithInfoLevel1TwoTexts", function(assert) {
 	};
 	var info = CORA.info(spec);
 
-	var event = document.createEvent('Event');
 	var button = info.getButton();
-	button.onclick(event);
-	button.onclick(event);
-
+	CORATESTHELPER.simulateOnclick(button);
+	CORATESTHELPER.simulateOnclick(button);
+	
 	var infoView = info.getView();
 	assert.equal(infoView.childNodes.length, 4);
 
@@ -272,11 +266,11 @@ QUnit.test("initTestInfoViewAppendToThreeButtonClick", function(assert) {
 	var info = CORA.info(spec);
 	assert.strictEqual(this.fixture.childNodes.length, 0);
 
-	var event = document.createEvent('Event');
 	var button = info.getButton();
-	button.onclick(event);
-	button.onclick(event);
-	button.onclick(event);
+	CORATESTHELPER.simulateOnclick(button);
+	CORATESTHELPER.simulateOnclick(button);
+	CORATESTHELPER.simulateOnclick(button);
+	
 
 	assert.strictEqual(info.getInfoLevel(), CORA.info.NONE);
 
@@ -297,9 +291,9 @@ QUnit.test("initOnclickOnInfoPart", function(assert) {
 	};
 	var info = CORA.info(spec);
 
-	var event = document.createEvent('Event');
 	var button = info.getButton();
-	button.onclick(event);
+	CORATESTHELPER.simulateOnclick(button);
+	
 
 	var firstInfoPart = info.getView().firstChild;
 	assert.equal(firstInfoPart.onclick, spec.level1[0].onclickMethod);
