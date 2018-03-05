@@ -74,7 +74,7 @@ var CORA = (function(cora) {
 				indexOrderView.removeChild(cancelButton);
 			}
 		}
-		
+
 		function startNextUploadIfStillOngoingIndexing(dataRecord){
 			if(ongoingIndexing){
 				startNextUpload(dataRecord);
