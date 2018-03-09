@@ -132,17 +132,35 @@ QUnit.test("testCancelIndexingButtonIsAddedToUploadManager", function(assert) {
 	assert.strictEqual(cancelButton.onclick, indexListHandler.cancelIndexing);
 });
 
+QUnit.test("testCancelIndexingButtonIsRemovedWhenIndexingIsFinished", function(assert) {
+	this.spec.dataList = CORATEST.searchRecordListOneRecord.dataList;
+	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
+	indexListHandler.indexDataList();
+
+	var workView = this.uploadManager.view.getWorkView();
+	var indexOrders = workView.firstChild;
+
+	var indexOrder = indexOrders.firstChild;
+	var cancelButton = indexOrder.childNodes[1];
+	assert.strictEqual(cancelButton.type, "button");
+	assert.strictEqual(cancelButton.className, "cancelButton");
+	
+	indexListHandler.indexingFinished();
+	var noLongerButton = indexOrder.childNodes[1];
+	assert.strictEqual(noLongerButton.className, "indexItem");
+});
+
 
 QUnit.test("testIndexTimeoutMethod", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
 
-		indexListHandler.timeoutMethod();
+	indexListHandler.timeoutMethod();
 
-		var workView = this.uploadManager.view.getWorkView();
-		var indexOrder = workView.firstChild.firstChild;
-		assert.strictEqual(indexOrder.lastChild.textContent, "TIMEOUT");
-	});
+	var workView = this.uploadManager.view.getWorkView();
+	var indexOrder = workView.firstChild.firstChild;
+	assert.strictEqual(indexOrder.lastChild.textContent, "TIMEOUT");
+});
 
 QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
 	this.dependencies.indexHandlerFactory =  CORATEST.standardFactorySpy("indexHandlerCallingLoadMethodSpy");
@@ -175,7 +193,7 @@ QUnit.test("testCancelIndexingData", function(assert) {
 	assert.stringifyEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 2);
 });
 
-QUnit.test("testResumelIndexingData", function(assert) {
+QUnit.test("testResumeIndexingData", function(assert) {
 	var indexListHandler = CORA.indexListHandler(this.dependencies, this.spec);
 	indexListHandler.indexDataList();
 	assert.stringifyEqual(indexListHandler.getOngoingIndexing(), true);

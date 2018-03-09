@@ -36,8 +36,14 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData('childReferences');
 			var topLevelPath = {};
 			topLevelChildReferences.children.forEach(function(childReference) {
-				CORA.metadataChildInitializer(dependencies, childReference, topLevelPath, topLevelData,
-						spec.metadataProvider, spec.pubSub);
+				var initializerSpec = {
+					"childReference" : childReference,
+					"path" : topLevelPath,
+					"data" : topLevelData,
+					"metadataProvider" : spec.metadataProvider,
+					"pubSub" : spec.pubSub
+				};
+				CORA.metadataChildInitializer(dependencies, initializerSpec);
 			});
 		}
 
