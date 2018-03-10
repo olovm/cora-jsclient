@@ -1,5 +1,6 @@
 /*
  * Copyright 2018 Uppsala University Library
+ * Copyright 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -22,30 +23,43 @@ QUnit.module("pNonRepeatingChildRefHandlerViewTest.js", {
 		this.fixture = document.getElementById("qunit-fixture");
 		this.dependencies = {};
 
-		this.someNode = document.createElement("SPAN");
-		this.someNode.className = "someNode";
+		this.defaultChild = document.createElement("SPAN");
+		this.defaultChild.className = "someNode";
+		this.defaultButton;
 
-		this.someOtherNode = document.createElement("SPAN");
-		this.someOtherNode.className = "someOtherNode";
+		this.alternativeChild = document.createElement("SPAN");
+		this.alternativeChild.className = "someOtherNode";
+		this.alternativeButton;
 
 		this.createHandlerAddChildrenAndReturnHandler = function() {
-			var pChildRefHandlerViewSpec = {mode : "input"};
+			var pChildRefHandlerViewSpec = {
+				mode : "input"
+			};
 			var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(
 					this.dependencies, pChildRefHandlerViewSpec);
-			pNonRepeatingChildRefHandlerView.addChild(this.someNode);
+			pNonRepeatingChildRefHandlerView.addChild(this.defaultChild);
 
-			pNonRepeatingChildRefHandlerView.addAlternativeChild(this.someOtherNode);
+			pNonRepeatingChildRefHandlerView.addAlternativeChild(this.alternativeChild);
 			this.fixture.appendChild(pNonRepeatingChildRefHandlerView.getView());
+
+			var view = pNonRepeatingChildRefHandlerView.getView();
+			var buttonView = view.childNodes[2];
+			this.alternativeButton = buttonView.childNodes[0];
+			this.defaultButton = buttonView.childNodes[1];
+
 			return pNonRepeatingChildRefHandlerView;
 		}
 		this.createHandlerAddChildAndReturnHandler = function() {
-			var pChildRefHandlerViewSpec = {mode : "input"};
+			var pChildRefHandlerViewSpec = {
+				mode : "input"
+			};
 			var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(
 					this.dependencies, pChildRefHandlerViewSpec);
-			pNonRepeatingChildRefHandlerView.addChild(this.someNode);
-			
-//			pNonRepeatingChildRefHandlerView.addAlternativeChild(this.someOtherNode);
+			pNonRepeatingChildRefHandlerView.addChild(this.defaultChild);
+
+			// pNonRepeatingChildRefHandlerView.addAlternativeChild(this.alternativeChild);
 			this.fixture.appendChild(pNonRepeatingChildRefHandlerView.getView());
+
 			return pNonRepeatingChildRefHandlerView;
 		}
 	},
@@ -68,61 +82,72 @@ QUnit.test("testInitCreatesBaseView", function(assert) {
 			pChildRefHandlerViewSpec);
 	var view = pNonRepeatingChildRefHandlerView.getView();
 	assert.strictEqual(view.nodeName, "SPAN");
-	assert.strictEqual(view.className, "pNonRepeatingChildRefHandler someSContainer containsNoData");
+	assert
+			.strictEqual(view.className,
+					"pNonRepeatingChildRefHandler someSContainer containsNoData");
 });
 
-QUnit.test("testInitCreatesBaseViewWithStyleInfo", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "someSContainer",
-		textStyle : "someTextStyle",
-		childStyle : "someChildStyle"
-	};
-	var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
-	var view = pNonRepeatingChildRefHandlerView.getView();
-	assert.strictEqual(view.nodeName, "SPAN");
-	assert.strictEqual(view.className,
-			"pNonRepeatingChildRefHandler someTextStyle someChildStyle someSContainer containsNoData");
-});
+QUnit
+		.test(
+				"testInitCreatesBaseViewWithStyleInfo",
+				function(assert) {
+					var pChildRefHandlerViewSpec = {
+						"presentationId" : "someSContainer",
+						textStyle : "someTextStyle",
+						childStyle : "someChildStyle"
+					};
+					var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(
+							this.dependencies, pChildRefHandlerViewSpec);
+					var view = pNonRepeatingChildRefHandlerView.getView();
+					assert.strictEqual(view.nodeName, "SPAN");
+					assert
+							.strictEqual(view.className,
+									"pNonRepeatingChildRefHandler someTextStyle someChildStyle someSContainer containsNoData");
+				});
 
-QUnit.test("testSetStyleDataInfo", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "someSContainer",
-		textStyle : "someTextStyle",
-		childStyle : "someChildStyle"
-	};
-	var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
-	var viewHandler = pNonRepeatingChildRefHandlerView;
-	var view = viewHandler.getView();
-	assert.strictEqual(view.className,
-			"pNonRepeatingChildRefHandler someTextStyle someChildStyle someSContainer containsNoData");
-	
-	viewHandler.setHasDataStyle(true);
-	assert.strictEqual(view.className,
-	"pNonRepeatingChildRefHandler someTextStyle someChildStyle someSContainer containsData");
-	
-	viewHandler.setHasDataStyle(false);
-	assert.strictEqual(view.className,
-	"pNonRepeatingChildRefHandler someTextStyle someChildStyle someSContainer containsNoData");
-});
+QUnit
+		.test(
+				"testSetStyleDataInfo",
+				function(assert) {
+					var pChildRefHandlerViewSpec = {
+						"presentationId" : "someSContainer",
+						textStyle : "someTextStyle",
+						childStyle : "someChildStyle"
+					};
+					var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(
+							this.dependencies, pChildRefHandlerViewSpec);
+					var viewHandler = pNonRepeatingChildRefHandlerView;
+					var view = viewHandler.getView();
+					assert
+							.strictEqual(view.className,
+									"pNonRepeatingChildRefHandler someTextStyle someChildStyle someSContainer containsNoData");
 
+					viewHandler.setHasDataStyle(true);
+					assert
+							.strictEqual(view.className,
+									"pNonRepeatingChildRefHandler someTextStyle someChildStyle someSContainer containsData");
+
+					viewHandler.setHasDataStyle(false);
+					assert
+							.strictEqual(view.className,
+									"pNonRepeatingChildRefHandler someTextStyle someChildStyle someSContainer containsNoData");
+				});
 
 QUnit.test("testAddChild", function(assert) {
 	var pChildRefHandlerViewSpec = {};
 	var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(this.dependencies,
 			pChildRefHandlerViewSpec);
-	pNonRepeatingChildRefHandlerView.addChild(this.someNode);
+	pNonRepeatingChildRefHandlerView.addChild(this.defaultChild);
 
 	var view = pNonRepeatingChildRefHandlerView.getView();
 
-	assert.strictEqual(view.firstChild, this.someNode);
+	assert.strictEqual(view.firstChild, this.defaultChild);
 	assert.strictEqual(view.firstChild.className, "someNode default");
 });
 
 QUnit.test("testAddAlternativeChild", function(assert) {
 	var view = this.createHandlerAddChildrenAndReturnHandler().getView();
-	assert.strictEqual(view.childNodes[1], this.someOtherNode);
+	assert.strictEqual(view.childNodes[1], this.alternativeChild);
 	assert.strictEqual(view.childNodes[1].className, "someOtherNode alternative");
 
 	var buttonView = view.childNodes[2];
@@ -155,67 +180,90 @@ QUnit.test("testdefaultButtonHasCorrectClassName", function(assert) {
 
 QUnit.test("testButtonFunctions", function(assert) {
 	var viewHandler = this.createHandlerAddChildrenAndReturnHandler();
-	var view = viewHandler.getView();
-	var buttonView = view.childNodes[2];
-	var alternativeButton = buttonView.childNodes[0];
-	var defaultButton = buttonView.childNodes[1];
 
 	viewHandler.showContent();
-	
-	
-	assert.visible(this.someNode);
-	assert.notVisible(this.someOtherNode);
-	assert.notVisible(defaultButton);
-	assert.visible(alternativeButton);
 
-	CORATESTHELPER.simulateOnclick(alternativeButton);
-	assert.notVisible(this.someNode);
-	assert.visible(this.someOtherNode);
-	assert.visible(defaultButton);
-	assert.notVisible(alternativeButton);
+	assert.allVisible([ this.defaultChild, this.alternativeButton ]);
+	assert.allNotVisible([ this.alternativeChild, this.defaultButton ]);
 
-	
-	CORATESTHELPER.simulateOnclick(defaultButton);
-	assert.visible(this.someNode);
-	assert.notVisible(this.someOtherNode);
-	assert.notVisible(defaultButton);
-	assert.visible(alternativeButton);
+	CORATESTHELPER.simulateOnclick(this.alternativeButton);
+	assert.allNotVisible([ this.defaultChild, this.alternativeButton ]);
+	assert.allVisible([ this.alternativeChild, this.defaultButton ]);
+
+	CORATESTHELPER.simulateOnclick(this.defaultButton);
+	assert.allVisible([ this.defaultChild, this.alternativeButton ]);
+	assert.allNotVisible([ this.alternativeChild, this.defaultButton ]);
+});
+
+QUnit.test("testButtonFunctionsKeyboardSpace", function(assert) {
+	var viewHandler = this.createHandlerAddChildrenAndReturnHandler();
+
+	viewHandler.showContent();
+
+	assert.allVisible([ this.defaultChild, this.alternativeButton ]);
+	assert.allNotVisible([ this.alternativeChild, this.defaultButton ]);
+
+	CORATESTHELPER.simulateKeydown(this.alternativeButton, " ");
+	assert.allNotVisible([ this.defaultChild, this.alternativeButton ]);
+	assert.allVisible([ this.alternativeChild, this.defaultButton ]);
+
+	CORATESTHELPER.simulateKeydown(this.defaultButton, " ");
+	assert.allVisible([ this.defaultChild, this.alternativeButton ]);
+	assert.allNotVisible([ this.alternativeChild, this.defaultButton ]);
+
+});
+
+QUnit.test("testButtonFunctionsKeyboardEnter", function(assert) {
+	var viewHandler = this.createHandlerAddChildrenAndReturnHandler();
+
+	viewHandler.showContent();
+
+	assert.allVisible([ this.defaultChild, this.alternativeButton ]);
+	assert.allNotVisible([ this.alternativeChild, this.defaultButton ]);
+
+	CORATESTHELPER.simulateKeydown(this.alternativeButton, "Enter");
+	assert.allNotVisible([ this.defaultChild, this.alternativeButton ]);
+	assert.allVisible([ this.alternativeChild, this.defaultButton ]);
+
+	CORATESTHELPER.simulateKeydown(this.defaultButton, "Enter");
+	assert.allVisible([ this.defaultChild, this.alternativeButton ]);
+	assert.allNotVisible([ this.alternativeChild, this.defaultButton ]);
 });
 
 QUnit.test("testHideAndShowContentOnlyOnePresentationShouldNotCrash", function(assert) {
 	var viewHandler = this.createHandlerAddChildAndReturnHandler();
 	var view = viewHandler.getView();
-	
+
 	viewHandler.showContent();
-	
-	assert.visible(this.someNode);
-	
+
+	assert.visible(this.defaultChild);
+
 	viewHandler.hideContent();
-	assert.notVisible(this.someNode);
-	
+	assert.notVisible(this.defaultChild);
+
 	viewHandler.showContent();
-	assert.visible(this.someNode);
+	assert.visible(this.defaultChild);
 });
 
 QUnit.test("testHideAndShowContent", function(assert) {
 	var viewHandler = this.createHandlerAddChildrenAndReturnHandler();
 	var view = viewHandler.getView();
 	var buttonView = view.childNodes[2];
-	
+
 	viewHandler.showContent();
-	
-	assert.visible(this.someNode);
-	assert.notVisible(this.someOtherNode);
+
+	assert.visible(this.defaultChild);
+	assert.notVisible(this.alternativeChild);
 	assert.visible(buttonView);
-	
+
 	viewHandler.hideContent();
-	assert.notVisible(this.someNode);
-	assert.notVisible(this.someOtherNode);
+	assert.notVisible(this.defaultChild);
+	assert.notVisible(this.alternativeChild);
 	assert.notVisible(buttonView);
-	
+
 	viewHandler.showContent();
-	assert.visible(this.someNode);
-	assert.notVisible(this.someOtherNode);
+	assert.visible(this.defaultChild);
+	assert.notVisible(this.alternativeChild);
 	assert.visible(buttonView);
 });
 
@@ -224,24 +272,23 @@ QUnit.test("testHideAndShowContentAlternativeShown", function(assert) {
 	var view = viewHandler.getView();
 	var buttonView = view.childNodes[2];
 	var alternativeButton = buttonView.childNodes[0];
-	
+
 	viewHandler.showContent();
-	
-	CORATESTHELPER.simulateOnclick(alternativeButton);
-	
-	
-	CORATESTHELPER.simulateOnclick(alternativeButton);
-	assert.notVisible(this.someNode);
-	assert.visible(this.someOtherNode);
+
+	CORATESTHELPER.simulateOnclick(this.alternativeButton);
+
+	CORATESTHELPER.simulateOnclick(this.alternativeButton);
+	assert.notVisible(this.defaultChild);
+	assert.visible(this.alternativeChild);
 	assert.visible(buttonView);
-	
+
 	viewHandler.hideContent();
-	assert.notVisible(this.someNode);
-	assert.notVisible(this.someOtherNode);
+	assert.notVisible(this.defaultChild);
+	assert.notVisible(this.alternativeChild);
 	assert.notVisible(buttonView);
-	
+
 	viewHandler.showContent();
-	assert.notVisible(this.someNode);
-	assert.visible(this.someOtherNode);
+	assert.notVisible(this.defaultChild);
+	assert.visible(this.alternativeChild);
 	assert.visible(buttonView);
 });

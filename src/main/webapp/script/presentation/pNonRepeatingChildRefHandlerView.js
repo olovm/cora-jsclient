@@ -1,5 +1,6 @@
 /*
  * Copyright 2018 Uppsala University Library
+ * Copyright 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -85,10 +86,10 @@ var CORA = (function(cora) {
 					method : function() {
 						toggleDefaultShown("false");
 					}
-//					,onkeydown:{
-//						keys:[" ", "Enter"]
-//					}
-				}
+					,onkeydown:{
+						keys:[" ", "Enter"]
+					}
+				} 
 			};
 			alternativeButton = CORA.gui.button(alternativeButtonSpec);
 			buttonView.appendChild(alternativeButton);
@@ -99,9 +100,9 @@ var CORA = (function(cora) {
 					method : function() {
 						toggleDefaultShown("true");
 					}
-//					,onkeydown:{
-//						keys:[" ", "Enter"]
-//					}
+					,onkeydown:{
+						keys:[" ", "Enter"]
+					}
 				}
 			};
 			defaultButton = CORA.gui.button(defaultButtonSpec);

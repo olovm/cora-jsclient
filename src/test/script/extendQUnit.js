@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2018 Olov McKie
  * Copyright 2016 Uppsala University Library
  *
  * This file is part of Cora.
@@ -27,7 +27,18 @@ QUnit.assert.visible = function(domElement, message) {
 	QUnit.assert.ok(domElement.offsetHeight > 0, message);
 };
 
+QUnit.assert.allVisible = function(domElements, message) {
+	domElements.forEach(function(domElement) {
+		QUnit.assert.visible(domElement, message)
+	});
+};
+
 QUnit.assert.notVisible = function(domElement, message) {
 	QUnit.assert.ok(domElement.offsetHeight === 0, message);
 };
 
+QUnit.assert.allNotVisible = function(domElements, message) {
+	domElements.forEach(function(domElement) {
+		QUnit.assert.notVisible(domElement, message)
+	});
+};
