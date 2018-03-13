@@ -44,7 +44,7 @@ var CORA = (function(cora) {
 		function getHeadlineText(recordTypeRecord){
 			var cData = CORA.coraData(recordTypeRecord.data);
 			if(textIdIsMissingInData(cData)){
-				return getIdFromRecord(recordTypeRecord);
+				return recordId;
 			}
 			return getTranslatedText(cData);
 		}
@@ -56,8 +56,7 @@ var CORA = (function(cora) {
 		function getTranslatedText(cData){
 			var cTextIdGroup = CORA.coraData(cData.getFirstChildByNameInData("textId"));
 			var textId = cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-			var text = dependencies.textProvider.getTranslation(textId);
-			return text;
+			return dependencies.textProvider.getTranslation(textId);
 		}
 		
 		function getIdFromRecord(record) {
