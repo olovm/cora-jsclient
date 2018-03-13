@@ -144,7 +144,16 @@ QUnit
 					var expectedLoginOptions = [ {
 						"text" : "appToken as 141414",
 						"call" : loginManager.appTokenLogin
-					}, {
+					}, 
+					{
+						"text" : "appToken as 151515 alvin",
+						"call" : loginManager.appTokenLogin
+					},
+					{
+						"text" : "appToken as 161616 diva",
+						"call" : loginManager.appTokenLogin
+					},
+					{
 						"text" : "Uppsala webredirect",
 						"call" : loginManager.webRedirectLogin
 					}, {
@@ -159,33 +168,45 @@ QUnit
 					} ];
 					var factoredLoginOptions = factoredSpec.loginOptions;
 
-					assert.strictEqual(factoredLoginOptions.length, 5);
+					assert.strictEqual(factoredLoginOptions.length, 7);
 
 					assert.strictEqual(factoredLoginOptions[0].text, expectedLoginOptions[0].text);
 					assert.strictEqual(factoredLoginOptions[0].type, "appTokenLogin");
+					assert.strictEqual(factoredLoginOptions[0].userId, "141414");
+					assert.strictEqual(factoredLoginOptions[0].appToken, "63e6bd34-02a1-4c82-8001-158c104cae0e");
 
 					assert.strictEqual(factoredLoginOptions[1].text, expectedLoginOptions[1].text);
-					assert.strictEqual(factoredLoginOptions[1].type, "webRedirectLogin");
-					assert
-							.strictEqual(factoredLoginOptions[1].url,
-									"https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/login");
-
+					assert.strictEqual(factoredLoginOptions[1].type, "appTokenLogin");
+					assert.strictEqual(factoredLoginOptions[1].userId, "151515");
+					assert.strictEqual(factoredLoginOptions[1].appToken, "63ef81cd-1d88-4a6a-aff0-f0d809a74d34");
+					
 					assert.strictEqual(factoredLoginOptions[2].text, expectedLoginOptions[2].text);
-					assert.strictEqual(factoredLoginOptions[2].type, "webRedirectLogin");
-					assert
-							.strictEqual(factoredLoginOptions[2].url,
-									"https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/systemone/idplogin/login");
+					assert.strictEqual(factoredLoginOptions[2].type, "appTokenLogin");
+					assert.strictEqual(factoredLoginOptions[2].userId, "161616");
+					assert.strictEqual(factoredLoginOptions[2].appToken, "f7973be9-02e0-4c42-979b-09e42372a02a");
 
 					assert.strictEqual(factoredLoginOptions[3].text, expectedLoginOptions[3].text);
 					assert.strictEqual(factoredLoginOptions[3].type, "webRedirectLogin");
 					assert
 							.strictEqual(factoredLoginOptions[3].url,
-									"https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/alvin/idplogin/login");
+									"https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/login");
 
 					assert.strictEqual(factoredLoginOptions[4].text, expectedLoginOptions[4].text);
 					assert.strictEqual(factoredLoginOptions[4].type, "webRedirectLogin");
 					assert
 							.strictEqual(factoredLoginOptions[4].url,
+									"https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/systemone/idplogin/login");
+
+					assert.strictEqual(factoredLoginOptions[5].text, expectedLoginOptions[5].text);
+					assert.strictEqual(factoredLoginOptions[5].type, "webRedirectLogin");
+					assert
+							.strictEqual(factoredLoginOptions[5].url,
+									"https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/alvin/idplogin/login");
+
+					assert.strictEqual(factoredLoginOptions[6].text, expectedLoginOptions[6].text);
+					assert.strictEqual(factoredLoginOptions[6].type, "webRedirectLogin");
+					assert
+							.strictEqual(factoredLoginOptions[6].url,
 									"https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/diva/idplogin/login");
 
 					assert.strictEqual(factoredSpec.loginMethod, loginManager.login);
@@ -194,7 +215,6 @@ QUnit
 
 QUnit.test("testAppTokenLoginFactoryIsCalledOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;
-	// loginManager.appTokenLogin();
 	loginManager.login({
 		"text" : "someText",
 		"type" : "appTokenLogin"
@@ -214,11 +234,13 @@ QUnit.test("testAppTokenLoginCallsServerOnAppTokenLogin", function(assert) {
 	var loginManager = this.loginManager;
 	loginManager.login({
 		"text" : "someText",
-		"type" : "appTokenLogin"
+		"type" : "appTokenLogin",
+		"userId":"testUserId",
+		"appToken": "testAppToken"
 	});
 	var factored0 = this.dependencies.appTokenLoginFactory.getFactored(0);
-	assert.strictEqual(factored0.getUserId(0), "141414");
-	assert.strictEqual(factored0.getAppToken(0), "63e6bd34-02a1-4c82-8001-158c104cae0e");
+	assert.strictEqual(factored0.getUserId(0), "testUserId");
+	assert.strictEqual(factored0.getAppToken(0), "testAppToken");
 });
 
 QUnit.test("testWebRedirectLoginListensForMessagesOnWindow", function(assert) {
