@@ -85,11 +85,11 @@ var CORA = (function(cora) {
 				action : {
 					method : function() {
 						toggleDefaultShown("false");
+					},
+					onkeydown : {
+						keys : [ " ", "Enter" ]
 					}
-					,onkeydown:{
-						keys:[" ", "Enter"]
-					}
-				} 
+				}
 			};
 			alternativeButton = CORA.gui.button(alternativeButtonSpec);
 			buttonView.appendChild(alternativeButton);
@@ -99,9 +99,9 @@ var CORA = (function(cora) {
 				action : {
 					method : function() {
 						toggleDefaultShown("true");
-					}
-					,onkeydown:{
-						keys:[" ", "Enter"]
+					},
+					onkeydown : {
+						keys : [ " ", "Enter" ]
 					}
 				}
 			};

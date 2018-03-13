@@ -21,7 +21,7 @@ var CORA = (function(cora) {
 	cora.gui.button = function(spec) {
 		var view;
 		var action;
-		
+
 		function start() {
 			view = createView();
 			possiblyHandleAction();
@@ -50,18 +50,18 @@ var CORA = (function(cora) {
 		function handleAction() {
 			action = spec.action.method;
 		}
-		
+
 		function possiblyAddOnclickMethod() {
 			if (specDemandsClick()) {
 				addOnclickForMethodFromAction();
 			}
 		}
-		
+
 		function specDemandsClick(){
 			return spec.action !== undefined
 			&& (spec.action.clickable === true || spec.action.clickable === undefined);
 		}
-		
+
 		function addOnclickForMethodFromAction(){
 			view.addEventListener('click', (event) => {
 				event.stopPropagation();
@@ -75,7 +75,7 @@ var CORA = (function(cora) {
 				addOnkeydownMethod();
 			}
 		}
-		
+
 		function specDemandsKeydown(){
 			return spec.action !== undefined && spec.action.onkeydown !== undefined;
 		}
