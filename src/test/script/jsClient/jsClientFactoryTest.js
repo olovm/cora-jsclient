@@ -186,6 +186,7 @@ QUnit.test("testRecordTypeHandlerFactoryDependencies", function(assert) {
 	var factoredDep = jsClientFactoredDep.recordTypeHandlerFactory.getDependencies();
 
 	assert.strictEqual(factoredDep.clientInstanceProvider, this.providers.clientInstanceProvider);
+	assert.strictEqual(factoredDep.textProvider, this.providers.textProvider);
 	assert.strictEqual(factoredDep.factories.recordGuiFactory,
 			jsClientFactoredDep.globalFactories.recordGuiFactory);
 	assert.strictEqual(factoredDep.factories.ajaxCallFactory,

@@ -1308,6 +1308,18 @@ var CORATEST = (function(coraTest) {
 												"value" : "metadataCollectionItemListPGroup"
 											} ]
 										}, {
+										      "name": "textId",
+										      "children": [
+										        {
+										          "name": "linkedRecordType",
+										          "value": "coraText"
+										        },
+										        {
+										          "name": "linkedRecordId",
+										          "value": "metadataCollectionItemText"
+										        }
+										      ]
+										    },{
 											"name" : "search",
 											"children" : [ {
 												"name" : "linkedRecordType",

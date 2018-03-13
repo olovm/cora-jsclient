@@ -48,7 +48,8 @@ QUnit.module("recordTypeHandlerTest.js", {
 					.standardFactorySpy("recordTypeHandlerViewSpy"),
 			"recordListHandlerFactory" : CORATEST.standardFactorySpy("recordListHandlerSpy"),
 			"recordHandlerFactory" : CORATEST.standardFactorySpy("recordHandlerSpy"),
-			"jsClient" : CORATEST.jsClientSpy()
+			"jsClient" : CORATEST.jsClientSpy(),
+			"textProvider" : CORATEST.textProviderSpy()
 		};
 
 		this.spec = {
@@ -85,7 +86,7 @@ QUnit.test("initViewClassName", function(assert) {
 QUnit.test("initViewHeaderText", function(assert) {
 	var recordTypeHandler = CORA.recordTypeHandler(this.dependencies, this.spec);
 	var factoredViewSpec = this.dependencies.recordTypeHandlerViewFactory.getSpec(0);
-	assert.strictEqual(factoredViewSpec.headerText, "metadataCollectionItem");
+	assert.strictEqual(factoredViewSpec.headerText, "metadataCollectionItemText");
 });
 
 QUnit.test("initViewWithListMethod", function(assert) {

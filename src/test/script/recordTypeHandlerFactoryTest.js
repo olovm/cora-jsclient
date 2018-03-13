@@ -30,7 +30,8 @@ QUnit.module("recordTypeHandlerFactoryTest.js", {
 				"recordListHandlerFactory" : CORATEST.standardFactorySpy("recordListHandlerSpy"),
 				"recordTypeHandlerViewFactory" : CORATEST
 						.standardFactorySpy("recordTypeHandlerViewSpy")
-			}
+			},
+			"textProvider" : CORATEST.textProviderSpy()
 		};
 		this.spec = {
 			"jsClient" : {},
@@ -74,6 +75,9 @@ QUnit.test("factorTestUsedIncomingDependencies", function(assert) {
 	assert.strictEqual(createdDependencies.recordListHandlerFactory,
 			this.dependencies.factories.recordListHandlerFactory);
 
+	assert.strictEqual(createdDependencies.textProvider,
+			this.dependencies.textProvider);
+	
 	assert.strictEqual(createdDependencies.jsClient, this.spec.jsClient);
 });
 

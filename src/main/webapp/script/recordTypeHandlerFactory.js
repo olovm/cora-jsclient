@@ -28,7 +28,8 @@ var CORA = (function(cora) {
 				"managedGuiItemFactory" : dependencies.factories.managedGuiItemFactory,
 				"recordHandlerFactory" : dependencies.factories.recordHandlerFactory,
 				"recordListHandlerFactory" : dependencies.factories.recordListHandlerFactory,
-				"jsClient" : recordTypeHandlerSpec.jsClient
+				"jsClient" : recordTypeHandlerSpec.jsClient,
+				"textProvider" : dependencies.textProvider
 			};
 			return CORA.recordTypeHandler(dep, recordTypeHandlerSpec);
 		}

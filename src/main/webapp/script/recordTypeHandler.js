@@ -20,10 +20,10 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeHandler = function(dependencies, spec) {
-		var recordId = getIdFromRecord(spec.recordTypeRecord);
-
+		var headerText = getHeadlineText(spec.recordTypeRecord);
+		
 		var viewSpec = {
-			"headerText" : recordId
+			"headerText" : headerText
 		};
 
 		if(recordTypeHasListLink()) {
@@ -40,6 +40,25 @@ var CORA = (function(cora) {
 			return view.getView();
 		}
 
+		function getHeadlineText(recordTypeRecord){
+			var cData = CORA.coraData(recordTypeRecord.data);
+			if(textIdIsMissingInData(cData)){
+				return getIdFromRecord(recordTypeRecord);
+			}
+			return getTranslatedText(cData);
+		}
+		
+		function textIdIsMissingInData(cData){
+			return !cData.containsChildWithNameInData("textId");
+		}
+		
+		function getTranslatedText(cData){
+			var cTextIdGroup = CORA.coraData(cData.getFirstChildByNameInData("textId"));
+			var textId = cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			var text = dependencies.textProvider.getTranslation(textId);
+			return text;
+		}
+		
 		function getIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
