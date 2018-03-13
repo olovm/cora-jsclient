@@ -154,10 +154,12 @@ QUnit.test("testOnkeydownWithMoreKeysInSpec", function(assert) {
 QUnit.test("testOnkeydownInSpecNotCalledForWrongKey", function(assert) {
 	var activated = false;
 	var button = CORA.gui.button({
-		onkeydown : {
-			keys : [ "a" ],
-			"torun" : function() {
+		action : {
+			method : function() {
 				activated = true;
+			},
+			onkeydown : {
+				keys : [ "a" ]
 			}
 		}
 	});
@@ -166,20 +168,3 @@ QUnit.test("testOnkeydownInSpecNotCalledForWrongKey", function(assert) {
 	CORATESTHELPER.simulateKeydown(button, "b");
 	assert.strictEqual(activated, false);
 });
-
-// QUnit.test("testActionsInSpec", function(assert) {
-// var clicked = false;
-// var button = CORA.gui.button({
-// actions : [ {
-// action : function() {
-// clicked = true;
-// },
-// keypress : [ "y", "x" ]
-// } ]
-// });
-// this.fixture.appendChild(button);
-//
-// var event = document.createEvent('Event');
-// button.onclick(event);
-// assert.strictEqual(clicked, true);
-// });
