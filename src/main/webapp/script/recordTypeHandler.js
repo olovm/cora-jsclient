@@ -20,6 +20,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeHandler = function(dependencies, spec) {
+		var recordId = getIdFromRecord(spec.recordTypeRecord);
 		var headerText = getHeadlineText(spec.recordTypeRecord);
 		
 		var viewSpec = {
