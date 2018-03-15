@@ -22,7 +22,7 @@ var CORA = (function(cora) {
 	cora.recordTypeHandler = function(dependencies, spec) {
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
 		var headerText = getHeadlineText(spec.recordTypeRecord);
-		
+
 		var viewSpec = {
 			"headerText" : headerText
 		};
@@ -48,17 +48,17 @@ var CORA = (function(cora) {
 			}
 			return getTranslatedText(cData);
 		}
-		
+
 		function textIdIsMissingInData(cData){
 			return !cData.containsChildWithNameInData("textId");
 		}
-		
+
 		function getTranslatedText(cData){
 			var cTextIdGroup = CORA.coraData(cData.getFirstChildByNameInData("textId"));
 			var textId = cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			return dependencies.textProvider.getTranslation(textId);
 		}
-		
+
 		function getIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
