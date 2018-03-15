@@ -21,9 +21,10 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeHandler = function(dependencies, spec) {
 		var recordId = getIdFromRecord(spec.recordTypeRecord);
-
+		var headerText = getHeadlineText(spec.recordTypeRecord);
+		
 		var viewSpec = {
-			"headerText" : recordId
+			"headerText" : headerText
 		};
 
 		if(recordTypeHasListLink()) {
@@ -40,6 +41,24 @@ var CORA = (function(cora) {
 			return view.getView();
 		}
 
+		function getHeadlineText(recordTypeRecord){
+			var cData = CORA.coraData(recordTypeRecord.data);
+			if(textIdIsMissingInData(cData)){
+				return recordId;
+			}
+			return getTranslatedText(cData);
+		}
+		
+		function textIdIsMissingInData(cData){
+			return !cData.containsChildWithNameInData("textId");
+		}
+		
+		function getTranslatedText(cData){
+			var cTextIdGroup = CORA.coraData(cData.getFirstChildByNameInData("textId"));
+			var textId = cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			return dependencies.textProvider.getTranslation(textId);
+		}
+		
 		function getIdFromRecord(record) {
 			var cData = CORA.coraData(record.data);
 			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));

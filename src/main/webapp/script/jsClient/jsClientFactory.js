@@ -112,6 +112,7 @@ var CORA = (function(cora) {
 
 			var dependenciesRTH = {
 				"clientInstanceProvider" : providers.clientInstanceProvider,
+				"textProvider" : providers.textProvider,
 				"factories" : globalFactories
 			};
 			var recordTypeHandlerFactory = CORA.recordTypeHandlerFactory(dependenciesRTH);
