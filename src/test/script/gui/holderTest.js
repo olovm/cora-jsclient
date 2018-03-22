@@ -21,6 +21,7 @@
 QUnit.module("gui/holderTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
+		this.fixture.innerHTML = "";
 	},
 	afterEach : function() {
 	}
@@ -28,9 +29,9 @@ QUnit.module("gui/holderTest.js", {
 
 QUnit.test("testConstants", function(assert) {
 	assert.strictEqual(CORA.holder.CLOSED, 0);
-	assert.strictEqual(CORA.holder.OPEN, 1);
+	assert.strictEqual(CORA.holder.OPEN, 1); 
 });
-
+ 
 QUnit.test("initTestInitialState", function(assert) {
 	var spec = {};
 	var holder = CORA.holder(spec);

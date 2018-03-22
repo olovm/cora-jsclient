@@ -21,6 +21,7 @@
 QUnit.module("pRecordLinkTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
+		this.fixture.innerHTML = "";
 
 		this.getIdForGeneratedPresentationByNo2 = function(no) {
 			return CORA.coraData(

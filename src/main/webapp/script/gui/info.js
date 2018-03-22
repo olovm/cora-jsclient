@@ -26,7 +26,9 @@ var CORA = (function(cora) {
 		function createButton() {
 			var infoButtonSpec = {
 				"className" : "iconButton infoButton",
-				action:{method:showInfo}
+				action : {
+					method : showInfo
+				}
 			};
 			return CORA.gui.button(infoButtonSpec);
 		}

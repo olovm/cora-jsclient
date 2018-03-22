@@ -21,6 +21,7 @@
 QUnit.module("questionTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
+		this.fixture.innerHTML = "";
 	},
 	afterEach : function() {
 	}

@@ -104,6 +104,7 @@ var CORATEST = (function(coraTest) {
 QUnit.module("pVarTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
+		this.fixture.innerHTML = "";
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();

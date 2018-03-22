@@ -21,6 +21,7 @@
 QUnit.module("pNonRepeatingChildRefHandlerViewTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
+		this.fixture.innerHTML = "";
 		this.dependencies = {};
 
 		this.defaultChild = document.createElement("SPAN");

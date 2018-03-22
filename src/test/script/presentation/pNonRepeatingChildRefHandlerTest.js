@@ -21,6 +21,7 @@
 QUnit.module("pNonRepeatingChildRefHandlerTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
+		this.fixture.innerHTML = "";
 
 		this.metadataProvider = new MetadataProviderStub();
 		this.dependencies = {

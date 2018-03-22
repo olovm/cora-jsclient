@@ -66,6 +66,7 @@ QUnit.module("presentationHolderTest.js", {
 		};
 
 		this.fixture = document.getElementById("qunit-fixture");
+		this.fixture.innerHTML = "";
 		this.metadataProvider = new MetadataProviderStub();
 		this.pubSub = CORATEST.pubSubSpy();
 		this.textProvider = CORATEST.textProviderStub();
