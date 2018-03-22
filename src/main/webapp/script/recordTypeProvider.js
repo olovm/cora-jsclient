@@ -25,6 +25,7 @@ var CORA = (function(cora) {
 		var allRecordTypes = [];
 		var allRecordTypesById = {};
 		var metadataByRecordTypeId = {};
+		var recordTypesByGroupId = {};
 
 		function start() {
 			fetchRecordTypeListAndThen(processFetchedData);
@@ -58,6 +59,7 @@ var CORA = (function(cora) {
 				var record = recordContainer.record;
 				addRecordToAllRecordTypes(record);
 				addRecordToTypesById(record);
+				addRecordToTypesByGroup(record);
 			});
 		}
 
@@ -102,6 +104,7 @@ var CORA = (function(cora) {
 			};
 			metadataByRecordTypeId[recordId] = metadata;
 		}
+
 		function getLinkValueFromRecord(id, cRecord) {
 			if (cRecord.containsChildWithNameInData(id)) {
 
@@ -115,6 +118,29 @@ var CORA = (function(cora) {
 				return allRecordTypesById[recordTypeId];
 			}
 			throw new Error("Id(" + recordTypeId + ") not found in recordTypeProvider");
+		}
+
+		function addRecordToTypesByGroup(record) {
+			var groupIds = getGroupIdsFromRecordData(record.data);
+			groupIds.forEach(function(groupId) {
+				addRecordToTypesByGroupFromAtomicData(groupId, record);
+			});
+		}
+
+		function getGroupIdsFromRecordData(recordData) {
+			var cRecord = CORA.coraData(recordData);
+			if (cRecord.containsChildWithNameInData("groupOfRecordType")) {
+				return cRecord.getChildrenByNameInData("groupOfRecordType");
+			}
+			return [];
+		}
+
+		function addRecordToTypesByGroupFromAtomicData(groupId, record) {
+			var groupIdValue = groupId.value;
+			if (recordTypesByGroupId[groupIdValue] === undefined) {
+				recordTypesByGroupId[groupIdValue] = [];
+			}
+			recordTypesByGroupId[groupIdValue].push(record);
 		}
 
 		function getAllRecordTypes() {
@@ -136,6 +162,13 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
+		function getRecordTypesByGroupId(groupId) {
+			if (recordTypesByGroupId[groupId] === undefined) {
+				return [];
+			}
+			return recordTypesByGroupId[groupId];
+		}
+
 		var out = Object.freeze({
 			"type" : "recordTypeProvider",
 			getDependencies : getDependencies,
@@ -143,7 +176,8 @@ var CORA = (function(cora) {
 			getRecordTypeById : getRecordTypeById,
 			getAllRecordTypes : getAllRecordTypes,
 			processFetchedData : processFetchedData,
-			getMetadataByRecordTypeId : getMetadataByRecordTypeId
+			getMetadataByRecordTypeId : getMetadataByRecordTypeId,
+			getRecordTypesByGroupId : getRecordTypesByGroupId
 		});
 		start();
 		return out;

@@ -57,7 +57,7 @@ QUnit.module("recordTypeProviderTest.js", {
 	}
 });
 
-QUnit.test("initCorrectRequestMade", function(assert) {
+QUnit.test("initCorrectType", function(assert) {
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 	assert.strictEqual(provider.type, "recordTypeProvider");
 });
@@ -263,7 +263,19 @@ QUnit.test("getRecordTypeById", function(assert) {
 					"name" : "linkedRecordId",
 					"value" : "text"
 				} ]
-			} ],
+			},{
+                "name": "groupOfRecordType",
+                "value": "metadata",
+                "repeatId": "0"
+              },{
+                  "name": "groupOfRecordType",
+                  "value": "presentation",
+                  "repeatId": "1"
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "systemConfiguration",
+                    "repeatId": "2"
+            } ],
 			"name" : "recordType"
 		},
 		"actionLinks" : {
@@ -461,4 +473,26 @@ QUnit.test("getMetadataByRecordTypeIdNotFound", function(assert) {
 		error = true;
 	}
 	assert.ok(error);
+});
+
+QUnit.test("getRecordTypesByGroupIdNoMatchReturnsEmptyList", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	this.answerListCall(0);
+
+	var recordTypeList = provider.getRecordTypesByGroupId("");
+	assert.stringifyEqual(recordTypeList.length, 0);
+});
+
+QUnit.test("getRecordTypesByGroupId", function(assert) {
+	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
+	this.answerListCall(0);
+	
+	var recordTypeList = provider.getRecordTypesByGroupId("presentation");
+	assert.stringifyEqual(recordTypeList.length, 7);
+	
+	var metadataRecordTypeList = provider.getRecordTypesByGroupId("metadata");
+	assert.stringifyEqual(metadataRecordTypeList.length, 8);
+	
+	var systemConfRecordTypeList = provider.getRecordTypesByGroupId("systemConfiguration");
+	assert.stringifyEqual(systemConfRecordTypeList.length, 2);
 });
