@@ -22,7 +22,6 @@ QUnit.module("lib/arbiterTest.js", {
 	beforeEach : function() {
 		this.arbiter = Arbiter.create();
 		this.fixture = document.getElementById("qunit-fixture");
-		this.fixture.innerHTML = "";
 	},
 	afterEach : function() {
 	}

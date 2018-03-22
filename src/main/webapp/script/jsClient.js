@@ -39,7 +39,6 @@ var CORA = (function(cora) {
 
 		function start() {
 			dependencies.globalInstances.clientInstanceProvider.setJsClient(out);
-			recordTypeList = sortRecordTypesFromRecordTypeProvider();
 			var jsClientViewSpec = {
 				"name" : spec.name,
 				"serverAddress" : spec.baseUrl,
@@ -56,12 +55,8 @@ var CORA = (function(cora) {
 					.addGlobalView(dependencies.uploadManager.getManagedGuiItem().getMenuView());
 			createAndAddOpenGuiItemHandlerToSideBar();
 			addSearchesUserIsAuthorizedToUseToSideBar(searchProvider.getAllSearches());
-			addRecordTypesToSideBar(recordTypeList);
-		}
 
-		function sortRecordTypesFromRecordTypeProvider() {
-			var allRecordTypes = recordTypeProvider.getAllRecordTypes();
-			return cora.sortRecordTypes(allRecordTypes);
+			createAndAddRecordTypeHandlersToSideBar();
 		}
 
 		function createLoginManager() {
@@ -110,6 +105,16 @@ var CORA = (function(cora) {
 
 		function addSearchRecordHandlerToSideBar(searchRecordHandler) {
 			jsClientView.addToSearchesView(searchRecordHandler.getView());
+		}
+
+		function createAndAddRecordTypeHandlersToSideBar() {
+			recordTypeList = sortRecordTypesFromRecordTypeProvider();
+			addRecordTypesToSideBar(recordTypeList);
+		}
+
+		function sortRecordTypesFromRecordTypeProvider() {
+			var allRecordTypes = recordTypeProvider.getAllRecordTypes();
+			return CORA.sortRecordTypes(allRecordTypes);
 		}
 
 		function addRecordTypesToSideBar(recordTypeListIn) {

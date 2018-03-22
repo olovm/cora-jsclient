@@ -21,7 +21,6 @@
 QUnit.module("pRepeatingElementTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
-		this.fixture.innerHTML = "";
 		this.jsBookkeeper = CORATEST.jsBookkeeperSpy();
 
 		this.dependencies = {

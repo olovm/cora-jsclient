@@ -517,10 +517,6 @@ var CORATEST = (function (coraTest) {
                             "value": "presentation"
                         }
                     ]
-                },{
-                    "name": "groupOfRecordType",
-                    "value": "presentation",
-                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },

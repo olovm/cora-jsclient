@@ -96,7 +96,6 @@ QUnit.test("testGetRecordTypeListIsSorted", function(assert) {
 	assert.strictEqual(getIdFromRecord(recordTypeList[7]), "presentation");
 	assert.strictEqual(getIdFromRecord(recordTypeList[8]), "presentationVar");
 	assert.strictEqual(getIdFromRecord(recordTypeList[18]), "recordType");
-
 });
 
 function getIdFromRecord(record) {

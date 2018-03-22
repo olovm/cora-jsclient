@@ -21,7 +21,6 @@
 QUnit.module("pChildRefHandlerViewTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
-		this.fixture.innerHTML = "";
 		this.dependencies = {};
 	},
 	afterEach : function() {

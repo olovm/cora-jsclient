@@ -19,8 +19,7 @@
 "use strict";
 QUnit.module("infoTest.js", {
 	beforeEach : function() {
-		this.fixture = document.getElementById("qunit-fixture");
-		this.fixture.innerHTML = "";
+		this.fixture = document.getElementById("qunit-fixture"); 
 	},
 	afterEach : function() {
 	}

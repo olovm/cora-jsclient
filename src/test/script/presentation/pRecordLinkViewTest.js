@@ -21,7 +21,6 @@
 QUnit.module("pRecordLinkViewTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
-		this.fixture.innerHTML = "";
 
 		this.dependencies = {
 			"infoFactory" : CORATEST.infoFactorySpy(),

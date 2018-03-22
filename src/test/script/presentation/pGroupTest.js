@@ -28,7 +28,6 @@ QUnit.module("pGroupTest.js", {
 		}
 
 		this.fixture = document.getElementById("qunit-fixture");
-		this.fixture.innerHTML = "";
 		this.dependencies = {
 			"metadataProvider" : new MetadataProviderStub(),
 			"pubSub" : CORATEST.pubSubSpy(),
