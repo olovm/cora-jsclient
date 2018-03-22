@@ -148,6 +148,11 @@ var CORATEST = (function (coraTest) {
                 }, {
                     "name": "abstract",
                     "value": "false"
+                },
+                  {
+                    "name": "groupOfRecordType",
+                    "value": "presentation",
+                    "repeatId": "1"
                 }, {
                     "name": "parentId",
                     "children": [
@@ -328,6 +333,10 @@ var CORATEST = (function (coraTest) {
                 }, {
                     "name": "abstract",
                     "value": "true"
+                } ,{
+                    "name": "groupOfRecordType",
+                    "value": "metadata",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -508,6 +517,10 @@ var CORATEST = (function (coraTest) {
                             "value": "presentation"
                         }
                     ]
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "presentation",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -671,9 +684,6 @@ var CORATEST = (function (coraTest) {
                     "name": "userSuppliedId",
                     "value": "true"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "textSystemOneViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "false"
                 }, {
@@ -688,6 +698,14 @@ var CORATEST = (function (coraTest) {
                             "value": "text"
                         }
                     ]
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "metadata",
+                    "repeatId": "0"
+                  },{
+                      "name": "groupOfRecordType",
+                      "value": "presentation",
+                      "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -851,11 +869,12 @@ var CORATEST = (function (coraTest) {
                     "name": "userSuppliedId",
                     "value": "true"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "recordTypeViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "false"
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "metadata",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -1019,9 +1038,6 @@ var CORATEST = (function (coraTest) {
                     "name": "userSuppliedId",
                     "value": "true"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "metadataGroupViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "false"
                 }, {
@@ -1036,6 +1052,10 @@ var CORATEST = (function (coraTest) {
                             "value": "metadata"
                         }
                     ]
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "metadata",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -1199,9 +1219,6 @@ var CORATEST = (function (coraTest) {
                     "name": "userSuppliedId",
                     "value": "true"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "metadataCollectionItemViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "false"
                 }, {
@@ -1216,6 +1233,10 @@ var CORATEST = (function (coraTest) {
                             "value": "metadata"
                         }
                     ]
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "metadata",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -1379,11 +1400,12 @@ var CORATEST = (function (coraTest) {
                     "name": "userSuppliedId",
                     "value": "true"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "presentationViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "true"
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "presentation",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -1550,9 +1572,6 @@ var CORATEST = (function (coraTest) {
                     "name": "permissionKey",
                     "value": "RECORDTYPE_METADATARECORDLINK"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "metadataRecordLinkViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "false"
                 }, {
@@ -1567,6 +1586,10 @@ var CORATEST = (function (coraTest) {
                             "value": "metadata"
                         }
                     ]
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "metadata",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -1730,9 +1753,6 @@ var CORATEST = (function (coraTest) {
                     "name": "userSuppliedId",
                     "value": "true"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "metadataTextVariableViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "false"
                 }, {
@@ -1747,6 +1767,10 @@ var CORATEST = (function (coraTest) {
                             "value": "metadata"
                         }
                     ]
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "metadata",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -1910,9 +1934,6 @@ var CORATEST = (function (coraTest) {
                     "name": "userSuppliedId",
                     "value": "true"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "presentationRepeatingContainerViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "false"
                 }, {
@@ -1927,6 +1948,10 @@ var CORATEST = (function (coraTest) {
                             "value": "presentation"
                         }
                     ]
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "presentation",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -2090,9 +2115,6 @@ var CORATEST = (function (coraTest) {
                     "name": "userSuppliedId",
                     "value": "true"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "metadataCollectionVariableViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "false"
                 }, {
@@ -2107,6 +2129,10 @@ var CORATEST = (function (coraTest) {
                             "value": "metadata"
                         }
                     ]
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "metadata",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -2275,6 +2301,18 @@ var CORATEST = (function (coraTest) {
                 }, {
                     "name": "abstract",
                     "value": "true"
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "metadata",
+                    "repeatId": "0"
+                  },{
+                      "name": "groupOfRecordType",
+                      "value": "presentation",
+                      "repeatId": "1"
+                    },{
+                        "name": "groupOfRecordType",
+                        "value": "systemConfiguration",
+                        "repeatId": "2"
                 }],
                 "name": "recordType"
             },
@@ -2438,9 +2476,6 @@ var CORATEST = (function (coraTest) {
                     "name": "userSuppliedId",
                     "value": "true"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "presentationGroupViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "false"
                 }, {
@@ -2455,6 +2490,10 @@ var CORATEST = (function (coraTest) {
                             "value": "presentation"
                         }
                     ]
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "presentation",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -2618,9 +2657,6 @@ var CORATEST = (function (coraTest) {
                     "name": "userSuppliedId",
                     "value": "true"
                 }, {
-                    "name": "selfPresentationViewId",
-                    "value": "metadataItemCollectionViewSelfPGroup"
-                }, {
                     "name": "abstract",
                     "value": "false"
                 }, {
@@ -2635,6 +2671,10 @@ var CORATEST = (function (coraTest) {
                             "value": "metadata"
                         }
                     ]
+                },{
+                    "name": "groupOfRecordType",
+                    "value": "metadata",
+                    "repeatId": "1"
                 }],
                 "name": "recordType"
             },
@@ -2847,10 +2887,11 @@ var CORATEST = (function (coraTest) {
                     {
                         "name": "userSuppliedId",
                         "value": "false"
-                    },
-                    {
-                        "name": "selfPresentationViewId",
-                        "value": "imageViewSelfPGroup"
+                    }
+                    ,{
+                        "name": "groupOfRecordType",
+                        "value": "system",
+                        "repeatId": "1"
                     }
                 ],
                 "name": "recordType"
@@ -3057,10 +3098,10 @@ var CORATEST = (function (coraTest) {
                     {
                         "name": "userSuppliedId",
                         "value": "true"
-                    },
-                    {
-                        "name": "selfPresentationViewId",
-                        "value": "binaryViewSelfPGroup"
+                    },{
+                        "name": "groupOfRecordType",
+                        "value": "system",
+                        "repeatId": "1"
                     }
                 ],
                 "name": "recordType"
@@ -3273,10 +3314,10 @@ var CORATEST = (function (coraTest) {
                     {
                         "name": "userSuppliedId",
                         "value": "false"
-                    },
-                    {
-                        "name": "selfPresentationViewId",
-                        "value": "genericBinaryViewSelfPGroup"
+                    },{
+                        "name": "groupOfRecordType",
+                        "value": "system",
+                        "repeatId": "1"
                     }
                 ],
                 "name": "recordType"
@@ -3496,10 +3537,10 @@ var CORATEST = (function (coraTest) {
                     {
                         "name": "userSuppliedId",
                         "value": "false"
-                    },
-                    {
-                        "name": "selfPresentationViewId",
-                        "value": "noDataDividerBinaryViewSelfPGroup"
+                    },{
+                        "name": "groupOfRecordType",
+                        "value": "system",
+                        "repeatId": "1"
                     }
                 ],
                 "name": "recordType"

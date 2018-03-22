@@ -84,7 +84,7 @@ QUnit.test("testJsClientSetInInstanceProvider", function(assert) {
 	assert.strictEqual(this.clientInstanceProvider.getJsClient(), jsClient);
 });
 
-QUnit.test("testGetRecordTypeList", function(assert) {
+QUnit.test("testGetRecordTypeListIsSorted", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var mainView = jsClient.getView();
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
@@ -92,7 +92,18 @@ QUnit.test("testGetRecordTypeList", function(assert) {
 
 	var recordTypeList = jsClient.getRecordTypeList();
 	assert.strictEqual(recordTypeList.length, 19);
+	assert.strictEqual(getIdFromRecord(recordTypeList[0]), "metadata");
+	assert.strictEqual(getIdFromRecord(recordTypeList[7]), "presentation");
+	assert.strictEqual(getIdFromRecord(recordTypeList[8]), "presentationVar");
+	assert.strictEqual(getIdFromRecord(recordTypeList[18]), "recordType");
+
 });
+
+function getIdFromRecord(record) {
+	var cRecord = CORA.coraData(record.data);
+	var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+	return cRecordInfo.getFirstAtomicValueByNameInData("id");
+}
 
 QUnit.test("testGetDependencies", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
@@ -192,11 +203,6 @@ QUnit.test("initFactoresSearchRecordHandlersSearchWithoutSearchLinkIsNotAdded", 
 });
 
 QUnit.test("initFactoresRecordTypeHandlersAndAddsToViewIfRecordTypeHasActions", function(assert) {
-	function getIdFromRecord(record) {
-		var cRecord = CORA.coraData(record.data);
-		var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
-		return cRecordInfo.getFirstAtomicValueByNameInData("id");
-	}
 
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
@@ -394,12 +400,6 @@ QUnit.test("testAfterRecordTypeProviderReload", function(assert) {
 	assert.strictEqual(jsClientView.getRecordTypesClearedNoOfTimes(), 1);
 
 	var recordType = jsClientView.getRecordTypesView(0);
-	function getIdFromRecord(record) {
-		var cRecord = CORA.coraData(record.data);
-		var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
-		return cRecordInfo.getFirstAtomicValueByNameInData("id");
-	}
-
 	var dependencies = this.dependencies;
 	var spec = this.spec;
 
