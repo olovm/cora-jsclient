@@ -2960,7 +2960,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "metadata"
 											} ]
-										} ],
+										} ,{
+						                    "name": "groupOfRecordType",
+						                    "value": "other",
+						                    "repeatId": "0"
+						                  }],
 								"name" : "recordType"
 							},
 							"actionLinks" : {

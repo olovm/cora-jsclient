@@ -157,6 +157,10 @@ var CORA = (function(cora) {
 			header.appendChild(languageChoice);
 		}
 
+		function addGroupOfRecordTypesToView(groupIn) {
+			recordTypesView.appendChild(groupIn);
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -183,7 +187,8 @@ var CORA = (function(cora) {
 			getRecordTypesView : getRecordTypesView,
 			addErrorMessage : addErrorMessage,
 			removeFromWorkView : removeFromWorkView,
-			setReloadingProviders : setReloadingProviders
+			setReloadingProviders : setReloadingProviders,
+			addGroupOfRecordTypesToView : addGroupOfRecordTypesToView
 		});
 		start();
 

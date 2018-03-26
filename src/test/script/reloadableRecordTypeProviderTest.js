@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -115,6 +116,15 @@ QUnit.test("testGetMetadataByRecordTypeIdAnswerReturnedFromFactoredProvider", fu
 
 	assert.stringifyEqual(firstFactoredRecordTypeProvider
 			.getMetadataByRecordTypeId("someRecordTypeId"), metadata);
+});
+
+QUnit.test("testGetRecordTypesByGroupIdAnswerReturnedFromFactoredProvider", function(assert) {
+	var firstFactoredRecordTypeProvider = this.dependencies.recordTypeProviderFactory
+	.getFactored(0);
+	var metadata = this.reloadableRecordTypeProvider.getRecordTypesByGroupId("someRecordTypeId");
+	
+	assert.stringifyEqual(firstFactoredRecordTypeProvider
+			.getRecordTypesByGroupId("someRecordTypeId"), metadata);
 });
 
 QUnit.test("testReloadCreatesNewRecordTypeProvider", function(assert) {

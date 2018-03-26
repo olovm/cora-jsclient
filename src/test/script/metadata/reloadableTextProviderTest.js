@@ -75,7 +75,7 @@ QUnit.test("testGetTranslationAnswerReturnedFromFactoredProvider", function(asse
 	var translation = this.reloadableTextProvider.getTranslation("someTextId");
 
 	assert.stringifyEqual(firstFactoredTextProvider.getTranslation("someTextId"), translation);
-	assert.strictEqual(firstFactoredTextProvider.getFetchedTextIdNo(0), translation);
+	assert.strictEqual(firstFactoredTextProvider.getFetchedTextIdNo(0), "someTextId");
 });
 
 QUnit.test("testReloadCreatesNewTextProvider", function(assert) {

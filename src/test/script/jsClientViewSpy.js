@@ -107,6 +107,14 @@ var CORATEST = (function(coraTest) {
 			return reloadingProviders;
 		}
 
+		var groupOfRecordTypes = [];
+		function getGroupOfRecordTypes(number){
+			return groupOfRecordTypes[number];
+		}
+		function addGroupOfRecordTypesToView(groupIn){
+			groupOfRecordTypes.push(groupIn);
+		}
+		
 		var out = Object.freeze({
 			"type" : "jsClientViewSpy",
 			getView : getView,
@@ -129,7 +137,11 @@ var CORATEST = (function(coraTest) {
 			getAddedOpenGuiItemHandlerView : getAddedOpenGuiItemHandlerView,
 
 			setReloadingProviders : setReloadingProviders,
-			getReloadingProviders : getReloadingProviders
+			getReloadingProviders : getReloadingProviders,
+			
+			getGroupOfRecordTypes:getGroupOfRecordTypes,
+			addGroupOfRecordTypesToView:addGroupOfRecordTypesToView
+			
 		});
 
 		return out;

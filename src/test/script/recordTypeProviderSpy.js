@@ -98,6 +98,11 @@ var CORATEST = (function(coraTest) {
 		function getAllRecordTypesFetchedNo() {
 			return allRecordTypesNo;
 		}
+		var requestedGroupIds = [];
+        function getRecordTypesByGroupId(groupId){
+        	requestedGroupIds.push(groupId);
+        	return [];
+        }
 		return Object.freeze({
 			"type" : "recordTypeProviderSpy",
 			getRecordTypeById : getRecordTypeById,
@@ -110,7 +115,8 @@ var CORATEST = (function(coraTest) {
 			getMetadataByRecordTypeId : getMetadataByRecordTypeId,
 			getFetchedMetadataByRecordTypeId : getFetchedMetadataByRecordTypeId,
 			getFetchedRecordTypeId : getFetchedRecordTypeId,
-			getAllRecordTypesFetchedNo : getAllRecordTypesFetchedNo
+			getAllRecordTypesFetchedNo : getAllRecordTypesFetchedNo,
+			getRecordTypesByGroupId : getRecordTypesByGroupId
 		});
 	};
 	return coraTest;

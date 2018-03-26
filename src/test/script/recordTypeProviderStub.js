@@ -3612,11 +3612,25 @@ var CORATEST = (function (coraTest) {
         function getMetadataByRecordTypeId(recordTypeId) {
             return metadata;
         }
+        var requestedGroupIds = [];
+        function getRecordTypesByGroupId(groupId){
+        	requestedGroupIds.push(groupId);
+        	var listToReturn = [];
+        	listToReturn.push(recordTypeArray[0]);
+        	listToReturn.push(recordTypeArray[1]);
+        	return listToReturn;
+        }
+        
+        function getRequestedGroupId(number){
+        	return requestedGroupIds[number];
+        }
 
         return Object.freeze({
             getRecordTypeById: getRecordTypeById,
             getAllRecordTypes: getAllRecordTypes,
-            getMetadataByRecordTypeId : getMetadataByRecordTypeId
+            getMetadataByRecordTypeId : getMetadataByRecordTypeId,
+            getRecordTypesByGroupId : getRecordTypesByGroupId,
+            getRequestedGroupId : getRequestedGroupId
         });
     };
     return coraTest;

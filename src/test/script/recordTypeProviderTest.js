@@ -495,4 +495,8 @@ QUnit.test("getRecordTypesByGroupId", function(assert) {
 	
 	var systemConfRecordTypeList = provider.getRecordTypesByGroupId("systemConfiguration");
 	assert.stringifyEqual(systemConfRecordTypeList.length, 2);
+	
+	var otherTypeList = provider.getRecordTypesByGroupId("other");
+	assert.stringifyEqual(otherTypeList.length, 1);
 });
+

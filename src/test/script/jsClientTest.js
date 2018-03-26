@@ -226,6 +226,79 @@ QUnit.test("initFactoresRecordTypeHandlersAndAddsToViewIfRecordTypeHasActions", 
 	assertFactoredRecordTypeHandlerAddsViewHasCorrectBaseUrlAndHasId(18, "recordType");
 });
 
+QUnit.test("initFactoresRecordTypeHandlersAsGroupsAndAddsToViewIfRecordTypeHasActions", function(assert) {
+
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	var firstGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(0);
+	assert.notEqual(firstGroupOfRecordTypes, undefined);
+	assert.strictEqual(firstGroupOfRecordTypes.className, "recordTypeGroup");
+	assert.strictEqual(firstGroupOfRecordTypes.firstChild.className, "recordTypeGroupHeadline");
+	assert.strictEqual(firstGroupOfRecordTypes.firstChild.innerHTML, "translated_typeOfResourceItemText");
+	var childrenOfGroup1= firstGroupOfRecordTypes.children;
+	assert.strictEqual(childrenOfGroup1.length, 3);
+	
+	var secondGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(1);
+	assert.notEqual(secondGroupOfRecordTypes, undefined);
+	assert.strictEqual(secondGroupOfRecordTypes.className, "recordTypeGroup");
+	assert.strictEqual(secondGroupOfRecordTypes.firstChild.className, "recordTypeGroupHeadline");
+	assert.strictEqual(secondGroupOfRecordTypes.firstChild.innerHTML, "translated_authorityItemText");
+	var childrenOfGroup2= secondGroupOfRecordTypes.children;
+	assert.strictEqual(childrenOfGroup2.length, 3);
+
+	var thirdGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(2);
+	assert.strictEqual(thirdGroupOfRecordTypes, undefined);
+});
+
+QUnit.test("initFactoresRecordTypeHandlersAsGroupsAndAddsToViewIfRecordTypeHasNoActions", function(assert) {
+	var spySpec = {
+			"returnFalseForAnyAction" : true
+		};
+		this.dependencies.recordTypeHandlerFactory.setspySpec(spySpec);
+
+		var jsClient = CORA.jsClient(this.dependencies, this.spec);
+		var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+
+	var firstGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(0);
+	assert.notEqual(firstGroupOfRecordTypes, undefined);
+	assert.strictEqual(firstGroupOfRecordTypes.className, "recordTypeGroup");
+	assert.strictEqual(firstGroupOfRecordTypes.firstChild.className, "recordTypeGroupHeadline");
+	assert.strictEqual(firstGroupOfRecordTypes.firstChild.innerHTML, "translated_typeOfResourceItemText");
+	var childrenOfGroup1= firstGroupOfRecordTypes.children;
+	assert.strictEqual(childrenOfGroup1.length, 1);
+	
+	var secondGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(1);
+	assert.notEqual(secondGroupOfRecordTypes, undefined);
+	assert.strictEqual(secondGroupOfRecordTypes.className, "recordTypeGroup");
+	assert.strictEqual(secondGroupOfRecordTypes.firstChild.className, "recordTypeGroupHeadline");
+	assert.strictEqual(secondGroupOfRecordTypes.firstChild.innerHTML, "translated_authorityItemText");
+	var childrenOfGroup2= secondGroupOfRecordTypes.children;
+	assert.strictEqual(childrenOfGroup2.length, 1);
+	
+	var thirdGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(2);
+	assert.strictEqual(thirdGroupOfRecordTypes, undefined);
+});
+
+
+
+
+//******* Jag är här *******/
+//Gick över till att försöka testa var som efterfrågas från recordTypeProvidern
+//Har lite svårt att inte testa både det och vad som skickas till jsClientView, känns som att det lite grann flyter ihop
+//Har lagt till data i metadataProviderRealStub
+
+
+QUnit.test("requestGroupsOfRecordTypes", function(assert) {
+
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	
+	assert.strictEqual(this.dependencies.providers.recordTypeProvider.getRequestedGroupId(0), "typeOfResource");
+	assert.strictEqual(this.dependencies.providers.recordTypeProvider.getRequestedGroupId(1), "authority");
+	
+});
+
+
 QUnit.test("initFactoresRecordTypeHandlersNotAddedToViewIfRecordTypeWithoutActions", function(
 		assert) {
 	var spySpec = {
@@ -403,14 +476,15 @@ QUnit.test("testAfterRecordTypeProviderReload", function(assert) {
 	var spec = this.spec;
 
 	function assertFactoredRecordTypeHandlerAddsViewHasCorrectBaseUrlAndHasId(number, id) {
-		var factoredRecordTypeHandler = dependencies.recordTypeHandlerFactory.getFactored(number);
+		var extraForOtherListing = 4;
+
+		var factoredRecordTypeHandler = dependencies.recordTypeHandlerFactory.getFactored(number+extraForOtherListing );
 		assert.strictEqual(factoredRecordTypeHandler.getView(), jsClientView
 				.getRecordTypesView(number - 19));
-		var factoredSpec = dependencies.recordTypeHandlerFactory.getSpec(number);
+		var factoredSpec = dependencies.recordTypeHandlerFactory.getSpec(number+extraForOtherListing );
 		assert.strictEqual(factoredSpec.baseUrl, spec.baseUrl);
 		assert.strictEqual(getIdFromRecord(factoredSpec.recordTypeRecord), id);
 	}
-
 	assertFactoredRecordTypeHandlerAddsViewHasCorrectBaseUrlAndHasId(19, "metadata");
 	assertFactoredRecordTypeHandlerAddsViewHasCorrectBaseUrlAndHasId(21, "metadataCollectionItem");
 	assertFactoredRecordTypeHandlerAddsViewHasCorrectBaseUrlAndHasId(26, "presentation");
