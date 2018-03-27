@@ -172,7 +172,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "presentation"
 											} ]
-										} ],
+										},{
+						                      "name": "groupOfRecordType",
+						                      "value": "presentation",
+						                      "repeatId": "1"
+						                } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -356,7 +360,11 @@ var CORATEST = (function(coraTest) {
 										}, {
 											"name" : "abstract",
 											"value" : "true"
-										} ],
+										},{
+						                    "name": "groupOfRecordType",
+						                    "value": "metadata",
+						                    "repeatId": "0"
+						                  } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -571,7 +579,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "presentation"
 											} ]
-										} ],
+										},{
+						                      "name": "groupOfRecordType",
+						                      "value": "presentation",
+						                      "repeatId": "1"
+						                } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -764,7 +776,19 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "text"
 											} ]
-										} ],
+										},{
+						                    "name": "groupOfRecordType",
+						                    "value": "metadata",
+						                    "repeatId": "0"
+						                  },{
+						                      "name": "groupOfRecordType",
+						                      "value": "presentation",
+						                      "repeatId": "1"
+						                    },{
+						                        "name": "groupOfRecordType",
+						                        "value": "systemConfiguration",
+						                        "repeatId": "2"
+						                } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -948,7 +972,11 @@ var CORATEST = (function(coraTest) {
 										}, {
 											"name" : "abstract",
 											"value" : "false"
-										} ],
+										},{
+						                    "name": "groupOfRecordType",
+						                    "value": "metadata",
+						                    "repeatId": "0"
+						                  }],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -1346,7 +1374,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "metadata"
 											} ]
-										} ],
+										},{
+						                    "name": "groupOfRecordType",
+						                    "value": "metadata",
+						                    "repeatId": "0"
+						                  } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -1530,7 +1562,11 @@ var CORATEST = (function(coraTest) {
 										}, {
 											"name" : "abstract",
 											"value" : "true"
-										} ],
+										},{
+						                      "name": "groupOfRecordType",
+						                      "value": "presentation",
+						                      "repeatId": "1"
+						                    } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -1723,7 +1759,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "metadata"
 											} ]
-										} ],
+										},{
+						                    "name": "groupOfRecordType",
+						                    "value": "metadata",
+						                    "repeatId": "0"
+						                  } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -1916,7 +1956,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "metadata"
 											} ]
-										} ],
+										},{
+						                    "name": "groupOfRecordType",
+						                    "value": "metadata",
+						                    "repeatId": "0"
+						                  } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -2129,7 +2173,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "presentation"
 											} ]
-										} ],
+										},{
+						                      "name": "groupOfRecordType",
+						                      "value": "presentation",
+						                      "repeatId": "1"
+						                    } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -2322,7 +2370,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "metadata"
 											} ]
-										} ],
+										},{
+						                    "name": "groupOfRecordType",
+						                    "value": "metadata",
+						                    "repeatId": "0"
+						                  } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -2506,7 +2558,19 @@ var CORATEST = (function(coraTest) {
 										}, {
 											"name" : "abstract",
 											"value" : "true"
-										} ],
+										},{
+						                    "name": "groupOfRecordType",
+						                    "value": "metadata",
+						                    "repeatId": "0"
+						                  },{
+						                      "name": "groupOfRecordType",
+						                      "value": "presentation",
+						                      "repeatId": "1"
+						                    },{
+						                        "name": "groupOfRecordType",
+						                        "value": "systemConfiguration",
+						                        "repeatId": "2"
+						                } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -2699,7 +2763,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "presentation"
 											} ]
-										} ],
+										},{
+						                      "name": "groupOfRecordType",
+						                      "value": "presentation",
+						                      "repeatId": "1"
+						                    } ],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -2892,7 +2960,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "metadata"
 											} ]
-										} ],
+										} ,{
+						                    "name": "groupOfRecordType",
+						                    "value": "other",
+						                    "repeatId": "0"
+						                  }],
 								"name" : "recordType"
 							},
 							"actionLinks" : {

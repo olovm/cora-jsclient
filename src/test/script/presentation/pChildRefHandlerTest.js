@@ -275,7 +275,7 @@ QUnit.test("testInitViewIsFromFactoredView", function(assert) {
 	var expectedSpec = {
 		"presentationId" : "pVarTextVariableId",
 		"isRepeating" : false,
-		"addText" : "+ textVariableIdText",
+		"addText" : "+ translated_textVariableIdText",
 		"mode" : "input",
 		"textStyle" : "someTextStyle",
 		"childStyle" : "someChildStyle"
@@ -299,7 +299,7 @@ QUnit.test("testInitViewIsFromFactoredViewOutputMode", function(assert) {
 	var expectedSpec = {
 		"presentationId" : "pVarTextVariableId",
 		"isRepeating" : false,
-		"addText" : "+ textVariableIdText",
+		"addText" : "+ translated_textVariableIdText",
 		"mode" : "output",
 		"textStyle" : "someTextStyle",
 		"childStyle" : "someChildStyle"
@@ -596,7 +596,7 @@ QUnit.test("testUploadButtonFor0toX", function(assert) {
 	var expectedSpec = {
 		"presentationId" : "myChildOfBinaryPLink",
 		"isRepeating" : true,
-		"addText" : "+ myChildOfBinaryLinkText",
+		"addText" : "+ translated_myChildOfBinaryLinkText",
 		"mode" : "input",
 		"upload" : "true"
 	};

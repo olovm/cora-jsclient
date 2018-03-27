@@ -28,7 +28,7 @@ var CORATEST = (function(coraTest) {
 
 		function getTranslation(textId) {
 			fetchedTextIds.push(textId);
-			return textId;
+			return "translated_"+textId;
 		}
 
 		function getFetchedTextIdNo(no) {

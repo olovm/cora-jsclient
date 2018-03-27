@@ -8839,6 +8839,328 @@ var CORATEST = (function(coraTest) {
 				"type" : "pRecordLink"
 			}
 		};
+		metadataArray["groupOfRecordTypeCollection"] = {
+				  "name": "metadata",
+				  "children": [
+				    {
+				      "name": "recordInfo",
+				      "children": [
+				        {
+				          "name": "id",
+				          "value": "groupOfRecordTypeCollection"
+				        },
+				        {
+				          "name": "type",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "recordType"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "metadataItemCollection"
+				            }
+				          ]
+				        },
+				        {
+				          "name": "dataDivider",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "system"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "cora"
+				            }
+				          ]
+				        }
+				      ]
+				    },
+				    {
+				      "name": "nameInData",
+				      "value": "groupOfRecordType"
+				    },
+				    {
+				      "name": "textId",
+				      "children": [
+				        {
+				          "name": "linkedRecordType",
+				          "value": "coraText"
+				        },
+				        {
+				          "name": "linkedRecordId",
+				          "value": "groupOfRecordTypeCollectionText"
+				        }
+				      ]
+				    },
+				    {
+				      "name": "defTextId",
+				      "children": [
+				        {
+				          "name": "linkedRecordType",
+				          "value": "coraText"
+				        },
+				        {
+				          "name": "linkedRecordId",
+				          "value": "groupOfRecordTypeCollectionDefText"
+				        }
+				      ]
+				    },
+				    {
+				      "name": "collectionItemReferences",
+				      "children": [
+				        {
+				          "name": "ref",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "metadataCollectionItem"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "typeOfResourceItem"
+				            }
+				          ],
+				          "repeatId": "5"
+				        },
+				        {
+				          "name": "ref",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "metadataCollectionItem"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "authorityItem"
+				            }
+				          ],
+				          "repeatId": "4"
+				        },
+//				        {
+//				          "name": "ref",
+//				          "children": [
+//				            {
+//				              "name": "linkedRecordType",
+//				              "value": "metadataCollectionItem"
+//				            },
+//				            {
+//				              "name": "linkedRecordId",
+//				              "value": "metadataItem"
+//				            }
+//				          ],
+//				          "repeatId": "0"
+//				        },
+//				        {
+//				          "name": "ref",
+//				          "children": [
+//				            {
+//				              "name": "linkedRecordType",
+//				              "value": "metadataCollectionItem"
+//				            },
+//				            {
+//				              "name": "linkedRecordId",
+//				              "value": "presentationItem"
+//				            }
+//				          ],
+//				          "repeatId": "1"
+//				        },
+//				        {
+//				          "name": "ref",
+//				          "children": [
+//				            {
+//				              "name": "linkedRecordType",
+//				              "value": "metadataCollectionItem"
+//				            },
+//				            {
+//				              "name": "linkedRecordId",
+//				              "value": "searchItem"
+//				            }
+//				          ],
+//				          "repeatId": "2"
+//				        },
+//				        {
+//				          "name": "ref",
+//				          "children": [
+//				            {
+//				              "name": "linkedRecordType",
+//				              "value": "metadataCollectionItem"
+//				            },
+//				            {
+//				              "name": "linkedRecordId",
+//				              "value": "permissionItem"
+//				            }
+//				          ],
+//				          "repeatId": "3"
+//				        },
+//				        {
+//				          "name": "ref",
+//				          "children": [
+//				            {
+//				              "name": "linkedRecordType",
+//				              "value": "metadataCollectionItem"
+//				            },
+//				            {
+//				              "name": "linkedRecordId",
+//				              "value": "systemConfigurationItem"
+//				            }
+//				          ],
+//				          "repeatId": "6"
+//				        }
+				      ]
+				    }
+				  ],
+				  "attributes": {
+				    "type": "itemCollection"
+				  }
+				};
+		metadataArray["typeOfResourceItem"] = {
+				  "name": "metadata",
+				  "children": [
+				    {
+				      "name": "recordInfo",
+				      "children": [
+				        {
+				          "name": "id",
+				          "value": "typeOfResourceItem"
+				        },
+				        {
+				          "name": "type",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "recordType"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "metadataCollectionItem"
+				            }
+				          ]
+				        },
+				        {
+				          "name": "dataDivider",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "system"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "bibsys"
+				            }
+				          ]
+				        }
+				      ]
+				    },
+				    {
+				      "name": "nameInData",
+				      "value": "typeOfResource"
+				    },
+				    {
+				      "name": "textId",
+				      "children": [
+				        {
+				          "name": "linkedRecordType",
+				          "value": "coraText"
+				        },
+				        {
+				          "name": "linkedRecordId",
+				          "value": "typeOfResourceItemText"
+				        }
+				      ]
+				    },
+				    {
+				      "name": "defTextId",
+				      "children": [
+				        {
+				          "name": "linkedRecordType",
+				          "value": "coraText"
+				        },
+				        {
+				          "name": "linkedRecordId",
+				          "value": "typeOfResourceItemDefText"
+				        }
+				      ]
+				    }
+				  ],
+				  "attributes": {
+				    "type": "collectionItem"
+				  }
+				};
+		metadataArray["authorityItem"] = {
+				  "name": "metadata",
+				  "children": [
+				    {
+				      "name": "recordInfo",
+				      "children": [
+				        {
+				          "name": "id",
+				          "value": "authorityItem"
+				        },
+				        {
+				          "name": "type",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "recordType"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "metadataCollectionItem"
+				            }
+				          ]
+				        },
+				        {
+				          "name": "dataDivider",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "system"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "bibsys"
+				            }
+				          ]
+				        }
+				      ]
+				    },
+				    {
+				      "name": "nameInData",
+				      "value": "authority"
+				    },
+				    {
+				      "name": "textId",
+				      "children": [
+				        {
+				          "name": "linkedRecordType",
+				          "value": "coraText"
+				        },
+				        {
+				          "name": "linkedRecordId",
+				          "value": "authorityItemText"
+				        }
+				      ]
+				    },
+				    {
+				      "name": "defTextId",
+				      "children": [
+				        {
+				          "name": "linkedRecordType",
+				          "value": "coraText"
+				        },
+				        {
+				          "name": "linkedRecordId",
+				          "value": "authorityItemDefText"
+				        }
+				      ]
+				    }
+				  ],
+				  "attributes": {
+				    "type": "collectionItem"
+				  }
+				};
 		function getMetadataById(metadataId) {
 
 			if (metadataArray[metadataId] !== undefined) {

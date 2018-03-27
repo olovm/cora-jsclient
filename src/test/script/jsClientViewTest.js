@@ -179,6 +179,20 @@ QUnit.test("testAddToRecordTypesView", function(assert) {
 	assert.strictEqual(firstRecordType.className, "recordType");
 });
 
+QUnit.test("testAddGroupOfRecordTypeToRecordTypesView", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+
+	var recordTypesView = jsClientView.getRecordTypesView();
+	assert.strictEqual(recordTypesView.childNodes.length, 0);
+
+	var someView = CORA.gui.createSpanWithClassName("recordType");
+	jsClientView.addGroupOfRecordTypesToView(someView);
+
+	var firstRecordType = recordTypesView.childNodes[0];
+	assert.strictEqual(firstRecordType, someView);
+	assert.strictEqual(firstRecordType.className, "recordType");
+});
+
 QUnit.test("testClearRecordTypesView", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 

@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -48,6 +49,10 @@ var CORA = (function(cora) {
 			return currentRecordTypeProvider.getMetadataByRecordTypeId(id);
 		}
 
+		function getRecordTypesByGroupId(id) {
+			return currentRecordTypeProvider.getRecordTypesByGroupId(id);
+		}
+
 		function reload(callAfterSwitch) {
 			callWhenSwitched = callAfterSwitch;
 			var reloadingSpec = {
@@ -71,7 +76,8 @@ var CORA = (function(cora) {
 			getAllRecordTypes : getAllRecordTypes,
 			getMetadataByRecordTypeId : getMetadataByRecordTypeId,
 			reload : reload,
-			switchProvider : switchProvider
+			switchProvider : switchProvider,
+			getRecordTypesByGroupId : getRecordTypesByGroupId
 		});
 		start();
 		return out;

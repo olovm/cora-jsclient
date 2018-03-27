@@ -108,9 +108,9 @@ QUnit.test("testIndexDataListViewAddedToUploadManager", function(assert) {
 
 	indexListHandler.indexingFinished();
 	var indexOrder = indexOrders.firstChild;
-	assert.strictEqual(indexOrder.firstChild.textContent, "theClient_indexedText");
+	assert.strictEqual(indexOrder.firstChild.textContent, "translated_theClient_indexedText");
 	assert.strictEqual(indexOrder.childNodes[2].className, "indexItem");
-	assert.strictEqual(indexOrder.childNodes[2].textContent, "1. theClient_indexedRecordTypeText: search, theClient_indexedRecordIdText: coraTextSearch");
+	assert.strictEqual(indexOrder.childNodes[2].textContent, "1. translated_theClient_indexedRecordTypeText: search, translated_theClient_indexedRecordIdText: coraTextSearch");
 });
 
 QUnit.test("testCancelIndexingButtonIsAddedToUploadManager", function(assert) {
@@ -124,10 +124,10 @@ QUnit.test("testCancelIndexingButtonIsAddedToUploadManager", function(assert) {
 	assert.strictEqual(indexOrderView.className, "indexOrder");
 
 	var indexOrder = indexOrders.firstChild;
-	assert.strictEqual(indexOrder.firstChild.textContent, "theClient_indexedText");
+	assert.strictEqual(indexOrder.firstChild.textContent, "translated_theClient_indexedText");
 	var cancelButton = indexOrder.childNodes[1];
 	assert.strictEqual(cancelButton.type, "button");
-	assert.strictEqual(cancelButton.value, "theClient_cancelIndexingText");
+	assert.strictEqual(cancelButton.value, "translated_theClient_cancelIndexingText");
 	assert.strictEqual(cancelButton.className, "cancelButton");
 	assert.strictEqual(cancelButton.onclick, indexListHandler.cancelIndexing);
 });
@@ -225,22 +225,22 @@ QUnit.test("testCancelIndexingButtonChangesValueWhenCancellingAndResuming", func
 	assert.strictEqual(indexOrderView.className, "indexOrder");
 
 	var indexOrder = indexOrders.firstChild;
-	assert.strictEqual(indexOrder.firstChild.textContent, "theClient_indexedText");
+	assert.strictEqual(indexOrder.firstChild.textContent, "translated_theClient_indexedText");
 	var cancelButton = indexOrder.childNodes[1];
 	assert.strictEqual(cancelButton.type, "button");
-	assert.strictEqual(cancelButton.value, "theClient_cancelIndexingText");
+	assert.strictEqual(cancelButton.value, "translated_theClient_cancelIndexingText");
 	assert.strictEqual(cancelButton.className, "cancelButton");
 	assert.strictEqual(cancelButton.onclick, indexListHandler.cancelIndexing);
 
 	indexListHandler.cancelIndexing();
 
 	assert.strictEqual(cancelButton.type, "button");
-	assert.strictEqual(cancelButton.value, "theClient_resumeIndexingText");
+	assert.strictEqual(cancelButton.value, "translated_theClient_resumeIndexingText");
 	assert.strictEqual(cancelButton.className, "cancelButton");
 	assert.strictEqual(cancelButton.onclick, indexListHandler.resumeIndexing);
 
 	indexListHandler.resumeIndexing();
-	assert.strictEqual(cancelButton.value, "theClient_cancelIndexingText");
+	assert.strictEqual(cancelButton.value, "translated_theClient_cancelIndexingText");
 	assert.strictEqual(cancelButton.onclick, indexListHandler.cancelIndexing);
 
 });

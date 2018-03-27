@@ -124,7 +124,7 @@ QUnit.test("testClassName", function(assert) {
 
 QUnit.test("testText", function(assert) {
 	var view = this.getHtml();
-	assert.strictEqual(view.textContent, "theClient_loginMenuText");
+	assert.strictEqual(view.textContent, "translated_theClient_loginMenuText");
 	assert.strictEqual(this.dependencies.textProvider.getFetchedTextIdNo(0),
 			"theClient_loginMenuText");
 });
@@ -169,7 +169,7 @@ QUnit.test("testSetStateLoggedin", function(assert) {
 	loginManagerView.setState(CORA.loginManager.LOGGEDIN);
 	assert.notVisible(menu);
 	assert.strictEqual(menu.childNodes.length, 1);
-	assert.strictEqual(menu.childNodes[0].textContent, "theClient_logoutMenuText");
+	assert.strictEqual(menu.childNodes[0].textContent, "translated_theClient_logoutMenuText");
 
 	CORATESTHELPER.simulateOnclick(menu.childNodes[0]);
 	assert.ok(this.getLogoutMethodHasBeenCalled());
@@ -184,7 +184,7 @@ QUnit.test("testSetStateLoggedout", function(assert) {
 	assert.notVisible(menu);
 
 	var view = this.getHtml();
-	assert.strictEqual(view.textContent, "theClient_loginMenuText");
+	assert.strictEqual(view.textContent, "translated_theClient_loginMenuText");
 
 	assert.strictEqual(menu.childNodes.length, 2);
 	assert.strictEqual(menu.childNodes[0].textContent, "appToken");
@@ -198,12 +198,12 @@ QUnit.test("testSetStateFirstLoggedinThenLoggedout", function(assert) {
 	loginManagerView.setState(CORA.loginManager.LOGGEDIN);
 	loginManagerView.setUserId("someUserId");
 	assert.strictEqual(menu.childNodes.length, 1);
-	assert.strictEqual(menu.childNodes[0].textContent, "theClient_logoutMenuText");
+	assert.strictEqual(menu.childNodes[0].textContent, "translated_theClient_logoutMenuText");
 
 	loginManagerView.setState(CORA.loginManager.LOGGEDOUT);
 
 	var view = this.getHtml();
-	assert.strictEqual(view.textContent, "theClient_loginMenuText");
+	assert.strictEqual(view.textContent, "translated_theClient_loginMenuText");
 
 	assert.strictEqual(menu.childNodes.length, 2);
 	assert.strictEqual(menu.childNodes[0].textContent, "appToken");
