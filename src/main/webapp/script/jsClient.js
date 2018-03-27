@@ -30,8 +30,6 @@ var CORA = (function(cora) {
 		var recordTypeProvider = dependencies.providers.recordTypeProvider;
 		var searchProvider = dependencies.providers.searchProvider;
 
-		var recordTypeList;
-
 		var jsClientView;
 		var managedGuiItemShowing = undefined;
 		var managedGuiItemList = [];
@@ -56,7 +54,6 @@ var CORA = (function(cora) {
 			createAndAddOpenGuiItemHandlerToSideBar();
 			addSearchesUserIsAuthorizedToUseToSideBar(searchProvider.getAllSearches());
 
-			createAndAddRecordTypeHandlersToSideBar();
 			createAndAddGroupOfRecordTypesToSideBar();
 		}
 
@@ -108,29 +105,6 @@ var CORA = (function(cora) {
 			jsClientView.addToSearchesView(searchRecordHandler.getView());
 		}
 
-		function createAndAddRecordTypeHandlersToSideBar() {
-			recordTypeList = sortRecordTypesFromRecordTypeProvider();
-			addRecordTypesToSideBar(recordTypeList);
-		}
-
-		function sortRecordTypesFromRecordTypeProvider() {
-			var allRecordTypes = recordTypeProvider.getAllRecordTypes();
-			return CORA.sortRecordTypes(allRecordTypes);
-		}
-
-		function addRecordTypesToSideBar(recordTypeListIn) {
-			recordTypeListIn.forEach(function(record) {
-				addRecordTypeToSideBar(record);
-			});
-		}
-
-		function addRecordTypeToSideBar(record) {
-			var recordTypeHandler = createRecordTypeHandlerForRecord(record);
-			if (recordTypeHandler.hasAnyAction()) {
-				jsClientView.addToRecordTypesView(recordTypeHandler.getView());
-			}
-		}
-
 		function createRecordTypeHandlerForRecord(record) {
 			var specRecord = {
 				"jsClient" : out,
@@ -143,9 +117,6 @@ var CORA = (function(cora) {
 		function createAndAddGroupOfRecordTypesToSideBar() {
 			var cGroupOfRecordTypesCollection = CORA.coraData(metadataProvider
 					.getMetadataById("groupOfRecordTypeCollection"));
-
-			// kanske inte behöver detta, men annars smäller test som använder en
-			// metadataProviderSpy och inte realStub
 			if (cGroupOfRecordTypesCollection
 					.containsChildWithNameInData("collectionItemReferences")) {
 				var cItemReferences = CORA.coraData(cGroupOfRecordTypesCollection
@@ -172,7 +143,6 @@ var CORA = (function(cora) {
 
 			var groupId = cItem.getFirstAtomicValueByNameInData("nameInData");
 			var recordTypeForGroupList = recordTypeProvider.getRecordTypesByGroupId(groupId);
-
 			recordTypeForGroupList.forEach(function(recordType) {
 				var recordTypeHandler = createRecordTypeHandlerForRecord(recordType);
 				if (recordTypeHandler.hasAnyAction()) {
@@ -193,10 +163,6 @@ var CORA = (function(cora) {
 
 		function getView() {
 			return jsClientView.getView();
-		}
-
-		function getRecordTypeList() {
-			return recordTypeList;
 		}
 
 		function showView(managedGuiItem) {
@@ -250,8 +216,7 @@ var CORA = (function(cora) {
 
 		function afterRecordTypeProviderReload() {
 			jsClientView.clearRecordTypesView();
-			createAndAddRecordTypeHandlersToSideBar();
-//			createAndAddGroupOfRecordTypesToSideBar();
+			createAndAddGroupOfRecordTypesToSideBar();
 		}
 
 		function hideAndRemoveView(managedGuiItem) {
@@ -341,7 +306,6 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-			getRecordTypeList : getRecordTypeList,
 			showView : showView,
 			getMetadataForRecordTypeId : getMetadataForRecordTypeId,
 			afterLogin : afterLogin,
