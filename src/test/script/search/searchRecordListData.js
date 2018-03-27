@@ -132,7 +132,10 @@ var CORATEST = (function(coraTest) {
 												}
 											},
 											"name" : "recordTypeToSearchIn"
-										} ],
+										} ,{
+										      "name": "searchGroup",
+										      "value": "autocomplete"
+										    }],
 								"name" : "search"
 							},
 							"actionLinks" : {
@@ -274,7 +277,10 @@ var CORATEST = (function(coraTest) {
 												}
 											},
 											"name" : "recordTypeToSearchIn"
-										} ],
+										},{
+										      "name": "searchGroup",
+										      "value": "publicSearch"
+										    } ],
 								"name" : "search"
 							},
 							"actionLinks" : {
@@ -448,7 +454,10 @@ var CORATEST = (function(coraTest) {
 												}
 											},
 											"name" : "recordTypeToSearchIn"
-										} ],
+										} ,{
+										      "name": "searchGroup",
+										      "value": "autocomplete"
+										    }],
 								"name" : "search"
 							},
 							"actionLinks" : {

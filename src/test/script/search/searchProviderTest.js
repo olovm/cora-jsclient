@@ -233,7 +233,10 @@ QUnit
 											}
 										},
 										"name" : "recordTypeToSearchIn"
-									} ],
+									} ,{
+									      "name": "searchGroup",
+									      "value": "autocomplete"
+									    }],
 							"name" : "search"
 						},
 						"actionLinks" : {
@@ -302,4 +305,12 @@ QUnit.test("testReload", function(assert) {
 
 	this.answerListCall(1);
 	assert.ok(providerReloaded);
+});
+
+QUnit.test("testGetSearchesByGroupId", function(assert) {
+	var provider = CORA.searchProvider(this.dependencies, this.spec);
+	this.answerListCall(0);
+
+	var recordTypeList = provider.getSearchesByGroupId();
+	assert.stringifyEqual(recordTypeList.length, 3);
 });

@@ -69,12 +69,26 @@ var CORA = (function(cora) {
 			throw new Error("Id(" + recordTypeId + ") not found in searchProvider");
 		}
 
+		
 		function getAllSearches() {
 			var recordTypeList = [];
 			Object.keys(recordTypes).forEach(function(id) {
 				recordTypeList.push(recordTypes[id]);
 			});
 			return recordTypeList;
+			
+		}
+		
+		function getSearchesByGroupId(groupId) {
+			var searchList = [];
+			var sorter = CORA.recordTypeSorter();
+			Object.keys(recordTypes).forEach(function(id) {
+				searchList.push(recordTypes[id]);
+			});
+			console.log(searchList.data)
+			var sortedList = sorter.sortListUsingChildWithNameInData(searchList, "searchGroup");
+//			return recordTypeList;
+			return sortedList[groupId];
 		}
 
 		function reload(callWhenReloadedMethodIn) {
@@ -96,6 +110,7 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getSearchById : getSearchById,
 			getAllSearches : getAllSearches,
+			getSearchesByGroupId : getSearchesByGroupId,
 			processFetchedData : processFetchedData,
 			reload : reload
 		});
