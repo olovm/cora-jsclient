@@ -105,60 +105,11 @@ var CORA = (function(cora) {
 			jsClientView.addToSearchesView(searchRecordHandler.getView());
 		}
 
-		function createRecordTypeHandlerForRecord(record) {
-			var specRecord = {
-				"jsClient" : out,
-				"recordTypeRecord" : record,
-				"baseUrl" : spec.baseUrl
-			};
-			return dependencies.recordTypeHandlerFactory.factor(specRecord);
-		}
-
 		function createAndAddGroupOfRecordTypesToSideBar() {
-			var cGroupOfRecordTypesCollection = CORA.coraData(metadataProvider
-					.getMetadataById("groupOfRecordTypeCollection"));
-			if (cGroupOfRecordTypesCollection
-					.containsChildWithNameInData("collectionItemReferences")) {
-				var cItemReferences = CORA.coraData(cGroupOfRecordTypesCollection
-						.getFirstChildByNameInData("collectionItemReferences"));
-				var refs = cItemReferences.getChildrenByNameInData("ref");
-				createAndAddGroupOfRecordTypesToSideBarForAllGroups(refs);
-			}
-		}
-
-		function createAndAddGroupOfRecordTypesToSideBarForAllGroups(refs) {
-			refs.forEach(function(ref) {
-				var cRef = CORA.coraData(ref);
-				var itemId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
-				createAndAddGroupOfRecordTypesToSideBarForOneGroup(itemId);
+			var recordTypeGroups = dependencies.recordTypeMenu.getRecordTypeGroups(out);
+			recordTypeGroups.forEach(function(recordTypeGroup) {
+				jsClientView.addGroupOfRecordTypesToView(recordTypeGroup);
 			});
-		}
-
-		function createAndAddGroupOfRecordTypesToSideBarForOneGroup(itemId) {
-			var group = CORA.gui.createSpanWithClassName("recordTypeGroup");
-			var cItem = CORA.coraData(metadataProvider.getMetadataById(itemId));
-
-			var groupHeadline = createTranslatedGroupHeadline(cItem);
-			group.appendChild(groupHeadline);
-
-			var groupId = cItem.getFirstAtomicValueByNameInData("nameInData");
-			var recordTypeForGroupList = recordTypeProvider.getRecordTypesByGroupId(groupId);
-			recordTypeForGroupList.forEach(function(recordType) {
-				var recordTypeHandler = createRecordTypeHandlerForRecord(recordType);
-				if (recordTypeHandler.hasAnyAction()) {
-					group.appendChild(recordTypeHandler.getView());
-				}
-			});
-
-			jsClientView.addGroupOfRecordTypesToView(group);
-		}
-
-		function createTranslatedGroupHeadline(cItem) {
-			var groupHeadline = CORA.gui.createSpanWithClassName("recordTypeGroupHeadline");
-			var cTextIdGroup = CORA.coraData(cItem.getFirstChildByNameInData("textId"));
-			var textId = cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-			groupHeadline.innerHTML = textProvider.getTranslation(textId);
-			return groupHeadline;
 		}
 
 		function getView() {

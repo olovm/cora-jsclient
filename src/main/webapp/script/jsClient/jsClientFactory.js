@@ -150,6 +150,14 @@ var CORA = (function(cora) {
 			globalFactories.incomingLinksListHandlerViewFactory = CORA.genericFactory(
 					"incomingLinksListHandlerView", genericDependencies);
 
+			var menuDependencies = {
+				recordTypeHandlerFactory : recordTypeHandlerFactory
+			};
+			var menuSpec = {
+				baseUrl : jsClientSpec.baseUrl
+			};
+			var recordTypeMenu = CORA.recordTypeMenu(providers, menuDependencies, menuSpec);
+
 			var dep = {
 				"providers" : providers,
 				"globalInstances" : {
@@ -163,7 +171,8 @@ var CORA = (function(cora) {
 				"openGuiItemHandlerFactory" : openGuiItemHandlerFactory,
 				"uploadManager" : uploadManager,
 				"searchRecordHandlerFactory" : searchRecordHandlerFactory,
-				"recordTypeHandlerFactory" : CORA.recordTypeHandlerFactory(dependenciesRTH)
+				"recordTypeHandlerFactory" : recordTypeHandlerFactory,
+				recordTypeMenu : recordTypeMenu
 			};
 
 			jsClient = CORA.jsClient(dep, jsClientSpec);
