@@ -32,7 +32,13 @@ var CORA = (function(cora) {
 		function start() {
 		}
 
-		function createAndAddGroupOfRecordTypesToSideBar() {
+		function getRecordTypeGroups(jsClientIn) {
+			jsClient = jsClientIn;
+			createAndAddGroupOfRecordTypesToList();
+			return recordTypeGroups;
+		}
+
+		function createAndAddGroupOfRecordTypesToList() {
 			recordTypeGroups = [];
 			var cGroupOfRecordTypesCollection = CORA.coraData(metadataProvider
 					.getMetadataById("groupOfRecordTypeCollection"));
@@ -41,19 +47,19 @@ var CORA = (function(cora) {
 				var cItemReferences = CORA.coraData(cGroupOfRecordTypesCollection
 						.getFirstChildByNameInData("collectionItemReferences"));
 				var refs = cItemReferences.getChildrenByNameInData("ref");
-				createAndAddGroupOfRecordTypesToSideBarForAllGroups(refs);
+				createAndAddGroupOfRecordTypesToListForAllGroups(refs);
 			}
 		}
 
-		function createAndAddGroupOfRecordTypesToSideBarForAllGroups(refs) {
+		function createAndAddGroupOfRecordTypesToListForAllGroups(refs) {
 			refs.forEach(function(ref) {
 				var cRef = CORA.coraData(ref);
 				var itemId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
-				createAndAddGroupOfRecordTypesToSideBarForOneGroup(itemId);
+				createAndAddGroupOfRecordTypesToListForOneGroup(itemId);
 			});
 		}
 
-		function createAndAddGroupOfRecordTypesToSideBarForOneGroup(itemId) {
+		function createAndAddGroupOfRecordTypesToListForOneGroup(itemId) {
 			var group = CORA.gui.createSpanWithClassName("recordTypeGroup");
 			var cItem = CORA.coraData(metadataProvider.getMetadataById(itemId));
 
@@ -86,12 +92,6 @@ var CORA = (function(cora) {
 				"baseUrl" : spec.baseUrl
 			};
 			return dependencies.recordTypeHandlerFactory.factor(specRecord);
-		}
-
-		function getRecordTypeGroups(jsClientIn) {
-			jsClient = jsClientIn;
-			createAndAddGroupOfRecordTypesToSideBar();
-			return recordTypeGroups;
 		}
 
 		function getProviders() {
