@@ -23,6 +23,7 @@ var CORA = (function(cora) {
 		var callWhenReady = spec.callWhenReady;
 
 		var recordTypes = {};
+		var sortedSearchList;
 		fetchRecordTypeListAndThen(processFetchedData);
 
 		function fetchRecordTypeListAndThen(callAfterAnswer) {
@@ -53,6 +54,7 @@ var CORA = (function(cora) {
 				var recordId = getIdFromRecordData(record.data);
 				recordTypes[recordId] = record;
 			});
+			createSortedRecordList();
 		}
 
 		function getIdFromRecordData(recordData) {
@@ -60,6 +62,16 @@ var CORA = (function(cora) {
 			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
 			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			return id;
+		}
+		
+		function createSortedRecordList(){
+			var searchList = [];
+			var sorter = CORA.recordTypeSorter();
+			Object.keys(recordTypes).forEach(function(id) {
+				searchList.push(recordTypes[id]);
+			});
+			sortedSearchList = sorter.sortListUsingChildWithNameInData(searchList, "searchGroup");
+			
 		}
 
 		function getSearchById(recordTypeId) {
@@ -69,12 +81,18 @@ var CORA = (function(cora) {
 			throw new Error("Id(" + recordTypeId + ") not found in searchProvider");
 		}
 
+		
 		function getAllSearches() {
 			var recordTypeList = [];
 			Object.keys(recordTypes).forEach(function(id) {
 				recordTypeList.push(recordTypes[id]);
 			});
 			return recordTypeList;
+			
+		}
+		
+		function getSearchesByGroupId(groupId) {
+			return sortedSearchList[groupId];
 		}
 
 		function reload(callWhenReloadedMethodIn) {
@@ -96,6 +114,7 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getSearchById : getSearchById,
 			getAllSearches : getAllSearches,
+			getSearchesByGroupId : getSearchesByGroupId,
 			processFetchedData : processFetchedData,
 			reload : reload
 		});

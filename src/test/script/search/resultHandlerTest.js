@@ -72,8 +72,8 @@ QUnit.test("testInitViewSpec", function(assert) {
 	assert.strictEqual(factoredViewSpec.ofText, this.dependencies.textProvider
 			.getTranslation("theClient_resultListOfText"));
 	assert.strictEqual(factoredViewSpec.fromNo, "1");
-	assert.strictEqual(factoredViewSpec.toNo, "38");
-	assert.strictEqual(factoredViewSpec.totalNo, "38");
+	assert.strictEqual(factoredViewSpec.toNo, "11");
+	assert.strictEqual(factoredViewSpec.totalNo, "11");
 	assert.strictEqual(factoredViewSpec.resultHandler, resultHandler);
 });
 
@@ -87,14 +87,14 @@ QUnit.test("testInitViewCreatesRecordHandlerForEachResultItem", function(assert)
 	assert.strictEqual(recordHandlerSpec.record, this.spec.dataList.data[0].record);
 	assert.strictEqual(recordHandlerSpec.jsClient, this.dependencies.jsClient);
 
-	var recordHandlerLastSpec = this.dependencies.recordHandlerFactory.getSpec(37);
+	var recordHandlerLastSpec = this.dependencies.recordHandlerFactory.getSpec(10);
 	assert.strictEqual(recordHandlerLastSpec.fetchLatestDataFromServer, "false");
 	assert.strictEqual(recordHandlerSpec.partOfList, "true");
 	assert.strictEqual(recordHandlerLastSpec.createNewRecord, "false");
-	assert.strictEqual(recordHandlerLastSpec.record, this.spec.dataList.data[37].record);
+	assert.strictEqual(recordHandlerLastSpec.record, this.spec.dataList.data[10].record);
 	assert.strictEqual(recordHandlerLastSpec.jsClient, this.dependencies.jsClient);
 
-	assert.strictEqual(this.dependencies.recordHandlerFactory.getSpec(38), undefined);
+	assert.strictEqual(this.dependencies.recordHandlerFactory.getSpec(11), undefined);
 });
 
 QUnit.test("testInitViewAddsRecordHandlersListViewForEachResultItem", function(assert) {
@@ -106,12 +106,14 @@ QUnit.test("testInitViewAddsRecordHandlersListViewForEachResultItem", function(a
 			.getManagedGuiItem().getListView());
 	assert.strictEqual(factoredView.getAddedPresentation(0).record,
 			this.spec.dataList.data[0].record);
+	
+	var last = 10;
 
-	var recordHandlerLast = this.dependencies.recordHandlerFactory.getFactored(37);
-	assert.strictEqual(factoredView.getAddedPresentation(37).presentation, recordHandlerLast
+	var recordHandlerLast = this.dependencies.recordHandlerFactory.getFactored(last);
+	assert.strictEqual(factoredView.getAddedPresentation(last).presentation, recordHandlerLast
 			.getManagedGuiItem().getListView());
-	assert.strictEqual(factoredView.getAddedPresentation(37).record,
-			this.spec.dataList.data[37].record);
+	assert.strictEqual(factoredView.getAddedPresentation(last).record,
+			this.spec.dataList.data[last].record);
 
 	assert.strictEqual(this.dependencies.recordHandlerFactory.getSpec(38), undefined);
 });

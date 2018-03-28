@@ -168,7 +168,7 @@ QUnit.test("testIndexDataWasCalledForAllInList", function(assert) {
 	indexListHandler.indexDataList();
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
 
-	assert.stringifyEqual(indexListHandler.getNumberOfIndexedRecords(), 38);
+	assert.stringifyEqual(indexListHandler.getNumberOfIndexedRecords(), 11);
 
 });
 

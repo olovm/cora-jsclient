@@ -19,12 +19,29 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeSorter = function() {
-		function start() {
+		var sortedList ={};
+		
+		function sortListUsingChildWithNameInData(listToSort, nameInData){
+			listToSort.forEach(function(searchRecord) {
+				addSearchRecordToList(searchRecord, nameInData);
+			});
+			return sortedList;
+			
 		}
+		
+		function addSearchRecordToList(searchRecord, nameInData){
+			var cSearchRecord = CORA.coraData(searchRecord.data);
+			var sortByValue = cSearchRecord.getFirstAtomicValueByNameInData(nameInData);
+			if(sortedList[sortByValue]  === undefined){
+				sortedList[sortByValue] = [];
+			}
+			sortedList[sortByValue].push(searchRecord);
+		}
+		
 		var out = Object.freeze({
-			type : "recordTypeSorter"
+			type : "recordTypeSorter",
+			sortListUsingChildWithNameInData : sortListUsingChildWithNameInData
 		});
-		start();
 		return out;
 	};
 	return cora;
