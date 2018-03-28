@@ -44,6 +44,10 @@ var CORA = (function(cora) {
 			return currentSearchProvider.getAllSearches();
 		}
 
+		function getSearchesByGroupId(groupId) {
+			return currentSearchProvider.getSearchesByGroupId(groupId);
+		}
+
 		function reload(callAfterSwitch) {
 			callWhenSwitched = callAfterSwitch;
 			var reloadingSpec = {
@@ -64,6 +68,7 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getSearchById : getSearchById,
 			getAllSearches : getAllSearches,
+			getSearchesByGroupId : getSearchesByGroupId,
 			reload : reload,
 			switchProvider : switchProvider
 		});

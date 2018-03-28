@@ -46,7 +46,7 @@ QUnit.module("jsClientTest.js", {
 		this.clientInstanceProvider = CORATEST.clientInstanceProviderSpy();
 
 		var recordTypeHandlerFactory =  CORATEST.standardFactorySpy("recordTypeHandlerSpy");
-		
+
 		var providers = {
 			"metadataProvider" : this.metadataProvider,
 			"textProvider" : this.textProvider,
@@ -169,6 +169,11 @@ QUnit.test("testInitAddsItsOpenGuiItemHandlerToView", function(assert) {
 
 	assert.strictEqual(jsClientView.getAddedOpenGuiItemHandlerView(0), openGuiItemHandlerView
 			.getView());
+});
+
+QUnit.test("testSearchProviderIsCalledWithPublicSearchGroupId", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	assert.strictEqual(this.searchProvider.getGroupId(), "publicSearch");
 });
 
 QUnit.test("initFactoresSearchRecordHandlersAndAddsToView", function(assert) {

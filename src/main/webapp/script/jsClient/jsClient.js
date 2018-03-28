@@ -52,7 +52,8 @@ var CORA = (function(cora) {
 			jsClientView
 					.addGlobalView(dependencies.uploadManager.getManagedGuiItem().getMenuView());
 			createAndAddOpenGuiItemHandlerToSideBar();
-			addSearchesUserIsAuthorizedToUseToSideBar(searchProvider.getAllSearches());
+			var publicSearches = searchProvider.getSearchesByGroupId("publicSearch");
+			addSearchesUserIsAuthorizedToUseToSideBar(publicSearches);
 
 			createAndAddGroupOfRecordTypesToSideBar();
 		}

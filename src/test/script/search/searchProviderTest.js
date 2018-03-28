@@ -313,7 +313,10 @@ QUnit.test("testGetSearchesByGroupId", function(assert) {
 
 	var autocompleteList = provider.getSearchesByGroupId("autocomplete");
 	assert.stringifyEqual(autocompleteList.length, 7);
-	
+
 	var publicSearchesList = provider.getSearchesByGroupId("publicSearch");
 	assert.stringifyEqual(publicSearchesList.length, 4);
+
+	var nonExistingSearchesList = provider.getSearchesByGroupId("NONExistingGroup");
+	assert.stringifyEqual(nonExistingSearchesList.length, 0);
 });

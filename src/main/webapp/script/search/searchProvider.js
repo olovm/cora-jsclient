@@ -90,7 +90,10 @@ var CORA = (function(cora) {
 		}
 
 		function getSearchesByGroupId(groupId) {
-			return sortedSearchList[groupId];
+			if(sortedSearchList[groupId] !== undefined){
+				return sortedSearchList[groupId];
+			}
+			return [];
 		}
 
 		function reload(callWhenReloadedMethodIn) {

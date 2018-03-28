@@ -23,6 +23,7 @@ var CORATEST = (function(coraTest) {
 		var searchArray = [];
 		var fetchedSearchIds = [];
 		var allSearchesNo = 0;
+		var searchesByGroupIdNo = 0;
 		var callWhenReloadedMethod;
 		var noOfReloads = 0;
 
@@ -123,7 +124,10 @@ var CORATEST = (function(coraTest) {
 								}
 							},
 							"name" : "recordTypeToSearchIn"
-						} ],
+						},{
+						"name": "searchGroup",
+						"value": "publicSearch"
+					} ],
 				"name" : "search"
 			},
 			"actionLinks" : {
@@ -251,7 +255,10 @@ var CORATEST = (function(coraTest) {
 								}
 							},
 							"name" : "recordTypeToSearchIn"
-						} ],
+						} ,{
+						"name": "searchGroup",
+						"value": "publicSearch"
+					} ],
 				"name" : "search"
 			},
 			"actionLinks" : {
@@ -378,7 +385,10 @@ var CORATEST = (function(coraTest) {
 								}
 							},
 							"name" : "recordTypeToSearchIn"
-						} ],
+						} ,{
+						"name": "searchGroup",
+						"value": "autocomplete"
+					} ],
 				"name" : "search"
 			},
 			"actionLinks" : {
@@ -506,7 +516,10 @@ var CORATEST = (function(coraTest) {
 								}
 							},
 							"name" : "recordTypeToSearchIn"
-						} ],
+						} ,{
+						"name": "searchGroup",
+						"value": "publicSearch"
+					} ],
 				"name" : "search"
 			},
 			"actionLinks" : {
@@ -760,7 +773,10 @@ var CORATEST = (function(coraTest) {
 							}
 						},
 						"name" : "recordTypeToSearchIn"
-					} ],
+					},{
+						"name": "searchGroup",
+						"value": "autocomplete"
+					}  ],
 				"name" : "search"
 			},
 			"actionLinks" : {
@@ -834,16 +850,40 @@ var CORATEST = (function(coraTest) {
 			return noOfReloads;
 		}
 
+		var groupId;
+		function getSearchesByGroupId(groupIdIn) {
+			searchesByGroupIdNo++;
+			groupId = groupIdIn;
+			var searchList = [];
+			searchList.push(searchArray["coraTextSearch"]);
+			searchList.push(searchArray["someSearch"]);
+			searchList.push(searchArray["metadataItemCollectionSearch"]);
+			searchList.push(searchArray["searchWithoutSearchLink"]);
+
+			return searchList;
+		}
+
+		function getSearchesByGroupIdFetchedNo() {
+			return searchesByGroupIdNo;
+		}
+
+		function getGroupId() {
+			return groupId;
+		}
+
 		return Object.freeze({
 			"type" : "searchProviderSpy",
 			getSearchById : getSearchById,
 			getAllSearches : getAllSearches,
+			getSearchesByGroupId : getSearchesByGroupId,
 			getFetchedSearchIdNo : getFetchedSearchIdNo,
 			getAllSearchesFetchedNo : getAllSearchesFetchedNo,
+			getSearchesByGroupIdFetchedNo : getSearchesByGroupIdFetchedNo,
 			reload : reload,
 			getCallWhenReloadedMethod : getCallWhenReloadedMethod,
 			getNoOfReloads : getNoOfReloads,
-			callWhenReloadedMethod : callWhenReloadedMethod
+			callWhenReloadedMethod : callWhenReloadedMethod,
+			getGroupId : getGroupId
 		});
 	};
 	return coraTest;

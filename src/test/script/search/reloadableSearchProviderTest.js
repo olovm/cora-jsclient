@@ -88,9 +88,25 @@ QUnit.test("testGetAllSearchesForwardedToFactoredProvider", function(assert) {
 
 QUnit.test("testGetGetAllSearchesAnswerReturnedFromFactoredProvider", function(assert) {
 	var firstFactoredSearchProvider = this.dependencies.searchProviderFactory.getFactored(0);
-	var search = this.reloadableSearchProvider.getAllSearches();
+	var search = this.reloadableSearchProvider.getAllSearches ();
 
 	assert.stringifyEqual(firstFactoredSearchProvider.getAllSearches(), search);
+});
+
+QUnit.test("testGetSearchesByGroupIdForwardedToFactoredProvider", function(assert) {
+	var firstFactoredSearchProvider = this.dependencies.searchProviderFactory.getFactored(0);
+	assert.strictEqual(firstFactoredSearchProvider.getSearchesByGroupIdFetchedNo(), 0);
+	var search = this.reloadableSearchProvider.getSearchesByGroupId("someGroupId");
+
+	assert.strictEqual(firstFactoredSearchProvider.getSearchesByGroupIdFetchedNo(), 1);
+	assert.strictEqual(firstFactoredSearchProvider.getGroupId(), "someGroupId");
+});
+
+QUnit.test("testGetGetSearchesByGroupIdAnswerReturnedFromFactoredProvider", function(assert) {
+	var firstFactoredSearchProvider = this.dependencies.searchProviderFactory.getFactored(0);
+	var search = this.reloadableSearchProvider.getSearchesByGroupId("someGroupId");
+
+	assert.stringifyEqual(firstFactoredSearchProvider.getSearchesByGroupId("someGroupId"), search);
 });
 
 QUnit.test("testReloadCreatesNewSearchProvider", function(assert) {
