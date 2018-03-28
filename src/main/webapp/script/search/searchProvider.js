@@ -23,6 +23,7 @@ var CORA = (function(cora) {
 		var callWhenReady = spec.callWhenReady;
 
 		var recordTypes = {};
+		var sortedSearchList;
 		fetchRecordTypeListAndThen(processFetchedData);
 
 		function fetchRecordTypeListAndThen(callAfterAnswer) {
@@ -53,6 +54,7 @@ var CORA = (function(cora) {
 				var recordId = getIdFromRecordData(record.data);
 				recordTypes[recordId] = record;
 			});
+			createSortedRecordList();
 		}
 
 		function getIdFromRecordData(recordData) {
@@ -60,6 +62,16 @@ var CORA = (function(cora) {
 			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
 			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			return id;
+		}
+		
+		function createSortedRecordList(){
+			var searchList = [];
+			var sorter = CORA.recordTypeSorter();
+			Object.keys(recordTypes).forEach(function(id) {
+				searchList.push(recordTypes[id]);
+			});
+			sortedSearchList = sorter.sortListUsingChildWithNameInData(searchList, "searchGroup");
+			
 		}
 
 		function getSearchById(recordTypeId) {
@@ -80,15 +92,7 @@ var CORA = (function(cora) {
 		}
 		
 		function getSearchesByGroupId(groupId) {
-			var searchList = [];
-			var sorter = CORA.recordTypeSorter();
-			Object.keys(recordTypes).forEach(function(id) {
-				searchList.push(recordTypes[id]);
-			});
-			console.log(searchList.data)
-			var sortedList = sorter.sortListUsingChildWithNameInData(searchList, "searchGroup");
-//			return recordTypeList;
-			return sortedList[groupId];
+			return sortedSearchList[groupId];
 		}
 
 		function reload(callWhenReloadedMethodIn) {

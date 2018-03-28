@@ -289,7 +289,7 @@ QUnit.test("getAllSearches", function(assert) {
 	this.answerListCall(0);
 
 	var recordTypeList = provider.getAllSearches();
-	assert.stringifyEqual(recordTypeList.length, 38);
+	assert.stringifyEqual(recordTypeList.length, 11);
 });
 
 QUnit.test("testReload", function(assert) {
@@ -311,6 +311,9 @@ QUnit.test("testGetSearchesByGroupId", function(assert) {
 	var provider = CORA.searchProvider(this.dependencies, this.spec);
 	this.answerListCall(0);
 
-	var recordTypeList = provider.getSearchesByGroupId();
-	assert.stringifyEqual(recordTypeList.length, 3);
+	var autocompleteList = provider.getSearchesByGroupId("autocomplete");
+	assert.stringifyEqual(autocompleteList.length, 7);
+	
+	var publicSearchesList = provider.getSearchesByGroupId("publicSearch");
+	assert.stringifyEqual(publicSearchesList.length, 4);
 });
