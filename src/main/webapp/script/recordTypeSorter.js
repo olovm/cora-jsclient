@@ -20,15 +20,14 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordTypeSorter = function() {
 		var sortedList ={};
-		
+
 		function sortListUsingChildWithNameInData(listToSort, nameInData){
 			listToSort.forEach(function(searchRecord) {
 				addSearchRecordToList(searchRecord, nameInData);
 			});
 			return sortedList;
-			
 		}
-		
+
 		function addSearchRecordToList(searchRecord, nameInData){
 			var cSearchRecord = CORA.coraData(searchRecord.data);
 			var sortByValue = cSearchRecord.getFirstAtomicValueByNameInData(nameInData);
@@ -37,7 +36,7 @@ var CORA = (function(cora) {
 			}
 			sortedList[sortByValue].push(searchRecord);
 		}
-		
+
 		var out = Object.freeze({
 			type : "recordTypeSorter",
 			sortListUsingChildWithNameInData : sortListUsingChildWithNameInData

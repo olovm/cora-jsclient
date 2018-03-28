@@ -63,7 +63,7 @@ var CORA = (function(cora) {
 			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			return id;
 		}
-		
+
 		function createSortedRecordList(){
 			var searchList = [];
 			var sorter = CORA.recordTypeSorter();
@@ -71,7 +71,6 @@ var CORA = (function(cora) {
 				searchList.push(recordTypes[id]);
 			});
 			sortedSearchList = sorter.sortListUsingChildWithNameInData(searchList, "searchGroup");
-			
 		}
 
 		function getSearchById(recordTypeId) {
@@ -81,16 +80,15 @@ var CORA = (function(cora) {
 			throw new Error("Id(" + recordTypeId + ") not found in searchProvider");
 		}
 
-		
 		function getAllSearches() {
 			var recordTypeList = [];
 			Object.keys(recordTypes).forEach(function(id) {
 				recordTypeList.push(recordTypes[id]);
 			});
 			return recordTypeList;
-			
+
 		}
-		
+
 		function getSearchesByGroupId(groupId) {
 			return sortedSearchList[groupId];
 		}
