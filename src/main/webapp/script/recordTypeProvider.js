@@ -59,8 +59,10 @@ var CORA = (function(cora) {
 				var record = recordContainer.record;
 				addRecordToAllRecordTypes(record);
 				addRecordToTypesById(record);
-				addRecordToTypesByGroup(record);
+				//addRecordToTypesByGroup(record);
 			});
+			var sorter = CORA.recordTypeSorter();
+			recordTypesByGroupId = sorter.sortListUsingChildWithNameInData(allRecordTypes, "groupOfRecordType");
 		}
 
 		function resetHolders() {
