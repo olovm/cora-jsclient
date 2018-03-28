@@ -488,15 +488,27 @@ QUnit.test("getRecordTypesByGroupId", function(assert) {
 	this.answerListCall(0);
 	
 	var recordTypeList = provider.getRecordTypesByGroupId("presentation");
-	assert.stringifyEqual(recordTypeList.length, 7);
+	var id = getIdFromRecord(recordTypeList[0]);
+	assert.strictEqual(id, "presentation");
+	assert.strictEqual(recordTypeList.length, 7);
 	
 	var metadataRecordTypeList = provider.getRecordTypesByGroupId("metadata");
-	assert.stringifyEqual(metadataRecordTypeList.length, 8);
+	var idFirstInMetadata = getIdFromRecord(recordTypeList[0]);
+	assert.strictEqual(idFirstInMetadata, "metadata");
+	
+	assert.strictEqual(metadataRecordTypeList.length, 9);
 	
 	var systemConfRecordTypeList = provider.getRecordTypesByGroupId("systemConfiguration");
-	assert.stringifyEqual(systemConfRecordTypeList.length, 2);
+	assert.strictEqual(systemConfRecordTypeList.length, 2);
 	
 	var otherTypeList = provider.getRecordTypesByGroupId("other");
-	assert.stringifyEqual(otherTypeList.length, 1);
+	assert.strictEqual(otherTypeList.length, 1);
 });
+
+function getIdFromRecord(record){
+	var cRecord = CORA.coraData(record.data);
+	var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+	return cRecordInfo.getFirstAtomicValueByNameInData("id");
+	
+}
 
