@@ -156,13 +156,30 @@ var CORA = (function(cora) {
 			if(parentList !== undefined) {
 				parentList.forEach(function (parent) {
 					totalSortedList[groupId].push(parent);
+					sortChildren(childrenList, parent, groupId);
+					//hantera de som inte har någon parent
 				});
 			}
 			//return groupSortedList;
 		}
 
-		function sortChildren(childrenList){
-
+		function sortChildren(childrenList, parent, groupId){
+//			console.log(JSON.stringify(parent))
+				var cParent  = CORA.coraData(parent.data);
+				var cRecordInfo = CORA.coraData(cParent.getFirstChildByNameInData("recordInfo"));
+				var parentId = cRecordInfo.getFirstAtomicValueByNameInData("id");
+				childrenList.forEach(function(child){
+					var cChild = CORA.coraData(child.data);
+					if(cChild.containsChildWithNameInData("parentId")){
+						var cChildsParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
+						var childsParentId = cChildsParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+						if(parentId === childsParentId){
+							totalSortedList[groupId].push(child);
+						}
+						//annars, lägg dem i en lista som läggs till på slutet
+					}
+				});
+				
 		}
 
 		function getAllRecordTypes() {
