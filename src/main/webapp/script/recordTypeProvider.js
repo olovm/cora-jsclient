@@ -120,17 +120,49 @@ var CORA = (function(cora) {
 			throw new Error("Id(" + recordTypeId + ") not found in recordTypeProvider");
 		}
 
+		var totalSortedList = {};
 		function addRecordsToTypesByGroup() {
 			var sorter = CORA.recordTypeSorter();
 			var sortedByGroup = sorter.sortListUsingChildWithNameInData(allRecordTypes, "groupOfRecordType");
 			//för varje groupOfRecordTypes - loopa listan?
-			var sortedByAbstract = sorter.sortListUsingChildWithNameInData(sortedByGroup["presentation"], "abstract");
-			var abstractList = sortedByAbstract["true"];
-			var implementingList =  sortedByAbstract["false"];
+
+			//alla id:n
+			var recordTypeGroupIdList = [];
+			Object.keys(sortedByGroup).forEach(function(id) {
+				recordTypeGroupIdList.push(id);
+			});
+
+			recordTypeGroupIdList.forEach(function(groupId){
+				var groupSortedByAbstract = sorter.sortListUsingChildWithNameInData(sortedByGroup[groupId], "abstract");
+				var groupSortedList = sortGroupOnParentChildren(groupSortedByAbstract, groupId);
+			});
+
+			//console.log(JSON.stringify(recordTypeGroupList));
+
+			//var totalSortedList = {};
+
+			var groupSortedByAbstract = sorter.sortListUsingChildWithNameInData(sortedByGroup["presentation"], "abstract");
+
+
 			//gå igenom abstrakta listan - för varje, gå igenom och kolla om barn finns i den implementerande listan
-			recordTypesByGroupId = sorter.sortListUsingChildWithNameInData(allRecordTypes, "groupOfRecordType");
-		
-		
+			//recordTypesByGroupId = sorter.sortListUsingChildWithNameInData(allRecordTypes, "groupOfRecordType");
+			recordTypesByGroupId = totalSortedList;
+		}
+
+		function sortGroupOnParentChildren(groupSortedByAbstract, groupId){
+			totalSortedList[groupId] = [];
+			var childrenList =  groupSortedByAbstract["false"];
+			var parentList = groupSortedByAbstract["true"];
+			if(parentList !== undefined) {
+				parentList.forEach(function (parent) {
+					totalSortedList[groupId].push(parent);
+				});
+			}
+			//return groupSortedList;
+		}
+
+		function sortChildren(childrenList){
+
 		}
 
 		function getAllRecordTypes() {
