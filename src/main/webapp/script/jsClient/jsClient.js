@@ -107,7 +107,13 @@ var CORA = (function(cora) {
 		}
 
 		function createAndAddGroupOfRecordTypesToSideBar() {
-			var recordTypeGroups = dependencies.recordTypeMenu.getRecordTypeGroups(out);
+			var thisInstanceOfJsClient = out;
+			var recordTypeGroups = dependencies.recordTypeMenu
+					.getRecordTypeGroups(thisInstanceOfJsClient);
+			addAllRecordTypeGroupsToSideBarInView(recordTypeGroups);
+		}
+
+		function addAllRecordTypeGroupsToSideBarInView(recordTypeGroups) {
 			recordTypeGroups.forEach(function(recordTypeGroup) {
 				jsClientView.addGroupOfRecordTypesToView(recordTypeGroup);
 			});
