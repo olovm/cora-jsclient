@@ -26,6 +26,8 @@ var CORA = (function(cora) {
 		var allRecordTypesById = {};
 		var metadataByRecordTypeId = {};
 		var recordTypesByGroupId = {};
+//		var orphans = [];
+//		var childrenList =[];
 
 		function start() {
 			fetchRecordTypeListAndThen(processFetchedData);
@@ -120,13 +122,11 @@ var CORA = (function(cora) {
 			throw new Error("Id(" + recordTypeId + ") not found in recordTypeProvider");
 		}
 
-		var totalSortedList = {};
 		function addRecordsToTypesByGroup() {
+		
 			var sorter = CORA.recordTypeSorter();
 			var sortedByGroup = sorter.sortListUsingChildWithNameInData(allRecordTypes, "groupOfRecordType");
-			//för varje groupOfRecordTypes - loopa listan?
 
-			//alla id:n
 			var recordTypeGroupIdList = [];
 			Object.keys(sortedByGroup).forEach(function(id) {
 				recordTypeGroupIdList.push(id);
@@ -134,49 +134,69 @@ var CORA = (function(cora) {
 
 			recordTypeGroupIdList.forEach(function(groupId){
 				var groupSortedByAbstract = sorter.sortListUsingChildWithNameInData(sortedByGroup[groupId], "abstract");
-				var groupSortedList = sortGroupOnParentChildren(groupSortedByAbstract, groupId);
+				sortGroupOnParentChildren(groupSortedByAbstract, groupId);
 			});
 
-			//console.log(JSON.stringify(recordTypeGroupList));
-
-			//var totalSortedList = {};
-
-			var groupSortedByAbstract = sorter.sortListUsingChildWithNameInData(sortedByGroup["presentation"], "abstract");
-
-
-			//gå igenom abstrakta listan - för varje, gå igenom och kolla om barn finns i den implementerande listan
-			//recordTypesByGroupId = sorter.sortListUsingChildWithNameInData(allRecordTypes, "groupOfRecordType");
-			recordTypesByGroupId = totalSortedList;
 		}
 
 		function sortGroupOnParentChildren(groupSortedByAbstract, groupId){
-			totalSortedList[groupId] = [];
-			var childrenList =  groupSortedByAbstract["false"];
+			recordTypesByGroupId[groupId] = [];
+			var orphans = [];
+			var childrenList =[];
+			var allChildrenList =  groupSortedByAbstract["false"];
 			var parentList = groupSortedByAbstract["true"];
+			moveOrphanChildren(allChildrenList, childrenList, orphans);
+			addParentsAndSortedChildren(parentList, childrenList, groupId);
+			addOrphans(orphans, groupId);
+		}
+		
+		function moveOrphanChildren(allChildrenList, childrenList, orphans){
+			allChildrenList.forEach(function(child){
+				sortAsOrphanOrNotOrphan(child, childrenList, orphans);
+			});
+		}
+		
+		function addParentsAndSortedChildren(parentList, childrenList, groupId){
 			if(parentList !== undefined) {
 				parentList.forEach(function (parent) {
-					totalSortedList[groupId].push(parent);
+					recordTypesByGroupId[groupId].push(parent);
 					sortChildren(childrenList, parent, groupId);
-					//hantera de som inte har någon parent
 				});
 			}
-			//return groupSortedList;
+		}
+		
+		function addOrphans(orphans, groupId){
+			orphans.forEach(function(orphan){
+				recordTypesByGroupId[groupId].push(orphan);
+			});
+		}
+		
+		function sortAsOrphanOrNotOrphan(child, childrenList, orphans){
+			if(!hasParent(child)){
+				orphans.push(child);
+			}else{
+				childrenList.push(child);
+			}
+		}
+		
+		
+		function hasParent(child){
+			var cChild = CORA.coraData(child.data);
+			return cChild.containsChildWithNameInData("parentId");
 		}
 
 		function sortChildren(childrenList, parent, groupId){
-//			console.log(JSON.stringify(parent))
 				var cParent  = CORA.coraData(parent.data);
 				var cRecordInfo = CORA.coraData(cParent.getFirstChildByNameInData("recordInfo"));
 				var parentId = cRecordInfo.getFirstAtomicValueByNameInData("id");
 				childrenList.forEach(function(child){
 					var cChild = CORA.coraData(child.data);
-					if(cChild.containsChildWithNameInData("parentId")){
+					if(hasParent(child)){
 						var cChildsParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
 						var childsParentId = cChildsParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 						if(parentId === childsParentId){
-							totalSortedList[groupId].push(child);
+							recordTypesByGroupId[groupId].push(child);
 						}
-						//annars, lägg dem i en lista som läggs till på slutet
 					}
 				});
 				

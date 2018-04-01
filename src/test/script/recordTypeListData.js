@@ -2956,15 +2956,6 @@ var CORATEST = (function(coraTest) {
 											"name" : "abstract",
 											"value" : "false"
 										}, {
-											"name" : "parentId",
-											"children" : [ {
-												"name" : "linkedRecordType",
-												"value" : "recordType"
-											}, {
-												"name" : "linkedRecordId",
-												"value" : "metadata"
-											} ]
-										} ,{
 						                    "name": "groupOfRecordType",
 						                    "value": "other",
 						                    "repeatId": "0"

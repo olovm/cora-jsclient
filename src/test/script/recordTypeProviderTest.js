@@ -494,21 +494,23 @@ QUnit.test("getRecordTypesByGroupId", function(assert)  {
 	assert.strictEqual(getIdFromRecord(presentationRecordTypeList[2]), "presentationSurroundingContainer");
 	assert.strictEqual(getIdFromRecord(presentationRecordTypeList[5]), "text");
 	assert.strictEqual(getIdFromRecord(presentationRecordTypeList[6]), "textSystemOne");
-	//console.log("id ", id)
-	//console.log("id ", getIdFromRecord(presentationRecordTypeList[1]))
 	assert.strictEqual(presentationRecordTypeList.length, 7);
-
+	
 	var metadataRecordTypeList = provider.getRecordTypesByGroupId("metadata");
 	var idFirstInMetadata = getIdFromRecord(metadataRecordTypeList[0]);
 	assert.strictEqual(idFirstInMetadata, "metadata");
 	assert.strictEqual(getIdFromRecord(metadataRecordTypeList[1]), "metadataGroup");
+	assert.strictEqual(getIdFromRecord(metadataRecordTypeList[2]), "metadataCollectionItem");
 
 	assert.strictEqual(metadataRecordTypeList.length, 9);
 
 	var systemConfRecordTypeList = provider.getRecordTypesByGroupId("systemConfiguration");
+	assert.strictEqual(getIdFromRecord(systemConfRecordTypeList[0]), "text");
+	assert.strictEqual(getIdFromRecord(systemConfRecordTypeList[1]), "textSystemOne");
 	assert.strictEqual(systemConfRecordTypeList.length, 2);
 
 	var otherTypeList = provider.getRecordTypesByGroupId("other");
+	assert.strictEqual(getIdFromRecord(otherTypeList[0]), "metadataItemCollection");
 	assert.strictEqual(otherTypeList.length, 1);
 });
 
