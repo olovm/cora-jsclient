@@ -26,8 +26,6 @@ var CORA = (function(cora) {
 		var allRecordTypesById = {};
 		var metadataByRecordTypeId = {};
 		var recordTypesByGroupId = {};
-//		var orphans = [];
-//		var childrenList =[];
 
 		function start() {
 			fetchRecordTypeListAndThen(processFetchedData);
@@ -58,9 +56,7 @@ var CORA = (function(cora) {
 			resetHolders();
 			var listOfAllRecordTypesAsRecords = JSON.parse(answer.responseText).dataList.data;
 			listOfAllRecordTypesAsRecords.forEach(function(recordContainer) {
-				var record = recordContainer.record;
-				addRecordToAllRecordTypes(record);
-				addRecordToTypesById(record);
+				addRecordToRecordTypeLists(recordContainer);
 			});
 			 addRecordsToTypesByGroup();
 			}
@@ -69,6 +65,12 @@ var CORA = (function(cora) {
 			allRecordTypes = [];
 			allRecordTypesById = {};
 			metadataByRecordTypeId = {};
+		}
+		
+		function addRecordToRecordTypeLists(recordContainer){
+			var record = recordContainer.record;
+			addRecordToAllRecordTypes(record);
+			addRecordToTypesById(record);
 		}
 
 		function addRecordToAllRecordTypes(record) {
@@ -123,46 +125,82 @@ var CORA = (function(cora) {
 		}
 
 		function addRecordsToTypesByGroup() {
+			var sortedByGroup = sortListUsingNameInData(allRecordTypes, "groupOfRecordType");
+			var recordTypeGroupIdList= putRecordTypeGroupIdsIntoList(sortedByGroup);
+			sortParentsAndChildrenForEachGroupIdInList(sortedByGroup, recordTypeGroupIdList);
+		}
 		
+		function sortListUsingNameInData(listToSort, nameInData){
 			var sorter = CORA.recordTypeSorter();
-			var sortedByGroup = sorter.sortListUsingChildWithNameInData(allRecordTypes, "groupOfRecordType");
-
+			return sorter.sortListUsingChildWithNameInData(listToSort, nameInData);
+		}
+		
+		function putRecordTypeGroupIdsIntoList(sortedByGroup){
 			var recordTypeGroupIdList = [];
 			Object.keys(sortedByGroup).forEach(function(id) {
 				recordTypeGroupIdList.push(id);
 			});
-
+			return recordTypeGroupIdList;
+		}
+		
+		function sortParentsAndChildrenForEachGroupIdInList(sortedByGroup, recordTypeGroupIdList){
 			recordTypeGroupIdList.forEach(function(groupId){
-				var groupSortedByAbstract = sorter.sortListUsingChildWithNameInData(sortedByGroup[groupId], "abstract");
+				var groupSortedByAbstract = sortListUsingNameInData(sortedByGroup[groupId], "abstract");
 				sortGroupOnParentChildren(groupSortedByAbstract, groupId);
 			});
-
 		}
 
 		function sortGroupOnParentChildren(groupSortedByAbstract, groupId){
 			recordTypesByGroupId[groupId] = [];
-			var orphans = [];
-			var childrenList =[];
-			var allChildrenList =  groupSortedByAbstract["false"];
+			var splittedImplementing = splitImplementingTypes(groupSortedByAbstract);
 			var parentList = groupSortedByAbstract["true"];
-			moveOrphanChildren(allChildrenList, childrenList, orphans);
-			addParentsAndSortedChildren(parentList, childrenList, groupId);
-			addOrphans(orphans, groupId);
+			possiblyAddParentsAndSortedChildren(parentList, splittedImplementing["children"], groupId);
+			addOrphans(splittedImplementing["orphans"], groupId);
 		}
 		
-		function moveOrphanChildren(allChildrenList, childrenList, orphans){
+		function splitImplementingTypes(groupSortedByAbstract){
+			var implementingTypes =  groupSortedByAbstract["false"];
+			return splitImplementingIntoChildrenOrOrphans(implementingTypes);
+		}
+		
+		function splitImplementingIntoChildrenOrOrphans(allChildrenList){
+			var splittedImplementing = createHolderForChildrenAndOrphans();
 			allChildrenList.forEach(function(child){
-				sortAsOrphanOrNotOrphan(child, childrenList, orphans);
+				sortAsOrphanOrNotOrphan(child, splittedImplementing);
 			});
+			return splittedImplementing;
+		}
+
+		function createHolderForChildrenAndOrphans(){
+			var splittedImplementing = {};
+			splittedImplementing["children"] = [];
+			splittedImplementing["orphans"] = [];
+			return splittedImplementing;
+		}
+		function sortAsOrphanOrNotOrphan(child, splittedImplementing){
+			if(hasParent(child)){
+				splittedImplementing["children"].push(child);
+			}else{
+				splittedImplementing["orphans"].push(child);
+			}
+		}
+
+		function hasParent(child){
+			var cChild = CORA.coraData(child.data);
+			return cChild.containsChildWithNameInData("parentId");
+		}
+		
+		function possiblyAddParentsAndSortedChildren(parentList, childrenList, groupId){
+			if(parentList !== undefined) {
+				addParentsAndSortedChildren(parentList, childrenList, groupId);
+			}
 		}
 		
 		function addParentsAndSortedChildren(parentList, childrenList, groupId){
-			if(parentList !== undefined) {
-				parentList.forEach(function (parent) {
-					recordTypesByGroupId[groupId].push(parent);
-					sortChildren(childrenList, parent, groupId);
-				});
-			}
+			parentList.forEach(function (parent) {
+				recordTypesByGroupId[groupId].push(parent);
+				sortChildren(childrenList, parent, groupId);
+			});
 		}
 		
 		function addOrphans(orphans, groupId){
@@ -170,36 +208,31 @@ var CORA = (function(cora) {
 				recordTypesByGroupId[groupId].push(orphan);
 			});
 		}
+
+		function sortChildren(childrenList, parent, groupId){
+			var parentId = getParentId(parent);
+			childrenList.forEach(function(child){
+				addChildIfChildToParent(child, parentId, groupId);
+			});
+		}
+
+		function getParentId(parent){
+			var cParent  = CORA.coraData(parent.data);
+			var cRecordInfo = CORA.coraData(cParent.getFirstChildByNameInData("recordInfo"));
+			return cRecordInfo.getFirstAtomicValueByNameInData("id");
+		}
 		
-		function sortAsOrphanOrNotOrphan(child, childrenList, orphans){
-			if(!hasParent(child)){
-				orphans.push(child);
-			}else{
-				childrenList.push(child);
+		function addChildIfChildToParent(child, parentId, groupId){
+			var childsParentId = getParentIdFromChild(child);
+			if(parentId === childsParentId){
+				recordTypesByGroupId[groupId].push(child);
 			}
 		}
 		
-		
-		function hasParent(child){
+		function getParentIdFromChild(child){
 			var cChild = CORA.coraData(child.data);
-			return cChild.containsChildWithNameInData("parentId");
-		}
-
-		function sortChildren(childrenList, parent, groupId){
-				var cParent  = CORA.coraData(parent.data);
-				var cRecordInfo = CORA.coraData(cParent.getFirstChildByNameInData("recordInfo"));
-				var parentId = cRecordInfo.getFirstAtomicValueByNameInData("id");
-				childrenList.forEach(function(child){
-					var cChild = CORA.coraData(child.data);
-					if(hasParent(child)){
-						var cChildsParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
-						var childsParentId = cChildsParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-						if(parentId === childsParentId){
-							recordTypesByGroupId[groupId].push(child);
-						}
-					}
-				});
-				
+			var cChildsParentIdGroup = CORA.coraData(cChild.getFirstChildByNameInData("parentId"));
+			return cChildsParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function getAllRecordTypes() {
