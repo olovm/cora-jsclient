@@ -31,11 +31,10 @@ QUnit.test("init", function(assert) {
 });
 
 QUnit.test("testSortList", function(assert) {
-	var listToSort = createListToSort();
+	var listToSort = createSearchListToSort();
 
 	var sorter = CORA.recordTypeSorter();
 	var sortedList = sorter.sortListUsingChildWithNameInData(listToSort, "searchGroup");
-	
 	var firstGroup = sortedList["autocomplete"];
 	assert.strictEqual(firstGroup.length, 2);
 	assert.strictEqual(firstGroup[0], listToSort[0]);
@@ -46,11 +45,53 @@ QUnit.test("testSortList", function(assert) {
 	assert.strictEqual(secondGroup[0], listToSort[1]);
 });
 
-function createListToSort(){
+function createSearchListToSort(){
 	var listToSort = [];
 	listToSort.push(CORATEST.searchRecordList.dataList.data[0].record);
 	listToSort.push(CORATEST.searchRecordList.dataList.data[1].record);
 	listToSort.push(CORATEST.searchRecordList.dataList.data[2].record);
 	return listToSort;
 }
+
+QUnit.test("testSortListRepeatableNameInData", function(assert) {
+	var listToSort = createRecordTypeListToSort();
+
+	var sorter = CORA.recordTypeSorter();
+	var sortedList = sorter.sortListUsingChildWithNameInData(listToSort, "groupOfRecordType");
+
+	var firstGroup = sortedList["presentation"];
+	assert.strictEqual(firstGroup.length, 3);
+	assert.strictEqual(firstGroup[0], listToSort[0]);
+	assert.strictEqual(firstGroup[1], listToSort[2]);
+	assert.strictEqual(firstGroup[2], listToSort[3]);
+
+	var secondGroup = sortedList["metadata"];
+	assert.strictEqual(secondGroup.length, 2);
+	assert.strictEqual(secondGroup[0], listToSort[1]);
+
+	var thirdGroup = sortedList["systemConfiguration"];
+	assert.strictEqual(thirdGroup.length, 1);
+	assert.strictEqual(thirdGroup[0], listToSort[3]);
+});
+
+function createRecordTypeListToSort(){
+	var listToSort = [];
+	listToSort.push(CORATEST.recordTypeList.dataList.data[0].record);
+	listToSort.push(CORATEST.recordTypeList.dataList.data[1].record);
+	listToSort.push(CORATEST.recordTypeList.dataList.data[2].record);
+	listToSort.push(CORATEST.recordTypeList.dataList.data[3].record);
+	return listToSort;
+}
+
+QUnit.test("testSortedListIsReset", function(assert) {
+	var listToSort = createSearchListToSort();
+
+	var sorter = CORA.recordTypeSorter();
+	var sortedList = sorter.sortListUsingChildWithNameInData(listToSort, "searchGroup");
+	var firstGroup = sortedList["autocomplete"];
+	assert.strictEqual(firstGroup.length, 2);
+
+	var secondGroup = sortedList["publicSearch"];
+	assert.strictEqual(secondGroup.length, 1);
+});
 

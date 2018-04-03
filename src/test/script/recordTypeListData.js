@@ -1169,7 +1169,11 @@ var CORATEST = (function(coraTest) {
 												"name" : "linkedRecordId",
 												"value" : "metadata"
 											} ]
-										} ],
+										} ,{
+										"name": "groupOfRecordType",
+										"value": "metadata",
+										"repeatId": "0"
+									}],
 								"name" : "recordType"
 							},
 							"actionLinks" : {
@@ -2952,15 +2956,6 @@ var CORATEST = (function(coraTest) {
 											"name" : "abstract",
 											"value" : "false"
 										}, {
-											"name" : "parentId",
-											"children" : [ {
-												"name" : "linkedRecordType",
-												"value" : "recordType"
-											}, {
-												"name" : "linkedRecordId",
-												"value" : "metadata"
-											} ]
-										} ,{
 						                    "name": "groupOfRecordType",
 						                    "value": "other",
 						                    "repeatId": "0"

@@ -22,6 +22,7 @@ var CORA = (function(cora) {
 		var sortedList ={};
 
 		function sortListUsingChildWithNameInData(listToSort, nameInData){
+			sortedList ={};
 			listToSort.forEach(function(searchRecord) {
 				addSearchRecordToList(searchRecord, nameInData);
 			});
@@ -30,11 +31,15 @@ var CORA = (function(cora) {
 
 		function addSearchRecordToList(searchRecord, nameInData){
 			var cSearchRecord = CORA.coraData(searchRecord.data);
-			var sortByValue = cSearchRecord.getFirstAtomicValueByNameInData(nameInData);
-			if(sortedList[sortByValue]  === undefined){
-				sortedList[sortByValue] = [];
-			}
-			sortedList[sortByValue].push(searchRecord);
+			var sortByValues = cSearchRecord.getChildrenByNameInData(nameInData);
+			sortByValues.forEach(function(sortByValueChild) {
+				var sortByValue = sortByValueChild.value;
+				if(sortedList[sortByValue]  === undefined){
+					sortedList[sortByValue] = [];
+				}
+				sortedList[sortByValue].push(searchRecord);
+			});
+
 		}
 
 		var out = Object.freeze({

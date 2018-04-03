@@ -483,20 +483,41 @@ QUnit.test("getRecordTypesByGroupIdNoMatchReturnsEmptyList", function(assert) {
 	assert.stringifyEqual(recordTypeList.length, 0);
 });
 
-QUnit.test("getRecordTypesByGroupId", function(assert) {
+QUnit.test("getRecordTypesByGroupId", function(assert)  {
 	var provider = CORA.recordTypeProvider(this.dependencies, this.spec);
 	this.answerListCall(0);
-	
-	var recordTypeList = provider.getRecordTypesByGroupId("presentation");
-	assert.stringifyEqual(recordTypeList.length, 7);
+
+	var presentationRecordTypeList = provider.getRecordTypesByGroupId("presentation");
+	var id = getIdFromRecord(presentationRecordTypeList[0]);
+	assert.strictEqual(id, "presentation");
+	assert.strictEqual(getIdFromRecord(presentationRecordTypeList[1]), "presentationVar");
+	assert.strictEqual(getIdFromRecord(presentationRecordTypeList[2]), "presentationSurroundingContainer");
+	assert.strictEqual(getIdFromRecord(presentationRecordTypeList[5]), "text");
+	assert.strictEqual(getIdFromRecord(presentationRecordTypeList[6]), "textSystemOne");
+	assert.strictEqual(presentationRecordTypeList.length, 7);
 	
 	var metadataRecordTypeList = provider.getRecordTypesByGroupId("metadata");
-	assert.stringifyEqual(metadataRecordTypeList.length, 8);
-	
+	var idFirstInMetadata = getIdFromRecord(metadataRecordTypeList[0]);
+	assert.strictEqual(idFirstInMetadata, "metadata");
+	assert.strictEqual(getIdFromRecord(metadataRecordTypeList[1]), "metadataGroup");
+	assert.strictEqual(getIdFromRecord(metadataRecordTypeList[2]), "metadataCollectionItem");
+
+	assert.strictEqual(metadataRecordTypeList.length, 9);
+
 	var systemConfRecordTypeList = provider.getRecordTypesByGroupId("systemConfiguration");
-	assert.stringifyEqual(systemConfRecordTypeList.length, 2);
-	
+	assert.strictEqual(getIdFromRecord(systemConfRecordTypeList[0]), "text");
+	assert.strictEqual(getIdFromRecord(systemConfRecordTypeList[1]), "textSystemOne");
+	assert.strictEqual(systemConfRecordTypeList.length, 2);
+
 	var otherTypeList = provider.getRecordTypesByGroupId("other");
-	assert.stringifyEqual(otherTypeList.length, 1);
+	assert.strictEqual(getIdFromRecord(otherTypeList[0]), "metadataItemCollection");
+	assert.strictEqual(otherTypeList.length, 1);
 });
+
+function getIdFromRecord(record){
+	var cRecord = CORA.coraData(record.data);
+	var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+	return cRecordInfo.getFirstAtomicValueByNameInData("id");
+
+}
 
