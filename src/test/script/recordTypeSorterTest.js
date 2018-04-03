@@ -88,7 +88,6 @@ QUnit.test("testSortedListIsReset", function(assert) {
 
 	var sorter = CORA.recordTypeSorter();
 	var sortedList = sorter.sortListUsingChildWithNameInData(listToSort, "searchGroup");
-	sortedList = sorter.sortListUsingChildWithNameInData(listToSort, "searchGroup");
 	var firstGroup = sortedList["autocomplete"];
 	assert.strictEqual(firstGroup.length, 2);
 
