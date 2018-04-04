@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -154,7 +154,6 @@ QUnit.test("fetchListCheckSpec", function(assert) {
 		"accept" : "application/vnd.uub.recordList+json"
 	};
 	assert.stringifyEqual(factoredSpec.listLink, expectedListLink);
-	assert.strictEqual(factoredSpec.listPresentationViewId, "metadataCollectionItemListPGroup");
 	assert.strictEqual(factoredSpec.openRecordMethod, recordTypeHandler.createRecordHandler);
 });
 

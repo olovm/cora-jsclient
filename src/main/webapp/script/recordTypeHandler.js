@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -81,17 +81,9 @@ var CORA = (function(cora) {
 				"baseUrl" : spec.baseUrl,
 				"jsClient" : dependencies.jsClient,
 				"recordTypeRecordId" : recordId,
-				"listLink" : spec.recordTypeRecord.actionLinks.list,
-				"listPresentationViewId" : getListPresentationFromRecordTypeRecord()
+				"listLink" : spec.recordTypeRecord.actionLinks.list
 			};
 			dependencies.recordListHandlerFactory.factor(listHandlerSpec);
-		}
-
-		function getListPresentationFromRecordTypeRecord() {
-			var cData = CORA.coraData(spec.recordTypeRecord.data);
-			var cRecordLink = CORA.coraData(cData
-					.getFirstChildByNameInData("listPresentationViewId"));
-			return cRecordLink.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 
 		function createRecordHandler(createNewRecord, record, loadInBackground) {
