@@ -30,12 +30,6 @@ var CORA = (function(cora) {
 		}
 
 		var view = dependencies.managedGuiItemViewFactory.factor(viewSpec);
-		if (spec.menuPresentation !== undefined) {
-			view.addMenuPresentation(spec.menuPresentation);
-		}
-		if (spec.workPresentation !== undefined) {
-			view.addWorkPresentation(spec.workPresentation);
-		}
 
 		var active = false;
 		var changed = false;
