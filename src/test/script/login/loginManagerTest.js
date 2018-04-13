@@ -165,10 +165,13 @@ QUnit
 					}, {
 						"text" : "Uppsala DiVA webredirect",
 						"call" : loginManager.webRedirectLogin
+					}, {
+						"text" : "Uppsala Alvin test login",
+						"call" : loginManager.webRedirectLogin
 					} ];
 					var factoredLoginOptions = factoredSpec.loginOptions;
 
-					assert.strictEqual(factoredLoginOptions.length, 7);
+					assert.strictEqual(factoredLoginOptions.length, 8);
 
 					assert.strictEqual(factoredLoginOptions[0].text, expectedLoginOptions[0].text);
 					assert.strictEqual(factoredLoginOptions[0].type, "appTokenLogin");
@@ -208,6 +211,12 @@ QUnit
 					assert
 							.strictEqual(factoredLoginOptions[6].url,
 									"https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/diva/idplogin/login");
+
+					assert.strictEqual(factoredLoginOptions[7].text, expectedLoginOptions[7].text);
+					assert.strictEqual(factoredLoginOptions[7].type, "webRedirectLogin");
+					assert
+					.strictEqual(factoredLoginOptions[7].url,
+							"https://www.alvin-portal.org/Shibboleth.sso/Login/uu?target=https://www.alvin-portal.org/alvin-test/idplogin/login");
 
 					assert.strictEqual(factoredSpec.loginMethod, loginManager.login);
 					assert.strictEqual(factoredSpec.logoutMethod, loginManager.logout);

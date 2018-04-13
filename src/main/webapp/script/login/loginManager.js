@@ -65,6 +65,11 @@ var CORA = (function(cora) {
 						"text" : "Uppsala DiVA webredirect",
 						"type" : "webRedirectLogin",
 						"url" : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/diva/idplogin/login"
+					},
+					{
+						"text" : "Uppsala Alvin test login",
+						"type" : "webRedirectLogin",
+						"url" : "https://www.alvin-portal.org/Shibboleth.sso/Login/uu?target=https://www.alvin-portal.org/alvin-test/idplogin/login"
 					} ];
 			var viewSpec = {
 				"loginOptions" : loginOptions,
