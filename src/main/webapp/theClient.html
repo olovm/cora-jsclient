@@ -172,10 +172,11 @@
 
 
 <script type="text/javascript">
+	window.onload = start;
+	
 	var name = "A Client";
 	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
 	var appTokenBaseUrl = "http://epc.ub.uu.se/";
-	window.onload = start;
 	var jsClientSpec;
 	var jsClientDependencies;
 	var jsClient;
@@ -223,6 +224,8 @@
 	}
 
 	function startDependencies() {
+		tryToPreventAccidentialLeavOfPage();
+		
 		authTokenHolder = CORA.authTokenHolder();
 		xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 
@@ -324,7 +327,15 @@
 		};
 		recordTypeProvider = CORA.reloadableRecordTypeProvider(
 				dependenciesReloadableRecordTypeProvider, recordTypeProviderSpec);
-
+	}
+	
+	function tryToPreventAccidentialLeavOfPage(){
+		window.addEventListener("beforeunload", function (e) {
+		 	 var confirmationMessage = "\o/";
+		  	(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+		  	return confirmationMessage;  //Webkit, Safari, Chrome etc.
+		});
+		
 	}
 
 	function startJsClient() {
