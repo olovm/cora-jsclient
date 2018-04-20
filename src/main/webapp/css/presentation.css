@@ -40,6 +40,10 @@ img {
 .error input, .error select, .error textarea {
 	background-color: red;
 }
+.errorStillActive input, .errorStillActive select, .errorStillActive textarea {
+/* 	border: 1px solid red; */
+	border-color: red;
+}
 
 .buttonView > span::before, .buttonView> span::after {
 	top: 3px;

@@ -83,6 +83,9 @@ var CORA = (function(cora) {
 			if (stateIndicatesError()) {
 				className += " error";
 			}
+			if (stateIndicatesErrorStillActive()) {
+				className += " errorStillActive";
+			}
 			if (infoIsShown()) {
 				className += " infoActive";
 			}
@@ -91,6 +94,9 @@ var CORA = (function(cora) {
 
 		function stateIndicatesError() {
 			return state === "error";
+		}
+		function stateIndicatesErrorStillActive() {
+			return state === "errorStillActive";
 		}
 
 		function infoIsShown() {
@@ -108,6 +114,9 @@ var CORA = (function(cora) {
 		function createInput() {
 			valueView = createTextTypeInput();
 			if (spec.onblurFunction !== undefined) {
+				valueView.onkeyup = function() {
+					spec.onkeyupFunction(valueView.value);
+				};
 				valueView.onblur = function() {
 					spec.onblurFunction(valueView.value);
 				};
