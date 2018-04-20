@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -144,27 +144,11 @@ var CORA = (function(cora) {
 		}
 
 		function onBlur(valueFromView) {
-			checkRegEx(valueFromView);
-			updateView();
-			if (state === "ok" && valueHasChanged(valueFromView)) {
-				var data = {
-					"data" : valueFromView,
-					"path" : path
-				};
-				jsBookkeeper.setValue(data);
-				previousValue = valueFromView;
-			}
+			handleValueFromView(valueFromView, "error");
 		}
-		function checkRegEx(valueFromView) {
-			var value = valueFromView;
-			if (value.length === 0 || new RegExp(regEx).test(value)) {
-				state = "ok";
-			} else {
-				state = "error";
-			}
-		}
-		function onkeyup(valueFromView) {
-			checkRegEx2(valueFromView);
+			
+		function handleValueFromView(valueFromView, errorState){
+			checkRegEx(valueFromView, errorState);
 			updateView();
 			if (state === "ok" && valueHasChanged(valueFromView)) {
 				var data = {
@@ -175,15 +159,19 @@ var CORA = (function(cora) {
 				previousValue = valueFromView;
 			}
 		}
-		function checkRegEx2(valueFromView) {
+		
+		function checkRegEx(valueFromView, errorState) {
 			var value = valueFromView;
 			if (value.length === 0 || new RegExp(regEx).test(value)) {
 				state = "ok";
 			} else {
-				state = "errorStillActive";
+				state = errorState;
 			}
 		}
-		
+
+		function onkeyup(valueFromView) {
+			handleValueFromView(valueFromView, "errorStillFocused");
+		}
 
 		function updateView() {
 			pVarView.setState(state);
