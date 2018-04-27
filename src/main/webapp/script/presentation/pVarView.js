@@ -119,18 +119,18 @@ var CORA = (function(cora) {
 			return valueView;
 		}
 
-		function possiblyAddOnkeyupEvent(valueView) {
+		function possiblyAddOnkeyupEvent(valueViewIn) {
 			if (spec.onkeyupFunction !== undefined) {
-				valueView.onkeyup = function() {
-					spec.onkeyupFunction(valueView.value);
+				valueViewIn.onkeyup = function() {
+					spec.onkeyupFunction(valueViewIn.value);
 				};
 			}
 		}
 
-		function possiblyAddOnblurEvent(valueView) {
+		function possiblyAddOnblurEvent(valueViewIn) {
 			if (spec.onblurFunction !== undefined) {
-				valueView.onblur = function() {
-					spec.onblurFunction(valueView.value);
+				valueViewIn.onblur = function() {
+					spec.onblurFunction(valueViewIn.value);
 				};
 			}
 		}
