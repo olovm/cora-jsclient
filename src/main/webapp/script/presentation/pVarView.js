@@ -118,23 +118,23 @@ var CORA = (function(cora) {
 			possiblyAddPlaceholderText(valueView);
 			return valueView;
 		}
-		
-		function possiblyAddOnkeyupEvent(valueView){
+
+		function possiblyAddOnkeyupEvent(valueView) {
 			if (spec.onkeyupFunction !== undefined) {
 				valueView.onkeyup = function() {
 					spec.onkeyupFunction(valueView.value);
 				};
 			}
 		}
-		
-		function possiblyAddOnblurEvent(valueView){
+
+		function possiblyAddOnblurEvent(valueView) {
 			if (spec.onblurFunction !== undefined) {
 				valueView.onblur = function() {
 					spec.onblurFunction(valueView.value);
 				};
 			}
 		}
-		
+
 		function possiblyAddPlaceholderText(inputNew) {
 			if (spec.placeholderText !== undefined) {
 				inputNew.placeholder = spec.placeholderText;

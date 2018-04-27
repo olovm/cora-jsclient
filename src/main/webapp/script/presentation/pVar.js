@@ -146,20 +146,20 @@ var CORA = (function(cora) {
 		function onBlur(valueFromView) {
 			handleValueFromView(valueFromView, "error");
 		}
-			
-		function handleValueFromView(valueFromView, errorState){
+
+		function handleValueFromView(valueFromView, errorState) {
 			checkRegEx(valueFromView, errorState);
 			updateView();
 			if (state === "ok" && valueHasChanged(valueFromView)) {
 				var data = {
-						"data" : valueFromView,
-						"path" : path
+					"data" : valueFromView,
+					"path" : path
 				};
 				jsBookkeeper.setValue(data);
 				previousValue = valueFromView;
 			}
 		}
-		
+
 		function checkRegEx(valueFromView, errorState) {
 			var value = valueFromView;
 			if (value.length === 0 || new RegExp(regEx).test(value)) {
