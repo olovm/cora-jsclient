@@ -64,7 +64,7 @@ var CORA = (function(cora) {
 				"url" : spec.baseUrl + "record/loginUnit",
 				"loadMethod" : fetchLoginUnitCallback,
 				"errorMethod" : fetchLoginUnitErrorCallback,
-				"timeoutMethod" : fetchLoginUnitTimeoutCallback,
+				"timeoutMethod" : fetchLoginUnitTimeoutCallback
 			};
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}
@@ -75,7 +75,7 @@ var CORA = (function(cora) {
 				"url" : spec.baseUrl + "record/login",
 				"loadMethod" : fetchLoginCallback,
 				"errorMethod" : fetchLoginErrorCallback,
-				"timeoutMethod" : fetchLoginTimeoutCallback,
+				"timeoutMethod" : fetchLoginTimeoutCallback
 			};
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}
@@ -98,8 +98,8 @@ var CORA = (function(cora) {
 		}
 
 		function parseLoginData() {
-			loginDataList.forEach(function(login) {
-				var loginData = login.record.data;
+			loginDataList.forEach(function(loginItem) {
+				var loginData = loginItem.record.data;
 				var recordId = getIdFromRecord(loginData);
 				var url = getUrlFromLoginRecord(loginData);
 				var type = getTypeFromLoginRecord(loginData);
