@@ -100,7 +100,7 @@ QUnit.test("init", function(assert) {
 
 QUnit.test("defaultTimeout", function(assert) {
 	var ajaxCall = CORA.ajaxCall(this.spec);
-	assert.strictEqual(ajaxCall.getCurrentTimeout(), 45000);
+	assert.strictEqual(ajaxCall.getCurrentTimeout(), 90000);
 });
 
 QUnit.test("setTimeout", function(assert) {
