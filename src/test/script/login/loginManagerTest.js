@@ -38,6 +38,7 @@ QUnit
 						var oldAddEvent = window.addEventListener;
 						window.addEventListener = this.addEvent;
 						this.dependencies = {
+							textProvider : CORATEST.textProviderSpy(),
 							"loginManagerViewFactory" : CORATEST.loginManagerViewFactorySpy(),
 							"appTokenLoginFactory" : CORATEST.appTokenLoginFactorySpy(),
 							"webRedirectLoginFactory" : CORATEST
@@ -212,12 +213,12 @@ QUnit
 								"appToken" : "f7973be9-02e0-4c42-979b-09e42372a02a"
 							},
 							{
-								text : "uuLoginUnitText",
+								text : "translated_uuLoginUnitText",
 								type : "webRedirect",
 								url : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/login"
 							},
 							{
-								text : "testLoginUnitText",
+								text : "translated_testLoginUnitText",
 								type : "webRedirect",
 								url : "https://epc.ub.uu.se/Shibboleth.sso/Login/test?target=https://epc.ub.uu.se/idplogin/login"
 							} ];
@@ -247,7 +248,6 @@ QUnit.test("testLoginTimeoutMessage", function(assert) {
 	loginManager.fetchLoginTimeoutCallback();
 	assert.strictEqual(this.getErrorMessage(), "Fetching of logins timedout!");
 });
-
 
 QUnit.test("testInitCreatesALoginManagerView", function(assert) {
 	var loginManager = this.loginManager;

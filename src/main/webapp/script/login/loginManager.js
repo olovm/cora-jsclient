@@ -133,7 +133,7 @@ var CORA = (function(cora) {
 				var loginId = getLoginIdFromRecord(loginUnitData);
 
 				loginOptions.push({
-					"text" : textId,
+					"text" : getTranslatedText(textId),
 					"type" : logins[loginId].type,
 					"url" : logins[loginId].url
 				});
@@ -153,7 +153,11 @@ var CORA = (function(cora) {
 			var cLogin = CORA.coraData(cLoginInfo.getFirstChildByNameInData("login"));
 			return cLogin.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
-
+		
+		function getTranslatedText(textId) {
+			return dependencies.textProvider.getTranslation(textId);
+		}
+		
 		function fetchLoginUnitErrorCallback() {
 			spec.setErrorMessage("Fetching of loginUnits failed!");
 		}
