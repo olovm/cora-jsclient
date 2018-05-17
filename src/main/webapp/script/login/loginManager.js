@@ -153,11 +153,11 @@ var CORA = (function(cora) {
 			var cLogin = CORA.coraData(cLoginInfo.getFirstChildByNameInData("login"));
 			return cLogin.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
-		
+
 		function getTranslatedText(textId) {
 			return dependencies.textProvider.getTranslation(textId);
 		}
-		
+
 		function fetchLoginUnitErrorCallback() {
 			spec.setErrorMessage("Fetching of loginUnits failed!");
 		}
