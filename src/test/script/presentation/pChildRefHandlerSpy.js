@@ -22,11 +22,12 @@ var CORATEST = (function(coraTest) {
 		var added = [];
 		var addedToolViews = [];
 		var showDataF = null;
-//		var view = document.createElement("span");
+		// var view = document.createElement("span");
 		var view = CORA.gui.createSpanWithClassName("pChildRefHandlerSpyView");
 		var state;
 		var value;
-		
+		var sendAddAboveDataArray = [];
+
 		function getView() {
 			return view;
 		}
@@ -47,6 +48,14 @@ var CORATEST = (function(coraTest) {
 		}
 		function sendAdd() {
 		}
+
+		function sendAddAbove(data) {
+			sendAddAboveDataArray.push(data);
+		}
+		function getSendAddAboveDataArray() {
+			return sendAddAboveDataArray;
+		}
+
 		function childRemoved() {
 		}
 		function childMoved() {
@@ -55,8 +64,7 @@ var CORATEST = (function(coraTest) {
 		}
 		function processNewBinary() {
 		}
-		
-		
+
 		var out = Object.freeze({
 			"type" : "pChildRefHandlerSpy",
 			getDependencies : getDependencies,
@@ -67,6 +75,8 @@ var CORATEST = (function(coraTest) {
 			isRepeating : isRepeating,
 			isStaticNoOfChildren : isStaticNoOfChildren,
 			sendAdd : sendAdd,
+			sendAddAbove : sendAddAbove,
+			getSendAddAboveDataArray : getSendAddAboveDataArray,
 			childRemoved : childRemoved,
 			childMoved : childMoved,
 			handleFiles : handleFiles,

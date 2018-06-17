@@ -75,7 +75,6 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(jsBookkeeper.getSpec(), this.spec);
 });
 
-
 QUnit.test("testGetDependencies", function(assert) {
 	var jsBookkeeper = CORA.jsBookkeeper(this.dependencies, this.spec);
 	assert.strictEqual(jsBookkeeper.getDependencies(), this.dependencies);
@@ -302,6 +301,304 @@ QUnit.test("testAddRepeating", function(assert) {
 
 	assert.equal(messages.length, 1);
 	assert.strictEqual(calculatedRepeatId, "3");
+});
+QUnit.test("testAddAbove", function(assert) {
+	var currentData = {
+		"name" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
+		"children" : [ {
+			"name" : "textVarRepeat1to3InGroupOneAttribute",
+			"children" : [ {
+				"name" : "textVar",
+				"value" : "one",
+				"repeatId" : "one"
+			}, {
+				"name" : "textVar",
+				"value" : "two",
+				"repeatId" : "2"
+			}, {
+				"name" : "textVar",
+				"value" : "three",
+				"repeatId" : "1"
+			} ],
+			"attributes" : {
+				"anAttribute" : "aFinalValue"
+			},
+			"repeatId" : "1"
+		}, {
+			"name" : "textVarRepeat1to3InGroupOneAttribute",
+			"children" : [ {
+				"name" : "textVar",
+				"value" : "three",
+				"repeatId" : "3"
+			} ],
+			"attributes" : {
+				"anAttribute" : "aFinalValue"
+			},
+			"repeatId" : "2"
+		}, {
+			"name" : "textVarRepeat1to3InGroupOneAttribute",
+			"children" : [ {
+				"name" : "textVar",
+				"value" : "four",
+				"repeatId" : "4"
+			} ],
+			"attributes" : {
+				"anOtherAttribute" : "aOtherFinalValue"
+			},
+			"repeatId" : "3"
+		} ]
+	};
+	var foundContainer = {
+		"name" : "textVarRepeat1to3InGroupOneAttribute",
+		"children" : [ {
+			"name" : "textVar",
+			"value" : "one",
+			"repeatId" : "one"
+		}, {
+			"name" : "textVar",
+			"value" : "two",
+			"repeatId" : "2"
+		}, {
+			"name" : "textVar",
+			"value" : "three",
+			"repeatId" : "1"
+		} ],
+		"attributes" : {
+			"anAttribute" : "aFinalValue"
+		},
+		"repeatId" : "1"
+	};
+	var dataHolder = CORATEST.dataHolderStub(currentData, foundContainer);
+	var jsBookkeeper = this.newJsBookkeeper.factor("groupIdOneTextChild", dataHolder);
+	var data = {
+		"metadataId" : "textVar",
+		"path" : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVarRepeat1to3InGroupOneAttribute"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			}, {
+				"name" : "attributes",
+				"children" : [ {
+					"name" : "attribute",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "attributeName",
+						"value" : "anAttribute"
+					}, {
+						"name" : "attributeValue",
+						"value" : "aFinalValue"
+					} ]
+				} ]
+			} ]
+		},
+		"childReference" : {
+			"name" : "childReference",
+			"repeatId" : "1",
+			"children" : [ {
+				"name" : "ref",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataTextVariable"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "textVar"
+				} ],
+				"attributes" : {
+					"type" : "textVariable"
+				}
+			}, {
+				"name" : "repeatMin",
+				"value" : "1"
+			}, {
+				"name" : "repeatMax",
+				"value" : "3"
+			} ]
+		},
+		addAbovePath : {
+			"name" : "linkedPath",
+			"children" : [ {
+				"name" : "nameInData",
+				"value" : "textVarRepeat1to3InGroupOneAttribute"
+			}, {
+				"name" : "repeatId",
+				"value" : "1"
+			}, {
+				"name" : "attributes",
+				"children" : [ {
+					"name" : "attribute",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "attributeName",
+						"value" : "anAttribute"
+					}, {
+						"name" : "attributeValue",
+						"value" : "aFinalValue"
+					} ]
+				} ]
+			}, {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVar"
+				}, {
+					"name" : "repeatId",
+					"value" : "one"
+				}
+				// , {
+				// "name" : "attributes",
+				// "children" : [ {
+				// "name" : "attribute",
+				// "repeatId" : "1",
+				// "children" : [ {
+				// "name" : "attributeName",
+				// "value" : "anAttribute"
+				// }, {
+				// "name" : "attributeValue",
+				// "value" : "aFinalValue"
+				// } ]
+				// } ]
+				// }
+				]
+			} ]
+		}
+	};
+	var calculatedRepeatId = jsBookkeeper.addAbove(data);
+	var messages = this.pubSub.getMessages();
+	var expectedMessage = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "textVar",
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVarRepeat1to3InGroupOneAttribute"
+				}, {
+					"name" : "repeatId",
+					"value" : "1"
+				}, {
+					"name" : "attributes",
+					"children" : [ {
+						"name" : "attribute",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "attributeName",
+							"value" : "anAttribute"
+						}, {
+							"name" : "attributeValue",
+							"value" : "aFinalValue"
+						} ]
+					} ]
+				} ]
+			},
+			"repeatId" : "3",
+			"nameInData" : "textVar"
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedMessage);
+
+	var expectedMessage2 = {
+		"type" : "move",
+		"message" : {
+			"path" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVarRepeat1to3InGroupOneAttribute"
+				}, {
+					"name" : "repeatId",
+					"value" : "1"
+				}, {
+					"name" : "attributes",
+					"children" : [ {
+						"name" : "attribute",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "attributeName",
+							"value" : "anAttribute"
+						}, {
+							"name" : "attributeValue",
+							"value" : "aFinalValue"
+						} ]
+					} ]
+				} ]
+			},
+			"metadataId" : "textVar",
+			"moveChild" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVarRepeat1to3InGroupOneAttribute"
+				}, {
+					"name" : "repeatId",
+					"value" : "1"
+				}, {
+					"name" : "attributes",
+					"children" : [ {
+						"name" : "attribute",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "attributeName",
+							"value" : "anAttribute"
+						}, {
+							"name" : "attributeValue",
+							"value" : "aFinalValue"
+						} ]
+					} ]
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "textVar"
+					}, {
+						"name" : "repeatId",
+						"value" : "3"
+					} ]
+				} ]
+			},
+			"basePositionOnChild" : {
+				"name" : "linkedPath",
+				"children" : [ {
+					"name" : "nameInData",
+					"value" : "textVarRepeat1to3InGroupOneAttribute"
+				}, {
+					"name" : "repeatId",
+					"value" : "1"
+				}, {
+					"name" : "attributes",
+					"children" : [ {
+						"name" : "attribute",
+						"repeatId" : "1",
+						"children" : [ {
+							"name" : "attributeName",
+							"value" : "anAttribute"
+						}, {
+							"name" : "attributeValue",
+							"value" : "aFinalValue"
+						} ]
+					} ]
+				}, {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+						"value" : "textVar"
+					}, {
+						"name" : "repeatId",
+						"value" : "one"
+					} ]
+				} ]
+			},
+			"newPosition" : "above"
+		}
+	};
+	assert.stringifyEqual(messages[1], expectedMessage2);
+
+	assert.equal(messages.length, 2);
+	// assert.strictEqual(calculatedRepeatId, "3");
 });
 
 QUnit.test("testRemove", function(assert) {

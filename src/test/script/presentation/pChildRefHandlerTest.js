@@ -527,6 +527,49 @@ QUnit.test("testSendAdd", function(assert) {
 	assert.deepEqual(messages.length, 1);
 	assert.deepEqual(messages[0].type, "initComplete");
 });
+QUnit.test("testSendAddAbove", function(assert) {
+	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
+			.getMetadataById("groupIdOneTextChildRepeat1toX"));
+	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
+	var data = {
+		path : "someFakePath"
+	};
+	pChildRefHandler.sendAddAbove(data);
+	var addAboveData = {
+		"childReference" : {
+			"children" : [ {
+				// "attributes": {
+				// "type": "textVariable"
+				// },
+
+				"name" : "ref",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadata"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "textVariableId"
+				} ]
+			}, {
+				"name" : "repeatMin",
+				"value" : "1"
+			}, {
+				"name" : "repeatMax",
+				"value" : "X"
+			} ],
+			"name" : "childReference",
+			"repeatId" : "1"
+		},
+		"metadataId" : "textVariableId",
+		"nameInData" : "textVariableId",
+		"path" : {},
+		"addAbovePath" : "someFakePath"
+	};
+	assert.deepEqual(this.dependencies.jsBookkeeper.getAddAboveDataArray()[0], addAboveData);
+	var messages = this.dependencies.pubSub.getMessages();
+	assert.deepEqual(messages.length, 1);
+	assert.deepEqual(messages[0].type, "initComplete");
+});
 
 QUnit.test("testAddButtonWithAttributes", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
@@ -971,7 +1014,8 @@ QUnit.test("testAddOneChild", function(assert) {
 		"path" : path2,
 		"parentModelObject" : factoredView,
 		"isRepeating" : false,
-		"mode" : "input"
+		"mode" : "input",
+		"pChildRefHandler" : pChildRefHandler
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
@@ -1015,7 +1059,8 @@ QUnit.test("testAddOneChildModeOutput", function(assert) {
 		"path" : path2,
 		"parentModelObject" : factoredView,
 		"isRepeating" : false,
-		"mode" : "output"
+		"mode" : "output",
+		"pChildRefHandler" : pChildRefHandler
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
 	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
@@ -1098,7 +1143,7 @@ QUnit.test("testAddOneChildWithOneLevelPath", function(assert) {
 		} ],
 		"name" : "linkedPath"
 	};
-	
+
 	var factoredSpec = pRepeatingElementFactory.getSpec(0);
 	assert.deepEqual(factoredSpec.path, expectedPath);
 

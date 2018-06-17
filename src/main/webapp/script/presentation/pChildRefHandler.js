@@ -255,6 +255,18 @@ var CORA = (function(cora) {
 			addPresentationsToRepeatingElementsView(repeatingElement, metadataIdToAdd);
 			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement);
 			updateView();
+
+			// TODO: add pChildRefHandler to spec of pRepeatingElement
+
+			// TODO: lsdjkf
+			// function sendMoveMessage() {
+			// var data = {
+			// "moveChild" : nodeBeeingDragged.modelObject.getPath(),
+			// "basePositionOnChild" : lastChangedWith.getPath(),
+			// "newPosition" : addDragged
+			// };
+			// view.modelObject.childMoved(data);
+			// }
 		}
 
 		function calculateNewPath(metadataIdToAdd, repeatId) {
@@ -280,7 +292,8 @@ var CORA = (function(cora) {
 				"path" : path,
 				"parentModelObject" : pChildRefHandlerView,
 				"isRepeating" : isRepeating,
-				"mode" : spec.mode
+				"mode" : spec.mode,
+				"pChildRefHandler" : out
 			};
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}
@@ -385,6 +398,12 @@ var CORA = (function(cora) {
 		}
 
 		function sendAdd() {
+			var data = createAddData();
+			var createdRepeatId = dependencies.jsBookkeeper.add(data);
+			sendInitComplete();
+			return createdRepeatId;
+		}
+		function createAddData() {
 			var data = {
 				"metadataId" : metadataId,
 				"path" : spec.parentPath,
@@ -394,9 +413,7 @@ var CORA = (function(cora) {
 			if (metadataHasAttributes) {
 				data.attributes = collectedAttributes;
 			}
-			var createdRepeatId = dependencies.jsBookkeeper.add(data);
-			sendInitComplete();
-			return createdRepeatId;
+			return data;
 		}
 
 		function sendInitComplete() {
@@ -404,6 +421,15 @@ var CORA = (function(cora) {
 				"data" : "",
 				"path" : {}
 			});
+		}
+
+		function sendAddAbove(dataFromPRepeatingElement) {
+			console.log("in sendAddAbove in pChildRefHandler")
+			var data = createAddData();
+			data.addAbovePath = dataFromPRepeatingElement.path;
+			dependencies.jsBookkeeper.addAbove(data);
+			sendInitComplete();
+			console.log("end sendAddAbove in pChildRefHandler")
 		}
 
 		function childMoved(moveInfo) {
@@ -612,6 +638,7 @@ var CORA = (function(cora) {
 			isRepeating : isRepeating,
 			isStaticNoOfChildren : isStaticNoOfChildren,
 			sendAdd : sendAdd,
+			sendAddAbove : sendAddAbove,
 			childRemoved : childRemoved,
 			childMoved : childMoved,
 			handleFiles : handleFiles,

@@ -23,6 +23,7 @@ var CORATEST = (function(coraTest) {
 		var addDataArray = [];
 		var removeDataArray = [];
 		var moveDataArray = [];
+		var addAboveDataArray = [];
 
 		function setValue(data) {
 			dataArray.push(data);
@@ -55,6 +56,12 @@ var CORATEST = (function(coraTest) {
 			return moveDataArray;
 		}
 		
+		function addAbove(data){
+			addAboveDataArray.push(data);
+		}
+		function getAddAboveDataArray(){
+			return addAboveDataArray;
+		}
 		
 		return Object.freeze({
 			setValue : setValue,
@@ -64,7 +71,9 @@ var CORATEST = (function(coraTest) {
 			getRemoveDataArray:getRemoveDataArray,
 			remove:remove,
 			move:move,
-			getMoveDataArray:getMoveDataArray
+			getMoveDataArray:getMoveDataArray,
+			addAbove:addAbove,
+			getAddAboveDataArray:getAddAboveDataArray
 		});
 	};
 	return coraTest;

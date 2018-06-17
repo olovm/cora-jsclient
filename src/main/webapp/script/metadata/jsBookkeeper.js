@@ -38,7 +38,7 @@ var CORA = (function(cora) {
 			var repeatMax = cChildReference.getFirstAtomicValueByNameInData('repeatMax');
 
 			var initializerDep = {
-				"recordTypeProvider" :dependencies.recordTypeProvider,
+				"recordTypeProvider" : dependencies.recordTypeProvider,
 				"metadataProvider" : spec.metadataProvider,
 				"pubSub" : spec.pubSub
 			};
@@ -48,11 +48,11 @@ var CORA = (function(cora) {
 				"data" : undefined
 			};
 			if (repeatMax === "1") {
-				initializerSpec.repeatId =  undefined;
+				initializerSpec.repeatId = undefined;
 				CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
 			} else {
 				var startRepeatId = calculateStartRepeatId(currentData.children);
-				initializerSpec.repeatId =  String(startRepeatId);
+				initializerSpec.repeatId = String(startRepeatId);
 				CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
 				return String(startRepeatId);
 			}
@@ -90,6 +90,78 @@ var CORA = (function(cora) {
 			pubSub.publish("move", data);
 		}
 
+		function addAbove(data) {
+			// console.log("before addAbove in jsBookkeeper with data:", data)
+			var addedRepeatId = add(data);
+			// console.log("addAbove after add addedRepeatId:", addedRepeatId)
+
+			var newPath = calculateNewPath(data.metadataId, data.path, addedRepeatId);
+			// var newPath = calculatePathForNewRepeatingElement(data.addAbovePath, addedRepeatId);
+
+			// console.log("addAbove after add newPath:", newPath)
+
+			// var newPath2 = JSON.parse(JSON.stringify(data.path));
+			// var parentPath = calculateParentPathFromPath(newPath2);
+			var parentPath = data.path;
+
+			var moveData = {
+				"path" : parentPath,
+				"metadataId" : data.metadataId,
+				"moveChild" : newPath,
+				"basePositionOnChild" : data.addAbovePath,
+				"newPosition" : "above"
+			};
+			// console.log("addAbove call move with moveData:", JSON.stringify(moveData))
+			move(moveData);
+
+		}
+
+		// function calculatePathForNewRepeatingElement(addAbovePath, addedRepeatId) {
+		// var newPath = JSON.parse(JSON.stringify(addAbovePath));
+		// var lowestPath = findLowestPath(newPath);
+		// var cLowestPath = CORA.coraData(lowestPath);
+		// var lowestRepeatId = cLowestPath.getFirstChildByNameInData("repeatId");
+		// lowestRepeatId.value = addedRepeatId;
+		// return newPath;
+		// }
+
+		// function findLowestPath(pathToSearch) {
+		// var coraPath = CORA.coraData(pathToSearch);
+		// if (coraPath.containsChildWithNameInData("linkedPath")) {
+		// return findLowestPath(coraPath.getFirstChildByNameInData("linkedPath"));
+		// }
+		// return pathToSearch;
+		// }
+
+		// function calculateParentPathFromPath(pathToSearch) {
+		// var coraPath = CORA.coraData(pathToSearch);
+		// if (coraPath.containsChildWithNameInData("linkedPath")) {
+		// var nextLevelDown = coraPath.getFirstChildByNameInData("linkedPath");
+		// if (nextLevelDown.containsChildWithNameInData("linkedPath")) {
+		// return findLowestPath(nextLevelDown);
+		// } else {
+		// pathToSearch.removeChild(nextLevelDown);
+		// return pathToSearch;
+		// }
+		// }
+		// return pathToSearch;
+		// }
+		function calculateNewPath(metadataIdToAdd, parentPath, repeatId) {
+			return calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd,
+					repeatId, parentPath);
+		}
+
+		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
+				parentPath) {
+			var pathSpec = {
+				"metadataProvider" : spec.metadataProvider,
+				"metadataIdToAdd" : metadataIdToAdd,
+				"repeatId" : repeatId,
+				"parentPath" : parentPath
+			};
+			return CORA.calculatePathForNewElement(pathSpec);
+		}
+
 		function getSpec() {
 			return spec;
 		}
@@ -105,7 +177,8 @@ var CORA = (function(cora) {
 			setValue : setValue,
 			add : add,
 			remove : remove,
-			move : move
+			move : move,
+			addAbove : addAbove
 		});
 	};
 	return cora;

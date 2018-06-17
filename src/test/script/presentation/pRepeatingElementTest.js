@@ -31,6 +31,7 @@ QUnit.module("pRepeatingElementTest.js", {
 			"repeatMax" : "2",
 			"path" : {},
 			"parentModelObject" : CORATEST.parentModelObjectSpy(),
+			"pChildRefHandler":CORATEST.pChildRefHandlerSpy(),
 			"isRepeating" : Number("2") > 1 || " 2" === "X",
 			"mode" : "input"
 		};
@@ -63,8 +64,15 @@ QUnit.test("testInit", function(assert) {
 	// drag button
 	var removeButton = buttonView.childNodes[1];
 	assert.strictEqual(removeButton.className, "iconButton dragButton");
+
+	// addAboveButton
+	var addAboveButton = buttonView.childNodes[2];
+	assert.strictEqual(addAboveButton.className, "iconButton addAboveButton");
+
+	assert.strictEqual(buttonView.childNodes.length, 3);
+
 });
-QUnit.test("testInitNoRemoveOrDragButtonWhenModeOutput", function(assert) {
+QUnit.test("testInitNoRemoveOrDragOrAddAboveButtonWhenModeOutput", function(assert) {
 	this.spec.mode = "output";
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
@@ -113,7 +121,7 @@ QUnit.test("testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThis", f
 QUnit.test(
 		"testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThisNoFunctionWhenModeOutput",
 		function(assert) {
-			this.spec.mode="output";
+			this.spec.mode = "output";
 			var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 			var view = pRepeatingElement.getView();
 			this.fixture.appendChild(view);
@@ -131,9 +139,10 @@ QUnit.test("testButtonViewAndRemoveButton", function(assert) {
 	assert.strictEqual(removeButton.className, "iconButton removeButton");
 });
 
-QUnit.test("test0to1ShouldHaveRemoveButton", function(assert) {
+QUnit.test("test0to1ShouldHaveRemoveButtonNoAddBeforeButton", function(assert) {
 	this.spec.repeatMin = "0";
 	this.spec.repeatMax = "1";
+	this.spec.isRepeating = false;
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
 	this.fixture.appendChild(view);
@@ -141,10 +150,12 @@ QUnit.test("test0to1ShouldHaveRemoveButton", function(assert) {
 	var buttonView = view.childNodes[0];
 	var removeButton = buttonView.firstChild;
 	assert.strictEqual(removeButton.className, "iconButton removeButton");
+	assert.strictEqual(buttonView.childNodes.length, 1);
 });
 
-QUnit.test("test1to1ShodHaveNoRemoveOrDragButton", function(assert) {
+QUnit.test("test1to1ShodHaveNoRemoveOrDragOrAddAboveButton", function(assert) {
 	this.spec.repeatMax = "1";
+	this.spec.isRepeating = false;
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
 	this.fixture.appendChild(view);
@@ -162,7 +173,7 @@ QUnit.test("testRemoveButtonOnclick", function(assert) {
 	var removeButton = buttonView.firstChild;
 
 	CORATESTHELPER.simulateOnclick(removeButton);
-	
+
 	// subscription
 	var removes = this.dependencies.jsBookkeeper.getRemoveDataArray();
 	assert.deepEqual(removes.length, 1);
@@ -202,7 +213,7 @@ QUnit.test("testDragButtonOnmousedownOnmouseup", function(assert) {
 	this.fixture.appendChild(view);
 
 	var buttonView = view.childNodes[0];
-	var dragButton = buttonView.lastChild;
+	var dragButton = buttonView.childNodes[1];
 
 	assert.notOk(view.draggable);
 	dragButton.onmousedown();
@@ -234,7 +245,7 @@ QUnit.test("testHideDragButton", function(assert) {
 	this.fixture.appendChild(view);
 
 	var buttonView = view.childNodes[0];
-	var dragButton = buttonView.lastChild;
+	var dragButton = buttonView.childNodes[1];
 
 	assert.visible(dragButton, "buttonView should be visible");
 
@@ -243,6 +254,26 @@ QUnit.test("testHideDragButton", function(assert) {
 
 	pRepeatingElement.showDragButton();
 	assert.visible(dragButton, "buttonView should be visible");
+});
+
+QUnit.test("testAddAboveButtonOnclick", function(assert) {
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	var buttonView = view.childNodes[0];
+//	console.log(buttonView.childNodes)
+	var addAboveButton = buttonView.childNodes[2];
+
+	CORATESTHELPER.simulateOnclick(addAboveButton);
+
+	 var addAboves = this.spec.pChildRefHandler.getSendAddAboveDataArray();
+	 assert.deepEqual(addAboves.length, 1);
+	
+	 var firstAddAbove= addAboves[0];
+//	 assert.strictEqual(firstAddAbove.type, "addAbove");
+	 var path = {};
+	 assert.deepEqual(firstAddAbove.path, path);
 });
 
 QUnit.test("testAddPresentation", function(assert) {
@@ -312,6 +343,7 @@ QUnit.test("testaddAlternativePresentation", function(assert) {
 QUnit.test("testMinimizealternativeButtonShouldWorkWithoutDraghandle", function(assert) {
 	this.spec.repeatMin = "1";
 	this.spec.repeatMax = "1";
+	this.spec.isRepeating = false;
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
 	this.fixture.appendChild(view);

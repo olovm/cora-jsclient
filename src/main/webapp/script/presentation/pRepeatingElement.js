@@ -21,13 +21,18 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.pRepeatingElement = function(dependencies, spec) {
 		var jsBookkeeper = dependencies.jsBookkeeper;
+		var pChildRefHandler = spec.pChildRefHandler;
 		var repeatMin = spec.repeatMin;
 		var repeatMax = spec.repeatMax;
 		var path = spec.path;
 		var parentModelObject = spec.parentModelObject;
 
-		var isRepeating = calculateIsRepeating();
+		var isRepeating = spec.isRepeating;
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
+		
+		var userCanRemove = false;
+		var userCanMove = false;
+		var userCanAddAbove = false;
 
 		var view = createBaseView();
 		var removeButton;
@@ -39,17 +44,13 @@ var CORA = (function(cora) {
 
 		var buttonView = createButtonView();
 
-		function calculateIsRepeating() {
-			return repeatMax > 1 || repeatMax === "X";
-		}
-
 		function calculateIsStaticNoOfChildren() {
 			return repeatMax === repeatMin;
 		}
 
 		function createBaseView() {
 			var repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");
-			if (spec.mode === "input" && spec.isRepeating) {
+			if (spec.mode === "input" && isRepeating) {
 				repeatingElement.ondragenter = ondragenterHandler;
 			}
 			return repeatingElement;
@@ -59,10 +60,6 @@ var CORA = (function(cora) {
 			parentModelObject.setRepeatingElementDragOver(view.modelObject);
 		}
 
-		function addRemoveButton() {
-			return (isRepeating && !isStaticNoOfChildren) || isZeroToOne();
-		}
-
 		function isZeroToOne() {
 			return repeatMin === "0" && repeatMax === "1";
 		}
@@ -70,21 +67,24 @@ var CORA = (function(cora) {
 		function createButtonView() {
 			var newButtonView = CORA.gui.createSpanWithClassName("buttonView");
 			view.appendChild(newButtonView);
-			if (spec.mode === "input" && addRemoveButton()) {
+			if (addRemoveButton()) {
 				removeButton = createRemoveButton();
 				newButtonView.appendChild(removeButton);
-				removeButton.addEventListener("mouseenter", function() {
-					view.className = "repeatingElement hoverRemove";
-				});
-				removeButton.addEventListener("mouseleave", function() {
-					view.className = "repeatingElement";
-				});
 			}
 			if (spec.mode === "input" && isRepeating) {
 				dragButton = createDragButton();
 				newButtonView.appendChild(dragButton);
 			}
+			if (addAddAboveButton()) {
+				newButtonView.appendChild(createAddAboveButton());
+			}
+
 			return newButtonView;
+		}
+
+		function addRemoveButton() {
+			return spec.mode === "input"
+					&& ((isRepeating && !isStaticNoOfChildren) || isZeroToOne());
 		}
 
 		function createRemoveButton() {
@@ -95,7 +95,14 @@ var CORA = (function(cora) {
 				};
 				jsBookkeeper.remove(data);
 			};
-			return CORA.gui.createRemoveButton(removeFunction);
+			var removeButton = CORA.gui.createRemoveButton(removeFunction);
+			removeButton.addEventListener("mouseenter", function() {
+				view.className = "repeatingElement hoverRemove";
+			});
+			removeButton.addEventListener("mouseleave", function() {
+				view.className = "repeatingElement";
+			});
+			return removeButton;
 		}
 
 		function createDragButton() {
@@ -107,6 +114,30 @@ var CORA = (function(cora) {
 				view.draggable = undefined;
 			};
 			return createdDragButton;
+		}
+
+		function addAddAboveButton() {
+			return spec.mode === "input" && (!isStaticNoOfChildren) && !isZeroToOne();
+			// && ((isRepeating && !isStaticNoOfChildren) || isZeroToOne());
+		}
+
+		function createAddAboveButton() {
+			var addAboveFunction = function() {
+				console.log("before sendAddAbove from button")
+				var data = {
+				 "path" : path
+				};
+				pChildRefHandler.sendAddAbove(data);
+				console.log("called sendAddAbove from button")
+				
+			};
+			var buttonSpec = {
+				"className" : "iconButton addAboveButton",
+				action : {
+					method : addAboveFunction
+				}
+			};
+			return CORA.gui.button(buttonSpec);
 		}
 
 		function getView() {

@@ -32,7 +32,7 @@ var CORA = (function(cora) {
 		var lastRepeatingElementDraggedOver;
 
 		view.appendChild(childrenView);
-		if (spec.mode==="input" && (spec.addMethod !== undefined || spec.upload === "true")) {
+		if (spec.mode === "input" && (spec.addMethod !== undefined || spec.upload === "true")) {
 			createButtonView();
 		}
 
