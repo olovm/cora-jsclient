@@ -1012,7 +1012,7 @@ QUnit.test("testAddOneChild", function(assert) {
 		"repeatMin" : "1",
 		"repeatMax" : "1",
 		"path" : path2,
-		"parentModelObject" : factoredView,
+		"pChildRefHandlerView" : factoredView,
 		"isRepeating" : false,
 		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler
@@ -1057,7 +1057,7 @@ QUnit.test("testAddOneChildModeOutput", function(assert) {
 		"repeatMin" : "1",
 		"repeatMax" : "1",
 		"path" : path2,
-		"parentModelObject" : factoredView,
+		"pChildRefHandlerView" : factoredView,
 		"isRepeating" : false,
 		"mode" : "output",
 		"pChildRefHandler" : pChildRefHandler
@@ -1288,7 +1288,6 @@ QUnit.test("testRepeatingElement", function(assert) {
 			"value" : "one"
 		} ]
 	});
-	// assert.strictEqual(factoredSpec.parentModelObject, view.modelObject);
 	assert.strictEqual(factoredSpec.isRepeating, true);
 	assert.strictEqual(factoredSpec.textStyle, undefined);
 	assert.strictEqual(factoredSpec.childStyle, undefined);

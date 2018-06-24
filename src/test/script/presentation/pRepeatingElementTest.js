@@ -30,12 +30,12 @@ QUnit.module("pRepeatingElementTest.js", {
 			"repeatMin" : "1",
 			"repeatMax" : "2",
 			"path" : {},
-			"parentModelObject" : CORATEST.parentModelObjectSpy(),
+			"pChildRefHandlerView" : CORATEST.pChildRefHandlerViewSpy(),
 			"pChildRefHandler":CORATEST.pChildRefHandlerSpy(),
 			"isRepeating" : Number("2") > 1 || " 2" === "X",
 			"mode" : "input"
 		};
-	},
+	}, 
 	afterEach : function() {
 	}
 });
@@ -115,7 +115,7 @@ QUnit.test("testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThis", f
 
 	pRepeatingElement.getView().ondragenter();
 	assert
-			.strictEqual(this.spec.parentModelObject.getRepeatingElementDragOver(),
+			.strictEqual(this.spec.pChildRefHandlerView.getRepeatingElementDragOver(),
 					pRepeatingElement);
 });
 QUnit.test(

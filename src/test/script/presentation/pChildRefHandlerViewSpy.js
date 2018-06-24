@@ -31,6 +31,8 @@ var CORATEST = (function(coraTest) {
 		var showChildrensDragButtonCalled = 0;
 		var hideChildrensDragButtonCalled = 0;
 
+		var repeatingElementDragOver;
+
 		function getView() {
 			return view;
 		}
@@ -101,6 +103,13 @@ var CORATEST = (function(coraTest) {
 			return hideChildrensDragButtonCalled;
 		}
 
+		function setRepeatingElementDragOver(element) {
+			repeatingElementDragOver = element;
+		}
+		function getRepeatingElementDragOver() {
+			return repeatingElementDragOver;
+		}
+
 		var out = Object.freeze({
 			"type" : "pChildRefHandlerViewSpy",
 			getDependencies : getDependencies,
@@ -123,7 +132,9 @@ var CORATEST = (function(coraTest) {
 			hideChildrensDragButton : hideChildrensDragButton,
 			getHideChildrensDragButtonCalled : getHideChildrensDragButtonCalled,
 			showChildrensDragButton : showChildrensDragButton,
-			getShowChildrensDragButtonCalled : getShowChildrensDragButtonCalled
+			getShowChildrensDragButtonCalled : getShowChildrensDragButtonCalled,
+			setRepeatingElementDragOver : setRepeatingElementDragOver,
+			getRepeatingElementDragOver : getRepeatingElementDragOver
 		});
 		return out;
 	};

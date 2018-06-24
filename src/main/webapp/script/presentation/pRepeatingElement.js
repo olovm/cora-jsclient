@@ -21,18 +21,20 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.pRepeatingElement = function(dependencies, spec) {
 		var jsBookkeeper = dependencies.jsBookkeeper;
+
 		var pChildRefHandler = spec.pChildRefHandler;
+		var pChildRefHandlerView = spec.pChildRefHandlerView;
 		var repeatMin = spec.repeatMin;
 		var repeatMax = spec.repeatMax;
 		var path = spec.path;
-		var parentModelObject = spec.parentModelObject;
 
 		var isRepeating = spec.isRepeating;
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
-		
-		var userCanRemove = false;
-		var userCanMove = false;
-		var userCanAddAbove = false;
+
+		var userCanRemove = spec.mode === "input"
+				&& ((isRepeating && !isStaticNoOfChildren) || isZeroToOne());
+		var userCanMove = spec.mode === "input" && isRepeating;
+		var userCanAddAbove = spec.mode === "input" && (!isStaticNoOfChildren) && !isZeroToOne();
 
 		var view = createBaseView();
 		var removeButton;
@@ -48,43 +50,38 @@ var CORA = (function(cora) {
 			return repeatMax === repeatMin;
 		}
 
+		function isZeroToOne() {
+			return repeatMin === "0" && repeatMax === "1";
+		}
+
 		function createBaseView() {
 			var repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");
-			if (spec.mode === "input" && isRepeating) {
+			if (userCanMove) {
 				repeatingElement.ondragenter = ondragenterHandler;
 			}
 			return repeatingElement;
 		}
 
 		function ondragenterHandler() {
-			parentModelObject.setRepeatingElementDragOver(view.modelObject);
-		}
-
-		function isZeroToOne() {
-			return repeatMin === "0" && repeatMax === "1";
+			pChildRefHandlerView.setRepeatingElementDragOver(view.modelObject);
 		}
 
 		function createButtonView() {
 			var newButtonView = CORA.gui.createSpanWithClassName("buttonView");
 			view.appendChild(newButtonView);
-			if (addRemoveButton()) {
+			if (userCanRemove) {
 				removeButton = createRemoveButton();
 				newButtonView.appendChild(removeButton);
 			}
-			if (spec.mode === "input" && isRepeating) {
+			if (userCanMove) {
 				dragButton = createDragButton();
 				newButtonView.appendChild(dragButton);
 			}
-			if (addAddAboveButton()) {
+			if (userCanAddAbove) {
 				newButtonView.appendChild(createAddAboveButton());
 			}
 
 			return newButtonView;
-		}
-
-		function addRemoveButton() {
-			return spec.mode === "input"
-					&& ((isRepeating && !isStaticNoOfChildren) || isZeroToOne());
 		}
 
 		function createRemoveButton() {
@@ -116,20 +113,12 @@ var CORA = (function(cora) {
 			return createdDragButton;
 		}
 
-		function addAddAboveButton() {
-			return spec.mode === "input" && (!isStaticNoOfChildren) && !isZeroToOne();
-			// && ((isRepeating && !isStaticNoOfChildren) || isZeroToOne());
-		}
-
 		function createAddAboveButton() {
 			var addAboveFunction = function() {
-				console.log("before sendAddAbove from button")
 				var data = {
-				 "path" : path
+					"path" : path
 				};
 				pChildRefHandler.sendAddAbove(data);
-				console.log("called sendAddAbove from button")
-				
 			};
 			var buttonSpec = {
 				"className" : "iconButton addAboveButton",
@@ -178,7 +167,7 @@ var CORA = (function(cora) {
 			alternativeButton.onclick = function() {
 				toggleDefaultShown("false");
 			};
-			if (dragButton !== undefined) {
+			if (userCanMove) {
 				buttonView.insertBefore(alternativeButton, dragButton);
 			} else {
 				buttonView.appendChild(alternativeButton);
@@ -188,7 +177,7 @@ var CORA = (function(cora) {
 			defaultButton.onclick = function() {
 				toggleDefaultShown("true");
 			};
-			if (dragButton !== undefined) {
+			if (userCanMove) {
 				buttonView.insertBefore(defaultButton, dragButton);
 			} else {
 				buttonView.appendChild(defaultButton);

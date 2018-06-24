@@ -290,7 +290,7 @@ var CORA = (function(cora) {
 				"repeatMin" : repeatMin,
 				"repeatMax" : repeatMax,
 				"path" : path,
-				"parentModelObject" : pChildRefHandlerView,
+				"pChildRefHandlerView" : pChildRefHandlerView,
 				"isRepeating" : isRepeating,
 				"mode" : spec.mode,
 				"pChildRefHandler" : out
@@ -424,12 +424,10 @@ var CORA = (function(cora) {
 		}
 
 		function sendAddAbove(dataFromPRepeatingElement) {
-			console.log("in sendAddAbove in pChildRefHandler")
 			var data = createAddData();
 			data.addAbovePath = dataFromPRepeatingElement.path;
 			dependencies.jsBookkeeper.addAbove(data);
 			sendInitComplete();
-			console.log("end sendAddAbove in pChildRefHandler")
 		}
 
 		function childMoved(moveInfo) {
