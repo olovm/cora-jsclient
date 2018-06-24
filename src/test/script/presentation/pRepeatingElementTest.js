@@ -262,7 +262,6 @@ QUnit.test("testAddAboveButtonOnclick", function(assert) {
 	this.fixture.appendChild(view);
 
 	var buttonView = view.childNodes[0];
-//	console.log(buttonView.childNodes)
 	var addAboveButton = buttonView.childNodes[2];
 
 	CORATESTHELPER.simulateOnclick(addAboveButton);
@@ -271,10 +270,27 @@ QUnit.test("testAddAboveButtonOnclick", function(assert) {
 	 assert.deepEqual(addAboves.length, 1);
 	
 	 var firstAddAbove= addAboves[0];
-//	 assert.strictEqual(firstAddAbove.type, "addAbove");
 	 var path = {};
 	 assert.deepEqual(firstAddAbove.path, path);
 });
+
+QUnit.test("testHideAddAboveButton", function(assert) {
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	var buttonView = view.childNodes[0];
+	var addAboveButton = buttonView.childNodes[2];
+
+	assert.visible(addAboveButton, "addAboveButton should be visible");
+
+	pRepeatingElement.hideAddAboveButton();
+	assert.notVisible(addAboveButton, "addAboveButton should be hidden");
+
+	pRepeatingElement.showAddAboveButton();
+	assert.visible(addAboveButton, "addAboveButton should be visible");
+});
+
 
 QUnit.test("testAddPresentation", function(assert) {
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);

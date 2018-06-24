@@ -39,6 +39,7 @@ var CORA = (function(cora) {
 		var view = createBaseView();
 		var removeButton;
 		var dragButton;
+		var addAboveButton;
 		var alternativePresentation;
 		var defaultPresentation;
 		var alternativeButton;
@@ -78,7 +79,8 @@ var CORA = (function(cora) {
 				newButtonView.appendChild(dragButton);
 			}
 			if (userCanAddAbove) {
-				newButtonView.appendChild(createAddAboveButton());
+				addAboveButton = createAddAboveButton();
+				newButtonView.appendChild(addAboveButton);
 			}
 
 			return newButtonView;
@@ -210,6 +212,14 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function hideAddAboveButton() {
+			hide(addAboveButton);
+		}
+		
+		function showAddAboveButton() {
+			show(addAboveButton);
+		}
+
 		function getPath() {
 			return path;
 		}
@@ -232,6 +242,8 @@ var CORA = (function(cora) {
 			showRemoveButton : showRemoveButton,
 			hideDragButton : hideDragButton,
 			showDragButton : showDragButton,
+			hideAddAboveButton : hideAddAboveButton,
+			showAddAboveButton : showAddAboveButton,
 			getPath : getPath
 		});
 
