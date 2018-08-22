@@ -34,7 +34,7 @@ var CORA = (function(cora) {
 		var userCanRemove = spec.mode === "input"
 				&& ((isRepeating && !isStaticNoOfChildren) || isZeroToOne());
 		var userCanMove = spec.mode === "input" && isRepeating;
-		var userCanAddAbove = spec.mode === "input" && (!isStaticNoOfChildren) && !isZeroToOne();
+		var userCanAddAbove = spec.userCanAddAbove;
 
 		var view = createBaseView();
 		var removeButton;
@@ -213,17 +213,11 @@ var CORA = (function(cora) {
 		}
 
 		function hideAddAboveButton() {
-			//TODO: test
-			if (userCanAddAbove) {
-				hide(addAboveButton);
-			}
+			hide(addAboveButton);
 		}
 
 		function showAddAboveButton() {
-			//TODO: test
-			if (userCanAddAbove) {
-				show(addAboveButton);
-			}
+			show(addAboveButton);
 		}
 
 		function getPath() {

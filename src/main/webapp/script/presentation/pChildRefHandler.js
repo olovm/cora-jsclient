@@ -20,6 +20,12 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pChildRefHandler = function(dependencies, spec) {
+
+		var userCanUploadFile = false;
+		var userCanRemove = false;
+		var userCanMove = false;
+		var userCanAddAbove = false;
+
 		var metadataHelper = CORA.metadataHelper({
 			"metadataProvider" : dependencies.metadataProvider
 		});
@@ -42,6 +48,7 @@ var CORA = (function(cora) {
 
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
+		var isZeroToOne = calculateIsZeroToOne();
 
 		var noOfRepeating = 0;
 		var metadataHasAttributes = hasAttributes();
@@ -58,6 +65,46 @@ var CORA = (function(cora) {
 
 		var numberOfFilesToUpload = 0;
 		var numberOfRecordsForFilesCreated = 0;
+
+		function start() {
+			userCanUploadFile = showFileUpload();
+			userCanAddAbove = calculateUserCanAddAbove();
+		}
+
+		function calculateUserCanAddAbove() {
+			if (spec.mode !== "input") {
+				return false;
+			}
+			if (isStaticNoOfChildren) {
+				return false;
+			}
+			if (isZeroToOne) {
+				return false;
+			}
+			if (userCanUploadFile) {
+				return false;
+			}
+			return true;
+		}
+		//
+		// var isRepeating = spec.isRepeating;
+		// var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
+		//
+		// var userCanRemove = spec.mode === "input"
+		// && ((isRepeating && !isStaticNoOfChildren) || calculateIsZeroToOne());
+		// var userCanMove = spec.mode === "input" && isRepeating;
+		// var userCanAddAbove = spec.mode === "input" && (!isStaticNoOfChildren) &&
+		// !calculateIsZeroToOne();
+		//
+		// function calculateIsStaticNoOfChildren() {
+		// return repeatMax === repeatMin;
+		// }
+		//
+		// function calculateIsZeroToOne() {
+		// return repeatMin === "0" && repeatMax === "1";
+		// }
+
+		//
 
 		function childRefFoundInCurrentlyUsedParentMetadata() {
 			return cParentMetadataChildRefPart.getData() === undefined;
@@ -134,16 +181,16 @@ var CORA = (function(cora) {
 		}
 
 		function showAddButton() {
-			return (isRepeating && !isStaticNoOfChildren) || isZeroToOne();
+			return (isRepeating && !isStaticNoOfChildren) || calculateIsZeroToOne();
 		}
 
-		function isZeroToOne() {
+		function calculateIsZeroToOne() {
 			return repeatMin === "0" && repeatMax === "1";
 		}
 
 		function showFileUpload() {
 			if (currentChildRefIsRecordLink() && currentChildRefHasLinkedRecordType()) {
-				return checkIfBinaryOrChildOfBinary();
+				return calculateIfBinaryOrChildOfBinary();
 			}
 			return false;
 		}
@@ -165,7 +212,7 @@ var CORA = (function(cora) {
 			return cMetadataElement.containsChildWithNameInData("linkedRecordType");
 		}
 
-		function checkIfBinaryOrChildOfBinary() {
+		function calculateIfBinaryOrChildOfBinary() {
 			var cRecordType = getLinkedRecordType();
 			var cRecordInfo = CORA.coraData(cRecordType.getFirstChildByNameInData("recordInfo"));
 			return isBinaryOrChildOfBinary(cRecordInfo, cRecordType);
@@ -293,7 +340,10 @@ var CORA = (function(cora) {
 				"pChildRefHandlerView" : pChildRefHandlerView,
 				"isRepeating" : isRepeating,
 				"mode" : spec.mode,
-				"pChildRefHandler" : out
+				"pChildRefHandler" : out,
+				// "userCanRemove" : userCanRemove,
+				// "userCanMove" : userCanMove,
+				"userCanAddAbove" : userCanAddAbove
 			};
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}
@@ -388,10 +438,14 @@ var CORA = (function(cora) {
 		function updateButtonViewAndAddAboveButtonVisibility() {
 			if (maxLimitOfChildrenReached()) {
 				pChildRefHandlerView.hideButtonView();
-				pChildRefHandlerView.hideChildrensAddAboveButton();
+				if (userCanAddAbove) {
+					pChildRefHandlerView.hideChildrensAddAboveButton();
+				}
 			} else {
 				pChildRefHandlerView.showButtonView();
-				pChildRefHandlerView.showChildrensAddAboveButton();
+				if (userCanAddAbove) {
+					pChildRefHandlerView.showChildrensAddAboveButton();
+				}
 			}
 		}
 
@@ -646,7 +700,9 @@ var CORA = (function(cora) {
 			initComplete : initComplete
 		});
 
+		start();
 		pChildRefHandlerView.getView().modelObject = out;
+
 		return out;
 	};
 

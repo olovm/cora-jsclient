@@ -172,6 +172,14 @@ img {
 	cursor: move;
 }
 
+.addAboveButton::before {
+	background-position: -273px -32px;
+}
+
+.addAboveButton::after {
+	background-position: -273px -16px;
+}
+
 
 .jsClient .menuView .pVar .infoButton, .menuView .pVar:hover > .infoButton::before,
 .menuView .pGroup:hover > .infoButton::before,
