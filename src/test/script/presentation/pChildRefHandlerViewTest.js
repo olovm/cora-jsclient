@@ -232,6 +232,45 @@ QUnit.test("testShowAndHideChildrensDragButton", function(assert) {
 	assert.strictEqual(childElement2.getShowDragButtonCalled(), 1);
 });
 
+QUnit.test("testShowAndHideChildrensAddAboveButton", function(assert) {
+	var pChildRefHandlerViewSpec = {
+			"presentationId" : "pVarTextVariableId"
+	};
+	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
+			pChildRefHandlerViewSpec);
+	var view = pChildRefHandlerView.getView();
+	this.fixture.appendChild(view);
+	var childrenView = pChildRefHandlerView.getView().firstChild;
+	
+	var pRepeatingElementSpec = {
+			"path" : "xyz"
+	};
+	var childElement = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
+	pChildRefHandlerView.addChild(childElement.getView());
+	var childElement2 = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
+	pChildRefHandlerView.addChild(childElement2.getView());
+	
+	assert.strictEqual(childElement.getHideAddAboveButtonCalled(), 0);
+	assert.strictEqual(childElement.getShowAddAboveButtonCalled(), 0);
+	assert.strictEqual(childElement2.getHideAddAboveButtonCalled(), 0);
+	assert.strictEqual(childElement2.getShowAddAboveButtonCalled(), 0);
+	
+	pChildRefHandlerView.hideChildrensAddAboveButton();
+	pChildRefHandlerView.showChildrensAddAboveButton();
+	
+	assert.strictEqual(childElement.getHideAddAboveButtonCalled(), 1);
+	assert.strictEqual(childElement.getShowAddAboveButtonCalled(), 1);
+	assert.strictEqual(childElement2.getHideAddAboveButtonCalled(), 1);
+	assert.strictEqual(childElement2.getShowAddAboveButtonCalled(), 1);
+
+	pChildRefHandlerView.hideChildrensAddAboveButton();
+	assert.strictEqual(childElement.getHideAddAboveButtonCalled(), 2);
+	assert.strictEqual(childElement.getShowAddAboveButtonCalled(), 1);
+	assert.strictEqual(childElement2.getHideAddAboveButtonCalled(), 2);
+	assert.strictEqual(childElement2.getShowAddAboveButtonCalled(), 1);
+	
+});
+
 QUnit.test("testDraggingDragStart", function(assert) {
 	var pChildRefHandlerViewSpec = {
 		"presentationId" : "pVarTextVariableId"

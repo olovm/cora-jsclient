@@ -1413,7 +1413,7 @@ QUnit.test("testDragButtonHiddenNotCalledForModeOutput", function(assert) {
 	assert.strictEqual(factoredView.getShowChildrensDragButtonCalled(), 0);
 });
 
-QUnit.test("testHideAddButtonWhenMaxRepeat", function(assert) {
+QUnit.test("testHideAddAndAddAboveButtonWhenMaxRepeat", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
@@ -1423,21 +1423,29 @@ QUnit.test("testHideAddButtonWhenMaxRepeat", function(assert) {
 	var factoredView = this.dependencies.pChildRefHandlerViewFactory.getFactored(0);
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	pChildRefHandler.add("textVariableId", "one");
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 1);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 1);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	pChildRefHandler.add("textVariableId", "two");
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 2);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 2);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	pChildRefHandler.add("textVariableId", "three");
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 2);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 1);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 2);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 1);
 });
 
-QUnit.test("testShowAddButtonWhenBelowMaxRepeat", function(assert) {
+QUnit.test("testShowAddAndAddAboveButtonWhenBelowMaxRepeat", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
@@ -1447,26 +1455,36 @@ QUnit.test("testShowAddButtonWhenBelowMaxRepeat", function(assert) {
 	var factoredView = this.dependencies.pChildRefHandlerViewFactory.getFactored(0);
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	pChildRefHandler.add("textVariableId", "one");
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 1);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 1);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	pChildRefHandler.add("textVariableId", "two");
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 2);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 2);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	pChildRefHandler.add("textVariableId", "three");
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 2);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 1);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 2);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 1);
 
 	// call remove function in pChildRefHandler
 	this.dependencies.pubSub.getSubscriptions()[2].functionToCall();
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 3);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 1);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 3);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 1);
 });
 
-QUnit.test("testHideChildrensRemoveButtonWhenAtMinRepeat", function(assert) {
+QUnit.test("testHideChildrensRemoveAndAddAboveButtonWhenAtMinRepeat", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
@@ -1478,28 +1496,35 @@ QUnit.test("testHideChildrensRemoveButtonWhenAtMinRepeat", function(assert) {
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 0);
 	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	pChildRefHandler.add("textVariableId", "one");
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 1);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 0);
 	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 1);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 1);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	pChildRefHandler.add("textVariableId", "two");
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 2);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 1);
 	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 1);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 2);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	// call remove function in pChildRefHandler
 	this.dependencies.pubSub.getSubscriptions()[2].functionToCall();
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 3);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
-
 	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 1);
 	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 2);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 3);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 });
-QUnit.test("testHideChildrensRemoveButtonWhenAtMinRepeatNotCalledForModeOutput", function(assert) {
+QUnit.test("testHideChildrensRemoveAndAddAboveButtonWhenAtMinRepeatNotCalledForModeOutput", function(assert) {
 	this.spec.mode = "output";
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
@@ -1512,26 +1537,33 @@ QUnit.test("testHideChildrensRemoveButtonWhenAtMinRepeatNotCalledForModeOutput",
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 0);
 	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	pChildRefHandler.add("textVariableId", "one");
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 0);
 	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	pChildRefHandler.add("textVariableId", "two");
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 0);
 	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 
 	// call remove function in pChildRefHandler
 	this.dependencies.pubSub.getSubscriptions()[2].functionToCall();
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
-
 	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 0);
 	assert.strictEqual(factoredView.getHideChildrensRemoveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getShowChildrensAddAboveButtonCalled(), 0);
+	assert.strictEqual(factoredView.getHideChildrensAddAboveButtonCalled(), 0);
 });
 
 QUnit.test("testHandleMessageRightMetadataId", function(assert) {

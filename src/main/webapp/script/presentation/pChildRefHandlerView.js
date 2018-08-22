@@ -291,6 +291,14 @@ var CORA = (function(cora) {
 			callOnceOnEachRepeatingElement("showDragButton");
 		}
 
+		function hideChildrensAddAboveButton() {
+			callOnceOnEachRepeatingElement("hideAddAboveButton");
+		}
+		
+		function showChildrensAddAboveButton() {
+			callOnceOnEachRepeatingElement("showAddAboveButton");
+		}
+
 		var out = Object.freeze({
 			"type" : "pChildRefHandlerView",
 			getView : getView,
@@ -302,6 +310,8 @@ var CORA = (function(cora) {
 			showChildrensRemoveButton : showChildrensRemoveButton,
 			hideChildrensDragButton : hideChildrensDragButton,
 			showChildrensDragButton : showChildrensDragButton,
+			hideChildrensAddAboveButton : hideChildrensAddAboveButton,
+			showChildrensAddAboveButton : showChildrensAddAboveButton,
 			dragstartHandler : dragstartHandler,
 			dragoverHandler : dragoverHandler,
 			dragenterHandler : dragenterHandler,

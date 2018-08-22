@@ -213,11 +213,17 @@ var CORA = (function(cora) {
 		}
 
 		function hideAddAboveButton() {
-			hide(addAboveButton);
+			//TODO: test
+			if (userCanAddAbove) {
+				hide(addAboveButton);
+			}
 		}
-		
+
 		function showAddAboveButton() {
-			show(addAboveButton);
+			//TODO: test
+			if (userCanAddAbove) {
+				show(addAboveButton);
+			}
 		}
 
 		function getPath() {

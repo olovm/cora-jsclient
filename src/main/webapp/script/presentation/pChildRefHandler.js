@@ -353,7 +353,7 @@ var CORA = (function(cora) {
 		function updateView() {
 			if (spec.mode === "input") {
 				if (showAddButton()) {
-					updateButtonViewVisibility();
+					updateButtonViewAndAddAboveButtonVisibility();
 					updateChildrenRemoveButtonVisibility();
 				}
 				if (isRepeating) {
@@ -385,11 +385,13 @@ var CORA = (function(cora) {
 			return noOfRepeating > 1;
 		}
 
-		function updateButtonViewVisibility() {
+		function updateButtonViewAndAddAboveButtonVisibility() {
 			if (maxLimitOfChildrenReached()) {
 				pChildRefHandlerView.hideButtonView();
+				pChildRefHandlerView.hideChildrensAddAboveButton();
 			} else {
 				pChildRefHandlerView.showButtonView();
+				pChildRefHandlerView.showChildrensAddAboveButton();
 			}
 		}
 

@@ -30,6 +30,8 @@ var CORATEST = (function(coraTest) {
 		var hideChildrensRemoveButtonCalled = 0;
 		var showChildrensDragButtonCalled = 0;
 		var hideChildrensDragButtonCalled = 0;
+		var showChildrensAddAboveButtonCalled = 0;
+		var hideChildrensAddAboveButtonCalled = 0;
 
 		var repeatingElementDragOver;
 
@@ -102,6 +104,19 @@ var CORATEST = (function(coraTest) {
 		function getHideChildrensDragButtonCalled() {
 			return hideChildrensDragButtonCalled;
 		}
+		
+		function showChildrensAddAboveButton() {
+			showChildrensAddAboveButtonCalled++;
+		}
+		function getShowChildrensAddAboveButtonCalled() {
+			return showChildrensAddAboveButtonCalled;
+		}
+		function hideChildrensAddAboveButton() {
+			hideChildrensAddAboveButtonCalled++;
+		}
+		function getHideChildrensAddAboveButtonCalled() {
+			return hideChildrensAddAboveButtonCalled;
+		}
 
 		function setRepeatingElementDragOver(element) {
 			repeatingElementDragOver = element;
@@ -133,6 +148,10 @@ var CORATEST = (function(coraTest) {
 			getHideChildrensDragButtonCalled : getHideChildrensDragButtonCalled,
 			showChildrensDragButton : showChildrensDragButton,
 			getShowChildrensDragButtonCalled : getShowChildrensDragButtonCalled,
+			hideChildrensAddAboveButton : hideChildrensAddAboveButton,
+			getHideChildrensAddAboveButtonCalled : getHideChildrensAddAboveButtonCalled,
+			showChildrensAddAboveButton : showChildrensAddAboveButton,
+			getShowChildrensAddAboveButtonCalled : getShowChildrensAddAboveButtonCalled,
 			setRepeatingElementDragOver : setRepeatingElementDragOver,
 			getRepeatingElementDragOver : getRepeatingElementDragOver
 		});
