@@ -33,7 +33,7 @@ var CORA = (function(cora) {
 
 		var userCanRemove = spec.mode === "input"
 				&& ((isRepeating && !isStaticNoOfChildren) || isZeroToOne());
-		var userCanMove = spec.mode === "input" && isRepeating;
+		var userCanMove = spec.userCanMove;
 		var userCanAddAbove = spec.userCanAddAbove;
 
 		var view = createBaseView();

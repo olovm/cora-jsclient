@@ -34,6 +34,7 @@ QUnit.module("pRepeatingElementTest.js", {
 			"pChildRefHandler":CORATEST.pChildRefHandlerSpy(),
 			"isRepeating" : Number("2") > 1 || " 2" === "X",
 			"mode" : "input",
+			"userCanMove" : true,
 			"userCanAddAbove" : true
 		};
 	}, 
@@ -104,6 +105,7 @@ QUnit.test("testInitNoAddAboveButton", function(assert) {
 });
 
 QUnit.test("testInitNoRemoveOrDragOrAddAboveButtonWhenModeOutput", function(assert) {
+	this.spec.userCanMove = false;
 	this.spec.userCanAddAbove = false;
 	this.spec.mode = "output";
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
@@ -151,9 +153,10 @@ QUnit.test("testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThis", f
 					pRepeatingElement);
 });
 QUnit.test(
-		"testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThisNoFunctionWhenModeOutput",
+		"testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThisNoFunctionWhenNoMove",
 		function(assert) {
-			this.spec.mode = "output";
+			this.spec.userCanMove = false;
+//			this.spec.mode = "output";
 			var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 			var view = pRepeatingElement.getView();
 			this.fixture.appendChild(view);
@@ -172,6 +175,7 @@ QUnit.test("testButtonViewAndRemoveButton", function(assert) {
 });
 
 QUnit.test("test0to1ShouldHaveRemoveButtonNoAddBeforeButton", function(assert) {
+	this.spec.userCanMove = false;
 	this.spec.userCanAddAbove = false;
 	this.spec.repeatMin = "0";
 	this.spec.repeatMax = "1";
@@ -187,6 +191,7 @@ QUnit.test("test0to1ShouldHaveRemoveButtonNoAddBeforeButton", function(assert) {
 });
 
 QUnit.test("test1to1ShouldHaveNoRemoveOrDragOrAddAboveButton", function(assert) {
+	this.spec.userCanMove = false;
 	this.spec.userCanAddAbove = false;
 	this.spec.repeatMax = "1";
 	this.spec.isRepeating = false;
@@ -393,6 +398,7 @@ QUnit.test("testMinimizealternativeButtonShouldWorkWithoutDraghandle", function(
 	this.spec.repeatMin = "1";
 	this.spec.repeatMax = "1";
 	this.spec.isRepeating = false;
+	this.spec.userCanMove = false;
 	this.spec.userCanAddAbove = false;
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();

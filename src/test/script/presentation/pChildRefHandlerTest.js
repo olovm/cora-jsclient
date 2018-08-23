@@ -1058,6 +1058,7 @@ QUnit.test("testAddOneChild", function(assert) {
 		"isRepeating" : false,
 		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -1104,6 +1105,7 @@ QUnit.test("testAddOneChildModeOutput", function(assert) {
 		"isRepeating" : false,
 		"mode" : "output",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -1154,6 +1156,7 @@ QUnit.test("testAddOneChildBinary", function(assert) {
 			"isRepeating" : true,
 			"mode" : "input",
 			"pChildRefHandler" : pChildRefHandler,
+			"userCanMove" : true,
 			"userCanAddAbove" : false
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -1205,6 +1208,7 @@ QUnit.test("testAddOneChildWithRepeatId", function(assert) {
 		"isRepeating" : false,
 		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -1257,6 +1261,7 @@ QUnit.test("testAddOneChildWithOneLevelPath", function(assert) {
 		"isRepeating" : false,
 		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -1320,6 +1325,7 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 		"isRepeating" : false,
 		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -1381,6 +1387,7 @@ QUnit
 						"isRepeating" : true,
 						"mode" : "input",
 						"pChildRefHandler" : pChildRefHandler,
+						"userCanMove" : true,
 						"userCanAddAbove" : true
 					};
 					assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -1427,6 +1434,7 @@ QUnit.test("testRepeatingElement", function(assert) {
 		"isRepeating" : true,
 		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanMove" : true,
 		"userCanAddAbove" : true
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -1488,6 +1496,7 @@ QUnit.test("testRepeatingElementOutputMode", function(assert) {
 		"isRepeating" : true,
 		"mode" : "output",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -1525,6 +1534,7 @@ QUnit.test("testRepeatingElement0to1", function(assert) {
 		"isRepeating" : false,
 		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);
@@ -1578,6 +1588,7 @@ QUnit.test("testRepeatingElementStaticNoOfChildrenNoAddButton", function(assert)
 		"isRepeating" : true,
 		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanMove" : true,
 		"userCanAddAbove" : false
 	};
 	assert.stringifyEqual(factoredSpec, expectedSpec);

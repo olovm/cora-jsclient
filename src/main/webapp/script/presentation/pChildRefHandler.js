@@ -68,9 +68,20 @@ var CORA = (function(cora) {
 
 		function start() {
 			userCanUploadFile = showFileUpload();
+			userCanMove = calculateUserCanMove();
 			userCanAddAbove = calculateUserCanAddAbove();
 		}
 
+		function calculateUserCanMove() {
+			if (spec.mode !== "input") {
+				return false;
+			}
+			if(!isRepeating){
+				return false;
+			}
+			return true;
+		}
+		
 		function calculateUserCanAddAbove() {
 			if (spec.mode !== "input") {
 				return false;
@@ -342,7 +353,7 @@ var CORA = (function(cora) {
 				"mode" : spec.mode,
 				"pChildRefHandler" : out,
 				// "userCanRemove" : userCanRemove,
-				// "userCanMove" : userCanMove,
+				"userCanMove" : userCanMove,
 				"userCanAddAbove" : userCanAddAbove
 			};
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
