@@ -1,6 +1,6 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -68,20 +68,31 @@ var CORA = (function(cora) {
 
 		function start() {
 			userCanUploadFile = showFileUpload();
+			userCanRemove = calculateUserCanRemove();
 			userCanMove = calculateUserCanMove();
 			userCanAddAbove = calculateUserCanAddAbove();
+		}
+
+		function calculateUserCanRemove() {
+			if (spec.mode !== "input") {
+				return false;
+			}
+			if (isStaticNoOfChildren) {
+				return false;
+			}
+			return true;
 		}
 
 		function calculateUserCanMove() {
 			if (spec.mode !== "input") {
 				return false;
 			}
-			if(!isRepeating){
+			if (!isRepeating) {
 				return false;
 			}
 			return true;
 		}
-		
+
 		function calculateUserCanAddAbove() {
 			if (spec.mode !== "input") {
 				return false;
@@ -97,25 +108,6 @@ var CORA = (function(cora) {
 			}
 			return true;
 		}
-		//
-		// var isRepeating = spec.isRepeating;
-		// var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
-		//
-		// var userCanRemove = spec.mode === "input"
-		// && ((isRepeating && !isStaticNoOfChildren) || calculateIsZeroToOne());
-		// var userCanMove = spec.mode === "input" && isRepeating;
-		// var userCanAddAbove = spec.mode === "input" && (!isStaticNoOfChildren) &&
-		// !calculateIsZeroToOne();
-		//
-		// function calculateIsStaticNoOfChildren() {
-		// return repeatMax === repeatMin;
-		// }
-		//
-		// function calculateIsZeroToOne() {
-		// return repeatMin === "0" && repeatMax === "1";
-		// }
-
-		//
 
 		function childRefFoundInCurrentlyUsedParentMetadata() {
 			return cParentMetadataChildRefPart.getData() === undefined;
@@ -313,18 +305,6 @@ var CORA = (function(cora) {
 			addPresentationsToRepeatingElementsView(repeatingElement, metadataIdToAdd);
 			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement);
 			updateView();
-
-			// TODO: add pChildRefHandler to spec of pRepeatingElement
-
-			// TODO: lsdjkf
-			// function sendMoveMessage() {
-			// var data = {
-			// "moveChild" : nodeBeeingDragged.modelObject.getPath(),
-			// "basePositionOnChild" : lastChangedWith.getPath(),
-			// "newPosition" : addDragged
-			// };
-			// view.modelObject.childMoved(data);
-			// }
 		}
 
 		function calculateNewPath(metadataIdToAdd, repeatId) {
@@ -345,14 +325,10 @@ var CORA = (function(cora) {
 
 		function createRepeatingElement(path) {
 			var repeatingElementSpec = {
-				"repeatMin" : repeatMin,
-				"repeatMax" : repeatMax,
 				"path" : path,
 				"pChildRefHandlerView" : pChildRefHandlerView,
-				"isRepeating" : isRepeating,
-				"mode" : spec.mode,
 				"pChildRefHandler" : out,
-				// "userCanRemove" : userCanRemove,
+				 "userCanRemove" : userCanRemove,
 				"userCanMove" : userCanMove,
 				"userCanAddAbove" : userCanAddAbove
 			};

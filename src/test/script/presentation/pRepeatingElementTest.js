@@ -1,6 +1,6 @@
 /*
- * Copyright 2016, 2017 Olov McKie
- * Copyright 2017 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Olov McKie
+ * Copyright 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -27,13 +27,10 @@ QUnit.module("pRepeatingElementTest.js", {
 			"jsBookkeeper" : this.jsBookkeeper
 		};
 		this.spec = {
-			"repeatMin" : "1",
-			"repeatMax" : "2",
 			"path" : {},
 			"pChildRefHandlerView" : CORATEST.pChildRefHandlerViewSpy(),
 			"pChildRefHandler":CORATEST.pChildRefHandlerSpy(),
-			"isRepeating" : Number("2") > 1 || " 2" === "X",
-			"mode" : "input",
+			"userCanRemove" : true,
 			"userCanMove" : true,
 			"userCanAddAbove" : true
 		};
@@ -104,10 +101,10 @@ QUnit.test("testInitNoAddAboveButton", function(assert) {
 	assert.strictEqual(buttonView.childNodes.length, 2);
 });
 
-QUnit.test("testInitNoRemoveOrDragOrAddAboveButtonWhenModeOutput", function(assert) {
+QUnit.test("testInitNoRemoveOrDragOrAddAboveButtonWhenUserCantDoAnything", function(assert) {
+	this.spec.userCanRemove = false;
 	this.spec.userCanMove = false;
 	this.spec.userCanAddAbove = false;
-	this.spec.mode = "output";
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
 	this.fixture.appendChild(view);
@@ -156,7 +153,6 @@ QUnit.test(
 		"testDragenterToTellPChildRefHandlerThatSomethingIsDragedOverThisNoFunctionWhenNoMove",
 		function(assert) {
 			this.spec.userCanMove = false;
-//			this.spec.mode = "output";
 			var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 			var view = pRepeatingElement.getView();
 			this.fixture.appendChild(view);
@@ -177,9 +173,6 @@ QUnit.test("testButtonViewAndRemoveButton", function(assert) {
 QUnit.test("test0to1ShouldHaveRemoveButtonNoAddBeforeButton", function(assert) {
 	this.spec.userCanMove = false;
 	this.spec.userCanAddAbove = false;
-	this.spec.repeatMin = "0";
-	this.spec.repeatMax = "1";
-	this.spec.isRepeating = false;
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
 	this.fixture.appendChild(view);
@@ -191,10 +184,9 @@ QUnit.test("test0to1ShouldHaveRemoveButtonNoAddBeforeButton", function(assert) {
 });
 
 QUnit.test("test1to1ShouldHaveNoRemoveOrDragOrAddAboveButton", function(assert) {
+	this.spec.userCanRemove = false;
 	this.spec.userCanMove = false;
 	this.spec.userCanAddAbove = false;
-	this.spec.repeatMax = "1";
-	this.spec.isRepeating = false;
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
 	this.fixture.appendChild(view);
@@ -395,9 +387,7 @@ QUnit.test("testaddAlternativePresentation", function(assert) {
 });
 
 QUnit.test("testMinimizealternativeButtonShouldWorkWithoutDraghandle", function(assert) {
-	this.spec.repeatMin = "1";
-	this.spec.repeatMax = "1";
-	this.spec.isRepeating = false;
+	this.spec.userCanRemove = false;
 	this.spec.userCanMove = false;
 	this.spec.userCanAddAbove = false;
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);

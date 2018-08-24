@@ -1,6 +1,6 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -24,15 +24,9 @@ var CORA = (function(cora) {
 
 		var pChildRefHandler = spec.pChildRefHandler;
 		var pChildRefHandlerView = spec.pChildRefHandlerView;
-		var repeatMin = spec.repeatMin;
-		var repeatMax = spec.repeatMax;
 		var path = spec.path;
 
-		var isRepeating = spec.isRepeating;
-		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
-
-		var userCanRemove = spec.mode === "input"
-				&& ((isRepeating && !isStaticNoOfChildren) || isZeroToOne());
+		var userCanRemove = spec.userCanRemove;
 		var userCanMove = spec.userCanMove;
 		var userCanAddAbove = spec.userCanAddAbove;
 
@@ -46,14 +40,6 @@ var CORA = (function(cora) {
 		var defaultButton;
 
 		var buttonView = createButtonView();
-
-		function calculateIsStaticNoOfChildren() {
-			return repeatMax === repeatMin;
-		}
-
-		function isZeroToOne() {
-			return repeatMin === "0" && repeatMax === "1";
-		}
 
 		function createBaseView() {
 			var repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");

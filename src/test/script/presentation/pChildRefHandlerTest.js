@@ -1,6 +1,6 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -496,10 +496,6 @@ QUnit.test("testSendAdd", function(assert) {
 	var addData = {
 		"childReference" : {
 			"children" : [ {
-				// "attributes": {
-				// "type": "textVariable"
-				// },
-
 				"name" : "ref",
 				"children" : [ {
 					"name" : "linkedRecordType",
@@ -538,10 +534,6 @@ QUnit.test("testSendAddAbove", function(assert) {
 	var addAboveData = {
 		"childReference" : {
 			"children" : [ {
-				// "attributes": {
-				// "type": "textVariable"
-				// },
-
 				"name" : "ref",
 				"children" : [ {
 					"name" : "linkedRecordType",
@@ -597,9 +589,6 @@ QUnit.test("testAddButtonWithAttributes", function(assert) {
 		},
 		"childReference" : {
 			"children" : [ {
-				// "attributes": {
-				// "type": "textVariable"
-				// },
 				"name" : "ref",
 				"children" : [ {
 					"name" : "linkedRecordType",
@@ -666,48 +655,6 @@ QUnit.test("testHandleFilesSendingOneFile", function(assert) {
 
 	assert.strictEqual(ajaxCallSpy0.getSpec().data, JSON.stringify(this.data));
 });
-
-// QUnit.test("testHandleFilesCheckCreatedPRepeatingElementSpec", function(assert) {
-// this.dependencies.textProvider = CORATEST.textProviderSpy();
-// this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
-// .getMetadataById("groupIdOneChildOfBinaryRecordLinkChild"));
-// this.spec.cPresentation = CORA.coraData(this.metadataProvider
-// .getMetadataById("myChildOfBinaryPLink"));
-// var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
-// var view = pChildRefHandler.getView();
-// this.fixture.appendChild(view);
-// var factoredView = this.dependencies.pChildRefHandlerViewFactory.getFactored(0);
-//	
-// pChildRefHandler.handleFiles(this.files1);
-//
-// // var ajaxCallSpy0 = this.dependencies.ajaxCallFactory.getFactored(0);
-// // this.assertAjaxCallSpecIsCorrect(assert, ajaxCallSpy0, "image");
-// //
-// // assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, pChildRefHandler.processNewBinary);
-// //
-// // assert.strictEqual(ajaxCallSpy0.getSpec().data, JSON.stringify(this.data));
-// var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
-// var factored = pRepeatingElementFactory.getFactored(0);
-// var factoredSpec = pRepeatingElementFactory.getSpec(0);
-// var path2 = {
-// "name" : "linkedPath",
-// "children" : [ {
-// "name" : "nameInData",
-// "value" : "textVariableId"
-// } ]
-// };
-// var expectedSpec = {
-// "repeatMin" : "1",
-// "repeatMax" : "1",
-// "path" : path2,
-// "pChildRefHandlerView" : factoredView,
-// "isRepeating" : false,
-// "mode" : "input",
-// "pChildRefHandler" : pChildRefHandler,
-// "userCanAddAbove" : false
-// };
-// assert.stringifyEqual(factoredSpec, expectedSpec);
-// });
 
 QUnit.test("testHandleFilesSendingOneBinaryFile",
 		function(assert) {
@@ -778,9 +725,6 @@ QUnit.test("testHandleFilesReceiveAnswerForOneFile", function(assert) {
 	var addData = {
 		"childReference" : {
 			"children" : [ {
-				// "attributes": {
-				// "type": "recordLink"
-				// },
 				"name" : "ref",
 				"children" : [ {
 					"name" : "linkedRecordType",
@@ -1051,13 +995,10 @@ QUnit.test("testAddOneChild", function(assert) {
 		} ]
 	};
 	var expectedSpec = {
-		"repeatMin" : "1",
-		"repeatMax" : "1",
 		"path" : path2,
 		"pChildRefHandlerView" : factoredView,
-		"isRepeating" : false,
-		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanRemove" : false,
 		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
@@ -1098,13 +1039,10 @@ QUnit.test("testAddOneChildModeOutput", function(assert) {
 		} ]
 	};
 	var expectedSpec = {
-		"repeatMin" : "1",
-		"repeatMax" : "1",
 		"path" : path2,
 		"pChildRefHandlerView" : factoredView,
-		"isRepeating" : false,
-		"mode" : "output",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanRemove" : false,
 		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
@@ -1149,13 +1087,10 @@ QUnit.test("testAddOneChildBinary", function(assert) {
 			} ]
 	};
 	var expectedSpec = {
-			"repeatMin" : "0",
-			"repeatMax" : "X",
 			"path" : path2,
 			"pChildRefHandlerView" : factoredView,
-			"isRepeating" : true,
-			"mode" : "input",
 			"pChildRefHandler" : pChildRefHandler,
+			"userCanRemove" : true,
 			"userCanMove" : true,
 			"userCanAddAbove" : false
 	};
@@ -1201,13 +1136,10 @@ QUnit.test("testAddOneChildWithRepeatId", function(assert) {
 	};
 	var factoredSpec = pRepeatingElementFactory.getSpec(0);
 	var expectedSpec = {
-		"repeatMin" : "1",
-		"repeatMax" : "1",
 		"path" : expectedPath,
 		"pChildRefHandlerView" : factoredView,
-		"isRepeating" : false,
-		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanRemove" : false,
 		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
@@ -1254,13 +1186,10 @@ QUnit.test("testAddOneChildWithOneLevelPath", function(assert) {
 
 	var factoredSpec = pRepeatingElementFactory.getSpec(0);
 	var expectedSpec = {
-		"repeatMin" : "1",
-		"repeatMax" : "1",
 		"path" : expectedPath,
 		"pChildRefHandlerView" : factoredView,
-		"isRepeating" : false,
-		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanRemove" : false,
 		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
@@ -1318,13 +1247,10 @@ QUnit.test("testAddOneChildWithTwoLevelPath", function(assert) {
 	};
 	var factoredSpec = pRepeatingElementFactory.getSpec(0);
 	var expectedSpec = {
-		"repeatMin" : "1",
-		"repeatMax" : "1",
 		"path" : expectedPath,
 		"pChildRefHandlerView" : factoredView,
-		"isRepeating" : false,
-		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanRemove" : false,
 		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
@@ -1380,13 +1306,10 @@ QUnit
 						} ]
 					};
 					var expectedSpec = {
-						"repeatMin" : "0",
-						"repeatMax" : "2",
 						"path" : expectedPath,
 						"pChildRefHandlerView" : factoredView,
-						"isRepeating" : true,
-						"mode" : "input",
 						"pChildRefHandler" : pChildRefHandler,
+						"userCanRemove" : true,
 						"userCanMove" : true,
 						"userCanAddAbove" : true
 					};
@@ -1414,7 +1337,6 @@ QUnit.test("testRepeatingElement", function(assert) {
 	var factored = pRepeatingElementFactory.getFactored(0);
 	assert.strictEqual(factoredView.getAddedChild(0), factored.getView());
 
-	// var pRepeatingElementFactory = this.dependencies.pRepeatingElementFactory;
 	var factoredSpec = pRepeatingElementFactory.getSpec(0);
 	var expectedPath = {
 		"name" : "linkedPath",
@@ -1427,13 +1349,10 @@ QUnit.test("testRepeatingElement", function(assert) {
 		} ]
 	};
 	var expectedSpec = {
-		"repeatMin" : "1",
-		"repeatMax" : "3",
 		"path" : expectedPath,
 		"pChildRefHandlerView" : factoredView,
-		"isRepeating" : true,
-		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanRemove" : true,
 		"userCanMove" : true,
 		"userCanAddAbove" : true
 	};
@@ -1489,13 +1408,10 @@ QUnit.test("testRepeatingElementOutputMode", function(assert) {
 		} ]
 	};
 	var expectedSpec = {
-		"repeatMin" : "1",
-		"repeatMax" : "3",
 		"path" : expectedPath,
 		"pChildRefHandlerView" : factoredView,
-		"isRepeating" : true,
-		"mode" : "output",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanRemove" : false,
 		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
@@ -1527,13 +1443,10 @@ QUnit.test("testRepeatingElement0to1", function(assert) {
 		} ]
 	};
 	var expectedSpec = {
-		"repeatMin" : "0",
-		"repeatMax" : "1",
 		"path" : expectedPath,
 		"pChildRefHandlerView" : factoredView,
-		"isRepeating" : false,
-		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanRemove" : true,
 		"userCanMove" : false,
 		"userCanAddAbove" : false
 	};
@@ -1581,13 +1494,10 @@ QUnit.test("testRepeatingElementStaticNoOfChildrenNoAddButton", function(assert)
 		} ]
 	};
 	var expectedSpec = {
-		"repeatMin" : "3",
-		"repeatMax" : "3",
 		"path" : expectedPath,
 		"pChildRefHandlerView" : factoredView,
-		"isRepeating" : true,
-		"mode" : "input",
 		"pChildRefHandler" : pChildRefHandler,
+		"userCanRemove" : false,
 		"userCanMove" : true,
 		"userCanAddAbove" : false
 	};
