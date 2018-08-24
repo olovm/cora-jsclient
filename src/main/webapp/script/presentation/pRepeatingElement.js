@@ -80,14 +80,14 @@ var CORA = (function(cora) {
 				};
 				jsBookkeeper.remove(data);
 			};
-			var removeButton = CORA.gui.createRemoveButton(removeFunction);
-			removeButton.addEventListener("mouseenter", function() {
+			var newRemoveButton = CORA.gui.createRemoveButton(removeFunction);
+			newRemoveButton.addEventListener("mouseenter", function() {
 				view.className = "repeatingElement hoverRemove";
 			});
-			removeButton.addEventListener("mouseleave", function() {
+			newRemoveButton.addEventListener("mouseleave", function() {
 				view.className = "repeatingElement";
 			});
-			return removeButton;
+			return newRemoveButton;
 		}
 
 		function createDragButton() {

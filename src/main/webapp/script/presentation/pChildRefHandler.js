@@ -20,7 +20,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pChildRefHandler = function(dependencies, spec) {
-
+		var out;
 		var userCanUploadFile = false;
 		var userCanRemove = false;
 		var userCanMove = false;
@@ -672,7 +672,7 @@ var CORA = (function(cora) {
 			}
 		}
 
-		var out = Object.freeze({
+		out = Object.freeze({
 			getView : getView,
 			add : add,
 			handleMsg : handleMsg,

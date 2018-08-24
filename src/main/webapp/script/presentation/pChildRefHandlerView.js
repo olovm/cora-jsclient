@@ -294,7 +294,7 @@ var CORA = (function(cora) {
 		function hideChildrensAddAboveButton() {
 			callOnceOnEachRepeatingElement("hideAddAboveButton");
 		}
-		
+
 		function showChildrensAddAboveButton() {
 			callOnceOnEachRepeatingElement("showAddAboveButton");
 		}
