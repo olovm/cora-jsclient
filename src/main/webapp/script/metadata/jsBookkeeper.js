@@ -45,17 +45,20 @@ var CORA = (function(cora) {
 			var initializerSpec = {
 				"metadataId" : ref,
 				"path" : path,
-				"data" : undefined
+				"data" : undefined,
+				"repeatId" : undefined
 			};
-			if (repeatMax === "1") {
-				initializerSpec.repeatId = undefined;
-				CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
-			} else {
+
+			if (repeatMax !== "1") {
 				var startRepeatId = calculateStartRepeatId(currentData.children);
 				initializerSpec.repeatId = String(startRepeatId);
-				CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
-				return String(startRepeatId);
 			}
+			var newPath = calculateNewPath(data.metadataId, data.path, initializerSpec.repeatId);
+			
+			CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
+			
+			return initializerSpec.repeatId;
+
 		}
 
 		function calculateStartRepeatId(dataChildrenForMetadata) {
@@ -90,10 +93,17 @@ var CORA = (function(cora) {
 		}
 
 		function addAbove(data) {
+			// console.log("before addAbove in jsBookkeeper with data:", data)
 			var addedRepeatId = add(data);
+			// console.log("addAbove after add addedRepeatId:", addedRepeatId)
 
 			var newPath = calculateNewPath(data.metadataId, data.path, addedRepeatId);
+			// var newPath = calculatePathForNewRepeatingElement(data.addAbovePath, addedRepeatId);
 
+			// console.log("addAbove after add newPath:", newPath)
+
+			// var newPath2 = JSON.parse(JSON.stringify(data.path));
+			// var parentPath = calculateParentPathFromPath(newPath2);
 			var parentPath = data.path;
 
 			var moveData = {
@@ -103,10 +113,41 @@ var CORA = (function(cora) {
 				"basePositionOnChild" : data.addAbovePath,
 				"newPosition" : "above"
 			};
+			// console.log("addAbove call move with moveData:", JSON.stringify(moveData))
 			move(moveData);
 
 		}
 
+		// function calculatePathForNewRepeatingElement(addAbovePath, addedRepeatId) {
+		// var newPath = JSON.parse(JSON.stringify(addAbovePath));
+		// var lowestPath = findLowestPath(newPath);
+		// var cLowestPath = CORA.coraData(lowestPath);
+		// var lowestRepeatId = cLowestPath.getFirstChildByNameInData("repeatId");
+		// lowestRepeatId.value = addedRepeatId;
+		// return newPath;
+		// }
+
+		// function findLowestPath(pathToSearch) {
+		// var coraPath = CORA.coraData(pathToSearch);
+		// if (coraPath.containsChildWithNameInData("linkedPath")) {
+		// return findLowestPath(coraPath.getFirstChildByNameInData("linkedPath"));
+		// }
+		// return pathToSearch;
+		// }
+
+		// function calculateParentPathFromPath(pathToSearch) {
+		// var coraPath = CORA.coraData(pathToSearch);
+		// if (coraPath.containsChildWithNameInData("linkedPath")) {
+		// var nextLevelDown = coraPath.getFirstChildByNameInData("linkedPath");
+		// if (nextLevelDown.containsChildWithNameInData("linkedPath")) {
+		// return findLowestPath(nextLevelDown);
+		// } else {
+		// pathToSearch.removeChild(nextLevelDown);
+		// return pathToSearch;
+		// }
+		// }
+		// return pathToSearch;
+		// }
 		function calculateNewPath(metadataIdToAdd, parentPath, repeatId) {
 			return calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd,
 					repeatId, parentPath);
