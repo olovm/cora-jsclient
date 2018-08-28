@@ -26,6 +26,8 @@ var CORATEST = (function(coraTest) {
 		var presentationMinimized;
 		var showDragButtonCalled = 0;
 		var hideDragButtonCalled = 0;
+		var showAddAboveButtonCalled = 0;
+		var hideAddAboveButtonCalled = 0;
 		var showRemoveButtonCalled = 0;
 		var hideRemoveButtonCalled = 0;
 		var minimizedDefault;
@@ -74,6 +76,12 @@ var CORATEST = (function(coraTest) {
 		function showDragButton() {
 			showDragButtonCalled++;
 		}
+		function hideAddAboveButton() {
+			hideAddAboveButtonCalled++;
+		}
+		function showAddAboveButton() {
+			showAddAboveButtonCalled++;
+		}
 
 		function getHideRemoveButtonCalled() {
 			return hideRemoveButtonCalled;
@@ -87,6 +95,12 @@ var CORATEST = (function(coraTest) {
 		function getShowDragButtonCalled() {
 			return showDragButtonCalled;
 		}
+		function getHideAddAboveButtonCalled() {
+			return hideAddAboveButtonCalled;
+		}
+		function getShowAddAboveButtonCalled() {
+			return showAddAboveButtonCalled;
+		}
 		var out = ({
 			"type" : "pRepeatingElementSpy",
 			getView : getView,
@@ -98,12 +112,16 @@ var CORATEST = (function(coraTest) {
 			showRemoveButton : showRemoveButton,
 			hideDragButton : hideDragButton,
 			showDragButton : showDragButton,
+			hideAddAboveButton : hideAddAboveButton,
+			showAddAboveButton : showAddAboveButton,
 			getPath : getPath,
 			setPath : setPath,
 			getHideRemoveButtonCalled : getHideRemoveButtonCalled,
 			getShowRemoveButtonCalled : getShowRemoveButtonCalled,
 			getHideDragButtonCalled : getHideDragButtonCalled,
 			getShowDragButtonCalled : getShowDragButtonCalled,
+			getHideAddAboveButtonCalled : getHideAddAboveButtonCalled,
+			getShowAddAboveButtonCalled : getShowAddAboveButtonCalled,
 			getPresentation : getPresentation,
 			getPresentationMinimized : getPresentationMinimized,
 			getMinimizedDefault : getMinimizedDefault

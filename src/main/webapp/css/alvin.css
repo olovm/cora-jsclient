@@ -34,6 +34,12 @@
 	background-color: #7fbfa7;
 }
 
+.editView .presentation .pSurroundingContainer .text.h2TextStyle {
+	background-color: transparent;
+	margin-top: 0px;
+	
+}
+
 .jsClient .sideBar, .showView .presentation .text.h2TextStyle, .showView .presentation .text.h1TextStyle {
 	color: #BF7125;
 }

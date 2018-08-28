@@ -1,6 +1,6 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -21,17 +21,19 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.pRepeatingElement = function(dependencies, spec) {
 		var jsBookkeeper = dependencies.jsBookkeeper;
-		var repeatMin = spec.repeatMin;
-		var repeatMax = spec.repeatMax;
-		var path = spec.path;
-		var parentModelObject = spec.parentModelObject;
 
-		var isRepeating = calculateIsRepeating();
-		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
+		var pChildRefHandler = spec.pChildRefHandler;
+		var pChildRefHandlerView = spec.pChildRefHandlerView;
+		var path = spec.path;
+
+		var userCanRemove = spec.userCanRemove;
+		var userCanMove = spec.userCanMove;
+		var userCanAddAbove = spec.userCanAddAbove;
 
 		var view = createBaseView();
 		var removeButton;
 		var dragButton;
+		var addAboveButton;
 		var alternativePresentation;
 		var defaultPresentation;
 		var alternativeButton;
@@ -39,51 +41,34 @@ var CORA = (function(cora) {
 
 		var buttonView = createButtonView();
 
-		function calculateIsRepeating() {
-			return repeatMax > 1 || repeatMax === "X";
-		}
-
-		function calculateIsStaticNoOfChildren() {
-			return repeatMax === repeatMin;
-		}
-
 		function createBaseView() {
 			var repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");
-			if (spec.mode === "input" && spec.isRepeating) {
+			if (userCanMove) {
 				repeatingElement.ondragenter = ondragenterHandler;
 			}
 			return repeatingElement;
 		}
 
 		function ondragenterHandler() {
-			parentModelObject.setRepeatingElementDragOver(view.modelObject);
-		}
-
-		function addRemoveButton() {
-			return (isRepeating && !isStaticNoOfChildren) || isZeroToOne();
-		}
-
-		function isZeroToOne() {
-			return repeatMin === "0" && repeatMax === "1";
+			pChildRefHandlerView.setRepeatingElementDragOver(view.modelObject);
 		}
 
 		function createButtonView() {
 			var newButtonView = CORA.gui.createSpanWithClassName("buttonView");
 			view.appendChild(newButtonView);
-			if (spec.mode === "input" && addRemoveButton()) {
+			if (userCanRemove) {
 				removeButton = createRemoveButton();
 				newButtonView.appendChild(removeButton);
-				removeButton.addEventListener("mouseenter", function() {
-					view.className = "repeatingElement hoverRemove";
-				});
-				removeButton.addEventListener("mouseleave", function() {
-					view.className = "repeatingElement";
-				});
 			}
-			if (spec.mode === "input" && isRepeating) {
+			if (userCanMove) {
 				dragButton = createDragButton();
 				newButtonView.appendChild(dragButton);
 			}
+			if (userCanAddAbove) {
+				addAboveButton = createAddAboveButton();
+				newButtonView.appendChild(addAboveButton);
+			}
+
 			return newButtonView;
 		}
 
@@ -95,7 +80,14 @@ var CORA = (function(cora) {
 				};
 				jsBookkeeper.remove(data);
 			};
-			return CORA.gui.createRemoveButton(removeFunction);
+			var newRemoveButton = CORA.gui.createRemoveButton(removeFunction);
+			newRemoveButton.addEventListener("mouseenter", function() {
+				view.className = "repeatingElement hoverRemove";
+			});
+			newRemoveButton.addEventListener("mouseleave", function() {
+				view.className = "repeatingElement";
+			});
+			return newRemoveButton;
 		}
 
 		function createDragButton() {
@@ -107,6 +99,22 @@ var CORA = (function(cora) {
 				view.draggable = undefined;
 			};
 			return createdDragButton;
+		}
+
+		function createAddAboveButton() {
+			var addAboveFunction = function() {
+				var data = {
+					"path" : path
+				};
+				pChildRefHandler.sendAddAbove(data);
+			};
+			var buttonSpec = {
+				"className" : "iconButton addAboveButton",
+				action : {
+					method : addAboveFunction
+				}
+			};
+			return CORA.gui.button(buttonSpec);
 		}
 
 		function getView() {
@@ -147,7 +155,7 @@ var CORA = (function(cora) {
 			alternativeButton.onclick = function() {
 				toggleDefaultShown("false");
 			};
-			if (dragButton !== undefined) {
+			if (userCanMove) {
 				buttonView.insertBefore(alternativeButton, dragButton);
 			} else {
 				buttonView.appendChild(alternativeButton);
@@ -157,7 +165,7 @@ var CORA = (function(cora) {
 			defaultButton.onclick = function() {
 				toggleDefaultShown("true");
 			};
-			if (dragButton !== undefined) {
+			if (userCanMove) {
 				buttonView.insertBefore(defaultButton, dragButton);
 			} else {
 				buttonView.appendChild(defaultButton);
@@ -190,6 +198,14 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function hideAddAboveButton() {
+			hide(addAboveButton);
+		}
+
+		function showAddAboveButton() {
+			show(addAboveButton);
+		}
+
 		function getPath() {
 			return path;
 		}
@@ -212,6 +228,8 @@ var CORA = (function(cora) {
 			showRemoveButton : showRemoveButton,
 			hideDragButton : hideDragButton,
 			showDragButton : showDragButton,
+			hideAddAboveButton : hideAddAboveButton,
+			showAddAboveButton : showAddAboveButton,
 			getPath : getPath
 		});
 

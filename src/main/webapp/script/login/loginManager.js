@@ -16,6 +16,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
+var addStandardAppTokensToLoginMenu = false;
 var CORA = (function(cora) {
 	"use strict";
 	cora.loginManager = function(dependencies, spec) {
@@ -23,22 +24,27 @@ var CORA = (function(cora) {
 		var loginManagerView;
 		var authInfo;
 		var createdWebRedirectLogin;
-		var loginOptions = [ {
-			"text" : "appToken as 141414",
-			"type" : "appTokenLogin",
-			"userId" : "141414",
-			"appToken" : "63e6bd34-02a1-4c82-8001-158c104cae0e"
-		}, {
-			"text" : "appToken as 151515 alvin",
-			"type" : "appTokenLogin",
-			"userId" : "151515",
-			"appToken" : "63ef81cd-1d88-4a6a-aff0-f0d809a74d34"
-		}, {
-			"text" : "appToken as 161616 diva",
-			"type" : "appTokenLogin",
-			"userId" : "161616",
-			"appToken" : "f7973be9-02e0-4c42-979b-09e42372a02a"
-		} ];
+		var loginOptions = [];
+		if (addStandardAppTokensToLoginMenu) {
+			loginOptions.push({
+				"text" : "appToken as 141414",
+				"type" : "appTokenLogin",
+				"userId" : "141414",
+				"appToken" : "63e6bd34-02a1-4c82-8001-158c104cae0e"
+			});
+			loginOptions.push({
+				"text" : "appToken as 151515 alvin",
+				"type" : "appTokenLogin",
+				"userId" : "151515",
+				"appToken" : "63ef81cd-1d88-4a6a-aff0-f0d809a74d34"
+			});
+			loginOptions.push({
+				"text" : "appToken as 161616 diva",
+				"type" : "appTokenLogin",
+				"userId" : "161616",
+				"appToken" : "f7973be9-02e0-4c42-979b-09e42372a02a"
+			});
+		}
 		var loginOrigin;
 
 		var logins = {};

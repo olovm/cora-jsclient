@@ -1,6 +1,6 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -20,6 +20,12 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pChildRefHandler = function(dependencies, spec) {
+		var out;
+		var userCanUploadFile = false;
+		var userCanRemove = false;
+		var userCanMove = false;
+		var userCanAddAbove = false;
+
 		var metadataHelper = CORA.metadataHelper({
 			"metadataProvider" : dependencies.metadataProvider
 		});
@@ -42,6 +48,7 @@ var CORA = (function(cora) {
 
 		var isRepeating = calculateIsRepeating();
 		var isStaticNoOfChildren = calculateIsStaticNoOfChildren();
+		var isZeroToOne = calculateIsZeroToOne();
 
 		var noOfRepeating = 0;
 		var metadataHasAttributes = hasAttributes();
@@ -58,6 +65,49 @@ var CORA = (function(cora) {
 
 		var numberOfFilesToUpload = 0;
 		var numberOfRecordsForFilesCreated = 0;
+
+		function start() {
+			userCanUploadFile = showFileUpload();
+			userCanRemove = calculateUserCanRemove();
+			userCanMove = calculateUserCanMove();
+			userCanAddAbove = calculateUserCanAddAbove();
+		}
+
+		function calculateUserCanRemove() {
+			if (spec.mode !== "input") {
+				return false;
+			}
+			if (isStaticNoOfChildren) {
+				return false;
+			}
+			return true;
+		}
+
+		function calculateUserCanMove() {
+			if (spec.mode !== "input") {
+				return false;
+			}
+			if (!isRepeating) {
+				return false;
+			}
+			return true;
+		}
+
+		function calculateUserCanAddAbove() {
+			if (spec.mode !== "input") {
+				return false;
+			}
+			if (isStaticNoOfChildren) {
+				return false;
+			}
+			if (isZeroToOne) {
+				return false;
+			}
+			if (userCanUploadFile) {
+				return false;
+			}
+			return true;
+		}
 
 		function childRefFoundInCurrentlyUsedParentMetadata() {
 			return cParentMetadataChildRefPart.getData() === undefined;
@@ -134,16 +184,16 @@ var CORA = (function(cora) {
 		}
 
 		function showAddButton() {
-			return (isRepeating && !isStaticNoOfChildren) || isZeroToOne();
+			return (isRepeating && !isStaticNoOfChildren) || calculateIsZeroToOne();
 		}
 
-		function isZeroToOne() {
+		function calculateIsZeroToOne() {
 			return repeatMin === "0" && repeatMax === "1";
 		}
 
 		function showFileUpload() {
 			if (currentChildRefIsRecordLink() && currentChildRefHasLinkedRecordType()) {
-				return checkIfBinaryOrChildOfBinary();
+				return calculateIfBinaryOrChildOfBinary();
 			}
 			return false;
 		}
@@ -165,7 +215,7 @@ var CORA = (function(cora) {
 			return cMetadataElement.containsChildWithNameInData("linkedRecordType");
 		}
 
-		function checkIfBinaryOrChildOfBinary() {
+		function calculateIfBinaryOrChildOfBinary() {
 			var cRecordType = getLinkedRecordType();
 			var cRecordInfo = CORA.coraData(cRecordType.getFirstChildByNameInData("recordInfo"));
 			return isBinaryOrChildOfBinary(cRecordInfo, cRecordType);
@@ -275,12 +325,12 @@ var CORA = (function(cora) {
 
 		function createRepeatingElement(path) {
 			var repeatingElementSpec = {
-				"repeatMin" : repeatMin,
-				"repeatMax" : repeatMax,
 				"path" : path,
-				"parentModelObject" : pChildRefHandlerView,
-				"isRepeating" : isRepeating,
-				"mode" : spec.mode
+				"pChildRefHandlerView" : pChildRefHandlerView,
+				"pChildRefHandler" : out,
+				 "userCanRemove" : userCanRemove,
+				"userCanMove" : userCanMove,
+				"userCanAddAbove" : userCanAddAbove
 			};
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}
@@ -340,7 +390,7 @@ var CORA = (function(cora) {
 		function updateView() {
 			if (spec.mode === "input") {
 				if (showAddButton()) {
-					updateButtonViewVisibility();
+					updateButtonViewAndAddAboveButtonVisibility();
 					updateChildrenRemoveButtonVisibility();
 				}
 				if (isRepeating) {
@@ -372,11 +422,17 @@ var CORA = (function(cora) {
 			return noOfRepeating > 1;
 		}
 
-		function updateButtonViewVisibility() {
+		function updateButtonViewAndAddAboveButtonVisibility() {
 			if (maxLimitOfChildrenReached()) {
 				pChildRefHandlerView.hideButtonView();
+				if (userCanAddAbove) {
+					pChildRefHandlerView.hideChildrensAddAboveButton();
+				}
 			} else {
 				pChildRefHandlerView.showButtonView();
+				if (userCanAddAbove) {
+					pChildRefHandlerView.showChildrensAddAboveButton();
+				}
 			}
 		}
 
@@ -385,6 +441,12 @@ var CORA = (function(cora) {
 		}
 
 		function sendAdd() {
+			var data = createAddData();
+			var createdRepeatId = dependencies.jsBookkeeper.add(data);
+			sendInitComplete();
+			return createdRepeatId;
+		}
+		function createAddData() {
 			var data = {
 				"metadataId" : metadataId,
 				"path" : spec.parentPath,
@@ -394,9 +456,7 @@ var CORA = (function(cora) {
 			if (metadataHasAttributes) {
 				data.attributes = collectedAttributes;
 			}
-			var createdRepeatId = dependencies.jsBookkeeper.add(data);
-			sendInitComplete();
-			return createdRepeatId;
+			return data;
 		}
 
 		function sendInitComplete() {
@@ -404,6 +464,13 @@ var CORA = (function(cora) {
 				"data" : "",
 				"path" : {}
 			});
+		}
+
+		function sendAddAbove(dataFromPRepeatingElement) {
+			var data = createAddData();
+			data.addAbovePath = dataFromPRepeatingElement.path;
+			dependencies.jsBookkeeper.addAbove(data);
+			sendInitComplete();
 		}
 
 		function childMoved(moveInfo) {
@@ -605,13 +672,14 @@ var CORA = (function(cora) {
 			}
 		}
 
-		var out = Object.freeze({
+		out = Object.freeze({
 			getView : getView,
 			add : add,
 			handleMsg : handleMsg,
 			isRepeating : isRepeating,
 			isStaticNoOfChildren : isStaticNoOfChildren,
 			sendAdd : sendAdd,
+			sendAddAbove : sendAddAbove,
 			childRemoved : childRemoved,
 			childMoved : childMoved,
 			handleFiles : handleFiles,
@@ -619,7 +687,9 @@ var CORA = (function(cora) {
 			initComplete : initComplete
 		});
 
+		start();
 		pChildRefHandlerView.getView().modelObject = out;
+
 		return out;
 	};
 

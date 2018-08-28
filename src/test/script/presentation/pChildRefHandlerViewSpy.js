@@ -30,6 +30,10 @@ var CORATEST = (function(coraTest) {
 		var hideChildrensRemoveButtonCalled = 0;
 		var showChildrensDragButtonCalled = 0;
 		var hideChildrensDragButtonCalled = 0;
+		var showChildrensAddAboveButtonCalled = 0;
+		var hideChildrensAddAboveButtonCalled = 0;
+
+		var repeatingElementDragOver;
 
 		function getView() {
 			return view;
@@ -100,6 +104,26 @@ var CORATEST = (function(coraTest) {
 		function getHideChildrensDragButtonCalled() {
 			return hideChildrensDragButtonCalled;
 		}
+		
+		function showChildrensAddAboveButton() {
+			showChildrensAddAboveButtonCalled++;
+		}
+		function getShowChildrensAddAboveButtonCalled() {
+			return showChildrensAddAboveButtonCalled;
+		}
+		function hideChildrensAddAboveButton() {
+			hideChildrensAddAboveButtonCalled++;
+		}
+		function getHideChildrensAddAboveButtonCalled() {
+			return hideChildrensAddAboveButtonCalled;
+		}
+
+		function setRepeatingElementDragOver(element) {
+			repeatingElementDragOver = element;
+		}
+		function getRepeatingElementDragOver() {
+			return repeatingElementDragOver;
+		}
 
 		var out = Object.freeze({
 			"type" : "pChildRefHandlerViewSpy",
@@ -123,7 +147,13 @@ var CORATEST = (function(coraTest) {
 			hideChildrensDragButton : hideChildrensDragButton,
 			getHideChildrensDragButtonCalled : getHideChildrensDragButtonCalled,
 			showChildrensDragButton : showChildrensDragButton,
-			getShowChildrensDragButtonCalled : getShowChildrensDragButtonCalled
+			getShowChildrensDragButtonCalled : getShowChildrensDragButtonCalled,
+			hideChildrensAddAboveButton : hideChildrensAddAboveButton,
+			getHideChildrensAddAboveButtonCalled : getHideChildrensAddAboveButtonCalled,
+			showChildrensAddAboveButton : showChildrensAddAboveButton,
+			getShowChildrensAddAboveButtonCalled : getShowChildrensAddAboveButtonCalled,
+			setRepeatingElementDragOver : setRepeatingElementDragOver,
+			getRepeatingElementDragOver : getRepeatingElementDragOver
 		});
 		return out;
 	};

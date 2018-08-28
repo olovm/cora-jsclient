@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -38,7 +38,7 @@ var CORA = (function(cora) {
 			var repeatMax = cChildReference.getFirstAtomicValueByNameInData('repeatMax');
 
 			var initializerDep = {
-				"recordTypeProvider" :dependencies.recordTypeProvider,
+				"recordTypeProvider" : dependencies.recordTypeProvider,
 				"metadataProvider" : spec.metadataProvider,
 				"pubSub" : spec.pubSub
 			};
@@ -48,19 +48,18 @@ var CORA = (function(cora) {
 				"data" : undefined
 			};
 			if (repeatMax === "1") {
-				initializerSpec.repeatId =  undefined;
+				initializerSpec.repeatId = undefined;
 				CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
 			} else {
 				var startRepeatId = calculateStartRepeatId(currentData.children);
-				initializerSpec.repeatId =  String(startRepeatId);
+				initializerSpec.repeatId = String(startRepeatId);
 				CORA.metadataRepeatInitializer(initializerDep, initializerSpec);
 				return String(startRepeatId);
 			}
 		}
 
 		function calculateStartRepeatId(dataChildrenForMetadata) {
-			var generatedRepeatId = calculateStartRepeatIdFromData(dataChildrenForMetadata);
-			return generatedRepeatId;
+			return calculateStartRepeatIdFromData(dataChildrenForMetadata);
 		}
 
 		function calculateStartRepeatIdFromData(dataChildrenForMetadata) {
@@ -90,6 +89,40 @@ var CORA = (function(cora) {
 			pubSub.publish("move", data);
 		}
 
+		function addAbove(data) {
+			var addedRepeatId = add(data);
+
+			var newPath = calculateNewPath(data.metadataId, data.path, addedRepeatId);
+
+			var parentPath = data.path;
+
+			var moveData = {
+				"path" : parentPath,
+				"metadataId" : data.metadataId,
+				"moveChild" : newPath,
+				"basePositionOnChild" : data.addAbovePath,
+				"newPosition" : "above"
+			};
+			move(moveData);
+
+		}
+
+		function calculateNewPath(metadataIdToAdd, parentPath, repeatId) {
+			return calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd,
+					repeatId, parentPath);
+		}
+
+		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
+				parentPath) {
+			var pathSpec = {
+				"metadataProvider" : spec.metadataProvider,
+				"metadataIdToAdd" : metadataIdToAdd,
+				"repeatId" : repeatId,
+				"parentPath" : parentPath
+			};
+			return CORA.calculatePathForNewElement(pathSpec);
+		}
+
 		function getSpec() {
 			return spec;
 		}
@@ -105,7 +138,8 @@ var CORA = (function(cora) {
 			setValue : setValue,
 			add : add,
 			remove : remove,
-			move : move
+			move : move,
+			addAbove : addAbove
 		});
 	};
 	return cora;

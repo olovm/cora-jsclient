@@ -23,7 +23,8 @@ QUnit
 				"loginManagerTest.js",
 				{
 					beforeEach : function() {
-						this.loginOption;
+						addStandardAppTokensToLoginMenu = true;
+							this.loginOption;
 						this.getAddedWindowEvents = function() {
 							return addedEvents;
 						};
@@ -189,6 +190,7 @@ QUnit
 		.test(
 				"testAnswerForLoginUnits",
 				function(assert) {
+					this.loginManager = CORA.loginManager(this.dependencies, this.spec);
 					var loginManager = this.loginManager;
 					var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
 					this.answerListLoginUnitsCall(0);
@@ -212,6 +214,29 @@ QUnit
 								"userId" : "161616",
 								"appToken" : "f7973be9-02e0-4c42-979b-09e42372a02a"
 							},
+							{
+								text : "translated_uuLoginUnitText",
+								type : "webRedirect",
+								url : "https://epc.ub.uu.se/Shibboleth.sso/Login/uu?target=https://epc.ub.uu.se/idplogin/login"
+							},
+							{
+								text : "translated_testLoginUnitText",
+								type : "webRedirect",
+								url : "https://epc.ub.uu.se/Shibboleth.sso/Login/test?target=https://epc.ub.uu.se/idplogin/login"
+							} ];
+					assert.stringifyEqual(factoredView.getLoginOptions(), expectedLoginOptions);
+				});
+QUnit
+		.test(
+				"testAnswerForLoginUnitsWithoutStandardApptokenLogins",
+				function(assert) {
+					addStandardAppTokensToLoginMenu = false;
+					this.loginManager = CORA.loginManager(this.dependencies, this.spec);
+					var loginManager = this.loginManager;
+					var factoredView = this.dependencies.loginManagerViewFactory.getFactored(1);
+					this.answerListLoginUnitsCall(2);
+					this.answerListLoginsCall(3);
+					var expectedLoginOptions = [
 							{
 								text : "translated_uuLoginUnitText",
 								type : "webRedirect",
