@@ -28,12 +28,12 @@ var CORA = (function(cora) {
 
 		var userCanRemove = spec.userCanRemove;
 		var userCanMove = spec.userCanMove;
-		var userCanAddAbove = spec.userCanAddAbove;
+		var userCanAddBefore = spec.userCanAddBefore;
 
 		var view = createBaseView();
 		var removeButton;
 		var dragButton;
-		var addAboveButton;
+		var addBeforeButton;
 		var alternativePresentation;
 		var defaultPresentation;
 		var alternativeButton;
@@ -64,9 +64,9 @@ var CORA = (function(cora) {
 				dragButton = createDragButton();
 				newButtonView.appendChild(dragButton);
 			}
-			if (userCanAddAbove) {
-				addAboveButton = createAddAboveButton();
-				newButtonView.appendChild(addAboveButton);
+			if (userCanAddBefore) {
+				addBeforeButton = createAddBeforeButton();
+				newButtonView.appendChild(addBeforeButton);
 			}
 
 			return newButtonView;
@@ -101,17 +101,17 @@ var CORA = (function(cora) {
 			return createdDragButton;
 		}
 
-		function createAddAboveButton() {
-			var addAboveFunction = function() {
+		function createAddBeforeButton() {
+			var addBeforeFunction = function() {
 				var data = {
 					"path" : path
 				};
-				pChildRefHandler.sendAddAbove(data);
+				pChildRefHandler.sendAddBefore(data);
 			};
 			var buttonSpec = {
-				"className" : "iconButton addAboveButton",
+				"className" : "iconButton addBeforeButton",
 				action : {
-					method : addAboveFunction
+					method : addBeforeFunction
 				}
 			};
 			return CORA.gui.button(buttonSpec);
@@ -198,12 +198,12 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function hideAddAboveButton() {
-			hide(addAboveButton);
+		function hideAddBeforeButton() {
+			hide(addBeforeButton);
 		}
 
-		function showAddAboveButton() {
-			show(addAboveButton);
+		function showAddBeforeButton() {
+			show(addBeforeButton);
 		}
 
 		function getPath() {
@@ -228,8 +228,8 @@ var CORA = (function(cora) {
 			showRemoveButton : showRemoveButton,
 			hideDragButton : hideDragButton,
 			showDragButton : showDragButton,
-			hideAddAboveButton : hideAddAboveButton,
-			showAddAboveButton : showAddAboveButton,
+			hideAddBeforeButton : hideAddBeforeButton,
+			showAddBeforeButton : showAddBeforeButton,
 			getPath : getPath
 		});
 

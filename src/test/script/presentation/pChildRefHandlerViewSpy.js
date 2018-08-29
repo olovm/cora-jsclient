@@ -30,8 +30,8 @@ var CORATEST = (function(coraTest) {
 		var hideChildrensRemoveButtonCalled = 0;
 		var showChildrensDragButtonCalled = 0;
 		var hideChildrensDragButtonCalled = 0;
-		var showChildrensAddAboveButtonCalled = 0;
-		var hideChildrensAddAboveButtonCalled = 0;
+		var showChildrensAddBeforeButtonCalled = 0;
+		var hideChildrensAddBeforeButtonCalled = 0;
 
 		var repeatingElementDragOver;
 
@@ -105,17 +105,17 @@ var CORATEST = (function(coraTest) {
 			return hideChildrensDragButtonCalled;
 		}
 		
-		function showChildrensAddAboveButton() {
-			showChildrensAddAboveButtonCalled++;
+		function showChildrensAddBeforeButton() {
+			showChildrensAddBeforeButtonCalled++;
 		}
-		function getShowChildrensAddAboveButtonCalled() {
-			return showChildrensAddAboveButtonCalled;
+		function getShowChildrensAddBeforeButtonCalled() {
+			return showChildrensAddBeforeButtonCalled;
 		}
-		function hideChildrensAddAboveButton() {
-			hideChildrensAddAboveButtonCalled++;
+		function hideChildrensAddBeforeButton() {
+			hideChildrensAddBeforeButtonCalled++;
 		}
-		function getHideChildrensAddAboveButtonCalled() {
-			return hideChildrensAddAboveButtonCalled;
+		function getHideChildrensAddBeforeButtonCalled() {
+			return hideChildrensAddBeforeButtonCalled;
 		}
 
 		function setRepeatingElementDragOver(element) {
@@ -148,10 +148,10 @@ var CORATEST = (function(coraTest) {
 			getHideChildrensDragButtonCalled : getHideChildrensDragButtonCalled,
 			showChildrensDragButton : showChildrensDragButton,
 			getShowChildrensDragButtonCalled : getShowChildrensDragButtonCalled,
-			hideChildrensAddAboveButton : hideChildrensAddAboveButton,
-			getHideChildrensAddAboveButtonCalled : getHideChildrensAddAboveButtonCalled,
-			showChildrensAddAboveButton : showChildrensAddAboveButton,
-			getShowChildrensAddAboveButtonCalled : getShowChildrensAddAboveButtonCalled,
+			hideChildrensAddBeforeButton : hideChildrensAddBeforeButton,
+			getHideChildrensAddBeforeButtonCalled : getHideChildrensAddBeforeButtonCalled,
+			showChildrensAddBeforeButton : showChildrensAddBeforeButton,
+			getShowChildrensAddBeforeButtonCalled : getShowChildrensAddBeforeButtonCalled,
 			setRepeatingElementDragOver : setRepeatingElementDragOver,
 			getRepeatingElementDragOver : getRepeatingElementDragOver
 		});

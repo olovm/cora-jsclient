@@ -89,7 +89,7 @@ var CORA = (function(cora) {
 			pubSub.publish("move", data);
 		}
 
-		function addAbove(data) {
+		function addBefore(data) {
 			var addedRepeatId = add(data);
 
 			var newPath = calculateNewPath(data.metadataId, data.path, addedRepeatId);
@@ -100,8 +100,8 @@ var CORA = (function(cora) {
 				"path" : parentPath,
 				"metadataId" : data.metadataId,
 				"moveChild" : newPath,
-				"basePositionOnChild" : data.addAbovePath,
-				"newPosition" : "above"
+				"basePositionOnChild" : data.addBeforePath,
+				"newPosition" : "before"
 			};
 			move(moveData);
 
@@ -139,7 +139,7 @@ var CORA = (function(cora) {
 			add : add,
 			remove : remove,
 			move : move,
-			addAbove : addAbove
+			addBefore : addBefore
 		});
 	};
 	return cora;

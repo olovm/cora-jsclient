@@ -172,11 +172,11 @@ img {
 	cursor: move;
 }
 
-.addAboveButton::before {
+.addBeforeButton::before {
 	background-position: -273px -32px;
 }
 
-.addAboveButton::after {
+.addBeforeButton::after {
 	background-position: -273px -16px;
 }
 

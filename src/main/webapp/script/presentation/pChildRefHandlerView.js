@@ -291,12 +291,12 @@ var CORA = (function(cora) {
 			callOnceOnEachRepeatingElement("showDragButton");
 		}
 
-		function hideChildrensAddAboveButton() {
-			callOnceOnEachRepeatingElement("hideAddAboveButton");
+		function hideChildrensAddBeforeButton() {
+			callOnceOnEachRepeatingElement("hideAddBeforeButton");
 		}
 
-		function showChildrensAddAboveButton() {
-			callOnceOnEachRepeatingElement("showAddAboveButton");
+		function showChildrensAddBeforeButton() {
+			callOnceOnEachRepeatingElement("showAddBeforeButton");
 		}
 
 		var out = Object.freeze({
@@ -310,8 +310,8 @@ var CORA = (function(cora) {
 			showChildrensRemoveButton : showChildrensRemoveButton,
 			hideChildrensDragButton : hideChildrensDragButton,
 			showChildrensDragButton : showChildrensDragButton,
-			hideChildrensAddAboveButton : hideChildrensAddAboveButton,
-			showChildrensAddAboveButton : showChildrensAddAboveButton,
+			hideChildrensAddBeforeButton : hideChildrensAddBeforeButton,
+			showChildrensAddBeforeButton : showChildrensAddBeforeButton,
 			dragstartHandler : dragstartHandler,
 			dragoverHandler : dragoverHandler,
 			dragenterHandler : dragenterHandler,

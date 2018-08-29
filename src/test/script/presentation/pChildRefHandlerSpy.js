@@ -26,7 +26,7 @@ var CORATEST = (function(coraTest) {
 		var view = CORA.gui.createSpanWithClassName("pChildRefHandlerSpyView");
 		var state;
 		var value;
-		var sendAddAboveDataArray = [];
+		var sendAddBeforeDataArray = [];
 
 		function getView() {
 			return view;
@@ -49,11 +49,11 @@ var CORATEST = (function(coraTest) {
 		function sendAdd() {
 		}
 
-		function sendAddAbove(data) {
-			sendAddAboveDataArray.push(data);
+		function sendAddBefore(data) {
+			sendAddBeforeDataArray.push(data);
 		}
-		function getSendAddAboveDataArray() {
-			return sendAddAboveDataArray;
+		function getSendAddBeforeDataArray() {
+			return sendAddBeforeDataArray;
 		}
 
 		function childRemoved() {
@@ -75,8 +75,8 @@ var CORATEST = (function(coraTest) {
 			isRepeating : isRepeating,
 			isStaticNoOfChildren : isStaticNoOfChildren,
 			sendAdd : sendAdd,
-			sendAddAbove : sendAddAbove,
-			getSendAddAboveDataArray : getSendAddAboveDataArray,
+			sendAddBefore : sendAddBefore,
+			getSendAddBeforeDataArray : getSendAddBeforeDataArray,
 			childRemoved : childRemoved,
 			childMoved : childMoved,
 			handleFiles : handleFiles,

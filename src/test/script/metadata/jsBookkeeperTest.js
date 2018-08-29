@@ -302,7 +302,7 @@ QUnit.test("testAddRepeating", function(assert) {
 	assert.equal(messages.length, 1);
 	assert.strictEqual(calculatedRepeatId, "3");
 });
-QUnit.test("testAddAbove", function(assert) {
+QUnit.test("testAddBefore", function(assert) {
 	var currentData = {
 		"name" : "textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
 		"children" : [ {
@@ -418,7 +418,7 @@ QUnit.test("testAddAbove", function(assert) {
 				"value" : "3"
 			} ]
 		},
-		addAbovePath : {
+		addBeforePath : {
 			"name" : "linkedPath",
 			"children" : [ {
 				"name" : "nameInData",
@@ -448,25 +448,11 @@ QUnit.test("testAddAbove", function(assert) {
 					"name" : "repeatId",
 					"value" : "one"
 				}
-				// , {
-				// "name" : "attributes",
-				// "children" : [ {
-				// "name" : "attribute",
-				// "repeatId" : "1",
-				// "children" : [ {
-				// "name" : "attributeName",
-				// "value" : "anAttribute"
-				// }, {
-				// "name" : "attributeValue",
-				// "value" : "aFinalValue"
-				// } ]
-				// } ]
-				// }
 				]
 			} ]
 		}
 	};
-	var calculatedRepeatId = jsBookkeeper.addAbove(data);
+	var calculatedRepeatId = jsBookkeeper.addBefore(data);
 	var messages = this.pubSub.getMessages();
 	var expectedMessage = {
 		"type" : "add",
@@ -592,7 +578,7 @@ QUnit.test("testAddAbove", function(assert) {
 					} ]
 				} ]
 			},
-			"newPosition" : "above"
+			"newPosition" : "before"
 		}
 	};
 	assert.stringifyEqual(messages[1], expectedMessage2);
