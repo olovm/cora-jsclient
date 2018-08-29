@@ -80,6 +80,7 @@ var CORA = (function(cora) {
 			var childDependencies = {
 				"providers" : dependencies.providers,
 				"globalFactories" : dependencies.globalFactories,
+				"infoFactory" : infoFactory,
 				"clientInstanceProvider" : dependencies.providers.clientInstanceProvider,
 				"metadataProvider" : dependencies.providers.metadataProvider,
 				"pubSub" : dependencies.pubSub,

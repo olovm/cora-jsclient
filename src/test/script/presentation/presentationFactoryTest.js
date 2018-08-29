@@ -116,6 +116,7 @@ QUnit.test("testFactorPGroupDependencies", function(assert) {
 	assert.strictEqual(dependencies.pNonRepeatingChildRefHandlerFactory.type, "genericFactory");
 	assert.strictEqual(dependencies.pNonRepeatingChildRefHandlerFactory.getTypeToFactor(),
 			"pNonRepeatingChildRefHandler");
+	assert.strictEqual(dependencies.infoFactory.type, "infoFactory");
 });
 
 QUnit.test("testFactorPChildRefHandlerDependencies", function(assert) {
@@ -136,6 +137,7 @@ QUnit.test("testFactorPChildRefHandlerDependencies", function(assert) {
 	assert.strictEqual(dependencies.pChildRefHandlerViewFactory.getTypeToFactor(),
 			"pChildRefHandlerView");
 	assert.strictEqual(dependencies.dataDivider, this.dependencies.dataDivider);
+	
 });
 
 QUnit
