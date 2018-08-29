@@ -1,5 +1,6 @@
 /*
  * Copyright 2018 Uppsala University Library
+ * Copyright 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -21,7 +22,7 @@ var CORA = (function(cora) {
 	cora.pMap = function(dependencies, spec) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
-		
+
 		var view;
 		var cPresentation = spec.cPresentation;
 		var presentationId;
@@ -51,7 +52,7 @@ var CORA = (function(cora) {
 
 			addInfoToView();
 		}
-		
+
 		function getMetadataById(id) {
 			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
@@ -91,26 +92,28 @@ var CORA = (function(cora) {
 				}, {
 					"className" : "defTextView",
 					"text" : defText
-				} ]
-			"level2" : [ {
-				"className" : "textIdView",
-				"text" : "textId: " + textId
-			}, {
-				"className" : "defTextIdView",
-				"text" : "defTextId: " + defTextId
-			}
-//			, {
-//				"className" : "metadataIdView",
-//				"text" : "metadataId: " + my.metadataId
-//			}, {
-//				"className" : "technicalView",
-//				"text" : "nameInData: " + nameInData
-//			}, {
-//				"className" : "technicalView",
-//				"text" : "presentationId: " + getPresentationId()
-//			}
-			]
-			};
+				} ],
+				"level2" : [ {
+					"className" : "textIdView",
+					"text" : "textId: " + textId
+				}, {
+					"className" : "defTextIdView",
+					"text" : "defTextId: " + defTextId
+				}
+				 , {
+				 "className" : "metadataIdView",
+				 "text" : "metadataId: " + metadataId
+				 }
+				 , {
+				 "className" : "technicalView",
+				 "text" : "nameInData: " + nameInData
+				 }
+				 , {
+				 "className" : "technicalView",
+				 "text" : "presentationId: " + presentationId
+				 }
+				]
+			}; 
 			// possiblyAddLevel2Info(infoSpec);
 
 			var newInfo = dependencies.infoFactory.factor(infoSpec);

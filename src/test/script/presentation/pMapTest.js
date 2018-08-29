@@ -1,5 +1,6 @@
 /*
  * Copyright 2018 Uppsala University Library
+ * Copyright 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -151,22 +152,20 @@ QUnit.test("testInitInfo", function(assert) {
 		} ],
 		"level2" : [ {
 			"className" : "textIdView",
-			"text" : "textId: " + textId
+			"text" : "textId: coordinatesGroupText"
 		}, {
 			"className" : "defTextIdView",
-			"text" : "defTextId: " + defTextId
-		}
-//		, {
-//			"className" : "metadataIdView",
-//			"text" : "metadataId: " + my.metadataId
-//		}, {
-//			"className" : "technicalView",
-//			"text" : "nameInData: " + nameInData
-//		}, {
-//			"className" : "technicalView",
-//			"text" : "presentationId: " + getPresentationId()
-//		}
-		]
+			"text" : "defTextId: coordinatesGroupDefText"
+		}, {
+			"className" : "metadataIdView",
+			"text" : "metadataId: coordinatesGroup"
+		}, {
+			"className" : "technicalView",
+			"text" : "nameInData: coordinates"
+		}, {
+			"className" : "technicalView",
+			"text" : "presentationId: coordinatesPGroup" 
+		} ],
 		"insertAfter" : infoButton
 	};
 	var spec = {
