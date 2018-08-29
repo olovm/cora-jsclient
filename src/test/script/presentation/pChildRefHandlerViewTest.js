@@ -232,7 +232,7 @@ QUnit.test("testShowAndHideChildrensDragButton", function(assert) {
 	assert.strictEqual(childElement2.getShowDragButtonCalled(), 1);
 });
 
-QUnit.test("testShowAndHideChildrensAddAboveButton", function(assert) {
+QUnit.test("testShowAndHideChildrensAddBeforeButton", function(assert) {
 	var pChildRefHandlerViewSpec = {
 			"presentationId" : "pVarTextVariableId"
 	};
@@ -250,24 +250,24 @@ QUnit.test("testShowAndHideChildrensAddAboveButton", function(assert) {
 	var childElement2 = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
 	pChildRefHandlerView.addChild(childElement2.getView());
 	
-	assert.strictEqual(childElement.getHideAddAboveButtonCalled(), 0);
-	assert.strictEqual(childElement.getShowAddAboveButtonCalled(), 0);
-	assert.strictEqual(childElement2.getHideAddAboveButtonCalled(), 0);
-	assert.strictEqual(childElement2.getShowAddAboveButtonCalled(), 0);
+	assert.strictEqual(childElement.getHideAddBeforeButtonCalled(), 0);
+	assert.strictEqual(childElement.getShowAddBeforeButtonCalled(), 0);
+	assert.strictEqual(childElement2.getHideAddBeforeButtonCalled(), 0);
+	assert.strictEqual(childElement2.getShowAddBeforeButtonCalled(), 0);
 	
-	pChildRefHandlerView.hideChildrensAddAboveButton();
-	pChildRefHandlerView.showChildrensAddAboveButton();
+	pChildRefHandlerView.hideChildrensAddBeforeButton();
+	pChildRefHandlerView.showChildrensAddBeforeButton();
 	
-	assert.strictEqual(childElement.getHideAddAboveButtonCalled(), 1);
-	assert.strictEqual(childElement.getShowAddAboveButtonCalled(), 1);
-	assert.strictEqual(childElement2.getHideAddAboveButtonCalled(), 1);
-	assert.strictEqual(childElement2.getShowAddAboveButtonCalled(), 1);
+	assert.strictEqual(childElement.getHideAddBeforeButtonCalled(), 1);
+	assert.strictEqual(childElement.getShowAddBeforeButtonCalled(), 1);
+	assert.strictEqual(childElement2.getHideAddBeforeButtonCalled(), 1);
+	assert.strictEqual(childElement2.getShowAddBeforeButtonCalled(), 1);
 
-	pChildRefHandlerView.hideChildrensAddAboveButton();
-	assert.strictEqual(childElement.getHideAddAboveButtonCalled(), 2);
-	assert.strictEqual(childElement.getShowAddAboveButtonCalled(), 1);
-	assert.strictEqual(childElement2.getHideAddAboveButtonCalled(), 2);
-	assert.strictEqual(childElement2.getShowAddAboveButtonCalled(), 1);
+	pChildRefHandlerView.hideChildrensAddBeforeButton();
+	assert.strictEqual(childElement.getHideAddBeforeButtonCalled(), 2);
+	assert.strictEqual(childElement.getShowAddBeforeButtonCalled(), 1);
+	assert.strictEqual(childElement2.getHideAddBeforeButtonCalled(), 2);
+	assert.strictEqual(childElement2.getShowAddBeforeButtonCalled(), 1);
 	
 });
 

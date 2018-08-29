@@ -26,8 +26,8 @@ var CORATEST = (function(coraTest) {
 		var presentationMinimized;
 		var showDragButtonCalled = 0;
 		var hideDragButtonCalled = 0;
-		var showAddAboveButtonCalled = 0;
-		var hideAddAboveButtonCalled = 0;
+		var showAddBeforeButtonCalled = 0;
+		var hideAddBeforeButtonCalled = 0;
 		var showRemoveButtonCalled = 0;
 		var hideRemoveButtonCalled = 0;
 		var minimizedDefault;
@@ -76,11 +76,11 @@ var CORATEST = (function(coraTest) {
 		function showDragButton() {
 			showDragButtonCalled++;
 		}
-		function hideAddAboveButton() {
-			hideAddAboveButtonCalled++;
+		function hideAddBeforeButton() {
+			hideAddBeforeButtonCalled++;
 		}
-		function showAddAboveButton() {
-			showAddAboveButtonCalled++;
+		function showAddBeforeButton() {
+			showAddBeforeButtonCalled++;
 		}
 
 		function getHideRemoveButtonCalled() {
@@ -95,11 +95,11 @@ var CORATEST = (function(coraTest) {
 		function getShowDragButtonCalled() {
 			return showDragButtonCalled;
 		}
-		function getHideAddAboveButtonCalled() {
-			return hideAddAboveButtonCalled;
+		function getHideAddBeforeButtonCalled() {
+			return hideAddBeforeButtonCalled;
 		}
-		function getShowAddAboveButtonCalled() {
-			return showAddAboveButtonCalled;
+		function getShowAddBeforeButtonCalled() {
+			return showAddBeforeButtonCalled;
 		}
 		var out = ({
 			"type" : "pRepeatingElementSpy",
@@ -112,16 +112,16 @@ var CORATEST = (function(coraTest) {
 			showRemoveButton : showRemoveButton,
 			hideDragButton : hideDragButton,
 			showDragButton : showDragButton,
-			hideAddAboveButton : hideAddAboveButton,
-			showAddAboveButton : showAddAboveButton,
+			hideAddBeforeButton : hideAddBeforeButton,
+			showAddBeforeButton : showAddBeforeButton,
 			getPath : getPath,
 			setPath : setPath,
 			getHideRemoveButtonCalled : getHideRemoveButtonCalled,
 			getShowRemoveButtonCalled : getShowRemoveButtonCalled,
 			getHideDragButtonCalled : getHideDragButtonCalled,
 			getShowDragButtonCalled : getShowDragButtonCalled,
-			getHideAddAboveButtonCalled : getHideAddAboveButtonCalled,
-			getShowAddAboveButtonCalled : getShowAddAboveButtonCalled,
+			getHideAddBeforeButtonCalled : getHideAddBeforeButtonCalled,
+			getShowAddBeforeButtonCalled : getShowAddBeforeButtonCalled,
 			getPresentation : getPresentation,
 			getPresentationMinimized : getPresentationMinimized,
 			getMinimizedDefault : getMinimizedDefault

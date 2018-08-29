@@ -24,7 +24,7 @@ var CORA = (function(cora) {
 		var userCanUploadFile = false;
 		var userCanRemove = false;
 		var userCanMove = false;
-		var userCanAddAbove = false;
+		var userCanAddBefore = false;
 
 		var metadataHelper = CORA.metadataHelper({
 			"metadataProvider" : dependencies.metadataProvider
@@ -70,7 +70,7 @@ var CORA = (function(cora) {
 			userCanUploadFile = showFileUpload();
 			userCanRemove = calculateUserCanRemove();
 			userCanMove = calculateUserCanMove();
-			userCanAddAbove = calculateUserCanAddAbove();
+			userCanAddBefore = calculateUserCanAddBefore();
 		}
 
 		function calculateUserCanRemove() {
@@ -93,7 +93,7 @@ var CORA = (function(cora) {
 			return true;
 		}
 
-		function calculateUserCanAddAbove() {
+		function calculateUserCanAddBefore() {
 			if (spec.mode !== "input") {
 				return false;
 			}
@@ -330,7 +330,7 @@ var CORA = (function(cora) {
 				"pChildRefHandler" : out,
 				 "userCanRemove" : userCanRemove,
 				"userCanMove" : userCanMove,
-				"userCanAddAbove" : userCanAddAbove
+				"userCanAddBefore" : userCanAddBefore
 			};
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
 		}
@@ -390,7 +390,7 @@ var CORA = (function(cora) {
 		function updateView() {
 			if (spec.mode === "input") {
 				if (showAddButton()) {
-					updateButtonViewAndAddAboveButtonVisibility();
+					updateButtonViewAndAddBeforeButtonVisibility();
 					updateChildrenRemoveButtonVisibility();
 				}
 				if (isRepeating) {
@@ -422,16 +422,16 @@ var CORA = (function(cora) {
 			return noOfRepeating > 1;
 		}
 
-		function updateButtonViewAndAddAboveButtonVisibility() {
+		function updateButtonViewAndAddBeforeButtonVisibility() {
 			if (maxLimitOfChildrenReached()) {
 				pChildRefHandlerView.hideButtonView();
-				if (userCanAddAbove) {
-					pChildRefHandlerView.hideChildrensAddAboveButton();
+				if (userCanAddBefore) {
+					pChildRefHandlerView.hideChildrensAddBeforeButton();
 				}
 			} else {
 				pChildRefHandlerView.showButtonView();
-				if (userCanAddAbove) {
-					pChildRefHandlerView.showChildrensAddAboveButton();
+				if (userCanAddBefore) {
+					pChildRefHandlerView.showChildrensAddBeforeButton();
 				}
 			}
 		}
@@ -466,10 +466,10 @@ var CORA = (function(cora) {
 			});
 		}
 
-		function sendAddAbove(dataFromPRepeatingElement) {
+		function sendAddBefore(dataFromPRepeatingElement) {
 			var data = createAddData();
-			data.addAbovePath = dataFromPRepeatingElement.path;
-			dependencies.jsBookkeeper.addAbove(data);
+			data.addBeforePath = dataFromPRepeatingElement.path;
+			dependencies.jsBookkeeper.addBefore(data);
 			sendInitComplete();
 		}
 
@@ -679,7 +679,7 @@ var CORA = (function(cora) {
 			isRepeating : isRepeating,
 			isStaticNoOfChildren : isStaticNoOfChildren,
 			sendAdd : sendAdd,
-			sendAddAbove : sendAddAbove,
+			sendAddBefore : sendAddBefore,
 			childRemoved : childRemoved,
 			childMoved : childMoved,
 			handleFiles : handleFiles,
