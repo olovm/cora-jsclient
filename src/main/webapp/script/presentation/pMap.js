@@ -1,6 +1,5 @@
 /*
- * Copyright 2016, 2018 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -20,14 +19,41 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pMap = function(dependencies, spec) {
+		var metadataProvider = dependencies.metadataProvider;
+		var textProvider = dependencies.textProvider;
+		
 		var view;
 		var cPresentation = spec.cPresentation;
 		var presentationId;
+		var metadataId = spec.metadataIdUsedInData;
+		var cMetadataElement;
+		var nameInData;
+		var textId;
+		var text;
+		var defTextId;
+		var defText;
 
 		function start() {
 			presentationId = getPresentationId();
 			view = createBaseViewHolder();
+
+			cMetadataElement = getMetadataById(metadataId);
+			nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
+
+			var cTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("textId"));
+			textId = cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			text = textProvider.getTranslation(textId);
+
+			var cDefTextGroup = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("defTextId"));
+			defTextId = cDefTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+			defText = textProvider.getTranslation(defTextId);
+
 			addInfoToView();
+		}
+		
+		function getMetadataById(id) {
+			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
 		// var cPresentation = spec.cPresentation;
 		// var cParentPresentation = spec.cParentPresentation;
@@ -57,15 +83,33 @@ var CORA = (function(cora) {
 		}
 		function createInfo() {
 			var infoSpec = {
-			// "insertAfter" is set to infoButton below
-			// "afterLevelChange" : updateClassName,
-			// "level1" : [ {
-			// "className" : "textView",
-			// "text" : spec.info.text
-			// }, {
-			// "className" : "defTextView",
-			// "text" : spec.info.defText
-			// } ]
+				// "insertAfter" is set to infoButton below
+				// "afterLevelChange" : updateClassName,
+				"level1" : [ {
+					"className" : "textView",
+					"text" : text
+				}, {
+					"className" : "defTextView",
+					"text" : defText
+				} ]
+			"level2" : [ {
+				"className" : "textIdView",
+				"text" : "textId: " + textId
+			}, {
+				"className" : "defTextIdView",
+				"text" : "defTextId: " + defTextId
+			}
+//			, {
+//				"className" : "metadataIdView",
+//				"text" : "metadataId: " + my.metadataId
+//			}, {
+//				"className" : "technicalView",
+//				"text" : "nameInData: " + nameInData
+//			}, {
+//				"className" : "technicalView",
+//				"text" : "presentationId: " + getPresentationId()
+//			}
+			]
 			};
 			// possiblyAddLevel2Info(infoSpec);
 

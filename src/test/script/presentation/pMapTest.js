@@ -1,6 +1,5 @@
 /*
- * Copyright 2016, 2018 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -81,8 +80,8 @@ QUnit.module("pMapTest.js", {
 		this.dependencies = {
 			"metadataProvider" : new MetadataCoordinatesProviderStub(),
 			"infoFactory" : CORATEST.infoFactorySpy(),
-		// "pubSub" : CORATEST.pubSubSpy(),
-		// "textProvider" : CORATEST.textProviderStub(),
+			// "pubSub" : CORATEST.pubSubSpy(),
+			"textProvider" : CORATEST.textProviderSpy(),
 		// "presentationFactory" : CORATEST.standardFactorySpy("presentationSpy"),
 		// "jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
 		// "recordTypeProvider" : CORATEST.recordTypeProviderStub(),
@@ -91,7 +90,7 @@ QUnit.module("pMapTest.js", {
 		// .standardFactorySpy("pNonRepeatingChildRefHandlerSpy")
 		};
 		this.spec = {
-			// "metadataIdUsedInData" : "groupIdTwoTextChildRepeat1to5",
+			"metadataIdUsedInData" : "coordinatesGroup",
 			// "path" : {},
 			"cPresentation" : CORA.coraData(this.dependencies.metadataProvider
 					.getMetadataById("coordinatesPGroup")),
@@ -143,9 +142,50 @@ QUnit.test("testInitInfo", function(assert) {
 	assert.equal(infoButton, firstFactoredInfosButton);
 
 	var expectedInfoSpec = {
+		"level1" : [ {
+			"className" : "textView",
+			"text" : "translated_coordinatesGroupText"
+		}, {
+			"className" : "defTextView",
+			"text" : "translated_coordinatesGroupDefText"
+		} ],
+		"level2" : [ {
+			"className" : "textIdView",
+			"text" : "textId: " + textId
+		}, {
+			"className" : "defTextIdView",
+			"text" : "defTextId: " + defTextId
+		}
+//		, {
+//			"className" : "metadataIdView",
+//			"text" : "metadataId: " + my.metadataId
+//		}, {
+//			"className" : "technicalView",
+//			"text" : "nameInData: " + nameInData
+//		}, {
+//			"className" : "technicalView",
+//			"text" : "presentationId: " + getPresentationId()
+//		}
+		]
 		"insertAfter" : infoButton
 	};
-
+	var spec = {
+		"appendTo" : this.fixture,
+		"level1" : [ {
+			"className" : "textView",
+			"text" : "someText"
+		}, {
+			"className" : "defTextView",
+			"text" : "someDefText"
+		} ],
+		"level2" : [ {
+			"className" : "metadataIdView",
+			"text" : "someMetadataText"
+		}, {
+			"className" : "regExView",
+			"text" : "someRegEx"
+		} ]
+	};
 	assert.stringifyEqual(firstFactoredInfo.getSpec(), expectedInfoSpec);
 
 });
