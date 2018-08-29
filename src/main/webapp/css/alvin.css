@@ -15,6 +15,25 @@
 	margin-right: 0.5rem;
 	margin-left: 0.5rem;
 }
+
+.workItem > .buttonView {
+	position: absolute;
+	bottom: 0rem;
+	background-color: darkcyan;
+	padding: 0.2rem 0.2rem 0rem 0.2rem;
+	right: 1rem;
+	z-index: 999;
+}
+.workItem > .showView {
+	padding-bottom: 3rem;
+}
+.workItem > .editView {
+	padding-bottom: 3rem;
+}
+.workItem > .incomingLinksView {
+	padding-bottom: 3rem;
+	margin-top: -3rem;
+}
 .infoActive {
 	background-color: rgba(127, 191, 167, 0.1);
 }
