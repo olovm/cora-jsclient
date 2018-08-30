@@ -12,3 +12,28 @@
 /* 	padding-left: 1rem; */
 /* 	padding-right: 1rem; */
 /* } */
+.workItem > .buttonView {
+	position: absolute;
+	bottom: 0rem;
+	background-color: #0082c9;
+	padding: 0.2rem 0.2rem 0rem 0.2rem;
+	right: 1rem;
+	z-index: 999;
+}
+.workItem > .showView {
+	padding-bottom: 3rem;
+}
+.workItem > .editView {
+	padding-bottom: 3rem;
+}
+.workItem > .incomingLinksView {
+	padding-bottom: 3rem;
+	margin-top: -3rem;
+}
+
+.jsClient .serverAddress {
+	left: .5rem;
+	width: 20rem;
+	position: absolute;
+	display: block;
+}
