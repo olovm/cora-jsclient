@@ -77,6 +77,11 @@ var CORA = (function(cora) {
 					.genericFactory("pNonRepeatingChildRefHandler",
 							pNonRepeatingChildRefHandlerFactoryDependencies);
 
+			var pMapViewFactoryDependencies = {
+				"infoFactory" : infoFactory
+			};
+			var pMapViewFactory = CORA.genericFactory("pMapView", pMapViewFactoryDependencies);
+
 			var childDependencies = {
 				"providers" : dependencies.providers,
 				"globalFactories" : dependencies.globalFactories,
@@ -96,7 +101,8 @@ var CORA = (function(cora) {
 				"pRecordLinkViewFactory" : pRecordLinkViewFactory,
 				"pChildRefHandlerFactory" : pChildRefHandlerFactory,
 				"pNonRepeatingChildRefHandlerFactory" : pNonRepeatingChildRefHandlerFactory,
-				"authTokenHolder" : dependencies.authTokenHolder
+				"authTokenHolder" : dependencies.authTokenHolder,
+				"pMapViewFactory" : pMapViewFactory
 			};
 			var specNew = {
 				"path" : path,
@@ -108,21 +114,32 @@ var CORA = (function(cora) {
 			var type = cPresentation.getData().attributes.type;
 			if (type === "pVar") {
 				return CORA.pVar(childDependencies, specNew);
-			} else if (type === "pGroup") {
-				return CORA.pGroup(childDependencies, specNew);
-			} else if (type === "pRecordLink") {
-				return CORA.pRecordLink(childDependencies, specNew);
-			} else if (type === "pCollVar") {
-				return CORA.pCollectionVar(childDependencies, specNew);
-			} else if (type === "pResourceLink") {
-				return CORA.pResourceLink(childDependencies, specNew);
-			} else {
-				var repeat = cPresentation.getData().attributes.repeat;
-				if (repeat === "this") {
-					return CORA.pRepeatingContainer(childDependencies, specNew);
-				}
-				return CORA.pSurroundingContainer(childDependencies, specNew);
 			}
+			if (type === "pGroup") {
+				if (shouldBePresentedAsMap(cPresentation)) {
+					return CORA.pMap(childDependencies, specNew);
+				}
+				return CORA.pGroup(childDependencies, specNew);
+			}
+			if (type === "pRecordLink") {
+				return CORA.pRecordLink(childDependencies, specNew);
+			}
+			if (type === "pCollVar") {
+				return CORA.pCollectionVar(childDependencies, specNew);
+			}
+			if (type === "pResourceLink") {
+				return CORA.pResourceLink(childDependencies, specNew);
+			}
+			var repeat = cPresentation.getData().attributes.repeat;
+			if (repeat === "this") {
+				return CORA.pRepeatingContainer(childDependencies, specNew);
+			}
+			return CORA.pSurroundingContainer(childDependencies, specNew);
+		}
+
+		function shouldBePresentedAsMap(cPresentation) {
+			return cPresentation.containsChildWithNameInData("presentAs")
+					&& "map" === cPresentation.getFirstAtomicValueByNameInData("presentAs");
 		}
 
 		function getDependencies() {

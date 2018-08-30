@@ -23,6 +23,7 @@ var CORA = (function(cora) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
 
+		var pMapView;
 		var view;
 		var cPresentation = spec.cPresentation;
 		var presentationId;
@@ -36,7 +37,7 @@ var CORA = (function(cora) {
 
 		function start() {
 			presentationId = getPresentationId();
-			view = createBaseViewHolder();
+			// view = createBaseViewHolder();
 
 			cMetadataElement = getMetadataById(metadataId);
 			nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
@@ -50,7 +51,44 @@ var CORA = (function(cora) {
 			defTextId = cDefTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			defText = textProvider.getTranslation(defTextId);
 
-			addInfoToView();
+			pMapView = createView();
+			view = pMapView.getView();
+			// addInfoToView();
+		}
+
+		function createView() {
+			var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
+			var pMapViewSpec = {
+				"mode" : mode,
+				// "inputType" : getInputType(),
+				// "outputFormat" : outputFormat,
+				// "presentationId" : presentationId,
+				"info" : {
+					"text" : text,
+					"defText" : defText,
+					"technicalInfo" : [ {
+						"text" : "textId: " + textId,
+					// onclickMethod : openTextIdRecord
+					}, {
+						"text" : "defTextId: " + defTextId,
+					// onclickMethod : openDefTextIdRecord
+					}, {
+						"text" : "metadataId: " + metadataId,
+					// onclickMethod : openMetadataIdRecord
+					}, {
+						"text" : "nameInData: " + nameInData
+					// }, {
+					// "text" : "regEx: " + regEx
+					}, {
+						"text" : "presentationId: " + presentationId
+					} ]
+				}
+			// ,
+			// "onblurFunction" : onBlur,
+			// onkeyupFunction : onkeyup
+			};
+			return dependencies.pMapViewFactory.factor(pMapViewSpec);
+
 		}
 
 		function getMetadataById(id) {
@@ -74,61 +112,62 @@ var CORA = (function(cora) {
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
 
-		function createBaseViewHolder() {
-			return CORA.gui.createSpanWithClassName("pMap " + presentationId);
-		}
+		// function createBaseViewHolder() {
+		// return CORA.gui.createSpanWithClassName("pMap " + presentationId);
+		// }
+		//
+		// function addInfoToView() {
+		// var createdInfo = createInfo();
+		// view.appendChild(createdInfo.getButton());
+		// }
+		// function createInfo() {
+		// var infoSpec = {
+		// // "insertAfter" is set to infoButton below
+		// // "afterLevelChange" : updateClassName,
+		// "level1" : [ {
+		// "className" : "textView",
+		// "text" : text
+		// }, {
+		// "className" : "defTextView",
+		// "text" : defText
+		// } ],
+		// "level2" : [ {
+		// "className" : "textIdView",
+		// "text" : "textId: " + textId
+		// }, {
+		// "className" : "defTextIdView",
+		// "text" : "defTextId: " + defTextId
+		// }, {
+		// "className" : "metadataIdView",
+		// "text" : "metadataId: " + metadataId
+		// }, {
+		// "className" : "technicalView",
+		// "text" : "nameInData: " + nameInData
+		// }, {
+		// "className" : "technicalView",
+		// "text" : "presentationId: " + presentationId
+		// } ]
+		// };
+		// possiblyAddLevel2Info(infoSpec);
 
-		function addInfoToView() {
-			var createdInfo = createInfo();
-			view.appendChild(createdInfo.getButton());
-		}
-		function createInfo() {
-			var infoSpec = {
-				// "insertAfter" is set to infoButton below
-				// "afterLevelChange" : updateClassName,
-				"level1" : [ {
-					"className" : "textView",
-					"text" : text
-				}, {
-					"className" : "defTextView",
-					"text" : defText
-				} ],
-				"level2" : [ {
-					"className" : "textIdView",
-					"text" : "textId: " + textId
-				}, {
-					"className" : "defTextIdView",
-					"text" : "defTextId: " + defTextId
-				}
-				 , {
-				 "className" : "metadataIdView",
-				 "text" : "metadataId: " + metadataId
-				 }
-				 , {
-				 "className" : "technicalView",
-				 "text" : "nameInData: " + nameInData
-				 }
-				 , {
-				 "className" : "technicalView",
-				 "text" : "presentationId: " + presentationId
-				 }
-				]
-			}; 
-			// possiblyAddLevel2Info(infoSpec);
-
-			var newInfo = dependencies.infoFactory.factor(infoSpec);
-			// infoSpec.insertBefore = childrenView;
-			infoSpec.insertAfter = newInfo.getButton();
-			return newInfo;
-		}
+		// var newInfo = dependencies.infoFactory.factor(infoSpec);
+		// // infoSpec.insertBefore = childrenView;
+		// infoSpec.insertAfter = newInfo.getButton();
+		// return newInfo;
+		// }
 
 		function getView() {
 			return view;
 		}
 
+		function getDependencies() {
+			return dependencies;
+		}
+
 		var out = Object.freeze({
 			"type" : "pMap",
-			getView : getView
+			getView : getView,
+			getDependencies : getDependencies
 		});
 		start();
 		view.modelObject = out;

@@ -83,6 +83,7 @@ QUnit.module("pMapTest.js", {
 			"infoFactory" : CORATEST.infoFactorySpy(),
 			// "pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderSpy(),
+			"pMapViewFactory" : CORATEST.standardFactorySpy("pMapViewSpy"),
 		// "presentationFactory" : CORATEST.standardFactorySpy("presentationSpy"),
 		// "jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
 		// "recordTypeProvider" : CORATEST.recordTypeProviderStub(),
@@ -109,8 +110,8 @@ QUnit.test("testInit", function(assert) {
 
 	var view = pMap.getView();
 	this.fixture.appendChild(view);
-
-	assert.deepEqual(view.className, "pMap " + "coordinatesPGroup");
+	assert.strictEqual(view, this.dependencies.pMapViewFactory.getFactored(0).getView());
+	// assert.deepEqual(view.className, "pMap " + "coordinatesPGroup");
 	assert.ok(view.modelObject === pMap,
 			"modelObject should be a pointer to the javascript object instance");
 	// assert.strictEqual(view.childNodes.length, 4);
@@ -130,63 +131,97 @@ QUnit.test("testInit", function(assert) {
 	// assert.strictEqual(factoredSpec.minimizedDefault, undefined);
 });
 
-QUnit.test("testInitInfo", function(assert) {
+QUnit.test("testInitInfoInputMode", function(assert) {
 	var pMap = CORA.pMap(this.dependencies, this.spec);
 	var view = pMap.getView();
 	this.fixture.appendChild(view);
 
-	var infoFactory = this.dependencies.infoFactory;
-	var firstFactoredInfo = infoFactory.getFactored(0);
-	var firstFactoredInfosButton = firstFactoredInfo.getButton();
+	// var infoFactory = this.dependencies.infoFactory;
+	// var firstFactoredInfo = infoFactory.getFactored(0);
+	// var firstFactoredInfosButton = firstFactoredInfo.getButton();
+	//
+	// var infoButton = view.childNodes[0];
+	// assert.equal(infoButton, firstFactoredInfosButton);
 
-	var infoButton = view.childNodes[0];
-	assert.equal(infoButton, firstFactoredInfosButton);
-
-	var expectedInfoSpec = {
-		"level1" : [ {
-			"className" : "textView",
-			"text" : "translated_coordinatesGroupText"
-		}, {
-			"className" : "defTextView",
-			"text" : "translated_coordinatesGroupDefText"
-		} ],
-		"level2" : [ {
-			"className" : "textIdView",
-			"text" : "textId: coordinatesGroupText"
-		}, {
-			"className" : "defTextIdView",
-			"text" : "defTextId: coordinatesGroupDefText"
-		}, {
-			"className" : "metadataIdView",
-			"text" : "metadataId: coordinatesGroup"
-		}, {
-			"className" : "technicalView",
-			"text" : "nameInData: coordinates"
-		}, {
-			"className" : "technicalView",
-			"text" : "presentationId: coordinatesPGroup" 
-		} ],
-		"insertAfter" : infoButton
+	// var expectedInfoSpec = {
+	// "level1" : [ {
+	// "className" : "textView",
+	// "text" : "translated_coordinatesGroupText"
+	// }, {
+	// "className" : "defTextView",
+	// "text" : "translated_coordinatesGroupDefText"
+	// } ],
+	// "level2" : [ {
+	// "className" : "textIdView",
+	// "text" : "textId: coordinatesGroupText"
+	// }, {
+	// "className" : "defTextIdView",
+	// "text" : "defTextId: coordinatesGroupDefText"
+	// }, {
+	// "className" : "metadataIdView",
+	// "text" : "metadataId: coordinatesGroup"
+	// }, {
+	// "className" : "technicalView",
+	// "text" : "nameInData: coordinates"
+	// }, {
+	// "className" : "technicalView",
+	// "text" : "presentationId: coordinatesPGroup"
+	// } ],
+	// "insertAfter" : infoButton
+	// };
+	// var spec = {
+	// "appendTo" : this.fixture,
+	// "level1" : [ {
+	// "className" : "textView",
+	// "text" : "someText"
+	// }, {
+	// "className" : "defTextView",
+	// "text" : "someDefText"
+	// } ],
+	// "level2" : [ {
+	// "className" : "metadataIdView",
+	// "text" : "someMetadataText"
+	// }, {
+	// "className" : "regExView",
+	// "text" : "someRegEx"
+	// } ]
+	// };
+	// assert.stringifyEqual(firstFactoredInfo.getSpec(), expectedInfoSpec);
+	var expectedSpec = {
+			"mode" : "input",
+			// "inputType" : getInputType(),
+			// "outputFormat" : outputFormat,
+			// "presentationId" : presentationId,
+			"info" : {
+				"text" : "translated_coordinatesGroupText",
+				"defText" : "translated_coordinatesGroupDefText",
+				"technicalInfo" : [ {
+					"text" : "textId: coordinatesGroupText",
+				// onclickMethod : openTextIdRecord
+				}, {
+					"text" : "defTextId: coordinatesGroupDefText",
+				// onclickMethod : openDefTextIdRecord
+				}, {
+					"text" : "metadataId: coordinatesGroup",
+				// onclickMethod : openMetadataIdRecord
+				}, {
+					"text" : "nameInData: coordinates"
+				// }, {
+				// "text" : "regEx: " + regEx
+				}, {
+					"text" : "presentationId: coordinatesPGroup"
+				} ]
+			}
 	};
-	var spec = {
-		"appendTo" : this.fixture,
-		"level1" : [ {
-			"className" : "textView",
-			"text" : "someText"
-		}, {
-			"className" : "defTextView",
-			"text" : "someDefText"
-		} ],
-		"level2" : [ {
-			"className" : "metadataIdView",
-			"text" : "someMetadataText"
-		}, {
-			"className" : "regExView",
-			"text" : "someRegEx"
-		} ]
-	};
-	assert.stringifyEqual(firstFactoredInfo.getSpec(), expectedInfoSpec);
+	assert.stringifyEqual(this.dependencies.pMapViewFactory.getSpec(0), expectedSpec);
 
+});
+
+QUnit.test("testGetDependencies", function(assert) {
+	var pMap = CORA.pMap(this.dependencies, this.spec);
+	// assert.strictEqual(pMap.type, "pMap");
+	var dependencies = pMap.getDependencies();
+	assert.equal(dependencies, this.dependencies);
 });
 
 // QUnit.test("testNestedSurroundingContainer", function(assert) {

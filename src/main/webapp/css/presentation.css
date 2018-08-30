@@ -40,11 +40,13 @@ img {
 .error input, .error select, .error textarea {
 	background-color: red;
 }
-.errorStillFocused input, .errorStillFocused select, .errorStillFocused textarea {
+
+.errorStillFocused input, .errorStillFocused select, .errorStillFocused textarea
+	{
 	border-color: red;
 }
 
-.buttonView > span::before, .buttonView> span::after {
+.buttonView>span::before, .buttonView>span::after {
 	top: 3px;
 	right: 2px;
 }
@@ -54,7 +56,7 @@ img {
 	min-width: 16px;
 	min-height: 16px;
 	display: block;
-	float:right;
+	float: right;
 	position: relative;
 	margin-right: 2px;
 }
@@ -94,7 +96,8 @@ img {
 	height: 16px;
 	width: 16px;
 }
-.iconButton  {
+
+.iconButton {
 	top: 0.1rem;
 }
 
@@ -180,55 +183,54 @@ img {
 	background-position: -273px -16px;
 }
 
-
-.jsClient .menuView .pVar .infoButton, .menuView .pVar:hover > .infoButton::before,
-.menuView .pGroup:hover > .infoButton::before,
-.menuView .infoButton::before, .menuView .infoButton::after,
-.menuView .infoButton:hover::after  ,
-.jsClient .menuView .pVar .openLinkedRecordButton, .menuView .pVar:hover > .openLinkedRecordButton::before,
-.menuView .pGroup:hover > .openLinkedRecordButton::before,
-.menuView .openLinkedRecordButton::before, .menuView .openLinkedRecordButton::after,
-.menuView .openLinkedRecordButton::after  {
+.jsClient .menuView .pVar .infoButton, .menuView .pVar:hover>.infoButton::before,
+	.menuView .pGroup:hover>.infoButton::before, .menuView .infoButton::before,
+	.menuView .infoButton::after, .menuView .infoButton:hover::after,
+	.jsClient .menuView .pVar .openLinkedRecordButton, .menuView .pVar:hover>.openLinkedRecordButton::before,
+	.menuView .pGroup:hover>.openLinkedRecordButton::before, .menuView .openLinkedRecordButton::before,
+	.menuView .openLinkedRecordButton::after, .menuView .openLinkedRecordButton::after
+	{
 	display: none;
 }
 
-.workView .pVar:hover > .infoButton::before, .workView .pRecordLink:hover > .buttonView .infoButton::before, 
- input:focus + .infoButton::before ,
-.workView .pCollVar:hover > .infoButton::before,  select:focus + .infoButton::before,
-textarea:focus + .infoButton::before, .workView .pGroup:hover > .infoButton::before,
-textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .infoButton::before
- {
+.workView .pVar:hover>.infoButton::before, .workView .pRecordLink:hover>.buttonView .infoButton::before,
+	input:focus+.infoButton::before, .workView .pCollVar:hover>.infoButton::before,
+	select:focus+.infoButton::before, textarea:focus+.infoButton::before,
+	.workView .pGroup:hover>.infoButton::before, textarea:focus+.infoButton::before,
+	.workView .pSurroundingContainer:hover>.infoButton::before {
 	opacity: 1;
 }
-	
-
-
 
 .beeingDragged {
-/* 	opacity: 0.5; */
+	/* 	opacity: 0.5; */
 	transform: scale(0.8);
 	border: 1px solid black;
 }
+
 .jsClient .beeingDragged span, .jsClient .beeingDragged div {
 	background: transparent;
-} 
+}
 
 .workView .repeatingElement, .workView .pNonRepeatingChildRefHandler {
 	display: flex;
 }
 
-.workView .repeatingElement > *,  .workView .pNonRepeatingChildRefHandler > * {
+.workView .repeatingElement>*, .workView .pNonRepeatingChildRefHandler>*
+	{
 	flex: 1;
 }
+
 .buttonView {
-/* 	needed for tests to see that it is visible */
-	display: inline-block;	
+	/* 	needed for tests to see that it is visible */
+	display: inline-block;
 }
+
 .buttonView:empty {
 	display: none;
 }
 
-.workView .repeatingElement>.buttonView, .workView .pNonRepeatingChildRefHandler>.buttonView {
+.workView .repeatingElement>.buttonView, .workView .pNonRepeatingChildRefHandler>.buttonView
+	{
 	flex: 0 1 0;
 }
 
@@ -237,59 +239,69 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	min-height: 24px;
 	display: inline-block;
 }
+
 .infoActive {
 	background-color: rgba(0, 129, 198, 0.1);
 	transition: background-color 0.5s linear;
 }
-.pVar:hover, .pCollVar:hover, .pGroup:hover, .pSurroundingContainer:hover, .repeatingElement:hover, 
-.pRecordLink:hover, .pNonRepeatingChildRefHandler:hover {
+
+.pVar:hover, .pCollVar:hover, .pGroup:hover, .pSurroundingContainer:hover,
+	.repeatingElement:hover, .pRecordLink:hover,
+	.pNonRepeatingChildRefHandler:hover {
 	background-color: rgba(0, 129, 198, 0.1);
 	transition: background-color 0.5s linear;
 }
-.infoActive  > .infoButton::before,
-.infoActive  > .buttonView .infoButton::before,
-.infoActive  > .openLinkedRecordButton::before {
+
+.infoActive>.infoButton::before, .infoActive>.buttonView .infoButton::before,
+	.infoActive>.openLinkedRecordButton::before {
 	opacity: 1;
 }
 
 .pVar span {
 	font-size: .8rem;
 }
+
 .workView .pVar, .workView .pCollVar {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.workView .pVar > :first-child, .workView .pCollVar > :first-child {
+.workView .pVar>:first-child, .workView .pCollVar>:first-child {
 	flex: 1;
 	margin: .2em 0;
 }
-.workView .pGroup, .workView .pSurroundingContainer  {
+
+.workView .pGroup, .workView .pSurroundingContainer {
 	display: flex;
 	flex-wrap: wrap;
 	position: relative;
 }
+
 .workView .pRecordLink {
 	display: flex;
 	flex-wrap: wrap;
 	position: relative;
 }
-.workView .pRecordLink > .infoView {
+
+.workView .pRecordLink>.infoView {
 	flex: 10 1 80%;
 }
-.workView .pRecordLink > .childrenView {
+
+.workView .pRecordLink>.childrenView {
 	flex: 10 1 80%;
 	order: 1;
 }
-.workView .pRecordLink > .buttonView {
+
+.workView .pRecordLink>.buttonView {
 	flex: 1 1 40px;
 	order: 2;
 }
 
-.workView .pRecordLink > .search {
+.workView .pRecordLink>.search {
 	flex: 10 1 80%;
 	order: -1;
 }
+
 .jsClient .workView .recordViewer {
 	flex: 10 1 80%;
 	border: 1px dotted green;
@@ -298,28 +310,32 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	z-index: 0;
 	order: 1;
 }
-.workView .pGroup > .infoButton, .workView .pSurroundingContainer  > .infoButton {
+
+.workView .pGroup>.infoButton, .workView .pSurroundingContainer>.infoButton
+	{
 	z-index: 5;
 	position: absolute;
 	top: 0.1rem;
 	right: 0.1rem;
 }
-.workView .pGroup > .pChildRefHandler, .workView .pGroup > .pNonRepeatingChildRefHandler, 
-.workView .pGroup > .pSurroundingContainer ,
-.workView .pGroup > .text {
-	flex: 0 1 calc(100% - 25px);
-}
-.workView .pSurroundingContainer > .pChildRefHandler, .workView .pSurroundingContainer > .text {
+
+.workView .pGroup>.pChildRefHandler, .workView .pGroup>.pNonRepeatingChildRefHandler,
+	.workView .pGroup>.pSurroundingContainer, .workView .pGroup>.text {
 	flex: 0 1 calc(100% - 25px);
 }
 
-.jsClient .workView .openLinkedRecordButton, .jsClient .workView .showSearchButton,  
-.jsClient .workView .clearLinkedRecordIdButton{
+.workView .pSurroundingContainer>.pChildRefHandler, .workView .pSurroundingContainer>.text
+	{
+	flex: 0 1 calc(100% - 25px);
+}
+
+.jsClient .workView .openLinkedRecordButton, .jsClient .workView .showSearchButton,
+	.jsClient .workView .clearLinkedRecordIdButton {
 	order: 2;
 	flex: 0 auto;
 }
 
- .infoView {
+.infoView {
 	flex: 0 0 100%;
 	position: relative;
 	overflow: hidden;
@@ -331,7 +347,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	font-size: 0.7rem;
 }
 
-.infoView::before  {
+.infoView::before {
 	background: url("../images/icons2.svg") no-repeat scroll;
 	content: "";
 	background-position: -64px -0px;
@@ -344,14 +360,17 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	top: 5rem;
 	z-index: -1;
 }
-.search{
+
+.search {
 	position: relative;
 	overflow: hidden;
 }
-.search > * {
+
+.search>* {
 	position: relative;
 }
-.search::before  {
+
+.search::before {
 	background: url("../images/icons2.svg") no-repeat scroll;
 	content: "";
 	background-position: -224px -0px;
@@ -364,10 +383,11 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	top: 5rem;
 }
 
-.infoView .clickable{
+.infoView .clickable {
 	cursor: pointer;
 }
-.infoView .clickable:hover{
+
+.infoView .clickable:hover {
 	text-decoration: underline;
 }
 
@@ -379,46 +399,57 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 .pChildRefHandler {
 	display: block;
 }
+
 .workView .pChildRefHandler.tenChildStyle {
 	flex: 1 1 100%;
 	background-color: lightgreen;
 }
+
 .workView .pChildRefHandler.nineChildStyle {
 	flex: 1 1 90%;
 	background-color: lightyellow;
 }
+
 .workView .pChildRefHandler.eightChildStyle {
 	flex: 1 1 80%;
 	background-color: lightyellow;
 }
+
 .workView .pChildRefHandler.sevenChildStyle {
 	flex: 1 1 70%;
 	background-color: lightyellow;
 }
+
 .workView .pChildRefHandler.sixChildStyle {
 	flex: 1 1 60%;
 	background-color: lightyellow;
 }
+
 .workView .pChildRefHandler.fiveChildStyle {
 	flex: 1 1 50%;
 	background-color: lightyellow;
 }
+
 .workView .pChildRefHandler.fourChildStyle {
 	flex: 1 1 40%;
 	background-color: lightyellow;
 }
+
 .workView .pChildRefHandler.threeChildStyle {
 	flex: 1 1 30%;
 	background-color: lightyellow;
 }
+
 .workView .pChildRefHandler.twoChildStyle {
 	flex: 1 1 20%;
 	background-color: lightyellow;
 }
+
 .workView .pChildRefHandler.oneChildStyle {
 	flex: 1 1 10%;
 	background-color: lightyellow;
 }
+
 .workView .pChildRefHandler.zeroChildStyle {
 	flex: 1;
 	background-color: lightyellow;
@@ -428,42 +459,54 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	margin: 4px;
 	display: inline-block;
 }
+
 .presentation .text.h1TextStyle {
 	font-size: 2rem;
 }
+
 .presentation .text.h2TextStyle {
 	font-size: 1.5rem;
 }
+
 .presentation .text.h3TextStyle {
 	font-size: 1rem;
 }
+
 .presentation .text.h4TextStyle {
 	font-size: 0.8rem;
 }
+
 .presentation .text.h5TextStyle {
 	font-size: 0.7rem;
 }
+
 .presentation .text.h6TextStyle {
 	font-size: 0.6rem;
 }
+
 .presentation .text.italicTextStyle {
 	font-style: italic;
 }
+
 .presentation .text.bodyTextStyle {
-/* 	font-size: 2rem; */
+	/* 	font-size: 2rem; */
+	
 }
+
 .pRecordLink .text {
 	display: block;
 }
 
-.repeatingElement + .repeatingElement {
+.repeatingElement+.repeatingElement {
 	padding-top: 5px;
 }
+
 .repeatingElement:first-child {
 	margin-top: 5px;
 	border-top: 1px dashed #0082c9;
 	padding-top: 5px;
 }
+
 .repeatingElement {
 	border-bottom: 1px dashed #0082c9;
 	transition: background-color 0.5s linear;
@@ -476,6 +519,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 .editView .repeatingElement:last-child {
 	margin-bottom: 5px;
 }
+
 .repeatingElement:first-child:last-child {
 	border-top: none;
 	border-bottom: none;
@@ -483,7 +527,7 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 	margin-top: 0;
 }
 
-.recordViewer::before  {
+.recordViewer::before {
 	background: url("../images/icons2.svg") no-repeat scroll;
 	content: "";
 	background-position: -240px -32px;
@@ -516,4 +560,9 @@ textarea:focus + .infoButton::before, .workView .pSurroundingContainer:hover > .
 
 .jsClient .showView .frame.pGroup {
 	border: 1px solid gray;
+}
+
+.coraMap {
+	height: 600px;
+	width: 600px;
 }

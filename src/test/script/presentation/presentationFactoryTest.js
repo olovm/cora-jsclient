@@ -119,6 +119,50 @@ QUnit.test("testFactorPGroupDependencies", function(assert) {
 	assert.strictEqual(dependencies.infoFactory.type, "infoFactory");
 });
 
+QUnit.test("testFactorPGroupAsMap", function(assert) {
+	this.dependencies.providers.metadataProvider = new MetadataCoordinatesProviderStub();
+	this.dependencies.providers.textProvider = CORATEST.textProviderSpy();
+	this.spec = {
+		"path" : {},
+		"metadataIdUsedInData" : "coordinatesGroup",
+		"cPresentation" : CORA.coraData(this.dependencies.providers.metadataProvider
+				.getMetadataById("coordinatesPGroup")),
+		"cParentPresentation" : null
+	};
+	this.newPresentationFactory = CORA.presentationFactory(this.dependencies);
+	var pMap = this.newPresentationFactory.factor(this.spec);
+	assert.strictEqual(pMap.type, "pMap");
+});
+
+
+QUnit.test("testFactorPGroupAsMapDependencies", function(assert) {
+	this.dependencies.providers.metadataProvider = new MetadataCoordinatesProviderStub();
+	this.dependencies.providers.textProvider = CORATEST.textProviderSpy();
+	this.spec = {
+		"path" : {},
+		"metadataIdUsedInData" : "coordinatesGroup",
+		"cPresentation" : CORA.coraData(this.dependencies.providers.metadataProvider
+				.getMetadataById("coordinatesPGroup")),
+		"cParentPresentation" : null
+	};
+	this.newPresentationFactory = CORA.presentationFactory(this.dependencies);
+	var pMap = this.newPresentationFactory.factor(this.spec);
+	
+	var dependencies = pMap.getDependencies();
+	assert.strictEqual(dependencies.pChildRefHandlerFactory.type, "genericFactory");
+	assert.strictEqual(dependencies.pChildRefHandlerFactory.getTypeToFactor(), "pChildRefHandler");
+
+	assert.strictEqual(dependencies.pNonRepeatingChildRefHandlerFactory.type, "genericFactory");
+	assert.strictEqual(dependencies.pNonRepeatingChildRefHandlerFactory.getTypeToFactor(),
+			"pNonRepeatingChildRefHandler");
+	assert.strictEqual(dependencies.infoFactory.type, "infoFactory");
+	
+	assert.strictEqual(dependencies.pMapViewFactory.type, "genericFactory");
+	assert.strictEqual(dependencies.pMapViewFactory.getTypeToFactor(), "pMapView");
+});
+
+
+
 QUnit.test("testFactorPChildRefHandlerDependencies", function(assert) {
 	this.spec.metadataIdUsedInData = "groupIdOneTextChild";
 	this.spec.cPresentation = this.getMetadataAsCoraData("pgGroupIdOneTextChild");
@@ -137,7 +181,7 @@ QUnit.test("testFactorPChildRefHandlerDependencies", function(assert) {
 	assert.strictEqual(dependencies.pChildRefHandlerViewFactory.getTypeToFactor(),
 			"pChildRefHandlerView");
 	assert.strictEqual(dependencies.dataDivider, this.dependencies.dataDivider);
-	
+
 });
 
 QUnit
