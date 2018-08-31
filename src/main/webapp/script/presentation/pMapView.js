@@ -112,14 +112,15 @@ var CORA = (function(cora) {
 			view.appendChild(valueView);
 
 			// var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-			var mymap = L.map(valueView).setView([ 51.505, -0.09 ], 13);
-			L
-					.tileLayer(
-							'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-							{
-								attribution : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-								subdomains : [ 'a', 'b', 'c' ]
-							}).addTo(mymap);
+			var mymap = L.map(valueView).setView([ 61.7, 15.0 ], 4);
+			L.tileLayer(
+					'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+					{
+						attribution : 'Map data &copy;'
+								+ '<a href="https://www.openstreetmap.org/">'
+								+ 'OpenStreetMap</a> contributors',
+						subdomains : [ 'a', 'b', 'c' ]
+					}).addTo(mymap);
 			valueView.modelObject = mymap;
 			// console.log(mymap)
 		}
