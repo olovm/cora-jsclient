@@ -199,11 +199,25 @@ QUnit.test("testActiveInfoShownInClassName", function(assert) {
 QUnit.test("testMapPart", function(assert) {
 	var valueView = this.getValueView();
 	assert.strictEqual(valueView.nodeName, "DIV");
-	assert.strictEqual(valueView.className, "coraMap leaflet-container leaflet-touch "
-			+ "leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom");
-	// assert.strictEqual(valueView.type, "text");
+	// assert.strictEqual(valueView.className, "coraMap leaflet-container leaflet-touch "
+	// + "leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom");
+	assert.strictEqual(valueView.className.substring(0, 7), "coraMap");
 	assert.strictEqual(valueView.childNodes[1].className, "leaflet-control-container");
-	console.log(valueView.modelObject.getCenter())
+	
+	var mapO = valueView.modelObject;
+	
+	console.log("center:",mapO.getCenter());
+	console.log("lat:",mapO.getCenter().lat);
+	console.log("lng:",mapO.getCenter().lng);
+	console.log("zoom:",mapO.getZoom());
+	
+	mapO.setView([23.4, 19.2]);
+	console.log("center:",mapO.getCenter());
+	console.log("lat:",mapO.getCenter().lat);
+	console.log("lng:",mapO.getCenter().lng);
+	console.log("zoom:",mapO.getZoom());
+	
+	
 });
 
 // QUnit.test("testInputUnknownTypeIsText", function(assert) {
