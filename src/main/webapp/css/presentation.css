@@ -460,31 +460,32 @@ img {
 	display: inline-block;
 }
 
-.presentation .text.h1TextStyle {
+.presentation .text.h1TextStyle, .presentation .h1TextStyle .pVar>span {
 	font-size: 2rem;
 }
 
-.presentation .text.h2TextStyle {
+.presentation .text.h2TextStyle, .presentation .h2TextStyle .pVar>span {
 	font-size: 1.5rem;
 }
 
-.presentation .text.h3TextStyle {
+.presentation .text.h3TextStyle, .presentation .h3TextStyle .pVar>span {
 	font-size: 1rem;
 }
 
-.presentation .text.h4TextStyle {
+.presentation .text.h4TextStyle, .presentation .h4TextStyle .pVar>span {
 	font-size: 0.8rem;
 }
 
-.presentation .text.h5TextStyle {
+.presentation .text.h5TextStyle, .presentation .h5TextStyle .pVar>span {
 	font-size: 0.7rem;
 }
 
-.presentation .text.h6TextStyle {
+.presentation .text.h6TextStyle, .presentation .h6TextStyle .pVar>span {
 	font-size: 0.6rem;
 }
 
-.presentation .text.italicTextStyle {
+.presentation .text.italicTextStyle, .presentation .pChildRefHandler.h7TextStyle
+	{
 	font-style: italic;
 }
 
