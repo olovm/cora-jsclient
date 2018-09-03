@@ -128,13 +128,14 @@ var CORA = (function(cora) {
 			var miniLayer = L.tileLayer(
 					'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 					{
-						attribution : 'Map data &copy;'
-								+ '<a href="https://www.openstreetmap.org/">'
-								+ 'OpenStreetMap</a> contributors',
+//						attribution : 'Map data &copy;'
+//								+ '<a href="https://www.openstreetmap.org/">'
+//								+ 'OpenStreetMap</a> contributors',
 						subdomains : [ 'a', 'b', 'c' ]
 					});
-			new L.Control.MiniMap(miniLayer).addTo(mymap);
-			
+			var minimap = new L.Control.MiniMap(miniLayer);
+			minimap.addTo(mymap);
+			valueView.minimap = minimap;
 			// console.log(mymap)
 		}
 		//
