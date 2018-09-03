@@ -124,7 +124,7 @@ var CORA = (function(cora) {
 						subdomains : [ 'a', 'b', 'c' ]
 					});
 			titleLayer.addTo(mymap);
-			
+			 
 			var miniLayer = L.tileLayer(
 					'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 					{
