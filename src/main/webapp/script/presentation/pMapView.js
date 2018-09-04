@@ -121,7 +121,7 @@ var CORA = (function(cora) {
 						attribution : 'Map data &copy;'
 								+ '<a href="https://www.openstreetmap.org/">'
 								+ 'OpenStreetMap</a> contributors',
-						subdomains : [ 'a', 'b', 'c' ]
+//						subdomains : [ 'a', 'b', 'c' ]
 					});
 			titleLayer.addTo(mymap);
 			 
@@ -131,7 +131,7 @@ var CORA = (function(cora) {
 //						attribution : 'Map data &copy;'
 //								+ '<a href="https://www.openstreetmap.org/">'
 //								+ 'OpenStreetMap</a> contributors',
-						subdomains : [ 'a', 'b', 'c' ]
+//						subdomains : [ 'a', 'b', 'c' ]
 					});
 			var minimap = new L.Control.MiniMap(miniLayer);
 			minimap.addTo(mymap);
