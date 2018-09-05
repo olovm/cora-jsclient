@@ -81,7 +81,7 @@ QUnit.module("pMapTest.js", {
 		this.dependencies = {
 			"metadataProvider" : new MetadataCoordinatesProviderStub(),
 			"infoFactory" : CORATEST.infoFactorySpy(),
-			// "pubSub" : CORATEST.pubSubSpy(),
+			"pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderSpy(),
 			"pMapViewFactory" : CORATEST.standardFactorySpy("pMapViewSpy"),
 		// "presentationFactory" : CORATEST.standardFactorySpy("presentationSpy"),
@@ -129,6 +129,36 @@ QUnit.test("testInit", function(assert) {
 	// assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
 	// "pgGroupIdTwoTextChildSurrounding2TextPGroup");
 	// assert.strictEqual(factoredSpec.minimizedDefault, undefined);
+});
+
+QUnit.test("testInitSubscribesToInitcompleteMessage", function(assert) {
+	var pMap = CORA.pMap(this.dependencies, this.spec);
+	// var messages = this.dependencies.pubSub.getMessages();
+	// assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
+	// + '"metadataId":"textVariableId","path":{},"nameInData":"textVariableId"}}');
+
+	// assert.deepEqual(messages[0].type, "initComplete");
+	// assert.equal(messages.length, 2);
+	// assert.deepEqual(JSON.stringify(messages[1]),
+	// '{"type":"initComplete","message":{"data":"","path":{}}}');
+	// subscription
+	var subscriptions = this.dependencies.pubSub.getSubscriptions();
+	assert.deepEqual(subscriptions.length, 1);
+
+//	var firstSubsription = subscriptions[0];
+//	assert.strictEqual(firstSubsription.type, "add");
+
+//	var secondSubscription = subscriptions[1];
+//	assert.strictEqual(secondSubscription.type, "move");
+
+	var thirdSubscription = subscriptions[0];
+	assert.strictEqual(thirdSubscription.type, "initComplete");
+	assert.deepEqual(thirdSubscription.path, {});
+	assert.strictEqual(thirdSubscription.functionToCall, pMap.initComplete);
+
+	// unsubscription
+//	var unsubscriptions = this.dependencies.pubSub.getUnsubscriptions();
+//	assert.deepEqual(unsubscriptions.length, 0);
 });
 
 QUnit.test("testInitInfoInputMode", function(assert) {
@@ -188,30 +218,30 @@ QUnit.test("testInitInfoInputMode", function(assert) {
 	// };
 	// assert.stringifyEqual(firstFactoredInfo.getSpec(), expectedInfoSpec);
 	var expectedSpec = {
-			"mode" : "input",
-			// "inputType" : getInputType(),
-			// "outputFormat" : outputFormat,
-			// "presentationId" : presentationId,
-			"info" : {
-				"text" : "translated_coordinatesGroupText",
-				"defText" : "translated_coordinatesGroupDefText",
-				"technicalInfo" : [ {
-					"text" : "textId: coordinatesGroupText",
-				// onclickMethod : openTextIdRecord
-				}, {
-					"text" : "defTextId: coordinatesGroupDefText",
-				// onclickMethod : openDefTextIdRecord
-				}, {
-					"text" : "metadataId: coordinatesGroup",
-				// onclickMethod : openMetadataIdRecord
-				}, {
-					"text" : "nameInData: coordinates"
-				// }, {
-				// "text" : "regEx: " + regEx
-				}, {
-					"text" : "presentationId: coordinatesPGroup"
-				} ]
-			}
+		"mode" : "input",
+		// "inputType" : getInputType(),
+		// "outputFormat" : outputFormat,
+		// "presentationId" : presentationId,
+		"info" : {
+			"text" : "translated_coordinatesGroupText",
+			"defText" : "translated_coordinatesGroupDefText",
+			"technicalInfo" : [ {
+				"text" : "textId: coordinatesGroupText",
+			// onclickMethod : openTextIdRecord
+			}, {
+				"text" : "defTextId: coordinatesGroupDefText",
+			// onclickMethod : openDefTextIdRecord
+			}, {
+				"text" : "metadataId: coordinatesGroup",
+			// onclickMethod : openMetadataIdRecord
+			}, {
+				"text" : "nameInData: coordinates"
+			// }, {
+			// "text" : "regEx: " + regEx
+			}, {
+				"text" : "presentationId: coordinatesPGroup"
+			} ]
+		}
 	};
 	assert.stringifyEqual(this.dependencies.pMapViewFactory.getSpec(0), expectedSpec);
 

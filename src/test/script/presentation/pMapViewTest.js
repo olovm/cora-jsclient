@@ -196,80 +196,76 @@ QUnit.test("testActiveInfoShownInClassName", function(assert) {
 // assert.strictEqual(view.className, "pMap somePresentationId infoActive");
 // });
 
-QUnit
-		.test(
-				"testMapPart",
-				function(assert) {
-					var valueView = this.getValueView();
-					assert.strictEqual(valueView.nodeName, "DIV");
-					assert.strictEqual(valueView.className.substring(0, 7), "coraMap");
-					assert.strictEqual(valueView.childNodes[1].className,
-							"leaflet-control-container");
+QUnit.test("testMapPart", function(assert) {
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.nodeName, "DIV");
+	assert.strictEqual(valueView.className.substring(0, 7), "coraMap");
+	assert.strictEqual(valueView.childNodes[1].className, "leaflet-control-container");
 
-					var mapO = valueView.modelObject;
+	var mapO = valueView.modelObject;
 
-					assert.strictEqual(mapO.getCenter().lat, 61.7);
-					assert.strictEqual(mapO.getCenter().lng, 15.0);
-					assert.strictEqual(mapO.getZoom(), 4);
+	assert.strictEqual(mapO.getCenter().lat, 61.7);
+	assert.strictEqual(mapO.getCenter().lng, 15.0);
+	assert.strictEqual(mapO.getZoom(), 4);
 
-					// console.log("center:", mapO.getCenter());
-					// console.log("lat:", mapO.getCenter().lat);
-					// console.log("lng:", mapO.getCenter().lng);
-					// console.log("zoom:", mapO.getZoom());
+	// console.log("center:", mapO.getCenter());
+	// console.log("lat:", mapO.getCenter().lat);
+	// console.log("lng:", mapO.getCenter().lng);
+	// console.log("zoom:", mapO.getZoom());
 
-					// mapO.setView([ 23.4, 19.2 ]);
-					// console.log("center:", mapO.getCenter());
-					// console.log("lat:", mapO.getCenter().lat);
-					// console.log("lng:", mapO.getCenter().lng);
-					// console.log("zoom:", mapO.getZoom());
+	// mapO.setView([ 23.4, 19.2 ]);
+	// console.log("center:", mapO.getCenter());
+	// console.log("lat:", mapO.getCenter().lat);
+	// console.log("lng:", mapO.getCenter().lng);
+	// console.log("zoom:", mapO.getZoom());
 
-					// var layer = mapO.getLayer(0);
-					var marker = L.marker(mapO.getCenter());
-					marker.addTo(mapO);
+	// var layer = mapO.getLayer(0);
+	var marker = L.marker(mapO.getCenter());
+	marker.addTo(mapO);
 
-					var layers = [];
-					mapO.eachLayer(function(layer) {
-						// console.log(layer);
-						layers.push(layer);
-					})
-					// console.log("layers",layers)
-					var openstreetmapLayer = layers[0];
-					assert.strictEqual(openstreetmapLayer._url,
-							'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+	var layers = [];
+	mapO.eachLayer(function(layer) {
+		// console.log(layer);
+		layers.push(layer);
+	})
+	// console.log("layers",layers)
+	var openstreetmapLayer = layers[0];
+	assert
+			.strictEqual(openstreetmapLayer._url,
+					'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 
-					var expectedAttribution = 'Map data &copy;'
-							+ '<a href="https://www.openstreetmap.org/">'
-							+ 'OpenStreetMap</a> contributors';
+	var expectedAttribution = 'Map data &copy;' + '<a href="https://www.openstreetmap.org/">'
+			+ 'OpenStreetMap</a> contributors';
 
-					assert.strictEqual(openstreetmapLayer.getAttribution(), expectedAttribution);
+	assert.strictEqual(openstreetmapLayer.getAttribution(), expectedAttribution);
 
-					var minimap = valueView.minimap;
-					console.log(minimap)
-					// assert.strictEqual(minimap.getCenter().lat, 61.7);
-					// assert.strictEqual(minimap.getCenter().lng, 15.0);
-					// assert.strictEqual(minimap.getZoom(), 4);
-					// var miniLayers = [];
-					// minimap.eachLayer(function(layer) {
-					// // console.log(layer);
-					// miniLayers.push(layer);
-					// })
-					// console.log("layers",layers)
-					var miniOpenstreetmapLayer = minimap._layer;
-					assert.strictEqual(miniOpenstreetmapLayer._url,
-							'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-//					assert.strictEqual(miniOpenstreetmapLayer._subdomains,
-//					'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-					
-					// minimap.
-					var shouldBeValueViewContainerIfMinimapAddedToMap = minimap.getContainer().parentNode.parentNode.parentNode;
-					assert.strictEqual(shouldBeValueViewContainerIfMinimapAddedToMap, valueView);
-					// var expectedAttribution = 'Map data &copy;'
-					// + '<a href="https://www.openstreetmap.org/">'
-					// + 'OpenStreetMap</a> contributors';
+	var minimap = valueView.minimap;
+	// console.log(minimap)
+	// assert.strictEqual(minimap.getCenter().lat, 61.7);
+	// assert.strictEqual(minimap.getCenter().lng, 15.0);
+	// assert.strictEqual(minimap.getZoom(), 4);
+	// var miniLayers = [];
+	// minimap.eachLayer(function(layer) {
+	// // console.log(layer);
+	// miniLayers.push(layer);
+	// })
+	// console.log("layers",layers)
+	var miniOpenstreetmapLayer = minimap._layer;
+	assert.strictEqual(miniOpenstreetmapLayer._url,
+			'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+	// assert.strictEqual(miniOpenstreetmapLayer._subdomains,
+	// 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 
-					// assert.strictEqual(openstreetmapLayer.getAttribution(), expectedAttribution);
+	// minimap.
+	var sbvvcimatm = minimap.getContainer().parentNode.parentNode.parentNode;
+	var shouldBeValueViewContainerIfMinimapAddedToMap = sbvvcimatm;
+	assert.strictEqual(shouldBeValueViewContainerIfMinimapAddedToMap, valueView);
+	// var expectedAttribution = 'Map data &copy;'
+	// + '<a href="https://www.openstreetmap.org/">'
+	// + 'OpenStreetMap</a> contributors';
 
-				});
+	// assert.strictEqual(openstreetmapLayer.getAttribution(), expectedAttribution);
+});
 
 // QUnit.test("testInputUnknownTypeIsText", function(assert) {
 // this.spec.inputType = undefined;

@@ -51,9 +51,18 @@ var CORA = (function(cora) {
 			defTextId = cDefTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			defText = textProvider.getTranslation(defTextId);
 
+			var initCompleteSubscriptionId = "";
+			// if (spec.minNumberOfRepeatingToShow !== undefined) {
+			initCompleteSubscriptionId = dependencies.pubSub.subscribe("initComplete", {},
+					undefined, initComplete);
+			// }
+
+			// addInfoToView();
 			pMapView = createView();
 			view = pMapView.getView();
-			// addInfoToView();
+		}
+
+		function initComplete() {
 		}
 
 		function createView() {
@@ -167,7 +176,8 @@ var CORA = (function(cora) {
 		var out = Object.freeze({
 			"type" : "pMap",
 			getView : getView,
-			getDependencies : getDependencies
+			getDependencies : getDependencies,
+			initComplete : initComplete
 		});
 		start();
 		view.modelObject = out;
