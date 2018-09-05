@@ -18,65 +18,8 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-// var CORATEST = (function(coraTest) {
-// "use strict";
-// coraTest.attachedPSurroundingContainerFactory = function(metadataProvider, pubSub,
-// textProvider, presentationFactory, jsBookkeeper, recordTypeProvider, fixture) {
-// var factor = function(path, metadataIdUsedInData, pSurroundingContainerId,
-// presentationParentId) {
-// var cPSurroundingContainer = CORA.coraData(metadataProvider
-// .getMetadataById(pSurroundingContainerId));
-// var cParentPresentation = CORA.coraData(metadataProvider
-// .getMetadataById(presentationParentId));
-// var dependencies = {
-// "metadataProvider" : metadataProvider,
-// "pubSub" : pubSub,
-// "textProvider" : textProvider,
-// "presentationFactory" : presentationFactory,
-// "jsBookkeeper" : jsBookkeeper,
-// "recordTypeProvider" : recordTypeProvider,
-// "pChildRefHandlerFactory" : CORATEST.standardFactorySpy("pChildRefHandlerSpy"),
-// "pNonRepeatingChildRefHandlerFactory" : CORATEST
-// .standardFactorySpy("pNonRepeatingChildRefHandlerSpy")
-// };
-// var spec = {
-// "metadataIdUsedInData" : metadataIdUsedInData,
-// "path" : path,
-// "cPresentation" : cPSurroundingContainer,
-// "cParentPresentation" : cParentPresentation
-// };
-// var pMap = CORA.pMap(dependencies, spec);
-// var view = pMap.getView();
-// fixture.appendChild(view);
-// var valueView = view.firstChild;
-// return {
-// pMap : pMap,
-// fixture : fixture,
-// valueView : valueView,
-// metadataProvider : metadataProvider,
-// pubSub : pubSub,
-// textProvider : textProvider,
-// jsBookkeeper : jsBookkeeper,
-// view : view
-// };
-//
-// };
-// return Object.freeze({
-// factor : factor
-// });
-// };
-//
-// return coraTest;
-// }(CORATEST || {}));
-
 QUnit.module("pMapTest.js", {
 	beforeEach : function() {
-		// this.getId = function(cData) {
-		// var recordInfo = cData.getFirstChildByNameInData("recordInfo");
-		// var id = CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
-		// return id;
-		// }
-		//
 		this.fixture = document.getElementById("qunit-fixture");
 		this.dependencies = {
 			"metadataProvider" : new MetadataCoordinatesProviderStub(),
@@ -111,58 +54,44 @@ QUnit.test("testInit", function(assert) {
 	var view = pMap.getView();
 	this.fixture.appendChild(view);
 	assert.strictEqual(view, this.dependencies.pMapViewFactory.getFactored(0).getView());
-	// assert.deepEqual(view.className, "pMap " + "coordinatesPGroup");
 	assert.ok(view.modelObject === pMap,
 			"modelObject should be a pointer to the javascript object instance");
-	// assert.strictEqual(view.childNodes.length, 4);
-	//
-	// assert.strictEqual(view.childNodes[1].textContent, "En rubrik");
-	//
-	// assert.strictEqual(view.childNodes[2].className, "pChildRefHandlerSpyView");
-	//
-	// var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
-	// assert.deepEqual(factoredSpec.parentPath, this.spec.path);
-	//
-	// assert.strictEqual(this.getId(factoredSpec.cParentMetadata),
-	// "groupIdTwoTextChildRepeat1to5");
-	// assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
-	// assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
-	// "pgGroupIdTwoTextChildSurrounding2TextPGroup");
-	// assert.strictEqual(factoredSpec.minimizedDefault, undefined);
 });
 
 QUnit.test("testInitSubscribesToInitcompleteMessage", function(assert) {
 	var pMap = CORA.pMap(this.dependencies, this.spec);
-	// var messages = this.dependencies.pubSub.getMessages();
-	// assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
-	// + '"metadataId":"textVariableId","path":{},"nameInData":"textVariableId"}}');
-
-	// assert.deepEqual(messages[0].type, "initComplete");
-	// assert.equal(messages.length, 2);
-	// assert.deepEqual(JSON.stringify(messages[1]),
-	// '{"type":"initComplete","message":{"data":"","path":{}}}');
-	// subscription
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();
 	assert.deepEqual(subscriptions.length, 1);
 
-//	var firstSubsription = subscriptions[0];
-//	assert.strictEqual(firstSubsription.type, "add");
+	// var firstSubsription = subscriptions[0];
+	// assert.strictEqual(firstSubsription.type, "add");
 
-//	var secondSubscription = subscriptions[1];
-//	assert.strictEqual(secondSubscription.type, "move");
+	// var secondSubscription = subscriptions[1];
+	// assert.strictEqual(secondSubscription.type, "move");
 
 	var thirdSubscription = subscriptions[0];
 	assert.strictEqual(thirdSubscription.type, "initComplete");
 	assert.deepEqual(thirdSubscription.path, {});
 	assert.strictEqual(thirdSubscription.functionToCall, pMap.initComplete);
+});
+
+QUnit.test("testInitCompleteStartsMapInViewAndUnsubscribesToInitcompleteMessage", function(assert) {
+	var pMap = CORA.pMap(this.dependencies, this.spec);
+
+	var pMapView = this.dependencies.pMapViewFactory.getFactored(0);
+	assert.strictEqual(pMapView.getStartMapCalled(), false);
+
+	pMap.initComplete();
+	assert.strictEqual(pMapView.getStartMapCalled(), true);
 
 	// unsubscription
-//	var unsubscriptions = this.dependencies.pubSub.getUnsubscriptions();
-//	assert.deepEqual(unsubscriptions.length, 0);
+	var unsubscriptions = this.dependencies.pubSub.getUnsubscriptions();
+	assert.deepEqual(unsubscriptions.length, 1);
 });
 
 QUnit.test("testInitInfoInputMode", function(assert) {
 	var pMap = CORA.pMap(this.dependencies, this.spec);
+	pMap.initComplete();
 	var view = pMap.getView();
 	this.fixture.appendChild(view);
 
@@ -249,38 +178,7 @@ QUnit.test("testInitInfoInputMode", function(assert) {
 
 QUnit.test("testGetDependencies", function(assert) {
 	var pMap = CORA.pMap(this.dependencies, this.spec);
-	// assert.strictEqual(pMap.type, "pMap");
 	var dependencies = pMap.getDependencies();
 	assert.equal(dependencies, this.dependencies);
 });
 
-// QUnit.test("testNestedSurroundingContainer", function(assert) {
-// this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
-// .getMetadataById("pTextVariablePlus2SContainer2")),
-// this.spec.cParentPresentation = CORA.coraData(this.dependencies.metadataProvider
-// .getMetadataById("pgGroupIdTwoTextChildSurrounding2TextPGroup2"))
-// var pMap = CORA.pMap(this.dependencies, this.spec);
-// var view = pMap.getView();
-// this.fixture.appendChild(view);
-//
-// assert.strictEqual(pMap.type, "pMap");
-// assert.deepEqual(view.className, "pMap " + "pTextVariablePlus2SContainer2");
-// assert.ok(view.modelObject === pMap,
-// "modelObject should be a pointer to the javascript object instance");
-// assert.strictEqual(view.childNodes.length, 3);
-//
-// assert.strictEqual(view.childNodes[1].textContent, "En rubrik");
-//
-//
-// var factoredSpec = this.dependencies.pNonRepeatingChildRefHandlerFactory.getSpec(0);
-//
-// assert.strictEqual(factoredSpec.parentPath, this.spec.path);
-// assert.strictEqual(factoredSpec.parentMetadataId, "groupIdTwoTextChildRepeat1to5");
-// assert.strictEqual(this.getId(factoredSpec.cPresentation), "pTextVariablePlus2SContainer");
-// assert.strictEqual(this.getId(factoredSpec.cParentPresentation),
-// "pgGroupIdTwoTextChildSurrounding2TextPGroup2");
-//
-// var factored = this.dependencies.pNonRepeatingChildRefHandlerFactory.getFactored(0)
-// assert.strictEqual(view.childNodes[2], factored.getView());
-//
-// });

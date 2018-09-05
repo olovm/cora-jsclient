@@ -563,7 +563,7 @@ img {
 	border: 1px solid gray;
 }
 
-.coraMap {
+#coraMap, .coraMap {
 	height: 600px;
 	width: 600px;
 }

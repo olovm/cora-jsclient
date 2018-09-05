@@ -20,6 +20,7 @@ var CORATEST = (function(coraTest) {
 	"use strict";
 	coraTest.pRepeatingElementSpy = function(dependencies, spec) {
 		var view = document.createElement("span");
+		view.className = "repeatingElement";
 		var parentModelObject;
 		var path = spec.path;
 		var presentation;

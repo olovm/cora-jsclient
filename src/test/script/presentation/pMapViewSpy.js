@@ -25,6 +25,9 @@ var CORATEST = (function(coraTest) {
 		var view = CORA.gui.createDivWithClassName("pMapViewSpy");
 		var state;
 		var value;
+
+		var startMapCalled = false;
+
 		function getView() {
 			return view;
 		}
@@ -47,12 +50,20 @@ var CORATEST = (function(coraTest) {
 		function getState() {
 			return state;
 		}
-		function callOnblurWithValue(valueToSet){
+		function callOnblurWithValue(valueToSet) {
 			spec.onblurFunction(valueToSet);
 		}
-		function callOnkeyupWithValue(valueToSet){
+		function callOnkeyupWithValue(valueToSet) {
 			spec.onkeyupFunction(valueToSet);
 		}
+
+		function startMap() {
+			startMapCalled = true;
+		}
+		function getStartMapCalled() {
+			return startMapCalled;
+		}
+
 		var out = Object.freeze({
 			"type" : "pMapViewSpy",
 			getDependencies : getDependencies,
@@ -62,8 +73,10 @@ var CORATEST = (function(coraTest) {
 			getValue : getValue,
 			setState : setState,
 			getState : getState,
-			callOnblurWithValue:callOnblurWithValue,
-			callOnkeyupWithValue:callOnkeyupWithValue
+			callOnblurWithValue : callOnblurWithValue,
+			callOnkeyupWithValue : callOnkeyupWithValue,
+			startMap : startMap,
+			getStartMapCalled : getStartMapCalled
 		});
 		return out;
 	};

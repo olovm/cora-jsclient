@@ -31,6 +31,8 @@ var CORA = (function(cora) {
 		var childIsCurrentlyBeeingDragged = false;
 		var lastRepeatingElementDraggedOver;
 
+		var draggedElementIsRepeatingElement = false;
+
 		view.appendChild(childrenView);
 		if (spec.mode === "input" && (spec.addMethod !== undefined || spec.upload === "true")) {
 			createButtonView();
@@ -114,25 +116,40 @@ var CORA = (function(cora) {
 		}
 
 		function dragstartHandler(event) {
-			event.stopPropagation();
+			// console.log("dragstartHandler: event.target", event.target);
+			// console.log("dragstartHandler: event", event);
+			if (event.target.className.startsWith("repeatingElement")) {
+				draggedElementIsRepeatingElement = true;
+
+				event.stopPropagation();
+				event.dataTransfer.effectAllowed = "move";
+
+				var source = event.target;
+				source.originalClassname = source.className;
+				source.className = source.className + " beeingDragged";
+				event.dataTransfer.setData("text/notInUse", "notUsed");
+			}
+			// }
 			childIsCurrentlyBeeingDragged = true;
 			nodeBeeingDragged = event.target;
 			beeingDraggedY = event.screenY;
-			var source = event.target;
-			source.originalClassname = source.className;
-			source.className = source.className + " beeingDragged";
-			event.dataTransfer.setData("text/notInUse", "notUsed");
-			event.dataTransfer.effectAllowed = "move";
+			// }
 		}
 
 		function dragoverHandler(event) {
-			event.preventDefault();
-			event.dataTransfer.dropEffect = "move";
+			if (draggedElementIsRepeatingElement) {
+				event.preventDefault();
+				event.dataTransfer.dropEffect = "move";
+			}
 		}
 
 		function dragenterHandler(event) {
-			event.preventDefault();
-			event.dataTransfer.dropEffect = "move";
+			if (draggedElementIsRepeatingElement) {
+				// console.log("event.target", event.target);
+				// if (event.target.className.startsWith("repeatingElement")) {
+				event.preventDefault();
+				event.dataTransfer.dropEffect = "move";
+			}
 			if (childIsCurrentlyBeeingDragged && aRepeatingElementHasBeenDraggedOver()) {
 				moveNodeBeeingDraggedIfDraggedOverSibblingNode(event);
 			}
@@ -143,24 +160,32 @@ var CORA = (function(cora) {
 		}
 
 		function moveNodeBeeingDraggedIfDraggedOverSibblingNode(event) {
+			// if (draggedElementIsRepeatingElement) {
+			// console.log("event.target", event.target);
+			// if (event.target.className.startsWith("repeatingElement")) {
 			if (isSibblingNodes(nodeBeeingDragged, lastRepeatingElementDraggedOver.getView())) {
 				moveNodeBeeingDragged(event);
 			}
+			// }
 		}
 
 		function isSibblingNodes(node1, node2) {
 			if (node1 === node2) {
 				return false;
 			}
-			var sibblings = node1.parentNode.childNodes;
-			var isSibblingFunction = function(key) {
-				return sibblings[key] === node2;
-			};
-			var keys = Object.keys(sibblings);
-			return keys.some(isSibblingFunction);
+//			var sibblings = node1.parentNode.childNodes;
+//			var isSibblingFunction = function(key) {
+//				return sibblings[key] === node2;
+//			};
+//			var keys = Object.keys(sibblings);
+//			return keys.some(isSibblingFunction);
+			return node1.parentNode === node2.parentNode;
 		}
 
 		function moveNodeBeeingDragged(event) {
+			// if (draggedElementIsRepeatingElement) {
+			// console.log("event.target", event.target);
+			// if (event.target.className.startsWith("repeatingElement")) {
 			event.stopPropagation();
 			event.preventDefault();
 			lastChangedWith = lastRepeatingElementDraggedOver;
@@ -173,6 +198,7 @@ var CORA = (function(cora) {
 				nodeBeeingDragged.parentElement.insertBefore(nodeBeeingDragged,
 						lastRepeatingElementDraggedOver.getView());
 			}
+			// }
 		}
 
 		function dragDirectionIsDown(event) {
@@ -181,25 +207,37 @@ var CORA = (function(cora) {
 		}
 
 		function dropHandler(event) {
+			// if (draggedElementIsRepeatingElement) {
+			// console.log("event.target", event.target);
+			// if (event.target.className.startsWith("repeatingElement")) {
 			event.preventDefault();
 			if (childIsCurrentlyBeeingDragged) {
 				event.stopPropagation();
 				event.dataTransfer.dropEffect = "move";
 			}
+			// }
 		}
 
 		function dragendHandler(event) {
+			// if (draggedElementIsRepeatingElement) {
+			// console.log("event.target", event.target);
+			// if (event.target.className.startsWith("repeatingElement")) {
 			event.preventDefault();
 			if (childIsCurrentlyBeeingDragged) {
 				handleDraggedElements(event);
 			}
+			// }
 		}
 
 		function handleDraggedElements(event) {
+			// if (draggedElementIsRepeatingElement) {
+			// console.log("event.target", event.target);
+			// if (event.target.className.startsWith("repeatingElement")) {
 			event.stopPropagation();
 			resetNodeBeeingDragged();
 			possiblySendMoveMessage();
 			resetDragSystem();
+			// }
 		}
 
 		function resetNodeBeeingDragged() {
@@ -234,6 +272,8 @@ var CORA = (function(cora) {
 			beeingDraggedY = undefined;
 			childIsCurrentlyBeeingDragged = false;
 			lastRepeatingElementDraggedOver = undefined;
+
+			// draggedElementIsRepeatingElement = false;
 		}
 
 		function addChild(child) {

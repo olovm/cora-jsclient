@@ -1,5 +1,6 @@
 /*
- * Copyright 2016, 2018 Olov McKie
+ * Copyright 2018 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -24,8 +25,12 @@ var CORA = (function(cora) {
 		var valueView;
 		var baseClassName = "pMap " + spec.presentationId;
 		var info;
-		// var state = "ok";
-		//
+
+		var defaultLatLng = [ 61.7, 15.0 ];
+		var defaultZoom = 4;
+		var map;
+		var marker;
+
 		function start() {
 			view = CORA.gui.createSpanWithClassName(baseClassName);
 			info = createInfo();
@@ -33,6 +38,7 @@ var CORA = (function(cora) {
 			createValueView();
 			view.appendChild(info.getButton());
 		}
+
 		function createInfo() {
 			var infoSpec = {
 				"appendTo" : view,
@@ -48,6 +54,7 @@ var CORA = (function(cora) {
 			possiblyAddLevel2Info(infoSpec);
 			return dependencies.infoFactory.factor(infoSpec);
 		}
+
 		function possiblyAddLevel2Info(infoSpec) {
 			if (specInfoHasTechnicalInfo()) {
 				addLevelTechnicalInfoAsLevel2(infoSpec);
@@ -79,133 +86,86 @@ var CORA = (function(cora) {
 
 		function updateClassName() {
 			var className = baseClassName;
-			// if (stateIndicatesError()) {
-			// className += " error";
-			// }
-			// if (stateIndicatesErrorStillFocused()) {
-			// className += " errorStillFocused";
-			// }
 			if (infoIsShown()) {
 				className += " infoActive";
 			}
 			view.className = className;
 		}
 
-		// function stateIndicatesError() {
-		// return state === "error";
-		// }
-		// function stateIndicatesErrorStillFocused() {
-		// return state === "errorStillFocused";
-		// }
-
 		function infoIsShown() {
 			return info.getInfoLevel() !== 0;
 		}
 
 		function createValueView() {
+			valueView = CORA.gui.createDivWithClassName("coraMap");
+			view.appendChild(valueView);
+		}
+
+		function startMap() {
+			map = L.map(valueView).setView(defaultLatLng, defaultZoom);
+			valueView.modelObject = map;
+
+			var titleLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution : 'Map data &copy;' + '<a href="https://www.openstreetmap.org/">'
+						+ 'OpenStreetMap</a> contributors',
+			});
+			// titleLayer.addTo(map);
+			map.addLayer(titleLayer);
+
+			var miniLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {});
+			var minimap = new L.Control.MiniMap(miniLayer);
+			minimap.addTo(map);
+			valueView.minimap = minimap;
+
 			// if (spec.mode === "input") {
 			// valueView = createInput();
 			// } else {
 			// valueView = createOutput();
 			// }
-			valueView = CORA.gui.createDivWithClassName("coraMap");
-			view.appendChild(valueView);
+			// setMarker(defaultLatLng.lat, defaultLatLng.lng);
 
-			// var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-			var mymap = L.map(valueView).setView([ 61.7, 15.0 ], 4);
-			valueView.modelObject = mymap;
+			map.on('click', onMapClick);
 
-			var titleLayer = L.tileLayer(
-					'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-					{
-						attribution : 'Map data &copy;'
-								+ '<a href="https://www.openstreetmap.org/">'
-								+ 'OpenStreetMap</a> contributors',
-//						subdomains : [ 'a', 'b', 'c' ]
-					});
-			titleLayer.addTo(mymap);
-			 
-			var miniLayer = L.tileLayer(
-					'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-					{
-//						attribution : 'Map data &copy;'
-//								+ '<a href="https://www.openstreetmap.org/">'
-//								+ 'OpenStreetMap</a> contributors',
-//						subdomains : [ 'a', 'b', 'c' ]
-					});
-			var minimap = new L.Control.MiniMap(miniLayer);
-			minimap.addTo(mymap);
-			valueView.minimap = minimap;
-			// console.log(mymap)
 		}
-		//
-		// function createInput() {
-		// valueView = createTextTypeInput();
-		// possiblyAddOnkeyupEvent(valueView);
-		// possiblyAddOnblurEvent(valueView);
-		// possiblyAddPlaceholderText(valueView);
-		// return valueView;
-		// }
-		//
-		// function possiblyAddOnkeyupEvent(valueViewIn) {
-		// if (spec.onkeyupFunction !== undefined) {
-		// valueViewIn.onkeyup = function() {
-		// spec.onkeyupFunction(valueViewIn.value);
-		// };
-		// }
-		// }
-		//
-		// function possiblyAddOnblurEvent(valueViewIn) {
-		// if (spec.onblurFunction !== undefined) {
-		// valueViewIn.onblur = function() {
-		// spec.onblurFunction(valueViewIn.value);
-		// };
-		// }
-		// }
-		//
-		// function possiblyAddPlaceholderText(inputNew) {
-		// if (spec.placeholderText !== undefined) {
-		// inputNew.placeholder = spec.placeholderText;
-		// }
-		// }
-		//
-		// function createTextTypeInput() {
-		// var inputNew = document.createElement(getInputTypeFromSpec());
-		// inputNew.setValue = function(value) {
-		// inputNew.value = value;
-		// };
-		// return inputNew;
-		// }
-		//
-		// function getInputTypeFromSpec() {
-		// if (spec.inputType !== undefined) {
-		// return spec.inputType;
-		// }
-		// return "input";
-		// }
-		//
-		// function createOutput() {
-		// if (spec.outputFormat === "image") {
-		// return createOutputImage();
-		// }
-		// return createOutputText();
-		// }
-		//
-		// function createOutputImage() {
-		// var outputNew = document.createElement("img");
-		// outputNew.setValue = function(value) {
-		// outputNew.src = value;
-		// };
-		// return outputNew;
-		// }
-		//
-		// function createOutputText() {
-		// var outputNew = document.createElement("span");
-		// outputNew.setValue = function(value) {
-		// outputNew.textContent = value;
-		// };
-		// return outputNew;
-		// }
+		// Script for adding marker on map click
+		function onMapClick(e) {
+
+			var marker = L.marker(e.latlng, {
+				draggable : true,
+				title : "Resource location",
+				alt : "Resource Location",
+				riseOnHover : true
+			}).addTo(map).bindPopup(e.latlng.toString()).openPopup();
+
+			// Update marker on changing it's position
+			marker.on("dragend", function(ev) {
+
+				var chagedPos = ev.target.getLatLng();
+				this.bindPopup(chagedPos.toString()).openPopup();
+
+			});
+		}
+
+		function setMarker(lat, lng) {
+			var latLng = [ lat, lng ];
+			// var options = {
+			// draggable : 'true'
+			// // autoPan : true
+			// };
+			// marker = L.marker(latLng, options);
+			marker = L.marker(latLng);
+			marker.addTo(map);
+			valueView.marker = marker;
+
+			var zoomLevel = 10;
+			map.flyTo(latLng, zoomLevel);
+		}
+
+		function removeMarker() {
+			valueView.marker = undefined;
+			map.removeLayer(marker);
+			map.flyTo(defaultLatLng, defaultZoom);
+		}
 
 		function getView() {
 			return view;
@@ -219,25 +179,19 @@ var CORA = (function(cora) {
 			return spec;
 		}
 
-		// function setValue(value) {
-		// valueView.setValue(value);
-		// }
-		//
-		// function setState(stateIn) {
-		// state = stateIn;
-		// updateClassName();
-		// }
-
 		out = Object.freeze({
 			"type" : "pMapView",
 			getDependencies : getDependencies,
 			getSpec : getSpec,
 			getView : getView,
-			// setValue : setValue,
 			updateClassName : updateClassName,
-		// setState : setState
+			startMap : startMap,
+			setMarker : setMarker,
+			removeMarker : removeMarker
 		});
 		start();
+		valueView.modelObject2 = out;
+
 		return out;
 	};
 	return cora;

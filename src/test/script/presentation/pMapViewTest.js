@@ -1,5 +1,6 @@
 /*
- * Copyright 2016, 2018 Olov McKie
+ * Copyright 2018 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -29,8 +30,6 @@ QUnit.module("pMapViewTest.js", {
 		};
 		this.spec = {
 			"mode" : "input",
-			// "inputType" : "input",
-			// "outputFormat" : "text",
 			"presentationId" : "somePresentationId",
 			"info" : {
 				"text" : "someText",
@@ -178,57 +177,26 @@ QUnit.test("testActiveInfoShownInClassName", function(assert) {
 	assert.strictEqual(view.className, "pMap somePresentationId");
 });
 
-// QUnit.test("testStateShownInClassName", function(assert) {
-// var pMapView = this.getPMapView();
-// var view = this.getView();
-// var infoSpy = this.dependencies.infoFactory.getFactored(0);
-// assert.strictEqual(view.className, "pMap somePresentationId");
-// pMapView.setState("error");
-// assert.strictEqual(view.className, "pMap somePresentationId error");
-// pMapView.setState("errorStillFocused");
-// assert.strictEqual(view.className, "pMap somePresentationId errorStillFocused");
-// pMapView.setState("error");
-// infoSpy.setInfoLevel(1);
-// pMapView.updateClassName();
-// assert.strictEqual(view.className,
-// "pMap somePresentationId error infoActive");
-// pMapView.setState("ok");
-// assert.strictEqual(view.className, "pMap somePresentationId infoActive");
-// });
-
-QUnit.test("testMapPart", function(assert) {
+QUnit.test("testStartMap", function(assert) {
 	var valueView = this.getValueView();
 	assert.strictEqual(valueView.nodeName, "DIV");
 	assert.strictEqual(valueView.className.substring(0, 7), "coraMap");
-	assert.strictEqual(valueView.childNodes[1].className, "leaflet-control-container");
+	assert.strictEqual(valueView.childNodes[1], undefined);
 
+	var pMapView = this.getPMapView();
+	pMapView.startMap();
+
+	assert.strictEqual(valueView.childNodes[1].className, "leaflet-control-container");
 	var mapO = valueView.modelObject;
 
 	assert.strictEqual(mapO.getCenter().lat, 61.7);
 	assert.strictEqual(mapO.getCenter().lng, 15.0);
 	assert.strictEqual(mapO.getZoom(), 4);
 
-	// console.log("center:", mapO.getCenter());
-	// console.log("lat:", mapO.getCenter().lat);
-	// console.log("lng:", mapO.getCenter().lng);
-	// console.log("zoom:", mapO.getZoom());
-
-	// mapO.setView([ 23.4, 19.2 ]);
-	// console.log("center:", mapO.getCenter());
-	// console.log("lat:", mapO.getCenter().lat);
-	// console.log("lng:", mapO.getCenter().lng);
-	// console.log("zoom:", mapO.getZoom());
-
-	// var layer = mapO.getLayer(0);
-	var marker = L.marker(mapO.getCenter());
-	marker.addTo(mapO);
-
 	var layers = [];
 	mapO.eachLayer(function(layer) {
-		// console.log(layer);
 		layers.push(layer);
 	})
-	// console.log("layers",layers)
 	var openstreetmapLayer = layers[0];
 	assert
 			.strictEqual(openstreetmapLayer._url,
@@ -240,141 +208,90 @@ QUnit.test("testMapPart", function(assert) {
 	assert.strictEqual(openstreetmapLayer.getAttribution(), expectedAttribution);
 
 	var minimap = valueView.minimap;
-	// console.log(minimap)
-	// assert.strictEqual(minimap.getCenter().lat, 61.7);
-	// assert.strictEqual(minimap.getCenter().lng, 15.0);
-	// assert.strictEqual(minimap.getZoom(), 4);
-	// var miniLayers = [];
-	// minimap.eachLayer(function(layer) {
-	// // console.log(layer);
-	// miniLayers.push(layer);
-	// })
-	// console.log("layers",layers)
 	var miniOpenstreetmapLayer = minimap._layer;
 	assert.strictEqual(miniOpenstreetmapLayer._url,
 			'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-	// assert.strictEqual(miniOpenstreetmapLayer._subdomains,
-	// 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 
 	// minimap.
 	var sbvvcimatm = minimap.getContainer().parentNode.parentNode.parentNode;
 	var shouldBeValueViewContainerIfMinimapAddedToMap = sbvvcimatm;
 	assert.strictEqual(shouldBeValueViewContainerIfMinimapAddedToMap, valueView);
-	// var expectedAttribution = 'Map data &copy;'
-	// + '<a href="https://www.openstreetmap.org/">'
-	// + 'OpenStreetMap</a> contributors';
-
-	// assert.strictEqual(openstreetmapLayer.getAttribution(), expectedAttribution);
 });
 
-// QUnit.test("testInputUnknownTypeIsText", function(assert) {
-// this.spec.inputType = undefined;
-// var valueView = this.getValueView();
-// assert.strictEqual(valueView.nodeName, "INPUT");
-// assert.strictEqual(valueView.type, "text");
-// });
-//
-// QUnit.test("testInputTypeTextArea", function(assert) {
-// this.spec.inputType = "textarea";
-// var valueView = this.getValueView();
-// assert.strictEqual(valueView.nodeName, "TEXTAREA");
-// assert.strictEqual(valueView.type, "textarea");
-// });
-//
-// QUnit.test("testInputPlaceholder", function(assert) {
-// this.spec.placeholderText = "placeholderText";
-// var valueView = this.getValueView();
-// assert.strictEqual(valueView.placeholder, "placeholderText");
-// });
-//
-// QUnit.test("testInputOnblur", function(assert) {
-// var valueFromView = "";
-// this.spec.onblurFunction = function(value) {
-// valueFromView = value;
-// };
-//
-// var pMapView = this.getPMapView();
-// pMapView.setValue("a Value");
-// var valueView = this.getValueView();
-// CORATESTHELPER.simulateBlur(this.getValueView());
-// assert.strictEqual(valueFromView, "a Value");
-// });
-// QUnit.test("testInputOnblurNotSet", function(assert) {
-// var valueFromView = "";
-//	
-// var pMapView = this.getPMapView();
-// pMapView.setValue("a Value");
-// var valueView = this.getValueView();
-// CORATESTHELPER.simulateBlur(this.getValueView());
-// assert.strictEqual(valueFromView, "");
-// });
-//
-// QUnit.test("testInputOnkeyup", function(assert) {
-// var valueFromView = "";
-// this.spec.onkeyupFunction = function(value) {
-// valueFromView = value;
-// };
-//	
-// var pMapView = this.getPMapView();
-// pMapView.setValue("a Value");
-// var valueView = this.getValueView();
-//	
-// CORATESTHELPER.simulateKeyup(this.getValueView(), "a");
-//	
-// assert.strictEqual(valueFromView, "a Value");
-// });
-//
-// QUnit.test("testInputOnkeyupNotSet", function(assert) {
-// var valueFromView = "";
-//	
-// var pMapView = this.getPMapView();
-// pMapView.setValue("a Value");
-// var valueView = this.getValueView();
-//	
-// CORATESTHELPER.simulateKeyup(this.getValueView(), "a");
-//	
-// assert.strictEqual(valueFromView, "");
-// });
-//
-// QUnit.test("testOutputText", function(assert) {
-// this.spec.mode = "output";
-// var valueView = this.getValueView();
-// assert.strictEqual(valueView.nodeName, "SPAN");
-// });
-//
-// QUnit.test("testOutputImage", function(assert) {
-// this.spec.mode = "output";
-// this.spec.outputFormat = "image";
-// var valueView = this.getValueView();
-// assert.strictEqual(valueView.nodeName, "IMG");
-// });
-//
-// QUnit.test("testSetValueInput", function(assert) {
-// var pMapView = this.getPMapView();
-// var valueView = this.getValueView();
-//
-// assert.strictEqual(valueView.value, "");
-// pMapView.setValue("a Value");
-// assert.strictEqual(valueView.value, "a Value");
-// });
-//
-// QUnit.test("testSetValueOutputText", function(assert) {
-// this.spec.mode = "output";
-// var pMapView = this.getPMapView();
-// var valueView = this.getValueView();
-//
-// assert.strictEqual(valueView.innerHTML, "");
-// pMapView.setValue("a Value");
-// assert.strictEqual(valueView.innerHTML, "a Value");
-// });
-//
-// QUnit.test("testSetValueOutputImage", function(assert) {
-// this.spec.mode = "output";
-// this.spec.outputFormat = "image";
-// var pMapView = this.getPMapView();
-// var valueView = this.getValueView();
-//
-// assert.strictEqual(valueView.src, "");
-// pMapView.setValue("http://www.some.domain.nu/image01.jpg");
-// assert.strictEqual(valueView.src, "http://www.some.domain.nu/image01.jpg");
-// });
+QUnit.test("testSetMarker", function(assert) {
+	var valueView = this.getValueView();
+	var pMapView = this.getPMapView();
+	pMapView.startMap();
+
+	var marker = valueView.marker;
+	assert.strictEqual(marker, undefined);
+	var lat = 62.7;
+	var lng = 16.0;
+	pMapView.setMarker(lat, lng);
+	
+	var map = valueView.modelObject;
+	assert.strictEqual(map.getCenter().lat, 62.7);
+	assert.strictEqual(map.getCenter().lng, 16.0);
+	assert.strictEqual(map.getZoom(), 10);
+
+	marker = valueView.marker;
+	assert.strictEqual(marker.getLatLng().lat, 62.7);
+	assert.strictEqual(marker.getLatLng().lng, 16.0);
+
+	var sbvvcimatm = marker.getElement().parentNode.parentNode.parentNode;
+	var shouldBeValueViewContainerIfMarkerAddedToMap = sbvvcimatm;
+	assert.strictEqual(shouldBeValueViewContainerIfMarkerAddedToMap, valueView);
+});
+
+QUnit.test("testRemoveMarker", function(assert) {
+	var valueView = this.getValueView();
+	var pMapView = this.getPMapView();
+	pMapView.startMap();
+
+	var marker = valueView.marker;
+	assert.strictEqual(marker, undefined);
+	var lat = 61.7;
+	var lng = 15.0;
+	pMapView.setMarker(lat, lng);
+
+	marker = valueView.marker;
+
+	var sbvvcimatm = marker.getElement().parentNode.parentNode.parentNode;
+	var shouldBeValueViewContainerIfMarkerAddedToMap = sbvvcimatm;
+	assert.strictEqual(shouldBeValueViewContainerIfMarkerAddedToMap, valueView);
+
+	pMapView.removeMarker();
+
+	assert.strictEqual(valueView.marker, undefined);
+	
+	assert.strictEqual(marker.getElement(), null);
+	
+	var map = valueView.modelObject;
+	assert.strictEqual(map.getCenter().lat, 61.7);
+	assert.strictEqual(map.getCenter().lng, 15.0);
+	assert.strictEqual(map.getZoom(), 4);
+});
+
+QUnit.test("testMoveMarker", function(assert) {
+	var valueView = this.getValueView();
+	var pMapView = this.getPMapView();
+	pMapView.startMap();
+
+	var marker = valueView.marker;
+	assert.strictEqual(marker, undefined);
+	var lat = 62.7;
+	var lng = 16.0;
+	pMapView.setMarker(lat, lng);
+	pMapView.setMarker(63.5, 16.4);
+	
+	var map = valueView.modelObject;
+	assert.strictEqual(map.getCenter().lat, 63.5);
+	assert.strictEqual(map.getCenter().lng, 16.4);
+	assert.strictEqual(map.getZoom(), 10);
+
+	marker = valueView.marker;
+	assert.strictEqual(marker.getLatLng().lat, 63.5);
+	assert.strictEqual(marker.getLatLng().lng, 16.4);
+
+});
+

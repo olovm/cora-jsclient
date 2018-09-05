@@ -23,6 +23,8 @@ var CORA = (function(cora) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
 
+		var initCompleteSubscriptionId = "";
+
 		var pMapView;
 		var view;
 		var cPresentation = spec.cPresentation;
@@ -37,7 +39,6 @@ var CORA = (function(cora) {
 
 		function start() {
 			presentationId = getPresentationId();
-			// view = createBaseViewHolder();
 
 			cMetadataElement = getMetadataById(metadataId);
 			nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
@@ -51,20 +52,22 @@ var CORA = (function(cora) {
 			defTextId = cDefTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			defText = textProvider.getTranslation(defTextId);
 
-			var initCompleteSubscriptionId = "";
-			// if (spec.minNumberOfRepeatingToShow !== undefined) {
 			initCompleteSubscriptionId = dependencies.pubSub.subscribe("initComplete", {},
 					undefined, initComplete);
-			// }
 
-			// addInfoToView();
 			pMapView = createView();
 			view = pMapView.getView();
 		}
 
 		function initComplete() {
+			unsubscribeFromInitComplete();
+			pMapView.startMap();
 		}
 
+		function unsubscribeFromInitComplete() {
+			dependencies.pubSub.unsubscribe(initCompleteSubscriptionId);
+		}
+		
 		function createView() {
 			var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 			var pMapViewSpec = {
@@ -86,8 +89,6 @@ var CORA = (function(cora) {
 					// onclickMethod : openMetadataIdRecord
 					}, {
 						"text" : "nameInData: " + nameInData
-					// }, {
-					// "text" : "regEx: " + regEx
 					}, {
 						"text" : "presentationId: " + presentationId
 					} ]
@@ -103,67 +104,11 @@ var CORA = (function(cora) {
 		function getMetadataById(id) {
 			return CORA.coraData(metadataProvider.getMetadataById(id));
 		}
-		// var cPresentation = spec.cPresentation;
-		// var cParentPresentation = spec.cParentPresentation;
-		//
-		// var my = {};
-		// my.metadataId = spec.metadataIdUsedInData;
-		//
-		// my.cPresentation = cPresentation;
-		// my.cParentPresentation = cParentPresentation;
-		// my.createBaseViewHolder = createBaseViewHolder;
-		//
-		// var parent = CORA.pMultipleChildren(dependencies, spec, my);
-		// parent.init();
-		//
+
 		function getPresentationId() {
 			var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
-
-		// function createBaseViewHolder() {
-		// return CORA.gui.createSpanWithClassName("pMap " + presentationId);
-		// }
-		//
-		// function addInfoToView() {
-		// var createdInfo = createInfo();
-		// view.appendChild(createdInfo.getButton());
-		// }
-		// function createInfo() {
-		// var infoSpec = {
-		// // "insertAfter" is set to infoButton below
-		// // "afterLevelChange" : updateClassName,
-		// "level1" : [ {
-		// "className" : "textView",
-		// "text" : text
-		// }, {
-		// "className" : "defTextView",
-		// "text" : defText
-		// } ],
-		// "level2" : [ {
-		// "className" : "textIdView",
-		// "text" : "textId: " + textId
-		// }, {
-		// "className" : "defTextIdView",
-		// "text" : "defTextId: " + defTextId
-		// }, {
-		// "className" : "metadataIdView",
-		// "text" : "metadataId: " + metadataId
-		// }, {
-		// "className" : "technicalView",
-		// "text" : "nameInData: " + nameInData
-		// }, {
-		// "className" : "technicalView",
-		// "text" : "presentationId: " + presentationId
-		// } ]
-		// };
-		// possiblyAddLevel2Info(infoSpec);
-
-		// var newInfo = dependencies.infoFactory.factor(infoSpec);
-		// // infoSpec.insertBefore = childrenView;
-		// infoSpec.insertAfter = newInfo.getButton();
-		// return newInfo;
-		// }
 
 		function getView() {
 			return view;
