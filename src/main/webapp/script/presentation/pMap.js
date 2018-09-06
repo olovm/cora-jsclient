@@ -22,7 +22,11 @@ var CORA = (function(cora) {
 	cora.pMap = function(dependencies, spec) {
 		var metadataProvider = dependencies.metadataProvider;
 		var textProvider = dependencies.textProvider;
+		var pubSub = dependencies.pubSub;
 
+		var path = spec.path;
+
+		var mapStarted = false;
 		var initCompleteSubscriptionId = "";
 
 		var pMapView;
@@ -52,22 +56,117 @@ var CORA = (function(cora) {
 			defTextId = cDefTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			defText = textProvider.getTranslation(defTextId);
 
-			initCompleteSubscriptionId = dependencies.pubSub.subscribe("initComplete", {},
-					undefined, initComplete);
+			subscribeToMessagesForMap();
 
 			pMapView = createView();
 			view = pMapView.getView();
 		}
 
-		function initComplete() {
-			unsubscribeFromInitComplete();
-			pMapView.startMap();
+		function subscribeToMessagesForMap() {
+			subscribeToInitCompleteMessageForStartup();
+			subscribeToSetValueForCoordinatesValues();
 		}
 
-		function unsubscribeFromInitComplete() {
-			dependencies.pubSub.unsubscribe(initCompleteSubscriptionId);
+		function subscribeToInitCompleteMessageForStartup() {
+			initCompleteSubscriptionId = pubSub.subscribe("initComplete", {}, undefined,
+					initComplete);
 		}
-		
+
+		function subscribeToSetValueForCoordinatesValues() {
+			var cChildReferences = CORA.coraData(cMetadataElement
+					.getFirstChildByNameInData("childReferences"));
+			var childReferences = cChildReferences.getChildrenByNameInData("childReference");
+			childReferences.forEach(subscribeToSetValueIfLatitudeOrLongitude);
+		}
+
+		function getIdFromChildReference(childReference) {
+			var cChildReference = CORA.coraData(childReference);
+			var cRef = CORA.coraData(cChildReference.getFirstChildByNameInData("ref"));
+			return cRef.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+
+		function getNameInDataForChildId(idOfChildToOurGroup) {
+			var cMetadataForChild = getMetadataById(idOfChildToOurGroup);
+			return cMetadataForChild.getFirstAtomicValueByNameInData("nameInData");
+		}
+
+		function subscribeToSetValueIfLatitudeOrLongitude(childReference) {
+			var idOfChildToOurGroup = getIdFromChildReference(childReference);
+			var nameInDataForChild = getNameInDataForChildId(idOfChildToOurGroup);
+
+			if ("longitude" === nameInDataForChild) {
+				subscribeToSetValueForIdOfChildWithFunctionToCall(idOfChildToOurGroup,
+						handleSetValueLongitude);
+			}
+
+			if ("latitude" === nameInDataForChild) {
+				subscribeToSetValueForIdOfChildWithFunctionToCall(idOfChildToOurGroup,
+						handleSetValueLatitude);
+			}
+		}
+
+		function subscribeToSetValueForIdOfChildWithFunctionToCall(idOfChildToOurGroup,
+				methodToCall) {
+			var childPath = calculateNewPathForMetadataIdUsingParentPath(idOfChildToOurGroup, path);
+			pubSub.subscribe("setValue", childPath, undefined, methodToCall);
+		}
+
+		function calculateNewPathForMetadataIdUsingParentPath(metadataIdToAdd, parentPath) {
+			var pathSpec = {
+				"metadataProvider" : dependencies.metadataProvider,
+				"metadataIdToAdd" : metadataIdToAdd,
+				"parentPath" : parentPath
+			};
+			return CORA.calculatePathForNewElement(pathSpec);
+		}
+
+		function initComplete() {
+			if (!mapStarted) {
+				mapStarted = true;
+				unsubscribeFromInitComplete();
+				pMapView.startMap();
+				possiblySetMarkerInView();
+			}
+		}
+
+		var longitudeValue = "";
+		var latitudeValue = "";
+		function handleSetValueLongitude(dataFromMsg) {
+			console.log("longitudeData:", dataFromMsg.data);
+			longitudeValue = dataFromMsg.data;
+			possiblySetMarkerInView();
+		}
+		function handleSetValueLatitude(dataFromMsg) {
+			console.log("latitudeData:", dataFromMsg.data);
+			latitudeValue = dataFromMsg.data;
+			possiblySetMarkerInView();
+		}
+		var markerActive = false;
+		function possiblySetMarkerInView() {
+			if (mapStarted) {
+				if (longitudeValue !== "" && latitudeValue !== "") {
+					pMapView.setMarker(latitudeValue, longitudeValue);
+					markerActive = true;
+				} else if (markerActive) {
+					pMapView.removeMarker();
+				}
+			}
+		}
+		// function setValue(value) {
+		// state = "ok";
+		// previousValue = value;
+		// pVarView.setValue(value);
+		// }
+		//
+		// function handleMsg(dataFromMsg) {
+		// setValue(dataFromMsg.data);
+		// updateView();
+		// }
+
+		function unsubscribeFromInitComplete() {
+			pubSub.unsubscribe(initCompleteSubscriptionId);
+		}
+
 		function createView() {
 			var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 			var pMapViewSpec = {
@@ -122,7 +221,9 @@ var CORA = (function(cora) {
 			"type" : "pMap",
 			getView : getView,
 			getDependencies : getDependencies,
-			initComplete : initComplete
+			initComplete : initComplete,
+			handleSetValueLongitude : handleSetValueLongitude,
+			handleSetValueLatitude : handleSetValueLatitude
 		});
 		start();
 		view.modelObject = out;

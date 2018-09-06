@@ -35,8 +35,8 @@ var CORA = (function(cora) {
 			view = CORA.gui.createSpanWithClassName(baseClassName);
 			info = createInfo();
 
-			createValueView();
 			view.appendChild(info.getButton());
+			createValueView();
 		}
 
 		function createInfo() {
@@ -109,53 +109,23 @@ var CORA = (function(cora) {
 				attribution : 'Map data &copy;' + '<a href="https://www.openstreetmap.org/">'
 						+ 'OpenStreetMap</a> contributors',
 			});
-			// titleLayer.addTo(map);
-			map.addLayer(titleLayer);
+			titleLayer.addTo(map);
 
 			var miniLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {});
 			var minimap = new L.Control.MiniMap(miniLayer);
 			minimap.addTo(map);
 			valueView.minimap = minimap;
-
-			// if (spec.mode === "input") {
-			// valueView = createInput();
-			// } else {
-			// valueView = createOutput();
-			// }
-			// setMarker(defaultLatLng.lat, defaultLatLng.lng);
-
-			map.on('click', onMapClick);
-
-		}
-		// Script for adding marker on map click
-		function onMapClick(e) {
-
-			var marker = L.marker(e.latlng, {
-				draggable : true,
-				title : "Resource location",
-				alt : "Resource Location",
-				riseOnHover : true
-			}).addTo(map).bindPopup(e.latlng.toString()).openPopup();
-
-			// Update marker on changing it's position
-			marker.on("dragend", function(ev) {
-
-				var chagedPos = ev.target.getLatLng();
-				this.bindPopup(chagedPos.toString()).openPopup();
-
-			});
 		}
 
 		function setMarker(lat, lng) {
 			var latLng = [ lat, lng ];
-			// var options = {
-			// draggable : 'true'
-			// // autoPan : true
-			// };
-			// marker = L.marker(latLng, options);
-			marker = L.marker(latLng);
-			marker.addTo(map);
-			valueView.marker = marker;
+			if (marker === undefined) {
+				marker = L.marker(latLng);
+				marker.addTo(map);
+				valueView.marker = marker;
+			} else {
+				marker.setLatLng(latLng);
+			}
 
 			var zoomLevel = 10;
 			map.flyTo(latLng, zoomLevel);
@@ -164,6 +134,7 @@ var CORA = (function(cora) {
 		function removeMarker() {
 			valueView.marker = undefined;
 			map.removeLayer(marker);
+			marker = undefined;
 			map.flyTo(defaultLatLng, defaultZoom);
 		}
 

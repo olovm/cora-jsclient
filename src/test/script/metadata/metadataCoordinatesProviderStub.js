@@ -357,7 +357,174 @@ function MetadataCoordinatesProviderStub() {
 					"type" : "group"
 				}
 			};
-
+		case "latitudeTextVar":
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "latitudeTextVar"
+					}, {
+						"name" : "type",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "recordType"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "metadataTextVariable"
+						} ]
+					}, {
+						"name" : "createdBy",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "systemOneUser"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "141414"
+						} ]
+					}, {
+						"name" : "dataDivider",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "system"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "bibsys"
+						} ]
+					}, {
+						"name" : "tsCreated",
+						"value" : "2017-10-01 00:00:00.0"
+					}, {
+						"name" : "updated",
+						"children" : [ {
+							"name" : "updatedBy",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "systemOneUser"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "141414"
+							} ]
+						}, {
+							"name" : "tsUpdated",
+							"value" : "2017-11-01 17:54:13.0"
+						} ],
+						"repeatId" : "0"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "latitude"
+				}, {
+					"name" : "textId",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "coraText"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "latitudeTextVarText"
+					} ]
+				}, {
+					"name" : "defTextId",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "coraText"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "latitudeTextVarDefText"
+					} ]
+				}, {
+					"name" : "regEx",
+					"value" : "(^[0-9\\.]{2,50}$)"
+				} ],
+				"attributes" : {
+					"type" : "textVariable"
+				}
+			};
+		case "longitudeTextVar":
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "longitudeTextVar"
+					}, {
+						"name" : "type",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "recordType"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "metadataTextVariable"
+						} ]
+					}, {
+						"name" : "createdBy",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "systemOneUser"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "141414"
+						} ]
+					}, {
+						"name" : "dataDivider",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "system"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "bibsys"
+						} ]
+					}, {
+						"name" : "tsCreated",
+						"value" : "2017-10-01 00:00:00.0"
+					}, {
+						"name" : "updated",
+						"children" : [ {
+							"name" : "updatedBy",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "systemOneUser"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "141414"
+							} ]
+						}, {
+							"name" : "tsUpdated",
+							"value" : "2017-11-01 17:54:13.0"
+						} ],
+						"repeatId" : "0"
+					} ]
+				}, {
+					"name" : "nameInData",
+					"value" : "longitude"
+				}, {
+					"name" : "textId",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "coraText"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "longitudeTextVarText"
+					} ]
+				}, {
+					"name" : "defTextId",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "coraText"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "longitudeTextVarDefText"
+					} ]
+				}, {
+					"name" : "regEx",
+					"value" : "(^[0-9\\.]{2,50}$)"
+				} ],
+				"attributes" : {
+					"type" : "textVariable"
+				}
+			};
 		default:
 			throw new Error("Id(" + idToGet + ") not found in coordinatesStub");
 		}

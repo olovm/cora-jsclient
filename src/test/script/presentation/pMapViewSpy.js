@@ -26,8 +26,11 @@ var CORATEST = (function(coraTest) {
 		var state;
 		var value;
 
-		var startMapCalled = false;
+		var startMapCalled = 0;
 
+		var markersSet = [];
+		var callsToRemoveMarker = 0;
+		
 		function getView() {
 			return view;
 		}
@@ -58,10 +61,28 @@ var CORATEST = (function(coraTest) {
 		}
 
 		function startMap() {
-			startMapCalled = true;
+			startMapCalled++;
 		}
 		function getStartMapCalled() {
 			return startMapCalled;
+		}
+
+		function setMarker(lat, lng) {
+			markersSet.push({
+				"lat" : lat,
+				"lng" : lng
+			});
+		}
+		function getMarkerValues(no) {
+			return markersSet[no];
+		}
+
+		function removeMarker() {
+			callsToRemoveMarker++;
+		}
+
+		function getNoOfRemoveMarkerCalls() {
+			return callsToRemoveMarker;
 		}
 
 		var out = Object.freeze({
@@ -69,14 +90,12 @@ var CORATEST = (function(coraTest) {
 			getDependencies : getDependencies,
 			getView : getView,
 			getSpec : getSpec,
-			setValue : setValue,
-			getValue : getValue,
-			setState : setState,
-			getState : getState,
-			callOnblurWithValue : callOnblurWithValue,
-			callOnkeyupWithValue : callOnkeyupWithValue,
 			startMap : startMap,
-			getStartMapCalled : getStartMapCalled
+			getStartMapCalled : getStartMapCalled,
+			setMarker : setMarker,
+			getMarkerValues : getMarkerValues,
+			removeMarker : removeMarker,
+			getNoOfRemoveMarkerCalls : getNoOfRemoveMarkerCalls
 		});
 		return out;
 	};

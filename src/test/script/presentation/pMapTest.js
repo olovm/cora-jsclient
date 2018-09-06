@@ -21,8 +21,9 @@
 QUnit.module("pMapTest.js", {
 	beforeEach : function() {
 		this.fixture = document.getElementById("qunit-fixture");
+		var metadataProvider = new MetadataCoordinatesProviderStub();
 		this.dependencies = {
-			"metadataProvider" : new MetadataCoordinatesProviderStub(),
+			"metadataProvider" : metadataProvider,
 			"infoFactory" : CORATEST.infoFactorySpy(),
 			"pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderSpy(),
@@ -36,7 +37,7 @@ QUnit.module("pMapTest.js", {
 		};
 		this.spec = {
 			"metadataIdUsedInData" : "coordinatesGroup",
-			// "path" : {},
+			"path" : {},
 			"cPresentation" : CORA.coraData(this.dependencies.metadataProvider
 					.getMetadataById("coordinatesPGroup")),
 		// "cParentPresentation" : CORA.coraData(this.dependencies.metadataProvider
@@ -61,32 +62,132 @@ QUnit.test("testInit", function(assert) {
 QUnit.test("testInitSubscribesToInitcompleteMessage", function(assert) {
 	var pMap = CORA.pMap(this.dependencies, this.spec);
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();
-	assert.deepEqual(subscriptions.length, 1);
+	assert.deepEqual(subscriptions.length, 3);
 
-	// var firstSubsription = subscriptions[0];
-	// assert.strictEqual(firstSubsription.type, "add");
+	var initCompleteSubscription = subscriptions[0];
+	assert.strictEqual(initCompleteSubscription.type, "initComplete");
+	assert.deepEqual(initCompleteSubscription.path, {});
+	assert.strictEqual(initCompleteSubscription.functionToCall, pMap.initComplete);
 
-	// var secondSubscription = subscriptions[1];
-	// assert.strictEqual(secondSubscription.type, "move");
+	var setLatitudeSubscription = subscriptions[1];
+	assert.strictEqual(setLatitudeSubscription.type, "setValue");
+	var latitudePath = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "latitude"
+		} ]
+	};
+	assert.stringifyEqual(setLatitudeSubscription.path, latitudePath);
+	assert.strictEqual(setLatitudeSubscription.functionToCall, pMap.handleSetValueLatitude);
 
-	var thirdSubscription = subscriptions[0];
-	assert.strictEqual(thirdSubscription.type, "initComplete");
-	assert.deepEqual(thirdSubscription.path, {});
-	assert.strictEqual(thirdSubscription.functionToCall, pMap.initComplete);
+	var setLongitudeSubscription = subscriptions[2];
+	assert.strictEqual(setLongitudeSubscription.type, "setValue");
+	var longitudePath = {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "longitude"
+		} ]
+	};
+	assert.stringifyEqual(setLongitudeSubscription.path, longitudePath);
+	assert.strictEqual(setLongitudeSubscription.functionToCall, pMap.handleSetValueLongitude);
 });
 
 QUnit.test("testInitCompleteStartsMapInViewAndUnsubscribesToInitcompleteMessage", function(assert) {
 	var pMap = CORA.pMap(this.dependencies, this.spec);
 
 	var pMapView = this.dependencies.pMapViewFactory.getFactored(0);
-	assert.strictEqual(pMapView.getStartMapCalled(), false);
+	assert.strictEqual(pMapView.getStartMapCalled(), 0);
 
 	pMap.initComplete();
-	assert.strictEqual(pMapView.getStartMapCalled(), true);
+	assert.strictEqual(pMapView.getStartMapCalled(), 1);
 
 	// unsubscription
 	var unsubscriptions = this.dependencies.pubSub.getUnsubscriptions();
 	assert.deepEqual(unsubscriptions.length, 1);
+});
+
+QUnit.test("testInitCompleteStartsMapOnlyOnceNoMatterHowManyTimesItIsCalled", function(assert) {
+	var pMap = CORA.pMap(this.dependencies, this.spec);
+
+	var pMapView = this.dependencies.pMapViewFactory.getFactored(0);
+	assert.strictEqual(pMapView.getStartMapCalled(), 0);
+
+	pMap.initComplete();
+	pMap.initComplete();
+	pMap.initComplete();
+	pMap.initComplete();
+	assert.strictEqual(pMapView.getStartMapCalled(), 1);
+
+	// unsubscription
+	var unsubscriptions = this.dependencies.pubSub.getUnsubscriptions();
+	assert.deepEqual(unsubscriptions.length, 1);
+});
+
+QUnit.test("testBothValuesSetSetsMarkerInView", function(assert) {
+	var pMap = CORA.pMap(this.dependencies, this.spec);
+
+	var pMapView = this.dependencies.pMapViewFactory.getFactored(0);
+	assert.strictEqual(pMapView.getMarkerValues(0), undefined);
+
+	var msgLat = {
+		"path" : {},
+		"data" : "60.0"
+	};
+	var msgLng = {
+		"path" : {},
+		"data" : "55.8"
+	};
+
+	pMap.handleSetValueLatitude(msgLat);
+	assert.strictEqual(pMapView.getMarkerValues(0), undefined);
+	pMap.handleSetValueLongitude(msgLng);
+	assert.strictEqual(pMapView.getMarkerValues(0), undefined);
+
+	pMap.initComplete();
+	assert.stringifyEqual(pMapView.getMarkerValues(0), {
+		"lat" : "60.0",
+		"lng" : "55.8"
+	});
+});
+QUnit.test("testOneRemovedValueRemovesMarkerFromView", function(assert) {
+	var pMap = CORA.pMap(this.dependencies, this.spec);
+
+	var pMapView = this.dependencies.pMapViewFactory.getFactored(0);
+	assert.strictEqual(pMapView.getMarkerValues(0), undefined);
+
+	var msgLat = {
+		"path" : {},
+		"data" : "60.0"
+	};
+	var msgLng = {
+		"path" : {},
+		"data" : "55.8"
+	};
+	var msgNoValue = {
+		"path" : {},
+		"data" : ""
+	};
+
+	pMap.handleSetValueLatitude(msgLat);
+	pMap.handleSetValueLongitude(msgLng);
+	pMap.initComplete();
+	assert.stringifyEqual(pMapView.getMarkerValues(0), {
+		"lat" : "60.0",
+		"lng" : "55.8"
+	});
+	assert.strictEqual(pMapView.getNoOfRemoveMarkerCalls(), 0);
+
+	pMap.handleSetValueLatitude(msgNoValue);
+	assert.strictEqual(pMapView.getNoOfRemoveMarkerCalls(), 1);
+
+	pMap.handleSetValueLatitude(msgLat);
+	assert.strictEqual(pMapView.getNoOfRemoveMarkerCalls(), 1);
+	
+	pMap.handleSetValueLongitude(msgNoValue);
+	assert.strictEqual(pMapView.getNoOfRemoveMarkerCalls(), 2);
+
 });
 
 QUnit.test("testInitInfoInputMode", function(assert) {
@@ -181,4 +282,3 @@ QUnit.test("testGetDependencies", function(assert) {
 	var dependencies = pMap.getDependencies();
 	assert.equal(dependencies, this.dependencies);
 });
-
