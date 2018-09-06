@@ -1,6 +1,6 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -116,24 +116,35 @@ var CORA = (function(cora) {
 		}
 
 		function dragstartHandler(event) {
-			// console.log("dragstartHandler: event.target", event.target);
-			// console.log("dragstartHandler: event", event);
-			if (event.target.className.startsWith("repeatingElement")) {
-				draggedElementIsRepeatingElement = true;
-
-				event.stopPropagation();
-				event.dataTransfer.effectAllowed = "move";
-
-				var source = event.target;
-				source.originalClassname = source.className;
-				source.className = source.className + " beeingDragged";
-				event.dataTransfer.setData("text/notInUse", "notUsed");
+			if (nodeBeeingDraggedIsRepeatingElement(event)) {
+				startDragHandling(event);
 			}
-			// }
+		}
+
+		function nodeBeeingDraggedIsRepeatingElement(event) {
+			// return event.target.className.startsWith("repeatingElement");
+			var target = event.target;
+			console.log("target", target)
+			console.log("target.parentNode", target.parentNode)
+			console.log("childrenView",childrenView)
+			return target.className.startsWith("repeatingElement"
+					&& target.parentNode === childrenView);
+		}
+
+		function startDragHandling(event) {
+			draggedElementIsRepeatingElement = true;
+
+			event.stopPropagation();
+			event.dataTransfer.effectAllowed = "move";
+
+			var source = event.target;
+			source.originalClassname = source.className;
+			source.className = source.className + " beeingDragged";
+			event.dataTransfer.setData("text/notInUse", "notUsed");
+
 			childIsCurrentlyBeeingDragged = true;
 			nodeBeeingDragged = event.target;
 			beeingDraggedY = event.screenY;
-			// }
 		}
 
 		function dragoverHandler(event) {
@@ -173,12 +184,12 @@ var CORA = (function(cora) {
 			if (node1 === node2) {
 				return false;
 			}
-//			var sibblings = node1.parentNode.childNodes;
-//			var isSibblingFunction = function(key) {
-//				return sibblings[key] === node2;
-//			};
-//			var keys = Object.keys(sibblings);
-//			return keys.some(isSibblingFunction);
+			// var sibblings = node1.parentNode.childNodes;
+			// var isSibblingFunction = function(key) {
+			// return sibblings[key] === node2;
+			// };
+			// var keys = Object.keys(sibblings);
+			// return keys.some(isSibblingFunction);
 			return node1.parentNode === node2.parentNode;
 		}
 
