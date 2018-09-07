@@ -24,7 +24,9 @@ QUnit.module("pVarViewTest.js", {
 			"infoFactory" : CORATEST.infoFactorySpy()
 		};
 		this.textIdOnclickMethod = {};
-		this.defTextIdOnclickMethod = {"tramas":"trams"};
+		this.defTextIdOnclickMethod = {
+			"tramas" : "trams"
+		};
 		this.spec = {
 			"mode" : "input",
 			"inputType" : "input",
@@ -34,9 +36,11 @@ QUnit.module("pVarViewTest.js", {
 				"text" : "someText",
 				"defText" : "someDefText",
 				"technicalInfo" : [ {
-					"text" : "textId: " + "textId", "onclickMethod":this.textIdOnclickMethod
+					"text" : "textId: " + "textId",
+					"onclickMethod" : this.textIdOnclickMethod
 				}, {
-					"text" : "defTextId: " + "defTextId", "onclickMethod":this.defTextIdOnclickMethod
+					"text" : "defTextId: " + "defTextId",
+					"onclickMethod" : this.defTextIdOnclickMethod
 				}, {
 					"text" : "metadataId: " + "metadataId"
 				} ]
@@ -60,7 +64,7 @@ QUnit.module("pVarViewTest.js", {
 			if (this.pVarView === undefined) {
 				this.pVarView = CORA.pVarView(this.dependencies, this.spec);
 			}
-			return this.pVarView.getView().childNodes[1];
+			return this.pVarView.getView().childNodes[0];
 		};
 	},
 	afterEach : function() {
@@ -106,11 +110,11 @@ QUnit.test("testInfoSpec", function(assert) {
 		"level2" : [ {
 			"className" : "technicalView",
 			"text" : "textId: textId",
-			"onclickMethod":this.textIdOnclickMethod
+			"onclickMethod" : this.textIdOnclickMethod
 		}, {
 			"className" : "technicalView",
 			"text" : "defTextId: defTextId",
-			"onclickMethod":this.defTextIdOnclickMethod 
+			"onclickMethod" : this.defTextIdOnclickMethod
 		}, {
 			"className" : "technicalView",
 			"text" : "metadataId: metadataId"
@@ -129,7 +133,7 @@ QUnit.test("testInfoSpec", function(assert) {
 });
 QUnit.test("testInfoButtonAddedToView", function(assert) {
 	var view = this.getView();
-	assert.strictEqual(view.childNodes[2].className, "infoButtonSpy");
+	assert.strictEqual(view.childNodes[1].className, "infoButtonSpy");
 
 });
 
@@ -149,13 +153,14 @@ QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 	var infoSpy = this.dependencies.infoFactory.getFactored(0);
 	var usedSpec = infoSpy.getSpec();
 	assert.stringifyEqual(usedSpec, expectedSpec);
+	assert.strictEqual(usedSpec.appendTo, pVarView.getView());
 });
 
-QUnit.test("testInfoPlaced", function(assert) {
-	var view = this.getView();
-	var infoSpan = view.childNodes[0];
-	assert.equal(infoSpan.className, "infoSpySpan");
-});
+//QUnit.test("testInfoPlaced", function(assert) {
+//	var view = this.getView();
+//	var infoSpan = view.childNodes[0];
+//	assert.equal(infoSpan.className, "infoSpySpan");
+//});
 
 QUnit.test("testActiveInfoShownInClassName", function(assert) {
 	var pVarView = this.getPVarView();
@@ -185,8 +190,7 @@ QUnit.test("testStateShownInClassName", function(assert) {
 	pVarView.setState("error");
 	infoSpy.setInfoLevel(1);
 	pVarView.updateClassName();
-	assert.strictEqual(view.className,
-			"pVar somePresentationId error infoActive");
+	assert.strictEqual(view.className, "pVar somePresentationId error infoActive");
 	pVarView.setState("ok");
 	assert.strictEqual(view.className, "pVar somePresentationId infoActive");
 });
@@ -231,7 +235,7 @@ QUnit.test("testInputOnblur", function(assert) {
 });
 QUnit.test("testInputOnblurNotSet", function(assert) {
 	var valueFromView = "";
-	
+
 	var pVarView = this.getPVarView();
 	pVarView.setValue("a Value");
 	var valueView = this.getValueView();
@@ -244,25 +248,25 @@ QUnit.test("testInputOnkeyup", function(assert) {
 	this.spec.onkeyupFunction = function(value) {
 		valueFromView = value;
 	};
-	
+
 	var pVarView = this.getPVarView();
 	pVarView.setValue("a Value");
 	var valueView = this.getValueView();
-	
+
 	CORATESTHELPER.simulateKeyup(this.getValueView(), "a");
-	
+
 	assert.strictEqual(valueFromView, "a Value");
 });
 
 QUnit.test("testInputOnkeyupNotSet", function(assert) {
 	var valueFromView = "";
-	
+
 	var pVarView = this.getPVarView();
 	pVarView.setValue("a Value");
 	var valueView = this.getValueView();
-	
+
 	CORATESTHELPER.simulateKeyup(this.getValueView(), "a");
-	
+
 	assert.strictEqual(valueFromView, "");
 });
 

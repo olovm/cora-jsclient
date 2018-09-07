@@ -41,7 +41,6 @@ var CORA = (function(cora) {
 
 		function createInfo() {
 			var infoSpec = {
-				"appendTo" : view,
 				"afterLevelChange" : updateClassName,
 				"level1" : [ {
 					"className" : "textView",
@@ -52,7 +51,9 @@ var CORA = (function(cora) {
 				} ]
 			};
 			possiblyAddLevel2Info(infoSpec);
-			return dependencies.infoFactory.factor(infoSpec);
+			var newInfo = dependencies.infoFactory.factor(infoSpec);
+			infoSpec.insertAfter = newInfo.getButton();
+			return newInfo;
 		}
 
 		function possiblyAddLevel2Info(infoSpec) {
@@ -107,7 +108,7 @@ var CORA = (function(cora) {
 
 			var titleLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				attribution : 'Map data &copy;' + '<a href="https://www.openstreetmap.org/">'
-						+ 'OpenStreetMap</a> contributors',
+						+ 'OpenStreetMap</a> contributors'
 			});
 			titleLayer.addTo(map);
 

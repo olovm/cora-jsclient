@@ -24,10 +24,16 @@ QUnit.module("pNonRepeatingChildRefHandlerViewTest.js", {
 		this.dependencies = {};
 
 		this.defaultChild = document.createElement("SPAN");
+		var content = document.createTextNode(JSON
+				.stringify("content needed for span to be visible in chrome"));
+		this.defaultChild.appendChild(content);
 		this.defaultChild.className = "someNode";
 		this.defaultButton;
 
 		this.alternativeChild = document.createElement("SPAN");
+		var content2 = document.createTextNode(JSON
+				.stringify("content needed for span to be visible in chrome"));
+		this.alternativeChild.appendChild(content2);
 		this.alternativeChild.className = "someOtherNode";
 		this.alternativeButton;
 
@@ -40,12 +46,12 @@ QUnit.module("pNonRepeatingChildRefHandlerViewTest.js", {
 			pNonRepeatingChildRefHandlerView.addChild(this.defaultChild);
 
 			pNonRepeatingChildRefHandlerView.addAlternativeChild(this.alternativeChild);
-			this.fixture.appendChild(pNonRepeatingChildRefHandlerView.getView());
-
 			var view = pNonRepeatingChildRefHandlerView.getView();
+			this.fixture.appendChild(view);
+
 			var buttonView = view.childNodes[2];
 			this.alternativeButton = buttonView.childNodes[0];
-			this.defaultButton = buttonView.childNodes[1];
+			this.defaultButton = buttonView.childNodes[1]; 
 
 			return pNonRepeatingChildRefHandlerView;
 		}
@@ -60,11 +66,11 @@ QUnit.module("pNonRepeatingChildRefHandlerViewTest.js", {
 			// pNonRepeatingChildRefHandlerView.addAlternativeChild(this.alternativeChild);
 			this.fixture.appendChild(pNonRepeatingChildRefHandlerView.getView());
 
-			return pNonRepeatingChildRefHandlerView;
+			return pNonRepeatingChildRefHandlerView; 
 		}
 	},
 	afterEach : function() {
-	}
+	}   
 });
 
 QUnit.test("testInit", function(assert) {

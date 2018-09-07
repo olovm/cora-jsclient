@@ -27,6 +27,8 @@ var CORA = (function(cora) {
 		var path = spec.path;
 
 		var mapStarted = false;
+		var longitudeValue = "";
+		var latitudeValue = "";
 		var initCompleteSubscriptionId = "";
 
 		var pMapView;
@@ -41,12 +43,22 @@ var CORA = (function(cora) {
 		var defTextId;
 		var defText;
 
+		var markerActive = false;
+
 		function start() {
 			presentationId = getPresentationId();
 
 			cMetadataElement = getMetadataById(metadataId);
 			nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 
+			getTextInfoFromMetadata();
+			subscribeToMessagesForMap();
+
+			createView();
+
+		}
+
+		function getTextInfoFromMetadata() {
 			var cTextGroup = CORA.coraData(cMetadataElement.getFirstChildByNameInData("textId"));
 			textId = cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			text = textProvider.getTranslation(textId);
@@ -56,10 +68,6 @@ var CORA = (function(cora) {
 			defTextId = cDefTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			defText = textProvider.getTranslation(defTextId);
 
-			subscribeToMessagesForMap();
-
-			pMapView = createView();
-			view = pMapView.getView();
 		}
 
 		function subscribeToMessagesForMap() {
@@ -121,47 +129,60 @@ var CORA = (function(cora) {
 		}
 
 		function initComplete() {
-			if (!mapStarted) {
-				mapStarted = true;
-				unsubscribeFromInitComplete();
-				pMapView.startMap();
-				possiblySetMarkerInView();
+			if (mapNotStarted()) {
+				startMap();
 			}
 		}
 
-		var longitudeValue = "";
-		var latitudeValue = "";
+		function mapNotStarted() {
+			return !mapStarted;
+		}
+
+		function startMap() {
+			mapStarted = true;
+			unsubscribeFromInitComplete();
+			pMapView.startMap();
+			possiblyHandleMarkerInView();
+		}
+
 		function handleSetValueLongitude(dataFromMsg) {
-			console.log("longitudeData:", dataFromMsg.data);
 			longitudeValue = dataFromMsg.data;
-			possiblySetMarkerInView();
+			possiblyHandleMarkerInView();
 		}
+
 		function handleSetValueLatitude(dataFromMsg) {
-			console.log("latitudeData:", dataFromMsg.data);
 			latitudeValue = dataFromMsg.data;
-			possiblySetMarkerInView();
+			possiblyHandleMarkerInView();
 		}
-		var markerActive = false;
-		function possiblySetMarkerInView() {
+
+		function possiblyHandleMarkerInView() {
 			if (mapStarted) {
-				if (longitudeValue !== "" && latitudeValue !== "") {
-					pMapView.setMarker(latitudeValue, longitudeValue);
-					markerActive = true;
-				} else if (markerActive) {
-					pMapView.removeMarker();
-				}
+				handleMarkerInView();
 			}
 		}
-		// function setValue(value) {
-		// state = "ok";
-		// previousValue = value;
-		// pVarView.setValue(value);
-		// }
-		//
-		// function handleMsg(dataFromMsg) {
-		// setValue(dataFromMsg.data);
-		// updateView();
-		// }
+
+		function handleMarkerInView() {
+			if (enoughDataToPlaceMarker()) {
+				setMarkerInView();
+			} else {
+				possiblyRemoveMarker();
+			}
+		}
+
+		function enoughDataToPlaceMarker() {
+			return longitudeValue !== "" && latitudeValue !== "";
+		}
+
+		function setMarkerInView() {
+			pMapView.setMarker(latitudeValue, longitudeValue);
+			markerActive = true;
+		}
+
+		function possiblyRemoveMarker() {
+			if (markerActive) {
+				pMapView.removeMarker();
+			}
+		}
 
 		function unsubscribeFromInitComplete() {
 			pubSub.unsubscribe(initCompleteSubscriptionId);
@@ -171,33 +192,24 @@ var CORA = (function(cora) {
 			var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 			var pMapViewSpec = {
 				"mode" : mode,
-				// "inputType" : getInputType(),
-				// "outputFormat" : outputFormat,
-				// "presentationId" : presentationId,
 				"info" : {
 					"text" : text,
 					"defText" : defText,
 					"technicalInfo" : [ {
-						"text" : "textId: " + textId,
-					// onclickMethod : openTextIdRecord
+						"text" : "textId: " + textId
 					}, {
-						"text" : "defTextId: " + defTextId,
-					// onclickMethod : openDefTextIdRecord
+						"text" : "defTextId: " + defTextId
 					}, {
-						"text" : "metadataId: " + metadataId,
-					// onclickMethod : openMetadataIdRecord
+						"text" : "metadataId: " + metadataId
 					}, {
 						"text" : "nameInData: " + nameInData
 					}, {
 						"text" : "presentationId: " + presentationId
 					} ]
 				}
-			// ,
-			// "onblurFunction" : onBlur,
-			// onkeyupFunction : onkeyup
 			};
-			return dependencies.pMapViewFactory.factor(pMapViewSpec);
-
+			pMapView = dependencies.pMapViewFactory.factor(pMapViewSpec);
+			view = pMapView.getView();
 		}
 
 		function getMetadataById(id) {

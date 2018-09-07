@@ -21,10 +21,13 @@ var CORATEST = (function(coraTest) {
 	coraTest.infoSpy = function(spec) {
 		var spyView = document.createElement("span");
 		spyView.className = "infoSpySpan";
-		addBaseViewAccordingToSpec();
+		// addBaseViewAccordingToSpec();
 		var infoLevel = 0;
 		var infoButtonSpec = {
-			"className" : "infoButtonSpy"
+			"className" : "infoButtonSpy",
+			action : {
+				method : addBaseViewAccordingToSpec
+			}
 		};
 		var button = CORA.gui.button(infoButtonSpec);
 

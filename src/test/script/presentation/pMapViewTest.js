@@ -63,7 +63,7 @@ QUnit.module("pMapViewTest.js", {
 			if (this.pMapView === undefined) {
 				this.pMapView = CORA.pMapView(this.dependencies, this.spec);
 			}
-			return this.pMapView.getView().childNodes[2];
+			return this.pMapView.getView().childNodes[1];
 		};
 	},
 	afterEach : function() {
@@ -98,7 +98,6 @@ QUnit.test("testClassName", function(assert) {
 
 QUnit.test("testInfoSpec", function(assert) {
 	var expectedSpec = {
-		"appendTo" : {},
 		"level1" : [ {
 			"className" : "textView",
 			"text" : "someText"
@@ -117,13 +116,15 @@ QUnit.test("testInfoSpec", function(assert) {
 		}, {
 			"className" : "technicalView",
 			"text" : "metadataId: metadataId"
-		} ]
+		} ],
+		"insertAfter" : {}
 	};
 	var pMapView = this.getPMapView();
 	var infoSpy = this.dependencies.infoFactory.getFactored(0);
 	var usedSpec = infoSpy.getSpec();
 	assert.stringifyEqual(usedSpec, expectedSpec);
-	assert.strictEqual(usedSpec.appendTo, this.getView());
+	assert.strictEqual(usedSpec.appendTo, undefined);
+	assert.strictEqual(usedSpec.insertAfter, infoSpy.getButton());
 	assert.strictEqual(usedSpec.afterLevelChange, pMapView.updateClassName);
 	assert.strictEqual(usedSpec.level2[0].onclickMethod, this.textIdOnclickMethod);
 	assert.strictEqual(usedSpec.level2[1].onclickMethod, this.defTextIdOnclickMethod);
@@ -132,20 +133,20 @@ QUnit.test("testInfoSpec", function(assert) {
 });
 QUnit.test("testInfoButtonAddedToView", function(assert) {
 	var view = this.getView();
-	assert.strictEqual(view.childNodes[1].className, "infoButtonSpy");
+	assert.strictEqual(view.childNodes[0].className, "infoButtonSpy");
 });
 
 QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 	this.spec.info.technicalInfo = null;
 	var expectedSpec = {
-		"appendTo" : {},
 		"level1" : [ {
 			"className" : "textView",
 			"text" : "someText"
 		}, {
 			"className" : "defTextView",
 			"text" : "someDefText"
-		} ]
+		} ],
+		"insertAfter" : {}
 	};
 	var pMapView = this.getPMapView();
 	var infoSpy = this.dependencies.infoFactory.getFactored(0);
@@ -156,7 +157,7 @@ QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 QUnit.test("testInfoPlaced", function(assert) {
 	var view = this.getView();
 	var infoSpan = view.childNodes[0];
-	assert.equal(infoSpan.className, "infoSpySpan");
+	assert.equal(infoSpan.className, "infoButtonSpy");
 });
 
 QUnit.test("testActiveInfoShownInClassName", function(assert) {
@@ -226,7 +227,7 @@ QUnit.test("testSetMarker", function(assert) {
 	var lat = 62.7;
 	var lng = 16.0;
 	pMapView.setMarker(lat, lng);
-	
+
 	var map = valueView.modelObject;
 	assert.strictEqual(map.getCenter().lat, 62.7);
 	assert.strictEqual(map.getCenter().lng, 16.0);
@@ -261,22 +262,22 @@ QUnit.test("testRemoveMarker", function(assert) {
 	pMapView.removeMarker();
 
 	assert.strictEqual(valueView.marker, undefined);
-	
+
 	assert.strictEqual(marker.getElement(), null);
-	
+
 	var map = valueView.modelObject;
 	assert.strictEqual(map.getCenter().lat, 61.7);
 	assert.strictEqual(map.getCenter().lng, 15.0);
 	assert.strictEqual(map.getZoom(), 4);
-	
-	//set again
+
+	// set again
 	pMapView.setMarker(lat, lng);
 	marker = valueView.marker;
-	
+
 	var sbvvcimatm = marker.getElement().parentNode.parentNode.parentNode;
 	var shouldBeValueViewContainerIfMarkerAddedToMap = sbvvcimatm;
 	assert.strictEqual(shouldBeValueViewContainerIfMarkerAddedToMap, valueView);
-	
+
 });
 
 QUnit.test("testMoveMarker", function(assert) {
@@ -292,9 +293,9 @@ QUnit.test("testMoveMarker", function(assert) {
 	marker = valueView.marker;
 	assert.strictEqual(marker.getLatLng().lat, lat);
 	assert.strictEqual(marker.getLatLng().lng, lng);
-	
+
 	pMapView.setMarker(63.5, 16.4);
-	
+
 	var map = valueView.modelObject;
 	assert.strictEqual(map.getCenter().lat, 63.5);
 	assert.strictEqual(map.getCenter().lng, 16.4);
@@ -303,4 +304,3 @@ QUnit.test("testMoveMarker", function(assert) {
 	assert.strictEqual(marker.getLatLng().lat, 63.5);
 	assert.strictEqual(marker.getLatLng().lng, 16.4);
 });
-

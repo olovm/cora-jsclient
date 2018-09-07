@@ -196,8 +196,9 @@ img {
 .workView .pVar:hover>.infoButton::before, .workView .pRecordLink:hover>.buttonView .infoButton::before,
 	input:focus+.infoButton::before, .workView .pCollVar:hover>.infoButton::before,
 	select:focus+.infoButton::before, textarea:focus+.infoButton::before,
-	.workView .pGroup:hover>.infoButton::before, textarea:focus+.infoButton::before,
-	.workView .pSurroundingContainer:hover>.infoButton::before {
+	.workView .pGroup:hover>.infoButton::before, .workView .pMap:hover>.infoButton::before,
+	textarea:focus+.infoButton::before, .workView .pSurroundingContainer:hover>.infoButton::before
+	{
 	opacity: 1;
 }
 
@@ -245,8 +246,8 @@ img {
 	transition: background-color 0.5s linear;
 }
 
-.pVar:hover, .pCollVar:hover, .pGroup:hover, .pSurroundingContainer:hover,
-	.repeatingElement:hover, .pRecordLink:hover,
+.pVar:hover, .pCollVar:hover, .pMap:hover, .pGroup:hover,
+	.pSurroundingContainer:hover, .repeatingElement:hover, .pRecordLink:hover,
 	.pNonRepeatingChildRefHandler:hover {
 	background-color: rgba(0, 129, 198, 0.1);
 	transition: background-color 0.5s linear;
@@ -271,7 +272,7 @@ img {
 	margin: .2em 0;
 }
 
-.workView .pGroup, .workView .pSurroundingContainer {
+.workView .pGroup, .workView .pSurroundingContainer, .workView .pMap {
 	display: flex;
 	flex-wrap: wrap;
 	position: relative;
@@ -311,8 +312,8 @@ img {
 	order: 1;
 }
 
-.workView .pGroup>.infoButton, .workView .pSurroundingContainer>.infoButton
-	{
+.workView .pGroup>.infoButton, .workView .pSurroundingContainer>.infoButton,
+	.workView .pMap>.infoButton {
 	z-index: 5;
 	position: absolute;
 	top: 0.1rem;
@@ -354,10 +355,10 @@ img {
 	opacity: 0.1;
 	height: 16px;
 	width: 16px;
-	transform: scale(10, 10);
+	transform: scale(5, 5);
 	position: absolute;
-	right: 5.5rem;
-	top: 5rem;
+	right: 5rem;
+	top: 2.5rem;
 	z-index: -1;
 }
 

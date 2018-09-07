@@ -58,25 +58,14 @@ var CORA = (function(cora) {
 			if (my.cPresentation.containsChildWithNameInData("mode")) {
 				mode = my.cPresentation.getFirstAtomicValueByNameInData("mode");
 			}
-//			//TODO: added here
-//			console.log(my.cPresentation.containsChildWithNameInData("presentAs"));
-//			if (my.cPresentation.containsChildWithNameInData("presentAs")){
-//				console.log( my.cPresentation.getFirstChildByNameInData("presentAs") );
-//			}
-//			if (my.cPresentation.containsChildWithNameInData("presentAs")&&
-//					"map"===my.cPresentation.getFirstAtomicValueByNameInData("presentAs")) {
-//				console.log("map!!");
-//				
-//			} else {
 
-				if (my.cPresentation.containsChildWithNameInData("childReferences")) {
-					var presentationChildren = my.cPresentation
-							.getFirstChildByNameInData("childReferences").children;
-					presentationChildren.forEach(function(presentationChildRef) {
-						viewNew.appendChild(createViewForChild(presentationChildRef));
-					});
-				}
-//			}
+			if (my.cPresentation.containsChildWithNameInData("childReferences")) {
+				var presentationChildren = my.cPresentation
+						.getFirstChildByNameInData("childReferences").children;
+				presentationChildren.forEach(function(presentationChildRef) {
+					viewNew.appendChild(createViewForChild(presentationChildRef));
+				});
+			}
 			originalClassName = view.className;
 		}
 
