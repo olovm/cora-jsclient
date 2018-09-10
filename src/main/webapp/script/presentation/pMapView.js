@@ -20,6 +20,8 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pMapView = function(dependencies, spec) {
+		var mode = spec.mode;
+
 		var out;
 		var view;
 		var valueView;
@@ -121,7 +123,15 @@ var CORA = (function(cora) {
 		function setMarker(lat, lng) {
 			var latLng = [ lat, lng ];
 			if (marker === undefined) {
-				marker = L.marker(latLng);
+				if (mode === "output") {
+					marker = L.marker(latLng);
+				} else {
+					marker = L.marker(latLng, {
+						draggable : true
+					});
+					marker.on("dragend", setCoordinateFromMarkerDrag);
+				}
+
 				marker.addTo(map);
 				valueView.marker = marker;
 			} else {
@@ -130,6 +140,12 @@ var CORA = (function(cora) {
 
 			var zoomLevel = 10;
 			map.flyTo(latLng, zoomLevel);
+		}
+
+		function setCoordinateFromMarkerDrag(event) {
+			console.log("setCoordinateFromMarkerDrag", event);
+			// var chagedPos = ev.target.getLatLng();
+			spec.setLatLngMethod(event.target.getLatLng());
 		}
 
 		function removeMarker() {
@@ -159,7 +175,8 @@ var CORA = (function(cora) {
 			updateClassName : updateClassName,
 			startMap : startMap,
 			setMarker : setMarker,
-			removeMarker : removeMarker
+			removeMarker : removeMarker,
+			setCoordinateFromMarkerDrag : setCoordinateFromMarkerDrag
 		});
 		start();
 		valueView.modelObject2 = out;

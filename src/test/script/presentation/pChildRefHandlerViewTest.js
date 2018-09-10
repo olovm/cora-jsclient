@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -18,28 +18,69 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 "use strict";
-QUnit.module("pChildRefHandlerViewTest.js", {
-	beforeEach : function() {
-		this.fixture = document.getElementById("qunit-fixture");
-		this.dependencies = {};
-	},
-	afterEach : function() {
-	}
-});
+QUnit
+		.module("pChildRefHandlerViewTest.js",
+				{
+					beforeEach : function() {
+						this.fixture = document.getElementById("qunit-fixture");
+						this.dependencies = {};
+
+						this.spec = {
+							"presentationId" : "pVarTextVariableId",
+							"isRepeating" : true,
+							"mode" : "input"
+						};
+
+						this.pChildRefHandlerView;
+
+						this.getPChildRefHandlerView = function() {
+							if (this.pChildRefHandlerView === undefined) {
+								this.pChildRefHandlerView = CORA.pChildRefHandlerView(
+										this.dependencies, this.spec);
+								this.fixture.appendChild(this.pChildRefHandlerView.getView());
+							}
+							return this.pChildRefHandlerView;
+						};
+
+						this.getView = function() {
+							this.getPChildRefHandlerView();
+							return this.pChildRefHandlerView.getView();
+						};
+
+						this.addAndReturnPRepeatingElementSpy1 = function() {
+							this.getPChildRefHandlerView();
+							this.pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
+							this.pRepeatingElementSpy.setParentModelObject(this
+									.getPChildRefHandlerView());
+							this.pRepeatingElementSpy.id = "pRepeatingElementSpy1";
+							this.getPChildRefHandlerView().addChild(
+									this.pRepeatingElementSpy.getView());
+							return this.pRepeatingElementSpy;
+						};
+						this.addAndReturnPRepeatingElementSpy2 = function() {
+							this.getPChildRefHandlerView();
+							this.pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({}, {});
+							this.pRepeatingElementSpy2.setParentModelObject(this
+									.getPChildRefHandlerView());
+							this.pRepeatingElementSpy2.id = "pRepeatingElementSpy2";
+							this.getPChildRefHandlerView().addChild(
+									this.pRepeatingElementSpy2.getView());
+							return this.pRepeatingElementSpy2;
+						};
+
+					},
+					afterEach : function() {
+					}
+				});
 
 QUnit.test("testInitNoAddButton", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId",
-		"isRepeating" : true,
-		"mode" : "input"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
-	var view = pChildRefHandlerView.getView();
-	assert.deepEqual(view.className, "pChildRefHandler pVarTextVariableId");
-	assert.deepEqual(view.nodeName, "SPAN");
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
+	var view = this.getView();
+
 	assert.ok(view.viewObject === pChildRefHandlerView,
 			"modelObject should be a pointer to the javascript object instance");
+	assert.deepEqual(view.className, "pChildRefHandler pVarTextVariableId");
+	assert.deepEqual(view.nodeName, "SPAN");
 	assert.strictEqual(view.childNodes.length, 1);
 	var childrenView = view.childNodes[0];
 	assert.strictEqual(childrenView.className, "childrenView");
@@ -49,31 +90,21 @@ QUnit.test("testInitNoAddButton", function(assert) {
 });
 
 QUnit.test("testInitWithStyle", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId",
-		"isRepeating" : true,
-		"textStyle" : "someTextStyle",
-		"childStyle" : "someChildStyle"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
-	var view = pChildRefHandlerView.getView();
+	this.spec.textStyle = "someTextStyle";
+	this.spec.childStyle = "someChildStyle";
+
+	var view = this.getView();
+
 	assert.deepEqual(view.className,
 			"pChildRefHandler someTextStyle someChildStyle pVarTextVariableId");
 });
 
 QUnit.test("testInitWithAddButton", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId",
-		"isRepeating" : true,
-		"addMethod" : function() {
-		},
-		"addText" : "some add text",
-		"mode" : "input"
+	this.spec.addMethod = function() {
 	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
-	var view = pChildRefHandlerView.getView();
+	this.spec.addText = "some add text";
+
+	var view = this.getView();
 	assert.strictEqual(view.childNodes.length, 2);
 
 	var buttonView = view.childNodes[1];
@@ -83,19 +114,14 @@ QUnit.test("testInitWithAddButton", function(assert) {
 });
 
 QUnit.test("testInitWithAddButtonNotCreatedForModeOutput", function(assert) {
-	var pChildRefHandlerViewSpec = {
-			"presentationId" : "pVarTextVariableId",
-			"isRepeating" : true,
-			"addMethod" : function() {
-			},
-			"addText" : "some add text",
-			"mode" : "output"
+	this.spec.mode = "output";
+	this.spec.addMethod = function() {
 	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
-	var view = pChildRefHandlerView.getView();
+	this.spec.addText = "some add text";
+
+	var view = this.getView();
 	assert.strictEqual(view.childNodes.length, 1);
-	
+
 	var buttonView = view.childNodes[0];
 	assert.strictEqual(buttonView.className, "childrenView");
 });
@@ -105,16 +131,11 @@ QUnit.test("testInitFile", function(assert) {
 	function handleFiles(files) {
 		handleFilesHasBeenCalled = true;
 	}
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "myChildOfBinaryPLink",
-		"isRepeating" : true,
-		"upload" : "true",
-		"handleFilesMethod" : handleFiles,
-		"mode" : "input"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
-	var view = pChildRefHandlerView.getView();
+	this.spec.presentationId = "myChildOfBinaryPLink";
+	this.spec.upload = "true";
+	this.spec.handleFilesMethod = handleFiles;
+
+	var view = this.getView();
 
 	var buttonView = view.childNodes[1];
 	assert.strictEqual(buttonView.className, "buttonView");
@@ -126,17 +147,11 @@ QUnit.test("testInitFile", function(assert) {
 });
 
 QUnit.test("testHideShowButtonView", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId",
-		"isRepeating" : true,
-		"addMethod" : function() {
-		},
-		"mode" : "input"
+	this.spec.addMethod = function() {
 	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
-	var view = pChildRefHandlerView.getView();
-	this.fixture.appendChild(view);
+
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
+	var view = this.getView();
 
 	var buttonView = view.childNodes[1];
 	assert.visible(buttonView);
@@ -148,11 +163,7 @@ QUnit.test("testHideShowButtonView", function(assert) {
 });
 
 QUnit.test("testAddChildAndRemoveChild", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 	var view = pChildRefHandlerView.getView();
 	this.fixture.appendChild(view);
 	var childrenView = pChildRefHandlerView.getView().firstChild;
@@ -169,22 +180,16 @@ QUnit.test("testAddChildAndRemoveChild", function(assert) {
 });
 
 QUnit.test("testShowAndHideChildrensRemoveButton", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 	var view = pChildRefHandlerView.getView();
 	this.fixture.appendChild(view);
-	var childrenView = pChildRefHandlerView.getView().firstChild;
+	// var childrenView = pChildRefHandlerView.getView().firstChild;
 
 	var pRepeatingElementSpec = {
 		"path" : "xyz"
 	};
-	var childElement = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
-	pChildRefHandlerView.addChild(childElement.getView());
-	var childElement2 = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
-	pChildRefHandlerView.addChild(childElement2.getView());
+	var childElement = this.addAndReturnPRepeatingElementSpy1();
+	var childElement2 = this.addAndReturnPRepeatingElementSpy2();
 
 	assert.strictEqual(childElement.getHideRemoveButtonCalled(), 0);
 	assert.strictEqual(childElement.getShowRemoveButtonCalled(), 0);
@@ -201,11 +206,7 @@ QUnit.test("testShowAndHideChildrensRemoveButton", function(assert) {
 });
 
 QUnit.test("testShowAndHideChildrensDragButton", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 	var view = pChildRefHandlerView.getView();
 	this.fixture.appendChild(view);
 	var childrenView = pChildRefHandlerView.getView().firstChild;
@@ -213,10 +214,8 @@ QUnit.test("testShowAndHideChildrensDragButton", function(assert) {
 	var pRepeatingElementSpec = {
 		"path" : "xyz"
 	};
-	var childElement = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
-	pChildRefHandlerView.addChild(childElement.getView());
-	var childElement2 = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
-	pChildRefHandlerView.addChild(childElement2.getView());
+	var childElement = this.addAndReturnPRepeatingElementSpy1();
+	var childElement2 = this.addAndReturnPRepeatingElementSpy2();
 
 	assert.strictEqual(childElement.getHideDragButtonCalled(), 0);
 	assert.strictEqual(childElement.getShowDragButtonCalled(), 0);
@@ -233,31 +232,25 @@ QUnit.test("testShowAndHideChildrensDragButton", function(assert) {
 });
 
 QUnit.test("testShowAndHideChildrensAddBeforeButton", function(assert) {
-	var pChildRefHandlerViewSpec = {
-			"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 	var view = pChildRefHandlerView.getView();
 	this.fixture.appendChild(view);
 	var childrenView = pChildRefHandlerView.getView().firstChild;
-	
+
 	var pRepeatingElementSpec = {
-			"path" : "xyz"
+		"path" : "xyz"
 	};
-	var childElement = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
-	pChildRefHandlerView.addChild(childElement.getView());
-	var childElement2 = CORATEST.pRepeatingElementSpy({}, pRepeatingElementSpec);
-	pChildRefHandlerView.addChild(childElement2.getView());
-	
+	var childElement = this.addAndReturnPRepeatingElementSpy1();
+	var childElement2 = this.addAndReturnPRepeatingElementSpy2();
+
 	assert.strictEqual(childElement.getHideAddBeforeButtonCalled(), 0);
 	assert.strictEqual(childElement.getShowAddBeforeButtonCalled(), 0);
 	assert.strictEqual(childElement2.getHideAddBeforeButtonCalled(), 0);
 	assert.strictEqual(childElement2.getShowAddBeforeButtonCalled(), 0);
-	
+
 	pChildRefHandlerView.hideChildrensAddBeforeButton();
 	pChildRefHandlerView.showChildrensAddBeforeButton();
-	
+
 	assert.strictEqual(childElement.getHideAddBeforeButtonCalled(), 1);
 	assert.strictEqual(childElement.getShowAddBeforeButtonCalled(), 1);
 	assert.strictEqual(childElement2.getHideAddBeforeButtonCalled(), 1);
@@ -268,40 +261,95 @@ QUnit.test("testShowAndHideChildrensAddBeforeButton", function(assert) {
 	assert.strictEqual(childElement.getShowAddBeforeButtonCalled(), 1);
 	assert.strictEqual(childElement2.getHideAddBeforeButtonCalled(), 2);
 	assert.strictEqual(childElement2.getShowAddBeforeButtonCalled(), 1);
-	
+
 });
 
-QUnit.test("testDraggingDragStart", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+QUnit.test("testBeforeDraggingChildrenViewOnlyHasDragStartEvent", function(assert) {
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 	var view = pChildRefHandlerView.getView();
+	var childrenView = view.childNodes[0];
 
-	var childElement = document.createElement("span");
-	childElement.className = "repeatingElement";
-	pChildRefHandlerView.addChild(childElement);
+	var childElement = this.addAndReturnPRepeatingElementSpy1();
+	var childElement = this.addAndReturnPRepeatingElementSpy1();
+
+	assert.notStrictEqual(childrenView.ondragstart, null);
+	assert.strictEqual(childrenView.ondragstart, pChildRefHandlerView.dragstartHandler);
+
+	assert.strictEqual(childrenView.ondragover, null);
+	assert.strictEqual(childrenView.ondragenter, null);
+	assert.strictEqual(childrenView.ondrop, null);
+	assert.strictEqual(childrenView.ondragend, null);
+});
+
+QUnit.test("testDuringDraggingChildrenViewHasDraggingEvents", function(assert) {
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
+	var view = this.getView();
+	var childrenView = view.childNodes[0];
+	var repeatingElementView = this.addAndReturnPRepeatingElementSpy1().getView();
 
 	var eventSpy = CORATEST.eventSpy();
-	eventSpy.target = childElement;
+	eventSpy.target = repeatingElementView;
 	eventSpy.screenY = 0;
 
 	// dragStart
-	pChildRefHandlerView.dragstartHandler(eventSpy);
+	this.pChildRefHandlerView.dragstartHandler(eventSpy);
 	assert.strictEqual(eventSpy.stopPropagationWasCalled(), true);
 	assert.strictEqual(eventSpy.dataTransfer.effectAllowed, "move");
 	assert.strictEqual(eventSpy.target.className, "repeatingElement beeingDragged");
+	assert.strictEqual(eventSpy.target.originalClassname, "repeatingElement");
 	assert.strictEqual(eventSpy.dataTransfer.getFormat(), "text/notInUse");
 	assert.strictEqual(eventSpy.dataTransfer.getData(), "notUsed");
+
+	assert.notStrictEqual(childrenView.ondragstart, null);
+	assert.strictEqual(childrenView.ondragstart, pChildRefHandlerView.dragstartHandler);
+
+	assert.notStrictEqual(childrenView.ondragover, null);
+	assert.strictEqual(childrenView.ondragover, pChildRefHandlerView.dragoverHandler);
+
+	assert.notStrictEqual(childrenView.ondragenter, null);
+	assert.strictEqual(childrenView.ondragenter, pChildRefHandlerView.dragenterHandler);
+
+	assert.notStrictEqual(childrenView.ondrop, null);
+	assert.strictEqual(childrenView.ondrop, pChildRefHandlerView.dropHandler);
+
+	assert.notStrictEqual(childrenView.ondragend, null);
+	assert.strictEqual(childrenView.ondragend, pChildRefHandlerView.dragendHandler);
+});
+
+QUnit.test("testDuringDraggingOfOtherElementChildrenViewOnlyHasDragstartEvent", function(assert) {
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
+	var view = this.getView();
+	var childrenView = view.childNodes[0];
+	var repeatingElementView = this.addAndReturnPRepeatingElementSpy1().getView();
+
+	var childToDragElement = document.createElement("span");
+	childToDragElement.className = "childToDragElement";
+	repeatingElementView.appendChild(childToDragElement);
+
+	var eventSpy = CORATEST.eventSpy();
+	eventSpy.target = childToDragElement;
+	eventSpy.screenY = 0;
+
+	// dragStart
+	this.pChildRefHandlerView.dragstartHandler(eventSpy);
+	assert.strictEqual(eventSpy.target.className, "childToDragElement");
+	assert.strictEqual(eventSpy.target.originalClassname, undefined);
+	assert.strictEqual(eventSpy.stopPropagationWasCalled(), false);
+	assert.strictEqual(eventSpy.dataTransfer.effectAllowed, undefined);
+	assert.strictEqual(eventSpy.dataTransfer.getFormat(), "");
+	assert.strictEqual(eventSpy.dataTransfer.getData(), "");
+
+	assert.notStrictEqual(childrenView.ondragstart, null);
+	assert.strictEqual(childrenView.ondragstart, pChildRefHandlerView.dragstartHandler);
+
+	assert.strictEqual(childrenView.ondragover, null);
+	assert.strictEqual(childrenView.ondragenter, null);
+	assert.strictEqual(childrenView.ondrop, null);
+	assert.strictEqual(childrenView.ondragend, null);
 });
 
 QUnit.test("testDraggingDragover", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 	var view = pChildRefHandlerView.getView();
 
 	var childElement = document.createElement("span");
@@ -319,11 +367,7 @@ QUnit.test("testDraggingDragover", function(assert) {
 });
 
 QUnit.test("testDraggingDragenter", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 	var view = pChildRefHandlerView.getView();
 
 	var childElement = document.createElement("span");
@@ -341,11 +385,7 @@ QUnit.test("testDraggingDragenter", function(assert) {
 });
 
 QUnit.test("testDraggingDragenterIsDragging", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 
 	var spanHolder = document.createElement("span");
 	var beeingDragged = document.createElement("span");
@@ -373,11 +413,7 @@ QUnit.test("testDraggingDragenterIsDragging", function(assert) {
 });
 
 QUnit.test("testDraggingDragenterIsDraggingNoDragEnterRepeatingElement", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 
 	var spanHolder = document.createElement("span");
 	var beeingDragged = document.createElement("span");
@@ -404,11 +440,7 @@ QUnit.test("testDraggingDragenterIsDraggingNoDragEnterRepeatingElement", functio
 });
 
 QUnit.test("testDraggingDragenterIsDraggingTwoChildren", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 
 	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
@@ -444,11 +476,7 @@ QUnit.test("testDraggingDragenterIsDraggingTwoChildren", function(assert) {
 });
 
 QUnit.test("testDraggingDragenterIsDraggingChangeOrder", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 
 	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
@@ -489,11 +517,7 @@ QUnit.test("testDraggingDragenterIsDraggingChangeOrder", function(assert) {
 });
 
 QUnit.test("testDropHandlerDragging", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 
 	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
@@ -521,11 +545,7 @@ QUnit.test("testDropHandlerDragging", function(assert) {
 });
 
 QUnit.test("testDropHandlerNotDragging", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 
 	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
@@ -553,11 +573,7 @@ QUnit.test("testDropHandlerNotDragging", function(assert) {
 });
 
 QUnit.test("testDragendNotDragging", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 
 	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
@@ -585,11 +601,7 @@ QUnit.test("testDragendNotDragging", function(assert) {
 });
 
 QUnit.test("testDragendDragging", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 
 	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
 	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
@@ -622,12 +634,30 @@ QUnit.test("testDragendDragging", function(assert) {
 	assert.strictEqual(eventSpy2.dataTransfer.dropEffect, undefined);
 });
 
+QUnit.test("testAfterDragendChildrenViewOnlyHasDragstartEventhandler", function(assert) {
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
+	var view = this.getView();
+	var childrenView = view.childNodes[0];
+	var repeatingElementView = this.addAndReturnPRepeatingElementSpy1().getView();
+
+	var eventSpy = CORATEST.eventSpy();
+	eventSpy.target = repeatingElementView;
+	eventSpy.screenY = 0;
+
+	this.pChildRefHandlerView.dragstartHandler(eventSpy);
+	this.pChildRefHandlerView.dragendHandler(eventSpy);
+
+	assert.notStrictEqual(childrenView.ondragstart, null);
+	assert.strictEqual(childrenView.ondragstart, pChildRefHandlerView.dragstartHandler);
+
+	assert.strictEqual(childrenView.ondragover, null);
+	assert.strictEqual(childrenView.ondragenter, null);
+	assert.strictEqual(childrenView.ondrop, null);
+	assert.strictEqual(childrenView.ondragend, null);
+});
+
 QUnit.test("testDragendDraggingChangeOrder", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 
 	var path1 = {
 		"name" : "linkedPath",
@@ -736,11 +766,7 @@ QUnit.test("testDragendDraggingChangeOrder", function(assert) {
 	assert.deepEqual(movedData, moveData);
 });
 QUnit.test("testHandleMoveMessageAfter", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 	var path = {
 		"name" : "linkedPath",
 		"children" : [ {
@@ -809,11 +835,7 @@ QUnit.test("testHandleMoveMessageAfter", function(assert) {
 });
 
 QUnit.test("testHandleMoveMessageBefore", function(assert) {
-	var pChildRefHandlerViewSpec = {
-		"presentationId" : "pVarTextVariableId"
-	};
-	var pChildRefHandlerView = CORA.pChildRefHandlerView(this.dependencies,
-			pChildRefHandlerViewSpec);
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
 
 	var path2 = {
 		"name" : "linkedPath",
