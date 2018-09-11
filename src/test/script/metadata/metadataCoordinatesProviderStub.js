@@ -235,6 +235,220 @@ function MetadataCoordinatesProviderStub() {
 					"type" : "pGroup"
 				}
 			};
+		case "coordinatesOutputPGroup":
+			return {
+			"name" : "presentation",
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "coordinatesPGroup"
+				}, {
+					"name" : "type",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "recordType"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "presentationGroup"
+					} ]
+				}, {
+					"name" : "createdBy",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "systemOneUser"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "141414"
+					} ]
+				}, {
+					"name" : "dataDivider",
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "system"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "bibsys"
+					} ]
+				}, {
+					"name" : "tsCreated",
+					"value" : "2017-10-01 00:00:00.0"
+				}, {
+					"name" : "updated",
+					"children" : [ {
+						"name" : "updatedBy",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "systemOneUser"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "141414"
+						} ]
+					}, {
+						"name" : "tsUpdated",
+						"value" : "2017-11-01 17:56:07.0"
+					} ],
+					"repeatId" : "0"
+				}, {
+					"name" : "updated",
+					"children" : [ {
+						"name" : "updatedBy",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "user"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "141414"
+						} ]
+					}, {
+						"name" : "tsUpdated",
+						"value" : "2018-08-28 09:52:29.872"
+					} ],
+					"repeatId" : "1"
+				} ]
+			}, {
+				"name" : "presentationOf",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadataGroup"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "coordinatesGroup"
+				} ]
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"children" : [ {
+						"name" : "refGroup",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "coraText"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "latitudeTextVarText"
+							} ],
+							"attributes" : {
+								"type" : "text"
+							}
+						} ],
+						"repeatId" : "0"
+					}, {
+						"name" : "minNumberOfRepeatingToShow",
+						"value" : ""
+					}, {
+						"name" : "textStyle",
+						"value" : ""
+					}, {
+						"name" : "childStyle",
+						"value" : "",
+						"repeatId" : "1"
+					} ],
+					"repeatId" : "2"
+				}, {
+					"name" : "childReference",
+					"children" : [ {
+						"name" : "refGroup",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "presentationVar"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "latitudePVar"
+							} ],
+							"attributes" : {
+								"type" : "presentation"
+							}
+						} ],
+						"repeatId" : "0"
+					}, {
+						"name" : "minNumberOfRepeatingToShow",
+						"value" : ""
+					}, {
+						"name" : "textStyle",
+						"value" : ""
+					}, {
+						"name" : "childStyle",
+						"value" : "",
+						"repeatId" : "1"
+					} ],
+					"repeatId" : "0"
+				}, {
+					"name" : "childReference",
+					"children" : [ {
+						"name" : "refGroup",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "coraText"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "longitudeTextVarText"
+							} ],
+							"attributes" : {
+								"type" : "text"
+							}
+						} ],
+						"repeatId" : "0"
+					}, {
+						"name" : "minNumberOfRepeatingToShow",
+						"value" : ""
+					}, {
+						"name" : "textStyle",
+						"value" : ""
+					}, {
+						"name" : "childStyle",
+						"value" : "",
+						"repeatId" : "1"
+					} ],
+					"repeatId" : "3"
+				}, {
+					"name" : "childReference",
+					"children" : [ {
+						"name" : "refGroup",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "presentationVar"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "longitudePVar"
+							} ],
+							"attributes" : {
+								"type" : "presentation"
+							}
+						} ],
+						"repeatId" : "0"
+					}, {
+						"name" : "minNumberOfRepeatingToShow",
+						"value" : ""
+					}, {
+						"name" : "textStyle",
+						"value" : ""
+					}, {
+						"name" : "childStyle",
+						"value" : "",
+						"repeatId" : "1"
+					} ],
+					"repeatId" : "1"
+				} ]
+			}, {
+				"name" : "presentAs",
+				"value" : "map"
+			}, {
+				"name" : "mode",
+				"value" : "output"
+			} ],
+			"attributes" : {
+				"type" : "pGroup"
+			}
+		};
 		case "coordinatesGroup":
 			return {
 				"name" : "metadata",

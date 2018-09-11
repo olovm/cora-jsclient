@@ -276,34 +276,27 @@ QUnit.test("testSetMarkerInputmodeIsDraggableHasOndragendFunction", function(ass
 	assert.strictEqual(marker._events.dragend[0].fn, pMapView.setCoordinateFromMarkerDrag);
 });
 
-QUnit.test("testMargerOndragendFunction", function(assert) {
+QUnit.test("testMarkerOndragendFunction", function(assert) {
 	var callbackCalled = false;
-	var latLng;
-	var setLatLngMethod = function(latLng) {
-		console.log("adsfadsf")
+	var latFromCallback;
+	var lngFromCallback;
+	var setLatLngMethod = function(lat, lng) {
 		callbackCalled = true;
+		latFromCallback = lat;
+		lngFromCallback = lng;
 	}
 	this.spec.setLatLngMethod = setLatLngMethod;
 
-	// var valueView = this.getValueView();
 	var pMapView = this.getPMapView();
-
-	// pMapView.startMap();
-	//	
-	// var lat = 62.7;
-	// var lng = 16.0;
-	// pMapView.setMarker(lat, lng);
-	//	
-	// var marker = valueView.marker;
-	// assert.strictEqual(marker.dragging._enabled, true);
-	// assert.notStrictEqual(marker._events.dragend[0].fn, undefined);
-	// assert.strictEqual(marker._events.dragend[0].fn, pMapView.setCoordinateFromMarkerDrag);
 
 	assert.strictEqual(callbackCalled, false);
 
 	var fakeTarget = {
-		getLatLang : function() {
-			return "fake latlng"
+		getLatLng : function() {
+			return {
+				lat : 12.3,
+				lng : 34.5
+			};
 		}
 	};
 	var fakeEvent = {
@@ -311,7 +304,8 @@ QUnit.test("testMargerOndragendFunction", function(assert) {
 	};
 	pMapView.setCoordinateFromMarkerDrag(fakeEvent);
 	assert.strictEqual(callbackCalled, true);
-
+	assert.strictEqual(latFromCallback, 12.3);
+	assert.strictEqual(lngFromCallback, 34.5);
 });
 
 QUnit.test("testRemoveMarker", function(assert) {

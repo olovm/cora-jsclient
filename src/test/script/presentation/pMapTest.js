@@ -184,13 +184,13 @@ QUnit.test("testOneRemovedValueRemovesMarkerFromView", function(assert) {
 
 	pMap.handleSetValueLatitude(msgLat);
 	assert.strictEqual(pMapView.getNoOfRemoveMarkerCalls(), 1);
-	
+
 	pMap.handleSetValueLongitude(msgNoValue);
 	assert.strictEqual(pMapView.getNoOfRemoveMarkerCalls(), 2);
 
 });
 
-QUnit.test("testInitInfoInputMode", function(assert) {
+QUnit.test("testViewSpecInputMode", function(assert) {
 	var pMap = CORA.pMap(this.dependencies, this.spec);
 	pMap.initComplete();
 	var view = pMap.getView();
@@ -271,10 +271,48 @@ QUnit.test("testInitInfoInputMode", function(assert) {
 			}, {
 				"text" : "presentationId: coordinatesPGroup"
 			} ]
-		}
+		},
+		setLatLngMethod : pMap.setLatLngMethod
 	};
 	assert.stringifyEqual(this.dependencies.pMapViewFactory.getSpec(0), expectedSpec);
-
+	assert.notStrictEqual(expectedSpec.setLatLngMethod, undefined);
+});
+QUnit.test("testViewSpecOutputMode", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("coordinatesOutputPGroup"));
+	var pMap = CORA.pMap(this.dependencies, this.spec);
+	pMap.initComplete();
+	var view = pMap.getView();
+	this.fixture.appendChild(view);
+	var expectedSpec = {
+		"mode" : "output",
+		// "inputType" : getInputType(),
+		// "outputFormat" : outputFormat,
+		// "presentationId" : presentationId,
+		"info" : {
+			"text" : "translated_coordinatesGroupText",
+			"defText" : "translated_coordinatesGroupDefText",
+			"technicalInfo" : [ {
+				"text" : "textId: coordinatesGroupText",
+			// onclickMethod : openTextIdRecord
+			}, {
+				"text" : "defTextId: coordinatesGroupDefText",
+			// onclickMethod : openDefTextIdRecord
+			}, {
+				"text" : "metadataId: coordinatesGroup",
+			// onclickMethod : openMetadataIdRecord
+			}, {
+				"text" : "nameInData: coordinates"
+			// }, {
+			// "text" : "regEx: " + regEx
+			}, {
+				"text" : "presentationId: coordinatesPGroup"
+			} ]
+		},
+		setLatLngMethod : pMap.setLatLngMethod
+	};
+	assert.stringifyEqual(this.dependencies.pMapViewFactory.getSpec(0), expectedSpec);
+	assert.notStrictEqual(expectedSpec.setLatLngMethod, undefined);
 });
 
 QUnit.test("testGetDependencies", function(assert) {

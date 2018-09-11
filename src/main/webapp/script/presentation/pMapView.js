@@ -143,9 +143,8 @@ var CORA = (function(cora) {
 		}
 
 		function setCoordinateFromMarkerDrag(event) {
-			console.log("setCoordinateFromMarkerDrag", event);
-			// var chagedPos = ev.target.getLatLng();
-			spec.setLatLngMethod(event.target.getLatLng());
+			var latLngFromDragEnd = event.target.getLatLng();
+			spec.setLatLngMethod(latLngFromDragEnd.lat, latLngFromDragEnd.lng);
 		}
 
 		function removeMarker() {

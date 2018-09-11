@@ -206,10 +206,15 @@ var CORA = (function(cora) {
 					}, {
 						"text" : "presentationId: " + presentationId
 					} ]
-				}
+				},
+				setLatLngMethod : setLatLngMethod
 			};
 			pMapView = dependencies.pMapViewFactory.factor(pMapViewSpec);
 			view = pMapView.getView();
+		}
+
+		function setLatLngMethod() {
+
 		}
 
 		function getMetadataById(id) {
@@ -235,7 +240,8 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			initComplete : initComplete,
 			handleSetValueLongitude : handleSetValueLongitude,
-			handleSetValueLatitude : handleSetValueLatitude
+			handleSetValueLatitude : handleSetValueLatitude,
+			setLatLngMethod : setLatLngMethod
 		});
 		start();
 		view.modelObject = out;
