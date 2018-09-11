@@ -118,6 +118,20 @@ var CORA = (function(cora) {
 			var minimap = new L.Control.MiniMap(miniLayer);
 			minimap.addTo(map);
 			valueView.minimap = minimap;
+
+			map.on('click', onMapClick);
+		}
+		// Script for adding marker on map click
+		function onMapClick(e) {
+			console.log("onMapClick");
+			if (marker === undefined) {
+				console.log("onMapClick 2");
+				var latLng = e.latlng;
+				console.log("onMapClick 3 latLng:", latLng);
+				setMarker(latLng.lat, latLng.lng);
+				console.log("onMapClick 4 latLng:", latLng);
+				setCoordinateFromLatLng(latLng.lat, latLng.lng);
+			}
 		}
 
 		function setMarker(lat, lng) {
@@ -144,7 +158,11 @@ var CORA = (function(cora) {
 
 		function setCoordinateFromMarkerDrag(event) {
 			var latLngFromDragEnd = event.target.getLatLng();
-			spec.setLatLngMethod(latLngFromDragEnd.lat, latLngFromDragEnd.lng);
+			setCoordinateFromLatLng(latLngFromDragEnd.lat, latLngFromDragEnd.lng);
+		}
+
+		function setCoordinateFromLatLng(lat, lng) {
+			spec.setLatLngMethod(lat, lng);
 		}
 
 		function removeMarker() {

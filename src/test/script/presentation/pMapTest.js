@@ -28,8 +28,8 @@ QUnit.module("pMapTest.js", {
 			"pubSub" : CORATEST.pubSubSpy(),
 			"textProvider" : CORATEST.textProviderSpy(),
 			"pMapViewFactory" : CORATEST.standardFactorySpy("pMapViewSpy"),
-		// "presentationFactory" : CORATEST.standardFactorySpy("presentationSpy"),
-		// "jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
+			// "presentationFactory" : CORATEST.standardFactorySpy("presentationSpy"),
+			"jsBookkeeper" : CORATEST.jsBookkeeperSpy(),
 		// "recordTypeProvider" : CORATEST.recordTypeProviderStub(),
 		// "pChildRefHandlerFactory" : CORATEST.standardFactorySpy("pChildRefHandlerSpy"),
 		// "pNonRepeatingChildRefHandlerFactory" : CORATEST
@@ -272,7 +272,7 @@ QUnit.test("testViewSpecInputMode", function(assert) {
 				"text" : "presentationId: coordinatesPGroup"
 			} ]
 		},
-		setLatLngMethod : pMap.setLatLngMethod
+		setLatLngMethod : pMap.publishLatLngValues
 	};
 	assert.stringifyEqual(this.dependencies.pMapViewFactory.getSpec(0), expectedSpec);
 	assert.notStrictEqual(expectedSpec.setLatLngMethod, undefined);
@@ -309,10 +309,45 @@ QUnit.test("testViewSpecOutputMode", function(assert) {
 				"text" : "presentationId: coordinatesPGroup"
 			} ]
 		},
-		setLatLngMethod : pMap.setLatLngMethod
+		setLatLngMethod : pMap.publishLatLngValues
 	};
 	assert.stringifyEqual(this.dependencies.pMapViewFactory.getSpec(0), expectedSpec);
 	assert.notStrictEqual(expectedSpec.setLatLngMethod, undefined);
+});
+
+QUnit.test("testpublishLatLngValuesShouldPublishData", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("coordinatesPGroup"));
+	var pMap = CORA.pMap(this.dependencies, this.spec);
+	pMap.initComplete();
+	pMap.publishLatLngValues(12.4, 33.3);
+
+	var messages = this.dependencies.pubSub.getMessages();
+//	console.log(messages)
+	assert.strictEqual(messages.length, 2);
+
+	var latitudeMessage = messages[0];
+	assert.strictEqual(latitudeMessage.type, "setValue");
+	assert.strictEqual(latitudeMessage.message.data, 12.4);
+	assert.stringifyEqual(latitudeMessage.message.path, {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "latitude"
+		} ]
+	});
+
+	var longitudeMessage = messages[1];
+	assert.strictEqual(longitudeMessage.type, "setValue");
+	assert.strictEqual(longitudeMessage.message.data, 33.3);
+	assert.stringifyEqual(longitudeMessage.message.path, {
+		"name" : "linkedPath",
+		"children" : [ {
+			"name" : "nameInData",
+			"value" : "longitude"
+		} ]
+	});
+
 });
 
 QUnit.test("testGetDependencies", function(assert) {

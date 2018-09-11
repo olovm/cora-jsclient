@@ -203,8 +203,8 @@ img {
 }
 
 .beeingDragged {
-	/* 	opacity: 0.5; */
-	transform: scale(0.8);
+/* 	chrome can not hadle css changes on dragging :( */
+/* 	transform: scale(0.8); */
 	border: 1px solid black;
 }
 

@@ -46,7 +46,11 @@ QUnit
 							this.getPChildRefHandlerView();
 							return this.pChildRefHandlerView.getView();
 						};
-
+						
+						this.getChildrenView = function (){
+							return this.getView().firstChild;
+						}
+						
 						this.addAndReturnPRepeatingElementSpy1 = function() {
 							this.getPChildRefHandlerView();
 							this.pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
@@ -366,154 +370,173 @@ QUnit.test("testDraggingDragover", function(assert) {
 	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
 });
 
-QUnit.test("testDraggingDragenter", function(assert) {
+//QUnit.test("testDraggingDragenter", function(assert) {
+//	var pChildRefHandlerView = this.getPChildRefHandlerView();
+//	var view = pChildRefHandlerView.getView();
+//
+//	var childElement = document.createElement("span");
+//	childElement.className = "repeatingElement";
+//	pChildRefHandlerView.addChild(childElement);
+//
+//	var eventSpy = CORATEST.eventSpy();
+//	eventSpy.target = childElement;
+//	eventSpy.screenY = 0;
+//
+//	// dragenter
+//	pChildRefHandlerView.dragenterHandler(eventSpy);
+//	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
+//	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
+//});
+
+//QUnit.test("testDraggingDragenterIsDragging", function(assert) {
+//	var pChildRefHandlerView = this.getPChildRefHandlerView();
+//
+//	var spanHolder = document.createElement("span");
+//	var beeingDragged = document.createElement("span");
+//	beeingDragged.id = "beeingDragged";
+//	beeingDragged.className = "eventSpy";
+//
+//	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
+//	pChildRefHandlerView.setRepeatingElementDragOver(pRepeatingElementSpy);
+//	pRepeatingElementSpy.id = "draggedOver";
+//	spanHolder.appendChild(pRepeatingElementSpy.getView());
+//
+//	spanHolder.appendChild(beeingDragged);
+//
+//	var eventSpy = CORATEST.eventSpy();
+//	eventSpy.target = beeingDragged;
+//	eventSpy.screenY = 0;
+//
+//	// dragstart
+//	pChildRefHandlerView.dragstartHandler(eventSpy);
+//
+//	// dragenter
+//	pChildRefHandlerView.dragenterHandler(eventSpy);
+//	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
+//	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
+//});
+
+QUnit.test("testEventActionsOnDragenter", function(assert) {
 	var pChildRefHandlerView = this.getPChildRefHandlerView();
-	var view = pChildRefHandlerView.getView();
-
-	var childElement = document.createElement("span");
-	childElement.className = "repeatingElement";
-	pChildRefHandlerView.addChild(childElement);
-
-	var eventSpy = CORATEST.eventSpy();
-	eventSpy.target = childElement;
-	eventSpy.screenY = 0;
-
-	// dragenter
-	pChildRefHandlerView.dragenterHandler(eventSpy);
-	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
-	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
-});
-
-QUnit.test("testDraggingDragenterIsDragging", function(assert) {
-	var pChildRefHandlerView = this.getPChildRefHandlerView();
-
-	var spanHolder = document.createElement("span");
-	var beeingDragged = document.createElement("span");
-	beeingDragged.id = "beeingDragged";
-	beeingDragged.className = "eventSpy";
-
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
-	pChildRefHandlerView.setRepeatingElementDragOver(pRepeatingElementSpy);
-	pRepeatingElementSpy.id = "draggedOver";
-	spanHolder.appendChild(pRepeatingElementSpy.getView());
-
-	spanHolder.appendChild(beeingDragged);
-
-	var eventSpy = CORATEST.eventSpy();
-	eventSpy.target = beeingDragged;
-	eventSpy.screenY = 0;
-
-	// dragstart
-	pChildRefHandlerView.dragstartHandler(eventSpy);
-
-	// dragover
-	pChildRefHandlerView.dragenterHandler(eventSpy);
-	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
-	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
-});
-
-QUnit.test("testDraggingDragenterIsDraggingNoDragEnterRepeatingElement", function(assert) {
-	var pChildRefHandlerView = this.getPChildRefHandlerView();
-
-	var spanHolder = document.createElement("span");
-	var beeingDragged = document.createElement("span");
-	beeingDragged.id = "beeingDragged";
-	beeingDragged.className = "eventSpy";
-
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
-	pRepeatingElementSpy.id = "draggedOver";
-	spanHolder.appendChild(pRepeatingElementSpy.getView());
-
-	spanHolder.appendChild(beeingDragged);
-
-	var eventSpy = CORATEST.eventSpy();
-	eventSpy.target = beeingDragged;
-	eventSpy.screenY = 0;
-
-	// dragstart
-	pChildRefHandlerView.dragstartHandler(eventSpy);
-
-	// dragover
-	pChildRefHandlerView.dragenterHandler(eventSpy);
-	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
-	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
-});
-
-QUnit.test("testDraggingDragenterIsDraggingTwoChildren", function(assert) {
-	var pChildRefHandlerView = this.getPChildRefHandlerView();
-
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
-	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
-	pRepeatingElementSpy.id = "draggedOver";
-	pChildRefHandlerView.addChild(pRepeatingElementSpy.getView());
-
-	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({}, {});
-	pRepeatingElementSpy2.setParentModelObject(pChildRefHandlerView);
-	pRepeatingElementSpy2.id = "draggedOver2";
-	pChildRefHandlerView.addChild(pRepeatingElementSpy2.getView());
-
-	var firstChild = pRepeatingElementSpy.getView();
-
-	var eventSpy = CORATEST.eventSpy();
-	eventSpy.target = firstChild;
-	eventSpy.screenY = 0;
-
-	// dragstart
-	pChildRefHandlerView.dragstartHandler(eventSpy);
-
-	// dragEnter on firstChild
-	var pRepeatingElement = firstChild.modelObject;
-	pRepeatingElement.getView().ondragenter();
-
-	// dragover
-	pChildRefHandlerView.dragenterHandler(eventSpy);
-	assert.strictEqual(eventSpy.preventDefaultWasCalled(), true);
-	assert.strictEqual(eventSpy.dataTransfer.dropEffect, "move");
-
-	// order
-	var childrenView = pChildRefHandlerView.getView().firstChild;
-	assert.strictEqual(childrenView.childNodes[0], firstChild);
-});
-
-QUnit.test("testDraggingDragenterIsDraggingChangeOrder", function(assert) {
-	var pChildRefHandlerView = this.getPChildRefHandlerView();
-
-	var pRepeatingElementSpy = CORATEST.pRepeatingElementSpy({}, {});
-	pRepeatingElementSpy.setParentModelObject(pChildRefHandlerView);
-	pRepeatingElementSpy.id = "draggedOver";
-	pChildRefHandlerView.addChild(pRepeatingElementSpy.getView());
-
-	var pRepeatingElementSpy2 = CORATEST.pRepeatingElementSpy({}, {});
-	pRepeatingElementSpy2.setParentModelObject(pChildRefHandlerView);
-	pRepeatingElementSpy2.id = "draggedOver2";
-	pChildRefHandlerView.addChild(pRepeatingElementSpy2.getView());
-
-	var firstChild = pRepeatingElementSpy.getView();
+	var childrenView = this.getChildrenView();
+	
+	var pRepeatingElementSpy1 = this.addAndReturnPRepeatingElementSpy1();
+	var firstChild = pRepeatingElementSpy1.getView();
+	
+	var pRepeatingElementSpy2 = this.addAndReturnPRepeatingElementSpy2();
 	var secondChild = pRepeatingElementSpy2.getView();
 
-	var eventSpy = CORATEST.eventSpy();
-	eventSpy.target = firstChild;
-	eventSpy.screenY = 0;
+	// dragstart
+	var dragstartEventSpy = CORATEST.eventSpy();
+	dragstartEventSpy.target = firstChild;
+	dragstartEventSpy.screenY = 500;
+	childrenView.ondragstart(dragstartEventSpy);
+
+	// dragenter
+	var dragenterEventSpy = CORATEST.eventSpy();
+	dragenterEventSpy.target = secondChild;
+	dragenterEventSpy.screenY = 550;
+	childrenView.ondragenter(dragenterEventSpy);
+	
+	// check dragenter
+	assert.strictEqual(dragenterEventSpy.preventDefaultWasCalled(), true);
+	assert.strictEqual(dragenterEventSpy.dataTransfer.dropEffect, "move");
+});
+
+QUnit.test("testDraggingTwoChildrenChangeOrderAfter", function(assert) {
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
+	var childrenView = this.getChildrenView();
+	
+	var pRepeatingElementSpy1 = this.addAndReturnPRepeatingElementSpy1();
+	var firstChild = pRepeatingElementSpy1.getView();
+	
+	var pRepeatingElementSpy2 = this.addAndReturnPRepeatingElementSpy2();
+	var secondChild = pRepeatingElementSpy2.getView();
+
+	// check order
+	assert.strictEqual(childrenView.firstChild, firstChild);
 
 	// dragstart
-	pChildRefHandlerView.dragstartHandler(eventSpy);
+	var dragstartEventSpy = CORATEST.eventSpy();
+	dragstartEventSpy.target = firstChild;
+	dragstartEventSpy.screenY = 500;
+	childrenView.ondragstart(dragstartEventSpy);
 
 	// dragEnter on secondChild
-	var pRepeatingElement = secondChild.modelObject;
-	pRepeatingElement.getView().ondragenter();
+	secondChild.ondragenter();
 
-	var eventSpy2 = CORATEST.eventSpy();
-	eventSpy2.target = secondChild;
-	eventSpy2.screenY = "50";
+	// dragenter
+	var dragenterEventSpy = CORATEST.eventSpy();
+	dragenterEventSpy.target = secondChild;
+	dragenterEventSpy.screenY = 550;
+	childrenView.ondragenter(dragenterEventSpy);
+	
+	// check order
+	assert.strictEqual(childrenView.firstChild, secondChild);
+});
 
-	// dragover
-	pChildRefHandlerView.dragenterHandler(eventSpy2);
-	assert.strictEqual(eventSpy2.preventDefaultWasCalled(), true);
-	assert.strictEqual(eventSpy2.dataTransfer.dropEffect, "move");
+QUnit.test("testDraggingTwoChildrenChangeOrderBefore", function(assert) {
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
+	var childrenView = this.getChildrenView();
+	
+	var pRepeatingElementSpy1 = this.addAndReturnPRepeatingElementSpy1();
+	var firstChild = pRepeatingElementSpy1.getView();
+	
+	var pRepeatingElementSpy2 = this.addAndReturnPRepeatingElementSpy2();
+	var secondChild = pRepeatingElementSpy2.getView();
 
 	// order
-	var childrenView = pChildRefHandlerView.getView().firstChild;
-	assert.strictEqual(childrenView.childNodes[0], secondChild);
+	assert.strictEqual(childrenView.firstChild, firstChild);
+
+	// dragstart
+	var dragstartEventSpy = CORATEST.eventSpy();
+	dragstartEventSpy.target = secondChild;
+	dragstartEventSpy.screenY = 500;
+	pChildRefHandlerView.dragstartHandler(dragstartEventSpy);
+
+	// dragEnter on firstChild
+	firstChild.ondragenter();
+
+	// dragenter
+	var dragenterEventSpy = CORATEST.eventSpy();
+	dragenterEventSpy.target = firstChild;
+	dragenterEventSpy.screenY = 450;
+	pChildRefHandlerView.dragenterHandler(dragenterEventSpy);
+	
+	// check order
+	assert.strictEqual(childrenView.firstChild, secondChild);
+});
+
+QUnit.test("testDraggingOneChildDragenterOnItselfItCanHappenInRealBrowsers", function(assert) {
+	var pChildRefHandlerView = this.getPChildRefHandlerView();
+	var childrenView = this.getChildrenView();
+	
+	var pRepeatingElementSpy1 = this.addAndReturnPRepeatingElementSpy1();
+	var firstChild = pRepeatingElementSpy1.getView();
+	
+	var pRepeatingElementSpy2 = this.addAndReturnPRepeatingElementSpy2();
+	var secondChild = pRepeatingElementSpy2.getView();
+
+	// check order
+	assert.strictEqual(childrenView.firstChild, firstChild);
+
+	// dragstart
+	var dragstartEventSpy = CORATEST.eventSpy();
+	dragstartEventSpy.target = firstChild;
+	dragstartEventSpy.screenY = 500;
+	childrenView.ondragstart(dragstartEventSpy);
+
+	// dragEnter on firstChild
+	firstChild.ondragenter(); 
+
+	// dragenter
+	var dragenterEventSpy = CORATEST.eventSpy();
+	dragenterEventSpy.target = firstChild;
+	dragenterEventSpy.screenY = 550;
+	childrenView.ondragenter(dragenterEventSpy);
+	
+	// check order
+	assert.strictEqual(childrenView.firstChild, firstChild);
 });
 
 QUnit.test("testDropHandlerDragging", function(assert) {

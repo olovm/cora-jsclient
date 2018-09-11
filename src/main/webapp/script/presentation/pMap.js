@@ -42,7 +42,8 @@ var CORA = (function(cora) {
 		var text;
 		var defTextId;
 		var defText;
-
+		var longitudePath;
+		var latitudePath;
 		var markerActive = false;
 
 		function start() {
@@ -103,19 +104,22 @@ var CORA = (function(cora) {
 			var nameInDataForChild = getNameInDataForChildId(idOfChildToOurGroup);
 
 			if ("longitude" === nameInDataForChild) {
+				longitudePath = calculateNewPathForMetadataIdUsingParentPath(idOfChildToOurGroup,
+						path);
 				subscribeToSetValueForIdOfChildWithFunctionToCall(idOfChildToOurGroup,
-						handleSetValueLongitude);
+						handleSetValueLongitude, longitudePath);
 			}
 
 			if ("latitude" === nameInDataForChild) {
+				latitudePath = calculateNewPathForMetadataIdUsingParentPath(idOfChildToOurGroup,
+						path);
 				subscribeToSetValueForIdOfChildWithFunctionToCall(idOfChildToOurGroup,
-						handleSetValueLatitude);
+						handleSetValueLatitude, latitudePath);
 			}
 		}
 
 		function subscribeToSetValueForIdOfChildWithFunctionToCall(idOfChildToOurGroup,
-				methodToCall) {
-			var childPath = calculateNewPathForMetadataIdUsingParentPath(idOfChildToOurGroup, path);
+				methodToCall, childPath) {
 			pubSub.subscribe("setValue", childPath, undefined, methodToCall);
 		}
 
@@ -207,14 +211,25 @@ var CORA = (function(cora) {
 						"text" : "presentationId: " + presentationId
 					} ]
 				},
-				setLatLngMethod : setLatLngMethod
+				setLatLngMethod : publishLatLngValues
 			};
 			pMapView = dependencies.pMapViewFactory.factor(pMapViewSpec);
 			view = pMapView.getView();
 		}
 
-		function setLatLngMethod() {
+		function publishLatLngValues(lat, lng) {
+			console.log("lat: ",lat, " lng: ",lng);
+			var latitudeData = {
+				"data" : lat,
+				"path" : latitudePath
+			};
+			pubSub.publish("setValue", latitudeData);
 
+			var longitudeData = {
+				"data" : lng,
+				"path" : longitudePath
+			};
+			pubSub.publish("setValue", longitudeData);
 		}
 
 		function getMetadataById(id) {
@@ -241,7 +256,7 @@ var CORA = (function(cora) {
 			initComplete : initComplete,
 			handleSetValueLongitude : handleSetValueLongitude,
 			handleSetValueLatitude : handleSetValueLatitude,
-			setLatLngMethod : setLatLngMethod
+			publishLatLngValues : publishLatLngValues
 		});
 		start();
 		view.modelObject = out;
