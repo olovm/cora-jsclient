@@ -166,6 +166,7 @@ var CORA = (function(cora) {
 		}
 
 		function removeMarker() {
+			console.log("removeMarker:" , marker)
 			valueView.marker = undefined;
 			map.removeLayer(marker);
 			marker = undefined;

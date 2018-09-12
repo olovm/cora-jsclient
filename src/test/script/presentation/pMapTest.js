@@ -182,6 +182,9 @@ QUnit.test("testOneRemovedValueRemovesMarkerFromView", function(assert) {
 	pMap.handleSetValueLatitude(msgNoValue);
 	assert.strictEqual(pMapView.getNoOfRemoveMarkerCalls(), 1);
 
+	pMap.handleSetValueLatitude(msgNoValue); 
+	assert.strictEqual(pMapView.getNoOfRemoveMarkerCalls(), 1);
+
 	pMap.handleSetValueLatitude(msgLat);
 	assert.strictEqual(pMapView.getNoOfRemoveMarkerCalls(), 1);
 

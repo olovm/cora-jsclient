@@ -2049,6 +2049,8 @@ QUnit.test("testInitCompleteNotEnough", function(assert) {
 });
 
 QUnit.test("testInitCompleteNotEnoughOneAlreadyAdded", function(assert) {
+	var messages = this.dependencies.pubSub.getMessages();
+	assert.deepEqual(messages.length, 0);
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	this.spec.minNumberOfRepeatingToShow = "2";
@@ -2056,6 +2058,10 @@ QUnit.test("testInitCompleteNotEnoughOneAlreadyAdded", function(assert) {
 	pChildRefHandler.add("textVariableId");
 	pChildRefHandler.initComplete();
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddDataArray().length, 1);
+
+	var messages = this.dependencies.pubSub.getMessages();
+	assert.deepEqual(messages.length, 1);
+	assert.deepEqual(messages[0].type, "initComplete");
 });
 
 QUnit.test("testInitCompleteNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(assert) {

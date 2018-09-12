@@ -185,6 +185,7 @@ var CORA = (function(cora) {
 		function possiblyRemoveMarker() {
 			if (markerActive) {
 				pMapView.removeMarker();
+				markerActive = false;
 			}
 		}
 
@@ -218,7 +219,7 @@ var CORA = (function(cora) {
 		}
 
 		function publishLatLngValues(lat, lng) {
-			console.log("lat: ",lat, " lng: ",lng);
+			console.log("lat: ", lat, " lng: ", lng);
 			var latitudeData = {
 				"data" : lat,
 				"path" : latitudePath

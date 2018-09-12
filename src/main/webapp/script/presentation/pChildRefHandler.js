@@ -670,6 +670,8 @@ var CORA = (function(cora) {
 					sendAdd();
 				}
 			}
+			//added
+//			sendInitComplete();
 		}
 
 		out = Object.freeze({
