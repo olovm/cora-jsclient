@@ -53,7 +53,8 @@ var CORA = (function(cora) {
 			var managedGuiItemSpec = {
 				"activateMethod" : spec.jsClient.showView,
 				"removeMethod" : spec.jsClient.viewRemoved,
-				"callOnMetadataReloadMethod" : reloadForMetadataChanges
+				"callOnMetadataReloadMethod" : reloadForMetadataChanges,
+				"callMethodAfterShowWorkView" : callMethodAfterShowWorkView
 			};
 			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 		}
@@ -319,7 +320,7 @@ var CORA = (function(cora) {
 			if (recordHasUpdateLink()) {
 				recordHandlerView.addButton("UPDATE", sendUpdateDataToServer, "update");
 			}
-			if(recordHasIndexLink()){
+			if (recordHasIndexLink()) {
 				recordHandlerView.addButton("INDEX", sendIndexDataToServer, "index");
 			}
 		}
@@ -410,13 +411,13 @@ var CORA = (function(cora) {
 		}
 
 		function sendIndexDataToServer() {
-				busy.show();
-				var indexHandlerSpec = {
-						"loadMethod" : showIndexMessage,
-						"timeoutMethod" :showTimeoutMessage
-				};
-				var indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
-				indexHandler.indexData(fetchedRecord);
+			busy.show();
+			var indexHandlerSpec = {
+				"loadMethod" : showIndexMessage,
+				"timeoutMethod" : showTimeoutMessage
+			};
+			var indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
+			indexHandler.indexData(fetchedRecord);
 
 		}
 
@@ -471,6 +472,15 @@ var CORA = (function(cora) {
 			recordGui.initMetadataControllerStartingGui();
 		}
 
+		function callMethodAfterShowWorkView() {
+			if (recordGui !== undefined) {
+				recordGui.pubSub.publish("viewJustMadeVisible", {
+					"data" : "",
+					"path" : {}
+				});
+			}
+		}
+
 		function showIncomingLinks() {
 			var illhSpec = {
 				"read_incoming_links" : fetchedRecord.actionLinks.read_incoming_links
@@ -506,7 +516,8 @@ var CORA = (function(cora) {
 			reloadForMetadataChanges : reloadForMetadataChanges,
 			showIncomingLinks : showIncomingLinks,
 			showIndexMessage : showIndexMessage,
-			showTimeoutMessage : showTimeoutMessage
+			showTimeoutMessage : showTimeoutMessage,
+			callMethodAfterShowWorkView : callMethodAfterShowWorkView
 		});
 		return out;
 	};

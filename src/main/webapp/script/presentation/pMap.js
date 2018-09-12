@@ -74,6 +74,7 @@ var CORA = (function(cora) {
 		function subscribeToMessagesForMap() {
 			subscribeToInitCompleteMessageForStartup();
 			subscribeToSetValueForCoordinatesValues();
+			subscribeToViewJustMadeVisibleForStartup();
 		}
 
 		function subscribeToInitCompleteMessageForStartup() {
@@ -86,6 +87,10 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData("childReferences"));
 			var childReferences = cChildReferences.getChildrenByNameInData("childReference");
 			childReferences.forEach(subscribeToSetValueIfLatitudeOrLongitude);
+		}
+
+		function subscribeToViewJustMadeVisibleForStartup() {
+			pubSub.subscribe("viewJustMadeVisible", {}, undefined, viewJustMadeVisible);
 		}
 
 		function getIdFromChildReference(childReference) {
@@ -132,8 +137,22 @@ var CORA = (function(cora) {
 			return CORA.calculatePathForNewElement(pathSpec);
 		}
 
+		var initCompleteHasBeenCalled = false;
+
 		function initComplete() {
-			if (mapNotStarted()) {
+			initCompleteHasBeenCalled = true;
+			if (mapNotStarted() && viewIsCurrentlyVisible()) {
+				unsubscribeFromInitComplete();
+				startMap();
+			}
+		}
+
+		function viewIsCurrentlyVisible() {
+			return view.offsetHeight > 0;
+		}
+
+		function viewJustMadeVisible() {
+			if (mapNotStarted() && initCompleteHasBeenCalled && viewIsCurrentlyVisible()) {
 				startMap();
 			}
 		}
@@ -144,7 +163,6 @@ var CORA = (function(cora) {
 
 		function startMap() {
 			mapStarted = true;
-			unsubscribeFromInitComplete();
 			pMapView.startMap();
 			possiblyHandleMarkerInView();
 		}
@@ -219,7 +237,6 @@ var CORA = (function(cora) {
 		}
 
 		function publishLatLngValues(lat, lng) {
-			console.log("lat: ", lat, " lng: ", lng);
 			var latitudeData = {
 				"data" : lat,
 				"path" : latitudePath
@@ -257,7 +274,8 @@ var CORA = (function(cora) {
 			initComplete : initComplete,
 			handleSetValueLongitude : handleSetValueLongitude,
 			handleSetValueLatitude : handleSetValueLatitude,
-			publishLatLngValues : publishLatLngValues
+			publishLatLngValues : publishLatLngValues,
+			viewJustMadeVisible : viewJustMadeVisible
 		});
 		start();
 		view.modelObject = out;

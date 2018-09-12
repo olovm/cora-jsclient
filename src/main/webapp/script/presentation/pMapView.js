@@ -105,6 +105,8 @@ var CORA = (function(cora) {
 		}
 
 		function startMap() {
+//			console.log("pMapView: startMap 1 ")
+//alert("pMapView stopping in startMap");			
 			map = L.map(valueView).setView(defaultLatLng, defaultZoom);
 			valueView.modelObject = map;
 
@@ -119,17 +121,16 @@ var CORA = (function(cora) {
 			minimap.addTo(map);
 			valueView.minimap = minimap;
 
+			//:TODO test
 			map.on('click', onMapClick);
+//			console.log("pMapView: startMap end ")
 		}
+		//:TODO test
 		// Script for adding marker on map click
 		function onMapClick(e) {
-			console.log("onMapClick");
 			if (marker === undefined) {
-				console.log("onMapClick 2");
 				var latLng = e.latlng;
-				console.log("onMapClick 3 latLng:", latLng);
 				setMarker(latLng.lat, latLng.lng);
-				console.log("onMapClick 4 latLng:", latLng);
 				setCoordinateFromLatLng(latLng.lat, latLng.lng);
 			}
 		}
@@ -166,7 +167,6 @@ var CORA = (function(cora) {
 		}
 
 		function removeMarker() {
-			console.log("removeMarker:" , marker)
 			valueView.marker = undefined;
 			map.removeLayer(marker);
 			marker = undefined;

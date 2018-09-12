@@ -298,6 +298,7 @@ var CORA = (function(cora) {
 		}
 
 		function add(metadataIdToAdd, repeatId) {
+//			console.log("add 1")
 			noOfRepeating++;
 			var newPath = calculateNewPath(metadataIdToAdd, repeatId);
 			var repeatingElement = createRepeatingElement(newPath);
@@ -305,6 +306,7 @@ var CORA = (function(cora) {
 			addPresentationsToRepeatingElementsView(repeatingElement, metadataIdToAdd);
 			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement);
 			updateView();
+//			console.log("add 2")
 		}
 
 		function calculateNewPath(metadataIdToAdd, repeatId) {
@@ -670,8 +672,6 @@ var CORA = (function(cora) {
 					sendAdd();
 				}
 			}
-			//added
-//			sendInitComplete();
 		}
 
 		out = Object.freeze({
