@@ -43,9 +43,17 @@ var CORA = (function(cora) {
 			var viewSpec = {
 				presentationId : findPresentationId(spec.cPresentation),
 				textStyle : spec.textStyle,
-				childStyle : spec.childStyle
+				childStyle : spec.childStyle,
+				"callOnFirstShowOfAlternativePresentation" : publishPresentationShown
 			};
 			view = dependencies.pNonRepeatingChildRefHandlerViewFactory.factor(viewSpec);
+		}
+
+		function publishPresentationShown() {
+			dependencies.pubSub.publish("presentationShown", {
+				"data" : "",
+				"path" : {}
+			});
 		}
 
 		function findPresentationId(cPresentation) {
@@ -126,6 +134,7 @@ var CORA = (function(cora) {
 			view.setHasDataStyle(true);
 			if (isInOutputMode()) {
 				view.showContent();
+				publishPresentationShown();
 			}
 		}
 
@@ -171,7 +180,8 @@ var CORA = (function(cora) {
 		function findOrAddPathToStored(pathAsArray) {
 			var currentPartOfStoredValuePositions = storedValuePositions;
 			for (var i = 0; i < pathAsArray.length; i++) {
-				currentPartOfStoredValuePositions = returnOrCreatePathPart(currentPartOfStoredValuePositions, pathAsArray[i]);
+				currentPartOfStoredValuePositions = returnOrCreatePathPart(
+						currentPartOfStoredValuePositions, pathAsArray[i]);
 			}
 			return currentPartOfStoredValuePositions;
 		}
@@ -223,7 +233,8 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getView : getView,
 			subscribeMsg : subscribeMsg,
-			handleMsgToDeterminDataState : handleMsgToDeterminDataState
+			handleMsgToDeterminDataState : handleMsgToDeterminDataState,
+			publishPresentationShown : publishPresentationShown
 		});
 
 		start();

@@ -29,6 +29,7 @@ var CORA = (function(cora) {
 		var currentDefaultShown = "true";
 		var containsData = false;
 		var originalStyle;
+		var callOnFirstShowOfAlternativePresentationShouldBeCalled = true;
 
 		function start() {
 			view = createBaseView();
@@ -108,7 +109,6 @@ var CORA = (function(cora) {
 			defaultButton = CORA.gui.button(defaultButtonSpec);
 			buttonView.appendChild(defaultButton);
 		}
-
 		function toggleDefaultShown(defaultShown) {
 			currentDefaultShown = defaultShown;
 			if (defaultShown !== undefined && defaultShown === "true") {
@@ -121,6 +121,7 @@ var CORA = (function(cora) {
 				hide(defaultPresentation);
 				hide(alternativeButton);
 				show(defaultButton);
+				callOnFirstShowOfAlternativePresentation();
 			}
 		}
 
@@ -149,6 +150,14 @@ var CORA = (function(cora) {
 		function showContent() {
 			show(buttonView);
 			toggleDefaultShown(currentDefaultShown);
+		}
+
+		function callOnFirstShowOfAlternativePresentation() {
+			if (callOnFirstShowOfAlternativePresentationShouldBeCalled
+					&& spec.callOnFirstShowOfAlternativePresentation !== undefined) {
+				callOnFirstShowOfAlternativePresentationShouldBeCalled = false;
+				spec.callOnFirstShowOfAlternativePresentation();
+			}
 		}
 
 		function setHasDataStyle(containsDataIn) {

@@ -62,7 +62,7 @@ QUnit.test("testInit", function(assert) {
 QUnit.test("testInitSubscribesToInitcompleteMessage", function(assert) {
 	var pMap = CORA.pMap(this.dependencies, this.spec);
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();
-	assert.deepEqual(subscriptions.length, 4);
+	assert.deepEqual(subscriptions.length, 5);
 
 	var initCompleteSubscription = subscriptions[0];
 	assert.strictEqual(initCompleteSubscription.type, "initComplete");
@@ -97,6 +97,11 @@ QUnit.test("testInitSubscribesToInitcompleteMessage", function(assert) {
 	assert.strictEqual(viewJustMadeVisibleSubscription.type, "viewJustMadeVisible");
 	assert.deepEqual(viewJustMadeVisibleSubscription.path, {});
 	assert.strictEqual(viewJustMadeVisibleSubscription.functionToCall, pMap.viewJustMadeVisible);
+	
+	var presentationShownSubscription = subscriptions[4];
+	assert.strictEqual(presentationShownSubscription.type, "presentationShown");
+	assert.deepEqual(presentationShownSubscription.path, {});
+	assert.strictEqual(presentationShownSubscription.functionToCall, pMap.viewJustMadeVisible);
 
 });
 
@@ -200,39 +205,6 @@ QUnit.test("testViewJustMadeVisibleOnlyStartsMapOnceNoMatterHowManyTimesItIsCall
 	assert.strictEqual(pMapView.getStartMapCalled(), 1);
 });
 
-// QUnit.test("testInitCompleteDoesNothingIfViewNotCurrentlyVisible", function(assert) {
-// var pMap = CORA.pMap(this.dependencies, this.spec);
-//	
-// var pMapView = this.dependencies.pMapViewFactory.getFactored(0);
-// assert.strictEqual(pMapView.getStartMapCalled(), 0);
-//	
-// pMap.initComplete();
-// assert.strictEqual(pMapView.getStartMapCalled(), 0);
-//	
-// // unsubscription
-// var unsubscriptions = this.dependencies.pubSub.getUnsubscriptions();
-// assert.deepEqual(unsubscriptions.length, 0);
-// });
-//
-// QUnit.test("testInitCompleteStartsMapOnlyOnceNoMatterHowManyTimesItIsCalled", function(assert) {
-// var pMap = CORA.pMap(this.dependencies, this.spec);
-// var view = pMap.getView();
-// this.fixture.appendChild(view);
-//	
-// var pMapView = this.dependencies.pMapViewFactory.getFactored(0);
-// assert.strictEqual(pMapView.getStartMapCalled(), 0);
-//	
-// pMap.initComplete();
-// pMap.initComplete();
-// pMap.initComplete();
-// pMap.initComplete();
-// assert.strictEqual(pMapView.getStartMapCalled(), 1);
-//	
-// // unsubscription
-// var unsubscriptions = this.dependencies.pubSub.getUnsubscriptions();
-// assert.deepEqual(unsubscriptions.length, 1);
-// });
-
 QUnit.test("testBothValuesSetSetsMarkerInView", function(assert) {
 	var pMap = CORA.pMap(this.dependencies, this.spec);
 	var view = pMap.getView();
@@ -261,6 +233,7 @@ QUnit.test("testBothValuesSetSetsMarkerInView", function(assert) {
 		"lng" : "55.8"
 	});
 });
+
 QUnit.test("testOneRemovedValueRemovesMarkerFromView", function(assert) {
 	var pMap = CORA.pMap(this.dependencies, this.spec);
 	var view = pMap.getView();

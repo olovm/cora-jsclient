@@ -75,6 +75,7 @@ var CORA = (function(cora) {
 			subscribeToInitCompleteMessageForStartup();
 			subscribeToSetValueForCoordinatesValues();
 			subscribeToViewJustMadeVisibleForStartup();
+			subscribeTopresentationShownForStartup();
 		}
 
 		function subscribeToInitCompleteMessageForStartup() {
@@ -91,6 +92,9 @@ var CORA = (function(cora) {
 
 		function subscribeToViewJustMadeVisibleForStartup() {
 			pubSub.subscribe("viewJustMadeVisible", {}, undefined, viewJustMadeVisible);
+		}
+		function subscribeTopresentationShownForStartup() {
+			pubSub.subscribe("presentationShown", {}, undefined, viewJustMadeVisible);
 		}
 
 		function getIdFromChildReference(childReference) {
