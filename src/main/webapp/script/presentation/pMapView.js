@@ -105,8 +105,8 @@ var CORA = (function(cora) {
 		}
 
 		function startMap() {
-//			console.log("pMapView: startMap 1 ")
-//alert("pMapView stopping in startMap");			
+			// console.log("pMapView: startMap 1 ")
+			// alert("pMapView stopping in startMap");
 			map = L.map(valueView).setView(defaultLatLng, defaultZoom);
 			valueView.modelObject = map;
 
@@ -121,18 +121,21 @@ var CORA = (function(cora) {
 			minimap.addTo(map);
 			valueView.minimap = minimap;
 
-			//:TODO test
+			// :TODO test
 			map.on('click', onMapClick);
-//			console.log("pMapView: startMap end ")
+			// console.log("pMapView: st artMap end ")
 		}
-		//:TODO test
+		// :TODO test
 		// Script for adding marker on map click
 		function onMapClick(e) {
-			if (marker === undefined) {
+			// if (marker === undefined) {
+			if (mode === "input" && marker === undefined) {
+
 				var latLng = e.latlng;
 				setMarker(latLng.lat, latLng.lng);
-				setCoordinateFromLatLng(latLng.lat, latLng.lng);
+				// setCoordinateFromLatLng(latLng.lat, latLng.lng);
 			}
+			// }
 		}
 
 		function setMarker(lat, lng) {
@@ -194,7 +197,8 @@ var CORA = (function(cora) {
 			startMap : startMap,
 			setMarker : setMarker,
 			removeMarker : removeMarker,
-			setCoordinateFromMarkerDrag : setCoordinateFromMarkerDrag
+			setCoordinateFromMarkerDrag : setCoordinateFromMarkerDrag,
+			onMapClick : onMapClick
 		});
 		start();
 		valueView.modelObject2 = out;
