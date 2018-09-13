@@ -36,6 +36,8 @@ var CORATEST = (function(coraTest) {
 
 		var reloadForMetadata = 0;
 
+		var noOfChangedCalls = 0;
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -75,10 +77,14 @@ var CORATEST = (function(coraTest) {
 		}
 
 		function setChanged(changedIn) {
+			noOfChangedCalls++;
 			changed = changedIn;
 		}
 		function getChanged() {
 			return changed;
+		}
+		function getNoOfChangedCalls() {
+			return noOfChangedCalls;
 		}
 		function setActive(activeIn) {
 			active = activeIn
@@ -139,6 +145,7 @@ var CORATEST = (function(coraTest) {
 			getAddedListPresentation : getAddedListPresentation,
 			setChanged : setChanged,
 			getChanged : getChanged,
+			getNoOfChangedCalls : getNoOfChangedCalls,
 			setActive : setActive,
 			getActive : getActive,
 			clearMenuView : clearMenuView,

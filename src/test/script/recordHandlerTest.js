@@ -386,7 +386,7 @@ QUnit.test("testHandleMessage", function(assert) {
 	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
 });
 
-QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
+QUnit.test("testHandleMessageSetValueSetsDataChanged", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
 
@@ -396,23 +396,40 @@ QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
 	};
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 0);
 
 	var data1 = {
 		"data" : "",
 		"path" : {}
 	};
 	recordHandler.handleMsg(data1, "initComplete");
+	
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 0);
 
 	recordHandler.handleMsg(data, "add");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 0);
 
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), true);
-	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 1);
+
+	recordHandler.handleMsg(data, "remove");
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 2);
+	
+	recordHandler.handleMsg(data, "move");
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 3);
+	
+	recordHandler.handleMsg(data, "initComplete");
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 3);
+	
+	recordHandler.handleMsg(data, "viewJustMadeVisible");
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 3);
 });
 
 QUnit.test("testUpdateCall", function(assert) {

@@ -105,59 +105,81 @@ var CORA = (function(cora) {
 		}
 
 		function startMap() {
-			// console.log("pMapView: startMap 1 ")
-			// alert("pMapView stopping in startMap");
-			map = L.map(valueView).setView(defaultLatLng, defaultZoom);
-			valueView.modelObject = map;
+			map = createMap();
+			addOpenStreetmapLayerToMap();
+			addMiniMapToMap();
+		}
 
+		function createMap() {
+			var newMap = L.map(valueView).setView(defaultLatLng, defaultZoom);
+			valueView.modelObject = newMap;
+			newMap.on('click', onMapClick);
+			return newMap;
+		}
+
+		function addOpenStreetmapLayerToMap() {
 			var titleLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				attribution : 'Map data &copy;' + '<a href="https://www.openstreetmap.org/">'
 						+ 'OpenStreetMap</a> contributors'
 			});
 			titleLayer.addTo(map);
+		}
 
+		function addMiniMapToMap() {
 			var miniLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {});
 			var minimap = new L.Control.MiniMap(miniLayer);
 			minimap.addTo(map);
 			valueView.minimap = minimap;
-
-			// :TODO test
-			map.on('click', onMapClick);
-			// console.log("pMapView: st artMap end ")
 		}
-		// :TODO test
-		// Script for adding marker on map click
-		function onMapClick(e) {
-			// if (marker === undefined) {
-			if (mode === "input" && marker === undefined) {
 
+		function onMapClick(e) {
+			if (modeIsInputAndNoMarkerExistsInMap()) {
 				var latLng = e.latlng;
 				setMarker(latLng.lat, latLng.lng);
-				// setCoordinateFromLatLng(latLng.lat, latLng.lng);
+				setCoordinateFromLatLng(latLng.lat, latLng.lng);
 			}
-			// }
+		}
+
+		function modeIsInputAndNoMarkerExistsInMap() {
+			return mode === "input" && marker === undefined;
 		}
 
 		function setMarker(lat, lng) {
 			var latLng = [ lat, lng ];
-			if (marker === undefined) {
-				if (mode === "output") {
-					marker = L.marker(latLng);
-				} else {
-					marker = L.marker(latLng, {
-						draggable : true
-					});
-					marker.on("dragend", setCoordinateFromMarkerDrag);
-				}
-
-				marker.addTo(map);
-				valueView.marker = marker;
-			} else {
-				marker.setLatLng(latLng);
-			}
+			ensureMarkerIsAtLatLng(latLng);
 
 			var zoomLevel = 10;
 			map.flyTo(latLng, zoomLevel);
+		}
+
+		function ensureMarkerIsAtLatLng(latLng) {
+			if (marker === undefined) {
+				setNewMarker(latLng);
+			} else {
+				moveMarker(latLng);
+			}
+		}
+
+		function setNewMarker(latLng) {
+			if (mode === "input") {
+				marker = createInputMarker(latLng);
+			} else {
+				marker = L.marker(latLng);
+			}
+
+			marker.addTo(map);
+			valueView.marker = marker;
+		}
+
+		function createInputMarker(latLng) {
+			var newMarker = L.marker(latLng, {
+				draggable : true
+			});
+			return newMarker.on("dragend", setCoordinateFromMarkerDrag);
+		}
+
+		function moveMarker(latLng) {
+			marker.setLatLng(latLng);
 		}
 
 		function setCoordinateFromMarkerDrag(event) {
