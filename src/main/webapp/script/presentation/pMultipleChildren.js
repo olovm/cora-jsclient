@@ -128,7 +128,6 @@ var CORA = (function(cora) {
 				return createText(refId, cPresentationChildRef);
 			}
 			if (childIsSurroundingContainer(cPresentationChild)) {
-				// console.log(JSON.stringify(cPresentationChild.getData()))
 				var pNonRepeatingChildRefHandler = createPNonRepeatingChildRefHandler(
 						cPresentationChild, cPresentationChildRef);
 				return pNonRepeatingChildRefHandler.getView();

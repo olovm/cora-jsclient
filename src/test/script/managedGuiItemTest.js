@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2018 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -236,6 +236,20 @@ QUnit.test("testShowWorkView", function(assert) {
 	assert.strictEqual(factoredView.getShown(), 1);
 });
 
+QUnit.test("testShowWorkViewCallsCallMethodAterShowWorkView", function(assert) {
+	var called = false;
+	var callMethodAfterShowWorkView = function() {
+		called = true;
+	}
+	this.spec.callMethodAfterShowWorkView = callMethodAfterShowWorkView;
+	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
+
+	assert.strictEqual(called, false);
+	managedGuiItem.showWorkView();
+	assert.strictEqual(called, true);
+});
+
 QUnit.test("testReloadForMetadataChanges", function(assert) {
 	var called = false;
 	this.spec.callOnMetadataReloadMethod = function() {
@@ -243,7 +257,7 @@ QUnit.test("testReloadForMetadataChanges", function(assert) {
 	}
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
 	managedGuiItem.reloadForMetadataChanges();
-	
+
 	assert.strictEqual(called, true);
 });
 

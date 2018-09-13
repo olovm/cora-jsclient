@@ -37,12 +37,12 @@ QUnit.module("pNonRepeatingChildRefHandlerViewTest.js", {
 		this.alternativeChild.className = "someOtherNode";
 		this.alternativeButton;
 
+		this.spec = {
+			mode : "input"
+		};
 		this.createHandlerAddChildrenAndReturnHandler = function() {
-			var pChildRefHandlerViewSpec = {
-				mode : "input"
-			};
 			var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(
-					this.dependencies, pChildRefHandlerViewSpec);
+					this.dependencies, this.spec);
 			pNonRepeatingChildRefHandlerView.addChild(this.defaultChild);
 
 			pNonRepeatingChildRefHandlerView.addAlternativeChild(this.alternativeChild);
@@ -51,26 +51,23 @@ QUnit.module("pNonRepeatingChildRefHandlerViewTest.js", {
 
 			var buttonView = view.childNodes[2];
 			this.alternativeButton = buttonView.childNodes[0];
-			this.defaultButton = buttonView.childNodes[1]; 
+			this.defaultButton = buttonView.childNodes[1];
 
 			return pNonRepeatingChildRefHandlerView;
 		}
 		this.createHandlerAddChildAndReturnHandler = function() {
-			var pChildRefHandlerViewSpec = {
-				mode : "input"
-			};
 			var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(
-					this.dependencies, pChildRefHandlerViewSpec);
+					this.dependencies, this.spec);
 			pNonRepeatingChildRefHandlerView.addChild(this.defaultChild);
 
 			// pNonRepeatingChildRefHandlerView.addAlternativeChild(this.alternativeChild);
 			this.fixture.appendChild(pNonRepeatingChildRefHandlerView.getView());
 
-			return pNonRepeatingChildRefHandlerView; 
+			return pNonRepeatingChildRefHandlerView;
 		}
 	},
 	afterEach : function() {
-	}   
+	}
 });
 
 QUnit.test("testInit", function(assert) {
@@ -199,6 +196,26 @@ QUnit.test("testButtonFunctions", function(assert) {
 	CORATESTHELPER.simulateOnclick(this.defaultButton);
 	assert.allVisible([ this.defaultChild, this.alternativeButton ]);
 	assert.allNotVisible([ this.alternativeChild, this.defaultButton ]);
+});
+
+QUnit.test("testShowAlterntiveButtonCallsFunction", function(assert) {
+	var altFuncWasCalled = 0;
+	var altFunc = function() {
+		altFuncWasCalled++;
+	}
+	this.spec.callOnFirstShowOfAlternativePresentation = altFunc;
+	var viewHandler = this.createHandlerAddChildrenAndReturnHandler();
+
+	viewHandler.showContent();
+
+
+	assert.strictEqual(altFuncWasCalled, 0);
+	CORATESTHELPER.simulateOnclick(this.alternativeButton);
+	assert.strictEqual(altFuncWasCalled, 1);
+	CORATESTHELPER.simulateOnclick(this.alternativeButton);
+	CORATESTHELPER.simulateOnclick(this.alternativeButton);
+	CORATESTHELPER.simulateOnclick(this.alternativeButton);
+	assert.strictEqual(altFuncWasCalled, 1);
 });
 
 QUnit.test("testButtonFunctionsKeyboardSpace", function(assert) {

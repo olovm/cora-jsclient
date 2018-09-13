@@ -215,9 +215,15 @@ QUnit.test("testStartMap", function(assert) {
 	var sbvvcimatm = minimap.getContainer().parentNode.parentNode.parentNode;
 	var shouldBeValueViewContainerIfMinimapAddedToMap = sbvvcimatm;
 	assert.strictEqual(shouldBeValueViewContainerIfMinimapAddedToMap, valueView);
+
+	assert.notStrictEqual(mapO._events.click[0].fn, undefined);
+	assert.strictEqual(mapO._events.click[0].fn, pMapView.onMapClick);
+
 });
 
 QUnit.test("testSetMarker", function(assert) {
+	this.spec.mode = "output";
+
 	var valueView = this.getValueView();
 	var pMapView = this.getPMapView();
 	pMapView.startMap();
@@ -236,10 +242,213 @@ QUnit.test("testSetMarker", function(assert) {
 	marker = valueView.marker;
 	assert.strictEqual(marker.getLatLng().lat, 62.7);
 	assert.strictEqual(marker.getLatLng().lng, 16.0);
+	assert.strictEqual(marker.dragging._enabled, undefined);
 
 	var sbvvcimatm = marker.getElement().parentNode.parentNode.parentNode;
 	var shouldBeValueViewContainerIfMarkerAddedToMap = sbvvcimatm;
 	assert.strictEqual(shouldBeValueViewContainerIfMarkerAddedToMap, valueView);
+});
+
+QUnit.test("testSetMarkerOutputmode", function(assert) {
+	this.spec.mode = "output";
+
+	var valueView = this.getValueView();
+	var pMapView = this.getPMapView();
+	pMapView.startMap();
+
+	var lat = 62.7;
+	var lng = 16.0;
+	pMapView.setMarker(lat, lng);
+
+	var marker = valueView.marker;
+	assert.strictEqual(marker.dragging._enabled, undefined);
+	assert.strictEqual(marker.ondragend, undefined);
+});
+
+QUnit.test("testSetMarkerInputmodeIsDraggableHasOndragendFunction", function(assert) {
+	var valueView = this.getValueView();
+	var pMapView = this.getPMapView();
+	pMapView.startMap();
+
+	var lat = 62.7;
+	var lng = 16.0;
+	pMapView.setMarker(lat, lng);
+
+	var marker = valueView.marker;
+	assert.strictEqual(marker.dragging._enabled, true);
+	assert.notStrictEqual(marker._events.dragend[0].fn, undefined);
+	assert.strictEqual(marker._events.dragend[0].fn, pMapView.setCoordinateFromMarkerDrag);
+});
+
+QUnit.test("testSetMarkerFromClick", function(assert) {
+	this.spec.mode = "input";
+	this.spec.setLatLngMethod = function() {
+	};
+
+	var valueView = this.getValueView();
+	var pMapView = this.getPMapView();
+	pMapView.startMap();
+
+	var fakeEvent = {
+		"latlng" : {
+			lat : 12.3,
+			lng : 34.5
+		}
+	};
+
+	var marker = valueView.marker;
+	assert.strictEqual(marker, undefined);
+	pMapView.onMapClick(fakeEvent);
+
+	var map = valueView.modelObject;
+	assert.strictEqual(map.getCenter().lat, 12.3);
+	assert.strictEqual(map.getCenter().lng, 34.5);
+	assert.strictEqual(map.getZoom(), 10);
+
+	marker = valueView.marker;
+	assert.strictEqual(marker.getLatLng().lat, 12.3);
+	assert.strictEqual(marker.getLatLng().lng, 34.5);
+
+	assert.strictEqual(marker.dragging._enabled, true);
+	assert.notStrictEqual(marker._events.dragend[0].fn, undefined);
+	assert.strictEqual(marker._events.dragend[0].fn, pMapView.setCoordinateFromMarkerDrag);
+
+	var sbvvcimatm = marker.getElement().parentNode.parentNode.parentNode;
+	var shouldBeValueViewContainerIfMarkerAddedToMap = sbvvcimatm;
+	assert.strictEqual(shouldBeValueViewContainerIfMarkerAddedToMap, valueView);
+});
+
+QUnit.test("testSetMarkerFromClickAlreadySetDoesNothing", function(assert) {
+	this.spec.mode = "input";
+	this.spec.setLatLngMethod = function() {
+	};
+	var valueView = this.getValueView();
+	var pMapView = this.getPMapView();
+	pMapView.startMap();
+
+	var fakeEvent = {
+		"latlng" : {
+			lat : 12.3,
+			lng : 34.5
+		}
+	};
+
+	var marker = valueView.marker;
+	assert.strictEqual(marker, undefined);
+	pMapView.onMapClick(fakeEvent);
+
+	var fakeEvent2 = {
+		"latlng" : {
+			lat : 22.3,
+			lng : 24.5
+		}
+	};
+	pMapView.onMapClick(fakeEvent2);
+
+	var map = valueView.modelObject;
+	assert.strictEqual(map.getCenter().lat, 12.3);
+	assert.strictEqual(map.getCenter().lng, 34.5);
+	assert.strictEqual(map.getZoom(), 10);
+
+	marker = valueView.marker;
+	assert.strictEqual(marker.getLatLng().lat, 12.3);
+	assert.strictEqual(marker.getLatLng().lng, 34.5);
+
+	assert.strictEqual(marker.dragging._enabled, true);
+	assert.notStrictEqual(marker._events.dragend[0].fn, undefined);
+	assert.strictEqual(marker._events.dragend[0].fn, pMapView.setCoordinateFromMarkerDrag);
+
+	var sbvvcimatm = marker.getElement().parentNode.parentNode.parentNode;
+	var shouldBeValueViewContainerIfMarkerAddedToMap = sbvvcimatm;
+	assert.strictEqual(shouldBeValueViewContainerIfMarkerAddedToMap, valueView);
+});
+
+QUnit.test("testSetMarkerFromClickSendsOutCoordinates", function(assert) {
+	this.spec.mode = "input";
+	var callbackCalled = false;
+	var latFromCallback;
+	var lngFromCallback;
+
+	var setLatLngMethod = function(lat, lng) {
+		callbackCalled = true;
+		latFromCallback = lat;
+		lngFromCallback = lng;
+	}
+	this.spec.setLatLngMethod = setLatLngMethod;
+
+	var valueView = this.getValueView();
+	var pMapView = this.getPMapView();
+
+	pMapView.startMap();
+
+	assert.strictEqual(callbackCalled, false);
+
+	var fakeEvent = {
+		"latlng" : {
+			lat : 12.3,
+			lng : 34.5
+		}
+	};
+
+	pMapView.onMapClick(fakeEvent);
+
+	assert.strictEqual(callbackCalled, true);
+	assert.strictEqual(latFromCallback, 12.3);
+	assert.strictEqual(lngFromCallback, 34.5);
+});
+
+QUnit.test("testSetMarkerFromClickOutputmodeDoesNothing", function(assert) {
+	this.spec.mode = "output";
+
+	var valueView = this.getValueView();
+	var pMapView = this.getPMapView();
+	pMapView.startMap();
+
+	var fakeEvent = {
+		"latlng" : {
+			lat : 12.3,
+			lng : 34.5
+		}
+	};
+
+	var marker = valueView.marker;
+	assert.strictEqual(marker, undefined);
+	pMapView.onMapClick(fakeEvent);
+
+	var marker = valueView.marker;
+	assert.strictEqual(marker, undefined);
+});
+
+QUnit.test("testMarkerOndragendFunction", function(assert) {
+	var callbackCalled = false;
+	var latFromCallback;
+	var lngFromCallback;
+	var setLatLngMethod = function(lat, lng) {
+		callbackCalled = true;
+		latFromCallback = lat;
+		lngFromCallback = lng;
+	}
+	this.spec.setLatLngMethod = setLatLngMethod;
+
+	var pMapView = this.getPMapView();
+
+	assert.strictEqual(callbackCalled, false);
+
+	var fakeTarget = {
+		getLatLng : function() {
+			return {
+				lat : 12.3,
+				lng : 34.5
+			};
+		}
+	};
+	var fakeEvent = {
+		target : fakeTarget
+	};
+	pMapView.setCoordinateFromMarkerDrag(fakeEvent);
+	assert.strictEqual(callbackCalled, true);
+	assert.strictEqual(latFromCallback, 12.3);
+	assert.strictEqual(lngFromCallback, 34.5);
 });
 
 QUnit.test("testRemoveMarker", function(assert) {

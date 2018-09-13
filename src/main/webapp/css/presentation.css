@@ -203,8 +203,8 @@ img {
 }
 
 .beeingDragged {
-	/* 	opacity: 0.5; */
-	transform: scale(0.8);
+/* 	chrome can not hadle css changes on dragging :( */
+/* 	transform: scale(0.8); */
 	border: 1px solid black;
 }
 
@@ -566,5 +566,5 @@ img {
 
 #coraMap, .coraMap {
 	height: 600px;
-	width: 600px;
+	width: calc(100% - 20px);
 }

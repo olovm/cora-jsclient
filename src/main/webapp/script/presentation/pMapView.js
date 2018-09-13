@@ -20,6 +20,8 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pMapView = function(dependencies, spec) {
+		var mode = spec.mode;
+
 		var out;
 		var view;
 		var valueView;
@@ -103,33 +105,90 @@ var CORA = (function(cora) {
 		}
 
 		function startMap() {
-			map = L.map(valueView).setView(defaultLatLng, defaultZoom);
-			valueView.modelObject = map;
+			map = createMap();
+			addOpenStreetmapLayerToMap();
+			addMiniMapToMap();
+		}
 
+		function createMap() {
+			var newMap = L.map(valueView).setView(defaultLatLng, defaultZoom);
+			valueView.modelObject = newMap;
+			newMap.on('click', onMapClick);
+			return newMap;
+		}
+
+		function addOpenStreetmapLayerToMap() {
 			var titleLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				attribution : 'Map data &copy;' + '<a href="https://www.openstreetmap.org/">'
 						+ 'OpenStreetMap</a> contributors'
 			});
 			titleLayer.addTo(map);
+		}
 
+		function addMiniMapToMap() {
 			var miniLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {});
 			var minimap = new L.Control.MiniMap(miniLayer);
 			minimap.addTo(map);
 			valueView.minimap = minimap;
 		}
 
+		function onMapClick(e) {
+			if (modeIsInputAndNoMarkerExistsInMap()) {
+				var latLng = e.latlng;
+				setMarker(latLng.lat, latLng.lng);
+				setCoordinateFromLatLng(latLng.lat, latLng.lng);
+			}
+		}
+
+		function modeIsInputAndNoMarkerExistsInMap() {
+			return mode === "input" && marker === undefined;
+		}
+
 		function setMarker(lat, lng) {
 			var latLng = [ lat, lng ];
-			if (marker === undefined) {
-				marker = L.marker(latLng);
-				marker.addTo(map);
-				valueView.marker = marker;
-			} else {
-				marker.setLatLng(latLng);
-			}
+			ensureMarkerIsAtLatLng(latLng);
 
 			var zoomLevel = 10;
 			map.flyTo(latLng, zoomLevel);
+		}
+
+		function ensureMarkerIsAtLatLng(latLng) {
+			if (marker === undefined) {
+				setNewMarker(latLng);
+			} else {
+				moveMarker(latLng);
+			}
+		}
+
+		function setNewMarker(latLng) {
+			if (mode === "input") {
+				marker = createInputMarker(latLng);
+			} else {
+				marker = L.marker(latLng);
+			}
+
+			marker.addTo(map);
+			valueView.marker = marker;
+		}
+
+		function createInputMarker(latLng) {
+			var newMarker = L.marker(latLng, {
+				draggable : true
+			});
+			return newMarker.on("dragend", setCoordinateFromMarkerDrag);
+		}
+
+		function moveMarker(latLng) {
+			marker.setLatLng(latLng);
+		}
+
+		function setCoordinateFromMarkerDrag(event) {
+			var latLngFromDragEnd = event.target.getLatLng();
+			setCoordinateFromLatLng(latLngFromDragEnd.lat, latLngFromDragEnd.lng);
+		}
+
+		function setCoordinateFromLatLng(lat, lng) {
+			spec.setLatLngMethod(lat, lng);
 		}
 
 		function removeMarker() {
@@ -159,7 +218,9 @@ var CORA = (function(cora) {
 			updateClassName : updateClassName,
 			startMap : startMap,
 			setMarker : setMarker,
-			removeMarker : removeMarker
+			removeMarker : removeMarker,
+			setCoordinateFromMarkerDrag : setCoordinateFromMarkerDrag,
+			onMapClick : onMapClick
 		});
 		start();
 		valueView.modelObject2 = out;

@@ -42,7 +42,8 @@ var CORA = (function(cora) {
 		var text;
 		var defTextId;
 		var defText;
-
+		var longitudePath;
+		var latitudePath;
 		var markerActive = false;
 
 		function start() {
@@ -73,6 +74,8 @@ var CORA = (function(cora) {
 		function subscribeToMessagesForMap() {
 			subscribeToInitCompleteMessageForStartup();
 			subscribeToSetValueForCoordinatesValues();
+			subscribeToViewJustMadeVisibleForStartup();
+			subscribeTopresentationShownForStartup();
 		}
 
 		function subscribeToInitCompleteMessageForStartup() {
@@ -85,6 +88,13 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData("childReferences"));
 			var childReferences = cChildReferences.getChildrenByNameInData("childReference");
 			childReferences.forEach(subscribeToSetValueIfLatitudeOrLongitude);
+		}
+
+		function subscribeToViewJustMadeVisibleForStartup() {
+			pubSub.subscribe("viewJustMadeVisible", {}, undefined, viewJustMadeVisible);
+		}
+		function subscribeTopresentationShownForStartup() {
+			pubSub.subscribe("presentationShown", {}, undefined, viewJustMadeVisible);
 		}
 
 		function getIdFromChildReference(childReference) {
@@ -103,19 +113,22 @@ var CORA = (function(cora) {
 			var nameInDataForChild = getNameInDataForChildId(idOfChildToOurGroup);
 
 			if ("longitude" === nameInDataForChild) {
+				longitudePath = calculateNewPathForMetadataIdUsingParentPath(idOfChildToOurGroup,
+						path);
 				subscribeToSetValueForIdOfChildWithFunctionToCall(idOfChildToOurGroup,
-						handleSetValueLongitude);
+						handleSetValueLongitude, longitudePath);
 			}
 
 			if ("latitude" === nameInDataForChild) {
+				latitudePath = calculateNewPathForMetadataIdUsingParentPath(idOfChildToOurGroup,
+						path);
 				subscribeToSetValueForIdOfChildWithFunctionToCall(idOfChildToOurGroup,
-						handleSetValueLatitude);
+						handleSetValueLatitude, latitudePath);
 			}
 		}
 
 		function subscribeToSetValueForIdOfChildWithFunctionToCall(idOfChildToOurGroup,
-				methodToCall) {
-			var childPath = calculateNewPathForMetadataIdUsingParentPath(idOfChildToOurGroup, path);
+				methodToCall, childPath) {
 			pubSub.subscribe("setValue", childPath, undefined, methodToCall);
 		}
 
@@ -128,8 +141,22 @@ var CORA = (function(cora) {
 			return CORA.calculatePathForNewElement(pathSpec);
 		}
 
+		var initCompleteHasBeenCalled = false;
+
 		function initComplete() {
-			if (mapNotStarted()) {
+			initCompleteHasBeenCalled = true;
+			if (mapNotStarted() && viewIsCurrentlyVisible()) {
+				unsubscribeFromInitComplete();
+				startMap();
+			}
+		}
+
+		function viewIsCurrentlyVisible() {
+			return view.offsetHeight > 0;
+		}
+
+		function viewJustMadeVisible() {
+			if (mapNotStarted() && initCompleteHasBeenCalled && viewIsCurrentlyVisible()) {
 				startMap();
 			}
 		}
@@ -140,7 +167,6 @@ var CORA = (function(cora) {
 
 		function startMap() {
 			mapStarted = true;
-			unsubscribeFromInitComplete();
 			pMapView.startMap();
 			possiblyHandleMarkerInView();
 		}
@@ -181,6 +207,7 @@ var CORA = (function(cora) {
 		function possiblyRemoveMarker() {
 			if (markerActive) {
 				pMapView.removeMarker();
+				markerActive = false;
 			}
 		}
 
@@ -206,10 +233,25 @@ var CORA = (function(cora) {
 					}, {
 						"text" : "presentationId: " + presentationId
 					} ]
-				}
+				},
+				setLatLngMethod : publishLatLngValues
 			};
 			pMapView = dependencies.pMapViewFactory.factor(pMapViewSpec);
 			view = pMapView.getView();
+		}
+
+		function publishLatLngValues(lat, lng) {
+			var latitudeData = {
+				"data" : lat,
+				"path" : latitudePath
+			};
+			pubSub.publish("setValue", latitudeData);
+
+			var longitudeData = {
+				"data" : lng,
+				"path" : longitudePath
+			};
+			pubSub.publish("setValue", longitudeData);
 		}
 
 		function getMetadataById(id) {
@@ -235,7 +277,9 @@ var CORA = (function(cora) {
 			getDependencies : getDependencies,
 			initComplete : initComplete,
 			handleSetValueLongitude : handleSetValueLongitude,
-			handleSetValueLatitude : handleSetValueLatitude
+			handleSetValueLatitude : handleSetValueLatitude,
+			publishLatLngValues : publishLatLngValues,
+			viewJustMadeVisible : viewJustMadeVisible
 		});
 		start();
 		view.modelObject = out;

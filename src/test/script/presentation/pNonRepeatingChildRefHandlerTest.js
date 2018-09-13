@@ -125,6 +125,7 @@ QUnit.test("testInitCreatesPresentation",
 			var factoredAlternativePresentationSpec = this.dependencies.presentationFactory
 					.getSpec(1);
 			assert.strictEqual(factoredAlternativePresentationSpec, undefined);
+
 		});
 
 QUnit.test("testInitPresentationAddedToView", function(assert) {
@@ -161,20 +162,29 @@ QUnit.test("testGetView", function(assert) {
 			0).getView());
 });
 
-QUnit.test("testViewSpec", function(assert) {
-	this.spec.textStyle = "someTextStyle";
-	this.spec.childStyle = "someChildStyle";
-	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
-			this.spec);
+QUnit
+		.test(
+				"testViewSpec",
+				function(assert) {
+					this.spec.textStyle = "someTextStyle";
+					this.spec.childStyle = "someChildStyle";
+					var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(
+							this.dependencies, this.spec);
 
-	var viewSpec = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getSpec(0);
-	var expectedSpec = {
-		presentationId : "somePresentationId",
-		textStyle : "someTextStyle",
-		childStyle : "someChildStyle"
-	}
-	assert.stringifyEqual(viewSpec, expectedSpec);
-});
+					var viewSpec = this.dependencies.pNonRepeatingChildRefHandlerViewFactory
+							.getSpec(0);
+					var expectedSpec = {
+						presentationId : "somePresentationId",
+						textStyle : "someTextStyle",
+						childStyle : "someChildStyle",
+						callOnFirstShowOfAlternativePresentation : pNonRepeatingChildRefHandler.publishPresentationShown
+					}
+					assert.stringifyEqual(viewSpec, expectedSpec);
+
+					assert.notStrictEqual(
+							pNonRepeatingChildRefHandler.publishPresentationShown,
+							undefined);
+				});
 
 QUnit.test("testInitWithAlternativeCreatesPresentation",
 		function(assert) {
@@ -359,10 +369,20 @@ QUnit.test("testChangeViewOnMessage", function(assert) {
 			} ]
 		}
 	};
+	assert.strictEqual(this.dependencies.pubSub.getMessages().length, 0);
 
 	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
 	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), true);
 	assert.strictEqual(viewHandlerSpy.getIsShown(), true);
+	
+	assert.strictEqual(this.dependencies.pubSub.getMessages().length, 1);
+	var firstMessage = this.dependencies.pubSub.getMessages()[0];
+	assert.strictEqual(firstMessage.type, "presentationShown");
+	var expectedMessage = {
+		"data" : "",
+		"path" : {}
+	};
+	assert.stringifyEqual(firstMessage.message, expectedMessage);
 });
 
 QUnit.test("testChangeViewOnMessageNotShownForSetValueWithBlankValue", function(assert) {
@@ -393,10 +413,14 @@ QUnit.test("testChangeViewOnMessageNotShownForSetValueWithBlankValue", function(
 			} ]
 		}
 	};
+	assert.strictEqual(this.dependencies.pubSub.getMessages().length, 0);
 
 	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg, msg);
 	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
 	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+	
+	assert.strictEqual(this.dependencies.pubSub.getMessages().length, 0);
+
 });
 
 QUnit.test("testChangeViewOnMessageRemovedOnNewBlank", function(assert) {
@@ -657,4 +681,20 @@ QUnit.test("testChangeViewOnMessageTwoChildren", function(assert) {
 	pNonRepeatingChildRefHandler.handleMsgToDeterminDataState(dataFromMsg3, msg3);
 	assert.strictEqual(viewHandlerSpy.getDataHasDataStyle(), false);
 	assert.strictEqual(viewHandlerSpy.getIsShown(), false);
+});
+
+QUnit.test("testpublishPresentationShownPublishMessage", function(assert) {
+	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
+			this.spec);
+
+	assert.strictEqual(this.dependencies.pubSub.getMessages().length, 0);
+	pNonRepeatingChildRefHandler.publishPresentationShown();
+	assert.strictEqual(this.dependencies.pubSub.getMessages().length, 1);
+	var firstMessage = this.dependencies.pubSub.getMessages()[0];
+	assert.strictEqual(firstMessage.type, "presentationShown");
+	var expectedMessage = {
+		"data" : "",
+		"path" : {}
+	};
+	assert.stringifyEqual(firstMessage.message, expectedMessage);
 });

@@ -166,6 +166,11 @@ QUnit.test("initTestManagedGuiItemFactoryCalled", function(assert) {
 	assert.strictEqual(managedGuiItemSpec.removeMethod, this.spec.jsClient.removeView);
 	assert.strictEqual(managedGuiItemSpec.callOnMetadataReloadMethod,
 			recordHandler.reloadForMetadataChanges);
+
+	assert.notStrictEqual(managedGuiItemSpec.callMethodAfterShowWorkView, undefined);
+	assert.strictEqual(managedGuiItemSpec.callMethodAfterShowWorkView,
+			recordHandler.callMethodAfterShowWorkView);
+
 	assert.ok(managedGuiItemSpy !== undefined);
 });
 
@@ -381,7 +386,7 @@ QUnit.test("testHandleMessage", function(assert) {
 	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
 });
 
-QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
+QUnit.test("testHandleMessageSetValueSetsDataChanged", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
 	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
 
@@ -391,23 +396,40 @@ QUnit.test("testHandleMessageAddDoesNotSetDataChanged", function(assert) {
 	};
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 0);
 
 	var data1 = {
 		"data" : "",
 		"path" : {}
 	};
 	recordHandler.handleMsg(data1, "initComplete");
+	
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 0);
 
 	recordHandler.handleMsg(data, "add");
 	assert.strictEqual(recordHandler.getDataIsChanged(), false);
-	assert.strictEqual(managedGuiItemSpy.getChanged(), false);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 0);
 
 	recordHandler.handleMsg(data, "setValue");
 	assert.strictEqual(recordHandler.getDataIsChanged(), true);
-	assert.strictEqual(managedGuiItemSpy.getChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 1);
+
+	recordHandler.handleMsg(data, "remove");
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 2);
+	
+	recordHandler.handleMsg(data, "move");
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 3);
+	
+	recordHandler.handleMsg(data, "initComplete");
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 3);
+	
+	recordHandler.handleMsg(data, "viewJustMadeVisible");
+	assert.strictEqual(recordHandler.getDataIsChanged(), true);
+	assert.strictEqual(managedGuiItemSpy.getNoOfChangedCalls(), 3);
 });
 
 QUnit.test("testUpdateCall", function(assert) {
@@ -751,11 +773,12 @@ QUnit.test("testIndexCall", function(assert) {
 	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
 	var indexButton = recordHandlerViewSpy.getAddedButton(1);
 	indexButton.onclickMethod();
-	
+
 	var factoredIndexHandler = this.dependencies.indexHandlerFactory.getFactored(0);
 	assert.strictEqual(factoredIndexHandler.type, "indexHandlerSpy");
 	assert.strictEqual(factoredIndexHandler.getSpec().loadMethod, recordHandler.showIndexMessage);
-	assert.strictEqual(factoredIndexHandler.getSpec().timeoutMethod, recordHandler.showTimeoutMessage);
+	assert.strictEqual(factoredIndexHandler.getSpec().timeoutMethod,
+			recordHandler.showTimeoutMessage);
 	assert.strictEqual(factoredIndexHandler.getNumberOfIndexedRecords(), 1);
 	assert.stringifyEqual(factoredIndexHandler.getIndexRecord(0), this.recordWithIndexLink);
 });
@@ -804,7 +827,7 @@ QUnit.test("testShowIndexMessage", function(assert) {
 	assert.strictEqual(firstChild.className, "message positive");
 	var message = firstChild.childNodes[1];
 	assert.strictEqual(message.innerHTML, "Posten är indexerad");
-	
+
 });
 
 QUnit.test("testShowTimeoutMessage", function(assert) {
@@ -822,9 +845,8 @@ QUnit.test("testShowTimeoutMessage", function(assert) {
 	assert.strictEqual(firstChild.className, "message error");
 	var message = firstChild.childNodes[1];
 	assert.strictEqual(message.innerHTML, "TIMEOUT");
-	
-});
 
+});
 
 QUnit.test("initCheckRightGuiCreatedForExisting", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
@@ -1083,25 +1105,60 @@ QUnit.test("testReloadRecordHandlerViewMenuFactoredAndAdded", function(assert) {
 	assert.strictEqual(factoredView.getView(), managedGuiItemSpy.getAddedMenuPresentation(1));
 });
 
-QUnit.test("testShowIncomingLinks", function(assert) {
-	this.spec.createNewRecord = "false";
-	this.spec.record = this.recordWithReadIncomingLinks;
+QUnit
+		.test(
+				"testShowIncomingLinks",
+				function(assert) {
+					this.spec.createNewRecord = "false";
+					this.spec.record = this.recordWithReadIncomingLinks;
 
+					var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+					this.answerCallWithIncomingLinks(0);
+
+					var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
+					recordHandler.showIncomingLinks();
+
+					var addedToIncomingLinksView = recordHandlerViewSpy
+							.getObjectAddedToIncomingLinksView(0);
+					var factoredIncomingLinksListHandler = this.dependencies.globalFactories.incomingLinksListHandlerFactory
+							.getFactored(0);
+					var incomingLinksListSpyView = factoredIncomingLinksListHandler.getView();
+					assert.strictEqual(addedToIncomingLinksView, incomingLinksListSpyView);
+
+					var expectedSpec = {
+						"read_incoming_links" : this.spec.record.actionLinks.read_incoming_links
+					}
+					var usedSpec = factoredIncomingLinksListHandler.getSpec();
+					assert.stringifyEqual(usedSpec, expectedSpec);
+				});
+
+QUnit.test("testPublishMessageOnCallMethodAfterShowWorkView", function(assert) {
 	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
-	this.answerCallWithIncomingLinks(0);
+	this.answerCall(0);
+	var pubSub = this.dependencies.recordGuiFactory.getFactored(0).pubSub;
+	var messages = pubSub.getMessages();
+	assert.deepEqual(messages.length, 0);
+	recordHandler.callMethodAfterShowWorkView();
+	assert.deepEqual(messages.length, 1);
+	var firstMessage = messages[0];
+	assert.strictEqual(firstMessage.type, "viewJustMadeVisible");
+	assert.stringifyEqual(firstMessage.message.path, {});
+	assert.strictEqual(firstMessage.message.data, "");
+});
 
-	var recordHandlerViewSpy = this.recordHandlerViewFactorySpy.getFactored(0);
-	recordHandler.showIncomingLinks();
+QUnit.test("testNoPublishMessageOnCallMethodAfterShowWorkViewBeforeRecordGuiInitialized", function(
+		assert) {
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+	recordHandler.callMethodAfterShowWorkView();
+	assert.equal(true, true);
 
-	var addedToIncomingLinksView = recordHandlerViewSpy.getObjectAddedToIncomingLinksView(0);
-	var factoredIncomingLinksListHandler = this.dependencies.globalFactories.incomingLinksListHandlerFactory
-			.getFactored(0);
-	var incomingLinksListSpyView = factoredIncomingLinksListHandler.getView();
-	assert.strictEqual(addedToIncomingLinksView, incomingLinksListSpyView);
+	this.answerCall(0);
+	
+	var pubSub = this.dependencies.recordGuiFactory.getFactored(0).pubSub;
+	var messages = pubSub.getMessages();
+	assert.deepEqual(messages.length, 0);
 
-	var expectedSpec = {
-		"read_incoming_links" : this.spec.record.actionLinks.read_incoming_links
-	}
-	var usedSpec = factoredIncomingLinksListHandler.getSpec();
-	assert.stringifyEqual(usedSpec, expectedSpec);
+	recordHandler.callMethodAfterShowWorkView();
+	
+	assert.deepEqual(messages.length, 1);
 });
