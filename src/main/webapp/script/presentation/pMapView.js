@@ -188,7 +188,9 @@ var CORA = (function(cora) {
 		}
 
 		function setCoordinateFromLatLng(lat, lng) {
-			spec.setLatLngMethod(lat, lng);
+			var latAsString = "" + lat;
+			var lngAsString = "" + lng;
+			spec.setLatLngMethod(latAsString, lngAsString);
 		}
 
 		function removeMarker() {
