@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017 Olov McKie
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -131,18 +131,72 @@ QUnit.test("testSetCurrentLang", function(assert) {
 	textProvider.processFetchedTextdata(this.textAnswer);
 	var translation = textProvider.getTranslation("1Text");
 	assert.deepEqual(translation, "Nästan kortaste möjliga id");
-	
-	textProvider.setCurrentLang("en"); 
-	
+
+	textProvider.setCurrentLang("en");
+
 	var translationEn = textProvider.getTranslation("1Text");
 	assert.deepEqual(translationEn, "Almost shortest possible id");
 });
 
 QUnit.test("testGetCurrentLang", function(assert) {
 	var textProvider = CORA.textProvider(this.dependencies, this.spec);
-	
-	textProvider.setCurrentLang("en"); 
-	
+
+	textProvider.setCurrentLang("en");
+
 	assert.strictEqual(textProvider.getCurrentLang(), "en");
 });
 
+QUnit.test("getMetadataById", function(assert) {
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
+	textProvider.processFetchedTextdata(this.textAnswer);
+	var expected = {
+		"children" : [ {
+			"children" : [ {
+				"name" : "id",
+				"value" : "textPartSvPGroupText"
+			}, {
+				"name" : "type",
+				"value" : "textSystemOne"
+			}, {
+				"name" : "createdBy",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "user"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "userid"
+				} ]
+			} ],
+			"name" : "recordInfo"
+		}, {
+			"children" : [ {
+				"name" : "text",
+				"value" : "Svenska"
+			} ],
+			"name" : "textPart",
+			"attributes" : {
+				"type" : "default",
+				"lang" : "sv"
+			}
+		} ],
+		"name" : "text"
+	};
+	var x = textProvider.getMetadataById("textPartSvPGroupText");
+	assert.stringifyEqual(x, expected);
+});
+
+QUnit.test("getMetadataByIdNotFound", function(assert) {
+	var textProvider = CORA.textProvider(this.dependencies, this.spec);
+	textProvider.processFetchedTextdata(this.textAnswer);
+	var error = false;
+	var errorMessage;
+	try {
+		var x = textProvider.getMetadataById("someNonExistingMetadataId");
+	} catch (e) {
+		error = true;
+		errorMessage = e.message;
+
+	}
+	assert.strictEqual(errorMessage, "Id(someNonExistingMetadataId) not found in textProvider");
+	assert.ok(error);
+});

@@ -23,6 +23,7 @@ var CORA = (function(cora) {
 	cora.textProvider = function(dependencies, spec) {
 		var texts = {};
 		var currentLang = "sv";
+		var metadata = {};
 		fetchTextListAndThen(processFetchedTextdata);
 
 		function fetchTextListAndThen(callAfterAnswer) {
@@ -56,6 +57,8 @@ var CORA = (function(cora) {
 		function createTextObjectFromRecordContainer(recordContainer) {
 			var recordData = recordContainer.record.data;
 			var recordId = getIdFromRecordData(recordData);
+
+			metadata[recordId] = recordData;
 
 			var cRecordData = CORA.coraData(recordData);
 			var textParts = cRecordData.getChildrenByNameInData("textPart");
@@ -95,6 +98,13 @@ var CORA = (function(cora) {
 			return currentLang;
 		}
 
+		function getMetadataById(metadataId) {
+			if (metadata[metadataId] !== undefined) {
+				return metadata[metadataId];
+			}
+			throw new Error("Id(" + metadataId + ") not found in textProvider");
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -110,7 +120,8 @@ var CORA = (function(cora) {
 			getTranslation : getTranslation,
 			processFetchedTextdata : processFetchedTextdata,
 			setCurrentLang : setCurrentLang,
-			getCurrentLang : getCurrentLang
+			getCurrentLang : getCurrentLang,
+			getMetadataById : getMetadataById
 		});
 	};
 	return cora;
