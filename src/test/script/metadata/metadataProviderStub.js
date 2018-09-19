@@ -7389,6 +7389,135 @@ function MetadataProviderStub() {
 					} ]
 				} ]
 			};
+		case "pTextVariablePlus2StyleSContainer":
+			return {
+			"name" : "presentation",
+			"attributes" : {
+				"type" : "container",
+				"repeat" : "children"
+			},
+			"children" : [ {
+				"name" : "recordInfo",
+				"children" : [ {
+					"name" : "id",
+					"value" : "pTextVariablePlus2StyleSContainer"
+				} ]
+			}, {
+				"name" : "presentationStyle",
+				"value" : "withStyle"
+			},
+			{
+				"name": "presentationsOf",
+				"children": [{
+					"repeatId": "1",
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadata"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVariableId"
+						}
+						],
+						"name": "presentationOf"
+				},{
+					"repeatId": "2",
+					"children": [
+						{
+							"name": "linkedRecordType",
+							"value": "metadata"
+						},
+						{
+							"name": "linkedRecordId",
+							"value": "textVariableId2"
+						}
+						],
+						"name": "presentationOf"
+				}]
+			}, {
+				"name" : "childReferences",
+				"children" : [ {
+					"name" : "childReference",
+					"repeatId" : "1",
+					"children" : [ {
+						"name" : "refGroup",
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "coraText"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "aHeadlineText"
+							} ],
+							"attributes" : {
+								"type" : "text"
+							}
+						} ]
+					}, {
+						"name" : "textStyle",
+						"value" : "h2TextStyle"
+					}, {
+						"name" : "childStyle",
+						"value" : "fourChildStyle"
+					} ]
+				}, {
+					"name" : "childReference",
+					"repeatId" : "2",
+					"children" : [ {
+						"name" : "refGroup",
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "presentation"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "pVarTextVariableId"
+							} ],
+							"attributes" : {
+								"type" : "presentation"
+							}
+						} ]
+					}, {
+						"name" : "textStyle",
+						"value" : "h2TextStyle"
+					}, {
+						"name" : "childStyle",
+						"value" : "fourChildStyle"
+					} ]
+				}, {
+					"name" : "childReference",
+					"repeatId" : "3",
+					"children" : [ {
+						"name" : "refGroup",
+						"repeatId" : "0",
+						"children" : [ {
+							"name" : "ref",
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "presentation"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "pVarTextVariableId2"
+							} ],
+							"attributes" : {
+								"type" : "presentation"
+							}
+						} ]
+					}, {
+						"name" : "textStyle",
+						"value" : "h2TextStyle"
+					}, {
+						"name" : "childStyle",
+						"value" : "fourChildStyle"
+					} ]
+				} ]
+			} ]
+		};
 
 			// groupIdTwoTextChildRepeat1to5
 			// "pTextVariablePlus2SContainer":
