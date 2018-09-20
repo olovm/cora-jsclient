@@ -203,8 +203,8 @@ img {
 }
 
 .beeingDragged {
-/* 	chrome can not hadle css changes on dragging :( */
-/* 	transform: scale(0.8); */
+	/* 	chrome can not hadle css changes on dragging :( */
+	/* 	transform: scale(0.8); */
 	border: 1px solid black;
 }
 
@@ -490,9 +490,27 @@ img {
 	font-style: italic;
 }
 
-.presentation .text.bodyTextStyle {
-	/* 	font-size: 2rem; */
-	
+.presentation .inline > .pChildRefHandler.isCollectionOutputPCollVar {
+	flex: 0 auto;
+	display: inline;
+	margin-left: 0.3rem;
+}
+
+.presentation .text.labelTextStyle {
+	font-weight: bold;
+}
+.presentation .text.labelTextStyle::after {
+	content: ":";
+}
+
+.inline .text.labelTextStyle {
+	margin-top: auto;
+}
+.presentation .inline > .text {
+	flex: 0 0;
+	}
+.workView .inline .pVar>:first-child, .workView .inline .pCollVar>:first-child {
+	margin: auto;
 }
 
 .pRecordLink .text {
