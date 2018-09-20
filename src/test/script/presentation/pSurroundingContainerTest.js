@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -127,6 +127,20 @@ QUnit.test("testInit", function(assert) {
 	assert.strictEqual(factoredSpec.minimizedDefault, undefined);
 });
 
+QUnit.test("testInitWithPresentationStyle", function(assert) {
+	this.spec.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pTextVariablePlus2StyleSContainer"));
+	var pSurroundingContainer = CORA.pSurroundingContainer(this.dependencies, this.spec);
+	var view = pSurroundingContainer.getView();
+	this.fixture.appendChild(view);
+
+	assert.strictEqual(pSurroundingContainer.type, "pSurroundingContainer");
+	assert.deepEqual(view.className, "pSurroundingContainer" + " withStyle "
+			+ "pTextVariablePlus2StyleSContainer");
+
+	assert.strictEqual(view.childNodes[2].className, "pChildRefHandlerSpyView");
+});
+
 QUnit.test("testInitInfo", function(assert) {
 	var pSurroundingContainer = CORA.pSurroundingContainer(this.dependencies, this.spec);
 	var view = pSurroundingContainer.getView();
@@ -153,7 +167,6 @@ QUnit.test("testNestedSurroundingContainer", function(assert) {
 	assert.strictEqual(view.childNodes.length, 3);
 
 	assert.strictEqual(view.childNodes[1].textContent, "En rubrik");
-
 
 	var factoredSpec = this.dependencies.pNonRepeatingChildRefHandlerFactory.getSpec(0);
 

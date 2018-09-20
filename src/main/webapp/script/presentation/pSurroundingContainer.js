@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -34,8 +34,17 @@ var CORA = (function(cora) {
 		parent.init();
 
 		function createBaseViewHolder() {
+			var presentationStyle = getPresentationStyle();
 			var presentationId = parent.getPresentationId();
-			return CORA.gui.createSpanWithClassName("pSurroundingContainer " + presentationId);
+			return CORA.gui.createSpanWithClassName("pSurroundingContainer " + presentationStyle
+					+ presentationId);
+		}
+
+		function getPresentationStyle() {
+			if (cPresentation.containsChildWithNameInData("presentationStyle")) {
+				return cPresentation.getFirstAtomicValueByNameInData("presentationStyle") + " ";
+			}
+			return "";
 		}
 
 		var out = Object.freeze({

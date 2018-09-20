@@ -39,11 +39,10 @@ var CORA = (function(cora) {
 		}
 
 		function getPresentationStyle() {
-			var style = "";
 			if (cPresentation.containsChildWithNameInData("presentationStyle")) {
-				style = cPresentation.getFirstAtomicValueByNameInData("presentationStyle") + " ";
+				return cPresentation.getFirstAtomicValueByNameInData("presentationStyle") + " ";
 			}
-			return style;
+			return "";
 		}
 
 		function getSpec() {
