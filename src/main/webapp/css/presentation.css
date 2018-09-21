@@ -490,7 +490,7 @@ img {
 	font-style: italic;
 }
 
-.presentation .inline > .pChildRefHandler.isCollectionOutputPCollVar {
+.presentation .inline > .pChildRefHandler {
 	flex: 0 auto;
 	display: inline;
 	margin-left: 0.3rem;
