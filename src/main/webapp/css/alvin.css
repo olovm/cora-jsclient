@@ -90,3 +90,8 @@
 	border: 1px solid #7FBFA7;
 	background: linear-gradient( #dddddd 1.8rem, #7fbfa7 1px, transparent calc(1.8rem + 1px));
 }
+
+.presentation .text.labelTextStyle {
+	font-weight: bold;
+	color: black;
+}
