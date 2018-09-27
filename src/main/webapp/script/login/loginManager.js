@@ -44,6 +44,18 @@ var CORA = (function(cora) {
 				"userId" : "161616",
 				"appToken" : "f7973be9-02e0-4c42-979b-09e42372a02a"
 			});
+			loginOptions.push({
+				"text" : "diva user",
+				"type" : "appTokenLogin",
+				"userId" : "coraUser:4412982402853626",
+				"appToken" : "b27039e1-593d-4d95-a69a-b33aa8c0924a"
+			});
+			loginOptions.push({
+				"text" : "alvin user",
+				"type" : "appTokenLogin",
+				"userId" : "coraUser:4412566252284358",
+				"appToken" : "935ae709-4056-4b3d-85d2-469b304acfae"
+			});
 		}
 		var loginOrigin;
 
