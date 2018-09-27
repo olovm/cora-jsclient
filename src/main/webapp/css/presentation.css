@@ -586,3 +586,7 @@ img {
 	height: 600px;
 	width: calc(100% - 20px);
 }
+
+.boldTextStyle{
+	font-weight:bold;
+}
