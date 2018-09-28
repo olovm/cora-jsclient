@@ -29,14 +29,22 @@ function start() {
 	} else if (href.indexOf("diva") !== -1) {
 		document.getElementById("divaCSS").disabled = false;
 		useDiva();
-	} else if (href.indexOf("localhost:8080") !== -1 || href.indexOf("116:8080") !== -1) {
+	} else if (href.indexOf("localhost:8080") !== -1 ) {
 		useLocalhostWithPort("8080");
-	} else if (href.indexOf("localhost:8081") !== -1 || href.indexOf("116:8081") !== -1) {
+	} else if (href.indexOf("localhost:8081") !== -1 ) {
 		document.getElementById("alvinCSS").disabled = false;
 		useLocalhostWithPort("8081");
-	} else if (href.indexOf("localhost:8082") !== -1 || href.indexOf("116:8082") !== -1) {
+	} else if (href.indexOf("localhost:8082") !== -1 ) {
 		document.getElementById("divaCSS").disabled = false;
 		useLocalhostWithPort("8082");
+	} else if (href.indexOf("116:8080") !== -1) {
+		useDevWithPort("8080");
+	} else if (href.indexOf("116:8081") !== -1) {
+		document.getElementById("alvinCSS").disabled = false;
+		useDevWithPort("8081");
+	} else if (href.indexOf("116:8082") !== -1) {
+		document.getElementById("divaCSS").disabled = false;
+		useDevWithPort("8082");
 	} else {
 		askForServerToUse();
 	}
@@ -88,6 +96,11 @@ function useLocalhost() {
 function useLocalhostWithPort(port) {
 	appTokenBaseUrl = "http://localhost:" + port + "/";
 	baseUrl = "http://localhost:" + port + "/therest/rest/";
+	startDependencies();
+}
+function useDevWithPort(port) {
+	appTokenBaseUrl = "http://192.168.1.116:" + port + "/";
+	baseUrl = "http://192.168.1.116:" + port + "/therest/rest/";
 	startDependencies();
 }
 
