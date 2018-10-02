@@ -33,7 +33,8 @@ var CORATEST = (function(coraTest) {
 
 		var out = Object.freeze({
 			factor : factor,
-			getFactored : getFactored
+			getFactored : getFactored,
+			callCount: factoredAjaxCalls.length
 		});
 		return out;
 	};

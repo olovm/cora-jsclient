@@ -53,15 +53,24 @@ QUnit.test("testGetSpec", function(assert) {
 });
 
 QUnit.test("testIndexData", function(assert) {
-	var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
-	var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
+    var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
+    var record = CORATEST.listWithDataToIndex.dataList.data[0].record;
 
-	indexHandler.indexData(record);
+    indexHandler.indexData(record);
 
-	var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
-	assert.strictEqual(ajaxCallSpy0.getSpec().requestMethod, "POST");
-	assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, this.spec.loadMethod);
+    var ajaxCallSpy0 = this.ajaxCallFactorySpy.getFactored(0);
+    assert.strictEqual(ajaxCallSpy0.getSpec().requestMethod, "POST");
+    assert.strictEqual(ajaxCallSpy0.getSpec().loadMethod, this.spec.loadMethod);
 
+});
+
+QUnit.test("testIndexDataWithoutIndexLink", function(assert) {
+    var indexHandler = CORA.indexHandler(this.dependencies, this.spec);
+    var record = CORATEST.listWithDataToIndex.dataList.data[2].record;
+
+    indexHandler.indexData(record);
+
+    assert.strictEqual(this.ajaxCallFactorySpy.callCount, 0);
 });
 
 QUnit.test("testHandleCallErrorDoesNothing", function(assert) {
