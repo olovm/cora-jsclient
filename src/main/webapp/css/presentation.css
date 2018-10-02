@@ -590,3 +590,9 @@ img {
 .boldTextStyle{
 	font-weight:bold;
 }
+
+.highlight > .pChildRefHandler > .childrenView > .repeatingElement:nth-child(2n+1) {
+	background: #d9e9f2;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	padding:4px;
+}
