@@ -59,7 +59,7 @@
 	
 }
 
-.jsClient .sideBar, .showView .presentation .text.h2TextStyle, .showView .presentation .text.h1TextStyle {
+.jsClient .sideBar{
 	color: #BF7125;
 }
 
@@ -94,4 +94,8 @@
 .presentation .text.labelTextStyle {
 	font-weight: bold;
 	color: black;
+}
+
+.jsClient .text.h2TextStyle, .recordTypeGroupHeadline{
+	color:#575757;
 }
