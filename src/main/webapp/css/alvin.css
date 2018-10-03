@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'UniversalisADFStdRegular';
+    src: url('../fonts/UniversalisADFStd-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    }
 .jsClient.mainView {
 	border-color: #7fbfa7;
 	font-family: verdana, arial, helvetica, sans-serif;
@@ -45,8 +51,12 @@
 	background-color: rgba(127, 191, 167, 0.1);
 }
 .jsClient>.header {
-	text-shadow: 1px 1px 1px #000, 5px 5px 8px #7fbfa7;
+	text-shadow: none;
 	background-color: #7fbfa7;
+	  font-family: 'UniversalisADFStdRegular';
+   font-weight: normal;
+   font-style: normal; 
+   color:black;
 }
 
 .editView .presentation .text.h2TextStyle {
@@ -99,3 +109,4 @@
 .jsClient .text.h2TextStyle, .recordTypeGroupHeadline{
 	color:#575757;
 }
+
