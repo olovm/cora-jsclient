@@ -57,6 +57,7 @@
    font-weight: normal;
    font-style: normal; 
    color:black;
+   padding-top:0.2em;
 }
 
 .editView .presentation .text.h2TextStyle {
@@ -110,3 +111,7 @@
 	color:#575757;
 }
 
+.header select{
+	float:right;
+	margin-top:0.3em;
+}
