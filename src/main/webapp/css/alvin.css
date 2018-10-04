@@ -6,7 +6,7 @@
     }
 .jsClient.mainView {
 	border-color: #7fbfa7;
-	font-family: verdana, arial, helvetica, sans-serif;
+	font-family: "Open Sans", verdana, arial, helvetica, sans-serif;
 }
 .jsClient > .sideBar {
 	border-color: inherit;
@@ -55,7 +55,7 @@
 	background-color: #7fbfa7;
 	  font-family: 'UniversalisADFStdRegular';
    font-weight: normal;
-   font-style: normal; 
+   font-style: normal;
    color:black;
    padding-top:0.2em;
 }
