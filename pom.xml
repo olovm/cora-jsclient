@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2015 Uppsala University Library
+  ~ Copyright 2015, 2018 Uppsala University Library
   ~
   ~ This file is part of Cora.
   ~
@@ -25,34 +25,20 @@
     <parent>
         <groupId>se.uu.ub.cora</groupId>
         <artifactId>cora-parent</artifactId>
-        <version>0.6-SNAPSHOT</version>
+        <version>0.7-SNAPSHOT</version>
     </parent>
 
     <artifactId>jsclient</artifactId>
-    <version>0.10-SNAPSHOT</version>
+    <version>0.11-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>JS Client</name>
 
     <scm>
-        <connection>scm:git:https://git.epc.ub.uu.se/epc/jsclient.git</connection>
-        <developerConnection>scm:git:https://git.epc.ub.uu.se/epc/jsclient.git</developerConnection>
-        <url>https://git.epc.ub.uu.se/epc/jsclient.git</url>
+        <connection>scm:git:https://github.com/lsu-ub-uu/jsclient.git</connection>
+        <developerConnection>scm:git:https://github.com/lsu-ub-uu/jsclient.git</developerConnection>
+        <url>https://github.com/lsu-ub-uu/jsclient.git</url>
     </scm>
 
-    <repositories>
-        <repository>
-            <id>maven-public</id>
-            <name>LSU Nexus Repository</name>
-            <url>http://epc.ub.uu.se/nexus/repository/maven-public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <updatePolicy>daily</updatePolicy>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <properties>
         <sonar.language>js</sonar.language>
@@ -62,7 +48,7 @@
         <sonar.exclusions>src/main/webapp/script/lib/**</sonar.exclusions>
         <sonar.genericcoverage.unitTestReportPaths>karma-reports/TEST-generic.xml</sonar.genericcoverage.unitTestReportPaths>
         <sonar.javascript.lcov.reportPath>karma-coverage/Firefox 44.0.0 (Ubuntu 0.0.0)/lcov.info</sonar.javascript.lcov.reportPath>
-        <fitnesse.version>20151230</fitnesse.version>
+        <fitnesse.version>20180127</fitnesse.version>
     </properties>
 
     <dependencies>
@@ -102,7 +88,6 @@
             <plugin>
                 <groupId>pl.allegro</groupId>
                 <artifactId>grunt-maven-plugin</artifactId>
-                <version>1.5.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -115,7 +100,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.3.7.v20160115</version>
+                <version>9.4.12.v20180830</version>
                 <configuration>
                     <stopKey>STOP</stopKey>
                     <stopPort>9999</stopPort>
@@ -159,7 +144,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.5</version>
+                <version>3.1.0</version>
                 <configuration>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
@@ -219,7 +204,7 @@
                     <plugin>
                         <groupId>org.eclipse.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>9.3.7.v20160115</version>
+                        <version>9.4.12.v20180830</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
