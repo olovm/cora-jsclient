@@ -151,7 +151,7 @@ body {
 	border-right-style: solid;
 	border-right-width: 1px;
 	display: inline-block;
-	height: calc(100% - 3rem - 1px);
+	height: calc(100% - 3.5rem - 1px);
 	overflow: auto;
 	padding: 0rem 0.5rem;
 	position: relative;
@@ -272,7 +272,7 @@ body {
 
 .jsClient>.workArea {
 	display: inline;
-	height: calc(100% - 3rem - 1px);
+	height: calc(100% - 3.5rem - 1px);
 	position: absolute;
 	margin-left: 1rem;
 	width: calc(100% - 22rem - 1px);
