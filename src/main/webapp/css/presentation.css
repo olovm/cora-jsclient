@@ -466,7 +466,7 @@ img {
 }
 
 .presentation .text.h2TextStyle, .presentation .h2TextStyle .pVar>span {
-	font-size: 1.5rem;
+	font-size: 1.4rem;
 }
 
 .presentation .text.h3TextStyle, .presentation .h3TextStyle .pVar>span {
@@ -589,4 +589,26 @@ img {
 
 .boldTextStyle{
 	font-weight:bold;
+}
+
+.highlight > .pChildRefHandler > .childrenView > .repeatingElement:nth-child(2n+1) {
+	background: #d9e9f2;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	padding:4px;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('../fonts/OpenSans-Regular.woff2') format('woff2');
+   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../fonts/OpenSans-Bold.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }

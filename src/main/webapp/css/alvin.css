@@ -1,6 +1,12 @@
+@font-face {
+    font-family: 'UniversalisADFStdRegular';
+    src: url('../fonts/UniversalisADFStd-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    }
 .jsClient.mainView {
 	border-color: #7fbfa7;
-	font-family: verdana, arial, helvetica, sans-serif;
+	font-family: "Open Sans", verdana, arial, helvetica, sans-serif;
 }
 .jsClient > .sideBar {
 	border-color: inherit;
@@ -45,8 +51,13 @@
 	background-color: rgba(127, 191, 167, 0.1);
 }
 .jsClient>.header {
-	text-shadow: 1px 1px 1px #000, 5px 5px 8px #7fbfa7;
+	text-shadow: none;
 	background-color: #7fbfa7;
+	  font-family: 'UniversalisADFStdRegular';
+   font-weight: normal;
+   font-style: normal;
+   color:black;
+   padding-top:0.2em;
 }
 
 .editView .presentation .text.h2TextStyle {
@@ -59,7 +70,7 @@
 	
 }
 
-.jsClient .sideBar, .showView .presentation .text.h2TextStyle, .showView .presentation .text.h1TextStyle {
+.jsClient .sideBar{
 	color: #BF7125;
 }
 
@@ -94,4 +105,13 @@
 .presentation .text.labelTextStyle {
 	font-weight: bold;
 	color: black;
+}
+
+.jsClient .text.h2TextStyle, .recordTypeGroupHeadline{
+	color:#575757;
+}
+
+.header select{
+	float:right;
+	margin-top:0.3em;
 }
