@@ -103,15 +103,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6568543"
-     inkscape:cx="195.58402"
-     inkscape:cy="52.087601"
+     inkscape:cx="115.96266"
+     inkscape:cy="16.467097"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1139"
-     inkscape:window-x="3840"
-     inkscape:window-y="32"
+     inkscape:window-height="1145"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -391,7 +391,7 @@
        inkscape:export-xdpi="90"
        inkscape:export-filename="/home/olov/workspace/olovs_oqr/freereg-web/src/main/webapp/images/widgetIcons.png"
        id="path4482"
-       style="fill:none;stroke:#000000;stroke-width:0.07833334;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#222222;stroke:#000000;stroke-width:0.07833334;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;stroke-opacity:1"
        transform="matrix(1.2765957,0,0,1.2765957,-82.38963,-36.960551)"
        cx="586.875"
        cy="74.424683"
@@ -400,13 +400,13 @@
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
        inkscape:export-filename="/home/olov/workspace/olovs_oqr/freereg-web/src/main/webapp/images/widgetIcons.png"
-       style="fill:#000000"
+       style="fill:#ffffff"
        id="g4484"
        transform="translate(-0.22207458,-14)">
       <circle
          transform="matrix(1.0470899,0,0,1.0479658,-25.567504,7.7216058)"
          id="path4486"
-         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
          cx="661.45422"
          cy="57.330357"
          r="1.3700194" />
@@ -416,7 +416,7 @@
          height="7.1625772"
          width="2.8715823"
          id="rect4488"
-         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.07415204;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none" />
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.07415204;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none" />
     </g>
     <g
        id="g9651"
@@ -848,28 +848,6 @@
        cx="586.875"
        cy="74.424683"
        r="5.875" />
-    <g
-       transform="translate(-0.22207458,2)"
-       id="g4007"
-       style="fill:#ffffff"
-       inkscape:export-filename="/home/olov/workspace/olovs_oqr/freereg-web/src/main/webapp/images/widgetIcons.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <circle
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
-         id="path4009"
-         transform="matrix(1.0470899,0,0,1.0479658,-25.567504,7.7216058)"
-         cx="661.45422"
-         cy="57.330357"
-         r="1.3700194" />
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.07415204;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
-         id="rect4011"
-         width="2.8715823"
-         height="7.1625772"
-         x="665.59875"
-         y="70.234192" />
-    </g>
     <g
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
@@ -3275,6 +3253,37 @@
          inkscape:export-filename="/home/olov/workspace/olovs_oqr/freereg-web/src/main/webapp/images/widgetIcons.png"
          inkscape:export-xdpi="90"
          inkscape:export-ydpi="90" />
+    </g>
+    <circle
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/olov/workspace/olovs_oqr/freereg-web/src/main/webapp/images/widgetIcons.png"
+       id="path4482-9"
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.10000001;stroke-miterlimit:4;stroke-dasharray:none"
+       cx="666.8125"
+       cy="74.049683"
+       r="7.4999995" />
+    <g
+       transform="translate(-0.22207458,2.1682316)"
+       id="g4007"
+       style="fill:#222222;fill-opacity:1"
+       inkscape:export-filename="/home/olov/workspace/olovs_oqr/freereg-web/src/main/webapp/images/widgetIcons.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <circle
+         style="fill:#222222;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="path4009"
+         transform="matrix(1.0470899,0,0,1.0479658,-25.567504,7.7216058)"
+         cx="661.45422"
+         cy="57.330357"
+         r="1.3700194" />
+      <rect
+         style="fill:#222222;fill-opacity:1;stroke:#000000;stroke-width:0.07415204;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect4011"
+         width="2.8715823"
+         height="7.1625772"
+         x="665.59875"
+         y="70.234192" />
     </g>
   </g>
 </svg>

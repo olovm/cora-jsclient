@@ -508,7 +508,7 @@ img {
 }
 .presentation .inline > .text {
 	flex: 0 0;
-	}
+}
 .workView .inline .pVar>:first-child, .workView .inline .pCollVar>:first-child {
 	margin: auto;
 }
