@@ -172,7 +172,7 @@ var CORA = (function(cora) {
 		}
 
 		function createOutputText() {
-			var outputNew = document.createElement("span");
+            var outputNew = CORA.gui.createSpanWithClassName("value");
 			outputNew.setValue = function(value) {
 				outputNew.textContent = value;
 			};
