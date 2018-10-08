@@ -51,7 +51,7 @@ var CORATEST = (function(coraTest) {
 				view : view
 			};
 
-		};
+		}; 
 		return Object.freeze({
 			factor : factor
 		});
@@ -267,6 +267,7 @@ QUnit.test("testInitCollectionOutput", function(assert) {
 
 	var valueView = attachedPCollectionVar.valueView;
 	assert.equal(valueView.nodeName, "SPAN");
+	assert.equal(valueView.className, "value");
 	assert.equal(valueView.innerHTML, "");
 
 	CORATEST.testCollectionVariableSubscription(attachedPCollectionVar, assert);

@@ -591,14 +591,15 @@ img {
 	font-weight:bold;
 }
 
-.text.specificationTextStyle{
+.text.specificationTextStyle, .specificationChildStyle > .childrenView .value {
 	color:#999;
+	font-size: 0.8rem;
 }
-.specificationTextStyle::before{
+.specificationTextStyle::before, .specificationChildStyle > .childrenView .value::before{
 	content:" (";
 }
 
-.specificationTextStyle::after{
+.specificationTextStyle::after, .specificationChildStyle > .childrenView .value::after{
 	content:") ";
 }
 
