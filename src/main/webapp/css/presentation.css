@@ -591,6 +591,17 @@ img {
 	font-weight:bold;
 }
 
+.text.specificationTextStyle{
+	color:#999;
+}
+.specificationTextStyle::before{
+	content:" (";
+}
+
+.specificationTextStyle::after{
+	content:") ";
+}
+
 .highlight > .pChildRefHandler > .childrenView > .repeatingElement:nth-child(2n+1) {
 	background: #d9e9f2;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
