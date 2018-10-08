@@ -52,12 +52,14 @@
 }
 .jsClient>.header {
 	text-shadow: none;
-	background-color: #7fbfa7;
+	background-color: #ffffff;
     font-family: 'UniversalisADFStdRegular';
    font-weight: normal;
    font-style: normal;
    color:#222222;
    padding-top:0.5rem;
+   border:none;
+   border-top: 10px solid lightgrey;
 }
 
 .editView .presentation .text.h2TextStyle {
