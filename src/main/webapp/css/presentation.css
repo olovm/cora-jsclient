@@ -561,22 +561,29 @@ img {
 	z-index: -1;
 }
 
-/* .jsClient .workView .repeatingElement .compactChildStyle { */
 .jsClient  .compactChildStyle {
 	display: unset;
 }
-/* .jsClient .workView .repeatingElement .compactChildStyle .pGroup { */
+
 .jsClient  .compactChildStyle .pGroup {
 	display: unset;
 }
-/* .jsClient .workView .repeatingElement .compactChildStyle span { */
+
 .jsClient  .compactChildStyle span {
 	display: inline;
 }
-/* .jsClient .workView .repeatingElement .compactChildStyle .buttonView { */
+
 .jsClient   .compactChildStyle .buttonView {
 	display: none;
 }
+
+.compactChildStyle > .childrenView > .repeatingElement{
+	display: block;
+} 
+
+.compactChildStyle > .childrenView > .repeatingElement .repeatingElement{
+	display: inline;
+} 
 
 .jsClient .showView .frame.pGroup {
 	border: 1px solid gray;
