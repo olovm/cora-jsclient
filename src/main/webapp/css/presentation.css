@@ -258,10 +258,6 @@ img {
 	opacity: 1;
 }
 
-.pVar span {
-	font-size: .8rem;
-}
-
 .workView .pVar, .workView .pCollVar {
 	display: flex;
 	flex-wrap: wrap;
@@ -485,15 +481,13 @@ img {
 	font-size: 0.6rem;
 }
 
-.presentation .text.italicTextStyle, .presentation .pChildRefHandler.h7TextStyle
-	{
+.presentation .text.italicTextStyle, .presentation .pChildRefHandler.h7TextStyle {
 	font-style: italic;
 }
 
 .presentation .inline > .pChildRefHandler {
 	flex: 0 auto;
 	display: inline;
-	margin-left: 0.3rem;
 }
 
 .presentation .text.labelTextStyle {
