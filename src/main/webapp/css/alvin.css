@@ -158,3 +158,8 @@ input[type="button"] {
 .infoView::before {
 	background-position: -64px -32px;
 }
+
+.jsClient .workView .pCollVar select {
+		flex: unset;
+        max-width: 30em;
+} 

@@ -551,11 +551,6 @@ max-width: 95%;
 	color: #575757;
 }
 
-.jsClient .showView .pSurroundingContainer {
-	border: none;
-	margin-top: 1rem;
-}
-
 .jsClient .serverAddress {
 	position: absolute;
 	bottom: 0rem;
