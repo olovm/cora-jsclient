@@ -459,6 +459,7 @@ max-width: 95%;
 
 .jsClient .listView {
 	width: 100%;
+	padding:0.3rem;
 }
 
 .jsClient .listItem {

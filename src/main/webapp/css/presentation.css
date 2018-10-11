@@ -516,9 +516,8 @@ img {
 }
 
 .repeatingElement:first-child {
-	margin-top: 5px;
 	border-top: 1px dashed #0082c9;
-	padding-top: 5px;
+	margin-top:0.1rem;
 }
 
 .repeatingElement {
@@ -537,8 +536,6 @@ img {
 .repeatingElement:first-child:last-child {
 	border-top: none;
 	border-bottom: none;
-	padding-top: 0;
-	margin-top: 0;
 }
 
 .recordViewer::before {
