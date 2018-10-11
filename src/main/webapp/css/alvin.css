@@ -163,3 +163,13 @@ input[type="button"] {
 		flex: unset;
         max-width: 30em;
 } 
+
+.listView .namePlacePartNameOutputPGroup .value {
+	color: #BF7125;
+	font-weight: bold;
+}
+
+.listView  .namePlaceAlternativeOutputListSContainer .value{
+	color: unset;
+	font-weight: unset;
+}
