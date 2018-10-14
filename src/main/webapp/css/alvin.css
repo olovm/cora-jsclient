@@ -89,7 +89,7 @@
 	margin-bottom: 1rem;
 }
 .editView .presentation > .pGroup > .pNonRepeatingChildRefHandler > .pSurroundingContainer .pChildRefHandler {
-	margin-top: 0.5rem;
+/* 	margin-top: 0.5rem; */
 }
 .editView .presentation > .pGroup > .pNonRepeatingChildRefHandler > .pSurroundingContainer .pChildRefHandler ~  .pChildRefHandler{
 	margin-top: none;
@@ -160,6 +160,6 @@ input[type="button"] {
 }
 
 .jsClient .workView .pCollVar select {
-		flex: unset;
+/* 		flex: unset; */
         max-width: 30em;
 } 

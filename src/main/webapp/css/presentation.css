@@ -47,8 +47,8 @@ img {
 }
 
 .buttonView>span::before, .buttonView>span::after {
-	top: 3px;
-	right: 2px;
+/* 	top: 3px; */
+/* 	right: 2px; */
 }
 
 .iconButton {
@@ -68,6 +68,7 @@ img {
 	width: 16px;
 	position: absolute;
 	transition: opacity 0.5s ease 0s;
+	display: block;
 }
 
 .iconButton::before {
@@ -152,18 +153,26 @@ img {
 
 .defaultButton::before {
 	background-position: -176px 0px;
+	top: 3px;
+	right: 2px;
 }
 
 .defaultButton::after {
 	background-position: -176px -16px;
+	top: 3px;
+	right: 2px;
 }
 
 .alternativeButton::before {
 	background-position: -160px 0px;
+	top: 3px;
+	right: 2px;
 }
 
 .alternativeButton::after {
 	background-position: -160px -16px;
+	top: 3px;
+	right: 2px;
 }
 
 .dragButton::before {
@@ -233,11 +242,16 @@ img {
 .workView .repeatingElement>.buttonView, .workView .pNonRepeatingChildRefHandler>.buttonView
 	{
 	flex: 0 1 0;
+/* 	position: absolute; */
+/* 	top: 0; */
+/* 	right: 0; */
+	display: flex;
+	flex-direction: column;
 }
 
 .pVar {
 	min-width: 30px;
-	min-height: 24px;
+/* 	min-height: 24px; */
 	display: inline-block;
 }
 
@@ -264,16 +278,27 @@ img {
 }
 
 .workView .pVar>:first-child, .workView .pCollVar>:first-child {
+/* 	flex: 1; */
+/* 	margin: .2em 0; */
+}
+
+.workView .pVar input {
 	flex: 1;
-	margin: .2em 0;
+}
+textarea {
+	flex: 1;
 }
 
 .workView .pGroup, .workView .pSurroundingContainer, .workView .pMap {
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
 	position: relative;
+	padding-right: 16px;
 }
-
+.workView .pGroup.inline, .workView .pSurroundingContainer.inline {
+	flex-direction: row;
+	flex-wrap: wrap;
+}
 .workView .pRecordLink {
 	display: flex;
 	flex-wrap: wrap;
@@ -318,12 +343,14 @@ img {
 
 .workView .pGroup>.pChildRefHandler, .workView .pGroup>.pNonRepeatingChildRefHandler,
 	.workView .pGroup>.pSurroundingContainer, .workView .pGroup>.text {
-	flex: 0 1 calc(100% - 25px);
+/* 	flex: 0 1 calc(100% - 25px); */
+position: relative;
+
 }
 
 .workView .pSurroundingContainer>.pChildRefHandler, .workView .pSurroundingContainer>.text
 	{
-	flex: 0 1 calc(100% - 25px);
+/* 	flex: 0 1 calc(100% - 25px); */
 }
 
 .jsClient .workView .openLinkedRecordButton, .jsClient .workView .showSearchButton,
@@ -333,14 +360,16 @@ img {
 }
 
 .infoView {
-	flex: 0 0 100%;
+	flex: 0 1 100%;
 	position: relative;
 	overflow: hidden;
 	z-index: 1;
+	display: flex;
+	flex-direction: column;
 }
 
 .infoView span {
-	display: block;
+/* 	display: block; */
 	font-size: 0.7rem;
 }
 
@@ -394,7 +423,7 @@ img {
 }
 
 .pChildRefHandler {
-	display: block;
+/* 	display: block; */
 }
 
 .workView .pChildRefHandler.tenChildStyle {
@@ -486,8 +515,8 @@ img {
 }
 
 .presentation .inline > .pChildRefHandler {
-	flex: 0 auto;
-	display: inline;
+/* 	flex: 0 auto; */
+/* 	display: inline; */
 }
 
 .presentation .text.labelTextStyle {
@@ -498,7 +527,7 @@ img {
 }
 
 .inline .text.labelTextStyle {
-	margin-top: auto;
+/* 	margin-top: auto; */
 }
 .presentation .inline > .text {
 	flex: 0 0;
@@ -517,12 +546,13 @@ img {
 
 .repeatingElement:first-child {
 	border-top: 1px dashed #0082c9;
-	margin-top:0.1rem;
+/* 	margin-top:0.1rem; */
 }
 
 .repeatingElement {
 	border-bottom: 1px dashed #0082c9;
 	transition: background-color 0.5s linear;
+	position: relative;
 }
 
 .jsClient .repeatingElement.hoverRemove {
@@ -530,7 +560,7 @@ img {
 }
 
 .editView .repeatingElement:last-child {
-	margin-bottom: 5px;
+/* 	margin-bottom: 5px; */
 }
 
 .repeatingElement:first-child:last-child {
@@ -553,27 +583,27 @@ img {
 }
 
 .jsClient  .compactChildStyle {
-	display: unset;
+/* 	display: unset; */
 }
 
 .jsClient  .compactChildStyle .pGroup {
-	display: unset;
+/* 	display: unset; */
 }
 
 .jsClient  .compactChildStyle span {
-	display: inline;
+/* 	display: inline; */
 }
 
 .jsClient   .compactChildStyle .buttonView {
-	display: none;
+/* 	display: none; */
 }
 
 .compactChildStyle > .childrenView > .repeatingElement{
-	display: block;
+/* 	display: block; */
 } 
 
 .compactChildStyle > .childrenView > .repeatingElement .repeatingElement{
-	display: inline;
+/* 	display: inline; */
 } 
 
 .jsClient .showView .frame.pGroup {

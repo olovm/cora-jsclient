@@ -506,7 +506,7 @@ max-width: 95%;
 }
 
 .jsClient .listItem .pGroup>.pChildRefHandler+.pChildRefHandler {
-	margin-top: .3rem;
+/* 	margin-top: .3rem; */
 }
 
 .jsClient .listItem [class*='recordInfo'] {
@@ -547,7 +547,7 @@ max-width: 95%;
 
 .jsClient .text {
 	margin: 0;
-	margin-top: 0.5rem;
+/* 	margin-top: 0.5rem; */
 	color: #575757;
 }
 
