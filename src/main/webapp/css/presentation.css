@@ -308,8 +308,9 @@ textarea {
 .jsClient .workView .inline span, .jsClient .workView .inline div, .inline {
 /* .pGroup.inline, .pSurroundingContainer.inline, .workView .inline .repeatingElement, .workView .inline .pVar, .workView .inline .pCollVar, .workView .inline .buttonView, .workView .inline .pNonRepeatingChildRefHandler */
 /* .pGroup.inline, .pSurroundingContainer.inline { */
-	flex-direction: row;
-	flex-wrap: wrap;
+/* 	flex-direction: row; */
+/* 	flex-wrap: wrap; */
+	display: inline;
 }
 
 .jsClient .workView .inline .infoView {
