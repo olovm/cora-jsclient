@@ -333,8 +333,9 @@ textarea {
 	order: 1;
 }
 
-.workView .pGroup>.infoButton, .workView .pSurroundingContainer>.infoButton,
-	.workView .pMap>.infoButton {
+/* .workView .pGroup>.infoButton, .workView .pSurroundingContainer>.infoButton, */
+/* 	.workView .pMap>.infoButton { */
+.workView .infoButton {
 	z-index: 5;
 	position: absolute;
 	top: 0.1rem;
@@ -385,6 +386,9 @@ position: relative;
 	right: 5rem;
 	top: 2.5rem;
 	z-index: -1;
+}
+.defTextView {
+	font-style: italic;
 }
 
 .search {
@@ -533,7 +537,7 @@ position: relative;
 	flex: 0 0;
 }
 .workView .inline .pVar>:first-child, .workView .inline .pCollVar>:first-child {
-	margin: auto;
+/* 	margin: auto; */
 }
 
 .pRecordLink .text {
@@ -589,6 +593,9 @@ position: relative;
 .jsClient  .compactChildStyle .pGroup {
 /* 	display: unset; */
 }
+.compactChildStyle .pGroup, .compactChildStyle .pVar {
+	padding-right: 0;
+}
 
 .jsClient  .compactChildStyle span {
 /* 	display: inline; */
@@ -617,6 +624,10 @@ position: relative;
 
 .boldTextStyle{
 	font-weight:bold;
+}
+.specificationChildStyle, .specificationTextStyle {
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .specificationTextStyle, .specificationChildStyle > .childrenView .value {
