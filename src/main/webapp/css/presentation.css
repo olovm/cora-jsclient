@@ -1,3 +1,6 @@
+.jsClient {
+	white-space: pre-wrap;
+}
 .presentation {
 	min-height: 13px;
 	min-width: 13px;
@@ -202,6 +205,7 @@ img {
 	display: none;
 }
 
+
 .workView .pVar:hover>.infoButton::before, .workView .pRecordLink:hover>.buttonView .infoButton::before,
 	input:focus+.infoButton::before, .workView .pCollVar:hover>.infoButton::before,
 	select:focus+.infoButton::before, textarea:focus+.infoButton::before,
@@ -282,23 +286,37 @@ img {
 /* 	margin: .2em 0; */
 }
 
-.workView .pVar input {
+.workView .pVar {
 	flex: 1;
 }
+
+.pVar input {
+	width: calc(100% - 40px);
+}
+
 textarea {
 	flex: 1;
 }
 
-.workView .pGroup, .workView .pSurroundingContainer, .workView .pMap {
+ .pGroup,  .pVar,  .pCollVar,  .pSurroundingContainer {
 	display: flex;
 	flex-direction: column;
 	position: relative;
 	padding-right: 16px;
 }
-.workView .pGroup.inline, .workView .pSurroundingContainer.inline {
+
+.jsClient .workView .inline span, .jsClient .workView .inline div, .inline {
+/* .pGroup.inline, .pSurroundingContainer.inline, .workView .inline .repeatingElement, .workView .inline .pVar, .workView .inline .pCollVar, .workView .inline .buttonView, .workView .inline .pNonRepeatingChildRefHandler */
+/* .pGroup.inline, .pSurroundingContainer.inline { */
 	flex-direction: row;
 	flex-wrap: wrap;
 }
+
+.jsClient .workView .inline .infoView {
+	display: flex;
+	flex-direction: column;
+}
+
 .workView .pRecordLink {
 	display: flex;
 	flex-wrap: wrap;
@@ -338,8 +356,8 @@ textarea {
 .workView .infoButton {
 	z-index: 5;
 	position: absolute;
-	top: 0.1rem;
-	right: 0.1rem;
+	top: 0px;
+	right: 0px;
 }
 
 .workView .pGroup>.pChildRefHandler, .workView .pGroup>.pNonRepeatingChildRefHandler,
@@ -490,31 +508,31 @@ position: relative;
 	display: inline-block;
 }
 
-.presentation .text.h1TextStyle, .presentation .h1TextStyle .pVar>span {
+.h1TextStyle {
 	font-size: 2rem;
 }
 
-.presentation .text.h2TextStyle, .presentation .h2TextStyle .pVar>span {
+.h2TextStyle {
 	font-size: 1.4rem;
 }
 
-.presentation .text.h3TextStyle, .presentation .h3TextStyle .pVar>span {
+.h3TextStyle {
 	font-size: 1rem;
 }
 
-.presentation .text.h4TextStyle, .presentation .h4TextStyle .pVar>span {
+.h4TextStyle {
 	font-size: 0.8rem;
 }
 
-.presentation .text.h5TextStyle, .presentation .h5TextStyle .pVar>span {
+.h5TextStyle {
 	font-size: 0.7rem;
 }
 
-.presentation .text.h6TextStyle, .presentation .h6TextStyle .pVar>span {
+.h6TextStyle {
 	font-size: 0.6rem;
 }
 
-.presentation .text.italicTextStyle, .presentation .pChildRefHandler.h7TextStyle {
+.h7TextStyle {
 	font-style: italic;
 }
 
@@ -624,10 +642,6 @@ position: relative;
 
 .boldTextStyle{
 	font-weight:bold;
-}
-.specificationChildStyle, .specificationTextStyle {
-	padding-left: 1rem;
-	padding-right: 1rem;
 }
 
 .specificationTextStyle, .specificationChildStyle > .childrenView .value {

@@ -63,6 +63,10 @@
    border-bottom: 1px solid #7fbfa7;
 }
 
+.jsClient .showView .h1TextStyle .text { 
+	color: black;
+}
+
 .editView .presentation .text.h2TextStyle {
 	background-color: #7fbfa7;
 }
