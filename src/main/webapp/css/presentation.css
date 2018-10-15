@@ -291,7 +291,7 @@ img {
 }
 
 .pVar input {
-	width: calc(100% - 40px);
+/* 	width: calc(100% - 40px); */
 }
 
 textarea {
@@ -311,11 +311,13 @@ textarea {
 /* 	flex-direction: row; */
 /* 	flex-wrap: wrap; */
 	display: inline;
+	position: static;
 }
 
 .jsClient .workView .inline .infoView {
 	display: flex;
 	flex-direction: column;
+	position: relative;
 }
 
 .workView .pRecordLink {
@@ -546,7 +548,7 @@ position: relative;
 	font-weight: bold;
 }
 .presentation .text.labelTextStyle::after {
-	content: ":";
+	content: ": ";
 }
 
 .inline .text.labelTextStyle {
