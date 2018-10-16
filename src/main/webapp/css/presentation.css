@@ -305,6 +305,10 @@ textarea {
 	padding-right: 16px;
 }
 
+.pRecordLink {
+	padding-right: 16px;
+}
+
 .jsClient .workView .inline span, .jsClient .workView .inline div, .inline {
 /* .pGroup.inline, .pSurroundingContainer.inline, .workView .inline .repeatingElement, .workView .inline .pVar, .workView .inline .pCollVar, .workView .inline .buttonView, .workView .inline .pNonRepeatingChildRefHandler */
 /* .pGroup.inline, .pSurroundingContainer.inline { */
