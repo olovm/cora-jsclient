@@ -566,8 +566,9 @@ position: relative;
 	padding-right: 0;
 }
 
-.jsClient .workView .rowBasedChildStyle {
+.jsClient .workView .rowBasedChildStyle,  .jsClient .workView .rowBased {
 	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 .jsClient .showView .frame.pGroup {
