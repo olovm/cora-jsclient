@@ -164,16 +164,10 @@ input[type="button"] {
 }
 
 .jsClient .workView .pCollVar select {
-/* 		flex: unset; */
         max-width: 30em;
 } 
 
-.listView .namePlacePartNameOutputPGroup .value {
-	color: #BF7125;
-	font-weight: bold;
-}
-
-.listView  .namePlaceAlternativeOutputListSContainer .value{
-	color: unset;
-	font-weight: unset;
+.listView .h1TextStyle, .listView .h1TextStyle .text {
+	color: #bf7125;
+	font-size: 1rem;
 }

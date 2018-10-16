@@ -49,11 +49,6 @@ img {
 	border-color: red;
 }
 
-.buttonView>span::before, .buttonView>span::after {
-/* 	top: 3px; */
-/* 	right: 2px; */
-}
-
 .iconButton {
 	cursor: pointer;
 	min-width: 16px;
@@ -246,16 +241,12 @@ img {
 .workView .repeatingElement>.buttonView, .workView .pNonRepeatingChildRefHandler>.buttonView
 	{
 	flex: 0 1 0;
-/* 	position: absolute; */
-/* 	top: 0; */
-/* 	right: 0; */
 	display: flex;
 	flex-direction: column;
 }
 
 .pVar {
 	min-width: 30px;
-/* 	min-height: 24px; */
 	display: inline-block;
 }
 
@@ -281,17 +272,8 @@ img {
 	flex-wrap: wrap;
 }
 
-.workView .pVar>:first-child, .workView .pCollVar>:first-child {
-/* 	flex: 1; */
-/* 	margin: .2em 0; */
-}
-
 .workView .pVar {
 	flex: 1;
-}
-
-.pVar input {
-/* 	width: calc(100% - 40px); */
 }
 
 textarea {
@@ -310,10 +292,6 @@ textarea {
 }
 
 .jsClient .workView .inline span, .jsClient .workView .inline div, .inline {
-/* .pGroup.inline, .pSurroundingContainer.inline, .workView .inline .repeatingElement, .workView .inline .pVar, .workView .inline .pCollVar, .workView .inline .buttonView, .workView .inline .pNonRepeatingChildRefHandler */
-/* .pGroup.inline, .pSurroundingContainer.inline { */
-/* 	flex-direction: row; */
-/* 	flex-wrap: wrap; */
 	display: inline;
 	position: static;
 }
@@ -339,9 +317,11 @@ textarea {
 	order: 1;
 }
 
-.workView .pRecordLink>.buttonView {
-	flex: 1 1 40px;
+.workView .pRecordLink > .buttonView {
+	flex: 1;
 	order: 2;
+	display: flex;
+	flex-direction: column;
 }
 
 .workView .pRecordLink>.search {
@@ -358,8 +338,6 @@ textarea {
 	order: 1;
 }
 
-/* .workView .pGroup>.infoButton, .workView .pSurroundingContainer>.infoButton, */
-/* 	.workView .pMap>.infoButton { */
 .workView .infoButton {
 	z-index: 5;
 	position: absolute;
@@ -369,14 +347,8 @@ textarea {
 
 .workView .pGroup>.pChildRefHandler, .workView .pGroup>.pNonRepeatingChildRefHandler,
 	.workView .pGroup>.pSurroundingContainer, .workView .pGroup>.text {
-/* 	flex: 0 1 calc(100% - 25px); */
 position: relative;
 
-}
-
-.workView .pSurroundingContainer>.pChildRefHandler, .workView .pSurroundingContainer>.text
-	{
-/* 	flex: 0 1 calc(100% - 25px); */
 }
 
 .jsClient .workView .openLinkedRecordButton, .jsClient .workView .showSearchButton,
@@ -395,7 +367,6 @@ position: relative;
 }
 
 .infoView span {
-/* 	display: block; */
 	font-size: 0.7rem;
 }
 
@@ -449,10 +420,6 @@ position: relative;
 .pRepeatingContainer {
 	border: 1px dashed green;
 	display: block;
-}
-
-.pChildRefHandler {
-/* 	display: block; */
 }
 
 .workView .pChildRefHandler.tenChildStyle {
@@ -543,11 +510,6 @@ position: relative;
 	font-style: italic;
 }
 
-.presentation .inline > .pChildRefHandler {
-/* 	flex: 0 auto; */
-/* 	display: inline; */
-}
-
 .presentation .text.labelTextStyle {
 	font-weight: bold;
 }
@@ -555,14 +517,8 @@ position: relative;
 	content: ": ";
 }
 
-.inline .text.labelTextStyle {
-/* 	margin-top: auto; */
-}
 .presentation .inline > .text {
 	flex: 0 0;
-}
-.workView .inline .pVar>:first-child, .workView .inline .pCollVar>:first-child {
-/* 	margin: auto; */
 }
 
 .pRecordLink .text {
@@ -575,7 +531,6 @@ position: relative;
 
 .repeatingElement:first-child {
 	border-top: 1px dashed #0082c9;
-/* 	margin-top:0.1rem; */
 }
 
 .repeatingElement {
@@ -586,10 +541,6 @@ position: relative;
 
 .jsClient .repeatingElement.hoverRemove {
 	background-color: #ffc6c6;
-}
-
-.editView .repeatingElement:last-child {
-/* 	margin-bottom: 5px; */
 }
 
 .repeatingElement:first-child:last-child {
@@ -611,32 +562,13 @@ position: relative;
 	z-index: -1;
 }
 
-.jsClient  .compactChildStyle {
-/* 	display: unset; */
-}
-
-.jsClient  .compactChildStyle .pGroup {
-/* 	display: unset; */
-}
-.compactChildStyle .pGroup, .compactChildStyle .pVar {
+.compactChildStyle .pGroup, .compactChildStyle .pVar, .compactChildStyle .pSurroundingContainer {
 	padding-right: 0;
 }
 
-.jsClient  .compactChildStyle span {
-/* 	display: inline; */
+.jsClient .workView .rowBasedChildStyle {
+	flex-direction: row;
 }
-
-.jsClient   .compactChildStyle .buttonView {
-/* 	display: none; */
-}
-
-.compactChildStyle > .childrenView > .repeatingElement{
-/* 	display: block; */
-} 
-
-.compactChildStyle > .childrenView > .repeatingElement .repeatingElement{
-/* 	display: inline; */
-} 
 
 .jsClient .showView .frame.pGroup {
 	border: 1px solid gray;

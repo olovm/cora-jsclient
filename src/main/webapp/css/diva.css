@@ -19,6 +19,11 @@
 	border: none;
 }
 
+.header select{
+	float:right;
+	margin-top:0.3em;
+}
+
 .jsClient > .sideBar {
 	border-color: #2a88ad;
 }
@@ -80,23 +85,18 @@
 	background-color: rgb(42, 136, 173, 0.1);
 	transition: background-color 0.5s linear;
 }
-.workItem .presentation > .pGroup {
+.editView > .presentation > .pGroup, .showView > .presentation > .pGroup {
 	border-radius: 10px 10px;
 	padding: 0rem 1rem;
 	box-shadow: 0 0 10px rgba(0,0,0,0.13);
 }
 
 .presentation .text.h1TextStyle {
-	font-size: 2rem;
 	color: #334DA2;
 	background-color: #C6D4BA;
 	border-radius: 10px 10px 0 0px;
 	margin: 0rem -1rem 0rem -1rem;
-	width: calc(100% + 3rem);
-	flex: 0 1 calc(100% + 2rem);
 	padding: 1rem 1rem 0.2rem 1rem;
-	text-shadow: 1px 1px 3px rgba(11, 248, 39, 0.1);
-	box-shadow: inset 0 2px 2px 0 rgba(255,255,255,0.17);
 	position: sticky;
 	top: -1rem;
 	z-index: 3;
@@ -108,10 +108,6 @@
 	top: 2.5rem;
 	background: #f2f2f2;
 	z-index: 2;
-	border-radius: 10px 10px 0px 0;
-}
-.presentation > .pGroup > .pChildRefHandler {
-/* 	background: white; */
 }
 
 input[type="button"], .form-style-10 input[type="submit"] {
