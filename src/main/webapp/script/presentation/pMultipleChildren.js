@@ -176,19 +176,35 @@ var CORA = (function(cora) {
 		}
 
 		function createPNonRepeatingChildRefHandler(cPresentationChild, cPresentationChildRef) {
-			var childSpec = {
+			var childRefHandlerSpec = {
 				"parentPath" : path,
 				"parentMetadataId" : my.metadataId,
 				"cPresentation" : cPresentationChild,
 				"cParentPresentation" : my.cParentPresentation,
 				mode : mode
 			};
+			possiblyAddStyleToSpec(cPresentationChildRef, childRefHandlerSpec);
+			possiblyAddAlternativePresentationToSpec(cPresentationChildRef, childRefHandlerSpec);
+			return dependencies.pNonRepeatingChildRefHandlerFactory.factor(childRefHandlerSpec);
+		}
+
+		function possiblyAddStyleToSpec(cPresentationChildRef, childRefHandlerSpec) {
+			if (cPresentationChildRef.containsChildWithNameInData("textStyle")) {
+				childRefHandlerSpec.textStyle = cPresentationChildRef
+						.getFirstAtomicValueByNameInData("textStyle");
+			}
+			if (cPresentationChildRef.containsChildWithNameInData("childStyle")) {
+				childRefHandlerSpec.childStyle = cPresentationChildRef
+						.getFirstAtomicValueByNameInData("childStyle");
+			}
+		}
+
+		function possiblyAddAlternativePresentationToSpec(cPresentationChildRef,
+				childRefHandlerSpec) {
 			if (childHasAlternativePresentation(cPresentationChildRef)) {
 				var cAlternativePresentation = getAlternativePresenation(cPresentationChildRef);
-				childSpec.cAlternativePresentation = cAlternativePresentation;
+				childRefHandlerSpec.cAlternativePresentation = cAlternativePresentation;
 			}
-
-			return dependencies.pNonRepeatingChildRefHandlerFactory.factor(childSpec);
 		}
 
 		function createPChildRefHandler(cPresentationChild, cPresentationChildRef) {
@@ -204,23 +220,10 @@ var CORA = (function(cora) {
 				childRefHandlerSpec.minNumberOfRepeatingToShow = cPresentationChildRef
 						.getFirstAtomicValueByNameInData("minNumberOfRepeatingToShow");
 			}
-
-			if (cPresentationChildRef.containsChildWithNameInData("textStyle")) {
-				childRefHandlerSpec.textStyle = cPresentationChildRef
-						.getFirstAtomicValueByNameInData("textStyle");
-			}
-			if (cPresentationChildRef.containsChildWithNameInData("childStyle")) {
-				childRefHandlerSpec.childStyle = cPresentationChildRef
-						.getFirstAtomicValueByNameInData("childStyle");
-			}
-
-			if (childHasAlternativePresentation(cPresentationChildRef)) {
-				var cAlternativePresentation = getAlternativePresenation(cPresentationChildRef);
-				childRefHandlerSpec.cAlternativePresentation = cAlternativePresentation;
-			}
+			possiblyAddStyleToSpec(cPresentationChildRef, childRefHandlerSpec);
+			possiblyAddAlternativePresentationToSpec(cPresentationChildRef, childRefHandlerSpec);
 
 			var pChildRefHandler = dependencies.pChildRefHandlerFactory.factor(childRefHandlerSpec);
-
 			return pChildRefHandler.getView();
 		}
 

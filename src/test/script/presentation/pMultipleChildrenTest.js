@@ -236,6 +236,20 @@ QUnit.test("testPNonRepeatingChildRefHandlerSpec", function(assert) {
 
 	var factored = this.dependencies.pNonRepeatingChildRefHandlerFactory.getFactored(0)
 	assert.strictEqual(view.childNodes[1], factored.getView());
+	
+	assert.strictEqual(factoredSpec.textStyle, "h2TextStyle");
+	assert.strictEqual(factoredSpec.childStyle, "fourChildStyle");
+//	assert.strictEqual(factoredSpec.mode, "input");
+	
+	
+//}, {
+//	"name" : "textStyle",
+//	"value" : "h2TextStyle"
+//}, {
+//	"name" : "childStyle",
+//	"value" : "fourChildStyle"
+//} ]
+	
 });
 
 QUnit.test("testPNonRepeatingChildRefHandlerSpecWithMinimized", function(assert) {

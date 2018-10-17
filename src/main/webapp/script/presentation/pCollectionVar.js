@@ -1,7 +1,7 @@
 /*
  * Copyright 2016 Uppsala University Library
  * Copyright 2017 Olov McKie
-*
+ *
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -74,7 +74,8 @@ var CORA = (function(cora) {
 			var inputNew = document.createElement("select");
 
 			if (cPresentation.containsChildWithNameInData("emptyTextId")) {
-				var cEmptyTextId = CORA.coraData(cPresentation.getFirstChildByNameInData("emptyTextId"));
+				var cEmptyTextId = CORA.coraData(cPresentation
+						.getFirstChildByNameInData("emptyTextId"));
 				var emptyTextId = cEmptyTextId.getFirstAtomicValueByNameInData("linkedRecordId");
 
 				var optionText = textProvider.getTranslation(emptyTextId);
@@ -118,7 +119,7 @@ var CORA = (function(cora) {
 		}
 
 		function createOutput() {
-			var outputNew = document.createElement("span");
+			var outputNew = CORA.gui.createSpanWithClassName("value");
 			return outputNew;
 		}
 
@@ -145,17 +146,18 @@ var CORA = (function(cora) {
 				}, {
 					"className" : "technicalView",
 					"text" : "nameInData: " + nameInData
-				} , {
+				}, {
 					"className" : "technicalView",
 					"text" : "presentationId: " + presentationId
-				}]
+				} ]
 			};
 			var newInfo = CORA.info(infoSpec);
 			return newInfo;
 		}
 
-		function getTextId(cMetadataElementIn, textNameInData){
-			var cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData(textNameInData));
+		function getTextId(cMetadataElementIn, textNameInData) {
+			var cTextGroup = CORA.coraData(cMetadataElementIn
+					.getFirstChildByNameInData(textNameInData));
 			return cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 		}
 

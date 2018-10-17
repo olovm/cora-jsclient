@@ -1,3 +1,6 @@
+.jsClient {
+	white-space: pre-wrap;
+}
 .presentation {
 	min-height: 13px;
 	min-width: 13px;
@@ -46,11 +49,6 @@ img {
 	border-color: red;
 }
 
-.buttonView>span::before, .buttonView>span::after {
-	top: 3px;
-	right: 2px;
-}
-
 .iconButton {
 	cursor: pointer;
 	min-width: 16px;
@@ -68,6 +66,7 @@ img {
 	width: 16px;
 	position: absolute;
 	transition: opacity 0.5s ease 0s;
+	display: block;
 }
 
 .iconButton::before {
@@ -152,18 +151,26 @@ img {
 
 .defaultButton::before {
 	background-position: -176px 0px;
+	top: 3px;
+	right: 2px;
 }
 
 .defaultButton::after {
 	background-position: -176px -16px;
+	top: 3px;
+	right: 2px;
 }
 
 .alternativeButton::before {
 	background-position: -160px 0px;
+	top: 3px;
+	right: 2px;
 }
 
 .alternativeButton::after {
 	background-position: -160px -16px;
+	top: 3px;
+	right: 2px;
 }
 
 .dragButton::before {
@@ -193,6 +200,7 @@ img {
 	display: none;
 }
 
+
 .workView .pVar:hover>.infoButton::before, .workView .pRecordLink:hover>.buttonView .infoButton::before,
 	input:focus+.infoButton::before, .workView .pCollVar:hover>.infoButton::before,
 	select:focus+.infoButton::before, textarea:focus+.infoButton::before,
@@ -203,8 +211,8 @@ img {
 }
 
 .beeingDragged {
-/* 	chrome can not hadle css changes on dragging :( */
-/* 	transform: scale(0.8); */
+	/* 	chrome can not hadle css changes on dragging :( */
+	/* 	transform: scale(0.8); */
 	border: 1px solid black;
 }
 
@@ -233,11 +241,12 @@ img {
 .workView .repeatingElement>.buttonView, .workView .pNonRepeatingChildRefHandler>.buttonView
 	{
 	flex: 0 1 0;
+	display: flex;
+	flex-direction: column;
 }
 
 .pVar {
 	min-width: 30px;
-	min-height: 24px;
 	display: inline-block;
 }
 
@@ -258,23 +267,38 @@ img {
 	opacity: 1;
 }
 
-.pVar span {
-	font-size: .8rem;
-}
-
 .workView .pVar, .workView .pCollVar {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.workView .pVar>:first-child, .workView .pCollVar>:first-child {
+.workView .pVar {
 	flex: 1;
-	margin: .2em 0;
 }
 
-.workView .pGroup, .workView .pSurroundingContainer, .workView .pMap {
+textarea {
+	flex: 1;
+}
+
+ .pGroup,  .pVar,  .pCollVar,  .pSurroundingContainer {
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
+	position: relative;
+	padding-right: 16px;
+}
+
+.pRecordLink {
+	padding-right: 16px;
+}
+
+.jsClient .workView .inline span, .jsClient .workView .inline div, .inline {
+	display: inline;
+	position: static;
+}
+
+.jsClient .workView .inline .infoView {
+	display: flex;
+	flex-direction: column;
 	position: relative;
 }
 
@@ -293,9 +317,11 @@ img {
 	order: 1;
 }
 
-.workView .pRecordLink>.buttonView {
-	flex: 1 1 40px;
+.workView .pRecordLink > .buttonView {
+	flex: 1;
 	order: 2;
+	display: flex;
+	flex-direction: column;
 }
 
 .workView .pRecordLink>.search {
@@ -312,22 +338,17 @@ img {
 	order: 1;
 }
 
-.workView .pGroup>.infoButton, .workView .pSurroundingContainer>.infoButton,
-	.workView .pMap>.infoButton {
+.workView .infoButton {
 	z-index: 5;
 	position: absolute;
-	top: 0.1rem;
-	right: 0.1rem;
+	top: 0px;
+	right: 0px;
 }
 
 .workView .pGroup>.pChildRefHandler, .workView .pGroup>.pNonRepeatingChildRefHandler,
 	.workView .pGroup>.pSurroundingContainer, .workView .pGroup>.text {
-	flex: 0 1 calc(100% - 25px);
-}
+position: relative;
 
-.workView .pSurroundingContainer>.pChildRefHandler, .workView .pSurroundingContainer>.text
-	{
-	flex: 0 1 calc(100% - 25px);
 }
 
 .jsClient .workView .openLinkedRecordButton, .jsClient .workView .showSearchButton,
@@ -337,14 +358,15 @@ img {
 }
 
 .infoView {
-	flex: 0 0 100%;
+	flex: 0 1 100%;
 	position: relative;
 	overflow: hidden;
 	z-index: 1;
+	display: flex;
+	flex-direction: column;
 }
 
 .infoView span {
-	display: block;
 	font-size: 0.7rem;
 }
 
@@ -360,6 +382,9 @@ img {
 	right: 5rem;
 	top: 2.5rem;
 	z-index: -1;
+}
+.defTextView {
+	font-style: italic;
 }
 
 .search {
@@ -394,10 +419,6 @@ img {
 
 .pRepeatingContainer {
 	border: 1px dashed green;
-	display: block;
-}
-
-.pChildRefHandler {
 	display: block;
 }
 
@@ -461,38 +482,43 @@ img {
 	display: inline-block;
 }
 
-.presentation .text.h1TextStyle, .presentation .h1TextStyle .pVar>span {
+.h1TextStyle {
 	font-size: 2rem;
 }
 
-.presentation .text.h2TextStyle, .presentation .h2TextStyle .pVar>span {
-	font-size: 1.5rem;
+.h2TextStyle {
+	font-size: 1.4rem;
 }
 
-.presentation .text.h3TextStyle, .presentation .h3TextStyle .pVar>span {
+.h3TextStyle {
 	font-size: 1rem;
 }
 
-.presentation .text.h4TextStyle, .presentation .h4TextStyle .pVar>span {
+.h4TextStyle {
 	font-size: 0.8rem;
 }
 
-.presentation .text.h5TextStyle, .presentation .h5TextStyle .pVar>span {
+.h5TextStyle {
 	font-size: 0.7rem;
 }
 
-.presentation .text.h6TextStyle, .presentation .h6TextStyle .pVar>span {
+.h6TextStyle {
 	font-size: 0.6rem;
 }
 
-.presentation .text.italicTextStyle, .presentation .pChildRefHandler.h7TextStyle
-	{
+.h7TextStyle {
 	font-style: italic;
 }
 
-.presentation .text.bodyTextStyle {
-	/* 	font-size: 2rem; */
-	
+.presentation .text.labelTextStyle {
+	font-weight: bold;
+}
+.presentation .text.labelTextStyle::after {
+	content: ": ";
+}
+
+.presentation .inline > .text {
+	flex: 0 0;
 }
 
 .pRecordLink .text {
@@ -504,29 +530,22 @@ img {
 }
 
 .repeatingElement:first-child {
-	margin-top: 5px;
 	border-top: 1px dashed #0082c9;
-	padding-top: 5px;
 }
 
 .repeatingElement {
 	border-bottom: 1px dashed #0082c9;
 	transition: background-color 0.5s linear;
+	position: relative;
 }
 
 .jsClient .repeatingElement.hoverRemove {
 	background-color: #ffc6c6;
 }
 
-.editView .repeatingElement:last-child {
-	margin-bottom: 5px;
-}
-
 .repeatingElement:first-child:last-child {
 	border-top: none;
 	border-bottom: none;
-	padding-top: 0;
-	margin-top: 0;
 }
 
 .recordViewer::before {
@@ -543,21 +562,13 @@ img {
 	z-index: -1;
 }
 
-/* .jsClient .workView .repeatingElement .compactChildStyle { */
-.jsClient  .compactChildStyle {
-	display: unset;
+.compactChildStyle .pGroup, .compactChildStyle .pVar, .compactChildStyle .pSurroundingContainer {
+	padding-right: 0;
 }
-/* .jsClient .workView .repeatingElement .compactChildStyle .pGroup { */
-.jsClient  .compactChildStyle .pGroup {
-	display: unset;
-}
-/* .jsClient .workView .repeatingElement .compactChildStyle span { */
-.jsClient  .compactChildStyle span {
-	display: inline;
-}
-/* .jsClient .workView .repeatingElement .compactChildStyle .buttonView { */
-.jsClient   .compactChildStyle .buttonView {
-	display: none;
+
+.jsClient .workView .rowBasedChildStyle,  .jsClient .workView .rowBased {
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 .jsClient .showView .frame.pGroup {
@@ -567,4 +578,41 @@ img {
 #coraMap, .coraMap {
 	height: 600px;
 	width: calc(100% - 20px);
+}
+
+.boldTextStyle{
+	font-weight:bold;
+}
+
+.specificationTextStyle, .specificationChildStyle > .childrenView .value {
+	color:#999;
+}
+.specificationTextStyle::before, .specificationChildStyle > .childrenView .value::before{
+	content:" (";
+}
+
+.specificationTextStyle::after, .specificationChildStyle > .childrenView .value::after{
+	content:") ";
+}
+
+.highlight > .pChildRefHandler > .childrenView > .repeatingElement:nth-child(2n+1) {
+	background: #d9e9f2;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	padding:4px;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('../fonts/OpenSans-Regular.woff2') format('woff2');
+   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../fonts/OpenSans-Bold.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }

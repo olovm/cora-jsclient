@@ -16,48 +16,58 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
-	"use strict";
-	cora.indexHandler = function(dependencies, spec) {
+var CORA = (function (cora) {
+    "use strict";
+    cora.indexHandler = function (dependencies, spec) {
 
-		function indexData(dataRecord) {
-			var record = dataRecord;
-			var indexLink = record.actionLinks.index;
 
-			var callSpec = {
-				"url" : indexLink.url,
-				"requestMethod" : indexLink.requestMethod,
-				"accept" : indexLink.accept,
-				"contentType" : indexLink.contentType,
-				"data" : JSON.stringify(indexLink.body),
-				"loadMethod" : spec.loadMethod,
-				"errorMethod" : handleCallError,
-				"timeoutMethod" : spec.timeoutMethod
-			};
-			dependencies.ajaxCallFactory.factor(callSpec);
-		}
+        function indexData(dataRecord) {
+            var record = dataRecord;
+            if (recordHasIndexLink(record)) {
+                indexRecord(record);
+            }
+        }
 
-		function handleCallError(error) {
-			throw new Error("error indexing", error);
-		}
+        function recordHasIndexLink(record) {
+            return record.actionLinks.index !== undefined;
+        }
 
-		function getDependencies() {
-			return dependencies;
-		}
+        function indexRecord(record) {
+            var indexLink = record.actionLinks.index;
+            var callSpec = {
+                "url": indexLink.url,
+                "requestMethod": indexLink.requestMethod,
+                "accept": indexLink.accept,
+                "contentType": indexLink.contentType,
+                "data": JSON.stringify(indexLink.body),
+                "loadMethod": spec.loadMethod,
+                "errorMethod": handleCallError,
+                "timeoutMethod": spec.timeoutMethod
+            };
+            dependencies.ajaxCallFactory.factor(callSpec);
+        }
 
-		function getSpec() {
-			return spec;
-		}
+        function handleCallError(error) {
+            throw new Error("error indexing", error);
+        }
 
-		var out = Object.freeze({
-			"type" : "indexHandler",
-			getDependencies : getDependencies,
-			getSpec : getSpec,
-			indexData : indexData,
-			handleCallError : handleCallError
-		});
+        function getDependencies() {
+            return dependencies;
+        }
 
-		return out;
-	};
-	return cora;
+        function getSpec() {
+            return spec;
+        }
+
+        var out = Object.freeze({
+            "type": "indexHandler",
+            getDependencies: getDependencies,
+            getSpec: getSpec,
+            indexData: indexData,
+            handleCallError: handleCallError
+        });
+
+        return out;
+    };
+    return cora;
 }(CORA));

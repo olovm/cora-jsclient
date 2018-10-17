@@ -51,7 +51,6 @@
 .jsClient .workItem > .buttonView {
 	display: block;
 	position: fixed;
-	/* bottom: 1rem; */
 	background: white;
 	right: calc(50% - 10rem);
 	bottom: 0.5rem;
@@ -91,8 +90,6 @@
 	background-color: #2a88ad;
 	border-radius: 10px 10px 0 0px;
 	margin: 0rem -1rem 0rem -1rem;
-	width: calc(100% + 3rem);
-	flex: 0 1 calc(100% + 2rem);
 	padding: 1rem 1rem 0.2rem 1rem;
 	text-shadow: 1px 1px 3px rgba(11, 248, 39, 0.1);
 	box-shadow: inset 0 2px 2px 0 rgba(255,255,255,0.17);
@@ -107,10 +104,6 @@
 	top: 2.5rem;
 	background: #f2f2f2;
 	z-index: 2;
-	border-radius: 10px 10px 0px 0;
-}
-.presentation > .pGroup > .pChildRefHandler {
-/* 	background: white; */
 }
 
 input[type="button"], .form-style-10 input[type="submit"] {

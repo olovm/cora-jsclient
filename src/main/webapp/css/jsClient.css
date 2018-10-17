@@ -151,7 +151,7 @@ body {
 	border-right-style: solid;
 	border-right-width: 1px;
 	display: inline-block;
-	height: calc(100% - 3rem - 1px);
+	height: calc(100% - 4.5rem - 1px);
 	overflow: auto;
 	padding: 0rem 0.5rem;
 	position: relative;
@@ -272,7 +272,7 @@ body {
 
 .jsClient>.workArea {
 	display: inline;
-	height: calc(100% - 3rem - 1px);
+	height: calc(100% - 4.5rem - 1px);
 	position: absolute;
 	margin-left: 1rem;
 	width: calc(100% - 22rem - 1px);
@@ -459,6 +459,8 @@ max-width: 95%;
 
 .jsClient .listView {
 	width: 100%;
+	padding:0.3rem;
+	cursor:pointer;
 }
 
 .jsClient .listItem {
@@ -467,6 +469,7 @@ max-width: 95%;
 	display: flex;
 	border-bottom: 1px dashed;
 	padding: 0.3rem
+	cursor:pointer;
 }
 
 .jsClient .listItem::before {
@@ -491,32 +494,15 @@ max-width: 95%;
 	border: none;
 }
 
-/* .jsClient .listItem input, .jsClient .listItem .buttonView, .jsClient .showView input, */
-/* 	.jsClient .showView .buttonView .removeButton, .jsClient .showView .buttonView .dragButton, */
-/* 	.jsClient .menuView .buttonView .removeButton { */
-/* 	display: none; */
-/* } */
-
 .jsClient .listItem .pGroup, .jsClient .listItem .repeatingElement {
 	background-color: transparent;
 	border: none;
 }
 
-.jsClient .listItem .pGroup>.pChildRefHandler+.pChildRefHandler {
-	margin-top: .3rem;
-}
 
 .jsClient .listItem [class*='recordInfo'] {
 	font-weight: bold;
 }
-
-/* .jsClient .listItem [class*='recordInfo'] .pVar span:before { */
-/* 	content: "("; */
-/* } */
-
-/* .jsClient .listItem [class*='recordInfo'] .pVar  span:after { */
-/* 	content: ")"; */
-/* } */
 
 .jsClient .listItem [class*='recordInfo'] .pVar  .infoButton:before,
 	.jsClient .listItem [class*='recordInfo'] .pVar  .infoButton:after {
@@ -544,13 +530,7 @@ max-width: 95%;
 
 .jsClient .text {
 	margin: 0;
-	margin-top: 0.5rem;
 	color: #575757;
-}
-
-.jsClient .showView .pSurroundingContainer {
-	border: none;
-	margin-top: 1rem;
 }
 
 .jsClient .serverAddress {

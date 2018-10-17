@@ -156,12 +156,6 @@ QUnit.test("testInfoSpecNoTechnicalPart", function(assert) {
 	assert.strictEqual(usedSpec.appendTo, pVarView.getView());
 });
 
-//QUnit.test("testInfoPlaced", function(assert) {
-//	var view = this.getView();
-//	var infoSpan = view.childNodes[0];
-//	assert.equal(infoSpan.className, "infoSpySpan");
-//});
-
 QUnit.test("testActiveInfoShownInClassName", function(assert) {
 	var pVarView = this.getPVarView();
 	var view = this.getView();
@@ -274,6 +268,7 @@ QUnit.test("testOutputText", function(assert) {
 	this.spec.mode = "output";
 	var valueView = this.getValueView();
 	assert.strictEqual(valueView.nodeName, "SPAN");
+	assert.strictEqual(valueView.className,"value");
 });
 
 QUnit.test("testOutputImage", function(assert) {

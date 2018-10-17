@@ -1,15 +1,20 @@
+@font-face {
+    font-family: 'UniversalisADFStdRegular';
+    src: url('../fonts/UniversalisADFStd-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 .jsClient.mainView {
 	border-color: #7fbfa7;
-	font-family: verdana, arial, helvetica, sans-serif;
+	font-family: "Open Sans", verdana, arial, helvetica, sans-serif;
 }
 .jsClient > .sideBar {
-	border-color: inherit;
-	border-left-style: solid;
-	border-left-width: 1px;
-	border-right: none;
-	padding: 0rem 0.5rem;
+    border-color: inherit;
+    border-right-style: none;
+    border-left: 1px solid;
+    padding: 0 0.5rem;
 	position: absolute;
-	right: 0px;
+	right: 0;
 }
 .jsClient > .workArea {
 	margin-right: 0.5rem;
@@ -18,11 +23,12 @@
 
 .workItem > .buttonView {
 	position: absolute;
-	bottom: 0rem;
-	background-color: darkcyan;
+	bottom: 0;
+	background-color: transparent;
 	padding: 0.2rem 0.2rem 0rem 0.2rem;
 	right: 1rem;
-	z-index: 999;
+	z-index: 1000;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 .workItem > .showView {
 	padding-bottom: 3rem;
@@ -45,8 +51,20 @@
 	background-color: rgba(127, 191, 167, 0.1);
 }
 .jsClient>.header {
-	text-shadow: 1px 1px 1px #000, 5px 5px 8px #7fbfa7;
-	background-color: #7fbfa7;
+	text-shadow: none;
+	background-color: #ffffff;
+    font-family: 'UniversalisADFStdRegular';
+   font-weight: normal;
+   font-style: normal;
+   color:#222222;
+   padding-top:0.5rem;
+   border:none;
+   border-top: 10px solid lightgrey;
+   border-bottom: 1px solid #7fbfa7;
+}
+
+.jsClient .showView .h1TextStyle .text { 
+	color: black;
 }
 
 .editView .presentation .text.h2TextStyle {
@@ -55,11 +73,10 @@
 
 .editView .presentation .pSurroundingContainer .text.h2TextStyle {
 	background-color: transparent;
-	margin-top: 0px;
-	
+	margin-top: 0;
 }
 
-.jsClient .sideBar, .showView .presentation .text.h2TextStyle, .showView .presentation .text.h1TextStyle {
+.jsClient .sideBar{
 	color: #BF7125;
 }
 
@@ -76,7 +93,7 @@
 	margin-bottom: 1rem;
 }
 .editView .presentation > .pGroup > .pNonRepeatingChildRefHandler > .pSurroundingContainer .pChildRefHandler {
-	margin-top: 0.5rem;
+/* 	margin-top: 0.5rem; */
 }
 .editView .presentation > .pGroup > .pNonRepeatingChildRefHandler > .pSurroundingContainer .pChildRefHandler ~  .pChildRefHandler{
 	margin-top: none;
@@ -89,4 +106,68 @@
 .editView .presentation > .pGroup >  .pNonRepeatingChildRefHandler.containsNoData {
 	border: 1px solid #7FBFA7;
 	background: linear-gradient( #dddddd 1.8rem, #7fbfa7 1px, transparent calc(1.8rem + 1px));
+}
+
+.presentation .text.labelTextStyle {
+	font-weight: bold;
+	color: black;
+}
+
+.jsClient .text.h2TextStyle, .recordTypeGroupHeadline{
+	color:#575757;
+}
+
+.header select{
+	float:right;
+	margin-top:0.3em;
+}
+input[type="button"] {
+	display: inline-block;
+	border: none;
+	padding: 0.5rem 1rem;
+	margin: 0.1rem;
+	text-decoration: none;
+	background: #232323;
+	color: #ffffff;
+	font-size: 0.7rem;
+	font-weight: bold;
+	line-height: 1;
+	cursor: pointer;
+	text-align: center;
+	transition: background 250ms ease-in-out, transform 150ms ease;
+}
+
+input[type="button"]:hover,
+input[type="button"]:focus {
+	background: #363636
+}
+
+input[type="button"]:focus {
+	outline: 1px solid #fff;
+	outline-offset: -4px;
+}
+
+input[type="button"] {
+	transform: scale(0.99);
+}
+
+.infoButton::before {
+	background-position: -64px -32px;
+}
+
+.infoButton::after {
+	background-position: -64px -48px;
+}
+
+.infoView::before {
+	background-position: -64px -32px;
+}
+
+.jsClient .workView .pCollVar select {
+        max-width: 30em;
+} 
+
+.listView .h1TextStyle, .listView .h1TextStyle .text {
+	color: #bf7125;
+	font-size: 1rem;
 }

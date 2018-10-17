@@ -393,8 +393,8 @@ QUnit.test("testSetMarkerFromClickSendsOutCoordinates", function(assert) {
 	pMapView.onMapClick(fakeEvent);
 
 	assert.strictEqual(callbackCalled, true);
-	assert.strictEqual(latFromCallback, 12.3);
-	assert.strictEqual(lngFromCallback, 34.5);
+	assert.strictEqual(latFromCallback, "12.3");
+	assert.strictEqual(lngFromCallback, "34.5");
 });
 
 QUnit.test("testSetMarkerFromClickOutputmodeDoesNothing", function(assert) {
@@ -447,8 +447,8 @@ QUnit.test("testMarkerOndragendFunction", function(assert) {
 	};
 	pMapView.setCoordinateFromMarkerDrag(fakeEvent);
 	assert.strictEqual(callbackCalled, true);
-	assert.strictEqual(latFromCallback, 12.3);
-	assert.strictEqual(lngFromCallback, 34.5);
+	assert.strictEqual(latFromCallback, "12.3");
+	assert.strictEqual(lngFromCallback, "34.5");
 });
 
 QUnit.test("testRemoveMarker", function(assert) {
