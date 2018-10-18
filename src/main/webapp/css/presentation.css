@@ -422,59 +422,48 @@ position: relative;
 	display: block;
 }
 
-.workView .pChildRefHandler.tenChildStyle {
+.workView .tenChildStyle {
 	flex: 1 1 100%;
-	background-color: lightgreen;
 }
 
-.workView .pChildRefHandler.nineChildStyle {
+.workView .nineChildStyle {
 	flex: 1 1 90%;
-	background-color: lightyellow;
 }
 
-.workView .pChildRefHandler.eightChildStyle {
+.workView .eightChildStyle {
 	flex: 1 1 80%;
-	background-color: lightyellow;
 }
 
-.workView .pChildRefHandler.sevenChildStyle {
+.workView .sevenChildStyle {
 	flex: 1 1 70%;
-	background-color: lightyellow;
 }
 
-.workView .pChildRefHandler.sixChildStyle {
+.workView .sixChildStyle {
 	flex: 1 1 60%;
-	background-color: lightyellow;
 }
 
-.workView .pChildRefHandler.fiveChildStyle {
+.workView .fiveChildStyle {
 	flex: 1 1 50%;
-	background-color: lightyellow;
 }
 
-.workView .pChildRefHandler.fourChildStyle {
+.workView .fourChildStyle {
 	flex: 1 1 40%;
-	background-color: lightyellow;
 }
 
-.workView .pChildRefHandler.threeChildStyle {
+.workView .threeChildStyle {
 	flex: 1 1 30%;
-	background-color: lightyellow;
 }
 
-.workView .pChildRefHandler.twoChildStyle {
+.workView .twoChildStyle {
 	flex: 1 1 20%;
-	background-color: lightyellow;
 }
 
-.workView .pChildRefHandler.oneChildStyle {
+.workView .oneChildStyle {
 	flex: 1 1 10%;
-	background-color: lightyellow;
 }
 
-.workView .pChildRefHandler.zeroChildStyle {
+.workView .zeroChildStyle {
 	flex: 1;
-	background-color: lightyellow;
 }
 
 .presentation .text {
