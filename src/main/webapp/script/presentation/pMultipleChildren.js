@@ -83,6 +83,7 @@ var CORA = (function(cora) {
 				"level2" : [ {
 					"className" : "textIdView",
 					"text" : "textId: " + textId
+				// onclickMethod : openTextIdRecord
 				}, {
 					"className" : "defTextIdView",
 					"text" : "defTextId: " + defTextId
@@ -102,6 +103,22 @@ var CORA = (function(cora) {
 			return newInfo;
 		}
 
+		// function openTextIdRecord(event) {
+		// openLinkedRecordForLink(event,
+		// cMetadataElement.getFirstChildByNameInData("textId").actionLinks.read);
+		// }
+		// function openLinkedRecordForLink(event, link) {
+		// var loadInBackground = "false";
+		// if (event.ctrlKey) {
+		// loadInBackground = "true";
+		// }
+		// var openInfo = {
+		// "readLink" : link,
+		// "loadInBackground" : loadInBackground
+		// };
+		// dependencies.clientInstanceProvider.getJsClient().openRecordUsingReadLink(openInfo);
+		// }
+
 		function updateView() {
 			var className = originalClassName;
 			if (info.getInfoLevel() !== 0) {
@@ -112,14 +129,9 @@ var CORA = (function(cora) {
 
 		function createViewForChild(presentationChildRef) {
 			var cPresentationChildRef = CORA.coraData(presentationChildRef);
-			var cRef;
-			if (cPresentationChildRef.containsChildWithNameInData("refGroup")) {
-				var cRefGroup = CORA.coraData(cPresentationChildRef
-						.getFirstChildByNameInData("refGroup"));
-				cRef = CORA.coraData(cRefGroup.getFirstChildByNameInData("ref"));
-			} else {
-				cRef = CORA.coraData(cPresentationChildRef.getFirstChildByNameInData("ref"));
-			}
+			var cRefGroup = CORA.coraData(cPresentationChildRef
+					.getFirstChildByNameInData("refGroup"));
+			var cRef = CORA.coraData(cRefGroup.getFirstChildByNameInData("ref"));
 			var refId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 
 			var cPresentationChild = getMetadataById(refId);
@@ -127,6 +139,7 @@ var CORA = (function(cora) {
 			if (childIsText(cPresentationChild)) {
 				return createText(refId, cPresentationChildRef);
 			}
+
 			if (childIsSurroundingContainer(cPresentationChild)) {
 				var pNonRepeatingChildRefHandler = createPNonRepeatingChildRefHandler(
 						cPresentationChild, cPresentationChildRef);

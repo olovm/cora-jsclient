@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017 Olov McKie
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -23,9 +23,10 @@ QUnit.module("metadataProviderTest.js", {
 	beforeEach : function() {
 		this.ajaxCallFactorySpy = CORATEST.ajaxCallFactorySpy();
 		this.dependencies = {
-			"ajaxCallFactory" : this.ajaxCallFactorySpy
+			"ajaxCallFactory" : this.ajaxCallFactorySpy,
+			"textProvider" : CORATEST.textProviderSpy()
 		};
-		
+
 		var metadataListLink = {
 			"requestMethod" : "GET",
 			"rel" : "list",
@@ -98,7 +99,7 @@ QUnit.test("initCorrectAjaxCallsMade", function(assert) {
 	assertAjaxCallSpecIsCorrect(ajaxCallSpy1, "presentation");
 
 	var ajaxCallSpy2 = this.ajaxCallFactorySpy.getFactored(2);
-	assertAjaxCallSpecIsCorrect(ajaxCallSpy2, "text");
+	assert.strictEqual(ajaxCallSpy2, undefined);
 });
 
 QUnit.test("callWhenReadyCalledWhenReady", function(assert) {
@@ -113,9 +114,6 @@ QUnit.test("callWhenReadyCalledWhenReady", function(assert) {
 	var metadataAnswer = {
 		"responseText" : JSON.stringify(CORATEST.metadataList)
 	};
-
-	assert.notOk(providerStarted);
-	metadataProvider.processFetchedMetadata(metadataAnswer);
 
 	assert.notOk(providerStarted);
 	metadataProvider.processFetchedMetadata(metadataAnswer);
@@ -242,11 +240,27 @@ QUnit.test("getMetadataById", function(assert) {
 QUnit.test("getMetadataByIdNotFound", function(assert) {
 	var metadataProvider = CORA.metadataProvider(this.dependencies, this.spec);
 	metadataProvider.processFetchedMetadata(this.metadataAnswer);
-	var error = false;
+	var errorThrown = false;
+	var error;
 	try {
 		var x = metadataProvider.getMetadataById("someNonExistingMetadataId");
 	} catch (e) {
-		error = true;
+		errorThrown = true;
+		error = e;
 	}
-	assert.ok(error);
+	assert.ok(errorThrown);
+	assert
+			.strictEqual(error.message,
+					"Id(someNonExistingMetadataId) not found in metadataProvider");
+});
+
+QUnit.test("testGetMetadataByIdForwardedTotextProviderIfNotFound", function(assert) {
+	var metadataProvider = CORA.metadataProvider(this.dependencies, this.spec);
+	metadataProvider.processFetchedMetadata(this.metadataAnswer);
+
+	var returnedMetadata = metadataProvider.getMetadataById("someTextMetadataId");
+
+	var textProviderSpy = this.dependencies.textProvider;
+	assert.strictEqual(textProviderSpy.getFetchedMetadataIdNo(0), "someTextMetadataId");
+	assert.stringifyEqual(returnedMetadata, textProviderSpy.getMetadataById("someTextMetadataId"));
 });

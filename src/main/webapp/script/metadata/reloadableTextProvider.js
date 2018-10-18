@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -59,6 +60,10 @@ var CORA = (function(cora) {
 			currentTextProvider.setCurrentLang(lang);
 		}
 
+		function getMetadataById(metadataId) {
+			return currentTextProvider.getMetadataById(metadataId);
+		}
+
 		var out = Object.freeze({
 			"type" : "reloadableTextProvider",
 			getDependencies : getDependencies,
@@ -66,7 +71,8 @@ var CORA = (function(cora) {
 			getTranslation : getTranslation,
 			reload : reload,
 			switchProvider : switchProvider,
-			setCurrentLang : setCurrentLang
+			setCurrentLang : setCurrentLang,
+			getMetadataById : getMetadataById
 		});
 		start();
 		return out;

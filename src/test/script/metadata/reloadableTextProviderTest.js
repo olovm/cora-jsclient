@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -37,6 +38,14 @@ QUnit.module("reloadableTextProviderTest.js", {
 		};
 
 		this.reloadableTextProvider = CORA.reloadableTextProvider(this.dependencies, this.spec);
+		this.secondFactoredTextProvider;
+		this.reload = function() {
+			this.reloadableTextProvider.reload(function() {
+			});
+			this.reloadableTextProvider.switchProvider();
+			this.secondFactoredTextProvider = this.dependencies.textProviderFactory.getFactored(1);
+		}
+
 	},
 	afterEach : function() {
 	}
@@ -105,8 +114,7 @@ QUnit.test("testMethodToCallCalledAfterSwitch", function(assert) {
 	assert.ok(called);
 });
 
-QUnit.test("testCurrentLangSetInSecondFactoredProviderAfterSwitchProvider", function(
-		assert) {
+QUnit.test("testCurrentLangSetInSecondFactoredProviderAfterSwitchProvider", function(assert) {
 	this.reloadableTextProvider.reload(function() {
 	});
 	this.reloadableTextProvider.setCurrentLang("en");
@@ -118,13 +126,10 @@ QUnit.test("testCurrentLangSetInSecondFactoredProviderAfterSwitchProvider", func
 
 QUnit.test("testGetTranslationForwardedToSecondFactoredProviderAfterSwitchProvider", function(
 		assert) {
-	this.reloadableTextProvider.reload(function() {
-	});
-	this.reloadableTextProvider.switchProvider();
-	var secondFactoredTextProvider = this.dependencies.textProviderFactory.getFactored(1);
+	this.reload();
 	var translation = this.reloadableTextProvider.getTranslation("someMetadataId");
-	
-	assert.strictEqual(secondFactoredTextProvider.getFetchedTextIdNo(0), "someMetadataId");
+
+	assert.strictEqual(this.secondFactoredTextProvider.getFetchedTextIdNo(0), "someMetadataId");
 });
 
 QUnit.test("testSetCurrentLangForwardedToFactoredProvider", function(assert) {
@@ -133,3 +138,21 @@ QUnit.test("testSetCurrentLangForwardedToFactoredProvider", function(assert) {
 
 	assert.strictEqual(firstFactoredTextProvider.getSetCurrentLang(0), "en");
 });
+
+QUnit.test("testGetMetadataByIdForwardedToFactoredProvider", function(assert) {
+	var firstFactoredTextProvider = this.dependencies.textProviderFactory.getFactored(0);
+	var textAsMetadata = this.reloadableTextProvider.getMetadataById("someMetadataId");
+
+	assert.strictEqual(firstFactoredTextProvider.getFetchedMetadataIdNo(0), "someMetadataId");
+	assert.notEqual(textAsMetadata, undefined);
+	assert.notEqual(textAsMetadata, firstFactoredTextProvider.getMetadataById("someMetadataId"));
+});
+
+QUnit.test("testGetMetadataByIdForwardedToSecondFactoredProviderAfterSwitchProvider",
+		function(assert) {
+			this.reload();
+			var textAsMetadata = this.reloadableTextProvider.getMetadataById("someMetadataId");
+
+			assert.strictEqual(this.secondFactoredTextProvider.getFetchedMetadataIdNo(0),
+					"someMetadataId");
+		});

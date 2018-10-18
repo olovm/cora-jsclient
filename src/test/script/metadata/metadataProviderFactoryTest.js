@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -44,7 +45,8 @@ QUnit.module("metadataProviderFactoryTest.js", {
 			"presentationListLink" : presentationListLink
 		};
 		this.dependencies = {
-			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy()
+			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),
+			"textProvider" : CORATEST.textProviderSpy()
 		};
 		this.metadataProviderFactory = CORA.metadataProviderFactory(this.dependencies);
 	},
@@ -70,6 +72,7 @@ QUnit.test("factorTestDependencies", function(assert) {
 	var metadataProvider = this.metadataProviderFactory.factor(this.spec);
 	var factoredDependencies = metadataProvider.getDependencies();
 	assert.strictEqual(factoredDependencies.ajaxCallFactory, this.dependencies.ajaxCallFactory);
+	assert.strictEqual(factoredDependencies.textProvider, this.dependencies.textProvider);
 });
 
 QUnit.test("factorTestSpec", function(assert) {

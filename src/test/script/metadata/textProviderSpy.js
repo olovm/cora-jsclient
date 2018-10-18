@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -22,13 +22,14 @@ var CORATEST = (function(coraTest) {
 	coraTest.textProviderSpy = function() {
 
 		var fetchedTextIds = [];
+		var fetchedMetadataIds = [];
 		var callWhenReloadedMethod;
 		var noOfReloads = 0;
 		var setCurrentLangs = [];
 
 		function getTranslation(textId) {
 			fetchedTextIds.push(textId);
-			return "translated_"+textId;
+			return "translated_" + textId;
 		}
 
 		function getFetchedTextIdNo(no) {
@@ -59,6 +60,50 @@ var CORATEST = (function(coraTest) {
 			return setCurrentLangs.slice(-1).pop();
 		}
 
+		function getMetadataById(metadataId) {
+			fetchedMetadataIds.push(metadataId);
+			if(metadataId==="someNonExistingMetadataId"){
+				throw new Error("Id(" + metadataId + ") not found in textProvider");
+			}
+			var fetched = {
+				"children" : [ {
+					"children" : [ {
+						"name" : "id",
+						"value" : metadataId
+					}, {
+						"name" : "type",
+						"value" : "textSystemOne"
+					}, {
+						"name" : "createdBy",
+						"children" : [ {
+							"name" : "linkedRecordType",
+							"value" : "user"
+						}, {
+							"name" : "linkedRecordId",
+							"value" : "userid"
+						} ]
+					} ],
+					"name" : "recordInfo"
+				}, {
+					"children" : [ {
+						"name" : "text",
+						"value" : "Svenska"
+					} ],
+					"name" : "textPart",
+					"attributes" : {
+						"type" : "default",
+						"lang" : "sv"
+					}
+				} ],
+				"name" : "text"
+			};
+			return fetched;
+		}
+
+		function getFetchedMetadataIdNo(no) {
+			return fetchedMetadataIds[no];
+		}
+
 		return Object.freeze({
 			getTranslation : getTranslation,
 			getFetchedTextIdNo : getFetchedTextIdNo,
@@ -68,7 +113,9 @@ var CORATEST = (function(coraTest) {
 			callWhenReloadedMethod : callWhenReloadedMethod,
 			setCurrentLang : setCurrentLang,
 			getSetCurrentLang : getSetCurrentLang,
-			getCurrentLang : getCurrentLang
+			getCurrentLang : getCurrentLang,
+			getMetadataById : getMetadataById,
+			getFetchedMetadataIdNo : getFetchedMetadataIdNo
 		});
 	};
 	return coraTest;
