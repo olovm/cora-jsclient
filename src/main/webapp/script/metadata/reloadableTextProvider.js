@@ -61,7 +61,7 @@ var CORA = (function(cora) {
 		}
 
 		function getMetadataById(metadataId) {
-			currentTextProvider.getMetadataById(metadataId);
+			return currentTextProvider.getMetadataById(metadataId);
 		}
 
 		var out = Object.freeze({

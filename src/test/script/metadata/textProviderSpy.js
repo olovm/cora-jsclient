@@ -62,6 +62,9 @@ var CORATEST = (function(coraTest) {
 
 		function getMetadataById(metadataId) {
 			fetchedMetadataIds.push(metadataId);
+			if(metadataId==="someNonExistingMetadataId"){
+				throw new Error("Id(" + metadataId + ") not found in textProvider");
+			}
 			var fetched = {
 				"children" : [ {
 					"children" : [ {

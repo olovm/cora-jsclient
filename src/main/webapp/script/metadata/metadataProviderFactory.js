@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -22,7 +23,8 @@ var CORA = (function(cora) {
 
 		function factor(spec) {
 			var dep = {
-				"ajaxCallFactory" : dependencies.ajaxCallFactory
+				"ajaxCallFactory" : dependencies.ajaxCallFactory,
+				"textProvider" : dependencies.textProvider
 			};
 			return CORA.metadataProvider(dep, spec);
 		}
