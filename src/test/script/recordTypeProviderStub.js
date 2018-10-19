@@ -3616,8 +3616,10 @@ var CORATEST = (function (coraTest) {
         function getRecordTypesByGroupId(groupId){
         	requestedGroupIds.push(groupId);
         	var listToReturn = [];
-        	listToReturn.push(recordTypeArray["metadata"]);
-        	listToReturn.push(recordTypeArray["presentationVar"]);
+        	if("metadata" !== groupId){
+        		listToReturn.push(recordTypeArray["metadata"]);
+        		listToReturn.push(recordTypeArray["presentationVar"]);
+        		  	}
         	return listToReturn;
         }
         
