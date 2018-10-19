@@ -55,26 +55,27 @@ var CORA = (function(cora) {
 			refs.forEach(function(ref) {
 				var cRef = CORA.coraData(ref);
 				var itemId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
-				createAndAddGroupOfRecordTypesToListForOneGroup(itemId);
+				possiblyCreateAndAddGroupOfRecordTypesToListForOneGroup(itemId);
 			});
 		}
 
-		function createAndAddGroupOfRecordTypesToListForOneGroup(itemId) {
+		function possiblyCreateAndAddGroupOfRecordTypesToListForOneGroup(itemId) {
 			var group = CORA.gui.createSpanWithClassName("recordTypeGroup");
 			var cItem = CORA.coraData(metadataProvider.getMetadataById(itemId));
 
-			var groupHeadline = createTranslatedGroupHeadline(cItem);
-			group.appendChild(groupHeadline);
-
 			var groupId = cItem.getFirstAtomicValueByNameInData("nameInData");
 			var recordTypeForGroupList = recordTypeProvider.getRecordTypesByGroupId(groupId);
-			recordTypeForGroupList.forEach(function(recordType) {
-				var recordTypeHandler = createRecordTypeHandlerForRecord(recordType);
-				if (recordTypeHandler.hasAnyAction()) {
-					group.appendChild(recordTypeHandler.getView());
-				}
-			});
-			recordTypeGroups.push(group);
+			
+			if(recordTypeGroupHasChildren(recordTypeForGroupList)){
+				var groupHeadline = createTranslatedGroupHeadline(cItem);
+				group.appendChild(groupHeadline);
+				createAndAddGroupOfRecordTypesToListForOneGroup(recordTypeForGroupList, group);
+				recordTypeGroups.push(group);
+			}
+		}
+		
+		function recordTypeGroupHasChildren(recordTypeForGroupList){
+			return recordTypeForGroupList.length > 0;
 		}
 
 		function createTranslatedGroupHeadline(cItem) {
@@ -83,6 +84,15 @@ var CORA = (function(cora) {
 			var textId = cTextIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			groupHeadline.innerHTML = textProvider.getTranslation(textId);
 			return groupHeadline;
+		}
+		
+		function createAndAddGroupOfRecordTypesToListForOneGroup(recordTypeForGroupList, group){
+			recordTypeForGroupList.forEach(function(recordType) {
+				var recordTypeHandler = createRecordTypeHandlerForRecord(recordType);
+				if (recordTypeHandler.hasAnyAction()) {
+					group.appendChild(recordTypeHandler.getView());
+				}
+			});
 		}
 
 		function createRecordTypeHandlerForRecord(record) {

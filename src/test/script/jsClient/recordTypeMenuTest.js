@@ -86,6 +86,11 @@ QUnit.test("testGetRecordTypeGroupsContainsExpectedHtmlSecondGroup", function(as
 	assert.strictEqual(recordTypeGroup.childNodes.length, 3);
 });
 
+QUnit.test("testGetRecordTypeGroupsContainsNoHeadlineForGroupWhenNoChildren", function(assert) {
+	var recordTypeGroup = this.recordTypeGroups[2];
+	assert.strictEqual(recordTypeGroup, undefined);
+});
+
 QUnit.test("testGetRecordTypeGroupsChildrenAreViewFromRecordTypeHandler", function(assert) {
 	var rthf = this.dependencies.recordTypeHandlerFactory;
 
