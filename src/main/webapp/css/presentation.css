@@ -514,10 +514,6 @@ position: relative;
 	display: block;
 }
 
-.repeatingElement+.repeatingElement {
-	padding-top: 5px;
-}
-
 .repeatingElement:first-child {
 	border-top: 1px dashed #0082c9;
 }
