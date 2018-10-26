@@ -59,7 +59,7 @@ var CORA = (function(cora) {
 			var recordId = getIdFromRecordData(recordData);
 
 			metadata[recordId] = recordData;
-
+			
 			var cRecordData = CORA.coraData(recordData);
 			var textParts = cRecordData.getChildrenByNameInData("textPart");
 			textParts.forEach(function(textPart) {

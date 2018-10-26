@@ -144,6 +144,8 @@ QUnit.test("testGetMetadataByIdForwardedToFactoredProvider", function(assert) {
 	var textAsMetadata = this.reloadableTextProvider.getMetadataById("someMetadataId");
 
 	assert.strictEqual(firstFactoredTextProvider.getFetchedMetadataIdNo(0), "someMetadataId");
+	assert.notEqual(textAsMetadata, undefined);
+	assert.notEqual(textAsMetadata, firstFactoredTextProvider.getMetadataById("someMetadataId"));
 });
 
 QUnit.test("testGetMetadataByIdForwardedToSecondFactoredProviderAfterSwitchProvider",

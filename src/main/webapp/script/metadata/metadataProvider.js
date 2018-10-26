@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017 Olov McKie
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -20,12 +20,14 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.metadataProvider = function(dependencies, spec) {
-
+		var textProvider = dependencies.textProvider;
 		var processedAjaxCalls = 0;
 		var metadata = {};
-		fetchMetadataListAndThen(processFetchedMetadata);
-		fetchPresentationListAndThen(processFetchedMetadata);
-		fetchTextListAndThen(processFetchedMetadata);
+		var NUMBER_OF_AJAX_CALLS = 2;
+		function start(){
+			fetchMetadataListAndThen(processFetchedMetadata);
+			fetchPresentationListAndThen(processFetchedMetadata);
+		}
 
 		function fetchMetadataListAndThen(callAfterAnswer) {
 			callThroughAjax(spec.metadataListLink, callAfterAnswer);
@@ -48,7 +50,7 @@ var CORA = (function(cora) {
 		}
 
 		function possiblyCallWhenReady() {
-			if (spec.callWhenReady && processedAjaxCalls === 3) {
+			if (spec.callWhenReady && processedAjaxCalls === NUMBER_OF_AJAX_CALLS) {
 				spec.callWhenReady();
 			}
 		}
@@ -73,15 +75,19 @@ var CORA = (function(cora) {
 			callThroughAjax(spec.presentationListLink, callAfterAnswer);
 		}
 
-		function fetchTextListAndThen(callAfterAnswer) {
-			callThroughAjax(spec.textListLink, callAfterAnswer);
-		}
-
 		function getMetadataById(metadataId) {
 			if (metadata[metadataId] !== undefined) {
 				return metadata[metadataId];
 			}
-			throw new Error("Id(" + metadataId + ") not found in metadataProvider");
+			return tryToGetMetadataFromTextProvider(metadataId);
+		}
+		
+		function tryToGetMetadataFromTextProvider(metadataId){
+			try{
+				return textProvider.getMetadataById(metadataId);
+			}catch(error){
+				throw new Error("Id(" + metadataId + ") not found in metadataProvider");
+			}
 		}
 
 		function getDependencies() {
@@ -99,6 +105,7 @@ var CORA = (function(cora) {
 			getMetadataById : getMetadataById,
 			processFetchedMetadata : processFetchedMetadata
 		});
+		start();
 		return out;
 	};
 	return cora;

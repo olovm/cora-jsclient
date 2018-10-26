@@ -514,10 +514,6 @@ position: relative;
 	display: block;
 }
 
-.repeatingElement+.repeatingElement {
-	padding-top: 5px;
-}
-
 .repeatingElement:first-child {
 	border-top: 1px dashed #0082c9;
 }
@@ -551,7 +547,7 @@ position: relative;
 	z-index: -1;
 }
 
-.compactChildStyle .pGroup, .compactChildStyle .pVar, .compactChildStyle .pSurroundingContainer {
+.compactChildStyle .pGroup, .compactChildStyle .pVar, .compactChildStyle .pCollVar, .compactChildStyle .pSurroundingContainer {
 	padding-right: 0;
 }
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
   ~ Copyright 2016, 2017 Olov McKie
-  ~ Copyright 2016, 2017 Uppsala University Library
+  ~ Copyright 2016, 2017, 2018 Uppsala University Library
   ~
   ~ This file is part of Cora.
   ~
@@ -32,7 +32,8 @@
 <link rel="stylesheet" type="text/css" href="css/lib/minimap.css"></link>
 
 <link href="css/default.css" rel="stylesheet" type="text/css" title="A Client">
-<link href="css/systemOne.css" rel="alternate stylesheet" type="text/css" title="System One" id ="systemOneCSS">
+<link href="css/systemOne.css" rel="alternate stylesheet" type="text/css" title="System One"
+	id="systemOneCSS">
 <link href="css/alvin.css" rel="alternate stylesheet" type="text/css" title="Alvin" id="alvinCSS">
 <link href="css/diva.css" rel="alternate stylesheet" type="text/css" title="DiVA" id="divaCSS">
 
@@ -179,7 +180,7 @@
 
 <script type="text/javascript">
 	window.onload = start;
-	
+
 	var name = "A Client";
 	var baseUrl = "http://epc.ub.uu.se/cora/rest/";
 	var appTokenBaseUrl = "http://epc.ub.uu.se/";
@@ -195,8 +196,6 @@
 	var searchProvider;
 	var recordTypeProvider;
 	var uploadManager;
-
-	
 
 	var metadataProviderStarted = false;
 	function metadataProviderReady() {
@@ -231,7 +230,7 @@
 
 	function startDependencies() {
 		tryToPreventAccidentialLeavOfPage();
-		
+
 		authTokenHolder = CORA.authTokenHolder();
 		xmlHttpRequestFactory = CORA.xmlHttpRequestFactory();
 
@@ -263,22 +262,6 @@
 			"url" : baseUrl + "record/text/",
 			"accept" : "application/vnd.uub.recordList+json"
 		};
-		var metadataProviderSpec = {
-			"metadataListLink" : metadataListLink,
-			"textListLink" : textListLink,
-			"presentationListLink" : presentationListLink,
-			"callWhenReady" : metadataProviderReady
-		};
-
-		var dependenciesMetadataProviderFactory = {
-			"ajaxCallFactory" : ajaxCallFactory
-		};
-		var dependenciesMetadataProvider = {
-			"metadataProviderFactory" : CORA
-					.metadataProviderFactory(dependenciesMetadataProviderFactory)
-		};
-		metadataProvider = CORA.reloadableMetadataProvider(dependenciesMetadataProvider,
-				metadataProviderSpec);
 
 		var textProviderSpec = {
 			"textListLink" : textListLink,
@@ -292,6 +275,24 @@
 			"textProviderFactory" : CORA.textProviderFactory(dependenciesTextProviderFactory)
 		};
 		textProvider = CORA.reloadableTextProvider(dependenciesTextProvider, textProviderSpec);
+
+		var metadataProviderSpec = {
+			"metadataListLink" : metadataListLink,
+			"textListLink" : textListLink,
+			"presentationListLink" : presentationListLink,
+			"callWhenReady" : metadataProviderReady
+		};
+
+		var dependenciesMetadataProviderFactory = {
+			"textProvider" : textProvider,
+			"ajaxCallFactory" : ajaxCallFactory
+		};
+		var dependenciesMetadataProvider = {
+			"metadataProviderFactory" : CORA
+					.metadataProviderFactory(dependenciesMetadataProviderFactory)
+		};
+		metadataProvider = CORA.reloadableMetadataProvider(dependenciesMetadataProvider,
+				metadataProviderSpec);
 
 		var dependenciesSearchProviderFactory = {
 			"ajaxCallFactory" : ajaxCallFactory
@@ -334,14 +335,14 @@
 		recordTypeProvider = CORA.reloadableRecordTypeProvider(
 				dependenciesReloadableRecordTypeProvider, recordTypeProviderSpec);
 	}
-	
-	function tryToPreventAccidentialLeavOfPage(){
-		window.addEventListener("beforeunload", function (e) {
-		 	 var confirmationMessage = "\o/";
-		  	(e || window.event).returnValue = confirmationMessage; //Gecko + IE
-		  	return confirmationMessage;  //Webkit, Safari, Chrome etc.
+
+	function tryToPreventAccidentialLeavOfPage() {
+		window.addEventListener("beforeunload", function(e) {
+			var confirmationMessage = "\o/";
+			(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+			return confirmationMessage; //Webkit, Safari, Chrome etc.
 		});
-		
+
 	}
 
 	function startJsClient() {

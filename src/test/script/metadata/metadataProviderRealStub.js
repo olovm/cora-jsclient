@@ -8938,20 +8938,21 @@ var CORATEST = (function(coraTest) {
 				          ],
 				          "repeatId": "4"
 				        },
-//				        {
-//				          "name": "ref",
-//				          "children": [
-//				            {
-//				              "name": "linkedRecordType",
-//				              "value": "metadataCollectionItem"
-//				            },
-//				            {
-//				              "name": "linkedRecordId",
-//				              "value": "metadataItem"
-//				            }
-//				          ],
-//				          "repeatId": "0"
-//				        },
+				        {
+				          "name": "ref",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "metadataCollectionItem"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "metadataItem"
+				            }
+				          ],
+				          "repeatId": "0"
+				        }
+//				        ,
 //				        {
 //				          "name": "ref",
 //				          "children": [
@@ -9129,6 +9130,79 @@ var CORATEST = (function(coraTest) {
 				    {
 				      "name": "nameInData",
 				      "value": "authority"
+				    },
+				    {
+				      "name": "textId",
+				      "children": [
+				        {
+				          "name": "linkedRecordType",
+				          "value": "coraText"
+				        },
+				        {
+				          "name": "linkedRecordId",
+				          "value": "authorityItemText"
+				        }
+				      ]
+				    },
+				    {
+				      "name": "defTextId",
+				      "children": [
+				        {
+				          "name": "linkedRecordType",
+				          "value": "coraText"
+				        },
+				        {
+				          "name": "linkedRecordId",
+				          "value": "authorityItemDefText"
+				        }
+				      ]
+				    }
+				  ],
+				  "attributes": {
+				    "type": "collectionItem"
+				  }
+				};
+		metadataArray["metadataItem"] = {
+				  "name": "metadata",
+				  "children": [
+				    {
+				      "name": "recordInfo",
+				      "children": [
+				        {
+				          "name": "id",
+				          "value": "metadataItem"
+				        },
+				        {
+				          "name": "type",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "recordType"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "metadataCollectionItem"
+				            }
+				          ]
+				        },
+				        {
+				          "name": "dataDivider",
+				          "children": [
+				            {
+				              "name": "linkedRecordType",
+				              "value": "system"
+				            },
+				            {
+				              "name": "linkedRecordId",
+				              "value": "bibsys"
+				            }
+				          ]
+				        }
+				      ]
+				    },
+				    {
+				      "name": "nameInData",
+				      "value": "metadata"
 				    },
 				    {
 				      "name": "textId",

@@ -141,7 +141,12 @@ function MetadataProviderStub() {
 		return {
 			"name" : "childReference",
 			"repeatId" : repeatId,
-			"children" : [ {
+			"children" : [ 
+				
+				
+				
+				
+				{
 				"name" : "ref",
 				"children" : [ {
 					"name" : "linkedRecordType",
@@ -9709,29 +9714,40 @@ function MetadataProviderStub() {
 						}, {
 							"name" : "outputFormat",
 							"value" : "image"
-						}, {
+						}, 
+						
+						{
 							"name" : "childReferences",
 							"children" : [ {
 								"name" : "childReference",
 								"repeatId" : "1",
-								"children" : [ {
-									"name" : "ref",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationVar"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "filenamePVar"
-									} ],
-									"attributes" : {
-										"type" : "pVar"
-									}
-								}, {
+								"children" : [ 
+									
+									{
+										"name" : "refGroup",
+										"repeatId" : "0",
+										"children" : [ {
+											"name" : "ref",
+											"children" : [ {
+												"name" : "linkedRecordType",
+												"value" : "presentationVar"
+											}, {
+												"name" : "linkedRecordId",
+												"value" : "filenamePVar"
+											} ],
+											"attributes" : {
+												"type" : "pVar"
+											}
+										} ]
+									} 
+									, {
 									"name" : "default",
 									"value" : "ref"
 								} ]
 							} ]
-						} ],
+						}
+						
+						],
 				"name" : "presentation",
 				"attributes" : {
 					"type" : "pResourceLink"
@@ -9961,19 +9977,26 @@ function MetadataProviderStub() {
 							"children" : [ {
 								"name" : "childReference",
 								"repeatId" : "1",
-								"children" : [ {
-									"name" : "ref",
-									"children" : [ {
-										"name" : "linkedRecordType",
-										"value" : "presentationVar"
-									}, {
-										"name" : "linkedRecordId",
-										"value" : "filenamePVar"
-									} ],
-									"attributes" : {
-										"type" : "pVar"
-									}
-								}, {
+								"children" : [ 
+									{
+										"name" : "refGroup",
+										"repeatId" : "0",
+										"children" : [ {
+											"name" : "ref",
+											"children" : [ {
+												"name" : "linkedRecordType",
+												"value" : "presentationVar"
+											}, {
+												"name" : "linkedRecordId",
+												"value" : "filenamePVar"
+											} ],
+											"attributes" : {
+												"type" : "pVar"
+											}
+										} ]
+									} 
+									
+									, {
 									"name" : "default",
 									"value" : "ref"
 								} ]
