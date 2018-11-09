@@ -41,7 +41,7 @@
         <docker.buildArg.gid>1000</docker.buildArg.gid>
         <docker.buildArg.sut_path>${project.basedir}</docker.buildArg.sut_path>
     </properties>
-g
+
     <profiles>
         <profile>
             <id>karma-test</id>
