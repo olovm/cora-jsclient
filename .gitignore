@@ -11,6 +11,6 @@
 *.iml
 *.iws
 *.ipr
-
+reports
 /.classpath
 /.settings/
