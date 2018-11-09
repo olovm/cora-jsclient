@@ -23,10 +23,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>se.uu.ub.cora</groupId>
-    <artifactId>jsclient-tmp</artifactId>
+    <artifactId>jsclient</artifactId>
     <version>0.11-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>JS Client - TMP</name>
+    <name>JS Client for Cora</name>
 
     <properties>
         <sonar.language>js</sonar.language>
@@ -41,16 +41,7 @@
         <docker.buildArg.gid>1000</docker.buildArg.gid>
         <docker.buildArg.sut_path>${project.basedir}</docker.buildArg.sut_path>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>se.uu.ub.cora</groupId>
-            <artifactId>karma-browser-dockers</artifactId>
-            <version>0.1-SNAPSHOT</version>
-            <type>pom</type>
-        </dependency>
-    </dependencies>
-
+g
     <profiles>
         <profile>
             <id>karma-test</id>
