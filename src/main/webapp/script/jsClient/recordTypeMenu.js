@@ -52,7 +52,9 @@ var CORA = (function(cora) {
 		}
 
 		function createAndAddGroupOfRecordTypesToListForAllGroups(refs) {
+			var counter = 0;
 			refs.forEach(function(ref) {
+				counter ++;
 				var cRef = CORA.coraData(ref);
 				var itemId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 				possiblyCreateAndAddGroupOfRecordTypesToListForOneGroup(itemId);
@@ -75,7 +77,25 @@ var CORA = (function(cora) {
 		}
 		
 		function recordTypeGroupHasChildren(recordTypeForGroupList){
+			return childListContainsChildren(recordTypeForGroupList) &&
+				atLeastOneChildHasListLink(recordTypeForGroupList);
+		}
+		
+		function childListContainsChildren(recordTypeForGroupList){
 			return recordTypeForGroupList.length > 0;
+		}
+		
+		function atLeastOneChildHasListLink(recordTypeForGroupList){
+			for(var i=0; i<recordTypeForGroupList.length; i++){
+				if(elementHasListLink(recordTypeForGroupList[i])){
+						return true;
+				}
+			}
+			return false;
+		}
+		
+		function elementHasListLink(element){
+			return element.actionLinks.list !== undefined;
 		}
 
 		function createTranslatedGroupHeadline(cItem) {
