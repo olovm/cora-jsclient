@@ -38,11 +38,6 @@ module.exports = function(config){
             suite: ''
         },
 
-        // test results reporter to use
-        // possible values: 'dots', 'progress'
-        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['dots', 'junit', 'coverage'],
-
         customLaunchers: {
             FirefoxHeadless: {
                 base: 'Firefox',
@@ -74,6 +69,6 @@ module.exports = function(config){
 
     base_config.singleRun=config.singleRun;
     base_config.browsers=config.browsers;
-
+    base_config.reporters=config.reporters;
     return base_config;
 };
