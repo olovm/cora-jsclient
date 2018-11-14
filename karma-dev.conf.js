@@ -15,11 +15,10 @@
  *
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 var karma_config = require('./karma.core.js');
 module.exports = function (config)
 {
-    config.set(karma_config({singleRun:true, reporters:['dots', 'junit', 'coverage'], browsers:['FirefoxHeadless', 'ChromiumHeadless']}));
+    config.set(karma_config({singleRun:false, reporters:['dots', 'coverage'], browsers:['FirefoxHeadless']}));
 };

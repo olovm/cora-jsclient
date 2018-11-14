@@ -22,23 +22,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>se.uu.ub.cora</groupId>
-        <artifactId>cora-parent</artifactId>
-        <version>0.7-SNAPSHOT</version>
-    </parent>
-
+    <groupId>se.uu.ub.cora</groupId>
     <artifactId>jsclient</artifactId>
     <version>0.11-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>JS Client</name>
-
-    <scm>
-        <connection>scm:git:https://github.com/lsu-ub-uu/jsclient.git</connection>
-        <developerConnection>scm:git:https://github.com/lsu-ub-uu/jsclient.git</developerConnection>
-        <url>https://github.com/lsu-ub-uu/jsclient.git</url>
-    </scm>
-
+    <name>JS Client for Cora</name>
 
     <properties>
         <sonar.language>js</sonar.language>
@@ -46,204 +34,139 @@
         <sonar.sources>src/main/webapp/script</sonar.sources>
         <sonar.tests>src/test/script/</sonar.tests>
         <sonar.exclusions>src/main/webapp/script/lib/**</sonar.exclusions>
-        <sonar.genericcoverage.unitTestReportPaths>karma-reports/TEST-generic.xml</sonar.genericcoverage.unitTestReportPaths>
-        <sonar.javascript.lcov.reportPath>karma-coverage/Firefox 44.0.0 (Ubuntu 0.0.0)/lcov.info</sonar.javascript.lcov.reportPath>
-        <fitnesse.version>20180127</fitnesse.version>
+        <sonar.genericcoverage.unitTestReportPaths>target/generated-resources/xml/xslt/karma-junit.xml</sonar.genericcoverage.unitTestReportPaths>
+        <sonar.javascript.lcov.reportPaths>reports/coverage/firefox/lcov.info,reports/coverage/headlesschrome/lcov.info</sonar.javascript.lcov.reportPaths>
+        <docker.buildArg.sut_path>${project.basedir}</docker.buildArg.sut_path>
     </properties>
-
-    <dependencies>
-        <!-- FitNesse -->
-        <dependency>
-            <groupId>org.fitnesse</groupId>
-            <artifactId>fitnesse</artifactId>
-            <version>${fitnesse.version}</version>
-            <scope>runtime</scope>
-            <classifier>standalone</classifier>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>com.kelveden</groupId>
-                    <artifactId>maven-karma-plugin</artifactId>
-                    <version>1.8</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>start</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>pl.allegro</groupId>
-                    <artifactId>grunt-maven-plugin</artifactId>
-                    <version>1.5.1</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>pl.allegro</groupId>
-                <artifactId>grunt-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>npm</goal>
-                            <goal>grunt</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.12.v20180830</version>
-                <configuration>
-                    <stopKey>STOP</stopKey>
-                    <stopPort>9999</stopPort>
-                    <scanIntervalSeconds>5</scanIntervalSeconds>
-                    <httpConnector>
-                        <port>8089</port>
-                    </httpConnector>
-                    <webAppConfig>
-                        <contextPath>/cora</contextPath>
-                    </webAppConfig>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>start-jetty</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                            <goal>start</goal>
-                        </goals>
-                        <configuration>
-                            <stopKey>STOP</stopKey>
-                            <stopPort>9999</stopPort>
-                            <scanIntervalSeconds>0</scanIntervalSeconds>
-                            <daemon>true</daemon>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>stop-jetty</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <profiles>
         <profile>
-            <id>test</id>
+            <id>karma-test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.githug.eirslett</groupId>
+                            <artifactId>frontend-maven-plugin</artifactId>
+                            <version>1.6.1</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>io.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <version>0.26.1</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>xml-maven-plugin</artifactId>
+                            <version>1.0.2</version>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
                 <plugins>
                     <plugin>
-                        <groupId>com.kelveden</groupId>
-                        <artifactId>maven-karma-plugin</artifactId>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
-                            <configFile>karma.conf.js</configFile>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>sonar</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/main/assembly/fitnesse-zip.xml</descriptor>
-                            </descriptors>
+                            <images>
+                                <image>
+                                    <alias>karma</alias>
+                                    <name>karma-browser-test-runner:latest</name>
+                                    <build>
+                                        <dockerFileDir>${project.basedir}</dockerFileDir>
+                                        <dockerFile>Dockerfile</dockerFile>
+                                    </build>
+                                    <run>
+                                        <net>bridge</net>
+                                        <volumes>
+                                            <bind>
+                                                <volume>${project.basedir}:${project.basedir}</volume>
+                                            </bind>
+                                        </volumes>
+                                        <wait>
+                                            <time>120000</time>
+                                            <exit>0</exit>
+                                        </wait>
+                                    </run>
+                                </image>
+                            </images>
                         </configuration>
                         <executions>
                             <execution>
-                                <phase>package</phase>
+                                <id>start</id>
+                                <phase>test</phase>
                                 <goals>
-                                    <goal>single</goal>
+                                    <goal>build</goal>
+                                    <goal>start</goal>
                                 </goals>
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xml-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals><goal>transform</goal></goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <transformationSets>
+                                <transformationSet>
+                                    <dir>reports/tests</dir>
+                                    <stylesheet>genericReport.xsl</stylesheet>
+                                </transformationSet>
+                            </transformationSets>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>net.sf.saxon</groupId>
+                                <artifactId>saxon</artifactId>
+                                <version>8.7</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
         <profile>
-            <id>wiki</id>
+            <id>web-dev</id>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-maven-plugin</artifactId>
-                        <version>9.4.12.v20180830</version>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>start-fitnesse</id>
-                                <phase>integration-test</phase>
+                                <id>install node and npm</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
                                 <configuration>
-                                    <target>
-                                        <echo taskname="fitnesse"
-                                              message="Starting FitNesse Wiki..."/>
-                                        <java classname="fitnesseMain.FitNesseMain"
-                                              classpathref="maven.runtime.classpath"
-                                              fork="true">
-                                            <arg line="-p 8090"/>
-                                            <arg line="-d ."/>
-                                        </java>
-                                    </target>
+                                    <nodeVersion>v10.13.0</nodeVersion>
                                 </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>npm install</id>
                                 <goals>
-                                    <goal>run</goal>
+                                    <goal>npm</goal>
                                 </goals>
                             </execution>
+
+                            <execution>
+                                <id>javascript tests</id>
+                                <goals>
+                                    <goal>karma</goal>
+                                </goals>
+                                <configuration>
+                                    <karmaConfPath>karma.conf.js</karmaConfPath>
+                                </configuration>
+                            </execution>
                         </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>phantomjs</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.kelveden</groupId>
-                        <artifactId>maven-karma-plugin</artifactId>
-                        <configuration>
-                            <configFile>phantomjs-karma.conf.js</configFile>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>

@@ -706,42 +706,11 @@ var CORATEST = (function (coraTest) {
                 "name": "recordType"
             },
             "actionLinks": {
-                "search": {
-                    "requestMethod": "GET",
-                    "rel": "search",
-                    "url": "http://epc.ub.uu.se/cora/rest/record/recordType/",
-                    "accept": "application/vnd.uub.recordList+json"
-                },
                 "read": {
                     "requestMethod": "GET",
                     "rel": "read",
                     "url": "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
                     "accept": "application/vnd.uub.record+json"
-                },
-                "update": {
-                    "requestMethod": "POST",
-                    "rel": "update",
-                    "contentType": "application/vnd.uub.record+json",
-                    "url": "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne",
-                    "accept": "application/vnd.uub.record+json"
-                },
-                "create": {
-                    "requestMethod": "POST",
-                    "rel": "create",
-                    "contentType": "application/vnd.uub.record+json",
-                    "url": "http://epc.ub.uu.se/cora/rest/record/recordType/",
-                    "accept": "application/vnd.uub.record+json"
-                },
-                "list": {
-                    "requestMethod": "GET",
-                    "rel": "list",
-                    "url": "http://epc.ub.uu.se/cora/rest/record/recordType/",
-                    "accept": "application/vnd.uub.recordList+json"
-                },
-                "delete": {
-                    "requestMethod": "DELETE",
-                    "rel": "delete",
-                    "url": "http://epc.ub.uu.se/cora/rest/record/recordType/textSystemOne"
                 }
             }
         };
@@ -3616,10 +3585,15 @@ var CORATEST = (function (coraTest) {
         function getRecordTypesByGroupId(groupId){
         	requestedGroupIds.push(groupId);
         	var listToReturn = [];
-        	if("metadata" !== groupId){
+        	if("typeOfResource" === groupId || "authority" === groupId){
         		listToReturn.push(recordTypeArray["metadata"]);
         		listToReturn.push(recordTypeArray["presentationVar"]);
-        		  	}
+        	}
+        	else if("search" === groupId){
+        		//one child but no list link in that child
+        		listToReturn.push(recordTypeArray["textSystemOne"]);
+        	}
+        	//else empty list = no children
         	return listToReturn;
         }
         
