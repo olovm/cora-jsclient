@@ -2630,6 +2630,20 @@ function MetadataProviderStub() {
 				} ]
 			};
 		}
+		if (idToGet === "groupIdOneCollectionVarChildWithFinalValue") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
+							"metadataCollectionVariable", "binaryTypeGenericBinaryCollectionVar", "1") ]
+				} ]
+						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
 		if (idToGet === "groupIdOneChildOfBinaryRecordLinkChild") {
 			return {
 				"name" : "metadata",

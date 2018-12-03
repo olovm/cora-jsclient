@@ -2443,3 +2443,41 @@ QUnit
 
 					assert.equal(messages.length, 11);
 				});
+
+QUnit.test("testInitGroupWithOneCollectionVarNotAsAttributeWithFinalValue", function(assert) {
+	this.metadataControllerFactory.factor("groupIdOneCollectionVarChildWithFinalValue", undefined);
+	var messages = this.pubSub.getMessages();
+
+	var expectedAddForCollectionVar = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "binaryTypeGenericBinaryCollectionVar",
+			"path" : {},
+			"nameInData" : "type"
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedAddForCollectionVar);
+	
+	
+	assert.deepEqual(JSON.stringify(messages[1]),
+			'{"type":"setValue","message":{"data":"genericBinary",' + '"path":'
+					+ createLinkedPathWithNameInDataAsString("type") + '}}');
+});
+
+QUnit.test("testInitGroupWithOneCollectionVarNoFinalValue", function(assert) {
+	this.metadataControllerFactory.factor("groupWithOneCollectionVarChildGroup", undefined);
+	var messages = this.pubSub.getMessages();
+
+	var expectedAddForCollectionVar = {
+		"type" : "add",
+		"message" : {
+			"metadataId" : "userSuppliedIdCollectionVar",
+			"path" : {},
+			"nameInData" : "userSuppliedId"
+		}
+	};
+	assert.stringifyEqual(messages[0], expectedAddForCollectionVar);
+	
+	assert.deepEqual(JSON.stringify(messages[1]),
+			'{"type":"initComplete","message":{"data":"",' + '"path":{}}}');
+});
