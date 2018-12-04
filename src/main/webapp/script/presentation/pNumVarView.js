@@ -146,7 +146,7 @@ var CORA = (function(cora) {
 		function createOutput() {
 			return createOutputText();
 		}
-
+ 
 		function createOutputText() {
             var outputNew = CORA.gui.createSpanWithClassName("value");
 			outputNew.setValue = function(value) {
