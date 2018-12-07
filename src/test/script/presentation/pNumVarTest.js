@@ -149,7 +149,6 @@ QUnit.test("testFactoredViewCorrectlyForInputTextVariable", function(assert) {
 		},
 		"onblurFunction" : attachedPNumVar.pNumVar.onBlur,
 		"onkeyupFunction" : attachedPNumVar.pNumVar.onkeyup,
-		"inputType" : "input",
 		"mode" : "input",
 		"presentationId" : "pNumVarNumVariableId"
 	};
@@ -170,15 +169,6 @@ QUnit.test("testFactoredViewCorrectlyForInputTextVariable", function(assert) {
 	assert.deepEqual(pNumVarViewSpy.getSpec(), expectedPNumVarViewSpec);
 });
 
-//QUnit.test("testGetRegexpShowsMetadataIdUsedInDataIsUsedAndNotPresentationOf", function(assert) {
-//	var pNumVarTextVariableId2 = this.metadataProvider.getMetadataById("pNumVarTextVariableId2");
-//	var presentationOf2 = pNumVarTextVariableId2.children[1].children[1].value;
-//	var textVariableId2 = this.metadataProvider.getMetadataById(presentationOf2);
-//	assert.strictEqual(textVariableId2.children[0].value, "(^[0-9A-Za-z]{2,50}$)");
-//
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableId2");
-//	assert.strictEqual(attachedPNumVar.pNumVar.getRegEx(), "^[0-9A-Öa-ö\\s!*.]{2,50}$");
-//});
 
 
 QUnit.test("testSetValueInput", function(assert) {
@@ -226,6 +216,15 @@ QUnit.test("testChangedValueOk", function(assert) {
 
 });
 
+QUnit.test("testChangedValueNotANumberError", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
+	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
+	pNumVarViewSpy.callOnblurWithValue("not a number");
+	assert.equal(pNumVarViewSpy.getState(), "error");
+	assert.equal(attachedPNumVar.pNumVar.getState(), "error");
+	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+});
+
 QUnit.test("testChangedValueMaxError", function(assert) {
 	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
 	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
@@ -243,244 +242,198 @@ QUnit.test("testChangedValueMinError", function(assert) {
 	assert.equal(attachedPNumVar.pNumVar.getState(), "error");
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
 });
-//QUnit.test("testHandleValidationError", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableId");
-//	var message = {
-//		"metadataId" : "textVariableId",
-//		"path" : {}
-//	};
-//	attachedPNumVar.pNumVar.handleValidationError(message);
-//	assert.equal(attachedPNumVar.pNumVar.getState(), "error");
-//	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
-//	assert.equal(pNumVarViewSpy.getState(), "error");
-//});
-//
-//QUnit.test("testChangedValueEmpty", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableId");
-//	var data = {
-//		"data" : "notEmpty",
-//		"path" : {}
-//	};
-//	attachedPNumVar.pNumVar.handleMsg(data);
-//	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
-//	pNumVarViewSpy.callOnkeyupWithValue("");
-//	assert.equal(pNumVarViewSpy.getState(), "ok");
-//	assert.equal(attachedPNumVar.pNumVar.getState(), "ok");
-//	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "", assert);
-//});
-//
-//QUnit.test("testChangedValueOk", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableId");
-//	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
-//	pNumVarViewSpy.callOnkeyupWithValue("hej");
-//	assert.equal(pNumVarViewSpy.getState(), "ok");
-//	assert.equal(attachedPNumVar.pNumVar.getState(), "ok");
-//	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej", assert);
-//	pNumVarViewSpy.callOnkeyupWithValue("hej");
-//	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "hej", assert);
-//});
-//
-//QUnit.test("testChangedValueError", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableId");
-//	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
-//	pNumVarViewSpy.callOnkeyupWithValue("hej####/(&/%&/¤/");
-//	assert.equal(pNumVarViewSpy.getState(), "errorStillFocused");
-//	assert.equal(attachedPNumVar.pNumVar.getState(), "errorStillFocused");
-//	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
-//});
-//
-//QUnit.test("testInitTextOutput", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableIdOutput");
-//	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
-//	assert.deepEqual(pNumVarViewSpy.type, "pNumVarViewSpy");
-//	var expectedPNumVarViewSpec = {
-//		"info" : {
-//			"defText" : "Detta är en exempeldefinition för en textvariabel.",
-//			"technicalInfo" : [],
-//			"text" : "Exempel textvariabel"
-//		},
-//		"onblurFunction" : attachedPNumVar.pNumVar.onBlur,
-//		"onkeyupFunction" : attachedPNumVar.pNumVar.onkeyup,
-//		"inputType" : "input",
-//		"mode" : "output",
-//		"outputFormat" : "text",
-//		"presentationId" : "pNumVarTextVariableIdOutput"
-//	};
-//	expectedPNumVarViewSpec.info.technicalInfo.push({
-//		"text" : "textId: textVariableIdText",
-//		"onclickMethod" : attachedPNumVar.pNumVar.openTextIdRecord
-//	}, {
-//		"text" : "defTextId: textVariableIdDefText",
-//		"onclickMethod" : attachedPNumVar.pNumVar.openDefTextIdRecord
-//	}, {
-//		"text" : "metadataId: textVariableId",
-//		"onclickMethod" : attachedPNumVar.pNumVar.openMetadataIdRecord
-//	}, {
-//		"text" : "nameInData: textVariableId"
-//	}, {
-//		"text" : "regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$"
-//	}, {
-//		"text" : "presentationId: pNumVarTextVariableIdOutput"
-//	});
-//	assert.deepEqual(pNumVarViewSpy.getSpec(), expectedPNumVarViewSpec);
-//
-//	CORATEST.testNumVariableSubscription(attachedPNumVar, assert);
-//	CORATEST.testNumVariableMetadata(attachedPNumVar, assert);
-//});
-//
-//QUnit.test("testInitTextOutputFormatImage", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId",
-//			"pNumVarTextVariableIdOutputImage");
-//	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
-//	assert.deepEqual(pNumVarViewSpy.type, "pNumVarViewSpy");
-//	var expectedPNumVarViewSpec = {
-//		"info" : {
-//			"defText" : "Detta är en exempeldefinition för en textvariabel.",
-//			"technicalInfo" : [],
-//			"text" : "Exempel textvariabel"
-//		},
-//		"onblurFunction" : attachedPNumVar.pNumVar.onBlur,
-//		"onkeyupFunction" : attachedPNumVar.pNumVar.onkeyup,
-//		"inputType" : "input",
-//		"mode" : "output",
-//		"outputFormat" : "image",
-//		"presentationId" : "pNumVarTextVariableId"
-//	};
-//	expectedPNumVarViewSpec.info.technicalInfo.push({
-//		"text" : "textId: textVariableIdText",
-//		"onclickMethod" : attachedPNumVar.pNumVar.openTextIdRecord
-//	}, {
-//		"text" : "defTextId: textVariableIdDefText",
-//		"onclickMethod" : attachedPNumVar.pNumVar.openDefTextIdRecord
-//	}, {
-//		"text" : "metadataId: textVariableId",
-//		"onclickMethod" : attachedPNumVar.pNumVar.openMetadataIdRecord
-//	}, {
-//		"text" : "nameInData: textVariableId"
-//	}, {
-//		"text" : "regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$"
-//	}, {
-//		"text" : "presentationId: pNumVarTextVariableId"
-//	});
-//	assert.deepEqual(pNumVarViewSpy.getSpec(), expectedPNumVarViewSpec);
-//
-//	CORATEST.testNumVariableSubscription(attachedPNumVar, assert);
-//	CORATEST.testNumVariableMetadata(attachedPNumVar, assert);
-//});
-//
-//QUnit.test("testSetValueTextOutput", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableIdOutput");
-//	var valueView = attachedPNumVar.valueView;
-//
-//	attachedPNumVar.pNumVar.setValue("A Value");
-//	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
-//	assert.equal(pNumVarViewSpy.getValue(), "A Value");
-//});
-//
-//QUnit.test("testSetValueTextOutputFormatImage", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId",
-//			"pNumVarTextVariableIdOutputImage");
-//	var valueView = attachedPNumVar.valueView;
-//
-//	attachedPNumVar.pNumVar.setValue("http://www.some.domain.nu/image01.jpg");
-//	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
-//	assert.equal(pNumVarViewSpy.getValue(), "http://www.some.domain.nu/image01.jpg");
-//});
-//
-//QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableId");
-//	var message = {
-//		"metadataId" : "textVariableId",
-//		"path" : {}
-//	};
-//	attachedPNumVar.pNumVar.handleValidationError(message);
-//	assert.equal(attachedPNumVar.pNumVar.getState(), "error");
-//	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
-//	assert.equal(pNumVarViewSpy.getState(), "error");
-//
-//	var data = {
-//		"data" : "A new value",
-//		"path" : {}
-//	};
-//	attachedPNumVar.pNumVar.handleMsg(data);
-//	assert.equal(pNumVarViewSpy.getState(), "ok");
-//});
-//
-//QUnit.test("testOpenTextIdRecord", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableId");
-//
-//	var event = document.createEvent('Event');
-//	event.ctrlKey = true;
-//	attachedPNumVar.pNumVar.openTextIdRecord(event);
-//
-//	var jsClient = attachedPNumVar.dependencies.clientInstanceProvider.getJsClient();
-//	var expectedOpenInfo = {
-//		"readLink" : {
-//			"requestMethod" : "GET",
-//			"rel" : "read",
-//			"url" : "http://localhost:8080/therest/rest/record/text/" + "textVariableId" + "Text",
-//			"accept" : "application/vnd.uub.record+json"
-//		},
-//		"loadInBackground" : "false"
-//	};
-//	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink, expectedOpenInfo.readLink);
-//	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, "true");
-//
-//	var event = document.createEvent('Event');
-//	event.ctrlKey = false;
-//	attachedPNumVar.pNumVar.openTextIdRecord(event);
-//	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "false");
-//});
-//
-//QUnit.test("testOpenDefTextIdRecord", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableId");
-//
-//	var event = document.createEvent('Event');
-//	event.ctrlKey = true;
-//	attachedPNumVar.pNumVar.openDefTextIdRecord(event);
-//
-//	var jsClient = attachedPNumVar.dependencies.clientInstanceProvider.getJsClient();
-//	var expectedOpenInfo = {
-//		"readLink" : {
-//			"requestMethod" : "GET",
-//			"rel" : "read",
-//			"url" : "http://localhost:8080/therest/rest/record/text/" + "textVariableId"
-//					+ "DefText",
-//			"accept" : "application/vnd.uub.record+json"
-//		},
-//		"loadInBackground" : "false"
-//	};
-//	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink, expectedOpenInfo.readLink);
-//	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, "true");
-//
-//	var event = document.createEvent('Event');
-//	event.ctrlKey = false;
-//	attachedPNumVar.pNumVar.openDefTextIdRecord(event);
-//	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "false");
-//});
-//QUnit.test("testOpenMetadataIdRecord", function(assert) {
-//	var attachedPNumVar = this.pNumVarFactory.factor({}, "textVariableId", "pNumVarTextVariableId");
-//
-//	var event = document.createEvent('Event');
-//	event.ctrlKey = true;
-//	attachedPNumVar.pNumVar.openMetadataIdRecord(event);
-//
-//	var jsClient = attachedPNumVar.dependencies.clientInstanceProvider.getJsClient();
-//	var expectedOpenInfo = {
-//		"readLink" : {
-//			"requestMethod" : "GET",
-//			"rel" : "read",
-//			"url" : "http://localhost:8080/therest/rest/record/" + "metadataTextVariable/"
-//					+ "textVariableTextVar",
-//			"accept" : "application/vnd.uub.record+json"
-//		},
-//		"loadInBackground" : "false"
-//	};
-//	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink, expectedOpenInfo.readLink);
-//	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, "true");
-//
-//	var event = document.createEvent('Event');
-//	event.ctrlKey = false;
-//	attachedPNumVar.pNumVar.openMetadataIdRecord(event);
-//	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "false");
-//});
+QUnit.test("testChangedValueIncorrectNumberOfDecimalsError", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
+	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
+	pNumVarViewSpy.callOnblurWithValue("3.45");
+	assert.equal(pNumVarViewSpy.getState(), "error");
+	assert.equal(attachedPNumVar.pNumVar.getState(), "error");
+	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+});
+QUnit.test("testHandleValidationError", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
+	var message = {
+		"metadataId" : "textVariableId",
+		"path" : {}
+	};
+	attachedPNumVar.pNumVar.handleValidationError(message);
+	assert.equal(attachedPNumVar.pNumVar.getState(), "error");
+	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
+	assert.equal(pNumVarViewSpy.getState(), "error");
+});
+
+QUnit.test("testChangedValueEmpty", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
+	var data = {
+		"data" : "notEmpty",
+		"path" : {}
+	};
+	attachedPNumVar.pNumVar.handleMsg(data);
+	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
+	pNumVarViewSpy.callOnkeyupWithValue("");
+	assert.equal(pNumVarViewSpy.getState(), "ok");
+	assert.equal(attachedPNumVar.pNumVar.getState(), "ok");
+	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "", assert);
+});
+
+QUnit.test("testChangedValueOk", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
+	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
+	pNumVarViewSpy.callOnkeyupWithValue("4");
+	assert.equal(pNumVarViewSpy.getState(), "ok");
+	assert.equal(attachedPNumVar.pNumVar.getState(), "ok");
+	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "4", assert);
+	pNumVarViewSpy.callOnkeyupWithValue("4");
+	CORATEST.testJSBookkeeperOneCallWithValue(this.jsBookkeeper, "4", assert);
+});
+
+QUnit.test("testChangedValueError", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
+	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
+	pNumVarViewSpy.callOnkeyupWithValue("999");
+	assert.equal(pNumVarViewSpy.getState(), "errorStillFocused");
+	assert.equal(attachedPNumVar.pNumVar.getState(), "errorStillFocused");
+	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+});
+
+QUnit.test("testInitNumberOutput", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableIdOutput");
+	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
+	assert.deepEqual(pNumVarViewSpy.type, "pNumVarViewSpy");
+	var expectedPNumVarViewSpec = {
+		"info" : {
+			"defText" : "numVariableIdDefText",
+			"technicalInfo" : [],
+			"text" : "numVariableIdText"
+		},
+		"onblurFunction" : attachedPNumVar.pNumVar.onBlur,
+		"onkeyupFunction" : attachedPNumVar.pNumVar.onkeyup,
+		"mode" : "output",
+		"presentationId" : "pNumVarNumVariableIdOutput"
+	};
+	expectedPNumVarViewSpec.info.technicalInfo.push({
+		"text" : "textId: numVariableIdText",
+		"onclickMethod" : attachedPNumVar.pNumVar.openTextIdRecord
+	}, {
+		"text" : "defTextId: numVariableIdDefText",
+		"onclickMethod" : attachedPNumVar.pNumVar.openDefTextIdRecord
+	}, {
+		"text" : "metadataId: numVariableId",
+		"onclickMethod" : attachedPNumVar.pNumVar.openMetadataIdRecord
+	}, {
+		"text" : "nameInData: numVariableId"
+	}, {
+		"text" : "presentationId: pNumVarNumVariableIdOutput"
+	});
+	assert.deepEqual(pNumVarViewSpy.getSpec(), expectedPNumVarViewSpec);
+
+	CORATEST.testNumVariableSubscription(attachedPNumVar, assert);
+	CORATEST.testNumVariableMetadata(attachedPNumVar, assert);
+});
+
+QUnit.test("testSetValueTextOutput", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableIdOutput");
+	var valueView = attachedPNumVar.valueView;
+
+	attachedPNumVar.pNumVar.setValue("7");
+	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
+	assert.equal(pNumVarViewSpy.getValue(), "7");
+});
+
+QUnit.test("testHandleValidationErrorResetBySetValue", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableIdOutput");
+	var message = {
+		"metadataId" : "numVariableId",
+		"path" : {}
+	};
+	attachedPNumVar.pNumVar.handleValidationError(message);
+	assert.equal(attachedPNumVar.pNumVar.getState(), "error");
+	var pNumVarViewSpy = this.pNumVarViewFactory.getFactored(0);
+	assert.equal(pNumVarViewSpy.getState(), "error");
+
+	var data = {
+		"data" : "5",
+		"path" : {}
+	};
+	attachedPNumVar.pNumVar.handleMsg(data);
+	assert.equal(pNumVarViewSpy.getState(), "ok");
+});
+
+QUnit.test("testOpenTextIdRecord", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = true;
+	attachedPNumVar.pNumVar.openTextIdRecord(event);
+
+	var jsClient = attachedPNumVar.dependencies.clientInstanceProvider.getJsClient();
+	var expectedOpenInfo = {
+		"readLink" : {
+			"requestMethod" : "GET",
+			"rel" : "read",
+			"url" : "http://localhost:8080/therest/rest/record/text/" + "numVariableId" + "Text",
+			"accept" : "application/vnd.uub.record+json"
+		},
+		"loadInBackground" : "false"
+	};
+	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink, expectedOpenInfo.readLink);
+	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, "true");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = false;
+	attachedPNumVar.pNumVar.openTextIdRecord(event);
+	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "false");
+});
+
+QUnit.test("testOpenDefTextIdRecord", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = true;
+	attachedPNumVar.pNumVar.openDefTextIdRecord(event);
+
+	var jsClient = attachedPNumVar.dependencies.clientInstanceProvider.getJsClient();
+	var expectedOpenInfo = {
+		"readLink" : {
+			"requestMethod" : "GET",
+			"rel" : "read",
+			"url" : "http://localhost:8080/therest/rest/record/text/" + "numVariableId"
+					+ "DefText",
+			"accept" : "application/vnd.uub.record+json"
+		},
+		"loadInBackground" : "false"
+	};
+	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink, expectedOpenInfo.readLink);
+	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, "true");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = false;
+	attachedPNumVar.pNumVar.openDefTextIdRecord(event);
+	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "false");
+});
+QUnit.test("testOpenMetadataIdRecord", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = true;
+	attachedPNumVar.pNumVar.openMetadataIdRecord(event);
+
+	var jsClient = attachedPNumVar.dependencies.clientInstanceProvider.getJsClient();
+	var expectedOpenInfo = {
+		"readLink" : {
+			"requestMethod" : "GET",
+			"rel" : "read",
+			"url" : "http://localhost:8080/therest/rest/record/" + "metadataNumberVariable/"
+					+ "numVariableId",
+			"accept" : "application/vnd.uub.record+json"
+		},
+		"loadInBackground" : "false"
+	};
+	assert.stringifyEqual(jsClient.getOpenInfo(0).readLink, expectedOpenInfo.readLink);
+	assert.strictEqual(jsClient.getOpenInfo(0).loadInBackground, "true");
+
+	var event = document.createEvent('Event');
+	event.ctrlKey = false;
+	attachedPNumVar.pNumVar.openMetadataIdRecord(event);
+	assert.strictEqual(jsClient.getOpenInfo(1).loadInBackground, "false");
+});

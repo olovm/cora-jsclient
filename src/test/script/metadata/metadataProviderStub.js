@@ -4453,6 +4453,43 @@ function MetadataProviderStub() {
 							"value" : "input"
 						}]
 			};
+		case "pNumVarNumVariableIdOutput":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pNumVar"
+				},
+				"children" : [
+						{
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "pNumVarNumVariableIdOutput"
+							} ]
+						},
+						{
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "metadataNumberVariable"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "numVariableId"
+							} ],
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://localhost:8080/therest/rest/record/metadataNumberVariable/"
+											+ "numVariableId",
+									"accept" : "application/vnd.uub.record+json"
+								}
+							},
+							"name" : "presentationOf"
+						}, {
+							"name" : "mode",
+							"value" : "output"
+						}]
+			};
 		case "userSuppliedIdNoEmptyTextIdCollectionVarPCollVar":
 			return {
 				"name" : "presentation",
@@ -9426,62 +9463,6 @@ function MetadataProviderStub() {
 						} ]
 			};
 			
-//		case "numVariableIdText":
-//			return {
-//				"name" : "text",
-//				"children" : [ {
-//					"name" : "recordInfo",
-//					"children" : [ {
-//						"name" : "id",
-//						"value" : "numVariableIdText"
-//					} ]
-//				}, {
-//					"name" : "textPart",
-//					"attributes" : {
-//						"type" : "default",
-//						"lang" : "sv"
-//					},
-//					"children" : [ {
-//						"name" : "text",
-//						"value" : "Exempel nummervariabel"
-//					} ]
-//				} ]
-//			};
-
-		case "numVariableIdDefText":
-			return {
-				"name" : "text",
-				"children" : [
-						{
-							"name" : "recordInfo",
-							"children" : [ {
-								"name" : "id",
-								"value" : "my2Text"
-							} ]
-						},
-						{
-							"name" : "textPart",
-							"attributes" : {
-								"type" : "default",
-								"lang" : "sv"
-							},
-							"children" : [ {
-								"name" : "text",
-								"value" : "Detta är en exempeldefinition för en nunmbervariabel."
-							} ]
-						},
-						{
-							"name" : "textPart",
-							"attributes" : {
-								"type" : "alternative",
-								"lang" : "en"
-							},
-							"children" : [ {
-								"name" : "text",
-								"value" : "This is an example definition for a number variable."
-							} ]
-						} ]
-			};
 
 		case "aHeadlineText":
 			return {

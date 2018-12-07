@@ -38,7 +38,6 @@ var CORA = (function(cora) {
 		var warningMax = getValueByNameInData("warningMax");
 		var numberOfDecimals = getValueByNameInData("numberOfDecimals");
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
-		var outputFormat = getOutputFormat();
 
 		var textId = getTextId(cMetadataElement, "textId");
 		var text = textProvider.getTranslation(textId);
@@ -46,12 +45,10 @@ var CORA = (function(cora) {
 		var defTextId = getTextId(cMetadataElement, "defTextId");
 		var defText = textProvider.getTranslation(defTextId);
 
-//		var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 		var nameInData = cMetadataElement.getFirstAtomicValueByNameInData("nameInData");
 
 		var pNumVarViewSpec = {
 			"mode" : mode,
-			"inputType" : getInputType(),
 			"presentationId" : presentationId,
 			"info" : {
 				"text" : text,
@@ -68,9 +65,6 @@ var CORA = (function(cora) {
 				}, {
 					"text" : "nameInData: " + nameInData
 				}, 
-//				{
-//					"text" : "regEx: " + regEx
-//				}, 
 				{
 					"text" : "presentationId: " + presentationId
 				} ]
@@ -130,10 +124,6 @@ var CORA = (function(cora) {
 		function getDefText() {
 			return defText;
 		}
-
-//		function getRegEx() {
-//			return regEx;
-//		}
 		
 		function getMin(){
 			return min;
@@ -165,8 +155,7 @@ var CORA = (function(cora) {
 		}
 
 		function handleValueFromView(valueFromView, errorState) {
-//			checkRegEx(valueFromView, errorState);
-			checkValueBetweenMinAndMax(valueFromView, errorState);
+			checkValueBetweenMinAndMaxIfNumber(valueFromView, errorState); 
 			updateView();
 			if (state === "ok" && valueHasChanged(valueFromView)) {
 				var data = {
@@ -178,13 +167,26 @@ var CORA = (function(cora) {
 			}
 		}
 
+		function checkValueBetweenMinAndMaxIfNumber(valueFromView, errorState) {
+			if(isNaN(valueFromView)){
+				state = errorState;
+			}else{
+				checkValueBetweenMinAndMax(valueFromView, errorState);
+			}
+		}
+		
 		function checkValueBetweenMinAndMax(valueFromView, errorState) {
 			var value = valueFromView;
-			if (value.length === 0 || valueBetweenMinAndMax(value)) {
+			if (noValueEntered(value) || (valueBetweenMinAndMax(value)
+					&& valueHasCorrectNumberOfDecimals(value))) {
 				state = "ok";
 			} else {
 				state = errorState;
 			}
+		}
+		
+		function noValueEntered(value){
+			return value.length === 0;
 		}
 		
 		function valueBetweenMinAndMax(value){
@@ -195,15 +197,24 @@ var CORA = (function(cora) {
 			return true;
 		}
 		
-		function checkRegEx(valueFromView, errorState) {
-			var value = valueFromView;
-			if (value.length === 0 || new RegExp(regEx).test(value)) {
-				state = "ok";
-			} else {
-				state = errorState;
+		function valueHasCorrectNumberOfDecimals(value){
+			if(valueHasDecimals(value)){
+				return handleValueWithDecimals(value);
 			}
+			return getNumberOfDecimals()=== "0";
 		}
-
+		
+		function valueHasDecimals(value){
+			var splittedString = value.split('.');
+			return splittedString[1] !== undefined;
+		}
+		
+		function handleValueWithDecimals(value){
+			var splittedString = value.split('.');
+			var acualNumOfDecimals = splittedString[1].length;
+			return acualNumOfDecimals === getNumberOfDecimals();
+		}
+		
 		function onkeyup(valueFromView) {
 			handleValueFromView(valueFromView, "errorStillFocused");
 		}
