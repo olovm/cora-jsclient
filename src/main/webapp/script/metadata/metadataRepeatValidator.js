@@ -258,12 +258,61 @@ var CORA = (function(cora) {
 			if (type === "textVariable") {
 				return validateTextVariable();
 			}
+			if(type === "numberVariable"){
+				return validateNumberVariable();
+			}
 			return validateCollectionVariable();
 		}
 
 		function validateTextVariable() {
 			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 			return new RegExp(regEx).test(data.value);
+		}
+		
+		function validateNumberVariable(){
+			if(isNaN(data.value)){
+				return false;
+			}
+			
+			return valueIsBetweenMinAndMax();
+		}
+		
+		function valueIsBetweenMinAndMax() {
+			var value = data.value;
+					if (valueBetweenMinAndMax(value)
+					&& valueHasCorrectNumberOfDecimals(value)) {
+				return true;
+			} 
+			return false;
+		}
+		
+		function valueBetweenMinAndMax(value){
+			var max = cMetadataElement.getFirstAtomicValueByNameInData("max");
+			var min = cMetadataElement.getFirstAtomicValueByNameInData("min");
+			if(parseFloat(value) > parseFloat(max)
+					|| parseFloat(value)  < parseFloat(min)){
+				return false;
+			}
+			return true;
+		}
+		
+		function valueHasCorrectNumberOfDecimals(value){
+			var numberOfDecimals = cMetadataElement.getFirstAtomicValueByNameInData("numberOfDecimals");
+			if(valueHasDecimals(value)){
+				return handleValueWithDecimals(value, numberOfDecimals);
+			}
+			return numberOfDecimals=== "0";
+		}
+		
+		function valueHasDecimals(value){
+			var splittedString = value.split('.');
+			return splittedString[1] !== undefined;
+		}
+		
+		function handleValueWithDecimals(value, numberOfDecimals){
+			var splittedString = value.split('.');
+			var acualNumOfDecimals = splittedString[1].length;
+			return acualNumOfDecimals === numberOfDecimals;
 		}
 
 		function validateCollectionVariable() {

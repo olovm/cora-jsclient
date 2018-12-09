@@ -131,7 +131,10 @@ function MetadataProviderStub() {
 		} else if (refRecordType === "metadataTextVariable") {
 			attribute = "textVariable";
 		}
-
+		else if (refRecordType === "metadataNumberVariable") {
+			attribute = "numberVariable";
+			}
+		
 		return createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
 				refRecordType, ref, attribute, repeatId, "1", "1");
 	}
@@ -553,6 +556,35 @@ function MetadataProviderStub() {
 										"groupIdOneTextChild2")))
 			};
 		}
+		if (idToGet === "groupIdOneNumberChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
+							"metadataNumberVariable", "numVariableId", "1") ]
+				} ]
+						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "groupIdOneNumberNotMandatoryChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+							"metadataNumberVariable", "numVariableId",  "numberVariable","1",  "1", "1") ]
+				} ]
+						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
+
 		if (idToGet === "groupId1toXCollectionChild") {
 			return {
 				"name" : "metadata",

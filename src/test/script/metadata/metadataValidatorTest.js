@@ -1598,3 +1598,106 @@ QUnit.test("testValidateGroupIdOneRecordLinkChildWithPathWithDataEmptyValue", fu
 
 	assert.stringifyEqual(messages[0], expectedMessage);
 });
+
+QUnit.test("testValidateGroupIdOneNumberChild1to1WithData", function(assert) {
+	var data = {
+		"name" : "groupIdOneNumberChild",
+		"children" : [ {
+			"name" : "numVariableId",
+			"value" : "4"
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdOneNumberChild", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
+
+
+QUnit.test("testValidateGroupIdOneNumberChild0to1WithDataEmptyValue", function(assert) {
+	var data = {
+			"name" : "groupIdOneNumberNotMandatoryChild",
+			"children" : [ {
+				"name" : "numVariableId",
+				"value" : ""
+			} ]
+	};
+	
+	var factored = this.metadataValidatorFactory.factor("groupIdOneNumberChild", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
+
+QUnit.test("testValidateGroupIdOneNumberChild1to1WithDataNotANumber", function(assert) {
+	var data = {
+		"name" : "groupIdOneNumberChild",
+		"children" : [ {
+			"name" : "numVariableId",
+			"value" : "Not a number"
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdOneNumberChild", data);
+	assert.notOk(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"validationError","message":{'
+			+ '"metadataId":"numVariableId",' + '"path":{\"name\":\"linkedPath\"'
+			+ ',\"children\":[{\"name\":\"nameInData\",\"value\":\"numVariableId\"}]}}}');
+});
+
+QUnit.test("testValidateGroupIdOneNumberChild1to1WithDataMaxAboveAllowed", function(assert) {
+	var data = {
+		"name" : "groupIdOneNumberChild",
+		"children" : [ {
+			"name" : "numVariableId",
+			"value" : "200"
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdOneNumberChild", data);
+	assert.notOk(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"validationError","message":{'
+			+ '"metadataId":"numVariableId",' + '"path":{\"name\":\"linkedPath\"'
+			+ ',\"children\":[{\"name\":\"nameInData\",\"value\":\"numVariableId\"}]}}}');
+});
+
+QUnit.test("testValidateGroupIdOneNumberChild1to1WithDataMinBelowAllowed", function(assert) {
+	var data = {
+		"name" : "groupIdOneNumberChild",
+		"children" : [ {
+			"name" : "numVariableId",
+			"value" : "-1"
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdOneNumberChild", data);
+	assert.notOk(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"validationError","message":{'
+			+ '"metadataId":"numVariableId",' + '"path":{\"name\":\"linkedPath\"'
+			+ ',\"children\":[{\"name\":\"nameInData\",\"value\":\"numVariableId\"}]}}}');
+});
+
+QUnit.test("testValidateGroupIdOneNumberChild1to1WithDataMoreDecimalsThanAllowed", function(assert) {
+	var data = {
+		"name" : "groupIdOneNumberChild",
+		"children" : [ {
+			"name" : "numVariableId",
+			"value" : "1.567"
+		} ]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupIdOneNumberChild", data);
+	assert.notOk(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"validationError","message":{'
+			+ '"metadataId":"numVariableId",' + '"path":{\"name\":\"linkedPath\"'
+			+ ',\"children\":[{\"name\":\"nameInData\",\"value\":\"numVariableId\"}]}}}');
+});
