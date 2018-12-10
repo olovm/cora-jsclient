@@ -273,7 +273,6 @@ var CORA = (function(cora) {
 			if(isNaN(data.value)){
 				return false;
 			}
-			
 			return valueIsBetweenMinAndMax();
 		}
 		
