@@ -83,8 +83,11 @@ var CORATEST = (function(coraTest) {
 		var pNumVar = attachedPNumVar.pNumVar;
 		assert.strictEqual(pNumVar.getText(), "numVariableIdText");
 		assert.strictEqual(pNumVar.getDefText(), "numVariableIdDefText");
-		assert.strictEqual(pNumVar.getDefText(), "numVariableIdDefText");
-//		assert.strictEqual(pNumVar.getRegEx(), "^[0-9A-Öa-ö\\s!*.]{2,50}$");
+		assert.strictEqual(pNumVar.getMin(), "0");
+		assert.strictEqual(pNumVar.getMax(), "10");
+		assert.strictEqual(pNumVar.getWarningMin(), "2");
+		assert.strictEqual(pNumVar.getWarningMax(), "8");
+		assert.strictEqual(pNumVar.getNumberOfDecimals(), "0");
 	};
 
 	coraTest.testJSBookkeeperNoCall = function(jsBookkeeper, assert) {
