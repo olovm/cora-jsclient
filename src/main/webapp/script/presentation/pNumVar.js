@@ -79,14 +79,6 @@ var CORA = (function(cora) {
 		pubSub.subscribe("setValue", path, undefined, handleMsg);
 		pubSub.subscribe("validationError", path, undefined, handleValidationError);
 
-		function getOutputFormat() {
-			return "text";
-		}
-
-		function getInputType() {
-			return "input";
-		}
-
 		function getTextId(cMetadataElementIn, textNameInData) {
 			var cTextGroup = CORA.coraData(cMetadataElementIn
 					.getFirstChildByNameInData(textNameInData));
@@ -168,52 +160,18 @@ var CORA = (function(cora) {
 		}
 
 		function checkValueBetweenMinAndMaxIfNumber(valueFromView, errorState) {
-			if(isNaN(valueFromView)){
-				state = errorState;
-			}else{
-				checkValueBetweenMinAndMax(valueFromView, errorState);
-			}
-		}
-		
-		function checkValueBetweenMinAndMax(valueFromView, errorState) {
-			var value = valueFromView;
-			if (noValueEntered(value) || (valueBetweenMinAndMax(value)
-					&& valueHasCorrectNumberOfDecimals(value))) {
+			var validator = CORA.numberVariableValidator({
+				"metadataProvider" : metadataProvider,
+			});
+			var validationAnswer =  validator.validateData(valueFromView, cMetadataElement);
+			
+			if(validationAnswer){
 				state = "ok";
-			} else {
+			}else{
 				state = errorState;
 			}
 		}
 		
-		function noValueEntered(value){
-			return value.length === 0;
-		}
-		
-		function valueBetweenMinAndMax(value){
-			if(parseFloat(value) > parseFloat(getMax())
-					|| parseFloat(value)  < parseFloat(getMin())){
-				return false;
-			}
-			return true;
-		}
-		
-		function valueHasCorrectNumberOfDecimals(value){
-			if(valueHasDecimals(value)){
-				return handleValueWithDecimals(value);
-			}
-			return getNumberOfDecimals()=== "0";
-		}
-		
-		function valueHasDecimals(value){
-			var splittedString = value.split('.');
-			return splittedString[1] !== undefined;
-		}
-		
-		function handleValueWithDecimals(value){
-			var splittedString = value.split('.');
-			var acualNumOfDecimals = splittedString[1].length;
-			return acualNumOfDecimals === getNumberOfDecimals();
-		}
 		
 		function onkeyup(valueFromView) {
 			handleValueFromView(valueFromView, "errorStillFocused");
