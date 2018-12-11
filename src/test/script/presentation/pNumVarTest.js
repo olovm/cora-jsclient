@@ -127,6 +127,12 @@ QUnit.test("testGetSpec", function(assert) {
 	assert.strictEqual(attachedPNumVar.pNumVar.getSpec(), attachedPNumVar.spec);
 });
 
+QUnit.test("testGetView", function(assert) {
+	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
+	var spyView = this.pNumVarViewFactory.getFactored(0);
+	assert.strictEqual(attachedPNumVar.pNumVar.getView(), spyView.getView());
+});
+
 QUnit.test("testInitText", function(assert) {
 	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
 	assert.strictEqual(attachedPNumVar.pNumVar.type, "pNumVar");
