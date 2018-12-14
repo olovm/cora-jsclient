@@ -258,6 +258,9 @@ var CORA = (function(cora) {
 			if (type === "textVariable") {
 				return validateTextVariable();
 			}
+			if(type === "numberVariable"){
+				return validateNumberVariable();
+			}
 			return validateCollectionVariable();
 		}
 
@@ -265,7 +268,14 @@ var CORA = (function(cora) {
 			var regEx = cMetadataElement.getFirstAtomicValueByNameInData("regEx");
 			return new RegExp(regEx).test(data.value);
 		}
-
+		
+		function validateNumberVariable(){
+			var validator = CORA.numberVariableValidator({
+				"metadataProvider" : metadataProvider,
+			});
+			return validator.validateData(data.value, cMetadataElement);
+		}
+		
 		function validateCollectionVariable() {
 			var collectionItemReferences = getCollectionItemReferences();
 			return collectionItemReferences.children.some(isItemDataValue);

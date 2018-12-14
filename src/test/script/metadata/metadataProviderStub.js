@@ -131,7 +131,10 @@ function MetadataProviderStub() {
 		} else if (refRecordType === "metadataTextVariable") {
 			attribute = "textVariable";
 		}
-
+		else if (refRecordType === "metadataNumberVariable") {
+			attribute = "numberVariable";
+			}
+		
 		return createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
 				refRecordType, ref, attribute, repeatId, "1", "1");
 	}
@@ -553,6 +556,35 @@ function MetadataProviderStub() {
 										"groupIdOneTextChild2")))
 			};
 		}
+		if (idToGet === "groupIdOneNumberChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
+							"metadataNumberVariable", "numVariableId", "1") ]
+				} ]
+						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "groupIdOneNumberNotMandatoryChild") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+							"metadataNumberVariable", "numVariableId",  "numberVariable","1",  "1", "1") ]
+				} ]
+						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
+
 		if (idToGet === "groupId1toXCollectionChild") {
 			return {
 				"name" : "metadata",
@@ -3440,6 +3472,35 @@ function MetadataProviderStub() {
 				}
 			};
 		}
+		if (idToGet === "numVariableId") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "min",
+					"value" : "0"
+				}, 
+				 {
+					"name" : "max",
+					"value" : "10"
+				},
+				{
+					"name" : "warningMin",
+					"value" : "2"
+				}, 
+				 {
+					"name" : "warningMax",
+					"value" : "8"
+				}, 
+				 {
+					"name" : "numberOfDecimals",
+					"value" : "0"
+				}]
+						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
+				"attributes" : {
+					"type" : "numberVariable"
+				}
+			};
+		}
 		if (idToGet === "binaryTypeGenericBinaryCollectionVar") {
 			return {
 				"children" : [
@@ -4386,6 +4447,80 @@ function MetadataProviderStub() {
 						"value" : "initialEmptyValueText"
 					} ]
 				} ]
+			};
+		case "pNumVarNumVariableId":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pNumVar"
+				},
+				"children" : [
+						{
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "pNumVarNumVariableId"
+							} ]
+						},
+						{
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "metadataNumberVariable"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "numVariableId"
+							} ],
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://localhost:8080/therest/rest/record/metadataNumberVariable/"
+											+ "numVariableId",
+									"accept" : "application/vnd.uub.record+json"
+								}
+							},
+							"name" : "presentationOf"
+						}, {
+							"name" : "mode",
+							"value" : "input"
+						}]
+			};
+		case "pNumVarNumVariableIdOutput":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pNumVar"
+				},
+				"children" : [
+						{
+							"name" : "recordInfo",
+							"children" : [ {
+								"name" : "id",
+								"value" : "pNumVarNumVariableIdOutput"
+							} ]
+						},
+						{
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "metadataNumberVariable"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "numVariableId"
+							} ],
+							"actionLinks" : {
+								"read" : {
+									"requestMethod" : "GET",
+									"rel" : "read",
+									"url" : "http://localhost:8080/therest/rest/record/metadataNumberVariable/"
+											+ "numVariableId",
+									"accept" : "application/vnd.uub.record+json"
+								}
+							},
+							"name" : "presentationOf"
+						}, {
+							"name" : "mode",
+							"value" : "output"
+						}]
 			};
 		case "userSuppliedIdNoEmptyTextIdCollectionVarPCollVar":
 			return {
@@ -9359,6 +9494,7 @@ function MetadataProviderStub() {
 							} ]
 						} ]
 			};
+			
 
 		case "aHeadlineText":
 			return {
