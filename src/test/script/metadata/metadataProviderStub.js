@@ -1,6 +1,6 @@
 /*
  * Copyright 2015, 2016, 2017 Olov McKie
- * Copyright 2015, 2017 Uppsala University Library
+ * Copyright 2015, 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -516,6 +516,40 @@ function MetadataProviderStub() {
 							"userSuppliedIdCollectionVar", "1") ]
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "groupWithOneCollectionVarChildAndOneTextChildGroup") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
+							"metadataCollectionVariable",
+							"trueFalseTrueIsFinalValueCollectionVar", "1"),
+							 createChildReferenceWithRefAndRepeatId1to1(
+										"metadataTextVariable", "textVariableId", "1")]
+				} ]
+						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "groupWithOneCollectionVarChildAndOneTextChildNonMandatoryGroup") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
+							"metadataCollectionVariable",
+							"trueFalseTrueIsFinalValueCollectionVar", "1"),
+							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+									"metadataTextVariable", "textVariableId", "1", "0", "1")]
+				} ]
+				.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 			};
 		}
 		if (idToGet === "groupIdOneTextChild") {
@@ -3667,6 +3701,102 @@ function MetadataProviderStub() {
 				"name" : "metadata",
 				"attributes" : {
 					"type" : "group"
+				}
+			};
+		}
+		if (idToGet === "trueFalseTrueIsFinalValueCollectionVar") {
+			return {
+				"children" : [
+						{
+							"children" : [
+									{
+										"name" : "id",
+										"value" : "trueFalseTrueIsFinalValueCollectionVar"
+									},
+									{
+										"children" : [ {
+											"name" : "linkedRecordType",
+											"value" : "system"
+										}, {
+											"name" : "linkedRecordId",
+											"value" : "cora"
+										} ],
+										"actionLinks" : {
+											"read" : {
+												"requestMethod" : "GET",
+												"rel" : "read",
+												"url" : "http://localhost:8080/therest/rest/record/system/cora",
+												"accept" : "application/vnd.uub.record+json"
+											}
+										},
+										"name" : "dataDivider"
+									},
+									{
+										"children" : [
+												{
+													"name" : "linkedRecordType",
+													"value" : "recordType"
+												},
+												{
+													"name" : "linkedRecordId",
+													"value" : "metadataCollectionVariable"
+												} ],
+										"name" : "type"
+									}, {
+										"name" : "createdBy",
+										"children" : [ {
+											"name" : "linkedRecordType",
+											"value" : "user"
+										}, {
+											"name" : "linkedRecordId",
+											"value" : "userId"
+										} ]
+									} ],
+							"name" : "recordInfo"
+						},
+						{
+							"name" : "nameInData",
+							"value" : "trueFalse"
+						},
+						{
+							"children" : [
+									{
+										"name" : "linkedRecordType",
+										"value" : "text"
+									},
+									{
+										"name" : "linkedRecordId",
+										"value" : "binaryTypeGenericBinaryCollectionVarText"
+									} ],
+							"name" : "textId"
+						},
+						{
+							"children" : [
+									{
+										"name" : "linkedRecordType",
+										"value" : "text"
+									},
+									{
+										"name" : "linkedRecordId",
+										"value" : "binaryTypeGenericBinaryCollectionVarDefText"
+									} ],
+							"name" : "defTextId"
+						}, {
+							"children" : [ {
+								"name" : "linkedRecordType",
+								"value" : "metadataItemCollection"
+							}, {
+								"name" : "linkedRecordId",
+								"value" : "trueFalseCollection"
+							} ],
+							"name" : "refCollection"
+						}, {
+							"name" : "finalValue",
+							"value" : "true"
+						} ],
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "collectionVariable"
 				}
 			};
 		}

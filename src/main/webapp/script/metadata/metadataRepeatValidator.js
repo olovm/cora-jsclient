@@ -268,6 +268,11 @@ var CORA = (function(cora) {
 
 		function validateCollectionVariable() {
 			var collectionItemReferences = getCollectionItemReferences();
+			if(cMetadataElement.containsChildWithNameInData("finalValue")){
+				var finalValue = cMetadataElement.getFirstAtomicValueByNameInData("finalValue");
+				return finalValue === data.value;
+			}
+			
 			return collectionItemReferences.children.some(isItemDataValue);
 		}
 

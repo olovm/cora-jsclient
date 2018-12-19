@@ -1598,3 +1598,80 @@ QUnit.test("testValidateGroupIdOneRecordLinkChildWithPathWithDataEmptyValue", fu
 
 	assert.stringifyEqual(messages[0], expectedMessage);
 });
+
+QUnit.test("testValidateGroupIdOneTextChild1to1OneCollectionChildWithFinalValueWithData", function(assert) {
+	var data = {
+		"name" : "groupWithOneCollectionVarChildAndOneTextChildGroup",
+		"children" : [ {
+			"name" : "textVariableId",
+			"value" : "A Value"
+		},
+		{
+			"name" : "trueFalse",
+			"value" : "true"
+		}]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupWithOneCollectionVarChildAndOneTextChildGroup", data);
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
+
+QUnit.test("testValidateGroupIdOneTextChild1to1OneCollectionChildWithFinalValueWithIncorrectFinalValue", function(assert) {
+	var data = {
+		"name" : "groupWithOneCollectionVarChildAndOneTextChildGroup",
+		"children" : [ {
+			"name" : "textVariableId",
+			"value" : "A Value"
+		},
+		{
+			"name" : "trueFalse",
+			"value" : "false"
+		}]
+	};
+
+	var factored = this.metadataValidatorFactory.factor("groupWithOneCollectionVarChildAndOneTextChildGroup", data);
+	assert.notOk(factored.validationResult);
+	
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+	var expectedMessage = {
+			"type" : "validationError",
+			"message" : {
+				"metadataId" : "trueFalseTrueIsFinalValueCollectionVar",
+				"path" : {
+					"name" : "linkedPath",
+					"children" : [ {
+						"name" : "nameInData",
+							"value" : "trueFalse"
+						} ]
+					
+				}
+			}
+		};
+
+		assert.stringifyEqual(messages[0], expectedMessage);
+});
+
+QUnit.test("testValidateGroupIdOneTextChild0to1OneCollectionChildWithFinalValueWithData", function(assert) {
+	var data = {
+		"name" : "groupWithOneCollectionVarChildAndOneTextChildNonMandatoryGroup",
+		"children" : [ {
+			"name" : "textVariableId",
+			"value" : "A value"
+		},
+		{
+			"name" : "trueFalse",
+			"value" : "true"
+		}]
+	};
+
+	//TODO:check that it does not contain valuble data
+	
+	var factored = this.metadataValidatorFactory.factor("groupWithOneCollectionVarChildAndOneTextChildNonMandatoryGroup", data);
+	console.log("factored", JSON.stringify(factored))
+	assert.ok(factored.validationResult);
+	var messages = this.pubSub.getMessages();
+	assert.strictEqual(messages.length, 0);
+});
