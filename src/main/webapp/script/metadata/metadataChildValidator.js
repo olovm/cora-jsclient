@@ -161,6 +161,7 @@ var CORA = (function(cora) {
 
 		function sendRemoveForEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin) {
 			if (allEmptyChildrenCanBeRemoved(noChildrenNeededForRepeatMin)) {
+//				console.log(nameInData+" i allEmptyChildrenCanBeRemoved")
 				removeAllEmptyChildren(childrenCanBeRemoved);
 			} else {
 				removeExceedingEmptyChildren(childrenCanBeRemoved, noChildrenNeededForRepeatMin);
@@ -169,6 +170,7 @@ var CORA = (function(cora) {
 
 		function removeEmptyChildren() {
 			var childrenNotRemovable = numberOfChildrenOk + childInstancesCanNotBeRemoved.length;
+//			console.log(nameInData+" childrenNotRemovable ", childrenNotRemovable)
 			var noChildrenNeededForRepeatMin = calculateNeededNoChildrenForRepeatMin(childrenNotRemovable);
 			sendRemoveForEmptyChildren(childInstancesCanBeRemoved, noChildrenNeededForRepeatMin);
 		}
@@ -245,7 +247,6 @@ var CORA = (function(cora) {
 			return CORA.metadataRepeatValidator(ref, path, dataChild, repeatId, metadataProvider,
 					pubSub);
 		}
-console.log("result", result)
 		return result;
 	};
 	return cora;

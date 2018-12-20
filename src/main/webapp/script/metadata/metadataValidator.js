@@ -32,10 +32,12 @@ var CORA = (function(cora) {
 			topLevelChildReferences.children.forEach(function(childReference) {
 				var childResult = CORA.metadataChildValidator(childReference, topLevelPath,
 						topLevelData, spec.metadataProvider, spec.pubSub);
+				console.log("childResult "+JSON.stringify(childResult)+" "+JSON.stringify(childReference))
 				if (!childResult.everythingOkBelow) {
 					childrenResult = false;
 				}
 			});
+			console.log("childrenResult ", childrenResult)
 			return childrenResult;
 		}
 

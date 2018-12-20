@@ -237,8 +237,13 @@ var CORA = (function(cora) {
 		}
 
 		function validateVariableValue(nextLevelPath) {
+			var hasFinalValue = cMetadataElement.containsChildWithNameInData("finalValue");
 			if (dataIsValid()) {
+				if( hasFinalValue){
+					result.containsValuableData = false;
+				}else{
 				result.containsValuableData = true;
+			}
 			} else {
 				var message = {
 					"metadataId" : metadataId,

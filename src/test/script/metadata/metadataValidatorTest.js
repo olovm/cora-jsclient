@@ -1654,24 +1654,45 @@ QUnit.test("testValidateGroupIdOneTextChild1to1OneCollectionChildWithFinalValueW
 		assert.stringifyEqual(messages[0], expectedMessage);
 });
 
-QUnit.test("testValidateGroupIdOneTextChild0to1OneCollectionChildWithFinalValueWithData", function(assert) {
+QUnit.test("testValidateGroupInGroupIdOneTextChild0to1OneCollectionChildWithFinalValueWithData", function(assert) {
 	var data = {
-		"name" : "groupWithOneCollectionVarChildAndOneTextChildNonMandatoryGroup",
-		"children" : [ {
-			"name" : "textVariableId",
-			"value" : "A value"
-		},
-		{
-			"name" : "trueFalse",
-			"value" : "true"
-		}]
-	};
+			"name" : "groupWithOneGroupWithCollectionVarChildAndOneTextChildNonMandatoryGroup",
+			"children" : [ {
+				"name" : "groupWithOneCollectionVarChildAndOneTextChildGroup",
+				"children" : [ {
+					"name" : "textVariableId",
+					"value" : ""
+				}, {
+					"name" : "trueFalse",
+					"value" : "true"
+				} ]
+			} ]
+		};
 
-	//TODO:check that it does not contain valuble data
-	
-	var factored = this.metadataValidatorFactory.factor("groupWithOneCollectionVarChildAndOneTextChildNonMandatoryGroup", data);
-	console.log("factored", JSON.stringify(factored))
-	assert.ok(factored.validationResult);
+	console.log("groupWithOneCollectionVarChildAndOneTextChildGroup ********************")
+	var factored = this.metadataValidatorFactory.factor("groupWithOneGroupWithCollectionVarChildAndOneTextChildNonMandatoryGroup", data);
+	console.log("groupWithOneCollectionVarChildAndOneTextChildGroup ********************")
+	assert.notOk(factored.validationResult);
 	var messages = this.pubSub.getMessages();
-	assert.strictEqual(messages.length, 0);
+	console.log(JSON.stringify(messages[2]) ) 
+//	var validationError = {
+//			"type" : "remove",
+//			"message" : {
+//				"type" : "remove",
+//				"path" : {
+//					"name" : "linkedPath",
+//					"children" : [ {
+//						"name" : "nameInData",
+//						"value" : "textVariableId"
+//					}, {
+//						"name" : "repeatId",
+//						"value" : "two"
+//					} ]
+//				}
+//			}
+//		};
+//		assert.stringifyEqual(messages[0], validationError);
+//	
+//	
+//	assert.strictEqual(messages.length, 0);
 });

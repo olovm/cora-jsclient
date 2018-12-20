@@ -552,6 +552,21 @@ function MetadataProviderStub() {
 				.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 			};
 		}
+		if (idToGet === "groupWithOneGroupWithCollectionVarChildAndOneTextChildNonMandatoryGroup") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ 
+							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+									"metadataGroup", "groupWithOneCollectionVarChildAndOneTextChildGroup", "1", "0", "1")]
+				} ]
+				.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
 		if (idToGet === "groupIdOneTextChild") {
 			return {
 				"name" : "metadata",
