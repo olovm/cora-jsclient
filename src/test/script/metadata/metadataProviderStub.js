@@ -547,7 +547,7 @@ function MetadataProviderStub() {
 							"metadataCollectionVariable",
 							"trueFalseTrueIsFinalValueCollectionVar", "1"),
 							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"metadataTextVariable", "textVariableId", "1", "0", "1")]
+									"metadataTextVariable", "textVariableId", "textVariable", "1", "0", "1")]
 				} ]
 				.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 			};
@@ -560,9 +560,8 @@ function MetadataProviderStub() {
 				},
 				"children" : [ {
 					"name" : "childReferences",
-					"children" : [ 
-							createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-									"metadataGroup", "groupWithOneCollectionVarChildAndOneTextChildGroup", "1", "0", "1")]
+					"children" : [  createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
+									"metadataGroup", "groupWithOneCollectionVarChildAndOneTextChildGroup", "group","1", "0", "1")]
 				} ]
 				.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 			};

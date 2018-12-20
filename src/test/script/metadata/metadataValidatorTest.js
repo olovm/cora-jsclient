@@ -1669,30 +1669,47 @@ QUnit.test("testValidateGroupInGroupIdOneTextChild0to1OneCollectionChildWithFina
 			} ]
 		};
 
-	console.log("groupWithOneCollectionVarChildAndOneTextChildGroup ********************")
 	var factored = this.metadataValidatorFactory.factor("groupWithOneGroupWithCollectionVarChildAndOneTextChildNonMandatoryGroup", data);
-	console.log("groupWithOneCollectionVarChildAndOneTextChildGroup ********************")
-	assert.notOk(factored.validationResult);
+	assert.ok(factored.validationResult);
 	var messages = this.pubSub.getMessages();
-	console.log(JSON.stringify(messages[2]) ) 
-//	var validationError = {
-//			"type" : "remove",
-//			"message" : {
-//				"type" : "remove",
-//				"path" : {
-//					"name" : "linkedPath",
-//					"children" : [ {
-//						"name" : "nameInData",
-//						"value" : "textVariableId"
-//					}, {
-//						"name" : "repeatId",
-//						"value" : "two"
-//					} ]
-//				}
-//			}
-//		};
-//		assert.stringifyEqual(messages[0], validationError);
-//	
-//	
-//	assert.strictEqual(messages.length, 0);
+	var validationError = {
+			  "type": "validationError",
+			  "message": {
+			    "metadataId": "textVariableId",
+			    "path": {
+			      "name": "linkedPath",
+			      "children": [
+			        {
+			          "name": "nameInData",
+			          "value": "groupWithOneCollectionVarChildAndOneTextChildGroup"
+			        },
+			        {
+			          "name": "linkedPath",
+			          "children": [
+			            {
+			              "name": "nameInData",
+			              "value": "textVariableId"
+			            }]
+			        }]
+			    }}
+			};
+		assert.stringifyEqual(messages[0], validationError);
+		var removeMessage = {
+				  "type": "remove",
+				  "message": {
+				    "type": "remove",
+				    "path": {
+				      "name": "linkedPath",
+				      "children": [
+				        {
+				          "name": "nameInData",
+				          "value": "groupWithOneCollectionVarChildAndOneTextChildGroup"
+				        }
+				      ]
+				    }
+				  }
+				};
+		assert.stringifyEqual(messages[1], removeMessage);
+	
+	assert.strictEqual(messages.length, 2);
 });
