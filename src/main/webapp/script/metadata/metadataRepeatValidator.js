@@ -237,22 +237,13 @@ var CORA = (function(cora) {
 		}
 
 		function validateVariableValue(nextLevelPath) {
+			var hasFinalValue = cMetadataElement.containsChildWithNameInData("finalValue");
 			if (dataIsValid()) {
-				result.containsValuableData = true;
+				handleValidData(hasFinalValue, result);
 			} else {
-				var message = {
-					"metadataId" : metadataId,
-					"path" : nextLevelPath
-				};
-				result = {
-					"everythingOkBelow" : false,
-					"containsValuableData" : false,
-					"validationMessage" : message,
-					"sendValidationMessages" : true
-				};
-			}
+				handleInvalidData();
 		}
-
+		
 		function dataIsValid() {
 			var type = cMetadataElement.getData().attributes.type;
 			if (type === "textVariable") {
@@ -278,6 +269,11 @@ var CORA = (function(cora) {
 		
 		function validateCollectionVariable() {
 			var collectionItemReferences = getCollectionItemReferences();
+			if(cMetadataElement.containsChildWithNameInData("finalValue")){
+				var finalValue = cMetadataElement.getFirstAtomicValueByNameInData("finalValue");
+				return finalValue === data.value;
+			}
+			
 			return collectionItemReferences.children.some(isItemDataValue);
 		}
 
@@ -298,6 +294,27 @@ var CORA = (function(cora) {
 			return nameInData === data.value;
 		}
 
+		function handleValidData(hasFinalValue, result){
+			if( hasFinalValue){
+				result.containsValuableData = false;
+			}else{
+				result.containsValuableData = true;
+			}
+		}
+
+		function handleInvalidData(){
+			var message = {
+					"metadataId" : metadataId,
+					"path" : nextLevelPath
+				};
+				result = {
+					"everythingOkBelow" : false,
+					"containsValuableData" : false,
+					"validationMessage" : message,
+					"sendValidationMessages" : true
+				};
+			}
+		}
 		return result;
 	};
 	return cora;

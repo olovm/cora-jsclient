@@ -82,8 +82,11 @@ var CORA = (function(cora) {
 			} else if (isResourceLink()) {
 				initializeMetadataResourceLink(nextLevelPath);
 				pubSub.publish("linkedResource", message);
-			} else {
-				publishVariableValue(nextLevelPath);
+			} else if(isCollectionVar()){
+				possiblyPublishCollectionVarValue(nextLevelPath);
+			}
+			else {
+				possiblyPublishVariableValue(nextLevelPath);
 			}
 		}
 
@@ -356,16 +359,36 @@ var CORA = (function(cora) {
 				CORA.metadataChildInitializer(dependencies, initializerSpec);
 			});
 		}
+		
+		function isCollectionVar() {
+			var type = cMetadataElement.getData().attributes.type;
+			return type === "collectionVariable";
+		}
+		
+		function possiblyPublishCollectionVarValue(nextLevelPath){
+			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
+				var finalValue = cMetadataElement.getFirstAtomicValueByNameInData("finalValue");
+				publishVariableValue(finalValue, nextLevelPath);	
+			}else {
+				possiblyPublishVariableValue(nextLevelPath);
+			}
+		}
+			
 
-		function publishVariableValue(nextLevelPath) {
+		function possiblyPublishVariableValue(nextLevelPath) {
 			if (spec.data !== undefined) {
-				var message = {
-					"data" : spec.data.value,
+				publishVariableValue(spec.data.value, nextLevelPath);
+			}
+		}
+		
+		function publishVariableValue(value, nextLevelPath){
+			var message = {
+					"data" : value,
 					"path" : nextLevelPath
 				};
 				pubSub.publish("setValue", message);
-			}
 		}
+		
 
 	};
 	return cora;
