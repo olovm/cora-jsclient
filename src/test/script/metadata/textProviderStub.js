@@ -184,6 +184,10 @@ var CORATEST = (function(coraTest) {
 				return "myFinalValueLinkText";
 			case "myFinalValueLinkDefText":
 				return "myFinalValueLinkDefText";
+			case "numVariableIdText":
+				return "numVariableIdText";
+			case "numVariableIdDefText":
+				return "numVariableIdDefText";
 			default:
 				console.log("Id(" + textId + ") not found in stub");
 				throw new Error("Id(" + textId + ") not found in stub");

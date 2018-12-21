@@ -34,6 +34,7 @@ var CORA = (function(cora) {
 				"infoFactory" : infoFactory
 			};
 			var pVarViewFactory = CORA.genericFactory("pVarView", pVarViewFactoryDependencies);
+			var pNumVarViewFactory = CORA.genericFactory("pNumVarView", pVarViewFactoryDependencies);
 
 			var pRepeatingElementFactoryDependencies = {
 				"infoFactory" : infoFactory,
@@ -98,6 +99,7 @@ var CORA = (function(cora) {
 				"uploadManager" : dependencies.uploadManager,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory,
 				"pVarViewFactory" : pVarViewFactory,
+				"pNumVarViewFactory" : pNumVarViewFactory,
 				"pRecordLinkViewFactory" : pRecordLinkViewFactory,
 				"pChildRefHandlerFactory" : pChildRefHandlerFactory,
 				"pNonRepeatingChildRefHandlerFactory" : pNonRepeatingChildRefHandlerFactory,
@@ -129,6 +131,9 @@ var CORA = (function(cora) {
 			}
 			if (type === "pResourceLink") {
 				return CORA.pResourceLink(childDependencies, specNew);
+			}
+			if (type === "pNumVar") {
+				return CORA.pNumVar(childDependencies, specNew);
 			}
 			var repeat = cPresentation.getData().attributes.repeat;
 			if (repeat === "this") {
