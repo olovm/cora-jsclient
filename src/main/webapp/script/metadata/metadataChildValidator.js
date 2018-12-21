@@ -33,6 +33,7 @@ var CORA = (function(cora) {
 		var nameInData = getNameInDataForMetadataId(ref);
 		var attributes = getAttributesForMetadataId(ref);
 		var dataChildrenForMetadata = getDataChildrenForMetadata(nameInData, attributes);
+		
 		var noOfRepeatsForThisChild = calculateMinRepeat();
 		var childInstancesCanNotBeRemoved = [];
 		var childInstancesCanBeRemoved = [];
@@ -245,6 +246,7 @@ var CORA = (function(cora) {
 			return CORA.metadataRepeatValidator(ref, path, dataChild, repeatId, metadataProvider,
 					pubSub);
 		}
+		
 		return result;
 	};
 	return cora;

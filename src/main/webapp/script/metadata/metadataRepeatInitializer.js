@@ -25,12 +25,6 @@ var CORA = (function(cora) {
 		var metadataId = spec.metadataId;
 		var path = spec.path;
 		var cMetadataElement = getMetadataById(metadataId);
-//		if("divaOrganisationAlternativeNameGroup" === metadataId){
-//			console.log(metadataId)
-//		}
-//		if("alternativeNameLanguageEnCollectionVar" === metadataId){
-//			console.log(metadataId)
-//		}
 		initalizeRepeat();
 
 		function getMetadataById(id) {
