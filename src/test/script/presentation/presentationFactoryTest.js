@@ -295,3 +295,50 @@ QUnit.test("testFactorPResourceLink", function(assert) {
 	assert.strictEqual(factoredDependencies.metadataProvider,
 			this.dependencies.providers.metadataProvider);
 });
+
+QUnit.test("testFactorPNumVar",
+		function(assert) {
+			this.spec.metadataIdUsedInData = "numVariableId";
+			this.spec.cPresentation = this
+					.getMetadataAsCoraData("pNumVarNumVariableId");
+			var pNumVar = this.newPresentationFactory.factor(this.spec);
+
+			assert.strictEqual(pNumVar.type, "pNumVar");
+		});
+
+QUnit.test("testFactorPNumVarDependencies",
+		function(assert) {
+			this.spec.metadataIdUsedInData = "numVariableId";
+			this.spec.cPresentation = this
+					.getMetadataAsCoraData("pNumVarNumVariableId");
+			var pNumVar = this.newPresentationFactory.factor(this.spec);
+
+			var factoredDependencies = pNumVar.getDependencies();
+
+			assert.strictEqual(factoredDependencies.providers, this.dependencies.providers);
+
+			assert.strictEqual(factoredDependencies.globalFactories,
+					this.dependencies.globalFactories);
+
+			assert.strictEqual(factoredDependencies.recordTypeProvider,
+					this.dependencies.providers.recordTypeProvider);
+			assert.strictEqual(factoredDependencies.clientInstanceProvider,
+					this.dependencies.providers.clientInstanceProvider);
+
+			assert.strictEqual(factoredDependencies.pNumVarViewFactory.type, "genericFactory");
+			assert.strictEqual(factoredDependencies.pNumVarViewFactory.getTypeToFactor(),
+					"pNumVarView");
+		});
+
+QUnit.test("testFactorPNumVarViewDependencies",
+		function(assert) {
+			this.spec.metadataIdUsedInData = "numVariableId";
+			this.spec.cPresentation = this
+					.getMetadataAsCoraData("pNumVarNumVariableId");
+			var pNumVar = this.newPresentationFactory.factor(this.spec);
+
+			var factoredDependencies = pNumVar.getDependencies().pNumVarViewFactory
+					.getDependencies();
+
+			assert.strictEqual(factoredDependencies.infoFactory.type, "infoFactory");
+		});
