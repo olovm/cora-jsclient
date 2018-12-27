@@ -159,6 +159,8 @@ var CORA = (function(cora) {
 		function createOutput() {
 			if (spec.outputFormat === "image") {
 				return createOutputImage();
+			}else if(spec.outputFormat === "link"){
+				return createOutputLink();
 			}
 			return createOutputText();
 		}
@@ -167,6 +169,15 @@ var CORA = (function(cora) {
 			var outputNew = document.createElement("img");
 			outputNew.setValue = function(value) {
 				outputNew.src = value;
+			};
+			return outputNew;
+		}
+		
+		function createOutputLink(){
+			var outputNew = document.createElement("a");
+			outputNew.setValue = function(value) {
+				outputNew.href = value;
+				outputNew.text = value;
 			};
 			return outputNew;
 		}
