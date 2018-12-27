@@ -1,5 +1,6 @@
 /*
  * Copyright 2016, 2018 Olov McKie
+ * Copyright 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -306,4 +307,23 @@ QUnit.test("testSetValueOutputImage", function(assert) {
 	assert.strictEqual(valueView.src, "");
 	pVarView.setValue("http://www.some.domain.nu/image01.jpg");
 	assert.strictEqual(valueView.src, "http://www.some.domain.nu/image01.jpg");
+});
+
+QUnit.test("testOutputLink", function(assert) {
+	this.spec.mode = "output";
+	this.spec.outputFormat = "link";
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.nodeName, "A");
+});
+
+QUnit.test("testSetValueOutputLink", function(assert) {
+	this.spec.mode = "output";
+	this.spec.outputFormat = "link";
+	var pVarView = this.getPVarView();
+	var valueView = this.getValueView();
+
+	assert.strictEqual(valueView.href, "");
+	pVarView.setValue("http://www.some.domain.nu");
+	assert.strictEqual(valueView.href, "http://www.some.domain.nu/");
+	assert.strictEqual(valueView.text, "http://www.some.domain.nu");
 });
