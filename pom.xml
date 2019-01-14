@@ -29,6 +29,7 @@
     <name>JS Client for Cora</name>
 
     <properties>
+    	<maven.compiler.source>11</maven.compiler.source>
         <sonar.language>js</sonar.language>
         <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
         <sonar.sources>src/main/webapp/script</sonar.sources>
