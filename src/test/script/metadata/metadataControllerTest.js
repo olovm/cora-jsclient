@@ -142,6 +142,26 @@ QUnit.test("testInitGroupIdOneTextChildWithWrongData", function(assert) {
 	assert.equal(messages.length, 2);
 });
 
+QUnit.test("testInitGroupIdOneTextChildWithFinalValue", function(assert) {
+	var data = {
+		"name" : "groupIdOneTextVarChildWithFinalValue",
+		"children" : [ {
+			"name" : "textVariableIdNot",
+			"value" : "A Value"
+		} ]
+	};
+
+	this.metadataControllerFactory.factor("groupIdOneTextVarChildWithFinalValue", undefined);
+	var messages = this.pubSub.getMessages();
+	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
+			+ '"metadataId":"textVariableWithFinalValueId","path":{},"nameInData":"textVariableWithFinalValueId"}}');
+
+	assert.deepEqual(JSON.stringify(messages[1]),
+			'{"type":"setValue","message":{"data":"someFinalValue",' + '"path":'
+					+ createLinkedPathWithNameInDataAsString("textVariableWithFinalValueId") + '}}');
+	assert.equal(messages.length, 3);
+});
+
 function createLinkedPathWithNameInDataAsString(nameInData) {
 	return JSON.stringify(createLinkedPathWithNameInData(nameInData));
 }

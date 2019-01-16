@@ -82,10 +82,7 @@ var CORA = (function(cora) {
 			} else if (isResourceLink()) {
 				initializeMetadataResourceLink(nextLevelPath);
 				pubSub.publish("linkedResource", message);
-			} else if(isCollectionVar()){
-				possiblyPublishCollectionVarValue(nextLevelPath);
-			}
-			else {
+			} 	else {
 				possiblyPublishVariableValue(nextLevelPath);
 			}
 		}
@@ -360,27 +357,20 @@ var CORA = (function(cora) {
 			});
 		}
 		
-		function isCollectionVar() {
-			var type = cMetadataElement.getData().attributes.type;
-			return type === "collectionVariable";
-		}
-		
-		function possiblyPublishCollectionVarValue(nextLevelPath){
-			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
-				var finalValue = cMetadataElement.getFirstAtomicValueByNameInData("finalValue");
-				publishVariableValue(finalValue, nextLevelPath);	
-			}else {
-				possiblyPublishVariableValue(nextLevelPath);
-			}
-		}
-			
 
 		function possiblyPublishVariableValue(nextLevelPath) {
-			if (spec.data !== undefined) {
-				publishVariableValue(spec.data.value, nextLevelPath);
+			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
+				setFinalValue(nextLevelPath);
+			}else {
+				publishIfDataIsPresent(nextLevelPath);
 			}
 		}
 		
+		function setFinalValue(nextLevelPath){
+			var finalValue = cMetadataElement.getFirstAtomicValueByNameInData("finalValue");
+			publishVariableValue(finalValue, nextLevelPath);	
+		}
+					
 		function publishVariableValue(value, nextLevelPath){
 			var message = {
 					"data" : value,
@@ -389,7 +379,11 @@ var CORA = (function(cora) {
 				pubSub.publish("setValue", message);
 		}
 		
-
+		function publishIfDataIsPresent(nextLevelPath){
+			if (spec.data !== undefined) {
+				publishVariableValue(spec.data.value, nextLevelPath);
+			}
+		}
 	};
 	return cora;
 }(CORA));
