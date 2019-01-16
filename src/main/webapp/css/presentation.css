@@ -191,6 +191,7 @@ img {
 }
 
 .jsClient .menuView .pVar .infoButton, .menuView .pVar:hover>.infoButton::before,
+	.menuView .pNumVar .infoButton, .menuView .pNumVar:hover>.infoButton::before,
 	.menuView .pGroup:hover>.infoButton::before, .menuView .infoButton::before,
 	.menuView .infoButton::after, .menuView .infoButton:hover::after,
 	.jsClient .menuView .pVar .openLinkedRecordButton, .menuView .pVar:hover>.openLinkedRecordButton::before,
@@ -201,7 +202,8 @@ img {
 }
 
 
-.workView .pVar:hover>.infoButton::before, .workView .pRecordLink:hover>.buttonView .infoButton::before,
+.workView .pVar:hover>.infoButton::before, .pNumVar:hover>.infoButton::before,
+	.workView .pRecordLink:hover>.buttonView .infoButton::before,
 	input:focus+.infoButton::before, .workView .pCollVar:hover>.infoButton::before,
 	select:focus+.infoButton::before, textarea:focus+.infoButton::before,
 	.workView .pGroup:hover>.infoButton::before, .workView .pMap:hover>.infoButton::before,
@@ -255,7 +257,7 @@ img {
 	transition: background-color 0.5s linear;
 }
 
-.pVar:hover, .pCollVar:hover, .pMap:hover, .pGroup:hover,
+.pVar:hover, pNumVar:hover, .pCollVar:hover, .pMap:hover, .pGroup:hover,
 	.pSurroundingContainer:hover, .repeatingElement:hover, .pRecordLink:hover,
 	.pNonRepeatingChildRefHandler:hover {
 	background-color: rgba(0, 129, 198, 0.1);

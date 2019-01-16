@@ -25,7 +25,7 @@ var CORA = (function(cora) {
 		function validateData(valueIn, cMetadataElementIn){
 			value = valueIn;
 			cMetadataElement = cMetadataElementIn;
-			if(isNaN(value)){
+			if(isNaN(value) || value===""){
 				return false;
 			}
 			return valueIsBetweenMinAndMax(value);

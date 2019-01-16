@@ -57,6 +57,15 @@ QUnit.test("testNotANumber", function(assert) {
 	assert.stringifyEqual(validationAnswer, false);
 });
 
+QUnit.test("testEmptyValue", function(assert) {
+    var numberValidator = this.getNumberValidator();
+
+    var cMetadataElement = CORA.coraData(this.dependencies.metadataProvider.getMetadataById("numVariableId"));
+
+    var validationAnswer = numberValidator.validateData("", cMetadataElement);
+    assert.stringifyEqual(validationAnswer, false);
+});
+
 QUnit.test("testValueAboveMaxAllowed", function(assert) {
 	var numberValidator = this.getNumberValidator();
 	
