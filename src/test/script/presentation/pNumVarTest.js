@@ -271,7 +271,7 @@ QUnit.test("testHandleValidationError", function(assert) {
 	assert.equal(pNumVarViewSpy.getState(), "error");
 });
 
-QUnit.test("testChangedValueEmpty", function(assert) {
+QUnit.test("testChangedValueEmptyAfterKeyUp", function(assert) {
 	var attachedPNumVar = this.pNumVarFactory.factor({}, "numVariableId", "pNumVarNumVariableId");
 	var data = {
 		"data" : "notEmpty",

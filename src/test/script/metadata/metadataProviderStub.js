@@ -627,7 +627,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"metadataNumberVariable", "numVariableId",  "numberVariable","1",  "1", "1") ]
+							"metadataNumberVariable", "numVariableId",  "numberVariable","1",  "0", "1") ]
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 			};
