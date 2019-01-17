@@ -71,6 +71,10 @@ var CORA = (function(cora) {
                         "text" : "min: " + min
 				}, {
 					 "text":"max: " + max
+				}, {
+					 "text": "warningMin: " + warningMin
+				}, {
+                        "text": "warningMax: " + warningMax
 				} ]
 			},
 			"onblurFunction" : onBlur,
