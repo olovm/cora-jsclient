@@ -174,6 +174,10 @@ QUnit.test("testFactoredViewCorrectlyForInputTextVariable", function(assert) {
 		"text" : "nameInData: numVariableId"
 	}, {
 		"text" : "presentationId: pNumVarNumVariableId"
+	}, {
+		"text": "min: 0",
+	}, {
+		"text": "max: 10"
 	});
 	assert.deepEqual(pNumVarViewSpy.getSpec(), expectedPNumVarViewSpec);
 });
@@ -333,6 +337,10 @@ QUnit.test("testInitNumberOutput", function(assert) {
 		"text" : "nameInData: numVariableId"
 	}, {
 		"text" : "presentationId: pNumVarNumVariableIdOutput"
+	}, {
+            "text": "min: 0"
+    }, {
+            "text": "max: 10"
 	});
 	assert.deepEqual(pNumVarViewSpy.getSpec(), expectedPNumVarViewSpec);
 

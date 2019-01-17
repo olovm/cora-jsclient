@@ -67,6 +67,10 @@ var CORA = (function(cora) {
 				}, 
 				{
 					"text" : "presentationId: " + presentationId
+				},{
+                        "text" : "min: " + min
+				}, {
+					 "text":"max: " + max
 				} ]
 			},
 			"onblurFunction" : onBlur,
