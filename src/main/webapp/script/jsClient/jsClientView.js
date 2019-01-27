@@ -29,10 +29,12 @@ var CORA = (function(cora) {
 		var workArea;
 		var messageHolder;
 		var reloadProvidersButton;
+		var showLDAPButton;
 
 		function start() {
 			mainView = createMainView();
 			addReloadProvidersButton();
+//			addLDAPButton();
 			addSetLanguageChoice();
 			mainView.modelObject = out;
 		}
@@ -70,6 +72,12 @@ var CORA = (function(cora) {
 			reloadProvidersButton.onclick = spec.reloadProvidersMethod;
 			reloadProvidersButton.textContent = "reloadProviders";
 			header.appendChild(reloadProvidersButton);
+		}
+		function addLDAPButton() {
+			showLDAPButton = CORA.gui.createSpanWithClassName("menuView");
+			showLDAPButton.onclick = spec.reloadProvidersMethod;
+			showLDAPButton.textContent = "showLDAP";
+			header.appendChild(showLDAPButton);
 		}
 
 		function setReloadingProviders(status) {

@@ -136,8 +136,9 @@ var CORA = (function(cora) {
 
 		function getUrlFromLoginRecord(recordData) {
 			var cRecord = CORA.coraData(recordData);
-			return cRecord.getFirstAtomicValueByNameInData("url");
-		}
+//			if(cRecord.containsChildWithNameInData("url")){
+			return cRecord.getFirstAtomicValueByNameInData("url");}
+//		}
 
 		function getTypeFromLoginRecord(recordData) {
 			return recordData.attributes.type;

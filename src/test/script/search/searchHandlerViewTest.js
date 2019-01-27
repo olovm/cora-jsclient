@@ -95,11 +95,6 @@ QUnit.test("testInitSearchButtonCreatedAndAddedButtonView", function(assert) {
 	assert.strictEqual(searchButton.onclick, this.spec.searchMethod);
 });
 
-QUnit.test("testGetSpec", function(assert) {
-	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
-	assert.strictEqual(searchHandlerView.getSpec(), this.spec);
-});
-
 QUnit.test("testInitResultViewCreatedAndAddedToWorkItemView", function(assert) {
 	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
 	var factoredWorkItemView = this.dependencies.workItemViewFactory.getFactored(0);
