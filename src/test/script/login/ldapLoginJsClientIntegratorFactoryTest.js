@@ -1,6 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
- * Copyright 2017 Olov McKie
+ * Copyright 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -21,25 +20,19 @@
 
 QUnit
 		.module(
-				"searchHandlerJsClientIntegratorFactoryTest.js",
+				"ldapLoginJsClientIntegratorFactoryTest.js",
 				{
 					beforeEach : function() {
 						this.dependencies = {
-							"searchHandlerFactory" : CORATEST
-									.standardFactorySpy("searchHandlerSpy"),
+							"ldapLoginFactory" : CORATEST
+									.standardFactorySpy("ldapLoginSpy"),
 							"managedGuiItemFactory" : CORATEST
 									.standardFactorySpy("managedGuiItemSpy"),
 							"jsClient" : CORATEST.jsClientSpy()
 						};
 						this.spec = {
 							"metadataId" : "someMetadataId",
-							"presentationId" : "somePresentationId",
-							"searchLink" : {
-								"requestMethod" : "GET",
-								"rel" : "search",
-								"url" : "http://epc.ub.uu.se/cora/rest/record/searchResult/coraTextSearch",
-								"accept" : "application/vnd.uub.recordList+json"
-							}
+							"presentationId" : "somePresentationId"
 						}
 					},
 					afterEach : function() {
@@ -47,25 +40,25 @@ QUnit
 				});
 
 QUnit.test("init", function(assert) {
-	var searchHandlerJsClientIntegratorFactory = CORA
-			.searchHandlerJsClientIntegratorFactory(this.dependencies);
-	assert.strictEqual(searchHandlerJsClientIntegratorFactory.type,
-			"searchHandlerJsClientIntegratorFactory");
+	var ldapLoginJsClientIntegratorFactory = CORA
+			.ldapLoginJsClientIntegratorFactory(this.dependencies);
+	assert.strictEqual(ldapLoginJsClientIntegratorFactory.type,
+			"ldapLoginJsClientIntegratorFactory");
 });
 
 QUnit.test("getDependencies", function(assert) {
-	var searchHandlerJsClientIntegratorFactory = CORA
-			.searchHandlerJsClientIntegratorFactory(this.dependencies);
+	var ldapLoginJsClientIntegratorFactory = CORA
+			.ldapLoginJsClientIntegratorFactory(this.dependencies);
 	assert.strictEqual(
-			searchHandlerJsClientIntegratorFactory.getDependencies(),
+			ldapLoginJsClientIntegratorFactory.getDependencies(),
 			this.dependencies);
 });
 
 QUnit.test("testFactor", function(assert) {
-	var searchHandlerJsClientIntegratorFactory = CORA
-			.searchHandlerJsClientIntegratorFactory(this.dependencies);
-	var searchHandler = searchHandlerJsClientIntegratorFactory
+	var ldapLoginJsClientIntegratorFactory = CORA
+			.ldapLoginJsClientIntegratorFactory(this.dependencies);
+	var ldapLoginJsClientIntegrator = ldapLoginJsClientIntegratorFactory
 			.factor(this.spec);
-	assert.strictEqual(searchHandler.type, "searchHandlerJsClientIntegrator");
+	assert.strictEqual(ldapLoginJsClientIntegrator.type, "ldapLoginJsClientIntegrator");
 });
 
