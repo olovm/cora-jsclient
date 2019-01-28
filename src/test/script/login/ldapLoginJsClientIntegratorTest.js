@@ -27,12 +27,12 @@ QUnit
 							"ldapLoginFactory" : CORATEST
 									.standardFactorySpy("ldapLoginSpy"),
 							"managedGuiItemFactory" : CORATEST
-									.standardFactorySpy("managedGuiItemSpy"),
-							"jsClient" : CORATEST.jsClientSpy()
+									.standardFactorySpy("managedGuiItemSpy")
 						}
 						this.spec = {
 							"metadataId" : "someMetadataGroup",
-							"presentationId" : "somePresentationGroup"
+							"presentationId" : "somePresentationGroup",
+							"jsClient" : CORATEST.jsClientSpy()
 								}
 					},
 					afterEach : function() {
@@ -73,9 +73,9 @@ QUnit.test("testInitManagedGuiItemCreatedsSpec", function(assert) {
 	var factoredItem = this.dependencies.managedGuiItemFactory.getFactored(0);
 	var factoredItemSpec = this.dependencies.managedGuiItemFactory.getSpec(0);
 	assert.strictEqual(factoredItemSpec.activateMethod,
-			this.dependencies.jsClient.showView);
+			this.spec.jsClient.showView);
 	assert.strictEqual(factoredItemSpec.removeMethod,
-			this.dependencies.jsClient.viewRemoved);
+			this.spec.jsClient.viewRemoved);
 });
 
 QUnit.test("initTestManagedGuiItemAddedToJsClient",
@@ -84,7 +84,7 @@ QUnit.test("initTestManagedGuiItemAddedToJsClient",
 					this.dependencies, this.spec);
 			var managedGuiItem = this.dependencies.managedGuiItemFactory
 					.getFactored(0);
-			assert.strictEqual(this.dependencies.jsClient.getAddedGuiItem(0),
+			assert.strictEqual(this.spec.jsClient.getAddedGuiItem(0),
 					managedGuiItem);
 		});
 
@@ -93,7 +93,7 @@ QUnit.test("initTestManagedGuiItemShownInJsClientOnLoad", function(assert) {
 			this.dependencies, this.spec);
 	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory
 			.getFactored(0);
-	assert.strictEqual(managedGuiItemSpy, this.dependencies.jsClient
+	assert.strictEqual(managedGuiItemSpy, this.spec.jsClient
 			.getViewShowingInWorkView(0));
 });
 

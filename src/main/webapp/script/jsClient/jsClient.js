@@ -41,7 +41,8 @@ var CORA = (function(cora) {
 				"name" : spec.name,
 				"serverAddress" : spec.baseUrl,
 				"reloadProvidersMethod" : out.reloadProviders,
-				"setLanguageMethod" : out.setCurrentLang
+				"setLanguageMethod" : out.setCurrentLang,
+				"showLdapLoginMethod" : out.showLdapLogin
 			};
 			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 
@@ -251,6 +252,14 @@ var CORA = (function(cora) {
 			textProvider.setCurrentLang(lang);
 			reloadOpenRecords();
 		}
+		
+		function showLdapLogin() {
+			var ldapLoginSpec = {
+				"metadataId" : "recordInfoGroup",
+				"presentationId" : "recordInfoPGroup"
+			};
+			dependencies.ldapLoginJSClientIntegratorFactory.factor(ldapLoginSpec);
+		}
 
 		function getDependencies() {
 			return dependencies;
@@ -275,7 +284,8 @@ var CORA = (function(cora) {
 			addGuiItem : addGuiItem,
 			openRecordUsingReadLink : openRecordUsingReadLink,
 			reloadProviders : reloadProviders,
-			setCurrentLang : setCurrentLang
+			setCurrentLang : setCurrentLang,
+			showLdapLogin: showLdapLogin
 		});
 		start();
 

@@ -37,19 +37,19 @@ var CORA = (function(cora) {
 
 		function createManagedGuiItem() {
 			var managedGuiItemSpec = {
-				"activateMethod" : dependencies.jsClient.showView,
-				"removeMethod" : dependencies.jsClient.viewRemoved
+				"activateMethod" : spec.jsClient.showView,
+				"removeMethod" : spec.jsClient.viewRemoved
 			};
 			return dependencies.managedGuiItemFactory
 					.factor(managedGuiItemSpec);
 		}
 
 		function addLdapLoginToJsClient(managedGuiItemToAdd) {
-			dependencies.jsClient.addGuiItem(managedGuiItemToAdd);
+			spec.jsClient.addGuiItem(managedGuiItemToAdd);
 		}
 
 		function showLdapLoginInJsClient(managedGuiItemToShow) {
-			dependencies.jsClient.showView(managedGuiItemToShow);
+			spec.jsClient.showView(managedGuiItemToShow);
 		}
 
 		function getDependencies() {

@@ -137,6 +137,8 @@ var CORA = (function(cora) {
 			globalFactories.recordHandlerFactory = recordHandlerFactory;
 			globalFactories.recordListHandlerFactory = recordListHandlerFactory;
 			globalFactories.recordTypeHandlerViewFactory = recordTypeHandlerViewFactory;
+			
+//			globalFactories.ldapLoginFactory = 
 
 			var genericDependencies = {
 				"providers" : providers,
@@ -158,6 +160,13 @@ var CORA = (function(cora) {
 			};
 			var recordTypeMenu = CORA.recordTypeMenu(providers, menuDependencies, menuSpec);
 
+//			var ldapLoginJsClientIntegratorDep = {
+//					"ldapLoginFactory" : dependencies.globalFactories.ldapLoginFactory,
+//					"managedGuiItemFactory" : CORA.managedGuiItemFactory()
+//				};
+//			
+//			var ldapLoginJsClientIntegratorFactory = CORA.ldapLoginJsClientIntegratorFactory(ldapLoginJsClientIntegratorDep)
+			
 			var dep = {
 				"providers" : providers,
 				"globalInstances" : {

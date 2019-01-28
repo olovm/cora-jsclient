@@ -27,12 +27,12 @@ QUnit
 							"ldapLoginFactory" : CORATEST
 									.standardFactorySpy("ldapLoginSpy"),
 							"managedGuiItemFactory" : CORATEST
-									.standardFactorySpy("managedGuiItemSpy"),
-							"jsClient" : CORATEST.jsClientSpy()
+									.standardFactorySpy("managedGuiItemSpy")
 						};
 						this.spec = {
 							"metadataId" : "someMetadataId",
-							"presentationId" : "somePresentationId"
+							"presentationId" : "somePresentationId",
+							"jsClient" : CORATEST.jsClientSpy()
 						}
 					},
 					afterEach : function() {
