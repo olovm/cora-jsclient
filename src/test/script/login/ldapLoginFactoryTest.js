@@ -22,7 +22,6 @@ QUnit.module("ldapLoginFactoryTest.js", {
 	beforeEach : function() {
 		this.providers = {
 			"textProvider" : CORATEST.textProviderSpy(),
-//			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy()
 		};
 		this.globalFactories = {
 			"ajaxCallFactory" : CORATEST.standardFactorySpy("ajaxCallSpy"),
@@ -59,47 +58,3 @@ QUnit.test("testFactor", function(assert) {
 	assert.strictEqual(ldapLogin.type, "ldapLogin");
 });
 
-//QUnit.test("testFactorAddedIncomingDependencies", function(assert) {
-//	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
-//	var searchHandler = searchHandlerFactory.factor(this.spec);
-//	var addedDep = searchHandler.getDependencies();
-//	assert.strictEqual(addedDep.recordGuiFactory, this.globalFactories.recordGuiFactory);
-//	assert.strictEqual(addedDep.ajaxCallFactory, this.globalFactories.ajaxCallFactory);
-//	assert.strictEqual(addedDep.jsClient, this.providers.clientInstanceProvider.getJsClient());
-//});
-//
-//QUnit.test("testFactorAddedCreatedDependencies", function(assert) {
-//	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
-//	var searchHandler = searchHandlerFactory.factor(this.spec);
-//	var addedDep = searchHandler.getDependencies();
-//	assert.strictEqual(addedDep.searchHandlerViewFactory.type, "searchHandlerViewFactory");
-//	assert.strictEqual(addedDep.searchHandlerViewFactory.getDependencies().textProvider,
-//			this.providers.textProvider);
-//	assert.strictEqual(addedDep.managedGuiItemFactory, this.globalFactories.managedGuiItemFactory);
-//});
-//
-//QUnit.test("testFactorAddedDependenciesResultHandlerFactory", function(assert) {
-//	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
-//	var searchHandler = searchHandlerFactory.factor(this.spec);
-//	var addedDep = searchHandler.getDependencies();
-//	assert.strictEqual(addedDep.resultHandlerFactory.type, "resultHandlerFactory");
-//	var dependenciesRH = addedDep.resultHandlerFactory.getDependencies();
-//	assert.strictEqual(dependenciesRH.textProvider, this.providers.textProvider);
-//	assert.strictEqual(dependenciesRH.ajaxCallFactory, this.globalFactories.ajaxCallFactory);
-//	assert.strictEqual(dependenciesRH.ajaxCallFactory, this.globalFactories.ajaxCallFactory);
-//	assert.strictEqual(dependenciesRH.uploadManager, this.globalFactories.recordGuiFactory.getDependencies().uploadManager);
-//	assert.strictEqual(dependenciesRH.recordHandlerFactory.type, "recordHandlerFactory");
-//});
-//
-//QUnit.test("testFactorAddedDependenciesRecordHandlerFactory", function(assert) {
-//	var searchHandlerFactory = CORA.searchHandlerFactory(this.dependencies);
-//	var searchHandler = searchHandlerFactory.factor(this.spec);
-//	var addedDep = searchHandler.getDependencies();
-//	var dependenciesRH = addedDep.resultHandlerFactory.getDependencies();
-//	var depRecordHandler = dependenciesRH.recordHandlerFactory.getDependencies();
-//	assert.strictEqual(depRecordHandler.recordHandlerViewFactory.type, "recordHandlerViewFactory");
-//	assert.strictEqual(depRecordHandler.ajaxCallFactory, this.globalFactories.ajaxCallFactory);
-//	assert.strictEqual(depRecordHandler.recordGuiFactory, this.globalFactories.recordGuiFactory);
-//	assert.strictEqual(depRecordHandler.managedGuiItemFactory,
-//			this.globalFactories.managedGuiItemFactory);
-//});

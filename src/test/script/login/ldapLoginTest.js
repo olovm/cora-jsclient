@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -25,12 +25,9 @@ QUnit.module("ldapLoginTest.js", {
 		var dependencies = {
 			"ldapLoginViewFactory" : CORATEST.standardFactorySpy("ldapLoginViewSpy"),
 				
-//			"clientInstanceProvider" : CORATEST.clientInstanceProviderSpy(),
 			"ajaxCallFactory" : this.ajaxCallFactorySpy,
 			"textProvider" : textProvider,
 			"recordGuiFactory" : CORATEST.standardFactorySpy("recordGuiSpy")
-//			,
-//			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy")
 		};
 		this.dependencies = dependencies;
 

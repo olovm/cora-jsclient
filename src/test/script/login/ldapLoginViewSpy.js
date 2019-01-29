@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2019 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -23,9 +23,6 @@ var CORATEST = (function(coraTest) {
 
 		var view = CORA.gui.createSpanWithClassName("spyView");
 		var presentationsAddedToLoginForm = [];
-//		var searchResultsAddedToSearchResultHolder = [];
-
-//		var noOfCallsToClearResultHolder = 0;
 		
 		function getView() {
 			return view;

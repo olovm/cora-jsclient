@@ -40,11 +40,6 @@ QUnit.test("testGetDependencies", function(assert) {
 	assert.strictEqual(this.ldapLoginView.getDependencies(), this.dependencies);
 });
 
-//QUnit.test("testGetSpec", function(assert) {
-//	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
-//	assert.strictEqual(searchHandlerView.getSpec(), this.spec);
-//});
-
 QUnit.test("testInitFactoredWorkItemViewSpec", function(assert) {
 	var factoredSpec = this.dependencies.workItemViewFactory.getSpec(0);
 	assert.strictEqual(factoredSpec.extraClassName, "search");

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2016, 2017, 2018, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -512,10 +512,6 @@ QUnit.test("testLdapLoginFactoryIsCalledOnLdapLogin", function (assert) {
     assert.strictEqual(spec0.metadataId, "someMetadataId");
     assert.strictEqual(spec0.presentationId, "somePresentationId");
     assert.strictEqual(spec0.jsClient, this.spec.jsClient);
-//    assert.strictEqual(spec0.accept, "");
-//    assert.strictEqual(spec0.authInfoCallback, loginManager.appTokenAuthInfoCallback);
-//    assert.strictEqual(spec0.errorCallback, loginManager.appTokenErrorCallback);
-//    assert.strictEqual(spec0.timeoutCallback, loginManager.appTokenTimeoutCallback);
 });
 
 QUnit.test("testErrorMessage", function (assert) {

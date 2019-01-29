@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2018 Uppsala University Library
+ * Copyright 2016, 2018, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -140,9 +140,8 @@ var CORA = (function(cora) {
 
 		function getUrlFromLoginRecord(recordData) {
 			var cRecord = CORA.coraData(recordData);
-//			if(cRecord.containsChildWithNameInData("url")){
-			return cRecord.getFirstAtomicValueByNameInData("url");}
-//		}
+			return cRecord.getFirstAtomicValueByNameInData("url");
+		}
 
 		function getTypeFromLoginRecord(recordData) {
 			return recordData.attributes.type;

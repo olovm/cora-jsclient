@@ -1,4 +1,5 @@
 /*
+ * Copyright 2019 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
