@@ -50,8 +50,7 @@ var CORA = (function(cora) {
 					"ldapLoginFactory" : globalFactories.ldapLoginFactory,
 					"managedGuiItemFactory" : CORA.managedGuiItemFactory()
 				};
-			
-			var ldapLoginJsClientIntegratorFactory = CORA.ldapLoginJsClientIntegratorFactory(ldapLoginJsClientIntegratorDep);
+			var ldapLoginJsClientIntegratorFactory = CORA.genericFactory("ldapLoginJsClientIntegrator",ldapLoginJsClientIntegratorDep);
 
 			var loginManagerFactoryDependencies = {
 				"authTokenHolder" : authTokenHolder,

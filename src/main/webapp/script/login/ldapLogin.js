@@ -19,10 +19,6 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.ldapLogin = function(dependencies, spec) {
-//		var viewSpec = {
-//			"textProvider" : dependencies.textProvider
-//		};
-		
 		var view;
 
 		function start() {
@@ -34,10 +30,6 @@ var CORA = (function(cora) {
 			recordGui.initMetadataControllerStartingGui();
 		}
 
-//		function showView(managedGuiItemToShow) {
-//			dependencies.clientInstanceProvider.getJsClient().showView(managedGuiItemToShow);
-//		}
-		
 		function createView() {
 			return dependencies.ldapLoginViewFactory.factor();
 		}
@@ -60,9 +52,6 @@ var CORA = (function(cora) {
 			return view.getView();
 		}
 		
-		function getManagedGuiItem() {
-			return managedGuiItem;
-		}
 		start();
 		var out = Object.freeze({
 			"type" : "ldapLogin",

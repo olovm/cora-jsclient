@@ -254,15 +254,6 @@ var CORA = (function(cora) {
 			reloadOpenRecords();
 		}
 		
-		function showLdapLogin() {
-			var ldapLoginSpec = {
-				"metadataId" : "recordInfoGroup",
-				"presentationId" : "recordInfoPGroup",
-				"jsClient" : out
-			};
-			dependencies.ldapLoginJsClientIntegratorFactory.factor(ldapLoginSpec);
-		}
-
 		function getDependencies() {
 			return dependencies;
 		}
@@ -286,8 +277,7 @@ var CORA = (function(cora) {
 			addGuiItem : addGuiItem,
 			openRecordUsingReadLink : openRecordUsingReadLink,
 			reloadProviders : reloadProviders,
-			setCurrentLang : setCurrentLang,
-			showLdapLogin: showLdapLogin
+			setCurrentLang : setCurrentLang
 		});
 		start();
 

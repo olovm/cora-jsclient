@@ -129,7 +129,13 @@ QUnit.test("testloginManagerFactoryDependencies", function(assert) {
 	assert.strictEqual(factoredDep.ajaxCallFactory,
 			jsClientFactoredDep.globalFactories.ajaxCallFactory);
 	assert.strictEqual(factoredDep.textProvider, this.providers.textProvider);
-	assert.strictEqual(factoredDep.ldapLoginJsClientIntegratorFactory.type, "ldapLoginJsClientIntegratorFactory");
+	assert.strictEqual(factoredDep.ldapLoginJsClientIntegratorFactory.type, "genericFactory");
+
+	var ldapLoginJsClientIntegratorFactory = factoredDep.ldapLoginJsClientIntegratorFactory;
+	var jsCIFDependencies  = ldapLoginJsClientIntegratorFactory.getDependencies();
+	
+	assert.strictEqual(jsCIFDependencies.ldapLoginFactory.type,	"ldapLoginFactory");
+
 });
 
 QUnit.test("testOpenGuiItemHandlerFactoryDependencies", function(assert) {
