@@ -44,6 +44,8 @@ QUnit
                     "appTokenLoginFactory": CORATEST.appTokenLoginFactorySpy(),
                     "webRedirectLoginFactory": CORATEST
                         .standardFactorySpy("webRedirectLoginSpy"),
+                    "ldapLoginJsClientIntegratorFactory": CORATEST
+                        .standardFactorySpy("ldapLoginJsClientIntegratorSpy"),
                     "authTokenHolder": CORATEST.authTokenHolderSpy(),
                     "ajaxCallFactory": CORATEST.ajaxCallFactorySpy()
                 };
@@ -75,7 +77,8 @@ QUnit
                     "afterLogoutMethod": this.afterLogoutMethod,
                     "setErrorMessage": this.setErrorMessage,
                     "appTokenBaseUrl": "someAppTokenBaseUrl/",
-                    baseUrl: "http://epc.ub.uu.se/cora/rest/"
+                    baseUrl: "http://epc.ub.uu.se/cora/rest/",
+                    "jsClient" : CORATEST.jsClientSpy()
                 };
                 this.loginManager = CORA.loginManager(this.dependencies, this.spec);
 
@@ -235,7 +238,14 @@ QUnit
                     text: "translated_testLoginUnitText",
                     type: "webRedirect",
                     url: "https://epc.ub.uu.se/Shibboleth.sso/Login/test?target=https://epc.ub.uu.se/idplogin/login"
-                }
+                },
+                {
+                    "text": "translated_uuSystemOneLDAPLoginUnitText",
+                    "type": "ldap",
+                    "url": "http://www.google.se",
+                    "metadataId": "ldapGroup",
+                    "presentationId" : "ldapPGroup"
+                  }
             ];
             assert.stringifyEqual(factoredView.getLoginOptions(), expectedLoginOptions);
         });
@@ -259,7 +269,14 @@ QUnit
                     text: "translated_testLoginUnitText",
                     type: "webRedirect",
                     url: "https://epc.ub.uu.se/Shibboleth.sso/Login/test?target=https://epc.ub.uu.se/idplogin/login"
-                }];
+                },
+                {
+                    "text": "translated_uuSystemOneLDAPLoginUnitText",
+                    "type": "ldap",
+                    "url": "http://www.google.se",
+                    "metadataId": "ldapGroup",
+                    "presentationId" : "ldapPGroup"
+                  }];
             assert.stringifyEqual(factoredView.getLoginOptions(), expectedLoginOptions);
         });
 
@@ -478,6 +495,27 @@ QUnit.test("testAuthTokenIsRemovedOnAppTokenLogoutCallback", function (assert) {
 
     var authTokenHolder = this.dependencies.authTokenHolder;
     assert.strictEqual(authTokenHolder.getToken(1), "");
+});
+
+QUnit.test("testLdapLoginFactoryIsCalledOnLdapLogin", function (assert) {
+    var loginManager = this.loginManager;
+    loginManager.login({
+        "text": "someText",
+        "type": "ldap",
+        "metadataId" : "someMetadataId",
+        "presentationId" : "somePresentationId"
+    });
+    var factored1 = this.dependencies.ldapLoginJsClientIntegratorFactory.getFactored(0);
+    assert.ok(factored1);
+    assert.strictEqual(factored1.type, "ldapLoginJsClientIntegratorSpy");
+    var spec0 = this.dependencies.ldapLoginJsClientIntegratorFactory.getSpec(0);
+    assert.strictEqual(spec0.metadataId, "someMetadataId");
+    assert.strictEqual(spec0.presentationId, "somePresentationId");
+    assert.strictEqual(spec0.jsClient, this.spec.jsClient);
+//    assert.strictEqual(spec0.accept, "");
+//    assert.strictEqual(spec0.authInfoCallback, loginManager.appTokenAuthInfoCallback);
+//    assert.strictEqual(spec0.errorCallback, loginManager.appTokenErrorCallback);
+//    assert.strictEqual(spec0.timeoutCallback, loginManager.appTokenTimeoutCallback);
 });
 
 QUnit.test("testErrorMessage", function (assert) {

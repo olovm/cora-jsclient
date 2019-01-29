@@ -129,6 +129,7 @@ QUnit.test("testloginManagerFactoryDependencies", function(assert) {
 	assert.strictEqual(factoredDep.ajaxCallFactory,
 			jsClientFactoredDep.globalFactories.ajaxCallFactory);
 	assert.strictEqual(factoredDep.textProvider, this.providers.textProvider);
+	assert.strictEqual(factoredDep.ldapLoginJsClientIntegratorFactory.type, "ldapLoginJsClientIntegratorFactory");
 });
 
 QUnit.test("testOpenGuiItemHandlerFactoryDependencies", function(assert) {

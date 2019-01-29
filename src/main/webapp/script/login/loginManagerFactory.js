@@ -19,7 +19,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.loginManagerFactory = function(dependencies) {
-
+			
 		function getDependencies() {
 			return dependencies;
 		}
@@ -34,6 +34,7 @@ var CORA = (function(cora) {
 						.loginManagerViewFactory(loginManagerViewFactoryDependencies),
 				"appTokenLoginFactory" : dependencies.appTokenLoginFactory,
 				"webRedirectLoginFactory" : dependencies.webRedirectLoginFactory,
+				"ldapLoginJsClientIntegratorFactory" : dependencies.ldapLoginJsClientIntegratorFactory,
 				"authTokenHolder" : dependencies.authTokenHolder,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory
 			};

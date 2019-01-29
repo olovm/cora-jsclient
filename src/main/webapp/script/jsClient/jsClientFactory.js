@@ -38,13 +38,28 @@ var CORA = (function(cora) {
 			};
 			var appTokenLoginFactory = CORA.appTokenLoginFactory(appTokenLoginFactoryDependencies);
 			var webRedirectLoginFactory = CORA.webRedirectLoginFactory();
+			
+			var dependenciesLdap = {
+					"providers" : providers,
+					"globalFactories" : globalFactories
+				};
+			globalFactories.ldapLoginFactory = CORA.ldapLoginFactory(dependenciesLdap);
+
+			
+			var ldapLoginJsClientIntegratorDep = {
+					"ldapLoginFactory" : globalFactories.ldapLoginFactory,
+					"managedGuiItemFactory" : CORA.managedGuiItemFactory()
+				};
+			
+			var ldapLoginJsClientIntegratorFactory = CORA.ldapLoginJsClientIntegratorFactory(ldapLoginJsClientIntegratorDep);
 
 			var loginManagerFactoryDependencies = {
 				"authTokenHolder" : authTokenHolder,
 				"textProvider" : providers.textProvider,
 				"appTokenLoginFactory" : appTokenLoginFactory,
 				"webRedirectLoginFactory" : webRedirectLoginFactory,
-				"ajaxCallFactory" : ajaxCallFactory
+				"ajaxCallFactory" : ajaxCallFactory,
+				"ldapLoginJsClientIntegratorFactory" : ldapLoginJsClientIntegratorFactory
 			};
 			var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
 
@@ -138,8 +153,7 @@ var CORA = (function(cora) {
 			globalFactories.recordListHandlerFactory = recordListHandlerFactory;
 			globalFactories.recordTypeHandlerViewFactory = recordTypeHandlerViewFactory;
 			
-//			globalFactories.ldapLoginFactory = 
-
+			
 			var genericDependencies = {
 				"providers" : providers,
 				"globalInstances" : {
@@ -160,12 +174,6 @@ var CORA = (function(cora) {
 			};
 			var recordTypeMenu = CORA.recordTypeMenu(providers, menuDependencies, menuSpec);
 
-//			var ldapLoginJsClientIntegratorDep = {
-//					"ldapLoginFactory" : dependencies.globalFactories.ldapLoginFactory,
-//					"managedGuiItemFactory" : CORA.managedGuiItemFactory()
-//				};
-//			
-//			var ldapLoginJsClientIntegratorFactory = CORA.ldapLoginJsClientIntegratorFactory(ldapLoginJsClientIntegratorDep)
 			
 			var dep = {
 				"providers" : providers,
@@ -183,7 +191,7 @@ var CORA = (function(cora) {
 				"recordTypeHandlerFactory" : recordTypeHandlerFactory,
 				recordTypeMenu : recordTypeMenu
 			};
-
+			
 			jsClient = CORA.jsClient(dep, jsClientSpec);
 			return jsClient;
 		}

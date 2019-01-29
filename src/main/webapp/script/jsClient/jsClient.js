@@ -65,7 +65,8 @@ var CORA = (function(cora) {
 				"afterLogoutMethod" : afterLogout,
 				"setErrorMessage" : jsClientView.addErrorMessage,
 				"appTokenBaseUrl" : spec.appTokenBaseUrl,
-				baseUrl : spec.baseUrl
+				baseUrl : spec.baseUrl,
+				"jsClient" : out
 			};
 			var loginManager = dependencies.globalFactories.loginManagerFactory
 					.factor(loginManagerSpec);
@@ -256,9 +257,10 @@ var CORA = (function(cora) {
 		function showLdapLogin() {
 			var ldapLoginSpec = {
 				"metadataId" : "recordInfoGroup",
-				"presentationId" : "recordInfoPGroup"
+				"presentationId" : "recordInfoPGroup",
+				"jsClient" : out
 			};
-			dependencies.ldapLoginJSClientIntegratorFactory.factor(ldapLoginSpec);
+			dependencies.ldapLoginJsClientIntegratorFactory.factor(ldapLoginSpec);
 		}
 
 		function getDependencies() {

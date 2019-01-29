@@ -146,6 +146,8 @@ QUnit.test("testInitCreatesALoginManager",
 					this.spec.baseUrl);
 			assert.strictEqual(this.loginManagerFactory.getSpec(0).appTokenBaseUrl,
 			"someAppTokenBaseUrl/");
+			assert.strictEqual(this.loginManagerFactory.getSpec(0).jsClient,
+			jsClient);
 
 			assert.strictEqual(this.dependencies.globalInstances.loginManager, factored);
 

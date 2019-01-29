@@ -277,7 +277,162 @@ var CORATEST = (function(coraTest) {
 								}
 							}
 						}
-					} ],
+					},
+					{
+				        "record": {
+				          "data": {
+				            "children": [
+				              {
+				                "children": [
+				                  {
+				                    "name": "id",
+				                    "value": "uuSystemOneLDAPLoginUnit"
+				                  },
+				                  {
+				                    "children": [
+				                      {
+				                        "name": "linkedRecordType",
+				                        "value": "system"
+				                      },
+				                      {
+				                        "name": "linkedRecordId",
+				                        "value": "systemOne"
+				                      }
+				                    ],
+				                    "actionLinks": {
+				                      "read": {
+				                        "requestMethod": "GET",
+				                        "rel": "read",
+				                        "url": "http://localhost:8080/therest/rest/record/system/systemOne",
+				                        "accept": "application/vnd.uub.record+json"
+				                      }
+				                    },
+				                    "name": "dataDivider"
+				                  },
+				                  {
+				                    "children": [
+				                      {
+				                        "name": "linkedRecordType",
+				                        "value": "recordType"
+				                      },
+				                      {
+				                        "name": "linkedRecordId",
+				                        "value": "loginUnit"
+				                      }
+				                    ],
+				                    "actionLinks": {
+				                      "read": {
+				                        "requestMethod": "GET",
+				                        "rel": "read",
+				                        "url": "http://localhost:8080/therest/rest/record/recordType/loginUnit",
+				                        "accept": "application/vnd.uub.record+json"
+				                      }
+				                    },
+				                    "name": "type"
+				                  },
+				                  {
+				                    "children": [
+				                      {
+				                        "name": "linkedRecordType",
+				                        "value": "user"
+				                      },
+				                      {
+				                        "name": "linkedRecordId",
+				                        "value": "141414"
+				                      }
+				                    ],
+				                    "name": "createdBy"
+				                  },
+				                  {
+				                    "name": "tsCreated",
+				                    "value": "2019-01-25 08:39:04.315"
+				                  },
+				                  {
+				                    "repeatId": "0",
+				                    "children": [
+				                      {
+				                        "children": [
+				                          {
+				                            "name": "linkedRecordType",
+				                            "value": "user"
+				                          },
+				                          {
+				                            "name": "linkedRecordId",
+				                            "value": "141414"
+				                          }
+				                        ],
+				                        "name": "updatedBy"
+				                      },
+				                      {
+				                        "name": "tsUpdated",
+				                        "value": "2019-01-25 08:39:04.315"
+				                      }
+				                    ],
+				                    "name": "updated"
+				                  }
+				                ],
+				                "name": "recordInfo"
+				              },
+				              {
+				                "children": [
+				                  {
+				                    "children": [
+				                      {
+				                        "name": "linkedRecordType",
+				                        "value": "loginLDAP"
+				                      },
+				                      {
+				                        "name": "linkedRecordId",
+				                        "value": "uppsalaLDAP"
+				                      }
+				                    ],
+				                    "actionLinks": {
+				                      "read": {
+				                        "requestMethod": "GET",
+				                        "rel": "read",
+				                        "url": "http://localhost:8080/therest/rest/record/loginLDAP/uppsalaLDAP",
+				                        "accept": "application/vnd.uub.record+json"
+				                      }
+				                    },
+				                    "name": "login"
+				                  },
+				                  {
+				                    "children": [
+				                      {
+				                        "name": "linkedRecordType",
+				                        "value": "coraText"
+				                      },
+				                      {
+				                        "name": "linkedRecordId",
+				                        "value": "uuSystemOneLDAPLoginUnitText"
+				                      }
+				                    ],
+				                    "actionLinks": {
+				                      "read": {
+				                        "requestMethod": "GET",
+				                        "rel": "read",
+				                        "url": "http://localhost:8080/therest/rest/record/coraText/uuSystemOneLDAPLoginUnitText",
+				                        "accept": "application/vnd.uub.record+json"
+				                      }
+				                    },
+				                    "name": "loginDescription"
+				                  }
+				                ],
+				                "name": "loginInfo"
+				              }
+				            ],
+				            "name": "loginUnit"
+				          },
+				          "actionLinks": {
+				            "read": {
+				              "requestMethod": "GET",
+				              "rel": "read",
+				              "url": "http://localhost:8080/therest/rest/record/loginUnit/uuSystemOneLDAPLoginUnit",
+				              "accept": "application/vnd.uub.record+json"
+				            }
+				          }
+				        }
+				      }],
 			"totalNo" : "2",
 			"containDataOfType" : "loginUnit",
 			"toNo" : "2"
