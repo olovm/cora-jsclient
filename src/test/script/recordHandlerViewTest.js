@@ -21,9 +21,11 @@
 
 QUnit.module("recordHandlerViewTest.js", {
 	beforeEach : function() {
+        this.fixture = document.getElementById("qunit-fixture");
 		this.workItemViewFactory = CORATEST.workItemViewFactorySpy();
 		this.dependencies = {
-			"workItemViewFactory" : this.workItemViewFactory
+			"workItemViewFactory" : this.workItemViewFactory,
+			"holderFactory": CORATEST.standardFactorySpy("holderSpy")
 		};
 		this.spec = {
 			"extraClassName" : "extraClassName2",
@@ -70,7 +72,10 @@ QUnit.module("recordHandlerViewTest.js", {
 
 QUnit.test("init", function(assert) {
 	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
-	var workItemViewSpy = this.getWorkItemViewSpy();// workItemViewFactory.getFactored(0);
+	this.fixture.appendChild(this.recordHandlerView.getView());
+
+	var workItemViewSpy = this.getWorkItemViewSpy();
+
 	var factoredWorkItemViewSpec = workItemViewSpy.getSpec();
 	assert.strictEqual(factoredWorkItemViewSpec.extraClassName, "extraClassName2");
 
@@ -88,10 +93,13 @@ QUnit.test("init", function(assert) {
 	assert.strictEqual(buttonView.nodeName, "SPAN");
 	assert.strictEqual(buttonView.className, "buttonView");
 
+    var holderFactory = this.dependencies.holderFactory;
+    var holder = holderFactory.getFactored(0);
+	assert.ok(holder);
+	assert.strictEqual(holderFactory.getSpec(0).className, "incomingLinksView");
+
 	var incomingLinksView = workItemViewSpy.getViewsAddedToView(3);
-	assert.strictEqual(incomingLinksView.nodeName, "SPAN");
-	assert.strictEqual(incomingLinksView.className, "incomingLinksView");
-	
+    assert.strictEqual(incomingLinksView, holder.getView());
 });
 
 QUnit.test("testGetView", function(assert) {
@@ -221,7 +229,7 @@ QUnit.test("testClearDataViews", function(assert) {
 	assert.strictEqual(this.getButtonView().childNodes.length, 1);
 });
 
-QUnit.test("testAddToincomingLinksView", function(assert) {
+QUnit.test("testAddToIncomingLinksView", function(assert) {
 	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
 	var someView = document.createElement("span");
 
@@ -230,9 +238,27 @@ QUnit.test("testAddToincomingLinksView", function(assert) {
 	assert.strictEqual(this.getIncomingLinksView().firstChild, someView);
 });
 
+QUnit.test("testAddDuplicateIncomingLinksView", function(assert) {
+    this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
+    var someView = document.createElement("span");
+
+    this.recordHandlerView.addToIncomingLinksView(someView);
+
+    assert.strictEqual(this.getIncomingLinksView().firstChild, someView);
+
+    var someOtherView1 = document.createElement("span");
+    var someOtherView2 = document.createElement("span");
+    var someOtherView3 = document.createElement("span");
+    this.recordHandlerView.addToIncomingLinksView(someOtherView1);
+    this.recordHandlerView.addToIncomingLinksView(someOtherView2);
+    this.recordHandlerView.addToIncomingLinksView(someOtherView3);
+
+    assert.strictEqual(this.getIncomingLinksView().childNodes.length, 1);
+
+});
+
 QUnit.test("testAddShowIncomingLinksButton", function(assert) {
 	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
-	var someView = document.createElement("span");
 	assert.strictEqual(this.getButtonView().childNodes.length, 0);
 
 	this.recordHandlerView.showShowIncomingLinksButton();
@@ -240,13 +266,31 @@ QUnit.test("testAddShowIncomingLinksButton", function(assert) {
 	assert.strictEqual(this.getButtonView().childNodes.length, 1);
 	var showIncomingLinksButton = this.getButtonView().childNodes[0];
 	assert.strictEqual(showIncomingLinksButton.value, "INCOMING LINKS");
-	assert.strictEqual(showIncomingLinksButton.onclick, this.spec.showIncomingLinksMethod);
 	assert.strictEqual(showIncomingLinksButton.className, "showIncomingLinks");
+});
+
+QUnit.test("testIncomingLinksButton", function(assert) {
+    var wasCalled = false;
+	this.spec.showIncomingLinksMethod = function(){
+    	wasCalled = true;
+	};
+	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
+    this.recordHandlerView.showShowIncomingLinksButton();
+    var showIncomingLinksButton = this.getButtonView().childNodes[0];
+    var holderFactory = this.dependencies.holderFactory;
+    var holder = holderFactory.getFactored(0);
+    assert.strictEqual(holder.getOpenCalled(),0);
+
+    CORATESTHELPER.simulateOnclick(showIncomingLinksButton);
+    assert.strictEqual(wasCalled, true);
+    //assert.strictEqual(showIncomingLinksButton.onclick, this.spec.showIncomingLinksMethod);
+
+    assert.strictEqual(holder.getOpenCalled(),1);
+
 });
 
 QUnit.test("testAddShowNoIncomingLinksButton", function(assert) {
 	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
-	var someView = document.createElement("span");
 	assert.strictEqual(this.getButtonView().childNodes.length, 0);
 
 	this.recordHandlerView.showShowIncomingLinksButton();

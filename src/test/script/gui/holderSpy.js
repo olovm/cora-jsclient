@@ -22,6 +22,7 @@ var CORATEST = (function(coraTest) {
 
 		var button = CORA.gui.createSpanWithClassName("fakeButton");
 		var view = CORA.gui.createSpanWithClassName("fakeView");
+		var openCalled = 0;
 		function getSpec() {
 			return spec;
 		}
@@ -33,12 +34,22 @@ var CORATEST = (function(coraTest) {
 		function getView() {
 			return view;
 		}
+
+		function open() {
+			openCalled++;
+		}
+
+		function getOpenCalled() {
+			return openCalled;
+		}
+
 		var out = Object.freeze({
 			"type" : "holderSpy",
 			getSpec : getSpec,
 			getButton : getButton,
 			// toggleHolder : toggleHolder,
-			// openHolder : open,
+			openHolder : open,
+			getOpenCalled:getOpenCalled,
 			// closeHolder : close,
 			getView : getView,
 		// getStatus : getStatus

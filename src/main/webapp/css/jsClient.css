@@ -294,7 +294,7 @@ body {
 
 .workArea>.workView>.workItem>.editView, .workArea>.workView>.workItem>.showView {
 	overflow-y: auto;
-	height: calc(100% - 2rem);
+	height: calc(90% - 2rem);
 }
 
 .editView>.presentation, .showView>.presentation{
@@ -330,7 +330,6 @@ body {
 	margin-top: 0rem;
 	margin-right: 0.5rem;
 	margin-left: 0rem;
-	margin-bottom: 1rem;
 	height: 100%;
 }
 
@@ -341,10 +340,18 @@ body {
 	flex: 0 0 100%;
 }
 
-.jsClient .workItem>.incomingLinksView {
-	display: flex;
-	flex: 0 0 100%;
+
+.jsClient .workItem > .incomingLinksView {
+	box-shadow: -3px -3px 6px rgba(0,0,0,0.2);
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background-color: #f6f6f7;
+	height: 50%;
+	z-index: 100;
+	overflow: auto;
 }
+
 .jsClient .incomingLink:hover {
 	background-color: rgba(0, 130, 201, 0.1);
 	cursor: pointer;
@@ -381,9 +388,8 @@ body {
 
 .openGuiItemHandlerView .menuView .pVar span, .jsClient .openGuiItemHandlerView .menuView .text,
 	.recordTypesView .menuView .pVar span, .jsClient .recordTypesView .menuView .text
-	{
-/* 	max-width: calc(70% - 1rem - 30px); */
-max-width: 95%;
+{
+	max-width: 95%;
 	overflow: hidden;
 	display: inline-block;
 	text-overflow: ellipsis;

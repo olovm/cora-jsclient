@@ -20,9 +20,6 @@
 
 QUnit.module("recordHandlerViewFactoryTest.js", {
 	beforeEach : function() {
-		this.dependencies = {
-			"workItemViewFactory" : CORATEST.workItemViewFactorySpy()
-		};
 		this.spec = {
 			"extraClassName" : "someClassname"
 		};
@@ -43,6 +40,8 @@ QUnit.test("factorTestDependencies", function(assert) {
 			"workItemViewFactory");
 	assert.strictEqual(recordHandlerView.getDependencies().messageHolderFactory.type,
 	"messageHolderFactory");
+    assert.strictEqual(recordHandlerView.getDependencies().holderFactory.type,
+        "holderFactory");
 });
 
 QUnit.test("factorTestType", function(assert) {
