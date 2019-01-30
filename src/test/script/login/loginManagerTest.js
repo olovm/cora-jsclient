@@ -486,6 +486,45 @@ QUnit.test("testErrorMessage", function(assert) {
 	assert.strictEqual(this.getErrorMessage(), "AppToken login failed!");
 });
 
+QUnit.test("testErrorForStoppedServerOnLogoutResultsInLogout", function(assert) {
+	var loginManager = this.loginManager;
+	var errorObject = {
+		status : 0,
+		spec : {
+			requestMethod : "DELETE"
+		}
+	};
+	loginManager.appTokenErrorCallback(errorObject);
+	assert.strictEqual(this.getErrorMessage(), undefined);
+
+	assertLogoutPerformed(this, assert);
+});
+
+function assertLogoutPerformed(test, assert) {
+	var factoredView = test.dependencies.loginManagerViewFactory.getFactored(0);
+	var stateSetInView = factoredView.getState();
+	assert.strictEqual(stateSetInView, CORA.loginManager.LOGGEDOUT);
+
+	assert.strictEqual(test.afterLogoutMethodWasCalled(), true);
+
+	var authTokenHolder = test.dependencies.authTokenHolder;
+	assert.strictEqual(authTokenHolder.getToken(0), "");
+}
+
+QUnit.test("testErrorRestartedServerOnLogoutResultsInLogout", function(assert) {
+	var loginManager = this.loginManager;
+	var errorObject = {
+		status : 404,
+		spec : {
+			requestMethod : "DELETE"
+		}
+	};
+	loginManager.appTokenErrorCallback(errorObject);
+	assert.strictEqual(this.getErrorMessage(), undefined);
+
+	assertLogoutPerformed(this, assert);
+});
+
 QUnit.test("testTimeoutMessage", function(assert) {
 	var loginManager = this.loginManager;
 	loginManager.appTokenTimeoutCallback();
