@@ -25,12 +25,12 @@ var CORATEST = (function(coraTest) {
 		function getView() {
 			return view;
 		}
-		
+
 		function showLdapLoginInJsClient() {
 			noOfShowLdapLoginInJsClient++;
 		}
-		
-		function getNoOfShowLdapLoginInJsClient(){
+
+		function getNoOfShowLdapLoginInJsClient() {
 			return noOfShowLdapLoginInJsClient;
 		}
 
@@ -38,7 +38,7 @@ var CORATEST = (function(coraTest) {
 			"type" : "ldapLoginJsClientIntegratorSpy",
 			getView : getView,
 			"showLdapLoginInJsClient" : showLdapLoginInJsClient,
-			"getNoOfShowLdapLoginInJsClient" :getNoOfShowLdapLoginInJsClient
+			"getNoOfShowLdapLoginInJsClient" : getNoOfShowLdapLoginInJsClient
 		});
 	};
 	return coraTest;

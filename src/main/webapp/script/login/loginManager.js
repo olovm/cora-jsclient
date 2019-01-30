@@ -286,22 +286,21 @@ var CORA = (function(cora) {
 		function loginAlreadyStartedForLoginOption(loginOption) {
 			return startedLdapLogins[loginOption.loginUnitId] !== undefined;
 		}
-		
-		function showStartedLoginInJsClientForLoginOption(loginOption){
+
+		function showStartedLoginInJsClientForLoginOption(loginOption) {
 			startedLdapLogins[loginOption.loginUnitId].showLdapLoginInJsClient();
 		}
 
-		function startLoginForLoginOption(loginOption){
+		function startLoginForLoginOption(loginOption) {
 			var ldapLoginSpec = {
-					"metadataId" : loginOption.metadataId,
-					"presentationId" : loginOption.presentationId,
-					"jsClient" : spec.jsClient
-				};
-				var ldapLoginJsClientIntegrator = dependencies.ldapLoginJsClientIntegratorFactory
-						.factor(ldapLoginSpec);
-				startedLdapLogins[loginOption.loginUnitId] = ldapLoginJsClientIntegrator;
+				"metadataId" : loginOption.metadataId,
+				"presentationId" : loginOption.presentationId,
+				"jsClient" : spec.jsClient
+			};
+			var ldapLoginJsClientIntegrator = dependencies.ldapLoginJsClientIntegratorFactory
+					.factor(ldapLoginSpec);
+			startedLdapLogins[loginOption.loginUnitId] = ldapLoginJsClientIntegrator;
 		}
-		
 
 		function getDependencies() {
 			return dependencies;

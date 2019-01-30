@@ -40,19 +40,19 @@ var CORATEST = (function(coraTest) {
 		function getLoginOptions() {
 			return loginOptions;
 		}
-		function setLoginOptions(loginOptionsIn){
+		function setLoginOptions(loginOptionsIn) {
 			loginOptions = loginOptionsIn;
 		}
 
 		function setState(stateIn) {
 			state = stateIn;
 		}
-		
-		function closeHolder(){
+
+		function closeHolder() {
 			noOfCallsToCloseHolder++;
 		}
-		
-		function getNoOfCallsToCloseHolder(){
+
+		function getNoOfCallsToCloseHolder() {
 			return noOfCallsToCloseHolder;
 		}
 		function getDependencies() {

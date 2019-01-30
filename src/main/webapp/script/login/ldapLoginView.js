@@ -40,7 +40,6 @@ var CORA = (function(cora) {
 			addTo.addViewToView(loginFormHolder);
 		}
 
-
 		function getView() {
 			return view;
 		}

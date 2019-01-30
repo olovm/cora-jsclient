@@ -39,8 +39,7 @@ var CORA = (function(cora) {
 				"activateMethod" : spec.jsClient.showView,
 				"removeMethod" : spec.jsClient.viewRemoved
 			};
-			return dependencies.managedGuiItemFactory
-					.factor(managedGuiItemSpec);
+			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 		}
 
 		function showLdapLoginInJsClient() {
