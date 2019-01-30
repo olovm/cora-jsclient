@@ -293,8 +293,17 @@ var CORA = (function(cora) {
 			spec.afterLoginMethod();
 		}
 
-		function appTokenErrorCallback() {
-			spec.setErrorMessage("AppToken login failed!");
+		function appTokenErrorCallback(errorObject) {
+			if (failedToLogout(errorObject)) {
+				logoutCallback();
+			} else {
+				spec.setErrorMessage("AppToken login failed!");
+			}
+		}
+
+		function failedToLogout(errorObject) {
+			return (errorObject.status === 0 || errorObject.status === 404)
+					&& errorObject.spec.requestMethod === "DELETE";
 		}
 
 		function appTokenTimeoutCallback() {
