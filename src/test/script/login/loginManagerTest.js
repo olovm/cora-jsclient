@@ -514,6 +514,19 @@ QUnit.test("testLdapLoginFactoryIsCalledOnLdapLogin", function (assert) {
     assert.strictEqual(spec0.jsClient, this.spec.jsClient);
 });
 
+QUnit.test("testCloseHolderIsCalledOnShowLdap", function (assert) {
+	   var loginManager = this.loginManager;
+	    loginManager.login({
+	        "text": "someText",
+	        "type": "ldap",
+	        "metadataId" : "someMetadataId",
+	        "presentationId" : "somePresentationId"
+	    });
+    var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
+    
+    assert.strictEqual(factoredView.getCloseHolderWasCalled(), true);
+});
+
 QUnit.test("testErrorMessage", function (assert) {
     var loginManager = this.loginManager;
     loginManager.appTokenErrorCallback();

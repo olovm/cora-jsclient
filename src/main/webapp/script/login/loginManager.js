@@ -267,7 +267,7 @@ var CORA = (function(cora) {
 					"jsClient" : spec.jsClient
 				};
 				dependencies.ldapLoginJsClientIntegratorFactory.factor(ldapLoginSpec);
-				
+				loginManagerView.closeHolder(); 			
 		}
 
 		function getIdpLoginServerPartFromUrl(urlToWedredirectLogin) {
