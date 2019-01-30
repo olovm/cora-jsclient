@@ -23,7 +23,7 @@ var CORATEST = (function(coraTest) {
 		var loginOptions;
 		var logoutOptions;
 		var state;
-		var closeHolderWasCalled = false;
+		var noOfCallsToCloseHolder = 0;
 		var html = CORA.gui.createSpanWithClassName("loginManagerViewSpy");
 		function getHtml() {
 			return html;
@@ -49,11 +49,11 @@ var CORATEST = (function(coraTest) {
 		}
 		
 		function closeHolder(){
-			closeHolderWasCalled = true;
+			noOfCallsToCloseHolder++;
 		}
 		
-		function getCloseHolderWasCalled(){
-			return closeHolderWasCalled;
+		function getNoOfCallsToCloseHolder(){
+			return noOfCallsToCloseHolder;
 		}
 		function getDependencies() {
 			return dependencies;
@@ -76,7 +76,7 @@ var CORATEST = (function(coraTest) {
 			getUserId : getUserId,
 			setLoginOptions : setLoginOptions,
 			closeHolder : closeHolder,
-			getCloseHolderWasCalled : getCloseHolderWasCalled
+			getNoOfCallsToCloseHolder : getNoOfCallsToCloseHolder
 		});
 		return out;
 	};

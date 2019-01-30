@@ -42,7 +42,7 @@ QUnit.test("testGetDependencies", function(assert) {
 
 QUnit.test("testInitFactoredWorkItemViewSpec", function(assert) {
 	var factoredSpec = this.dependencies.workItemViewFactory.getSpec(0);
-	assert.strictEqual(factoredSpec.extraClassName, "search");
+	assert.strictEqual(factoredSpec.extraClassName, "ldapLogin");
 });
 
 QUnit.test("testInitViewIsFactoredWorkItemView", function(assert) {

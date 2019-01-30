@@ -244,7 +244,8 @@ QUnit
                     "type": "ldap",
                     "url": "http://www.google.se",
                     "metadataId": "ldapGroup",
-                    "presentationId" : "ldapPGroup"
+                    "presentationId" : "ldapPGroup",
+                    "loginUnitId" : "uuSystemOneLDAPLoginUnit"
                   }
             ];
             assert.stringifyEqual(factoredView.getLoginOptions(), expectedLoginOptions);
@@ -275,7 +276,8 @@ QUnit
                     "type": "ldap",
                     "url": "http://www.google.se",
                     "metadataId": "ldapGroup",
-                    "presentationId" : "ldapPGroup"
+                    "presentationId" : "ldapPGroup",
+                    "loginUnitId" : "uuSystemOneLDAPLoginUnit"
                   }];
             assert.stringifyEqual(factoredView.getLoginOptions(), expectedLoginOptions);
         });
@@ -535,6 +537,66 @@ QUnit.test("testLdapLoginFactoryIsCalledOnLdapLogin", function (assert) {
     assert.strictEqual(spec0.jsClient, this.spec.jsClient);
 });
 
+QUnit.test("testLdapLoginFactoryIsCalledOnlyOnceForSameLdapLogin", function (assert) {
+    var loginManager = this.loginManager;
+    var spec = {
+            "text": "someText",
+            "type": "ldap",
+            "metadataId" : "someMetadataId",
+            "presentationId" : "somePresentationId",
+            "loginUnitId" : "uuSystemOneLDAPLoginUnit"
+            
+        };
+    loginManager.login(spec);
+    var factored = this.dependencies.ldapLoginJsClientIntegratorFactory.getFactored(0);
+    assert.ok(factored);
+    
+    loginManager.login(spec);
+
+    var factored1 = this.dependencies.ldapLoginJsClientIntegratorFactory.getFactored(1);
+    assert.strictEqual(factored1, undefined);
+});
+
+QUnit.test("testLdapLoginFactoryIsCalledOnceForEachDifferentLdapLogin", function (assert) {
+    var loginManager = this.loginManager;
+    var spec = {
+            "text": "someText",
+            "type": "ldap",
+            "metadataId" : "someMetadataId",
+            "presentationId" : "somePresentationId",
+            "loginUnitId" : "uuSystemOneLDAPLoginUnit"
+            
+        };
+    loginManager.login(spec);
+    var factored = this.dependencies.ldapLoginJsClientIntegratorFactory.getFactored(0);
+    assert.ok(factored);
+    spec.loginUnitId = "someOtherLDAPLoginUnit";
+    loginManager.login(spec);
+
+    var factored1 = this.dependencies.ldapLoginJsClientIntegratorFactory.getFactored(1);
+    assert.ok(factored1);
+});
+
+QUnit.test("testLdapLoginShownInJsClientWhenSameLoginCalledAgain", function (assert) {
+	var loginManager = this.loginManager;
+    var spec = {
+            "text": "someText",
+            "type": "ldap",
+            "metadataId" : "someMetadataId",
+            "presentationId" : "somePresentationId",
+            "loginUnitId" : "uuSystemOneLDAPLoginUnit"
+            
+        };
+    loginManager.login(spec);
+    var factored = this.dependencies.ldapLoginJsClientIntegratorFactory.getFactored(0);
+    assert.strictEqual(factored.getNoOfShowLdapLoginInJsClient(), 0);
+    
+    loginManager.login(spec);
+    assert.strictEqual(factored.getNoOfShowLdapLoginInJsClient(), 1);
+    var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
+    assert.strictEqual(factoredView.getNoOfCallsToCloseHolder(), 2);
+});
+
 QUnit.test("testCloseHolderIsCalledOnShowLdap", function (assert) {
 	   var loginManager = this.loginManager;
 	    loginManager.login({
@@ -545,7 +607,7 @@ QUnit.test("testCloseHolderIsCalledOnShowLdap", function (assert) {
 	    });
     var factoredView = this.dependencies.loginManagerViewFactory.getFactored(0);
     
-    assert.strictEqual(factoredView.getCloseHolderWasCalled(), true);
+    assert.strictEqual(factoredView.getNoOfCallsToCloseHolder(), 1);
 });
 
 function assertLogoutPerformed(test, assert) {

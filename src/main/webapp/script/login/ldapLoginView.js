@@ -30,7 +30,7 @@ var CORA = (function(cora) {
 
 		function createWorkItemView() {
 			var workItemViewSpec = {
-				"extraClassName" : "search"
+				"extraClassName" : "ldapLogin"
 			};
 			return dependencies.workItemViewFactory.factor(workItemViewSpec);
 		}

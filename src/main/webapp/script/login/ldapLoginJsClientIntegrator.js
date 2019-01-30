@@ -24,8 +24,7 @@ var CORA = (function(cora) {
 
 		function start() {
 			managedGuiItem = createManagedGuiItem();
-			addLdapLoginToJsClient(managedGuiItem);
-			showLdapLoginInJsClient(managedGuiItem);
+			showLdapLoginInJsClient();
 
 			ldapLogin = createLdapLogin();
 			managedGuiItem.addWorkPresentation(ldapLogin.getView());
@@ -44,12 +43,8 @@ var CORA = (function(cora) {
 					.factor(managedGuiItemSpec);
 		}
 
-		function addLdapLoginToJsClient(managedGuiItemToAdd) {
-			spec.jsClient.addGuiItem(managedGuiItemToAdd);
-		}
-
-		function showLdapLoginInJsClient(managedGuiItemToShow) {
-			spec.jsClient.showView(managedGuiItemToShow);
+		function showLdapLoginInJsClient() {
+			spec.jsClient.showView(managedGuiItem);
 		}
 
 		function getDependencies() {
@@ -63,6 +58,7 @@ var CORA = (function(cora) {
 		start();
 		return Object.freeze({
 			"type" : "ldapLoginJsClientIntegrator",
+			"showLdapLoginInJsClient" : showLdapLoginInJsClient,
 			getDependencies : getDependencies,
 			getSpec : getSpec
 		});
