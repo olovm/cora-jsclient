@@ -21,7 +21,7 @@ var karma_config = require('./karma.core.js');
 module.exports = function(config) {
 	config.set(karma_config({
 		singleRun : false,
-		reporters : [ 'dots', 'coverage' ],
+		reporters : [ 'dots', 'coverage', 'html' ],
 		browsers : [ 'FirefoxHeadless' ]
 	}));
 };
