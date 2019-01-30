@@ -76,6 +76,11 @@ var CORA = (function(cora) {
 		function setUserId(userIdIn) {
 			view.textContent = userIdIn;
 		}
+		
+		function closeHolder(){
+			holder.closeHolder();
+			
+		}
 
 		function setState(stateIn) {
 			holder.closeHolder();
@@ -113,8 +118,9 @@ var CORA = (function(cora) {
 			getMenu : getMenu,
 			setState : setState,
 			setUserId : setUserId,
-			setLoginOptions : setLoginOptions
-		});
+			setLoginOptions : setLoginOptions, 
+			closeHolder : closeHolder
+			});
 		start();
 		return out;
 	};

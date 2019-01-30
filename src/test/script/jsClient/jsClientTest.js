@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2019 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -146,6 +146,8 @@ QUnit.test("testInitCreatesALoginManager",
 					this.spec.baseUrl);
 			assert.strictEqual(this.loginManagerFactory.getSpec(0).appTokenBaseUrl,
 			"someAppTokenBaseUrl/");
+			assert.strictEqual(this.loginManagerFactory.getSpec(0).jsClient,
+			jsClient);
 
 			assert.strictEqual(this.dependencies.globalInstances.loginManager, factored);
 

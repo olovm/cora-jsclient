@@ -125,6 +125,10 @@ var CORA = (function(cora) {
 					"url" : url,
 					"type" : type
 				};
+				if("ldap" === type){
+					logins[recordId].metadataId = getMetadataIdFromLoginRecord(loginData);
+					logins[recordId].presentationId = getPresentationIdFromLoginRecord(loginData);
+				}
 			});
 		}
 
@@ -142,6 +146,20 @@ var CORA = (function(cora) {
 		function getTypeFromLoginRecord(recordData) {
 			return recordData.attributes.type;
 		}
+		
+		function getMetadataIdFromLoginRecord(recordData){
+			var cRecord = CORA.coraData(recordData);
+			var cMetadataIdGroup  = CORA.coraData(cRecord.getFirstChildByNameInData("ldapMetadata"));
+			
+			return cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+		
+		function getPresentationIdFromLoginRecord(recordData){
+			var cRecord = CORA.coraData(recordData);
+			var cMetadataIdGroup  = CORA.coraData(cRecord.getFirstChildByNameInData("ldapPresentation"));
+			
+			return cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
 
 		function parseLoginUnitData() {
 			loginUnitDataList.forEach(function(loginUnit) {
@@ -150,12 +168,24 @@ var CORA = (function(cora) {
 				var textId = getTextIdFromRecord(loginUnitData);
 				var loginId = getLoginIdFromRecord(loginUnitData);
 
-				loginOptions.push({
-					"text" : getTranslatedText(textId),
-					"type" : logins[loginId].type,
-					"url" : logins[loginId].url
-				});
+				var loginOption = {
+						"text" : getTranslatedText(textId),
+						"type" : logins[loginId].type,
+						"url" : logins[loginId].url
+					}
+				loginOption = possiblyAddLdapAttributes(loginOption, loginId);
+				loginOptions.push(loginOption);
+				
 			});
+		}
+		
+		function possiblyAddLdapAttributes(loginOptionIn, loginId){
+			var loginOption = loginOptionIn;
+			if("ldap" === logins[loginId].type){
+				loginOption.metadataId =  logins[loginId].metadataId;
+				loginOption.presentationId =  logins[loginId].presentationId;
+			}
+			return loginOption;
 		}
 
 		function getTextIdFromRecord(recordData) {
@@ -200,7 +230,9 @@ var CORA = (function(cora) {
 		function login(loginOption) {
 			if ("appTokenLogin" === loginOption.type) {
 				appTokenLogin(loginOption.userId, loginOption.appToken);
-			} else {
+			} else if("ldap" === loginOption.type){
+				ldapLogin(loginOption);
+			}else{
 				webRedirectLogin(loginOption);
 			}
 		}
@@ -222,10 +254,20 @@ var CORA = (function(cora) {
 			window.addEventListener("message", receiveMessage, false);
 			var url = loginOption.url;
 			var loginSpec = {
-				"url" : url
+				"url" :url
 			};
 			loginOrigin = getIdpLoginServerPartFromUrl(url);
 			createdWebRedirectLogin = dependencies.webRedirectLoginFactory.factor(loginSpec);
+		}
+		
+		function ldapLogin(loginOption) {
+			var ldapLoginSpec = {
+					"metadataId" : loginOption.metadataId,
+					"presentationId" : loginOption.presentationId,
+					"jsClient" : spec.jsClient
+				};
+				dependencies.ldapLoginJsClientIntegratorFactory.factor(ldapLoginSpec);
+				loginManagerView.closeHolder(); 			
 		}
 
 		function getIdpLoginServerPartFromUrl(urlToWedredirectLogin) {
