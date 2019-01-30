@@ -35,6 +35,7 @@ var CORA = (function(cora) {
 
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var outputFormat = getOutputFormat();
+		var inputFormat = getInputFormat();
 
 		var textId = getTextId(cMetadataElement, "textId");
 		var text = textProvider.getTranslation(textId);
@@ -49,6 +50,7 @@ var CORA = (function(cora) {
 			"mode" : mode,
 			"inputType" : getInputType(),
 			"outputFormat" : outputFormat,
+			"inputFormat" : inputFormat,
 			"presentationId" : presentationId,
 			"info" : {
 				"text" : text,
@@ -90,6 +92,13 @@ var CORA = (function(cora) {
 		function getOutputFormat() {
 			if (cPresentation.containsChildWithNameInData("outputFormat")) {
 				return cPresentation.getFirstAtomicValueByNameInData("outputFormat");
+			}
+			return "text";
+		}
+		
+		function getInputFormat(){
+			if (cPresentation.containsChildWithNameInData("inputFormat")) {
+				return cPresentation.getFirstAtomicValueByNameInData("inputFormat");
 			}
 			return "text";
 		}
