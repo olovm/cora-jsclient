@@ -151,26 +151,18 @@ img {
 
 .defaultButton::before {
 	background-position: -176px 0px;
-	top: 3px;
-	right: 2px;
 }
 
 .defaultButton::after {
 	background-position: -176px -16px;
-	top: 3px;
-	right: 2px;
 }
 
 .alternativeButton::before {
 	background-position: -160px 0px;
-	top: 3px;
-	right: 2px;
 }
 
 .alternativeButton::after {
 	background-position: -160px -16px;
-	top: 3px;
-	right: 2px;
 }
 
 .dragButton::before {
