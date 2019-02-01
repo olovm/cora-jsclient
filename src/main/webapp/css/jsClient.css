@@ -468,8 +468,7 @@ max-width: 95%;
 	counter-increment: record;
 	display: flex;
 	border-bottom: 1px dashed;
-	padding: 0.3rem
-	cursor:pointer;
+	padding: 0.3rem;
 }
 
 .jsClient .listItem::before {
@@ -545,7 +544,6 @@ max-width: 95%;
 }
 
 .pRecordLink  .searchResultHolder {
-	border: dotted;
 	max-height: 30em;
 	overflow: auto;
 	display: block;

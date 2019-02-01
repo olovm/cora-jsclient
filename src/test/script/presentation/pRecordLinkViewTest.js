@@ -359,9 +359,11 @@ QUnit.test("testAddSearchHandlerView", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
 
+	assert.strictEqual(view.className, "pRecordLink");
 	pRecordLinkView.addSearchHandlerView(fakeSearchHandlerView);
 
 	assert.strictEqual(view.contains(fakeSearchHandlerView), true);
+	assert.strictEqual(view.className, "pRecordLink searchActive");
 });
 
 QUnit.test("testHideSearchHandlerView", function(assert) {
@@ -369,11 +371,14 @@ QUnit.test("testHideSearchHandlerView", function(assert) {
 	var pRecordLinkView = CORA.pRecordLinkView(this.dependencies, this.spec);
 	var view = pRecordLinkView.getView();
 
+	assert.strictEqual(view.className, "pRecordLink");
 	pRecordLinkView.addSearchHandlerView(fakeSearchHandlerView);
 	assert.strictEqual(view.contains(fakeSearchHandlerView), true);
+	assert.strictEqual(view.className, "pRecordLink searchActive");
 	
 	pRecordLinkView.hideSearchHandlerView();
 
+	assert.strictEqual(view.className, "pRecordLink");
 	assert.strictEqual(view.contains(fakeSearchHandlerView), false);
 	pRecordLinkView.hideSearchHandlerView();
 });
