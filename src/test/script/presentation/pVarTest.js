@@ -152,6 +152,7 @@ QUnit.test("testFactoredViewCorrectlyForInputTextVariable", function(assert) {
 		"inputType" : "input",
 		"mode" : "input",
 		"outputFormat" : "text",
+		"inputFormat" : "text",
 		"placeholderText" : "Skriv din text här",
 		"presentationId" : "pVarTextVariableId"
 	};
@@ -209,6 +210,7 @@ QUnit.test("testFactoredViewCorrectlyForInputTextAreaVariable", function(assert)
 		"inputType" : "textarea",
 		"mode" : "input",
 		"outputFormat" : "text",
+		"inputFormat" : "text",
 		"placeholderText" : "Skriv din text här",
 		"presentationId" : "textVariableIdTextAreaPVar"
 	};
@@ -248,6 +250,7 @@ QUnit.test("testInitTextNoInputTypeIsShownAsText", function(assert) {
 		"inputType" : "input",
 		"mode" : "input",
 		"outputFormat" : "text",
+		"inputFormat" : "text",
 		"placeholderText" : "Skriv din text här",
 		"presentationId" : "textVariableIdShowTextAreaFalsePVar"
 	};
@@ -275,6 +278,47 @@ QUnit.test("testInitTextNoInputTypeIsShownAsText", function(assert) {
 	assert.equal(attachedPVar.pVar.getState(), "ok");
 
 	CORATEST.testJSBookkeeperNoCall(this.jsBookkeeper, assert);
+});
+
+QUnit.test("testInitTextInputFormatPassword", function(assert) {
+	var attachedPVar = this.pVarFactory.factor({}, "textVariableId",
+			"pVarTextVariableIdInputPassword");
+	var pVarViewSpy = this.pVarViewFactory.getFactored(0);
+	assert.deepEqual(pVarViewSpy.type, "pVarViewSpy");
+	var expectedPVarViewSpec = {
+		"info" : {
+			"defText" : "Detta är en exempeldefinition för en textvariabel.",
+			"technicalInfo" : [],
+			"text" : "Exempel textvariabel"
+		},
+		"onblurFunction" : attachedPVar.pVar.onBlur,
+		"onkeyupFunction" : attachedPVar.pVar.onkeyup,
+		"inputType" : "input",
+		"mode" : "input",
+		"outputFormat" : "text",
+		"inputFormat" : "password",
+		"presentationId" : "pVarTextVariableId"
+	};
+	expectedPVarViewSpec.info.technicalInfo.push({
+		"text" : "textId: textVariableIdText",
+		"onclickMethod" : attachedPVar.pVar.openTextIdRecord
+	}, {
+		"text" : "defTextId: textVariableIdDefText",
+		"onclickMethod" : attachedPVar.pVar.openDefTextIdRecord
+	}, {
+		"text" : "metadataId: textVariableId",
+		"onclickMethod" : attachedPVar.pVar.openMetadataIdRecord
+	}, {
+		"text" : "nameInData: textVariableId"
+	}, {
+		"text" : "regEx: ^[0-9A-Öa-ö\\s!*.]{2,50}$"
+	}, {
+		"text" : "presentationId: pVarTextVariableId"
+	});
+	assert.deepEqual(pVarViewSpy.getSpec(), expectedPVarViewSpec);
+
+	CORATEST.testVariableSubscription(attachedPVar, assert);
+	CORATEST.testVariableMetadata(attachedPVar, assert);
 });
 
 QUnit.test("testSetValueInput", function(assert) {
@@ -392,6 +436,7 @@ QUnit.test("testInitTextOutput", function(assert) {
 		"inputType" : "input",
 		"mode" : "output",
 		"outputFormat" : "text",
+		"inputFormat" : "text",
 		"presentationId" : "pVarTextVariableIdOutput"
 	};
 	expectedPVarViewSpec.info.technicalInfo.push({
@@ -432,6 +477,7 @@ QUnit.test("testInitTextOutputFormatImage", function(assert) {
 		"inputType" : "input",
 		"mode" : "output",
 		"outputFormat" : "image",
+		"inputFormat" : "text",
 		"presentationId" : "pVarTextVariableId"
 	};
 	expectedPVarViewSpec.info.technicalInfo.push({

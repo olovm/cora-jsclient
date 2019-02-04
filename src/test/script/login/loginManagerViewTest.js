@@ -227,3 +227,12 @@ QUnit.test("testSetStateFirstLoggedinThenLoggedout", function(assert) {
 	assert.strictEqual(menu.childNodes[0].textContent, "appToken");
 	assert.strictEqual(menu.childNodes[1].textContent, "webRedirect uu");
 });
+
+QUnit.test("testCloseHolder", function(assert) {
+	var loginManagerView = this.getLoginManagerView();
+	var menu = this.getMenu();
+	this.openMenu();
+	loginManagerView.closeHolder();
+	assert.notVisible(menu);
+
+});

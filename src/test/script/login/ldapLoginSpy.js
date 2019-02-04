@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -15,14 +15,21 @@
  *
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-var karma_config = require('./karma.core.js');
-module.exports = function(config) {
-	config.set(karma_config({
-		singleRun : true,
-		reporters : [ 'dots', 'junit', 'coverage' ],
-		browsers : [ 'FirefoxHeadless', 'ChromiumHeadless' ]
-	}));
-};
+var CORATEST = (function(coraTest) {
+	"use strict";
+	coraTest.ldapLoginSpy = function(dependencies, spec) {
+
+		var view = CORA.gui.createSpanWithClassName("ldapLoginSpy");
+		function getView() {
+			return view;
+		}
+
+		return Object.freeze({
+			"type" : "ldapLoginSpy",
+			getView : getView
+		});
+	};
+	return coraTest;
+}(CORATEST || {}));

@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2018 Olov McKie
- * Copyright 2018 Uppsala University Library
+ * Copyright 2018 , 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -208,6 +208,15 @@ QUnit.test("testInputTypeTextArea", function(assert) {
 	var valueView = this.getValueView();
 	assert.strictEqual(valueView.nodeName, "TEXTAREA");
 	assert.strictEqual(valueView.type, "textarea");
+});
+
+QUnit.test("testInputFormatPassword", function(assert) {
+	this.spec.inputType = "input";
+	this.spec.inputFormat = "password";
+	
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.nodeName, "INPUT");
+	assert.strictEqual(valueView.type, "password");
 });
 
 QUnit.test("testInputPlaceholder", function(assert) {

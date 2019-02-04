@@ -1,4 +1,5 @@
 /*
+ * Copyright 2019 Uppsala University Library
  * Copyright 2016, 2018 Olov McKie
  *
  * This file is part of Cora.
@@ -143,6 +144,9 @@ var CORA = (function(cora) {
 
 		function createTextTypeInput() {
 			var inputNew = document.createElement(getInputTypeFromSpec());
+			if(spec.inputFormat === "password"){
+				inputNew.setAttribute("type", "password");
+			}
 			inputNew.setValue = function(value) {
 				inputNew.value = value;
 			};

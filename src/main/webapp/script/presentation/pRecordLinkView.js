@@ -51,7 +51,9 @@ var CORA = (function(cora) {
 		function createButtonWithClassNameAndOnclickMethod(className, onclickMethod) {
 			var buttonSpec = {
 				"className" : "iconButton " + className,
-				action:{method:onclickMethod}
+				action : {
+					method : onclickMethod
+				}
 			};
 			return CORA.gui.button(buttonSpec);
 		}
@@ -119,6 +121,10 @@ var CORA = (function(cora) {
 			if (infoIsShown()) {
 				className += " infoActive";
 			}
+			if (searchHandlerShown) {
+				className += " searchActive";
+			}
+
 			view.className = className;
 		}
 
@@ -185,12 +191,14 @@ var CORA = (function(cora) {
 		function addSearchHandlerViewToView() {
 			childrenView.insertAdjacentElement("beforebegin", addedSearchHandlerView);
 			searchHandlerShown = true;
+			updateClassName();
 		}
 
 		function hideSearchHandlerView() {
 			if (searchIsAdded() && searchHandlerShown) {
 				view.removeChild(addedSearchHandlerView);
 				searchHandlerShown = false;
+				updateClassName();
 			}
 		}
 
