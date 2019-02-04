@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -19,7 +19,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.loginManagerFactory = function(dependencies) {
-
+			
 		function getDependencies() {
 			return dependencies;
 		}
@@ -34,6 +34,7 @@ var CORA = (function(cora) {
 						.loginManagerViewFactory(loginManagerViewFactoryDependencies),
 				"appTokenLoginFactory" : dependencies.appTokenLoginFactory,
 				"webRedirectLoginFactory" : dependencies.webRedirectLoginFactory,
+				"ldapLoginJsClientIntegratorFactory" : dependencies.ldapLoginJsClientIntegratorFactory,
 				"authTokenHolder" : dependencies.authTokenHolder,
 				"ajaxCallFactory" : dependencies.ajaxCallFactory
 			};

@@ -491,7 +491,6 @@ body {
 	display: flex;
 	border-bottom: 1px dashed;
 	padding: 0.3rem;
-	cursor:pointer;
 }
 
 .jsClient .listItem::before {
@@ -560,7 +559,6 @@ body {
 }
 
 .pRecordLink  .searchResultHolder {
-	border: dotted;
 	max-height: 30em;
 	overflow: auto;
 	display: block;

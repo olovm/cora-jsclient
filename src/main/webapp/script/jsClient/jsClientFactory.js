@@ -1,5 +1,6 @@
 /*
- * Copyright 2017 Olov McKie
+ * Copyright 2019 Uppsala University Library
+ *  Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -38,13 +39,27 @@ var CORA = (function(cora) {
 			};
 			var appTokenLoginFactory = CORA.appTokenLoginFactory(appTokenLoginFactoryDependencies);
 			var webRedirectLoginFactory = CORA.webRedirectLoginFactory();
+			
+			var dependenciesLdap = {
+					"providers" : providers,
+					"globalFactories" : globalFactories
+				};
+			globalFactories.ldapLoginFactory = CORA.ldapLoginFactory(dependenciesLdap);
+
+			
+			var ldapLoginJsClientIntegratorDep = {
+					"ldapLoginFactory" : globalFactories.ldapLoginFactory,
+					"managedGuiItemFactory" : CORA.managedGuiItemFactory()
+				};
+			var ldapLoginJsClientIntegratorFactory = CORA.genericFactory("ldapLoginJsClientIntegrator",ldapLoginJsClientIntegratorDep);
 
 			var loginManagerFactoryDependencies = {
 				"authTokenHolder" : authTokenHolder,
 				"textProvider" : providers.textProvider,
 				"appTokenLoginFactory" : appTokenLoginFactory,
 				"webRedirectLoginFactory" : webRedirectLoginFactory,
-				"ajaxCallFactory" : ajaxCallFactory
+				"ajaxCallFactory" : ajaxCallFactory,
+				"ldapLoginJsClientIntegratorFactory" : ldapLoginJsClientIntegratorFactory
 			};
 			var loginManagerFactory = CORA.loginManagerFactory(loginManagerFactoryDependencies);
 
@@ -137,7 +152,8 @@ var CORA = (function(cora) {
 			globalFactories.recordHandlerFactory = recordHandlerFactory;
 			globalFactories.recordListHandlerFactory = recordListHandlerFactory;
 			globalFactories.recordTypeHandlerViewFactory = recordTypeHandlerViewFactory;
-
+			
+			
 			var genericDependencies = {
 				"providers" : providers,
 				"globalInstances" : {
@@ -158,6 +174,7 @@ var CORA = (function(cora) {
 			};
 			var recordTypeMenu = CORA.recordTypeMenu(providers, menuDependencies, menuSpec);
 
+			
 			var dep = {
 				"providers" : providers,
 				"globalInstances" : {
@@ -174,7 +191,7 @@ var CORA = (function(cora) {
 				"recordTypeHandlerFactory" : recordTypeHandlerFactory,
 				recordTypeMenu : recordTypeMenu
 			};
-
+			
 			jsClient = CORA.jsClient(dep, jsClientSpec);
 			return jsClient;
 		}

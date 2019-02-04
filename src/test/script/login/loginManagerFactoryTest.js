@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -27,6 +27,9 @@ QUnit.module("loginManagerFactoryTest.js", {
 			},
 			"webRedirectLoginFactory" : {
 				"type" : "fakeWebRedirectLoginFactory"
+			},
+			"ldapLoginJsClientIntegratorFactory" : {
+				"type" : "fakeLdapLoginJsClientIntegratorFactory"
 			},
 			"authTokenHolder" : {
 				"type" : "fakeAuthTokenHolder"
@@ -74,8 +77,10 @@ QUnit.test("factor",
 					"loginManagerViewFactory");
 			assert.strictEqual(loginManagerDependencies.appTokenLoginFactory,
 					this.dependencies.appTokenLoginFactory);
+			assert.strictEqual(loginManagerDependencies.ldapLoginJsClientIntegratorFactory.type,
+					"fakeLdapLoginJsClientIntegratorFactory");
 			assert.strictEqual(loginManagerDependencies.webRedirectLoginFactory.type,
-					"fakeWebRedirectLoginFactory");
+			"fakeWebRedirectLoginFactory");
 			assert.strictEqual(loginManagerDependencies.authTokenHolder,
 					this.dependencies.authTokenHolder);
 			assert.strictEqual(loginManagerDependencies.ajaxCallFactory,

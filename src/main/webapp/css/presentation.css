@@ -151,26 +151,18 @@ img {
 
 .defaultButton::before {
 	background-position: -176px 0px;
-	top: 3px;
-	right: 2px;
 }
 
 .defaultButton::after {
 	background-position: -176px -16px;
-	top: 3px;
-	right: 2px;
 }
 
 .alternativeButton::before {
 	background-position: -160px 0px;
-	top: 3px;
-	right: 2px;
 }
 
 .alternativeButton::after {
 	background-position: -160px -16px;
-	top: 3px;
-	right: 2px;
 }
 
 .dragButton::before {
@@ -310,6 +302,10 @@ textarea {
 	position: relative;
 }
 
+.workView .pRecordLink.searchActive {
+	border: 1px dashed #c5c5c5;	
+}
+
 .workView .pRecordLink>.infoView {
 	flex: 10 1 80%;
 }
@@ -329,11 +325,16 @@ textarea {
 .workView .pRecordLink>.search {
 	flex: 10 1 80%;
 	order: -1;
+	border-bottom: 1px dashed #c5c5c5;
+}
+
+.workView .pRecordLink>.search .listItem {
+	border-bottom: 1px dashed #c5c5c5;
 }
 
 .jsClient .workView .recordViewer {
 	flex: 10 1 80%;
-	border: 1px dotted green;
+	border: 1px dashed #c5c5c5;
 	position: relative;
 	overflow: hidden;
 	z-index: 0;
@@ -381,8 +382,8 @@ position: relative;
 	width: 16px;
 	transform: scale(5, 5);
 	position: absolute;
-	right: 5rem;
-	top: 2.5rem;
+	right: 5.4rem;
+	top: 3rem;
 	z-index: -1;
 }
 .defTextView {
@@ -407,8 +408,8 @@ position: relative;
 	width: 16px;
 	transform: scale(10, 10);
 	position: absolute;
-	left: 5.5rem;
-	top: 5rem;
+	right: 4.8rem;
+	top: 4.5rem;
 }
 
 .infoView .clickable {
@@ -524,6 +525,7 @@ position: relative;
 	border-bottom: 1px dashed #0082c9;
 	transition: background-color 0.5s linear;
 	position: relative;
+	border-bottom: 0.2rem;
 }
 
 .jsClient .repeatingElement.hoverRemove {

@@ -4933,6 +4933,35 @@ function MetadataProviderStub() {
 					"value" : "image"
 				} ]
 			};
+		case "pVarTextVariableIdInputPassword":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "pVarTextVariableId"
+					} ]
+				}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textVariableId"
+					} ],
+					"name" : "presentationOf"
+				}, {
+					"name" : "mode",
+					"value" : "input"
+				}, {
+					"name" : "inputFormat",
+					"value" : "password"
+				} ]
+			};	
 
 		case "yesNoUnknownPCollVar":
 			return {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2019 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -27,9 +27,6 @@ QUnit
 						this.dependencies = {
 							"searchHandlerFactory" : CORATEST
 									.standardFactorySpy("searchHandlerSpy"),
-							// "textProvider" : CORATEST.textProviderSpy(),
-							// "ajaxCallFactory" :
-							// CORATEST.standardFactorySpy("ajaxCallSpy"),
 							"managedGuiItemFactory" : CORATEST
 									.standardFactorySpy("managedGuiItemSpy"),
 							"jsClient" : CORATEST.jsClientSpy()
@@ -72,60 +69,3 @@ QUnit.test("testFactor", function(assert) {
 	assert.strictEqual(searchHandler.type, "searchHandlerJsClientIntegrator");
 });
 
-// QUnit.test("testFactorAddedIncomingDependencies", function(assert) {
-// var searchHandlerJsClientIntegratorFactory =
-// CORA.searchHandlerJsClientIntegratorFactory(this.dependencies);
-// var searchHandler = searchHandlerJsClientIntegratorFactory.factor(this.spec);
-// var addedDep = searchHandler.getDependencies();
-// assert.strictEqual(addedDep.recordGuiFactory,
-// this.dependencies.recordGuiFactory);
-// assert.strictEqual(addedDep.ajaxCallFactory,
-// this.dependencies.ajaxCallFactory);
-// assert.strictEqual(addedDep.jsClient, this.dependencies.jsClient);
-// });
-//
-// QUnit.test("testFactorAddedCreatedDependencies", function(assert) {
-// var searchHandlerJsClientIntegratorFactory =
-// CORA.searchHandlerJsClientIntegratorFactory(this.dependencies);
-// var searchHandler = searchHandlerJsClientIntegratorFactory.factor(this.spec);
-// var addedDep = searchHandler.getDependencies();
-// assert.strictEqual(addedDep.searchHandlerViewFactory.type,
-// "searchHandlerViewFactory");
-// assert.strictEqual(addedDep.searchHandlerViewFactory.getDependencies().textProvider,
-// this.dependencies.textProvider);
-// assert.strictEqual(addedDep.managedGuiItemFactory.type,
-// "managedGuiItemFactory");
-// });
-//
-// QUnit.test("testFactorAddedDependenciesResultHandlerFactory",
-// function(assert) {
-// var searchHandlerJsClientIntegratorFactory =
-// CORA.searchHandlerJsClientIntegratorFactory(this.dependencies);
-// var searchHandler = searchHandlerJsClientIntegratorFactory.factor(this.spec);
-// var addedDep = searchHandler.getDependencies();
-// assert.strictEqual(addedDep.resultHandlerFactory.type,
-// "resultHandlerFactory");
-// var dependenciesRH = addedDep.resultHandlerFactory.getDependencies();
-// assert.strictEqual(dependenciesRH.textProvider,
-// this.dependencies.textProvider);
-// assert.strictEqual(dependenciesRH.recordHandlerFactory.type,
-// "recordHandlerFactory");
-// });
-//
-// QUnit.test("testFactorAddedDependenciesRecordHandlerFactory",
-// function(assert) {
-// var searchHandlerJsClientIntegratorFactory =
-// CORA.searchHandlerJsClientIntegratorFactory(this.dependencies);
-// var searchHandler = searchHandlerJsClientIntegratorFactory.factor(this.spec);
-// var addedDep = searchHandler.getDependencies();
-// var dependenciesRH = addedDep.resultHandlerFactory.getDependencies();
-// var depRecordHandler = dependenciesRH.recordHandlerFactory.getDependencies();
-// assert.strictEqual(depRecordHandler.recordHandlerViewFactory.type,
-// "recordHandlerViewFactory");
-// assert.strictEqual(depRecordHandler.ajaxCallFactory,
-// this.dependencies.ajaxCallFactory);
-// assert.strictEqual(depRecordHandler.recordGuiFactory,
-// this.dependencies.recordGuiFactory);
-// assert.strictEqual(depRecordHandler.managedGuiItemFactory,
-// this.dependencies.managedGuiItemFactory);
-// });
