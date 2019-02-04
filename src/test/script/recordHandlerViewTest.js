@@ -279,14 +279,15 @@ QUnit.test("testIncomingLinksButton", function(assert) {
     var showIncomingLinksButton = this.getButtonView().childNodes[0];
     var holderFactory = this.dependencies.holderFactory;
     var holder = holderFactory.getFactored(0);
-    assert.strictEqual(holder.getOpenCalled(),0);
+    assert.strictEqual(holder.getToggleCalled(),0);
 
     CORATESTHELPER.simulateOnclick(showIncomingLinksButton);
     assert.strictEqual(wasCalled, true);
-    //assert.strictEqual(showIncomingLinksButton.onclick, this.spec.showIncomingLinksMethod);
+    assert.strictEqual(holder.getToggleCalled(),1);
 
-    assert.strictEqual(holder.getOpenCalled(),1);
-
+    CORATESTHELPER.simulateOnclick(showIncomingLinksButton);
+    assert.strictEqual(wasCalled, true);
+    assert.strictEqual(holder.getToggleCalled(),2);
 });
 
 QUnit.test("testAddShowNoIncomingLinksButton", function(assert) {

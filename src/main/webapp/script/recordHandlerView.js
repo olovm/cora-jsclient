@@ -52,9 +52,8 @@ var CORA = (function(cora) {
             createIncomingLinksView();
         }
 
-        function showIncomingLinks() {
-
-            incomingLinksHolder.openHolder();
+        function showIncomingLinks(event) {
+            incomingLinksHolder.toggleHolder(event);
         	spec.showIncomingLinksMethod();
 
         }
