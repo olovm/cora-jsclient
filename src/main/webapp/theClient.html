@@ -265,6 +265,12 @@
 			"url" : baseUrl + "record/text/",
 			"accept" : "application/vnd.uub.recordList+json"
 		};
+		var guiElementListLink = {
+				"requestMethod" : "GET",
+				"rel" : "list",
+				"url" : baseUrl + "record/guiElement/",
+				"accept" : "application/vnd.uub.recordList+json"
+			};
 
 		var textProviderSpec = {
 			"textListLink" : textListLink,
@@ -283,6 +289,7 @@
 			"metadataListLink" : metadataListLink,
 			"textListLink" : textListLink,
 			"presentationListLink" : presentationListLink,
+			"guiElementListLink" : guiElementListLink,
 			"callWhenReady" : metadataProviderReady
 		};
 

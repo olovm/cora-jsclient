@@ -27,6 +27,7 @@ var CORA = (function(cora) {
 		function start(){
 			fetchMetadataListAndThen(processFetchedMetadata);
 			fetchPresentationListAndThen(processFetchedMetadata);
+			fetchGuiElementListAndThen(processFetchedMetadata);
 		}
 
 		function fetchMetadataListAndThen(callAfterAnswer) {
@@ -75,6 +76,11 @@ var CORA = (function(cora) {
 			callThroughAjax(spec.presentationListLink, callAfterAnswer);
 		}
 
+		function fetchGuiElementListAndThen(callAfterAnswer) {
+			callThroughAjax(spec.guiElementListLink, callAfterAnswer);
+		}
+
+		
 		function getMetadataById(metadataId) {
 			if (metadata[metadataId] !== undefined) {
 				return metadata[metadataId];

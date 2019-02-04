@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017 Olov McKie
- * Copyright 2016, 2018 Uppsala University Library
+ * Copyright 2016, 2018, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -45,10 +45,17 @@ QUnit.module("metadataProviderTest.js", {
 			"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
 			"accept" : "application/vnd.uub.recordList+json"
 		};
+		var guiElementListLink = {
+				"requestMethod" : "GET",
+				"rel" : "list",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/guiElement/",
+				"accept" : "application/vnd.uub.recordList+json"
+			};
 		var spec = {
 			"metadataListLink" : metadataListLink,
 			"textListLink" : textListLink,
-			"presentationListLink" : presentationListLink
+			"presentationListLink" : presentationListLink,
+			"guiElementListLink" : guiElementListLink
 		};
 		this.spec = spec;
 		this.metadataListLink = metadataListLink;
@@ -57,6 +64,8 @@ QUnit.module("metadataProviderTest.js", {
 		this.presentationListLinkJson = JSON.stringify(this.presentationListLink);
 		this.textListLink = textListLink;
 		this.textListLinkJson = JSON.stringify(this.textListLink);
+		this.guiElementListLink = guiElementListLink;
+		this.guiElementListLinkJson = JSON.stringify(this.guiElementListLink);
 
 		this.metadataAnswer = {
 			"responseText" : JSON.stringify(CORATEST.metadataList)
@@ -99,7 +108,10 @@ QUnit.test("initCorrectAjaxCallsMade", function(assert) {
 	assertAjaxCallSpecIsCorrect(ajaxCallSpy1, "presentation");
 
 	var ajaxCallSpy2 = this.ajaxCallFactorySpy.getFactored(2);
-	assert.strictEqual(ajaxCallSpy2, undefined);
+	assertAjaxCallSpecIsCorrect(ajaxCallSpy2, "guiElement");
+
+	var ajaxCallSpy3 = this.ajaxCallFactorySpy.getFactored(3);
+	assert.strictEqual(ajaxCallSpy3, undefined);
 });
 
 QUnit.test("callWhenReadyCalledWhenReady", function(assert) {

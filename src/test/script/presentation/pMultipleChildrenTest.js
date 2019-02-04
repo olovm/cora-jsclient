@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2019 Uppsala University Library
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -202,7 +202,7 @@ QUnit.test("testText", function(assert) {
 
 	assert.strictEqual(view.childNodes[1].className, "text h2TextStyle fourChildStyle");
 });
-QUnit.test("testText", function(assert) {
+QUnit.test("testTextNoTextStyle", function(assert) {
 	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
 			.getMetadataById("pgGroupIdOneTextOneTextChildTwoAttributesNoTextStyle"));
 	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
@@ -276,4 +276,32 @@ QUnit.test("testPNonRepeatingChildRefHandlerSpecWithMinimized", function(assert)
 
 	var factored = this.dependencies.pNonRepeatingChildRefHandlerFactory.getFactored(0)
 	assert.strictEqual(view.childNodes[1], factored.getView());
+});
+
+QUnit.test("testGuiElementLink", function(assert) {
+	this.dependencies.metadataProvider = new MetadataProviderStubGuiElement();
+	var spec = {
+			"metadataIdUsedInData" : "groupIdOneTextChild",
+			"path" : {},
+		};
+	var createBaseViewHolder = function() {
+		return CORA.gui.createDivWithClassName("pMultipleChildren pGroup");
+	}
+	
+		var my = {
+			"metadataId" :"groupIdOneTextChild",
+			"cPresentation" : CORA.coraData(this.dependencies.metadataProvider
+					.getMetadataById("pgGroupIdOneGuiElementLinkChild")),
+			"createBaseViewHolder" : createBaseViewHolder
+		};
+	
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, spec, my);
+	pMultipleChildren.init();
+	var view = pMultipleChildren.getView();
+	this.fixture.appendChild(view);
+
+	assert.strictEqual(view.childNodes[1].className, "guiElement");
+	assert.strictEqual(view.childNodes[1].nodeName, "A");
+	assert.strictEqual(view.childNodes[1].text, "text for: someTextToPresentAsLinkText");
+	assert.strictEqual(view.childNodes[1].href, "http://www.google.se/");
 });
