@@ -172,7 +172,6 @@ var CORA = (function(cora) {
 		}
 
 		function childIsGuiElementLink(cChild) {
-			//TODO: skulle behöva kolla på olika typer av guiElement, kan ju teoretiskt finnas fler
 			return cChild.getData().name === "guiElement";
 		}
 		
