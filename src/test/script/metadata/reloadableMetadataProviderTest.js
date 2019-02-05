@@ -38,11 +38,18 @@ QUnit.module("metadataProviderTest.js", {
 			"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
 			"accept" : "application/vnd.uub.recordList+json"
 		};
+		var guiElementListLink = {
+				"requestMethod" : "GET",
+				"rel" : "list",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/guiElement/",
+				"accept" : "application/vnd.uub.recordList+json"
+			};
 		var methodToCall = {};
 		this.spec = {
 			"metadataListLink" : metadataListLink,
 			"textListLink" : textListLink,
 			"presentationListLink" : presentationListLink,
+			"guiElementListLink" : guiElementListLink,
 			"callWhenReady" : methodToCall
 		};
 		this.dependencies = {
@@ -76,6 +83,7 @@ QUnit.test("initFactorsFirstMetadataProviderWithSpec", function(assert) {
 	assert.strictEqual(forwardedSpec.metadataListLink, this.spec.metadataListLink);
 	assert.strictEqual(forwardedSpec.textListLink, this.spec.textListLink);
 	assert.strictEqual(forwardedSpec.presentationListLink, this.spec.presentationListLink);
+	assert.strictEqual(forwardedSpec.guiElementListLink, this.spec.guiElementListLink);
 	assert.strictEqual(forwardedSpec.callWhenReady, this.spec.callWhenReady);
 });
 
@@ -113,6 +121,7 @@ QUnit.test("testReloadCreatesNewMetadataProviderWithSpec",
 			assert.strictEqual(forwardedSpec.metadataListLink, this.spec.metadataListLink);
 			assert.strictEqual(forwardedSpec.textListLink, this.spec.textListLink);
 			assert.strictEqual(forwardedSpec.presentationListLink, this.spec.presentationListLink);
+			assert.strictEqual(forwardedSpec.guiElementListLink, this.spec.guiElementListLink);
 			assert.strictEqual(forwardedSpec.callWhenReady,
 					this.reloadableMetadataProvider.switchProvider);
 		});
