@@ -38,10 +38,7 @@
 .workItem > .editView {
 	padding-bottom: 3rem;
 }
-.workItem > .incomingLinksView {
-	padding-bottom: 3rem;
-	margin-top: -3rem;
-}
+
 .infoActive {
 	background-color: rgba(127, 191, 167, 0.1);
 }
@@ -172,4 +169,8 @@ input[type="button"] {
 .listView .h1TextStyle, .listView .h1TextStyle .text {
 	color: #bf7125;
 	font-size: 1rem;
+}
+
+.workArea>.workView>.workItem>.editView, .workArea>.workView>.workItem>.showView {
+	height: calc(100% - 5rem);
 }
