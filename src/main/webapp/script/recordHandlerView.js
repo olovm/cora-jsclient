@@ -21,30 +21,48 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandlerView = function(dependencies, spec) {
 		var showIncomingLinksButton;
+        var incomingLinksView;
+        var view;
+        var editView;
+        var showView;
+        var buttonView;
+        var workItemView;
+        var incomingLinksHolder;
 
-		var workItemViewSpec = {
-			"extraClassName" : spec.extraClassName
-		};
 
-		var workItemView = dependencies.workItemViewFactory.factor(workItemViewSpec);
-		var view = workItemView.getView();
+        function start() {
+            var workItemViewSpec = {
+                "extraClassName" : spec.extraClassName
+            };
 
-		var editView = CORA.gui.createSpanWithClassName("editView");
-		workItemView.addViewToView(editView);
-		var showView = CORA.gui.createSpanWithClassName("showView");
-		workItemView.addViewToView(showView);
-		var buttonView = CORA.gui.createSpanWithClassName("buttonView");
-		workItemView.addViewToView(buttonView);
-		var incomingLinksView = CORA.gui.createSpanWithClassName("incomingLinksView");
-		workItemView.addViewToView(incomingLinksView);
+            workItemView = dependencies.workItemViewFactory.factor(workItemViewSpec);
+            view = workItemView.getView();
 
-		setShowDataFunction(spec.showDataMethod);
-		setCopyAsNewFunction(spec.copyDataMethod);
+            editView = CORA.gui.createSpanWithClassName("editView");
+            workItemView.addViewToView(editView);
+            showView = CORA.gui.createSpanWithClassName("showView");
+            workItemView.addViewToView(showView);
+            buttonView = CORA.gui.createSpanWithClassName("buttonView");
+            workItemView.addViewToView(buttonView);
 
-		function start() {
+            setShowDataFunction(spec.showDataMethod);
+            setCopyAsNewFunction(spec.copyDataMethod);
 			showIncomingLinksButton = createButton("INCOMING LINKS",
-					spec.showIncomingLinksMethod, "showIncomingLinks");
-		}
+					showIncomingLinks, "showIncomingLinks");
+            createIncomingLinksView();
+        }
+
+        function showIncomingLinks(event) {
+            incomingLinksHolder.toggleHolder(event);
+        	spec.showIncomingLinksMethod();
+
+        }
+
+        function createIncomingLinksView() {
+            incomingLinksHolder = dependencies.holderFactory.factor({className: "incomingLinksView"});
+            incomingLinksView = incomingLinksHolder.getView();
+            workItemView.addViewToView(incomingLinksView);
+        }
 
 		function addToShowView(node) {
 			showView.appendChild(node);
@@ -101,8 +119,12 @@ var CORA = (function(cora) {
 		}
 
 		function addToIncomingLinksView(node) {
-			incomingLinksView.appendChild(node);
+			if(!incomingLinksView.hasChildNodes()){
+                incomingLinksView.appendChild(node);
+			}
 		}
+
+
 
 		function showShowIncomingLinksButton() {
 			buttonView.appendChild(showIncomingLinksButton);

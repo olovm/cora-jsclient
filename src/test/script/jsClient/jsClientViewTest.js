@@ -75,6 +75,10 @@ QUnit.test("testMainLayout", function(assert) {
 	assert.strictEqual(sideBar.className, "sideBar");
 	assert.strictEqual(sideBar, mainView.childNodes[1]);
 
+    var serverAddress = sideBar.childNodes[2];
+    assert.strictEqual(serverAddress.className, "serverAddress");
+    assert.strictEqual(serverAddress.textContent, this.spec.serverAddress);
+
 	var searchesView = jsClientView.getSearchesView();
 	assert.strictEqual(searchesView.className, "searchesView");
 	assert.strictEqual(searchesView, sideBar.childNodes[0]);
@@ -87,9 +91,7 @@ QUnit.test("testMainLayout", function(assert) {
 	assert.strictEqual(workArea.className, "workArea");
 	assert.strictEqual(workArea, mainView.childNodes[2]);
 
-	var serverAddress = mainView.childNodes[3];
-	assert.strictEqual(serverAddress.className, "serverAddress");
-	assert.strictEqual(serverAddress.textContent, this.spec.serverAddress);
+
 });
 
 QUnit.test("testReloadProvidersButton", function(assert) {

@@ -22,7 +22,8 @@ var CORA = (function(cora) {
 
 		var dependencies = {
 			"workItemViewFactory" : CORA.workItemViewFactory(),
-			"messageHolderFactory" : CORA.messageHolderFactory()
+			"messageHolderFactory" : CORA.messageHolderFactory(),
+			"holderFactory": CORA.holderFactory()
 		};
 
 		function factor(recordHandlerViewSpec) {
