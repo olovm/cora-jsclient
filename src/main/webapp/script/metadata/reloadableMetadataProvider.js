@@ -46,6 +46,7 @@ var CORA = (function(cora) {
 				metadataListLink : spec.metadataListLink,
 				presentationListLink : spec.presentationListLink,
 				textListLink : spec.textListLink,
+				guiElementListLink : spec.guiElementListLink,
 				callWhenReady : switchProvider
 			};
 			loadingMetadataProvider = dependencies.metadataProviderFactory.factor(reloadingSpec);
