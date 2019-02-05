@@ -28,7 +28,7 @@ function MetadataProviderStubGuiElement() {
 			"attributes" : {
 				"type" : "pGroup"
 			},
-			"children" : [ createRecordInfoJson(idToGet) ].concat([ {
+			"children" : [ createRecordInfoJson("presentationGroup", idToGet) ].concat([ {
 				"children" : [ {
 					"name" : "linkedRecordType",
 					"value" : "metadataGroup"
@@ -144,7 +144,7 @@ function MetadataProviderStubGuiElement() {
 					      "name": "nameInData",
 					      "value": idToGet
 					    } ]
-							.concat(createRecordInfoJson(idToGet)),
+							.concat(createRecordInfoJson("metadataTextVariable",  idToGet)),
 					"attributes" : {
 						"type" : "textVariable"
 					}
@@ -154,40 +154,8 @@ function MetadataProviderStubGuiElement() {
 	};
 
 	}
-	this.getTextById = function() {
-		return {
-			"name" : "text",
-			"children" : [ {
-				"name" : "recordInfo",
-				"children" : [ {
-					"name" : "id",
-					"value" : "my2Text"
-				} ]
-			}, {
-				"name" : "textPart",
-				"attributes" : {
-					"type" : "default",
-					"lang" : "sv"
-				},
-				"children" : [ {
-					"name" : "text",
-					"value" : "Min andra text på svenska"
-				} ]
-			}, {
-				"name" : "textPart",
-				"attributes" : {
-					"type" : "alternative",
-					"lang" : "en"
-				},
-				"children" : [ {
-					"name" : "text",
-					"value" : "My second text in english"
-				} ]
-			} ]
-		};
-	};
 	
-	function createRecordInfoJson(id) {
+	function createRecordInfoJson(recordType,id) {
 		return {
 			"name" : "recordInfo",
 			"children" : [ {
@@ -199,7 +167,7 @@ function MetadataProviderStubGuiElement() {
 					"value" : "recordType"
 				}, {
 					"name" : "linkedRecordId",
-					"value" : "metadataGroup"
+					"value" : recordType
 				} ],
 				"name" : "type"
 			}, {
