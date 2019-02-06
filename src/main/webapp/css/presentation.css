@@ -71,7 +71,7 @@ img {
 
 .iconButton::before {
 	opacity: 1;
-	z-index: 100;
+	z-index: 1;
 }
 
 .iconButton:hover::before {
@@ -80,7 +80,7 @@ img {
 
 .iconButton::after {
 	opacity: 0;
-	z-index: 101;
+	z-index: 2;
 }
 
 .iconButton:hover::after {
@@ -151,26 +151,18 @@ img {
 
 .defaultButton::before {
 	background-position: -176px 0px;
-	top: 3px;
-	right: 2px;
 }
 
 .defaultButton::after {
 	background-position: -176px -16px;
-	top: 3px;
-	right: 2px;
 }
 
 .alternativeButton::before {
 	background-position: -160px 0px;
-	top: 3px;
-	right: 2px;
 }
 
 .alternativeButton::after {
 	background-position: -160px -16px;
-	top: 3px;
-	right: 2px;
 }
 
 .dragButton::before {
@@ -191,6 +183,7 @@ img {
 }
 
 .jsClient .menuView .pVar .infoButton, .menuView .pVar:hover>.infoButton::before,
+	.menuView .pNumVar .infoButton, .menuView .pNumVar:hover>.infoButton::before,
 	.menuView .pGroup:hover>.infoButton::before, .menuView .infoButton::before,
 	.menuView .infoButton::after, .menuView .infoButton:hover::after,
 	.jsClient .menuView .pVar .openLinkedRecordButton, .menuView .pVar:hover>.openLinkedRecordButton::before,
@@ -201,7 +194,8 @@ img {
 }
 
 
-.workView .pVar:hover>.infoButton::before, .workView .pRecordLink:hover>.buttonView .infoButton::before,
+.workView .pVar:hover>.infoButton::before, .pNumVar:hover>.infoButton::before,
+	.workView .pRecordLink:hover>.buttonView .infoButton::before,
 	input:focus+.infoButton::before, .workView .pCollVar:hover>.infoButton::before,
 	select:focus+.infoButton::before, textarea:focus+.infoButton::before,
 	.workView .pGroup:hover>.infoButton::before, .workView .pMap:hover>.infoButton::before,
@@ -255,7 +249,7 @@ img {
 	transition: background-color 0.5s linear;
 }
 
-.pVar:hover, .pCollVar:hover, .pMap:hover, .pGroup:hover,
+.pVar:hover, pNumVar:hover, .pCollVar:hover, .pMap:hover, .pGroup:hover,
 	.pSurroundingContainer:hover, .repeatingElement:hover, .pRecordLink:hover,
 	.pNonRepeatingChildRefHandler:hover {
 	background-color: rgba(0, 129, 198, 0.1);
@@ -308,6 +302,10 @@ textarea {
 	position: relative;
 }
 
+.workView .pRecordLink.searchActive {
+	border: 1px dashed #c5c5c5;	
+}
+
 .workView .pRecordLink>.infoView {
 	flex: 10 1 80%;
 }
@@ -327,11 +325,16 @@ textarea {
 .workView .pRecordLink>.search {
 	flex: 10 1 80%;
 	order: -1;
+	border-bottom: 1px dashed #c5c5c5;
+}
+
+.workView .pRecordLink>.search .listItem {
+	border-bottom: 1px dashed #c5c5c5;
 }
 
 .jsClient .workView .recordViewer {
 	flex: 10 1 80%;
-	border: 1px dotted green;
+	border: 1px dashed #c5c5c5;
 	position: relative;
 	overflow: hidden;
 	z-index: 0;
@@ -379,8 +382,8 @@ position: relative;
 	width: 16px;
 	transform: scale(5, 5);
 	position: absolute;
-	right: 5rem;
-	top: 2.5rem;
+	right: 5.4rem;
+	top: 3rem;
 	z-index: -1;
 }
 .defTextView {
@@ -405,8 +408,8 @@ position: relative;
 	width: 16px;
 	transform: scale(10, 10);
 	position: absolute;
-	left: 5.5rem;
-	top: 5rem;
+	right: 4.8rem;
+	top: 4.5rem;
 }
 
 .infoView .clickable {
@@ -522,6 +525,7 @@ position: relative;
 	border-bottom: 1px dashed #0082c9;
 	transition: background-color 0.5s linear;
 	position: relative;
+	border-bottom: 0.2rem;
 }
 
 .jsClient .repeatingElement.hoverRemove {

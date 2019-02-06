@@ -211,6 +211,21 @@ function MetadataProviderStub() {
 				}
 
 			};
+		}if (idToGet === "textVariableWithFinalValueId") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "regEx",
+					"value" : "^[0-9A-Öa-ö\\s!*.]{2,50}$"
+				} , {
+			      "name": "finalValue",
+			      "value": "someFinalValue"
+			    }]
+						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
+				"attributes" : {
+					"type" : "textVariable"
+				}
+			};
 		}
 		if (idToGet === "yesNoUnknownVar") {
 			return {
@@ -627,7 +642,7 @@ function MetadataProviderStub() {
 				"children" : [ {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatIdAndRepeatMinAndRepeatMax(
-							"metadataNumberVariable", "numVariableId",  "numberVariable","1",  "1", "1") ]
+							"metadataNumberVariable", "numVariableId",  "numberVariable","1",  "0", "1") ]
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 			};
@@ -2720,6 +2735,20 @@ function MetadataProviderStub() {
 					"name" : "childReferences",
 					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
 							"metadataCollectionVariable", "binaryTypeGenericBinaryCollectionVar", "1") ]
+				} ]
+						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
+			};
+		}
+		if (idToGet === "groupIdOneTextVarChildWithFinalValue") {
+			return {
+				"name" : "metadata",
+				"attributes" : {
+					"type" : "group"
+				},
+				"children" : [ {
+					"name" : "childReferences",
+					"children" : [ createChildReferenceWithRefAndRepeatId1to1(
+							"metadataTextVariable", "textVariableWithFinalValueId", "1") ]
 				} ]
 						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet))
 			};
@@ -4904,6 +4933,35 @@ function MetadataProviderStub() {
 					"value" : "image"
 				} ]
 			};
+		case "pVarTextVariableIdInputPassword":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pVar"
+				},
+				"children" : [ {
+					"name" : "recordInfo",
+					"children" : [ {
+						"name" : "id",
+						"value" : "pVarTextVariableId"
+					} ]
+				}, {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataTextVariable"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "textVariableId"
+					} ],
+					"name" : "presentationOf"
+				}, {
+					"name" : "mode",
+					"value" : "input"
+				}, {
+					"name" : "inputFormat",
+					"value" : "password"
+				} ]
+			};	
 
 		case "yesNoUnknownPCollVar":
 			return {

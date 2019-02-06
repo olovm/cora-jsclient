@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2016, 201, 2019 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -41,7 +41,8 @@ var CORA = (function(cora) {
 				"name" : spec.name,
 				"serverAddress" : spec.baseUrl,
 				"reloadProvidersMethod" : out.reloadProviders,
-				"setLanguageMethod" : out.setCurrentLang
+				"setLanguageMethod" : out.setCurrentLang,
+				"showLdapLoginMethod" : out.showLdapLogin
 			};
 			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 
@@ -64,7 +65,8 @@ var CORA = (function(cora) {
 				"afterLogoutMethod" : afterLogout,
 				"setErrorMessage" : jsClientView.addErrorMessage,
 				"appTokenBaseUrl" : spec.appTokenBaseUrl,
-				baseUrl : spec.baseUrl
+				baseUrl : spec.baseUrl,
+				"jsClient" : out
 			};
 			var loginManager = dependencies.globalFactories.loginManagerFactory
 					.factor(loginManagerSpec);
@@ -251,7 +253,7 @@ var CORA = (function(cora) {
 			textProvider.setCurrentLang(lang);
 			reloadOpenRecords();
 		}
-
+		
 		function getDependencies() {
 			return dependencies;
 		}

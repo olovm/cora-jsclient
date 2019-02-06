@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2019 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -93,11 +93,6 @@ QUnit.test("testInitSearchButtonCreatedAndAddedButtonView", function(assert) {
 			.getTranslation("theClient_searchButtonText"));
 	assert.strictEqual(searchButton.className, "searchButton");
 	assert.strictEqual(searchButton.onclick, this.spec.searchMethod);
-});
-
-QUnit.test("testGetSpec", function(assert) {
-	var searchHandlerView = CORA.searchHandlerView(this.dependencies, this.spec);
-	assert.strictEqual(searchHandlerView.getSpec(), this.spec);
 });
 
 QUnit.test("testInitResultViewCreatedAndAddedToWorkItemView", function(assert) {

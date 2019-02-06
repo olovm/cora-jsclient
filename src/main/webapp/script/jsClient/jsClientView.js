@@ -39,6 +39,8 @@ var CORA = (function(cora) {
 
 		function createMainView() {
 			var view = CORA.gui.createSpanWithClassName("jsClient mainView");
+            var serverAddress = CORA.gui.createSpanWithClassName("serverAddress");
+            serverAddress.textContent = spec.serverAddress;
 
 			header = CORA.gui.createSpanWithClassName("header");
 			header.textContent = spec.name;
@@ -52,16 +54,13 @@ var CORA = (function(cora) {
 
 			recordTypesView = CORA.gui.createSpanWithClassName("recordTypesView");
 			sideBar.appendChild(recordTypesView);
+			sideBar.appendChild(serverAddress);
 
 			workArea = CORA.gui.createSpanWithClassName("workArea");
 			view.appendChild(workArea);
 
 			messageHolder = dependencies.messageHolderFactory.factor();
 			header.appendChild(messageHolder.getView());
-
-			var serverAddress = CORA.gui.createSpanWithClassName("serverAddress");
-			serverAddress.textContent = spec.serverAddress;
-			view.appendChild(serverAddress);
 
 			return view;
 		}

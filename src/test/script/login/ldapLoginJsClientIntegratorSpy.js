@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Olov McKie
+ * Copyright 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -16,25 +16,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CORA = (function(cora) {
+
+var CORATEST = (function(coraTest) {
 	"use strict";
-	cora.recordHandlerViewFactory = function() {
-
-		var dependencies = {
-			"workItemViewFactory" : CORA.workItemViewFactory(),
-			"messageHolderFactory" : CORA.messageHolderFactory(),
-			"holderFactory": CORA.holderFactory()
-		};
-
-		function factor(recordHandlerViewSpec) {
-			return CORA.recordHandlerView(dependencies, recordHandlerViewSpec);
+	coraTest.ldapLoginJsClientIntegratorSpy = function(dependencies, spec) {
+		var noOfShowLdapLoginInJsClient = 0;
+		var view = CORA.gui.createSpanWithClassName("ldapLoginJsClientIntegratorSpy");
+		function getView() {
+			return view;
 		}
 
-		var out = Object.freeze({
-			"type" : "recordHandlerViewFactory",
-			factor : factor
+		function showLdapLoginInJsClient() {
+			noOfShowLdapLoginInJsClient++;
+		}
+
+		function getNoOfShowLdapLoginInJsClient() {
+			return noOfShowLdapLoginInJsClient;
+		}
+
+		return Object.freeze({
+			"type" : "ldapLoginJsClientIntegratorSpy",
+			getView : getView,
+			"showLdapLoginInJsClient" : showLdapLoginInJsClient,
+			"getNoOfShowLdapLoginInJsClient" : getNoOfShowLdapLoginInJsClient
 		});
-		return out;
 	};
-	return cora;
-}(CORA));
+	return coraTest;
+}(CORATEST || {}));

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Olov McKie
+ * Copyright 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,20 +18,30 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordHandlerViewFactory = function() {
+	cora.ldapLoginFactory = function(dependencies) {
 
-		var dependencies = {
-			"workItemViewFactory" : CORA.workItemViewFactory(),
-			"messageHolderFactory" : CORA.messageHolderFactory(),
-			"holderFactory": CORA.holderFactory()
-		};
+		function factor(spec) {
+			var viewDep = {
+				"textProvider" : dependencies.providers.textProvider
+			};
 
-		function factor(recordHandlerViewSpec) {
-			return CORA.recordHandlerView(dependencies, recordHandlerViewSpec);
+			var dep = {
+				"ldapLoginViewFactory" : CORA.ldapLoginViewFactory(viewDep),
+				"managedGuiItemFactory" : dependencies.globalFactories.managedGuiItemFactory,
+				"recordGuiFactory" : dependencies.globalFactories.recordGuiFactory,
+				"ajaxCallFactory" : dependencies.globalFactories.ajaxCallFactory,
+//				"jsClient" : dependencies.providers.clientInstanceProvider.getJsClient()
+			};
+			return CORA.ldapLogin(dep, spec);
+		}
+
+		function getDependencies() {
+			return dependencies;
 		}
 
 		var out = Object.freeze({
-			"type" : "recordHandlerViewFactory",
+			"type" : "ldapLoginFactory",
+			getDependencies : getDependencies,
 			factor : factor
 		});
 		return out;

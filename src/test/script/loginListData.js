@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Uppsala University Library
+ * Copyright 2018, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -362,10 +362,217 @@ var CORATEST = (function(coraTest) {
 								}
 							}
 						}
-					} ],
-			"totalNo" : "3",
+					},
+					{
+				        "record": {
+				          "data": {
+				            "children": [
+				              {
+				                "children": [
+				                  {
+				                    "name": "id",
+				                    "value": "uppsalaLDAP"
+				                  },
+				                  {
+				                    "children": [
+				                      {
+				                        "name": "linkedRecordType",
+				                        "value": "recordType"
+				                      },
+				                      {
+				                        "name": "linkedRecordId",
+				                        "value": "loginLDAP"
+				                      }
+				                    ],
+				                    "actionLinks": {
+				                      "read": {
+				                        "requestMethod": "GET",
+				                        "rel": "read",
+				                        "url": "http://localhost:8080/therest/rest/record/recordType/loginLDAP",
+				                        "accept": "application/vnd.uub.record+json"
+				                      }
+				                    },
+				                    "name": "type"
+				                  },
+				                  {
+				                    "children": [
+				                      {
+				                        "name": "linkedRecordType",
+				                        "value": "user"
+				                      },
+				                      {
+				                        "name": "linkedRecordId",
+				                        "value": "141414"
+				                      }
+				                    ],
+				                    "name": "createdBy"
+				                  },
+				                  {
+				                    "children": [
+				                      {
+				                        "name": "linkedRecordType",
+				                        "value": "system"
+				                      },
+				                      {
+				                        "name": "linkedRecordId",
+				                        "value": "cora"
+				                      }
+				                    ],
+				                    "actionLinks": {
+				                      "read": {
+				                        "requestMethod": "GET",
+				                        "rel": "read",
+				                        "url": "http://localhost:8080/therest/rest/record/system/cora",
+				                        "accept": "application/vnd.uub.record+json"
+				                      }
+				                    },
+				                    "name": "dataDivider"
+				                  },
+				                  {
+				                    "name": "tsCreated",
+				                    "value": "2019-01-25 08:24:23.334"
+				                  },
+				                  {
+				                    "repeatId": "0",
+				                    "children": [
+				                      {
+				                        "children": [
+				                          {
+				                            "name": "linkedRecordType",
+				                            "value": "user"
+				                          },
+				                          {
+				                            "name": "linkedRecordId",
+				                            "value": "141414"
+				                          }
+				                        ],
+				                        "name": "updatedBy"
+				                      },
+				                      {
+				                        "name": "tsUpdated",
+				                        "value": "2019-01-25 08:24:23.334"
+				                      }
+				                    ],
+				                    "name": "updated"
+				                  },
+				                  {
+				                    "repeatId": "1",
+				                    "children": [
+				                      {
+				                        "children": [
+				                          {
+				                            "name": "linkedRecordType",
+				                            "value": "user"
+				                          },
+				                          {
+				                            "name": "linkedRecordId",
+				                            "value": "141414"
+				                          }
+				                        ],
+				                        "name": "updatedBy"
+				                      },
+				                      {
+				                        "name": "tsUpdated",
+				                        "value": "2019-01-25 09:17:15.977"
+				                      }
+				                    ],
+				                    "name": "updated"
+				                  }
+				                ],
+				                "name": "recordInfo"
+				              },
+				              {
+				                "children": [
+				                  {
+				                    "name": "linkedRecordType",
+				                    "value": "metadataGroup"
+				                  },
+				                  {
+				                    "name": "linkedRecordId",
+				                    "value": "ldapGroup"
+				                  }
+				                ],
+				                "actionLinks": {
+				                  "read": {
+				                    "requestMethod": "GET",
+				                    "rel": "read",
+				                    "url": "http://localhost:8080/therest/rest/record/metadataGroup/ldapGroup",
+				                    "accept": "application/vnd.uub.record+json"
+				                  }
+				                },
+				                "name": "ldapMetadata"
+				              },
+				              {
+				                "children": [
+				                  {
+				                    "name": "linkedRecordType",
+				                    "value": "presentationGroup"
+				                  },
+				                  {
+				                    "name": "linkedRecordId",
+				                    "value": "ldapPGroup"
+				                  }
+				                ],
+				                "actionLinks": {
+				                  "read": {
+				                    "requestMethod": "GET",
+				                    "rel": "read",
+				                    "url": "http://localhost:8080/therest/rest/record/presentationGroup/ldapPGroup",
+				                    "accept": "application/vnd.uub.record+json"
+				                  }
+				                },
+				                "name": "ldapPresentation"
+				              },
+				              {
+				                "children": [
+				                  {
+				                    "name": "linkedRecordType",
+				                    "value": "coraText"
+				                  },
+				                  {
+				                    "name": "linkedRecordId",
+				                    "value": "ldapGroupText"
+				                  }
+				                ],
+				                "actionLinks": {
+				                  "read": {
+				                    "requestMethod": "GET",
+				                    "rel": "read",
+				                    "url": "http://localhost:8080/therest/rest/record/coraText/ldapGroupText",
+				                    "accept": "application/vnd.uub.record+json"
+				                  }
+				                },
+				                "name": "description"
+				              },
+				              {
+				                "name": "url",
+				                "value": "http://www.google.se"
+				              }
+				            ],
+				            "name": "login",
+				            "attributes": {
+				              "type": "ldap"
+				            }
+				          },
+				          "actionLinks": {
+				            "read": {
+				              "requestMethod": "GET",
+				              "rel": "read",
+				              "url": "http://localhost:8080/therest/rest/record/loginLDAP/uppsalaLDAP",
+				              "accept": "application/vnd.uub.record+json"
+				            },
+				            "read_incoming_links": {
+				              "requestMethod": "GET",
+				              "rel": "read_incoming_links",
+				              "url": "http://localhost:8080/therest/rest/record/loginLDAP/uppsalaLDAP/incomingLinks",
+				              "accept": "application/vnd.uub.recordList+json"
+				            }
+				          }
+				        }
+				      }],
+			"totalNo" : "4",
 			"containDataOfType" : "login",
-			"toNo" : "3"
+			"toNo" : "4"
 		}
 	};
 	return coraTest;

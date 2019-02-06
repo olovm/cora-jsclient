@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Olov McKie
+ * Copyright 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -18,20 +18,24 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.recordHandlerViewFactory = function() {
+	cora.ldapLoginViewFactory = function(dependencies) {
 
-		var dependencies = {
+		var dep = {
+			"textProvider" : dependencies.textProvider,
 			"workItemViewFactory" : CORA.workItemViewFactory(),
-			"messageHolderFactory" : CORA.messageHolderFactory(),
-			"holderFactory": CORA.holderFactory()
 		};
 
-		function factor(recordHandlerViewSpec) {
-			return CORA.recordHandlerView(dependencies, recordHandlerViewSpec);
+		function factor(spec) {
+			return CORA.ldapLoginView(dep, spec);
+		}
+
+		function getDependencies() {
+			return dependencies;
 		}
 
 		var out = Object.freeze({
-			"type" : "recordHandlerViewFactory",
+			"type" : "ldapLoginViewFactory",
+			getDependencies : getDependencies,
 			factor : factor
 		});
 		return out;

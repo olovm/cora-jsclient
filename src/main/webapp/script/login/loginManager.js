@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2018 Uppsala University Library
+ * Copyright 2016, 2018, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -24,6 +24,8 @@ var CORA = (function(cora) {
 		var loginManagerView;
 		var authInfo;
 		var createdWebRedirectLogin;
+		var startedLdapLogins = {};
+
 		var loginOptions = [];
 		if (addStandardAppTokensToLoginMenu) {
 			loginOptions.push({
@@ -125,6 +127,10 @@ var CORA = (function(cora) {
 					"url" : url,
 					"type" : type
 				};
+				if ("ldap" === type) {
+					logins[recordId].metadataId = getMetadataIdFromLoginRecord(loginData);
+					logins[recordId].presentationId = getPresentationIdFromLoginRecord(loginData);
+				}
 			});
 		}
 
@@ -143,19 +149,50 @@ var CORA = (function(cora) {
 			return recordData.attributes.type;
 		}
 
+		function getMetadataIdFromLoginRecord(recordData) {
+			var cRecord = CORA.coraData(recordData);
+			var cMetadataIdGroup = CORA.coraData(cRecord.getFirstChildByNameInData("ldapMetadata"));
+
+			return cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+
+		function getPresentationIdFromLoginRecord(recordData) {
+			var cRecord = CORA.coraData(recordData);
+			var cMetadataIdGroup = CORA.coraData(cRecord
+					.getFirstChildByNameInData("ldapPresentation"));
+
+			return cMetadataIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
+		}
+
 		function parseLoginUnitData() {
 			loginUnitDataList.forEach(function(loginUnit) {
 				var loginUnitData = loginUnit.record.data;
 
 				var textId = getTextIdFromRecord(loginUnitData);
 				var loginId = getLoginIdFromRecord(loginUnitData);
+				var cRecord = CORA.coraData(loginUnitData);
+				var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+				var loginUnitId = cRecordInfo.getFirstAtomicValueByNameInData("id");
 
-				loginOptions.push({
+				var loginOption = {
 					"text" : getTranslatedText(textId),
 					"type" : logins[loginId].type,
 					"url" : logins[loginId].url
-				});
+				}
+				loginOption = possiblyAddLdapAttributes(loginOption, loginId, loginUnitId);
+				loginOptions.push(loginOption);
+
 			});
+		}
+
+		function possiblyAddLdapAttributes(loginOptionIn, loginId, loginUnitId) {
+			var loginOption = loginOptionIn;
+			if ("ldap" === logins[loginId].type) {
+				loginOption.metadataId = logins[loginId].metadataId;
+				loginOption.presentationId = logins[loginId].presentationId;
+				loginOption.loginUnitId = loginUnitId;
+			}
+			return loginOption;
 		}
 
 		function getTextIdFromRecord(recordData) {
@@ -200,6 +237,8 @@ var CORA = (function(cora) {
 		function login(loginOption) {
 			if ("appTokenLogin" === loginOption.type) {
 				appTokenLogin(loginOption.userId, loginOption.appToken);
+			} else if ("ldap" === loginOption.type) {
+				ldapLogin(loginOption);
 			} else {
 				webRedirectLogin(loginOption);
 			}
@@ -235,6 +274,34 @@ var CORA = (function(cora) {
 			return targetPart.substring(0, targetPart.indexOf("/", lengthOfHttps));
 		}
 
+		function ldapLogin(loginOption) {
+			if (loginAlreadyStartedForLoginOption(loginOption)) {
+				showStartedLoginInJsClientForLoginOption(loginOption);
+			} else {
+				startLoginForLoginOption(loginOption);
+			}
+			loginManagerView.closeHolder();
+		}
+
+		function loginAlreadyStartedForLoginOption(loginOption) {
+			return startedLdapLogins[loginOption.loginUnitId] !== undefined;
+		}
+
+		function showStartedLoginInJsClientForLoginOption(loginOption) {
+			startedLdapLogins[loginOption.loginUnitId].showLdapLoginInJsClient();
+		}
+
+		function startLoginForLoginOption(loginOption) {
+			var ldapLoginSpec = {
+				"metadataId" : loginOption.metadataId,
+				"presentationId" : loginOption.presentationId,
+				"jsClient" : spec.jsClient
+			};
+			var ldapLoginJsClientIntegrator = dependencies.ldapLoginJsClientIntegratorFactory
+					.factor(ldapLoginSpec);
+			startedLdapLogins[loginOption.loginUnitId] = ldapLoginJsClientIntegrator;
+		}
+
 		function getDependencies() {
 			return dependencies;
 		}
@@ -251,8 +318,17 @@ var CORA = (function(cora) {
 			spec.afterLoginMethod();
 		}
 
-		function appTokenErrorCallback() {
-			spec.setErrorMessage("AppToken login failed!");
+		function appTokenErrorCallback(errorObject) {
+			if (failedToLogout(errorObject)) {
+				logoutCallback();
+			} else {
+				spec.setErrorMessage("AppToken login failed!");
+			}
+		}
+
+		function failedToLogout(errorObject) {
+			return (errorObject.status === 0 || errorObject.status === 404)
+					&& errorObject.spec.requestMethod === "DELETE";
 		}
 
 		function appTokenTimeoutCallback() {

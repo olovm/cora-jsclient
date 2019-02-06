@@ -1,4 +1,5 @@
 /*
+ * Copyright 2019 Uppsala University Library
  * Copyright 2016, 2018 Olov McKie
  *
  * This file is part of Cora.
@@ -143,6 +144,9 @@ var CORA = (function(cora) {
 
 		function createTextTypeInput() {
 			var inputNew = document.createElement(getInputTypeFromSpec());
+			if(spec.inputFormat === "password"){
+				inputNew.setAttribute("type", "password");
+			}
 			inputNew.setValue = function(value) {
 				inputNew.value = value;
 			};
@@ -159,6 +163,8 @@ var CORA = (function(cora) {
 		function createOutput() {
 			if (spec.outputFormat === "image") {
 				return createOutputImage();
+			}else if(spec.outputFormat === "link"){
+				return createOutputLink();
 			}
 			return createOutputText();
 		}
@@ -167,6 +173,15 @@ var CORA = (function(cora) {
 			var outputNew = document.createElement("img");
 			outputNew.setValue = function(value) {
 				outputNew.src = value;
+			};
+			return outputNew;
+		}
+		
+		function createOutputLink(){
+			var outputNew = document.createElement("a");
+			outputNew.setValue = function(value) {
+				outputNew.href = value;
+				outputNew.text = value;
 			};
 			return outputNew;
 		}

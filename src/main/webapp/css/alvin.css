@@ -12,6 +12,7 @@
     border-color: inherit;
     border-right-style: none;
     border-left: 1px solid;
+	height: calc(100% - 3.5rem - 11px);
     padding: 0 0.5rem;
 	position: absolute;
 	right: 0;
@@ -19,6 +20,7 @@
 .jsClient > .workArea {
 	margin-right: 0.5rem;
 	margin-left: 0.5rem;
+	height: calc(100% - 3.5rem - 11px);
 }
 
 .workItem > .buttonView {
@@ -36,10 +38,7 @@
 .workItem > .editView {
 	padding-bottom: 3rem;
 }
-.workItem > .incomingLinksView {
-	padding-bottom: 3rem;
-	margin-top: -3rem;
-}
+
 .infoActive {
 	background-color: rgba(127, 191, 167, 0.1);
 }
@@ -170,4 +169,8 @@ input[type="button"] {
 .listView .h1TextStyle, .listView .h1TextStyle .text {
 	color: #bf7125;
 	font-size: 1rem;
+}
+
+.workArea>.workView>.workItem>.editView, .workArea>.workView>.workItem>.showView {
+	height: calc(100% - 5rem);
 }

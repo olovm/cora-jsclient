@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Olov McKie
- * Copyright 2018 Uppsala University Library
+ * Copyright 2018, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -39,10 +39,17 @@ QUnit.module("metadataProviderFactoryTest.js", {
 			"url" : "http://epc.ub.uu.se/cora/rest/record/text/",
 			"accept" : "application/vnd.uub.recordList+json"
 		};
+		var guiElementListLink = {
+				"requestMethod" : "GET",
+				"rel" : "list",
+				"url" : "http://epc.ub.uu.se/cora/rest/record/guiElement/",
+				"accept" : "application/vnd.uub.recordList+json"
+			};
 		this.spec = {
 			"metadataListLink" : metadataListLink,
 			"textListLink" : textListLink,
-			"presentationListLink" : presentationListLink
+			"presentationListLink" : presentationListLink,
+			"guiElementListLink" : guiElementListLink
 		};
 		this.dependencies = {
 			"ajaxCallFactory" : CORATEST.ajaxCallFactorySpy(),

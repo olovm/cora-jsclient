@@ -1613,6 +1613,21 @@ QUnit.test("testValidateGroupIdOneNumberChild1to1WithData", function(assert) {
 	assert.strictEqual(messages.length, 0);
 });
 
+QUnit.test("testValidateGroupIdOneNumberChild1to1WithEmptyValue", function(assert) {
+    var data = {
+        "name" : "groupIdOneNumberChild",
+        "children" : [ {
+            "name" : "numVariableId",
+            "value" : ""
+        } ]
+    };
+
+    var factored = this.metadataValidatorFactory.factor("groupIdOneNumberChild", data);
+    assert.notOk(factored.validationResult);
+    var messages = this.pubSub.getMessages();
+    assert.strictEqual(messages.length, 1);
+});
+
 
 QUnit.test("testValidateGroupIdOneNumberChild0to1WithDataEmptyValue", function(assert) {
 	var data = {
@@ -1623,10 +1638,14 @@ QUnit.test("testValidateGroupIdOneNumberChild0to1WithDataEmptyValue", function(a
 			} ]
 	};
 	
-	var factored = this.metadataValidatorFactory.factor("groupIdOneNumberChild", data);
+	var factored = this.metadataValidatorFactory.factor("groupIdOneNumberNotMandatoryChild", data);
 	assert.ok(factored.validationResult);
 	var messages = this.pubSub.getMessages();
-	assert.strictEqual(messages.length, 0);
+	assert.strictEqual(messages.length, 1);
+
+    assert.deepEqual(JSON.stringify(messages[0]), '{"type":"remove","message":{'
+        + '"type":"remove",' + '"path":{\"name\":\"linkedPath\"'
+        + ',\"children\":[{\"name\":\"nameInData\",\"value\":\"numVariableId\"}]}}}');
 });
 
 QUnit.test("testValidateGroupIdOneNumberChild1to1WithDataNotANumber", function(assert) {

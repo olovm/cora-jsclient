@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2017, 2018 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -19,7 +19,10 @@
  */
 
 var karma_config = require('./karma.core.js');
-module.exports = function (config)
-{
-    config.set(karma_config({singleRun:true, reporters:['dots', 'junit', 'coverage'], browsers:['FirefoxHeadless', 'ChromiumHeadless']}));
+module.exports = function(config) {
+	config.set(karma_config({
+		singleRun : true,
+		reporters : [ 'dots', 'junit', 'coverage' ],
+		browsers : [ 'FirefoxHeadless', 'ChromiumHeadless' ]
+	}));
 };

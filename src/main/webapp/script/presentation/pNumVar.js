@@ -67,6 +67,14 @@ var CORA = (function(cora) {
 				}, 
 				{
 					"text" : "presentationId: " + presentationId
+				},{
+                        "text" : "min: " + min
+				}, {
+					 "text":"max: " + max
+				}, {
+					 "text": "warningMin: " + warningMin
+				}, {
+                        "text": "warningMax: " + warningMax
 				} ]
 			},
 			"onblurFunction" : onBlur,
@@ -147,7 +155,9 @@ var CORA = (function(cora) {
 		}
 
 		function handleValueFromView(valueFromView, errorState) {
-			checkValueBetweenMinAndMaxIfNumber(valueFromView, errorState); 
+		    if(valueFromView !== ""){
+                checkValueBetweenMinAndMaxIfNumber(valueFromView, errorState);
+            }
 			updateView();
 			if (state === "ok" && valueHasChanged(valueFromView)) {
 				var data = {
