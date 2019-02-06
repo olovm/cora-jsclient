@@ -17,10 +17,10 @@ body {
 	min-height: 5rem;
 	position: absolute;
 	overflow: hidden;
-	margin: 2px 0px;
 	z-index: 101;
 	top:2em;
-	left:88%;
+	left:86%;
+	min-width:13rem;
 	flex-direction:column;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 	padding: 0.4em 0 0.4em 0;
