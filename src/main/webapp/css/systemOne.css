@@ -31,15 +31,11 @@
 }
 .jsClient .editView {
 	flex: 0 1 calc(50% - 10rem);
-/* 	margin: 0 0.5rem; */
 	order: 2;
 }
 .jsClient .showView {
 	order: 3;
 	flex: 0 1 calc(50% - 1rem);
-}
-.messageHolder {
-	z-index: 20;
 }
 
 .sideBar .active, .header .active {
