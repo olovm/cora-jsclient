@@ -307,6 +307,10 @@ body {
 	align-content: flex-start;
 }
 
+.workArea .workView>.workItem.search {
+	overflow-y:scroll;
+}
+
 .topBar {
 	height: 2rem;
 	display: block;
