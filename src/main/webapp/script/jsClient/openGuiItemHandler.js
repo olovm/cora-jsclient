@@ -20,6 +20,8 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.openGuiItemHandler = function(dependencies, spec) {
+		var managedGuiItemShowing = undefined;
+		var managedGuiItemList = [];
 
 		var viewSpec = {
 			"headerText" : dependencies.textProvider.getTranslation("theClient_openedText")
@@ -33,6 +35,41 @@ var CORA = (function(cora) {
 
 		function addManagedGuiItem(managedGuiItem) {
 			view.addManagedGuiItem(managedGuiItem);
+			managedGuiItemList.push(managedGuiItem);
+		}
+
+		function showView(managedGuiItem) {
+			resetLastShowingMenuItem();
+			updateShowingManagedGuiItem(managedGuiItem);
+			managedGuiItem.showWorkView();
+			managedGuiItemShowing = managedGuiItem;
+		}
+
+		function resetLastShowingMenuItem() {
+			if (managedGuiItemShowing !== undefined) {
+				managedGuiItemShowing.setActive(false);
+				managedGuiItemShowing.hideWorkView();
+			}
+		}
+
+		function updateShowingManagedGuiItem(managedGuiItem) {
+			managedGuiItem.setActive(true);
+		}
+
+		function removeView(managedGuiItem) {
+			removeManagedGuiItemFromList(managedGuiItem);
+			var previous = managedGuiItemList.pop();
+			if (previous) {
+				showView(previous);
+			} else {
+				resetLastShowingMenuItem();
+			}
+		}
+
+		function removeManagedGuiItemFromList(managedGuiItem) {
+			if (managedGuiItemList.indexOf(managedGuiItem) >= 0) {
+				managedGuiItemList.splice(managedGuiItemList.indexOf(managedGuiItem), 1);
+			}
 		}
 
 		function getSpec() {
@@ -48,7 +85,9 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			getDependencies : getDependencies,
 			getView : getView,
-			addManagedGuiItem : addManagedGuiItem
+			addManagedGuiItem : addManagedGuiItem,
+			showView : showView,
+			removeView : removeView
 		});
 		return out;
 	};

@@ -26,15 +26,9 @@ QUnit.module("openGuiItemHandlerTest.js", {
 		this.dependencies = {
 			"openGuiItemHandlerViewFactory" : CORATEST
 					.standardFactorySpy("openGuiItemHandlerViewSpy"),
-			// "managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
-			// "jsClient" : CORATEST.jsClientSpy(),
-			// "searchHandlerFactory" : CORATEST.standardFactorySpy("searchHandlerSpy")
 			"textProvider" : CORATEST.textProviderSpy()
 		};
-		this.spec = {
-		// "openGuiItem" : this.search,
-		// "baseUrl" : "http://epc.ub.uu.se/cora/rest/"
-		};
+		this.spec = {};
 	},
 	afterEach : function() {
 	}
@@ -76,18 +70,117 @@ QUnit.test("testAddManagedGuiItemPassedOnToView", function(assert) {
 	openGuiItemHandler.addManagedGuiItem(aItem);
 	assert.strictEqual(factoredView.getAddedManagedGuiItem(0), aItem);
 });
+
+QUnit.test("showView", function(assert) {
+	// var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	// var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	// var openGuiItemHandler = this.dependencies.openGuiItemHandlerFactory.getFactored(0);
+	var openGuiItemHandler = CORA.openGuiItemHandler(this.dependencies, this.spec);
+
+	// assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
+
+	var aView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(aView.getActive(), false);
+	assert.strictEqual(aView.getWorkViewShown(), 0);
+
+	openGuiItemHandler.showView(aView);
+	// assert.strictEqual(jsClientView.getAddedWorkView(0), aView.getWorkView());
+	assert.strictEqual(aView.getActive(), true);
+	assert.strictEqual(aView.getWorkViewShown(), 1);
+	assert.strictEqual(aView.getWorkViewHidden(), 0);
+
+	var aDifferentView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(aDifferentView.getActive(), false);
+
+	// jsClient.showView(aDifferentView);
+	openGuiItemHandler.showView(aDifferentView);
+	// assert.strictEqual(jsClientView.getAddedWorkView(1), aDifferentView.getWorkView());
+	assert.strictEqual(aView.getActive(), false);
+	assert.strictEqual(aView.getWorkViewHidden(), 1);
+	assert.strictEqual(aView.getWorkViewShown(), 1);
+	assert.strictEqual(aDifferentView.getActive(), true);
+	assert.strictEqual(aDifferentView.getWorkViewHidden(), 0);
+	assert.strictEqual(aDifferentView.getWorkViewShown(), 1);
+
+	// jsClient.showView(aView);
+	openGuiItemHandler.showView(aView);
+	assert.strictEqual(aView.getActive(), true);
+	assert.strictEqual(aView.getWorkViewHidden(), 1);
+	assert.strictEqual(aView.getWorkViewShown(), 2);
+	assert.strictEqual(aDifferentView.getActive(), false);
+	assert.strictEqual(aDifferentView.getWorkViewHidden(), 1);
+	assert.strictEqual(aDifferentView.getWorkViewShown(), 1);
+});
+
+// QUnit.test("hideAndRemoveView", function(assert) {
+// var jsClient = CORA.jsClient(this.dependencies, this.spec);
+// var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 //
-// QUnit.test("testOpenSearchFactorSearchHandler", function(assert) {
-// var openGuiItemHandler = CORA.openGuiItemHandler(this.dependencies, this.spec);
-// openGuiItemHandler.openSearch();
-// var factoredSpec = this.dependencies.searchHandlerFactory.getSpec(0);
+// var mainView = jsClient.getView();
 //
-// assert.strictEqual(factoredSpec.addToopenGuiItemHandlerMethod,
-// openGuiItemHandler.addManagedGuiItem);
-// assert.strictEqual(factoredSpec.showViewMethod, this.dependencies.jsClient.showView);
-// assert.strictEqual(factoredSpec.removeViewMethod, this.dependencies.jsClient.viewRemoved);
+// assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
 //
-// assert.strictEqual(factoredSpec.metadataId, "autocompleteSearchGroup");
-// assert.strictEqual(factoredSpec.presentationId, "autocompleteSearchPGroup");
-// assert.strictEqual(factoredSpec.searchLink, this.search.actionLinks.search);
+// var aView = CORATEST.managedGuiItemSpy();
+// jsClient.showView(aView);
+//
+// assert.strictEqual(jsClientView.getAddedWorkView(0), aView.getWorkView());
+//
+// jsClient.hideAndRemoveView(aView);
+// assert.strictEqual(jsClientView.getRemovedWorkView(0), aView.getWorkView());
 // });
+QUnit.test("testViewRemoved", function(assert) {
+	// var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	// var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	//
+	// assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
+	//
+	var openGuiItemHandler = CORA.openGuiItemHandler(this.dependencies, this.spec);
+
+	var aView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(aView.getActive(), false);
+	assert.strictEqual(aView.getWorkViewShown(), 0);
+
+	// jsClient.showView(aView);
+	openGuiItemHandler.addManagedGuiItem(aView);
+	openGuiItemHandler.showView(aView);
+	// assert.strictEqual(jsClientView.getAddedWorkView(0), aView.getWorkView());
+	assert.strictEqual(aView.getActive(), true);
+	assert.strictEqual(aView.getWorkViewShown(), 1);
+	assert.strictEqual(aView.getWorkViewHidden(), 0);
+
+	var aDifferentView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(aDifferentView.getActive(), false);
+	//
+	// jsClient.showView(aDifferentView);
+	openGuiItemHandler.addManagedGuiItem(aDifferentView);
+	openGuiItemHandler.showView(aDifferentView);
+	// assert.strictEqual(jsClientView.getAddedWorkView(1), aDifferentView.getWorkView());
+	assert.strictEqual(aView.getActive(), false);
+	assert.strictEqual(aView.getWorkViewHidden(), 1);
+	assert.strictEqual(aView.getWorkViewShown(), 1);
+	assert.strictEqual(aDifferentView.getActive(), true);
+	assert.strictEqual(aDifferentView.getWorkViewHidden(), 0);
+	assert.strictEqual(aDifferentView.getWorkViewShown(), 1);
+
+	var aThirdView = CORATEST.managedGuiItemSpy();
+	assert.strictEqual(aThirdView.getActive(), false);
+	openGuiItemHandler.addManagedGuiItem(aThirdView);
+	openGuiItemHandler.showView(aThirdView);
+	// jsClient.showView(aThirdView);
+	// assert.strictEqual(jsClientView.getAddedWorkView(2), aThirdView.getWorkView());
+	//
+	// jsClient.showView(aDifferentView);
+	openGuiItemHandler.showView(aDifferentView);
+	// jsClient.viewRemoved(aThirdView);
+	openGuiItemHandler.removeView(aThirdView);
+
+	// jsClient.viewRemoved(aDifferentView);
+	openGuiItemHandler.removeView(aDifferentView);
+	assert.strictEqual(aView.getActive(), true);
+	assert.strictEqual(aView.getWorkViewHidden(), 1);
+	assert.strictEqual(aView.getWorkViewShown(), 2);
+	//
+	// jsClient.viewRemoved(aView);
+	openGuiItemHandler.removeView(aDifferentView);
+	assert.strictEqual(aView.getActive(), false);
+});
