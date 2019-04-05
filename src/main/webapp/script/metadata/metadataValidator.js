@@ -30,6 +30,13 @@ var CORA = (function(cora) {
 					.getFirstChildByNameInData('childReferences');
 			var topLevelPath = {};
 			topLevelChildReferences.children.forEach(function(childReference) {
+//				var cChildReference = CORA.coraData(childReference);
+//				var cRef = CORA.coraData(cChildReference.getFirstChildByNameInData("ref"));
+//				var childName = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
+//				if(childName === "recordInfoDivaGroup"){
+//				console.log(JSON.stringify(cChildReference.getData()));
+//			}
+				
 				var childResult = CORA.metadataChildValidator(childReference, topLevelPath,
 						topLevelData, spec.metadataProvider, spec.pubSub);
 				if (!childResult.everythingOkBelow) {

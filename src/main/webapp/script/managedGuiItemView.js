@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2019 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -113,6 +113,17 @@ var CORA = (function(cora) {
 
 		function addListPresentation(presentationToAdd) {
 			listView.appendChild(presentationToAdd);
+			addDeleteToListPresentation();
+		}
+		
+		function addDeleteToListPresentation(){
+			var buttonSpec = {
+					"className" : "iconButton " + "removeButton",
+					action : {
+						method : spec.deleteRecordMethod
+					}
+			};
+			listView.appendChild(CORA.gui.button(buttonSpec));
 		}
 
 		var out = Object.freeze({
@@ -129,7 +140,8 @@ var CORA = (function(cora) {
 			showWorkView : showWorkView,
 			removeViews : removeViews,
 			getListView : getListView,
-			addListPresentation : addListPresentation
+			addListPresentation : addListPresentation,
+			addDeleteToListPresentation:addDeleteToListPresentation
 		});
 		return out;
 	};

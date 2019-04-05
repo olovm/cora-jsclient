@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2018 Uppsala University Library
+ * Copyright 2016, 2018, 2019 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -30,6 +30,8 @@ QUnit.module("managedGuiItemTest.js", {
 			"activateMethod" : function() {
 			},
 			"removeMethod" : function() {
+			},
+			"deleteRecordMethod" : function() {
 			},
 			"callOnMetadataReloadMethod" : function() {
 
@@ -138,6 +140,40 @@ QUnit.test("testDisableRemoveNoRemoveFunctionToView", function(assert) {
 
 	assert.strictEqual(factoredSpec.removeMethod, undefined);
 });
+
+
+
+
+
+QUnit.test("testDeleteMethodAddedToView", function(assert) {
+	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+
+	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
+	assert.strictEqual(factoredView.getSpec().deleteRecordMethod, managedGuiItem.deleteRecord);
+});
+
+QUnit.test("testDeleteMethodPassedOnToViewCallsMethodWithSelf", function(assert) {
+	var calledWithManagedGuiItem;
+	this.spec.deleteRecordMethod = function(managedGuiItem) {
+		calledWithManagedGuiItem = managedGuiItem;
+	}
+	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+
+	var factoredSpec = this.dependencies.managedGuiItemViewFactory.getSpec(0);
+	factoredSpec.deleteRecordMethod();
+	assert.strictEqual(calledWithManagedGuiItem, managedGuiItem);
+});
+//
+//QUnit.test("testDeleteMethodCallsDeleteOnView", function(assert) {
+//	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+//	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
+//
+//	assert.strictEqual(factoredView.getDeleted(), 0);
+//	managedGuiItem.deleteRecord();
+//	assert.strictEqual(factoredView.getDeleted(), 1);
+//});
+
+
 
 QUnit.test("testAddMenuPresentationPassedOnToView", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);

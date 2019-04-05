@@ -28,6 +28,8 @@ var CORA = (function(cora) {
 		if (spec.disableRemove !== "true") {
 			viewSpec.removeMethod = remove;
 		}
+		
+		viewSpec.deleteRecordMethod = deleteRecord;
 
 		var view = dependencies.managedGuiItemViewFactory.factor(viewSpec);
 
@@ -116,6 +118,10 @@ var CORA = (function(cora) {
 				spec.callOnMetadataReloadMethod();
 			}
 		}
+		
+		function deleteRecord(){
+			spec.deleteRecordMethod(out);
+		}
 
 		out = Object.freeze({
 			"type" : "managedGuiItem",
@@ -134,7 +140,8 @@ var CORA = (function(cora) {
 			showWorkView : showWorkView,
 			getListView : getListView,
 			addListPresentation : addListPresentation,
-			reloadForMetadataChanges : reloadForMetadataChanges
+			reloadForMetadataChanges : reloadForMetadataChanges,
+			deleteRecord : deleteRecord
 		});
 
 		return out;

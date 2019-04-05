@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Uppsala University Library
+ * Copyright 2016, 2019 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -26,6 +26,8 @@ QUnit.module("managedGuiItemViewTest.js", {
 			"activateMethod" : function() {
 			},
 			"removeMethod" : function() {
+			},
+			"deleteRecordMethod" : function() {
 			},
 		};
 	},
@@ -111,7 +113,25 @@ QUnit.test("testAddListPresentation", function(assert) {
 	var presentation2 = CORA.gui.createSpanWithClassName("someClassName");
 	managedGuiItemView.addListPresentation(presentation2);
 	assert.strictEqual(listView.childNodes[0], presentation);
-	assert.strictEqual(listView.childNodes[1], presentation2);
+	assert.strictEqual(listView.childNodes[2], presentation2);
+});
+
+QUnit.test("testAddDeleteToListPresentation", function(assert) {
+	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
+	var listView = managedGuiItemView.getListView();
+
+	var presentation = CORA.gui.createSpanWithClassName("someClassName");
+	managedGuiItemView.addDeleteToListPresentation();
+	assert.strictEqual(listView.childNodes[0].className,"iconButton removeButton");
+});
+
+QUnit.test("testClickDeleteInPresentationCallsDeleteMethodInSpec", function(assert) {
+	
+	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
+	var listView = managedGuiItemView.getListView();
+	managedGuiItemView.addDeleteToListPresentation();
+	assert.strictEqual(listView.lastChild.className, "iconButton removeButton");
+	CORATESTHELPER.simulateOnclick(listView.lastChild);
 });
 
 QUnit.test("testAddWorkPresentation", function(assert) {

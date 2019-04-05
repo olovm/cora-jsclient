@@ -52,7 +52,8 @@ var CORA = (function(cora) {
 				"activateMethod" : spec.jsClient.showView,
 				"removeMethod" : spec.jsClient.viewRemoved,
 				"callOnMetadataReloadMethod" : reloadForMetadataChanges,
-				"callMethodAfterShowWorkView" : callMethodAfterShowWorkView
+				"callMethodAfterShowWorkView" : callMethodAfterShowWorkView,
+				"deleteRecordMethod": sendDeleteDataToServer
 			};
 			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
 		}
