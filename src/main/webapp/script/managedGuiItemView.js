@@ -113,7 +113,13 @@ var CORA = (function(cora) {
 
 		function addListPresentation(presentationToAdd) {
 			listView.appendChild(presentationToAdd);
-			addDeleteToListPresentation();
+			possiblyAddDeleteToListView();
+		}
+		
+		function possiblyAddDeleteToListView(){
+			if (spec.deleteRecordMethod !== undefined) {
+				addDeleteToListPresentation();
+			}
 		}
 		
 		function addDeleteToListPresentation(){
@@ -140,8 +146,7 @@ var CORA = (function(cora) {
 			showWorkView : showWorkView,
 			removeViews : removeViews,
 			getListView : getListView,
-			addListPresentation : addListPresentation,
-			addDeleteToListPresentation:addDeleteToListPresentation
+			addListPresentation : addListPresentation
 		});
 		return out;
 	};

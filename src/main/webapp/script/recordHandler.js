@@ -52,10 +52,17 @@ var CORA = (function(cora) {
 				"activateMethod" : spec.jsClient.showView,
 				"removeMethod" : spec.jsClient.viewRemoved,
 				"callOnMetadataReloadMethod" : reloadForMetadataChanges,
-				"callMethodAfterShowWorkView" : callMethodAfterShowWorkView,
-				"deleteRecordMethod": sendDeleteDataToServer
+				"callMethodAfterShowWorkView" : callMethodAfterShowWorkView
 			};
+			possiblyAddDeleteRecordMethodToSpec(managedGuiItemSpec);
 			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
+		}
+		
+		function possiblyAddDeleteRecordMethodToSpec(managedGuiItemSpec){
+			var deleteLink = spec.record.actionLinks["delete"];
+			if(deleteLink !== undefined){
+				managedGuiItemSpec.deleteRecordMethod = shouldRecordBeDeleted;
+			}
 		}
 
 		function createRecordHandlerView() {

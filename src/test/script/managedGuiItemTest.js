@@ -152,17 +152,26 @@ QUnit.test("testDeleteMethodAddedToView", function(assert) {
 	assert.strictEqual(factoredView.getSpec().deleteRecordMethod, managedGuiItem.deleteRecord);
 });
 
-QUnit.test("testDeleteMethodPassedOnToViewCallsMethodWithSelf", function(assert) {
-	var calledWithManagedGuiItem;
-	this.spec.deleteRecordMethod = function(managedGuiItem) {
-		calledWithManagedGuiItem = managedGuiItem;
-	}
+QUnit.test("testNoDeleteMethodAddedToViewWhenNotInSpec", function(assert) {
+	this.spec.deleteRecordMethod = undefined;
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
-
-	var factoredSpec = this.dependencies.managedGuiItemViewFactory.getSpec(0);
-	factoredSpec.deleteRecordMethod();
-	assert.strictEqual(calledWithManagedGuiItem, managedGuiItem);
+	
+	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
+	assert.strictEqual(factoredView.getSpec().deleteRecordMethod, undefined);
 });
+
+
+//QUnit.test("testDeleteMethodPassedOnToViewCallsMethod", function(assert) {
+//	var calledWithManagedGuiItem;
+//	this.spec.deleteRecordMethod = function(managedGuiItem) {
+//		calledWithManagedGuiItem = managedGuiItem;
+//	}
+//	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
+//
+//	var factoredSpec = this.dependencies.managedGuiItemViewFactory.getSpec(0);
+//	factoredSpec.deleteRecordMethod();
+//	assert.strictEqual(calledWithManagedGuiItem, managedGuiItem);
+//});
 //
 //QUnit.test("testDeleteMethodCallsDeleteOnView", function(assert) {
 //	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);

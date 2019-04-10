@@ -29,8 +29,9 @@ var CORA = (function(cora) {
 			viewSpec.removeMethod = remove;
 		}
 		
-		viewSpec.deleteRecordMethod = deleteRecord;
-
+		if(spec.deleteRecordMethod !== undefined){
+			viewSpec.deleteRecordMethod = deleteRecord;
+		}
 		var view = dependencies.managedGuiItemViewFactory.factor(viewSpec);
 
 		var active = false;
@@ -120,7 +121,7 @@ var CORA = (function(cora) {
 		}
 		
 		function deleteRecord(){
-			spec.deleteRecordMethod(out);
+			spec.deleteRecordMethod();
 		}
 
 		out = Object.freeze({

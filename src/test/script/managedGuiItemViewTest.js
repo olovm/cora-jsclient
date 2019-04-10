@@ -116,20 +116,39 @@ QUnit.test("testAddListPresentation", function(assert) {
 	assert.strictEqual(listView.childNodes[2], presentation2);
 });
 
-QUnit.test("testAddDeleteToListPresentation", function(assert) {
+QUnit.test("testAddListPresentationHasDeleteButton", function(assert) {
 	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
 	var listView = managedGuiItemView.getListView();
 
 	var presentation = CORA.gui.createSpanWithClassName("someClassName");
-	managedGuiItemView.addDeleteToListPresentation();
-	assert.strictEqual(listView.childNodes[0].className,"iconButton removeButton");
+	managedGuiItemView.addListPresentation(presentation);
+	
+	assert.strictEqual(listView.childNodes[1].className,"iconButton removeButton");
+});
+
+QUnit.test("testAddListPresentationHasNoDeleteButtonIfNoDeleteMethod", function(assert) {
+	this.spec = {
+			"activateMethod" : function() {
+			},
+			"removeMethod" : function() {
+			}
+		};
+//	this.spec.deleteRecordMethod = undefined;
+	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
+	var listView = managedGuiItemView.getListView();
+
+	var presentation = CORA.gui.createSpanWithClassName("someClassName");
+	managedGuiItemView.addListPresentation(presentation);
+	
+	assert.strictEqual(listView.childNodes.length,1);
 });
 
 QUnit.test("testClickDeleteInPresentationCallsDeleteMethodInSpec", function(assert) {
 	
 	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
 	var listView = managedGuiItemView.getListView();
-	managedGuiItemView.addDeleteToListPresentation();
+	var presentation = CORA.gui.createSpanWithClassName("someClassName");
+	managedGuiItemView.addListPresentation(presentation);
 	assert.strictEqual(listView.lastChild.className, "iconButton removeButton");
 	CORATESTHELPER.simulateOnclick(listView.lastChild);
 });

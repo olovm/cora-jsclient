@@ -166,10 +166,24 @@ QUnit.test("initTestManagedGuiItemFactoryCalled", function(assert) {
 	assert.strictEqual(managedGuiItemSpec.removeMethod, this.spec.jsClient.removeView);
 	assert.strictEqual(managedGuiItemSpec.callOnMetadataReloadMethod,
 			recordHandler.reloadForMetadataChanges);
+	assert.strictEqual(managedGuiItemSpec.deleteRecordMethod,
+			recordHandler.shouldRecordBeDeleted);
 
 	assert.notStrictEqual(managedGuiItemSpec.callMethodAfterShowWorkView, undefined);
 	assert.strictEqual(managedGuiItemSpec.callMethodAfterShowWorkView,
 			recordHandler.callMethodAfterShowWorkView);
+
+	assert.ok(managedGuiItemSpy !== undefined);
+});
+
+QUnit.test("initTestManagedGuiItemNoDeleteMethodInSpecWhenNoDeleteLink", function(assert) {
+	this.spec.record = this.recordWithoutUpdateOrDeleteLink;
+	var recordHandler = CORA.recordHandler(this.dependencies, this.spec);
+
+	var managedGuiItemSpy = this.dependencies.managedGuiItemFactory.getFactored(0);
+	var managedGuiItemSpec = managedGuiItemSpy.getSpec(0);
+	assert.strictEqual(managedGuiItemSpec.deleteRecordMethod,
+			undefined);
 
 	assert.ok(managedGuiItemSpy !== undefined);
 });
