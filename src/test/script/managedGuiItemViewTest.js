@@ -107,11 +107,11 @@ QUnit.test("testAddListPresentation", function(assert) {
 	var listView = managedGuiItemView.getListView();
 
 	var presentation = CORA.gui.createSpanWithClassName("someClassName");
-	managedGuiItemView.addListPresentation(presentation);
+	managedGuiItemView.addListItemToListPresentation(presentation);
 	assert.strictEqual(listView.childNodes[0], presentation);
 
 	var presentation2 = CORA.gui.createSpanWithClassName("someClassName");
-	managedGuiItemView.addListPresentation(presentation2);
+	managedGuiItemView.addListItemToListPresentation(presentation2);
 	assert.strictEqual(listView.childNodes[0], presentation);
 	assert.strictEqual(listView.childNodes[2], presentation2);
 });
@@ -121,7 +121,7 @@ QUnit.test("testAddListPresentationHasDeleteButton", function(assert) {
 	var listView = managedGuiItemView.getListView();
 
 	var presentation = CORA.gui.createSpanWithClassName("someClassName");
-	managedGuiItemView.addListPresentation(presentation);
+	managedGuiItemView.addListItemToListPresentation(presentation);
 	
 	assert.strictEqual(listView.childNodes[1].className,"iconButton removeButton");
 });
@@ -138,7 +138,7 @@ QUnit.test("testAddListPresentationHasNoDeleteButtonIfNoDeleteMethod", function(
 	var listView = managedGuiItemView.getListView();
 
 	var presentation = CORA.gui.createSpanWithClassName("someClassName");
-	managedGuiItemView.addListPresentation(presentation);
+	managedGuiItemView.addListItemToListPresentation(presentation);
 	
 	assert.strictEqual(listView.childNodes.length,1);
 });
@@ -148,7 +148,7 @@ QUnit.test("testClickDeleteInPresentationCallsDeleteMethodInSpec", function(asse
 	var managedGuiItemView = CORA.managedGuiItemView(this.spec);
 	var listView = managedGuiItemView.getListView();
 	var presentation = CORA.gui.createSpanWithClassName("someClassName");
-	managedGuiItemView.addListPresentation(presentation);
+	managedGuiItemView.addListItemToListPresentation(presentation);
 	assert.strictEqual(listView.lastChild.className, "iconButton removeButton");
 	CORATESTHELPER.simulateOnclick(listView.lastChild);
 });

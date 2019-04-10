@@ -111,9 +111,12 @@ var CORA = (function(cora) {
 			return listView;
 		}
 
-		function addListPresentation(presentationToAdd) {
+		function addListItemToListPresentation(presentationToAdd) {
 			listView.appendChild(presentationToAdd);
 			possiblyAddDeleteToListView();
+		}
+		function addListPresentation(presentationToAdd) {
+			listView.appendChild(presentationToAdd);
 		}
 		
 		function possiblyAddDeleteToListView(){
@@ -146,6 +149,7 @@ var CORA = (function(cora) {
 			showWorkView : showWorkView,
 			removeViews : removeViews,
 			getListView : getListView,
+			addListItemToListPresentation : addListItemToListPresentation,
 			addListPresentation : addListPresentation
 		});
 		return out;

@@ -110,6 +110,9 @@ var CORA = (function(cora) {
 			return view.getListView();
 		}
 
+		function addListItemToListPresentation(presentationToAdd) {
+			view.addListItemToListPresentation(presentationToAdd);
+		}
 		function addListPresentation(presentationToAdd) {
 			view.addListPresentation(presentationToAdd);
 		}
@@ -140,6 +143,7 @@ var CORA = (function(cora) {
 			hideWorkView : hideWorkView,
 			showWorkView : showWorkView,
 			getListView : getListView,
+			addListItemToListPresentation : addListItemToListPresentation,
 			addListPresentation : addListPresentation,
 			reloadForMetadataChanges : reloadForMetadataChanges,
 			deleteRecord : deleteRecord

@@ -167,13 +167,13 @@ QUnit.test("initTestManagedGuiItemFactoryCalled", function(assert) {
 	assert.strictEqual(managedGuiItemSpec.callOnMetadataReloadMethod,
 			recordHandler.reloadForMetadataChanges);
 	assert.strictEqual(managedGuiItemSpec.deleteRecordMethod,
-			recordHandler.shouldRecordBeDeleted);
+			recordHandler.shouldRecordInListBeDeleted);
 
 	assert.notStrictEqual(managedGuiItemSpec.callMethodAfterShowWorkView, undefined);
 	assert.strictEqual(managedGuiItemSpec.callMethodAfterShowWorkView,
 			recordHandler.callMethodAfterShowWorkView);
 
-	assert.ok(managedGuiItemSpy !== undefined);
+	assert.ok(managedGuiItemSpy != undefined);
 });
 
 QUnit.test("initTestManagedGuiItemNoDeleteMethodInSpecWhenNoDeleteLink", function(assert) {

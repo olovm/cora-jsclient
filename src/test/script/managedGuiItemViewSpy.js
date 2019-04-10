@@ -102,7 +102,7 @@ var CORATEST = (function(coraTest) {
 		function getListView() {
 			return listView;
 		}
-		function addListPresentation(presentationToAdd) {
+		function addListItemToListPresentation(presentationToAdd) {
 			addedListPresentations.push(presentationToAdd);
 		}
 		function getAddedListPresentation(number) {
@@ -131,7 +131,7 @@ var CORATEST = (function(coraTest) {
 			removeViews : removeViews,
 			getRemoved : getRemoved,
 			getListView : getListView,
-			addListPresentation : addListPresentation,
+			addListItemToListPresentation : addListItemToListPresentation,
 			getAddedListPresentation : getAddedListPresentation
 		});
 		return out;

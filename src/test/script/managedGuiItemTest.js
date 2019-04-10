@@ -207,7 +207,7 @@ QUnit.test("testAddListPresentationPassedOnToView", function(assert) {
 	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
 
 	var presentationToAdd = CORA.gui.createSpanWithClassName("somePresentation");
-	managedGuiItem.addListPresentation(presentationToAdd);
+	managedGuiItem.addListItemToListPresentation(presentationToAdd);
 	assert.strictEqual(factoredView.getAddedListPresentation(0), presentationToAdd);
 });
 

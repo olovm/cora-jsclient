@@ -61,7 +61,7 @@ var CORA = (function(cora) {
 		function possiblyAddDeleteRecordMethodToSpec(managedGuiItemSpec){
 			var deleteLink = spec.record.actionLinks["delete"];
 			if(deleteLink !== undefined){
-				managedGuiItemSpec.deleteRecordMethod = shouldRecordBeDeleted;
+				managedGuiItemSpec.deleteRecordMethod = shouldRecordInListBeDeleted;
 			}
 		}
 
@@ -189,7 +189,7 @@ var CORA = (function(cora) {
 			var viewId = metadataForRecordType.listPresentationViewId;
 			var presentation = currentRecordGui.getPresentationHolder(viewId, metadataIdUsedInData)
 					.getView();
-			managedGuiItem.addListPresentation(presentation);
+			managedGuiItem.addListItemToListPresentation(presentation);
 		}
 
 		function showErrorInView(error, data) {
@@ -380,18 +380,29 @@ var CORA = (function(cora) {
 			return indexLink !== undefined;
 		}
 
-		function shouldRecordBeDeleted() {
+		function shouldRecordInListBeDeleted() {
+			var questionView = getQuestionViewForDelete();
+			managedGuiItem.addListPresentation(questionView);
+		}
+		
+		function getQuestionViewForDelete(){
 			var questionSpec = {
-				"text" : "Är du säker på att du vill ta bort posten?",
-				"buttons" : [ {
-					"text" : "Nej"
-				}, {
-					"text" : "Ja",
-					"onclickFunction" : sendDeleteDataToServer
-				} ]
-			};
-			var question = CORA.question(questionSpec);
-			var questionView = question.getView();
+					"text" : "Är du säker på att du vill ta bort posten?",
+					"buttons" : [ {
+						"text" : "Nej"
+					}, {
+						"text" : "Ja",
+						"onclickFunction" : sendDeleteDataToServer
+					} ]
+				};
+				var question = CORA.question(questionSpec);
+				var questionView = question.getView();
+				return questionView;
+		}
+		
+		function shouldRecordBeDeleted() {
+			var questionView = getQuestionViewForDelete();
+			
 			managedGuiItem.addWorkPresentation(questionView);
 		}
 
@@ -518,6 +529,7 @@ var CORA = (function(cora) {
 			showData : showData,
 			sendUpdateDataToServer : sendUpdateDataToServer,
 			shouldRecordBeDeleted : shouldRecordBeDeleted,
+			shouldRecordInListBeDeleted : shouldRecordInListBeDeleted,
 			getManagedGuiItem : getManagedGuiItem,
 			reloadForMetadataChanges : reloadForMetadataChanges,
 			showIncomingLinks : showIncomingLinks,
