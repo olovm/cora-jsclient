@@ -111,30 +111,10 @@ var CORA = (function(cora) {
 			return listView;
 		}
 
-		function addListItemToListPresentation(presentationToAdd) {
-			listView.appendChild(presentationToAdd);
-			possiblyAddDeleteToListView();
-		}
 		function addListPresentation(presentationToAdd) {
 			listView.appendChild(presentationToAdd);
 		}
 		
-		function possiblyAddDeleteToListView(){
-			if (spec.deleteRecordMethod !== undefined) {
-				addDeleteToListPresentation();
-			}
-		}
-		
-		function addDeleteToListPresentation(){
-			var buttonSpec = {
-					"className" : "iconButton " + "removeButton",
-					action : {
-						method : spec.deleteRecordMethod
-					}
-			};
-			listView.appendChild(CORA.gui.button(buttonSpec));
-		}
-
 		var out = Object.freeze({
 			"type" : "managedGuiItemView",
 			getSpec : getSpec,
@@ -149,7 +129,6 @@ var CORA = (function(cora) {
 			showWorkView : showWorkView,
 			removeViews : removeViews,
 			getListView : getListView,
-			addListItemToListPresentation : addListItemToListPresentation,
 			addListPresentation : addListPresentation
 		});
 		return out;

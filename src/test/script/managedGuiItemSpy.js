@@ -69,7 +69,7 @@ var CORATEST = (function(coraTest) {
 			return addedWorkPresentations[number];
 		}
 
-		function addListItemToListPresentation(presentationToAdd) {
+		function addListPresentation(presentationToAdd) {
 			addedListPresentations.push(presentationToAdd);
 		}
 		function getAddedListPresentation(number) {
@@ -141,7 +141,7 @@ var CORATEST = (function(coraTest) {
 			getAddedMenuPresentation : getAddedMenuPresentation,
 			addWorkPresentation : addWorkPresentation,
 			getAddedWorkPresentation : getAddedWorkPresentation,
-			addListItemToListPresentation : addListItemToListPresentation,
+			addListPresentation : addListPresentation,
 			getAddedListPresentation : getAddedListPresentation,
 			setChanged : setChanged,
 			getChanged : getChanged,

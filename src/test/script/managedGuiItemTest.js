@@ -161,28 +161,6 @@ QUnit.test("testNoDeleteMethodAddedToViewWhenNotInSpec", function(assert) {
 });
 
 
-//QUnit.test("testDeleteMethodPassedOnToViewCallsMethod", function(assert) {
-//	var calledWithManagedGuiItem;
-//	this.spec.deleteRecordMethod = function(managedGuiItem) {
-//		calledWithManagedGuiItem = managedGuiItem;
-//	}
-//	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
-//
-//	var factoredSpec = this.dependencies.managedGuiItemViewFactory.getSpec(0);
-//	factoredSpec.deleteRecordMethod();
-//	assert.strictEqual(calledWithManagedGuiItem, managedGuiItem);
-//});
-//
-//QUnit.test("testDeleteMethodCallsDeleteOnView", function(assert) {
-//	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
-//	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
-//
-//	assert.strictEqual(factoredView.getDeleted(), 0);
-//	managedGuiItem.deleteRecord();
-//	assert.strictEqual(factoredView.getDeleted(), 1);
-//});
-
-
 
 QUnit.test("testAddMenuPresentationPassedOnToView", function(assert) {
 	var managedGuiItem = CORA.managedGuiItem(this.dependencies, this.spec);
@@ -207,7 +185,7 @@ QUnit.test("testAddListPresentationPassedOnToView", function(assert) {
 	var factoredView = this.dependencies.managedGuiItemViewFactory.getFactored(0);
 
 	var presentationToAdd = CORA.gui.createSpanWithClassName("somePresentation");
-	managedGuiItem.addListItemToListPresentation(presentationToAdd);
+	managedGuiItem.addListPresentation(presentationToAdd);
 	assert.strictEqual(factoredView.getAddedListPresentation(0), presentationToAdd);
 });
 

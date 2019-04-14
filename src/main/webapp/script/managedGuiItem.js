@@ -29,9 +29,6 @@ var CORA = (function(cora) {
 			viewSpec.removeMethod = remove;
 		}
 		
-		if(spec.deleteRecordMethod !== undefined){
-			viewSpec.deleteRecordMethod = deleteRecord;
-		}
 		var view = dependencies.managedGuiItemViewFactory.factor(viewSpec);
 
 		var active = false;
@@ -110,9 +107,6 @@ var CORA = (function(cora) {
 			return view.getListView();
 		}
 
-		function addListItemToListPresentation(presentationToAdd) {
-			view.addListItemToListPresentation(presentationToAdd);
-		}
 		function addListPresentation(presentationToAdd) {
 			view.addListPresentation(presentationToAdd);
 		}
@@ -121,10 +115,6 @@ var CORA = (function(cora) {
 			if (spec.callOnMetadataReloadMethod !== undefined) {
 				spec.callOnMetadataReloadMethod();
 			}
-		}
-		
-		function deleteRecord(){
-			spec.deleteRecordMethod();
 		}
 
 		out = Object.freeze({
@@ -143,10 +133,8 @@ var CORA = (function(cora) {
 			hideWorkView : hideWorkView,
 			showWorkView : showWorkView,
 			getListView : getListView,
-			addListItemToListPresentation : addListItemToListPresentation,
 			addListPresentation : addListPresentation,
-			reloadForMetadataChanges : reloadForMetadataChanges,
-			deleteRecord : deleteRecord
+			reloadForMetadataChanges : reloadForMetadataChanges
 		});
 
 		return out;

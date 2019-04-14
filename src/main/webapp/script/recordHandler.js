@@ -189,7 +189,7 @@ var CORA = (function(cora) {
 			var viewId = metadataForRecordType.listPresentationViewId;
 			var presentation = currentRecordGui.getPresentationHolder(viewId, metadataIdUsedInData)
 					.getView();
-			managedGuiItem.addListItemToListPresentation(presentation);
+			managedGuiItem.addListPresentation(presentation);
 		}
 
 		function showErrorInView(error, data) {
@@ -292,9 +292,20 @@ var CORA = (function(cora) {
 				addMenuPresentationToView(recordGuiIn, metadataId);
 			} else {
 				addListPresentationToView(recordGuiIn, metadataId);
+				if (recordHasDeleteLink()) {
+					var button = createButton("DELETE", shouldRecordInListBeDeleted, "delete");
+					managedGuiItem.addListPresentation(button);
+				}
 			}
 		}
-
+		function createButton(text, onclickMethod, className) {
+			var button = document.createElement("input");
+			button.type = "button";
+			button.value = text;
+			button.onclick = onclickMethod;
+			button.className = className;
+			return button;
+		}
 		function getRecordPartFromAnswer(answer) {
 			return JSON.parse(answer.responseText).record;
 		}
