@@ -34,6 +34,16 @@ var CORA = (function(cora) {
 		var managedGuiItemShowing = undefined;
 		var managedGuiItemList = [];
 		var openGuiItemHandler;
+		var cancelOpenRecord = false;
+		
+		function setCancelOpenRecord(valueIn){
+			cancelOpenRecord = valueIn;
+		}
+		
+		function getCancelOpenRecord(){
+			return cancelOpenRecord;
+		}
+		
 
 		function start() {
 			dependencies.globalInstances.clientInstanceProvider.setJsClient(out);
@@ -277,7 +287,9 @@ var CORA = (function(cora) {
 			addGuiItem : addGuiItem,
 			openRecordUsingReadLink : openRecordUsingReadLink,
 			reloadProviders : reloadProviders,
-			setCurrentLang : setCurrentLang
+			setCurrentLang : setCurrentLang,
+			setCancelOpenRecord: setCancelOpenRecord,
+			getCancelOpenRecord : getCancelOpenRecord
 		});
 		start();
 

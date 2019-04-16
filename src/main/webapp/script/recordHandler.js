@@ -392,6 +392,7 @@ var CORA = (function(cora) {
 		}
 
 		function shouldRecordInListBeDeleted() {
+			spec.jsClient.setCancelOpenRecord(true);
 			var questionView = getQuestionViewForDelete();
 			managedGuiItem.addListPresentation(questionView);
 		}

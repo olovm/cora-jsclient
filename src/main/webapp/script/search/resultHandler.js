@@ -69,11 +69,14 @@ var CORA = (function(cora) {
 		}
 
 		function openRecord(openInfo) {
+			if(dependencies.jsClient.getCancelOpenRecord() === false){
 			if (spec.triggerWhenResultIsChoosen !== undefined) {
 				spec.triggerWhenResultIsChoosen(openInfo);
 			} else {
 				openRecordUsingJsClient(openInfo);
 			}
+			}
+			dependencies.jsClient.setCancelOpenRecord(false);
 		}
 
 		function openRecordUsingJsClient(openInfoIn) {
