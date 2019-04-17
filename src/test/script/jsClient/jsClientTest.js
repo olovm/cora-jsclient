@@ -125,6 +125,14 @@ QUnit.test("testViewSpec", function(assert) {
 	assert.strictEqual(jsClientViewSpec.setLanguageMethod, jsClient.setCurrentLang);
 });
 
+QUnit.test("testGetView", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = jsClient.getView();
+	var jsClientViewFactory = this.dependencies.jsClientViewFactory.getFactored(0);
+
+	assert.strictEqual(jsClientView, jsClientViewFactory.getView());
+});
+
 QUnit.test("testUploadManagerAddedToView", function(assert) {
 	CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
