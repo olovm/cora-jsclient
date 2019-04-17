@@ -167,6 +167,20 @@ QUnit.test("testAddToSearchesView", function(assert) {
 	assert.strictEqual(searchesViewFirstChild, aView);
 });
 
+QUnit.test("testClearSearchesView", function(assert) {
+	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
+	
+	var aView = document.createElement("SPAN");
+	jsClientView.addToSearchesView(aView);
+	
+	var searchesView = jsClientView.getSearchesView();
+	assert.strictEqual(searchesView.childNodes.length, 1);
+	
+	jsClientView.clearSearchesView();
+	
+	assert.strictEqual(searchesView.childNodes.length, 0);
+});
+
 QUnit.test("testAddToRecordTypesView", function(assert) {
 	var jsClientView = CORA.jsClientView(this.dependencies, this.spec);
 

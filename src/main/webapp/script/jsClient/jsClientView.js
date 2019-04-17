@@ -87,6 +87,10 @@ var CORA = (function(cora) {
 		function addToSearchesView(searchViewToAdd) {
 			searchesView.appendChild(searchViewToAdd);
 		}
+		
+		function clearSearchesView() {
+			searchesView.innerHTML = "";
+		}
 
 		function addToRecordTypesView(recordTypeView) {
 			recordTypesView.appendChild(recordTypeView);
@@ -174,6 +178,7 @@ var CORA = (function(cora) {
 			getView : getView,
 			addOpenGuiItemHandlerView : addOpenGuiItemHandlerView,
 			addToSearchesView : addToSearchesView,
+			clearSearchesView : clearSearchesView,
 			addToRecordTypesView : addToRecordTypesView,
 			clearRecordTypesView : clearRecordTypesView,
 			getWorkView : getWorkView,
