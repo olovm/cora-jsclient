@@ -1,5 +1,6 @@
 /*
  * Copyright 2018 Olov McKie
+ * Copyright 2019 Uppsala Universitet
  *
  * This file is part of Cora.
  *
@@ -18,7 +19,7 @@
  */
 var CORA = (function(cora) {
 	"use strict";
-	cora.gui.button = function(spec) {
+	cora.gui.inputButton = function(spec) {
 		var view;
 		var action;
 
@@ -31,7 +32,10 @@ var CORA = (function(cora) {
 		}
 
 		function createView() {
-				return CORA.gui.createSpanWithClassName(getClassNameOrEmptyFromSpec());
+				var button = document.createElement("input");
+				button.type = "button";
+				button.className = getClassNameOrEmptyFromSpec();
+				return button;
 		}
 
 		function getClassNameOrEmptyFromSpec() {
@@ -96,18 +100,24 @@ var CORA = (function(cora) {
 
 		function possiblyAddText() {
 			if (spec.text !== undefined) {
-				view.textContent = spec.text;
+				view.value = spec.text;
 			}
 		}
 
 		function getView() {
 			return view;
 		}
+		
+		function getSpec(){
+			return spec;
+		}
 
 		var out = Object.freeze({
-			getView : getView
+			getView : getView,
+			getSpec : getSpec
 		});
 		start();
+		out.getView().modelObject = out;
 		return out.getView();
 	};
 

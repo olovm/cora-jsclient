@@ -46,20 +46,38 @@ var CORA = (function(cora) {
 		}
 
 		function addButton(buttonSpec) {
-			var button = document.createElement("input");
-			button.type = "button";
-			button.value = buttonSpec.text;
+			// var button = document.createElement("input");
+			// button.type = "button";
+			// button.value = buttonSpec.text;
+			// if (buttonSpec.onclickFunction) {
+			// button.onclick = function() {
+			// buttonSpec.onclickFunction();
+			// hideWithEffect();
+			// };
+			// } else {
+			// button.onclick = function() {
+			// hideWithEffect();
+			// };
+			// }
+			// return button;
+			var buttonSpec2 = {
+				// "className" : className,
+				"text" : buttonSpec.text,
+			};
+
 			if (buttonSpec.onclickFunction) {
-				button.onclick = function() {
-					buttonSpec.onclickFunction();
-					hideWithEffect();
+				buttonSpec2.action = {
+					method : function() {
+						buttonSpec.onclickFunction();
+						hideWithEffect();
+					}
 				};
 			} else {
-				button.onclick = function() {
-					hideWithEffect();
+				buttonSpec2.action = {
+					method : hideWithEffect
 				};
 			}
-			return button;
+			return CORA.gui.inputButton(buttonSpec2);
 		}
 
 		function getView() {
@@ -69,6 +87,7 @@ var CORA = (function(cora) {
 		function hide() {
 			clearHideTimeout();
 			view.className = view.className + " hidden";
+			view.parentNode.removeChild(view);
 		}
 
 		function clearHideTimeout() {

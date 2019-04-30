@@ -623,7 +623,8 @@ QUnit.test("testDeleteCall", function(assert) {
 
 	var buttonNo = question.firstChild.childNodes[1];
 	assert.strictEqual(buttonNo.value, "Nej");
-	buttonNo.onclick();
+//	buttonNo.onclick();
+	CORATESTHELPER.simulateOnclick(buttonNo);
 	assert.notVisible(question);
 	var ajaxCallSpy2 = this.ajaxCallFactorySpy.getFactored(1);
 	assert.strictEqual(ajaxCallSpy2, undefined, "no delete call should have been made yet");
@@ -636,7 +637,8 @@ QUnit.test("testDeleteCall", function(assert) {
 	assert.strictEqual(ajaxCallSpy3, undefined, "no delete call should have been made yet");
 	var buttonYes = question2.firstChild.childNodes[2];
 	assert.strictEqual(buttonYes.value, "Ja");
-	buttonYes.onclick();
+//	buttonYes.onclick();
+	CORATESTHELPER.simulateOnclick(buttonYes);
 
 	var ajaxCallSpy4 = this.ajaxCallFactorySpy.getFactored(1);
 	var ajaxCallSpec = ajaxCallSpy4.getSpec();
@@ -667,7 +669,8 @@ QUnit.test("testDeleteCallNoParentsForViews", function(assert) {
 	var question = managedGuiItem.getAddedWorkPresentation(3);
 
 	var buttonYes = question.firstChild.childNodes[2];
-	buttonYes.onclick();
+//	buttonYes.onclick();
+	CORATESTHELPER.simulateOnclick(buttonYes);
 	assert.strictEqual(managedGuiItem.getRemoved(), 0);
 	this.answerCall(1);
 
@@ -888,8 +891,8 @@ QUnit.test("initCheckRightGuiCreatedForList", function(assert) {
 	var deleteButtonPresentation = managedGuiItem.getAddedListPresentation(1);
 	assert.strictEqual(deleteButtonPresentation.className, "delete");
 	assert.strictEqual(deleteButtonPresentation.type, "button");
-	assert.strictEqual(deleteButtonPresentation.onclick, recordHandler.shouldRecordInListBeDeleted);
-
+//	assert.strictEqual(deleteButtonPresentation.onclick, recordHandler.shouldRecordInListBeDeleted);
+	assert.strictEqual(deleteButtonPresentation.modelObject.getSpec().action.method, recordHandler.shouldRecordInListBeDeleted);
 	var item = managedGuiItem.getAddedMenuPresentation(0);
 	assert.strictEqual(item, undefined);
 });

@@ -51,8 +51,8 @@ QUnit.test("testInitAndButtonClickRemovesQuestion", function(assert) {
 	assert.strictEqual(button1.type, "button");
 	assert.strictEqual(button1.value, "yes");
 
-	button1.onclick();
-
+	CORATESTHELPER.simulateOnclick(button1);
+	
 	window.setTimeout(function() {
 		assert.notVisible(view);
 		done();
@@ -73,6 +73,7 @@ QUnit.test("testHide", function(assert) {
 	assert.visible(view);
 	question.hide();
 	assert.notVisible(view);
+	assert.strictEqual(view.parentNode, null);
 });
 	
 QUnit.test("testInitAndButtonClick", function(assert) {
@@ -96,7 +97,7 @@ QUnit.test("testInitAndButtonClick", function(assert) {
 	var button1 = questionBox.childNodes[1];
 	
 	assert.strictEqual(buttonClicked, false);
-	button1.onclick();
+	CORATESTHELPER.simulateOnclick(button1);
 	assert.strictEqual(buttonClicked, true);
 });
 

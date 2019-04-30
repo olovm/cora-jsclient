@@ -168,6 +168,7 @@ var CORA = (function(cora) {
 					.getView();
 			recordHandlerView.addToShowView(showView);
 		}
+		
 
 		function addMenuPresentationToView(currentRecordGui, metadataIdUsedInData) {
 			var menuPresentationViewId = metadataForRecordType.menuPresentationViewId;
@@ -182,7 +183,15 @@ var CORA = (function(cora) {
 			var presentation = currentRecordGui.getPresentationHolder(viewId, metadataIdUsedInData)
 					.getView();
 			managedGuiItem.addListPresentation(presentation);
+//			recordHandlerView.addToShowView(presentation);
 		}
+//		function addViewPresentationToView(currentRecordGui, metadataIdUsedInData) {
+//			var showViewId = metadataForRecordType.presentationViewId;
+//			var showView = currentRecordGui.getPresentationHolder(showViewId, metadataIdUsedInData)
+//					.getView();
+//			recordHandlerView.addToShowView(showView);
+//		}
+		
 
 		function showErrorInView(error, data) {
 			recordHandlerView
@@ -287,17 +296,29 @@ var CORA = (function(cora) {
 				if (recordHasDeleteLink()) {
 					var button = createButton("DELETE", shouldRecordInListBeDeleted, "delete");
 					managedGuiItem.addListPresentation(button);
+//					recordHandlerView.addButton("DELETE", shouldRecordBeDeleted, "delete");
+					
 				}
 			}
 		}
 		function createButton(text, onclickMethod, className) {
-			var button = document.createElement("input");
-			button.type = "button";
-			button.value = text;
-			button.onclick = onclickMethod;
-			button.className = className;
-			return button;
+//			var button = document.createElement("input");
+//			button.type = "button";
+//			button.value = text;
+//			button.onclick = onclickMethod;
+//			button.className = className;
+//			return button;
+			var buttonSpec = {
+					type : "input",
+					"className" : className,
+					"text" : "kalle anka",
+					action : {
+						method : onclickMethod
+					}
+			};
+			return CORA.gui.inputButton(buttonSpec);
 		}
+		
 		function getRecordPartFromAnswer(answer) {
 			return JSON.parse(answer.responseText).record;
 		}
