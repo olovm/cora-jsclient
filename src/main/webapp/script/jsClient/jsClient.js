@@ -57,15 +57,12 @@ var CORA = (function(cora) {
 			jsClientView = dependencies.jsClientViewFactory.factor(jsClientViewSpec);
 
 			var loginManager = createLoginManager();
-
 			jsClientView.addLoginManagerView(loginManager.getHtml());
 
 			jsClientView
 					.addGlobalView(dependencies.uploadManager.getManagedGuiItem().getMenuView());
 			createAndAddOpenGuiItemHandlerToSideBar();
-			var publicSearches = searchProvider.getSearchesByGroupId("publicSearch");
-			addSearchesUserIsAuthorizedToUseToSideBar(publicSearches);
-
+			addMainSearchesUserIsAuthorizedToUseToSideBar();
 			createAndAddGroupOfRecordTypesToSideBar();
 		}
 
@@ -89,8 +86,9 @@ var CORA = (function(cora) {
 			jsClientView.addOpenGuiItemHandlerView(openGuiItemHandler.getView());
 		}
 
-		function addSearchesUserIsAuthorizedToUseToSideBar(searchList) {
-			searchList.forEach(function(search) {
+		function addMainSearchesUserIsAuthorizedToUseToSideBar() {
+			var mainSearches = searchProvider.getSearchesByGroupId("publicSearch");
+			mainSearches.forEach(function(search) {
 				possiblyCreateAndAddSearchRecordHandlerToSideBar(search);
 			});
 		}
@@ -180,14 +178,21 @@ var CORA = (function(cora) {
 
 		function afterLogin() {
 			recordTypeProvider.reload(afterRecordTypeProviderReload);
+			searchProvider.reload(afterSearchProviderReload);
 		}
 		function afterLogout() {
 			recordTypeProvider.reload(afterRecordTypeProviderReload);
+			searchProvider.reload(afterSearchProviderReload);
 		}
 
 		function afterRecordTypeProviderReload() {
 			jsClientView.clearRecordTypesView();
 			createAndAddGroupOfRecordTypesToSideBar();
+		}
+
+		function afterSearchProviderReload() {
+			jsClientView.clearSearchesView();
+			addMainSearchesUserIsAuthorizedToUseToSideBar();
 		}
 
 		function hideAndRemoveView(managedGuiItem) {
@@ -249,6 +254,8 @@ var CORA = (function(cora) {
 			if (NO_OF_PROVIDERS === reloadedProviders) {
 				reloadedProviders = 0;
 				setReloadingProvidersInProgressStatus(false);
+				afterRecordTypeProviderReload();
+				afterSearchProviderReload();
 				reloadOpenRecords();
 			}
 		}
@@ -282,6 +289,7 @@ var CORA = (function(cora) {
 			afterLogin : afterLogin,
 			afterLogout : afterLogout,
 			afterRecordTypeProviderReload : afterRecordTypeProviderReload,
+			afterSearchProviderReload : afterSearchProviderReload,
 			hideAndRemoveView : hideAndRemoveView,
 			viewRemoved : viewRemoved,
 			addGuiItem : addGuiItem,

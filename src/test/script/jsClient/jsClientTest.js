@@ -45,7 +45,7 @@ QUnit.module("jsClientTest.js", {
 		this.recordTypeProvider = CORATEST.recordTypeProviderStub();
 		this.clientInstanceProvider = CORATEST.clientInstanceProviderSpy();
 
-		var recordTypeHandlerFactory =  CORATEST.standardFactorySpy("recordTypeHandlerSpy");
+		var recordTypeHandlerFactory = CORATEST.standardFactorySpy("recordTypeHandlerSpy");
 
 		var providers = {
 			"metadataProvider" : this.metadataProvider,
@@ -74,7 +74,7 @@ QUnit.module("jsClientTest.js", {
 			"searchRecordHandlerFactory" : CORATEST.standardFactorySpy("searchRecordHandlerSpy"),
 			"managedGuiItemFactory" : CORATEST.standardFactorySpy("managedGuiItemSpy"),
 			"openGuiItemHandlerFactory" : CORATEST.standardFactorySpy("openGuiItemHandlerSpy"),
-			"recordTypeHandlerFactory" :recordTypeHandlerFactory,
+			"recordTypeHandlerFactory" : recordTypeHandlerFactory,
 			"uploadManager" : CORATEST.uploadManagerSpy(),
 			recordTypeMenu : this.recordTypeMenu
 		}
@@ -125,8 +125,16 @@ QUnit.test("testViewSpec", function(assert) {
 	assert.strictEqual(jsClientViewSpec.setLanguageMethod, jsClient.setCurrentLang);
 });
 
-QUnit.test("testUploadManagerAddedToView", function(assert) {
+QUnit.test("testGetView", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = jsClient.getView();
+	var jsClientViewFactory = this.dependencies.jsClientViewFactory.getFactored(0);
+
+	assert.strictEqual(jsClientView, jsClientViewFactory.getView());
+});
+
+QUnit.test("testUploadManagerAddedToView", function(assert) {
+	CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 
 	assert.strictEqual(jsClientView.getAddedGlobalView(0), this.dependencies.uploadManager
@@ -142,32 +150,30 @@ QUnit.test("testInitCreatesALoginManager",
 					jsClient.afterLogin);
 			assert.strictEqual(this.loginManagerFactory.getSpec(0).afterLogoutMethod,
 					jsClient.afterLogout);
-			assert.strictEqual(this.loginManagerFactory.getSpec(0).baseUrl,
-					this.spec.baseUrl);
+			assert.strictEqual(this.loginManagerFactory.getSpec(0).baseUrl, this.spec.baseUrl);
 			assert.strictEqual(this.loginManagerFactory.getSpec(0).appTokenBaseUrl,
-			"someAppTokenBaseUrl/");
-			assert.strictEqual(this.loginManagerFactory.getSpec(0).jsClient,
-			jsClient);
+					"someAppTokenBaseUrl/");
+			assert.strictEqual(this.loginManagerFactory.getSpec(0).jsClient, jsClient);
 
 			assert.strictEqual(this.dependencies.globalInstances.loginManager, factored);
 
 		});
 
 QUnit.test("testInitCreatesALoginManagerAndAddsItsHtmlToTheHeader", function(assert) {
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 
 	assert.strictEqual(jsClientView.getLoginManagerView(0).className, "loginManagerSpy");
 });
 
 QUnit.test("testInitCreatesAOpenGuiItemHandler", function(assert) {
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	CORA.jsClient(this.dependencies, this.spec);
 	var factored = this.dependencies.openGuiItemHandlerFactory.getFactored(0);
 	assert.strictEqual(factored.type, "openGuiItemHandlerSpy");
 });
 
 QUnit.test("testInitAddsItsOpenGuiItemHandlerToView", function(assert) {
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 	var openGuiItemHandlerView = this.dependencies.openGuiItemHandlerFactory.getFactored(0);
 
@@ -176,40 +182,52 @@ QUnit.test("testInitAddsItsOpenGuiItemHandlerToView", function(assert) {
 });
 
 QUnit.test("testSearchProviderIsCalledWithPublicSearchGroupId", function(assert) {
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	CORA.jsClient(this.dependencies, this.spec);
 	assert.strictEqual(this.searchProvider.getGroupId(), "publicSearch");
 });
 
 QUnit.test("initFactoresSearchRecordHandlersAndAddsToView", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	CORATEST.assertSearchesHasBeenLoadedCorrectly(assert, this, jsClient, 0);
+});
+
+CORATEST.assertSearchesHasBeenLoadedCorrectly = function(assert, test, jsClient,
+		noOfPreviousReloads) {
+	var extra = noOfPreviousReloads * 3;
+	/**
+	 * searches in searchProviderSpy returned when asked for any group:<br> + coraTextSearch,
+	 * searchGroup=publicSearch, searchLink=true<br> + someSearch, searchGroup=publicSearch,
+	 * searchLink=true<br> + metadataItemCollectionSearch, searchGroup=autocomplete,
+	 * searchLink=true<br> - searchWithoutSearchLink, searchGroup=publicSearch, searchLink=false<br>
+	 */
+	var jsClientView = test.dependencies.jsClientViewFactory.getFactored(0);
 
 	var addedSearchRecordHandlerView = jsClientView.getSearchesView(0);
-	var factoredSearchRecordHandler = this.dependencies.searchRecordHandlerFactory.getFactored(0);
+	var factoredSearchRecordHandler = test.dependencies.searchRecordHandlerFactory
+			.getFactored(0 + extra);
 	assert.strictEqual(addedSearchRecordHandlerView, factoredSearchRecordHandler.getView());
-	var factoredSpec = this.dependencies.searchRecordHandlerFactory.getSpec(0);
-	assert.strictEqual(factoredSpec.baseUrl, this.spec.baseUrl);
+	var factoredSpec = test.dependencies.searchRecordHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.baseUrl, test.spec.baseUrl);
 	assert.strictEqual(factoredSpec.jsClient, jsClient);
 
 	var addedSearchRecordHandlerView2 = jsClientView.getSearchesView(1);
-	var factoredSearchRecordHandler2 = this.dependencies.searchRecordHandlerFactory.getFactored(1);
+	var factoredSearchRecordHandler2 = test.dependencies.searchRecordHandlerFactory
+			.getFactored(1 + extra);
 	assert.strictEqual(addedSearchRecordHandlerView2, factoredSearchRecordHandler2.getView());
-	var factoredSpec2 = this.dependencies.searchRecordHandlerFactory.getSpec(1);
-	assert.strictEqual(factoredSpec2.baseUrl, this.spec.baseUrl);
+	var factoredSpec2 = test.dependencies.searchRecordHandlerFactory.getSpec(1);
+	assert.strictEqual(factoredSpec2.baseUrl, test.spec.baseUrl);
 
 	var addedSearchRecordHandlerView3 = jsClientView.getSearchesView(2);
-	var factoredSearchRecordHandler3 = this.dependencies.searchRecordHandlerFactory.getFactored(2);
+	var factoredSearchRecordHandler3 = test.dependencies.searchRecordHandlerFactory
+			.getFactored(2 + extra);
 	assert.strictEqual(addedSearchRecordHandlerView3, factoredSearchRecordHandler3.getView());
-	var factoredSpec3 = this.dependencies.searchRecordHandlerFactory.getSpec(2);
-	assert.strictEqual(factoredSpec3.baseUrl, this.spec.baseUrl);
-});
+	var factoredSpec3 = test.dependencies.searchRecordHandlerFactory.getSpec(2);
+	assert.strictEqual(factoredSpec3.baseUrl, test.spec.baseUrl);
 
-QUnit.test("initFactoresSearchRecordHandlersSearchWithoutSearchLinkIsNotAdded", function(assert) {
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-
-	var factoredSearchRecordHandler4 = this.dependencies.searchRecordHandlerFactory.getFactored(5);
-	assert.strictEqual(factoredSearchRecordHandler4, undefined);
-});
+	var lastHandlerShouldNotBeFactoredNoSearchLink = test.dependencies.searchRecordHandlerFactory
+			.getFactored(6);
+	assert.strictEqual(lastHandlerShouldNotBeFactoredNoSearchLink, undefined);
+}
 
 QUnit.test("initFactoresRecordTypeHandlersAndAddsToViewIfRecordTypeHasActions",
 		function(assert) {
@@ -242,8 +260,8 @@ QUnit.test("initFactoresRecordTypeHandlersAndAddsToViewIfRecordTypeHasActions",
 
 QUnit.test("initFactoresRecordTypeHandlersAsGroupsAndAddsToViewIfRecordTypeHasActions", function(
 		assert) {
+	CORA.jsClient(this.dependencies, this.spec);
 
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 	var firstGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(0);
 	assert.notEqual(firstGroupOfRecordTypes, undefined);
@@ -274,7 +292,7 @@ QUnit.test("initFactoresRecordTypeHandlersAsGroupsAndAddsToViewIfRecordTypeHasNo
 	};
 	this.dependencies.recordTypeHandlerFactory.setspySpec(spySpec);
 
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 
 	var firstGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(0);
@@ -300,9 +318,7 @@ QUnit.test("initFactoresRecordTypeHandlersAsGroupsAndAddsToViewIfRecordTypeHasNo
 });
 
 QUnit.test("requestGroupsOfRecordTypes", function(assert) {
-
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
-	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+	CORA.jsClient(this.dependencies, this.spec);
 
 	assert.strictEqual(this.dependencies.providers.recordTypeProvider.getRequestedGroupId(0),
 			"typeOfResource");
@@ -318,7 +334,7 @@ QUnit.test("initFactoresRecordTypeHandlersNotAddedToViewIfRecordTypeWithoutActio
 	};
 	this.dependencies.recordTypeHandlerFactory.setspySpec(spySpec);
 
-	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 
 	assert.strictEqual(jsClientView.getRecordTypesView(0), undefined);
@@ -327,7 +343,6 @@ QUnit.test("initFactoresRecordTypeHandlersNotAddedToViewIfRecordTypeWithoutActio
 QUnit.test("showView", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
-	var openGuiItemHandler = this.dependencies.openGuiItemHandlerFactory.getFactored(0);
 
 	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
 
@@ -383,8 +398,6 @@ QUnit.test("testAddGuiItem", function(assert) {
 QUnit.test("hideAndRemoveView", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
-
-	var mainView = jsClient.getView();
 
 	assert.strictEqual(jsClientView.getAddedWorkView(0), undefined);
 
@@ -444,7 +457,6 @@ QUnit.test("testViewRemoved", function(assert) {
 QUnit.test("getMetadataIdForRecordTypeIsPassedOnToRecordProvider", function(assert) {
 	this.recordTypeProvider = CORATEST.recordTypeProviderSpy();
 	this.dependencies.providers.recordTypeProvider = this.recordTypeProvider;
-	var recordTypeListData = CORATEST.recordTypeList;
 
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	var metadata = jsClient.getMetadataForRecordTypeId("textSystemOne");
@@ -459,20 +471,28 @@ QUnit.test("getMetadataIdForRecordTypeIsPassedOnToRecordProvider", function(asse
 
 QUnit.test("testAfterLogin", function(assert) {
 	this.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	this.searchProvider = CORATEST.searchProviderSpy();
 	this.dependencies.providers.recordTypeProvider = this.recordTypeProvider;
+	this.dependencies.providers.searchProvider = this.searchProvider;
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	jsClient.afterLogin();
 	assert.strictEqual(this.recordTypeProvider.getCallWhenReloadedMethod(),
 			jsClient.afterRecordTypeProviderReload);
+	assert.strictEqual(this.searchProvider.getCallWhenReloadedMethod(),
+			jsClient.afterSearchProviderReload);
 });
 
 QUnit.test("testAfterLogout", function(assert) {
 	this.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	this.searchProvider = CORATEST.searchProviderSpy();
 	this.dependencies.providers.recordTypeProvider = this.recordTypeProvider;
+	this.dependencies.providers.searchProvider = this.searchProvider;
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
 	jsClient.afterLogout();
 	assert.strictEqual(this.recordTypeProvider.getCallWhenReloadedMethod(),
 			jsClient.afterRecordTypeProviderReload);
+	assert.strictEqual(this.searchProvider.getCallWhenReloadedMethod(),
+			jsClient.afterSearchProviderReload);
 });
 
 QUnit.test("testAfterReloadRecordTypeHandlersAsGroupsAndAddsToViewIfRecordTypeHasActions",
@@ -481,32 +501,52 @@ QUnit.test("testAfterReloadRecordTypeHandlersAsGroupsAndAddsToViewIfRecordTypeHa
 			var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
 
 			assert.strictEqual(jsClientView.getRecordTypesClearedNoOfTimes(), 0);
+			CORATEST.assertRecordTypesHasBeenLoadedCorrectly(assert, this, jsClient, 0);
+			
 			jsClient.afterRecordTypeProviderReload();
+
 			assert.strictEqual(jsClientView.getRecordTypesClearedNoOfTimes(), 1);
-
-			var firstGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(2);
-			assert.notEqual(firstGroupOfRecordTypes, undefined);
-			assert.strictEqual(firstGroupOfRecordTypes.className, "recordTypeGroup");
-			assert.strictEqual(firstGroupOfRecordTypes.firstChild.className,
-					"recordTypeGroupHeadline");
-			assert.strictEqual(firstGroupOfRecordTypes.firstChild.innerHTML,
-					"translated_typeOfResourceItemText");
-			var childrenOfGroup1 = firstGroupOfRecordTypes.children;
-			assert.strictEqual(childrenOfGroup1.length, 3);
-
-			var secondGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(3);
-			assert.notEqual(secondGroupOfRecordTypes, undefined);
-			assert.strictEqual(secondGroupOfRecordTypes.className, "recordTypeGroup");
-			assert.strictEqual(secondGroupOfRecordTypes.firstChild.className,
-					"recordTypeGroupHeadline");
-			assert.strictEqual(secondGroupOfRecordTypes.firstChild.innerHTML,
-					"translated_authorityItemText");
-			var childrenOfGroup2 = secondGroupOfRecordTypes.children;
-			assert.strictEqual(childrenOfGroup2.length, 3);
-
-			var thirdGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(4);
-			assert.strictEqual(thirdGroupOfRecordTypes, undefined);
+			CORATEST.assertRecordTypesHasBeenLoadedCorrectly(assert, this, jsClient, 1);
 		});
+
+CORATEST.assertRecordTypesHasBeenLoadedCorrectly = function(assert, test, jsClient,
+		noOfPreviousReloads) {
+	var extra = noOfPreviousReloads * 2;
+	var jsClientView = test.dependencies.jsClientViewFactory.getFactored(0);
+
+	var firstGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(0+extra);
+	assert.notEqual(firstGroupOfRecordTypes, undefined);
+	assert.strictEqual(firstGroupOfRecordTypes.className, "recordTypeGroup");
+	assert.strictEqual(firstGroupOfRecordTypes.firstChild.className,
+			"recordTypeGroupHeadline");
+	assert.strictEqual(firstGroupOfRecordTypes.firstChild.innerHTML,
+			"translated_typeOfResourceItemText");
+	var childrenOfGroup1 = firstGroupOfRecordTypes.children;
+	assert.strictEqual(childrenOfGroup1.length, 3);
+
+	var secondGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(1+extra);
+	assert.notEqual(secondGroupOfRecordTypes, undefined);
+	assert.strictEqual(secondGroupOfRecordTypes.className, "recordTypeGroup");
+	assert.strictEqual(secondGroupOfRecordTypes.firstChild.className,
+			"recordTypeGroupHeadline");
+	assert.strictEqual(secondGroupOfRecordTypes.firstChild.innerHTML,
+			"translated_authorityItemText");
+	var childrenOfGroup2 = secondGroupOfRecordTypes.children;
+	assert.strictEqual(childrenOfGroup2.length, 3);
+
+	var thirdGroupOfRecordTypes = jsClientView.getGroupOfRecordTypes(2+extra);
+	assert.strictEqual(thirdGroupOfRecordTypes, undefined);
+}
+QUnit.test("testAfterReloadSearchProviderViewIsReloaded", function(assert) {
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+
+	assert.strictEqual(jsClientView.getSearchesClearedNoOfTimes(), 0);
+	jsClient.afterSearchProviderReload();
+	assert.strictEqual(jsClientView.getSearchesClearedNoOfTimes(), 1);
+
+	CORATEST.assertSearchesHasBeenLoadedCorrectly(assert, this, jsClient, 1);
+});
 
 QUnit.test("testOpenRecordUsingReadLink", function(assert) {
 	var jsClient = CORA.jsClient(this.dependencies, this.spec);
@@ -664,6 +704,32 @@ QUnit.test("testReloadProvidersReloadsManagedGuiItem", function(assert) {
 
 	assert.strictEqual(aGuiItem.getReloadForMetadataChanges(), 1);
 	assert.strictEqual(aGuiItem2.getReloadForMetadataChanges(), 1);
+});
+
+QUnit.test("testReloadProvidersReloadsRecordTypesAndSearches", function(assert) {
+	this.metadataProvider = CORATEST.metadataProviderSpy();
+	this.dependencies.providers.metadataProvider = this.metadataProvider;
+	this.recordTypeProvider = CORATEST.recordTypeProviderSpy();
+	this.dependencies.providers.recordTypeProvider = this.recordTypeProvider;
+
+	var jsClient = CORA.jsClient(this.dependencies, this.spec);
+	var jsClientView = this.dependencies.jsClientViewFactory.getFactored(0);
+
+	assert.strictEqual(jsClientView.getRecordTypesClearedNoOfTimes(), 0);
+	CORATEST.assertRecordTypesHasBeenLoadedCorrectly(assert, this, jsClient, 0);
+	assert.strictEqual(jsClientView.getSearchesClearedNoOfTimes(), 0);
+	CORATEST.assertSearchesHasBeenLoadedCorrectly(assert, this, jsClient, 0);
+
+	jsClient.reloadProviders();
+	this.metadataProvider.callWhenReloadedMethod();
+	this.textProvider.callWhenReloadedMethod();
+	this.recordTypeProvider.callWhenReloadedMethod();
+	this.searchProvider.callWhenReloadedMethod();
+
+	assert.strictEqual(jsClientView.getRecordTypesClearedNoOfTimes(), 1);
+	CORATEST.assertRecordTypesHasBeenLoadedCorrectly(assert, this, jsClient, 1);
+	assert.strictEqual(jsClientView.getSearchesClearedNoOfTimes(), 1);
+	CORATEST.assertSearchesHasBeenLoadedCorrectly(assert, this, jsClient, 1);
 });
 
 QUnit.test("testSetCurrentLangReloadsManagedGuiItem", function(assert) {
