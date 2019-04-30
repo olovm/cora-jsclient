@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2019 Uppsala University Library
+ * Copyright 2016 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -26,7 +26,7 @@ QUnit.module("managedGuiItemViewTest.js", {
 			"activateMethod" : function() {
 			},
 			"removeMethod" : function() {
-			}
+			},
 		};
 	},
 	afterEach : function() {
@@ -113,7 +113,6 @@ QUnit.test("testAddListPresentation", function(assert) {
 	assert.strictEqual(listView.childNodes[0], presentation);
 	assert.strictEqual(listView.childNodes[1], presentation2);
 });
-
 
 QUnit.test("testAddWorkPresentation", function(assert) {
 	var managedGuiItemView = CORA.managedGuiItemView(this.spec);

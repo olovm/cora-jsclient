@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2019 Uppsala University Library
+ * Copyright 2016 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -114,7 +114,7 @@ var CORA = (function(cora) {
 		function addListPresentation(presentationToAdd) {
 			listView.appendChild(presentationToAdd);
 		}
-		
+
 		var out = Object.freeze({
 			"type" : "managedGuiItemView",
 			getSpec : getSpec,

@@ -28,7 +28,7 @@ var CORA = (function(cora) {
 		if (spec.disableRemove !== "true") {
 			viewSpec.removeMethod = remove;
 		}
-		
+
 		var view = dependencies.managedGuiItemViewFactory.factor(viewSpec);
 
 		var active = false;

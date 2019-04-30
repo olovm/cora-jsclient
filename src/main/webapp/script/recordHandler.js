@@ -54,15 +54,7 @@ var CORA = (function(cora) {
 				"callOnMetadataReloadMethod" : reloadForMetadataChanges,
 				"callMethodAfterShowWorkView" : callMethodAfterShowWorkView
 			};
-			possiblyAddDeleteRecordMethodToSpec(managedGuiItemSpec);
 			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-		}
-		
-		function possiblyAddDeleteRecordMethodToSpec(managedGuiItemSpec){
-			var deleteLink = spec.record.actionLinks["delete"];
-			if(deleteLink !== undefined){
-				managedGuiItemSpec.deleteRecordMethod = shouldRecordInListBeDeleted;
-			}
 		}
 
 		function createRecordHandlerView() {
@@ -392,7 +384,6 @@ var CORA = (function(cora) {
 		}
 
 		function shouldRecordInListBeDeleted() {
-			spec.jsClient.setCancelOpenRecord(true);
 			var questionView = getQuestionViewForDelete();
 			managedGuiItem.addListPresentation(questionView);
 		}
@@ -431,6 +422,7 @@ var CORA = (function(cora) {
 				"loadMethod" : afterDelete,
 				"errorMethod" : callError
 			};
+//			console.log(JSON.stringify(callSpec))
 			dependencies.ajaxCallFactory.factor(callSpec);
 		}
 
