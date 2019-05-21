@@ -47,10 +47,28 @@ var CORA = (function(cora) {
 		function createSearchForm() {
 			var metadataId = spec.metadataId;
 			recordGui = createRecordGui(metadataId);
+
 			addSearchFormFromRecordGuiToView(recordGui, metadataId);
 			recordGui.initMetadataControllerStartingGui();
+
+			subscribeToChangesInForm();
 		}
 
+		function subscribeToChangesInForm() {
+			var path = {};
+			var context = undefined;
+			var functionToCall = handleMsg;
+			recordGui.pubSub.subscribe("*", path, context, functionToCall);
+		}
+
+		var delaySearchTimer;
+		function handleMsg(dataFromMsg, msg) {
+			window.clearTimeout(delaySearchTimer);
+			delaySearchTimer = window.setTimeout(function() {
+				search();
+			}, 400);
+		}
+		
 		function createRecordGui(metadataId) {
 			var recordGuiSpec = {
 				"metadataId" : metadataId
@@ -118,7 +136,8 @@ var CORA = (function(cora) {
 			getSpec : getSpec,
 			search : search,
 			handleSearchResult : handleSearchResult,
-			getView : getView
+			getView : getView,
+			handleMsg : handleMsg
 		});
 	};
 	return cora;

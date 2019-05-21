@@ -521,7 +521,7 @@ QUnit.test("testSendAdd", function(assert) {
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddDataArray()[0], addData);
 	var messages = this.dependencies.pubSub.getMessages();
 	assert.deepEqual(messages.length, 1);
-	assert.deepEqual(messages[0].type, "initComplete");
+	assert.deepEqual(messages[0].type, "newElementsAdded");
 });
 QUnit.test("testSendAddBefore", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
@@ -560,7 +560,7 @@ QUnit.test("testSendAddBefore", function(assert) {
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddBeforeDataArray()[0], addBeforeData);
 	var messages = this.dependencies.pubSub.getMessages();
 	assert.deepEqual(messages.length, 1);
-	assert.deepEqual(messages[0].type, "initComplete");
+	assert.deepEqual(messages[0].type, "newElementsAdded");
 });
 
 QUnit.test("testAddButtonWithAttributes", function(assert) {
@@ -1985,7 +1985,7 @@ QUnit.test("testPresentationNonMatchingNameInDataAndAttributes2", function(asser
 			"fakePChildRefHandlerViewAsNoMetadataExistsFor recordInfoAttribute");
 });
 
-QUnit.test("testSubscibeToInitCompleteWhenMinNumberOfRepeatingToShowIsSet", function(assert) {
+QUnit.test("testSubscibeToNewElementsAddedWhenMinNumberOfRepeatingToShowIsSet", function(assert) {
 	this.spec.minNumberOfRepeatingToShow = "1";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 
@@ -2000,12 +2000,12 @@ QUnit.test("testSubscibeToInitCompleteWhenMinNumberOfRepeatingToShowIsSet", func
 	assert.strictEqual(secondSubscription.type, "move");
 
 	var thirdSubscription = subscriptions[2];
-	assert.strictEqual(thirdSubscription.type, "initComplete");
+	assert.strictEqual(thirdSubscription.type, "newElementsAdded");
 	assert.deepEqual(thirdSubscription.path, {});
-	assert.strictEqual(thirdSubscription.functionToCall, pChildRefHandler.initComplete);
+	assert.strictEqual(thirdSubscription.functionToCall, pChildRefHandler.newElementsAdded);
 });
 
-QUnit.test("testInitCompleteNotEnough", function(assert) {
+QUnit.test("testNewElementsAddedNotEnough", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	this.spec.minNumberOfRepeatingToShow = "1";
@@ -2014,7 +2014,7 @@ QUnit.test("testInitCompleteNotEnough", function(assert) {
 	var unsubscriptions = this.dependencies.pubSub.getUnsubscriptions();
 	assert.deepEqual(unsubscriptions.length, 0);
 
-	pChildRefHandler.initComplete();
+	pChildRefHandler.newElementsAdded();
 	var addData = {
 		"childReference" : {
 			"children" : [ {
@@ -2048,27 +2048,27 @@ QUnit.test("testInitCompleteNotEnough", function(assert) {
 	assert.deepEqual(unsubscriptions.length, 1);
 });
 
-QUnit.test("testInitCompleteNotEnoughOneAlreadyAdded", function(assert) {
+QUnit.test("testNewElementsAddedNotEnoughOneAlreadyAdded", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	this.spec.minNumberOfRepeatingToShow = "2";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 	pChildRefHandler.add("textVariableId");
-	pChildRefHandler.initComplete();
+	pChildRefHandler.newElementsAdded();
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddDataArray().length, 1);
 });
 
-QUnit.test("testInitCompleteNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(assert) {
+QUnit.test("testNewElementsAddedNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	this.spec.minNumberOfRepeatingToShow = "3";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 	pChildRefHandler.add("textVariableId");
-	pChildRefHandler.initComplete();
+	pChildRefHandler.newElementsAdded();
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddDataArray().length, 2);
 });
 
-QUnit.test("testInitCompleteNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(assert) {
+QUnit.test("testNewElementsAddedNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	this.spec.minNumberOfRepeatingToShow = "4";
@@ -2076,6 +2076,6 @@ QUnit.test("testInitCompleteNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(
 	pChildRefHandler.add("textVariableId");
 	pChildRefHandler.add("textVariableId");
 	pChildRefHandler.add("textVariableId");
-	pChildRefHandler.initComplete();
+	pChildRefHandler.newElementsAdded();
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddDataArray().length, 0);
 });

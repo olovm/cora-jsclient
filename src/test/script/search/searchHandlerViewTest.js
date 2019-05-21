@@ -92,7 +92,9 @@ QUnit.test("testInitSearchButtonCreatedAndAddedButtonView", function(assert) {
 	assert.strictEqual(searchButton.value, this.dependencies.textProvider
 			.getTranslation("theClient_searchButtonText"));
 	assert.strictEqual(searchButton.className, "searchButton");
-	assert.strictEqual(searchButton.onclick, this.spec.searchMethod);
+
+	assert.strictEqual(searchButton.modelObject.getSpec().action.method, this.spec.searchMethod);
+
 });
 
 QUnit.test("testInitResultViewCreatedAndAddedToWorkItemView", function(assert) {

@@ -57,10 +57,10 @@ var CORA = (function(cora) {
 		var pChildRefHandlerView = createPChildRefHandlerView();
 		dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
 		dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
-		var initCompleteSubscriptionId = "";
+		var newElementsAddedSubscriptionId = "";
 		if (spec.minNumberOfRepeatingToShow !== undefined) {
-			initCompleteSubscriptionId = dependencies.pubSub.subscribe("initComplete", {},
-					undefined, initComplete);
+			newElementsAddedSubscriptionId = dependencies.pubSub.subscribe("newElementsAdded", {},
+					undefined, newElementsAdded);
 		}
 
 		var numberOfFilesToUpload = 0;
@@ -298,7 +298,6 @@ var CORA = (function(cora) {
 		}
 
 		function add(metadataIdToAdd, repeatId) {
-//			console.log("add 1")
 			noOfRepeating++;
 			var newPath = calculateNewPath(metadataIdToAdd, repeatId);
 			var repeatingElement = createRepeatingElement(newPath);
@@ -306,7 +305,6 @@ var CORA = (function(cora) {
 			addPresentationsToRepeatingElementsView(repeatingElement, metadataIdToAdd);
 			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement);
 			updateView();
-//			console.log("add 2")
 		}
 
 		function calculateNewPath(metadataIdToAdd, repeatId) {
@@ -445,7 +443,7 @@ var CORA = (function(cora) {
 		function sendAdd() {
 			var data = createAddData();
 			var createdRepeatId = dependencies.jsBookkeeper.add(data);
-			sendInitComplete();
+			sendNewElementsAdded();
 			return createdRepeatId;
 		}
 		function createAddData() {
@@ -461,8 +459,8 @@ var CORA = (function(cora) {
 			return data;
 		}
 
-		function sendInitComplete() {
-			dependencies.pubSub.publish("initComplete", {
+		function sendNewElementsAdded() {
+			dependencies.pubSub.publish("newElementsAdded", {
 				"data" : "",
 				"path" : {}
 			});
@@ -472,7 +470,7 @@ var CORA = (function(cora) {
 			var data = createAddData();
 			data.addBeforePath = dataFromPRepeatingElement.path;
 			dependencies.jsBookkeeper.addBefore(data);
-			sendInitComplete();
+			sendNewElementsAdded();
 		}
 
 		function childMoved(moveInfo) {
@@ -656,13 +654,13 @@ var CORA = (function(cora) {
 			pChildRefHandlerView.addChild(errorChild);
 		}
 
-		function initComplete() {
-			unsubscribeFromInitComplete();
+		function newElementsAdded() {
+			unsubscribeFromNewElementsAdded();
 			possiblyAddUpToMinNumberOfRepeatingToShow();
 		}
 
-		function unsubscribeFromInitComplete() {
-			dependencies.pubSub.unsubscribe(initCompleteSubscriptionId);
+		function unsubscribeFromNewElementsAdded() {
+			dependencies.pubSub.unsubscribe(newElementsAddedSubscriptionId);
 		}
 
 		function possiblyAddUpToMinNumberOfRepeatingToShow() {
@@ -686,7 +684,7 @@ var CORA = (function(cora) {
 			childMoved : childMoved,
 			handleFiles : handleFiles,
 			processNewBinary : processNewBinary,
-			initComplete : initComplete
+			newElementsAdded : newElementsAdded
 		});
 
 		start();
