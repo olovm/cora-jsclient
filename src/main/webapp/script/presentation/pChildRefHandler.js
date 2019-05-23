@@ -55,22 +55,28 @@ var CORA = (function(cora) {
 		var collectedAttributes = collectAttributesForMetadataId(metadataId);
 
 		var pChildRefHandlerView = createPChildRefHandlerView();
-		dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
-		dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
-		var newElementsAddedSubscriptionId = "";
-		if (spec.minNumberOfRepeatingToShow !== undefined) {
-			newElementsAddedSubscriptionId = dependencies.pubSub.subscribe("newElementsAdded", {},
-					undefined, newElementsAdded);
-		}
 
 		var numberOfFilesToUpload = 0;
 		var numberOfRecordsForFilesCreated = 0;
+		var newElementsAddedSubscriptionId = "";
 
 		function start() {
+			subscribeToMessagesFromForm();
 			userCanUploadFile = showFileUpload();
 			userCanRemove = calculateUserCanRemove();
 			userCanMove = calculateUserCanMove();
 			userCanAddBefore = calculateUserCanAddBefore();
+		}
+		
+		function subscribeToMessagesFromForm() {
+			dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
+			dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
+			if (spec.minNumberOfRepeatingToShow !== undefined) {
+				newElementsAddedSubscriptionId = dependencies.pubSub.subscribe("newElementsAdded",
+						{}, undefined, newElementsAdded);
+			}
+			dependencies.pubSub.subscribe("addUpToMinNumberOfRepeating", {}, undefined,
+					newElementsAdded);
 		}
 
 		function calculateUserCanRemove() {
@@ -328,7 +334,7 @@ var CORA = (function(cora) {
 				"path" : path,
 				"pChildRefHandlerView" : pChildRefHandlerView,
 				"pChildRefHandler" : out,
-				 "userCanRemove" : userCanRemove,
+				"userCanRemove" : userCanRemove,
 				"userCanMove" : userCanMove,
 				"userCanAddBefore" : userCanAddBefore
 			};

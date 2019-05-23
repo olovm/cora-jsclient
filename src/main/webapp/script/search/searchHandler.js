@@ -22,7 +22,8 @@ var CORA = (function(cora) {
 	cora.searchHandler = function(dependencies, spec) {
 		var view;
 		var recordGui;
-
+		var delaySearchTimer;
+		
 		function start() {
 			view = createView();
 			tryToCreateSearchForm();
@@ -61,14 +62,23 @@ var CORA = (function(cora) {
 			recordGui.pubSub.subscribe("*", path, context, functionToCall);
 		}
 
-		var delaySearchTimer;
 		function handleMsg(dataFromMsg, msg) {
+			if (msgUpdatesData(msg)) {
+				clearOldTimeoutAndStartNewOneForSearch();
+			}
+		}
+		
+		function msgUpdatesData(msg){
+			return msg.endsWith("setValue") || msg.endsWith("remove");
+		}
+		
+		function clearOldTimeoutAndStartNewOneForSearch(){
 			window.clearTimeout(delaySearchTimer);
 			delaySearchTimer = window.setTimeout(function() {
 				search();
 			}, 400);
 		}
-		
+
 		function createRecordGui(metadataId) {
 			var recordGuiSpec = {
 				"metadataId" : metadataId
@@ -90,6 +100,11 @@ var CORA = (function(cora) {
 			if (recordGui.validateData()) {
 				sendSearchQueryToServer();
 			}
+			window.clearTimeout(delaySearchTimer);
+			recordGui.pubSub.publish("addUpToMinNumberOfRepeating", {
+				"data" : "",
+				"path" : {}
+			});
 		}
 
 		function sendSearchQueryToServer() {
