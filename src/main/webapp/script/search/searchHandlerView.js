@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2019 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -57,12 +57,15 @@ var CORA = (function(cora) {
 		}
 
 		function createButton() {
-			var button = document.createElement("input");
-			button.type = "button";
-			button.value = dependencies.textProvider.getTranslation("theClient_searchButtonText");
-			button.onclick = spec.searchMethod;
-			button.className = "searchButton";
-			return button;
+			var buttonSpec = {
+					type : "input",
+					className : "searchButton",
+					text : dependencies.textProvider.getTranslation("theClient_searchButtonText"),
+					action : {
+						method : spec.searchMethod
+					}
+			};
+			return CORA.gui.inputButton(buttonSpec);
 		}
 
 		function createResultHolderAndAddTo(addTo) {

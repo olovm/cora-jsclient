@@ -251,12 +251,22 @@ QUnit.test("testInit", function(assert) {
 
 	// subscription
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();
-	assert.deepEqual(subscriptions.length, 2);
+	assert.deepEqual(subscriptions.length, 3);
 
 	var firstSubsription = subscriptions[0];
 	assert.strictEqual(firstSubsription.type, "add");
 	assert.deepEqual(firstSubsription.path, {});
 	assert.ok(firstSubsription.functionToCall === pChildRefHandler.handleMsg);
+
+	var secondSubscription = subscriptions[1];
+	assert.strictEqual(secondSubscription.type, "move");
+	assert.deepEqual(secondSubscription.path, {});
+	assert.ok(secondSubscription.functionToCall === pChildRefHandler.handleMsg);
+	
+	var thirdSubscription = subscriptions[2];
+	assert.strictEqual(thirdSubscription.type, "addUpToMinNumberOfRepeating");
+	assert.deepEqual(thirdSubscription.path, {});
+	assert.ok(thirdSubscription.functionToCall === pChildRefHandler.newElementsAdded);
 });
 
 QUnit.test("testInitViewIsFromFactoredView", function(assert) {
@@ -427,17 +437,7 @@ QUnit.test("testInitRepeatingVariableNoOfChildren", function(assert) {
 
 	// subscription
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();
-	assert.deepEqual(subscriptions.length, 2);
-
-	var firstSubsription = subscriptions[0];
-	assert.strictEqual(firstSubsription.type, "add");
-	assert.deepEqual(firstSubsription.path, {});
-	assert.ok(firstSubsription.functionToCall === pChildRefHandler.handleMsg);
-
-	var secondSubscription = subscriptions[1];
-	assert.strictEqual(secondSubscription.type, "move");
-	assert.deepEqual(firstSubsription.path, {});
-	assert.ok(firstSubsription.functionToCall === pChildRefHandler.handleMsg);
+	assert.deepEqual(subscriptions.length, 3);
 });
 
 QUnit.test("testInitRepeatingStaticNoOfChildren", function(assert) {
@@ -462,12 +462,7 @@ QUnit.test("testInitRepeatingStaticNoOfChildren", function(assert) {
 
 	// subscription
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();
-	assert.deepEqual(subscriptions.length, 2);
-
-	var firstSubsription = subscriptions[0];
-	assert.strictEqual(firstSubsription.type, "add");
-	assert.deepEqual(firstSubsription.path, {});
-	assert.ok(firstSubsription.functionToCall === pChildRefHandler.handleMsg);
+	assert.deepEqual(subscriptions.length, 3);
 });
 
 QUnit.test("testAddButtonFor1toX", function(assert) {
@@ -521,7 +516,7 @@ QUnit.test("testSendAdd", function(assert) {
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddDataArray()[0], addData);
 	var messages = this.dependencies.pubSub.getMessages();
 	assert.deepEqual(messages.length, 1);
-	assert.deepEqual(messages[0].type, "initComplete");
+	assert.deepEqual(messages[0].type, "newElementsAdded");
 });
 QUnit.test("testSendAddBefore", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
@@ -560,7 +555,7 @@ QUnit.test("testSendAddBefore", function(assert) {
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddBeforeDataArray()[0], addBeforeData);
 	var messages = this.dependencies.pubSub.getMessages();
 	assert.deepEqual(messages.length, 1);
-	assert.deepEqual(messages[0].type, "initComplete");
+	assert.deepEqual(messages[0].type, "newElementsAdded");
 });
 
 QUnit.test("testAddButtonWithAttributes", function(assert) {
@@ -1360,9 +1355,9 @@ QUnit.test("testRepeatingElement", function(assert) {
 
 	// subscription
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();
-	assert.deepEqual(subscriptions.length, 3);
+	assert.deepEqual(subscriptions.length, 4);
 
-	var firstSubsription = subscriptions[2];
+	var firstSubsription = subscriptions[3];
 	assert.strictEqual(firstSubsription.type, "remove");
 	var path = {
 		"children" : [ {
@@ -1617,7 +1612,7 @@ QUnit.test("testShowAddAndAddBeforeButtonWhenBelowMaxRepeat", function(assert) {
 	assert.strictEqual(factoredView.getHideChildrensAddBeforeButtonCalled(), 1);
 
 	// call remove function in pChildRefHandler
-	this.dependencies.pubSub.getSubscriptions()[2].functionToCall();
+	this.dependencies.pubSub.getSubscriptions()[3].functionToCall();
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 3);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 1);
 	assert.strictEqual(factoredView.getShowChildrensAddBeforeButtonCalled(), 3);
@@ -1645,7 +1640,7 @@ QUnit.test("testHideAndShowAddAndAddBeforeButtonNotCalledWhenBelowMaxRepeat", fu
 	assert.strictEqual(factoredView.getHideChildrensAddBeforeButtonCalled(), 0);
 	
 	// call remove function in pChildRefHandler
-	this.dependencies.pubSub.getSubscriptions()[2].functionToCall();
+	this.dependencies.pubSub.getSubscriptions()[3].functionToCall();
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 1);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 1);
 	assert.strictEqual(factoredView.getShowChildrensAddBeforeButtonCalled(), 0);
@@ -1684,7 +1679,7 @@ QUnit.test("testHideChildrensRemoveAndAddBeforeButtonWhenAtMinRepeat", function(
 	assert.strictEqual(factoredView.getHideChildrensAddBeforeButtonCalled(), 0);
 
 	// call remove function in pChildRefHandler
-	this.dependencies.pubSub.getSubscriptions()[2].functionToCall();
+	this.dependencies.pubSub.getSubscriptions()[3].functionToCall();
 	assert.strictEqual(factoredView.getShowButtonViewCalled(), 3);
 	assert.strictEqual(factoredView.getHideButtonViewCalled(), 0);
 	assert.strictEqual(factoredView.getShowChildrensRemoveButtonCalled(), 1);
@@ -1985,13 +1980,13 @@ QUnit.test("testPresentationNonMatchingNameInDataAndAttributes2", function(asser
 			"fakePChildRefHandlerViewAsNoMetadataExistsFor recordInfoAttribute");
 });
 
-QUnit.test("testSubscibeToInitCompleteWhenMinNumberOfRepeatingToShowIsSet", function(assert) {
+QUnit.test("testSubscibeToNewElementsAddedWhenMinNumberOfRepeatingToShowIsSet", function(assert) {
 	this.spec.minNumberOfRepeatingToShow = "1";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 
 	// subscription
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();
-	assert.deepEqual(subscriptions.length, 3);
+	assert.deepEqual(subscriptions.length, 4);
 
 	var firstSubsription = subscriptions[0];
 	assert.strictEqual(firstSubsription.type, "add");
@@ -2000,12 +1995,12 @@ QUnit.test("testSubscibeToInitCompleteWhenMinNumberOfRepeatingToShowIsSet", func
 	assert.strictEqual(secondSubscription.type, "move");
 
 	var thirdSubscription = subscriptions[2];
-	assert.strictEqual(thirdSubscription.type, "initComplete");
+	assert.strictEqual(thirdSubscription.type, "newElementsAdded");
 	assert.deepEqual(thirdSubscription.path, {});
-	assert.strictEqual(thirdSubscription.functionToCall, pChildRefHandler.initComplete);
+	assert.strictEqual(thirdSubscription.functionToCall, pChildRefHandler.newElementsAdded);
 });
 
-QUnit.test("testInitCompleteNotEnough", function(assert) {
+QUnit.test("testNewElementsAddedNotEnough", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	this.spec.minNumberOfRepeatingToShow = "1";
@@ -2014,7 +2009,7 @@ QUnit.test("testInitCompleteNotEnough", function(assert) {
 	var unsubscriptions = this.dependencies.pubSub.getUnsubscriptions();
 	assert.deepEqual(unsubscriptions.length, 0);
 
-	pChildRefHandler.initComplete();
+	pChildRefHandler.newElementsAdded();
 	var addData = {
 		"childReference" : {
 			"children" : [ {
@@ -2048,27 +2043,27 @@ QUnit.test("testInitCompleteNotEnough", function(assert) {
 	assert.deepEqual(unsubscriptions.length, 1);
 });
 
-QUnit.test("testInitCompleteNotEnoughOneAlreadyAdded", function(assert) {
+QUnit.test("testNewElementsAddedNotEnoughOneAlreadyAdded", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	this.spec.minNumberOfRepeatingToShow = "2";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 	pChildRefHandler.add("textVariableId");
-	pChildRefHandler.initComplete();
+	pChildRefHandler.newElementsAdded();
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddDataArray().length, 1);
 });
 
-QUnit.test("testInitCompleteNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(assert) {
+QUnit.test("testNewElementsAddedNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	this.spec.minNumberOfRepeatingToShow = "3";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 	pChildRefHandler.add("textVariableId");
-	pChildRefHandler.initComplete();
+	pChildRefHandler.newElementsAdded();
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddDataArray().length, 2);
 });
 
-QUnit.test("testInitCompleteNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(assert) {
+QUnit.test("testNewElementsAddedNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("groupIdOneTextChildRepeat1to3"));
 	this.spec.minNumberOfRepeatingToShow = "4";
@@ -2076,6 +2071,6 @@ QUnit.test("testInitCompleteNotEnoughOneAlreadyAddedTwoshouldBeAdded", function(
 	pChildRefHandler.add("textVariableId");
 	pChildRefHandler.add("textVariableId");
 	pChildRefHandler.add("textVariableId");
-	pChildRefHandler.initComplete();
+	pChildRefHandler.newElementsAdded();
 	assert.deepEqual(this.dependencies.jsBookkeeper.getAddDataArray().length, 0);
 });

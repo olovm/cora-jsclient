@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Uppsala University Library
+ * Copyright 2018, 2019 Uppsala University Library
  * Copyright 2018 Olov McKie
  *
  * This file is part of Cora.
@@ -29,7 +29,7 @@ var CORA = (function(cora) {
 		var mapStarted = false;
 		var longitudeValue = "";
 		var latitudeValue = "";
-		var initCompleteSubscriptionId = "";
+		var newElementsAddedSubscriptionId = "";
 
 		var pMapView;
 		var view;
@@ -72,15 +72,15 @@ var CORA = (function(cora) {
 		}
 
 		function subscribeToMessagesForMap() {
-			subscribeToInitCompleteMessageForStartup();
+			subscribeTonewElementsAddedMessageForStartup();
 			subscribeToSetValueForCoordinatesValues();
 			subscribeToViewJustMadeVisibleForStartup();
 			subscribeTopresentationShownForStartup();
 		}
 
-		function subscribeToInitCompleteMessageForStartup() {
-			initCompleteSubscriptionId = pubSub.subscribe("initComplete", {}, undefined,
-					initComplete);
+		function subscribeTonewElementsAddedMessageForStartup() {
+			newElementsAddedSubscriptionId = pubSub.subscribe("newElementsAdded", {}, undefined,
+					newElementsAdded);
 		}
 
 		function subscribeToSetValueForCoordinatesValues() {
@@ -141,12 +141,12 @@ var CORA = (function(cora) {
 			return CORA.calculatePathForNewElement(pathSpec);
 		}
 
-		var initCompleteHasBeenCalled = false;
+		var newElementsAddedHasBeenCalled = false;
 
-		function initComplete() {
-			initCompleteHasBeenCalled = true;
+		function newElementsAdded() {
+			newElementsAddedHasBeenCalled = true;
 			if (mapNotStarted() && viewIsCurrentlyVisible()) {
-				unsubscribeFromInitComplete();
+				unsubscribeFromnewElementsAdded();
 				startMap();
 			}
 		}
@@ -156,7 +156,7 @@ var CORA = (function(cora) {
 		}
 
 		function viewJustMadeVisible() {
-			if (mapNotStarted() && initCompleteHasBeenCalled && viewIsCurrentlyVisible()) {
+			if (mapNotStarted() && newElementsAddedHasBeenCalled && viewIsCurrentlyVisible()) {
 				startMap();
 			}
 		}
@@ -211,8 +211,8 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function unsubscribeFromInitComplete() {
-			pubSub.unsubscribe(initCompleteSubscriptionId);
+		function unsubscribeFromnewElementsAdded() {
+			pubSub.unsubscribe(newElementsAddedSubscriptionId);
 		}
 
 		function createView() {
@@ -275,7 +275,7 @@ var CORA = (function(cora) {
 			"type" : "pMap",
 			getView : getView,
 			getDependencies : getDependencies,
-			initComplete : initComplete,
+			newElementsAdded : newElementsAdded,
 			handleSetValueLongitude : handleSetValueLongitude,
 			handleSetValueLatitude : handleSetValueLatitude,
 			publishLatLngValues : publishLatLngValues,

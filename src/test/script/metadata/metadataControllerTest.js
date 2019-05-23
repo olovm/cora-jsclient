@@ -1,6 +1,6 @@
 /*
  * Copyright 2015, 2016 Olov McKie
- * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2016, 2017, 2018, 2019 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -23,7 +23,7 @@ var CORATEST = (function(coraTest) {
 	coraTest.metadataControllerFactory = function(metadataProvider, pubSub) {
 		var factor = function(metadataId, data) {
 
-		var recordTypeProvider = CORATEST.recordTypeProviderSpy();
+			var recordTypeProvider = CORATEST.recordTypeProviderSpy();
 
 			var spec = {
 				"metadataId" : metadataId,
@@ -97,9 +97,11 @@ QUnit.test("testInitGroupIdOneTextChild", function(assert) {
 	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
 			+ '"metadataId":"textVariableId","path":{},"nameInData":"textVariableId"}}');
 
-	assert.equal(messages.length, 2);
+	assert.equal(messages.length, 3);
 	assert.deepEqual(JSON.stringify(messages[1]),
 			'{"type":"initComplete","message":{"data":"","path":{}}}');
+	assert.deepEqual(JSON.stringify(messages[2]),
+			'{"type":"newElementsAdded","message":{"data":"","path":{}}}');
 });
 
 QUnit.test("testInitGroupIdOneTextChildWithData", function(assert) {
@@ -118,7 +120,7 @@ QUnit.test("testInitGroupIdOneTextChildWithData", function(assert) {
 	assert.deepEqual(JSON.stringify(messages[1]), '{"type":"setValue","message":{"data":"A Value",'
 			+ '"path":' + createLinkedPathWithNameInDataAsString("textVariableId") + '}}');
 
-	assert.equal(messages.length, 3);
+	assert.equal(messages.length, 4);
 });
 
 function createLinkedPathWithNameInDataAsString(nameInData) {
@@ -139,32 +141,40 @@ QUnit.test("testInitGroupIdOneTextChildWithWrongData", function(assert) {
 	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
 			+ '"metadataId":"textVariableId","path":{},"nameInData":"textVariableId"}}');
 
-	assert.equal(messages.length, 2);
-});
-
-QUnit.test("testInitGroupIdOneTextChildWithFinalValue", function(assert) {
-	var data = {
-		"name" : "groupIdOneTextVarChildWithFinalValue",
-		"children" : [ {
-			"name" : "textVariableIdNot",
-			"value" : "A Value"
-		} ]
-	};
-
-	this.metadataControllerFactory.factor("groupIdOneTextVarChildWithFinalValue", undefined);
-	var messages = this.pubSub.getMessages();
-	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
-			+ '"metadataId":"textVariableWithFinalValueId","path":{},"nameInData":"textVariableWithFinalValueId"}}');
-
-	assert.deepEqual(JSON.stringify(messages[1]),
-			'{"type":"setValue","message":{"data":"someFinalValue",' + '"path":'
-					+ createLinkedPathWithNameInDataAsString("textVariableWithFinalValueId") + '}}');
 	assert.equal(messages.length, 3);
 });
 
-function createLinkedPathWithNameInDataAsString(nameInData) {
-	return JSON.stringify(createLinkedPathWithNameInData(nameInData));
-}
+QUnit
+		.test(
+				"testInitGroupIdOneTextChildWithFinalValue",
+				function(assert) {
+					var data = {
+						"name" : "groupIdOneTextVarChildWithFinalValue",
+						"children" : [ {
+							"name" : "textVariableIdNot",
+							"value" : "A Value"
+						} ]
+					};
+
+					this.metadataControllerFactory.factor("groupIdOneTextVarChildWithFinalValue",
+							undefined);
+					var messages = this.pubSub.getMessages();
+					assert
+							.deepEqual(
+									JSON.stringify(messages[0]),
+									'{"type":"add","message":{'
+											+ '"metadataId":"textVariableWithFinalValueId","path":{},"nameInData":"textVariableWithFinalValueId"}}');
+
+					assert
+							.deepEqual(
+									JSON.stringify(messages[1]),
+									'{"type":"setValue","message":{"data":"someFinalValue",'
+											+ '"path":'
+											+ createLinkedPathWithNameInDataAsString("textVariableWithFinalValueId")
+											+ '}}');
+					assert.equal(messages.length, 4);
+				});
+
 
 QUnit.test("testInitGroupIdTwoTextChild", function(assert) {
 	this.metadataControllerFactory.factor("groupIdTwoTextChild", undefined);
@@ -174,7 +184,7 @@ QUnit.test("testInitGroupIdTwoTextChild", function(assert) {
 	assert.deepEqual(JSON.stringify(messages[1]), '{"type":"add","message":{'
 			+ '"metadataId":"textVariableId2","path":{},"nameInData":"textVariableId2"}}');
 
-	assert.equal(messages.length, 3);
+	assert.equal(messages.length, 4);
 });
 
 QUnit.test("testInitGroupIdTwoTextChildWithData", function(assert) {
@@ -202,7 +212,7 @@ QUnit.test("testInitGroupIdTwoTextChildWithData", function(assert) {
 			'{"type":"setValue","message":{"data":"A Value2",' + '"path":'
 					+ createLinkedPathWithNameInDataAsString("textVariableId2") + '}}');
 
-	assert.equal(messages.length, 5);
+	assert.equal(messages.length, 6);
 });
 
 QUnit.test("testInitGroupIdTwoTextChildWithWrongData", function(assert) {
@@ -228,13 +238,13 @@ QUnit.test("testInitGroupIdTwoTextChildWithWrongData", function(assert) {
 			'{"type":"setValue","message":{"data":"A Value2",' + '"path":'
 					+ createLinkedPathWithNameInDataAsString("textVariableId2") + '}}');
 
-	assert.equal(messages.length, 4);
+	assert.equal(messages.length, 5);
 });
 
 QUnit.test("testInitOneChildRepeat0to1", function(assert) {
 	this.metadataControllerFactory.factor("groupIdOneTextChildRepeat0to1", undefined);
 	var messages = this.pubSub.getMessages();
-	assert.equal(messages.length, 1);
+	assert.equal(messages.length, 2);
 });
 
 QUnit.test("testInitOneChildRepeat0to1WithData", function(assert) {
@@ -253,7 +263,7 @@ QUnit.test("testInitOneChildRepeat0to1WithData", function(assert) {
 	assert.deepEqual(JSON.stringify(messages[1]), '{"type":"setValue","message":{"data":"A Value",'
 			+ '"path":' + createLinkedPathWithNameInDataAsString("textVariableId") + '}}');
 
-	assert.equal(messages.length, 3);
+	assert.equal(messages.length, 4);
 });
 
 QUnit
@@ -279,7 +289,7 @@ QUnit
 									'{"type":"add","message":{'
 											+ '"metadataId":"textVariableId","path":{},"repeatId":"2","nameInData":"textVariableId"}}');
 
-					assert.equal(messages.length, 4);
+					assert.equal(messages.length, 5);
 				});
 
 QUnit
@@ -338,7 +348,7 @@ QUnit
 									+ createLinkedPathWithNameInDataAndRepeatIdAsString(
 											"textVariableId", "three") + '}}');
 
-					assert.equal(messages.length, 7);
+					assert.equal(messages.length, 8);
 				});
 
 function createLinkedPathWithNameInDataAndRepeatIdAsString(nameInData, repeatId) {
@@ -395,7 +405,7 @@ QUnit
 									'{"type":"add","message":{'
 											+ '"metadataId":"textVariableId","path":{},"repeatId":"1","nameInData":"textVariableId"}}');
 
-					assert.equal(messages.length, 5);
+					assert.equal(messages.length, 6);
 				});
 
 QUnit
@@ -445,7 +455,7 @@ QUnit
 									'{"type":"add","message":{'
 											+ '"metadataId":"textVariableId","path":{},"repeatId":"6","nameInData":"textVariableId"}}');
 
-					assert.equal(messages.length, 6);
+					assert.equal(messages.length, 7);
 				});
 
 QUnit
@@ -461,7 +471,7 @@ QUnit
 									'{"type":"add","message":{'
 											+ '"metadataId":"textVariableId","path":{},"repeatId":"0","nameInData":"textVariableId"}}');
 
-					assert.equal(messages.length, 2);
+					assert.equal(messages.length, 3);
 				});
 
 QUnit
@@ -490,7 +500,7 @@ QUnit
 									+ createLinkedPathWithNameInDataAndRepeatIdAsString(
 											"textVariableId", "one") + '}}');
 
-					assert.equal(messages.length, 3);
+					assert.equal(messages.length, 4);
 				});
 
 QUnit
@@ -534,92 +544,106 @@ QUnit
 									+ createLinkedPathWithNameInDataAndRepeatIdAsString(
 											"textVariableId", "two") + '}}');
 
-					assert.equal(messages.length, 5);
+					assert.equal(messages.length, 6);
 				});
 
-QUnit.test("testInitOneChildRepeat0toXPreviouslyNotRepeating", function(assert) {
-			var data = {
-				"name" : "groupIdOneTextChildRepeat0toXPreviously0to1",
-				"children" : [ {
-					"name" : "textVariableId",
-					"value" : "A Value"
-				}]
-			};
+QUnit
+		.test(
+				"testInitOneChildRepeat0toXPreviouslyNotRepeating",
+				function(assert) {
+					var data = {
+						"name" : "groupIdOneTextChildRepeat0toXPreviously0to1",
+						"children" : [ {
+							"name" : "textVariableId",
+							"value" : "A Value"
+						} ]
+					};
 
-			this.metadataControllerFactory.factor("groupIdOneTextChildRepeat0toXPreviously0to1", data);
-			var messages = this.pubSub.getMessages();
-			assert.deepEqual(
-					JSON.stringify(messages[0]),
-					'{"type":"add","message":{'
-					+ '"metadataId":"textVariableId","path":{},"repeatId":"0","nameInData":"textVariableId"}}');
-			assert.deepEqual(JSON.stringify(messages[1]),
-				'{"type":"setValue","message":{"data":"A Value",'
-				+ '"path":'
-				+ createLinkedPathWithNameInDataAndRepeatIdAsString(
-					"textVariableId", "0") + '}}');
-		});
+					this.metadataControllerFactory.factor(
+							"groupIdOneTextChildRepeat0toXPreviously0to1", data);
+					var messages = this.pubSub.getMessages();
+					assert
+							.deepEqual(
+									JSON.stringify(messages[0]),
+									'{"type":"add","message":{'
+											+ '"metadataId":"textVariableId","path":{},"repeatId":"0","nameInData":"textVariableId"}}');
+					assert.deepEqual(JSON.stringify(messages[1]),
+							'{"type":"setValue","message":{"data":"A Value",'
+									+ '"path":'
+									+ createLinkedPathWithNameInDataAndRepeatIdAsString(
+											"textVariableId", "0") + '}}');
+				});
 
-QUnit.test("testInitOneChildRepeat0toXPreviouslyNotRepeatingAddingNewChild", function(assert) {
-	var data = {
-		"name" : "groupIdOneTextChildRepeat0toXPreviously0to1",
-		"children" : [ {
-			"name" : "textVariableId",
-			"value" : "A Value"
-		}, {
-			"name" : "textVariableId",
-			"value" : "A Value2",
-			"repeatId" : "two"
-		}]
-	};
+QUnit
+		.test(
+				"testInitOneChildRepeat0toXPreviouslyNotRepeatingAddingNewChild",
+				function(assert) {
+					var data = {
+						"name" : "groupIdOneTextChildRepeat0toXPreviously0to1",
+						"children" : [ {
+							"name" : "textVariableId",
+							"value" : "A Value"
+						}, {
+							"name" : "textVariableId",
+							"value" : "A Value2",
+							"repeatId" : "two"
+						} ]
+					};
 
-	this.metadataControllerFactory.factor("groupIdOneTextChildRepeat0toXPreviously0to1", data);
-	var messages = this.pubSub.getMessages();
-	assert.deepEqual(
-			JSON.stringify(messages[0]),
-			'{"type":"add","message":{'
-			+ '"metadataId":"textVariableId","path":{},"repeatId":"0","nameInData":"textVariableId"}}');
-	assert.deepEqual(JSON.stringify(messages[1]),
-		'{"type":"setValue","message":{"data":"A Value",'
-		+ '"path":'
-		+ createLinkedPathWithNameInDataAndRepeatIdAsString(
-			"textVariableId", "0") + '}}');
+					this.metadataControllerFactory.factor(
+							"groupIdOneTextChildRepeat0toXPreviously0to1", data);
+					var messages = this.pubSub.getMessages();
+					assert
+							.deepEqual(
+									JSON.stringify(messages[0]),
+									'{"type":"add","message":{'
+											+ '"metadataId":"textVariableId","path":{},"repeatId":"0","nameInData":"textVariableId"}}');
+					assert.deepEqual(JSON.stringify(messages[1]),
+							'{"type":"setValue","message":{"data":"A Value",'
+									+ '"path":'
+									+ createLinkedPathWithNameInDataAndRepeatIdAsString(
+											"textVariableId", "0") + '}}');
 
-	assert
-		.deepEqual(
-			JSON.stringify(messages[2]),
-			'{"type":"add","message":{'
-			+ '"metadataId":"textVariableId","path":{},"repeatId":"two","nameInData":"textVariableId"}}');
-	assert.deepEqual(JSON.stringify(messages[3]),
-		'{"type":"setValue","message":{"data":"A Value2",'
-		+ '"path":'
-		+ createLinkedPathWithNameInDataAndRepeatIdAsString(
-			"textVariableId", "two") + '}}');
+					assert
+							.deepEqual(
+									JSON.stringify(messages[2]),
+									'{"type":"add","message":{'
+											+ '"metadataId":"textVariableId","path":{},"repeatId":"two","nameInData":"textVariableId"}}');
+					assert.deepEqual(JSON.stringify(messages[3]),
+							'{"type":"setValue","message":{"data":"A Value2",'
+									+ '"path":'
+									+ createLinkedPathWithNameInDataAndRepeatIdAsString(
+											"textVariableId", "two") + '}}');
 
-	assert.equal(messages.length, 5);
-});
+					assert.equal(messages.length, 6);
+				});
 
-QUnit.test("testInitOneChildRepeat1to3PreviouslyNotRepeating", function(assert) {
-	var data = {
-		"name" : "groupIdOneTextChildRepeat0toXPreviously0to1",
-		"children" : [ {
-			"name" : "textVariableId",
-			"value" : "A Value"
-		}]
-	};
+QUnit
+		.test(
+				"testInitOneChildRepeat1to3PreviouslyNotRepeating",
+				function(assert) {
+					var data = {
+						"name" : "groupIdOneTextChildRepeat0toXPreviously0to1",
+						"children" : [ {
+							"name" : "textVariableId",
+							"value" : "A Value"
+						} ]
+					};
 
-	this.metadataControllerFactory.factor("groupIdOneTextChildRepeat1to3Previously0to1", data);
-	var messages = this.pubSub.getMessages();
-	assert.deepEqual(
-			JSON.stringify(messages[0]),
-			'{"type":"add","message":{'
-			+ '"metadataId":"textVariableId","path":{},"repeatId":"0","nameInData":"textVariableId"}}');
-	assert.deepEqual(JSON.stringify(messages[1]),
-		'{"type":"setValue","message":{"data":"A Value",'
-		+ '"path":'
-		+ createLinkedPathWithNameInDataAndRepeatIdAsString(
-			"textVariableId", "0") + '}}');
-});
-
+					this.metadataControllerFactory.factor(
+							"groupIdOneTextChildRepeat1to3Previously0to1", data);
+					var messages = this.pubSub.getMessages();
+					assert
+							.deepEqual(
+									JSON.stringify(messages[0]),
+									'{"type":"add","message":{'
+											+ '"metadataId":"textVariableId","path":{},"repeatId":"0","nameInData":"textVariableId"}}');
+					assert.deepEqual(JSON.stringify(messages[1]),
+							'{"type":"setValue","message":{"data":"A Value",'
+									+ '"path":'
+									+ createLinkedPathWithNameInDataAndRepeatIdAsString(
+											"textVariableId", "0") + '}}');
+				});
 
 QUnit.test("testInitOneChildOneAttribute", function(assert) {
 	this.metadataControllerFactory.factor("groupIdOneTextChildOneAttribute", undefined);
@@ -627,7 +651,7 @@ QUnit.test("testInitOneChildOneAttribute", function(assert) {
 	assert.deepEqual(JSON.stringify(messages[0]), '{"type":"add","message":{'
 			+ '"metadataId":"textVariableId","path":{},"nameInData":"textVariableId"}}');
 
-	assert.equal(messages.length, 2);
+	assert.equal(messages.length, 3);
 });
 
 QUnit.test("testInitOneChildOneAttributeWithDataForOne", function(assert) {
@@ -652,7 +676,7 @@ QUnit.test("testInitOneChildOneAttributeWithDataForOne", function(assert) {
 	assert.deepEqual(JSON.stringify(messages[1]), '{"type":"setValue","message":{"data":"A Value",'
 			+ '"path":' + JSON.stringify(path) + '}}');
 
-	assert.equal(messages.length, 3);
+	assert.equal(messages.length, 4);
 });
 
 QUnit
@@ -677,7 +701,7 @@ QUnit
 							+ '"metadataId":"textVariableId","path":' + JSON.stringify(path)
 							+ ',"nameInData":"textVariableId"}}');
 
-					assert.equal(messages.length, 3);
+					assert.equal(messages.length, 4);
 				});
 
 QUnit
@@ -717,16 +741,16 @@ QUnit
 							+ ',"nameInData":"textVariableId"}}');
 
 					var path2 = createLinkedPathWithNameInData("groupIdOneTextChildOneAttribute");
-					var attributes = createAttributes();
-					attributes.children.push(createAttributeWithNameAndValueAndRepeatId(
+					var attributes2 = createAttributes();
+					attributes2.children.push(createAttributeWithNameAndValueAndRepeatId(
 							"anAttribute", "aFinalValue"));
-					path2.children.push(attributes);
+					path2.children.push(attributes2);
 					path2.children.push(createLinkedPathWithNameInData("textVariableId"));
 					assert.deepEqual(JSON.stringify(messages[2]),
 							'{"type":"setValue","message":{"data":"A Value2",' + '"path":'
 									+ JSON.stringify(path2) + '}}');
 
-					assert.equal(messages.length, 4);
+					assert.equal(messages.length, 5);
 				});
 
 QUnit
@@ -765,7 +789,7 @@ QUnit
 							+ '"metadataId":"textVariableId","path":' + JSON.stringify(path)
 							+ ',"nameInData":"textVariableId"}}');
 
-					assert.equal(messages.length, 3);
+					assert.equal(messages.length, 4);
 				});
 
 QUnit
@@ -792,7 +816,7 @@ QUnit
 							+ '"metadataId":"textVariableId","path":' + JSON.stringify(path)
 							+ ',"nameInData":"textVariableId"}}');
 
-					assert.equal(messages.length, 3);
+					assert.equal(messages.length, 4);
 				});
 
 QUnit
@@ -835,18 +859,18 @@ QUnit
 							+ ',"nameInData":"textVariableId"}}');
 
 					var path2 = createLinkedPathWithNameInData("groupIdOneTextChildTwoAttributes");
-					var attributes = createAttributes();
-					attributes.children.push(createAttributeWithNameAndValueAndRepeatId(
+					var attributes2 = createAttributes();
+					attributes2.children.push(createAttributeWithNameAndValueAndRepeatId(
 							"anAttribute", "aFinalValue", "1"));
-					attributes.children.push(createAttributeWithNameAndValueAndRepeatId(
+					attributes2.children.push(createAttributeWithNameAndValueAndRepeatId(
 							"anOtherAttribute", "aOtherFinalValue", "2"));
-					path2.children.push(attributes);
+					path2.children.push(attributes2);
 					path2.children.push(createLinkedPathWithNameInData("textVariableId"));
 					assert.deepEqual(JSON.stringify(messages[2]),
 							'{"type":"setValue","message":{"data":"A Value3",' + '"path":'
 									+ JSON.stringify(path2) + '}}');
 
-					assert.equal(messages.length, 4);
+					assert.equal(messages.length, 5);
 				});
 
 QUnit
@@ -865,7 +889,7 @@ QUnit
 											+ '"metadataId":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup"'
 											+ ',"path":{},"repeatId":"0","nameInData":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup"}}');
 
-					assert.equal(messages.length, 2);
+					assert.equal(messages.length, 3);
 				});
 
 QUnit
@@ -948,10 +972,10 @@ QUnit
 						"name" : "repeatId",
 						"value" : "one1"
 					});
-					var attributes = createAttributes();
-					attributes.children.push(createAttributeWithNameAndValueAndRepeatId(
+					var attributes32 = createAttributes();
+					attributes32.children.push(createAttributeWithNameAndValueAndRepeatId(
 							"anAttribute", "aFinalValue", "1"));
-					path32.children.push(attributes);
+					path32.children.push(attributes32);
 
 					var path33 = createLinkedPathWithNameInData("textVar");
 					path32.children.push(path33);
@@ -964,7 +988,7 @@ QUnit
 							'{"type":"setValue","message":{"data":"A Value3",' + '"path":'
 									+ JSON.stringify(path3) + '}}');
 
-					assert.equal(messages.length, 5);
+					assert.equal(messages.length, 6);
 				});
 
 QUnit
@@ -1045,10 +1069,10 @@ QUnit
 						"name" : "repeatId",
 						"value" : "one1"
 					});
-					var attributes = createAttributes();
-					attributes.children.push(createAttributeWithNameAndValueAndRepeatId(
+					var attributes32 = createAttributes();
+					attributes32.children.push(createAttributeWithNameAndValueAndRepeatId(
 							"anAttribute", "aFinalValue", "1"));
-					path32.children.push(attributes);
+					path32.children.push(attributes32);
 
 					var path33 = createLinkedPathWithNameInData("textVar");
 					path32.children.push(path33);
@@ -1060,7 +1084,7 @@ QUnit
 					assert.deepEqual(JSON.stringify(messages[3]),
 							'{"type":"setValue","message":{"data":"A Value3",' + '"path":'
 									+ JSON.stringify(path3) + '}}');
-					assert.equal(messages.length, 5);
+					assert.equal(messages.length, 6);
 				});
 
 QUnit
@@ -1157,10 +1181,10 @@ QUnit
 						"name" : "repeatId",
 						"value" : "one1"
 					});
-					var attributes = createAttributes();
-					attributes.children.push(createAttributeWithNameAndValueAndRepeatId(
+					var attributes32 = createAttributes();
+					attributes32.children.push(createAttributeWithNameAndValueAndRepeatId(
 							"anAttribute", "aFinalValue", "1"));
-					path32.children.push(attributes);
+					path32.children.push(attributes32);
 
 					var path33 = createLinkedPathWithNameInData("textVar");
 					path32.children.push(path33);
@@ -1239,7 +1263,7 @@ QUnit
 							'{"type":"setValue","message":{"data":"A Value3",' + '"path":'
 									+ JSON.stringify(path3) + '}}');
 
-					assert.equal(messages.length, 9);
+					assert.equal(messages.length, 10);
 				});
 
 QUnit
@@ -1264,7 +1288,7 @@ QUnit
 											+ '"metadataId":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup"'
 											+ ',"path":{},"repeatId":"0","nameInData":"textVarRepeat1to3InGroupOneAttributeRepeat0to2InGroup"}}');
 
-					assert.equal(messages.length, 2);
+					assert.equal(messages.length, 3);
 				});
 
 QUnit.test("testInitTextVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
@@ -1273,7 +1297,7 @@ QUnit.test("testInitTextVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0
 					"textVarRepeat1to3InGroupOneAttributeAndOtherAttributeRepeat0to2InGroup",
 					undefined);
 			var messages = this.pubSub.getMessages();
-			assert.equal(messages.length, 1);
+			assert.equal(messages.length, 2);
 		});
 
 QUnit
@@ -1395,7 +1419,7 @@ QUnit
 							'{"type":"setValue","message":{"data":"A Value33"' + ',"path":'
 									+ JSON.stringify(path32) + '}}');
 
-					assert.equal(messages.length, 7);
+					assert.equal(messages.length, 8);
 				});
 
 QUnit
@@ -1441,7 +1465,7 @@ QUnit
 							+ '"metadataId":"textVar","path":' + JSON.stringify(path3)
 							+ ',"repeatId":"0","nameInData":"textVar"}}');
 
-					assert.equal(messages.length, 5);
+					assert.equal(messages.length, 6);
 				});
 
 QUnit
@@ -1546,7 +1570,7 @@ QUnit
 							'{"type":"setValue","message":{"data":"A Value33"' + ',"path":'
 									+ JSON.stringify(path32) + '}}');
 
-					assert.equal(messages.length, 7);
+					assert.equal(messages.length, 8);
 				});
 QUnit
 		.test(
@@ -1570,7 +1594,7 @@ QUnit
 							+ '"metadataId":"textVariableId","path":' + JSON.stringify(path)
 							+ ',"nameInData":"textVariableId"}}');
 
-					assert.equal(messages.length, 3);
+					assert.equal(messages.length, 4);
 				});
 
 QUnit.test("testInitGroupWithOneRecordLink", function(assert) {
@@ -1655,7 +1679,7 @@ QUnit.test("testInitGroupWithOneRecordLink", function(assert) {
 	};
 	assert.stringifyEqual(messages[4], expectedLinkedData);
 
-	assert.equal(messages.length, 6);
+	assert.equal(messages.length, 7);
 });
 
 QUnit.test("testInitGroupWithOneRecordLinkWithFinalValue", function(assert) {
@@ -1748,7 +1772,7 @@ QUnit.test("testInitGroupWithOneRecordLinkWithFinalValue", function(assert) {
 	};
 	assert.stringifyEqual(messages[4], expectedSetValueForLinkedRecordId);
 
-	assert.equal(messages.length, 7);
+	assert.equal(messages.length, 8);
 });
 
 QUnit.test("testInitGroupWithOneAbstractRecordLink", function(assert) {
@@ -1784,7 +1808,7 @@ QUnit.test("testInitGroupWithOneAbstractRecordLink", function(assert) {
 	var expectedSetValueForLinkedRecordType = {
 		"type" : "setValue",
 		"message" : {
-			//"data" : "metadata",
+			// "data" : "metadata",
 			"data" : "",
 			"path" : {
 				"name" : "linkedPath",
@@ -1834,7 +1858,7 @@ QUnit.test("testInitGroupWithOneAbstractRecordLink", function(assert) {
 	};
 	assert.stringifyEqual(messages[4], expectedLinkedData);
 
-	assert.equal(messages.length, 6);
+	assert.equal(messages.length, 7);
 });
 
 QUnit.test("testInitGroupWithOneAbstractRecordLinkWithData", function(assert) {
@@ -1883,7 +1907,7 @@ QUnit.test("testInitGroupWithOneAbstractRecordLinkWithData", function(assert) {
 	var expectedSetValueForLinkedRecordType = {
 		"type" : "setValue",
 		"message" : {
-			//"data" : "",
+			// "data" : "",
 			"data" : "metadataTextVariable",
 			"path" : {
 				"name" : "linkedPath",
@@ -1941,7 +1965,7 @@ QUnit.test("testInitGroupWithOneAbstractRecordLinkWithData", function(assert) {
 	};
 	assert.stringifyEqual(messages[4], expectedSetValueForLinkedRecordId);
 
-	assert.equal(messages.length, 7);
+	assert.equal(messages.length, 8);
 });
 
 QUnit.test("testInitGroupWithOneAbstractRecordLinkWithEmptyLinkedRecordType", function(assert) {
@@ -2008,7 +2032,7 @@ QUnit.test("testInitGroupWithOneAbstractRecordLinkWithEmptyLinkedRecordType", fu
 		}
 	};
 	assert.stringifyEqual(messages[2], expectedSetValueForLinkedRecordType);
-	assert.equal(messages.length, 7);
+	assert.equal(messages.length, 8);
 });
 
 QUnit.test("testInitGroupWithOneRecordLinkWithData", function(assert) {
@@ -2049,7 +2073,7 @@ QUnit.test("testInitGroupWithOneRecordLinkWithData", function(assert) {
 		}
 	};
 	assert.stringifyEqual(messages[4], expectedSetValueForLinkedRecordType);
-	assert.equal(messages.length, 7);
+	assert.equal(messages.length, 8);
 });
 
 QUnit.test("testInitGroupWithOneRecordLinkWithPath", function(assert) {
@@ -2071,7 +2095,7 @@ QUnit.test("testInitGroupWithOneRecordLinkWithPath", function(assert) {
 		}
 	};
 	assert.stringifyEqual(messages[4], expectedAddForLinkedRepeatId);
-	assert.equal(messages.length, 7);
+	assert.equal(messages.length, 8);
 });
 
 QUnit.test("testInitGroupWithOneRecordLinkWithPathWithData", function(assert) {
@@ -2115,7 +2139,7 @@ QUnit.test("testInitGroupWithOneRecordLinkWithPathWithData", function(assert) {
 		}
 	};
 	assert.stringifyEqual(messages[6], expectedSetValueForLinkedRepeatId);
-	assert.equal(messages.length, 9);
+	assert.equal(messages.length, 10);
 });
 
 QUnit.test("testInitGroupWithOneResourceLink", function(assert) {
@@ -2210,16 +2234,16 @@ QUnit.test("testInitGroupWithOneResourceLink", function(assert) {
 	};
 	assert.stringifyEqual(messages[5], expectedLinkedData);
 
-	var expectedLinkedData = {
+	var expectedLinkedData2 = {
 		"type" : "initComplete",
 		"message" : {
 			"data" : "",
 			"path" : {}
 		}
 	};
-	assert.stringifyEqual(messages[6], expectedLinkedData);
+	assert.stringifyEqual(messages[6], expectedLinkedData2);
 
-	assert.equal(messages.length, 7);
+	assert.equal(messages.length, 8);
 });
 
 QUnit
@@ -2452,16 +2476,16 @@ QUnit
 					};
 					assert.stringifyEqual(messages[9], expectedLinkedData);
 
-					var expectedLinkedData = {
+					var expectedLinkedData2 = {
 						"type" : "initComplete",
 						"message" : {
 							"data" : "",
 							"path" : {}
 						}
 					};
-					assert.stringifyEqual(messages[10], expectedLinkedData);
+					assert.stringifyEqual(messages[10], expectedLinkedData2);
 
-					assert.equal(messages.length, 11);
+					assert.equal(messages.length, 12);
 				});
 
 QUnit.test("testInitGroupWithOneCollectionVarNotAsAttributeWithFinalValue", function(assert) {
@@ -2477,8 +2501,7 @@ QUnit.test("testInitGroupWithOneCollectionVarNotAsAttributeWithFinalValue", func
 		}
 	};
 	assert.stringifyEqual(messages[0], expectedAddForCollectionVar);
-	
-	
+
 	assert.deepEqual(JSON.stringify(messages[1]),
 			'{"type":"setValue","message":{"data":"genericBinary",' + '"path":'
 					+ createLinkedPathWithNameInDataAsString("type") + '}}');
@@ -2497,7 +2520,7 @@ QUnit.test("testInitGroupWithOneCollectionVarNoFinalValue", function(assert) {
 		}
 	};
 	assert.stringifyEqual(messages[0], expectedAddForCollectionVar);
-	
-	assert.deepEqual(JSON.stringify(messages[1]),
-			'{"type":"initComplete","message":{"data":"",' + '"path":{}}}');
+
+	assert.deepEqual(JSON.stringify(messages[1]), '{"type":"initComplete","message":{"data":"",'
+			+ '"path":{}}}');
 });

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Uppsala University Library
+ * Copyright 2017, 2019 Uppsala University Library
  * Copyright 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -117,6 +117,20 @@ QUnit.test("testInitRecordGuiStartedGui", function(assert) {
 	assert.strictEqual(factoredGui.getInitCalled(), 1);
 });
 
+QUnit.test("testInitSubscribedToDataChanges", function(assert) {
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	var pubSub = factoredGui.pubSub;
+	var subscribtions = pubSub.getSubscriptions();
+
+	assert.strictEqual(subscribtions.length, 1);
+
+	assert.strictEqual(subscribtions[0].type, "*");
+	assert.stringifyEqual(subscribtions[0].path, {});
+	assert.strictEqual(subscribtions[0].context, undefined);
+	assert.strictEqual(subscribtions[0].functionToCall, searchHandler.handleMsg);
+});
+
 QUnit.test("testInitRecordGuiErrorsShownInForm", function(assert) {
 	var recordGuiFactoryBroken = {
 		"factor" : function(metadataId, data) {
@@ -151,6 +165,112 @@ QUnit.test("testSearch", function(assert) {
 		"searchData" : JSON.stringify(factoredGui.dataHolder.getData())
 	});
 	assert.strictEqual(ajaxCallSpec.loadMethod, searchHandler.handleSearchResult);
+	
+
+	var pubSub = factoredGui.pubSub;
+	var messages = pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+	var addUpToMinNumberOfRepeatingMessage = messages[0].message;
+	assert.strictEqual(addUpToMinNumberOfRepeatingMessage.data, "");
+	assert.stringifyEqual(addUpToMinNumberOfRepeatingMessage.path, {});
+	
+	var addUpToMinNumberOfRepeatingType= messages[0].type;
+	assert.strictEqual(addUpToMinNumberOfRepeatingType, "addUpToMinNumberOfRepeating");
+});
+
+QUnit.test("testSearchThroughMessageSetValue", function(assert) {
+	var done = assert.async();
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	searchHandler.handleMsg("dummyData", "x/y/z/setValue");
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	
+	var ajaxCallFactory = this.dependencies.ajaxCallFactory;
+	var spec = this.spec;
+
+	window.setTimeout(function() {
+		assert.strictEqual(factoredGui.getDataValidated(), 1);
+
+		var ajaxCallSpec = ajaxCallFactory.getSpec(0);
+		assert.strictEqual(ajaxCallSpec.url, spec.searchLink.url);
+		assert.strictEqual(ajaxCallSpec.requestMethod, spec.searchLink.requestMethod);
+		assert.strictEqual(ajaxCallSpec.accept, spec.searchLink.accept);
+		assert.strictEqual(ajaxCallSpec.contentType, undefined);
+
+		assert.strictEqual(ajaxCallSpec.data, undefined);
+		assert.stringifyEqual(ajaxCallSpec.parameters, {
+			"searchData" : JSON.stringify(factoredGui.dataHolder.getData())
+		});
+		assert.strictEqual(ajaxCallSpec.loadMethod, searchHandler.handleSearchResult);
+		done();
+	}, 1050);
+});
+
+QUnit.test("testSearchThroughMessageRemove", function(assert) {
+	var done = assert.async();
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	searchHandler.handleMsg("dummyData", "x/y/z/remove");
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	
+	window.setTimeout(function() {
+		assert.strictEqual(factoredGui.getDataValidated(), 1);
+		
+		done();
+	}, 600);
+});
+
+QUnit.test("testSearchDoesNotSearchAgainForRemoveOnValidate", function(assert) {
+	var done = assert.async();
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	searchHandler.handleMsg("thisMessageWouldHaveBeenCreatedByValidate", "x/y/z/remove");
+	searchHandler.search();
+	assert.strictEqual(factoredGui.getDataValidated(), 1);
+	
+	
+	window.setTimeout(function() {
+		assert.strictEqual(factoredGui.getDataValidated(), 1);
+		
+		done();
+	}, 600);
+});
+
+QUnit.test("testSearchThroughMessageNotSetValueOrRemove", function(assert) {
+	var done = assert.async();
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	searchHandler.handleMsg("dummyData", "x/y/z/other");
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	
+	window.setTimeout(function() {
+		assert.strictEqual(factoredGui.getDataValidated(), 0);
+		
+		done();
+	}, 600);
+});
+
+QUnit.test("testSearchThroughMessageShouldOnlyCallOnceOnFastMultipleCalls", function(assert) {
+	var done = assert.async();
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	searchHandler.handleMsg("dummyData", "x/y/z/setValue");
+	searchHandler.handleMsg("dummyData", "x/y/z/setValue");
+	searchHandler.handleMsg("dummyData", "x/y/z/setValue");
+	searchHandler.handleMsg("dummyData", "x/y/z/setValue");
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	
+	window.setTimeout(function() {
+		assert.strictEqual(factoredGui.getDataValidated(), 1);
+		
+		done();
+	}, 600);
 });
 
 QUnit.test("testSearchNotValidDataNoAjaxCall", function(assert) {
@@ -163,6 +283,32 @@ QUnit.test("testSearchNotValidDataNoAjaxCall", function(assert) {
 
 	var ajaxCallSpec = this.dependencies.ajaxCallFactory.getSpec(0);
 	assert.strictEqual(ajaxCallSpec, undefined);
+	
+	var pubSub = factoredGui.pubSub;
+	var messages = pubSub.getMessages();
+	assert.strictEqual(messages.length, 1);
+	var addUpToMinNumberOfRepeatingType= messages[0].type;
+	assert.strictEqual(addUpToMinNumberOfRepeatingType, "addUpToMinNumberOfRepeating");
+});
+
+
+QUnit.test("testSearchNotValidDoesNotAddUpToMinNoOfRepeatingForRemoveOnValidate", function(assert) {
+	var done = assert.async();
+	var searchHandler = CORA.searchHandler(this.dependencies, this.spec);
+	var factoredGui = this.dependencies.recordGuiFactory.getFactored(0);
+	factoredGui.setValidateAnswer(false);
+
+	assert.strictEqual(factoredGui.getDataValidated(), 0);
+	searchHandler.handleMsg("thisMessageWouldHaveBeenCreatedByValidate", "x/y/z/remove");
+	searchHandler.search();
+	assert.strictEqual(factoredGui.getDataValidated(), 1);
+	
+	
+	window.setTimeout(function() {
+		assert.strictEqual(factoredGui.getDataValidated(), 1);
+		
+		done();
+	}, 600);
 });
 
 QUnit.test("testHandleSearchResultCreatesAResultHandler", function(assert) {
