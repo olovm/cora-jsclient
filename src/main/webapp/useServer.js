@@ -89,31 +89,31 @@ function useUb() {
 
 function useLocalhost() {
 	appTokenBaseUrl = "http://localhost:8080/";
-	baseUrl = "http://localhost:8080/therest/rest/";
+	baseUrl = "http://localhost:8080/systemone/rest/";
 	startDependencies();
 }
 
 function useLocalhostWithPort(port, nameIn) {
 	name = nameIn;
 	appTokenBaseUrl = "http://localhost:" + port + "/";
-	baseUrl = "http://localhost:" + port + "/therest/rest/";
+	baseUrl = "http://localhost:" + port + "/systemone/rest/";
 	startDependencies();
 }
 function useDevWithPort(port, nameIn) {
 	name = nameIn;
 	appTokenBaseUrl = "http://192.168.1.116:" + port + "/";
-	baseUrl = "http://192.168.1.116:" + port + "/therest/rest/";
+	baseUrl = "http://192.168.1.116:" + port + "/systemone/rest/";
 	startDependencies();
 }
 
 function useLocalhost2() {
 	appTokenBaseUrl = "http://localhost:8089/";
-	baseUrl = "http://localhost:8080/therest/rest/";
+	baseUrl = "http://localhost:8080/systemone/rest/";
 	startDependencies();
 }
 function useLocalhost3() {
 	appTokenBaseUrl = "/";
-	baseUrl = "/therest/rest/";
+	baseUrl = "/systemone/rest/";
 	startDependencies();
 }
 function useCora() {
