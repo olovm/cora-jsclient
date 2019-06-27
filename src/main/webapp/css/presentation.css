@@ -574,15 +574,19 @@ position: relative;
 }
 
 
-.specificationTextStyle, .specificationChildStyle > .childrenView .value {
+.specificationTextStyle, .specificationNormalTextStyle, .specificationChildStyle > .childrenView .value {
 	color:#999;
 }
-.specificationTextStyle::before, .specificationChildStyle > .childrenView .value::before{
+.specificationTextStyle::before, .specificationNormalTextStyle::before, .specificationChildStyle > .childrenView .value::before{
 	content:" (";
 }
 
-.specificationTextStyle::after, .specificationChildStyle > .childrenView .value::after{
+.specificationTextStyle::after, .specificationNormalTextStyle::after, .specificationChildStyle > .childrenView .value::after{
 	content:") ";
+}
+
+.specificationNormalTextStyle{
+	font-weight: normal;
 }
 
 .highlight > .pChildRefHandler > .childrenView > .repeatingElement:nth-child(2n+1) {
