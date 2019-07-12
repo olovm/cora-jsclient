@@ -147,6 +147,15 @@ var CORA = (function(cora) {
 			if(spec.inputFormat === "password"){
 				inputNew.setAttribute("type", "password");
 			}
+
+			if(spec.textFieldSize === "medium"){
+				inputNew.setAttribute("class", "twoThirds");
+			}
+
+			if(spec.textFieldSize === "small"){
+				inputNew.setAttribute("class", "third");
+			}
+
 			inputNew.setValue = function(value) {
 				inputNew.value = value;
 			};

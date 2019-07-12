@@ -33,6 +33,7 @@ QUnit.module("pVarViewTest.js", {
 			"inputType" : "input",
 			"outputFormat" : "text",
 			"presentationId" : "somePresentationId",
+			"textFieldSize": "large",
 			"info" : {
 				"text" : "someText",
 				"defText" : "someDefText",
@@ -218,6 +219,29 @@ QUnit.test("testInputFormatPassword", function(assert) {
 	assert.strictEqual(valueView.nodeName, "INPUT");
 	assert.strictEqual(valueView.type, "password");
 });
+
+QUnit.test("testTextFieldSizeSmall", function(assert) {
+	this.spec.inputType = "input";
+	this.spec.textFieldSize = "small";
+
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.nodeName, "INPUT");
+	assert.strictEqual(valueView.type, "text");
+	assert.strictEqual(valueView.className, "third");
+});
+
+QUnit.test("testTextFieldSizeMedium", function(assert) {
+	this.spec.inputType = "input";
+	this.spec.textFieldSize = "medium";
+
+	var valueView = this.getValueView();
+	assert.strictEqual(valueView.nodeName, "INPUT");
+	assert.strictEqual(valueView.type, "text");
+	assert.strictEqual(valueView.className, "twoThirds");
+});
+
+
+
 
 QUnit.test("testInputPlaceholder", function(assert) {
 	this.spec.placeholderText = "placeholderText";
