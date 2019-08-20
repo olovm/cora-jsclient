@@ -83,7 +83,7 @@ module.exports = function(config) {
 			},
 			ChromiumHeadless : {
 				base : 'Chromium',
-				flags : [ '-no-sandbox', '-headless', '-remote-debugging-port=9222' ]
+				flags : [ '-no-sandbox', '-headless', '-remote-debugging-port=9222', '-disable-dev-shm-usage' ]
 			}
 		},
 
