@@ -99,9 +99,9 @@ QUnit.test("testInitGroupIdOneTextChild", function(assert) {
 
 	assert.equal(messages.length, 3);
 	assert.deepEqual(JSON.stringify(messages[1]),
-			'{"type":"initComplete","message":{"data":"","path":{}}}');
-	assert.deepEqual(JSON.stringify(messages[2]),
 			'{"type":"newElementsAdded","message":{"data":"","path":{}}}');
+	assert.deepEqual(JSON.stringify(messages[2]),
+	'{"type":"initComplete","message":{"data":"","path":{}}}');
 });
 
 QUnit.test("testInitGroupIdOneTextChildWithData", function(assert) {
@@ -2234,14 +2234,23 @@ QUnit.test("testInitGroupWithOneResourceLink", function(assert) {
 	};
 	assert.stringifyEqual(messages[5], expectedLinkedData);
 
-	var expectedLinkedData2 = {
+	var expectedNewElementsAdded = {
+			"type" : "newElementsAdded",
+			"message" : {
+				"data" : "",
+				"path" : {}
+			}
+	};
+	assert.stringifyEqual(messages[6], expectedNewElementsAdded);
+	
+	var expectedInitcomplete = {
 		"type" : "initComplete",
 		"message" : {
 			"data" : "",
 			"path" : {}
 		}
 	};
-	assert.stringifyEqual(messages[6], expectedLinkedData2);
+	assert.stringifyEqual(messages[7], expectedInitcomplete);
 
 	assert.equal(messages.length, 8);
 });
@@ -2476,15 +2485,24 @@ QUnit
 					};
 					assert.stringifyEqual(messages[9], expectedLinkedData);
 
-					var expectedLinkedData2 = {
+					var expectedNewElementsAdded = {
+							"type" : "newElementsAdded",
+							"message" : {
+								"data" : "",
+								"path" : {}
+							}
+					};
+					assert.stringifyEqual(messages[10], expectedNewElementsAdded);
+					
+					var expectedInitcomplete = {
 						"type" : "initComplete",
 						"message" : {
 							"data" : "",
 							"path" : {}
 						}
 					};
-					assert.stringifyEqual(messages[10], expectedLinkedData2);
-
+					assert.stringifyEqual(messages[11], expectedInitcomplete);
+					
 					assert.equal(messages.length, 12);
 				});
 
@@ -2521,6 +2539,8 @@ QUnit.test("testInitGroupWithOneCollectionVarNoFinalValue", function(assert) {
 	};
 	assert.stringifyEqual(messages[0], expectedAddForCollectionVar);
 
-	assert.deepEqual(JSON.stringify(messages[1]), '{"type":"initComplete","message":{"data":"",'
+	assert.deepEqual(JSON.stringify(messages[1]), '{"type":"newElementsAdded","message":{"data":"",'
+			+ '"path":{}}}');
+	assert.deepEqual(JSON.stringify(messages[2]), '{"type":"initComplete","message":{"data":"",'
 			+ '"path":{}}}');
 });

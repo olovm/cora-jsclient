@@ -25,11 +25,11 @@ var CORA = (function(cora) {
 		var topLevelData = spec.data;
 
 		initializeFirstLevel();
-		spec.pubSub.publish("initComplete", {
+		spec.pubSub.publish("newElementsAdded", {
 			"data" : "",
 			"path" : {}
 		});
-		spec.pubSub.publish("newElementsAdded", {
+		spec.pubSub.publish("initComplete", {
 			"data" : "",
 			"path" : {}
 		});
