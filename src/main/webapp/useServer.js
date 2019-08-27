@@ -21,30 +21,37 @@ function start() {
 
 	var href = window.location.href;
 	if (href.indexOf("systemone") !== -1) {
+		document.getElementById("systemOneCSS").disabled = true;
 		document.getElementById("systemOneCSS").disabled = false;
 		useCora();
 	} else if (href.indexOf("alvin") !== -1) {
+		document.getElementById("alvinCSS").disabled = true;
 		document.getElementById("alvinCSS").disabled = false;
 		useAlvin();
 	} else if (href.indexOf("diva") !== -1) {
+		document.getElementById("divaCSS").disabled = true;
 		document.getElementById("divaCSS").disabled = false;
 		useDiva();
 	} else if (href.indexOf("localhost:8080") !== -1 ) {
-		useLocalhostWithPort("8080", "SystemOne local dev");
+		useLocalhostWithPort("8080", "SystemOne local dev", "systemone");
 	} else if (href.indexOf("localhost:8081") !== -1 ) {
+		document.getElementById("alvinCSS").disabled = true;
 		document.getElementById("alvinCSS").disabled = false;
-		useLocalhostWithPort("8081","ALVIN local dev");
+		useLocalhostWithPort("8081","ALVIN local dev", "alvin");
 	} else if (href.indexOf("localhost:8082") !== -1 ) {
+		document.getElementById("divaCSS").disabled = true;
 		document.getElementById("divaCSS").disabled = false;
-		useLocalhostWithPort("8082", "DiVA local dev");
+		useLocalhostWithPort("8082", "DiVA local dev", "diva");
 	} else if (href.indexOf("116:8080") !== -1) {
-		useDevWithPort("8080", "SystemOne dev");
+		useDevWithPort("8080", "SystemOne dev", "systemone");
 	} else if (href.indexOf("116:8081") !== -1) {
+		document.getElementById("alvinCSS").disabled = true;
 		document.getElementById("alvinCSS").disabled = false;
-		useDevWithPort("8081", "ALVIN dev");
+		useDevWithPort("8081", "ALVIN dev", "alvin");
 	} else if (href.indexOf("116:8082") !== -1) {
+		document.getElementById("divaCSS").disabled = true;
 		document.getElementById("divaCSS").disabled = false;
-		useDevWithPort("8082","DiVA dev");
+		useDevWithPort("8082","DiVA dev", "diva");
 	} else {
 		askForServerToUse();
 	}
@@ -93,16 +100,16 @@ function useLocalhost() {
 	startDependencies();
 }
 
-function useLocalhostWithPort(port, nameIn) {
+function useLocalhostWithPort(port, nameIn, deployedName) {
 	name = nameIn;
 	appTokenBaseUrl = "http://localhost:" + port + "/";
-	baseUrl = "http://localhost:" + port + "/systemone/rest/";
+	baseUrl = "http://localhost:" + port + "/"+ deployedName+"/rest/";
 	startDependencies();
 }
-function useDevWithPort(port, nameIn) {
+function useDevWithPort(port, nameIn, deployedName) {
 	name = nameIn;
 	appTokenBaseUrl = "http://192.168.1.116:" + port + "/";
-	baseUrl = "http://192.168.1.116:" + port + "/systemone/rest/";
+	baseUrl = "http://192.168.1.116:" + "/"+ deployedName+"/rest/";
 	startDependencies();
 }
 
