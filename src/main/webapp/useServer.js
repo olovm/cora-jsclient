@@ -43,15 +43,15 @@ function start() {
 		document.getElementById("divaCSS").disabled = false;
 		useLocalhostWithPort("8082","8182", "DiVA local dev", "diva");
 	} else if (href.indexOf("116:8080") !== -1) {
-		useDevWithPort("8080", "SystemOne dev", "systemone");
+		useDevWithPort("8080","8180", "SystemOne dev", "systemone");
 	} else if (href.indexOf("116:8081") !== -1) {
 		document.getElementById("alvinCSS").disabled = true;
 		document.getElementById("alvinCSS").disabled = false;
-		useDevWithPort("8081", "ALVIN dev", "alvin");
+		useDevWithPort("8081","8181", "ALVIN dev", "alvin");
 	} else if (href.indexOf("116:8082") !== -1) {
 		document.getElementById("divaCSS").disabled = true;
 		document.getElementById("divaCSS").disabled = false;
-		useDevWithPort("8082","DiVA dev", "diva");
+		useDevWithPort("8082","8182","DiVA dev", "diva");
 	} else {
 		askForServerToUse();
 	}
@@ -100,16 +100,16 @@ function useLocalhost() {
 	startDependencies();
 }
 
-function useLocalhostWithPort(port,appTokenPort, nameIn, deployedName) {
+function useLocalhostWithPort(port, appTokenPort, nameIn, deployedName) {
 	name = nameIn;
 	appTokenBaseUrl = "http://localhost:" + appTokenPort + "/";
 	baseUrl = "http://localhost:" + port + "/"+ deployedName+"/rest/";
 	startDependencies();
 }
-function useDevWithPort(port, nameIn, deployedName) {
+function useDevWithPort(port, appTokenPort, nameIn, deployedName) {
 	name = nameIn;
-	appTokenBaseUrl = "http://192.168.1.116:" + port + "/";
-	baseUrl = "http://192.168.1.116:" + "/"+ deployedName+"/rest/";
+	appTokenBaseUrl = "http://192.168.1.116:" + appTokenPort + "/";
+	baseUrl = "http://192.168.1.116:" + port + "/"+ deployedName+"/rest/";
 	startDependencies();
 }
 
