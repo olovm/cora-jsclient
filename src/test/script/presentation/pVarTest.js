@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2019 Uppsala University Library
+ * Copyright 2016, Uppsala University Library
  * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
@@ -154,8 +154,7 @@ QUnit.test("testFactoredViewCorrectlyForInputTextVariable", function(assert) {
 		"outputFormat" : "text",
 		"inputFormat" : "text",
 		"placeholderText" : "Skriv din text här",
-		"presentationId" : "pVarTextVariableId",
-		"textFieldSize":"large"
+		"presentationId" : "pVarTextVariableId"
 	};
 	expectedPVarViewSpec.info.technicalInfo.push({
 		"text" : "textId: textVariableIdText",
@@ -213,8 +212,7 @@ QUnit.test("testFactoredViewCorrectlyForInputTextAreaVariable", function(assert)
 		"outputFormat" : "text",
 		"inputFormat" : "text",
 		"placeholderText" : "Skriv din text här",
-		"presentationId" : "textVariableIdTextAreaPVar",
-		"textFieldSize": "large"
+		"presentationId" : "textVariableIdTextAreaPVar"
 	};
 	expectedPVarViewSpec.info.technicalInfo.push({
 		"text" : "textId: textVariableIdText",
@@ -254,8 +252,7 @@ QUnit.test("testInitTextNoInputTypeIsShownAsText", function(assert) {
 		"outputFormat" : "text",
 		"inputFormat" : "text",
 		"placeholderText" : "Skriv din text här",
-		"presentationId" : "textVariableIdShowTextAreaFalsePVar",
-		"textFieldSize": "large"
+		"presentationId" : "textVariableIdShowTextAreaFalsePVar"
 	};
 	expectedPVarViewSpec.info.technicalInfo.push({
 		"text" : "textId: textVariableIdText",
@@ -300,8 +297,7 @@ QUnit.test("testInitTextInputFormatPassword", function(assert) {
 		"mode" : "input",
 		"outputFormat" : "text",
 		"inputFormat" : "password",
-		"presentationId" : "pVarTextVariableId",
-		"textFieldSize": "large"
+		"presentationId" : "pVarTextVariableId"
 	};
 	expectedPVarViewSpec.info.technicalInfo.push({
 		"text" : "textId: textVariableIdText",
@@ -441,8 +437,7 @@ QUnit.test("testInitTextOutput", function(assert) {
 		"mode" : "output",
 		"outputFormat" : "text",
 		"inputFormat" : "text",
-		"presentationId" : "pVarTextVariableIdOutput",
-		"textFieldSize": "large"
+		"presentationId" : "pVarTextVariableIdOutput"
 	};
 	expectedPVarViewSpec.info.technicalInfo.push({
 		"text" : "textId: textVariableIdText",
@@ -483,8 +478,7 @@ QUnit.test("testInitTextOutputFormatImage", function(assert) {
 		"mode" : "output",
 		"outputFormat" : "image",
 		"inputFormat" : "text",
-		"presentationId" : "pVarTextVariableId",
-		"textFieldSize": "large"
+		"presentationId" : "pVarTextVariableId"
 	};
 	expectedPVarViewSpec.info.technicalInfo.push({
 		"text" : "textId: textVariableIdText",

@@ -603,15 +603,6 @@ position: relative;
 	padding:4px;
 }
 
-.third {
-	width: 33%;
-}
-
-.twoThirds {
-	width: 66%;
-}
-
-
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2019 Uppsala University Library
+ * Copyright 2016, Uppsala University Library
  * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
@@ -36,7 +36,6 @@ var CORA = (function(cora) {
 		var mode = cPresentation.getFirstAtomicValueByNameInData("mode");
 		var outputFormat = getOutputFormat();
 		var inputFormat = getInputFormat();
-		var textFieldSize = getTextFieldSize();
 
 		var textId = getTextId(cMetadataElement, "textId");
 		var text = textProvider.getTranslation(textId);
@@ -53,7 +52,6 @@ var CORA = (function(cora) {
 			"outputFormat" : outputFormat,
 			"inputFormat" : inputFormat,
 			"presentationId" : presentationId,
-			"textFieldSize":textFieldSize,
 			"info" : {
 				"text" : text,
 				"defText" : defText,
@@ -103,14 +101,6 @@ var CORA = (function(cora) {
 				return cPresentation.getFirstAtomicValueByNameInData("inputFormat");
 			}
 			return "text";
-		}
-
-
-		function getTextFieldSize(){
-			if (cPresentation.containsChildWithNameInData("textFieldSize")){
-				return cPresentation.getFirstAtomicValueByNameInData("textFieldSize");
-			}
-			return "large";
 		}
 
 		function getInputType() {
