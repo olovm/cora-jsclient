@@ -148,14 +148,6 @@ var CORA = (function(cora) {
 				inputNew.setAttribute("type", "password");
 			}
 
-			if(spec.textFieldSize === "medium"){
-				inputNew.setAttribute("class", "twoThirds");
-			}
-
-			if(spec.textFieldSize === "small"){
-				inputNew.setAttribute("class", "third");
-			}
-
 			inputNew.setValue = function(value) {
 				inputNew.value = value;
 			};

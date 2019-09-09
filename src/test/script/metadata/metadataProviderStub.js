@@ -1,6 +1,6 @@
 /*
  * Copyright 2015, 2016, 2017 Olov McKie
- * Copyright 2015, 2017, 2018, 2019 Uppsala University Library
+ * Copyright 2015, 2017, 2018Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -4598,10 +4598,7 @@ function MetadataProviderStub() {
 								"name" : "linkedRecordId",
 								"value" : "enterTextHereText"
 							} ]
-						}, {
-						name:"textFieldSize",
-						value:"large"
-					} ]
+						} ]
 			};
 		case "userSuppliedIdCollectionVarPCollVar":
 			return {
