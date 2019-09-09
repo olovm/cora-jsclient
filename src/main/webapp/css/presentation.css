@@ -573,6 +573,9 @@ position: relative;
 	font-weight:bold;
 }
 
+.italicTextStyle {
+	font-style: italic;
+}
 
 .specificationTextStyle, .specificationNormalTextStyle, .specificationChildStyle > .childrenView .value {
 	color:#999;
