@@ -3592,6 +3592,35 @@ function MetadataProviderStub() {
 				}
 			};
 		}
+		if (idToGet === "numVariableWithDecimalsId") {
+			return {
+				"name" : "metadata",
+				"children" : [ {
+					"name" : "min",
+					"value" : "0"
+				}, 
+				 {
+					"name" : "max",
+					"value" : "10"
+				},
+				{
+					"name" : "warningMin",
+					"value" : "2"
+				}, 
+				 {
+					"name" : "warningMax",
+					"value" : "8"
+				}, 
+				 {
+					"name" : "numberOfDecimals",
+					"value" : "2"
+				}]
+						.concat(createArrayWithRecordInfoAndNameInDataAndLinkedTextIdAndDefTextId(idToGet)),
+				"attributes" : {
+					"type" : "numberVariable"
+				}
+			};
+		}
 		if (idToGet === "binaryTypeGenericBinaryCollectionVar") {
 			return {
 				"children" : [

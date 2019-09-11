@@ -120,6 +120,15 @@ QUnit.test("testMinValueOk", function(assert) {
 	assert.stringifyEqual(validationAnswer, true);
 });
 
+QUnit.test("testDecimalsAllowedOk", function(assert) {
+	var numberValidator = this.getNumberValidator();
+	
+	var cMetadataElement = CORA.coraData(this.dependencies.metadataProvider.getMetadataById("numVariableWithDecimalsId"));
+	
+	var validationAnswer = numberValidator.validateData("2.56", cMetadataElement);
+	assert.stringifyEqual(validationAnswer, true);
+});
+
 
 
 

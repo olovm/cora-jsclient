@@ -71,8 +71,8 @@ var CORA = (function(cora) {
 		
 		function handleValueWithDecimals(value, numberOfDecimals){
 			var splittedString = value.split('.');
-			var acualNumOfDecimals = splittedString[1].length;
-			return acualNumOfDecimals === numberOfDecimals;
+			var actualNumOfDecimals = splittedString[1].length;
+			return actualNumOfDecimals === Number(numberOfDecimals);
 		}
 
 		function getDependencies(){
