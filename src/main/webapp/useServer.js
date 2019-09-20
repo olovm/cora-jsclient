@@ -17,45 +17,51 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 addStandardAppTokensToLoginMenu = true;
-var href;
 function start() {
 
-	href = window.location.href;
+	var href = window.location.href;
 	if (href.indexOf("systemone") !== -1) {
-		document.getElementById("systemOneCSS").disabled = true;
-		document.getElementById("systemOneCSS").disabled = false;
+		enableCSS("systemOneCSS");
 		useCora();
 	} else if (href.indexOf("alvin") !== -1) {
-		document.getElementById("alvinCSS").disabled = true;
-		document.getElementById("alvinCSS").disabled = false;
+		enableCSS("alvinCSS");
 		useAlvin();
 	} else if (href.indexOf("diva") !== -1) {
-		document.getElementById("divaCSS").disabled = true;
-		document.getElementById("divaCSS").disabled = false;
+		enableCSS("divaCSS");
 		useDiva();
 	} else if (href.indexOf("localhost:8080") !== -1 ) {
 		useLocalhostWithPort("8080","8180", "SystemOne local dev", "systemone");
 	} else if (href.indexOf("localhost:8081") !== -1 ) {
-		document.getElementById("alvinCSS").disabled = true;
-		document.getElementById("alvinCSS").disabled = false;
+		enableCSS("alvinCSS");
 		useLocalhostWithPort("8081","8181","ALVIN local dev", "alvin");
 	} else if (href.indexOf("localhost:8082") !== -1 ) {
-		document.getElementById("divaCSS").disabled = true;
-		document.getElementById("divaCSS").disabled = false;
+		enableCSS("divaCSS");
 		useLocalhostWithPort("8082","8182", "DiVA local dev", "diva");
 	} else if (href.indexOf("116:8080") !== -1) {
 		useDevWithPort("8080","8180", "SystemOne dev", "systemone");
 	} else if (href.indexOf("116:8081") !== -1) {
-		document.getElementById("alvinCSS").disabled = true;
-		document.getElementById("alvinCSS").disabled = false;
+		enableCSS("alvinCSS");
 		useDevWithPort("8081","8181", "ALVIN dev", "alvin");
 	} else if (href.indexOf("116:8082") !== -1) {
-		document.getElementById("divaCSS").disabled = true;
-		document.getElementById("divaCSS").disabled = false;
+		enableCSS("divaCSS");
 		useDevWithPort("8082","8182","DiVA dev", "diva");
-	} else {
+	} else if (href.indexOf("238:8080") !== -1) {
+		useDevExternallyWithPort("8080","8180", "SystemOne dev", "systemone");
+	} else if (href.indexOf("238:8081") !== -1) {
+		enableCSS("alvinCSS");
+		useDevExternallyWithPort("8081","8181", "ALVIN dev", "alvin");
+	} else if (href.indexOf("238:8082") !== -1) {
+		enableCSS("divaCSS");
+		useDevExternallyWithPort("8082","8182","DiVA dev", "diva");
+	}
+	else {
 		askForServerToUse();
 	}
+}
+
+function enableCSS(cssName){
+	document.getElementById(cssName).disabled = true;
+	document.getElementById(cssName).disabled = false;
 }
 
 function askForServerToUse() {
@@ -113,6 +119,12 @@ function useDevWithPort(port, appTokenPort, nameIn, deployedName) {
 	baseUrl = "http://192.168.1.116:" + port + "/"+ deployedName+"/rest/";
 	startDependencies();
 }
+function useDevExternallyWithPort(port, appTokenPort, nameIn, deployedName) {
+	name = nameIn;
+	appTokenBaseUrl = "http://130.238.171.238:" + appTokenPort + "/";
+	baseUrl = "http://130.238.171.238:" + port + "/"+ deployedName+"/rest/";
+	startDependencies();
+}
 
 function useLocalhost2() {
 	appTokenBaseUrl = "http://localhost:8089/";
@@ -120,14 +132,8 @@ function useLocalhost2() {
 	startDependencies();
 }
 function useLocalhost3() {
-	var systemToUse = "systemone";
-	if(href.indexOf("238:8081") !== -1){
-		systemToUse="alvin";
-	}else if(href.indexOf("238:8082") !== -1){
-		systemToUse="diva";
-	}
 	appTokenBaseUrl = "/";
-	baseUrl = "/"+systemToUse+"/rest/";
+	baseUrl = "/systemone/rest/";
 	startDependencies();
 }
 function useCora() {
