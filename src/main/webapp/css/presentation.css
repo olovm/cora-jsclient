@@ -425,48 +425,48 @@ position: relative;
 	display: block;
 }
 
-.workView .tenChildStyle {
-	flex: 1 1 100%;
+.workView .tenChildStyle input {
+	width: 100%;
 }
 
-.workView .nineChildStyle {
-	flex: 1 1 90%;
+.workView .nineChildStyle input{
+	width: 90%;
 }
 
-.workView .eightChildStyle {
-	flex: 1 1 80%;
+.workView .eightChildStyle input {
+	width: 80%;
 }
 
-.workView .sevenChildStyle {
-	flex: 1 1 70%;
+.workView .sevenChildStyle input {
+	width: 70%;
 }
 
-.workView .sixChildStyle {
-	flex: 1 1 60%;
+.workView .sixChildStyle input {
+	width: 60%;
 }
 
-.workView .fiveChildStyle {
-	flex: 1 1 50%;
+.workView .fiveChildStyle input{
+	width: 50%;
 }
 
-.workView .fourChildStyle {
-	flex: 1 1 40%;
+.workView .fourChildStyle input{
+	width: 40%;
 }
 
-.workView .threeChildStyle {
-	flex: 1 1 30%;
+.workView .threeChildStyle input{
+	width: 30%;
 }
 
-.workView .twoChildStyle {
-	flex: 1 1 20%;
+.workView .twoChildStyle input{
+	width: 20%;
 }
 
-.workView .oneChildStyle {
-	flex: 1 1 10%;
+.workView .oneChildStyle input{
+	width: 10%;
 }
 
-.workView .zeroChildStyle {
-	flex: 1;
+.workView .zeroChildStyle input{
+	width: 0;
 }
 
 .presentation .text {
