@@ -17,9 +17,10 @@
  *     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
  */
 addStandardAppTokensToLoginMenu = true;
+var href;
 function start() {
 
-	var href = window.location.href;
+	href = window.location.href;
 	if (href.indexOf("systemone") !== -1) {
 		document.getElementById("systemOneCSS").disabled = true;
 		document.getElementById("systemOneCSS").disabled = false;
@@ -119,8 +120,14 @@ function useLocalhost2() {
 	startDependencies();
 }
 function useLocalhost3() {
+	var systemToUse = "systemone";
+	if(href.indexOf("238:8081") !== -1){
+		systemToUse="alvin";
+	}else if(href.indexOf("238:8082") !== -1){
+		systemToUse="diva";
+	}
 	appTokenBaseUrl = "/";
-	baseUrl = "/systemone/rest/";
+	baseUrl = "/"+systemToUse+"/rest/";
 	startDependencies();
 }
 function useCora() {
