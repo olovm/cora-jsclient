@@ -1,3 +1,79 @@
-.jsClient .sideBar{
-    color: #b6bf33;
+
+    div, span {
+        background-color: inherit !important;
+    }
+    .presentation {
+        background-color: #fff !important;
+    }
+    .presentation .text.h2TextStyle {
+        background-color: #fff !important;
+    }
+
+    .header {
+        display: none !important;
+    }
+
+    .sideBar{
+        display:none !important;
+    }
+    .workArea {
+        width: 100% !important;
+
+    }
+    .editView {
+        width: 100% !important;
+        flex: none !important;
+    }
+
+    .showView {
+        display: none!important;
+    }
+
+    .publicationAbstractPVar textarea {
+        flex-shrink: 0;
+        flex: none;
+        height: 6em;
+    }
+
+
+    span.value,
+    .linkedRecordTypeView,
+    .linkedRecordIdView {
+        display:none !important;
+    }
+
+
+    .topBar{
+        display:none;
+
+    }
+
+
+.workArea .workView {
+    position: absolute;
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    overflow: auto;
+}
+
+
+
+.jsClient>.workArea {
+    height: 100%;
+}
+
+.workArea > .workView > .workItem > .editView, .workArea > .workView > .workItem > .showView {
+     overflow-y: auto;
+     height: calc(100%);
+ }
+
+.editView .presentation > .pGroup > .pNonRepeatingChildRefHandler {
+    border: 1px solid #e8e8f2;
+    padding: 1em;
+    border-radius: 8px;
+    background: #e8e8f2;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left:1em;
 }
