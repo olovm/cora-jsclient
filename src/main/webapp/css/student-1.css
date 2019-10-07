@@ -1,52 +1,56 @@
 
-    div, span {
-        background-color: inherit !important;
-    }
-    .presentation {
-        background-color: #fff !important;
-    }
-    .presentation .text.h2TextStyle {
-        background-color: #fff !important;
-    }
+div, span {
+    background-color: inherit !important;
+}
 
-    .header {
-        display: none !important;
-    }
+.presentation {
+    background-color: #fff !important;
+}
 
-    .sideBar{
-        display:none !important;
-    }
-    .workArea {
-        width: 100% !important;
+.presentation .text.h2TextStyle {
+    background-color: #fff !important;
+}
 
-    }
-    .editView {
-        width: 100% !important;
-        flex: none !important;
-    }
+.header {
+    display: none !important;
+}
 
-    .showView {
-        display: none!important;
-    }
+.sideBar {
+    display: none !important;
+}
 
-    .publicationAbstractPVar textarea {
-        flex-shrink: 0;
-        flex: none;
-        height: 6em;
-    }
+.workArea {
+    width: 100% !important;
 
+}
 
-    span.value,
-    .linkedRecordTypeView,
-    .linkedRecordIdView {
-        display:none !important;
-    }
+.editView {
+    width: 100% !important;
+    flex: none !important;
+}
+
+.showView {
+    display: none !important;
+}
+
+.publicationAbstractPVar textarea {
+    flex-shrink: 0;
+    flex: none;
+    height: 6em;
+}
 
 
-    .topBar{
-        display:none;
+span.value,
+.linkedRecordTypeView,
+.linkedRecordIdView {
+    display: none !important;
+}
 
-    }
+
+.topBar {
+    display: none;
+
+}
 
 
 .workArea .workView {
@@ -58,15 +62,14 @@
 }
 
 
-
-.jsClient>.workArea {
+.jsClient > .workArea {
     height: 100%;
 }
 
 .workArea > .workView > .workItem > .editView, .workArea > .workView > .workItem > .showView {
-     overflow-y: auto;
-     height: calc(100%);
- }
+    overflow-y: auto;
+    height: calc(100%);
+}
 
 .editView .presentation > .pGroup > .pNonRepeatingChildRefHandler {
     border: 1px solid #e8e8f2;
@@ -75,5 +78,13 @@
     background: #e8e8f2;
     margin-top: 1em;
     margin-bottom: 1em;
-    margin-left:1em;
+    margin-left: 1em;
+}
+
+.h1TextStyle {
+    font-size: 2.2rem;
+}
+
+.presentation .text.h2TextStyle {
+  margin-bottom:0.5em;
 }
