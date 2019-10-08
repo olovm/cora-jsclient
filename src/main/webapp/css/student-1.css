@@ -66,10 +66,6 @@ span.value,
     height: 100%;
 }
 
-.workArea > .workView > .workItem > .editView, .workArea > .workView > .workItem > .showView {
-    overflow-y: auto;
-    height: calc(100%);
-}
 
 .editView .presentation > .pGroup > .pNonRepeatingChildRefHandler {
     border: 1px solid #e8e8f2;
@@ -82,9 +78,47 @@ span.value,
 }
 
 .h1TextStyle {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
 }
 
 .presentation .text.h2TextStyle {
-  margin-bottom:0.5em;
+    margin-bottom: 0.5em;
+}
+
+.pChildRefHandler {
+    margin-bottom: 1em;
+}
+
+.nationalSubjectCategoryAutocompleteIncludePGroup .pChildRefHandler,
+.seriesAutocompleteIncludePGroup .pChildRefHandler,
+.educationalProgramAutocompleteIncludePGroup .pChildRefHandler,
+.subjectCourseAutocompleteIncludePGroup .pChildRefHandler,
+.divaOrganisationAutocompleteIncludePGroup .pChildRefHandler
+
+{
+    margin-bottom: 0;
+}
+
+.infoButton {
+    display:none;
+    padding-right: 0 !important;
+}
+
+.search::before{
+    background:none;
+}
+.searchActive > .buttonView{
+    display:none !important;
+}
+
+.workView .pRecordLink > .search {
+    border:none;
+}
+
+.workView .pRecordLink.searchActive {
+    border-radius: 5px;
+}
+
+.publicationSubTitlePVar {
+    padding-right: 0 !important;
 }
