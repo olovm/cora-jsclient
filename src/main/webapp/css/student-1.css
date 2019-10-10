@@ -40,13 +40,6 @@ div, span {
 }
 
 
-span.value,
-.linkedRecordTypeView,
-.linkedRecordIdView {
-    display: none !important;
-}
-
-
 .topBar {
     display: none;
 
@@ -67,7 +60,7 @@ span.value,
 }
 
 
-.editView .presentation > .pGroup > .pNonRepeatingChildRefHandler {
+.studentThesisMinimalNewPGroup > .pNonRepeatingChildRefHandler {
     border: 1px solid #e8e8f2;
     padding: 1em;
     border-radius: 8px;
@@ -93,22 +86,20 @@ span.value,
 .seriesAutocompleteIncludePGroup .pChildRefHandler,
 .educationalProgramAutocompleteIncludePGroup .pChildRefHandler,
 .subjectCourseAutocompleteIncludePGroup .pChildRefHandler,
-.divaOrganisationAutocompleteIncludePGroup .pChildRefHandler
-
+.divaOrganisationAutocompleteIncludePGroup .pChildRefHandler,
+.divaOrganisationAlternativeNameOutputPGroup .pChildRefHandler,
+.divaOrganisationNameOutputPVar .pChildRefHandler
 {
     margin-bottom: 0;
 }
 
 .infoButton {
-    display:none;
+    display:none !important;
     padding-right: 0 !important;
 }
 
 .search::before{
     background:none;
-}
-.searchActive > .buttonView{
-    display:none !important;
 }
 
 .workView .pRecordLink > .search {
@@ -121,4 +112,33 @@ span.value,
 
 .publicationSubTitlePVar {
     padding-right: 0 !important;
+}
+
+input[class="create"] {
+    margin-left: 57em;
+}
+
+.editView .presentation > .pGroup > .pNonRepeatingChildRefHandler .containsNoData {
+   display:none;
+}
+
+.pNonRepeatingChildRefHandler.nationalSubjectCategoryParentOutputListSContainer.containsData{
+    padding:0 !important;
+    border: none;
+}
+
+.pNonRepeatingChildRefHandler.compactChildStyle.seriesListISSNSContainer.containsData{
+    padding:0 !important;
+    border: none;
+}
+
+
+
+.workView .pRecordLink > .childrenView {
+    display: none;
+}
+
+
+.iconButton.openLinkedRecordButton {
+    display: none !important;
 }
