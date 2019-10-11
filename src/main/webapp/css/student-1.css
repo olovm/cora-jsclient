@@ -59,6 +59,10 @@ div, span {
     height: 100%;
 }
 
+.jsClient .workView {
+    counter-reset:none;
+}
+
 
 .studentThesisMinimalNewPGroup > .pNonRepeatingChildRefHandler {
     border: 1px solid #e8e8f2;
