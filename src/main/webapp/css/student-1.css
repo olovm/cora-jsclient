@@ -119,7 +119,7 @@ div, span {
 }
 
 input[class="create"] {
-    margin-left: 57em;
+    float:right;
 }
 
 .editView .presentation > .pGroup > .pNonRepeatingChildRefHandler .containsNoData {
