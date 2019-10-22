@@ -166,3 +166,7 @@ input[class="create"] {
 .repeatingElement > .buttonView > .dragButton, .repeatingElement > .buttonView > .addBeforeButton {
     display: none;
 }
+
+.listView .presentation {
+    background: #f4f4f4 !important;
+}
