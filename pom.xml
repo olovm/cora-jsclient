@@ -1,177 +1,177 @@
-<!--
-  ~ Copyright 2015, 2018 Uppsala University Library
-  ~
-  ~ This file is part of Cora.
-  ~
-  ~     Cora is free software: you can redistribute it and/or modify
-  ~     it under the terms of the GNU General Public License as published by
-  ~     the Free Software Foundation, either version 3 of the License, or
-  ~     (at your option) any later version.
-  ~
-  ~     Cora is distributed in the hope that it will be useful,
-  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~     GNU General Public License for more details.
-  ~
-  ~     You should have received a copy of the GNU General Public License
-  ~     along with Cora.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+<!-- ~ Copyright 2015, 2018 Uppsala University Library ~ ~ This file is part 
+	of Cora. ~ ~ Cora is free software: you can redistribute it and/or modify 
+	~ it under the terms of the GNU General Public License as published by ~ 
+	the Free Software Foundation, either version 3 of the License, or ~ (at your 
+	option) any later version. ~ ~ Cora is distributed in the hope that it will 
+	be useful, ~ but WITHOUT ANY WARRANTY; without even the implied warranty 
+	of ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the ~ GNU General 
+	Public License for more details. ~ ~ You should have received a copy of the 
+	GNU General Public License ~ along with Cora. If not, see <http://www.gnu.org/licenses/>. -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>se.uu.ub.cora</groupId>
-    <artifactId>jsclient</artifactId>
-    <version>0.11-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <name>JS Client for Cora</name>
+	<groupId>se.uu.ub.cora</groupId>
+	<artifactId>jsclient</artifactId>
+	<version>0.11-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>JS Client for Cora</name>
 
-    <properties>
-    	<maven.compiler.source>11</maven.compiler.source>
-    	<maven.compiler.target>11</maven.compiler.target>
-        <sonar.language>js</sonar.language>
-        <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
-        <sonar.sources>src/main/webapp/script</sonar.sources>
-        <sonar.tests>src/test/script/</sonar.tests>
-        <sonar.exclusions>src/main/webapp/script/lib/**</sonar.exclusions>
-        <sonar.genericcoverage.unitTestReportPaths>target/generated-resources/xml/xslt/karma-junit.xml</sonar.genericcoverage.unitTestReportPaths>
-        <sonar.javascript.lcov.reportPaths>reports/coverage/firefox/lcov.info,reports/coverage/headlesschrome/lcov.info</sonar.javascript.lcov.reportPaths>
-        <docker.buildArg.sut_path>${project.basedir}</docker.buildArg.sut_path>
-    </properties>
+	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<sonar.language>js</sonar.language>
+		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+		<sonar.sources>src/main/webapp/script</sonar.sources>
+		<sonar.tests>src/test/script/</sonar.tests>
+		<sonar.exclusions>src/main/webapp/script/lib/**</sonar.exclusions>
+		<sonar.genericcoverage.unitTestReportPaths>target/generated-resources/xml/xslt/karma-junit.xml</sonar.genericcoverage.unitTestReportPaths>
+		<sonar.javascript.lcov.reportPaths>reports/coverage/firefox/lcov.info,reports/coverage/headlesschrome/lcov.info</sonar.javascript.lcov.reportPaths>
+		<docker.buildArg.sut_path>${project.basedir}</docker.buildArg.sut_path>
+	</properties>
 
-    <profiles>
-        <profile>
-            <id>karma-test</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.githug.eirslett</groupId>
-                            <artifactId>frontend-maven-plugin</artifactId>
-                            <version>1.8.0</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>io.fabric8</groupId>
-                            <artifactId>docker-maven-plugin</artifactId>
-                            <version>0.31.0</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>xml-maven-plugin</artifactId>
-                            <version>1.0.2</version>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <alias>karma</alias>
-                                    <name>karma-browser-test-runner:latest</name>
-                                    <build>
-                                        <dockerFileDir>${project.basedir}</dockerFileDir>
-                                        <dockerFile>Dockerfile</dockerFile>
-                                    </build>
-                                    <run>
-                                        <net>bridge</net>
-                                        <volumes>
-                                            <bind>
-                                                <volume>${project.basedir}:${project.basedir}</volume>
-                                            </bind>
-                                        </volumes>
-                                        <wait>
-                                            <time>120000</time>
-                                            <exit>0</exit>
-                                        </wait>
-                                    </run>
-                                </image>
-                            </images>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>start</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>xml-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>install</phase>
-                                <goals><goal>transform</goal></goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <transformationSets>
-                                <transformationSet>
-                                    <dir>reports/tests</dir>
-                                    <stylesheet>genericReport.xsl</stylesheet>
-                                </transformationSet>
-                            </transformationSets>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>net.sf.saxon</groupId>
-                                <artifactId>saxon</artifactId>
-                                <version>8.7</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>web-dev</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>install node and npm</id>
-                                <goals>
-                                    <goal>install-node-and-npm</goal>
-                                </goals>
-                                <configuration>
-                                    <nodeVersion>v10.13.0</nodeVersion>
-                                </configuration>
-                            </execution>
+	<profiles>
+		<profile>
+			<id>karma-test</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>com.githug.eirslett</groupId>
+							<artifactId>frontend-maven-plugin</artifactId>
+							<version>1.8.0</version>
+						</plugin>
+						<plugin>
+							<groupId>io.fabric8</groupId>
+							<artifactId>docker-maven-plugin</artifactId>
+							<version>0.31.0</version>
+						</plugin>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>xml-maven-plugin</artifactId>
+							<version>1.0.2</version>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+				<plugins>
+					<plugin>
+						<groupId>io.fabric8</groupId>
+						<artifactId>docker-maven-plugin</artifactId>
+						<configuration>
+							<images>
+								<image>
+									<alias>karma</alias>
+									<name>karma-browser-test-runner:latest</name>
+									<build>
+										<contextDir>${project.basedir}</contextDir>
+										<dockerFile>Dockerfile</dockerFile>
+									</build>
+									<run>
+										<net>bridge</net>
+										<volumes>
+											<bind>
+												<volume>${project.basedir}:${project.basedir}</volume>
+											</bind>
+										</volumes>
+										<wait>
+											<time>120000</time>
+											<exit>0</exit>
+										</wait>
+									</run>
+								</image>
+							</images>
+						</configuration>
+						<executions>
+							<execution>
+								<id>start</id>
+								<phase>test</phase>
+								<goals>
+									<goal>build</goal>
+									<goal>start</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>stop</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>xml-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>install</phase>
+								<goals>
+									<goal>transform</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<transformationSets>
+								<transformationSet>
+									<dir>reports/tests</dir>
+									<stylesheet>genericReport.xsl</stylesheet>
+								</transformationSet>
+							</transformationSets>
+						</configuration>
+						<dependencies>
+							<dependency>
+								<groupId>net.sf.saxon</groupId>
+								<artifactId>saxon</artifactId>
+								<version>8.7</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>web-dev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>install node and npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<configuration>
+									<nodeVersion>v10.13.0</nodeVersion>
+								</configuration>
+							</execution>
 
-                            <execution>
-                                <id>npm install</id>
-                                <goals>
-                                    <goal>npm</goal>
-                                </goals>
-                            </execution>
+							<execution>
+								<id>npm install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+							</execution>
 
-                            <execution>
-                                <id>javascript tests</id>
-                                <goals>
-                                    <goal>karma</goal>
-                                </goals>
-                                <configuration>
-                                    <karmaConfPath>karma.conf.js</karmaConfPath>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+							<execution>
+								<id>javascript tests</id>
+								<goals>
+									<goal>karma</goal>
+								</goals>
+								<configuration>
+									<karmaConfPath>karma.conf.js</karmaConfPath>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
