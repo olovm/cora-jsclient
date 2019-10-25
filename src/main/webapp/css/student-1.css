@@ -1,3 +1,7 @@
+:root {
+    --boxes-background-color: #fafafa;
+    --border_color: #e8e8f2;
+}
 
 div, span {
     background-color: inherit !important;
@@ -65,10 +69,10 @@ div, span {
 
 
 .studentThesisMinimalNewPGroup > .pNonRepeatingChildRefHandler {
-    border: 1px solid #e8e8f2;
+    border: 1px solid var(--border_color);
     padding: 1em;
     border-radius: 8px;
-    background: #e8e8f2;
+    background: var(--border_color);
     margin-top: 1em;
     margin-bottom: 1em;
     margin-left: 1em;
@@ -118,6 +122,7 @@ div, span {
     padding-right: 0 !important;
 }
 
+
 input[class="create"] {
     float:right;
 }
@@ -147,26 +152,52 @@ input[class="create"] {
     display: none !important;
 }
 
-.divaOrganisationPLink > .childrenView > .repeatingElement {
-    background: #f4f4f4 !important;
+.divaOrganisationPLink > .childrenView > .repeatingElement,
+.nationalSubjectCategoryPLink > .childrenView > .repeatingElement,
+.publicationSeriesPGroup > .childrenView > .repeatingElement > .publicationSeriesPGroup > .seriesPLink,
+.studentThesisDegreePGroup > .childrenView > .repeatingElement > .studentThesisDegreePGroup > .educationalProgramPLink,
+.studentThesisDegreePGroup > .childrenView > .repeatingElement > .studentThesisDegreePGroup > .subjectCoursePLink {
+
+    border: 1px solid var(--border_color);
+    padding: 1em;
+    border-radius: 8px;
+    background: var(--boxes-background-color) !important;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .presentation.divaOrganisationAutocompleteSearchPGroup {
-    background: #f4f4f4 !important;
+    background: var(--boxes-background-color) !important;
 }
 
 .workView .pRecordLink.searchActive {
     border:none;
 }
 
-.pNonRepeatingChildRefHandler.studentThesisAbstractKeywordsHeaderSContainer.containsNoData {
-    border: #2cacff 5px solid;
+.pChildRefHandler.abstractPGroup, .pChildRefHandler.publicationKeywordsPGroup{
+    border: 1px solid var(--border_color);
+    padding: 1em;
+    border-radius: 8px;
+    background: var(--boxes-background-color) !important;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
+.clearLinkedRecordIdButton,
+.showSearchButton,
 .repeatingElement > .buttonView > .dragButton, .repeatingElement > .buttonView > .addBeforeButton {
     display: none;
 }
 
 .listView .presentation {
-    background: #f4f4f4 !important;
+    background: var(--boxes-background-color) !important;
+}
+
+.repeatingElement:first-child {
+    border-top:none;
+}
+
+.pGroup.nationalSubjectCategoryAutocompleteSearchPGroup, .pGroup.seriesAutocompleteSearchPGroup,
+.pGroup.educationalProgramAutocompleteSearchPGroup, .pGroup.subjectCourseAutocompleteSearchPGroup{
+    background-color:var(--boxes-background-color) !important;
 }
