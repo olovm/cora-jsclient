@@ -44,12 +44,12 @@
 						<plugin>
 							<groupId>com.githug.eirslett</groupId>
 							<artifactId>frontend-maven-plugin</artifactId>
-							<version>1.8.0</version>
+							<version>1.6.1</version>
 						</plugin>
 						<plugin>
 							<groupId>io.fabric8</groupId>
 							<artifactId>docker-maven-plugin</artifactId>
-							<version>0.31.0</version>
+							<version>0.26.1</version>
 						</plugin>
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
@@ -68,7 +68,7 @@
 									<alias>karma</alias>
 									<name>karma-browser-test-runner:latest</name>
 									<build>
-										<contextDir>${project.basedir}</contextDir>
+										<dockerFileDir>${project.basedir}</dockerFileDir>
 										<dockerFile>Dockerfile</dockerFile>
 									</build>
 									<run>
@@ -93,13 +93,6 @@
 								<goals>
 									<goal>build</goal>
 									<goal>start</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>stop</id>
-								<phase>post-integration-test</phase>
-								<goals>
-									<goal>stop</goal>
 								</goals>
 							</execution>
 						</executions>
