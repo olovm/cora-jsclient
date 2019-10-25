@@ -183,6 +183,8 @@ input[class="create"] {
     margin-bottom: 1em;
 }
 
+.clearLinkedRecordIdButton,
+.showSearchButton,
 .repeatingElement > .buttonView > .dragButton, .repeatingElement > .buttonView > .addBeforeButton {
     display: none;
 }
