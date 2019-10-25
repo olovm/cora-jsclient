@@ -82,7 +82,7 @@
 										</volumes>
 										<wait>
 											<time>120000</time>
-											<exit>0</exit>
+<!-- 											<exit>0</exit> -->
 										</wait>
 									</run>
 								</image>

@@ -270,22 +270,22 @@ QUnit.test("testHideRemoveButton", function(assert) {
 	assert.visible(removeButton, "buttonView should be visible");
 });
 
-//QUnit.test("testHideDragButton", function(assert) {
-//	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
-//	var view = pRepeatingElement.getView();
-//	this.fixture.appendChild(view);
-//
-//	var buttonView = view.childNodes[0];
-//	var dragButton = buttonView.childNodes[1];
-//
-//	assert.visible(dragButton, "buttonView should be visible");
-//
-//	pRepeatingElement.hideDragButton();
-//	assert.notVisible(dragButton, "buttonView should be hidden");
-//
-//	pRepeatingElement.showDragButton();
-//	assert.visible(dragButton, "buttonView should be visible");
-//});
+QUnit.test("testHideDragButton", function(assert) {
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	var buttonView = view.childNodes[0];
+	var dragButton = buttonView.childNodes[1];
+
+	assert.visible(dragButton, "buttonView should be visible");
+
+	pRepeatingElement.hideDragButton();
+	assert.notVisible(dragButton, "buttonView should be hidden");
+
+	pRepeatingElement.showDragButton();
+	assert.visible(dragButton, "buttonView should be visible");
+});
 
 QUnit.test("testAddBeforeButtonOnclick", function(assert) {
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
@@ -305,22 +305,22 @@ QUnit.test("testAddBeforeButtonOnclick", function(assert) {
 	 assert.deepEqual(firstAddBefore.path, path);
 });
 
-//QUnit.test("testHideShowAddBeforeButton", function(assert) {
-//	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
-//	var view = pRepeatingElement.getView();
-//	this.fixture.appendChild(view);
-//
-//	var buttonView = view.childNodes[0];
-//	var addBeforeButton = buttonView.childNodes[2];
-//
-//	assert.visible(addBeforeButton, "addBeforeButton should be visible");
-//
-//	pRepeatingElement.hideAddBeforeButton();
-//	assert.notVisible(addBeforeButton, "addBeforeButton should be hidden");
-//
-//	pRepeatingElement.showAddBeforeButton();
-//	assert.visible(addBeforeButton, "addBeforeButton should be visible");
-//});
+QUnit.test("testHideShowAddBeforeButton", function(assert) {
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	var buttonView = view.childNodes[0];
+	var addBeforeButton = buttonView.childNodes[2];
+
+	assert.visible(addBeforeButton, "addBeforeButton should be visible");
+
+	pRepeatingElement.hideAddBeforeButton();
+	assert.notVisible(addBeforeButton, "addBeforeButton should be hidden");
+
+	pRepeatingElement.showAddBeforeButton();
+	assert.visible(addBeforeButton, "addBeforeButton should be visible");
+});
 
 QUnit.test("testAddPresentation", function(assert) {
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
