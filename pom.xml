@@ -53,12 +53,12 @@
                         <plugin>
                             <groupId>com.githug.eirslett</groupId>
                             <artifactId>frontend-maven-plugin</artifactId>
-                            <version>1.6.1</version>
+                            <version>1.8.0</version>
                         </plugin>
                         <plugin>
                             <groupId>io.fabric8</groupId>
                             <artifactId>docker-maven-plugin</artifactId>
-                            <version>0.26.1</version>
+                            <version>0.31.0</version>
                         </plugin>
                         <plugin>
                             <groupId>org.codehaus.mojo</groupId>
