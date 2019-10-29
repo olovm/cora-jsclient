@@ -356,7 +356,6 @@ var CORA = (function(cora) {
 				CORA.metadataChildInitializer(dependencies, initializerSpec);
 			});
 		}
-		
 
 		function possiblyPublishVariableValue(nextLevelPath) {
 			if (cMetadataElement.containsChildWithNameInData("finalValue")) {
