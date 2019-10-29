@@ -260,7 +260,7 @@ var CORA = (function(cora) {
 			textProvider.setCurrentLang(lang);
 			reloadOpenRecords();
 		}
-		
+
 		function getDependencies() {
 			return dependencies;
 		}
