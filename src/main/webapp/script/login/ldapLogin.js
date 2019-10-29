@@ -51,7 +51,7 @@ var CORA = (function(cora) {
 		function getView() {
 			return view.getView();
 		}
-		
+
 		start();
 		var out = Object.freeze({
 			"type" : "ldapLogin",

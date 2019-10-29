@@ -21,68 +21,68 @@ var CORA = (function(cora) {
 	cora.numberVariableValidator = function(dependencies) {
 		var value;
 		var cMetadataElement;
-		
-		function validateData(valueIn, cMetadataElementIn){
+
+		function validateData(valueIn, cMetadataElementIn) {
 			value = valueIn;
 			cMetadataElement = cMetadataElementIn;
-			if(isNaN(value) || value===""){
+			if (isNaN(value) || value === "") {
 				return false;
 			}
 			return valueIsBetweenMinAndMax(value);
 		}
-		
+
 		function valueIsBetweenMinAndMax(valueIn, cMetadataElementIn) {
-					if (valueBetweenMinAndMax(value)
-					&& valueHasCorrectNumberOfDecimals(value)) {
+			if (valueBetweenMinAndMax(value) && valueHasCorrectNumberOfDecimals(value)) {
 				return true;
-			} 
+			}
 			return false;
 		}
-		
-		function valueBetweenMinAndMax(value){
+
+		function valueBetweenMinAndMax(value) {
 			var max = cMetadataElement.getFirstAtomicValueByNameInData("max");
 			var min = cMetadataElement.getFirstAtomicValueByNameInData("min");
-			if(valueAboveMax(value, max) || valueBelowMin(value, min)){
+			if (valueAboveMax(value, max) || valueBelowMin(value, min)) {
 				return false;
 			}
 			return true;
 		}
-		
-		function valueAboveMax(value, max){
+
+		function valueAboveMax(value, max) {
 			return parseFloat(value) > parseFloat(max);
 		}
-		
-		function valueBelowMin(value, min){
-			return parseFloat(value)  < parseFloat(min);
+
+		function valueBelowMin(value, min) {
+			return parseFloat(value) < parseFloat(min);
 		}
-		
-		function valueHasCorrectNumberOfDecimals(value){
-			var numberOfDecimals = cMetadataElement.getFirstAtomicValueByNameInData("numberOfDecimals");
-			if(valueHasDecimals(value)){
+
+		function valueHasCorrectNumberOfDecimals(value) {
+			var numberOfDecimals = cMetadataElement
+					.getFirstAtomicValueByNameInData("numberOfDecimals");
+			if (valueHasDecimals(value)) {
 				return handleValueWithDecimals(value, numberOfDecimals);
 			}
 			return numberOfDecimals === "0";
 		}
-		
-		function valueHasDecimals(value){
+
+		function valueHasDecimals(value) {
 			var splittedString = value.split('.');
 			return splittedString[1] !== undefined;
 		}
-		
-		function handleValueWithDecimals(value, numberOfDecimals){
+
+		function handleValueWithDecimals(value, numberOfDecimals) {
 			var splittedString = value.split('.');
 			var actualNumOfDecimals = splittedString[1].length;
 			return actualNumOfDecimals === Number(numberOfDecimals);
 		}
 
-		function getDependencies(){
+		function getDependencies() {
 			return dependencies;
 		}
 
 		var out = Object.freeze({
-			type: "numberVariableValidator",
-			validateData: validateData,
-			getDependencies: getDependencies
+			type : "numberVariableValidator",
+			validateData : validateData,
+			getDependencies : getDependencies
 		});
 		return out;
 	};

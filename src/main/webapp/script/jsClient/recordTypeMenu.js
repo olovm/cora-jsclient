@@ -54,7 +54,7 @@ var CORA = (function(cora) {
 		function createAndAddGroupOfRecordTypesToListForAllGroups(refs) {
 			var counter = 0;
 			refs.forEach(function(ref) {
-				counter ++;
+				counter++;
 				var cRef = CORA.coraData(ref);
 				var itemId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 				possiblyCreateAndAddGroupOfRecordTypesToListForOneGroup(itemId);
@@ -67,34 +67,34 @@ var CORA = (function(cora) {
 
 			var groupId = cItem.getFirstAtomicValueByNameInData("nameInData");
 			var recordTypeForGroupList = recordTypeProvider.getRecordTypesByGroupId(groupId);
-			
-			if(recordTypeGroupHasChildren(recordTypeForGroupList)){
+
+			if (recordTypeGroupHasChildren(recordTypeForGroupList)) {
 				var groupHeadline = createTranslatedGroupHeadline(cItem);
 				group.appendChild(groupHeadline);
 				createAndAddGroupOfRecordTypesToListForOneGroup(recordTypeForGroupList, group);
 				recordTypeGroups.push(group);
 			}
 		}
-		
-		function recordTypeGroupHasChildren(recordTypeForGroupList){
-			return childListContainsChildren(recordTypeForGroupList) &&
-				atLeastOneChildHasListLink(recordTypeForGroupList);
+
+		function recordTypeGroupHasChildren(recordTypeForGroupList) {
+			return childListContainsChildren(recordTypeForGroupList)
+					&& atLeastOneChildHasListLink(recordTypeForGroupList);
 		}
-		
-		function childListContainsChildren(recordTypeForGroupList){
+
+		function childListContainsChildren(recordTypeForGroupList) {
 			return recordTypeForGroupList.length > 0;
 		}
-		
-		function atLeastOneChildHasListLink(recordTypeForGroupList){
-			for(var i=0; i<recordTypeForGroupList.length; i++){
-				if(elementHasListLink(recordTypeForGroupList[i])){
-						return true;
+
+		function atLeastOneChildHasListLink(recordTypeForGroupList) {
+			for (var i = 0; i < recordTypeForGroupList.length; i++) {
+				if (elementHasListLink(recordTypeForGroupList[i])) {
+					return true;
 				}
 			}
 			return false;
 		}
-		
-		function elementHasListLink(element){
+
+		function elementHasListLink(element) {
 			return element.actionLinks.list !== undefined;
 		}
 
@@ -105,8 +105,8 @@ var CORA = (function(cora) {
 			groupHeadline.innerHTML = textProvider.getTranslation(textId);
 			return groupHeadline;
 		}
-		
-		function createAndAddGroupOfRecordTypesToListForOneGroup(recordTypeForGroupList, group){
+
+		function createAndAddGroupOfRecordTypesToListForOneGroup(recordTypeForGroupList, group) {
 			recordTypeForGroupList.forEach(function(recordType) {
 				var recordTypeHandler = createRecordTypeHandlerForRecord(recordType);
 				if (recordTypeHandler.hasAnyAction()) {
