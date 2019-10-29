@@ -23,7 +23,7 @@ var CORA = (function(cora) {
 		var view;
 		var recordGui;
 		var delaySearchTimer;
-		
+
 		function start() {
 			view = createView();
 			tryToCreateSearchForm();
@@ -67,12 +67,12 @@ var CORA = (function(cora) {
 				clearOldTimeoutAndStartNewOneForSearch();
 			}
 		}
-		
-		function msgUpdatesData(msg){
+
+		function msgUpdatesData(msg) {
 			return msg.endsWith("setValue") || msg.endsWith("remove");
 		}
-		
-		function clearOldTimeoutAndStartNewOneForSearch(){
+
+		function clearOldTimeoutAndStartNewOneForSearch() {
 			window.clearTimeout(delaySearchTimer);
 			delaySearchTimer = window.setTimeout(function() {
 				search();
