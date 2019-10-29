@@ -23,40 +23,18 @@ var CORA = (function(cora) {
 		var hideIfTransitionendNotCalled;
 		var beforeShowFunction;
 
+		var box = cora.gui.box(view);
+
 		function createView() {
 			return CORA.gui.createDivWithClassName("busy hidden");
 		}
 
-		function getView() {
-			return view;
-		}
 
 		function show() {
 			if (beforeShowFunction) {
 				beforeShowFunction();
 			}
 			view.className = "busy";
-		}
-
-		function hide() {
-			clearHideTimeout();
-			view.className = view.className + " hidden";
-		}
-
-		function clearHideTimeout() {
-			if (hideIfTransitionendNotCalled) {
-				window.clearTimeout(hideIfTransitionendNotCalled);
-			}
-		}
-
-		function hideWithEffect() {
-			hideIfTransitionendNotCalled = window.setTimeout(function() {
-				view.modelObject.hide();
-			}, 1000);
-			view.addEventListener("transitionend", function() {
-				view.modelObject.hide();
-			}, true);
-			view.className = view.className + " toBeRemoved";
 		}
 
 		/**
@@ -70,10 +48,10 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			getView : getView,
+			getView : box.getView,
 			show : show,
-			hide : hide,
-			hideWithEffect : hideWithEffect,
+			hide : box.hide,
+			hideWithEffect : box.hideWithEffect,
 			addBeforeShowFunction : addBeforeShowFunction
 		});
 		view.modelObject = out;
