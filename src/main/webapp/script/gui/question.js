@@ -20,8 +20,7 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.question = function(spec) {
 		var view = createView();
-		var hideIfTransitionendNotCalled;
-		var box=cora.gui.box(view);
+		var box = cora.gui.box(view);
 
 		var questionBox = createTextView();
 		view.appendChild(questionBox);

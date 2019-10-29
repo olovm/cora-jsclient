@@ -19,35 +19,35 @@
 var CORA = (function (cora) {
     "use strict";
     cora.gui.box = function (view) {
-        var view = view;
-        var out = {};
+        var boxView = view;
+        var box = {};
 
-        out.clearHideTimeout = function () {
-            if (out.hideIfTransitionendNotCalled) {
-                window.clearTimeout(out.hideIfTransitionendNotCalled);
+        box.clearHideTimeout = function () {
+            if (box.hideIfTransitionendNotCalled) {
+                window.clearTimeout(box.hideIfTransitionendNotCalled);
             }
         };
 
-        out.hide = function () {
-            out.clearHideTimeout();
-            view.className = view.className + " hidden";
+        box.hide = function () {
+            box.clearHideTimeout();
+            boxView.className = boxView.className + " hidden";
         };
 
-        out.hideWithEffect = function () {
-            out.hideIfTransitionendNotCalled = window.setTimeout(function () {
-                view.modelObject.hide();
+        box.hideWithEffect = function () {
+            box.hideIfTransitionendNotCalled = window.setTimeout(function () {
+                boxView.modelObject.hide();
             }, 1000);
-            view.addEventListener("transitionend", function () {
-                view.modelObject.hide();
+            boxView.addEventListener("transitionend", function () {
+                boxView.modelObject.hide();
             }, true);
-            view.className = view.className + " toBeRemoved";
+            boxView.className = boxView.className + " toBeRemoved";
         };
 
-        out.getView = function () {
-            return view;
+        box.getView = function () {
+            return boxView;
         };
 
-        return out;
+        return box;
 
     };
 

@@ -20,7 +20,6 @@ var CORA = (function(cora) {
 	"use strict";
 	cora.busy = function() {
 		var view = createView();
-		var hideIfTransitionendNotCalled;
 		var beforeShowFunction;
 
 		var box = cora.gui.box(view);
