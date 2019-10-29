@@ -144,7 +144,7 @@ var CORA = (function(cora) {
 
 		function createTextTypeInput() {
 			var inputNew = document.createElement(getInputTypeFromSpec());
-			if(spec.inputFormat === "password"){
+			if (spec.inputFormat === "password") {
 				inputNew.setAttribute("type", "password");
 			}
 
@@ -164,7 +164,7 @@ var CORA = (function(cora) {
 		function createOutput() {
 			if (spec.outputFormat === "image") {
 				return createOutputImage();
-			}else if(spec.outputFormat === "link"){
+			} else if (spec.outputFormat === "link") {
 				return createOutputLink();
 			}
 			return createOutputText();
@@ -177,8 +177,8 @@ var CORA = (function(cora) {
 			};
 			return outputNew;
 		}
-		
-		function createOutputLink(){
+
+		function createOutputLink() {
 			var outputNew = document.createElement("a");
 			outputNew.setValue = function(value) {
 				outputNew.href = value;
@@ -188,7 +188,7 @@ var CORA = (function(cora) {
 		}
 
 		function createOutputText() {
-            var outputNew = CORA.gui.createSpanWithClassName("value");
+			var outputNew = CORA.gui.createSpanWithClassName("value");
 			outputNew.setValue = function(value) {
 				outputNew.textContent = value;
 			};

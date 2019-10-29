@@ -39,8 +39,8 @@ var CORA = (function(cora) {
 
 		function createMainView() {
 			var view = CORA.gui.createSpanWithClassName("jsClient mainView");
-            var serverAddress = CORA.gui.createSpanWithClassName("serverAddress");
-            serverAddress.textContent = spec.serverAddress;
+			var serverAddress = CORA.gui.createSpanWithClassName("serverAddress");
+			serverAddress.textContent = spec.serverAddress;
 
 			header = CORA.gui.createSpanWithClassName("header");
 			header.textContent = spec.name;
@@ -87,7 +87,7 @@ var CORA = (function(cora) {
 		function addToSearchesView(searchViewToAdd) {
 			searchesView.appendChild(searchViewToAdd);
 		}
-		
+
 		function clearSearchesView() {
 			searchesView.innerHTML = "";
 		}

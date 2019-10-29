@@ -64,17 +64,16 @@ var CORA = (function(cora) {
 					onclickMethod : openMetadataIdRecord
 				}, {
 					"text" : "nameInData: " + nameInData
-				}, 
-				{
+				}, {
 					"text" : "presentationId: " + presentationId
-				},{
-                        "text" : "min: " + min
 				}, {
-					 "text":"max: " + max
+					"text" : "min: " + min
 				}, {
-					 "text": "warningMin: " + warningMin
+					"text" : "max: " + max
 				}, {
-                        "text": "warningMax: " + warningMax
+					"text" : "warningMin: " + warningMin
+				}, {
+					"text" : "warningMax: " + warningMax
 				} ]
 			},
 			"onblurFunction" : onBlur,
@@ -124,40 +123,40 @@ var CORA = (function(cora) {
 		function getDefText() {
 			return defText;
 		}
-		
-		function getMin(){
+
+		function getMin() {
 			return min;
 		}
-		
-		function getValueByNameInData(nameInData){
+
+		function getValueByNameInData(nameInData) {
 			return cMetadataElement.getFirstAtomicValueByNameInData(nameInData);
 		}
-		
-		function getMax(){
+
+		function getMax() {
 			return max;
 		}
-		
-		function getWarningMin(){
+
+		function getWarningMin() {
 			return warningMin;
 		}
-		
-		function getWarningMax(){
+
+		function getWarningMax() {
 			return warningMax;
 		}
-		
-		function getNumberOfDecimals(){
+
+		function getNumberOfDecimals() {
 			return numberOfDecimals;
-			
+
 		}
-		
+
 		function onBlur(valueFromView) {
 			handleValueFromView(valueFromView, "error");
 		}
 
 		function handleValueFromView(valueFromView, errorState) {
-		    if(valueFromView !== ""){
-                checkValueBetweenMinAndMaxIfNumber(valueFromView, errorState);
-            }
+			if (valueFromView !== "") {
+				checkValueBetweenMinAndMaxIfNumber(valueFromView, errorState);
+			}
 			updateView();
 			if (state === "ok" && valueHasChanged(valueFromView)) {
 				var data = {
@@ -173,16 +172,15 @@ var CORA = (function(cora) {
 			var validator = CORA.numberVariableValidator({
 				"metadataProvider" : metadataProvider,
 			});
-			var validationAnswer =  validator.validateData(valueFromView, cMetadataElement);
-			
-			if(validationAnswer){
+			var validationAnswer = validator.validateData(valueFromView, cMetadataElement);
+
+			if (validationAnswer) {
 				state = "ok";
-			}else{
+			} else {
 				state = errorState;
 			}
 		}
-		
-		
+
 		function onkeyup(valueFromView) {
 			handleValueFromView(valueFromView, "errorStillFocused");
 		}

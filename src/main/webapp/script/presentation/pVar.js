@@ -95,8 +95,8 @@ var CORA = (function(cora) {
 			}
 			return "text";
 		}
-		
-		function getInputFormat(){
+
+		function getInputFormat() {
 			if (cPresentation.containsChildWithNameInData("inputFormat")) {
 				return cPresentation.getFirstAtomicValueByNameInData("inputFormat");
 			}

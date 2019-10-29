@@ -24,7 +24,7 @@ var CORA = (function(cora) {
 		var processedAjaxCalls = 0;
 		var metadata = {};
 		var NUMBER_OF_AJAX_CALLS = 2;
-		function start(){
+		function start() {
 			fetchMetadataListAndThen(processFetchedMetadata);
 			fetchPresentationListAndThen(processFetchedMetadata);
 			fetchGuiElementListAndThen(processFetchedMetadata);
@@ -80,18 +80,17 @@ var CORA = (function(cora) {
 			callThroughAjax(spec.guiElementListLink, callAfterAnswer);
 		}
 
-		
 		function getMetadataById(metadataId) {
 			if (metadata[metadataId] !== undefined) {
 				return metadata[metadataId];
 			}
 			return tryToGetMetadataFromTextProvider(metadataId);
 		}
-		
-		function tryToGetMetadataFromTextProvider(metadataId){
-			try{
+
+		function tryToGetMetadataFromTextProvider(metadataId) {
+			try {
 				return textProvider.getMetadataById(metadataId);
-			}catch(error){
+			} catch (error) {
 				throw new Error("Id(" + metadataId + ") not found in metadataProvider");
 			}
 		}

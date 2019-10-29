@@ -19,7 +19,7 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.loginManagerFactory = function(dependencies) {
-			
+
 		function getDependencies() {
 			return dependencies;
 		}
