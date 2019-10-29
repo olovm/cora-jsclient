@@ -271,7 +271,6 @@ var CORA = (function(cora) {
 		function getImplementingRecordType(linkedRecordTypeValue){
 			var recordTypeDefinition = dependencies.recordTypeProvider.getMetadataByRecordTypeId(linkedRecordTypeValue);
 			return getImplementingRecordTypeFromRecordTypeDefinition(recordTypeDefinition, linkedRecordTypeValue);
-
 		}
 
 		function getImplementingRecordTypeFromRecordTypeDefinition(recordTypeDefinition, linkedRecordTypeValue){
@@ -369,7 +368,7 @@ var CORA = (function(cora) {
 			var finalValue = cMetadataElement.getFirstAtomicValueByNameInData("finalValue");
 			publishVariableValue(finalValue, nextLevelPath);	
 		}
-					
+		
 		function publishVariableValue(value, nextLevelPath){
 			var message = {
 					"data" : value,
@@ -377,7 +376,7 @@ var CORA = (function(cora) {
 				};
 				pubSub.publish("setValue", message);
 		}
-		
+
 		function publishIfDataIsPresent(nextLevelPath){
 			if (spec.data !== undefined) {
 				publishVariableValue(spec.data.value, nextLevelPath);

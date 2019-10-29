@@ -103,22 +103,6 @@ var CORA = (function(cora) {
 			return newInfo;
 		}
 
-		// function openTextIdRecord(event) {
-		// openLinkedRecordForLink(event,
-		// cMetadataElement.getFirstChildByNameInData("textId").actionLinks.read);
-		// }
-		// function openLinkedRecordForLink(event, link) {
-		// var loadInBackground = "false";
-		// if (event.ctrlKey) {
-		// loadInBackground = "true";
-		// }
-		// var openInfo = {
-		// "readLink" : link,
-		// "loadInBackground" : loadInBackground
-		// };
-		// dependencies.clientInstanceProvider.getJsClient().openRecordUsingReadLink(openInfo);
-		// }
-
 		function updateView() {
 			var className = originalClassName;
 			if (info.getInfoLevel() !== 0) {
