@@ -67,7 +67,7 @@ var CORA = (function(cora) {
 			userCanMove = calculateUserCanMove();
 			userCanAddBefore = calculateUserCanAddBefore();
 		}
-		
+
 		function subscribeToMessagesFromForm() {
 			dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
 			dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
