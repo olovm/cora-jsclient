@@ -1,3 +1,13 @@
+:root {
+  --main-loading-color: #2a88ad;
+}
+#systemOneLoading, #alvinLoading {
+	display: none;
+}
+#divaLoading {
+	display: block;
+}
+
 .jsClient .sideBar, .showView .presentation .text.h2TextStyle, .showView .presentation .text.h1TextStyle {
 	color: #334DA2;
 }
