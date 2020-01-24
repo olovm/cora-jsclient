@@ -1,3 +1,13 @@
+:root {
+  --main-loading-color: #c68444;
+}
+#systemOneLoading, #divaLoading {
+	display: none;
+}
+#alvinLoading {
+	display: block;
+}
+
 @font-face {
     font-family: 'UniversalisADFStdRegular';
     src: url('../fonts/UniversalisADFStd-Regular.otf') format('opentype');

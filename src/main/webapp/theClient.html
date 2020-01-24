@@ -25,6 +25,7 @@
 <title>JSClient</title>
 <link rel="icon" type="image/svg+xml" href="images/coraIcon.svg">
 
+<link rel="stylesheet" type="text/css" href="css/loading.css"></link>
 <link rel="stylesheet" type="text/css" href="css/presentation.css"></link>
 <link rel="stylesheet" type="text/css" href="css/jsClient.css"></link>
 <link rel="stylesheet" type="text/css" href="css/message.css"></link>
@@ -398,7 +399,14 @@
 </script>
 </head>
 <body>
-
+	<div class="loader">
+		<div class="loadingRing"><div></div><div></div><div></div><div></div></div>
+		<div class="loadingText" id="systemOneLoading">Laddar SystemOnes metadata</div>
+		<div class="loadingText" id="alvinLoading">Laddar Alvins metadata</div>
+		<div class="loadingText" id="divaLoading">Laddar DiVAs metadata</div>
+		<div class="loadingDescription">Det kan ta upp till en minut att ladda in metadatat.</div>
+		<div class="loadingUnderConstruction">(Ja, vi vet att laddningstiden är oacceptabelt lång just nu)</div>
+	</div>
 </body>
 </html>
 
