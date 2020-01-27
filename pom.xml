@@ -70,7 +70,7 @@
 									<alias>karma</alias>
 									<name>karma-browser-test-runner:latest</name>
 									<build>
-										<dockerFileDir>${project.basedir}</dockerFileDir>
+										<contextDir>${project.basedir}</contextDir>
 										<dockerFile>Dockerfile</dockerFile>
 									</build>
 									<run>
