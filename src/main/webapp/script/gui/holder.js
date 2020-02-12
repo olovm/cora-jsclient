@@ -1,7 +1,7 @@
 /*
- * Copyright 2016, 2018 Olov McKie
+ * Copyright 2016, 2018, 2020 Olov McKie
  * Copyright 2017 Uppsala University Library
-*
+ *
  * This file is part of Cora.
  *
  *     Cora is free software: you can redistribute it and/or modify
@@ -20,16 +20,21 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.holder = function(spec) {
-		var status;
-		var button = createButton();
-		var view = createBaseView();
-		close();
-		addBaseViewAccordingToSpec();
+		let status;
+		let button;
+		let view;
 
-		function createButton() {
-			var className = "iconButton";
+		const start = function() {
+			button = createButton();
+			view = createBaseView();
+			close();
+			addBaseViewAccordingToSpec();
+		}
+		
+		const createButton = function() {
+			let className = "iconButton";
 			className += getClassNameFromSpec();
-			var holderButtonSpec = {
+			let holderButtonSpec = {
 				"className" : className,
 				action : {
 					method : toggleHolder
@@ -39,14 +44,14 @@ var CORA = (function(cora) {
 			return CORA.gui.button(holderButtonSpec);
 		}
 
-		function getClassNameFromSpec() {
+		const getClassNameFromSpec = function() {
 			if (spec.className !== undefined) {
 				return " " + spec.className;
 			}
 			return "";
 		}
 
-		function toggleHolder(event) {
+		const toggleHolder = function(event) {
 			if (status === cora.holder.OPEN) {
 				close(event);
 			} else {
@@ -54,17 +59,17 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function open(event) {
+		const open = function(event) {
 			status = cora.holder.OPEN;
 			view.style.display = view.previousDisplay;
 			possiblyCallAfterOpenClose(event);
 		}
-		function possiblyCallAfterOpenClose(event) {
+		const possiblyCallAfterOpenClose = function(event) {
 			if (spec.afterOpenClose !== undefined) {
 				spec.afterOpenClose(event);
 			}
 		}
-		function close(event) {
+		const close = function(event) {
 			status = cora.holder.CLOSED;
 			if (view.style.display !== "none") {
 				view.previousDisplay = view.style.display;
@@ -73,11 +78,11 @@ var CORA = (function(cora) {
 			possiblyCallAfterOpenClose(event);
 		}
 
-		function createBaseView() {
+		const createBaseView = function() {
 			return CORA.gui.createSpanWithClassName("holder" + getClassNameFromSpec());
 		}
 
-		function addBaseViewAccordingToSpec() {
+		const addBaseViewAccordingToSpec = function() {
 			if (spec.appendTo !== undefined) {
 				spec.appendTo.appendChild(view);
 			}
@@ -85,23 +90,23 @@ var CORA = (function(cora) {
 				spec.insertAfter.parentNode.insertBefore(view, spec.insertAfter.nextSibling);
 			}
 		}
-		function getButton() {
+		const getButton = function() {
 			return button;
 		}
 
-		function getView() {
+		const getView = function() {
 			return view;
 		}
 
-		function getStatus() {
+		const getStatus = function() {
 			return status;
 		}
 
-		function getSpec() {
+		const getSpec = function() {
 			return spec;
 		}
 
-		var out = Object.freeze({
+		let out = Object.freeze({
 			"type" : "holder",
 			getSpec : getSpec,
 			getButton : getButton,
@@ -111,6 +116,7 @@ var CORA = (function(cora) {
 			getView : getView,
 			getStatus : getStatus
 		});
+		start();
 		return out;
 	};
 	cora.holder.CLOSED = 0;

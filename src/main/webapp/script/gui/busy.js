@@ -19,10 +19,10 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.busy = function() {
-		var view = createView();
-		var beforeShowFunction;
+		let view = createView();
+		let beforeShowFunction;
 
-		var box = cora.gui.box(view);
+		let box = cora.gui.box(view);
 
 		function createView() {
 			return CORA.gui.createDivWithClassName("busy hidden");
@@ -46,7 +46,7 @@ var CORA = (function(cora) {
 			beforeShowFunction = func;
 		}
 
-		var out = Object.freeze({
+		let out = Object.freeze({
 			getView : box.getView,
 			show : show,
 			hide : box.hide,

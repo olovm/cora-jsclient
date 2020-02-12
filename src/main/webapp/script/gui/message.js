@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2020 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -19,70 +19,78 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.message = function(spec) {
-		var timeout = getTimeoutFromSpecOrDefault();
-		var view = createView();
-		view.appendChild(createRemoveButton());
-		var messageText = createMessageText();
-		view.appendChild(messageText);
-		var hideTimeout = possiblySetHideTimeout();
-		var hideIfTransitionendNotCalled;
+		let timeout;
+		let view;
+		let messageText;
+		let hideTimeout;
+		let hideIfTransitionendNotCalled;
 
-		function getTimeoutFromSpecOrDefault() {
+		const start = function() {
+			timeout = getTimeoutFromSpecOrDefault();
+			view = createView();
+			view.appendChild(createRemoveButton());
+			messageText = createMessageText();
+			view.appendChild(messageText);
+			hideTimeout = possiblySetHideTimeout();
+		}
+		
+		const getTimeoutFromSpecOrDefault = function() {
 			return spec.timeout !== undefined ? spec.timeout : spec.type.defaultTimeout;
 		}
 
-		function createView() {
+		const createView = function() {
 			return CORA.gui.createDivWithClassName("message " + spec.type.className);
 		}
 
-		function createMessageText() {
-			var textNew = CORA.gui.createSpanWithClassName("messageText");
+		const createMessageText = function() {
+			let textNew = CORA.gui.createSpanWithClassName("messageText");
 			textNew.innerHTML = spec.message;
 			return textNew;
 		}
 
-		function createRemoveButton() {
-			var removeFunction = function() {
+		const createRemoveButton = function() {
+			let removeFunction = function() {
 				view.modelObject.hideWithEffect();
 			};
 			return CORA.gui.createRemoveButton(removeFunction);
 		}
 
-		function possiblySetHideTimeout() {
-			var hideFunction = function() {
+		const possiblySetHideTimeout = function() {
+			let hideFunction = function() {
 				view.modelObject.hideWithEffect();
 			};
+			let timeoutToBeCalled;
 			if (timeout > 0) {
-				var timeoutToBeCalled = setTimeout(hideFunction, timeout);
+				timeoutToBeCalled = setTimeout(hideFunction, timeout);
 			}
 			return timeoutToBeCalled;
 		}
 
-		function getTimeout() {
+		const getTimeout = function() {
 			return timeout;
 		}
 
-		function getView() {
+		const getView = function() {
 			return view;
 		}
 
-		function hide() {
+		const hide = function() {
 			clearHideTimeout();
 			if (view.parentNode) {
 				view.parentNode.removeChild(view);
 			}
 		}
 
-		function clearHideTimeout() {
+		const clearHideTimeout = function() {
 			window.clearTimeout(hideTimeout);
 			window.clearTimeout(hideIfTransitionendNotCalled);
 		}
 
-		function hideWithEffect() {
+		const hideWithEffect = function() {
 			hideIfTransitionendNotCalled = window.setTimeout(function() {
 				view.modelObject.hide();
 			}, 1000);
-			var orgClassName = view.className;
+			let orgClassName = view.className;
 			view.addEventListener("transitionend", function() {
 				view.modelObject.hide();
 				view.className = orgClassName;
@@ -90,13 +98,14 @@ var CORA = (function(cora) {
 			view.className = view.className + " toBeRemoved";
 		}
 
-		var out = Object.freeze({
+		let out = Object.freeze({
 			getTimeout : getTimeout,
 			getView : getView,
 			hide : hide,
 			clearHideTimeout : clearHideTimeout,
 			hideWithEffect : hideWithEffect
 		});
+		start();
 		view.modelObject = out;
 		return out;
 	};

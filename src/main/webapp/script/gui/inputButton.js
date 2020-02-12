@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Olov McKie
+ * Copyright 2018, 2020 Olov McKie
  * Copyright 2019 Uppsala Universitet
  *
  * This file is part of Cora.
@@ -20,10 +20,10 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.gui.inputButton = function(spec) {
-		var view;
-		var action;
+		let view;
+		let action;
 
-		function start() {
+		const start = function() {
 			view = createView();
 			possiblyHandleAction();
 			possiblyAddOnclickMethod();
@@ -31,65 +31,65 @@ var CORA = (function(cora) {
 			possiblyAddText();
 		}
 
-		function createView() {
-				var button = document.createElement("input");
+		const createView = function() {
+				let button = document.createElement("input");
 				button.type = "button";
 				button.className = getClassNameOrEmptyFromSpec();
 				return button;
 		}
 
-		function getClassNameOrEmptyFromSpec() {
+		const getClassNameOrEmptyFromSpec = function() {
 			if (spec.className !== undefined) {
 				return spec.className;
 			}
 			return "";
 		}
 
-		function possiblyHandleAction() {
+		const possiblyHandleAction = function() {
 			if (spec.action !== undefined) {
 				handleAction();
 			}
 		}
 
-		function handleAction() {
+		const handleAction = function() {
 			action = spec.action.method;
 		}
 
-		function possiblyAddOnclickMethod() {
+		const possiblyAddOnclickMethod = function() {
 			if (specDemandsClick()) {
 				addOnclickForMethodFromAction();
 			}
 		}
 
-		function specDemandsClick(){
+		const specDemandsClick = function(){
 			return spec.action !== undefined
 			&& (spec.action.clickable === true || spec.action.clickable === undefined);
 		}
 
-		function addOnclickForMethodFromAction(){
+		const addOnclickForMethodFromAction = function(){
 			view.addEventListener('click', (event) => {
 				event.stopPropagation();
 				action(event);
 			});
 		}
 
-		function possiblyAddOnkeydownMethod() {
+		const possiblyAddOnkeydownMethod = function() {
 			if(specDemandsKeydown()){
 				addTabstop();
 				addOnkeydownMethod();
 			}
 		}
 
-		function specDemandsKeydown(){
+		const specDemandsKeydown = function(){
 			return spec.action !== undefined && spec.action.onkeydown !== undefined;
 		}
 
-		function addTabstop() {
+		const addTabstop = function() {
 			view.tabIndex = 0;
 		}
 
-		function addOnkeydownMethod() {
-			var onkeydownFunction = function(event) {
+		const addOnkeydownMethod = function() {
+			let onkeydownFunction = function(event) {
 				if (spec.action.onkeydown.keys.indexOf(event.key) !== -1) {
 					event.stopPropagation();
 					action(event);
@@ -98,21 +98,21 @@ var CORA = (function(cora) {
 			view.addEventListener("keydown", onkeydownFunction);
 		}
 
-		function possiblyAddText() {
+		const possiblyAddText = function() {
 			if (spec.text !== undefined) {
 				view.value = spec.text;
 			}
 		}
 
-		function getView() {
+		const getView = function() {
 			return view;
 		}
 		
-		function getSpec(){
+		const getSpec = function(){
 			return spec;
 		}
 
-		var out = Object.freeze({
+		let out = Object.freeze({
 			getView : getView,
 			getSpec : getSpec
 		});
