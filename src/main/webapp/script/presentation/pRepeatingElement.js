@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2016, 2017, 2018, 2020 Uppsala University Library
  * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
@@ -75,8 +75,8 @@ var CORA = (function(cora) {
 		function createRemoveButton() {
 			var removeFunction = function() {
 				var data = {
-					"type" : "remove",
-					"path" : path
+					"type": "remove",
+					"path": path
 				};
 				jsBookkeeper.remove(data);
 			};
@@ -104,14 +104,14 @@ var CORA = (function(cora) {
 		function createAddBeforeButton() {
 			var addBeforeFunction = function() {
 				var data = {
-					"path" : path
+					"path": path
 				};
 				pChildRefHandler.sendAddBefore(data);
 			};
 			var buttonSpec = {
-				"className" : "iconButton addBeforeButton",
-				action : {
-					method : addBeforeFunction
+				"className": "iconButton addBeforeButton",
+				action: {
+					method: addBeforeFunction
 				}
 			};
 			return CORA.gui.button(buttonSpec);
@@ -128,11 +128,64 @@ var CORA = (function(cora) {
 			view.className = "repeatingElement";
 		}
 
-		function addAlternativePresentation(presentation) {
+		function addAlternativePresentation(presentation, presentationSize) {
 			alternativePresentation = presentation.getView();
 			alternativePresentation.className = alternativePresentation.className + " alternative";
 			view.insertBefore(alternativePresentation, buttonView);
-			createDefaultAndAlternativeButtons();
+			createDefaultAndAlternativeButtons(presentationSize);
+			toggleDefaultShown("true");
+		}
+
+		function createDefaultAndAlternativeButtons(presentationSize) {
+			let buttonClasses = getButtonClassName(presentationSize);
+			createAndAddAlternativeButton(buttonClasses);
+			createAndAddDefaultButton(buttonClasses);
+		}
+		
+		const getButtonClassName = function(presentationSize) {
+			if (presentationSize === "firstLarger") {
+				return {
+					default: "maximizeButton",
+					alternative: "minimizeButton"
+				};
+			}
+			if (presentationSize === "firstSmaller") {
+				return {
+					default: "minimizeButton",
+					alternative: "maximizeButton"
+				};
+			}
+			return {
+				default: "defaultButton",
+				alternative: "alternativeButton"
+			};
+		}
+		
+		const createAndAddAlternativeButton = function(buttonClasses) {
+			alternativeButton = CORA.gui.createSpanWithClassName("iconButton " + buttonClasses.alternative);
+			alternativeButton.onclick = showAlternativePresentation;
+			if (userCanMove) {
+				buttonView.insertBefore(alternativeButton, dragButton);
+			} else {
+				buttonView.appendChild(alternativeButton);
+			}
+		}
+		
+		const createAndAddDefaultButton = function(buttonClasses) {
+			defaultButton = CORA.gui.createSpanWithClassName("iconButton " + buttonClasses.default);
+			defaultButton.onclick = showDefaultPresentation;
+			if (userCanMove) {
+				buttonView.insertBefore(defaultButton, dragButton);
+			} else {
+				buttonView.appendChild(defaultButton);
+			}
+		}
+
+		function showAlternativePresentation() {
+			toggleDefaultShown("false");
+		}
+
+		function showDefaultPresentation() {
 			toggleDefaultShown("true");
 		}
 
@@ -147,28 +200,6 @@ var CORA = (function(cora) {
 				hide(defaultPresentation);
 				hide(alternativeButton);
 				show(defaultButton);
-			}
-		}
-
-		function createDefaultAndAlternativeButtons() {
-			alternativeButton = CORA.gui.createSpanWithClassName("iconButton alternativeButton");
-			alternativeButton.onclick = function() {
-				toggleDefaultShown("false");
-			};
-			if (userCanMove) {
-				buttonView.insertBefore(alternativeButton, dragButton);
-			} else {
-				buttonView.appendChild(alternativeButton);
-			}
-
-			defaultButton = CORA.gui.createSpanWithClassName("iconButton defaultButton");
-			defaultButton.onclick = function() {
-				toggleDefaultShown("true");
-			};
-			if (userCanMove) {
-				buttonView.insertBefore(defaultButton, dragButton);
-			} else {
-				buttonView.appendChild(defaultButton);
 			}
 		}
 
@@ -218,19 +249,19 @@ var CORA = (function(cora) {
 		}
 
 		var out = Object.freeze({
-			"type" : "pRepeatingElement",
-			getDependencies : getDependencies,
-			getSpec : getSpec,
-			getView : getView,
-			addPresentation : addPresentation,
-			addAlternativePresentation : addAlternativePresentation,
-			hideRemoveButton : hideRemoveButton,
-			showRemoveButton : showRemoveButton,
-			hideDragButton : hideDragButton,
-			showDragButton : showDragButton,
-			hideAddBeforeButton : hideAddBeforeButton,
-			showAddBeforeButton : showAddBeforeButton,
-			getPath : getPath
+			"type": "pRepeatingElement",
+			getDependencies: getDependencies,
+			getSpec: getSpec,
+			getView: getView,
+			addPresentation: addPresentation,
+			addAlternativePresentation: addAlternativePresentation,
+			hideRemoveButton: hideRemoveButton,
+			showRemoveButton: showRemoveButton,
+			hideDragButton: hideDragButton,
+			showDragButton: showDragButton,
+			hideAddBeforeButton: hideAddBeforeButton,
+			showAddBeforeButton: showAddBeforeButton,
+			getPath: getPath
 		});
 
 		view.modelObject = out;

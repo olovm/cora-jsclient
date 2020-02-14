@@ -245,7 +245,6 @@ QUnit.test("testInit", function(assert) {
 	var view = pChildRefHandler.getView();
 	this.fixture.appendChild(view);
 	var childrenView = view.firstChild;
-
 	assert.ok(pChildRefHandler.isRepeating === false);
 	assert.ok(pChildRefHandler.isStaticNoOfChildren === true);
 

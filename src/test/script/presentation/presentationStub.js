@@ -19,9 +19,12 @@
  */
 var CORATEST = (function(coraTest) {
 	"use strict";
-	coraTest.presentationStub = function(id) {
+	coraTest.presentationStub = function(id, className) {
 		var view = document.createElement("span");
 		view.className = "presentationStub";
+		if(undefined !== className){
+			view.className = className;
+		}
 		if (id !== undefined) {
 			view.id = id;
 		}

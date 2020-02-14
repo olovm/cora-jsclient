@@ -354,7 +354,69 @@ QUnit.test("testAddPresentationNoStyle", function(assert) {
 	assert.deepEqual(view.className, "repeatingElement");
 });
 
-QUnit.test("testaddAlternativePresentation", function(assert) {
+QUnit.test("testaddAlternativePresentationFirstSmaller", function(assert) {
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	var buttonView = view.childNodes[0];
+
+	var presentation = CORATEST.presentationStub("minimized", "presentationStubMinimized");
+	pRepeatingElement.addPresentation(presentation);
+
+	var alternativePresentation = CORATEST.presentationStub("maximized", "presentationStubMaximized");
+	pRepeatingElement.addAlternativePresentation(alternativePresentation, "firstSmaller");
+
+	var presentationView = view.childNodes[0];
+	assert.strictEqual(presentationView.className, "presentationStubMinimized default");
+	assert.visible(presentationView, "presentationView should be visible");
+	assert.strictEqual(view.childNodes.length, 3);
+
+	var alternativePresentationView = view.childNodes[1];
+	assert.strictEqual(alternativePresentationView.className, "presentationStubMaximized alternative");
+	assert.notVisible(alternativePresentationView, "alternativePresentationView should be hidden");
+
+	// test minimized/maximized button
+	var alternativeButton = buttonView.childNodes[1];
+	assert.strictEqual(alternativeButton.className, "iconButton maximizeButton");
+	assert.visible(alternativeButton, "maximizeButton should be shown");
+	var defaultButton = buttonView.childNodes[2];
+	assert.strictEqual(defaultButton.className, "iconButton minimizeButton");
+	assert.notVisible(defaultButton, "minimizeButton should be hidden");
+});
+
+QUnit.test("testaddAlternativePresentationFirstLarger", function(assert) {
+	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
+	var view = pRepeatingElement.getView();
+	this.fixture.appendChild(view);
+
+	var buttonView = view.childNodes[0];
+
+	var presentation = CORATEST.presentationStub("maximized", "presentationStubMaximized");
+	pRepeatingElement.addPresentation(presentation);
+
+	var alternativePresentation = CORATEST.presentationStub("minimized", "presentationStubMinimized");
+	pRepeatingElement.addAlternativePresentation(alternativePresentation, "firstLarger");
+
+	var presentationView = view.childNodes[0];
+	assert.strictEqual(presentationView.className, "presentationStubMaximized default");
+	assert.visible(presentationView, "presentationView should be visible");
+	assert.strictEqual(view.childNodes.length, 3);
+
+	var alternativePresentationView = view.childNodes[1];
+	assert.strictEqual(alternativePresentationView.className, "presentationStubMinimized alternative");
+	assert.notVisible(alternativePresentationView, "alternativePresentationView should be hidden");
+
+	// test minimized/maximized button
+	var alternativeButton = buttonView.childNodes[1];
+	assert.strictEqual(alternativeButton.className, "iconButton minimizeButton");
+	assert.visible(alternativeButton, "minimizeButton should be shown");
+	var defaultButton = buttonView.childNodes[2];
+	assert.strictEqual(defaultButton.className, "iconButton maximizeButton");
+	assert.notVisible(defaultButton, "maximizeButton should be hidden");
+});
+
+QUnit.test("testaddAlternativePresentationBothEqual", function(assert) {
 	var pRepeatingElement = CORA.pRepeatingElement(this.dependencies, this.spec);
 	var view = pRepeatingElement.getView();
 	this.fixture.appendChild(view);
@@ -370,7 +432,7 @@ QUnit.test("testaddAlternativePresentation", function(assert) {
 	assert.strictEqual(view.childNodes.length, 2);
 
 	var alternativePresentation = CORATEST.presentationStub("minimized");
-	pRepeatingElement.addAlternativePresentation(alternativePresentation);
+	pRepeatingElement.addAlternativePresentation(alternativePresentation, "bothEqual");
 	assert.deepEqual(view.className, "repeatingElement");
 
 	var alternativePresentationView = view.childNodes[1];
@@ -400,7 +462,7 @@ QUnit.test("testMinimizealternativeButtonShouldWorkWithoutDraghandle", function(
 	pRepeatingElement.addPresentation(presentation);
 
 	var alternativePresentation = CORATEST.presentationStub("minimized");
-	pRepeatingElement.addAlternativePresentation(alternativePresentation);
+	pRepeatingElement.addAlternativePresentation(alternativePresentation, "bothEqual");
 
 	var alternativeButton = buttonView.childNodes[0];
 	assert.strictEqual(alternativeButton.className, "iconButton alternativeButton");
@@ -426,7 +488,7 @@ QUnit.test("testaddAlternativePresentationToggleNoStyle", function(assert) {
 	assert.deepEqual(view.className, "repeatingElement");
 
 	var alternativePresentation = CORATEST.presentationStub("minimized maximized");
-	pRepeatingElement.addAlternativePresentation(alternativePresentation, "true");
+	pRepeatingElement.addAlternativePresentation(alternativePresentation, "bothEqual");
 	assert.deepEqual(view.className, "repeatingElement");
 
 	var alternativePresentationView = view.childNodes[1];
