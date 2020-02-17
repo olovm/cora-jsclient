@@ -40,12 +40,14 @@ QUnit.module("pNonRepeatingChildRefHandlerViewTest.js", {
 		this.spec = {
 			mode : "input"
 		};
-		this.createHandlerAddChildrenAndReturnHandler = function() {
+		this.createHandlerAddChildrenAndReturnHandler = function(presentationSizeIn) {
+			let presentationSize = presentationSizeIn!==undefined ? presentationSizeIn : "bothEqual";
 			var pNonRepeatingChildRefHandlerView = CORA.pNonRepeatingChildRefHandlerView(
 					this.dependencies, this.spec);
 			pNonRepeatingChildRefHandlerView.addChild(this.defaultChild);
 
-			pNonRepeatingChildRefHandlerView.addAlternativeChild(this.alternativeChild);
+			pNonRepeatingChildRefHandlerView.addAlternativeChild(this.alternativeChild, 
+				presentationSize);
 			var view = pNonRepeatingChildRefHandlerView.getView();
 			this.fixture.appendChild(view);
 
@@ -166,7 +168,7 @@ QUnit.test("testAddAlternativeChildHasButtons", function(assert) {
 });
 
 QUnit.test("testalternativeButtonHasCorrectClassName", function(assert) {
-	var view = this.createHandlerAddChildrenAndReturnHandler().getView();
+	var view = this.createHandlerAddChildrenAndReturnHandler("bothEqual").getView();
 	var buttonView = view.childNodes[2];
 	var alternativeButton = buttonView.childNodes[0];
 
@@ -174,11 +176,33 @@ QUnit.test("testalternativeButtonHasCorrectClassName", function(assert) {
 });
 
 QUnit.test("testdefaultButtonHasCorrectClassName", function(assert) {
-	var view = this.createHandlerAddChildrenAndReturnHandler().getView();
+	var view = this.createHandlerAddChildrenAndReturnHandler("bothEqual").getView();
 	var buttonView = view.childNodes[2];
 	var defaultButton = buttonView.childNodes[1];
 
 	assert.strictEqual(defaultButton.className, "iconButton defaultButton");
+});
+
+QUnit.test("testalternativeButtonHasCorrectClassNameForFirstSmaller", function(assert) {
+	var view = this.createHandlerAddChildrenAndReturnHandler("firstSmaller").getView();
+	var buttonView = view.childNodes[2];
+
+	var alternativeButton = buttonView.childNodes[0];
+	assert.strictEqual(alternativeButton.className, "iconButton maximizeButton");
+
+	var defaultButton = buttonView.childNodes[1];
+	assert.strictEqual(defaultButton.className, "iconButton minimizeButton");
+});
+
+QUnit.test("testalternativeButtonHasCorrectClassNameForFirstLarger", function(assert) {
+	var view = this.createHandlerAddChildrenAndReturnHandler("firstLarger").getView();
+	var buttonView = view.childNodes[2];
+
+	var alternativeButton = buttonView.childNodes[0];
+	assert.strictEqual(alternativeButton.className, "iconButton minimizeButton");
+
+	var defaultButton = buttonView.childNodes[1];
+	assert.strictEqual(defaultButton.className, "iconButton maximizeButton");
 });
 
 QUnit.test("testButtonFunctions", function(assert) {

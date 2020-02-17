@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Uppsala University Library
+ * Copyright 2018, 2020 Uppsala University Library
  * Copyright 2018 Olov McKie
  *
  * This file is part of Cora.
@@ -20,15 +20,15 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pNonRepeatingChildRefHandler = function(dependencies, spec) {
-		var view;
-		var topLevelMetadataIds = {};
-		var storedValuePositions = {};
+		let view;
+		let topLevelMetadataIds = {};
+		let storedValuePositions = {};
 
-		function start() {
+		const start = function() {
 			createView();
 			calculateHandledTopLevelMetadataIds(spec.cPresentation);
 			subscribeToAddMessagesForParentPath();
-			var factoredPresentation = factorPresentation(spec.cPresentation);
+			let factoredPresentation = factorPresentation(spec.cPresentation);
 			view.addChild(factoredPresentation.getView());
 			possiblyAddAlternativePresentation();
 			view.setHasDataStyle(false);
@@ -39,8 +39,8 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function createView() {
-			var viewSpec = {
+		const createView = function() {
+			let viewSpec = {
 				presentationId : findPresentationId(spec.cPresentation),
 				textStyle : spec.textStyle,
 				childStyle : spec.childStyle,
@@ -49,31 +49,31 @@ var CORA = (function(cora) {
 			view = dependencies.pNonRepeatingChildRefHandlerViewFactory.factor(viewSpec);
 		}
 
-		function publishPresentationShown() {
+		const publishPresentationShown = function() {
 			dependencies.pubSub.publish("presentationShown", {
 				"data" : "",
 				"path" : {}
 			});
 		}
 
-		function findPresentationId(cPresentation) {
-			var recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
+		const findPresentationId = function(cPresentation) {
+			let recordInfo = cPresentation.getFirstChildByNameInData("recordInfo");
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
 		}
 
-		function calculateHandledTopLevelMetadataIds(cPresentation) {
-			var cPresentationsOf = CORA.coraData(cPresentation
+		const calculateHandledTopLevelMetadataIds = function(cPresentation) {
+			let cPresentationsOf = CORA.coraData(cPresentation
 					.getFirstChildByNameInData("presentationsOf"));
-			var listPresentationOf = cPresentationsOf.getChildrenByNameInData("presentationOf");
+			let listPresentationOf = cPresentationsOf.getChildrenByNameInData("presentationOf");
 			listPresentationOf.forEach(function(child) {
-				var presentationOfId = CORA.coraData(child).getFirstAtomicValueByNameInData(
+				let presentationOfId = CORA.coraData(child).getFirstAtomicValueByNameInData(
 						"linkedRecordId");
 				topLevelMetadataIds[presentationOfId] = "exists";
 			});
 		}
 
-		function factorPresentation(cPresentation) {
-			var presentationSpec = {
+		const factorPresentation = function(cPresentation) {
+			let presentationSpec = {
 				path : spec.parentPath,
 				metadataIdUsedInData : spec.parentMetadataId,
 				cPresentation : cPresentation,
@@ -82,26 +82,26 @@ var CORA = (function(cora) {
 			return dependencies.presentationFactory.factor(presentationSpec);
 		}
 
-		function subscribeToAddMessagesForParentPath() {
+		const subscribeToAddMessagesForParentPath = function() {
 			dependencies.pubSub.subscribe("add", spec.parentPath, undefined, subscribeMsg);
 		}
 
-		function subscribeMsg(dataFromMsg) {
+		const subscribeMsg = function(dataFromMsg) {
 			if (messageIsHandledByThisPNonRepeatingChildRefHandler(dataFromMsg)) {
-				var newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(
+				let newPath = calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(
 						dataFromMsg.metadataId, dataFromMsg.repeatId, spec.parentPath);
 				dependencies.pubSub
 						.subscribe("*", newPath, undefined, handleMsgToDeterminDataState);
 			}
 		}
 
-		function messageIsHandledByThisPNonRepeatingChildRefHandler(dataFromMsg) {
+		const messageIsHandledByThisPNonRepeatingChildRefHandler = function(dataFromMsg) {
 			return topLevelMetadataIds[dataFromMsg.metadataId] !== undefined;
 		}
 
-		function calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd, repeatId,
+		const calculateNewPathForMetadataIdUsingRepeatIdAndParentPath = function(metadataIdToAdd, repeatId,
 				parentPath) {
-			var pathSpec = {
+			let pathSpec = {
 				"metadataProvider" : dependencies.providers.metadataProvider,
 				"metadataIdToAdd" : metadataIdToAdd,
 				"repeatId" : repeatId,
@@ -110,9 +110,9 @@ var CORA = (function(cora) {
 			return CORA.calculatePathForNewElement(pathSpec);
 		}
 
-		function handleMsgToDeterminDataState(dataFromMsg, msg) {
-			var msgAsArray = msg.split("/");
-			var msgType = msgAsArray.pop();
+		const handleMsgToDeterminDataState = function(dataFromMsg, msg) {
+			let msgAsArray = msg.split("/");
+			let msgType = msgAsArray.pop();
 			if (msgType === "setValue") {
 				handleNewValue(dataFromMsg, msgAsArray);
 			}
@@ -121,7 +121,7 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function handleNewValue(dataFromMsg, msgAsArray) {
+		const handleNewValue = function(dataFromMsg, msgAsArray) {
 			if (dataFromMsg.data !== "") {
 				updateViewForData();
 				findOrAddPathToStored(msgAsArray);
@@ -130,7 +130,7 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function updateViewForData() {
+		const updateViewForData = function() {
 			view.setHasDataStyle(true);
 			if (isInOutputMode()) {
 				view.showContent();
@@ -138,68 +138,68 @@ var CORA = (function(cora) {
 			}
 		}
 
-		function isInOutputMode() {
+		const isInOutputMode = function() {
 			return spec.mode === "output";
 		}
 
-		function removeAndSetState(msgAsArray) {
+		const removeAndSetState = function(msgAsArray) {
 			removeValuePosition(msgAsArray);
 			if (noValuesExistForPresentedData()) {
 				updateViewForNoData();
 			}
 		}
 
-		function removeValuePosition(pathAsArray) {
-			var currentPartOfStoredValuePositions = findOrAddPathToStored(pathAsArray);
+		const removeValuePosition = function(pathAsArray) {
+			let currentPartOfStoredValuePositions = findOrAddPathToStored(pathAsArray);
 			removeFromBottom(currentPartOfStoredValuePositions);
 		}
 
-		function removeFromBottom(currentPartOfStoredValuePositions) {
-			var parent = currentPartOfStoredValuePositions.getParent();
+		const removeFromBottom = function(currentPartOfStoredValuePositions) {
+			let parent = currentPartOfStoredValuePositions.getParent();
 			delete parent[currentPartOfStoredValuePositions.name];
 			if (parentContainsNoValues(parent)) {
 				removeFromBottom(parent);
 			}
 		}
 
-		function parentContainsNoValues(parent) {
+		const parentContainsNoValues = function(parent) {
 			return Object.keys(parent).length == 2;
 		}
 
-		function noValuesExistForPresentedData() {
+		const noValuesExistForPresentedData = function() {
 			return Object.keys(storedValuePositions).length === 0;
 		}
 
-		function updateViewForNoData() {
+		const updateViewForNoData = function() {
 			view.setHasDataStyle(false);
 			if (isInOutputMode()) {
 				view.hideContent();
 			}
 		}
 
-		function findOrAddPathToStored(pathAsArray) {
-			var currentPartOfStoredValuePositions = storedValuePositions;
-			for (var i = 0; i < pathAsArray.length; i++) {
+		const findOrAddPathToStored = function(pathAsArray) {
+			let currentPartOfStoredValuePositions = storedValuePositions;
+			for (let i = 0; i < pathAsArray.length; i++) {
 				currentPartOfStoredValuePositions = returnOrCreatePathPart(
 						currentPartOfStoredValuePositions, pathAsArray[i]);
 			}
 			return currentPartOfStoredValuePositions;
 		}
 
-		function returnOrCreatePathPart(currentPartOfStoredValuePositions, partPath) {
+		const returnOrCreatePathPart = function(currentPartOfStoredValuePositions, partPath) {
 			if (currentPartOfStoredValuePositions[partPath] !== undefined) {
 				return currentPartOfStoredValuePositions[partPath];
 			}
 			return createAndSetPartPath(currentPartOfStoredValuePositions, partPath);
 		}
 
-		function createAndSetPartPath(currentPartOfStoredValuePositions, partPath) {
-			var newLevel = createPartPath(currentPartOfStoredValuePositions, partPath);
+		const createAndSetPartPath = function(currentPartOfStoredValuePositions, partPath) {
+			let newLevel = createPartPath(currentPartOfStoredValuePositions, partPath);
 			currentPartOfStoredValuePositions[partPath] = newLevel;
 			return newLevel;
 		}
 
-		function createPartPath(currentPartOfStoredValuePositions, partPath) {
+		const createPartPath = function(currentPartOfStoredValuePositions, partPath) {
 			return {
 				name : partPath,
 				getParent : function() {
@@ -208,26 +208,26 @@ var CORA = (function(cora) {
 			};
 		}
 
-		function possiblyAddAlternativePresentation() {
+		const possiblyAddAlternativePresentation = function() {
 			if (spec.cAlternativePresentation !== undefined) {
-				var factoredAlternativePresentation = factorPresentation(spec.cAlternativePresentation);
-				view.addAlternativeChild(factoredAlternativePresentation.getView());
+				let factoredAlternativePresentation = factorPresentation(spec.cAlternativePresentation);
+				view.addAlternativeChild(factoredAlternativePresentation.getView(), spec.presentationSize);
 			}
 		}
 
-		function getView() {
+		const getView = function() {
 			return view.getView();
 		}
 
-		function getDependencies() {
+		const getDependencies = function() {
 			return dependencies;
 		}
 
-		function getSpec() {
+		const getSpec = function() {
 			return spec;
 		}
 
-		var out = Object.freeze({
+		let out = Object.freeze({
 			type : "pNonRepeatingChildRefHandler",
 			getDependencies : getDependencies,
 			getSpec : getSpec,

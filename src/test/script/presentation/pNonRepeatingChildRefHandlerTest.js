@@ -83,8 +83,41 @@ QUnit.module("pNonRepeatingChildRefHandlerTest.js", {
 			}),
 			"cParentPresentation" : {
 				type : "fakeCParentPresentationObject"
-			}
+			},
+			"presentationSize" : "bothEqual"
 		};
+		this.cAlternativePresentation = CORA.coraData({
+		"name" : "presentation",
+		"children" : [ {
+			"name" : "recordInfo",
+			"children" : [ {
+				"name" : "id",
+				"value" : "someOtherPresentationId"
+			}, {
+				"name" : "type",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "recordType"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "presentationOtherSurroundingContainer"
+				} ]
+			} ]
+		}, {
+			"name" : "presentationsOf",
+			"children" : [ {
+				"repeatId" : "0",
+				"children" : [ {
+					"name" : "linkedRecordType",
+					"value" : "metadata"
+				}, {
+					"name" : "linkedRecordId",
+					"value" : "groupWithOneCollectionVarChildGroup"
+				} ],
+				"name" : "presentationOf"
+			} ]
+		} ]
+	});
 
 	},
 	afterEach : function() {
@@ -233,52 +266,31 @@ QUnit.test("testInitWithAlternativeCreatesPresentation",
 					this.spec.cParentPresentation);
 		});
 
-QUnit.test("testInitPresentationAddedToView", function(assert) {
-	this.spec.cAlternativePresentation = CORA.coraData({
-		"name" : "presentation",
-		"children" : [ {
-			"name" : "recordInfo",
-			"children" : [ {
-				"name" : "id",
-				"value" : "someOtherPresentationId"
-			}, {
-				"name" : "type",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "recordType"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "presentationOtherSurroundingContainer"
-				} ]
-			} ]
-		}, {
-			"name" : "presentationsOf",
-			"children" : [ {
-				"repeatId" : "0",
-				"children" : [ {
-					"name" : "linkedRecordType",
-					"value" : "metadata"
-				}, {
-					"name" : "linkedRecordId",
-					"value" : "groupWithOneCollectionVarChildGroup"
-				} ],
-				"name" : "presentationOf"
-			} ]
-		} ]
-	});
-	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
-			this.spec);
+QUnit.test("testInitPresentationAlternativeAddedToView", function(assert) {
+	this.spec.cAlternativePresentation = this.cAlternativePresentation;
+	CORA.pNonRepeatingChildRefHandler(this.dependencies, this.spec);
 	var factoredPresentation = this.dependencies.presentationFactory.getFactored(1);
 
-	var addedView = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0)
-			.getAddedAlternativeChild(0);
+	var factoredView = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0); 
+	var addedView = factoredView.getAddedAlternativeChild(0);
 	assert.strictEqual(factoredPresentation.getView(), addedView);
+	var addedPresentationSize = factoredView.getPresentationSize();
+	assert.strictEqual(addedPresentationSize, "bothEqual");
+});
+
+QUnit.test("testInitPresentationAlternativePresentationSize", function(assert) {
+	this.spec.cAlternativePresentation = this.cAlternativePresentation;
+	this.spec.presentationSize = "firstSmaller";
+	CORA.pNonRepeatingChildRefHandler(this.dependencies, this.spec);
+
+	var factoredView = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0); 
+	var addedPresentationSize = factoredView.getPresentationSize();
+	assert.strictEqual(addedPresentationSize, "firstSmaller");
 });
 
 QUnit.test("testInitSubscribesToAdd", function(assert) {
 	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
 			this.spec);
-	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
 
 	var subscriptions = this.dependencies.pubSub.getSubscriptions();
 	assert.strictEqual(subscriptions.length, 1)
@@ -291,7 +303,6 @@ QUnit.test("testInitSubscribesToAdd", function(assert) {
 QUnit.test("testSubscribesWhenAdd", function(assert) {
 	var pNonRepeatingChildRefHandler = CORA.pNonRepeatingChildRefHandler(this.dependencies,
 			this.spec);
-	var viewHandlerSpy = this.dependencies.pNonRepeatingChildRefHandlerViewFactory.getFactored(0);
 
 	var msg = "root/add";
 	var dataFromMsg = {

@@ -190,17 +190,23 @@ var CORA = (function(cora) {
 		}
 
 		const createPNonRepeatingChildRefHandler = function(cPresentationChild, cPresentationChildRef) {
+			let childRefHandlerSpec = createChildRefHandlerCommonSpec(cPresentationChild, cPresentationChildRef);
+			childRefHandlerSpec.parentMetadataId = my.metadataId;
+			return dependencies.pNonRepeatingChildRefHandlerFactory.factor(childRefHandlerSpec);
+		}
+		
+		const createChildRefHandlerCommonSpec = function(cPresentationChild, cPresentationChildRef) {
 			let childRefHandlerSpec = {
-				"parentPath": path,
-				"parentMetadataId": my.metadataId,
-				"cPresentation": cPresentationChild,
-				"cParentPresentation": my.cParentPresentation,
-				mode: mode
+				parentPath: path,
+				cPresentation: cPresentationChild,
+				cParentPresentation: my.cParentPresentation,
+				mode: mode,
+				presentationSize: "bothEqual"
 			};
 			possiblyAddStyleToSpec(cPresentationChildRef, childRefHandlerSpec);
 			possiblyAddAlternativePresentationToSpec(cPresentationChildRef, childRefHandlerSpec);
 			possiblyAddAddTextToSpec(cPresentationChildRef, childRefHandlerSpec);
-			return dependencies.pNonRepeatingChildRefHandlerFactory.factor(childRefHandlerSpec);
+			return childRefHandlerSpec;
 		}
 
 		const possiblyAddStyleToSpec = function(cPresentationChildRef, childRefHandlerSpec) {
@@ -219,9 +225,11 @@ var CORA = (function(cora) {
 			if (childHasAlternativePresentation(cPresentationChildRef)) {
 				let cAlternativePresentation = getAlternativePresenation(cPresentationChildRef);
 				childRefHandlerSpec.cAlternativePresentation = cAlternativePresentation;
+
+				//childRefHandlerSpec.persentationSize = cAlternativePresentation.getFirstAtomicValueByNameInData("presentationSize");
 			}
 		}
-		
+
 		const childHasAlternativePresentation = function(cChildRef) {
 			return cChildRef.getNoOfChildrenWithNameInData("refGroup") === 2;
 		}
@@ -236,21 +244,12 @@ var CORA = (function(cora) {
 		}
 
 		const createPChildRefHandler = function(cPresentationChild, cPresentationChildRef) {
-			let childRefHandlerSpec = {
-				"parentPath": path,
-				"cParentMetadata": cMetadataElement,
-				"cPresentation": cPresentationChild,
-				"cParentPresentation": my.cParentPresentation,
-				"mode": mode
-			};
-
+			let childRefHandlerSpec = createChildRefHandlerCommonSpec(cPresentationChild, cPresentationChildRef);
+			childRefHandlerSpec.cParentMetadata = cMetadataElement;
 			if (cPresentationChildRef.containsChildWithNameInData("minNumberOfRepeatingToShow")) {
 				childRefHandlerSpec.minNumberOfRepeatingToShow = cPresentationChildRef
 					.getFirstAtomicValueByNameInData("minNumberOfRepeatingToShow");
 			}
-			possiblyAddStyleToSpec(cPresentationChildRef, childRefHandlerSpec);
-			possiblyAddAlternativePresentationToSpec(cPresentationChildRef, childRefHandlerSpec);
-			possiblyAddAddTextToSpec(cPresentationChildRef, childRefHandlerSpec);
 			let pChildRefHandler = dependencies.pChildRefHandlerFactory.factor(childRefHandlerSpec);
 			return pChildRefHandler.getView();
 		}

@@ -374,7 +374,7 @@ var CORA = (function(cora) {
 			if (hasAlternativePresentation()) {
 				let presentationMinimized = factorPresentation(path, spec.cAlternativePresentation,
 					metadataIdToAdd);
-				repeatingElement.addAlternativePresentation(presentationMinimized);
+				repeatingElement.addAlternativePresentation(presentationMinimized, spec.presentationSize);
 			}
 		}
 

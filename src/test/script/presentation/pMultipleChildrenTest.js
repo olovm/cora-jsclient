@@ -136,6 +136,8 @@ QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfo", function(assert) {
 	assert.strictEqual(factoredSpec.childStyle, undefined);
 	assert.strictEqual(factoredSpec.minNumberOfRepeatingToShow, undefined);
 	assert.strictEqual(factoredSpec.mode, "input");
+	assert.strictEqual(factoredSpec.presentationSize, "bothEqual");
+	
 });
 QUnit
 		.test(
@@ -239,6 +241,9 @@ QUnit.test("testPNonRepeatingChildRefHandlerSpec", function(assert) {
 	
 	assert.strictEqual(factoredSpec.textStyle, "h2TextStyle");
 	assert.strictEqual(factoredSpec.childStyle, "fourChildStyle");
+	assert.strictEqual(factoredSpec.presentationSize, "bothEqual");
+	
+	
 //	assert.strictEqual(factoredSpec.mode, "input");
 	
 	
@@ -305,3 +310,49 @@ QUnit.test("testGuiElementLink", function(assert) {
 	assert.strictEqual(view.childNodes[1].text, "text for: someTextToPresentAsLinkText");
 	assert.strictEqual(view.childNodes[1].href, "http://www.google.se/");
 });
+
+QUnit.test("testFirstPChildRefHandlerSpecNoAddButtonText", function(assert) {
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdOneTextChildMinimizedDefaultNoStyleInfo"));
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableIdOutput");
+	assert.strictEqual(this.getId(factoredSpec.cAlternativePresentation), "pVarTextVariableId");
+
+	assert.strictEqual(factoredSpec.addText, undefined);
+});
+
+QUnit.test("testFirstPChildRefHandlerSpecWithAddButtonText", function(assert) {
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("pgGroupIdTwoTextChild"));
+	
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+	
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pVarTextVariableId");
+
+	assert.strictEqual(factoredSpec.addText, "someTextIdForAddText");
+});
+
+QUnit.test("testPNonRepeatingChildRefHandlerSpecWithAddButtonText", function(assert) {
+	this.my.metadataId = "groupIdTwoTextChildRepeat1to5";
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("groupWithSContainerWithAddButtonTextPGroup"));
+
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+
+	var factoredSpec = this.dependencies.pNonRepeatingChildRefHandlerFactory.getSpec(0);
+
+	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
+	assert.strictEqual(factoredSpec.parentMetadataId, "groupIdTwoTextChildRepeat1to5");
+	assert.strictEqual(factoredSpec.addText, "someTextIdForAddText");
+
+	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pTextVariablePlus2SContainer");
+
+});
+
