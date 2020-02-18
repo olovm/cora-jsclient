@@ -53,6 +53,7 @@ var CORA = (function(cora) {
 		let numberOfFilesToUpload = 0;
 		let numberOfRecordsForFilesCreated = 0;
 		let newElementsAddedSubscriptionId = "";
+		let possiblyFake;
 
 		const start = function() {
 			metadataHelper = CORA.metadataHelper({
@@ -64,8 +65,13 @@ var CORA = (function(cora) {
 				spec.cParentMetadata, metadataIdFromPresentation);
 
 			if (childRefFoundInCurrentlyUsedParentMetadata()) {
-				return createFakePChildRefHandlerAsWeDoNotHaveMetadataToWorkWith();
+				possiblyFake = createFakePChildRefHandlerAsWeDoNotHaveMetadataToWorkWith();
+			} else {
+				continueWithNormalStartup();
 			}
+		};
+
+		const continueWithNormalStartup = function() {
 			cRef = CORA.coraData(cParentMetadataChildRefPart.getFirstChildByNameInData("ref"));
 			metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 			cMetadataElement = getMetadataById(metadataId);
@@ -90,8 +96,7 @@ var CORA = (function(cora) {
 			userCanRemove = calculateUserCanRemove();
 			userCanMove = calculateUserCanMove();
 			userCanAddBefore = calculateUserCanAddBefore();
-		};
-
+		}
 		const subscribeToMessagesFromForm = function() {
 			dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
 			dependencies.pubSub.subscribe("move", spec.parentPath, undefined, handleMsg);
@@ -704,10 +709,10 @@ var CORA = (function(cora) {
 			}
 		};
 
-		let possiblyFake = start();
+		start();
 		if (undefined !== possiblyFake) {
 			return possiblyFake;
-		};
+		}
 
 		out = Object.freeze({
 			getView: getView,

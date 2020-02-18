@@ -51,7 +51,7 @@ var CORA = (function(cora) {
 		};
 
 		start();
-		
+
 		let out = Object.freeze({
 			"type": "pSurroundingContainer",
 			getView: parent.getView
