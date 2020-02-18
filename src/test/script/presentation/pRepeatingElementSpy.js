@@ -31,7 +31,7 @@ var CORATEST = (function(coraTest) {
 		var hideAddBeforeButtonCalled = 0;
 		var showRemoveButtonCalled = 0;
 		var hideRemoveButtonCalled = 0;
-		var minimizedDefault;
+		var presentationSize;
 
 		function getView() {
 			return view;
@@ -54,15 +54,15 @@ var CORATEST = (function(coraTest) {
 		function getPresentation() {
 			return presentation;
 		}
-		function addAlternativePresentation(presentationIn, minimizedDefaultIn) {
+		function addAlternativePresentation(presentationIn, presentationSizeIn) {
 			presentationMinimized = presentationIn;
-			minimizedDefault = minimizedDefaultIn;
+			presentationSize = presentationSizeIn;
 		}
 		function getPresentationMinimized() {
 			return presentationMinimized;
 		}
-		function getMinimizedDefault() {
-			return minimizedDefault;
+		function getPresentationSize() {
+			return presentationSize;
 		}
 
 		function hideRemoveButton() {
@@ -125,7 +125,7 @@ var CORATEST = (function(coraTest) {
 			getShowAddBeforeButtonCalled : getShowAddBeforeButtonCalled,
 			getPresentation : getPresentation,
 			getPresentationMinimized : getPresentationMinimized,
-			getMinimizedDefault : getMinimizedDefault
+			getPresentationSize : getPresentationSize
 		});
 		view.modelObject = out;
 		view.ondragenter = out.ondragenter;

@@ -20,44 +20,49 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pGroup = function(dependencies, spec) {
-		var cPresentation = spec.cPresentation;
+		let cPresentation = spec.cPresentation;
 
-		var my = {};
+		let my = {};
 		my.metadataId = spec.metadataIdUsedInData;
 
 		my.cPresentation = cPresentation;
 		my.cParentPresentation = cPresentation;
-		my.createBaseViewHolder = createBaseViewHolder;
+		let parent;
 
-		var parent = CORA.pMultipleChildren(dependencies, spec, my);
-		parent.init();
+		const start = function() {
+			my.createBaseViewHolder = createBaseViewHolder;
+			parent = CORA.pMultipleChildren(dependencies, spec, my);
+			parent.init();
+		};
 
-		function createBaseViewHolder() {
-			var presentationStyle = getPresentationStyle();
-			var presentationId = parent.getPresentationId();
+		const createBaseViewHolder = function() {
+			let presentationStyle = getPresentationStyle();
+			let presentationId = parent.getPresentationId();
 			return CORA.gui.createDivWithClassName("pGroup " + presentationStyle + presentationId);
-		}
+		};
 
-		function getPresentationStyle() {
+		const getPresentationStyle = function() {
 			if (cPresentation.containsChildWithNameInData("presentationStyle")) {
 				return cPresentation.getFirstAtomicValueByNameInData("presentationStyle") + " ";
 			}
 			return "";
-		}
+		};
 
-		function getSpec() {
+		const getSpec = function() {
 			return spec;
-		}
+		};
 
-		function getDependencies() {
+		const getDependencies = function() {
 			return dependencies;
-		}
+		};
+
+		start();
 
 		return Object.freeze({
-			"type" : "pGroup",
-			getSpec : getSpec,
-			getDependencies : getDependencies,
-			getView : parent.getView
+			"type": "pGroup",
+			getSpec: getSpec,
+			getDependencies: getDependencies,
+			getView: parent.getView
 		});
 
 	};

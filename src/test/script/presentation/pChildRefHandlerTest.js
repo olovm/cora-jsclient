@@ -44,6 +44,7 @@ QUnit.module("pChildRefHandlerTest.js", {
 					.getMetadataById("pVarTextVariableId")),
 			"cAlternativePresentation" : CORA.coraData(this.metadataProvider
 					.getMetadataById("pVarTextVariableIdOutput")),
+			"presentationSize" : "bothEqual",
 			"mode" : "input"
 		};
 
@@ -245,7 +246,6 @@ QUnit.test("testInit", function(assert) {
 	var view = pChildRefHandler.getView();
 	this.fixture.appendChild(view);
 	var childrenView = view.firstChild;
-
 	assert.ok(pChildRefHandler.isRepeating === false);
 	assert.ok(pChildRefHandler.isStaticNoOfChildren === true);
 
@@ -1893,32 +1893,26 @@ QUnit.test("testHandleMessageNotRightMetadataId", function(assert) {
 	assert.strictEqual(factoredView.getAddedChild(0), undefined);
 });
 
-QUnit.test("testWithMinimized", function(assert) {
-	this.spec.cAlternativePresentation = CORA.coraData(this.metadataProvider
-			.getMetadataById("pVarTextVariableIdOutput"));
+QUnit.test("testWithAlternative", function(assert) {
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
-	var view = pChildRefHandler.getView();
-	this.fixture.appendChild(view);
 
 	pChildRefHandler.add("textVariableId", "one");
 
-	var factored = this.dependencies.pRepeatingElementFactory.getFactored(0);
-	assert.ok(factored.getPresentationMinimized() !== undefined);
-	assert.strictEqual(factored.getMinimizedDefault(), undefined);
+	var pRepeatingElement = this.dependencies.pRepeatingElementFactory.getFactored(0);
+	assert.ok(pRepeatingElement.getPresentationMinimized() !== undefined);
+	assert.strictEqual(pRepeatingElement.getPresentationSize(), "bothEqual");
 });
 
-QUnit.test("testWithMinimizedDefault", function(assert) {
-	this.spec.cAlternativePresentation = CORA.coraData(this.metadataProvider
-			.getMetadataById("pVarTextVariableIdOutput"));
+QUnit.test("testWithAlternativePresentationSize", function(assert) {
+	this.spec.presentationSize = "firstSmaller";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
-	var view = pChildRefHandler.getView();
-	this.fixture.appendChild(view);
 
 	pChildRefHandler.add("textVariableId", "one");
 
-	var factored = this.dependencies.pRepeatingElementFactory.getFactored(0);
-	assert.ok(factored.getPresentationMinimized() !== undefined);
+	var pRepeatingElement = this.dependencies.pRepeatingElementFactory.getFactored(0);
+	assert.strictEqual(pRepeatingElement.getPresentationSize(), "firstSmaller");
 });
+
 QUnit.test("testPresentationMatchingNameInData", function(assert) {
 	this.spec.cParentMetadata = CORA.coraData(this.metadataProvider
 			.getMetadataById("presentationVarGroup"));

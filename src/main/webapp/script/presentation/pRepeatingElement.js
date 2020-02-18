@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017, 2018 Uppsala University Library
+ * Copyright 2016, 2017, 2018, 2020 Uppsala University Library
  * Copyright 2016, 2017, 2018 Olov McKie
  *
  * This file is part of Cora.
@@ -20,41 +20,46 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pRepeatingElement = function(dependencies, spec) {
-		var jsBookkeeper = dependencies.jsBookkeeper;
+		let jsBookkeeper = dependencies.jsBookkeeper;
 
-		var pChildRefHandler = spec.pChildRefHandler;
-		var pChildRefHandlerView = spec.pChildRefHandlerView;
-		var path = spec.path;
+		let pChildRefHandler = spec.pChildRefHandler;
+		let pChildRefHandlerView = spec.pChildRefHandlerView;
+		let path = spec.path;
 
-		var userCanRemove = spec.userCanRemove;
-		var userCanMove = spec.userCanMove;
-		var userCanAddBefore = spec.userCanAddBefore;
+		let userCanRemove = spec.userCanRemove;
+		let userCanMove = spec.userCanMove;
+		let userCanAddBefore = spec.userCanAddBefore;
 
-		var view = createBaseView();
-		var removeButton;
-		var dragButton;
-		var addBeforeButton;
-		var alternativePresentation;
-		var defaultPresentation;
-		var alternativeButton;
-		var defaultButton;
+		let view;
+		let removeButton;
+		let dragButton;
+		let addBeforeButton;
+		let alternativePresentation;
+		let defaultPresentation;
+		let alternativeButton;
+		let defaultButton;
 
-		var buttonView = createButtonView();
+		let buttonView;
 
-		function createBaseView() {
-			var repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");
+		const start = function() {
+			view = createBaseView();
+			buttonView = createButtonView();
+		};
+
+		const createBaseView = function() {
+			let repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");
 			if (userCanMove) {
 				repeatingElement.ondragenter = ondragenterHandler;
 			}
 			return repeatingElement;
-		}
+		};
 
-		function ondragenterHandler() {
+		const ondragenterHandler = function() {
 			pChildRefHandlerView.setRepeatingElementDragOver(view.modelObject);
-		}
+		};
 
-		function createButtonView() {
-			var newButtonView = CORA.gui.createSpanWithClassName("buttonView");
+		const createButtonView = function() {
+			let newButtonView = CORA.gui.createSpanWithClassName("buttonView");
 			view.appendChild(newButtonView);
 			if (userCanRemove) {
 				removeButton = createRemoveButton();
@@ -70,17 +75,17 @@ var CORA = (function(cora) {
 			}
 
 			return newButtonView;
-		}
+		};
 
-		function createRemoveButton() {
-			var removeFunction = function() {
-				var data = {
-					"type" : "remove",
-					"path" : path
+		const createRemoveButton = function() {
+			let removeFunction = function() {
+				let data = {
+					"type": "remove",
+					"path": path
 				};
 				jsBookkeeper.remove(data);
 			};
-			var newRemoveButton = CORA.gui.createRemoveButton(removeFunction);
+			let newRemoveButton = CORA.gui.createRemoveButton(removeFunction);
 			newRemoveButton.addEventListener("mouseenter", function() {
 				view.className = "repeatingElement hoverRemove";
 			});
@@ -88,10 +93,10 @@ var CORA = (function(cora) {
 				view.className = "repeatingElement";
 			});
 			return newRemoveButton;
-		}
+		};
 
-		function createDragButton() {
-			var createdDragButton = CORA.gui.createSpanWithClassName("iconButton dragButton");
+		const createDragButton = function() {
+			let createdDragButton = CORA.gui.createSpanWithClassName("iconButton dragButton");
 			createdDragButton.onmousedown = function() {
 				view.draggable = "true";
 			};
@@ -99,44 +104,97 @@ var CORA = (function(cora) {
 				view.draggable = undefined;
 			};
 			return createdDragButton;
-		}
+		};
 
-		function createAddBeforeButton() {
-			var addBeforeFunction = function() {
-				var data = {
-					"path" : path
+		const createAddBeforeButton = function() {
+			let addBeforeFunction = function() {
+				let data = {
+					"path": path
 				};
 				pChildRefHandler.sendAddBefore(data);
 			};
-			var buttonSpec = {
-				"className" : "iconButton addBeforeButton",
-				action : {
-					method : addBeforeFunction
+			let buttonSpec = {
+				"className": "iconButton addBeforeButton",
+				action: {
+					method: addBeforeFunction
 				}
 			};
 			return CORA.gui.button(buttonSpec);
-		}
+		};
 
-		function getView() {
+		const getView = function() {
 			return view;
-		}
+		};
 
-		function addPresentation(defaultPresentationIn) {
+		const addPresentation = function(defaultPresentationIn) {
 			defaultPresentation = defaultPresentationIn.getView();
 			defaultPresentation.className = defaultPresentation.className + " default";
 			view.insertBefore(defaultPresentation, buttonView);
 			view.className = "repeatingElement";
-		}
+		};
 
-		function addAlternativePresentation(presentation) {
+		const addAlternativePresentation = function(presentation, presentationSize) {
 			alternativePresentation = presentation.getView();
 			alternativePresentation.className = alternativePresentation.className + " alternative";
 			view.insertBefore(alternativePresentation, buttonView);
-			createDefaultAndAlternativeButtons();
+			createDefaultAndAlternativeButtons(presentationSize);
 			toggleDefaultShown("true");
-		}
+		};
 
-		function toggleDefaultShown(defaultShown) {
+		const createDefaultAndAlternativeButtons = function(presentationSize) {
+			let buttonClasses = getButtonClassName(presentationSize);
+			createAndAddAlternativeButton(buttonClasses);
+			createAndAddDefaultButton(buttonClasses);
+		};
+
+		const getButtonClassName = function(presentationSize) {
+			if (presentationSize === "firstLarger") {
+				return {
+					default: "maximizeButton",
+					alternative: "minimizeButton"
+				};
+			}
+			if (presentationSize === "firstSmaller") {
+				return {
+					default: "minimizeButton",
+					alternative: "maximizeButton"
+				};
+			}
+			return {
+				default: "defaultButton",
+				alternative: "alternativeButton"
+			};
+		};
+
+		const createAndAddAlternativeButton = function(buttonClasses) {
+			alternativeButton = CORA.gui.createSpanWithClassName("iconButton " + buttonClasses.alternative);
+			alternativeButton.onclick = showAlternativePresentation;
+			if (userCanMove) {
+				buttonView.insertBefore(alternativeButton, dragButton);
+			} else {
+				buttonView.appendChild(alternativeButton);
+			}
+		};
+
+		const createAndAddDefaultButton = function(buttonClasses) {
+			defaultButton = CORA.gui.createSpanWithClassName("iconButton " + buttonClasses.default);
+			defaultButton.onclick = showDefaultPresentation;
+			if (userCanMove) {
+				buttonView.insertBefore(defaultButton, dragButton);
+			} else {
+				buttonView.appendChild(defaultButton);
+			}
+		};
+
+		const showAlternativePresentation = function() {
+			toggleDefaultShown("false");
+		};
+
+		const showDefaultPresentation = function() {
+			toggleDefaultShown("true");
+		};
+
+		const toggleDefaultShown = function(defaultShown) {
 			if (defaultShown !== undefined && defaultShown === "true") {
 				hide(alternativePresentation);
 				show(defaultPresentation);
@@ -148,91 +206,71 @@ var CORA = (function(cora) {
 				hide(alternativeButton);
 				show(defaultButton);
 			}
-		}
+		};
 
-		function createDefaultAndAlternativeButtons() {
-			alternativeButton = CORA.gui.createSpanWithClassName("iconButton alternativeButton");
-			alternativeButton.onclick = function() {
-				toggleDefaultShown("false");
-			};
-			if (userCanMove) {
-				buttonView.insertBefore(alternativeButton, dragButton);
-			} else {
-				buttonView.appendChild(alternativeButton);
-			}
-
-			defaultButton = CORA.gui.createSpanWithClassName("iconButton defaultButton");
-			defaultButton.onclick = function() {
-				toggleDefaultShown("true");
-			};
-			if (userCanMove) {
-				buttonView.insertBefore(defaultButton, dragButton);
-			} else {
-				buttonView.appendChild(defaultButton);
-			}
-		}
-
-		function hideRemoveButton() {
+		const hideRemoveButton = function() {
 			hide(removeButton);
-		}
+		};
 
-		function showRemoveButton() {
+		const showRemoveButton = function() {
 			show(removeButton);
-		}
+		};
 
-		function hideDragButton() {
+		const hideDragButton = function() {
 			hide(dragButton);
-		}
+		};
 
-		function showDragButton() {
+		const showDragButton = function() {
 			show(dragButton);
-		}
+		};
 
-		function hide(element) {
+		const hide = function(element) {
 			element.styleOriginal = element.style.display;
 			element.style.display = "none";
-		}
-		function show(element) {
+		};
+
+		const show = function(element) {
 			if (element.styleOriginal !== undefined) {
 				element.style.display = element.styleOriginal;
 			}
-		}
+		};
 
-		function hideAddBeforeButton() {
+		const hideAddBeforeButton = function() {
 			hide(addBeforeButton);
-		}
+		};
 
-		function showAddBeforeButton() {
+		const showAddBeforeButton = function() {
 			show(addBeforeButton);
-		}
+		};
 
-		function getPath() {
+		const getPath = function() {
 			return path;
-		}
+		};
 
-		function getDependencies() {
+		const getDependencies = function() {
 			return dependencies;
-		}
-		function getSpec() {
+		};
+
+		const getSpec = function() {
 			return spec;
-		}
+		};
 
-		var out = Object.freeze({
-			"type" : "pRepeatingElement",
-			getDependencies : getDependencies,
-			getSpec : getSpec,
-			getView : getView,
-			addPresentation : addPresentation,
-			addAlternativePresentation : addAlternativePresentation,
-			hideRemoveButton : hideRemoveButton,
-			showRemoveButton : showRemoveButton,
-			hideDragButton : hideDragButton,
-			showDragButton : showDragButton,
-			hideAddBeforeButton : hideAddBeforeButton,
-			showAddBeforeButton : showAddBeforeButton,
-			getPath : getPath
+		let out = Object.freeze({
+			"type": "pRepeatingElement",
+			getDependencies: getDependencies,
+			getSpec: getSpec,
+			getView: getView,
+			addPresentation: addPresentation,
+			addAlternativePresentation: addAlternativePresentation,
+			hideRemoveButton: hideRemoveButton,
+			showRemoveButton: showRemoveButton,
+			hideDragButton: hideDragButton,
+			showDragButton: showDragButton,
+			hideAddBeforeButton: hideAddBeforeButton,
+			showAddBeforeButton: showAddBeforeButton,
+			getPath: getPath
 		});
-
+		start();
 		view.modelObject = out;
 		return out;
 	};

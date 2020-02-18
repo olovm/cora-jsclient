@@ -60,7 +60,7 @@ img {
 }
 
 .iconButton::before, .iconButton::after {
-	background: url("../images/icons2.svg") no-repeat scroll;
+	background: url("../images/icons3.svg") no-repeat scroll;
 	content: "";
 	height: 16px;
 	width: 16px;
@@ -163,6 +163,22 @@ img {
 
 .alternativeButton::after {
 	background-position: -160px -16px;
+}
+
+.minimizeButton::before {
+	background-position: -176px -32px;
+}
+
+.minimizeButton::after {
+	background-position: -176px -48px;
+}
+
+.maximizeButton::before {
+	background-position: -160px -32px;
+}
+
+.maximizeButton::after {
+	background-position: -160px -48px;
 }
 
 .dragButton::before {
@@ -374,7 +390,7 @@ position: relative;
 }
 
 .infoView::before {
-	background: url("../images/icons2.svg") no-repeat scroll;
+	background: url("../images/icons3.svg") no-repeat scroll;
 	content: "";
 	background-position: -64px -0px;
 	opacity: 0.1;
@@ -400,7 +416,7 @@ position: relative;
 }
 
 .search::before {
-	background: url("../images/icons2.svg") no-repeat scroll;
+	background: url("../images/icons3.svg") no-repeat scroll;
 	content: "";
 	background-position: -224px -0px;
 	opacity: 0.2;
@@ -538,7 +554,7 @@ position: relative;
 }
 
 .recordViewer::before {
-	background: url("../images/icons2.svg") no-repeat scroll;
+	background: url("../images/icons3.svg") no-repeat scroll;
 	content: "";
 	background-position: -240px -32px;
 	opacity: 0.1;
