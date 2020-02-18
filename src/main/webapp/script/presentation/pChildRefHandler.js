@@ -34,7 +34,6 @@ var CORA = (function(cora) {
 		let metadataId;
 		let cMetadataElement;
 
-		let textId;
 		let text;
 
 		let repeatMin;
@@ -180,7 +179,7 @@ var CORA = (function(cora) {
 		};
 
 		const getTextForAddButton = function(cMetadataElement) {
-			var textId = spec.addButtonText != undefined ? spec.addButtonText : getTextId(cMetadataElement);
+			var textId = spec.addButtonText !== undefined ? spec.addButtonText : getTextId(cMetadataElement);
 			return dependencies.textProvider.getTranslation(textId);
 		};
 
