@@ -90,7 +90,7 @@ var CORA = (function(cora) {
 			userCanRemove = calculateUserCanRemove();
 			userCanMove = calculateUserCanMove();
 			userCanAddBefore = calculateUserCanAddBefore();
-		}
+		};
 
 		const subscribeToMessagesFromForm = function() {
 			dependencies.pubSub.subscribe("add", spec.parentPath, undefined, handleMsg);
@@ -101,7 +101,7 @@ var CORA = (function(cora) {
 			}
 			dependencies.pubSub.subscribe("addUpToMinNumberOfRepeating", {}, undefined,
 				newElementsAdded);
-		}
+		};
 
 		const calculateUserCanRemove = function() {
 			if (spec.mode !== "input") {
@@ -111,7 +111,7 @@ var CORA = (function(cora) {
 				return false;
 			}
 			return true;
-		}
+		};
 
 		const calculateUserCanMove = function() {
 			if (spec.mode !== "input") {
@@ -121,7 +121,7 @@ var CORA = (function(cora) {
 				return false;
 			}
 			return true;
-		}
+		};
 
 		const calculateUserCanAddBefore = function() {
 			if (spec.mode !== "input") {
@@ -137,11 +137,11 @@ var CORA = (function(cora) {
 				return false;
 			}
 			return true;
-		}
+		};
 
 		const childRefFoundInCurrentlyUsedParentMetadata = function() {
 			return cParentMetadataChildRefPart.getData() === undefined;
-		}
+		};
 
 		const createFakePChildRefHandlerAsWeDoNotHaveMetadataToWorkWith = function() {
 			return {
@@ -152,32 +152,32 @@ var CORA = (function(cora) {
 					return spanNew;
 				}
 			};
-		}
+		};
 
 		const getTextId = function(cMetadataElementIn) {
 			let cTextGroup = CORA.coraData(cMetadataElementIn.getFirstChildByNameInData("textId"));
 			return cTextGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-		}
+		};
 
 		const findPresentationId = function(cPresentationToSearch) {
 			let recordInfo = cPresentationToSearch.getFirstChildByNameInData("recordInfo");
 			return CORA.coraData(recordInfo).getFirstAtomicValueByNameInData("id");
-		}
+		};
 
 		const getMetadataIdFromPresentation = function() {
 			let presentationGroup = spec.cPresentation.getFirstChildByNameInData("presentationOf");
 			let cPresentationGroup = CORA.coraData(presentationGroup);
 			return cPresentationGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 
-		}
+		};
 
 		const getMetadataById = function(id) {
 			return CORA.coraData(dependencies.metadataProvider.getMetadataById(id));
-		}
+		};
 
 		const collectAttributesForMetadataId = function(metadataIdIn) {
 			return metadataHelper.collectAttributesAsObjectForMetadataId(metadataIdIn);
-		}
+		};
 
 		const createPChildRefHandlerView = function() {
 			let pChildRefHandlerViewSpec = {
@@ -199,57 +199,57 @@ var CORA = (function(cora) {
 				pChildRefHandlerViewSpec.addMethod = sendAdd;
 			}
 			return dependencies.pChildRefHandlerViewFactory.factor(pChildRefHandlerViewSpec);
-		}
+		};
 
 		const hasAttributes = function() {
 			return cMetadataElement.containsChildWithNameInData("attributeReferences");
-		}
+		};
 
 		const calculateIsRepeating = function() {
 			return repeatMax > 1 || repeatMax === "X";
-		}
+		};
 
 		const calculateIsStaticNoOfChildren = function() {
 			return repeatMax === repeatMin;
-		}
+		};
 
 		const showAddButton = function() {
 			return (isRepeating && !isStaticNoOfChildren) || calculateIsZeroToOne();
-		}
+		};
 
 		const calculateIsZeroToOne = function() {
 			return repeatMin === "0" && repeatMax === "1";
-		}
+		};
 
 		const showFileUpload = function() {
 			if (currentChildRefIsRecordLink() && currentChildRefHasLinkedRecordType()) {
 				return calculateIfBinaryOrChildOfBinary();
 			}
 			return false;
-		}
+		};
 
 		const currentChildRefIsRecordLink = function() {
 			return currentChildRefHasAttributes() && isOfTypeRecordLink();
-		}
+		};
 
 		const currentChildRefHasAttributes = function() {
 			return cMetadataElement.getData().attributes !== undefined;
-		}
+		};
 
 		const isOfTypeRecordLink = function() {
 			let attributes = cMetadataElement.getData().attributes;
 			return attributes.type !== undefined && attributes.type === "recordLink";
-		}
+		};
 
 		const currentChildRefHasLinkedRecordType = function() {
 			return cMetadataElement.containsChildWithNameInData("linkedRecordType");
-		}
+		};
 
 		const calculateIfBinaryOrChildOfBinary = function() {
 			let cRecordType = getLinkedRecordType();
 			let cRecordInfo = CORA.coraData(cRecordType.getFirstChildByNameInData("recordInfo"));
 			return isBinaryOrChildOfBinary(cRecordInfo, cRecordType);
-		}
+		};
 
 		const getLinkedRecordType = function() {
 			let cRecordTypeGroup = CORA.coraData(cMetadataElement
@@ -257,54 +257,54 @@ var CORA = (function(cora) {
 			let recordTypeId = cRecordTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			let cRecordType = getRecordTypeById(recordTypeId);
 			return cRecordType;
-		}
+		};
 
 		const getRecordTypeById = function(id) {
 			return CORA.coraData(dependencies.recordTypeProvider.getRecordTypeById(id).data);
-		}
+		};
 
 		const isBinaryOrChildOfBinary = function(cRecordInfo, cRecordType) {
 			return isBinary(cRecordInfo) || isChildOfBinary(cRecordType);
-		}
+		};
 
 		const isBinary = function(cRecordInfo) {
 			return cRecordInfo.getFirstAtomicValueByNameInData("id") === "binary";
-		}
+		};
 
 		const isChildOfBinary = function(cRecordType) {
 			return hasParent(cRecordType) && parentIsBinary(cRecordType);
-		}
+		};
 
 		const hasParent = function(cRecordType) {
 			return cRecordType.containsChildWithNameInData("parentId");
-		}
+		};
 
 		const parentIsBinary = function(cRecordType) {
 			let cParentIdGroup = CORA.coraData(cRecordType.getFirstChildByNameInData("parentId"));
 			let parentId = cParentIdGroup.getFirstAtomicValueByNameInData("linkedRecordId");
 			return parentId === "binary";
-		}
+		};
 
 		const getView = function() {
 			return pChildRefHandlerView.getView();
-		}
+		};
 
 		const handleMsg = function(dataFromMsg, msg) {
 			if (messageIsHandledByThisPChildRefHandler(dataFromMsg)) {
 				processMsg(dataFromMsg, msg);
 			}
-		}
+		};
 
 		const messageIsHandledByThisPChildRefHandler = function(dataFromMsg) {
 			if (metadataIdSameAsInMessage(dataFromMsg)) {
 				return true;
 			}
 			return shouldPresentData(dataFromMsg.nameInData, dataFromMsg.attributes);
-		}
+		};
 
 		const metadataIdSameAsInMessage = function(dataFromMsg) {
 			return metadataId === dataFromMsg.metadataId;
-		}
+		};
 
 		const shouldPresentData = function(nameInDataFromMsg, attributesFromMsg) {
 			if (nameInDataFromMsgNotHandledByThisPChildRefHandler(nameInDataFromMsg)) {
@@ -312,12 +312,12 @@ var CORA = (function(cora) {
 			}
 			return metadataHelper.firstAttributesExistsInSecond(attributesFromMsg,
 				collectedAttributes);
-		}
+		};
 
 		const nameInDataFromMsgNotHandledByThisPChildRefHandler = function(nameInDataFromMsg) {
 			return nameInDataFromMsg !== cMetadataElement
 				.getFirstAtomicValueByNameInData("nameInData");
-		}
+		};
 
 		const processMsg = function(dataFromMsg, msg) {
 			if (msg.endsWith("move")) {
@@ -325,7 +325,7 @@ var CORA = (function(cora) {
 			} else {
 				add(dataFromMsg.metadataId, dataFromMsg.repeatId);
 			}
-		}
+		};
 
 		const add = function(metadataIdToAdd, repeatId) {
 			noOfRepeating++;
@@ -335,12 +335,12 @@ var CORA = (function(cora) {
 			addPresentationsToRepeatingElementsView(repeatingElement, metadataIdToAdd);
 			subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView(repeatingElement);
 			updateView();
-		}
+		};
 
 		const calculateNewPath = function(metadataIdToAdd, repeatId) {
 			return calculateNewPathForMetadataIdUsingRepeatIdAndParentPath(metadataIdToAdd,
 				repeatId, spec.parentPath);
-		}
+		};
 
 		const calculateNewPathForMetadataIdUsingRepeatIdAndParentPath = function(metadataIdToAdd, repeatId,
 			parentPath) {
@@ -351,7 +351,7 @@ var CORA = (function(cora) {
 				"parentPath": parentPath
 			};
 			return CORA.calculatePathForNewElement(pathSpec);
-		}
+		};
 
 		const createRepeatingElement = function(path) {
 			let repeatingElementSpec = {
@@ -363,7 +363,7 @@ var CORA = (function(cora) {
 				"userCanAddBefore": userCanAddBefore
 			};
 			return dependencies.pRepeatingElementFactory.factor(repeatingElementSpec);
-		}
+		};
 
 		const addPresentationsToRepeatingElementsView = function(repeatingElement, metadataIdToAdd) {
 			let path = repeatingElement.getPath();
@@ -376,7 +376,7 @@ var CORA = (function(cora) {
 					metadataIdToAdd);
 				repeatingElement.addAlternativePresentation(presentationMinimized, spec.presentationSize);
 			}
-		}
+		};
 
 		const factorPresentation = function(path, cPresentation, metadataIdToAdd) {
 			let metadataIdUsedInData = metadataIdToAdd;
@@ -387,11 +387,11 @@ var CORA = (function(cora) {
 				"cParentPresentation": spec.cParentPresentation
 			};
 			return dependencies.presentationFactory.factor(presentationSpec);
-		}
+		};
 
 		const hasAlternativePresentation = function() {
 			return spec.cAlternativePresentation !== undefined;
-		}
+		};
 
 		const subscribeToRemoveMessageToRemoveRepeatingElementFromChildrenView = function(repeatingElement) {
 			if (showAddButton()) {
@@ -404,18 +404,18 @@ var CORA = (function(cora) {
 				removeInfo.subscribeId = dependencies.pubSub.subscribe("remove", repeatingElement
 					.getPath(), undefined, removeFunction);
 			}
-		}
+		};
 
 		const move = function(dataFromMsg) {
 			pChildRefHandlerView.moveChild(dataFromMsg);
-		}
+		};
 
 		const childRemoved = function(removeInfo) {
 			pChildRefHandlerView.removeChild(removeInfo.repeatingElement.getView());
 			dependencies.pubSub.unsubscribe(removeInfo.subscribeId);
 			noOfRepeating--;
 			updateView();
-		}
+		};
 
 		const updateView = function() {
 			if (spec.mode === "input") {
@@ -427,7 +427,7 @@ var CORA = (function(cora) {
 					updateChildrenDragButtonVisibility();
 				}
 			}
-		}
+		};
 
 		const updateChildrenRemoveButtonVisibility = function() {
 			if (minLimitOfChildrenReached()) {
@@ -435,11 +435,11 @@ var CORA = (function(cora) {
 			} else {
 				pChildRefHandlerView.showChildrensRemoveButton();
 			}
-		}
+		};
 
 		const minLimitOfChildrenReached = function() {
 			return noOfRepeating === Number(repeatMin);
-		}
+		};
 
 		const updateChildrenDragButtonVisibility = function() {
 			if (moreThenOneChild()) {
@@ -447,10 +447,11 @@ var CORA = (function(cora) {
 			} else {
 				pChildRefHandlerView.hideChildrensDragButton();
 			}
-		}
+		};
+
 		const moreThenOneChild = function() {
 			return noOfRepeating > 1;
-		}
+		};
 
 		const updateButtonViewAndAddBeforeButtonVisibility = function() {
 			if (maxLimitOfChildrenReached()) {
@@ -464,19 +465,19 @@ var CORA = (function(cora) {
 					pChildRefHandlerView.showChildrensAddBeforeButton();
 				}
 			}
-		}
+		};
 
 		const maxLimitOfChildrenReached = function() {
 			return noOfRepeating === Number(repeatMax);
-		}
+		};
 
 		const sendAdd = function() {
 			let data = createAddData();
 			let createdRepeatId = dependencies.jsBookkeeper.add(data);
 			sendNewElementsAdded();
 			return createdRepeatId;
-		}
-		
+		};
+
 		const createAddData = function() {
 			let data = {
 				"metadataId": metadataId,
@@ -488,21 +489,21 @@ var CORA = (function(cora) {
 				data.attributes = collectedAttributes;
 			}
 			return data;
-		}
+		};
 
 		const sendNewElementsAdded = function() {
 			dependencies.pubSub.publish("newElementsAdded", {
 				"data": "",
 				"path": {}
 			});
-		}
+		};
 
 		const sendAddBefore = function(dataFromPRepeatingElement) {
 			let data = createAddData();
 			data.addBeforePath = dataFromPRepeatingElement.path;
 			dependencies.jsBookkeeper.addBefore(data);
 			sendNewElementsAdded();
-		}
+		};
 
 		const childMoved = function(moveInfo) {
 			let data = {
@@ -513,7 +514,7 @@ var CORA = (function(cora) {
 				"newPosition": moveInfo.newPosition
 			};
 			dependencies.jsBookkeeper.move(data);
-		}
+		};
 
 		const handleFiles = function(files) {
 			numberOfFilesToUpload = files.length;
@@ -521,24 +522,24 @@ var CORA = (function(cora) {
 			for (let i = 0; i < numberOfFilesToUpload; i++) {
 				handleFile(files[i]);
 			}
-		}
+		};
 
 		const changeNumberOfFilesIfMaxNumberExceeded = function(numberOfChosenFiles) {
 			if (repeatMaxIsNumber()) {
 				calculateNumOfFilesLeftToUploadAndPossiblyChangeNumToUpload(numberOfChosenFiles);
 			}
-		}
+		};
 
 		const repeatMaxIsNumber = function() {
 			return !isNaN(repeatMax);
-		}
+		};
 
 		const calculateNumOfFilesLeftToUploadAndPossiblyChangeNumToUpload = function(numberOfChosenFiles) {
 			let numOfFilesLeftToUpLoad = Number(repeatMax) - noOfRepeating;
 			if (numOfFilesLeftToUpLoad < numberOfChosenFiles) {
 				numberOfFilesToUpload = numOfFilesLeftToUpLoad;
 			}
-		}
+		};
 
 		const handleFile = function(file) {
 			let data = createNewBinaryData();
@@ -555,7 +556,7 @@ var CORA = (function(cora) {
 				"file": localFile
 			};
 			dependencies.ajaxCallFactory.factor(callSpec);
-		}
+		};
 
 		const createNewBinaryData = function() {
 			let dataDividerLinkedRecordId = dependencies.dataDivider;
@@ -579,7 +580,7 @@ var CORA = (function(cora) {
 					"type": type
 				}
 			};
-		}
+		};
 
 		const getNewMetadataGroupFromRecordType = function() {
 			let recordType = getImplementingLinkedRecordType();
@@ -589,7 +590,7 @@ var CORA = (function(cora) {
 			let newMetadataId = newMetadataIdGroup
 				.getFirstAtomicValueByNameInData("linkedRecordId");
 			return getMetadataById(newMetadataId);
-		}
+		};
 
 		const getImplementingLinkedRecordType = function() {
 			let cRecordTypeGroup = CORA.coraData(cMetadataElement
@@ -598,19 +599,19 @@ var CORA = (function(cora) {
 
 			recordTypeId = changeRecordTypeIdIfBinary(recordTypeId);
 			return dependencies.recordTypeProvider.getRecordTypeById(recordTypeId);
-		}
+		};
 
 		const getLinkedRecordTypeCreateLink = function() {
 			let recordType = getImplementingLinkedRecordType();
 			return recordType.actionLinks.create;
-		}
+		};
 
 		const changeRecordTypeIdIfBinary = function(recordTypeId) {
 			if (recordTypeId === "binary") {
 				recordTypeId = "genericBinary";
 			}
 			return recordTypeId;
-		}
+		};
 
 		const getTypeFromRecordType = function() {
 			let cMetadataGroup = getNewMetadataGroupFromRecordType();
@@ -619,13 +620,13 @@ var CORA = (function(cora) {
 			let ref = getRefValueFromAttributeRef(attributeReferences);
 			let cItem = getMetadataById(ref);
 			return cItem.getFirstAtomicValueByNameInData("finalValue");
-		}
+		};
 
 		const getRefValueFromAttributeRef = function(attributeReferences) {
 			let cAttributeReferences = CORA.coraData(attributeReferences);
 			let cRefGroup = CORA.coraData(cAttributeReferences.getFirstChildByNameInData("ref"));
 			return cRefGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-		}
+		};
 
 		const processNewBinary = function(answer) {
 			let calculatedRepeatId = sendAdd();
@@ -651,18 +652,18 @@ var CORA = (function(cora) {
 			};
 			dependencies.uploadManager.upload(uploadSpec);
 			saveMainRecordIfRecordsAreCreatedForAllFiles();
-		}
+		};
 
 		const getDataPartOfRecordFromAnswer = function(answer) {
 			return JSON.parse(answer.responseText).record.data;
-		}
+		};
 
 		const getIdFromRecordData = function(recordData) {
 			let cRecord = CORA.coraData(recordData);
 			let cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
 			let id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			return id;
-		}
+		};
 
 		const saveMainRecordIfRecordsAreCreatedForAllFiles = function() {
 			numberOfRecordsForFilesCreated++;
@@ -673,7 +674,7 @@ var CORA = (function(cora) {
 				});
 				numberOfRecordsForFilesCreated = 0;
 			}
-		}
+		};
 
 		const callError = function(answer) {
 			let messageSpec = {
@@ -683,16 +684,16 @@ var CORA = (function(cora) {
 			let errorChild = document.createElement("span");
 			errorChild.innerHTML = messageSpec.message;
 			pChildRefHandlerView.addChild(errorChild);
-		}
+		};
 
 		const newElementsAdded = function() {
 			unsubscribeFromNewElementsAdded();
 			possiblyAddUpToMinNumberOfRepeatingToShow();
-		}
+		};
 
 		const unsubscribeFromNewElementsAdded = function() {
 			dependencies.pubSub.unsubscribe(newElementsAddedSubscriptionId);
-		}
+		};
 
 		const possiblyAddUpToMinNumberOfRepeatingToShow = function() {
 			let numberLeftToAdd = Number(spec.minNumberOfRepeatingToShow) - noOfRepeating;
@@ -701,12 +702,13 @@ var CORA = (function(cora) {
 					sendAdd();
 				}
 			}
-		}
+		};
 
 		let possiblyFake = start();
 		if (undefined !== possiblyFake) {
 			return possiblyFake;
-		}
+		};
+
 		out = Object.freeze({
 			getView: getView,
 			add: add,

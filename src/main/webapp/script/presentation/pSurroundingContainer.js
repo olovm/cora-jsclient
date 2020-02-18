@@ -20,37 +20,43 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.pSurroundingContainer = function(dependencies, spec) {
-		var cPresentation = spec.cPresentation;
-		var cParentPresentation = spec.cParentPresentation;
+		let cPresentation = spec.cPresentation;
+		let cParentPresentation = spec.cParentPresentation;
 
-		var my = {};
+		let my = {};
 		my.metadataId = spec.metadataIdUsedInData;
 
 		my.cPresentation = cPresentation;
 		my.cParentPresentation = cParentPresentation;
-		my.createBaseViewHolder = createBaseViewHolder;
+		let parent;
 
-		var parent = CORA.pMultipleChildren(dependencies, spec, my);
-		parent.init();
+		const start = function() {
+			my.createBaseViewHolder = createBaseViewHolder;
+			parent = CORA.pMultipleChildren(dependencies, spec, my);
+			parent.init();
+		};
 
-		function createBaseViewHolder() {
-			var presentationStyle = getPresentationStyle();
-			var presentationId = parent.getPresentationId();
+		const createBaseViewHolder = function() {
+			let presentationStyle = getPresentationStyle();
+			let presentationId = parent.getPresentationId();
 			return CORA.gui.createSpanWithClassName("pSurroundingContainer " + presentationStyle
-					+ presentationId);
-		}
+				+ presentationId);
+		};
 
-		function getPresentationStyle() {
+		const getPresentationStyle = function() {
 			if (cPresentation.containsChildWithNameInData("presentationStyle")) {
 				return cPresentation.getFirstAtomicValueByNameInData("presentationStyle") + " ";
 			}
 			return "";
-		}
+		};
 
-		var out = Object.freeze({
-			"type" : "pSurroundingContainer",
-			getView : parent.getView
+		start();
+		
+		let out = Object.freeze({
+			"type": "pSurroundingContainer",
+			getView: parent.getView
 		});
+
 		parent.getView().modelObject = out;
 		return out;
 	};

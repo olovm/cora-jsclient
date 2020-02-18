@@ -28,7 +28,7 @@ body {
 }
 
 .holder.tool:before {
-	background: url("../images/icons2.svg") no-repeat scroll;
+	background: url("../images/icons3.svg") no-repeat scroll;
 	content: "";
 	background-position: -144px -0px;
 	opacity: .4;
@@ -99,7 +99,7 @@ body {
 }
 
 .jsClient>.header .menuView.uploading::before {
-	background: url("../images/icons2.svg") no-repeat scroll -79px 0px;
+	background: url("../images/icons3.svg") no-repeat scroll -79px 0px;
 	content: "";
 	height: 16px;
 	width: 16px;
@@ -455,7 +455,7 @@ body {
 }
 
 .createButton::before {
-	background: url("../images/icons2.svg") no-repeat scroll -128px -32px;
+	background: url("../images/icons3.svg") no-repeat scroll -128px -32px;
 	content: "";
 	height: 16px;
 	width: 16px;
@@ -470,7 +470,7 @@ body {
 }
 
 .createButton::after {
-	background: url("../images/icons2.svg") no-repeat scroll -128px -16px;
+	background: url("../images/icons3.svg") no-repeat scroll -128px -16px;
 	content: "";
 	height: 16px;
 	width: 16px;

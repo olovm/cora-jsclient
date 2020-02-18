@@ -137,8 +137,19 @@ QUnit.test("testFirstPChildRefHandlerSpecNoStyleInfo", function(assert) {
 	assert.strictEqual(factoredSpec.minNumberOfRepeatingToShow, undefined);
 	assert.strictEqual(factoredSpec.mode, "input");
 	assert.strictEqual(factoredSpec.presentationSize, "bothEqual");
-	
 });
+
+QUnit.test("testPGroupChildRefHandlerSpecPresentationSizeFirstSmaller", function(assert) {
+	let pGroupJson = this.dependencies.metadataProvider.getMetadataById("pgGroupIdOneTextChildNoOptionalRefInfo");
+	
+	this.my.cPresentation = CORA.coraData(pGroupJson);
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+
+	var factoredSpec = this.dependencies.pChildRefHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.presentationSize, "firstSmaller");
+});
+
 QUnit
 		.test(
 				"testFirstPChildRefHandlerSpecNoStyleInfoMinNumberOfRepeatingToShow",
@@ -254,7 +265,21 @@ QUnit.test("testPNonRepeatingChildRefHandlerSpec", function(assert) {
 //	"name" : "childStyle",
 //	"value" : "fourChildStyle"
 //} ]
-	
+//	groupWithSContainerAndAlternativeSContainerPGroup
+});
+
+QUnit.test("testPNonRepeatingChildRefHandlerSpecFirstSmaller", function(assert) {
+	this.my.metadataId = "groupIdTwoTextChildRepeat1to5";
+	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("groupWithSContainerAndAlternativeSContainerPGroup"));
+	this.my.cParentPresentation = CORA.coraData(this.dependencies.metadataProvider
+			.getMetadataById("groupWithSContainerAndAlternativeSContainerPGroup"));
+
+	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
+	pMultipleChildren.init();
+
+	var factoredSpec = this.dependencies.pNonRepeatingChildRefHandlerFactory.getSpec(0);
+	assert.strictEqual(factoredSpec.presentationSize, "firstSmaller");
 });
 
 QUnit.test("testPNonRepeatingChildRefHandlerSpecWithMinimized", function(assert) {

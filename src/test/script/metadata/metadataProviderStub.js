@@ -59,6 +59,13 @@ function MetadataProviderStub() {
 			} ]
 		};
 	}
+	
+	function createPresentationSize(presentationSize){
+		return {
+              "name": "presentationSize",
+              "value": presentationSize
+            };
+	}
 
 	function createNameInDataTextIdDefTextId2(id) {
 		return [ {
@@ -5824,6 +5831,61 @@ function MetadataProviderStub() {
 					} ]
 				} ])
 			};
+		case "pgGroupIdOneTextChildNoOptionalRefInfo":
+			return {
+				"name" : "presentation",
+				"attributes" : {
+					"type" : "pGroup"
+				},
+				"children" : [ createRecordInfoJson(idToGet) , {
+					"children" : [ {
+						"name" : "linkedRecordType",
+						"value" : "metadataGroup"
+					}, {
+						"name" : "linkedRecordId",
+						"value" : "groupIdOneTextChild"
+					} ],
+					"name" : "presentationOf"
+				}, {
+					"name" : "childReferences",
+					"children" : [ {
+						"name" : "childReference",
+						"repeatId" : "1",
+						"children" : [createPresentationSize("firstSmaller"), {
+							"name" : "refGroup",
+							"children" : [ {
+								"name" : "ref",
+								"children" : [ {
+									"name" : "linkedRecordType",
+									"value" : "presentation"
+								}, {
+									"name" : "linkedRecordId",
+									"value" : "pVarTextVariableIdOutput"
+								} ],
+								"attributes" : {
+									"type" : "presentation"
+								}
+							} ]
+						}, {
+							"name" : "refGroup",
+							"repeatId" : "0",
+							"children" : [ {
+								"name" : "ref",
+								"children" : [ {
+									"name" : "linkedRecordType",
+									"value" : "presentation"
+								}, {
+									"name" : "linkedRecordId",
+									"value" : "pVarTextVariableId"
+								} ],
+								"attributes" : {
+									"type" : "presentation"
+								}
+							} ]
+						} ]
+					} ]
+				} ]
+			};
 		case "pgGroupIdOneTextChildMinimizedDefaultNoStyleInfo":
 			return {
 				"name" : "presentation",
@@ -8032,7 +8094,7 @@ function MetadataProviderStub() {
 					"children" : [ {
 						"name" : "childReference",
 						"repeatId" : "1",
-						"children" : [ {
+						"children" : [ createPresentationSize("firstSmaller"),{
 							"name" : "refGroup",
 							"repeatId" : "0",
 							"children" : [ {

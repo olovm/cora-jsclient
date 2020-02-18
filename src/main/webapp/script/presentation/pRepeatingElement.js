@@ -44,7 +44,7 @@ var CORA = (function(cora) {
 		const start = function() {
 			view = createBaseView();
 			buttonView = createButtonView();
-		}
+		};
 
 		const createBaseView = function() {
 			let repeatingElement = CORA.gui.createSpanWithClassName("repeatingElement");
@@ -52,11 +52,11 @@ var CORA = (function(cora) {
 				repeatingElement.ondragenter = ondragenterHandler;
 			}
 			return repeatingElement;
-		}
+		};
 
 		const ondragenterHandler = function() {
 			pChildRefHandlerView.setRepeatingElementDragOver(view.modelObject);
-		}
+		};
 
 		const createButtonView = function() {
 			let newButtonView = CORA.gui.createSpanWithClassName("buttonView");
@@ -75,7 +75,7 @@ var CORA = (function(cora) {
 			}
 
 			return newButtonView;
-		}
+		};
 
 		const createRemoveButton = function() {
 			let removeFunction = function() {
@@ -93,7 +93,7 @@ var CORA = (function(cora) {
 				view.className = "repeatingElement";
 			});
 			return newRemoveButton;
-		}
+		};
 
 		const createDragButton = function() {
 			let createdDragButton = CORA.gui.createSpanWithClassName("iconButton dragButton");
@@ -104,7 +104,7 @@ var CORA = (function(cora) {
 				view.draggable = undefined;
 			};
 			return createdDragButton;
-		}
+		};
 
 		const createAddBeforeButton = function() {
 			let addBeforeFunction = function() {
@@ -120,18 +120,18 @@ var CORA = (function(cora) {
 				}
 			};
 			return CORA.gui.button(buttonSpec);
-		}
+		};
 
 		const getView = function() {
 			return view;
-		}
+		};
 
 		const addPresentation = function(defaultPresentationIn) {
 			defaultPresentation = defaultPresentationIn.getView();
 			defaultPresentation.className = defaultPresentation.className + " default";
 			view.insertBefore(defaultPresentation, buttonView);
 			view.className = "repeatingElement";
-		}
+		};
 
 		const addAlternativePresentation = function(presentation, presentationSize) {
 			alternativePresentation = presentation.getView();
@@ -139,13 +139,13 @@ var CORA = (function(cora) {
 			view.insertBefore(alternativePresentation, buttonView);
 			createDefaultAndAlternativeButtons(presentationSize);
 			toggleDefaultShown("true");
-		}
+		};
 
 		const createDefaultAndAlternativeButtons = function(presentationSize) {
 			let buttonClasses = getButtonClassName(presentationSize);
 			createAndAddAlternativeButton(buttonClasses);
 			createAndAddDefaultButton(buttonClasses);
-		}
+		};
 
 		const getButtonClassName = function(presentationSize) {
 			if (presentationSize === "firstLarger") {
@@ -164,7 +164,7 @@ var CORA = (function(cora) {
 				default: "defaultButton",
 				alternative: "alternativeButton"
 			};
-		}
+		};
 
 		const createAndAddAlternativeButton = function(buttonClasses) {
 			alternativeButton = CORA.gui.createSpanWithClassName("iconButton " + buttonClasses.alternative);
@@ -174,7 +174,7 @@ var CORA = (function(cora) {
 			} else {
 				buttonView.appendChild(alternativeButton);
 			}
-		}
+		};
 
 		const createAndAddDefaultButton = function(buttonClasses) {
 			defaultButton = CORA.gui.createSpanWithClassName("iconButton " + buttonClasses.default);
@@ -184,15 +184,15 @@ var CORA = (function(cora) {
 			} else {
 				buttonView.appendChild(defaultButton);
 			}
-		}
+		};
 
 		const showAlternativePresentation = function() {
 			toggleDefaultShown("false");
-		}
+		};
 
 		const showDefaultPresentation = function() {
 			toggleDefaultShown("true");
-		}
+		};
 
 		const toggleDefaultShown = function(defaultShown) {
 			if (defaultShown !== undefined && defaultShown === "true") {
@@ -206,53 +206,54 @@ var CORA = (function(cora) {
 				hide(alternativeButton);
 				show(defaultButton);
 			}
-		}
+		};
 
 		const hideRemoveButton = function() {
 			hide(removeButton);
-		}
+		};
 
 		const showRemoveButton = function() {
 			show(removeButton);
-		}
+		};
 
 		const hideDragButton = function() {
 			hide(dragButton);
-		}
+		};
 
 		const showDragButton = function() {
 			show(dragButton);
-		}
+		};
 
 		const hide = function(element) {
 			element.styleOriginal = element.style.display;
 			element.style.display = "none";
-		}
+		};
 
 		const show = function(element) {
 			if (element.styleOriginal !== undefined) {
 				element.style.display = element.styleOriginal;
 			}
-		}
+		};
 
 		const hideAddBeforeButton = function() {
 			hide(addBeforeButton);
-		}
+		};
 
 		const showAddBeforeButton = function() {
 			show(addBeforeButton);
-		}
+		};
 
 		const getPath = function() {
 			return path;
-		}
+		};
 
 		const getDependencies = function() {
 			return dependencies;
-		}
+		};
+
 		const getSpec = function() {
 			return spec;
-		}
+		};
 
 		let out = Object.freeze({
 			"type": "pRepeatingElement",
