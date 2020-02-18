@@ -76,8 +76,7 @@ var CORA = (function(cora) {
 			metadataId = cRef.getFirstAtomicValueByNameInData("linkedRecordId");
 			cMetadataElement = getMetadataById(metadataId);
 
-			textId = getTextId(cMetadataElement);
-			text = dependencies.textProvider.getTranslation(textId);
+			text = getTextForAddButton(cMetadataElement);
 
 			repeatMin = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMin");
 			repeatMax = cParentMetadataChildRefPart.getFirstAtomicValueByNameInData("repeatMax");
@@ -178,6 +177,11 @@ var CORA = (function(cora) {
 
 		const getMetadataById = function(id) {
 			return CORA.coraData(dependencies.metadataProvider.getMetadataById(id));
+		};
+
+		const getTextForAddButton = function(cMetadataElement) {
+			var textId = spec.addButtonText != undefined ? spec.addButtonText : getTextId(cMetadataElement);
+			return dependencies.textProvider.getTranslation(textId);
 		};
 
 		const collectAttributesForMetadataId = function(metadataIdIn) {
