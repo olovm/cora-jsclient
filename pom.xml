@@ -33,7 +33,13 @@
 		<docker.keepRunning>true</docker.keepRunning>
 		<docker.keepContainer>true</docker.keepContainer>
 	</properties>
-
+	
+	<scm>
+		<connection>scm:git:https://github.com/lsu-ub-uu/cora-jsclient.git</connection>
+		<developerConnection>scm:git:https://github.com/lsu-ub-uu/cora-jsclient.git</developerConnection>
+		<url>https://github.com/lsu-ub-uu/cora-jsclient.git</url>
+	</scm>
+	
 	<profiles>
 		<profile>
 			<id>karma-test</id>
