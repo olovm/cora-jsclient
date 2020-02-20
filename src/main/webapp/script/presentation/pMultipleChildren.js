@@ -205,7 +205,6 @@ var CORA = (function(cora) {
 			};
 			possiblyAddStyleToSpec(cPresentationChildRef, childRefHandlerSpec);
 			possiblyAddAlternativePresentationToSpec(cPresentationChildRef, childRefHandlerSpec);
-			possiblyAddAddTextToSpec(cPresentationChildRef, childRefHandlerSpec);
 			return childRefHandlerSpec;
 		};
 
@@ -251,6 +250,7 @@ var CORA = (function(cora) {
 		const createPChildRefHandler = function(cPresentationChild, cPresentationChildRef) {
 			let childRefHandlerSpec = createChildRefHandlerCommonSpec(cPresentationChild, cPresentationChildRef);
 			childRefHandlerSpec.cParentMetadata = cMetadataElement;
+			possiblyAddAddTextToSpec(cPresentationChildRef, childRefHandlerSpec);
 			if (cPresentationChildRef.containsChildWithNameInData("minNumberOfRepeatingToShow")) {
 				childRefHandlerSpec.minNumberOfRepeatingToShow = cPresentationChildRef
 					.getFirstAtomicValueByNameInData("minNumberOfRepeatingToShow");

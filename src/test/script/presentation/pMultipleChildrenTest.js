@@ -362,22 +362,3 @@ QUnit.test("testFirstPChildRefHandlerSpecWithAddButtonText", function(assert) {
 
 	assert.strictEqual(factoredSpec.addText, "someTextIdForAddText");
 });
-
-QUnit.test("testPNonRepeatingChildRefHandlerSpecWithAddButtonText", function(assert) {
-	this.my.metadataId = "groupIdTwoTextChildRepeat1to5";
-	this.my.cPresentation = CORA.coraData(this.dependencies.metadataProvider
-			.getMetadataById("groupWithSContainerWithAddButtonTextPGroup"));
-
-	var pMultipleChildren = CORA.pMultipleChildren(this.dependencies, this.spec, this.my);
-	pMultipleChildren.init();
-
-	var factoredSpec = this.dependencies.pNonRepeatingChildRefHandlerFactory.getSpec(0);
-
-	assert.strictEqual(factoredSpec.parentPath, this.spec.path);
-	assert.strictEqual(factoredSpec.parentMetadataId, "groupIdTwoTextChildRepeat1to5");
-	assert.strictEqual(factoredSpec.addText, "someTextIdForAddText");
-
-	assert.strictEqual(this.getId(factoredSpec.cPresentation), "pTextVariablePlus2SContainer");
-
-});
-
