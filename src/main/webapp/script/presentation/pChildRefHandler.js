@@ -179,7 +179,7 @@ var CORA = (function(cora) {
 		};
 
 		const getTextForAddButton = function(cMetadataElement) {
-			var textId = spec.addButtonText !== undefined ? spec.addButtonText : getTextId(cMetadataElement);
+			var textId = spec.addText !== undefined ? spec.addText : getTextId(cMetadataElement);
 			return dependencies.textProvider.getTranslation(textId);
 		};
 

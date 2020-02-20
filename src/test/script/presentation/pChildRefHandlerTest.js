@@ -2074,7 +2074,7 @@ QUnit.test("testAddTextIsPickedFromSpecWhenExistInSpec", function(assert) {
 	this.dependencies.textProvider = CORATEST.textProviderSpy();
 	this.spec.childStyle = "someChildStyle";
 	this.spec.textStyle = "someTextStyle";
-	this.spec.addButtonText = "some_other_addButtonText";
+	this.spec.addText = "some_other_addButtonText";
 	this.spec.mode = "input";
 	var pChildRefHandler = CORA.pChildRefHandler(this.dependencies, this.spec);
 	var view = pChildRefHandler.getView();
