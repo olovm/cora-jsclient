@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017 Olov McKie
- * Copyright 2016, 2018 Uppsala University Library
+ * Copyright 2016, 2018, 2019, 2020 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -20,90 +20,90 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.metadataProvider = function(dependencies, spec) {
-		var textProvider = dependencies.textProvider;
-		var processedAjaxCalls = 0;
-		var metadata = {};
-		var NUMBER_OF_AJAX_CALLS = 2;
-		function start() {
+		let textProvider = dependencies.textProvider;
+		let processedAjaxCalls = 0;
+		let metadata = {};
+		let NUMBER_OF_AJAX_CALLS = 3;
+		const start = function() {
 			fetchMetadataListAndThen(processFetchedMetadata);
 			fetchPresentationListAndThen(processFetchedMetadata);
 			fetchGuiElementListAndThen(processFetchedMetadata);
-		}
+		};
 
-		function fetchMetadataListAndThen(callAfterAnswer) {
+		const fetchMetadataListAndThen = function(callAfterAnswer) {
 			callThroughAjax(spec.metadataListLink, callAfterAnswer);
-		}
+		};
 
-		function callThroughAjax(linkSpec, callAfterAnswer) {
-			var ajaxCallSpec = createIndependentCopy(linkSpec);
+		const callThroughAjax = function(linkSpec, callAfterAnswer) {
+			let ajaxCallSpec = createIndependentCopy(linkSpec);
 			ajaxCallSpec.loadMethod = callAfterAnswer;
 			dependencies.ajaxCallFactory.factor(ajaxCallSpec);
-		}
+		};
 
-		function createIndependentCopy(someObject) {
+		const createIndependentCopy = function(someObject) {
 			return JSON.parse(JSON.stringify(someObject));
-		}
+		};
 
-		function processFetchedMetadata(answer) {
+		const processFetchedMetadata = function(answer) {
 			createMetadataObjectFromAnswer(answer);
 			processedAjaxCalls++;
 			possiblyCallWhenReady();
-		}
+		};
 
-		function possiblyCallWhenReady() {
+		const possiblyCallWhenReady = function() {
 			if (spec.callWhenReady && processedAjaxCalls === NUMBER_OF_AJAX_CALLS) {
 				spec.callWhenReady();
 			}
-		}
+		};
 
-		function createMetadataObjectFromAnswer(answer) {
-			var data = JSON.parse(answer.responseText).dataList.data;
+		const createMetadataObjectFromAnswer = function(answer) {
+			let data = JSON.parse(answer.responseText).dataList.data;
 			data.forEach(function(recordContainer) {
-				var recordData = recordContainer.record.data;
-				var recordId = getIdFromRecordData(recordData);
+				let recordData = recordContainer.record.data;
+				let recordId = getIdFromRecordData(recordData);
 				metadata[recordId] = recordData;
 			});
-		}
+		};
 
-		function getIdFromRecordData(recordData) {
-			var cRecord = CORA.coraData(recordData);
-			var cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
-			var id = cRecordInfo.getFirstAtomicValueByNameInData("id");
+		const getIdFromRecordData = function(recordData) {
+			let cRecord = CORA.coraData(recordData);
+			let cRecordInfo = CORA.coraData(cRecord.getFirstChildByNameInData("recordInfo"));
+			let id = cRecordInfo.getFirstAtomicValueByNameInData("id");
 			return id;
-		}
+		};
 
-		function fetchPresentationListAndThen(callAfterAnswer) {
+		const fetchPresentationListAndThen = function(callAfterAnswer) {
 			callThroughAjax(spec.presentationListLink, callAfterAnswer);
-		}
+		};
 
-		function fetchGuiElementListAndThen(callAfterAnswer) {
+		const fetchGuiElementListAndThen = function(callAfterAnswer) {
 			callThroughAjax(spec.guiElementListLink, callAfterAnswer);
-		}
+		};
 
-		function getMetadataById(metadataId) {
+		const getMetadataById = function(metadataId) {
 			if (metadata[metadataId] !== undefined) {
 				return metadata[metadataId];
 			}
 			return tryToGetMetadataFromTextProvider(metadataId);
-		}
+		};
 
-		function tryToGetMetadataFromTextProvider(metadataId) {
+		const tryToGetMetadataFromTextProvider = function(metadataId) {
 			try {
 				return textProvider.getMetadataById(metadataId);
 			} catch (error) {
 				throw new Error("Id(" + metadataId + ") not found in metadataProvider");
 			}
-		}
+		};
 
-		function getDependencies() {
+		const getDependencies = function() {
 			return dependencies;
-		}
+		};
 
-		function getSpec() {
+		const getSpec = function() {
 			return spec;
-		}
+		};
 
-		var out = Object.freeze({
+		let out = Object.freeze({
 			"type" : "metadataProvider",
 			getDependencies : getDependencies,
 			getSpec : getSpec,

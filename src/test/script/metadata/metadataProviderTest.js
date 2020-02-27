@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017 Olov McKie
- * Copyright 2016, 2018, 2019 Uppsala University Library
+ * Copyright 2016, 2018, 2019, 2020 Uppsala University Library
  *
  * This file is part of Cora.
  *
@@ -114,26 +114,35 @@ QUnit.test("initCorrectAjaxCallsMade", function(assert) {
 	assert.strictEqual(ajaxCallSpy3, undefined);
 });
 
-QUnit.test("callWhenReadyCalledWhenReady", function(assert) {
+QUnit.test("callWhenReadyCalledWhenAllThreeAjaxCallsHasBeenAnswered", function(assert) {
 	var providerStarted = false;
 	function providerReady() {
 		providerStarted = true;
 	}
-
+	
+	function fakeAnswerToAjaxRequest(ajaxCallSpy) {
+		var fakeMetadataAnswer = {
+			"responseText" : JSON.stringify(CORATEST.metadataList)
+		};
+		var ajaxCallSpec = ajaxCallSpy.getSpec();
+		ajaxCallSpec.loadMethod(fakeMetadataAnswer);
+	}
+	
 	this.spec.callWhenReady = providerReady;
 	var metadataProvider = CORA.metadataProvider(this.dependencies, this.spec);
 
-	var metadataAnswer = {
-		"responseText" : JSON.stringify(CORATEST.metadataList)
-	};
-
+	var ajaxCallSpyForMetadata = this.ajaxCallFactorySpy.getFactored(0);
+	fakeAnswerToAjaxRequest(ajaxCallSpyForMetadata);
 	assert.notOk(providerStarted);
-	metadataProvider.processFetchedMetadata(metadataAnswer);
 
+	var ajaxCallSpyForPresentation = this.ajaxCallFactorySpy.getFactored(1);
+	fakeAnswerToAjaxRequest(ajaxCallSpyForPresentation);
 	assert.notOk(providerStarted);
-	metadataProvider.processFetchedMetadata(metadataAnswer);
 
+	var ajaxCallSpyForGuiElement = this.ajaxCallFactorySpy.getFactored(2);
+	fakeAnswerToAjaxRequest(ajaxCallSpyForGuiElement);
 	assert.ok(providerStarted);
+
 });
 
 QUnit.test("callWhenReadyNotCalledWhenReadyIfUnspecified", function(assert) {
