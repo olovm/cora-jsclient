@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2016, 2017, 2020 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -20,66 +20,66 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandlerView = function(dependencies, spec) {
-		var showIncomingLinksButton;
-        var incomingLinksView;
-        var view;
-        var editView;
-        var showView;
-        var buttonView;
-        var workItemView;
-        var incomingLinksHolder;
+		let showIncomingLinksButton;
+		let incomingLinksView;
+		let view;
+		let editView;
+		let showView;
+		let buttonView;
+		let workItemView;
+		let incomingLinksHolder;
 
 
-        function start() {
-            var workItemViewSpec = {
-                "extraClassName" : spec.extraClassName
-            };
+		const start = function() {
+			let workItemViewSpec = {
+				"extraClassName": spec.extraClassName
+			};
 
-            workItemView = dependencies.workItemViewFactory.factor(workItemViewSpec);
-            view = workItemView.getView();
+			workItemView = dependencies.workItemViewFactory.factor(workItemViewSpec);
+			view = workItemView.getView();
 
-            editView = CORA.gui.createSpanWithClassName("editView");
-            workItemView.addViewToView(editView);
-            showView = CORA.gui.createSpanWithClassName("showView");
-            workItemView.addViewToView(showView);
-            buttonView = CORA.gui.createSpanWithClassName("buttonView");
-            workItemView.addViewToView(buttonView);
+			editView = CORA.gui.createSpanWithClassName("editView");
+			workItemView.addViewToView(editView);
+			showView = CORA.gui.createSpanWithClassName("showView");
+			workItemView.addViewToView(showView);
+			buttonView = CORA.gui.createSpanWithClassName("buttonView");
+			workItemView.addViewToView(buttonView);
 
-            setShowDataFunction(spec.showDataMethod);
-            setCopyAsNewFunction(spec.copyDataMethod);
+			setShowDataFunction(spec.showDataMethod);
+			setCopyAsNewFunction(spec.copyDataMethod);
 			showIncomingLinksButton = createButton("INCOMING LINKS",
-					showIncomingLinks, "showIncomingLinks");
-            createIncomingLinksView();
-        }
+				showIncomingLinks, "showIncomingLinks");
+			createIncomingLinksView();
+		};
 
-        function showIncomingLinks(event) {
-            incomingLinksHolder.toggleHolder(event);
-        	spec.showIncomingLinksMethod();
+		const showIncomingLinks = function(event) {
+			incomingLinksHolder.toggleHolder(event);
+			spec.showIncomingLinksMethod();
 
-        }
+		};
 
-        function createIncomingLinksView() {
-            incomingLinksHolder = dependencies.holderFactory.factor({className: "incomingLinksView"});
-            incomingLinksView = incomingLinksHolder.getView();
-            workItemView.addViewToView(incomingLinksView);
-        }
+		const createIncomingLinksView = function() {
+			incomingLinksHolder = dependencies.holderFactory.factor({ className: "incomingLinksView" });
+			incomingLinksView = incomingLinksHolder.getView();
+			workItemView.addViewToView(incomingLinksView);
+		};
 
-		function addToShowView(node) {
+		const addToShowView = function(node) {
 			showView.appendChild(node);
-		}
+		};
 
-		function addToEditView(node) {
+		const addToEditView = function(node) {
 			editView.appendChild(node);
-		}
+		};
 
-		function addButton(text, onclickMethod, className) {
-			var button = createButton(text, onclickMethod, className);
+		const addButton = function(text, onclickMethod, className) {
+			let button = createButton(text, onclickMethod, className);
 			buttonView.appendChild(button);
 			return button;
-		}
+		};
 
-		function createButton(text, onclickMethod, className) {
-			var button = document.createElement("input");
+		const createButton = function(text, onclickMethod, className) {
+			let button = document.createElement("input");
 			button.type = "button";
 			button.value = text;
 			button.onclick = onclickMethod;
@@ -87,77 +87,75 @@ var CORA = (function(cora) {
 				button.className = className;
 			}
 			return button;
-		}
+		};
 
-		function getView() {
+		const getView = function() {
 			return view;
-		}
+		};
 
-		function clearViews() {
+		const clearViews = function() {
 			editView.innerHTML = "";
 			showView.innerHTML = "";
 			buttonView.innerHTML = "";
-		}
+		};
 
-		function clearDataViews() {
+		const clearDataViews = function() {
 			editView.innerHTML = "";
 			showView.innerHTML = "";
-		}
+		};
 
-		function setShowDataFunction(functionToCall) {
-			var button = createButton("Show data as JSON", functionToCall, "showData");
+		const setShowDataFunction = function(functionToCall) {
+			let button = createButton("Show data as JSON", functionToCall, "showData");
 			workItemView.addToolViewToToolHolder(button);
-		}
+		};
 
-		function setCopyAsNewFunction(functionToCall) {
-			var button = createButton("Copy as new", functionToCall, "copyAsNew");
+		const setCopyAsNewFunction = function(functionToCall) {
+			let button = createButton("Copy as new", functionToCall, "copyAsNew");
 			workItemView.addToolViewToToolHolder(button);
-		}
+		};
 
-		function addObjectToEditView(objectToAdd) {
+		const addObjectToEditView = function(objectToAdd) {
 			editView.appendChild(document.createTextNode(JSON.stringify(objectToAdd)));
-		}
+		};
 
-		function addToIncomingLinksView(node) {
-			if(!incomingLinksView.hasChildNodes()){
-                incomingLinksView.appendChild(node);
+		const addToIncomingLinksView = function(node) {
+			if (!incomingLinksView.hasChildNodes()) {
+				incomingLinksView.appendChild(node);
 			}
-		}
+		};
 
-
-
-		function showShowIncomingLinksButton() {
+		const showShowIncomingLinksButton = function() {
 			buttonView.appendChild(showIncomingLinksButton);
-		}
+		};
 
-		function hideShowIncomingLinksButton() {
+		const hideShowIncomingLinksButton = function() {
 			buttonView.removeChild(showIncomingLinksButton);
-		}
+		};
 
-		function getDependencies() {
+		const getDependencies = function() {
 			return dependencies;
-		}
+		};
 
-		function getSpec() {
+		const getSpec = function() {
 			return spec;
-		}
+		};
 
 		start();
 
 		return Object.freeze({
-			"type" : "recordHandlerView",
-			getDependencies : getDependencies,
-			getSpec : getSpec,
-			getView : getView,
-			addToShowView : addToShowView,
-			addToEditView : addToEditView,
-			addButton : addButton,
-			clearViews : clearViews,
-			clearDataViews : clearDataViews,
-			addObjectToEditView : addObjectToEditView,
-			addToIncomingLinksView : addToIncomingLinksView,
-			showShowIncomingLinksButton : showShowIncomingLinksButton,
-			hideShowIncomingLinksButton : hideShowIncomingLinksButton
+			type: "recordHandlerView",
+			getDependencies: getDependencies,
+			getSpec: getSpec,
+			getView: getView,
+			addToShowView: addToShowView,
+			addToEditView: addToEditView,
+			addButton: addButton,
+			clearViews: clearViews,
+			clearDataViews: clearDataViews,
+			addObjectToEditView: addObjectToEditView,
+			addToIncomingLinksView: addToIncomingLinksView,
+			showShowIncomingLinksButton: showShowIncomingLinksButton,
+			hideShowIncomingLinksButton: hideShowIncomingLinksButton
 		});
 	};
 	return cora;
