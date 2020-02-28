@@ -98,6 +98,8 @@ QUnit.test("initCorrectAjaxCallsMade", function(assert) {
 		assert.strictEqual(ajaxCallSpec.requestMethod, "GET");
 		assert.strictEqual(ajaxCallSpec.accept, "application/vnd.uub.recordList+json");
 		assert.strictEqual(ajaxCallSpec.loadMethod, metadataProvider.processFetchedMetadata);
+		assert.ok(ajaxCallSpec.errorMethod);
+//		assert.strictEqual(ajaxCallSpec.errorMethod, metadataProvider.processErrorAnswer);
 	}
 	var metadataProvider = CORA.metadataProvider(this.dependencies, this.spec);
 
@@ -142,7 +144,82 @@ QUnit.test("callWhenReadyCalledWhenAllThreeAjaxCallsHasBeenAnswered", function(a
 	var ajaxCallSpyForGuiElement = this.ajaxCallFactorySpy.getFactored(2);
 	fakeAnswerToAjaxRequest(ajaxCallSpyForGuiElement);
 	assert.ok(providerStarted);
+});
 
+QUnit.test("callWhenReadyCalledEvenWhenNoGuiElementsExist", function(assert) {
+	var providerStarted = false;
+	function providerReady() {
+		providerStarted = true;
+	}
+	
+	function fakeAnswerToAjaxRequest(ajaxCallSpy) {
+		var fakeMetadataAnswer = {
+			"responseText" : JSON.stringify(CORATEST.metadataList)
+		};
+		var ajaxCallSpec = ajaxCallSpy.getSpec();
+		ajaxCallSpec.loadMethod(fakeMetadataAnswer);
+	}
+
+	function fakeAnswerNotFound(ajaxCallSpy) {
+		var fakeMetadataAnswer = {
+			status : 404
+		};
+		var ajaxCallSpec = ajaxCallSpy.getSpec();
+		ajaxCallSpec.errorMethod(fakeMetadataAnswer);
+	}
+	
+	this.spec.callWhenReady = providerReady;
+	var metadataProvider = CORA.metadataProvider(this.dependencies, this.spec);
+
+	var ajaxCallSpyForMetadata = this.ajaxCallFactorySpy.getFactored(0);
+	fakeAnswerToAjaxRequest(ajaxCallSpyForMetadata);
+	assert.notOk(providerStarted);
+
+	var ajaxCallSpyForPresentation = this.ajaxCallFactorySpy.getFactored(1);
+	fakeAnswerToAjaxRequest(ajaxCallSpyForPresentation);
+	assert.notOk(providerStarted);
+
+	var ajaxCallSpyForGuiElement = this.ajaxCallFactorySpy.getFactored(2);
+	fakeAnswerNotFound(ajaxCallSpyForGuiElement);
+	assert.ok(providerStarted);
+});
+
+QUnit.test("callWhenReadyNotCalledWhenOtherError", function(assert) {
+	var providerStarted = false;
+	function providerReady() {
+		providerStarted = true;
+	}
+	
+	function fakeAnswerToAjaxRequest(ajaxCallSpy) {
+		var fakeMetadataAnswer = {
+			"responseText" : JSON.stringify(CORATEST.metadataList)
+		};
+		var ajaxCallSpec = ajaxCallSpy.getSpec();
+		ajaxCallSpec.loadMethod(fakeMetadataAnswer);
+	}
+
+	function fakeAnswerNotFound(ajaxCallSpy) {
+		var fakeMetadataAnswer = {
+			status : 500
+		};
+		var ajaxCallSpec = ajaxCallSpy.getSpec();
+		ajaxCallSpec.errorMethod(fakeMetadataAnswer);
+	}
+	
+	this.spec.callWhenReady = providerReady;
+	var metadataProvider = CORA.metadataProvider(this.dependencies, this.spec);
+
+	var ajaxCallSpyForMetadata = this.ajaxCallFactorySpy.getFactored(0);
+	fakeAnswerToAjaxRequest(ajaxCallSpyForMetadata);
+	assert.notOk(providerStarted);
+
+	var ajaxCallSpyForPresentation = this.ajaxCallFactorySpy.getFactored(1);
+	fakeAnswerToAjaxRequest(ajaxCallSpyForPresentation);
+	assert.notOk(providerStarted);
+
+	var ajaxCallSpyForGuiElement = this.ajaxCallFactorySpy.getFactored(2);
+	fakeAnswerNotFound(ajaxCallSpyForGuiElement);
+	assert.notOk(providerStarted);
 });
 
 QUnit.test("callWhenReadyNotCalledWhenReadyIfUnspecified", function(assert) {

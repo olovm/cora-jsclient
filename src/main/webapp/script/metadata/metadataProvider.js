@@ -37,6 +37,7 @@ var CORA = (function(cora) {
 		const callThroughAjax = function(linkSpec, callAfterAnswer) {
 			let ajaxCallSpec = createIndependentCopy(linkSpec);
 			ajaxCallSpec.loadMethod = callAfterAnswer;
+			ajaxCallSpec.errorMethod = processErrorAnswer;
 			dependencies.ajaxCallFactory.factor(ajaxCallSpec);
 		};
 
@@ -49,6 +50,14 @@ var CORA = (function(cora) {
 			processedAjaxCalls++;
 			possiblyCallWhenReady();
 		};
+
+		const processErrorAnswer = function(answer) {
+			if (404 === answer.status) {
+				processedAjaxCalls++;
+				possiblyCallWhenReady();
+			}
+		};
+
 
 		const possiblyCallWhenReady = function() {
 			if (spec.callWhenReady && processedAjaxCalls === NUMBER_OF_AJAX_CALLS) {
@@ -104,11 +113,11 @@ var CORA = (function(cora) {
 		};
 
 		let out = Object.freeze({
-			"type" : "metadataProvider",
-			getDependencies : getDependencies,
-			getSpec : getSpec,
-			getMetadataById : getMetadataById,
-			processFetchedMetadata : processFetchedMetadata
+			"type": "metadataProvider",
+			getDependencies: getDependencies,
+			getSpec: getSpec,
+			getMetadataById: getMetadataById,
+			processFetchedMetadata: processFetchedMetadata
 		});
 		start();
 		return out;
