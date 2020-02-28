@@ -29,7 +29,6 @@ var CORA = (function(cora) {
 		let workItemView;
 		let incomingLinksHolder;
 
-
 		const start = function() {
 			let workItemViewSpec = {
 				"extraClassName": spec.extraClassName
