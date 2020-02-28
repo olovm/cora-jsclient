@@ -110,7 +110,6 @@ QUnit.test("testGetView", function(assert) {
 
 QUnit.test("testInitButtonCreatedForShowDataAsJSON", function(assert) {
 	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
-	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
 	var button = this.getViewsToolAddedToView()[0];
 	assert.strictEqual(button.nodeName, "INPUT");
 	assert.strictEqual(button.type, "button");
@@ -121,13 +120,26 @@ QUnit.test("testInitButtonCreatedForShowDataAsJSON", function(assert) {
 
 QUnit.test("testInitButtonCreatedForCopyAsNew", function(assert) {
 	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
-	var workItemViewSpy = this.workItemViewFactory.getFactored(0);
 	var button = this.getViewsToolAddedToView()[1];
 	assert.strictEqual(button.nodeName, "INPUT");
 	assert.strictEqual(button.type, "button");
 	assert.strictEqual(button.onclick, this.spec.copyDataMethod);
 	assert.strictEqual(button.className, "copyAsNew");
 	assert.strictEqual(button.value, "Copy as new");
+});
+
+QUnit.test("testAddButtonCreatedForReloadData", function(assert) {
+	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
+	var reloadDataMethod= function() {
+	};
+	this.recordHandlerView.addReloadRecordUsingFunction(reloadDataMethod);
+	
+	var button = this.getViewsToolAddedToView()[2];
+	assert.strictEqual(button.nodeName, "INPUT");
+	assert.strictEqual(button.type, "button");
+	assert.strictEqual(button.onclick, reloadDataMethod);
+	assert.strictEqual(button.className, "reload");
+	assert.strictEqual(button.value, "Reload record");
 });
 
 QUnit.test("testAddToEditView", function(assert) {

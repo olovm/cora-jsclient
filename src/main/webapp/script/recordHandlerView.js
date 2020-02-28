@@ -112,6 +112,11 @@ var CORA = (function(cora) {
 			let button = createButton("Copy as new", functionToCall, "copyAsNew");
 			workItemView.addToolViewToToolHolder(button);
 		};
+		
+		const addReloadRecordFunction = function(functionToCall) {
+			let button = createButton("Reload record", functionToCall, "reload");
+			workItemView.addToolViewToToolHolder(button);
+		};
 
 		const addObjectToEditView = function(objectToAdd) {
 			editView.appendChild(document.createTextNode(JSON.stringify(objectToAdd)));
@@ -154,7 +159,8 @@ var CORA = (function(cora) {
 			addObjectToEditView: addObjectToEditView,
 			addToIncomingLinksView: addToIncomingLinksView,
 			showShowIncomingLinksButton: showShowIncomingLinksButton,
-			hideShowIncomingLinksButton: hideShowIncomingLinksButton
+			hideShowIncomingLinksButton: hideShowIncomingLinksButton,
+			addReloadRecordUsingFunction: addReloadRecordFunction
 		});
 	};
 	return cora;
