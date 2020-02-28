@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Uppsala University Library
+ * Copyright 2016, 2017, 2020 Uppsala University Library
  * Copyright 2016, 2017 Olov McKie
  *
  * This file is part of Cora.
@@ -20,20 +20,20 @@
 var CORA = (function(cora) {
 	"use strict";
 	cora.recordHandler = function(dependencies, spec) {
-		var createNewRecord = spec.createNewRecord;
-		var fetchLatestDataFromServer = spec.fetchLatestDataFromServer;
-		var managedGuiItem;
-		var messageHolder;
-		var recordHandlerView;
-		var busy;
-		var recordGui;
-		var fetchedRecord;
-		var initComplete = false;
-		var dataIsChanged = false;
-		var metadataForRecordType;
-		var recordTypeId;
+		let createNewRecord = spec.createNewRecord;
+		let fetchLatestDataFromServer = spec.fetchLatestDataFromServer;
+		let managedGuiItem;
+		let messageHolder;
+		let recordHandlerView;
+		let busy;
+		let recordGui;
+		let fetchedRecord;
+		let initComplete = false;
+		let dataIsChanged = false;
+		let metadataForRecordType;
+		let recordTypeId;
 
-		function start() {
+		const start = function() {
 			managedGuiItem = createManagedGuiItem();
 
 			messageHolder = CORA.messageHolder();
@@ -45,29 +45,29 @@ var CORA = (function(cora) {
 			managedGuiItem.addWorkPresentation(busy.getView());
 
 			createNewOrFetchDataFromServerForExistingRecord();
-		}
+		};
 
-		function createManagedGuiItem() {
-			var managedGuiItemSpec = {
-				"activateMethod" : spec.jsClient.showView,
-				"removeMethod" : spec.jsClient.viewRemoved,
-				"callOnMetadataReloadMethod" : reloadForMetadataChanges,
-				"callMethodAfterShowWorkView" : callMethodAfterShowWorkView
+		const createManagedGuiItem = function() {
+			let managedGuiItemSpec = {
+				"activateMethod": spec.jsClient.showView,
+				"removeMethod": spec.jsClient.viewRemoved,
+				"callOnMetadataReloadMethod": reloadForMetadataChanges,
+				"callMethodAfterShowWorkView": callMethodAfterShowWorkView
 			};
 			return dependencies.managedGuiItemFactory.factor(managedGuiItemSpec);
-		}
+		};
 
-		function createRecordHandlerView() {
-			var recordHandlerViewSpec = {
-				"extraClassName" : "recordHandler",
-				"showDataMethod" : showData,
-				"copyDataMethod" : copyData,
-				"showIncomingLinksMethod" : showIncomingLinks
+		const createRecordHandlerView = function() {
+			let recordHandlerViewSpec = {
+				"extraClassName": "recordHandler",
+				"showDataMethod": showData,
+				"copyDataMethod": copyData,
+				"showIncomingLinksMethod": showIncomingLinks
 			};
 			return dependencies.recordHandlerViewFactory.factor(recordHandlerViewSpec);
-		}
+		};
 
-		function createNewOrFetchDataFromServerForExistingRecord() {
+		const createNewOrFetchDataFromServerForExistingRecord = function() {
 			if ("true" === createNewRecord) {
 				createGuiForNew(spec.record);
 			} else {
@@ -78,20 +78,20 @@ var CORA = (function(cora) {
 					tryToProcessFetchedRecordData(spec.record.data);
 				}
 			}
-		}
+		};
 
-		function createGuiForNew(oldData) {
+		const createGuiForNew = function(oldData) {
 			try {
 				tryToCreateGuiForNew(oldData);
 			} catch (error) {
 				showErrorInView(error, oldData);
 			}
-		}
+		};
 
-		function tryToCreateGuiForNew(copiedData) {
+		const tryToCreateGuiForNew = function(copiedData) {
 			recordTypeId = spec.recordTypeRecordIdForNew;
 			metadataForRecordType = spec.jsClient.getMetadataForRecordTypeId(recordTypeId);
-			var metadataId = metadataForRecordType.newMetadataId;
+			let metadataId = metadataForRecordType.newMetadataId;
 
 			recordGui = createRecordGui(metadataId, copiedData);
 
@@ -101,9 +101,9 @@ var CORA = (function(cora) {
 			managedGuiItem.setChanged(dataIsChanged);
 
 			recordHandlerView.addButton("CREATE", sendNewDataToServer, "create");
-		}
+		};
 
-		function createAndAddViewsForNew(recordGuiIn, metadataId) {
+		const createAndAddViewsForNew = function(recordGuiIn, metadataId) {
 			if ("true" !== spec.partOfList) {
 				addNewEditPresentationToView(recordGuiIn, metadataId);
 				addViewPresentationToView(recordGuiIn, metadataId);
@@ -111,26 +111,26 @@ var CORA = (function(cora) {
 			} else {
 				addListPresentationToView(recordGuiIn, metadataId);
 			}
-		}
+		};
 
-		function createRecordGui(metadataId, data, dataDivider) {
-			var recordGuiSpec = {
-				"metadataId" : metadataId,
-				"data" : data,
-				"dataDivider" : dataDivider
+		const createRecordGui = function(metadataId, data, dataDivider) {
+			let recordGuiSpec = {
+				"metadataId": metadataId,
+				"data": data,
+				"dataDivider": dataDivider
 			};
-			var createdRecordGui = dependencies.recordGuiFactory.factor(recordGuiSpec);
+			let createdRecordGui = dependencies.recordGuiFactory.factor(recordGuiSpec);
 
-			var pubSub = createdRecordGui.pubSub;
+			let pubSub = createdRecordGui.pubSub;
 			subscribeToAllMessagesForAllPaths(pubSub);
 			return createdRecordGui;
-		}
+		};
 
-		function subscribeToAllMessagesForAllPaths(pubSub) {
+		const subscribeToAllMessagesForAllPaths = function(pubSub) {
 			pubSub.subscribe("*", {}, undefined, handleMsg);
-		}
+		};
 
-		function handleMsg(dataFromMsg, msg) {
+		const handleMsg = function(dataFromMsg, msg) {
 			if (initComplete && msgChangesData(msg)) {
 				dataIsChanged = true;
 				managedGuiItem.setChanged(dataIsChanged);
@@ -141,130 +141,130 @@ var CORA = (function(cora) {
 			if (messageSaysUpdateRecord(msg)) {
 				sendUpdateDataToServer();
 			}
-		}
+		};
 
-		function msgChangesData(msg) {
+		const msgChangesData = function(msg) {
 			return msg.endsWith("setValue") || msg.endsWith("remove") || msg.endsWith("move");
-		}
+		};
 
-		function messageSaysInitIsComplete(msg) {
+		const messageSaysInitIsComplete = function(msg) {
 			return msg.endsWith("initComplete");
-		}
+		};
 
-		function messageSaysUpdateRecord(msg) {
+		const messageSaysUpdateRecord = function(msg) {
 			return msg.endsWith("updateRecord");
-		}
+		};
 
-		function addNewEditPresentationToView(currentRecordGui, metadataIdUsedInData) {
-			var newPresentationFormId = metadataForRecordType.newPresentationFormId;
-			var presentationView = currentRecordGui.getPresentationHolder(newPresentationFormId,
-					metadataIdUsedInData).getView();
+		const addNewEditPresentationToView = function(currentRecordGui, metadataIdUsedInData) {
+			let newPresentationFormId = metadataForRecordType.newPresentationFormId;
+			let presentationView = currentRecordGui.getPresentationHolder(newPresentationFormId,
+				metadataIdUsedInData).getView();
 			recordHandlerView.addToEditView(presentationView);
-		}
+		};
 
-		function addViewPresentationToView(currentRecordGui, metadataIdUsedInData) {
-			var showViewId = metadataForRecordType.presentationViewId;
-			var showView = currentRecordGui.getPresentationHolder(showViewId, metadataIdUsedInData)
-					.getView();
+		const addViewPresentationToView = function(currentRecordGui, metadataIdUsedInData) {
+			let showViewId = metadataForRecordType.presentationViewId;
+			let showView = currentRecordGui.getPresentationHolder(showViewId, metadataIdUsedInData)
+				.getView();
 			recordHandlerView.addToShowView(showView);
-		}
+		};
 
-		function addMenuPresentationToView(currentRecordGui, metadataIdUsedInData) {
-			var menuPresentationViewId = metadataForRecordType.menuPresentationViewId;
-			var menuPresentationView = currentRecordGui.getPresentationHolder(
-					menuPresentationViewId, metadataIdUsedInData).getView();
+		const addMenuPresentationToView = function(currentRecordGui, metadataIdUsedInData) {
+			let menuPresentationViewId = metadataForRecordType.menuPresentationViewId;
+			let menuPresentationView = currentRecordGui.getPresentationHolder(
+				menuPresentationViewId, metadataIdUsedInData).getView();
 			managedGuiItem.clearMenuView();
 			managedGuiItem.addMenuPresentation(menuPresentationView);
-		}
+		};
 
-		function addListPresentationToView(currentRecordGui, metadataIdUsedInData) {
-			var viewId = metadataForRecordType.listPresentationViewId;
-			var presentation = currentRecordGui.getPresentationHolder(viewId, metadataIdUsedInData)
-					.getView();
+		const addListPresentationToView = function(currentRecordGui, metadataIdUsedInData) {
+			let viewId = metadataForRecordType.listPresentationViewId;
+			let presentation = currentRecordGui.getPresentationHolder(viewId, metadataIdUsedInData)
+				.getView();
 			managedGuiItem.addListPresentation(presentation);
-		}
+		};
 
-		function showErrorInView(error, data) {
+		const showErrorInView = function(error, data) {
 			recordHandlerView
-					.addObjectToEditView("something went wrong, probably missing metadata, "
-							+ error);
+				.addObjectToEditView("something went wrong, probably missing metadata, "
+					+ error);
 			recordHandlerView.addObjectToEditView(data);
 			recordHandlerView.addObjectToEditView(error.stack);
-		}
+		};
 
-		function sendNewDataToServer() {
-			var createLink = metadataForRecordType.actionLinks.create;
+		const sendNewDataToServer = function() {
+			let createLink = metadataForRecordType.actionLinks.create;
 
 			validateAndSendDataToServer(createLink);
-		}
+		};
 
-		function validateAndSendDataToServer(link) {
+		const validateAndSendDataToServer = function(link) {
 			if (recordGui.validateData()) {
 				busy.show();
 
-				var callAfterAnswer = resetViewsAndProcessFetchedRecord;
-				var callSpec = {
-					"requestMethod" : link.requestMethod,
-					"url" : link.url,
-					"contentType" : link.contentType,
-					"accept" : link.accept,
-					"loadMethod" : callAfterAnswer,
-					"errorMethod" : callError,
-					"data" : JSON.stringify(recordGui.dataHolder.getData())
+				let callAfterAnswer = resetViewsAndProcessFetchedRecord;
+				let callSpec = {
+					"requestMethod": link.requestMethod,
+					"url": link.url,
+					"contentType": link.contentType,
+					"accept": link.accept,
+					"loadMethod": callAfterAnswer,
+					"errorMethod": callError,
+					"data": JSON.stringify(recordGui.dataHolder.getData())
 				};
 				dependencies.ajaxCallFactory.factor(callSpec);
 			}
-		}
+		};
 
-		function resetViewsAndProcessFetchedRecord(answer) {
+		const resetViewsAndProcessFetchedRecord = function(answer) {
 			busy.hideWithEffect();
 			recordHandlerView.clearViews();
-			var messageSpec = {
-				"message" : "Tjohoo, det där gick ju bra, data sparat på servern!",
-				"type" : CORA.message.POSITIVE
+			let messageSpec = {
+				"message": "Tjohoo, det där gick ju bra, data sparat på servern!",
+				"type": CORA.message.POSITIVE
 			};
 			messageHolder.createMessage(messageSpec);
 			initComplete = false;
 			dataIsChanged = false;
 			managedGuiItem.setChanged(dataIsChanged);
 			processFetchedRecord(answer);
-		}
+		};
 
-		function fetchDataFromServer(callAfterAnswer) {
+		const fetchDataFromServer = function(callAfterAnswer) {
 			busy.show();
-			var readLink = spec.record.actionLinks.read;
-			var callSpec = {
-				"requestMethod" : readLink.requestMethod,
-				"url" : readLink.url,
-				"contentType" : readLink.contentType,
-				"accept" : readLink.accept,
-				"loadMethod" : callAfterAnswer,
-				"errorMethod" : callError
+			let readLink = spec.record.actionLinks.read;
+			let callSpec = {
+				"requestMethod": readLink.requestMethod,
+				"url": readLink.url,
+				"contentType": readLink.contentType,
+				"accept": readLink.accept,
+				"loadMethod": callAfterAnswer,
+				"errorMethod": callError
 			};
 			dependencies.ajaxCallFactory.factor(callSpec);
-		}
+		};
 
-		function processFetchedRecord(answer) {
+		const processFetchedRecord = function(answer) {
 			fetchedRecord = getRecordPartFromAnswer(answer);
-			var data = fetchedRecord.data;
+			let data = fetchedRecord.data;
 			processFetchedRecordData(data);
-		}
+		};
 
-		function processFetchedRecordData(data) {
+		const processFetchedRecordData = function(data) {
 			try {
 				tryToProcessFetchedRecordData(data);
 			} catch (error) {
 				showErrorInView(error, data);
 			}
-		}
+		};
 
-		function tryToProcessFetchedRecordData(data) {
-			var cData = CORA.coraData(data);
-			var dataDivider = getDataDividerFromData(cData);
+		const tryToProcessFetchedRecordData = function(data) {
+			let cData = CORA.coraData(data);
+			let dataDivider = getDataDividerFromData(cData);
 			recordTypeId = getRecordTypeIdFromData(cData);
 			metadataForRecordType = spec.jsClient.getMetadataForRecordTypeId(recordTypeId);
 
-			var metadataId = metadataForRecordType.metadataId;
+			let metadataId = metadataForRecordType.metadataId;
 
 			recordGui = createRecordGui(metadataId, data, dataDivider);
 			createAndAddViewsForExisting(recordGui, metadataId);
@@ -273,9 +273,9 @@ var CORA = (function(cora) {
 			addEditButtonsToView();
 			possiblyShowShowIncomingLinksButton();
 			busy.hideWithEffect();
-		}
+		};
 
-		function createAndAddViewsForExisting(recordGuiIn, metadataId) {
+		const createAndAddViewsForExisting = function(recordGuiIn, metadataId) {
 			if ("true" !== spec.partOfList) {
 				if (recordHasUpdateLink()) {
 					addEditPresentationToView(recordGuiIn, metadataId);
@@ -285,33 +285,33 @@ var CORA = (function(cora) {
 			} else {
 				addListPresentationToView(recordGuiIn, metadataId);
 			}
-		}
+		};
 
-		function getRecordPartFromAnswer(answer) {
+		const getRecordPartFromAnswer = function(answer) {
 			return JSON.parse(answer.responseText).record;
-		}
+		};
 
-		function getDataDividerFromData(cData) {
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			var cDataDivider = CORA.coraData(cRecordInfo.getFirstChildByNameInData("dataDivider"));
+		const getDataDividerFromData = function(cData) {
+			let cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			let cDataDivider = CORA.coraData(cRecordInfo.getFirstChildByNameInData("dataDivider"));
 			return cDataDivider.getFirstAtomicValueByNameInData("linkedRecordId");
-		}
+		};
 
-		function getRecordTypeIdFromData(cData) {
-			var cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
-			var cTypeGroup = CORA.coraData(cRecordInfo.getFirstChildByNameInData("type"));
+		const getRecordTypeIdFromData = function(cData) {
+			let cRecordInfo = CORA.coraData(cData.getFirstChildByNameInData("recordInfo"));
+			let cTypeGroup = CORA.coraData(cRecordInfo.getFirstChildByNameInData("type"));
 			return cTypeGroup.getFirstAtomicValueByNameInData("linkedRecordId");
-		}
+		};
 
-		function addEditPresentationToView(currentRecordGui, metadataIdUsedInData) {
-			var editViewId = metadataForRecordType.presentationFormId;
+		const addEditPresentationToView = function(currentRecordGui, metadataIdUsedInData) {
+			let editViewId = metadataForRecordType.presentationFormId;
 
-			var editView = currentRecordGui.getPresentationHolder(editViewId, metadataIdUsedInData)
-					.getView();
+			let editView = currentRecordGui.getPresentationHolder(editViewId, metadataIdUsedInData)
+				.getView();
 			recordHandlerView.addToEditView(editView);
-		}
+		};
 
-		function addEditButtonsToView() {
+		const addEditButtonsToView = function() {
 			if (recordHasDeleteLink()) {
 				recordHandlerView.addButton("DELETE", shouldRecordBeDeleted, "delete");
 			}
@@ -321,146 +321,146 @@ var CORA = (function(cora) {
 			if (recordHasIndexLink()) {
 				recordHandlerView.addButton("INDEX", sendIndexDataToServer, "index");
 			}
-		}
-		function possiblyShowShowIncomingLinksButton() {
+		};
+
+		const possiblyShowShowIncomingLinksButton = function() {
 			if (recordHasIncomingLinks()) {
 				recordHandlerView.showShowIncomingLinksButton();
 			}
-		}
+		};
 
-		function recordHasIncomingLinks() {
-			var readIncomingLinks = fetchedRecord.actionLinks.read_incoming_links;
+		const recordHasIncomingLinks = function() {
+			let readIncomingLinks = fetchedRecord.actionLinks.read_incoming_links;
 			return readIncomingLinks !== undefined;
-		}
+		};
 
-		function showData() {
-			var messageSpec = {
-				"message" : JSON.stringify(recordGui.dataHolder.getData()),
-				"type" : CORA.message.INFO,
-				"timeout" : 0
+		const showData = function() {
+			let messageSpec = {
+				"message": JSON.stringify(recordGui.dataHolder.getData()),
+				"type": CORA.message.INFO,
+				"timeout": 0
 			};
 			messageHolder.createMessage(messageSpec);
-		}
+		};
 
-		function copyData() {
-			var recordHandlerSpec = {
-				"fetchLatestDataFromServer" : "false",
-				"partOfList" : "false",
-				"createNewRecord" : "true",
-				"record" : recordGui.dataHolder.getDataWithActionLinks(),
-				"jsClient" : spec.jsClient,
-				"recordTypeRecordIdForNew" : recordTypeId
+		const copyData = function() {
+			let recordHandlerSpec = {
+				"fetchLatestDataFromServer": "false",
+				"partOfList": "false",
+				"createNewRecord": "true",
+				"record": recordGui.dataHolder.getDataWithActionLinks(),
+				"jsClient": spec.jsClient,
+				"recordTypeRecordIdForNew": recordTypeId
 			};
-			var recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
-			var managedGuiItemNew = recordHandlerNew.getManagedGuiItem();
+			let recordHandlerNew = dependencies.recordHandlerFactory.factor(recordHandlerSpec);
+			let managedGuiItemNew = recordHandlerNew.getManagedGuiItem();
 			spec.jsClient.addGuiItem(managedGuiItemNew);
 			spec.jsClient.showView(managedGuiItemNew);
-		}
+		};
 
-		function recordHasDeleteLink() {
-			var deleteLink = fetchedRecord.actionLinks["delete"];
+		const recordHasDeleteLink = function() {
+			let deleteLink = fetchedRecord.actionLinks["delete"];
 			return deleteLink !== undefined;
-		}
+		};
 
-		function recordHasUpdateLink() {
-			var updateLink = fetchedRecord.actionLinks.update;
+		const recordHasUpdateLink = function() {
+			let updateLink = fetchedRecord.actionLinks.update;
 			return updateLink !== undefined;
-		}
+		};
 
-		function recordHasIndexLink() {
-			var indexLink = fetchedRecord.actionLinks["index"];
+		const recordHasIndexLink = function() {
+			let indexLink = fetchedRecord.actionLinks["index"];
 			return indexLink !== undefined;
-		}
+		};
 
-		function shouldRecordBeDeleted() {
-			var questionSpec = {
-				"text" : "Är du säker på att du vill ta bort posten?",
-				"buttons" : [ {
-					"text" : "Nej"
+		const shouldRecordBeDeleted = function() {
+			let questionSpec = {
+				"text": "Är du säker på att du vill ta bort posten?",
+				"buttons": [{
+					"text": "Nej"
 				}, {
-					"text" : "Ja",
-					"onclickFunction" : sendDeleteDataToServer
-				} ]
+					"text": "Ja",
+					"onclickFunction": sendDeleteDataToServer
+				}]
 			};
-			var question = CORA.question(questionSpec);
-			var questionView = question.getView();
+			let question = CORA.question(questionSpec);
+			let questionView = question.getView();
 			managedGuiItem.addWorkPresentation(questionView);
-		}
+		};
 
-		function afterDelete() {
+		const afterDelete = function() {
 			managedGuiItem.remove();
-		}
+		};
 
-		function sendDeleteDataToServer() {
+		const sendDeleteDataToServer = function() {
 			busy.show();
-			var deleteLink = fetchedRecord.actionLinks["delete"];
-			var callSpec = {
-				"requestMethod" : deleteLink.requestMethod,
-				"url" : deleteLink.url,
-				"loadMethod" : afterDelete,
-				"errorMethod" : callError
+			let deleteLink = fetchedRecord.actionLinks["delete"];
+			let callSpec = {
+				"requestMethod": deleteLink.requestMethod,
+				"url": deleteLink.url,
+				"loadMethod": afterDelete,
+				"errorMethod": callError
 			};
 			dependencies.ajaxCallFactory.factor(callSpec);
-		}
+		};
 
-		function sendUpdateDataToServer() {
-			var updateLink = fetchedRecord.actionLinks.update;
+		const sendUpdateDataToServer = function() {
+			let updateLink = fetchedRecord.actionLinks.update;
 			validateAndSendDataToServer(updateLink);
-		}
+		};
 
-		function sendIndexDataToServer() {
+		const sendIndexDataToServer = function() {
 			busy.show();
-			var indexHandlerSpec = {
-				"loadMethod" : showIndexMessage,
-				"timeoutMethod" : showTimeoutMessage
+			let indexHandlerSpec = {
+				"loadMethod": showIndexMessage,
+				"timeoutMethod": showTimeoutMessage
 			};
-			var indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
+			let indexHandler = dependencies.indexHandlerFactory.factor(indexHandlerSpec);
 			indexHandler.indexData(fetchedRecord);
+		};
 
-		}
-
-		function showIndexMessage() {
+		const showIndexMessage = function() {
 			busy.hideWithEffect();
-			var messageSpec = {
-				"message" : "Posten är indexerad",
-				"type" : CORA.message.POSITIVE
+			let messageSpec = {
+				"message": "Posten är indexerad",
+				"type": CORA.message.POSITIVE
 			};
 			messageHolder.createMessage(messageSpec);
-		}
+		};
 
-		function showTimeoutMessage() {
+		const showTimeoutMessage = function() {
 			busy.hideWithEffect();
-			var messageSpec = {
-				"message" : "TIMEOUT",
-				"type" : CORA.message.ERROR
+			let messageSpec = {
+				"message": "TIMEOUT",
+				"type": CORA.message.ERROR
 			};
 			messageHolder.createMessage(messageSpec);
-		}
+		};
 
-		function callError(answer) {
+		const callError = function(answer) {
 			busy.hideWithEffect();
-			var messageSpec = {
-				"message" : answer.status,
-				"type" : CORA.message.ERROR
+			let messageSpec = {
+				"message": answer.status,
+				"type": CORA.message.ERROR
 			};
 			messageHolder.createMessage(messageSpec);
-		}
+		};
 
-		function getDataIsChanged() {
+		const getDataIsChanged = function() {
 			return dataIsChanged;
-		}
+		};
 
-		function getManagedGuiItem() {
+		const getManagedGuiItem = function() {
 			return managedGuiItem;
-		}
+		};
 
-		function reloadForMetadataChanges() {
+		const reloadForMetadataChanges = function() {
 			recordHandlerView.clearDataViews();
 			initComplete = false;
-			var data = recordGui.dataHolder.getDataWithActionLinks();
+			let data = recordGui.dataHolder.getDataWithActionLinks();
 
-			var metadataId = recordGui.getSpec().metadataId;
-			var dataDivider = recordGui.getSpec().dataDivider;
+			let metadataId = recordGui.getSpec().metadataId;
+			let dataDivider = recordGui.getSpec().dataDivider;
 			recordGui = createRecordGui(metadataId, data, dataDivider);
 			if ("true" === createNewRecord) {
 				createAndAddViewsForNew(recordGui, metadataId);
@@ -468,54 +468,54 @@ var CORA = (function(cora) {
 				createAndAddViewsForExisting(recordGui, metadataId);
 			}
 			recordGui.initMetadataControllerStartingGui();
-		}
+		};
 
-		function callMethodAfterShowWorkView() {
+		const callMethodAfterShowWorkView = function() {
 			if (recordGui !== undefined) {
 				recordGui.pubSub.publish("viewJustMadeVisible", {
-					"data" : "",
-					"path" : {}
+					"data": "",
+					"path": {}
 				});
 			}
-		}
+		};
 
-		function showIncomingLinks() {
-			var illhSpec = {
-				"read_incoming_links" : fetchedRecord.actionLinks.read_incoming_links
+		const showIncomingLinks = function() {
+			let illhSpec = {
+				"read_incoming_links": fetchedRecord.actionLinks.read_incoming_links
 			};
-			var incomingLinksListHandler = dependencies.globalFactories.incomingLinksListHandlerFactory
-					.factor(illhSpec);
+			let incomingLinksListHandler = dependencies.globalFactories.incomingLinksListHandlerFactory
+				.factor(illhSpec);
 			recordHandlerView.addToIncomingLinksView(incomingLinksListHandler.getView());
-		}
+		};
 
-		function getDependencies() {
+		const getDependencies = function() {
 			return dependencies;
-		}
+		};
 
-		function getSpec() {
+		const getSpec = function() {
 			return spec;
-		}
+		};
 
 		start();
-		var out = Object.freeze({
-			"type" : "recordHandler",
-			getDependencies : getDependencies,
-			getSpec : getSpec,
-			processFetchedRecord : processFetchedRecord,
-			resetViewsAndProcessFetchedRecord : resetViewsAndProcessFetchedRecord,
-			afterDelete : afterDelete,
-			handleMsg : handleMsg,
-			getDataIsChanged : getDataIsChanged,
-			copyData : copyData,
-			showData : showData,
-			sendUpdateDataToServer : sendUpdateDataToServer,
-			shouldRecordBeDeleted : shouldRecordBeDeleted,
-			getManagedGuiItem : getManagedGuiItem,
-			reloadForMetadataChanges : reloadForMetadataChanges,
-			showIncomingLinks : showIncomingLinks,
-			showIndexMessage : showIndexMessage,
-			showTimeoutMessage : showTimeoutMessage,
-			callMethodAfterShowWorkView : callMethodAfterShowWorkView
+		let out = Object.freeze({
+			type: "recordHandler",
+			getDependencies: getDependencies,
+			getSpec: getSpec,
+			processFetchedRecord: processFetchedRecord,
+			resetViewsAndProcessFetchedRecord: resetViewsAndProcessFetchedRecord,
+			afterDelete: afterDelete,
+			handleMsg: handleMsg,
+			getDataIsChanged: getDataIsChanged,
+			copyData: copyData,
+			showData: showData,
+			sendUpdateDataToServer: sendUpdateDataToServer,
+			shouldRecordBeDeleted: shouldRecordBeDeleted,
+			getManagedGuiItem: getManagedGuiItem,
+			reloadForMetadataChanges: reloadForMetadataChanges,
+			showIncomingLinks: showIncomingLinks,
+			showIndexMessage: showIndexMessage,
+			showTimeoutMessage: showTimeoutMessage,
+			callMethodAfterShowWorkView: callMethodAfterShowWorkView
 		});
 		return out;
 	};
