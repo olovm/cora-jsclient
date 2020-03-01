@@ -218,12 +218,6 @@ var CORA = (function(cora) {
 		};
 
 		const resetViewsAndProcessFetchedRecord = function(answer) {
-			//			busy.hideWithEffect();
-			//			recordHandlerView.clearViews();
-			//			initComplete = false;
-			//			dataIsChanged = false;
-			//			managedGuiItem.setChanged(dataIsChanged);
-			//			processFetchedRecord(answer);
 			resetViewsAndProcessFetchedRecord2(answer);
 			let messageSpec = {
 				"message": "Tjohoo, det där gick ju bra, data sparat på servern!",
