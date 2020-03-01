@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017, 2020 Uppsala University Library
- * Copyright 2016, 2017 Olov McKie
+ * Copyright 2016, 2017, 2020 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -28,6 +28,7 @@ var CORA = (function(cora) {
 		let buttonView;
 		let workItemView;
 		let incomingLinksHolder;
+		let reloadButton;
 
 		const start = function() {
 			let workItemViewSpec = {
@@ -112,10 +113,18 @@ var CORA = (function(cora) {
 			let button = createButton("Copy as new", functionToCall, "copyAsNew");
 			workItemView.addToolViewToToolHolder(button);
 		};
-		
+
 		const addReloadRecordFunction = function(functionToCall) {
-			let button = createButton("Reload record", functionToCall, "reload");
-			workItemView.addToolViewToToolHolder(button);
+			if (undefined === reloadButton) {
+				createNewReloadButton(functionToCall);
+			} else {
+				reloadButton.onclick = functionToCall;
+			}
+		};
+
+		const createNewReloadButton = function(functionToCall) {
+			reloadButton = createButton("Reload record", functionToCall, "reload");
+			workItemView.addToolViewToToolHolder(reloadButton);
 		};
 
 		const addObjectToEditView = function(objectToAdd) {

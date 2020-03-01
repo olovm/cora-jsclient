@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2020 Uppsala University Library
- * Copyright 2016 Olov McKie
+ * Copyright 2016, 2020 Olov McKie
  *
  * This file is part of Cora.
  *
@@ -128,7 +128,7 @@ QUnit.test("testInitButtonCreatedForCopyAsNew", function(assert) {
 	assert.strictEqual(button.value, "Copy as new");
 });
 
-QUnit.test("testAddButtonCreatedForReloadData", function(assert) {
+QUnit.test("testAddButtonForReloadData", function(assert) {
 	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
 	var reloadDataMethod= function() {
 	};
@@ -140,6 +140,22 @@ QUnit.test("testAddButtonCreatedForReloadData", function(assert) {
 	assert.strictEqual(button.onclick, reloadDataMethod);
 	assert.strictEqual(button.className, "reload");
 	assert.strictEqual(button.value, "Reload record");
+});
+
+QUnit.test("testAddButtonForReloadDataIsOnlyAddedOnceButUsesNewFunction", function(assert) {
+	this.recordHandlerView = CORA.recordHandlerView(this.dependencies, this.spec);
+	var reloadDataMethod= function() {
+	};
+	var reloadDataMethod2= function() {
+	};
+	this.recordHandlerView.addReloadRecordUsingFunction(reloadDataMethod);
+	var reloadButton = this.getViewsToolAddedToView()[2];
+	assert.strictEqual(reloadButton.onclick, reloadDataMethod);
+	this.recordHandlerView.addReloadRecordUsingFunction(reloadDataMethod2);
+	assert.strictEqual(reloadButton.onclick, reloadDataMethod2);
+	
+	var button = this.getViewsToolAddedToView()[3];
+	assert.strictEqual(button, undefined);
 });
 
 QUnit.test("testAddToEditView", function(assert) {
