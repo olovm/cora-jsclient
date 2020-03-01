@@ -63,7 +63,6 @@ var CORA = (function(cora) {
 				"showDataMethod": showData,
 				"copyDataMethod": copyData,
 				"showIncomingLinksMethod": showIncomingLinks,
-				//reloadDataMethod: reloadRecordFromServer
 			};
 			return dependencies.recordHandlerViewFactory.factor(recordHandlerViewSpec);
 		};
